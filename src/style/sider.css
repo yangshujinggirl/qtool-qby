@@ -1,0 +1,12 @@
+.slidebox{
+	overflow: auto;
+	height: 100vh;
+	position: fixed;
+	left: 0
+}
+.slider_logo{
+	height: 32px;
+  	background: #333;
+  	border-radius: 6px;
+  	margin: 16px;
+}
