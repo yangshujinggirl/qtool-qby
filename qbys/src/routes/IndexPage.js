@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'dva';
 import Frame from '../constants/frame/frame';
-import styles from './IndexPage.css';
+
 
 
 

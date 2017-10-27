@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'dva';
-import styles from './Login.css';
+import WrappedNormalLoginForm from '../constants/login/loginform';
 
 function Login() {
   return (
-    <div className={styles.normal}>
-      Route Component: Login
+    <div>
+      <WrappedNormalLoginForm/>
     </div>
   );
 }

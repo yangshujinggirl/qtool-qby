@@ -1,0 +1,20 @@
+
+.login-form {
+	background: pink;
+	width: 520px;
+	margin:0 auto;
+	padding:50px 85px 10px;
+}
+
+.login-form-button{
+	width: 100%;
+	height: 40px;
+	margin-top: 20px;
+}
+.loin_input_model{
+	width: 350px;
+	height: 40px;
+}
+.ant-form-item{
+	margin-bottom: 20px;
+}
