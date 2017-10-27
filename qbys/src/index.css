@@ -49,6 +49,7 @@ input[type="submit"] { cursor: pointer; -webkit-appearance: button; }
 .g8 { width: 80%; }
 .g9 { width: 90%; }
 .g10 { width: 100%; }
+.h10{height: 100%;}
 
 
 /*字体*/

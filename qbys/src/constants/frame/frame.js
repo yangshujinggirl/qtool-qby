@@ -20,9 +20,7 @@ class Frame extends React.Component {
                         </div>
       				</Header>
 			      	<Content className='contents'>
-			        	
-			        		<Tab/>
-			        	
+			        		<Tab/>	
 			      	</Content>
     			</Layout>
   			</Layout>
