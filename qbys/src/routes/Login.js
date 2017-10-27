@@ -1,17 +1,17 @@
 import React from 'react';
-import { connect } from 'dva';
 import WrappedNormalLoginForm from '../constants/login/loginform';
+import LoginBanner from '../constants/login/loginbanner';
+import '../style/login.css';
 
 function Login() {
-  return (
-    <div>
-      <WrappedNormalLoginForm/>
-    </div>
-  );
+  	return (
+  		<div className='login_bg'>
+		    <div className='login_con'>
+		    	<LoginBanner/>
+		      	<WrappedNormalLoginForm/>
+		    </div>
+	    </div>
+  	);
 }
 
-function mapStateToProps() {
-  return {};
-}
-
-export default connect(mapStateToProps)(Login);
+export default Login;
