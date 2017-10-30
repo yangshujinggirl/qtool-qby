@@ -8,7 +8,6 @@ class Content extends React.Component {
         return (   
     		<div className='counter'>
                 <div className='counter_con'>
-                    <div>
                         <p>123</p>
                         <p>123</p>
                         <p>123</p>
@@ -50,9 +49,7 @@ class Content extends React.Component {
                         <p>123</p>
                         <p>123</p>
                         <p>123</p>
-                        <p>123</p>
-                        <p>123</p>
-                    </div>
+
                     
 
                 

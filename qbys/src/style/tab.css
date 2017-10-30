@@ -1,1 +1,55 @@
-.ant-tabs-bar{width: 332px;}
+.ant-tabs-bar{
+	border-bottom: 0;
+	margin-bottom: 0;
+	padding:0 40px;
+}
+.ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-nav-container{
+	position:relative; 
+	height: 50px;
+}
+.ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab{
+	position: relative;
+}
+/*.ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab:before{
+            content:""; 
+             display:block; 
+             width:0; 
+             height:0; 
+             position:absolute;
+            left: -21px;
+            top:-1px;
+            border-bottom: 50px solid yellow;
+    		border-left: 20px solid transparent;
+
+        }
+.ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab:after{
+            content:""; 
+             display:block; 
+             width:0; 
+             height:0; 
+             position:absolute;
+             right: -20px;
+           	border-bottom: 50px solid yellow;
+    		border-right: 20px solid transparent;
+            top:-1px; 
+        }*/
+
+
+
+
+
+.ant-tabs:not(.ant-tabs-vertical) > .ant-tabs-content{
+	height:-moz-calc(100% - 80px); 
+	height:-webkit-calc(100% - 80px); 
+	height: calc(100% - 80px);
+	padding:0 40px;
+}
+.ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab{
+	height: 49px;
+	line-height: 49px;
+	margin-right: 2px;
+}
+.ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab-active{
+	height: 50px;
+	line-height: 50px;
+}

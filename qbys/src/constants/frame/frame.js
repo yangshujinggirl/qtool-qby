@@ -15,7 +15,7 @@ class Frame extends React.Component {
     			<Siders/>
     			<Layout className='count_r'>
       				<Header className='clearfix headers'>
-      					<div className='fr'>
+      					<div className='users'>
                             <User/>
                         </div>
       				</Header>

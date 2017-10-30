@@ -1,4 +1,5 @@
 import React from 'react';
+import '../../style/user.css';
 import { Menu, Dropdown, Icon } from 'antd';
 
 const menu = (
@@ -20,7 +21,7 @@ class User extends React.Component {
   render() {
     return(
       <Dropdown overlay={menu} trigger={['click']}>
-              <div style={{width:'200px'}}>Click me <Icon type="down" /></div> 
+              <div className='user'>Qtools | 大湿湿<Icon type="down" /></div> 
         </Dropdown>
       )
   }

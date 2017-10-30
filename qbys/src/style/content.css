@@ -1,3 +1,14 @@
-.counter{height: 100%;display: flex;flex-direction: column;}
-.counter_con{flex: 1 0 auto;}
-.footer{height: 100px;background:pink;flex: 0 0 auto;}
+.counter{height: 100%;}
+.counter_con{
+	min-height:-moz-calc(100% - 76px); 
+	min-height:-webkit-calc(100% - 76px); 
+	min-height: calc(100% - 76px);
+	background: #fff;
+}
+.footer{
+	height: 76px;
+	text-align: center;
+	line-height: 76px;
+	font-size: 14px;
+	color: #D8D8D8;
+}

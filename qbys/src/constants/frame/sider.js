@@ -10,14 +10,17 @@ class Siders extends React.Component {
     render() {
         return (   
     		<div>
-    			<Sider className='slidebox'>
-      				<div className="slider_logo" />
-       				<Menu 
+    			<Sider className='slidebox' width='220'>
+      				<div className="slider_logo">
+      					<img src={require('../../assets/menu_logo.png')}/>
+      				</div>
+       				<Menu
+       					className='menus' 
       					theme="dark" 
       					mode="inline" 
       					defaultSelectedKeys={['4']}>
         					<SubMenu title="订单中心">
-            					<Menu.Item key="1"><Link to='/sporder'>门店订单</Link></Menu.Item>
+            					<Menu.Item key="1">门店订单</Menu.Item>
 				              	<Menu.Item key="2">采购订单</Menu.Item>
 				              	<Menu.Item key="3">退货订单</Menu.Item>
 				              	<Menu.Item key="4">采退订单</Menu.Item>
@@ -64,7 +67,6 @@ class Siders extends React.Component {
 					        </SubMenu>
       					</Menu>
     			</Sider>
-    
   			</div>
     			
   			

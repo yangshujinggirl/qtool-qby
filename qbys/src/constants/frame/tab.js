@@ -60,8 +60,10 @@ class Tab extends React.Component {
               type="editable-card"
               onEdit={this.onEdit}
               className='h10'
+
             >
-              {this.state.panes.map(pane => <TabPane tab={pane.title} key={pane.key} className='h10'><Content countkey={pane.key}/></TabPane>)}
+              {this.state.panes.map(pane => <TabPane tab={pane.title} key={pane.key} className='h10'>
+              <Content countkey={pane.key}/></TabPane>)}
             </Tabs>
        
       
