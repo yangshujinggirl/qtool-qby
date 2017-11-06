@@ -1,5 +1,6 @@
 import React from 'react';
 import { Tabs, Button } from 'antd';
+import { connect } from 'dva';
 import Content from '../frame/content';
 import '../../style/tab.css';
 const TabPane = Tabs.TabPane;
@@ -10,17 +11,18 @@ class Tab extends React.Component {
     super(props);
     this.newTabIndex = 0;
     const panes = [
-      { title: 'Tab 1', content: 'Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1Content of Tab Pane 1', key: '1' },
-      { title: 'Tab 2', content: 'Content of Tab Pane 2', key: '2' },
-      { title: 'Tab 3', content: 'Content of Tab Pane 2', key: '3' },
-      { title: 'Tab 4', content: 'Content of Tab Pane 2', key: '4' },
-      { title: 'Tab 5', content: 'Content of Tab Pane 2', key: '5' },
+      { title: 'Tab 1', key: '1' }
     ];
     this.state = {
       activeKey: panes[0].key,
       panes,
     };
   }
+
+  
+
+
+
 
   onChange = (activeKey) => {
     console.log(activeKey)
@@ -62,7 +64,7 @@ class Tab extends React.Component {
               className='h10'
 
             >
-              {this.state.panes.map(pane => <TabPane tab={pane.title} key={pane.key} className='h10'>
+              {this.props.pane.map(pane => <TabPane tab={pane.title} key={pane.key} className='h10'>
               <Content countkey={pane.key}/></TabPane>)}
             </Tabs>
        
@@ -71,5 +73,12 @@ class Tab extends React.Component {
   }
 }
 
+function mapStateToProps(state) {
+     console.log(state)
+    const {pane} = state.tab;
+    console.log(pane)
+    return {pane};
+}
 
-export default Tab
+
+export default connect(mapStateToProps)(Tab);

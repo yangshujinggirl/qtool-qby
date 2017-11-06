@@ -16,7 +16,10 @@ class NormalLoginForm extends React.Component {
                     result.then((res) => {
                       return res;
                     }).then((json) => {
+                        console.log(json)
                         if(json.code=='0'){
+                            sessionStorage.setItem('urUser', JSON.stringify(json.urUser));
+                            sessionStorage.setItem('username', JSON.stringify(json.username));
                             this.context.router.push('/home')
                         }else{      
                             this.setState({

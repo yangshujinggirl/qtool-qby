@@ -3,10 +3,47 @@ import { Link } from 'dva/router'
 import { connect } from 'dva';
 import '../../style/sider.css';
 import { Layout, Menu, Icon } from 'antd';
+import IconLogo from '../frame/iconlogo';
 const { Header, Content, Footer, Sider } = Layout;
 const SubMenu = Menu.SubMenu;
 
+
 class Siders extends React.Component {
+    constructor(props) {
+      super(props);
+      this.state = {
+        tabArr:[]
+      };
+    }
+    
+    //设置标签
+    setTab =  (item) =>{
+        const paneitem={title:item.item.props.children.props.children,key:item.key}
+        this.props.dispatch({
+            type:'tab/tablist',
+            payload:paneitem
+          })
+
+
+
+        // const pane = eval(sessionStorage.getItem("pane"));
+        // console.log(pane)
+        // pane.push({title:item.item.props.children.props.children,key:item.key})
+        // sessionStorage.setItem("pane", JSON.stringify(pane));
+        // this.props.dispatch({
+        //     type:'tab/tablist',
+        //     payload:null
+        //   })
+
+
+
+
+      
+    }
+
+
+
+
     render() {
         return (   
     		<div>
@@ -18,53 +55,31 @@ class Siders extends React.Component {
        					className='menus' 
       					theme="dark" 
       					mode="inline" 
-      					defaultSelectedKeys={['4']}>
-        					<SubMenu title="订单中心">
-            					<Menu.Item key="1">门店订单</Menu.Item>
-				              	<Menu.Item key="2">采购订单</Menu.Item>
-				              	<Menu.Item key="3">退货订单</Menu.Item>
-				              	<Menu.Item key="4">采退订单</Menu.Item>
-				              	<Menu.Item key="5">pos订单</Menu.Item>
-        					</SubMenu>
-					        <SubMenu title="商品中心">
-					            <Menu.Item key="6">商品管理</Menu.Item>
-					              <Menu.Item key="7">商品库存</Menu.Item>
-					              <Menu.Item key="8">分类管理</Menu.Item>
-					              <Menu.Item key="9">品牌管理</Menu.Item>
-					              <Menu.Item key="10">规格管理</Menu.Item>
-					        </SubMenu>
-					        <SubMenu title="运营中心">
-					            <Menu.Item key="11">会员管理</Menu.Item>
-					              <Menu.Item key="12">充值管理</Menu.Item>
-					              <Menu.Item key="13">收支管理</Menu.Item>
-					              <Menu.Item key="14">门店管理</Menu.Item>
-					              <Menu.Item key="15">供应商管理</Menu.Item>
-					              <Menu.Item key="16">Banner管理</Menu.Item>
-					        </SubMenu>
-					        <SubMenu title="数据中心">
-					            <Menu.Item key="17">销售数据</Menu.Item>
-					              <Menu.Item key="18">门店销售</Menu.Item>
-					              <Menu.Item key="19">库存数据</Menu.Item>
-					              <Menu.Item key="20">门店库存</Menu.Item>
-					              <Menu.Item key="21">成本管理</Menu.Item>
-					              <Menu.Item key="22">采购数据</Menu.Item>
-					              <Menu.Item key="23">门店数据</Menu.Item>
-					        </SubMenu>
-					        <SubMenu title="仓库中心">
-					            <Menu.Item key="24">入库管理</Menu.Item>
-					              <Menu.Item key="25">出库管理</Menu.Item>
-					              <Menu.Item key="26">出库复核</Menu.Item>
-					              <Menu.Item key="27">出库发货</Menu.Item>
-					              <Menu.Item key="28">库存管理</Menu.Item>
-					              <Menu.Item key="29">库存移库</Menu.Item>
-					              <Menu.Item key="30">库存盘点</Menu.Item>
-					              <Menu.Item key="31">库存损益</Menu.Item>
-					              <Menu.Item key="32">基础库区</Menu.Item>
-					              <Menu.Item key="33">基础库位</Menu.Item>
-					        </SubMenu>
-					        <SubMenu title="账号中心">
-					            <Menu.Item key="34">Q本营账号</Menu.Item>  
-					        </SubMenu>
+                        defaultOpenKeys={this.props.menus.length>0?[String(this.props.menus[0].urResourceId)]:null}
+      					defaultSelectedKeys={['4']}
+                        onSelect={this.setTab}>
+							{
+							
+									this.props.menus.map((item,index)=>{
+										return (
+											<SubMenu title={<div className='itembox'><IconLogo type={item.type}/><span>{item.name}</span></div>} key={item.urResourceId}>
+								              	{
+								              		item.children.map((subitem,subindex)=>{
+        														return(
+        															<Menu.Item key="1" index={subindex} key={subitem.urResourceId}>
+                                          <div className='itemmain'>{subitem.name}</div>
+                                      </Menu.Item>
+        														)
+								              		})
+								              	}
+        							</SubMenu>
+
+										)
+
+									})	
+								
+
+							}
       					</Menu>
     			</Sider>
   			</div>
@@ -80,7 +95,11 @@ class Siders extends React.Component {
 
  
 
+function mapStateToProps(state) {
+     console.log(state)
+    const {menus} = state.sider;
+    return {menus};
+}
 
-
-export default Siders;
+export default connect(mapStateToProps)(Siders);
 

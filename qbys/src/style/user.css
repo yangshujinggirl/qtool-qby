@@ -1,7 +1,19 @@
 .user{
-	width: 120px;
+	width: 200px;
 	font-size: 14px;
 	color: #666666;
 	height: 80px;
 	line-height: 80px;
+	text-align: right;
+}
+.icon-down{
+	width: 20px;
+	height: 80px;
+	display: inline-block;
+	line-height: 80px;
+}
+.item{
+	text-align: center;
+	font-size: 14px;
+	color: #666666;
 }

@@ -8,52 +8,12 @@ class Content extends React.Component {
         return (   
     		<div className='counter'>
                 <div className='counter_con'>
-                        <p>123</p>
-                        <p>123</p>
-                        <p>123</p>
-                        <p>123</p>
-                        <p>123</p>
-                        <p>123</p>
-                        <p>123</p>
-                        <p>123</p>
-                        <p>123</p>
-                        <p>123</p>
-                        <p>123</p>
-                        <p>123</p>
-                        <p>123</p>
-                        <p>123</p>
-                        <p>123</p>
-                        <p>123</p>
-                        <p>123</p>
-                        <p>123</p>
-                        <p>123</p>
-                        <p>123</p>
-                        <p>123</p>
-                        <p>123</p>
-                        <p>123</p>
-                        <p>123</p>
-                        <p>123</p>
-                        <p>123</p>
-                        <p>123</p>
-                        <p>123</p>
-                        <p>123</p>
-                        <p>123</p>
-                        <p>123</p>
-                        <p>123</p>
-                        <p>123</p>
-                        <p>123</p>
-                        <p>123</p>
-                        <p>123</p>
-                        <p>123</p>
-                        <p>123</p>
-                        <p>123</p>
-                        <p>123</p>
-                        <p>123</p>
-
-                    
-
-                
-
+                {
+                    this.props.countkey == 20100?
+                    123
+                    :
+                    456
+                }          
                 </div>
                 <div className='footer'>
                     Ant Design ©2016 Created by Ant UED

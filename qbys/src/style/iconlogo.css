@@ -1,0 +1,65 @@
+.order{
+	width: 24px;
+	height: 24px;
+	display: inline-block;
+	margin-right: 18px;
+	background:url(../assets/icon_order.png) no-repeat center center;background-size: cover;
+	vertical-align: middle;
+	margin-top: -5px;
+}
+.goods{
+	width: 24px;
+	height: 24px;
+	display: inline-block;
+	margin-right: 18px;
+	background:url(../assets/icon_goods.png) no-repeat center center;background-size: cover;
+	vertical-align: middle;
+	margin-top: -5px;
+}
+.operation{
+	width: 24px;
+	height: 24px;
+	display: inline-block;
+	margin-right: 18px;
+	background:url(../assets/icon_operation.png) no-repeat center center;background-size: cover;
+	vertical-align: middle;
+	margin-top: -5px;
+}
+.datacenter{
+	width: 24px;
+	height: 24px;
+	display: inline-block;
+	margin-right: 18px;
+	background:url(../assets/icon_datacenter.png) no-repeat center center;background-size: cover;
+	vertical-align: middle;
+	margin-top: -5px;
+}
+.wsn{
+	width: 24px;
+	height: 24px;
+	display: inline-block;
+	margin-right: 18px;
+	background:url(../assets/icon_wsn.png) no-repeat center center;background-size: cover;
+	vertical-align: middle;
+	margin-top: -5px;
+}
+.account{
+	width: 24px;
+	height: 24px;
+	display: inline-block;
+	margin-right: 18px;
+	background:url(../assets/icon_account.png) no-repeat center center;background-size: cover;
+	vertical-align: middle;
+	margin-top: -5px;
+}
+
+
+
+
+
+
+
+
+
+
+

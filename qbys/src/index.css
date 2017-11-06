@@ -134,3 +134,8 @@ ins { text-decoration: none; }
 
 /*框架*/
 .ant-tabs:not(.ant-tabs-vertical) > .ant-tabs-content{overflow-y: auto;position: absolute;top:50px;bottom: 0;}
+
+/*antd*/
+.ant-modal-header{
+	text-align: center;
+}

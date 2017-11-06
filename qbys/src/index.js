@@ -4,6 +4,14 @@ import 'antd/dist/antd.less';
 // 1. Initialize
 const app = dva();
 
+app.model(require("./models/sider"));
+
+app.model(require("./models/IndexPage"));
+
+app.model(require("./models/tab"));
+
+app.model(require("./models/users"));
+
 // 2. Plugins
 // app.use({});
 
