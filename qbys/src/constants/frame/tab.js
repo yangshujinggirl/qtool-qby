@@ -33,11 +33,11 @@ class Tab extends React.Component {
   }
 
   add = () => {
-    const pane = this.state.pane;
-    const activeKey = `newTab${this.newTabIndex++}`;
-    pane.push({ title: 'New Tab', content: 'New Tab Pane', key: activeKey });
-    this.setState({ pane, activeKey });
-  }
+        const pane = this.state.pane;
+        const activeKey = `newTab${this.newTabIndex++}`;
+        pane.push({ title: 'New Tab', content: 'New Tab Pane', key: activeKey });
+        this.setState({ pane, activeKey });
+      }
 
   remove = (targetKey) => {
     this.props.dispatch({
@@ -48,19 +48,32 @@ class Tab extends React.Component {
 
   render() {
     return (
-            <Tabs
-              hideAdd
-              onChange={this.onChange}
-              activeKey={this.props.activeKey}
-              type="editable-card"
-              onEdit={this.onEdit}
-              className='h10'
-
-            >
-              {this.props.pane.map(pane => <TabPane tab={pane.title} key={pane.key} className='h10'>
+        <Tabs
+          hideAdd
+          onChange={this.onChange}
+          activeKey={this.props.activeKey}
+          type="editable-card"
+          onEdit={this.onEdit}
+          className='h10'
+        >
+          {this.props.pane.map(pane => 
+            pane.children
+            ?
+            <div>
+              <TabPane tab={pane.title} key={pane.key} className='h10'>
                 <Content/>
-              </TabPane>)}
-            </Tabs>
+              </TabPane>
+              <TabPane tab={pane.children.title} key={pane.children.key} className='h10'>
+                <Content/>
+              </TabPane>
+            </div>
+            :
+            <TabPane tab={pane.title} key={pane.key} className='h10'>
+                 <Content/>
+            </TabPane>
+            )
+        }
+        </Tabs>
     );
   }
 }

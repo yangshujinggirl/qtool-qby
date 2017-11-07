@@ -41,8 +41,6 @@ export default {
                  message.error(result.message);
             }   
         }, 
-
-
   },
   subscriptions: {
   	    setup({ dispatch, history }) {

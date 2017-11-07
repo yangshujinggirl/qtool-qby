@@ -41,21 +41,24 @@ class Siders extends React.Component {
 				        defaultSelectedKeys={['4']}
                         onSelect={this.setTab}>
 							{
-									this.props.menus.map((item,index)=>{
-										return (
-											<SubMenu title={<div className='itembox'><IconLogo type={item.type}/><span>{item.name}</span></div>} key={item.urResourceId}>
-								              	{
-								              		item.children.map((subitem,subindex)=>{
-        														return(
-        															<Menu.Item key="1" index={subindex} key={subitem.urResourceId}>
-                                          <div className='itemmain'>{subitem.name}</div>
-                                      </Menu.Item>
-        														)
-								              		})
-								              	}
-        							</SubMenu>
-										)
-									})	
+								this.props.menus.map((item,index)=>{
+									return (
+										<SubMenu title={<div className='itembox'>
+                                                        <IconLogo type={item.type}/>
+                                                        <span>{item.name}</span></div>} 
+                                                 key={item.urResourceId}>
+							              	{
+							              		item.children.map((subitem,subindex)=>{
+													return(
+														<Menu.Item key="1" index={subindex} key={subitem.urResourceId}>
+                                                          <div className='itemmain'>{subitem.name}</div>
+                                                        </Menu.Item>
+													)
+							              		})
+							              	}
+    							        </SubMenu>
+									)
+								})	
 							}
       					</Menu>
     			</Sider>

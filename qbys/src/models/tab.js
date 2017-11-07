@@ -50,6 +50,25 @@ export default {
     changeActiveKey(state,{ payload:activeKey}){
        sessionStorage.setItem("activeKey", activeKey);
        return {...state,activeKey}
+    },
+    //新增tab标签
+    addNewTab(state,{ payload:title}){
+      let pane = eval(sessionStorage.getItem("pane"));
+      let activeKey = sessionStorage.getItem('activeKey');
+     
+      pane.forEach(function(value, index, array) {
+        if(value.key == activeKey){
+          value.children = [];
+          value.children.push({'title':title,'key':value.key+'new'});
+        }
+      });
+      console.log(pane);
+      sessionStorage.setItem("pane",JSON.stringify(pane));
+      // activeKey.map(function(key,index){
+      //     console.log(key);
+      //     console.log(index);
+      // })
+      return {...state,pane}
     }
 
   },
