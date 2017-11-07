@@ -6,6 +6,8 @@ const app = dva();
 
 app.model(require("./models/sider"));
 
+app.model(require("./models/account"));
+
 app.model(require("./models/IndexPage"));
 
 app.model(require("./models/tab"));

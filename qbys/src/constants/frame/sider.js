@@ -18,31 +18,13 @@ class Siders extends React.Component {
     
     //设置标签
     setTab =  (item) =>{
+        const key =String(item.key);
         const paneitem={title:item.item.props.children.props.children,key:item.key}
         this.props.dispatch({
             type:'tab/tablist',
             payload:paneitem
           })
-
-
-
-        // const pane = eval(sessionStorage.getItem("pane"));
-        // console.log(pane)
-        // pane.push({title:item.item.props.children.props.children,key:item.key})
-        // sessionStorage.setItem("pane", JSON.stringify(pane));
-        // this.props.dispatch({
-        //     type:'tab/tablist',
-        //     payload:null
-        //   })
-
-
-
-
-      
     }
-
-
-
 
     render() {
         return (   
@@ -56,10 +38,9 @@ class Siders extends React.Component {
       					theme="dark" 
       					mode="inline" 
                         defaultOpenKeys={this.props.menus.length>0?[String(this.props.menus[0].urResourceId)]:null}
-      					defaultSelectedKeys={['4']}
+				        defaultSelectedKeys={['4']}
                         onSelect={this.setTab}>
 							{
-							
 									this.props.menus.map((item,index)=>{
 										return (
 											<SubMenu title={<div className='itembox'><IconLogo type={item.type}/><span>{item.name}</span></div>} key={item.urResourceId}>
@@ -73,30 +54,18 @@ class Siders extends React.Component {
 								              		})
 								              	}
         							</SubMenu>
-
 										)
-
 									})	
-								
-
 							}
       					</Menu>
     			</Sider>
   			</div>
-    			
-  			
         )
     }
-
 }
 
 
-
-
- 
-
 function mapStateToProps(state) {
-     console.log(state)
     const {menus} = state.sider;
     return {menus};
 }

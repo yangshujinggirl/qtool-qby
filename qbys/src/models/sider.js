@@ -14,8 +14,10 @@ export default {
   		*fetch({ payload: {code,values} }, { call, put }) {
             const result=yield call(GetServerData,code,values);
             if(result.code=='0'){
-                let {menus}=result
-                console.log(menus)
+                let {menus}=result;
+                let first = menus[0].children[0];
+                const firstItem={title:first.name,key:String(first.urResourceId)};
+                sessionStorage.setItem("firstItem", JSON.stringify(firstItem)); 
                 for(var i=0;i<menus.length;i++){
                 	if (menus[i].urResourceId == 200000) {
     				          menus[i].type = 'order'

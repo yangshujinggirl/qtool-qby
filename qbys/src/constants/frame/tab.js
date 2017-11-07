@@ -10,74 +10,64 @@ class Tab extends React.Component {
   constructor(props) {
     super(props);
     this.newTabIndex = 0;
-    const panes = [
-      { title: 'Tab 1', key: '1' }
-    ];
+    const pane = this.props.pane;
     this.state = {
-      activeKey: panes[0].key,
-      panes,
+      activeKey: pane[0].key,
+      pane,
     };
   }
 
-  
-
-
-
-
   onChange = (activeKey) => {
-    console.log(activeKey)
     this.setState({ activeKey });
+    this.props.dispatch({
+        type:'tab/changeActiveKey',
+        payload:activeKey
+      });
   }
+
   onEdit = (targetKey, action) => {
+    console.log(this.state.pane);
     console.log(targetKey)
     console.log(action)
     this[action](targetKey);
   }
+
   add = () => {
-    const panes = this.state.panes;
+    const pane = this.state.pane;
     const activeKey = `newTab${this.newTabIndex++}`;
-    panes.push({ title: 'New Tab', content: 'New Tab Pane', key: activeKey });
-    this.setState({ panes, activeKey });
+    pane.push({ title: 'New Tab', content: 'New Tab Pane', key: activeKey });
+    this.setState({ pane, activeKey });
   }
+
   remove = (targetKey) => {
-    let activeKey = this.state.activeKey;
-    let lastIndex;
-    this.state.panes.forEach((pane, i) => {
-      if (pane.key === targetKey) {
-        lastIndex = i - 1;
-      }
-    });
-    const panes = this.state.panes.filter(pane => pane.key !== targetKey);
-    if (lastIndex >= 0 && activeKey === targetKey) {
-      activeKey = panes[lastIndex].key;
-    }
-    this.setState({ panes, activeKey });
+    this.props.dispatch({
+        type:'tab/delectArr',
+        payload:targetKey
+      });
   }
+
   render() {
     return (
             <Tabs
               hideAdd
               onChange={this.onChange}
-              activeKey={this.state.activeKey}
+              activeKey={this.props.activeKey}
               type="editable-card"
               onEdit={this.onEdit}
               className='h10'
 
             >
               {this.props.pane.map(pane => <TabPane tab={pane.title} key={pane.key} className='h10'>
-              <Content countkey={pane.key}/></TabPane>)}
+                <Content/>
+              </TabPane>)}
             </Tabs>
-       
-      
     );
   }
 }
 
 function mapStateToProps(state) {
-     console.log(state)
-    const {pane} = state.tab;
-    console.log(pane)
-    return {pane};
+    const {pane,activeKey} = state.tab;
+    return {pane,activeKey};
 }
 
 
