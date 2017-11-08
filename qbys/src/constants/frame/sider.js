@@ -7,25 +7,16 @@ import IconLogo from '../frame/iconlogo';
 const { Header, Content, Footer, Sider } = Layout;
 const SubMenu = Menu.SubMenu;
 
-
 class Siders extends React.Component {
-    constructor(props) {
-      super(props);
-      this.state = {
-        tabArr:[]
-      };
-    }
-    
     //设置标签
     setTab =  (item) =>{
         const key =String(item.key);
         const paneitem={title:item.item.props.children.props.children,key:item.key}
         this.props.dispatch({
-            type:'tab/tablist',
+            type:'tab/addNewTab',
             payload:paneitem
           })
     }
-
     render() {
         return (   
     		<div>
@@ -37,7 +28,7 @@ class Siders extends React.Component {
        					className='menus' 
       					theme="dark" 
       					mode="inline" 
-                        defaultOpenKeys={this.props.menus.length>0?[String(this.props.menus[0].urResourceId)]:null}
+                        defaultOpenKeys={['0']}
 				        defaultSelectedKeys={['4']}
                         onSelect={this.setTab}>
 							{
@@ -46,7 +37,7 @@ class Siders extends React.Component {
 										<SubMenu title={<div className='itembox'>
                                                         <IconLogo type={item.type}/>
                                                         <span>{item.name}</span></div>} 
-                                                 key={item.urResourceId}>
+                                                 key={index}>
 							              	{
 							              		item.children.map((subitem,subindex)=>{
 													return(
@@ -69,7 +60,7 @@ class Siders extends React.Component {
 
 
 function mapStateToProps(state) {
-    const {menus} = state.sider;
+    const {menus} = state.tab;
     return {menus};
 }
 
