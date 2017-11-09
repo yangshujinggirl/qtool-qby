@@ -3,6 +3,7 @@ import { connect } from 'dva';
 import '../../style/content.css';
 //引入组件
 import AccountIndex from '../accountCenter/account_center.js';
+import AddNewAccount from '../accountCenter/add_new_account.js';
 
 class Content extends React.Component {
     render() {
@@ -14,7 +15,13 @@ class Content extends React.Component {
                     ?
                     <AccountIndex/>
                     :
-                    null
+                    (
+                     this.props.activeKey == '601000new'
+                     ?
+                     <AddNewAccount/>
+                     :
+                     null
+                    )
                 }
                 </div>
                 <div className='footer'>
@@ -27,7 +34,6 @@ class Content extends React.Component {
 
 function mapStateToProps(state) {
     const {activeKey} = state.tab;
-    console.log(activeKey);
     return {activeKey};
 }
 

@@ -4,28 +4,24 @@ import { connect } from 'dva';
 import '../../style/sider.css';
 import { Layout, Menu, Icon } from 'antd';
 import IconLogo from '../frame/iconlogo';
+import { isClickcom } from '../../utils/matching';
 const { Header, Content, Footer, Sider } = Layout;
 const SubMenu = Menu.SubMenu;
 
-
 class Siders extends React.Component {
-    constructor(props) {
-      super(props);
-      this.state = {
-        tabArr:[]
-      };
-    }
-    
     //设置标签
     setTab =  (item) =>{
+        console.log(item)
         const key =String(item.key);
-        const paneitem={title:item.item.props.children.props.children,key:item.key}
+        const result=isClickcom(key)
+        console.log(result)
+
+        // const paneitem={title:item.item.props.children.props.children,key:item.key}
         this.props.dispatch({
-            type:'tab/tablist',
-            payload:paneitem
+            type:'tab/addNewTab',
+            payload:result
           })
     }
-
     render() {
         return (   
     		<div>
@@ -37,26 +33,26 @@ class Siders extends React.Component {
        					className='menus' 
       					theme="dark" 
       					mode="inline" 
-                        defaultOpenKeys={this.props.menus.length>0?[String(this.props.menus[0].urResourceId)]:null}
+                defaultOpenKeys={['0']}
 				        defaultSelectedKeys={['4']}
-                        onSelect={this.setTab}>
+                onSelect={this.setTab}>
 							{
 								this.props.menus.map((item,index)=>{
 									return (
 										<SubMenu title={<div className='itembox'>
-                                                        <IconLogo type={item.type}/>
-                                                        <span>{item.name}</span></div>} 
-                                                 key={item.urResourceId}>
-							              	{
-							              		item.children.map((subitem,subindex)=>{
-													return(
-														<Menu.Item key="1" index={subindex} key={subitem.urResourceId}>
-                                                          <div className='itemmain'>{subitem.name}</div>
-                                                        </Menu.Item>
-													)
-							              		})
-							              	}
-    							        </SubMenu>
+                                    <IconLogo type={item.type}/>
+                                    <span>{item.name}</span></div>} 
+                              key={index}>
+			              	{
+			              		item.children.map((subitem,subindex)=>{
+									      return(
+    												<Menu.Item key="1" index={subindex} key={subitem.urResourceId}>
+                              <div className='itemmain'>{subitem.name}</div>
+                            </Menu.Item>
+											    )
+			              		})
+			              	}
+						        </SubMenu>
 									)
 								})	
 							}
@@ -69,7 +65,7 @@ class Siders extends React.Component {
 
 
 function mapStateToProps(state) {
-    const {menus} = state.sider;
+    const {menus} = state.tab;
     return {menus};
 }
 

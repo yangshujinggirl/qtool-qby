@@ -1,51 +1,36 @@
+
 import React from 'react';
 import { Tabs, Button } from 'antd';
 import { connect } from 'dva';
 import Content from '../frame/content';
 import '../../style/tab.css';
+
+import Cgorder from '../cgorder/cgorder';
+import Ctorder from '../ctorder/ctorder';
+import Sporder from '../sporder/sporder';
+
 const TabPane = Tabs.TabPane;
 
 
 class Tab extends React.Component {
-  constructor(props) {
-    super(props);
-    this.newTabIndex = 0;
-    const pane = this.props.pane;
-    this.state = {
-      activeKey: pane[0].key,
-      pane,
-    };
-  }
-
   onChange = (activeKey) => {
-    this.setState({ activeKey });
+    console.log(activeKey)
+
+
+
+    let activeKeys={key:activeKey}
     this.props.dispatch({
-        type:'tab/changeActiveKey',
-        payload:activeKey
+        type:'tab/addNewTab',
+        payload:activeKeys
       });
   }
 
-  onEdit = (targetKey, action) => {
-    console.log(this.state.pane);
-    console.log(targetKey)
-    console.log(action)
-    this[action](targetKey);
-  }
-
-  add = () => {
-        const pane = this.state.pane;
-        const activeKey = `newTab${this.newTabIndex++}`;
-        pane.push({ title: 'New Tab', content: 'New Tab Pane', key: activeKey });
-        this.setState({ pane, activeKey });
-      }
-
-  remove = (targetKey) => {
-    this.props.dispatch({
-        type:'tab/delectArr',
-        payload:targetKey
+  onEdit = (targetKey) => {
+      this.props.dispatch({
+            type:'tab/delectArr',
+            payload:targetKey
       });
   }
-
   render() {
     return (
         <Tabs
@@ -56,29 +41,32 @@ class Tab extends React.Component {
           onEdit={this.onEdit}
           className='h10'
         >
-          {this.props.pane.map(pane => 
-            pane.children
-            ?
-            <div>
-              <TabPane tab={pane.title} key={pane.key} className='h10'>
-                <Content/>
-              </TabPane>
-              <TabPane tab={pane.children.title} key={pane.children.key} className='h10'>
-                <Content/>
-              </TabPane>
-            </div>
-            :
+        {
+          this.props.pane.map(
+            pane => 
             <TabPane tab={pane.title} key={pane.key} className='h10'>
-                 <Content/>
+                 {pane.content}
             </TabPane>
-            )
+          )
         }
         </Tabs>
     );
   }
+  onWindowResize = () =>{
+    console.log(document.body.clientHeight);
+  }
+
+  componentDidMount() {
+    window.addEventListener('resize', this.onWindowResize)
+  }
+  componentWillUnmount() {
+      window.removeEventListener('resize', this.onWindowResize)
+  }
+
 }
 
 function mapStateToProps(state) {
+    console.log(state)
     const {pane,activeKey} = state.tab;
     return {pane,activeKey};
 }
