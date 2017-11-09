@@ -1,6 +1,71 @@
 .add-button{
 	margin: 20px;
+	height: 35px;
 }
 .wrapper-table{
 	margin: 0px 20px;
+}
+.ant-table-bordered .ant-table-thead > tr > th, 
+.ant-table-bordered .ant-table-tbody > tr > td{
+	text-align: center;
+	font-size: 12px;
+}
+.ant-table-bordered .ant-table-thead > tr > th{
+	font-size: 14px;
+}
+
+.ant-input-lg,.ant-form-item-label{
+	height: 35px;
+	line-height: 35px;
+}
+.ant-form {
+	padding: 40px 0px 40px 0px;
+}
+label{
+	font-size: 12px;
+}
+.ant-input{
+	font-size: 12px;
+}
+.ant-btn-lg{
+	width: 100px;
+	height: 35px;
+	line-height: 35px;
+}
+.ant-select-selection-selected-value{
+	font-size: 12px;
+}
+.ant-select-lg .ant-select-selection__rendered{
+	font-size: 12px;
+}
+.ant-select-lg .ant-select-selection--single{
+	height: 35px;
+	line-height: 35px;
+}
+.button-performance{
+	color: white;
+	font-size: 14px;
+}
+.save-color{
+	background:#35BAB0;
+}
+.cancel-color{
+	background: #D8D8D8;
+}
+.ant-btn:hover, .ant-btn:focus,.ant-btn:active{
+   border: none;
+}
+.save-color:hover, .save-color:focus, .save-color:active{
+	background: #35BAB0!important;
+	color: white;
+	font-size: 14px;
+	height: 35px;
+	line-height: 35px;
+}
+.cancel-color:hover, .cancel-color:focus, .cancel-color:active{
+	background: #D8D8D8!important;
+	color: white;
+	font-size: 14px;
+	height: 35px;
+	line-height: 35px;
 }

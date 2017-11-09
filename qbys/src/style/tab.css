@@ -53,3 +53,11 @@
 	height: 50px;
 	line-height: 50px;
 }
+
+/*样式添加*/
+.ant-tabs-nav{
+    font-size: 14px;
+}
+.ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab{
+    padding: 0px 16px;
+}

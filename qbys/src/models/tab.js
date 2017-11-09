@@ -1,5 +1,11 @@
 import {isInArray} from '../utils/meth.js';
+<<<<<<< HEAD
 import {GetServerData} from '../services/services';
+=======
+import {isInArrayMatchName} from '../utils/meth.js';
+import {GetServerData} from '../services/services';
+import { isClickcom } from '../utils/matching';
+>>>>>>> 400d8993385541ac4875aa430581240539c49b45
 import {message} from 'antd';
 
 export default {
@@ -32,7 +38,11 @@ export default {
 
         //新增tab
         addNewTab(state,{ payload:paneitem}){
+<<<<<<< HEAD
             //判断是否是第一次
+=======
+            console.log(paneitem)
+>>>>>>> 400d8993385541ac4875aa430581240539c49b45
             var pane = eval(sessionStorage.getItem("pane"));
             var activeKey = sessionStorage.getItem('activeKey');
             const result=isInArray(pane,paneitem.key);
@@ -40,6 +50,11 @@ export default {
                 pane.push(paneitem)
             }
             activeKey=paneitem.key
+<<<<<<< HEAD
+=======
+            console.log(pane)
+            console.log(activeKey)
+>>>>>>> 400d8993385541ac4875aa430581240539c49b45
             sessionStorage.setItem("pane", JSON.stringify(pane));
             sessionStorage.setItem("activeKey", activeKey);
             return {...state,pane,activeKey}
@@ -53,8 +68,49 @@ export default {
             sessionStorage.setItem("pane", JSON.stringify(pane));
             sessionStorage.setItem("activeKey", activeKey);
             return {...state,pane,activeKey}
+<<<<<<< HEAD
         }
             
+=======
+        },
+        //增加子标签
+        addChildrenTab(state,{ payload:tabName}){
+            var pane = eval(sessionStorage.getItem("pane"));
+            var activeKey = sessionStorage.getItem('activeKey');
+            const result=isInArrayMatchName(pane,tabName);
+            if(!result){
+                pane.forEach(function(value, index, array){//在有子类存在的情况下
+                  //删除子类，在父亲后添加新的子类
+                  if (value.key.indexOf(activeKey) != -1 && value.key!=activeKey) {
+                      pane.splice(index,1,{'title':tabName,'key':activeKey+'new'});
+                  }else{//在没有子类存在的情况下
+                    //在父亲后添加子类
+                      if(value.key == activeKey){
+                        pane.splice(index+1,0,{'title':tabName,'key':activeKey+'new'});
+                      }
+                  }
+                });
+                console.log(pane);
+            }
+            activeKey=activeKey+'new';
+            sessionStorage.setItem("pane", JSON.stringify(pane));
+            sessionStorage.setItem("activeKey", activeKey);
+            return {...state,pane,activeKey}
+           // let pane = eval(sessionStorage.getItem("pane"));
+           // let activeKey = sessionStorage.getItem('activeKey');
+           // pane.forEach(function(value, index, array) {
+           //    if(value.key == activeKey){
+           //      value.children = [];
+           //      value.children.push({'title':tabName,'key':value.key+'new'});
+           //      activeKey = value.key+'new';
+           //    }
+           //  });
+           // console.log(pane);
+           // sessionStorage.setItem("pane",JSON.stringify(pane));
+           // sessionStorage.setItem("activeKey", activeKey)
+           // return {...state,pane,activeKey}
+        }       
+>>>>>>> 400d8993385541ac4875aa430581240539c49b45
   },
   effects: {
     *fetch({ payload: {code,values} }, { call, put }) {
@@ -79,8 +135,12 @@ export default {
                               menus[i].type = 'account'
                            }
                 }
+<<<<<<< HEAD
                 
                 const pannelfirst={title:menus[0].children[0].name,key:String(menus[0].children[0].urResourceId)}
+=======
+                 const pannelfirst=isClickcom(String(menus[0].children[0].urResourceId))
+>>>>>>> 400d8993385541ac4875aa430581240539c49b45
                 yield put({   
                     type: 'menulist',
                     payload:menus
@@ -98,8 +158,12 @@ export default {
   	setup({ dispatch, history }) {
             return history.listen(({ pathname, query }) => {
                 if (pathname === '/home') {
+<<<<<<< HEAD
                      dispatch({ type: 'fetch', payload: {code:'qerp.web.bs.menu',values:null}})
                     
+=======
+                     dispatch({ type: 'fetch', payload: {code:'qerp.web.bs.menu',values:null}})  
+>>>>>>> 400d8993385541ac4875aa430581240539c49b45
                 }
             });
         },

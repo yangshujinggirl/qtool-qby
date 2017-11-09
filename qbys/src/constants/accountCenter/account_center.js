@@ -14,7 +14,7 @@ class AccountIndex extends React.Component{
 
   addNewAccount = () =>{
   	this.props.dispatch({
-	    type:'tab/addNewTab',
+	    type:'tab/addChildrenTab',
 	    payload:'新增账号'
 	  })
   }

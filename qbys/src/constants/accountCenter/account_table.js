@@ -29,10 +29,25 @@ class AccountIndexTable extends React.Component {
               dataIndex: 'updateTime'
             },{
               title: '操作',
-              dataIndex: 'operation'
+              dataIndex: 'operation',
+              render: (text, record) => {
+                return (
+                      <div onClick = {this.editInfo.bind(this,record)} 
+                           style={{color: '#35bab0', cursor:'pointer'}}>修改</div>
+                );
+              }
             }
         ];
         this.state = {};
+      }
+      
+      //修改用户信息
+      editInfo = (record) => {
+         console.log(record);
+         this.props.dispatch({
+          type:'tab/addChildrenTab',
+          payload:'修改账号'
+        })
       }
 
       render() {
