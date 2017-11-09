@@ -1,11 +1,7 @@
 import {isInArray} from '../utils/meth.js';
-<<<<<<< HEAD
-import {GetServerData} from '../services/services';
-=======
 import {isInArrayMatchName} from '../utils/meth.js';
 import {GetServerData} from '../services/services';
 import { isClickcom } from '../utils/matching';
->>>>>>> 400d8993385541ac4875aa430581240539c49b45
 import {message} from 'antd';
 
 export default {
@@ -38,11 +34,9 @@ export default {
 
         //新增tab
         addNewTab(state,{ payload:paneitem}){
-<<<<<<< HEAD
-            //判断是否是第一次
-=======
+
             console.log(paneitem)
->>>>>>> 400d8993385541ac4875aa430581240539c49b45
+
             var pane = eval(sessionStorage.getItem("pane"));
             var activeKey = sessionStorage.getItem('activeKey');
             const result=isInArray(pane,paneitem.key);
@@ -50,11 +44,9 @@ export default {
                 pane.push(paneitem)
             }
             activeKey=paneitem.key
-<<<<<<< HEAD
-=======
+
             console.log(pane)
             console.log(activeKey)
->>>>>>> 400d8993385541ac4875aa430581240539c49b45
             sessionStorage.setItem("pane", JSON.stringify(pane));
             sessionStorage.setItem("activeKey", activeKey);
             return {...state,pane,activeKey}
@@ -68,10 +60,8 @@ export default {
             sessionStorage.setItem("pane", JSON.stringify(pane));
             sessionStorage.setItem("activeKey", activeKey);
             return {...state,pane,activeKey}
-<<<<<<< HEAD
-        }
+        
             
-=======
         },
         //增加子标签
         addChildrenTab(state,{ payload:tabName}){
@@ -110,7 +100,7 @@ export default {
            // sessionStorage.setItem("activeKey", activeKey)
            // return {...state,pane,activeKey}
         }       
->>>>>>> 400d8993385541ac4875aa430581240539c49b45
+
   },
   effects: {
     *fetch({ payload: {code,values} }, { call, put }) {
@@ -135,12 +125,8 @@ export default {
                               menus[i].type = 'account'
                            }
                 }
-<<<<<<< HEAD
-                
-                const pannelfirst={title:menus[0].children[0].name,key:String(menus[0].children[0].urResourceId)}
-=======
+
                  const pannelfirst=isClickcom(String(menus[0].children[0].urResourceId))
->>>>>>> 400d8993385541ac4875aa430581240539c49b45
                 yield put({   
                     type: 'menulist',
                     payload:menus
@@ -158,12 +144,7 @@ export default {
   	setup({ dispatch, history }) {
             return history.listen(({ pathname, query }) => {
                 if (pathname === '/home') {
-<<<<<<< HEAD
-                     dispatch({ type: 'fetch', payload: {code:'qerp.web.bs.menu',values:null}})
-                    
-=======
                      dispatch({ type: 'fetch', payload: {code:'qerp.web.bs.menu',values:null}})  
->>>>>>> 400d8993385541ac4875aa430581240539c49b45
                 }
             });
         },

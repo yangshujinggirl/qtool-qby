@@ -8,8 +8,7 @@
     return false;
 	}
 
-<<<<<<< HEAD
-=======
+
 	export function isInArrayMatchName(arr,value) {
   		for(var i = 0; i < arr.length; i++){
         	if(value == arr[i].title){
@@ -19,7 +18,7 @@
         return false;
 	}
 
->>>>>>> 400d8993385541ac4875aa430581240539c49b45
+
 
 
 

@@ -15,21 +15,7 @@ const TabPane = Tabs.TabPane;
 class Tab extends React.Component {
   onChange = (activeKey) => {
     console.log(activeKey)
-<<<<<<< HEAD
-    let activeKeys={key:activeKey}
-    this.props.dispatch({
-        type:'tab/addNewTab',
-        payload:activeKeys
-      });
-  }
 
-  onEdit = (targetKey) => {
-      this.props.dispatch({
-            type:'tab/delectArr',
-            payload:targetKey
-      });
-  }
-=======
 
 
 
@@ -46,7 +32,7 @@ class Tab extends React.Component {
             payload:targetKey
       });
   }
->>>>>>> 400d8993385541ac4875aa430581240539c49b45
+
   render() {
     return (
         <Tabs
@@ -57,12 +43,7 @@ class Tab extends React.Component {
           onEdit={this.onEdit}
           className='h10'
         >
-<<<<<<< HEAD
-        {this.props.pane.map(pane => <TabPane tab={pane.title} key={pane.key}><Content activeKey={this.props.activeKey}/></TabPane>)}
-        </Tabs>
-    );
-  }
-=======
+
         {
           this.props.pane.map(
             pane => 
@@ -74,17 +55,7 @@ class Tab extends React.Component {
         </Tabs>
     );
   }
-  onWindowResize = () =>{
-    console.log(document.body.clientHeight);
-  }
-
-  componentDidMount() {
-    window.addEventListener('resize', this.onWindowResize)
-  }
-  componentWillUnmount() {
-      window.removeEventListener('resize', this.onWindowResize)
-  }
->>>>>>> 400d8993385541ac4875aa430581240539c49b45
+  
 
 }
 
