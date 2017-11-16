@@ -8,7 +8,8 @@ import AddNewAccount from '../accountCenter/add_new_account.js';
 import Cgorder from '../cgorder/cgorder';
 import Ctorder from '../ctorder/ctorder';
 import Sporder from '../sporder/sporder';
-
+import PutInManageComponent from '../putInStorageManage/putInManageComponent';
+import GetIntoStorageComponent from '../getIntoStorage/getIntoStorageIndex';
 // const commnect=[
 // 	{key:'201000',title:'门店订单',content:{com:<Sporder/>}},
 // 	{key:'202000',title:'采购订单',content:{com:<Cgorder/>}},
@@ -59,6 +60,8 @@ class Content extends React.Component {
                         case "204000": return <Ctorder data={this.props.data}/>;
                         case "601000": return <AccountIndex data={this.props.data}/>;
                         case "601000edit": return <AddNewAccount data={this.props.data}/>;
+                        case "501000": return <PutInManageComponent data={this.props.data}/>;
+                        case "501000info": return  <GetIntoStorageComponent data={this.props.data}/>
                         default:      return "我是404";
                         }
                     })()

@@ -46,7 +46,7 @@ class Tab extends React.Component {
   
 }
 function mapStateToProps(state) {
-    const {pane,activeKey} = state.tab;
+	const {pane,activeKey} = state.tab;
     return {pane,activeKey};
 }
 export default connect(mapStateToProps)(Tab);

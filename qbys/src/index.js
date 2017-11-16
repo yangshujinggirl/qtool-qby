@@ -8,6 +8,10 @@ const app = dva();
 
 app.model(require("./models/account"));
 
+app.model(require("./models/storageDetail"));
+
+app.model(require("./models/storageManage"));
+
 app.model(require("./models/IndexPage"));
 
 app.model(require("./models/tab"));
