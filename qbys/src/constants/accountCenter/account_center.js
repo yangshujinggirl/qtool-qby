@@ -6,38 +6,28 @@ import '../../style/account_center.css';
 import AccountIndexTable from '../accountCenter/account_table';
 
 class AccountIndex extends React.Component{
-  constructor(props) {
-    super(props);
-    this.state = {
-    }
-  }
-
-  addNewAccount = () =>{
-  	this.props.dispatch({
-	    type:'tab/addChildrenTab',
-	    payload:'新增账号'
-	  })
-  }
-
-  render(){
-     return(
-        <div className='content_box'>
-          <div className = 'white_box'>
-             <Button type="primary" icon="plus" className='add-button' 
-                     onClick={this.addNewAccount.bind(this)}>新增账号</Button>
-             <AccountIndexTable/>
-          </div>
-        </div>
-      )
-  }
-  componentDidMount(){
-    
-  }
+  	addNewAccount = () =>{
+		const paneitem={title:'新增账号',key:'601000edit',componkey:'601000edit',data:null}
+  		this.props.dispatch({
+	    	type:'tab/addNewTab',
+	    	payload:paneitem
+	  	})
+  	}
+  	render(){
+     	return(
+        	<div className='content_box'>
+					<Button 
+						type="primary" 
+					 	icon="plus" 
+					 	className='add-button' 
+                     	onClick={this.addNewAccount.bind(this)}
+					>
+						新增账号
+					</Button>
+             		<AccountIndexTable/>
+        	</div>
+      	)
+  	}
 }
 
-function mapStateToProps(state) {
-    const {accountInfo} = state.account;
-    return {accountInfo};
-}
-
-export default connect(mapStateToProps)(AccountIndex);
+export default connect()(AccountIndex);

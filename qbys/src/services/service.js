@@ -1,4 +1,4 @@
-import { post } from '../utils/post'
+import { post } from '../utils/postedit.js'
 
 export function GetServerData(code,values) {
     const result = post('/erpWebRest/webrest.htm',{

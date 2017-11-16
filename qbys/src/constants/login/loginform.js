@@ -1,7 +1,7 @@
 import React from 'react';
 import '../../style/login.css';
 import { Form, Input, Button, Checkbox } from 'antd';
-import { GetServerData} from '../../services/services';
+import { GetServerData} from '../../services/service';
 
 const FormItem = Form.Item;
 class NormalLoginForm extends React.Component {
@@ -16,7 +16,6 @@ class NormalLoginForm extends React.Component {
                     result.then((res) => {
                       return res;
                     }).then((json) => {
-                        console.log(json)
                         if(json.code=='0'){
                             sessionStorage.setItem('urUser', JSON.stringify(json.urUser));
                             sessionStorage.setItem('username', JSON.stringify(json.username));

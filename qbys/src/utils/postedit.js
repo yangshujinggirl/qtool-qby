@@ -1,4 +1,3 @@
-import { message } from 'antd';
 'use strict';
 // import 'whatwg-fetch'
 // import 'es6-promise'
@@ -39,9 +38,7 @@ export function post(url, paramsObj) {
         if(json.code=='E_300'){
              window.location.href= '/';
         }
-        if(json.code!='0'){
-            message.error(json.message);
-        }
+
         jsessionid = json.sessionId;
         return json;
     });

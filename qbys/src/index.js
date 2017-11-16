@@ -4,7 +4,7 @@ import 'antd/dist/antd.less';
 // 1. Initialize
 const app = dva();
 
-app.model(require("./models/sider"));
+
 
 app.model(require("./models/account"));
 

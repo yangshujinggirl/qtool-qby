@@ -9,6 +9,11 @@ import '../../style/frame.css';
 const { Header, Content, Footer, Sider } = Layout;
 
 class Frame extends React.Component {
+	addTap=(title,count,key)=>{
+		const addTap=this.refs.tab.add
+		addTap(title,count,key)
+	} 
+	
     render() {
         return (   
     		<Layout>
@@ -20,13 +25,15 @@ class Frame extends React.Component {
                         </div>
       				</Header>
 			      	<Content className='contents'>
-			        		<Tab/>	
+			        		<Tab ref='tab'/>	
 			      	</Content>
     			</Layout>
   			</Layout>
         )
     }
 }
+
+
 
 export default Frame;
 

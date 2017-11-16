@@ -4,22 +4,16 @@ import { connect } from 'dva';
 import '../../style/sider.css';
 import { Layout, Menu, Icon } from 'antd';
 import IconLogo from '../frame/iconlogo';
-import { isClickcom } from '../../utils/matching';
 const { Header, Content, Footer, Sider } = Layout;
 const SubMenu = Menu.SubMenu;
-
 class Siders extends React.Component {
     //设置标签
     setTab =  (item) =>{
-        console.log(item)
         const key =String(item.key);
-        const result=isClickcom(key)
-        console.log(result)
-
-        // const paneitem={title:item.item.props.children.props.children,key:item.key}
+        const paneitem={title:item.item.props.children.props.children,key:String(item.key),data:null,componkey:String(item.key)}
         this.props.dispatch({
             type:'tab/addNewTab',
-            payload:result
+            payload:paneitem
           })
     }
     render() {
@@ -33,16 +27,13 @@ class Siders extends React.Component {
        					className='menus' 
       					theme="dark" 
       					mode="inline" 
-
                 defaultOpenKeys={['0']}
-
 				        defaultSelectedKeys={['4']}
                 onSelect={this.setTab}>
 							{
 								this.props.menus.map((item,index)=>{
 									return (
 										<SubMenu title={<div className='itembox'>
-
                                     <IconLogo type={item.type}/>
                                     <span>{item.name}</span></div>} 
                               key={index}>
@@ -56,7 +47,6 @@ class Siders extends React.Component {
 			              		})
 			              	}
 						        </SubMenu>
-
 									)
 								})	
 							}
@@ -66,12 +56,8 @@ class Siders extends React.Component {
         )
     }
 }
-
-
 function mapStateToProps(state) {
     const {menus} = state.tab;
     return {menus};
 }
-
 export default connect(mapStateToProps)(Siders);
-

@@ -1,4 +1,6 @@
-.counter{height: 100%;}
+.counter{
+	height: 100%;
+}
 .counter_con{
 	min-height:-moz-calc(100% - 76px); 
 	min-height:-webkit-calc(100% - 76px); 
