@@ -12,11 +12,13 @@ export default {
 			email:null,
 			mobile:null,
 			status:''
-	  	}
+		  },
+		total:0
+		  
   	},
   	reducers: {
-		accountList(state, { payload: accountInfo}) {
-			return {...state,accountInfo}
+		accountList(state, { payload: {accountInfo,total}}) {
+			return {...state,accountInfo,total}
 		},
 		urUserinfo(state, { payload: urUser}) {
 			return {...state,urUser}
@@ -29,8 +31,9 @@ export default {
   		*fetch({ payload: {code,values} }, { call, put }) {
             const result=yield call(GetServerData,code,values);
             if(result.code=='0'){
-              	const accountInfo = result.urUsers;
-              	yield put({type: 'accountList',payload:accountInfo});
+				  const accountInfo = result.urUsers;
+				  const total=result.total
+              	yield put({type: 'accountList',payload:{accountInfo,total}});
 				yield put({type: 'tab/loding',payload:false});	
             } 
         }, 

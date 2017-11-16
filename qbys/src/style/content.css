@@ -6,6 +6,7 @@
 	min-height:-webkit-calc(100% - 76px); 
 	min-height: calc(100% - 76px);
 	background: #fff;
+	padding:30px;
 }
 .footer{
 	height: 76px;

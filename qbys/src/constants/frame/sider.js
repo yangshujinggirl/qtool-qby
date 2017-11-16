@@ -9,6 +9,7 @@ const SubMenu = Menu.SubMenu;
 class Siders extends React.Component {
     //设置标签
     setTab =  (item) =>{
+		console.log(item)
         const key =String(item.key);
         const paneitem={title:item.item.props.children.props.children,key:String(item.key),data:null,componkey:String(item.key)}
         this.props.dispatch({
@@ -27,9 +28,9 @@ class Siders extends React.Component {
        					className='menus' 
       					theme="dark" 
       					mode="inline" 
-                defaultOpenKeys={['0']}
+                		defaultOpenKeys={['0']}
 				        defaultSelectedKeys={['4']}
-                onSelect={this.setTab}>
+                		onClick={this.setTab}>
 							{
 								this.props.menus.map((item,index)=>{
 									return (

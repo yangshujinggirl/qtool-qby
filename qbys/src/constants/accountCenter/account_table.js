@@ -46,24 +46,49 @@ class AccountIndexTable extends React.Component {
           	type:'tab/addNewTab',
           	payload:paneitem
         })
-    }
+	}
+	//分页方法
+	pageChange=(page,pageSize)=>{
+		console.log(page)
+		console.log(pageSize)
+	}
+	//pagesize辩护
+	pageSizeChange=(current,size)=>{
+		console.log(current)
+		console.log(size)
+		localStorage.setItem('pagesize',size)
+		console.log(localStorage)
+		this.props.dispatch({
+            type:'account/fetch',
+            payload:{code:'qerp.web.ur.user.query',values:{limit:size,currentPage:Number(current)-1}}
+		})
+	}
+
     render() {
         return (
-            <EditableTable dataSource={this.props.accountInfo} columns={this.columns}/>
+			<EditableTable 
+				dataSource={this.props.accountInfo} 
+				columns={this.columns} 
+				pageChange={this.pageChange.bind(this)}
+				pageSizeChange={this.pageSizeChange.bind(this)}
+				total={this.props.total}
+				/>
         );
     }
     componentDidMount(){
+		const pages=localStorage.getItem.pagesize
         this.props.dispatch({
             type:'account/fetch',
-            payload:{code:'qerp.web.ur.user.query',values:{}}
+            payload:{code:'qerp.web.ur.user.query',values:{limit:pages?pages:'10',currentPage:0}}
 		})
 		this.props.dispatch({ type: 'tab/loding', payload:true}) 
     }
 }
 
 function mapStateToProps(state) {
-    const {accountInfo} = state.account;
-    return {accountInfo};
+	console.log(state)
+    const {accountInfo,total} = state.account;
+    return {accountInfo,total};
 }
 
 export default connect(mapStateToProps)(AccountIndexTable);
