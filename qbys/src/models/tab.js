@@ -7,7 +7,8 @@ export default {
   	    pane:[],
         activeKey:'',
         menus:[],
-        loding:false
+        loding:false,
+        openkeys:[]
     },
     reducers: {
         //menu数据
@@ -18,15 +19,19 @@ export default {
         refresh(state, { payload:pannelfirst}) {
             var pane = eval(sessionStorage.getItem("pane"));
             var activeKey = sessionStorage.getItem('activeKey');
-            if(pane==null & activeKey==null){
+            var openkeys = eval(sessionStorage.getItem("openkeys"));
+            console.log(openkeys)
+            if(pane==null & activeKey==null & openkeys==null){
                 //第一次进入页面
                 pane=[]
                 pane.push(pannelfirst)
                 activeKey=pannelfirst.key
+                openkeys=['0']
             }
             sessionStorage.setItem("pane", JSON.stringify(pane));
             sessionStorage.setItem("activeKey", activeKey);
-            return {...state,pane,activeKey}
+            sessionStorage.setItem("openkeys", JSON.stringify(openkeys));
+            return {...state,pane,activeKey,openkeys}
         },
         //新增tab
         addNewTab(state,{ payload:paneitem}){
@@ -54,7 +59,15 @@ export default {
         //loding处理
         loding(state,{ payload:loding}){
             return {...state,loding}
+        },
+        openkeys(state,{ payload:openkeys}){
+            sessionStorage.setItem("openkeys", JSON.stringify(openkeys));
+            return {...state,openkeys}
         }
+
+
+
+
     },
     effects: {
         *fetch({ payload: {code,values} }, { call, put }) {

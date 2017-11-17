@@ -17,6 +17,10 @@ class Tab extends React.Component {
       	});
   	}
   	onEdit = (targetKey) => {
+		const pane = eval(sessionStorage.getItem("pane"));
+		if(pane.length<=1){
+			return
+		}
       	this.props.dispatch({
             type:'tab/delectArr',
             payload:targetKey

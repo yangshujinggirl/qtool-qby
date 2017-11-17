@@ -76,7 +76,7 @@ class AccountIndexTable extends React.Component {
         );
     }
     componentDidMount(){
-		const pages=localStorage.getItem.pagesize
+		const pages=localStorage.getItem('pagesize')
         this.props.dispatch({
             type:'account/fetch',
             payload:{code:'qerp.web.ur.user.query',values:{limit:pages?pages:'10',currentPage:0}}

@@ -31,8 +31,12 @@ export default {
   		*fetch({ payload: {code,values} }, { call, put }) {
             const result=yield call(GetServerData,code,values);
             if(result.code=='0'){
-				  const accountInfo = result.urUsers;
-				  const total=result.total
+				const accountInfo = result.urUsers;
+				console.log(accountInfo)
+				for(var i=0;i<accountInfo.length;i++){
+					accountInfo[i].key=accountInfo[i].urUserId
+				}
+				const total=result.total
               	yield put({type: 'accountList',payload:{accountInfo,total}});
 				yield put({type: 'tab/loding',payload:false});	
             } 

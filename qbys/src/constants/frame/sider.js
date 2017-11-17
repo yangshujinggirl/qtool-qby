@@ -16,8 +16,16 @@ class Siders extends React.Component {
             type:'tab/addNewTab',
             payload:paneitem
           })
-    }
+	}
+	onOpenChange=(key)=>{
+		console.log(key)
+		this.props.dispatch({
+            type:'tab/openkeys',
+            payload:key
+          })
+	}
     render() {
+		const deselect=this.props.menus.length>0?String(this.props.menus[0].children[0].urResourceId):''
         return (   
     		<div>
     			<Sider className='slidebox' width='220'>
@@ -28,8 +36,9 @@ class Siders extends React.Component {
        					className='menus' 
       					theme="dark" 
       					mode="inline" 
-                		defaultOpenKeys={['0']}
-				        defaultSelectedKeys={['4']}
+						openKeys={this.props.openkeys}
+						selectedKeys={[this.props.activeKey]}
+						onOpenChange={this.onOpenChange}
                 		onClick={this.setTab}>
 							{
 								this.props.menus.map((item,index)=>{
@@ -58,7 +67,8 @@ class Siders extends React.Component {
     }
 }
 function mapStateToProps(state) {
-    const {menus} = state.tab;
-    return {menus};
+	console.log(state)
+	const {menus,activeKey,openkeys} = state.tab;
+    return {menus,activeKey,openkeys};
 }
 export default connect(mapStateToProps)(Siders);
