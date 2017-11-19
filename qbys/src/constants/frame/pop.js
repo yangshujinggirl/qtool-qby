@@ -100,7 +100,7 @@ class CollectionsPage extends React.Component {
     	return (
       		<div>
         		<p onClick={this.showModal}>修改密码</p>
-       			 <CollectionCreateForm
+       			<CollectionCreateForm
           			ref={this.saveFormRef}
 					visible={this.state.visible}
 					onCancel={this.handleCancel}

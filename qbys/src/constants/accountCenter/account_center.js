@@ -9,7 +9,7 @@ class AccountIndex extends React.Component{
   	addNewAccount = () =>{
 		const paneitem={title:'新增账号',key:'601000edit',componkey:'601000edit',data:null}
   		this.props.dispatch({
-	    	type:'tab/addNewTab',
+	    	type:'tab/firstAddTab',
 	    	payload:paneitem
 	  	})
   	}
@@ -18,13 +18,12 @@ class AccountIndex extends React.Component{
         	<div className='content_box'>
 					<Button 
 						type="primary" 
-					 	icon="plus" 
-					 	className='add-button' 
-                     	onClick={this.addNewAccount.bind(this)}
+						onClick={this.addNewAccount.bind(this)}
+						size='large'
 					>
-						新增账号
+						<Icon type="plus" className='icon_add'/>新增账号
 					</Button>
-             		<AccountIndexTable/>
+             		<div className='mt30'><AccountIndexTable/></div>
         	</div>
       	)
   	}

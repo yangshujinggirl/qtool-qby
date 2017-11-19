@@ -100,7 +100,7 @@ strong, b, .b { font-weight: bold; }
 .lh1 { line-height:1;}
 .lh2 { line-height:2;}
 .lh3 { line-height:3;}
-
+.mt30{margin-top:30px;}
 /*颜色*/
 .f333 { color: #333; }
 .f666 { color: #666; }
@@ -108,10 +108,11 @@ strong, b, .b { font-weight: bold; }
 .black { color:#000;}
 .white { color:#fff;}
 .orange { color:#f60;}
-.red { color: #e5004f; }
+.red { color: #e5004f;}
 .blue { color:#e5004f;}
 .green { color:#49a100;}
 .bg-white{background:#fff;}
+.theme-color{color: #35bab0;}
 
 /*自定义类*/
 .w{margin: 0 auto;}
@@ -141,7 +142,16 @@ ins { text-decoration: none; }
 }
 
 
-/* 页面中的Button样式 */
-.add-button{
- 
-}
+/*Button */
+.icon_add{font-weight: 900;}
+
+/* table */
+.ant-table-bordered .ant-table-thead > tr > th, .ant-table-bordered .ant-table-tbody > tr > td{text-align:center}
+.ant-table-bordered .ant-table-thead > tr > th{font-size: 14px;color: #666;background: #f4f4f4;}
+.ant-table-tbody .table_white{background: white;}/*设置隔行变色*/
+.ant-table-tbody .table_gray{background: #f4f4f4}
+.ant-table.ant-table-bordered .ant-table-footer{background: #fff;padding:30px;}
+
+
+.pagination{border-top:1px solid #F4F4F4;padding-top: 20px;}
+.ant-form-item .ant-form-item-label label{color: #666; }

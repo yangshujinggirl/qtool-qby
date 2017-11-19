@@ -10,19 +10,30 @@ class Paginations extends React.Component {
         this.props.pageChange(page,pageSize)
     }
     render() {
-        const pages=localStorage.getItem('pagesize')
-        console.log(pages)
         return (
-            <Pagination showSizeChanger onShowSizeChange={this.onShowSizeChange}  onChange={this.onChange} total={this.props.total} pageSize={pages?Number(pages):10}/>
+            <Pagination showSizeChanger onShowSizeChange={this.onShowSizeChange}  onChange={this.onChange} total={this.props.total} className='tc pagination'/>
         );
     }
 }
 
 
 class EditableTable extends React.Component {
+    rowClassName=(record, index)=>{
+        if (index % 2) {
+          return 'table_gray'
+        }else{
+          return 'table_white'
+        }
+      }
     render() {
         return (
-            <Table bordered dataSource={this.props.dataSource} columns={this.props.columns} footer={() => <Paginations pageChange={this.props.pageChange} pageSizeChange={this.props.pageSizeChange} total={this.props.total}/>} pagination={false}/>
+            <Table 
+                bordered 
+                dataSource={this.props.dataSource} 
+                columns={this.props.columns} 
+                footer={() =>Number(this.props.total)>Number(this.props.limit)?<Paginations pageChange={this.props.pageChange} pageSizeChange={this.props.pageSizeChange} total={this.props.total}/>:null} pagination={false}
+                rowClassName={this.rowClassName.bind(this)}
+                />
         );
     }
 }

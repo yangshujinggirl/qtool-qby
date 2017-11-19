@@ -27,10 +27,13 @@
     "@primary-color": "#35BAB0",
     "@link-color": "#1DA57A",
     "@border-radius-base": "0px",
-    "@font-size-base": "16px",
+    "@font-size-base": "12px",
     "@line-height-base": "1.2",
     "@menu-dark-submenu-bg":"#101316",
-    "@menu-dark-bg":"#1A1D26"
+    "@menu-dark-bg":"#1A1D26",
+    "@btn-height-lg":"35px",
+    "@btn-font-weight":"200",
+    "@input-height-lg":"35px"
   }
 
 

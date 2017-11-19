@@ -43,7 +43,7 @@ class AccountIndexTable extends React.Component {
         const urUserId=String(record.urUserId)
         const paneitem={title:'修改账号',key:'601000edit'+urUserId,data:{urUserId:urUserId},componkey:'601000edit'}
         this.props.dispatch({
-          	type:'tab/addNewTab',
+          	type:'tab/firstAddTab',
           	payload:paneitem
         })
 	}
@@ -51,19 +51,23 @@ class AccountIndexTable extends React.Component {
 	pageChange=(page,pageSize)=>{
 		console.log(page)
 		console.log(pageSize)
+		this.initAccountList(pageSize,Number(page-1))
 	}
-	//pagesize辩护
+	//pagesize变化
 	pageSizeChange=(current,size)=>{
 		console.log(current)
 		console.log(size)
-		localStorage.setItem('pagesize',size)
-		console.log(localStorage)
-		this.props.dispatch({
-            type:'account/fetch',
-            payload:{code:'qerp.web.ur.user.query',values:{limit:size,currentPage:Number(current)-1}}
-		})
+		this.initAccountList(size,Number(current-1))
 	}
 
+	//账号列表数据
+	initAccountList=(limit,currentPage)=>{
+        this.props.dispatch({
+            type:'account/fetch',
+            payload:{code:'qerp.web.ur.user.query',values:{limit:limit,currentPage:currentPage}}
+		})
+		this.props.dispatch({ type: 'tab/loding', payload:true}) 
+	}
     render() {
         return (
 			<EditableTable 
@@ -72,22 +76,19 @@ class AccountIndexTable extends React.Component {
 				pageChange={this.pageChange.bind(this)}
 				pageSizeChange={this.pageSizeChange.bind(this)}
 				total={this.props.total}
+				limit={this.props.limit}
 				/>
         );
-    }
-    componentDidMount(){
-		const pages=localStorage.getItem('pagesize')
-        this.props.dispatch({
-            type:'account/fetch',
-            payload:{code:'qerp.web.ur.user.query',values:{limit:pages?pages:'10',currentPage:0}}
-		})
-		this.props.dispatch({ type: 'tab/loding', payload:true}) 
-    }
+	}
+	componentDidMount(){
+		this.initAccountList(this.props.limit,this.props.currentPage)
+	}
+    
 }
 
 function mapStateToProps(state) {
 	console.log(state)
-    const {accountInfo,total} = state.account;
+    const {accountInfo,total,limit,currentPage} = state.account;
     return {accountInfo,total};
 }
 

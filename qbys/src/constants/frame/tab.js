@@ -12,7 +12,7 @@ class Tab extends React.Component {
   	onChange = (activeKey) => {
     	let activeKeys={key:activeKey}
     	this.props.dispatch({
-        	type:'tab/addNewTab',
+        	type:'tab/firstAddTab',
         	payload:activeKeys
       	});
   	}
@@ -21,10 +21,10 @@ class Tab extends React.Component {
 		if(pane.length<=1){
 			return
 		}
-      	this.props.dispatch({
-            type:'tab/delectArr',
+		this.props.dispatch({
+            type:'tab/initDeletestate',
             payload:targetKey
-      	});
+		  });
   	}
   	render() {
     	return (
@@ -37,12 +37,12 @@ class Tab extends React.Component {
 				className='h10'
         	>
 				{
-				this.props.pane.map(
-					pane => 
-					<TabPane tab={pane.title} key={pane.key} className='h10'>
-						<Content data={pane.data} componkey={pane.componkey}/>
-					</TabPane>
-				)
+					this.props.pane.map(
+						pane => 
+						<TabPane tab={pane.title} key={pane.key} className='h10'>
+							<Content data={pane.data} componkey={pane.componkey} ref='content'/>
+						</TabPane>
+					)
 				}
         </Tabs>
     );

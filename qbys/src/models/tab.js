@@ -35,11 +35,27 @@ export default {
         },
         //新增tab
         addNewTab(state,{ payload:paneitem}){
+            //判断当前key是否是二级，还要知道他的父亲的key
+            // 规则：判断key中字符串中是否有‘edit’,如果存在则是二级，如果不存在则是一级，当时二级的时候父亲是edit前面的字符串
+            // key的命名规则：一级key+edit+id
             var pane = eval(sessionStorage.getItem("pane"));
             var activeKey = sessionStorage.getItem('activeKey');
             const result=isInArray(pane,paneitem.key);
             if(!result){
-                pane.push(paneitem)
+                const itemkey=paneitem.key.search('edit')
+                if(itemkey!=-1){
+                    const parentkey=paneitem.key.substring(0,itemkey)
+                    console.log(parentkey)
+                    var index
+                    for(var i=0;i<pane.length;i++){
+                        if(pane[i].key==parentkey){
+                            index=i
+                        }
+                     }
+                     pane.splice(index+1,0,paneitem)
+                }else{
+                    pane.push(paneitem)
+                }
             }
             activeKey=paneitem.key
             sessionStorage.setItem("pane", JSON.stringify(pane));
@@ -64,10 +80,6 @@ export default {
             sessionStorage.setItem("openkeys", JSON.stringify(openkeys));
             return {...state,openkeys}
         }
-
-
-
-
     },
     effects: {
         *fetch({ payload: {code,values} }, { call, put }) {
@@ -98,6 +110,47 @@ export default {
                 yield put({type: 'loding',payload:false});
             } 
         },
+        //删除前初始化state
+        *initDeletestate({ payload: targetKey }, { call, put }) {
+            var pane = eval(sessionStorage.getItem("pane"));
+            const paneitem=pane.find((pane)=>{
+                return pane.key==targetKey
+            })
+            console.log(paneitem)
+            if(paneitem.componkey=='601000edit'){
+                yield put({type: 'account/initState',payload:{}});
+            }
+
+            yield put({type: 'delectArr',payload:targetKey});
+        },
+
+        //新增前的处理事项
+        *firstAddTab({ payload: paneitem }, { call, put }) {
+            const pane = eval(sessionStorage.getItem("pane"));
+            const result=isInArray(pane,paneitem.key);
+            if(!result){
+                const itemkey=paneitem.key.search('edit')
+                if(itemkey!=-1){
+                    const arr1=pane.filter((pane)=>{
+                        return pane.key.substring(0,10)==paneitem.key.substring(0,10)
+                    })
+                   
+                    if(arr1.length>0){
+                        for(var i=0;i<arr1.length;i++){
+                            yield put({type: 'initDeletestate',payload:arr1[i].key});
+                        }
+                    }
+                    yield put({type: 'addNewTab',payload:paneitem});
+    
+                }else{
+                    yield put({type: 'addNewTab',payload:paneitem});
+                }
+
+            }else{
+                yield put({type: 'addNewTab',payload:paneitem});
+            }
+        }
+
     },
     subscriptions: {
   	    setup({ dispatch, history }) {
