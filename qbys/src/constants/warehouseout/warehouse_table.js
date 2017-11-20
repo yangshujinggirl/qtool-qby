@@ -7,35 +7,35 @@ class WarehouseIndexTable extends React.Component {
 	constructor(props) {
 		super(props);
 		this.columns = [{
-		    title: '账号名称',
-		    dataIndex: 'username'
-		}, {
-			title: '姓名',
-			dataIndex: 'name'
-		}, {
-			title: '职位',
-			dataIndex: 'job'
-		},{
-			title: '手机',
-			dataIndex: 'mobile'
-		},{
-			title: '邮箱',
-			dataIndex: 'email'
-		},{
-			title: '状态',
-			dataIndex: 'statusStr'
-		},{
-			title: '更新时间',
-			dataIndex: 'updateTime'
-		},{
-		    title: '操作',
-		    dataIndex: 'operation',
+		    title: '配货单号',
+		    dataIndex: 'orderNo',
 		    render: (text, record) => {
 		    	return (
-					<TableLink text='修改' hindClick={this.editInfo.bind(this,record)}/>
+					<TableLink text={text} hindClick={this.editInfo.bind(this,record)}/>
 				);
 			}
-		}];        
+		    },{
+            title: '门店/供应商名称',
+            dataIndex: 'name'
+          }, {
+            title: '订单状态',
+            dataIndex: 'statusStr'
+          },{
+            title: '打印状态',
+            dataIndex: 'print'
+          },{
+            title: '订单类型',
+            dataIndex: 'typeStr'
+          },{
+            title: '订单时间',
+            dataIndex: 'createTime'
+          }, {
+            title: '订单行数',
+            dataIndex: 'skuSum'
+          },{
+            title: '商品总数',
+            dataIndex: 'qtySum'
+          }];        
 	}
 
 	//修改用户信息

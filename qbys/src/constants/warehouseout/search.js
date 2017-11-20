@@ -7,22 +7,58 @@ const Option = Select.Option
 const RangePicker = DatePicker.RangePicker;
 class AdvancedSearchForm extends React.Component {
   state = {
-    expand: false,
+    createTimeST: null,
+    createTimeET:null
   };
 
   handleSearch = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
         console.log('Received values of form: ', values);
-        this.props.dispatch({
-            type:'warehouse/fetch',
-            payload:{code:'qerp.web.ws.order.query',values:{limit:limit,currentPage:currentPage}}
-		})
-
-
-
+        this.initWarehouseList(values,this.props.limit,this.props.currentPage)
+        this.synchronousState(values)
     });
   }
+
+
+  //搜搜请求数据
+  initWarehouseList=(values,limit,currentPage)=>{
+    values.createTimeST=this.state.createTimeST 
+    values.createTimeET=this.state.createTimeET 
+    values.limit=limit
+    values.currentPage=currentPage
+    console.log(values)
+    this.props.dispatch({
+        type:'warehouse/fetch',
+        payload:{code:'qerp.web.ws.order.query',values:values}
+    })
+    this.props.dispatch({ type: 'tab/loding', payload:true}) 
+}
+
+
+//同步data
+synchronousState=(values)=>{
+    values.createTimeST=this.state.createTimeST 
+    values.createTimeET=this.state.createTimeET 
+    this.props.dispatch({
+        type:'warehouse/synchronous',
+        payload:values
+    })
+}
+
+
+
+
+hinddataChange=(dates, dateStrings)=>{
+    this.setState({
+        createTimeST:dateStrings[0],
+        createTimeET:dateStrings[1]
+    })
+  }
+
+
+
+
 
 
   render() {
@@ -39,7 +75,7 @@ class AdvancedSearchForm extends React.Component {
         <Col span={8}  style={{ display: 'block'}}>
           <FormItem {...formItemLayout} label='门店名称'>
             {getFieldDecorator('name')(
-              <Input placeholder="请输入" size="large"/>
+              <Input placeholder="请输入"/>
             )}
           </FormItem>
         </Col>
@@ -111,6 +147,7 @@ class AdvancedSearchForm extends React.Component {
               showTime
               format="YYYY-MM-DD HH:mm:ss"
               style={{'width':'100%'}}
+              onChange={this.hinddataChange.bind(this)}
             />
             )}
           </FormItem>
@@ -125,6 +162,12 @@ class AdvancedSearchForm extends React.Component {
     );
   }
 }
+function mapStateToProps(state) {
+	console.log(state)
+    const {limit,currentPage} = state.warehouse;
+    return {limit,currentPage};
+}
+
 
 const WrappedAdvancedSearchForm = Form.create()(AdvancedSearchForm);
-export default connect()(WrappedAdvancedSearchForm);
+export default connect(mapStateToProps)(WrappedAdvancedSearchForm);
