@@ -20,7 +20,6 @@ export default {
             var pane = eval(sessionStorage.getItem("pane"));
             var activeKey = sessionStorage.getItem('activeKey');
             var openkeys = eval(sessionStorage.getItem("openkeys"));
-            console.log(openkeys)
             if(pane==null & activeKey==null & openkeys==null){
                 //第一次进入页面
                 pane=[]
@@ -34,30 +33,11 @@ export default {
             return {...state,pane,activeKey,openkeys}
         },
         //新增tab
-        addNewTab(state,{ payload:paneitem}){
-            //判断当前key是否是二级，还要知道他的父亲的key
-            // 规则：判断key中字符串中是否有‘edit’,如果存在则是二级，如果不存在则是一级，当时二级的时候父亲是edit前面的字符串
-            // key的命名规则：一级key+edit+id
+        addNewTab(state,{ payload:{arr,NewactiveKey}}){
             var pane = eval(sessionStorage.getItem("pane"));
             var activeKey = sessionStorage.getItem('activeKey');
-            const result=isInArray(pane,paneitem.key);
-            if(!result){
-                const itemkey=paneitem.key.search('edit')
-                if(itemkey!=-1){
-                    const parentkey=paneitem.key.substring(0,itemkey)
-                    console.log(parentkey)
-                    var index
-                    for(var i=0;i<pane.length;i++){
-                        if(pane[i].key==parentkey){
-                            index=i
-                        }
-                     }
-                     pane.splice(index+1,0,paneitem)
-                }else{
-                    pane.push(paneitem)
-                }
-            }
-            activeKey=paneitem.key
+            pane=arr
+            activeKey=NewactiveKey
             sessionStorage.setItem("pane", JSON.stringify(pane));
             sessionStorage.setItem("activeKey", activeKey);
             return {...state,pane,activeKey}
@@ -79,7 +59,16 @@ export default {
         openkeys(state,{ payload:openkeys}){
             sessionStorage.setItem("openkeys", JSON.stringify(openkeys));
             return {...state,openkeys}
+        },
+        tabover(state,{ payload:paneitem}){
+            var pane = eval(sessionStorage.getItem("pane"));
+            var activeKey = sessionStorage.getItem('activeKey');
+            activeKey=paneitem.key
+            sessionStorage.setItem("pane", JSON.stringify(pane));
+            sessionStorage.setItem("activeKey", activeKey);
+            return {...state,pane,activeKey}
         }
+
     },
     effects: {
         *fetch({ payload: {code,values} }, { call, put }) {
@@ -116,38 +105,45 @@ export default {
             const paneitem=pane.find((pane)=>{
                 return pane.key==targetKey
             })
-            console.log(paneitem)
             if(paneitem.componkey=='601000edit'){
                 yield put({type: 'account/initState',payload:{}});
             }
-
             yield put({type: 'delectArr',payload:targetKey});
         },
 
         //新增前的处理事项
         *firstAddTab({ payload: paneitem }, { call, put }) {
             const pane = eval(sessionStorage.getItem("pane"));
+            const activeKey = sessionStorage.getItem('activeKey');
             const result=isInArray(pane,paneitem.key);
             if(!result){
                 const itemkey=paneitem.key.search('edit')
                 if(itemkey!=-1){
-                    const arr1=pane.filter((pane)=>{
-                        return pane.key.substring(0,10)==paneitem.key.substring(0,10)
+                    //二级
+                    const arr=pane.filter((pane)=>{
+                        return pane.key.substring(0,10)!=paneitem.key.substring(0,10)
                     })
-                   
-                    if(arr1.length>0){
-                        for(var i=0;i<arr1.length;i++){
-                            yield put({type: 'initDeletestate',payload:arr1[i].key});
+                    const parentkey=paneitem.key.substring(0,itemkey)
+                    var index
+                    for(var i=0;i<arr.length;i++){
+                        if(arr[i].key==parentkey){
+                            index=i
                         }
                     }
-                    yield put({type: 'addNewTab',payload:paneitem});
+                    arr.splice(index+1,0,paneitem)
+                    const NewactiveKey=paneitem.key
+                    yield put({type: 'addNewTab',payload:{arr,NewactiveKey}});
     
                 }else{
-                    yield put({type: 'addNewTab',payload:paneitem});
+                    //不是二级
+                    pane.push(paneitem)
+                    const arr=pane
+                    const NewactiveKey=paneitem.key
+                    yield put({type: 'addNewTab',payload:{arr,NewactiveKey}});
                 }
-
             }else{
-                yield put({type: 'addNewTab',payload:paneitem});
+                //已经存在直接切回去
+                yield put({type: 'tabover',payload:paneitem});
             }
         }
 
