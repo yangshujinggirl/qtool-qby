@@ -14,7 +14,7 @@ class Siders extends React.Component {
 		const paneitem={title:item.item.props.children.props.children,key:String(item.key),data:null,componkey:String(item.key)};
 		//将paneitem传进去 执行 添加新标签方法
         this.props.dispatch({
-            type:'tab/addNewTab',
+            type:'tab/firstAddTab',
             payload:paneitem
           })
 	}
