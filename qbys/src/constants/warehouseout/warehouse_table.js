@@ -55,8 +55,8 @@ initWarehouseList=(values,limit,currentPage)=>{
 
 	//修改用户信息
     editInfo = (record) => {
-        const urUserId=String(record.urUserId)
-        const paneitem={title:'修改账号',key:'601000edit'+urUserId,data:{urUserId:urUserId},componkey:'601000edit'}
+        const wsOrderId=String(record.wsOrderId)
+        const paneitem={title:'出库详情',key:'502000edit'+wsOrderId+'info',data:{wsOrderId:wsOrderId},componkey:'502000info'}
         this.props.dispatch({
           	type:'tab/firstAddTab',
           	payload:paneitem
