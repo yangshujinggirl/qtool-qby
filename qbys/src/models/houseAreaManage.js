@@ -3,7 +3,13 @@ export default {
   namespace: 'houseAreaManage',
   state: {
 	  values:{  
-	  },
+		},
+		wsArea:{
+			code:"",
+			name:"",
+			status:null,
+			wsAreaId:null
+		},
 	  limit:10,
 	  currentPage:0,
       total:0,
@@ -16,6 +22,9 @@ export default {
 		houseAreaList(state, { payload:{houseAreaList,total}}) {
 			return {...state,houseAreaList,total}
 		},
+		refreshwsArea(state, { payload:wsArea}){
+			return {...state,wsArea}
+		}
   },
   effects: {
     *fetch({ payload: {code,values} }, { call, put ,select}) {
@@ -30,10 +39,14 @@ export default {
 			for(var i=0;i<houseAreaList.length;i++){
 				houseAreaList[i].key=houseAreaList[i].wsAreaId;
 			}
-            yield put({type: 'houseAreaList',payload:{houseAreaList,total,limit,currentPage}});
+          yield put({type: 'houseAreaList',payload:{houseAreaList,total,limit,currentPage}});
       		yield put({type: 'tab/loding',payload:false});	
           } 
-      	}, 
+				}, 
+				
+				*getInfo({payload: values }, { call, put}){
+				  	yield put({type: 'refreshwsArea',payload:values});
+				}
   	},
   	subscriptions: {},
 };

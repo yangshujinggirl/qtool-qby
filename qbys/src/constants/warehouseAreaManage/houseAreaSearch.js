@@ -37,42 +37,36 @@ class HouseAreaSearchForm extends React.Component {
 
   render() {
     const formItemLayout = {
-        labelCol: { span: 6 },
-        wrapperCol: { span: 18 },
+        // labelCol: { span: 6 },
+        // wrapperCol: { span: 18 },
       };
       const { getFieldDecorator } = this.props.form;
     return (
-      <Form onSubmit={this.handleSearch}>
-        <Row gutter={40} style={{position:'relative'}}>
-            <Col span={22}>
+      <Form onSubmit={this.handleSearch} style={{'position':'relative'}}>
+        <Row gutter={40} style={{marginRight:'-30px',marginLeft:'-30px',borderBottom:'1px solid #d9d9d9',position:'static'}}>
+            <Col span={24} style={{paddingRight:'60px',paddingLeft:'30px'}}>
                 <Row>
-                <Col span={8}  style={{ display: 'block'}}>
-                <FormItem {...formItemLayout} label='库区名称'>
-                    {getFieldDecorator('keywords')(
-                    <Input placeholder="请输入库区名称"/>
-                    )}
-                </FormItem>
-                </Col>
-                <Col span={8}  style={{ display: 'block'}}>
-                <FormItem {...formItemLayout} label='库区状态'>
-                    {getFieldDecorator('status')(
-                    <Select allowClear={true} placeholder="请选择库区状态">
-                        <Option value="1">启用</Option>
-                        <Option value="0">禁用</Option>
-                    </Select>
-                    )}
-                </FormItem>
-                </Col>
-                </Row>
-            </Col>
-            <Col span={2} style={{'position':'absolute','right':'0','bottom':'20px'}}>
-                <Row type="flex" justify="space-between" align="bottom">
-                    <Col span={8}>
-                            <Button type="primary" htmlType="submit">搜索</Button>
-                    </Col>   
+                <div className='serach_form'>
+                    <FormItem {...formItemLayout} label='库区名称'>
+                        {getFieldDecorator('keywords')(
+                        <Input placeholder="请输入库区名称"/>
+                        )}
+                    </FormItem>
+                    <FormItem {...formItemLayout} label='库区状态'>
+                        {getFieldDecorator('status')(
+                        <Select allowClear={true} placeholder="请选择库区状态">
+                            <Option value="1">启用</Option>
+                            <Option value="0">禁用</Option>
+                        </Select>
+                        )}
+                    </FormItem>
+                    </div>
                 </Row>
             </Col>
         </Row>
+        <div style={{'position':'absolute','right':'0','bottom':'20px'}}>
+            <Button type="primary" htmlType="submit">搜索</Button>
+        </div>
       </Form>
     );
   }

@@ -29,17 +29,9 @@ class HouseAreaTable extends React.Component {
     //点击表格上的修改按钮操作
     editInfo = (record) =>{
         console.log('修改用户信息',record);
+        this.props.openModal(record);
     }
 
-	//修改用户信息
-    // editInfo = (record) => {
-    //     const urUserId=String(record.urUserId)
-    //     const paneitem={title:'修改账号',key:'601000edit'+urUserId,data:{urUserId:urUserId},componkey:'601000edit'}
-    //     this.props.dispatch({
-    //       	type:'tab/firstAddTab',
-    //       	payload:paneitem
-    //     })
-	// }
 	//分页方法
 	pageChange=(page,pageSize)=>{
         this.initWarehouseList(this.props.values,pageSize,Number(page-1))
@@ -85,13 +77,12 @@ class HouseAreaTable extends React.Component {
 	}
 	componentDidMount(){
         //执行初始化数据方法获取list
-		this.initHouseAreaList(this.props.values,this.props.limit,this.props.currentPage)
+		this.initHouseAreaList(this.props.values,this.props.limit,this.props.currentPage);
 	}
     
 }
 
 function mapStateToProps(state) {
-	console.log(state.houseAreaManage);
     const {houseAreaList,total,limit,currentPage,values} = state.houseAreaManage;
     return {houseAreaList,total,limit,currentPage,values};
 }
