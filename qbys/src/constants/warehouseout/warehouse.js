@@ -22,6 +22,7 @@ class WarehouseIndex extends React.Component{
 						type="primary" 
 						onClick={this.addNewAccount.bind(this)}
 						size='large'
+						className='mt30'
 					>
 						打印配货单
 					</Button>
