@@ -4,7 +4,7 @@ import { connect } from 'dva';
 const Option = Select.Option
 const RangePicker = DatePicker.RangePicker;
 
-class AccountSearchForm extends React.Component {
+class HousePositionSearchForm extends React.Component {
   state = {};
 
   //点击搜索按钮获取搜索表单数据
@@ -21,8 +21,8 @@ class AccountSearchForm extends React.Component {
         values.limit=limit;
         values.currentPage=currentPage;
         this.props.dispatch({
-            type:'account/fetch',
-            payload:{code:'qerp.web.ur.user.query',values:values}
+            type:'houseAreaManage/fetch',
+            payload:{code:'qerp.web.ws.area.query',values:values}
         });
         this.props.dispatch({ type: 'tab/loding', payload:true});
     }  
@@ -30,7 +30,7 @@ class AccountSearchForm extends React.Component {
     //同步data
     syncState=(values)=>{
         this.props.dispatch({
-            type:'account/synchronous',
+            type:'houseAreaManage/synchronous',
             payload:values
         });
     }
@@ -43,16 +43,16 @@ class AccountSearchForm extends React.Component {
             <Col span={24} style={{paddingRight:'60px',paddingLeft:'30px'}}>
                 <Row>
                 <div className='serach_form'>
-                    <FormItem label='姓名'>
-                        {getFieldDecorator('name')(
+                    <FormItem label='库区名称'>
+                        {getFieldDecorator('keywords')(
                         <Input placeholder="请输入库区名称"/>
                         )}
                     </FormItem>
-                    <FormItem label='所属身份'>
+                    <FormItem label='库区状态'>
                         {getFieldDecorator('status')(
-                        <Select allowClear={true} placeholder="请选择">
-                            <Option value="1">总部</Option>
-                            <Option value="0">吴江仓库</Option>
+                        <Select allowClear={true} placeholder="请选择库区状态">
+                            <Option value="1">启用</Option>
+                            <Option value="0">禁用</Option>
                         </Select>
                         )}
                     </FormItem>
@@ -66,12 +66,15 @@ class AccountSearchForm extends React.Component {
       </Form>
     );
   }
+  componentDidMount(){
+     
+  }
 }
 function mapStateToProps(state) {
-    const {limit,currentPage} = state.account;
+    const {limit,currentPage} = state.houseAreaManage;
     return {limit,currentPage};
 }
 
 
-const AccountSearch = Form.create()(AccountSearchForm);
-export default connect(mapStateToProps)(AccountSearch);
+const HousePositionSearch = Form.create()(HousePositionSearchForm);
+export default connect(mapStateToProps)(HousePositionSearch);
