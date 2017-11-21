@@ -11,7 +11,7 @@ import Sporder from '../sporder/sporder';
 import PutInManageComponent from '../putInStorageManage/putInManageComponent';
 import GetIntoStorageComponent from '../getIntoStorage/getIntoStorageIndex';
 import WarehouseIndex from '../warehouseout/warehouse';
-//库区管理
+import WarehouseInfo from '../warehouseout/warehouse_info';
 import HouseAreaIndex from '../warehouseAreaManage/houseAreaIndex';
 
 class Content extends React.Component {
@@ -29,8 +29,9 @@ class Content extends React.Component {
                         case "601000": return <AccountIndex data={this.props.data}/>;
                         case "601000edit": return <AddNewAccount data={this.props.data}/>;
                         case "501000": return <PutInManageComponent data={this.props.data}/>;
-                        case "501000info": return  <GetIntoStorageComponent data={this.props.data}/>;
-                        case "502000": return  <WarehouseIndex data={this.props.data}/>;
+                        case "501000info": return  <GetIntoStorageComponent data={this.props.data}/>
+                        case "502000": return  <WarehouseIndex data={this.props.data}/>
+                        case "502000info": return  <WarehouseInfo data={this.props.data}/>
                         case "508000":return <HouseAreaIndex data={this.props.data}/>;
                         default:      return "我是404";
                         }
