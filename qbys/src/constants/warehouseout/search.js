@@ -74,13 +74,13 @@ hinddataChange=(dates, dateStrings)=>{
         <Row gutter={40} style={{position:'relative'}}>
             <Col span={22}>
                 <Row>
-                <Col span={8}  style={{ display: 'block'}}>
-          <FormItem {...formItemLayout} label='门店名称'>
-            {getFieldDecorator('name')(
-              <Input placeholder="请输入"/>
-            )}
-          </FormItem>
-        </Col>
+                    <Col span={8}  style={{ display: 'block'}}>
+                        <FormItem {...formItemLayout} label='门店名称'>
+                            {getFieldDecorator('name')(
+                            <Input placeholder="请输入"/>
+                            )}
+                        </FormItem>
+                    </Col>
         <Col span={8}  style={{ display: 'block'}}>
           <FormItem {...formItemLayout} label='收货人电话'>
             {getFieldDecorator('recTelephone')(
@@ -145,7 +145,7 @@ hinddataChange=(dates, dateStrings)=>{
 
 
 
-        <Col span={8}  style={{ display: 'block'}}>
+        <Col span={12}  style={{ display: 'block'}}>
           <FormItem {...formItemLayout} label='合单时间'>
             {getFieldDecorator('time')(
               <RangePicker
@@ -164,7 +164,7 @@ hinddataChange=(dates, dateStrings)=>{
 
 
 
-            <Col span={2} style={{'position':'absolute','right':'0','bottom':'20px'}}>
+            <Col span={2} style={{'position':'absolute','right':'0','bottom':'20px',paddingLeft:'0'}}>
                 <Row type="flex" justify="space-between" align="bottom">
                     <Col span={8}>
                         
