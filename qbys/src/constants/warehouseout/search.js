@@ -71,7 +71,7 @@ hinddataChange=(dates, dateStrings)=>{
       <Form
         onSubmit={this.handleSearch}
       >
-        <Row gutter={40}>
+        <Row gutter={40} style={{position:'relative'}}>
             <Col span={22}>
                 <Row>
                 <Col span={8}  style={{ display: 'block'}}>
@@ -164,7 +164,7 @@ hinddataChange=(dates, dateStrings)=>{
 
 
 
-            <Col span={2}>
+            <Col span={2} style={{'position':'absolute','right':'0','bottom':'20px'}}>
                 <Row type="flex" justify="space-between" align="bottom">
                     <Col span={8}>
                         
