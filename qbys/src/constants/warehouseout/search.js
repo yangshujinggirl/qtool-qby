@@ -74,8 +74,8 @@ hinddataChange=(dates, dateStrings)=>{
 
 
 
-        <Row gutter={40} style={{position:'relative'}}>
-            <Col span={22}>
+        <Row gutter={40} style={{position:'relative',marginRight:'-30px',marginLeft:'-30px',borderBottom:'1px solid #d9d9d9'}}>
+            <Col span={22} style={{paddingRight:'30px',paddingLeft:'30px'}}>
                 <Row>
                     <div className='serach_form'>
                         <FormItem {...formItemLayout} label='门店名称'>
