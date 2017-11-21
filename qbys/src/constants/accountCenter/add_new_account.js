@@ -72,7 +72,7 @@ class AddNewAccountForm extends React.Component{
 				if(json.code=='0'){
 					if(json.password){
 						//显示新创建的用户信息
-						this.showNewUserInfoModal();
+						this.showNewUserInfoModal('账户创建成功',json);
 					}else{
 						message.success('信息修改成功');
 						this.deleteTab();
@@ -91,10 +91,10 @@ class AddNewAccountForm extends React.Component{
 	}
 
 	//保存成功后显示账号的用户名密码信息
-	showNewUserInfoModal = ()=> {
+	showNewUserInfoModal = (title,userInfo)=> {
 		const self = this;
 		Modal.success({
-		  title: '账户创建成功',
+		  title: title,
 		  content: (
 			  <div>
 				<p>姓名：{userInfo.name}</p>
@@ -107,6 +107,22 @@ class AddNewAccountForm extends React.Component{
 			self.deleteTab();
 			self.refreshAccountList();
 		  }
+		});
+	}
+
+	//重置密码
+	resetPassword = () =>{
+		let urUserId;
+		if(this.props.data){
+			urUserId=this.props.data.urUserId
+		}
+		var value={'urUserId':urUserId};
+		const result=GetServerData('qerp.web.ur.user.resetpwd',value);
+		result.then((res) => {
+			  return res;
+		}).then((json) => {
+			//显示修改
+			this.showNewUserInfoModal('信息修改成功',json);
 		});
 	}
 
@@ -197,7 +213,8 @@ class AddNewAccountForm extends React.Component{
 					<UserTags/>
             	</FormItem>
             	<FormItem wrapperCol={{ offset: 4}} style = {{marginBottom:0}}>
-              		<Button style = {{marginRight:'30px'}} onClick={this.hindCancel.bind(this)}>取消</Button>
+              		<Button className='mr30' onClick={this.hindCancel.bind(this)}>取消</Button>
+					<Button className={this.props.data?'mr30':'hide'} onClick={this.resetPassword.bind(this)}>重置密码</Button>
               		<Button htmlType="submit" type="primary">保存</Button>
             	</FormItem>
           	</Form>
