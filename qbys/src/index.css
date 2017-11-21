@@ -161,3 +161,4 @@ ins { text-decoration: none; }
 .ant-form-item .ant-form-item-control-wrapper{display: inline-block;}
 .serach_form .ant-form-item{margin-right: 20px;}
 .serach_form{display: flex;flex-wrap: wrap;}
+.ant-form-item-label{width: 100px;}

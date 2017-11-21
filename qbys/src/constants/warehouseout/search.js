@@ -70,12 +70,10 @@ hinddataChange=(dates, dateStrings)=>{
     return (
       <Form
         onSubmit={this.handleSearch}
+        style={{'position':'relative'}}
       >
-
-
-
-        <Row gutter={40} style={{position:'relative',marginRight:'-30px',marginLeft:'-30px',borderBottom:'1px solid #d9d9d9'}}>
-            <Col span={22} style={{paddingRight:'30px',paddingLeft:'30px'}}>
+        <Row gutter={40} style={{marginRight:'-30px',marginLeft:'-30px',borderBottom:'1px solid #d9d9d9',position:'static'}}>
+            <Col span={23} style={{paddingRight:'30px',paddingLeft:'30px'}}>
                 <Row>
                     <div className='serach_form'>
                         <FormItem {...formItemLayout} label='门店名称'>
@@ -142,14 +140,8 @@ hinddataChange=(dates, dateStrings)=>{
                     </div>
                 </Row>
             </Col>
-            <Col span={2} style={{'position':'absolute','right':'0','bottom':'20px',paddingLeft:'0'}}>
-                <Row type="flex" justify="space-between" align="bottom">
-                    <Col span={8}>
-                        
-                            <Button type="primary" htmlType="submit">搜索</Button>
-                       
-                    </Col>   
-                </Row>
+            <Col span={1} style={{'position':'absolute','right':'0px','bottom':'20px',paddingLeft:'0'}}>
+                            <Button type="primary" htmlType="submit" style={{position:'absolute',right:'0',top:'-35px'}}>搜索</Button>
             </Col>
         </Row>
       </Form>
