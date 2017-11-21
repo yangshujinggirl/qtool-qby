@@ -136,7 +136,7 @@ ins { text-decoration: none; }
 /*框架*/
 .ant-tabs:not(.ant-tabs-vertical) > .ant-tabs-content{overflow-y: auto;position: absolute;top:50px;bottom: 0;}
 
-/*antd*/
+/*model*/
 .ant-modal-header{
 	text-align: center;
 }
@@ -153,7 +153,10 @@ ins { text-decoration: none; }
 .ant-table.ant-table-bordered .ant-table-footer{background: #fff;padding:30px;}
 
 
+/* 分页 */
 .pagination{border-top:1px solid #F4F4F4;padding-top: 20px;}
+
+/* 搜速区 */
 .ant-form-item .ant-form-item-label label{color: #666; }
 .ant-form-item .ant-input{width: 200px;}
 .ant-form-item .ant-select-lg .ant-select-selection--single{width:200px;}
