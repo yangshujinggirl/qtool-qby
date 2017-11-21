@@ -5,51 +5,35 @@ const Option = Select.Option
 const RangePicker = DatePicker.RangePicker;
 
 class HouseAreaSearchForm extends React.Component {
-  state = {
+  state = {};
 
-  };
-
+  //点击搜索按钮获取搜索表单数据
   handleSearch = (e) => {
     this.props.form.validateFields((err, values) => {
-        console.log(values)
-        console.log('Received values of form: ', values);
-        this.initWarehouseList(values,this.props.limit,this.props.currentPage)
-        this.synchronousState(values)
+        this.initHouseAreaList(values,this.props.limit,this.props.currentPage);
+        this.syncState(values);
     });
   }
 
 
-  //搜搜请求数据
-  initWarehouseList=(values,limit,currentPage)=>{
-    values.createTimeST=this.state.createTimeST 
-    values.createTimeET=this.state.createTimeET 
-    values.limit=limit
-    values.currentPage=currentPage
-    console.log(values)
-    this.props.dispatch({
-        type:'warehouse/fetch',
-        payload:{code:'qerp.web.ws.order.query',values:values}
-    })
-    this.props.dispatch({ type: 'tab/loding', payload:true}) 
-}
+  //搜索请求数据
+  initHouseAreaList=(values,limit,currentPage)=>{
+        values.limit=limit;
+        values.currentPage=currentPage;
+        this.props.dispatch({
+            type:'houseAreaManage/fetch',
+            payload:{code:'qerp.web.ws.area.query',values:values}
+        });
+        this.props.dispatch({ type: 'tab/loding', payload:true});
+    }  
 
-
-//同步data
-synchronousState=(values)=>{
-    values.createTimeST=this.state.createTimeST 
-    values.createTimeET=this.state.createTimeET 
-    this.props.dispatch({
-        type:'warehouse/synchronous',
-        payload:values
-    })
-}
-
-hinddataChange=(dates, dateStrings)=>{
-    this.setState({
-        createTimeST:dateStrings[0],
-        createTimeET:dateStrings[1]
-    })
-  }
+    //同步data
+    syncState=(values)=>{
+        this.props.dispatch({
+            type:'houseAreaManage/synchronous',
+            payload:values
+        });
+    }
 
   render() {
     const formItemLayout = {
@@ -58,27 +42,23 @@ hinddataChange=(dates, dateStrings)=>{
       };
       const { getFieldDecorator } = this.props.form;
     return (
-      <Form
-        // onSubmit={this.handleSearch}
-      >
+      <Form onSubmit={this.handleSearch}>
         <Row gutter={40} style={{position:'relative'}}>
             <Col span={22}>
                 <Row>
                 <Col span={8}  style={{ display: 'block'}}>
                 <FormItem {...formItemLayout} label='库区名称'>
-                    {getFieldDecorator('name')(
-                    <Input placeholder="请输入"/>
+                    {getFieldDecorator('keywords')(
+                    <Input placeholder="请输入库区名称"/>
                     )}
                 </FormItem>
                 </Col>
                 <Col span={8}  style={{ display: 'block'}}>
                 <FormItem {...formItemLayout} label='库区状态'>
                     {getFieldDecorator('status')(
-                    <Select allowClear={true} placeholder="请选择">
-                    <Option value='10'>待分配</Option>
-                    <Option value='40'>待拣核</Option>
-                    <Option value='80'>待发货</Option>
-                    <Option value='90'>已发货</Option>
+                    <Select allowClear={true} placeholder="请选择库区状态">
+                        <Option value="1">启用</Option>
+                        <Option value="0">禁用</Option>
                     </Select>
                     )}
                 </FormItem>
@@ -101,8 +81,8 @@ hinddataChange=(dates, dateStrings)=>{
   }
 }
 function mapStateToProps(state) {
-	console.log(state)
-    return {};
+    const {limit,currentPage} = state.houseAreaManage;
+    return {limit,currentPage};
 }
 
 

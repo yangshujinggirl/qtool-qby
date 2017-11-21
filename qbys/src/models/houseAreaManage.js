@@ -10,12 +10,12 @@ export default {
       houseAreaList:[]
   },
   reducers: {
-	// synchronous(state, { payload:values}) {
-	// 	return {...state,values}
-	// },
-	houseAreaList(state, { payload:{houseAreaList,total}}) {
-		return {...state,houseAreaList,total}
-	},
+		synchronous(state, { payload:values}) {
+			return {...state,values}
+		},
+		houseAreaList(state, { payload:{houseAreaList,total}}) {
+			return {...state,houseAreaList,total}
+		},
   },
   effects: {
     *fetch({ payload: {code,values} }, { call, put ,select}) {
