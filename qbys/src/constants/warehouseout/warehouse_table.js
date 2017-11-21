@@ -38,6 +38,21 @@ class WarehouseIndexTable extends React.Component {
           }];        
 	}
 
+
+
+//列表数据请求   
+initWarehouseList=(values,limit,currentPage)=>{
+    values.limit=limit
+    values.currentPage=currentPage
+    console.log(values)
+    this.props.dispatch({
+        type:'warehouse/fetch',
+        payload:{code:'qerp.web.ws.order.query',values:values}
+    })
+    this.props.dispatch({ type: 'tab/loding', payload:true}) 
+}
+
+
 	//修改用户信息
     editInfo = (record) => {
         const urUserId=String(record.urUserId)
@@ -49,15 +64,11 @@ class WarehouseIndexTable extends React.Component {
 	}
 	//分页方法
 	pageChange=(page,pageSize)=>{
-		console.log(page)
-		console.log(pageSize)
-		this.initAccountList(pageSize,Number(page-1))
+        this.initWarehouseList(this.props.values,pageSize,Number(page-1))
 	}
 	//pagesize变化
 	pageSizeChange=(current,size)=>{
-		console.log(current)
-		console.log(size)
-		this.initAccountList(size,Number(current-1))
+        this.initWarehouseList(this.props.values,size,Number(current-1))
 	}
 
 	//账号列表数据
@@ -71,7 +82,7 @@ class WarehouseIndexTable extends React.Component {
     render() {
         return (
 			<EditableTable 
-				dataSource={this.props.accountInfo} 
+				dataSource={this.props.wsorderlist} 
 				columns={this.columns} 
 				pageChange={this.pageChange.bind(this)}
 				pageSizeChange={this.pageSizeChange.bind(this)}
@@ -88,8 +99,8 @@ class WarehouseIndexTable extends React.Component {
 
 function mapStateToProps(state) {
 	console.log(state)
-    const {accountInfo,total,limit,currentPage} = state.account;
-    return {accountInfo,total};
+    const {wsorderlist,total,limit,currentPage,values} = state.warehouse;
+    return {wsorderlist,total,limit,currentPage,values};
 }
 
 export default connect(mapStateToProps)(WarehouseIndexTable);
