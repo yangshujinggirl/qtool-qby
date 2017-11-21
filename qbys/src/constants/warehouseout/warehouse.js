@@ -23,7 +23,7 @@ class WarehouseIndex extends React.Component{
 						onClick={this.addNewAccount.bind(this)}
 						size='large'
 					>
-						<Icon type="plus" className='icon_add'/>新增账号
+						打印配货单
 					</Button>
              		<div className='mt30'><WarehouseIndexTable/></div>
         	</div>

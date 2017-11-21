@@ -7,13 +7,13 @@ const Option = Select.Option
 const RangePicker = DatePicker.RangePicker;
 class AdvancedSearchForm extends React.Component {
   state = {
-    createTimeST: null,
-    createTimeET:null
+    createTimeST: undefined,
+    createTimeET:undefined
   };
 
   handleSearch = (e) => {
-    e.preventDefault();
     this.props.form.validateFields((err, values) => {
+        console.log(values)
         console.log('Received values of form: ', values);
         this.initWarehouseList(values,this.props.limit,this.props.currentPage)
         this.synchronousState(values)
@@ -72,7 +72,9 @@ hinddataChange=(dates, dateStrings)=>{
         onSubmit={this.handleSearch}
       >
         <Row gutter={40}>
-        <Col span={8}  style={{ display: 'block'}}>
+            <Col span={22}>
+                <Row>
+                <Col span={8}  style={{ display: 'block'}}>
           <FormItem {...formItemLayout} label='门店名称'>
             {getFieldDecorator('name')(
               <Input placeholder="请输入"/>
@@ -140,6 +142,9 @@ hinddataChange=(dates, dateStrings)=>{
             )}
           </FormItem>
         </Col>
+
+
+
         <Col span={8}  style={{ display: 'block'}}>
           <FormItem {...formItemLayout} label='合单时间'>
             {getFieldDecorator('time')(
@@ -152,14 +157,36 @@ hinddataChange=(dates, dateStrings)=>{
             )}
           </FormItem>
         </Col>
+
+        
+                </Row>
+            </Col>
+
+
+
+            <Col span={2}>
+                <Row type="flex" justify="space-between" align="bottom">
+                    <Col span={8}>
+                        
+                            <Button type="primary" htmlType="submit">搜索</Button>
+                       
+                    </Col>   
+                </Row>
+            </Col>
+
+
+
+
+
+       
+        
         </Row>
-        <Row>
-          <Col span={24} style={{ textAlign: 'right' }}>
-            <Button type="primary" htmlType="submit">搜索</Button>
-          </Col>
-        </Row>
+       
       </Form>
     );
+  }
+  componentDidMount(){
+      this.handleSearch()
   }
 }
 function mapStateToProps(state) {
