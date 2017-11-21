@@ -155,3 +155,9 @@ ins { text-decoration: none; }
 
 .pagination{border-top:1px solid #F4F4F4;padding-top: 20px;}
 .ant-form-item .ant-form-item-label label{color: #666; }
+.ant-form-item .ant-input{width: 200px;}
+.ant-form-item .ant-select-lg .ant-select-selection--single{width:200px;}
+.ant-form-item .ant-calendar-picker .ant-input{width: 300px;}
+.ant-form-item .ant-form-item-control-wrapper{display: inline-block;}
+.serach_form .ant-form-item{margin-right: 20px;}
+.serach_form{display: flex;flex-wrap: wrap;}
