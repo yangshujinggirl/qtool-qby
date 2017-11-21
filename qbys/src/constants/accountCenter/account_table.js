@@ -49,14 +49,10 @@ class AccountIndexTable extends React.Component {
 	}
 	//分页方法
 	pageChange=(page,pageSize)=>{
-		console.log(page)
-		console.log(pageSize)
 		this.initAccountList(pageSize,Number(page-1))
 	}
 	//pagesize变化
 	pageSizeChange=(current,size)=>{
-		console.log(current)
-		console.log(size)
 		this.initAccountList(size,Number(current-1))
 	}
 
@@ -87,7 +83,6 @@ class AccountIndexTable extends React.Component {
 }
 
 function mapStateToProps(state) {
-	console.log(state)
     const {accountInfo,total,limit,currentPage} = state.account;
     return {accountInfo,total};
 }

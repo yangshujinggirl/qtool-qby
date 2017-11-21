@@ -6,6 +6,7 @@ import '../../style/account_center.css';
 import AccountIndexTable from '../accountCenter/account_table';
 
 class AccountIndex extends React.Component{
+	//点击添加按钮添加新用户信息
   	addNewAccount = () =>{
 		const paneitem={title:'新增账号',key:'601000edit',componkey:'601000edit',data:null}
   		this.props.dispatch({

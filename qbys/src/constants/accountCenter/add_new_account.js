@@ -8,6 +8,11 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 
 class AddNewAccountForm extends React.Component{
+
+	constructor(props) {
+		super(props);
+	}
+
 	//修改数据初始化页面
   	initDateEdit = (value) =>{
   		this.props.dispatch({type:'account/infofetch',payload:value})
@@ -20,10 +25,17 @@ class AddNewAccountForm extends React.Component{
 		if(pane.length<=1){
 			return
 		}
-		this.props.dispatch({
-            type:'tab/initDeletestate',
-            payload:'601000edit'+this.props.data.urUserId
-		  });
+		if(this.props.data){
+			this.props.dispatch({
+				type:'tab/initDeletestate',
+				payload:'601000edit'+this.props.data.urUserId
+			  });
+		}else{
+			this.props.dispatch({
+				type:'tab/initDeletestate',
+				payload:'601000edit'
+			  });
+		}
 	}
 
 	//刷新账号列表
@@ -48,31 +60,70 @@ class AddNewAccountForm extends React.Component{
 		e.preventDefault();
 		this.props.form.validateFields((err, values) => {
 		  if (!err) {
-			  console.log(values)
-			  values.urRoleIds=this.props.urUser.urRoleIds
-				if(this.props.data){
-					values.urUserId=this.props.data.urUserId
-				}
+			values.urRoleIds=this.props.urUser.urRoleIds
+			if(this.props.data){
+				values.urUserId=this.props.data.urUserId
+			}
 			const newvalues={urUser:values}
 			const result=GetServerData('qerp.web.ur.user.save',newvalues)
 			result.then((res) => {
 				return res;
 			}).then((json) => {
 				if(json.code=='0'){
-					this.deleteTab()
-					this.refreshAccountList()
+					if(json.password){
+						//显示新创建的用户信息
+						this.showNewUserInfoModal('账户创建成功',json);
+					}else{
+						message.success('信息修改成功');
+						this.deleteTab();
+						this.refreshAccountList();
+					}
 				}
 			})
-
 		  }
 		});
-		
 	}
 
 	//取消
 	hindCancel=()=>{
 		this.deleteTab()
 		this.refreshAccountList()
+	}
+
+	//保存成功后显示账号的用户名密码信息
+	showNewUserInfoModal = (title,userInfo)=> {
+		const self = this;
+		Modal.success({
+		  title: title,
+		  content: (
+			  <div>
+				<p>姓名：{userInfo.name}</p>
+				<p>用户名：{userInfo.username}</p>
+				<p>密码：{userInfo.password}</p>
+			  </div>
+		  ),
+		  okText: '确定',
+		  onOk() {
+			self.deleteTab();
+			self.refreshAccountList();
+		  }
+		});
+	}
+
+	//重置密码
+	resetPassword = () =>{
+		let urUserId;
+		if(this.props.data){
+			urUserId=this.props.data.urUserId
+		}
+		var value={'urUserId':urUserId};
+		const result=GetServerData('qerp.web.ur.user.resetpwd',value);
+		result.then((res) => {
+			  return res;
+		}).then((json) => {
+			//显示修改
+			this.showNewUserInfoModal('信息修改成功',json);
+		});
 	}
 
   	render(){
@@ -157,14 +208,13 @@ class AddNewAccountForm extends React.Component{
 				<FormItem
               		label="权限分配"
               		labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}
+					wrapperCol={{ span: 8 }}
 					  >
-						<Row>
-							<Col span={8}><UserTags/></Col>
-						</Row>
+					<UserTags/>
             	</FormItem>
             	<FormItem wrapperCol={{ offset: 4}} style = {{marginBottom:0}}>
-              		<Button style = {{marginRight:'30px'}} onClick={this.hindCancel.bind(this)}>取消</Button>
+              		<Button className='mr30' onClick={this.hindCancel.bind(this)}>取消</Button>
+					<Button className={this.props.data?'mr30':'hide'} onClick={this.resetPassword.bind(this)}>重置密码</Button>
               		<Button htmlType="submit" type="primary">保存</Button>
             	</FormItem>
           	</Form>

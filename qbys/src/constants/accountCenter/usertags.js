@@ -18,7 +18,8 @@ class UserTags extends React.Component {
     return (
       <div>
         {this.props.totalurRoles.map(tag => (
-          <CheckableTag
+          <CheckableTag 
+            style={{border:'1px solid #d9d9d9',height:'30px',width:'80px',lineHeight:'30px',marginBottom:'10px',textAlign:'center'}}
             key={tag.urRoleId}
             checked={this.props.urUser.urRoleIds.indexOf(tag.urRoleId) > -1}
             onChange={checked => this.handleChange(tag, checked)}
@@ -36,6 +37,7 @@ class UserTags extends React.Component {
   }
 }
 function mapStateToProps(state) {
+    //获取所有的权限
     const {totalurRoles,urUser} = state.account;
     return {totalurRoles,urUser};
 }

@@ -7,18 +7,19 @@ import IconLogo from '../frame/iconlogo';
 const { Header, Content, Footer, Sider } = Layout;
 const SubMenu = Menu.SubMenu;
 class Siders extends React.Component {
-    //设置标签
+    //在点击menuItem时--->设置标签
     setTab =  (item) =>{
-		console.log(item)
-        const key =String(item.key);
-        const paneitem={title:item.item.props.children.props.children,key:String(item.key),data:null,componkey:String(item.key)}
+		const key =String(item.key);
+		//设置paneitem 
+		const paneitem={title:item.item.props.children.props.children,key:String(item.key),data:null,componkey:String(item.key)};
+		//将paneitem传进去 执行 添加新标签方法
         this.props.dispatch({
             type:'tab/firstAddTab',
             payload:paneitem
           })
 	}
+	//submenu展开/关闭时的回调
 	onOpenChange=(key)=>{
-		console.log(key)
 		this.props.dispatch({
             type:'tab/openkeys',
             payload:key
@@ -43,20 +44,23 @@ class Siders extends React.Component {
 							{
 								this.props.menus.map((item,index)=>{
 									return (
-										<SubMenu title={<div className='itembox'>
-                                    <IconLogo type={item.type}/>
-                                    <span>{item.name}</span></div>} 
-                              key={index}>
-			              	{
-			              		item.children.map((subitem,subindex)=>{
-									      return(
-    												<Menu.Item key="1" index={subindex} key={subitem.urResourceId}>
-                              <div className='itemmain'>{subitem.name}</div>
-                            </Menu.Item>
-											    )
-			              		})
-			              	}
-						        </SubMenu>
+										<SubMenu title={
+														<div className='itembox'>
+															<IconLogo type={item.type}/>
+															<span>{item.name}</span>
+														</div>
+														} 
+												 key={index}>
+											{
+												item.children.map((subitem,subindex)=>{
+													return(
+														<Menu.Item key="1" index={subindex} key={subitem.urResourceId}>
+															<div className='itemmain'>{subitem.name}</div>
+														</Menu.Item>
+													)
+												})
+											}
+										</SubMenu>
 									)
 								})	
 							}
@@ -67,7 +71,6 @@ class Siders extends React.Component {
     }
 }
 function mapStateToProps(state) {
-	console.log(state)
 	const {menus,activeKey,openkeys} = state.tab;
     return {menus,activeKey,openkeys};
 }

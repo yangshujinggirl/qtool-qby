@@ -17,13 +17,16 @@ class Frame extends React.Component {
     render() {
         return (   
     		<Layout>
+				{/* 侧边栏部分 */}
     			<Siders/>
     			<Layout className='count_r'>
+					{/*右侧头部信息部分  */}
       				<Header className='clearfix headers'>
       					<div className='users'>
                             <User/>
                         </div>
       				</Header>
+					{/* 内容区部分 */}
 			      	<Content className='contents'>
 			        		<Tab ref='tab'/>	
 			      	</Content>

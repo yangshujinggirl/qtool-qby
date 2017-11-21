@@ -46,8 +46,8 @@ export default {
         delectArr(state,{ payload:targetKey}){
             var pane = eval(sessionStorage.getItem("pane"));
             var activeKey = sessionStorage.getItem('activeKey');
-            pane = pane.filter(pane => pane.key !== targetKey)
-            activeKey=pane[pane.length-1].key
+            pane = pane.filter(pane => pane.key !== targetKey);
+            activeKey=pane[pane.length-1].key;
             sessionStorage.setItem("pane", JSON.stringify(pane));
             sessionStorage.setItem("activeKey", activeKey);
             return {...state,pane,activeKey}
@@ -93,7 +93,11 @@ export default {
                               menus[i].type = 'account'
                            }
                 }
-                const pannelfirst={title:menus[0].children[0].name,key:String(menus[0].children[0].urResourceId),data:null,componkey:String(menus[0].children[0].urResourceId)}
+                const pannelfirst = {
+                                        title:menus[0].children[0].name,
+                                        key:String(menus[0].children[0].urResourceId),
+                                        data:null,componkey:String(menus[0].children[0].urResourceId)
+                                    }
                 yield put({type: 'menulist',payload:menus});
                 yield put({type: 'refresh',payload:pannelfirst});
                 yield put({type: 'loding',payload:false});
@@ -102,6 +106,7 @@ export default {
         //删除前初始化state
         *initDeletestate({ payload: targetKey }, { call, put }) {
             var pane = eval(sessionStorage.getItem("pane"));
+            //在pane数组中筛选出这个有相同id的pane
             const paneitem=pane.find((pane)=>{
                 return pane.key==targetKey
             })

@@ -101,6 +101,7 @@ strong, b, .b { font-weight: bold; }
 .lh2 { line-height:2;}
 .lh3 { line-height:3;}
 .mt30{margin-top:30px;}
+.mr30{margin-right:30px;}
 /*颜色*/
 .f333 { color: #333; }
 .f666 { color: #666; }
@@ -123,7 +124,7 @@ strong, b, .b { font-weight: bold; }
 .fr { float: right;}
 .fl { float: left;}
 .show{ display: block;}
-.hide{ display: none;}
+.hide{ display: none!important;}
 .pointer { cursor:pointer;}
 .cursor-help { cursor:help;}
 .noborder { border:0 none;}
