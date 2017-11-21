@@ -19,7 +19,6 @@ class HouseAreaIndex extends React.Component{
 	}
 
 	editInfo = (info) =>{
-		console.log(info);
 		this.newAreaModal.changeVisible(true,info);
 	}
 	

@@ -30,7 +30,12 @@ class NewAreaModalForm extends React.Component {
             this.props.form.resetFields();
             this.props.dispatch({
                 type:'houseAreaManage/getInfo',
-                payload:{}
+                payload:{
+                    code:"",
+                    name:"",
+                    status:1,
+                    wsAreaId:null
+                }
             });
             this.setState({
                 visible:visible,
@@ -49,7 +54,6 @@ class NewAreaModalForm extends React.Component {
             if (err) {
                 return;
             }
-            console.log('Received values of form: ', values);
 			if(this.state.id){
 				values.wsAreaId=this.state.id;
             }
@@ -75,9 +79,8 @@ class NewAreaModalForm extends React.Component {
     
     //列表数据请求   
     initHouseAreaList=(values,limit,currentPage)=>{
-        values.limit=limit
-        values.currentPage=currentPage
-        console.log(values);
+        values.limit=limit;
+        values.currentPage=currentPage;
         this.props.dispatch({
             type:'houseAreaManage/fetch',
             payload:{code:'qerp.web.ws.area.query',values:values}

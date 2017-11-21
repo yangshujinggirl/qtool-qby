@@ -4,9 +4,8 @@ import {message} from 'antd';
 export default {
   	namespace: 'account',
   	state: {
+		values:{},
 		accountInfo:[],
-		limit:10,
-		currentPage:0,
 	  	urUser:{
 			username:null,
 			name:null,
@@ -17,6 +16,8 @@ export default {
 			urRoleIds:[]
 		  },
 		totalurRoles:[],
+		limit:10,
+		currentPage:0,
 		total:0
 		  
   	},
@@ -32,6 +33,9 @@ export default {
 		},
 		totalurRoles(state, { payload: totalurRoles}) {
 			return {...state,totalurRoles}
+		},
+		synchronous(state, { payload:values}) {
+			return {...state,values}
 		},
 		//选择权限标签时执行的操作
 		urRoleIdschange(state, { payload: {id,checked}}) {
@@ -55,16 +59,14 @@ export default {
 			  }
 			return {...state,urUser}
 		}
-
-
   	},
   	effects: {
   		*fetch({ payload: {code,values} }, { call, put ,select}) {
             const result=yield call(GetServerData,code,values);
             if(result.code=='0'){
 				const accountInfo = result.urUsers;
-				const limit=values.limit;
-				const currentPage=values.currentPage;
+				const limit=result.limit;
+				const currentPage=result.currentPage;
 				for(var i=0;i<accountInfo.length;i++){
 					accountInfo[i].key=accountInfo[i].urUserId;
 				}
@@ -89,17 +91,8 @@ export default {
 	 	 		 yield put({type: 'totalurRoles',payload:totalurRoles});
 			} 
 		}
-
-
-
-		
-
-
-
   	},
   	subscriptions: {
-		
 
-
-	  }
+	}
 };

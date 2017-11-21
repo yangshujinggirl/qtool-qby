@@ -7,7 +7,7 @@ export default {
 		wsArea:{
 			code:"",
 			name:"",
-			status:null,
+			status:1,
 			wsAreaId:null
 		},
 	  limit:10,
@@ -27,26 +27,24 @@ export default {
 		}
   },
   effects: {
-    *fetch({ payload: {code,values} }, { call, put ,select}) {
-		console.log(values);
-      	const result=yield call(GetServerData,code,values);
-      	if(result.code=='0'){
-			console.log(result);
-			const houseAreaList = result.wsAreas;
-			const limit=result.limit;
-			const currentPage=result.currentPage;
-			const total=result.total;
-			for(var i=0;i<houseAreaList.length;i++){
-				houseAreaList[i].key=houseAreaList[i].wsAreaId;
-			}
-          yield put({type: 'houseAreaList',payload:{houseAreaList,total,limit,currentPage}});
-      		yield put({type: 'tab/loding',payload:false});	
-          } 
-				}, 
-				
-				*getInfo({payload: values }, { call, put}){
-				  	yield put({type: 'refreshwsArea',payload:values});
-				}
+        *fetch({ payload: {code,values} }, { call, put ,select}) {
+            const result=yield call(GetServerData,code,values);
+            if(result.code=='0'){
+                const houseAreaList = result.wsAreas;
+                const limit=result.limit;
+                const currentPage=result.currentPage;
+                const total=result.total;
+                for(var i=0;i<houseAreaList.length;i++){
+                    houseAreaList[i].key=houseAreaList[i].wsAreaId;
+                }
+                yield put({type: 'houseAreaList',payload:{houseAreaList,total,limit,currentPage}});
+                yield put({type: 'tab/loding',payload:false});	
+            } 
+        }, 
+                    
+        *getInfo({payload: values }, { call, put}){
+            yield put({type: 'refreshwsArea',payload:values});
+        }
   	},
   	subscriptions: {},
 };

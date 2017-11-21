@@ -28,7 +28,6 @@ class HouseAreaTable extends React.Component {
     
     //点击表格上的修改按钮操作
     editInfo = (record) =>{
-        console.log('修改用户信息',record);
         this.props.openModal(record);
     }
 
@@ -53,9 +52,8 @@ class HouseAreaTable extends React.Component {
     
     //列表数据请求   
     initHouseAreaList=(values,limit,currentPage)=>{
-        values.limit=limit
-        values.currentPage=currentPage
-        console.log(values);
+        values.limit=limit;
+        values.currentPage=currentPage;
         this.props.dispatch({
             type:'houseAreaManage/fetch',
             payload:{code:'qerp.web.ws.area.query',values:values}
