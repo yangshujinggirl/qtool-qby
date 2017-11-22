@@ -1,9 +1,10 @@
 import React from 'react';
+import { InputNumber } from 'antd';
 
 function Cgorder() {
   	return (
   		<div>
-		   采购
+		   <InputNumber/>
 	    </div>
   	);
 }

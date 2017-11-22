@@ -2,31 +2,6 @@ import { Table, Input, Icon, Button, Popconfirm } from 'antd';
 
 
 class EditableTableInfo extends React.Component {
-  	constructor(props) {
-    	super(props);
-    	this.columns = [{
-      title: 'age',
-      dataIndex: 'age',
-    }, {
-      title: 'address',
-      dataIndex: 'address',
-    }];
-
-    this.state = {
-      dataSource: [{
-        key: '0',
-        name: 'Edward King 0',
-        age: '32',
-        address: 'London, Park Lane no. 0',
-      }, {
-        key: '1',
-        name: 'Edward King 1',
-        age: '32',
-        address: 'London, Park Lane no. 1',
-      }],
-      count: 2,
-    };
-  }
   
   rowClassName=(record, index)=>{
 	if (index % 2) {
@@ -36,16 +11,13 @@ class EditableTableInfo extends React.Component {
 	}
   }
   render() {
-    const { dataSource } = this.state;
-	const columns = this.columns;
-	const title='heads'
     return (
 		<Table bordered 
-				dataSource={dataSource} 
-				columns={columns} 
+				dataSource={this.props.dataSource} 
+				columns={this.props.columns} 
 				pagination={false}
 				rowClassName={this.rowClassName.bind(this)}
-				title={() => title}
+				title={() => this.props.title}
 				/>
     );
   }
