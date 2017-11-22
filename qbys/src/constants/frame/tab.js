@@ -34,7 +34,7 @@ class Tab extends React.Component {
 				activeKey={this.props.activeKey}
 				type="editable-card"
 				onEdit={this.onEdit}
-				className='h10'
+				className='h10 tabs-header'
         	>
 				{
 					this.props.pane.map(
