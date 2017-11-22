@@ -43,7 +43,7 @@ class WarehouseInfo extends React.Component{
   	render(){
      	return(
         	<div>
-                <EditableTableInfo columns={this.columns1} dataSource={this.state.dataSource}/>
+                <EditableTableInfo columns={this.columns1} dataSource={this.state.dataSource} title='headerf'/>
         	</div>
       	)
       }
