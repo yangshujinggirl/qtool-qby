@@ -13,6 +13,7 @@ import GetIntoStorageComponent from '../getIntoStorage/getIntoStorageIndex';
 import WarehouseIndex from '../warehouseout/warehouse';
 import WarehouseInfo from '../warehouseout/warehouse_info';
 import HouseAreaIndex from '../warehouseAreaManage/houseAreaIndex';
+import HousePositionIndex from '../wsPositionManage/wsPositionIndex';
 
 class Content extends React.Component {
     render() {
@@ -29,10 +30,11 @@ class Content extends React.Component {
                         case "601000": return <AccountIndex data={this.props.data}/>;
                         case "601000edit": return <AddNewAccount data={this.props.data}/>;
                         case "501000": return <PutInManageComponent data={this.props.data}/>;
-                        case "501000info": return  <GetIntoStorageComponent data={this.props.data}/>
-                        case "502000": return  <WarehouseIndex data={this.props.data}/>
-                        case "502000info": return  <WarehouseInfo data={this.props.data}/>
+                        case "501000info": return  <GetIntoStorageComponent data={this.props.data}/>;
+                        case "502000": return  <WarehouseIndex data={this.props.data}/>;
+                        case "502000info": return  <WarehouseInfo data={this.props.data}/>;
                         case "508000":return <HouseAreaIndex data={this.props.data}/>;
+                        case "508100":return <HousePositionIndex data={this.props.data}/>
                         default:      return "我是404";
                         }
                     })()

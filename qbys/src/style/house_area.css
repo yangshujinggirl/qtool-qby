@@ -1,0 +1,8 @@
+.modal-form label{
+    height: 35px;
+    line-height: 35px;
+    margin-right: 10px;
+}
+.modal-form .ant-form-item-label{
+    text-align: right;
+}
