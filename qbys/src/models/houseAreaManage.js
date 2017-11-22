@@ -2,18 +2,17 @@ import {GetServerData} from '../services/services';
 export default {
   namespace: 'houseAreaManage',
   state: {
-	  values:{  
-		},
-		wsArea:{
-			code:"",
-			name:"",
-			status:1,
-			wsAreaId:null
-		},
-	  limit:10,
-	  currentPage:0,
-      total:0,
-      houseAreaList:[]
+        values:{},
+        wsArea:{
+            code:"",
+            name:"",
+            status:1,
+            wsAreaId:null
+        },
+        limit:10,
+        currentPage:0,
+        total:0,
+        houseAreaList:[]
   },
   reducers: {
 		synchronous(state, { payload:values}) {

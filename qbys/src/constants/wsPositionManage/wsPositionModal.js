@@ -10,31 +10,48 @@ class NewPositionModalForm extends React.Component {
        super(props);
        this.state = {
           visible: false,
-          id:null
+          id:null,
+          wsAreaList:[]
 	   };
     }
 
-    //改变modal的显示隐藏
+    //打开modal,设置modal数据显示
     changeVisible = (visible,info) =>{
+        //进行数据请求获取库区列表
+        const value={'limit':100};
+        const result=GetServerData('qerp.web.ws.area.query',value);
+        result.then((res) => {
+            return res;
+        }).then((json) => {
+            if(json.code==0){
+                const data=json.wsAreas;
+                this.setState({
+                    wsAreaList:data
+                })
+            }
+        })
+
         if(info){
             this.setState({
                 visible:visible,
-                id:info.wsAreaId
+                id:info.wsBinId
             },function(){
                 this.props.dispatch({
-                    type:'houseAreaManage/getInfo',
+                    type:'wsPositionManage/refreshwsPositionInfo',
                     payload:info
                 });
             });
         }else{
             this.props.form.resetFields();
             this.props.dispatch({
-                type:'houseAreaManage/getInfo',
+                type:'wsPositionManage/refreshwsPositionInfo',
                 payload:{
+                    wsAreaId:"",
                     code:"",
-                    name:"",
+                    codePrint:"",
+                    type:"",
                     status:1,
-                    wsAreaId:null
+                    remark:""
                 }
             });
             this.setState({
@@ -55,10 +72,10 @@ class NewPositionModalForm extends React.Component {
                 return;
             }
 			if(this.state.id){
-				values.wsAreaId=this.state.id;
+				values.wsBinId=this.state.id;
             }
-            const newvalues={wsArea:values};
-            const result=GetServerData('qerp.web.ws.area.save',newvalues);
+            const newvalues={wsBin:values};
+            const result=GetServerData('qerp.web.ws.bin.save',newvalues);
 			result.then((res) => {
 				return res;
 			}).then((json) => {
@@ -82,8 +99,8 @@ class NewPositionModalForm extends React.Component {
         values.limit=limit;
         values.currentPage=currentPage;
         this.props.dispatch({
-            type:'houseAreaManage/fetch',
-            payload:{code:'qerp.web.ws.area.query',values:values}
+            type:'wsPositionManage/fetch',
+            payload:{code:'qerp.web.ws.bin.query',values:values}
         });
         this.props.dispatch({ type: 'tab/loding', payload:true});
     }
@@ -100,44 +117,93 @@ class NewPositionModalForm extends React.Component {
             >
                 <Form layout="vertical" className='modal-form'>
                     <FormItem
-                        label="库区编码："
+                        label="库区名称："
                         labelCol={{ span: 8 }}
                         wrapperCol={{ span: 12 }}
-                        initialValue={this.props.wsArea.code}
                         >
-                        {getFieldDecorator('code', {
-                            rules: [{ required: true, message: '请输入库区编码' }],
-                            initialValue:this.props.wsArea.code
+                        {getFieldDecorator('wsAreaId', {
+                            rules: [{ required: true, message: '请选择库区' }],
+                            initialValue:String(this.props.wsPositionInfo.wsAreaId)
                         })(
-                            <Input placeholder='请输入库区编码'/>
+                            <Select placeholder="请选择库区">
+                                {
+                                this.state.wsAreaList.map((item,index)=>{
+                                    return(
+                                        <Option value={String(item.wsAreaId)} key={index}>{item.name}</Option>
+                                    )
+                                })
+                                }
+                            </Select>
                         )}
                     </FormItem>
                     <FormItem
-                    label="库区名称："
-                    labelCol={{ span: 8 }}
-                    wrapperCol={{ span: 12 }}
-                    >
-                    {getFieldDecorator('name', {
-                        rules: [{ required: true, message: '请输入库区名称' }],
-                        initialValue:this.props.wsArea.name
-                    })(
-                        <Input placeholder='请输入库区名称'/>
-                    )}
+                        label="库位编码"
+                        labelCol={{ span: 8 }}
+                        wrapperCol={{ span: 12 }}
+                        >
+                        {getFieldDecorator('code', {
+                            rules: [{ required: true, message: '请输入库位编码' }],
+                            initialValue:this.props.wsPositionInfo.code
+                        })(
+                            <Input placeholder='请输入库位编码'/>
+                        )}
                     </FormItem>
                     <FormItem
-                    label="库区状态："
-                    labelCol={{ span: 8 }}
-                    wrapperCol={{ span: 12 }}
-                    >
-                    {getFieldDecorator('status', {
-                        rules: [{ required: true,  message: '请选择库区状态' }],
-                        initialValue:String(this.props.wsArea.status)
-                    })(
-                        <Select placeholder = '请选择库区状态'>
-                        <Option value="1">启用</Option>
-                        <Option value="0">禁用</Option>
-                        </Select>
-                    )}
+                        label="库位打印编码"
+                        labelCol={{ span: 8 }}
+                        wrapperCol={{ span: 12 }}
+                        >
+                        {getFieldDecorator('codePrint', {
+                            rules: [{ required: false, message: '请输入库位打印编码' }],
+                            initialValue:this.props.wsPositionInfo.codePrint
+                        })(
+                            <Input placeholder='请输入库位打印编码'/>
+                        )}
+                    </FormItem>
+                    <FormItem
+                        label="库位类型"
+                        labelCol={{ span: 8 }}
+                        wrapperCol={{ span: 12 }}
+                        >
+                        {getFieldDecorator('type', {
+                            rules: [{ required: true, message: '请选择库位类型' }],
+                        
+                            initialValue:String(this.props.wsPositionInfo.type) 
+                        })(
+                            <Select placeholder="请选择库位类型">
+                            <Option value='10'>零捡</Option>
+                            <Option value='11'>存储</Option>
+                            <Option value='15'>过渡</Option>
+                            <Option value='20'>次品</Option>
+                            </Select>
+                        )}
+                    </FormItem>
+                    <FormItem
+                        label="库区状态"
+                        labelCol={{ span: 8 }}
+                        wrapperCol={{ span: 12 }}
+                        >
+                        {getFieldDecorator('status', {
+                            rules: [{ required: true,  message: '请选择库区状态' }],
+                        
+                            initialValue:String(this.props.wsPositionInfo.status)
+                        })(
+                            <Select placeholder = '请选择库区状态'>
+                            <Option value="1">启用</Option>
+                            <Option value="0">禁用</Option>
+                            </Select>
+                        )}
+                    </FormItem>
+                    <FormItem
+                        label="备注"
+                        labelCol={{ span: 8 }}
+                        wrapperCol={{ span: 12 }}
+                        >
+                        {getFieldDecorator('remark', {
+                            initialValue:this.props.wsPositionInfo.remark
+                        })(
+                            <Input type="textarea" rows={4}/>
+                        )}
                     </FormItem>
                 </Form>
             </Modal>
@@ -148,7 +214,7 @@ class NewPositionModalForm extends React.Component {
 const NewPositionModal = Form.create()(NewPositionModalForm);
 
 function mapStateToProps(state) {
-    const {houseAreaList,total,limit,currentPage,values,wsArea} = state.houseAreaManage;
-    return {houseAreaList,total,limit,currentPage,values,wsArea};
+    const {total,limit,currentPage,values,wsPositionInfo} = state.wsPositionManage;
+    return {total,limit,currentPage,values,wsPositionInfo};
 }
 export default connect(mapStateToProps)(NewPositionModal);

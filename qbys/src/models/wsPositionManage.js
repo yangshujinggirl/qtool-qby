@@ -3,11 +3,13 @@ export default {
     namespace: 'wsPositionManage',
     state: {
         values:{},
-        wsArea:{
+        wsPositionInfo:{
+            wsAreaId:"",
             code:"",
-            name:"",
+            codePrint:"",
+            type:"",
             status:1,
-            wsAreaId:null
+            remark:""
         },
         limit:10,
         currentPage:0,
@@ -21,8 +23,8 @@ export default {
         housePositionList(state, { payload:{housePositionList,total}}) {
             return {...state,housePositionList,total}
         },
-        refreshwsArea(state, { payload:wsArea}){
-            return {...state,wsArea}
+        refreshwsPositionInfo(state, { payload:wsPositionInfo}){
+            return {...state,wsPositionInfo}
         }
     },
     effects: {
@@ -41,9 +43,9 @@ export default {
             } 
         }, 
                     
-        *getInfo({payload: values }, { call, put}){
-            yield put({type: 'refreshwsArea',payload:values});
-        }
+        // *getInfo({payload: values }, { call, put}){
+        //     yield put({type: 'refreshwsArea',payload:values});
+        // }
     },
     subscriptions: {},
 };

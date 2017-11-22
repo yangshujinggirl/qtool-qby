@@ -39,11 +39,11 @@ class HousePositionTable extends React.Component {
 
 	//分页方法
 	pageChange=(page,pageSize)=>{
-        this.initWarehouseList(this.props.values,pageSize,Number(page-1))
+        this.initHousePositionList(this.props.values,pageSize,Number(page-1))
 	}
 	//pagesize变化
 	pageSizeChange=(current,size)=>{
-        this.initWarehouseList(this.props.values,size,Number(current-1))
+        this.initHousePositionList(this.props.values,size,Number(current-1))
 	}
     
     //列表数据请求   
