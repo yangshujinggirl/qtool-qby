@@ -8,6 +8,10 @@ const app = dva();
 
 app.model(require("./models/account"));
 
+app.model(require("./models/batchStock"));
+
+app.model(require("./models/stock"));
+
 app.model(require("./models/wsPositionManage"));
 
 app.model(require("./models/houseAreaManage"));
