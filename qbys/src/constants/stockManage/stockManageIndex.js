@@ -7,6 +7,8 @@ const TabPane = Tabs.TabPane;
 
 import StockIndex from './stock/stockIndex';
 import BatchStockIndex from './batchStock/batchStockIndex';
+import TransactionIndex from './transaction/transactionIndex';
+import BatchTransactionIndex from './batchTransaction/batchTransactionIndex';
 
 class StockManageIndex extends React.Component{
 	state = {};
@@ -22,10 +24,10 @@ class StockManageIndex extends React.Component{
                         <BatchStockIndex/>
                     </TabPane>
                     <TabPane tab="库存交易" key="3">
-                        我是tab3的内容内容我是tab1的内容内容我是tab1的内容内容我是tab1的内容内容我是tab1的内容内容
+                        <TransactionIndex/>
                     </TabPane>
                     <TabPane tab="批次库位库存交易" key="4">
-                        tab4批次库存库位交易
+                        <BatchTransactionIndex/>
                     </TabPane>
                 </Tabs>
         	</div>

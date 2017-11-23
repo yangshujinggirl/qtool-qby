@@ -8,6 +8,10 @@ const app = dva();
 
 app.model(require("./models/account"));
 
+app.model(require("./models/batchTransaction"));
+
+app.model(require("./models/transaction"));
+
 app.model(require("./models/batchStock"));
 
 app.model(require("./models/stock"));
