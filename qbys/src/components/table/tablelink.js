@@ -1,11 +1,14 @@
 
 class TableLink extends React.Component {
     hindClick=()=>{
-        this.props.hindClick()
+        if(this.props.type=='1'){
+            this.props.hindClick()  
+        }
+        
     }
     render() {
         return (
-            <p onClick={this.hindClick.bind(this)} className='theme-color'>{this.props.text}</p>
+            <p onClick={this.hindClick.bind(this)} className={this.props.type=='1'?'theme-color':'placehold-color'}>{this.props.text}</p>
         );
     }
     

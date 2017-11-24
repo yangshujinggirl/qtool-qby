@@ -1,14 +1,16 @@
-import { Form, Row, Col, Input, Button,Select ,DatePicker} from 'antd';
+import { Form, Row, Col, Input, Button, Icon,Select ,DatePicker} from 'antd';
 import { connect } from 'dva';
 
+const FormItem = Form.Item;
 const Option = Select.Option
 const RangePicker = DatePicker.RangePicker;
-const FormItem = Form.Item;
 
 class AdvancedSearchForm extends React.Component {
     state = {
         createTimeST: undefined,
-        createTimeET:undefined
+        createTimeET:undefined,
+        expectedTimeST:undefined,
+        expectedTimeET:undefined
     };
     handleSearch = (e) => {
         this.props.form.validateFields((err, values) => {
@@ -20,11 +22,13 @@ class AdvancedSearchForm extends React.Component {
     initWarehouseList=(values,limit,currentPage)=>{
         values.createTimeST=this.state.createTimeST 
         values.createTimeET=this.state.createTimeET 
+        values.expectedTimeST=this.state.expectedTimeST 
+        values.expectedTimeET=this.state.expectedTimeET 
         values.limit=limit
         values.currentPage=currentPage
         this.props.dispatch({
-            type:'warehouse/fetch',
-            payload:{code:'qerp.web.ws.order.query',values:values}
+            type:'wsin/fetch',
+            payload:{code:'qerp.web.ws.asn.query',values:values}
         })
         this.props.dispatch({ type: 'tab/loding', payload:true}) 
     }
@@ -32,82 +36,76 @@ class AdvancedSearchForm extends React.Component {
     synchronousState=(values)=>{
         values.createTimeST=this.state.createTimeST 
         values.createTimeET=this.state.createTimeET 
+        values.expectedTimeST=this.state.expectedTimeST 
+        values.expectedTimeET=this.state.expectedTimeET 
         this.props.dispatch({
-            type:'warehouse/synchronous',
+            type:'wsin/synchronous',
             payload:values
         })
     }
     hinddataChange=(dates, dateStrings)=>{
         this.setState({
-            createTimeST:dateStrings[0],
-            createTimeET:dateStrings[1]
+            createTimeST:dateString[0],
+            createTimeET:dateString[1]
+        })
+    }
+    dataonChanges(date, dateString) {
+        this.setState({
+            expectedTimeST:dateString[0],
+            expectedTimeET:dateString[1]
         })
     }
     render() {
         const { getFieldDecorator } = this.props.form;
         return (
-            <Form onSubmit={this.handleSearch} style={{'position':'relative'}}>
+            <Form  onSubmit={this.handleSearch}    style={{'position':'relative'}}>
                 <Row gutter={40} style={{marginRight:'-30px',marginLeft:'-30px',borderBottom:'1px solid #d9d9d9',position:'static'}}>
                     <Col span={24} style={{paddingRight:'60px',paddingLeft:'30px'}}>
                         <Row>
                             <div className='serach_form'>
-                                <FormItem label='门店名称'>
-                                    {getFieldDecorator('name')(
+                                <FormItem label='商品条码'>
+                                    {getFieldDecorator('pdBarcode')(
                                         <Input placeholder="请输入" className='form_input_width'/>
                                     )}
                                 </FormItem>
-                                <FormItem label='收货人电话'>
-                                    {getFieldDecorator('recTelephone')(
+                                <FormItem label='商品名称'>
+                                    {getFieldDecorator('pdName')(
                                         <Input placeholder="请输入" />
                                     )}
                                 </FormItem>
-                                <FormItem label='收货人'>
-                                    {getFieldDecorator('recName')(
+                                <FormItem label='发货主体名称'>
+                                    {getFieldDecorator('name')(
                                         <Input placeholder="请输入" />
                                     )}
                                 </FormItem>
-                                <FormItem label='配货单号'>
-                                    {getFieldDecorator('orderNo')(
-                                        <Input placeholder="请输入" />
-                                    )}
-                                </FormItem>
-                                <FormItem label='商品条码'>
-                                    {getFieldDecorator('barcode')(
+                                <FormItem label='收货单号'>
+                                    {getFieldDecorator('asnNo')(
                                         <Input placeholder="请输入" />
                                     )}
                                 </FormItem>
                                 <FormItem label='订单状态'>
                                     {getFieldDecorator('status')(
-                                        <Select allowClear={true} placeholder="请选择">
-                                            <Option value='10'>待分配</Option>
-                                            <Option value='40'>待拣核</Option>
-                                            <Option value='80'>待发货</Option>
-                                            <Option value='90'>已发货</Option>
+                                        <Select allowClear={true} size="large" placeholder="请选择">
+                                            <Option value='10'>待收货</Option>
+                                            <Option value='20'>收货中</Option>
+                                            <Option value='30'>已收货</Option>
                                         </Select>
                                     )}
                                 </FormItem>
-                                <FormItem label='打印状态'>
-                                    {getFieldDecorator('print')(
-                                        <Select allowClear={true} placeholder="请选择">
-                                            <Option value='false'>未打印</Option>
-                                            <Option value='true'>已打印</Option>
-                                        </Select>
-                                    )}
-                                </FormItem>
-                                <FormItem label='订单类型'>
-                                    {getFieldDecorator('type')(
-                                        <Select allowClear={true} placeholder="请选择">
-                                            <Option value='10'>门店</Option>
-                                            <Option value='11'>直邮</Option>
-                                            <Option value='20'>采退</Option>
-                                        </Select>
-                                    )}
-                                </FormItem>
-                                <FormItem label='合单时间'>
-                                    {getFieldDecorator('time')(
+                                <FormItem label='预计送达时间'>
+                                    {getFieldDecorator('time1')(
                                         <RangePicker
                                             showTime
-                                            format="YYYY-MM-DD HH:mm:ss"
+                                            format="YYYY-MM-DD"
+                                            onChange={this.dataonChanges.bind(this)}
+                                        />
+                                    )}
+                                </FormItem>
+                                <FormItem label='订单时间'>
+                                    {getFieldDecorator('time2')(
+                                        <RangePicker
+                                            showTime
+                                            format="YYYY-MM-DD"
                                             onChange={this.hinddataChange.bind(this)}
                                         />
                                     )}
@@ -127,7 +125,7 @@ class AdvancedSearchForm extends React.Component {
     }
 }
 function mapStateToProps(state) {
-    const {limit,currentPage} = state.warehouse;
+    const {limit,currentPage} = state.wsin;
     return {limit,currentPage};
 }
 

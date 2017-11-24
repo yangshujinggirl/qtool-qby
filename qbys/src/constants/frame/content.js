@@ -8,13 +8,15 @@ import AddNewAccount from '../accountCenter/add_new_account.js';
 import Cgorder from '../cgorder/cgorder';
 import Ctorder from '../ctorder/ctorder';
 import Sporder from '../sporder/sporder';
-import PutInManageComponent from '../putInStorageManage/putInManageComponent';
-import GetIntoStorageComponent from '../getIntoStorage/getIntoStorageIndex';
 import WarehouseIndex from '../warehouseout/warehouse';
 import WarehouseInfo from '../warehouseout/warehouse_info';
 import HouseAreaIndex from '../warehouseAreaManage/houseAreaIndex';
 import HousePositionIndex from '../wsPositionManage/wsPositionIndex';
 import StockManageIndex from '../stockManage/stockManageIndex';
+
+import WarehouseinIndex from '../warehousein/warehousein';
+import WarehouseinEdit from '../warehousein/warehousein_edit';
+import WarehouseinInfo from '../warehousein/warehousein_info';
 class Content extends React.Component {
     render() {
         return (   
@@ -29,13 +31,17 @@ class Content extends React.Component {
                         case "204000": return <Ctorder data={this.props.data}/>;
                         case "601000": return <AccountIndex data={this.props.data}/>;
                         case "601000edit": return <AddNewAccount data={this.props.data}/>;
-                        case "501000": return <PutInManageComponent data={this.props.data}/>;
-                        case "501000info": return  <GetIntoStorageComponent data={this.props.data}/>;
+
+                        case "501000": return <WarehouseinIndex data={this.props.data}/>;
+                        case "501000edit": return <WarehouseinEdit data={this.props.data}/>;
+                        case "501000info": return  <WarehouseinInfo data={this.props.data}/>;
+                        
                         case "502000": return  <WarehouseIndex data={this.props.data}/>;
                         case "502000info": return  <WarehouseInfo data={this.props.data}/>;
                         case "508000":return <HouseAreaIndex data={this.props.data}/>;
                         case "508100":return <HousePositionIndex data={this.props.data}/>;
                         case "503000":return  <StockManageIndex data={this.props.data}/>;
+
                         default:      return "我是404";
                         }
                     })()

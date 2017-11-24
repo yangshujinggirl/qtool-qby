@@ -30,7 +30,22 @@ class EditableTable extends React.Component {
           return 'table_white'
         }
       }
+
+
+      onSelectChange = (selectedRowKeys, selectedRows) => {
+        console.log(selectedRowKeys)
+        console.log(selectedRows)
+        this.props.selectChange(selectedRowKeys,selectedRows)
+
+
+
+      }
     render() {
+        const rowSelection = {
+            selectedRowKeys:this.props.selectedRowKeys,
+            onChange: this.onSelectChange,
+            type:this.props.selectType
+          };
         return (
             <Table 
                 bordered 
@@ -47,7 +62,9 @@ class EditableTable extends React.Component {
                     null
                 } 
                 pagination={false}
-                rowClassName={this.rowClassName.bind(this)}/>
+                rowClassName={this.rowClassName.bind(this)}
+                rowSelection={this.props.select?rowSelection:null}
+                />
         );
     }
 }

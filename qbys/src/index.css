@@ -114,6 +114,7 @@ strong, b, .b { font-weight: bold; }
 .green { color:#49a100;}
 .bg-white{background:#fff;}
 .theme-color{color: #35bab0;}
+.placehold-color{color: #9b9b9b;}
 
 /*自定义类*/
 .w{margin: 0 auto;}
@@ -161,8 +162,20 @@ ins { text-decoration: none; }
 .serach_form .ant-form-item .ant-form-item-label label{color: #666; }
 .serach_form .ant-form-item .ant-input{width: 200px;}
 .serach_form .ant-form-item .ant-select-lg .ant-select-selection--single{width:200px;}
-.serach_form .ant-form-item .ant-calendar-picker .ant-input{width: 300px;}
+.serach_form .ant-form-item .ant-calendar-picker .ant-input{width: 290px;}
 .serach_form .ant-form-item .ant-form-item-control-wrapper{display: inline-block;}
-.serach_form .ant-form-item{margin-right: 20px;}
+.serach_form .ant-form-item{margin-right: 15px;}
 .serach_form{display: flex;flex-wrap: wrap;}
-.serach_form .ant-form-item-label{width: 80px;}
+.serach_form .ant-form-item-label{width: 90px;}
+
+/* card */
+.cardlist{display: flex;flex-wrap: wrap;width: 100%;}
+.cardlist_item{margin:10px 15px;}
+.ant-card-wider-padding .ant-card-head{padding:0 8px!important;}
+.ant-card-wider-padding .ant-card-head .ant-card-head-title{font-weight: normal;font-size: 12px;}
+.ant-card-wider-padding .ant-card-body{padding:24px 0!important;}
+
+
+/* 警告边框爆红 */
+.data_waring .ant-input{border:1px solid red;}
+.btnlist_r{float: right;height: 35px;line-height: 35px;margin-top:30px;}

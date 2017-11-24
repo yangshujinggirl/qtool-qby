@@ -1,9 +1,13 @@
 import React from 'react';
+import Forminput from '../../components/input/forminput';
+
+
+
 
 function Ctorder() {
   	return (
   		<div>
-		   采退
+		   <Forminput/>
 	    </div>
   	);
 }
