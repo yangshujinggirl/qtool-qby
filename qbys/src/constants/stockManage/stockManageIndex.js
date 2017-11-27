@@ -5,6 +5,11 @@ import { connect } from 'dva';
 import '../../style/stock_manage.css';
 const TabPane = Tabs.TabPane;
 
+import StockIndex from './stock/stockIndex';
+import BatchStockIndex from './batchStock/batchStockIndex';
+import TransactionIndex from './transaction/transactionIndex';
+import BatchTransactionIndex from './batchTransaction/batchTransactionIndex';
+
 class StockManageIndex extends React.Component{
 	state = {};
 
@@ -13,13 +18,16 @@ class StockManageIndex extends React.Component{
         	<div className='content_box stock-tabs'>
                 <Tabs defaultActiveKey="1">
                     <TabPane tab="库存" key="1">
-                        我是tab1的内容内容我是tab1的内容内容我是tab1的内容内容我是tab1的内容内容我是tab1的内容内容
+                        <StockIndex/>
                     </TabPane>
                     <TabPane tab="批次库位库存" key="2">
-                        我是tab2的内容内容我是tab1的内容内容我是tab1的内容内容我是tab1的内容内容我是tab1的内容内容
+                        <BatchStockIndex/>
                     </TabPane>
                     <TabPane tab="库存交易" key="3">
-                        我是tab3的内容内容我是tab1的内容内容我是tab1的内容内容我是tab1的内容内容我是tab1的内容内容
+                        <TransactionIndex/>
+                    </TabPane>
+                    <TabPane tab="批次库位库存交易" key="4">
+                        <BatchTransactionIndex/>
                     </TabPane>
                 </Tabs>
         	</div>

@@ -1,4 +1,3 @@
-import React from 'react';
 import '../../style/login.css';
 import { Form, Input, Button, Checkbox } from 'antd';
 import { GetServerData} from '../../services/service';
@@ -13,19 +12,19 @@ class NormalLoginForm extends React.Component {
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 const result=GetServerData('qerp.web.bs.login',values)
-                    result.then((res) => {
-                      return res;
-                    }).then((json) => {
-                        if(json.code=='0'){
-                            sessionStorage.setItem('urUser', JSON.stringify(json.urUser));
-                            sessionStorage.setItem('username', JSON.stringify(json.username));
-                            this.context.router.push('/home')
-                        }else{      
-                            this.setState({
-                                passworderron:true,
-                            })
-                        }
-                    })
+                result.then((res) => {
+                    return res;
+                }).then((json) => {
+                    if(json.code=='0'){
+                        sessionStorage.setItem('urUser', JSON.stringify(json.urUser));
+                        sessionStorage.setItem('username', JSON.stringify(json.username));
+                        this.context.router.push('/home')
+                    }else{      
+                        this.setState({
+                            passworderron:true,
+                        })
+                    }
+                })
             }
         });
     }
@@ -49,9 +48,7 @@ class NormalLoginForm extends React.Component {
                     <p className={this.state.passworderron?'passworderron':'hide'}>请输入正确的密码</p>
                 </FormItem>
                 <FormItem>
-                    <Button type="primary" htmlType="submit" className="login-form-button">
-                        登录
-                    </Button>
+                    <Button type="primary" htmlType="submit" className="login-form-button">登录</Button>
                 </FormItem>
                 <Checkbox className='check'>记住密码</Checkbox>
             </Form>

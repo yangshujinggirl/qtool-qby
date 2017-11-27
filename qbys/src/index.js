@@ -8,6 +8,8 @@ const app = dva();
 
 app.model(require("./models/account"));
 
+app.model(require("./models/postcheck"));
+
 app.model(require("./models/wsin"));
 
 app.model(require("./models/wsPositionManage"));
@@ -26,6 +28,14 @@ app.model(require("./models/tab"));
 
 app.model(require("./models/users"));
 
+app.model(require("./models/batchTransaction"));
+
+app.model(require("./models/transaction"));
+
+app.model(require("./models/batchStock"));
+
+app.model(require("./models/stock"));
+
 // 2. Plugins
 // app.use({});
 
@@ -37,3 +47,4 @@ app.router(require('./router'));
 
 // 5. Start
 app.start('#root');
+

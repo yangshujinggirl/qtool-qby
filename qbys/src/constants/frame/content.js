@@ -17,6 +17,10 @@ import StockManageIndex from '../stockManage/stockManageIndex';
 import WarehouseinIndex from '../warehousein/warehousein';
 import WarehouseinEdit from '../warehousein/warehousein_edit';
 import WarehouseinInfo from '../warehousein/warehousein_info';
+
+import Wsshipping from '../wsshipping/shippingindex';
+import Post_ku_check from '../wsoutcheck/wsoutindex';
+
 class Content extends React.Component {
     render() {
         return (   
@@ -41,7 +45,8 @@ class Content extends React.Component {
                         case "508000":return <HouseAreaIndex data={this.props.data}/>;
                         case "508100":return <HousePositionIndex data={this.props.data}/>;
                         case "503000":return  <StockManageIndex data={this.props.data}/>;
-
+                        case "502900":return  <Wsshipping data={this.props.data}/>;
+                        case "502500":return  <Post_ku_check data={this.props.data}/>;
                         default:      return "我是404";
                         }
                     })()
