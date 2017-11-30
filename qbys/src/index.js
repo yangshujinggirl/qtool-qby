@@ -8,6 +8,12 @@ const app = dva();
 
 app.model(require("./models/account"));
 
+app.model(require("./models/wsedit"));
+
+app.model(require("./models/wspost"));
+
+app.model(require("./models/wsmove"));
+
 app.model(require("./models/postcheck"));
 
 app.model(require("./models/wsin"));

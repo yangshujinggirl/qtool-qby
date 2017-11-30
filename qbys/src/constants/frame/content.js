@@ -18,8 +18,16 @@ import WarehouseinIndex from '../warehousein/warehousein';
 import WarehouseinEdit from '../warehousein/warehousein_edit';
 import WarehouseinInfo from '../warehousein/warehousein_info';
 
-import Wsshipping from '../wsshipping/shippingindex';
+import Wsshipping from '../wspost/shippingindex';
 import Post_ku_check from '../wsoutcheck/wsoutindex';
+
+import WsmoveIndex from '../wsmove/index';
+import WsmoveInfo from '../wsmove/info';
+import WsmoveUser from '../wsmove/user';
+import WsmoveNewuser from '../wsmove/newuser';
+
+import WsIndex from '../wsedit/index';
+
 
 class Content extends React.Component {
     render() {
@@ -30,7 +38,7 @@ class Content extends React.Component {
                 {
                     (() => {
                         switch (this.props.componkey) {
-                        case "201000": return <Sporder data={this.props.data}/>;
+                        case "201000": return <WsIndex data={this.props.data}/>;
                         case "202000": return <Cgorder data={this.props.data}/>;
                         case "204000": return <Ctorder data={this.props.data}/>;
                         case "601000": return <AccountIndex data={this.props.data}/>;
@@ -47,6 +55,12 @@ class Content extends React.Component {
                         case "503000":return  <StockManageIndex data={this.props.data}/>;
                         case "502900":return  <Wsshipping data={this.props.data}/>;
                         case "502500":return  <Post_ku_check data={this.props.data}/>;
+                        case "504100":return  <WsmoveIndex data={this.props.data}/>;
+
+                        case "504100info":return  <WsmoveInfo data={this.props.data}/>;
+                        case "504100edit":return  <WsmoveUser data={this.props.data}/>;
+                        case "504100edits":return  <WsmoveNewuser data={this.props.data}/>;
+
                         default:      return "我是404";
                         }
                     })()

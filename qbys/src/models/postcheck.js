@@ -33,9 +33,6 @@ reducers: {
 	datasouce(state, { payload:dataSource,total,limit,currentPage}) {
 		return {...state,dataSource,total,limit,currentPage}
 	},
-
-
-
 },
 effects: {
 	*fetch({ payload: {code,values} }, { call, put ,select}) {
