@@ -7,7 +7,7 @@ class AccountIndexTable extends React.Component {
 	constructor(props) {
 		super(props);
 		this.columns = [{
-		    title: '用户名',
+		    title: '账号名称',
 		    dataIndex: 'username'
 		}, {
 			title: '姓名',
@@ -16,11 +16,11 @@ class AccountIndexTable extends React.Component {
 			title: '职位',
 			dataIndex: 'job'
 		},{
-			title: '手机号',
+			title: '手机',
 			dataIndex: 'mobile'
 		},{
-			title: '所属身份',
-			dataIndex: 'wsName'
+			title: '邮箱',
+			dataIndex: 'email'
 		},{
 			title: '状态',
 			dataIndex: 'statusStr'
@@ -40,8 +40,8 @@ class AccountIndexTable extends React.Component {
 
 	//修改用户信息
     editInfo = (record) => {
-        const wsUrUserId=String(record.wsUrUserId)
-        const paneitem={title:'修改账号',key:'130000edit'+wsUrUserId,data:{wsUrUserId:wsUrUserId},componkey:'130000edit'}
+        const urUserId=String(record.urUserId)
+        const paneitem={title:'修改账号',key:'601000edit'+urUserId,data:{urUserId:urUserId},componkey:'601000edit'}
         this.props.dispatch({
           	type:'tab/firstAddTab',
           	payload:paneitem
@@ -60,7 +60,7 @@ class AccountIndexTable extends React.Component {
 	initAccountList=(limit,currentPage,values)=>{
         this.props.dispatch({
             type:'account/fetch',
-            payload:{code:'qerp.web.ws.ur.user.query',values:{limit:limit,currentPage:currentPage,...values}}
+            payload:{code:'qerp.web.ur.user.query',values:{limit:limit,currentPage:currentPage,...values}}
 		})
 		this.props.dispatch({ type: 'tab/loding', payload:true}) 
 	}
@@ -77,6 +77,10 @@ class AccountIndexTable extends React.Component {
 				/>
         );
 	}
+
+	componentDidMount(){
+		this.initAccountList()
+    }
 	
     
 }

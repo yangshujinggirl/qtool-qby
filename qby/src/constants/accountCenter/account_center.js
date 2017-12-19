@@ -8,7 +8,7 @@ import AccountSearch from './account_search';
 class AccountIndex extends React.Component{
 	//点击添加按钮添加新用户信息
   	addNewAccount = () =>{
-		const paneitem={title:'新增账号',key:'130000edit',componkey:'130000edit',data:null}
+		const paneitem={title:'新增账号',key:'601000edit',componkey:'601000edit',data:null}
   		this.props.dispatch({
 	    	type:'tab/firstAddTab',
 	    	payload:paneitem
@@ -21,12 +21,10 @@ class AccountIndex extends React.Component{
   	render(){
      	return(
         	<div className='content_box'>
-					<AccountSearch/>
 					<Button 
 						type="primary" 
 						onClick={this.addNewAccount.bind(this)}
 						size='large'
-						className='mt20'
 					>
 						<Icon type="plus" className='icon_add'/>新增账号
 					</Button>

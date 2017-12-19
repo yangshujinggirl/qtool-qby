@@ -71,8 +71,8 @@ class Content extends React.Component {
                                     case "100000":return <HouseAreaIndex data={this.props.data}/>;
                                     case "110000":return <HousePositionIndex data={this.props.data}/>;
                                     case "120000": return <BasicSetting data={this.props.data}/>;
-                                    case "130000": return <AccountIndex data={this.props.data}/>;
-                                    case "130000edit": return <AddNewAccount data={this.props.data}/>;
+                                    case "601000": return <AccountIndex data={this.props.data}/>;
+                                    case "601000edit": return <AddNewAccount data={this.props.data}/>;
                                     default:  return "我是404";
                                 }
                             })()

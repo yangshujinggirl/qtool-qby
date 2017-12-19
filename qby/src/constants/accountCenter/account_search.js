@@ -15,14 +15,14 @@ class AccountSearchForm extends React.Component {
             this.initWarehouseList(values,this.props.limit,0)
         });
     }
-    //搜搜请求数据
+    //搜索请求数据
     initWarehouseList=(values,limit,currentPage)=>{
         let data = cloneObj(values);
         data.limit = limit;
         data.currentPage = currentPage;
         this.props.dispatch({
             type:'account/fetch',
-            payload:{code:'qerp.web.ws.ur.user.query',values:data}
+            payload:{code:'qerp.web.ur.user.query',values:data}
         })
         this.props.dispatch({type:'tab/loding',payload:true})
     }
@@ -33,13 +33,7 @@ class AccountSearchForm extends React.Component {
             payload:values
         })
     }
-      //请求仓库列表
-    wsList=()=>{
-        this.props.dispatch({
-            type:'IndexPage/wslistfetch',
-            payload:{code:'qerp.web.ws.warehouse.all.list',values:{}}
-        })
-    }
+      
     render() {
         const adminType=eval(sessionStorage.getItem('adminType'));
         const { getFieldDecorator } = this.props.form;
@@ -82,7 +76,6 @@ class AccountSearchForm extends React.Component {
         );
     }
     componentDidMount(){
-        this.wsList()
          this.handleSearch()
     }
 }

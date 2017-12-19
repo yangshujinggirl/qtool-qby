@@ -32,13 +32,13 @@ class Siders extends React.Component {
       					<img src={require('../../assets/menu_logo.png')}/>
       				</div>
        				<Menu
-       					className='menus' 
-      					theme="dark" 
-						  mode="inline" 
-						  openKeys={this.props.openKey}
+						className='menus' 
+						theme="dark" 
+						mode="inline" 
+						openKeys={this.props.openKey}
 						selectedKeys={[this.props.activeKey]}
 						onOpenChange={this.onOpenChange}
-                		onClick={this.setTab}>
+						onClick={this.setTab}>
 							{
 								this.props.menus.map((item,index)=>{
 									return (
@@ -61,16 +61,7 @@ class Siders extends React.Component {
 										</SubMenu>
 									)
 								})	
-
-
-
 							}
-							
-							
-
-
-
-							
       				</Menu>
     			</Sider>
   			</div>

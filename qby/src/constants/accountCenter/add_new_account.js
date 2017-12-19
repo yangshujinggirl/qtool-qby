@@ -32,12 +32,12 @@ class AddNewAccountForm extends React.Component{
 		if(this.props.data){
 			this.props.dispatch({
 				type:'tab/initDeletestate',
-				payload:'130000edit'+this.props.data.wsUrUserId
+				payload:'601000edit'+this.props.data.urUserId
 			  });
 		}else{
 			this.props.dispatch({
 				type:'tab/initDeletestate',
-				payload:'130000edit'
+				payload:'601000edit'
 			  });
 		}
 	}
@@ -46,7 +46,7 @@ class AddNewAccountForm extends React.Component{
 	refreshAccountList=()=>{
 		this.props.dispatch({
             type:'account/fetch',
-            payload:{code:'qerp.web.ws.ur.user.query',values:{limit:this.props.limit,currentPage:0}}
+            payload:{code:'qerp.web.ur.user.query',values:{limit:this.props.limit,currentPage:0}}
 		})
 		this.props.dispatch({ type: 'tab/loding', payload:true}) 
 	}
@@ -77,19 +77,19 @@ class AddNewAccountForm extends React.Component{
 				  });
 				values.urRoleIds=this.props.urRoleIds;
 				if(this.props.data){
-					values.wsUrUserId=this.props.data.wsUrUserId
+					values.urUserId=this.props.data.urUserId
 				}else{
-					values.wsUrUserId = null;
+					values.urUserId = null;
 				}
 				const newvalues={urUser:values}
-				const result=GetServerData('qerp.web.ws.ur.user.save',newvalues)
+				const result=GetServerData('qerp.web.ur.user.save',newvalues)
 				result.then((res) => {
 					return res;
 				}).then((json) => {
 					if(json.code=='0'){
 						if(json.password){
 							//显示新创建的用户信息
-							this.showNewUserInfoModal('账户创建成功',json);
+							this.showNewUserInfoModal('Q本营账户创建成功',json);
 						}else{
 							message.success('信息修改成功',.8);
 							this.deleteTab();
@@ -120,8 +120,9 @@ class AddNewAccountForm extends React.Component{
 		  title: title,
 		  content: (
 			  <div>
-				<p>用户名：{userInfo.username}</p>
-				<p>密码：{userInfo.password}</p>
+				  	<p>姓名：{userInfo.name}</p>
+					<p>账号：{userInfo.username}</p>
+					<p>密码：{userInfo.password}</p>
 			  </div>
 		  ),
 		  okText: '确定',
@@ -135,32 +136,24 @@ class AddNewAccountForm extends React.Component{
 
 	//重置密码
 	resetPassword = () =>{
-		const values={wsUrUserId:this.props.data.wsUrUserId}
-		const result=GetServerData('qerp.web.ws.ur.user.resetpwd',values);
+		const values={urUserId:this.props.data.urUserId}
+		const result=GetServerData('qerp.web.ur.user.resetpwd',values);
 		result.then((res) => {
 			  return res;
 		}).then((json) => {
 			if(json.code=='0'){
 				//显示修改
-				this.showNewUserInfoModal('信息修改成功',json);
+				this.showNewUserInfoModal('Q本营账户密码重置成功',json);
 			}
 		
 		});
 	}
-
-	 //请求仓库列表
-	 wsList=()=>{
-        this.props.dispatch({
-            type:'IndexPage/wslistfetch',
-            payload:{code:'qerp.web.ws.warehouse.all.list',values:{}}
-        })
-	}
 	
-	//请求不同仓库的权限
+	//请求选择的用户权限
 	wsidChange=(value)=>{
 		//清除权限
 		this.initUrRoleIds();
-		const payload={code:'qerp.web.ws.ur.role.list',values:{'wsWarehouseId':value}}
+		const payload={code:'qerp.web.ur.role.list',values:null}
 		this.props.dispatch({type:'account/rolelist',payload:payload})
 	}
 
@@ -173,19 +166,18 @@ class AddNewAccountForm extends React.Component{
 
   	render(){
 		const { getFieldDecorator } = this.props.form;
-		const adminType=eval(sessionStorage.getItem('adminType'));
      	return(
           	<Form className="addUser-form">
 				<FormItem
-					label="用户名"
+					label="账号名称"
 					labelCol={{ span: 3,offset: 1 }}
 					wrapperCol={{ span: 6 }}
 				>
 					{getFieldDecorator('username', {
-						rules: [{ required: true, message: '请输入用户名'},{pattern:/^.{1,30}$/,message:'请输入1-30字用户名'}],
+						rules: [{ required: true, message: '请输入账号名称'},{pattern:/^.{1,30}$/,message:'请输入1-30字账号名称'}],
 						initialValue:this.props.urUser.username
 					})(
-						<Input placeholder="请输入账户名称" disabled={this.props.data?true:false}/>
+						<Input placeholder="请输入账号名称" disabled={this.props.data?true:false}/>
 					)}
 				</FormItem>
 				<FormItem
@@ -206,10 +198,22 @@ class AddNewAccountForm extends React.Component{
 					wrapperCol={{ span: 6 }}
 				>
 					{getFieldDecorator('job', {
-						rules: [{pattern:/^.{1,10}$/,message:'请输入1-10字职位名'}],
+						rules: [{ required: true, message: '请输入职位' },{pattern:/^.{1,10}$/,message:'请输入1-10字职位名'}],
 						initialValue:this.props.urUser.job
 					})(
 						<Input placeholder="请输入职位"/>
+					)}
+				</FormItem>
+				<FormItem
+					label="邮箱"
+					labelCol={{ span: 3,offset: 1 }}
+					wrapperCol={{ span: 6 }}
+				>
+					{getFieldDecorator('email', {
+						rules: [{ required: true, message: '请输入邮箱' }],
+						initialValue:this.props.urUser.email
+					})(
+						<Input placeholder="请输入邮箱"/>
 					)}
 				</FormItem>
 				<FormItem
@@ -218,36 +222,12 @@ class AddNewAccountForm extends React.Component{
 					wrapperCol={{ span: 6 }}
 				>
 					{getFieldDecorator('mobile', {
-						rules: [{pattern:/^[0-9]{1,20}$/,message:'输入正确手机号'}],
+						rules: [{ required: true, message: '请输入手机号' },{pattern:/^[0-9]{1,20}$/,message:'输入正确手机号'}],
 						initialValue:this.props.urUser.mobile
 					})(
 						<Input placeholder="请输入手机号"/>
 					)}
 				</FormItem>
-				{
-					adminType=='10'?
-					<FormItem 
-					label='所属身份'
-					labelCol={{ span: 3,offset: 1}}
-					wrapperCol={{ span: 6 }}
-					>
-					{getFieldDecorator('wsWarehouseId',{
-						rules: [{ required: true, message: '请选择所属身份'}],
-						initialValue:this.props.wsWarehouseId?this.props.wsWarehouseId:'-1',
-						onChange:this.wsidChange
-					})(
-						<Select>
-							 <Option value='-1'>总部管理</Option>
-							{
-								this.props.warehouses.map((item,index)=>{
-									return  <Option value={item.wsWarehouseId} key={index}>{item.name}</Option>
-								})
-							}
-						</Select>
-					)}
-				</FormItem>
-				:null
-                }
             	<FormItem
               		label="账户状态"
               		labelCol={{ span: 3,offset: 1 }}
@@ -286,9 +266,8 @@ class AddNewAccountForm extends React.Component{
       	)
   	}
   	componentDidMount(){
-		this.wsList();
     	if(this.props.data){
-			  const payload={code:'qerp.web.ws.ur.user.detail',values:{'wsUrUserId':this.props.data.wsUrUserId}}
+			  const payload={code:'qerp.web.ur.user.get',values:{'urUserId':this.props.data.urUserId}}
 			  //请求用户信息
 			this.initDateEdit(payload)
 		}

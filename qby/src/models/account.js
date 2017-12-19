@@ -91,10 +91,10 @@ export default {
 				const urUser = result.urUser;
 				const urRoleIds=result.urUser.urRoleIds;
 				const wsWarehouseId=result.urUser.wsWarehouseId;
-				yield put({
-					type:'rolelist',
-					payload:{code:'qerp.web.ws.ur.role.list',values:{'wsWarehouseId':wsWarehouseId}}
-				});
+				// yield put({
+				// 	type:'rolelist',
+				// 	payload:{code:'qerp.web.role.list',values:null}
+				// });
 				urUser.status=String(urUser.status);
 	 	 		yield put({type: 'urUserinfo',payload:{urUser,urRoleIds,wsWarehouseId}});
 			} 

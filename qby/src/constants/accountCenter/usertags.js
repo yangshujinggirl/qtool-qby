@@ -11,7 +11,7 @@ class UserTags extends React.Component {
 
 	handleChange(tag, checked) {
 		this.props.changeHasTagStatus();
-		const id=Number(tag.wsUrRoleId);
+		const id=Number(tag.urRoleId);
 		this.props.dispatch({type:'account/urRoleIdschange',payload:{id,checked}})
 	}
 
@@ -21,8 +21,8 @@ class UserTags extends React.Component {
 				{this.props.totalurRoles.map(tag => (
 				<CheckableTag 
 					style={{border:'1px solid #d9d9d9',height:'30px',width:'80px',lineHeight:'30px',marginBottom:'10px',textAlign:'center'}}
-					key={tag.wsUrRoleId}
-					checked={this.props.urRoleIds.indexOf(Number(tag.wsUrRoleId)) > -1}
+					key={tag.urRoleId}
+					checked={this.props.urRoleIds.indexOf(Number(tag.urRoleId)) > -1}
 					onChange={checked => this.handleChange(tag, checked)}
 				>
 					{tag.name}
@@ -32,7 +32,7 @@ class UserTags extends React.Component {
 		);
 	}
 	componentDidMount(){
-		const payload={code:'qerp.web.ws.ur.role.list',values:{wsWarehouseId:this.props.wsWarehouseId}}
+		const payload={code:'qerp.web.ur.role.list',values:null}
 		this.props.dispatch({type:'account/rolelist',payload:payload})
 	}
 }
