@@ -37,11 +37,9 @@ class User extends React.Component {
 
   render() {
     const name=eval(sessionStorage.getItem('name'));
-    const wsName=eval(sessionStorage.getItem('wsName'));
-
     return(
         <Dropdown overlay={this.menu} trigger={['click']}>
-              <div className='user pointer'>{wsName} | {name}<Icon type="down" className='icon-down'/></div> 
+              <div className='user pointer'>Qtools | {name}<Icon type="down" className='icon-down'/></div> 
         </Dropdown>
       )
   }

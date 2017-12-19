@@ -69,7 +69,6 @@ class Siders extends React.Component {
     }
 }
 function mapStateToProps(state) {
-	console.log(state.tab)
 	const {menus,activeKey,openKey} = state.tab;
     return {menus,activeKey,openKey};
 }
