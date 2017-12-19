@@ -79,7 +79,7 @@ class CollectionsPage extends React.Component {
       	if (err) {
         	return;
 		  }
-        const result=GetServerData('qerp.web.ws.bs.password',values)
+        const result=GetServerData('qerp.web.bs.password',values)
            	result.then((res) => {
               	return res;
           	}).then((json) => {

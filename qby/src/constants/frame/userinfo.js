@@ -21,14 +21,11 @@ class User extends React.Component {
 
     }
     onClick=({key})=>{
-        if(key=='0'){
-            
-          }
         if(key=='1'){
             sessionStorage.clear();
             this.props.dispatch({
                 type:'users/layout',
-                payload:{code:'qerp.web.ws.bs.logout',values:null}
+                payload:{code:'qerp.web.bs.logout',values:null}
             })
           }
     }
