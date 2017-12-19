@@ -26,8 +26,8 @@ import WscheckInfo from '../wscheck/info';
 import WscheckEditdiff from '../wscheck/editcheckdiff';
 
 
-import AccountIndex from '../accountCenter/account_center.js';
-import AddNewAccount from '../accountCenter/add_new_account.js';
+import AccountIndex from '../account/index';
+import AddNewAccount from '../account/info';
 import HouseAreaIndex from '../warehouseAreaManage/houseAreaIndex';
 import HousePositionIndex from '../wsPositionManage/wsPositionIndex';
 import StockManageIndex from '../stockManage/stockManageIndex';

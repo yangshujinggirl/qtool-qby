@@ -93,8 +93,8 @@
 	background:url(../assets/icon_account_hover.png) no-repeat center center;background-size: cover;
 }
 
-.itembox{padding-left: 16px;}
-.itemmain{padding-left: 35px;}
+/* .itembox{padding-left: 16px;} */
+.itemmain{padding-left: 25px;}
 .ant-menu-dark .ant-menu-item:hover,.ant-menu-dark .ant-menu-submenu-title:hover,.ant-menu.ant-menu-dark .ant-menu-item-selected{
 	background: #101316;
 }
