@@ -16,7 +16,12 @@ class Paginations extends React.Component {
                 onShowSizeChange={this.onShowSizeChange}  
                 onChange={this.onChange} 
                 total={this.props.total} 
+                current={this.props.current}
+                pageSizeOptions={['15','30','50','100','200','500']}
+                defaultPageSize={15}
                 className='tc pagination'/>
+                
+                
         );
     }
 }
@@ -33,12 +38,7 @@ class EditableTable extends React.Component {
 
 
       onSelectChange = (selectedRowKeys, selectedRows) => {
-        console.log(selectedRowKeys)
-        console.log(selectedRows)
         this.props.selectChange(selectedRowKeys,selectedRows)
-
-
-
       }
     render() {
         const rowSelection = {
@@ -53,13 +53,13 @@ class EditableTable extends React.Component {
                 columns={this.props.columns} 
                 footer={
                     () =>
-                    Number(this.props.total)>Number(this.props.limit)
-                    ?
                     <Paginations pageChange={this.props.pageChange} 
                                 pageSizeChange={this.props.pageSizeChange} 
-                                total={this.props.total}/>
-                    :
-                    null
+                                total={Number(this.props.total)}
+                                current={Number(this.props.current)}
+                               
+                                />
+                                
                 } 
                 pagination={false}
                 rowClassName={this.rowClassName.bind(this)}

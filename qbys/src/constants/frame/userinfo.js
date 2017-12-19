@@ -1,11 +1,7 @@
-import React from 'react';
 import '../../style/user.css';
 import { connect } from 'dva';
 import CollectionsPage from '../frame/pop';
-
 import { Menu, Dropdown, Icon } from 'antd';
-
-
 
 
 
@@ -32,7 +28,7 @@ class User extends React.Component {
             sessionStorage.clear();
             this.props.dispatch({
                 type:'users/layout',
-                payload:{code:'qerp.web.bs.logout',values:null}
+                payload:{code:'qerp.web.ws.bs.logout',values:null}
             })
           }
     }
@@ -40,10 +36,12 @@ class User extends React.Component {
 
 
   render() {
-    const username=eval(sessionStorage.getItem('username'));
+    const name=eval(sessionStorage.getItem('name'));
+    const wsName=eval(sessionStorage.getItem('wsName'));
+
     return(
         <Dropdown overlay={this.menu} trigger={['click']}>
-              <div className='user'>Qtools | {username}<Icon type="down" className='icon-down'/></div> 
+              <div className='user pointer'>{wsName} | {name}<Icon type="down" className='icon-down'/></div> 
         </Dropdown>
       )
   }

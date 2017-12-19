@@ -6,19 +6,45 @@ import TableLink from '../../components/table/tablelink';
 class HousePositionTable extends React.Component {
 	constructor(props) {
         super(props);
-		this.columns = [{
-            title: '库区',
-            dataIndex: 'wsArea.name'
-          },{
-            title: '库位',
+        const adminType=eval(sessionStorage.getItem('adminType'));
+        adminType =='10'
+        ?
+        this.columns = [{
+              title: '库位编码',
+              dataIndex: 'code'
+            },{
+              title: '库位打印编码',
+              dataIndex: 'codePrint'
+            },{
+              title: '库位类型',
+              dataIndex: 'typeStr'
+            },{
+              title: ' 所属库区',
+              dataIndex: 'wsArea.name'
+            },{
+              title: '所属仓库',
+              dataIndex: 'wsName'
+            }, {
+              title: '库位状态',
+              dataIndex: 'statusStr'
+            }]
+          :
+          this.columns = [{
+            title: '库位编码',
             dataIndex: 'code'
           },{
             title: '库位打印编码',
             dataIndex: 'codePrint'
-          }, {
+          },{
             title: '库位类型',
             dataIndex: 'typeStr'
           },{
+            title: ' 所属库区',
+            dataIndex: 'wsArea.name'
+          },{
+            title: '所属仓库',
+            dataIndex: 'wsName'
+          }, {
             title: '库位状态',
             dataIndex: 'statusStr'
           },{
@@ -26,15 +52,15 @@ class HousePositionTable extends React.Component {
             dataIndex: 'opation',
             render: (text, record) => {
               return (
-                <TableLink text='修改' hindClick={this.editInfo.bind(this,record)}/>
+                <TableLink text='修改' hindClick={this.editInfo.bind(this,record)}  type='1'/>
               );
             }
-        }];   
+        }]
     }
     
     //点击表格上的修改按钮操作
     editInfo = (record) =>{
-        this.props.openModal(record);
+        this.props.openModal(record,'修改库位');
     }
 
 	//分页方法
@@ -43,7 +69,7 @@ class HousePositionTable extends React.Component {
 	}
 	//pagesize变化
 	pageSizeChange=(current,size)=>{
-        this.initHousePositionList(this.props.values,size,Number(current-1))
+        this.initHousePositionList(this.props.values,size,0)
 	}
     
     //列表数据请求   
@@ -65,7 +91,8 @@ class HousePositionTable extends React.Component {
 				pageChange={this.pageChange.bind(this)}
 				pageSizeChange={this.pageSizeChange.bind(this)}
 				total={this.props.total}
-				limit={this.props.limit}
+        limit={this.props.limit}
+        current={Number(this.props.currentPage)+1}
 				/>
         );
 	}

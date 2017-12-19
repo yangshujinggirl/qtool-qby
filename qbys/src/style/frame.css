@@ -1,8 +1,13 @@
 .count_r{
-	margin-left: 220px;
 	overflow:hidden;
 	height: 100vh;
 	background: #F9F9FE;
+}
+.ml-220{
+	margin-left: 220px;
+}
+.width-0{
+	width: 0px;
 }
 .headers{
 	padding: 0;
@@ -15,7 +20,7 @@
 .contents{
 	overflow: initial;
 	height:100%;
-	margin-top: -50px;
+	margin-top: -40px;
 }
 .users{
 	position: absolute;

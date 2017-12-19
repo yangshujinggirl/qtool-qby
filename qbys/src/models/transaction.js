@@ -5,7 +5,7 @@ export default {
     values:{
         invType:'10'
     },
-    limit:10,
+    limit:15,
     currentPage:0,
     total:0,
     list:[]
@@ -14,13 +14,15 @@ reducers: {
     synchronous(state, { payload:values}) {
         return {...state,values}
     },
-    list(state, { payload:{list,total}}) {
-        return {...state,list,total}
+    list(state, { payload:{list,total,limit,currentPage}}) {
+        return {...state,list,total,limit,currentPage}
     },
 },
 effects: {
     *fetch({ payload: {code,values} }, { call, put ,select}) {
         const result=yield call(GetServerData,code,values);
+        yield put({type: 'tab/loding',payload:false});	
+        yield put({type: 'tab/loding',payload:false});
         if(result.code=='0'){
             const list=result.wsInvTranss;
             for(var i=0;i<list.length;i++){
@@ -43,7 +45,6 @@ effects: {
             const currentPage=result.currentPage;
             const total=result.total;
             yield put({type: 'list',payload:{list,total,limit,currentPage}});
-            yield put({type: 'tab/loding',payload:false});	
         } 
     }, 
 },

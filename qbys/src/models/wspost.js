@@ -12,6 +12,7 @@ reducers: {
 	initform(state, { payload:initform}) {
 		return {...state,initform}
 	},
+	
 
 
 
@@ -27,21 +28,9 @@ effects: {
 		}
 		yield put({type: 'tabledata',payload:data});
 	}, 
-	*save({ payload: {code,values} }, { call, put ,select}) {
-		const result=yield call(GetServerData,code,values);
-		const initform = yield select(state => state.wspost.initform)
-		const data=[]
-        if(result.code=='0'){
-			initform()
-			yield put({type: 'tabledata',payload:data});
-		} 
-		yield put({type: 'tab/loding',payload:false});	
-    }, 
-
-
-
-
 
 },
 subscriptions: {},
 };
+
+

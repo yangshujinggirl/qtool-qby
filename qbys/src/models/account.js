@@ -1,5 +1,5 @@
 import {GetServerData} from '../services/services';
-import {message} from 'antd';
+
 
 export default {
   	namespace: 'account',
@@ -18,15 +18,18 @@ export default {
 		totalurRoles:[],
 		limit:10,
 		currentPage:0,
-		total:0
+		total:0,
+		urRoleIds:[],
+		wsWarehouseId:'-1'
 		  
-  	},
+	  },
+	  
   	reducers: {
 		accountList(state, { payload: {accountInfo,total,limit,currentPage}}) {
 			return {...state,accountInfo,total,limit,currentPage}
 		},
-		urUserinfo(state, { payload: urUser}) {
-			return {...state,urUser}
+		urUserinfo(state, { payload: {urUser,urRoleIds,wsWarehouseId}}) {
+			return {...state,urUser,urRoleIds,wsWarehouseId}
 		},
 		cleardata(state, { payload: urUser}) {
 			return {...state,urUser}
@@ -39,13 +42,12 @@ export default {
 		},
 		//选择权限标签时执行的操作
 		urRoleIdschange(state, { payload: {id,checked}}) {
-			const selectedTags=state.urUser.urRoleIds.concat();
+			const selectedTags=state.urRoleIds.concat();
 			const nextSelectedTags = checked ?
 			        [...selectedTags, id] :
 					selectedTags.filter(t => t !== id);
-			const urUser=JSON.parse(JSON.stringify(state.urUser));
-			urUser.urRoleIds=nextSelectedTags;
-			return {...state,urUser}
+			const urRoleIds=nextSelectedTags
+			return {...state,urRoleIds}
 		},
 		initState(state, { payload: value}) {
 			const urUser={
@@ -56,35 +58,49 @@ export default {
 				mobile:null,
 				status:[],
 				urRoleIds:[]
-			  }
-			return {...state,urUser}
+			  };
+			  const urRoleIds=[];
+			  const wsWarehouseId='-1';
+			return {...state,urUser,urRoleIds,wsWarehouseId}
+		},
+		//初始化urRoleIds
+		initUrRoleIds(state, { payload: value}){
+			const urRoleIds = [];
+			return {...state,urRoleIds}
 		}
   	},
   	effects: {
   		*fetch({ payload: {code,values} }, { call, put ,select}) {
-            const result=yield call(GetServerData,code,values);
+			const result=yield call(GetServerData,code,values);
+			yield put({type: 'tab/loding',payload:false});	
             if(result.code=='0'){
 				const accountInfo = result.urUsers;
 				const limit=result.limit;
 				const currentPage=result.currentPage;
 				for(var i=0;i<accountInfo.length;i++){
-					accountInfo[i].key=accountInfo[i].urUserId;
+					accountInfo[i].key=accountInfo[i].wsUrUserId;
 				}
 				const total=result.total;
               	yield put({type: 'accountList',payload:{accountInfo,total,limit,currentPage}});
-				yield put({type: 'tab/loding',payload:false});	
             } 
         }, 
   		*infofetch({ payload: {code,values} }, { call, put }) {
 			const result=yield call(GetServerData,code,values);
+			yield put({type: 'tab/loding',payload:false});
 			if(result.code=='0'){
-				  const urUser = result.urUser;
-				  urUser.status=String(urUser.status);
-	 	 		yield put({type: 'urUserinfo',payload:urUser});
-				yield put({type: 'tab/loding',payload:false});
+				const urUser = result.urUser;
+				const urRoleIds=result.urUser.urRoleIds;
+				const wsWarehouseId=result.urUser.wsWarehouseId;
+				yield put({
+					type:'rolelist',
+					payload:{code:'qerp.web.ws.ur.role.list',values:{'wsWarehouseId':wsWarehouseId}}
+				});
+				urUser.status=String(urUser.status);
+	 	 		yield put({type: 'urUserinfo',payload:{urUser,urRoleIds,wsWarehouseId}});
 			} 
 		},
 		*rolelist({ payload: {code,values} }, { call, put }) {
+			yield put({type: 'tab/loding',payload:false});
 			const result=yield call(GetServerData,code,values);
 			if(result.code=='0'){
 	  			 const totalurRoles = result.urRoles;

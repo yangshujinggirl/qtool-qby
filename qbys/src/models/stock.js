@@ -1,9 +1,9 @@
-import {GetServerData} from '../services/service';
+import {GetServerData} from '../services/services';
 export default {
   namespace: 'stock',
   state: {
     values:{},
-    limit:10,
+    limit:15,
     currentPage:0,
     total:0,
     stockList:[]
@@ -12,8 +12,8 @@ reducers: {
     synchronous(state, { payload:values}) {
         return {...state,values}
     },
-    stockList(state, { payload:{stockList,total}}) {
-        return {...state,stockList,total}
+    stockList(state, { payload:{stockList,total,limit,currentPage}}) {
+        return {...state,stockList,total,limit,currentPage}
     },
     refreshwsPositionInfo(state, { payload:wsPositionInfo}){
         return {...state,wsPositionInfo}
@@ -22,6 +22,7 @@ reducers: {
 effects: {
     *fetch({ payload: {code,values} }, { call, put ,select}) {
         const result=yield call(GetServerData,code,values);
+        yield put({type: 'tab/loding',payload:false});	
         if(result.code=='0'){
             const stockList=result.wsInvs;
             for(var i=0;i<stockList.length;i++){
@@ -43,7 +44,6 @@ effects: {
             const currentPage=result.currentPage;
             const total=result.total;
             yield put({type: 'stockList',payload:{stockList,total,limit,currentPage}});
-            yield put({type: 'tab/loding',payload:false});	
         } 
     }, 
 },

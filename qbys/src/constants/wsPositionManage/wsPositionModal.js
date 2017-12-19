@@ -11,12 +11,13 @@ class NewPositionModalForm extends React.Component {
        this.state = {
           visible: false,
           id:null,
-          wsAreaList:[]
+          wsAreaList:[],
+          headTitle:''
 	   };
     }
 
     //打开modal,设置modal数据显示
-    changeVisible = (visible,info) =>{
+    changeVisible = (visible,info,headTitle) =>{
         //进行数据请求获取库区列表
         const value={'limit':100};
         const result=GetServerData('qerp.web.ws.area.query',value);
@@ -34,7 +35,8 @@ class NewPositionModalForm extends React.Component {
         if(info){
             this.setState({
                 visible:visible,
-                id:info.wsBinId
+                id:info.wsBinId,
+                headTitle:headTitle
             },function(){
                 this.props.dispatch({
                     type:'wsPositionManage/refreshwsPositionInfo',
@@ -56,7 +58,8 @@ class NewPositionModalForm extends React.Component {
             });
             this.setState({
                 visible:visible,
-                id:null
+                id:null,
+                headTitle:headTitle
             })
         }
     }
@@ -110,7 +113,7 @@ class NewPositionModalForm extends React.Component {
        return (
             <Modal
                 visible={this.state.visible}
-                title="新建库区"
+                title={this.state.headTitle}
                 okText="确定"
                 onCancel={this.handleCancel}
                 onOk={this.handleCreate}
@@ -179,12 +182,12 @@ class NewPositionModalForm extends React.Component {
                         )}
                     </FormItem>
                     <FormItem
-                        label="库区状态"
+                        label="库位状态"
                         labelCol={{ span: 8 }}
                         wrapperCol={{ span: 12 }}
                         >
                         {getFieldDecorator('status', {
-                            rules: [{ required: true,  message: '请选择库区状态' }],
+                            rules: [{ required: true,  message: '请选择库位状态' }],
                         
                             initialValue:String(this.props.wsPositionInfo.status)
                         })(

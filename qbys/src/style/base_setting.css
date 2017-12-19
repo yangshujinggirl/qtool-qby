@@ -1,0 +1,38 @@
+.base-info{
+    font-size: 16px;
+    margin-left: 30px;
+}
+.base-info .ant-checkbox{
+    vertical-align: middle;
+}
+.base-info label{
+    text-align: right;
+    font-size: 16px;
+    line-height: 20px;
+    margin-bottom: 20px;
+}
+.base-info label span{
+    vertical-align: middle;
+}
+.base-info .title-label{
+    width: 80px;
+}
+.order-wrapper{
+    float: left;
+}
+.order-label{
+    float: left;
+}
+.wsName{
+    float: left;
+    width: 180px;
+}
+.wsOperate{
+    float: left;
+}
+.wsOperate i{
+    cursor: pointer;
+}
+.footer-div{
+   margin-left: 120px;
+}

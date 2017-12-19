@@ -105,7 +105,10 @@
 .ant-form-item{
 	margin-bottom: 20px;
 }
-.ant-form-item-with-help{
+.login-form .ant-form-item-with-help{
+	margin-bottom: 4px;
+}
+.modelform .ant-form-item-with-help{
 	margin-bottom: 4px;
 }
 .ant-input:focus{

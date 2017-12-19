@@ -1,4 +1,4 @@
-import {GetServerData} from '../services/service';
+import {GetServerData} from '../services/services';
 import {message} from 'antd';
 
 export default {
@@ -23,6 +23,7 @@ export default {
 	  //异步请求获取数据
     *fetch({ payload: {code,values} }, { call, put }) {
 		const result=yield call(GetServerData,code,values);
+		yield put({type: 'tab/loding',payload:false});
 		if(result.code=='0'){
 			const allData = result;
 			const dataList = result.asns;
@@ -30,27 +31,16 @@ export default {
 				type: 'saveDataList',
 				payload:{allData,dataList}
       });
-      yield put({type: 'tab/loding',payload:false});
+      
 			yield put({   
 				type: 'updateData',
 				payload:false
 			});
-		}else{
-			message.error(result.message);
-		}   
+		}
 	},
   },
   subscriptions: {
-    // setup({ dispatch, history }) {
-    //     return history.listen(({ pathname, query }) => {
-		// 	//请求数据
-    //         if (pathname === '/putInStorageManage') {
-    //             dispatch({ 
-    //               type: 'fetch', payload: {code:'qerp.web.ws.asn.query',values:{}}
-    //            })  
-    //         }
-    //     });
-    // },
+   
   },
 };
 

@@ -33,18 +33,26 @@ export function post(url, paramsObj) {
         },
         body: obj2params(paramsObj)
     }).then((res) => {
+        if (res.status !== 200) {            
+            return {message:'网络错误'};                   
+         }
+
+
         let json = res.json();
         return json;
     }).then((json) => {
         if(json.code=='E_300'){
              window.location.href= '/';
+             sessionStorage.clear();
         }
         if(json.code!='0'){
-            message.error(json.message);
+            message.error(json.message,0.8);
         }
         jsessionid = json.sessionId;
         return json;
-    });
+    }).catch(function(err) {      
+        return {message:'网络错误'};      
+     });
 
     return result;
 }

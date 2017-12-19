@@ -5,7 +5,8 @@ import { GetServerData} from '../../services/service';
 const FormItem = Form.Item;
 class NormalLoginForm extends React.Component {
     state={
-        passworderron:false
+        passworderron:false,
+        messages:null
     }
     handleSubmit = (e) => {
         e.preventDefault();
@@ -16,24 +17,32 @@ class NormalLoginForm extends React.Component {
                     return res;
                 }).then((json) => {
                     if(json.code=='0'){
-                        sessionStorage.setItem('urUser', JSON.stringify(json.urUser));
-                        sessionStorage.setItem('username', JSON.stringify(json.username));
+                        sessionStorage.setItem('name', JSON.stringify(json.name));
+                        sessionStorage.setItem('adminType', JSON.stringify(json.adminType));
+                        sessionStorage.setItem('wsName', JSON.stringify(json.wsName));
                         this.context.router.push('/home')
-                    }else{      
+                       
+                    }else{
                         this.setState({
                             passworderron:true,
+                            messages:json.message
                         })
                     }
                 })
             }
         });
     }
+    password=()=>{
+        this.setState({
+            passworderron:false
+        })
+    }
     render() {
         const { getFieldDecorator } = this.props.form;
         return (
             <Form onSubmit={this.handleSubmit} className="login-form">
                 <FormItem>
-                    {getFieldDecorator('userName', {
+                    {getFieldDecorator('username', {
                         rules: [{ required: true, message: '请输入用户名' }],
                     })(
                         <Input className='loin_input_model' placeholder="请输入用户名" />
@@ -41,11 +50,11 @@ class NormalLoginForm extends React.Component {
                 </FormItem>
                 <FormItem className='login_password'>
                     {getFieldDecorator('password', {
-                        rules: [{ required: true, message: '请输入密码' }],
+                        rules:[{required:true, message:'请输入正确的密码'}]
                     })(
-                        <Input type="password" placeholder="请输入密码" className='loin_input_model'/>
+                        <Input type="password" placeholder="请输入密码" className='loin_input_model' onChange={this.password.bind(this)}/>
                     )}
-                    <p className={this.state.passworderron?'passworderron':'hide'}>请输入正确的密码</p>
+                    <p className={this.state.passworderron?'passworderron':'hide'}>{this.state.messages}</p>
                 </FormItem>
                 <FormItem>
                     <Button type="primary" htmlType="submit" className="login-form-button">登录</Button>

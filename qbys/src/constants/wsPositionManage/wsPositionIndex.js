@@ -15,27 +15,34 @@ class HousePositionIndex extends React.Component{
 
 	//新建库位弹出框
     addNewHousePosition = () =>{
-		this.newPositionModal.changeVisible(true,null);
+		this.newPositionModal.changeVisible(true,null,'新建库位');
 	}
 
     //当点击table修改单条数据信息时
-	editInfo = (info) =>{
-		this.newPositionModal.changeVisible(true,info);
+	editInfo = (info,headTitle) =>{
+		this.newPositionModal.changeVisible(true,info,headTitle);
 	}
 	
   	render(){
+		const adminType=eval(sessionStorage.getItem('adminType'));
      	return(
         	<div className='content_box'>
                 <HousePositionSearch/>
-					<Button 
+				{
+					adminType !='10'
+					?
+						<Button 
 						type="primary" 
 						onClick={this.addNewHousePosition.bind(this)}
 						size='large'
-						className='mt30'
+						className='mt20'
 					>
-                        新建库位
+						新建库位
 					</Button>
-             		<div className='mt30'><HousePositionTable openModal={this.editInfo.bind(this)}/></div>
+					:
+					null
+				}
+             		<div className='mt15'><HousePositionTable openModal={this.editInfo.bind(this)}/></div>
 					 <NewPositionModal wrappedComponentRef={(inst) => this.newPositionModal = inst}/>
         	</div>
       	)

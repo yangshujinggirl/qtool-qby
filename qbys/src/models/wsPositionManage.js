@@ -20,8 +20,8 @@ export default {
         synchronous(state, { payload:values}) {
             return {...state,values}
         },
-        housePositionList(state, { payload:{housePositionList,total}}) {
-            return {...state,housePositionList,total}
+        housePositionList(state, { payload:{housePositionList,total,limit,currentPage}}) {
+            return {...state,housePositionList,total,limit,currentPage}
         },
         refreshwsPositionInfo(state, { payload:wsPositionInfo}){
             return {...state,wsPositionInfo}
@@ -30,6 +30,7 @@ export default {
     effects: {
         *fetch({ payload: {code,values} }, { call, put ,select}) {
             const result=yield call(GetServerData,code,values);
+            yield put({type: 'tab/loding',payload:false});
             if(result.code=='0'){
                 const housePositionList = result.wsBins;
                 const limit=result.limit;
@@ -38,14 +39,10 @@ export default {
                 for(var i=0;i<housePositionList.length;i++){
                     housePositionList[i].key=housePositionList[i].wsBinId;
                 }
-                yield put({type: 'housePositionList',payload:{housePositionList,total,limit,currentPage}});
-                yield put({type: 'tab/loding',payload:false});	
+                yield put({type: 'housePositionList',payload:{housePositionList,total,limit,currentPage}});	
             } 
         }, 
                     
-        // *getInfo({payload: values }, { call, put}){
-        //     yield put({type: 'refreshwsArea',payload:values});
-        // }
     },
     subscriptions: {},
 };

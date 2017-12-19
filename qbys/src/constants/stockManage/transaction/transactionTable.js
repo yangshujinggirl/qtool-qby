@@ -13,8 +13,11 @@ class TransactionTable extends React.Component {
           title: '商品名称',
           dataIndex: 'pdSpu.name'
         },{
-          title: '规格',
+          title: '商品规格',
           dataIndex: 'specification'
+        },{
+          title: '所属仓库',
+          dataIndex: 'wsWarehouseName'
         },{
           title: '单据类型',
           dataIndex: 'docTypeStr'
@@ -45,7 +48,7 @@ class TransactionTable extends React.Component {
 	}
 	//pagesize变化
 	pageSizeChange=(current,size)=>{
-        this.initList(this.props.values,size,Number(current-1))
+        this.initList(this.props.values,size,0)
 	}
     
     //列表数据请求   
@@ -67,7 +70,8 @@ class TransactionTable extends React.Component {
 				pageChange={this.pageChange.bind(this)}
 				pageSizeChange={this.pageSizeChange.bind(this)}
 				total={this.props.total}
-				limit={this.props.limit}
+        limit={this.props.limit}
+        current={Number(this.props.currentPage)+1}
 				/>
         );
 	}

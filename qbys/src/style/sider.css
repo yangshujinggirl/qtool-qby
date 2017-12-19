@@ -29,15 +29,16 @@
 	height: 60px;
 	line-height: 60px;
 	font-size: 15px;
-	color: #485861;
-	padding-left: 40px;
+	color: #7299AC;
+	padding-left: 0!important;
+	text-align: center;
+	padding-right: 0;
 }
 .ant-menu-sub.ant-menu-inline > .ant-menu-item, .ant-menu-sub.ant-menu-inline > .ant-menu-submenu > .ant-menu-submenu-title{
 	height: 34px;
 	line-height: 34px;
 	font-size: 13px;
-	color: #687E89;
-
+	color: rgb(112, 183, 216);
 }
 .ant-menu.ant-menu-dark .ant-menu-item-selected{
 	background: none;
@@ -98,3 +99,22 @@
 	background: #101316;
 }
 
+
+.openpop{
+	width:15px;
+	height:100px;
+	position: fixed;
+	top:50%;
+	background:url('../assets/arrow_02.png') no-repeat;
+	background-size: 100% 100%;
+	left:220px;
+	margin-top:-50px;cursor: pointer;}
+.closepop{
+	width:15px;height:100px;position: fixed;top:50%;
+	background:url('../assets/arrow_01.png') no-repeat;
+	background-size: 100% 100%;
+	left:0px;margin-top:-50px;cursor: pointer;
+}
+.btnbox{position: relative;height: 48px;}
+.uploadim{position:absolute;left: 0;top:20px}
+.btnmo{position:absolute;left: 110px;top:20px;}

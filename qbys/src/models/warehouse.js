@@ -3,7 +3,7 @@ export default {
 	namespace: 'warehouse',
 	state: {
 		values:{},
-		limit:10,
+		limit:15,
 		currentPage:0,
 		total:0,
 		wsorderlist:[],
@@ -14,7 +14,10 @@ export default {
 		detailstitle:'',
 		details:[],
 		logstitle:'',
-		logs:[]
+		logs:[],
+		detaltotol:0,
+		detallimit:50,
+		detalcurrentPage:0
 	},
 	reducers: {
 		synchronous(state, { payload:values}) {
@@ -26,8 +29,8 @@ export default {
 		infolist(state, { payload:{cardtitle,cardlist,logstitle,logs,expressInfostit,expressInfos}}) {
 			return {...state,cardtitle,cardlist,logstitle,logs,expressInfostit,expressInfos}
 		},
-		detailinfolist(state, { payload:{detailstitle,details}}) {
-			return {...state,detailstitle,details}
+		detailinfolist(state, { payload:{detailstitle,details,detaltotol,detallimit,detalcurrentPage}}) {
+			return {...state,detailstitle,details,detaltotol,detallimit,detalcurrentPage}
 		},
 		select(state, { payload:{selectedRowKeys,selectedRows}}) {
 			return {...state,selectedRowKeys,selectedRows}
@@ -37,6 +40,7 @@ export default {
 	effects: {
 		*fetch({ payload: {code,values} }, { call, put ,select}) {
 			const result=yield call(GetServerData,code,values);
+			yield put({type: 'tab/loding',payload:false});
 			if(result.code=='0'){
 				const wsorderlist = result.wsOrders;
 				const limit=result.limit
@@ -51,6 +55,7 @@ export default {
 		}, 
 		*infofetch({ payload: {code,values} }, { call, put ,select}) {
 			const result=yield call(GetServerData,code,values);
+			yield put({type: 'tab/loding',payload:false});
 			if(result.code=='0'){
 				const wsOrder=result.wsOrder
 				var temStr = wsOrder.spOrderNos[0];
@@ -88,13 +93,20 @@ export default {
 		}, 
 		*detailfetch({ payload: {code,values} }, { call, put ,select}) {
 			const result=yield call(GetServerData,code,values);
+			yield put({type: 'tab/loding',payload:false});
 			if(result.code=='0'){
 				const detailstitle='配货商品'
 				const details=result.detailAllotVos
 				for(var i=0;i<details.length;i++){
 					details[i].key=i
+					if(details[i].pdSkuBarcode==undefined || details[i].pdSkuBarcode==null || details[i].pdSkuBarcode==''){
+						details[i].pdSkuBarcode=details[i].pdSpuBarcode
+					}
 				}
-				yield put({type: 'detailinfolist',payload:{detailstitle,details}});
+				const detaltotol=result.total 
+				const detallimit=result.limit 
+				const detalcurrentPage=result.currentPage
+				yield put({type: 'detailinfolist',payload:{detailstitle,details,detaltotol,detallimit,detalcurrentPage}});
 				yield put({type: 'tab/loding',payload:false});	
 			} 
 		}

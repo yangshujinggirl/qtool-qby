@@ -10,16 +10,18 @@ class NewAreaModalForm extends React.Component {
        super(props);
        this.state = {
           visible: false,
-          id:null
+          id:null,
+          headText:''
 	   };
     }
 
     //改变modal的显示隐藏
-    changeVisible = (visible,info) =>{
+    changeVisible = (visible,info,headText) =>{
         if(info){
             this.setState({
                 visible:visible,
-                id:info.wsAreaId
+                id:info.wsAreaId,
+                headText:headText
             },function(){
                 this.props.dispatch({
                     type:'houseAreaManage/getInfo',
@@ -39,7 +41,8 @@ class NewAreaModalForm extends React.Component {
             });
             this.setState({
                 visible:visible,
-                id:null
+                id:null,
+                headText:headText
             })
         }
     }
@@ -93,7 +96,7 @@ class NewAreaModalForm extends React.Component {
        return (
             <Modal
                 visible={this.state.visible}
-                title="新建库区"
+                title={this.state.headText}
                 okText="确定"
                 onCancel={this.handleCancel}
                 onOk={this.handleCreate}

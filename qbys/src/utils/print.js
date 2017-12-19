@@ -1,11 +1,20 @@
 
-import { message} from 'antd';
+import { message,Modal} from 'antd';
 import {getJsessionId} from './post'
 
 var LODOP;
 var CreatedOKLodop7766=null;
 
 //====判断是否需要安装CLodop云打印服务器:====
+
+
+function error() {
+	Modal.error({
+	  title: '打印设置',
+	  content: <font color='#FF00FF'>CLodop云打印服务(localhost本地)未安装启动!点击这里<a href='/static/CLodop_Setup_for_Win32NT.exe' target='_self'>执行安装</a>,安装后请刷新页面。</font>,
+	});
+  }
+
 function needCLodop(){
     try{
 	var ua=navigator.userAgent;
@@ -54,14 +63,14 @@ if (needCLodop()) {
 
 //====获取LODOP对象的主过程：====
  function getLodop(oOBJECT,oEMBED){
-    var strHtmInstall="<br><font color='#FF00FF'>打印控件未安装!点击这里<a href='/sources/printResource/install_lodop32.exe' target='_self'>执行安装</a>,安装后请刷新页面或重新进入。</font>";
-    var strHtmUpdate="<br><font color='#FF00FF'>打印控件需要升级!点击这里<a href='/sources/printResource/install_lodop32.exe' target='_self'>执行升级</a>,升级后请重新进入。</font>";
-    var strHtm64_Install="<br><font color='#FF00FF'>打印控件未安装!点击这里<a href='/sources/printResource/install_lodop64.exe' target='_self'>执行安装</a>,安装后请刷新页面或重新进入。</font>";
-    var strHtm64_Update="<br><font color='#FF00FF'>打印控件需要升级!点击这里<a href='/sources/printResource/install_lodop64.exe' target='_self'>执行升级</a>,升级后请重新进入。</font>";
+    var strHtmInstall="<br><font color='#FF00FF'>打印控件未安装!点击这里<a href='/static/printResource/install_lodop32.exe' target='_self'>执行安装</a>,安装后请刷新页面或重新进入。</font>";
+    var strHtmUpdate="<br><font color='#FF00FF'>打印控件需要升级!点击这里<a href='/static/printResource/install_lodop32.exe' target='_self'>执行升级</a>,升级后请重新进入。</font>";
+    var strHtm64_Install="<br><font color='#FF00FF'>打印控件未安装!点击这里<a href='/static/printResource/install_lodop64.exe' target='_self'>执行安装</a>,安装后请刷新页面或重新进入。</font>";
+    var strHtm64_Update="<br><font color='#FF00FF'>打印控件需要升级!点击这里<a href='/static/printResource/install_lodop64.exe' target='_self'>执行升级</a>,升级后请重新进入。</font>";
     var strHtmFireFox="<br><br><font color='#FF00FF'>（注意：如曾安装过Lodop旧版附件npActiveXPLugin,请在【工具】->【附加组件】->【扩展】中先卸它）</font>";
     var strHtmChrome="<br><br><font color='#FF00FF'>(如果此前正常，仅因浏览器升级或重安装而出问题，需重新执行以上安装）</font>";
-    var strCLodopInstall="<font color='#FF00FF'>CLodop云打印服务(localhost本地)未安装启动!点击这里<a href='/sources/printResource/CLodop_Setup_for_Win32NT.exe' target='_self'>执行安装</a>,安装后请刷新页面。</font>"
-    var strCLodopUpdate="<br><font color='#FF00FF'>CLodop云打印服务需升级!点击这里<a href='/sources/printResource/CLodop_Setup_for_Win32NT.exe' target='_self'>执行升级</a>,升级后请刷新页面。</font>";
+    var strCLodopInstall="<font color='#FF00FF'>CLodop云打印服务(localhost本地)未安装启动!点击这里<a href='/static/printResource/CLodop_Setup_for_Win32NT.exe' target='_self'>执行安装</a>,安装后请刷新页面。</font>"
+    var strCLodopUpdate="<br><font color='#FF00FF'>CLodop云打印服务需升级!点击这里<a href='/static/CLodop_Setup_for_Win32NT.exe' target='_self'>执行升级</a>,升级后请刷新页面。</font>";
     var LODOP;
     try{
         var isIE = (navigator.userAgent.indexOf('MSIE')>=0) || (navigator.userAgent.indexOf('Trident')>=0);
@@ -70,13 +79,14 @@ if (needCLodop()) {
 	    if (!LODOP && document.readyState!=='complete') {alert('C-Lodop没准备好，请稍后再试！'); return;};
             if (!LODOP) {
 		 if (isIE) document.write(strCLodopInstall); else
-		 document.documentElement.innerHTML=strCLodopInstall+document.documentElement.innerHTML;
+		 		error()
+		 	// alert('打印控件未安装，请先下载打印机控件')
                  return;
             } else {
 
 	         if (CLODOP.CVERSION<'2.1.3.0') {
 			if (isIE) document.write(strCLodopUpdate); else
-			 document.documentElement.innerHTML=strCLodopUpdate+document.documentElement.innerHTML;
+			 alert('CLodop云打印服务需升级!')
 		 }
 		 if (oEMBED && oEMBED.parentNode) oEMBED.parentNode.removeChild(oEMBED);
 		 if (oOBJECT && oOBJECT.parentNode) oOBJECT.parentNode.removeChild(oOBJECT);
@@ -131,10 +141,6 @@ function PrintOneURL(url,orderno){
 		LODOP=getLodop();
 		LODOP.PRINT_INIT('printJob'+new Date());
 		LODOP.ADD_PRINT_URL('1cm','1cm','90%','90%',url);
-//		LODOP.SET_PRINT_STYLEA(0,'HOrient',3);
-//		LODOP.SET_PRINT_STYLEA(0,'VOrient',3);
-//		LODOP.SET_SHOW_MODE("MESSAGE_GETING_URL",""); //该语句隐藏进度条或修改提示信息
-//		LODOP.SET_SHOW_MODE("MESSAGE_PARSING_URL","");//该语句隐藏进度条或修改提示信息
 		var	pageData = orderno+"　<span tdata='pageNO'>第##页</span>/<span tdata='pageCount'>共##页</span>"
 		LODOP.ADD_PRINT_HTM('0.5cm',450,300,100,pageData);
 		LODOP.SET_PRINT_STYLEA(0,"ItemType",1);
@@ -144,14 +150,12 @@ function PrintOneURL(url,orderno){
 
 
 export function GetLodop(id,type,orderno) {
-	var Url=window.location.href
-	if (id == null || id == '') {
-		message.error('请选择打印单据')
-		return;
-	}
-	Url=Url.substr(0,Url.length-7)
+	var Url=window.location.host
+	console.log(Url)
 	const jsessionid = getJsessionId();
-	Url=Url+'/erpWebRest/print.htm;jsessionid='+jsessionid+'?type='+type+'&id='+id
+	Url='http://'+Url+'/erpQwmsRest/print.htm;jsessionid='+jsessionid+'?type='+type+'&id='+id
+	// Url='http://'+Url+'/erpQwmsRest/print.htm?type='+type+'&id='+id
+	console.log(Url)
 	PrintOneURL(Url,orderno)
 }
 

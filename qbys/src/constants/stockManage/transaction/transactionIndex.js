@@ -11,21 +11,7 @@ class TransactionIndex extends React.Component{
      	return(
         	<div>
                 <TransactionSearch/>
-					<Button 
-						type="primary" 
-						size='large'
-						className='mt10 mr10'
-					>
-                        下载补货需求
-					</Button>
-                    <Button 
-						type="primary" 
-						size='large'
-						className='mt10'
-					>
-                        导出数据
-					</Button>
-             		<div className='mt30'><TransactionTable/></div>
+             	<div className='mt30'><TransactionTable/></div>
         	</div>
       	)
   	}

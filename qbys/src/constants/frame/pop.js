@@ -1,22 +1,24 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Button, Modal, Form, Input, Radio } from 'antd';
+import { Button, Modal, Form, Input, Radio,message } from 'antd';
+import {GetServerData} from '../../services/services';
 const FormItem = Form.Item;
 
 const CollectionCreateForm = Form.create()(
   	(props) => {
     	const { visible, onCancel, onCreate, form,data } = props;
    	 	const { getFieldDecorator } = form;
-     	const username=eval(sessionStorage.getItem('username'));
+		const name=eval(sessionStorage.getItem('name'));
     	return (
 			<Modal
 				visible={visible}
-				title={username}
+				title={name}
 				okText="确定"
 				onCancel={onCancel}
 				onOk={onCreate}
+				
 			>
-				<Form>
+				<Form className='modelform'>
 					<FormItem
 						label="旧密码"
 						labelCol={{ span: 6    }}
@@ -25,7 +27,7 @@ const CollectionCreateForm = Form.create()(
 						{getFieldDecorator('oldpass', {
 							rules: [{ required: true, message: '请输入旧密码' }],
 						})(
-							<Input />
+							<Input type='password'/>
 						)}
 					</FormItem>
 					<FormItem
@@ -36,7 +38,7 @@ const CollectionCreateForm = Form.create()(
 						{getFieldDecorator('newpass', {
 							rules: [{ required: true, message: '请输入新密码' }],
 						})(
-							<Input />
+							<Input type='password'/>
 						)}
 					</FormItem>
 					<FormItem
@@ -47,7 +49,7 @@ const CollectionCreateForm = Form.create()(
 						{getFieldDecorator('repnewpass', {
 							rules: [{ required: true, message: '请验证新密码' }],
 						})(
-							<Input />
+							<Input type='password'/>
 						)}
 					</FormItem>
 				</Form>
@@ -76,9 +78,8 @@ class CollectionsPage extends React.Component {
     	form.validateFields((err, values) => {
       	if (err) {
         	return;
-      	}
-        var Strdatanume=JSON.stringify(values)
-        const result=password(Strdatanume)
+		  }
+        const result=GetServerData('qerp.web.ws.bs.password',values)
            	result.then((res) => {
               	return res;
           	}).then((json) => {
@@ -87,7 +88,7 @@ class CollectionsPage extends React.Component {
                     	visible: false
                 	},function(){
                     	form.resetFields();
-                    	message.success('密码修改成功');
+						message.success('密码修改成功',.8);
                 	})
                }
         	})     

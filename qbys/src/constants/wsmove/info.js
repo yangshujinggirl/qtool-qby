@@ -7,7 +7,7 @@ class WsmoveInfo extends React.Component{
 		super(props);
 		this.columns1 = [{
 			title: '商品条码',
-			dataIndex: 'pdSpuBarcode'
+			dataIndex: 'pdSkuBarcode'
 		}, {
 			title: '商品名称',
 			dataIndex: 'pdSpuName'
@@ -16,7 +16,7 @@ class WsmoveInfo extends React.Component{
 			dataIndex: 'pdSkuDisplayName'
 		}, {
 			title: '批次',
-			dataIndex: 'wsLotProductDate'
+			dataIndex: 'lotStr'
 		}, {
 			title: '库位',
 			dataIndex: 'fromBinCode'

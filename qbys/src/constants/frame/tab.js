@@ -3,9 +3,7 @@ import { Tabs, Button } from 'antd';
 import { connect } from 'dva';
 import Content from '../frame/content';
 import '../../style/tab.css';
-import Cgorder from '../cgorder/cgorder';
-import Ctorder from '../ctorder/ctorder';
-import Sporder from '../sporder/sporder';
+
 const TabPane = Tabs.TabPane;
 
 class Tab extends React.Component {
@@ -51,7 +49,6 @@ class Tab extends React.Component {
 }
 function mapStateToProps(state) {
 	const {pane,activeKey} = state.tab;
-	console.log(activeKey)
     return {pane,activeKey};
 }
 export default connect(mapStateToProps)(Tab);

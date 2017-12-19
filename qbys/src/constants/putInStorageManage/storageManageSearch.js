@@ -162,7 +162,7 @@ class StorageManageSearch extends React.Component {
                     <Col span={6}>
                         <Row>
                             <Col span={8}>
-                                <Button type="primary" className='search-btn' onClick={this.searchTable.bind(this)}>搜索</Button>
+                                <Button type="primary" className='search-btn' onClick={this.searchTable.bind(this)} size='large'>搜索</Button>
                             </Col>
                         </Row>
                     </Col>

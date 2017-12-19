@@ -1,32 +1,31 @@
-import React from 'react';
 import { connect } from 'dva';
-import EditableTable from '../../components/table/tablemodel';
 import TableLink from '../../components/table/tablelink';
+import TableCanEdit from '../../components/table/table_edit';
 
 class WsTable extends React.Component {
 	constructor(props) {
 		super(props);
 		this.columns = [{
 		    title: '仓库名称',
-		    dataIndex: 'username'
+		    dataIndex: 'name'
 		}, {
 			title: '仓库编码',
-			dataIndex: 'name'
+			dataIndex: 'wsNo'
 		}, {
 			title: '仓库类型',
-			dataIndex: 'job'
+			dataIndex: 'wsType'
 		},{
 			title: '收货人',
-			dataIndex: 'mobile'
+			dataIndex: 'recName'
 		},{
 			title: '收货电话',
-			dataIndex: 'email'
+			dataIndex: 'recTelephone'
 		},{
 			title: '收货地址',
-			dataIndex: 'statusStr'
+			dataIndex: 'recAddress'
 		},{
 			title: '仓库状态',
-			dataIndex: 'updateTime'
+			dataIndex: 'statusStr'
 		},{
 		    title: '操作',
 		    dataIndex: 'operation',
@@ -40,51 +39,39 @@ class WsTable extends React.Component {
 
 	//修改用户信息
     editInfo = (record) => {
-        const urUserId=String(record.urUserId)
-        const paneitem={title:'修改账号',key:'601000edit'+urUserId,data:{urUserId:urUserId},componkey:'601000edit'}
+        const wsWarehouseId=String(record.wsWarehouseId)
+        const paneitem={title:'仓库修改',key:'90000edit'+wsWarehouseId,data:{wsWarehouseId:wsWarehouseId},componkey:'90000edit'}
         this.props.dispatch({
           	type:'tab/firstAddTab',
           	payload:paneitem
         })
 	}
-	//分页方法
-	pageChange=(page,pageSize)=>{
-		this.initAccountList(pageSize,Number(page-1))
-	}
-	//pagesize变化
-	pageSizeChange=(current,size)=>{
-		this.initAccountList(size,Number(current-1))
-	}
 
-	//账号列表数据
-	initAccountList=(limit,currentPage)=>{
+	//仓库列表数据
+	initAccountList=()=>{
         this.props.dispatch({
-            type:'account/fetch',
-            payload:{code:'qerp.web.ur.user.query',values:{limit:limit,currentPage:currentPage}}
+            type:'wsedit/fetch',
+			payload:{code:'qerp.web.ws.warehouse.query',values:{}}
 		})
-		this.props.dispatch({ type: 'tab/loding', payload:true}) 
+		 this.props.dispatch({type:'tab/loding',payload:true})
 	}
     render() {
         return (
-			<EditableTable 
-				dataSource={this.props.accountInfo} 
+			<TableCanEdit
 				columns={this.columns} 
-				pageChange={this.pageChange.bind(this)}
-				pageSizeChange={this.pageSizeChange.bind(this)}
-				total={this.props.total}
-				limit={this.props.limit}
-				/>
+				dataSources={this.props.warehouses}
+			/>
         );
 	}
 	componentDidMount(){
-		this.initAccountList(this.props.limit,this.props.currentPage)
+		this.initAccountList()
 	}
     
 }
 
 function mapStateToProps(state) {
-    const {accountInfo,total,limit,currentPage} = state.account;
-    return {accountInfo,total};
+    const {warehouses} = state.wsedit;
+    return {warehouses};
 }
 
 export default connect(mapStateToProps)(WsTable);

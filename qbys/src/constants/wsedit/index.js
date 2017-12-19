@@ -1,14 +1,19 @@
 import { Button, Icon } from 'antd';
 import { connect } from 'dva';
 import WsTable from './table';
+import '../../style/wsform_addstyle.css';
+
 class WsIndex extends React.Component{
-	//点击添加按钮添加新用户信息
     addWs = () =>{
-		const paneitem={title:'新增仓库',key:'601000edit',componkey:'601000edit',data:null}
+		const paneitem={title:'新增仓库',key:'90000edit',componkey:'90000edit',data:null}
   		this.props.dispatch({
 	    	type:'tab/firstAddTab',
 	    	payload:paneitem
-	  	})
+		})
+		this.props.dispatch({
+	    	type:'wsedit/initstate',
+	    	payload:paneitem
+		})
   	}
   	render(){
      	return(
@@ -17,11 +22,13 @@ class WsIndex extends React.Component{
 						type="primary" 
 						onClick={this.addWs.bind(this)}
 						size='large'
-						className='mt30'
+						className=''
 					>
 						新增仓库
 					</Button>
-             		<div className='mt30'><WsTable/></div>
+             		<div className='mt15'>
+						 <WsTable/>
+					</div>
         	</div>
       	)
   	}

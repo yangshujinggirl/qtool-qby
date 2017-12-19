@@ -15,30 +15,54 @@ class HouseAreaIndex extends React.Component{
 
 	//新建库区弹出框
     addNewHouseArea = () =>{
-		this.newAreaModal.changeVisible(true,null);
+		this.newAreaModal.changeVisible(true,null,'新建库区');
 	}
 
-	editInfo = (info) =>{
-		this.newAreaModal.changeVisible(true,info);
+	//修改库区
+	editInfo = (info,headText) =>{
+		this.newAreaModal.changeVisible(true,info,headText);
+	}
+
+	//请求仓库列表
+	wsList=()=>{
+        this.props.dispatch({
+            type:'IndexPage/wslistfetch',
+            payload:{code:'qerp.web.ws.warehouse.all.list',values:{}}
+        })
 	}
 	
   	render(){
+		const adminType=eval(sessionStorage.getItem('adminType'));
      	return(
         	<div className='content_box'>
                 <HouseAreaSearch/>
+				{
+					adminType !='10'?
 					<Button 
 						type="primary" 
 						onClick={this.addNewHouseArea.bind(this)}
 						size='large'
-						className='mt30'
+						className='mt20'
 					>
-                        新建库区
+						新建库区
 					</Button>
-             		<div className='mt30'><HouseAreaTable openModal={this.editInfo.bind(this)}/></div>
+					:
+					null
+				}
+             		<div className='mt15'><HouseAreaTable openModal={this.editInfo.bind(this)}/></div>
 					 <NewAreaModal wrappedComponentRef={(inst) => this.newAreaModal = inst}/>
         	</div>
       	)
-  	}
+	}
+	  
+	componentDidMount(){
+		this.wsList()
+	}
 }
 
-export default connect()(HouseAreaIndex);
+function mapStateToProps(state) {
+	const {warehouses}=state.IndexPage;
+    return {warehouses};
+}
+
+export default connect(mapStateToProps)(HouseAreaIndex);

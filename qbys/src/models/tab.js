@@ -8,7 +8,7 @@ export default {
         activeKey:'',
         menus:[],
         loding:false,
-        openkeys:[]
+        openKey:[]
     },
     reducers: {
         //menu数据
@@ -17,20 +17,23 @@ export default {
         },
         //刷新,第一次进入页面
         refresh(state, { payload:pannelfirst}) {
+            console.log(pannelfirst)
             var pane = eval(sessionStorage.getItem("pane"));
             var activeKey = sessionStorage.getItem('activeKey');
-            var openkeys = eval(sessionStorage.getItem("openkeys"));
-            if(pane==null & activeKey==null & openkeys==null){
+            var openKey = eval(sessionStorage.getItem("openKey"));
+            if(pane==null & activeKey==null){
                 //第一次进入页面
                 pane=[]
                 pane.push(pannelfirst)
                 activeKey=pannelfirst.key
-                openkeys=['0']
+                openKey=[pannelfirst.openkey]
+                console.log(activeKey)
+                console.log(openKey)
             }
             sessionStorage.setItem("pane", JSON.stringify(pane));
             sessionStorage.setItem("activeKey", activeKey);
-            sessionStorage.setItem("openkeys", JSON.stringify(openkeys));
-            return {...state,pane,activeKey,openkeys}
+            sessionStorage.setItem("openKey", JSON.stringify(openKey));
+            return {...state,pane,activeKey,openKey}
         },
         //新增tab
         addNewTab(state,{ payload:{arr,NewactiveKey}}){
@@ -44,10 +47,21 @@ export default {
         },
         //删除tab
         delectArr(state,{ payload:targetKey}){
+            //当前tab的index
             var pane = eval(sessionStorage.getItem("pane"));
             var activeKey = sessionStorage.getItem('activeKey');
+            var index=0
+            for(var i=0;i<pane.length;i++){
+                if(pane[i].key==targetKey){
+                    index=i
+                }
+            }
+            if(index==0){
+                activeKey=pane[1].key
+            }else{
+                activeKey=pane[(Number(index)-1)].key
+            }
             pane = pane.filter(pane => pane.key !== targetKey);
-            activeKey=pane[pane.length-1].key;
             sessionStorage.setItem("pane", JSON.stringify(pane));
             sessionStorage.setItem("activeKey", activeKey);
             return {...state,pane,activeKey}
@@ -56,10 +70,12 @@ export default {
         loding(state,{ payload:loding}){
             return {...state,loding}
         },
-        openkeys(state,{ payload:openkeys}){
-            sessionStorage.setItem("openkeys", JSON.stringify(openkeys));
-            return {...state,openkeys}
+        openkey(state,{ payload:key}){
+            const openKey=key
+            sessionStorage.setItem("openKey", JSON.stringify(openKey));
+            return {...state,openKey}
         },
+        //直接切
         tabover(state,{ payload:paneitem}){
             var pane = eval(sessionStorage.getItem("pane"));
             var activeKey = sessionStorage.getItem('activeKey');
@@ -68,7 +84,6 @@ export default {
             sessionStorage.setItem("activeKey", activeKey);
             return {...state,pane,activeKey}
         }
-
     },
     effects: {
         *fetch({ payload: {code,values} }, { call, put }) {
@@ -96,22 +111,36 @@ export default {
                 const pannelfirst = {
                                         title:menus[0].children[0].name,
                                         key:String(menus[0].children[0].urResourceId),
-                                        data:null,componkey:String(menus[0].children[0].urResourceId)
-                                    }
+                                        data:null,componkey:String(menus[0].children[0].urResourceId),
+                                        openkey:String(menus[0].urResourceId)
+                }
+               
+                console.log(pannelfirst)
+
+
+
+
+
+
+
+
+
+
+
+
+                
                 yield put({type: 'menulist',payload:menus});
                 yield put({type: 'refresh',payload:pannelfirst});
-                yield put({type: 'loding',payload:false});
             } 
         },
         //删除前初始化state
         *initDeletestate({ payload: targetKey }, { call, put }) {
-            var pane = eval(sessionStorage.getItem("pane"));
-            //在pane数组中筛选出这个有相同id的pane
-            const paneitem=pane.find((pane)=>{
-                return pane.key==targetKey
-            })
-            if(paneitem.componkey=='601000edit'){
-                yield put({type: 'account/initState',payload:{}});
+            if(targetKey=='30000'){
+                yield put({type: 'postcheck/initstate',payload:{}});
+            }
+            if(targetKey=='40000'){
+                const data=[]
+                yield put({type: 'wspost/tabledata',payload:data});
             }
             yield put({type: 'delectArr',payload:targetKey});
         },
@@ -126,7 +155,8 @@ export default {
                 if(itemkey!=-1){
                     //二级
                     const arr=pane.filter((pane)=>{
-                        return pane.key.substring(0,10)!=paneitem.key.substring(0,10)
+                        const pankeyindex=pane.key.search('edit') 
+                        return pane.key.substring(0,pankeyindex)!=paneitem.key.substring(0,itemkey)
                     })
                     const parentkey=paneitem.key.substring(0,itemkey)
                     var index
@@ -158,7 +188,6 @@ export default {
             return history.listen(({ pathname, query }) => {
                 if (pathname === '/home') {
                      dispatch({ type: 'fetch', payload: {code:'qerp.web.bs.menu',values:null}})
-                     dispatch({ type: 'loding', payload:true})    
                 }
             });
         }

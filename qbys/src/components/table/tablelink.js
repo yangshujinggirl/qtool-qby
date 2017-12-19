@@ -8,7 +8,7 @@ class TableLink extends React.Component {
     }
     render() {
         return (
-            <p onClick={this.hindClick.bind(this)} className={this.props.type=='1'?'theme-color':'placehold-color'}>{this.props.text}</p>
+            <p onClick={this.hindClick.bind(this)} className={this.props.type=='1'?'theme-color pointer':'placehold-color'}>{this.props.text}</p>
         );
     }
     

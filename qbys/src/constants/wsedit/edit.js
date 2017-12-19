@@ -1,236 +1,222 @@
-import React from 'react';
 import {GetServerData} from '../../services/services';
 import { connect } from 'dva';
-import { Form, Select, Input, Button ,message,Modal, Row, Col} from 'antd';
-import UserTags from './usertags';
+import { Form, Select, Input, Button ,message,Cascader} from 'antd';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
 
-class AddNewAccountForm extends React.Component{
-
+class AddNewws extends React.Component{
 	constructor(props) {
 		super(props);
-	}
-
-	//修改数据初始化页面
-  	initDateEdit = (value) =>{
-  		this.props.dispatch({type:'account/infofetch',payload:value})
-    	this.props.dispatch({ type: 'tab/loding', payload:true})
-	}
-
-	//删除当前tab
-	deleteTab=()=>{
-		const pane = eval(sessionStorage.getItem("pane"));
-		if(pane.length<=1){
-			return
+		this.state={
+			recProvinceId:null,
+			recCityId:null,
+			recDistrictId:null
 		}
-		if(this.props.data){
-			this.props.dispatch({
-				type:'tab/initDeletestate',
-				payload:'601000edit'+this.props.data.urUserId
-			  });
-		}else{
-			this.props.dispatch({
-				type:'tab/initDeletestate',
-				payload:'601000edit'
-			  });
-		}
-	}
-
-	//刷新账号列表
-	refreshAccountList=()=>{
-		this.props.dispatch({
-            type:'account/fetch',
-            payload:{code:'qerp.web.ur.user.query',values:{limit:this.props.limit,currentPage:0}}
-		})
-		this.props.dispatch({ type: 'tab/loding', payload:true}) 
-	}
-
-
-	//初始化state
-	initState=()=>{
-		this.props.dispatch({
-            type:'account/initState',
-            payload:{}
-		})
 	}
 	//保存
 	handleSubmit = (e) => {
 		e.preventDefault();
 		this.props.form.validateFields((err, values) => {
-		  if (!err) {
-			values.urRoleIds=this.props.urUser.urRoleIds
-			if(this.props.data){
-				values.urUserId=this.props.data.urUserId
-			}
-			const newvalues={urUser:values}
-			const result=GetServerData('qerp.web.ur.user.save',newvalues)
-			result.then((res) => {
-				return res;
-			}).then((json) => {
-				if(json.code=='0'){
-					if(json.password){
-						//显示新创建的用户信息
-						this.showNewUserInfoModal('账户创建成功',json);
-					}else{
-						message.success('信息修改成功');
-						this.deleteTab();
-						this.refreshAccountList();
-					}
+		  	if (!err) {
+				if(this.props.data){
+					values.wsWarehouseId=this.props.data.wsWarehouseId
 				}
-			})
-		  }
+				values.recProvinceId=this.props.recProvinceId
+				values.recCityId=this.props.recCityId
+				values.recDistrictId=this.props.recDistrictId
+				const value={warehouse:values}
+				const result=GetServerData('qerp.web.ws.warehouse.save',value)
+				result.then((res) => {
+					return res;
+				}).then((json) => {
+					if(json.code=='0'){
+						if(this.props.data){
+							message.success('仓库信息修改成功',.8);
+						}else{
+							message.success('仓库新增成功',.8);
+						}
+						this.refresh()
+						this.delete()
+					}
+				})
+		  	}	
 		});
 	}
 
 	//取消
 	hindCancel=()=>{
-		this.deleteTab()
-		this.refreshAccountList()
+		this.delete()
 	}
 
-	//保存成功后显示账号的用户名密码信息
-	showNewUserInfoModal = (title,userInfo)=> {
-		const self = this;
-		Modal.success({
-		  title: title,
-		  content: (
-			  <div>
-				<p>姓名：{userInfo.name}</p>
-				<p>用户名：{userInfo.username}</p>
-				<p>密码：{userInfo.password}</p>
-			  </div>
-		  ),
-		  okText: '确定',
-		  onOk() {
-			self.deleteTab();
-			self.refreshAccountList();
-		  }
-		});
-	}
-
-	//重置密码
-	resetPassword = () =>{
-		let urUserId;
+	//删除当前tab
+	delete=()=>{
 		if(this.props.data){
-			urUserId=this.props.data.urUserId
+			this.props.dispatch({
+				type:'wsedit/delete',
+				payload:'90000edit'+this.props.data.wsWarehouseId
+			})
+		}else{
+			this.props.dispatch({
+				type:'wsedit/delete',
+				payload:'90000edit'
+			})
 		}
-		var value={'urUserId':urUserId};
-		const result=GetServerData('qerp.web.ur.user.resetpwd',value);
-		result.then((res) => {
-			  return res;
-		}).then((json) => {
-			//显示修改
-			this.showNewUserInfoModal('信息修改成功',json);
-		});
+	}
+
+	initAccountList=(limit,currentPage)=>{
+        this.props.dispatch({
+            type:'wsedit/fetch',
+            payload:{code:'qerp.web.ws.warehouse.query',values:{}}
+		})
+	}
+
+	//刷新首页
+	refresh=()=>{
+		this.initAccountList()
+	}
+
+	//城市请求
+	citylist=()=>{
+		this.props.dispatch({
+            type:'IndexPage/cityfetch',
+            payload:{code:'qerp.web.ws.bs.region',values:{}}
+        })
+	}
+
+	//city change
+	citysChange=(value)=>{
+		this.props.dispatch({
+            type:'wsedit/city',
+            payload:value
+        })
+	}
+	initDateEdit=()=>{
+		this.props.dispatch({
+            type:'wsedit/infofetch',
+            payload:{code:'qerp.web.ws.warehouse.detail',values:{wsWarehouseId:this.props.data.wsWarehouseId}}
+		})
 	}
 
   	render(){
     	const { getFieldDecorator } = this.props.form;
      	return(
-          	<Form onSubmit={this.handleSubmit}>
+          	<Form className="ws-wrapperform">
 				<FormItem
-					label="账号名称"
-					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}
-				>
-					{getFieldDecorator('username', {
-						rules: [{ required: true, message: '请输入账号名称' }],
-						initialValue:this.props.urUser.username
-					})(
-						<Input placeholder="请输入账户名称"/>
-					)}
-				</FormItem>
-				<FormItem
-					label="姓名"
+					label="仓库名称"
 					labelCol={{ span: 3,offset: 1 }}
 					wrapperCol={{ span: 6 }}
 				>
 					{getFieldDecorator('name', {
-						rules: [{ required: true, message: '请输入姓名' }],
-						initialValue:this.props.urUser.name
+						rules: [{ required: true, message: '请输入仓库名称' }],
+						initialValue:this.props.warehouse.name
 					})(
-						<Input placeholder="请输入姓名"/>
+						<Input placeholder="请输入仓库名称"/>
 					)}
 				</FormItem>
 				<FormItem
-					label="职位"
+					label="仓库类型"
 					labelCol={{ span: 3,offset: 1 }}
 					wrapperCol={{ span: 6 }}
 				>
-					{getFieldDecorator('job', {
-						rules: [{ required: true, message: '请输入职位' }],
-						initialValue:this.props.urUser.job
+					{getFieldDecorator('wsType', {
+						rules: [{ required: true, message: '请选择仓库类型' }],
+						initialValue:this.props.warehouse.wsType
 					})(
-						<Input placeholder="请输入职位"/>
+						<Select placeholder="请选择仓库类型">
+							<Option value="10">自有仓库</Option>
+							<Option value="20">样品仓</Option>
+						</Select>
 					)}
 				</FormItem>
 				<FormItem
-					label="邮箱"
+					label="仓库状态"
 					labelCol={{ span: 3,offset: 1 }}
 					wrapperCol={{ span: 6 }}
 				>
-					{getFieldDecorator('email', {
-						rules: [{ required: true, message: '请输入邮箱' }],
-						initialValue:this.props.urUser.email
-					})(
-						<Input placeholder="请输入邮箱"/>
-					)}
-				</FormItem>
-				<FormItem
-					label="手机号"
-					labelCol={{ span: 3,offset: 1}}
-					wrapperCol={{ span: 6 }}
-				>
-					{getFieldDecorator('mobile', {
-						rules: [{ required: true, message: '请输入手机号' }],
-						initialValue:this.props.urUser.mobile
-					})(
-						<Input placeholder="请输入手机号"/>
-					)}
-				</FormItem>
-            	<FormItem
-              		label="账户状态"
-              		labelCol={{ span: 3,offset: 1 }}
-              		wrapperCol={{ span: 6 }}
-            	>
 					{getFieldDecorator('status', {
-						rules: [{ required: true, message: '请选择账户状态' }],
-						initialValue:this.props.urUser.status
+						rules: [{ required: true, message: '请选择仓库状态' }],
+						initialValue:this.props.warehouse.status
 					})(
-						<Select placeholder="请选择账户状态">
+						<Select placeholder="请选择仓库状态">
 							<Option value="1">启用</Option>
 							<Option value="0">禁用</Option>
 						</Select>
+					)}
+				</FormItem>
+				<FormItem
+					label="收货人"
+					labelCol={{ span: 3,offset: 1 }}
+					wrapperCol={{ span: 6 }}
+				>
+					{getFieldDecorator('recName', {
+						rules: [{ required: true, message: '请输入收货人' }],
+						initialValue:this.props.warehouse.recName
+					})(
+						<Input placeholder="请输入收货人"/>
+					)}
+				</FormItem>
+				<FormItem
+					label="收货电话"
+					labelCol={{ span: 3,offset: 1}}
+					wrapperCol={{ span: 6 }}
+				>
+					{getFieldDecorator('recTelephone', {
+						rules: [{ required: true, message: '请输入收货电话' }],
+						initialValue:this.props.warehouse.recTelephone
+					})(
+						<Input placeholder="请输入收货电话"/>
+					)}
+				</FormItem>
+            	<FormItem
+              		label="仓库城市"
+              		labelCol={{ span: 3,offset: 1 }}
+              		wrapperCol={{ span: 6 }}
+            	>
+					{getFieldDecorator('cityadress', {
+						rules: [{ required: true, message: '请选择仓库城市' }],
+						initialValue:[this.props.warehouse.recProvinceId,this.props.warehouse.recCityId,this.props.warehouse.recDistrictId]
+					})(
+						
+						<Cascader 
+							placeholder="请选择仓库城市" 
+							options={this.props.citylist}
+							onChange={this.citysChange.bind(this)}
+							allowClear={false}
+						/>
               		)}
             	</FormItem>
 				<FormItem
-              		label="权限分配"
-              		labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 8 }}
-					  >
-					<UserTags/>
-            	</FormItem>
+					label="详细地址"
+					labelCol={{ span: 3,offset: 1}}
+					wrapperCol={{ span: 6 }}
+				>
+					{getFieldDecorator('recAddress', {
+						rules: [{ required: true, message: '请输入详细地址' }],
+						initialValue:this.props.warehouse.recAddress
+					})(
+						<Input placeholder="请输入详细地址"/>
+					)}
+				</FormItem>
             	<FormItem wrapperCol={{ offset: 4}} style = {{marginBottom:0}}>
               		<Button className='mr30' onClick={this.hindCancel.bind(this)}>取消</Button>
-					<Button className={this.props.data?'mr30':'hide'} onClick={this.resetPassword.bind(this)}>重置密码</Button>
-              		<Button htmlType="submit" type="primary">保存</Button>
+              		<Button htmlType="submit" type="primary" onClick={this.handleSubmit.bind(this)}>保存</Button>
             	</FormItem>
           	</Form>
       	)
   	}
   	componentDidMount(){
+		this.citylist()
     	if(this.props.data){
-	  		const payload={code:'qerp.web.ur.user.get',values:{'urUserId':this.props.data.urUserId}}
-			this.initDateEdit(payload)
+			this.initDateEdit()
 		}
   	}
 }
 function mapStateToProps(state) {
-    const {accountInfo,urUser} = state.account;
-    return {accountInfo,urUser};
+	const {warehouse,recProvinceId,recCityId,recDistrictId} = state.wsedit;
+	const {citylist}=state.IndexPage;
+    return {citylist,warehouse,recProvinceId,recCityId,recDistrictId};
 }
 
-const AddNewAccount = Form.create()(AddNewAccountForm);
-export default connect(mapStateToProps)(AddNewAccount);
+const Addws = Form.create()(AddNewws);
+export default connect(mapStateToProps)(Addws);

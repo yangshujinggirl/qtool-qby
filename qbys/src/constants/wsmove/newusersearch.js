@@ -1,3 +1,4 @@
+import '../../style/wsmove.css';
 import {Input, Button,message} from 'antd';
 import { connect } from 'dva';
 
@@ -51,23 +52,24 @@ class Title_search_component extends React.Component {
 
 render() {
     return (
-        <div className = 'table_top_search' style = {{padding:'15px 100px 15px 15px'}}>
-        <div className = 'table_top_search_item'>
-            <label>库位选择：</label>
-            <Input ref='binCodeST' style={{width:'100px'}} onBlur={this.binCodeSTChange.bind(this)}/>
-            <span style = {{margin: '0 10px'}}>至</span>
-            <Input ref='binCodeET' style={{width:'100px'}} onBlur={this.binCodeETChange.bind(this)}/>
-        </div>
-        <div className = 'table_top_search_item'>
-            <label>商品条码：</label>
-            <Input ref='pdBarcodeST' style={{width:'100px'}} onBlur={this.pdBarcodeSTChange.bind(this)}/>
-            <span style = {{margin: '0 10px'}}>至</span>
-            <Input ref='pdBarcodeET' style={{width:'100px'}} onBlur={this.pdBarcodeETChange.bind(this)}/>
-        </div>
-        <Button className='table_top_search_button' type="primary" onClick={this.HindClick.bind(this,0)}>搜索</Button>
+        <div className = 'item_search clearfix'>
+            <div className = 'table_top_search_item fl mr30'>
+                <label>库位选择：</label>
+                <Input ref='binCodeST' style={{width:'100px'}} onBlur={this.binCodeSTChange.bind(this)}/>
+                <span style = {{margin: '0 10px'}}>至</span>
+                <Input ref='binCodeET' style={{width:'100px'}} onBlur={this.binCodeETChange.bind(this)}/>
+            </div>
+            <div className = 'table_top_search_item fl mr30'>
+                <label>商品条码：</label>
+                <Input ref='pdBarcodeST' style={{width:'100px'}} onBlur={this.pdBarcodeSTChange.bind(this)}/>
+                <span style = {{margin: '0 10px'}}>至</span>
+                <Input ref='pdBarcodeET' style={{width:'100px'}} onBlur={this.pdBarcodeETChange.bind(this)}/>
+            </div>
+            <div className='fr'> <Button className='table_top_search_button' type="primary" onClick={this.HindClick.bind(this,0)} size='large'>搜索</Button></div>
         </div>
     )
 }
+
 }
 
 export default connect()(Title_search_component);

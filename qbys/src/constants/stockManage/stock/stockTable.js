@@ -13,9 +13,12 @@ class StockTable extends React.Component {
             title: '商品名称',
             dataIndex: 'pdSpu.name'
           },{
-            title: '规格',
+            title: '商品规格',
             dataIndex: 'specification'
-          },{
+		  },{
+            title: '所属仓库',
+            dataIndex: 'wsWarehouseName'
+		  },{
             title: '库存数量',
             dataIndex: 'qty'
           },{
@@ -25,18 +28,18 @@ class StockTable extends React.Component {
             title: '占用库存',
             dataIndex: 'qtyOnhold'
           },{
-            title: '坏品库存',
+            title: '次品库存',
             dataIndex: 'qtyBad'
         }];   
     }
-
+	
 	//分页方法
 	pageChange=(page,pageSize)=>{
         this.initstockList(this.props.values,pageSize,Number(page-1))
 	}
 	//pagesize变化
 	pageSizeChange=(current,size)=>{
-        this.initstockList(this.props.values,size,Number(current-1))
+        this.initstockList(this.props.values,size,0)
 	}
     
     //列表数据请求   
@@ -52,13 +55,14 @@ class StockTable extends React.Component {
 
     render() {
         return (
-			<EditableTable 
+			<EditableTable
 				dataSource={this.props.stockList} 
 				columns={this.columns} 
 				pageChange={this.pageChange.bind(this)}
 				pageSizeChange={this.pageSizeChange.bind(this)}
 				total={this.props.total}
 				limit={this.props.limit}
+				current={Number(this.props.currentPage)+1}
 				/>
         );
 	}
@@ -71,7 +75,6 @@ class StockTable extends React.Component {
 
 function mapStateToProps(state) {
     const {stockList,total,limit,currentPage,values} = state.stock;
-    console.log(state.stock);
     return {stockList,total,limit,currentPage,values};
 }
 

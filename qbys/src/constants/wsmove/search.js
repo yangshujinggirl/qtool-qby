@@ -12,8 +12,9 @@ class AdvancedSearchForm extends React.Component {
     };
     handleSearch = (e) => {
         this.props.form.validateFields((err, values) => {
-            this.initWarehouseList(values,this.props.limit,this.props.currentPage)
+            this.initWarehouseList(values,this.props.limit,0)
             this.synchronousState(values)
+            this.initselect()
         });
     }
     //搜搜请求数据
@@ -43,12 +44,28 @@ class AdvancedSearchForm extends React.Component {
             createTimeET:dateStrings[1]
         })
     }
+    initselect=()=>{
+		const selectedRows=[]
+		const selectedRowKeys=[]
+		this.props.dispatch({
+			type:'wsmove/select',
+			payload:{selectedRowKeys,selectedRows}
+		})
+	}
+    //请求仓库列表
+    wsList=()=>{
+        this.props.dispatch({
+            type:'IndexPage/wslistfetch',
+            payload:{code:'qerp.web.ws.warehouse.all.list',values:{}}
+        })
+    }
     render() {
         const { getFieldDecorator } = this.props.form;
+        const adminType=eval(sessionStorage.getItem('adminType'));
         return (
-            <Form onSubmit={this.handleSearch} style={{'position':'relative'}}>
-                <Row gutter={40} style={{marginRight:'-30px',marginLeft:'-30px',borderBottom:'1px solid #d9d9d9',position:'static'}}>
-                    <Col span={24} style={{paddingRight:'60px',paddingLeft:'30px'}}>
+            <Form  className='formbox'>
+                <Row gutter={40} className='formbox_row'>
+                    <Col span={24} className='formbox_col'>
                         <Row>
                             <div className='serach_form'>
                                 <FormItem label='移库单号'>
@@ -92,6 +109,21 @@ class AdvancedSearchForm extends React.Component {
                                         </Select>
                                     )}
                                 </FormItem>
+                                {
+                                    adminType=='10'?
+                                    <FormItem label='出货仓库'>
+                                    {getFieldDecorator('wsWarehouseId')(
+                                        <Select allowClear={true} placeholder="请选择">
+                                            {
+                                                this.props.warehouses.map((item,index)=>{
+                                                    return  <Option value={item.wsWarehouseId} key={index}>{item.name}</Option>
+                                                })
+                                            }
+                                        </Select>
+                                    )}
+                                </FormItem>
+                                :null
+                                }
                                 <FormItem label='创建时间'>
                                     {getFieldDecorator('time')(
                                         <RangePicker
@@ -106,18 +138,20 @@ class AdvancedSearchForm extends React.Component {
                     </Col>
                 </Row>
                 <div style={{'position':'absolute','right':'0','bottom':'20px'}}>
-                    <Button type="primary" htmlType="submit">搜索</Button>
+                    <Button type="primary" htmlType="submit" onClick={this.handleSearch.bind(this)} size='large'>搜索</Button>
                 </div>
             </Form>
         );
     }
     componentDidMount(){
+        this.wsList()
         this.handleSearch()
     }
 }
 function mapStateToProps(state) {
     const {limit,currentPage} = state.wsmove;
-    return {limit,currentPage};
+    const {warehouses}=state.IndexPage;
+    return {limit,currentPage,warehouses};
 }
 
 const WrappedAdvancedSearchForm = Form.create()(AdvancedSearchForm);
