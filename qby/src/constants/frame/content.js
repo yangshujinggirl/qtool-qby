@@ -28,7 +28,8 @@ import WscheckEditdiff from '../wscheck/editcheckdiff';
 
 import AccountIndex from '../account/index';
 import AddNewAccount from '../account/info';
-import HouseAreaIndex from '../warehouseAreaManage/houseAreaIndex';
+//门店订单
+import OrdermdIndex from '../ordermd/index';
 import HousePositionIndex from '../wsPositionManage/wsPositionIndex';
 import StockManageIndex from '../stockManage/stockManageIndex';
 import BasicSetting from '../basicSetting/basicSetting';
@@ -68,7 +69,7 @@ class Content extends React.Component {
 
                                     case "90000": return <WsIndex data={this.props.data}/>;
                                     case "90000edit": return <Addws data={this.props.data}/>;
-                                    case "100000":return <HouseAreaIndex data={this.props.data}/>;
+                                    case "201000":return <OrdermdIndex data={this.props.data}/>;
                                     case "110000":return <HousePositionIndex data={this.props.data}/>;
                                     case "120000": return <BasicSetting data={this.props.data}/>;
                                     case "601000": return <AccountIndex data={this.props.data}/>;

@@ -2,7 +2,7 @@ import React from 'react';
 import {GetServerData} from '../../services/services';
 import { Button, Icon } from 'antd';
 import { connect } from 'dva';
-import '../../style/house_area.css';
+import '../../style/ordermd.css';
 //库位table
 import HousePositionTable from './wsPositionTable';
 //库位搜索部分

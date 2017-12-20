@@ -33,7 +33,7 @@ app.model(require("./models/wsin"));
 
 app.model(require("./models/wsPositionManage"));
 
-app.model(require("./models/houseAreaManage"));
+app.model(require("./models/ordermd"));
 
 app.model(require("./models/warehouse"));
 
