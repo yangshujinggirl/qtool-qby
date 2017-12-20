@@ -4,10 +4,10 @@ const FormItem = Form.Item;
 const Option = Select.Option
 const RangePicker = DatePicker.RangePicker;
 
-class OrdercgSearchForm extends React.Component {
-  state = {
-      type:"10"
-  };
+class OrderthSearchForm extends React.Component {
+    state = {
+        type: "20",
+    };
 
   //点击搜索按钮获取搜索表单数据
   handleSearch = (e) => {
@@ -24,7 +24,7 @@ class OrdercgSearchForm extends React.Component {
         values.limit=limit;
         values.currentPage=currentPage;
         this.props.dispatch({
-            type:'ordercg/fetch',
+            type:'orderth/fetch',
             payload:{code:'qerp.web.ws.asn.query',values:values}
         });
         this.props.dispatch({ type: 'tab/loding', payload:true});
@@ -34,11 +34,11 @@ class OrdercgSearchForm extends React.Component {
     syncState=(values)=>{
         values.type=this.state.type;
         this.props.dispatch({
-            type:'ordercg/synchronous',
+            type:'orderth/synchronous',
             payload:values
         });
     }
-    
+
     render() {
         const { getFieldDecorator } = this.props.form;
         return (
@@ -47,14 +47,14 @@ class OrdercgSearchForm extends React.Component {
                     <Col span={24} className='formbox_col'>
                         <Row>
                             <div className='serach_form'>
-                                <FormItem label='供应商名称'>
+                                <FormItem label='门店名称'>
                                     {getFieldDecorator('name')(
-                                    <Input placeholder="请输入供应商名称"/>
+                                    <Input placeholder="请输入门店名称"/>
                                     )}
                                 </FormItem>
-                                <FormItem label='采购单号'>
+                                <FormItem label='退货单号'>
                                     {getFieldDecorator('asnNo')(
-                                    <Input placeholder="请输入采购单号"/>
+                                    <Input placeholder="请输入退货单号"/>
                                     )}
                                 </FormItem>
                                 <FormItem label='商品编码'>
@@ -67,15 +67,16 @@ class OrdercgSearchForm extends React.Component {
                                     <Input placeholder="请输入商品名称"/>
                                     )}
                                 </FormItem>
-                                <FormItem label='采购单状态'>
+                               
+                                <FormItem label='退货单状态'>
                                     {getFieldDecorator('status')(
-                                    <Select allowClear={true} placeholder="请选择采购单状态">
+                                    <Select allowClear={true} placeholder="请选择退货单状态">
                                         <Option value='10'>待收货</Option>
                                         <Option value='20'>收货中</Option>
                                         <Option value='30'>已收货</Option>
                                     </Select>
                                     )}
-                                </FormItem> 
+                                </FormItem>
                             </div>
                         </Row>
                     </Col>
@@ -87,13 +88,15 @@ class OrdercgSearchForm extends React.Component {
         );
     }
 
-    componentDidMount(){}
+    componentDidMount(){
+        
+    }
 }
 function mapStateToProps(state) {
-    const {limit,currentPage} = state.ordercg;
+    const {limit,currentPage} = state.orderth;
     return {limit,currentPage};
 }
 
 
-const OrdercgSearch = Form.create()(OrdercgSearchForm);
-export default connect(mapStateToProps)(OrdercgSearch);
+const OrderthSearch = Form.create()(OrderthSearchForm);
+export default connect(mapStateToProps)(OrderthSearch);

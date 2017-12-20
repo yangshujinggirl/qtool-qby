@@ -2,31 +2,24 @@ import React from 'react';
 import {GetServerData} from '../../services/services';
 import { Button, Icon } from 'antd';
 import { connect } from 'dva';
-//search
-import OrdercgSearch from './search';
 //table
-import OrdercgTable from './table';
+import OrderthTable from './table';
+//search
+import OrderthSearch from './search';
 
-class OrdercgIndex extends React.Component{
+class OrderthIndex extends React.Component{
 	state = {};
 
   	render(){
      	return(
         	<div className='content_box'>
-                <OrdercgSearch/>
+                <OrderthSearch/>
 					<Button 
 						type="primary" 
 						size='large'
 						className='mt20'
 					>
-						新建采购单
-					</Button>
-                    <Button 
-						type="primary" 
-						size='large'
-						className='mt20 ml10'
-					>
-						打印采购单
+						新建退货单
 					</Button>
 					<Button 
 						type="primary" 
@@ -35,16 +28,18 @@ class OrdercgIndex extends React.Component{
 					>
 						导出数据
 					</Button>
-             		<div className='mt15'><OrdercgTable/></div>
+             		<div className='mt15'><OrderthTable/></div>
         	</div>
       	)
 	}
 	  
-	componentDidMount(){}
+	componentDidMount(){
+		
+	}
 }
 
 function mapStateToProps(state) {
 	return {};
 }
 
-export default connect(mapStateToProps)(OrdercgIndex);
+export default connect(mapStateToProps)(OrderthIndex);

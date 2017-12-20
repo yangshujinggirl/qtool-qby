@@ -32,6 +32,9 @@ import AddNewAccount from '../account/info';
 import OrdermdIndex from '../ordermd/index';
 //采购订单
 import OrdercgIndex from '../ordercg/index';
+//退货订单
+import OrderthIndex from '../orderth/index';
+
 import StockManageIndex from '../stockManage/stockManageIndex';
 import BasicSetting from '../basicSetting/basicSetting';
 
@@ -73,6 +76,8 @@ class Content extends React.Component {
                                     // 
                                     case "201000":return <OrdermdIndex data={this.props.data}/>;
                                     case "202000":return <OrdercgIndex data={this.props.data}/>;
+                                    case "203000":return <OrderthIndex data={this.props.data}/>;
+                            
                                     case "120000": return <BasicSetting data={this.props.data}/>;
                                     case "601000": return <AccountIndex data={this.props.data}/>;
                                     case "601000edit": return <AddNewAccount data={this.props.data}/>;

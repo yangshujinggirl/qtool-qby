@@ -31,6 +31,9 @@ app.model(require("./models/postcheck"));
 
 app.model(require("./models/wsin"));
 
+
+app.model(require("./models/orderth"));
+
 app.model(require("./models/ordercg"));
 
 app.model(require("./models/ordermd"));
@@ -53,7 +56,6 @@ app.model(require("./models/transaction"));
 
 app.model(require("./models/batchStock"));
 
-app.model(require("./models/stock"));
 
 // 2. Plugins
 // app.use({});

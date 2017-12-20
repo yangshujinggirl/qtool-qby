@@ -3,11 +3,11 @@ import { connect } from 'dva';
 import EditableTable from '../../components/table/tablebasic';
 import TableLink from '../../components/table/tablelink';
 
-class OrdercgTable extends React.Component {
+class OrderthTable extends React.Component {
 	constructor(props) {
         super(props);
         this.columns = [{
-          title: '采购单号',
+          title: '退货单号',
           dataIndex: 'asnNo',
           render: (text, record) => {
             return (
@@ -15,7 +15,7 @@ class OrdercgTable extends React.Component {
             );
           }
         },{
-          title: '供应商名称',
+          title: '门店名称',
           dataIndex: 'name'
         }, {
           title: '商品数量',
@@ -34,12 +34,13 @@ class OrdercgTable extends React.Component {
             dataIndex: 'opation',
             render: (text, record) => {
               return(
-                          record.status == 10?
-                          <TableLink text='修改' hindClick={this.editInfo.bind(this,record)} type="1"/>
-                          :null
+                    record.status == 10?
+                    <TableLink text='修改' hindClick={this.editInfo.bind(this,record)} type="1"/>
+                    :null
               );
             }
-        }];
+        }
+    ];
     }
     
     //点击表格上的修改按钮操作
@@ -58,20 +59,15 @@ class OrdercgTable extends React.Component {
     
     //列表数据请求   
     initList=(values,limit,currentPage)=>{
-       values.type = "10";
         values.limit=limit;
         values.currentPage=currentPage;
+        values.type = "20";
         this.props.dispatch({
-            type:'ordercg/fetch',
+            type:'orderth/fetch',
             payload:{code:'qerp.web.ws.asn.query',values:values}
         });
         this.props.dispatch({ type: 'tab/loding', payload:true});
     }
-
-    //列表数据选择
-	selectChange=(selectedRowKeys,selectedRows)=>{
-		console.log('选择:',selectedRowKeys);
-	}
 
     render() {
         return (
@@ -81,9 +77,6 @@ class OrdercgTable extends React.Component {
             footer={true}
             pageChange={this.pageChange.bind(this)}
             pageSizeChange={this.pageSizeChange.bind(this)}
-            select={true}
-            selectType='checkbox'
-            selectChange={this.selectChange.bind(this)}
             total={this.props.total}
             limit={this.props.limit}
             current={Number(this.props.currentPage)+1}
@@ -98,11 +91,11 @@ class OrdercgTable extends React.Component {
 }
 
 function mapStateToProps(state) {
-    const {tableList,total,limit,currentPage,values} = state.ordercg;
+    const {tableList,total,limit,currentPage,values} = state.orderth;
     return {tableList,total,limit,currentPage,values};
 }
 
-export default connect(mapStateToProps)(OrdercgTable);
+export default connect(mapStateToProps)(OrderthTable);
  
 
 
