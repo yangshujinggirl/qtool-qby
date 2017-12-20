@@ -2,9 +2,10 @@ import { connect } from 'dva';
 import '../../style/content.css';
 import { Spin } from 'antd';
 
-import WarehouseinIndex from '../wsin/index';
-import WarehouseinEdit from '../wsin/edit';
-import WarehouseinInfo from '../wsin/info';
+import GoodsIndex from '../goods/index';
+// import WarehouseinEdit from '../wsin/edit';
+// import WarehouseinInfo from '../wsin/info';
+
 import WarehouseIndex from '../wsout/index';
 import WarehouseInfo from '../wsout/info';
 import Post_ku_check from '../wsoutcheck/index';
@@ -48,7 +49,7 @@ class Content extends React.Component {
                                     case "10000info": return  <WarehouseinInfo data={this.props.data}/>;
                                     case "20000": return  <WarehouseIndex data={this.props.data}/>;
                                     case "20000info": return  <WarehouseInfo data={this.props.data}/>;
-                                    case "30000":return  <Post_ku_check data={this.props.data}/>;
+                                    case "301000":return  <GoodsIndex data={this.props.data}/>;
                                     case "40000":return  <Wsshipping data={this.props.data}/>;
                                     case "50000":return  <StockManageIndex data={this.props.data}/>;
                                     case "60000":return  <WsmoveIndex data={this.props.data}/>;

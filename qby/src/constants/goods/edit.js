@@ -54,7 +54,7 @@ class WarehouseinEdit extends React.Component {
 
 	infofetch=(id)=>{
 		this.props.dispatch({
-			type:'wsin/infofetch',
+			type:'goods/infofetch',
 			payload:{code:'qerp.web.ws.asn.detail',values:{wsAsnId:id}}
 		})
 		this.props.dispatch({type:'tab/loding',payload:true})
@@ -66,13 +66,13 @@ class WarehouseinEdit extends React.Component {
 		const patt=str.test(values)
 		if(patt){
 			this.props.dispatch({
-				type:'wsin/successqtydetails',
+				type:'goods/successqtydetails',
 				payload:{index,values}
 			})
 
 		}else{
 			this.props.dispatch({
-				type:'wsin/errqtydetails',
+				type:'goods/errqtydetails',
 				payload:{index,values}
 			})
 			message.error('数量只能数字',.8);
@@ -87,12 +87,12 @@ class WarehouseinEdit extends React.Component {
 		}).then((json) => {
 			if(json.code=='0'){
 					this.props.dispatch({
-						type:'wsin/successdetails',
+						type:'goods/successdetails',
 						payload:{index,values}
 					})
 			}else{
 				this.props.dispatch({
-					type:'wsin/errdetails',
+					type:'goods/errdetails',
 					payload:{index,values}
 				})
 				
@@ -103,7 +103,7 @@ class WarehouseinEdit extends React.Component {
 	produChange=(index,record,e)=>{
 		const values=e.target.value
 		this.props.dispatch({
-			type:'wsin/successdetails',
+			type:'goods/successdetails',
 			payload:{index,values}
 		})
 	}
@@ -123,14 +123,14 @@ class WarehouseinEdit extends React.Component {
 	}
 	bincodeChange=(e)=>{
 		this.props.dispatch({
-			type:'wsin/binCodevalue',
+			type:'goods/binCodevalue',
 			payload:e.target.value
 		})
 	}
 	//删除当前tab
 	delecttab=()=>{
 		this.props.dispatch({
-			type:'wsin/delete',
+			type:'goods/delete',
 			payload:'10000edit'+this.props.data.wsAsnId
 		})
 	}
@@ -138,7 +138,7 @@ class WarehouseinEdit extends React.Component {
 		values.limit=limit
 		values.currentPage=currentPage
 		this.props.dispatch({
-			type:'wsin/fetch',
+			type:'goods/fetch',
 			payload:{code:'qerp.web.ws.asn.query',values:values}
 		})
 		this.props.dispatch({type:'tab/loding',payload:true})
@@ -167,7 +167,7 @@ class WarehouseinEdit extends React.Component {
 }
 
 function mapStateToProps(state) {
-    const {cardtitle,cardlist,details,binCode,values,limit,currentPage} = state.wsin;
+    const {cardtitle,cardlist,details,binCode,values,limit,currentPage} = state.goods;
     return {cardtitle,cardlist,details,binCode,values,limit,currentPage};
 }
 

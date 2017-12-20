@@ -1,10 +1,10 @@
 import {GetServerData} from '../services/services';
 import {  Button, message } from 'antd';
 export default {
-	namespace: 'wsin',
+	namespace: 'goods',
 	state: {
 		values:{},
-		limit:15,
+		limit:16,
 		currentPage:0,
 		total:0,
 		wsorderlist:[],
@@ -16,14 +16,23 @@ export default {
 		details:[],
 		logstitle:'',
 		logs:[],
-		binCode:''
+		binCode:'',
+		goodslist:[],
+		fileDomain:'',
+		checkgood:[]
 	},
 	reducers: {
 		synchronous(state, { payload:values}) {
 			return {...state,values}
 		},
-		wsorderlist(state, { payload:{wsorderlist,total,limit,currentPage}}) {
-			return {...state,wsorderlist,total,limit,currentPage}
+		goodslist(state, { payload:{goodslist,total,limit,currentPage,fileDomain}}) {
+			const checkgood=[]
+			for(var i=0;i<goodslist.length;i++){
+				if(goodslist[i].check){
+					checkgood.push(goodslist[i].pdSpuId) 
+				}
+			}
+			return {...state,goodslist,total,limit,currentPage,fileDomain,checkgood}
 		},
 		select(state, { payload:{selectedRowKeys,selectedRows}}) {
 			return {...state,selectedRowKeys,selectedRows}
@@ -70,20 +79,52 @@ export default {
 			const binCode=''
 			return {...state,cardtitle,cardlist,details,binCode}
 		},
+
+
+
+
 	},
 	effects: {
 		*fetch({ payload: {code,values} }, { call, put ,select}) {
 			const result=yield call(GetServerData,code,values);
 			yield put({type: 'tab/loding',payload:false});
 			if(result.code=='0'){
-				const wsorderlist = result.asns;
+				const fileDomain=result.fileDomain;
+				const goodslist = result.pdSpus;
 				const limit=result.limit
 				const currentPage=result.currentPage
 				const total=result.total
-				for(var i=0;i<wsorderlist.length;i++){
-					wsorderlist[i].key=wsorderlist[i].wsAsnId
+				for(var i=0;i<goodslist.length;i++){
+					goodslist[i].key=goodslist[i].barcode
+					goodslist[i].check=false
+					goodslist[i].list_img_name=[]
+					if(goodslist[i].skuStatus==1){
+						//多规格
+						goodslist[i].list_img_name.push('../../assets/icon_skuStatus.png')
+					}
+					if(goodslist[i].infoStatus==0){
+						//缺货
+						goodslist[i].list_img_name.push('../../assets/icon_que.png')
+					}
+					if(goodslist[i].eventHot==true){
+						//畅销
+						goodslist[i].list_img_name.push('../../assets/icon_hot.png')
+					}
+					if(goodslist[i].eventNew==true){
+						//上新
+						goodslist[i].list_img_name.push('../../assets/icon_new.png')
+					}
+					if(goodslist[i].isDirectExpress==1){
+						//直邮
+						goodslist[i].list_img_name.push('../../assets/icon_zhi.png')
+					}
+					if(goodslist[i].isPresell==1){
+						//预售
+						goodslist[i].list_img_name.push('../../assets/icon_yu.png')
+					}
+			
 				}
-				yield put({type: 'wsorderlist',payload:{wsorderlist,total,limit,currentPage}});
+				yield put({type: 'goodslist',payload:{goodslist,total,limit,currentPage,fileDomain}});
 			} 
 			}, 
 			*infofetch({ payload: {code,values} }, { call, put ,select}) {

@@ -29,7 +29,7 @@ app.model(require("./models/wsmove"));
 
 app.model(require("./models/postcheck"));
 
-app.model(require("./models/wsin"));
+app.model(require("./models/goods"));
 
 app.model(require("./models/wsPositionManage"));
 

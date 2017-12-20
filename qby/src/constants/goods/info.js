@@ -39,7 +39,7 @@ class WarehouseinInfo extends React.Component{
 	}
 	infofetch=(wsAsnId)=>{
 		this.props.dispatch({
-			type:'wsin/infofetch',
+			type:'goods/infofetch',
 			payload:{code:'qerp.web.ws.asn.detail',values:{wsAsnId:wsAsnId}}
 		}) 
 	}
@@ -58,7 +58,7 @@ class WarehouseinInfo extends React.Component{
 }
 
 function mapStateToProps(state) {
-	const {cardtitle,cardlist,detailstitle,details,logstitle,logs} = state.wsin;
+	const {cardtitle,cardlist,detailstitle,details,logstitle,logs} = state.goods;
 	return {cardtitle,cardlist,detailstitle,details,logstitle,logs};
 }
 export default connect(mapStateToProps)(WarehouseinInfo);

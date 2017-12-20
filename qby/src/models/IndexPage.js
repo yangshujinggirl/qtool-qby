@@ -2,14 +2,14 @@ import {GetServerData} from '../services/services';
 export default {
 	namespace: 'IndexPage',
 	state: {
-		warehouses:[],
+		pdCategorysList:[],
 		"citylist": [],
 			
 		 
 	},
 	reducers: {
-		wsList(state, { payload: warehouses}) {
-			return {...state,warehouses}
+		pdCategorysList(state, { payload: pdCategorysList}) {
+			return {...state,pdCategorysList}
 		},
 		cyList(state, { payload: citylist}) {
 			return {...state,citylist}
@@ -17,12 +17,12 @@ export default {
 
 	},
 	effects: {
-		*wslistfetch({ payload: {code,values} }, { call, put ,select}) {
+		*categoryfetch({ payload: {code,values} }, { call, put ,select}) {
 			const result=yield call(GetServerData,code,values);
 			yield put({type: 'tab/loding',payload:false});
             if(result.code=='0'){
-				const warehouses=result.warehouses
-              	yield put({type: 'wsList',payload:warehouses});
+				const pdCategorysList=result.pdCategorys
+              	yield put({type: 'pdCategorysList',payload:pdCategorysList});
             } 
 		}, 
 		*cityfetch({ payload: {code,values} }, { call, put ,select}) {

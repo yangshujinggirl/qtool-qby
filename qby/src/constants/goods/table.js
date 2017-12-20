@@ -59,7 +59,7 @@ class WarehouseinIndexTable extends React.Component {
 	// 选择
 	selectChange=(selectedRowKeys,selectedRows)=>{
 		this.props.dispatch({
-			type:'wsin/select',
+			type:'goods/select',
 			payload:{selectedRowKeys,selectedRows}
 		})
 	}
@@ -68,7 +68,7 @@ class WarehouseinIndexTable extends React.Component {
 		values.limit=limit
 		values.currentPage=currentPage
 		this.props.dispatch({
-			type:'wsin/fetch',
+			type:'goods/fetch',
 			payload:{code:'qerp.web.ws.asn.query',values:values}
 		})
 		this.props.dispatch({type:'tab/loding',payload:true})
@@ -91,7 +91,7 @@ class WarehouseinIndexTable extends React.Component {
 				payload:paneitem
 			})
 			this.props.dispatch({
-				type:'wsin/initstatus',
+				type:'goods/initstatus',
 				payload:{}
 			})
 		}
@@ -101,7 +101,7 @@ class WarehouseinIndexTable extends React.Component {
 		const initselectedRows=[]
 		const initselectedRowKeys=[]
 		this.props.dispatch({
-	    	type:'wsin/select',
+	    	type:'goods/select',
 	    	payload:{initselectedRowKeys,initselectedRows}
 	  	})
 	}
@@ -138,7 +138,7 @@ class WarehouseinIndexTable extends React.Component {
 }
 
 function mapStateToProps(state) {
-	const {wsorderlist,total,limit,currentPage,values,selectedRowKeys} = state.wsin;
+	const {wsorderlist,total,limit,currentPage,values,selectedRowKeys} = state.goods;
 	return {wsorderlist,total,limit,currentPage,values,selectedRowKeys};
 }
 
