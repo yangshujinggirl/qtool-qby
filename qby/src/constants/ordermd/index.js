@@ -11,6 +11,12 @@ import OrdermdSearch from './search';
 class OrdermdIndex extends React.Component{
 	state = {};
 
+	//导出数据
+	exportData = () => {
+		const values=this.props.values;
+		const result=GetServerData('qerp.web.sp.order.export',values);
+	  }
+
   	render(){
      	return(
         	<div className='content_box'>
@@ -26,6 +32,7 @@ class OrdermdIndex extends React.Component{
 						type="primary" 
 						size='large'
 						className='mt20 ml10'
+						onClick={this.exportData}
 					>
 						导出数据
 					</Button>
@@ -40,7 +47,8 @@ class OrdermdIndex extends React.Component{
 }
 
 function mapStateToProps(state) {
-	return {};
+	const {values} = state.ordermd;
+    return {values};
 }
 
 export default connect(mapStateToProps)(OrdermdIndex);

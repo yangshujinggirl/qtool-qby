@@ -67,11 +67,23 @@ class OrdermdInfo extends React.Component{
 		
 		//分页方法
     pageChange=(page,pageSize)=>{
-			this.initList(this.props.values,pageSize,Number(page-1))
+			this.initList(pageSize,Number(page-1))
 		}
 		//pagesize变化
 		pageSizeChange=(current,size)=>{
-					this.initList(this.props.values,size,0)
+					this.initList(size,0)
+		}
+
+		//列表数据请求   
+    initList=(limit,currentPage)=>{
+			let values={spOrderId:this.props.data.spOrderId};
+			values.limit=limit;
+			values.currentPage=currentPage;
+			this.props.dispatch({
+					type:'ordermd/infofetch',
+					payload:{code:'qerp.web.sp.order.detail.page',values:values}
+			});
+			this.props.dispatch({ type: 'tab/loding', payload:true});
 		}
     
 	render(){
@@ -82,10 +94,13 @@ class OrdermdInfo extends React.Component{
 					<EditableTable 
 							columns={this.column1} 
 							dataSource={this.props.detailsList} 
-							footer={true}
+							title={this.props.detailstitle}
+							footer={this.props.total1>50 ?true:false}
 							pageChange={this.pageChange.bind(this)}
 							pageSizeChange={this.pageSizeChange.bind(this)}
-							title={this.props.detailstitle}
+							total={this.props.total1}
+							limit={this.props.limit1}
+							current={Number(this.props.currentPage1)+1}
 						/>
 				</div>
 				<div className='mb10'>
@@ -109,8 +124,8 @@ class OrdermdInfo extends React.Component{
 }
 
 function mapStateToProps(state) {
-    const {detailsList,detailstitle,cardtitle,cardlist,expressList,orderLogList} = state.ordermd;
-		return {detailsList,detailstitle,cardtitle,cardlist,expressList,orderLogList};
+    const {detailsList,detailstitle,cardtitle,cardlist,expressList,orderLogList,limit1,currentPage1,total1} = state.ordermd;
+		return {detailsList,detailstitle,cardtitle,cardlist,expressList,orderLogList,limit1,currentPage1,total1};
 }
 export default connect(mapStateToProps)(OrdermdInfo);
 

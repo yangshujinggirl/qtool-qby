@@ -8,6 +8,9 @@ export default {
         total:0,
         tableList:[],
         //订单详情信息
+        limit1:15,
+        currentPage1:0,
+        total1:0,
         detailsList:[],
         detailstitle:'订单内容',
         cardtitle:'',
@@ -22,8 +25,8 @@ export default {
 		syncTableList(state, { payload:{tableList,total,limit,currentPage}}) {
 			return {...state,tableList,total,limit,currentPage}
         },
-        syncDetailList(state, { payload:{detailsList}}) {
-			return {...state,detailsList}
+        syncDetailList(state, { payload:{detailsList,limit1,currentPage1,total1}}) {
+			return {...state,detailsList,limit1,currentPage1,total1}
         },
         syncInfolist(state, { payload:{cardtitle,cardlist,expressList,orderLogList}}) {
 			return {...state,cardtitle,cardlist,expressList,orderLogList}
@@ -56,7 +59,10 @@ export default {
                             detailsList[i].key=i
                         }
                     }
-                    yield put({type: 'syncDetailList',payload:{detailsList}});
+                    const limit1=result.limit;
+                    const currentPage1=result.currentPage;
+                    const total1=result.total;
+                    yield put({type: 'syncDetailList',payload:{detailsList,limit1,currentPage1,total1}});
 				} 
             },
             *infofetchTwo({ payload: {code,values} }, { call, put ,select}) {
@@ -94,8 +100,18 @@ export default {
                             {lable:'预售订单', text:result.spOrder.preSellStatusStr},
                             ]
                     }
-                    const expressList = result.expressInfos;
-                    const orderLogList = result.orderLogs;
+                    let expressList = result.expressInfos;
+                    if(expressList.length){
+                        for(var i=0;i<expressList.length;i++){
+                            expressList[i].key=i
+                        }
+                    }
+                    let orderLogList = result.orderLogs;
+                    if(orderLogList.length){
+                        for(var i=0;i<orderLogList.length;i++){
+                            orderLogList[i].key=i
+                        }
+                    }
                      yield put({type: 'syncInfolist',payload:{cardtitle,cardlist,expressList,orderLogList}});
 				} 
 			},
