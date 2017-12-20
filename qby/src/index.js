@@ -31,7 +31,7 @@ app.model(require("./models/postcheck"));
 
 app.model(require("./models/wsin"));
 
-app.model(require("./models/wsPositionManage"));
+app.model(require("./models/ordercg"));
 
 app.model(require("./models/ordermd"));
 
