@@ -30,6 +30,7 @@ import AccountIndex from '../account/index';
 import AddNewAccount from '../account/info';
 //门店订单
 import OrdermdIndex from '../ordermd/index';
+import OrdermdInfo from '../ordermd/info';
 //采购订单
 import OrdercgIndex from '../ordercg/index';
 //退货订单
@@ -78,6 +79,8 @@ class Content extends React.Component {
                                     case "90000edit": return <Addws data={this.props.data}/>;
                                     // 
                                     case "201000":return <OrdermdIndex data={this.props.data}/>;
+                                    case "201000info":return <OrdermdInfo data={this.props.data}/>;
+                                    
                                     case "202000":return <OrdercgIndex data={this.props.data}/>;
                                     case "203000":return <OrderthIndex data={this.props.data}/>;
                                     case "204000":return <OrderctIndex data={this.props.data}/>;
