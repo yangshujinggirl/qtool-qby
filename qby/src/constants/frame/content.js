@@ -29,9 +29,18 @@ import WscheckEditdiff from '../wscheck/editcheckdiff';
 
 import AccountIndex from '../account/index';
 import AddNewAccount from '../account/info';
-import HouseAreaIndex from '../warehouseAreaManage/houseAreaIndex';
-import HousePositionIndex from '../wsPositionManage/wsPositionIndex';
-import StockManageIndex from '../stockManage/stockManageIndex';
+//门店订单
+import OrdermdIndex from '../ordermd/index';
+import OrdermdInfo from '../ordermd/info';
+//采购订单
+import OrdercgIndex from '../ordercg/index';
+//退货订单
+import OrderthIndex from '../orderth/index';
+//采退订单
+import OrderctIndex from '../orderct/index';
+//调拨订单
+import OrderdbIndex from '../orderdb/index';
+
 import BasicSetting from '../basicSetting/basicSetting';
 
 
@@ -69,8 +78,15 @@ class Content extends React.Component {
 
                                     case "90000": return <WsIndex data={this.props.data}/>;
                                     case "90000edit": return <Addws data={this.props.data}/>;
-                                    case "100000":return <HouseAreaIndex data={this.props.data}/>;
-                                    case "110000":return <HousePositionIndex data={this.props.data}/>;
+                                    // 
+                                    case "201000":return <OrdermdIndex data={this.props.data}/>;
+                                    case "201000info":return <OrdermdInfo data={this.props.data}/>;
+                                    
+                                    case "202000":return <OrdercgIndex data={this.props.data}/>;
+                                    case "203000":return <OrderthIndex data={this.props.data}/>;
+                                    case "204000":return <OrderctIndex data={this.props.data}/>;
+                                    case "206000":return <OrderdbIndex data={this.props.data}/>;
+                            
                                     case "120000": return <BasicSetting data={this.props.data}/>;
                                     case "601000": return <AccountIndex data={this.props.data}/>;
                                     case "601000edit": return <AddNewAccount data={this.props.data}/>;

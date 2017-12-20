@@ -31,9 +31,16 @@ app.model(require("./models/postcheck"));
 
 app.model(require("./models/goods"));
 
-app.model(require("./models/wsPositionManage"));
 
-app.model(require("./models/houseAreaManage"));
+app.model(require("./models/orderdb"));
+
+app.model(require("./models/orderct"));
+
+app.model(require("./models/orderth"));
+
+app.model(require("./models/ordercg"));
+
+app.model(require("./models/ordermd"));
 
 app.model(require("./models/warehouse"));
 
@@ -49,11 +56,6 @@ app.model(require("./models/users"));
 
 app.model(require("./models/batchTransaction"));
 
-app.model(require("./models/transaction"));
-
-app.model(require("./models/batchStock"));
-
-app.model(require("./models/stock"));
 
 // 2. Plugins
 // app.use({});
