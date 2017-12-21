@@ -40,6 +40,7 @@ import OrderthIndex from '../orderth/index';
 import OrderthInfo from '../orderth/info';
 //采退订单
 import OrderctIndex from '../orderct/index';
+import OrderctInfo from '../orderct/info';
 //调拨订单
 import OrderdbIndex from '../orderdb/index';
 
@@ -88,6 +89,7 @@ class Content extends React.Component {
                                     case "203000":return <OrderthIndex data={this.props.data}/>;
                                     case "203000info":return <OrderthInfo data={this.props.data}/>;
                                     case "204000":return <OrderctIndex data={this.props.data}/>;
+                                    case "204000info":return <OrderctInfo data={this.props.data}/>;
                                     case "206000":return <OrderdbIndex data={this.props.data}/>;
                             
                                     case "120000": return <BasicSetting data={this.props.data}/>;
