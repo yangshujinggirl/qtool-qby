@@ -32,6 +32,7 @@ import AddNewAccount from '../account/info';
 //门店订单
 import OrdermdIndex from '../ordermd/index';
 import OrdermdInfo from '../ordermd/info';
+import OrdermdEdit from '../ordermd/edit';
 //采购订单
 import OrdercgIndex from '../ordercg/index';
 import OrdercgInfo from '../ordercg/info';
@@ -85,6 +86,8 @@ class Content extends React.Component {
                                     // 
                                     case "201000":return <OrdermdIndex data={this.props.data}/>;
                                     case "201000info":return <OrdermdInfo data={this.props.data}/>;
+                                    case "201000edit":return <OrdermdEdit data={this.props.data}/>;
+                                    
                                     case "202000":return <OrdercgIndex data={this.props.data}/>;
                                     case "202000info":return <OrdercgInfo data={this.props.data}/>;
                                     case "203000":return <OrderthIndex data={this.props.data}/>;
