@@ -34,7 +34,12 @@ class OrderdbTable extends React.Component {
     
     //点击表格上的修改按钮操作
     editInfo = (record) =>{
-       console.log(record);
+       const spExchangeId=String(record.spExchangeId);
+       const paneitem={title:'订单详情',key:'206000edit'+spExchangeId+'info',data:{spExchangeId:spExchangeId},componkey:'206000info'}
+       this.props.dispatch({
+         type:'tab/firstAddTab',
+         payload:paneitem
+       })
     }
 
     //分页方法
