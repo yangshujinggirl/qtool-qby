@@ -37,6 +37,7 @@ import OrdercgIndex from '../ordercg/index';
 import OrdercgInfo from '../ordercg/info';
 //退货订单
 import OrderthIndex from '../orderth/index';
+import OrderthInfo from '../orderth/info';
 //采退订单
 import OrderctIndex from '../orderct/index';
 //调拨订单
@@ -84,8 +85,8 @@ class Content extends React.Component {
                                     case "201000info":return <OrdermdInfo data={this.props.data}/>;
                                     case "202000":return <OrdercgIndex data={this.props.data}/>;
                                     case "202000info":return <OrdercgInfo data={this.props.data}/>;
-                                    
                                     case "203000":return <OrderthIndex data={this.props.data}/>;
+                                    case "203000info":return <OrderthInfo data={this.props.data}/>;
                                     case "204000":return <OrderctIndex data={this.props.data}/>;
                                     case "206000":return <OrderdbIndex data={this.props.data}/>;
                             

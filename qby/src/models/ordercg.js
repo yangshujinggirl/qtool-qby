@@ -60,7 +60,7 @@ export default {
                 for (var i = 0; i < details.length; i++) {
                   details[i].key = details[i].wsAsnDetailId;
                 }
-                const headTitle = "sdsd";
+                const headTitle = "采购单信息";
                 let headTit = [{lable:'采购单号',text:asn.asnNo},
                            {lable:'下单时间',text:asn.createTime},
                            {lable:'订单状态',text:asn.statusStr},

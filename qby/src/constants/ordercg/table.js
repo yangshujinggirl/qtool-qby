@@ -44,8 +44,7 @@ class OrdercgTable extends React.Component {
     
     //点击表格上的修改按钮操作
     editInfo = (record) =>{
-       console.log(record);
-       const wsAsnId=String(record.wsAsnId)
+       const wsAsnId=String(record.wsAsnId);
        const paneitem={title:'订单详情',key:'202000edit'+wsAsnId+'info',data:{wsAsnId:wsAsnId},componkey:'202000info'}
        this.props.dispatch({
          type:'tab/firstAddTab',
