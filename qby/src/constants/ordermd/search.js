@@ -1,15 +1,21 @@
 import { Form, Row, Col, Input, Button, Icon,Select ,DatePicker} from 'antd';
 import { connect } from 'dva';
+import moment from 'moment';
 const FormItem = Form.Item;
 const Option = Select.Option
 const RangePicker = DatePicker.RangePicker;
 
 class OrdermdSearchForm extends React.Component {
-  state = {
-        dateStart: undefined,
-        dateEnd:undefined
-  };
-
+    constructor(props) {
+        super(props);
+        this.state = {
+            dateStart: '',
+            dateEnd:'',
+            datefahuoStart:'',
+            datefahuoEnd:''
+      };
+    }
+  
   //点击搜索按钮获取搜索表单数据
   handleSearch = (e) => {
     this.props.form.validateFields((err, values) => {
@@ -23,6 +29,8 @@ class OrdermdSearchForm extends React.Component {
   initList=(values,limit,currentPage)=>{
         values.dateStart=this.state.dateStart;
         values.dateEnd=this.state.dateEnd;
+        values.datefahuoStart=this.state.datefahuoStart;
+        values.datefahuoEnd=this.state.datefahuoEnd;
         values.limit=limit;
         values.currentPage=currentPage;
         this.props.dispatch({
@@ -36,6 +44,9 @@ class OrdermdSearchForm extends React.Component {
     syncState=(values)=>{
         values.dateStart=this.state.dateStart;
         values.dateEnd=this.state.dateEnd;
+        values.datefahuoStart=this.state.datefahuoStart;
+        values.datefahuoEnd=this.state.datefahuoEnd;
+        
         this.props.dispatch({
             type:'ordermd/synchronous',
             payload:values
@@ -43,11 +54,18 @@ class OrdermdSearchForm extends React.Component {
     }
     
     //时间搜索部分
-    hindDateChange=(dates, dateString)=>{
-        this.setState({
-            dateStart:dateString[0],
-            dateEnd:dateString[1]
-        })
+    hindDateChange=(type,dates,dateString)=>{
+        if(type ==1){
+            this.setState({
+                dateStart:dateString[0],
+                dateEnd:dateString[1]
+            })
+        }else{
+            this.setState({
+                datefahuoStart:dateString[0],
+                datefahuoEnd:dateString[1]
+            })
+        }
     }
 
     render() {
@@ -126,10 +144,23 @@ class OrdermdSearchForm extends React.Component {
                                             <RangePicker
                                                 showTime
                                                 format="YYYY-MM-DD HH:mm:ss"
-                                                onChange={this.hindDateChange.bind(this)}
+                                                value={this.state.dateStart?
+                                                        [moment(this.state.dateStart, 'YYYY-MM-DD HH:mm:ss'), moment(this.state.dateEnd, 'YYYY-MM-DD HH:mm:ss')]
+                                                        :null
+                                                    }
+                                                onChange={this.hindDateChange.bind(this,1)}
                                             />
                                         }
-                                    </FormItem> 
+                                </FormItem>
+                                <FormItem label='发货时间'>
+                                        {
+                                            <RangePicker
+                                                showTime
+                                                format="YYYY-MM-DD HH:mm:ss"
+                                                onChange={this.hindDateChange.bind(this,2)}
+                                            />
+                                        }
+                                </FormItem>
                             </div>
                         </Row>
                     </Col>
@@ -141,8 +172,40 @@ class OrdermdSearchForm extends React.Component {
         );
     }
 
+     getNowFormatDate = () =>{
+        let date = new Date();
+        let seperator1 = "-";
+        let month = date.getMonth() + 1;
+        let strDate = date.getDate();
+        if (month >= 1 && month <= 9) {
+            month = "0" + month;
+        }
+        if (strDate >= 0 && strDate <= 9) {
+            strDate = "0" + strDate;
+        }
+        let currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate+" 23:59:59";
+
+        let date2 = new Date(date);
+        date2.setDate(date.getDate() - 30);
+        let month1 = date2.getMonth() + 1;
+        let strDate1 = date2.getDate();
+        if (month1 >= 1 && month1 <= 9) {
+            month1 = "0" + month;
+        }
+        if (strDate1 >= 0 && strDate1 <= 9) {
+            strDate1 = "0" + strDate1;
+        }
+        var currentdate1 = date2.getFullYear() + seperator1 + month1 + seperator1 + strDate1 + " 00:00:00";
+        this.setState({
+            dateStart:currentdate1,
+            dateEnd:currentdate
+        },function(){
+            this.handleSearch();
+        })
+    }
+
     componentDidMount(){
-        
+        this.getNowFormatDate();
     }
 }
 function mapStateToProps(state) {

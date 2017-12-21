@@ -87,7 +87,7 @@ class OrdermdTable extends React.Component {
 	}
 	componentDidMount(){
     //执行初始化数据方法获取list
-		this.initList(this.props.values,this.props.limit,this.props.currentPage);
+		// this.initList(this.props.values,this.props.limit,this.props.currentPage);
 	}
     
 }
