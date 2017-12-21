@@ -69,9 +69,6 @@ class OrdermdEditForm extends React.Component{
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
         if (!err) {
-                console.log(values);
-                console.log(this.state.dataSource);
-                console.log(this.state.spShop);
                 let data = this.state.spShop;
                 data.createType = values.createType;
                 data.recAddress = values.recAddress;
@@ -99,14 +96,35 @@ class OrdermdEditForm extends React.Component{
         });
     }
 
+    //删除当前tab
+	deleteTab=()=>{
+		const pane = eval(sessionStorage.getItem("pane"));
+		if(pane.length<=1){
+			return
+		}
+        this.props.dispatch({
+            type:'tab/initDeletestate',
+            payload:'201000edit'
+        });
+	}
+
+	//刷新账号列表
+	refreshList=()=>{
+        let values = this.props.values;
+        values.currentPage = "0";
+		this.props.dispatch({
+            type:'ordermd/fetch',
+            payload:{code:'qerp.web.sp.order.query',values:values}
+		})
+		this.props.dispatch({ type: 'tab/loding', payload:true}) 
+	}
+
     showmodel=(data)=>{
-        console.log(this.refs);
         this.refs.models.showModal(data);
     }
     
     //智能搜索框搜索事件
     handleSearch = (value) => {
-        console.log(value);
         let spShop=this.state.spShop;
         spShop.spShopId=null;
         let data={name:value};
@@ -114,7 +132,6 @@ class OrdermdEditForm extends React.Component{
             result.then((res) => {
             return res;
         }).then((json) => {
-            console.log(json)
                 if(json.code=='0'){
                     let shopList=json.shops
                     let dataSources=[];
@@ -125,7 +142,6 @@ class OrdermdEditForm extends React.Component{
                             key:i
                         })
                     }
-                    console.log(dataSources);
                     this.setState({
                         dataSources:dataSources,
                         spShop:spShop
@@ -136,7 +152,6 @@ class OrdermdEditForm extends React.Component{
 
     //在选择的时候
     onSelect=(value)=>{
-        console.log(value);
         let spShop=this.state.spShop;
         spShop.spShopId=value;
         let data={spShopId:value}
@@ -144,7 +159,6 @@ class OrdermdEditForm extends React.Component{
         result.then((res) => {
             return res;
         }).then((json) => {
-            console.log(json)
             if(json.code=='0'){
                 spShop.recProvinceId=json.spShop.provinceId;
                 spShop.recCityId=json.spShop.cityId;
@@ -167,21 +181,17 @@ class OrdermdEditForm extends React.Component{
 
     //门店城市
     cityschange=(value)=>{
-        console.log(value)
-        var SPshop=this.state.spShop
+        let SPshop=this.state.spShop
         SPshop.recProvinceId=value[0]
         SPshop.recCityId=value[1]
         SPshop.recDistrictId=value[2]
-        SPshop.spAddressId=null
+        SPshop.spAddressId=null;
         this.setState({
-            SPshop:SPshop
-        },function(){
-            console.log(this.state.SPshop)
-        })
+            spShop:SPshop
+        });
     }
 
     Getdetail=(messages)=>{
-        console.log(messages)
         //计算
         var dataSource=messages
         var allnumber=0
@@ -193,8 +203,7 @@ class OrdermdEditForm extends React.Component{
         //更新到spShop
         var spShop=this.state.spShop
         spShop.qtySum=allnumber
-        spShop.amountSum=allpay.toFixed(2)
-        console.log(spShop)
+        spShop.amountSum=allpay.toFixed(2);
         this.setState({
             allnumber:allnumber,
             amountSum:allpay.toFixed(2),
@@ -259,7 +268,7 @@ class OrdermdEditForm extends React.Component{
 	//取消
 	hindCancel=()=>{
 		this.deleteTab()
-		this.refreshAccountList()
+		this.refreshList()
 	}
     
   	render(){
@@ -289,7 +298,6 @@ class OrdermdEditForm extends React.Component{
 				>
 					{getFieldDecorator('shopName', {
 						rules: [{ required: true, message: '请选择门店名称'}],
-						initialValue:''
 					})(
 						<AutoComplete
                             dataSource={this.state.dataSources}
@@ -306,7 +314,6 @@ class OrdermdEditForm extends React.Component{
 				>
 					{getFieldDecorator('spAddressId', {
 						rules: [{ type: 'array', required: true, message: '请选择所属城市' }],
-						initialValue:''
 					})(
 						<Cascader 
                             placeholder="请选择所属城市" 
@@ -322,7 +329,6 @@ class OrdermdEditForm extends React.Component{
 				>
 					{getFieldDecorator('recAddress', {
 						rules: [{ required: true, message: '请输入门店地址' }],
-						initialValue:''
 					})(
 						<Input placeholder="请输入职位"/>
 					)}
@@ -334,7 +340,6 @@ class OrdermdEditForm extends React.Component{
 				>
 					{getFieldDecorator('recTel', {
 						rules: [{ required: true, message: '请输入收货电话' }],
-						initialValue:''
 					})(
 						<Input placeholder="请输入收货电话"/>
 					)}
@@ -346,7 +351,6 @@ class OrdermdEditForm extends React.Component{
 				>
 					{getFieldDecorator('recName', {
 						rules: [{ required: true, message: '请输入收货人' }],
-						initialValue:''
 					})(
 						<Input placeholder="请输入收货人"/>
 					)}
@@ -357,7 +361,7 @@ class OrdermdEditForm extends React.Component{
 					wrapperCol={{ span: 12 }}
 				>
 					{getFieldDecorator('details')(
-						<GoodsListTable {...getFieldProps('SpuInfo')} Getdetail={this.Getdetail.bind(this)}/>
+						<GoodsListTable Getdetail={this.Getdetail.bind(this)}/>
 					)}
 				</FormItem>
                 <FormItem
@@ -382,7 +386,7 @@ class OrdermdEditForm extends React.Component{
               		<Button className='mr30' onClick={this.hindCancel.bind(this)}>取消</Button>
               		<Button htmlType="submit" type="primary" onClick={this.handleSubmit.bind(this)}>保存</Button>
             	</FormItem>
-                <Infomodel ref='models'/> 
+                <Infomodel ref='models' deleteTab={this.deleteTab.bind(this)} refreshList={this.refreshList.bind(this)}/> 
           	</Form>
       	)
   	}
@@ -396,15 +400,11 @@ class OrdermdEditForm extends React.Component{
                 residences:data
             })
         });
-    	if(this.props.data){
-			//   const payload={code:'qerp.web.ur.user.get',values:{'urUserId':this.props.data.urUserId}}
-			//   //请求用户信息
-			// this.initDateEdit(payload)
-		}
   	}
 }
 function mapStateToProps(state) {
-    return {};
+    const {tableList,total,limit,currentPage,values} = state.ordermd;
+    return {tableList,total,limit,currentPage,values};
 }
 
 const OrdermdEdit = Form.create()(OrdermdEditForm);
