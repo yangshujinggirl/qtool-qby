@@ -10,6 +10,14 @@ import OrdercgTable from './table';
 class OrdercgIndex extends React.Component{
 	state = {};
 
+	addNew = () =>{
+		const paneitem={title:'新建采购单',key:'202000edit',componkey:'202000edit',data:null}
+  		this.props.dispatch({
+	    	type:'tab/firstAddTab',
+	    	payload:paneitem
+		});
+  	}
+
   	render(){
      	return(
         	<div className='content_box'>
@@ -18,6 +26,7 @@ class OrdercgIndex extends React.Component{
 						type="primary" 
 						size='large'
 						className='mt20'
+						onClick={this.addNew.bind(this)}
 					>
 						新建采购单
 					</Button>
