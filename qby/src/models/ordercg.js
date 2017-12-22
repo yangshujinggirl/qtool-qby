@@ -14,7 +14,14 @@ export default {
         headTit:[],
         details:[],
         logs:[],
-        editInfo:{},
+        editInfo:{
+            shippingFeeType:10,
+            nothasFacepay:true,
+            shippingFee:null,
+            taxRateType:1,
+            taxRateDisabled:false,
+            taxRate:'',
+        },
         goodsInfo: [{
             key: 0,
             pdCode:'',

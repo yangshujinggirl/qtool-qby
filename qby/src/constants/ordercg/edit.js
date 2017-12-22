@@ -1,5 +1,6 @@
 import React from 'react';
 import {GetServerData} from '../../services/services';
+import {deepcCloneObj} from '../../utils/commonFc';
 import { connect } from 'dva';
 import { Form, Select, Input, Button ,message,Modal, Row, Col,AutoComplete,DatePicker,Radio } from 'antd';
 import moment from 'moment';
@@ -108,7 +109,11 @@ class OrdercgEditForm extends React.Component{
 
     //搜索供应商
     searchSupplier = (value) =>{
-        this.state.formvalue.pdSupplierId=null;
+		this.state.formvalue.pdSupplierId=null;
+		this.props.dispatch({
+            type:'ordercg/syncEditInfo',
+            payload:this.state.formvalue
+		})
         let values={name:value};
         const result=GetServerData('qerp.web.pd.supplier.list',values);
         result.then((res) => {
@@ -133,7 +138,11 @@ class OrdercgEditForm extends React.Component{
     //选择供应商
     selectSupplier= (value) =>{
         let taxRate;
-        this.state.formvalue.pdSupplierId=value;
+		this.state.formvalue.pdSupplierId=value;
+		this.props.dispatch({
+            type:'ordercg/syncEditInfo',
+            payload:this.state.formvalue
+		})
         // const dataSource=this.state.supplierList;
         // for(var i=0;i < dataSource.length;i++){
         //     if(dataSource[i].value==value){
@@ -168,6 +177,10 @@ class OrdercgEditForm extends React.Component{
 	//选择预计送达时间
 	chooseArriveTime = (date, dateString) =>{
 		this.state.formvalue.expectedTime=dateString;
+		this.props.dispatch({
+            type:'ordercg/syncEditInfo',
+            payload:this.state.formvalue
+		})
 	}
 
 	//收货仓库列表
@@ -199,6 +212,10 @@ class OrdercgEditForm extends React.Component{
 				this.props.form.setFieldsValue({
 					shippingFee:this.state.formvalue.shippingFee
 				})
+				this.props.dispatch({
+					type:'ordercg/syncEditInfo',
+					payload:this.state.formvalue
+				})
 			})
 		 }
 	}
@@ -215,6 +232,10 @@ class OrdercgEditForm extends React.Component{
 				this.props.form.setFieldsValue({
 					taxRate:String(this.state.formvalue.taxRate)
 				})
+				this.props.dispatch({
+					type:'ordercg/syncEditInfo',
+					payload:this.state.formvalue
+				})
 			})
 		 }else{
 			formvalueTemp.taxRateType = 0;
@@ -225,6 +246,10 @@ class OrdercgEditForm extends React.Component{
 			},function(){
 				this.props.form.setFieldsValue({
 					taxRate:String(this.state.formvalue.taxRate)
+				})
+				this.props.dispatch({
+					type:'ordercg/syncEditInfo',
+					payload:this.state.formvalue
 				})
 			})
 		 }
@@ -266,7 +291,7 @@ class OrdercgEditForm extends React.Component{
 					wrapperCol={{ span: 6 }}
 				>
 					<DatePicker placeholder='请选择送达时间' 
-								defaultValue={moment(this.props.editInfo.expectedTime, 'YYYY-MM-DD')} 
+								value={this.props.editInfo.expectedTime?moment(this.props.editInfo.expectedTime, 'YYYY-MM-DD'):''} 
 								onChange={this.chooseArriveTime.bind(this)}/>
 				</FormItem>
 				<FormItem
@@ -294,7 +319,7 @@ class OrdercgEditForm extends React.Component{
 				>
 					{getFieldDecorator('shippingFeeType', {
 						rules: [{ required: true, message: '请选择物流费用' }],
-						initialValue:String(this.state.formvalue.shippingFeeType)
+						initialValue:String(this.props.editInfo.shippingFeeType)
 					})(
 						<RadioGroup onChange={this.RadioChange.bind(this)}>
 							<Radio value="10">包邮</Radio>
@@ -308,9 +333,9 @@ class OrdercgEditForm extends React.Component{
 					wrapperCol={{ span: 6 }}
 				>
 					{getFieldDecorator('shippingFee', {
-						initialValue:this.state.shippingFee
+						initialValue:this.props.editInfo.shippingFee
 					})(
-						<Input placeholder="请输入到付金额" disabled={this.state.formvalue.nothasFacepay}/>
+						<Input placeholder="请输入到付金额" disabled={this.props.editInfo.nothasFacepay}/>
 					)}
 				</FormItem>
 				<FormItem
@@ -320,7 +345,7 @@ class OrdercgEditForm extends React.Component{
 				>
 					{getFieldDecorator('taxRateType', {
 						rules: [{ required: true, message: '请选择是否含税' }],
-						initialValue:String(this.state.formvalue.taxRateType)
+						initialValue:String(this.props.editInfo.taxRateType)
 					})(
 						<RadioGroup onChange={this.RadioChangeTaxRate.bind(this)}>
 							<Radio value="1">是</Radio>
@@ -334,9 +359,9 @@ class OrdercgEditForm extends React.Component{
 					wrapperCol={{ span: 6 }}
 				>
 					{getFieldDecorator('taxRate', {
-						initialValue:String(this.state.formvalue.taxRate)
+						initialValue:String(this.props.editInfo.taxRate)
 					})(
-						<Select  placeholder="请选择含税税率" disabled={this.state.formvalue.taxRateDisabled}>
+						<Select  placeholder="请选择含税税率" disabled={this.props.editInfo.taxRateDisabled}>
 							<Option value='0'>0%</Option>
 							<Option value='3'>3%</Option>
 							<Option value='6'>6%</Option>
@@ -357,7 +382,24 @@ class OrdercgEditForm extends React.Component{
 			  const payload={code:'qerp.web.ws.asn.detail',values:{'wsAsnId':this.props.data.wsAsnId}}
 			  //请求信息
 			this.initDateEdit(payload);
-			this.state.formvalue = this.props.editInfo;
+			this.state.formvalue = deepcCloneObj(this.props.editInfo);
+			console.log(this.state.formvalue);
+			if(!this.state.formvalue.shippingFee){
+                 this.state.formvalue.nothasFacepay = true;
+			}else{
+				this.state.formvalue.nothasFacepay = false;
+			}
+
+			if(this.state.formvalue.taxRate ||this.state.formvalue.taxRate == '0'){
+				this.state.formvalue.taxRateDisabled = false;
+			}else{
+				this.state.formvalue.taxRateDisabled = true;
+			}
+
+			this.props.dispatch({
+				type:'ordercg/syncEditInfo',
+				payload:this.state.formvalue
+			})
 		}
 		this.warehouseList();
   	}
