@@ -14,7 +14,13 @@ export default {
         headTit:[],
         details:[],
         logs:[],
-        goodsInfo:[]
+        editInfo:{},
+        goodsInfo: [{
+            key: 0,
+            pdCode:'',
+            qty: '',
+            price:''
+        }],
     },
     reducers: {
 		synchronous(state, { payload:values}) {
@@ -28,6 +34,9 @@ export default {
         },
         syncInfolist(state, { payload:{headTitle,headTit,details,logs}}) {
 			return {...state,headTitle,headTit,details,logs}
+        },
+        syncEditInfo(state, { payload:editInfo}) {
+			return {...state,editInfo}
         },
         syncGoodsInfo(state, { payload:goodsInfo}) {
 			return {...state,goodsInfo}
@@ -86,6 +95,19 @@ export default {
                  yield put({type: 'syncInfolist',payload:{headTitle,headTit,details,logs}});
             } 
         },
+        *editfetch({ payload: {code,values} }, { call, put }) {
+			const result=yield call(GetServerData,code,values);
+			yield put({type: 'tab/loding',payload:false});
+			if(result.code=='0'){
+                console.log(result);
+                const editInfo = result.asn;
+                const goodsInfo = result.details;
+				// const urRoleIds=result.urUser.urRoleIds;
+				// urUser.status=String(urUser.status);
+                  yield put({type: 'syncEditInfo',payload:editInfo});
+                  yield put({type: 'syncGoodsInfo',payload:goodsInfo});
+			} 
+		},
   	},
   	subscriptions: {},
 };

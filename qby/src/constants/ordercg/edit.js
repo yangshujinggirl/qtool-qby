@@ -2,6 +2,7 @@ import React from 'react';
 import {GetServerData} from '../../services/services';
 import { connect } from 'dva';
 import { Form, Select, Input, Button ,message,Modal, Row, Col,AutoComplete,DatePicker,Radio } from 'antd';
+import moment from 'moment';
 import GoodsInfoTable from './goodsTable';
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -28,7 +29,7 @@ class OrdercgEditForm extends React.Component{
 	//修改数据初始化页面
   	initDateEdit = (value) =>{
 		  //请求用户信息
-  		this.props.dispatch({type:'account/infofetch',payload:value})
+  		this.props.dispatch({type:'ordercg/editfetch',payload:value})
     	this.props.dispatch({ type: 'tab/loding', payload:true})
 	}
 
@@ -88,7 +89,9 @@ class OrdercgEditForm extends React.Component{
                     return res;
                 }).then((json) => {
                     if(json.code=='0'){
-                        message.success('采购单创建成功');
+						message.success('采购单创建成功');
+						this.deleteTab();
+						this.refreshList();
                     }else{
 						message.error(json.message);
 					}
@@ -238,7 +241,7 @@ class OrdercgEditForm extends React.Component{
 				>
 					{getFieldDecorator('supplier', {
 						rules: [{ required: true, message: '请输入账号名称'},{pattern:/^.{1,30}$/,message:'请输入1-30字账号名称'}],
-						initialValue:''
+						initialValue:this.props.editInfo.name
 					})(
                         <AutoComplete
                             dataSource={this.state.supplierList}
@@ -262,7 +265,9 @@ class OrdercgEditForm extends React.Component{
 					labelCol={{ span: 3,offset: 1 }}
 					wrapperCol={{ span: 6 }}
 				>
-					<DatePicker placeholder='请选择送达时间' onChange={this.chooseArriveTime.bind(this)}/>
+					<DatePicker placeholder='请选择送达时间' 
+								defaultValue={moment(this.props.editInfo.expectedTime, 'YYYY-MM-DD')} 
+								onChange={this.chooseArriveTime.bind(this)}/>
 				</FormItem>
 				<FormItem
               		label="收货仓库"
@@ -270,7 +275,8 @@ class OrdercgEditForm extends React.Component{
               		wrapperCol={{ span: 6 }}
             	>
 					{getFieldDecorator('wsWarehouseId', {
-						rules: [{ required: true, message: '请选择收货仓库' }]
+						rules: [{ required: true, message: '请选择收货仓库' }],
+						initialValue:String(this.props.editInfo.wsWarehouseId) 
 					})(
 						<Select placeholder="请选择收货仓库">
 							{
@@ -347,17 +353,19 @@ class OrdercgEditForm extends React.Component{
       	)
   	}
   	componentDidMount(){
-    	// if(this.props.data){
-		// 	  const payload={code:'qerp.web.ur.user.get',values:{'urUserId':this.props.data.urUserId}}
-		// 	  //请求信息
-		// 	this.initDateEdit(payload)
-		// }
+    	if(this.props.data){
+			  const payload={code:'qerp.web.ws.asn.detail',values:{'wsAsnId':this.props.data.wsAsnId}}
+			  //请求信息
+			this.initDateEdit(payload);
+			this.state.formvalue = this.props.editInfo;
+		}
 		this.warehouseList();
   	}
 }
 function mapStateToProps(state) {
-	const {goodsInfo,values} = state.ordercg;
-    return {goodsInfo,values};
+	const {goodsInfo,values,editInfo} = state.ordercg;
+	console.log(editInfo);
+    return {goodsInfo,values,editInfo};
 }
 
 const OrdercgEdit = Form.create()(OrdercgEditForm);

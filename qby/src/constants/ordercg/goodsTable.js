@@ -20,7 +20,7 @@ class GoodsInfoTable extends React.Component {
             render: (text, record, index) => {
                 return (
                     <Input 
-                        value={this.state.dataSource[index].pdCode} 
+                        value={this.props.goodsInfo[index].pdCode} 
                         placeholder="请输入商品编码" 
                         onChange={this.handleChangeCode.bind(this, index)} 
                         onBlur={this.onBluepdCode.bind(this,index)}/>
@@ -32,7 +32,7 @@ class GoodsInfoTable extends React.Component {
             render: (text, record, index) => {
                 return (
                     <Input 
-                        value={this.state.dataSource[index].qty} 
+                        value={this.props.goodsInfo[index].qty} 
                         placeholder="采购数量" 
                         onChange={this.handleChangeQty.bind(this, index)}
                         />
@@ -44,7 +44,7 @@ class GoodsInfoTable extends React.Component {
             render: (text, record, index) => {
                 return (
                     <Input 
-                        value={this.state.dataSource[index].price} 
+                        value={this.props.goodsInfo[index].price} 
                         placeholder="采购价格" 
                         onChange={this.handleChangePrice.bind(this, index)}
                         />
@@ -56,7 +56,7 @@ class GoodsInfoTable extends React.Component {
             width:'50px',
             render: (text, record, index) => {
                 return (
-                    this.state.dataSource.length > 1?
+                    this.props.goodsInfo.length > 1?
                     <div 
                         style={{color: '#35bab0', cursor:'pointer'}} 
                         onClick={this.onDelete.bind(this,index)}>删除</div>
@@ -149,7 +149,7 @@ class GoodsInfoTable extends React.Component {
     render() {
         return (
           <div style={{marginTop:'0px'}}>
-            <Table dataSource={this.state.dataSource} style = {{padding:0}} columns={this.columns} pagination={false} showHeader={true} bordered={false} className='OrderCenterEidt'/>
+            <Table dataSource={this.props.goodsInfo} style = {{padding:0}} columns={this.columns} pagination={false} showHeader={true} bordered={false} className='OrderCenterEidt'/>
             <Button style={{margin:'15px 10px 0 7px', width:'100px'}} onClick={this.addGoods}>+商品</Button>
           </div>
         );
@@ -158,7 +158,8 @@ class GoodsInfoTable extends React.Component {
 
 function mapStateToProps(state) {
     const {goodsInfo} = state.ordercg;
-    return {};
+    console.log(goodsInfo);
+    return {goodsInfo};
 }
 
 export default connect(mapStateToProps)(GoodsInfoTable);

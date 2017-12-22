@@ -11,7 +11,7 @@ class OrdercgTable extends React.Component {
           dataIndex: 'asnNo',
           render: (text, record) => {
             return (
-              <TableLink text={text} hindClick={this.editInfo.bind(this,record)} type='1'/>
+              <TableLink text={text} hindClick={this.lookInfo.bind(this,record)} type='1'/>
             );
           }
         },{
@@ -43,9 +43,18 @@ class OrdercgTable extends React.Component {
     }
     
     //点击表格上的修改按钮操作
-    editInfo = (record) =>{
+    lookInfo = (record) =>{
        const wsAsnId=String(record.wsAsnId);
        const paneitem={title:'订单详情',key:'202000edit'+wsAsnId+'info',data:{wsAsnId:wsAsnId},componkey:'202000info'}
+       this.props.dispatch({
+         type:'tab/firstAddTab',
+         payload:paneitem
+       })
+    }
+    //
+    editInfo = (record) =>{
+      const wsAsnId=String(record.wsAsnId);
+       const paneitem={title:'修改采购单',key:'202000edit'+wsAsnId,data:{wsAsnId:wsAsnId},componkey:'202000edit'}
        this.props.dispatch({
          type:'tab/firstAddTab',
          payload:paneitem
