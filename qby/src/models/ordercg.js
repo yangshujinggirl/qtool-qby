@@ -13,7 +13,8 @@ export default {
         headTitle:'',
         headTit:[],
         details:[],
-        logs:[]
+        logs:[],
+        goodsInfo:[]
     },
     reducers: {
 		synchronous(state, { payload:values}) {
@@ -27,6 +28,9 @@ export default {
         },
         syncInfolist(state, { payload:{headTitle,headTit,details,logs}}) {
 			return {...state,headTitle,headTit,details,logs}
+        },
+        syncGoodsInfo(state, { payload:goodsInfo}) {
+			return {...state,goodsInfo}
         }
     },
     effects: {

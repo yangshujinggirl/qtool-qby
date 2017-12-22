@@ -1,21 +1,27 @@
 import React from 'react';
 import {GetServerData} from '../../services/services';
 import { connect } from 'dva';
-import { Form, Select, Input, Button ,message,Modal, Row, Col,AutoComplete} from 'antd';
+import { Form, Select, Input, Button ,message,Modal, Row, Col,AutoComplete,DatePicker,Radio } from 'antd';
 import GoodsInfoTable from './goodsTable';
 const FormItem = Form.Item;
 const Option = Select.Option;
+const RadioGroup = Radio.Group;
 
 class OrdercgEditForm extends React.Component{
 
 	constructor(props) {
 		super(props);
 		this.state = {
-            formvalue:{},
+            formvalue:{
+				shippingFeeType:10,
+				nothasFacepay:true,
+				shippingFee:null,
+				taxRateType:1,
+				taxRateDisabled:false,
+				taxRate:'',
+			},
             supplierList:[],
-            taxRateType:'0',
-            taxRateDisabled:true,
-            taxRate:''
+			warehouses:[]
         }
 	}
 
@@ -33,10 +39,10 @@ class OrdercgEditForm extends React.Component{
 			return
 		}
 		if(this.props.data){
-			this.props.dispatch({
-				type:'tab/initDeletestate',
-				payload:'202000edit'+this.props.data.urUserId
-			  });
+			// this.props.dispatch({
+			// 	type:'tab/initDeletestate',
+			// 	payload:'202000edit'+this.props.data.urUserId
+			//   });
 		}else{
 			this.props.dispatch({
 				type:'tab/initDeletestate',
@@ -47,11 +53,11 @@ class OrdercgEditForm extends React.Component{
 
 	//刷新列表
 	refreshList=()=>{
-		// this.props.dispatch({
-        //     type:'account/fetch',
-        //     payload:{code:'qerp.web.ur.user.query',values:{limit:this.props.limit,currentPage:0}}
-		// })
-		// this.props.dispatch({ type: 'tab/loding', payload:true}) 
+		this.props.dispatch({
+            type:'ordercg/fetch',
+            payload:{code:'qerp.web.ws.asn.query',values:this.props.values}
+		})
+		this.props.dispatch({ type: 'tab/loding', payload:true}) 
 	}
 
 
@@ -68,22 +74,24 @@ class OrdercgEditForm extends React.Component{
 		e.preventDefault();
 		this.props.form.validateFields((err, values) => {
             if (!err) {
-                // const newvalues={urUser:values}
-                // const result=GetServerData('qerp.web.ur.user.save',newvalues)
+				console.log(values);
+				console.log(this.state.formvalue);
+				let data = this.state.formvalue;
+				data.shippingFee = values.shippingFee;
+				data.taxRate = values.taxRate;
+				data.wsWarehouseId = values.wsWarehouseId;
+				data.details = this.props.goodsInfo;
+				data.type = "10";
+				console.log(data);
+                const result=GetServerData('qerp.web.ws.asn.save',data);
                 result.then((res) => {
                     return res;
                 }).then((json) => {
                     if(json.code=='0'){
-                        console.log(json);
-                        // if(json.password){
-                        //     //显示新创建的用户信息
-                        //     this.showNewUserInfoModal('Q本营账户创建成功',json);
-                        // }else{
-                        //     message.success('信息修改成功',.8);
-                        //     this.deleteTab();
-                        //     this.refreshAccountList();
-                        // }
-                    }
+                        message.success('采购单创建成功');
+                    }else{
+						message.error(json.message);
+					}
                 })
             }
 		});
@@ -152,7 +160,72 @@ class OrdercgEditForm extends React.Component{
         //     });
         //   })
         // }
-    }
+	}
+	
+	//选择预计送达时间
+	chooseArriveTime = (date, dateString) =>{
+		this.state.formvalue.expectedTime=dateString;
+	}
+
+	//收货仓库列表
+	warehouseList = () =>{
+		let value={type:1};
+		const result=GetServerData('qerp.web.ws.warehouse.all.list',value);
+		result.then((res) => {
+			return res;
+		}).then((json) => {
+			this.setState({
+				warehouses:json.warehouses
+			})
+		})
+	}
+
+	RadioChange = (e) =>{
+		let formvalueTemp = this.state.formvalue;
+		if(e.target.value=='20'){
+			formvalueTemp.nothasFacepay = false;
+			this.setState({
+				formvalue:formvalueTemp
+			})
+		 }else{
+			formvalueTemp.nothasFacepay = true;
+			formvalueTemp.shippingFee = null;
+		   	this.setState({
+				formvalue:formvalueTemp,
+			},function(){
+				this.props.form.setFieldsValue({
+					shippingFee:this.state.formvalue.shippingFee
+				})
+			})
+		 }
+	}
+
+	//是否含税改变
+	RadioChangeTaxRate = (e) =>{
+		let formvalueTemp = this.state.formvalue;
+		if(e.target.value=='1'){
+			formvalueTemp.taxRateType = 1;
+			formvalueTemp.taxRateDisabled = false;
+			this.setState({
+				formvalue:formvalueTemp,
+			},function(){
+				this.props.form.setFieldsValue({
+					taxRate:String(this.state.formvalue.taxRate)
+				})
+			})
+		 }else{
+			formvalueTemp.taxRateType = 0;
+			formvalueTemp.taxRateDisabled = true;
+			formvalueTemp.taxRate = '';
+			this.setState({
+				formvalue:formvalueTemp,
+			},function(){
+				this.props.form.setFieldsValue({
+					taxRate:String(this.state.formvalue.taxRate)
+				})
+			})
+		 }
+	}
 
   	render(){
 		const { getFieldDecorator } = this.props.form;
@@ -184,76 +257,92 @@ class OrdercgEditForm extends React.Component{
                         <GoodsInfoTable/>
 					)}
 				</FormItem>
-				{/* 
 				<FormItem
-					label="职位"
+					label="预计到达时间"
 					labelCol={{ span: 3,offset: 1 }}
 					wrapperCol={{ span: 6 }}
 				>
-					{getFieldDecorator('job', {
-						rules: [{ required: true, message: '请输入职位' },{pattern:/^.{1,10}$/,message:'请输入1-10字职位名'}],
-						initialValue:this.props.urUser.job
-					})(
-						<Input placeholder="请输入职位"/>
-					)}
+					<DatePicker placeholder='请选择送达时间' onChange={this.chooseArriveTime.bind(this)}/>
 				</FormItem>
 				<FormItem
-					label="邮箱"
-					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}
-				>
-					{getFieldDecorator('email', {
-						rules: [{ required: true, message: '请输入邮箱' }],
-						initialValue:this.props.urUser.email
-					})(
-						<Input placeholder="请输入邮箱"/>
-					)}
-				</FormItem>
-				<FormItem
-					label="手机号"
-					labelCol={{ span: 3,offset: 1}}
-					wrapperCol={{ span: 6 }}
-				>
-					{getFieldDecorator('mobile', {
-						rules: [{ required: true, message: '请输入手机号' },{pattern:/^[0-9]{1,20}$/,message:'输入正确手机号'}],
-						initialValue:this.props.urUser.mobile
-					})(
-						<Input placeholder="请输入手机号"/>
-					)}
-				</FormItem>
-            	<FormItem
-              		label="账户状态"
+              		label="收货仓库"
               		labelCol={{ span: 3,offset: 1 }}
               		wrapperCol={{ span: 6 }}
             	>
-					{getFieldDecorator('status', {
-						rules: [{ required: true, message: '请选择账户状态' }],
-						initialValue:this.props.urUser.status
+					{getFieldDecorator('wsWarehouseId', {
+						rules: [{ required: true, message: '请选择收货仓库' }]
 					})(
-						<Select placeholder="请选择账户状态">
-							<Option value="1">启用</Option>
-							<Option value="0">禁用</Option>
+						<Select placeholder="请选择收货仓库">
+							{
+								this.state.warehouses.map((item,index)=>{
+									return (<Option value={String(item.wsWarehouseId)} key={index}>{item.name}</Option>)
+								})
+							}
 						</Select>
               		)}
             	</FormItem>
 				<FormItem
-              		label="权限分配"
-              		labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 8 }}
-					  >
-					<UserTags changeHasTagStatus={this.changeHasTagStatus.bind(this)}/>
-					{
-						!this.state.hasUserTags
-						?
-						<p className="error-info">请选择分配权限</p>
-						:
-						null
-					}
-            	</FormItem>
+					label="物流费用"
+					labelCol={{ span: 3,offset: 1 }}
+					wrapperCol={{ span: 6 }}
+				>
+					{getFieldDecorator('shippingFeeType', {
+						rules: [{ required: true, message: '请选择物流费用' }],
+						initialValue:String(this.state.formvalue.shippingFeeType)
+					})(
+						<RadioGroup onChange={this.RadioChange.bind(this)}>
+							<Radio value="10">包邮</Radio>
+							<Radio value="20">到付</Radio>
+						</RadioGroup>
+					)}
+				</FormItem>
+				<FormItem
+					label="到付金额"
+					labelCol={{ span: 3,offset: 1}}
+					wrapperCol={{ span: 6 }}
+				>
+					{getFieldDecorator('shippingFee', {
+						initialValue:this.state.shippingFee
+					})(
+						<Input placeholder="请输入到付金额" disabled={this.state.formvalue.nothasFacepay}/>
+					)}
+				</FormItem>
+				<FormItem
+					label="是否含税"
+					labelCol={{ span: 3,offset: 1 }}
+					wrapperCol={{ span: 6 }}
+				>
+					{getFieldDecorator('taxRateType', {
+						rules: [{ required: true, message: '请选择是否含税' }],
+						initialValue:String(this.state.formvalue.taxRateType)
+					})(
+						<RadioGroup onChange={this.RadioChangeTaxRate.bind(this)}>
+							<Radio value="1">是</Radio>
+							<Radio value="0">否</Radio>
+						</RadioGroup>
+					)}
+				</FormItem>
+				<FormItem
+					label="含税税率"
+					labelCol={{ span: 3,offset: 1}}
+					wrapperCol={{ span: 6 }}
+				>
+					{getFieldDecorator('taxRate', {
+						initialValue:String(this.state.formvalue.taxRate)
+					})(
+						<Select  placeholder="请选择含税税率" disabled={this.state.formvalue.taxRateDisabled}>
+							<Option value='0'>0%</Option>
+							<Option value='3'>3%</Option>
+							<Option value='6'>6%</Option>
+							<Option value='11'>11%</Option>
+							<Option value='17'>17%</Option>
+						</Select>
+					)}
+				</FormItem>
             	<FormItem wrapperCol={{ offset: 4}} style = {{marginBottom:0}}>
               		<Button className='mr30' onClick={this.hindCancel.bind(this)}>取消</Button>
               		<Button htmlType="submit" type="primary" onClick={this.handleSubmit.bind(this)}>保存</Button>
-            	</FormItem> */}
+            	</FormItem>
           	</Form>
       	)
   	}
@@ -263,10 +352,12 @@ class OrdercgEditForm extends React.Component{
 		// 	  //请求信息
 		// 	this.initDateEdit(payload)
 		// }
+		this.warehouseList();
   	}
 }
 function mapStateToProps(state) {
-    return {};
+	const {goodsInfo,values} = state.ordercg;
+    return {goodsInfo,values};
 }
 
 const OrdercgEdit = Form.create()(OrdercgEditForm);

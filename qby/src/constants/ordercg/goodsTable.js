@@ -76,15 +76,18 @@ class GoodsInfoTable extends React.Component {
         this.setState({
             dataSource: [...this.state.dataSource, newData],
             rowCount: this.state.rowCount + 1
+        },function(){
+            this.props.dispatch({
+                type:'ordercg/syncGoodsInfo',
+                payload:this.state.dataSource
+            })
         });
     }
 
     handleChangeCode = (index,e) =>{
         let tempDataSource = this.state.dataSource;
         tempDataSource[index].pdCode = e.target.value;
-        this.setState({
-            dataSource:tempDataSource
-        })
+        this.syncGoodsInfo(tempDataSource);
     }
 
     onBluepdCode = (index) =>{
@@ -102,6 +105,11 @@ class GoodsInfoTable extends React.Component {
                 tempDataSource[index].price = json.pdSpu.costPrice;
                 this.setState({
                     dataSource:tempDataSource
+                },function(){
+                    this.props.dispatch({
+                        type:'ordercg/syncGoodsInfo',
+                        payload:this.state.dataSource
+                    })
                 })
             }else{
                 message.error(json.message);
@@ -112,24 +120,29 @@ class GoodsInfoTable extends React.Component {
     handleChangeQty = (index,e) =>{
         let tempDataSource = this.state.dataSource;
         tempDataSource[index].qty = e.target.value;
-        this.setState({
-            dataSource:tempDataSource
-        });
+        this.syncGoodsInfo(tempDataSource);
     }
 
     handleChangePrice = (index,e)=>{
         let temDataSource = this.state.dataSource;
         tempDataSource[index].price = e.target.value;
-        this.setState({
-            dataSource:tempDataSource
-        })
+        this.syncGoodsInfo(tempDataSource);
     }
 
     onDelete = (index)=>{
         let tempDataSource = this.state.dataSource;
         tempDataSource.splice(index, 1);
+        this.syncGoodsInfo(tempDataSource);
+    }
+
+    syncGoodsInfo = (tempDataSource) =>{
         this.setState({
             dataSource:tempDataSource
+        },function(){
+            this.props.dispatch({
+                type:'ordercg/syncGoodsInfo',
+                payload:this.state.dataSource
+            })
         });
     }
 
@@ -143,4 +156,9 @@ class GoodsInfoTable extends React.Component {
     }
 }
 
-export default GoodsInfoTable;
+function mapStateToProps(state) {
+    const {goodsInfo} = state.ordercg;
+    return {};
+}
+
+export default connect(mapStateToProps)(GoodsInfoTable);
