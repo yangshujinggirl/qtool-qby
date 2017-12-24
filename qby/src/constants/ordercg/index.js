@@ -16,6 +16,10 @@ class OrdercgIndex extends React.Component{
 	    	type:'tab/firstAddTab',
 	    	payload:paneitem
 		});
+		this.props.dispatch({
+            type:'ordercg/initState',
+            payload:{}
+		})
   	}
 
   	render(){

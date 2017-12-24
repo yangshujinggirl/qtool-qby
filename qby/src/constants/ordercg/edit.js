@@ -14,15 +14,17 @@ class OrdercgEditForm extends React.Component{
 	constructor(props) {
 		super(props);
 		this.state = {
-            formvalue:{
-				shippingFeeType:10,
-				nothasFacepay:true,
-				shippingFee:null,
-				taxRateType:1,
-				taxRateDisabled:false,
-				taxRate:'',
-			},
-            supplierList:[],
+            // formvalue:{
+			// 	shippingFeeType:10,
+			// 	shippingFee:null,
+			// 	taxRateType:1,
+			// 	taxRate:'',
+			// },
+			nothasFacepay:true,
+			taxRateDisabled:false,
+			//请求供应商的列表信息
+			supplierList:[],
+			//请求的仓库列表信息
 			warehouses:[]
         }
 	}
@@ -41,10 +43,10 @@ class OrdercgEditForm extends React.Component{
 			return
 		}
 		if(this.props.data){
-			// this.props.dispatch({
-			// 	type:'tab/initDeletestate',
-			// 	payload:'202000edit'+this.props.data.urUserId
-			//   });
+			this.props.dispatch({
+				type:'tab/initDeletestate',
+				payload:'202000edit'+this.props.data.wsAsnId
+			  });
 		}else{
 			this.props.dispatch({
 				type:'tab/initDeletestate',
@@ -65,10 +67,10 @@ class OrdercgEditForm extends React.Component{
 
 	//初始化state
 	initState=()=>{
-		// this.props.dispatch({
-        //     type:'account/initState',
-        //     payload:{}
-		// })
+		this.props.dispatch({
+            type:'ordercg/initState',
+            payload:{}
+		})
     }
     
 	//保存
@@ -77,22 +79,28 @@ class OrdercgEditForm extends React.Component{
 		this.props.form.validateFields((err, values) => {
             if (!err) {
 				console.log(values);
-				console.log(this.state.formvalue);
-				let data = this.state.formvalue;
+				let data = this.props.editInfo;
 				data.shippingFee = values.shippingFee;
 				data.taxRate = values.taxRate;
 				data.wsWarehouseId = values.wsWarehouseId;
 				data.details = this.props.goodsInfo;
 				data.type = "10";
-				console.log(data);
+				if(this.props.data){
+					data.wsAsnId = this.props.data.wsAsnId;
+				}
                 const result=GetServerData('qerp.web.ws.asn.save',data);
                 result.then((res) => {
                     return res;
                 }).then((json) => {
                     if(json.code=='0'){
-						message.success('采购单创建成功');
+						if(this.props.data){
+							message.success('采购单创建成功');
+						}else{
+							message.success('采购单修改成功');
+						}
 						this.deleteTab();
 						this.refreshList();
+						this.initState();
                     }else{
 						message.error(json.message);
 					}
@@ -109,11 +117,13 @@ class OrdercgEditForm extends React.Component{
 
     //搜索供应商
     searchSupplier = (value) =>{
-		this.state.formvalue.pdSupplierId=null;
-		this.props.dispatch({
-            type:'ordercg/syncEditInfo',
-            payload:this.state.formvalue
-		})
+		let tempFormvalue = deepcCloneObj(this.props.editInfo);
+		tempFormvalue.pdSupplierId = null;
+	
+			this.props.dispatch({
+				type:'ordercg/syncEditInfo',
+				payload:tempFormvalue
+			})
         let values={name:value};
         const result=GetServerData('qerp.web.pd.supplier.list',values);
         result.then((res) => {
@@ -137,50 +147,23 @@ class OrdercgEditForm extends React.Component{
     
     //选择供应商
     selectSupplier= (value) =>{
-        let taxRate;
-		this.state.formvalue.pdSupplierId=value;
+		let tempFormvalue =deepcCloneObj(this.props.editInfo);
+		tempFormvalue.pdSupplierId = value;
 		this.props.dispatch({
-            type:'ordercg/syncEditInfo',
-            payload:this.state.formvalue
+			type:'ordercg/syncEditInfo',
+			payload:tempFormvalue
 		})
-        // const dataSource=this.state.supplierList;
-        // for(var i=0;i < dataSource.length;i++){
-        //     if(dataSource[i].value==value){
-        //       taxRate=dataSource[i].taxRate
-        //     }
-        // }
-        // if (!taxRate) {
-        //   this.setState({
-        //     taxRateType:'0',
-        //     taxRateDisabled:true,
-        //     taxRate:''
-        //   },function(){
-        //     this.props.form.setFieldsValue({
-        //       taxRateType: this.state.taxRateType,
-        //       taxRate:String(this.state.taxRate)
-        //     });
-        //   })
-        // }else{
-        //   this.setState({
-        //     taxRateType:'1',
-        //     taxRateDisabled:false,
-        //     taxRate:taxRate
-        //   },function(){
-        //     this.props.form.setFieldsValue({
-        //       taxRateType: this.state.taxRateType,
-        //       taxRate:String(this.state.taxRate)
-        //     });
-        //   })
-        // }
 	}
 	
 	//选择预计送达时间
 	chooseArriveTime = (date, dateString) =>{
-		this.state.formvalue.expectedTime=dateString;
-		this.props.dispatch({
-            type:'ordercg/syncEditInfo',
-            payload:this.state.formvalue
-		})
+		let tempFormvalue =deepcCloneObj(this.props.editInfo);
+		tempFormvalue.expectedTime = dateString;
+	
+			this.props.dispatch({
+				type:'ordercg/syncEditInfo',
+				payload:tempFormvalue
+			})
 	}
 
 	//收货仓库列表
@@ -197,24 +180,22 @@ class OrdercgEditForm extends React.Component{
 	}
 
 	RadioChange = (e) =>{
-		let formvalueTemp = this.state.formvalue;
+		let formvalueTemp =deepcCloneObj(this.props.editInfo);
 		if(e.target.value=='20'){
-			formvalueTemp.nothasFacepay = false;
 			this.setState({
-				formvalue:formvalueTemp
+				nothasFacepay:false
 			})
 		 }else{
-			formvalueTemp.nothasFacepay = true;
-			formvalueTemp.shippingFee = null;
+			formvalueTemp.shippingFee = undefined;
 		   	this.setState({
-				formvalue:formvalueTemp,
+				nothasFacepay:true
 			},function(){
 				this.props.form.setFieldsValue({
-					shippingFee:this.state.formvalue.shippingFee
+					shippingFee:formvalueTemp.shippingFee
 				})
 				this.props.dispatch({
 					type:'ordercg/syncEditInfo',
-					payload:this.state.formvalue
+					payload:formvalueTemp
 				})
 			})
 		 }
@@ -222,34 +203,32 @@ class OrdercgEditForm extends React.Component{
 
 	//是否含税改变
 	RadioChangeTaxRate = (e) =>{
-		let formvalueTemp = this.state.formvalue;
+		let formvalueTemp = deepcCloneObj(this.props.editInfo);
 		if(e.target.value=='1'){
 			formvalueTemp.taxRateType = 1;
-			formvalueTemp.taxRateDisabled = false;
 			this.setState({
-				formvalue:formvalueTemp,
+				taxRateDisabled:false
 			},function(){
 				this.props.form.setFieldsValue({
-					taxRate:String(this.state.formvalue.taxRate)
+					taxRate:String(formvalueTemp.taxRate)
 				})
 				this.props.dispatch({
 					type:'ordercg/syncEditInfo',
-					payload:this.state.formvalue
+					payload:formvalueTemp
 				})
 			})
 		 }else{
 			formvalueTemp.taxRateType = 0;
-			formvalueTemp.taxRateDisabled = true;
 			formvalueTemp.taxRate = '';
 			this.setState({
-				formvalue:formvalueTemp,
+				taxRateDisabled:true
 			},function(){
 				this.props.form.setFieldsValue({
-					taxRate:String(this.state.formvalue.taxRate)
+					taxRate:String(formvalueTemp.taxRate)
 				})
 				this.props.dispatch({
 					type:'ordercg/syncEditInfo',
-					payload:this.state.formvalue
+					payload:formvalueTemp
 				})
 			})
 		 }
@@ -335,7 +314,7 @@ class OrdercgEditForm extends React.Component{
 					{getFieldDecorator('shippingFee', {
 						initialValue:this.props.editInfo.shippingFee
 					})(
-						<Input placeholder="请输入到付金额" disabled={this.props.editInfo.nothasFacepay}/>
+						<Input placeholder="请输入到付金额" disabled={this.state.nothasFacepay}/>
 					)}
 				</FormItem>
 				<FormItem
@@ -361,7 +340,7 @@ class OrdercgEditForm extends React.Component{
 					{getFieldDecorator('taxRate', {
 						initialValue:String(this.props.editInfo.taxRate)
 					})(
-						<Select  placeholder="请选择含税税率" disabled={this.props.editInfo.taxRateDisabled}>
+						<Select  placeholder="请选择含税税率" disabled={this.state.taxRateDisabled}>
 							<Option value='0'>0%</Option>
 							<Option value='3'>3%</Option>
 							<Option value='6'>6%</Option>
@@ -378,31 +357,38 @@ class OrdercgEditForm extends React.Component{
       	)
   	}
   	componentDidMount(){
+		//请求仓库列表信息
+		this.warehouseList();
+
     	if(this.props.data){
-			  const payload={code:'qerp.web.ws.asn.detail',values:{'wsAsnId':this.props.data.wsAsnId}}
-			  //请求信息
+			const payload={code:'qerp.web.ws.asn.detail',values:{'wsAsnId':this.props.data.wsAsnId}}
+			//请求信息
 			this.initDateEdit(payload);
-			this.state.formvalue = deepcCloneObj(this.props.editInfo);
-			console.log(this.state.formvalue);
-			if(!this.state.formvalue.shippingFee){
-                 this.state.formvalue.nothasFacepay = true;
-			}else{
-				this.state.formvalue.nothasFacepay = false;
-			}
-
-			if(this.state.formvalue.taxRate ||this.state.formvalue.taxRate == '0'){
-				this.state.formvalue.taxRateDisabled = false;
-			}else{
-				this.state.formvalue.taxRateDisabled = true;
-			}
-
-			this.props.dispatch({
-				type:'ordercg/syncEditInfo',
-				payload:this.state.formvalue
+			
+		};
+	  }
+	  
+	  componentWillReceiveProps(){
+		let tempFormvalue = deepcCloneObj(this.props.editInfo);
+		if(!tempFormvalue.shippingFee){
+			this.setState({
+				nothasFacepay:true
+			})
+		}else{
+			this.setState({
+				nothasFacepay:false
 			})
 		}
-		this.warehouseList();
-  	}
+		if(!tempFormvalue.taxRate =="" ||!tempFormvalue.taxRate == null||!tempFormvalue.taxRate == undefined||tempFormvalue.taxRate == '0'){
+			this.setState({
+				taxRateDisabled:false
+			})
+		}else{
+			this.setState({
+				taxRateDisabled:true
+			})
+		}
+	  }
 }
 function mapStateToProps(state) {
 	const {goodsInfo,values,editInfo} = state.ordercg;

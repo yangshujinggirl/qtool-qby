@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import { Form, Select, Input, Button, Radio, DatePicker, message,AutoComplete,Table, Upload} from 'antd';
 import {GetServerData} from '../../services/services';
+import { deepcCloneObj } from '../../utils/commonFc';
 class GoodsInfoTable extends React.Component {
     constructor(props) {
         super(props);
@@ -67,31 +68,35 @@ class GoodsInfoTable extends React.Component {
     }
 
     addGoods = () =>{
+        console.log(this.state.dataSource);
+        let dataList = deepcCloneObj(this.props.goodsInfo);
         const newData = {
             key: this.state.rowCount+1,
             pdCode:'',
             qty: '',
             price:''
         };
+        dataList.push(newData);
         this.setState({
-            dataSource: [...this.state.dataSource, newData],
+            // dataSource: [...this.state.dataSource, newData],
             rowCount: this.state.rowCount + 1
         },function(){
+            
             this.props.dispatch({
                 type:'ordercg/syncGoodsInfo',
-                payload:this.state.dataSource
+                payload:dataList
             })
         });
     }
 
     handleChangeCode = (index,e) =>{
-        let tempDataSource = this.state.dataSource;
+        let tempDataSource = deepcCloneObj(this.props.goodsInfo);
         tempDataSource[index].pdCode = e.target.value;
         this.syncGoodsInfo(tempDataSource);
     }
 
     onBluepdCode = (index) =>{
-        let tempDataSource = this.state.dataSource;
+        let tempDataSource = deepcCloneObj(this.props.goodsInfo);
         let pdCode = tempDataSource[index].pdCode;
         if (!pdCode) {
             return;
@@ -103,14 +108,10 @@ class GoodsInfoTable extends React.Component {
         }).then((json) => {
             if(json.code=='0'){
                 tempDataSource[index].price = json.pdSpu.costPrice;
-                this.setState({
-                    dataSource:tempDataSource
-                },function(){
                     this.props.dispatch({
                         type:'ordercg/syncGoodsInfo',
-                        payload:this.state.dataSource
+                        payload:tempDataSource
                     })
-                })
             }else{
                 message.error(json.message);
             }
@@ -118,32 +119,28 @@ class GoodsInfoTable extends React.Component {
     }
 
     handleChangeQty = (index,e) =>{
-        let tempDataSource = this.state.dataSource;
+        let tempDataSource = deepcCloneObj(this.props.goodsInfo);
         tempDataSource[index].qty = e.target.value;
         this.syncGoodsInfo(tempDataSource);
     }
 
     handleChangePrice = (index,e)=>{
-        let temDataSource = this.state.dataSource;
+        let tempDataSource = deepcCloneObj(this.props.goodsInfo);
         tempDataSource[index].price = e.target.value;
         this.syncGoodsInfo(tempDataSource);
     }
 
     onDelete = (index)=>{
-        let tempDataSource = this.state.dataSource;
+        let tempDataSource = deepcCloneObj(this.props.goodsInfo);
         tempDataSource.splice(index, 1);
         this.syncGoodsInfo(tempDataSource);
     }
 
     syncGoodsInfo = (tempDataSource) =>{
-        this.setState({
-            dataSource:tempDataSource
-        },function(){
             this.props.dispatch({
                 type:'ordercg/syncGoodsInfo',
-                payload:this.state.dataSource
+                payload:tempDataSource
             })
-        });
     }
 
     render() {
@@ -154,6 +151,10 @@ class GoodsInfoTable extends React.Component {
           </div>
         );
     }
+
+    // componentDidMount(){
+    //     this.state.dataSource = deepcCloneObj(this.props.goodsInfo);
+    // }
 }
 
 function mapStateToProps(state) {

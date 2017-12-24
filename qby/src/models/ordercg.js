@@ -16,17 +16,15 @@ export default {
         logs:[],
         editInfo:{
             shippingFeeType:10,
-            nothasFacepay:true,
             shippingFee:null,
             taxRateType:1,
-            taxRateDisabled:false,
             taxRate:'',
         },
         goodsInfo: [{
             key: 0,
-            pdCode:'',
-            qty: '',
-            price:''
+            pdCode:null,
+            qty: null,
+            price:null
         }],
     },
     reducers: {
@@ -47,7 +45,28 @@ export default {
         },
         syncGoodsInfo(state, { payload:goodsInfo}) {
 			return {...state,goodsInfo}
-        }
+        },
+        initState(state, { payload: value}) {
+			const editInfo={
+				shippingFeeType:10,
+                shippingFee:null,
+                taxRateType:1,
+                taxRate:'',
+                expectedTime:'',
+                name:'',
+                pdSupplierId:null,
+                wsWarehouseId:null
+              };
+              const goodsInfo = [
+                {
+                    key: 0,
+                    pdCode:null,
+                    qty: null,
+                    price:null
+                }
+              ];
+			return {...state,editInfo,goodsInfo}
+		},
     },
     effects: {
         *fetch({ payload: {code,values} }, { call, put ,select}) {
@@ -68,9 +87,6 @@ export default {
             const result=yield call(GetServerData,code,values);
             yield put({type: 'tab/loding',payload:false});
             if(result.code=='0'){
-                console.log(result);
-
-
                 let asn=result.asn;
                 let details = result.details;
                 let logs = result.logs;
@@ -106,11 +122,31 @@ export default {
 			const result=yield call(GetServerData,code,values);
 			yield put({type: 'tab/loding',payload:false});
 			if(result.code=='0'){
-                console.log(result);
-                const editInfo = result.asn;
-                const goodsInfo = result.details;
-				// const urRoleIds=result.urUser.urRoleIds;
-				// urUser.status=String(urUser.status);
+                const info = result.asn;
+                let editInfo = {};
+                editInfo.expectedTime = info.expectedTime;
+                editInfo.name = info.name;
+                editInfo.pdSupplierId = info.pdSupplierId;
+                editInfo.shippingFee = info.shippingFee;
+                editInfo.shippingFeeType = info.shippingFeeType;
+                editInfo.taxRateType = info.taxRateType;
+                editInfo.wsWarehouseId = info.wsWarehouseId;
+                if(info.taxRate == null){
+                    editInfo.taxRate = ''
+                }else{
+                    editInfo.taxRate = info.taxRate;
+                }
+                const goodsInfoList =  result.details;
+                let goodsInfo = [];
+                for(var i=0;i<goodsInfoList.length;i++){
+                    let json = {
+                        key:i+1,
+                        price:goodsInfoList[i].price,
+                        qty:goodsInfoList[i].qty,
+                        pdCode:goodsInfoList[i].pdCode
+                    }
+                    goodsInfo.push(json);
+                }
                   yield put({type: 'syncEditInfo',payload:editInfo});
                   yield put({type: 'syncGoodsInfo',payload:goodsInfo});
 			} 
