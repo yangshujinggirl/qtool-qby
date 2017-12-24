@@ -9,7 +9,16 @@ export default {
         tableList:[],
         headTit:[],
         details:[],
-        orderLogs:[]
+        orderLogs:[],
+        formValue:{
+            pdSupplierId:null,
+        },
+        goodsInfo: [{
+            key: 0,
+            pdCode:null,
+            qty: null,
+            price:null
+        }],
     },
     reducers: {
 		synchronous(state, { payload:values}) {
@@ -20,7 +29,13 @@ export default {
         },
         syncInfolist(state, { payload:{headTit,details,orderLogs}}) {
 			return {...state,headTit,details,orderLogs}
-        }
+        },
+        syncEditInfo(state, { payload:formValue}) {
+			return {...state,formValue}
+        },
+        syncGoodsInfo(state, { payload:goodsInfo}) {
+			return {...state,goodsInfo}
+        },
     },
     effects: {
         *fetch({ payload: {code,values} }, { call, put ,select}) {
