@@ -9,6 +9,19 @@ import OrderdbSearch from './search';
 
 class OrderdbIndex extends React.Component{
 	state = {};
+
+	addNew = () =>{
+		const paneitem={title:'新建调拨单',key:'206000edit',componkey:'206000edit',data:null}
+  		this.props.dispatch({
+	    	type:'tab/firstAddTab',
+	    	payload:paneitem
+		});
+		// this.props.dispatch({
+        //     type:'orderct/initState',
+        //     payload:{}
+		// })
+  	}
+
   	render(){
      	return(
         	<div className='content_box'>
@@ -17,6 +30,7 @@ class OrderdbIndex extends React.Component{
 						type="primary" 
 						size='large'
 						className='mt20'
+						onClick={this.addNew}
 					>
 						新建调拨单
 					</Button>

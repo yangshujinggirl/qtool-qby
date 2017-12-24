@@ -6,7 +6,14 @@ export default {
         limit:15,
         currentPage:0,
         total:0,
-        tableList:[]
+        tableList:[],
+        goodsInfo:[{
+            key: 0,
+            code:'',
+            qty: '',
+            codeline:true,
+            qtyline:true,
+        }]
     },
     reducers: {
 		synchronous(state, { payload:values}) {
@@ -17,7 +24,10 @@ export default {
         },
         syncInfolist(state, { payload:{headTit,details,orderLogs}}) {
 			return {...state,headTit,details,orderLogs}
-        }
+        },
+        syncGoodsInfo(state, { payload:goodsInfo}) {
+			return {...state,goodsInfo}
+        },
     },
     effects: {
         *fetch({ payload: {code,values} }, { call, put ,select}) {
