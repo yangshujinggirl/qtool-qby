@@ -2,8 +2,14 @@ import { connect } from 'dva';
 import '../../style/content.css';
 import { Spin } from 'antd';
 
-import GoodsIndex from '../goods/index';
-// import WarehouseinEdit from '../wsin/edit';
+import GoodsIndex from '../goods/goodscenter/index';
+import GoodEdit from '../goods/goodscenter/edit';
+import Stockindex from '../goods/stock/index';
+import Classificationindex from '../goods/classification/index';
+import Brandindex from '../goods/brand/index';
+import Specsindex from '../goods/specs/index';
+
+
 // import WarehouseinInfo from '../wsin/info';
 
 import WarehouseIndex from '../wsout/index';
@@ -53,12 +59,20 @@ class Content extends React.Component {
                         {
                             (() => {
                                 switch (this.props.componkey) {
-                                    case "10000": return <WarehouseinIndex data={this.props.data}/>;
+                                    // case "10000": return <WarehouseinIndex data={this.props.data}/>;
                                     case "10000edit": return <WarehouseinEdit data={this.props.data}/>;
                                     case "10000info": return  <WarehouseinInfo data={this.props.data}/>;
                                     case "20000": return  <WarehouseIndex data={this.props.data}/>;
                                     case "20000info": return  <WarehouseInfo data={this.props.data}/>;
+
                                     case "301000":return  <GoodsIndex data={this.props.data}/>;
+                                    case "301000edit":return  <GoodEdit data={this.props.data}/>;
+                                    case "301700":return  <Stockindex data={this.props.data}/>;
+                                    case "302000":return  <Classificationindex data={this.props.data}/>;
+                                    case "303000":return  <Brandindex data={this.props.data}/>;
+                                    case "304000":return  <Specsindex data={this.props.data}/>;
+
+                                   
                                     case "40000":return  <Wsshipping data={this.props.data}/>;
                                     case "50000":return  <StockManageIndex data={this.props.data}/>;
                                     case "60000":return  <WsmoveIndex data={this.props.data}/>;

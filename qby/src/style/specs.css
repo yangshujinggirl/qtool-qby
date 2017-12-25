@@ -1,0 +1,2 @@
+.list-con{display: flex;flex-wrap: wrap;}
+.list-item{display: inline-block;margin-right: 10px;margin-top:5px;margin-bottom: 5px;}

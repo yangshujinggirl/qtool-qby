@@ -60,6 +60,8 @@ class EditableTable extends React.Component {
                     :null
                                 
                 } 
+                showHeader={this.props.showHeader}
+                bordered={this.props.bordered}
                 pagination={false}
                 rowClassName={this.rowClassName.bind(this)}
                 rowSelection={this.props.select?rowSelection:null}
