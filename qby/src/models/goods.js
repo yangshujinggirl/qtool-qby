@@ -23,6 +23,15 @@ export default {
 		datasoucedata:[],
 		pdBrands:[],
 		pdCategoryslist:[],//分类list数据
+
+		lotStatus:'0',
+		expdays:null,
+		lotType:null,
+		lotLimitInDay:null,
+		eventNew:true,
+		eventHot:false,
+		isDirectExpress:'0',
+		isPresell:'0',
 		//商品信息
 		pdType1Id:null, //规格1的选择id
 		pdType2Id:null, //规格2的选择id
@@ -60,6 +69,9 @@ export default {
 			}
 			return {...state,goodslist,total,limit,currentPage,fileDomain,checkgood}
 		},
+		lotStatusstate(state, { payload:lotStatus}) {
+			return {...state,lotStatus}
+		},
 		
 
 		brandurl(state, { payload:brandurl}) {
@@ -68,8 +80,8 @@ export default {
 		isskus(state, { payload:isskus}) {
 			return {...state,isskus}
 		},
-		infolist(state, { payload:{name,pdCategory1Id,pdCategory2Id,pdBrandId,spuPics,pdBrand,fileList,pdType1Id,pdType2Id,tag1,tag2,initdatasouce,goodindodatasouce,isskus,initisskus}}) {
-			return {...state,name,pdCategory1Id,pdCategory2Id,pdBrandId,spuPics,pdBrand,fileList,pdType1Id,pdType2Id,tag1,tag2,initdatasouce,goodindodatasouce,isskus,initisskus}
+		infolist(state, { payload:{name,pdCategory1Id,pdCategory2Id,pdBrandId,spuPics,pdBrand,fileList,pdType1Id,pdType2Id,tag1,tag2,initdatasouce,goodindodatasouce,isskus,initisskus,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell}}) {
+			return {...state,name,pdCategory1Id,pdCategory2Id,pdBrandId,spuPics,pdBrand,fileList,pdType1Id,pdType2Id,tag1,tag2,initdatasouce,goodindodatasouce,isskus,initisskus,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell}
 		},
 	
 		uploads(state, { payload:spuPics}) {
@@ -146,7 +158,7 @@ export default {
 				if(result.code=='0'){
 					const pdSpuinfo=result.pdSpu
 					const fileDomain=result.fileDomain
-					const {name,pdCategory1Id,pdCategory2Id,pdBrandId,spuIdPics,pdBrand,pdSkus}=pdSpuinfo
+					const {name,pdCategory1Id,pdCategory2Id,pdBrandId,spuIdPics,pdBrand,pdSkus,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell}=pdSpuinfo
 					//更新图片数据
 					const spuPics=[]
 					for(var i=0;i<spuIdPics.length;i++){
@@ -175,7 +187,9 @@ export default {
 					const initdatasouce=[]
 					var isskus=false
 					var initisskus=false
-					if(pdSkus==[] || pdSkus==null || pdSkus==undefined){
+					console.log(pdSkus)
+					if(pdSkus==null || pdSkus==undefined || pdSkus.length<1){
+						console.log(123)
 						//没有规格
 						const values={
 							code:pdSpuinfo.code,
@@ -189,6 +203,7 @@ export default {
 						}
 						initdatasouce.push(values)
 					}else{
+						console.log(456)
 						//有规格
 						initisskus=true
 						isskus=true
@@ -216,7 +231,7 @@ export default {
 					}
 
 					const goodindodatasouce=initdatasouce.slice(0)
-					yield put({type: 'infolist',payload:{name,pdCategory1Id,pdCategory2Id,pdBrandId,spuPics,pdBrand,fileList,pdType1Id,pdType2Id,tag1,tag2,initdatasouce,goodindodatasouce,isskus,initisskus}});
+					yield put({type: 'infolist',payload:{name,pdCategory1Id,pdCategory2Id,pdBrandId,spuPics,pdBrand,fileList,pdType1Id,pdType2Id,tag1,tag2,initdatasouce,goodindodatasouce,isskus,initisskus,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell}});
 					//根据id请求类型的opation
 					const value={"parentId":pdCategory1Id,"getChildren":true,"enabled":true}
 					yield put({type: 'captlistfetch',payload:{code:'qerp.web.pd.category.list',values:value}});

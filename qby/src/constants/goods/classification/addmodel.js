@@ -16,7 +16,6 @@ const CollectionCreateForm = Form.create()(
 				onOk={onCreate}
 			>
 				<Form>
-				
 				<FormItem 
 				label="分类名称"
 				labelCol={{ span: 5 }}
@@ -28,7 +27,6 @@ const CollectionCreateForm = Form.create()(
 					<Input/>
 				)}
 				</FormItem>
-				
 				</Form>
 			</Modal>
 		);

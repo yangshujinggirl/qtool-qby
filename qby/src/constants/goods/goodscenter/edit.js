@@ -1,10 +1,11 @@
-	import { Input,message ,Button,Form, Select,AutoComplete,Row,Col} from 'antd';
+	import { Input,message ,Button,Form, Select,AutoComplete,Row,Col,Radio} from 'antd';
 	import {GetServerData} from '../../../services/services';
 	import { connect } from 'dva';
 	import PicturesWall from './upload';
 	import Skucom from './skucom';
 	import EditableTagGroup from './tag';
 	import TableCanEdit from './edittable';
+	const RadioGroup = Radio.Group;
 
 	const FormItem = Form.Item;
 	const Option = Select.Option;
@@ -17,22 +18,53 @@
 				dataIndex: 'name'
 			},{
 				title: '商品编码',
-				dataIndex: 'code'
+				dataIndex: 'code',
+				render: (text, record) => {
+					return (
+						<Input value={text}/>
+					);
+				}
+
 			}, {
 				title: '商品条码',
-				dataIndex: 'barcode'
+				dataIndex: 'barcode',
+				render: (text, record) => {
+					return (
+						<Input value={text}/>
+					);
+				}
 			},{
 				title: '售价',
-				dataIndex: 'toBPrice'
+				dataIndex: 'toBPrice',
+				render: (text, record) => {
+					return (
+						<Input value={text}/>
+					);
+				}
 			},{
 				title: '零售价',
-				dataIndex: 'toCPrice'
+				dataIndex: 'toCPrice',
+				render: (text, record) => {
+					return (
+						<Input value={text}/>
+					);
+				}
 			},{
 				title: '建议零售价',
-				dataIndex: 'tagPrice'
+				dataIndex: 'tagPrice',
+				render: (text, record) => {
+					return (
+						<Input value={text}/>
+					);
+				}
 			},{
 				title: '进货价',
-				dataIndex: 'costPrice'
+				dataIndex: 'costPrice',
+				render: (text, record) => {
+					return (
+						<Input value={text}/>
+					);
+				}
 			},{
 				title: 'SKU图片',
 				dataIndex: 'picUrl',
@@ -45,21 +77,51 @@
 			this.columnsuse = [{
 				title: '商品编码',
 				dataIndex: 'code',
+				render: (text, record) => {
+					return (
+						<Input value={text}/>
+					);
+				}
 			},{
 				title: '商品条码',
-				dataIndex: 'barcode'
+				dataIndex: 'barcode',
+				render: (text, record) => {
+					return (
+						<Input value={text}/>
+					);
+				}
 			}, {
 				title: '售价',
-				dataIndex: 'toBPrice'
+				dataIndex: 'toBPrice',
+				render: (text, record) => {
+					return (
+						<Input value={text}/>
+					);
+				}
 			},{
 				title: '零售价',
-				dataIndex: 'toCPrice'
+				dataIndex: 'toCPrice',
+				render: (text, record) => {
+					return (
+						<Input value={text}/>
+					);
+				}
 			},{
 				title: '建议零售价',
-				dataIndex: 'tagPrice'
+				dataIndex: 'tagPrice',
+				render: (text, record) => {
+					return (
+						<Input value={text}/>
+					);
+				}
 			},{
 				title: '进货价',
-				dataIndex: 'costPrice'
+				dataIndex: 'costPrice',
+				render: (text, record) => {
+					return (
+						<Input value={text}/>
+					);
+				}
 			}];  
 
 			this.state = {
@@ -220,6 +282,31 @@
 	}
 
 
+	allRadioChange=()=>{
+
+	}
+
+	lotStatusChange=(e)=>{
+		const lotStatusstate=e.target.value
+		this.props.dispatch({
+			type:'goods/lotStatusstate',
+			payload:lotStatusstate
+		})
+		this.props.form.setFieldsValue({
+			expdays: null,
+			lotLimitInDay:null,
+		  });
+
+		if(lotStatusstate=='1'){
+			this.props.form.setFieldsValue({
+				lotType:'1'
+			  });
+		}else{
+			this.props.form.setFieldsValue({
+				lotType:null
+			  });
+		}
+	}
 
 	render() {
 		const { getFieldDecorator } = this.props.form;
@@ -302,7 +389,7 @@
 						wrapperCol={{ span: 6 }}
 						>
 						{getFieldDecorator('imgs', {
-							rules: [{ required: true, message: '请选择商品品牌'}]
+							
 						})(
 							<PicturesWall/>
 						)}
@@ -364,218 +451,138 @@
 						labelCol={{ span: 4 }}
 						wrapperCol={{ span: 16 }}
 					>
-						{getFieldDecorator('info', {
-							// onChange: this.handleSelectChange_guige1,
-							// initialValue:String(this.props.pdType2Id)
-						})(
-							<TableCanEdit columns={this.props.isskus?this.columns:this.columnsuse} dataSources={this.props.goodindodatasouce}/>
-						)}
-					</FormItem>
-
-
-
-
-
-
-
-					{/* <FormItem
-						label="品牌"
-						labelCol={{ span: 8 }}
-						wrapperCol={{ span: 6 }}
-						>
-						{getFieldDecorator('pdBrandId', {
-							rules: [{ required: true, message: '请选择商品品牌'}]
-						})(
-							<AutoComplete
-							dataSource={this.state.dataSource}
-							onSelect={this.onSelect}
-							onSearch={this.handleSearch}
-							filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
-							placeholder='请选择商品品牌'
-							/>
-						)}
-						</FormItem>
-					<Row>
-						<Col span={8} style={{textAlign:'right', paddingRight:'10px'}}><p>商品图片:</p></Col>
-					</Row>
-					<Row>
-						<Col span={12} offset={8}><PicturesWall spuPics={this.state.spuIdPics} Backpic={this.Backpic.bind(this)}/></Col>
-					</Row>
-					<FormItem
-						label="商品规格1"
-						labelCol={{ span: 8 }}
-						wrapperCol={{ span: 6 }}
-						>
-						{getFieldDecorator('guige1', {
-						onChange: this.handleSelectChange_guige1,
-						initialValue:'00'
-						})(
-						<Select>
-							<Option value='00' key='0'>无</Option>
-							{
-							this.state.pdTypes.map((item,index)=>{
-								return (<Option value={String(item.pdTypeId)} key={index}>{item.name}</Option>)
-							})
-							}
-						</Select>
-						)}
-					</FormItem>
-					<div style={{marginBottom:'24px'}}>
-						<Row>
-							<Col span={12} offset={8}>
-								<EditableTagGroup1 pdTypeVals1={this.state.pdTypeVals1} ref='HotTags1'  chooseselect2={this.state.chooseselect2} pdTypeVals1_name={this.state.pdTypeVals1_name} Makedesouce={this.Makedesouce.bind(this)}/>
-							</Col>
-						</Row>
-					</div>
-					<FormItem
-						label="商品规格2"
-						labelCol={{ span: 8 }}
-						wrapperCol={{ span: 6 }}
-						>
-						{getFieldDecorator('guige2', {
-						onChange: this.handleSelectChange_guige2,
-						initialValue:'00'
-						})(
-						<Select>
-							<Option value='00' key='0'>无</Option>
-							{
-							this.state.pdTypes.map((item,index)=>{
-								return (<Option value={String(item.pdTypeId)} key={index}>{item.name}</Option>)
-							})
-							}
-						</Select>
-						)}
-					</FormItem>
-					<div style={{marginBottom:'24px'}}>
-						<Row>
-						<Col span={12} offset={8}><EditableTagGroup2 pdTypeVals1={this.state.pdTypeVals1} ref='HotTags2'  chooseselect2={this.state.chooseselect2}  Makedesouce={this.Makedesouce.bind(this)}/></Col>
-						</Row>
-					</div>
-					<Row>
-						<Col span={8} style={{textAlign:'right', paddingRight:'10px'}}><p>商品信息:</p></Col>
-					</Row>
-					{
-						this.state.nomakesouce
-						?<Row><Col span={20} offset={2}><EditableTable2 pdSkus={this.state.pdSkus} ref='editableTable2' Backesouce={this.Backesouce.bind(this)} makesouce2={this.state.makesouce2}/></Col></Row>
-						:<Row><Col span={20} offset={2}><EditableTable pdSkus={this.state.pdSkus} ref='editableTable' Backesouce={this.Backesouce.bind(this)} makesouce={this.state.makesouce}/></Col></Row>
-					}
-						<FormItem style={{marginTop:'15px'}} label="开启批次管理" labelCol={{ span: 8 }}  wrapperCol={{ span: 6 }}>
-							<RadioGroup
-								onChange={this.onChange_RadioGroup_pici.bind(this)}
-							value={this.state.lotStatus}
-							>
-								<Radio value={1}>是</Radio>
-								<Radio value={0}>否</Radio>
-								</RadioGroup>
-						</FormItem>
-			
-							{
-							this.state.lotStatus=='1'
-							?<FormItem
-							label="保质期"
-							labelCol={{ span: 8 }}
-							wrapperCol={{ span: 6 }}
-							>
-							{getFieldDecorator('expdays', {
-								initialValue:this.state.expdays,
-								rules: [{pattern:/^[0-9]*$/,message:'天数只能是整数'}],
-							})(
-								<Input disabled={this.state.lotStatus=='1'?false:true} placeholder="请输入保质期(单位为天)"/>
-							)}
-							</FormItem>
-							:<FormItem
-							label="保质期"
-							labelCol={{ span: 8 }}
-							wrapperCol={{ span: 6 }}
-							>
-							{getFieldDecorator('expdays', {
-								initialValue:this.state.expdays,
-								rules: [{pattern:/^[0-9]*$/,message:'天数只能是整数'}],
-							})(
-								<Input disabled={this.state.lotStatus=='1'?false:true}/>
-							)}
-							</FormItem>
-							}
-							
-							
-							<FormItem style={{marginTop:'15px'}} label="保质依据" labelCol={{ span: 8 }}  wrapperCol={{ span: 6 }}>
-								<RadioGroup
-									onChange={this.onChange_RadioGroup_lotType.bind(this)}
-									value={this.state.lotType}
-									disabled={this.state.lotStatus=='1'?false:true}
-								>
-								<Radio value={1}>生产日期</Radio>
-								<Radio value={2}>到期日期</Radio>
-								</RadioGroup>
-							</FormItem>
+						<TableCanEdit columns={this.props.isskus?this.columns:this.columnsuse} dataSources={this.props.goodindodatasouce}/>
 						
-						{
-							this.state.lotStatus=='1'
-							?<FormItem
-							label="禁止入库"
+					</FormItem>
+					<FormItem
+						label="开启批次管理"
+						labelCol={{ span: 8 }}
+						wrapperCol={{ span: 6 }}
+					>
+						{getFieldDecorator('lotStatus', {
+							 onChange: this.lotStatusChange,
+							 initialValue:String(this.props.lotStatus)
+						})(
+							<RadioGroup
+							
+						>
+							<Radio value='1'>是</Radio>
+							<Radio value='0'>否</Radio>
+						</RadioGroup>
+						)}
+					</FormItem>
+					<FormItem
+							label="保质期"
 							labelCol={{ span: 8 }}
 							wrapperCol={{ span: 6 }}
 							>
-							{getFieldDecorator('lotLimitInDay', {
-								initialValue:this.state.lotLimitInDays,
+							{getFieldDecorator('expdays', {
+								initialValue:this.props.expdays,
 								rules: [{pattern:/^[0-9]*$/,message:'天数只能是整数'}],
 							})(
-								<Input disabled={this.state.lotStatus=='1'?false:true} placeholder="低于填写天数禁止入库"/>
+								<Input disabled={this.props.lotStatus=='1'?false:true}/>
 							)}
-							</FormItem>
-							:<FormItem
-							label="禁止入库"
-							labelCol={{ span: 8 }}
-							wrapperCol={{ span: 6 }}
-							>
-							{getFieldDecorator('lotLimitInDay', {
-								initialValue:this.state.lotLimitInDays,
-								rules: [{pattern:/^[0-9]*$/,message:'天数只能是整数'}],
-							})(
-								<Input disabled={this.state.lotStatus=='1'?false:true}/>
-							)}
-							</FormItem>
-							}
-						<FormItem label="加入上新" labelCol={{ span: 8 }}  wrapperCol={{ span: 6 }}>
+					</FormItem>
+					<FormItem
+						label="保质依据"
+						labelCol={{ span: 8 }}
+						wrapperCol={{ span: 6 }}
+					>
+						{getFieldDecorator('lotType', {
+							 initialValue:String(this.props.lotType)
+						})(
 							<RadioGroup
-							onChange={this.onChange_RadioGroup_new.bind(this)}
-							value={this.state.valuenew}
-							>
-								<Radio value={true}>是</Radio>
-								<Radio value={false}>否</Radio>
-								</RadioGroup>
-						</FormItem>
-						<FormItem label="加入畅销" labelCol={{ span: 8}}  wrapperCol={{ span: 6 }}>
+							disabled={this.props.lotStatus=='1'?false:true}
+						>
+							<Radio value='1'>生产日期</Radio>
+							<Radio value='0'>到期日期</Radio>
+						</RadioGroup>
+						)}
+					</FormItem>
+					<FormItem
+						label="禁止入库"
+						labelCol={{ span: 8 }}
+						wrapperCol={{ span: 6 }}
+						>
+						{getFieldDecorator('lotLimitInDay', {
+							initialValue:this.props.lotLimitInDays,
+							rules: [{pattern:/^[0-9]*$/,message:'天数只能是整数'}],
+						})(
+							<Input disabled={this.props.lotStatus=='1'?false:true}/>
+						)}
+					</FormItem>
+					<FormItem
+						label="加入上新"
+						labelCol={{ span: 8 }}
+						wrapperCol={{ span: 6 }}
+					>
+						{getFieldDecorator('eventNew', {
+							 initialValue:this.props.eventNew
+						})(
 							<RadioGroup
-							onChange={this.onChange_RadioGroup_hot.bind(this)}
-							value={this.state.valuehot}
-							>
-								<Radio value={true}>是</Radio>
-								<Radio value={false}>否</Radio>
-								</RadioGroup>
-						</FormItem>
-						<FormItem label="直邮商品" labelCol={{ span: 8}}  wrapperCol={{ span: 6 }}>
+						>
+							<Radio value={true}>是</Radio>
+							<Radio value={false}>否</Radio>
+						</RadioGroup>
+						)}
+					</FormItem>
+					<FormItem
+						label="加入畅销"
+						labelCol={{ span: 8 }}
+						wrapperCol={{ span: 6 }}
+					>
+						{getFieldDecorator('eventHot', {
+							 initialValue:this.props.eventHot
+						})(
 							<RadioGroup
-							onChange={this.onChange_RadioGroup_isDirectExpress.bind(this)}
-							value={this.state.isDirectExpress}
-							>
-								<Radio value={1}>是</Radio>
-								<Radio value={0}>否</Radio>
-								</RadioGroup>
-						</FormItem>
-						<FormItem label="预售商品" labelCol={{ span: 8}}  wrapperCol={{ span: 6 }}>
+						>
+							<Radio value={true}>是</Radio>
+							<Radio value={false}>否</Radio>
+						</RadioGroup>
+						)}
+					</FormItem>
+					<FormItem
+						label="直邮商品"
+						labelCol={{ span: 8 }}
+						wrapperCol={{ span: 6 }}
+					>
+						{getFieldDecorator('isDirectExpress', {
+							 initialValue:String(this.props.isDirectExpress)
+						})(
 							<RadioGroup
-							onChange={this.onChange_RadioGroup_ispresale.bind(this)}
-							value={this.state.isPresell}
-							>
-								<Radio value={1}>是</Radio>
-								<Radio value={0}>否</Radio>
-								</RadioGroup>
-						</FormItem>
-						<Row>
+						>
+							<Radio value='1'>是</Radio>
+							<Radio value='0'>否</Radio>
+						</RadioGroup>
+						)}
+					</FormItem>
+					<FormItem
+						label="预售商品"
+						labelCol={{ span: 8 }}
+						wrapperCol={{ span: 6 }}
+					>
+						{getFieldDecorator('isPresell', {
+							 initialValue:String(this.props.isPresell)
+						})(
+							<RadioGroup
+						>
+							<Radio value='1'>是</Radio>
+							<Radio value='0'>否</Radio>
+						</RadioGroup>
+						)}
+					</FormItem>
+
+
+
+
+						
+						
+						
+						
+					{/* <Row>
 						<Col span={8} style={{textAlign:'right', paddingRight:'10px'}}><p>商品描述:</p></Col>
-					</Row>
-						<Row><Col span={20} offset={2}><EditableTable3 BackSpudesDatasouce={this.BackSpudesDatasouce.bind(this)}/></Col></Row> */}
+					</Row> */}
+						{/* <Row><Col span={20} offset={2}><EditableTable3 BackSpudesDatasouce={this.BackSpudesDatasouce.bind(this)}/></Col></Row>  */}
 					<FormItem wrapperCol={{ offset: 9}} style = {{marginBottom:0}} style = {{marginTop:'20px'}}>
 						<Button onClick={this.Handcancel.bind(this)} style = {{marginRight:'50px'}}>取消</Button>
 						<Button htmlType="submit" onClick={this.handleSubmit.bind(this)}>保存</Button>
@@ -599,9 +606,9 @@
 
 	function mapStateToProps(state) {
 		console.log(state)
-		const {cardtitle,cardlist,details,binCode,values,limit,currentPage,name,pdCategory1Id,pdCategory2Id,pdBrandId,spuIdPics,pdCategorys,pdBrand,pdTypeslist,pdType1Id,pdType2Id,tag1,tag2,isskus,goodindodatasouce} = state.goods;
+		const {limit,currentPage,name,pdCategory1Id,pdCategory2Id,pdBrandId,spuIdPics,pdCategorys,pdBrand,pdTypeslist,pdType1Id,pdType2Id,tag1,tag2,isskus,goodindodatasouce,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell} = state.goods;
 		const {pdCategorysList}=state.IndexPage;
-		return {cardtitle,cardlist,details,binCode,values,limit,currentPage,pdCategorys,pdCategorysList,name,pdCategory1Id,pdCategory2Id,pdBrandId,spuIdPics,pdBrand,pdTypeslist,pdType1Id,pdType2Id,tag1,tag2,isskus,goodindodatasouce};
+		return {limit,currentPage,pdCategorys,pdCategorysList,name,pdCategory1Id,pdCategory2Id,pdBrandId,spuIdPics,pdBrand,pdTypeslist,pdType1Id,pdType2Id,tag1,tag2,isskus,goodindodatasouce,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell};
 	}
 
 	export default connect(mapStateToProps)(GoodEdit);
