@@ -67,7 +67,8 @@ class OrderthEditForm extends React.Component{
 		this.props.form.validateFields((err, values) => {
 		    if (!err) {
                 let data = values;
-                data.expectedTime = this.props.formValue.expectedTime;
+				data.expectedTime = this.props.formValue.expectedTime;
+				data.type = '20';
                 data.details = this.props.goodsInfo;
                 if(this.props.data){
                     data.wsAsnId = this.props.data.wsAsnId;
@@ -78,9 +79,9 @@ class OrderthEditForm extends React.Component{
                 }).then((json) => {
                     if(json.code=='0'){
 						if(this.props.data){
-							message.success('退货单创建成功');
-						}else{
 							message.success('退货单修改成功');
+						}else{
+							message.success('退货单创建成功');
 						}
 						this.deleteTab();
 						this.refreshList();
@@ -122,7 +123,8 @@ class OrderthEditForm extends React.Component{
                     tempJson.pdSkuType = goodsInfoList[i].pdSkuType
                     tempJson.qty = goodsInfoList[i].qty
                     tempJson.price = goodsInfoList[i].price
-                    tempJson.spOrderDetailId = goodsInfoList[i].spOrderDetailId
+					tempJson.wsAsnDetailId = goodsInfoList[i].wsAsnDetailId
+					tempJson.spOrderDetailId = goodsInfoList[i].spOrderDetailId
                     goodsInfo.push(tempJson);
                 }
                 let tempFormvalue = deepcCloneObj(this.props.formValue);
@@ -209,7 +211,7 @@ class OrderthEditForm extends React.Component{
 					wrapperCol={{ span: 6 }}
 				>
 					<DatePicker placeholder='请选择送达时间' 
-								value={this.props.formValue.expectedTime?moment(this.props.formValue.expectedTime, 'YYYY-MM-DD'):''} 
+								value={this.props.formValue.expectedTime?moment(this.props.formValue.expectedTime, 'YYYY-MM-DD'):null} 
 								onChange={this.chooseArriveTime.bind(this)}/>
 				</FormItem>
                 <FormItem
@@ -253,7 +255,7 @@ class OrderthEditForm extends React.Component{
           //请求仓库列表信息
 		this.warehouseList();
     	if(this.props.data){
-			  const payload={code:'qerp.web.ws.asn.detail',values:{'wsAsnId':this.props.data.wsAsnId}}
+			  const payload={code:'qerp.web.ws.asn.detail',values:{'wsAsnId':this.props.data.wsAsnId,'needReturnQty':1}}
 			  //请求表单信息
 			this.initDateEdit(payload)
 		}

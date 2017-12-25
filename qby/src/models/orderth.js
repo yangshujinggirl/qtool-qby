@@ -40,7 +40,7 @@ export default {
 				spOrderNo:'',
 				supplier:'',		
 				expectedTime:'',
-				wsWarehouseId:null,
+				wsWarehouseId:'',
                 reason:''
               };
               const goodsInfo = [];
@@ -108,13 +108,14 @@ export default {
                     tempJson.pdSkuType = goodsInfoList[i].pdSkuType
                     tempJson.qty = goodsInfoList[i].qty
                     tempJson.price = goodsInfoList[i].price
+                    tempJson.wsAsnDetailId = goodsInfoList[i].wsAsnDetailId
                     tempJson.spOrderDetailId = goodsInfoList[i].spOrderDetailId
                     goodsInfo.push(tempJson);
                 }
                 let formValue = {};
                 formValue.spOrderNo = result.asn.spOrderNo;
 				formValue.supplier = result.asn.name;		
-				formValue.expectedTime = result.expectedTime;
+				formValue.expectedTime = result.asn.expectedTime;
 				formValue.wsWarehouseId = result.asn.wsWarehouseId;
                 formValue.reason = result.asn.reason;
                 yield put({type: 'syncEditInfo',payload:formValue});
