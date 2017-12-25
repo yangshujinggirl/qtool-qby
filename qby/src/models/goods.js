@@ -52,6 +52,9 @@ export default {
 		stocktableinfo(state, { payload:datasoucedata}) {
 			return {...state,datasoucedata}
 		},
+		goodindodatasouce(state, { payload:goodindodatasouce}) {
+			return {...state,goodindodatasouce}
+		},
 
 
 		stocktablechenge(state, { payload:changedatasouce}) {
@@ -345,29 +348,57 @@ export default {
 				//上传表
 				if(pdType1Ids!='00' && tag1s.length>0){
 					if(pdType2Ids=='00' || (pdType2Ids!='00' && tag2s.length>0)){
+						console.log('shangchuan')
 						//上传表
 						isskus=true
 						goodindodatasouce=[]
-						for(var i=0;i<tag1.length;i++){
-							for(var j=0;j<tag2.length;j++){
-								goodindodatasouce.push({
-									name:tag2.length<1?tag1[i].name:tag1[i].name+'/'+tag2[j].name,
-									code:null,
-									barcode:null,
-									toBPrice:null,
-									toCPrice:null,
-									tagPrice:null,
-									costPrice:null,
-									picUrl:null,
-									keys:tag2.length<1?tag1[i].keys:tag1[i].keys+tag2[j].keys
-								})
-
+						console.log(tag1)
+						console.log(tag2)
+						if(tag2.length>0){
+							for(var i=0;i<tag1.length;i++){
+								for(var j=0;j<tag2.length;j++){
+									goodindodatasouce.push({
+										name:tag1[i].name+'/'+tag2[j].name,
+										code:null,
+										barcode:null,
+										toBPrice:null,
+										toCPrice:null,
+										tagPrice:null,
+										costPrice:null,
+										picUrl:null,
+										keys:tag1[i].keys+tag2[j].keys
+									})
+	
+								}
 							}
+
+						}else{
+							for(var i=0;i<tag1.length;i++){
+									goodindodatasouce.push({
+										name:tag1[i].name,
+										code:null,
+										barcode:null,
+										toBPrice:null,
+										toCPrice:null,
+										tagPrice:null,
+										costPrice:null,
+										picUrl:null,
+										keys:tag1[i].keys
+									})
+	
+								
+							}
+
 						}
+
+
+
+
+						
 					}
 				}
 
-				
+				console.log(goodindodatasouce)
 				//最终数据和初始化数据对比，先对比状态，是初始化还是非初始化，如果状态相同，则对比里面数据
 				const initdatasouce = yield select(state => state.goods.initdatasouce);
 				const initisskus=yield select(state => state.goods.initisskus);

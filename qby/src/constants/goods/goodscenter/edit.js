@@ -2,6 +2,7 @@
 	import {GetServerData} from '../../../services/services';
 	import { connect } from 'dva';
 	import PicturesWall from './upload';
+	import SkuPicturesWall from './itemupload';
 	import Skucom from './skucom';
 	import EditableTagGroup from './tag';
 	import TableCanEdit from './edittable';
@@ -68,9 +69,9 @@
 			},{
 				title: 'SKU图片',
 				dataIndex: 'picUrl',
-				render: (text, record) => {
+				render: (text, record,index) => {
 					return (
-						123
+						<SkuPicturesWall url={text} index={index}/>
 					);
 				}
 			}];    
@@ -142,7 +143,8 @@
 		this.props.form.validateFields((err, values) => {
 		if (!err) {
 			console.log('Received values of form: ', values);
-		}
+			console.log(this.props)
+		}	
 		});
 	}
 	handleSelectChange = (value) => {
@@ -608,6 +610,7 @@
 		console.log(state)
 		const {limit,currentPage,name,pdCategory1Id,pdCategory2Id,pdBrandId,spuIdPics,pdCategorys,pdBrand,pdTypeslist,pdType1Id,pdType2Id,tag1,tag2,isskus,goodindodatasouce,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell} = state.goods;
 		const {pdCategorysList}=state.IndexPage;
+		console.log(goodindodatasouce)
 		return {limit,currentPage,pdCategorys,pdCategorysList,name,pdCategory1Id,pdCategory2Id,pdBrandId,spuIdPics,pdBrand,pdTypeslist,pdType1Id,pdType2Id,tag1,tag2,isskus,goodindodatasouce,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell};
 	}
 

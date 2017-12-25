@@ -120,17 +120,17 @@ hindok=()=>{
 		inputValue:'',
 		inputVisible:false
 	},function(){
-		// const pdType1Ids=this.props.pdType1Id
-		// const pdType2Ids=this.props.pdType2Id
-		// const tag1s=this.props.tag1
-		// const tag2s=this.props.tag2
-		// console.log(tag1s)
-		// console.log(tag2s)
+		const pdType1Ids=this.props.pdType1Id
+		const pdType2Ids=this.props.pdType2Id
+		const tag1s=this.props.tag1
+		const tag2s=this.props.tag2
+		console.log(tag1s)
+		console.log(tag2s)
 
-		// this.props.dispatch({
-		// 	type:'goods/goodsinfoChange',
-		// 	payload:{pdType1Ids,pdType2Ids,tag1s,tag2s}
-		// })
+		this.props.dispatch({
+			type:'goods/goodsinfoChange',
+			payload:{pdType1Ids,pdType2Ids,tag1s,tag2s}
+		})
 
 
 	})
