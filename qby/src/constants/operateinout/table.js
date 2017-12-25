@@ -27,12 +27,28 @@ class OperateinoutTable extends React.Component {
     
     //点击表格上的修改按钮操作
     lookInfo = (record) =>{
-    //    const wsAsnId=String(record.wsAsnId);
-    //    const paneitem={title:'订单详情',key:'202000edit'+wsAsnId+'info',data:{wsAsnId:wsAsnId},componkey:'202000info'}
-    //    this.props.dispatch({
-    //      type:'tab/firstAddTab',
-    //      payload:paneitem
-    //    })
+        console.log(record.type);
+        if(record.type=='11'){
+            const paneitem={title:'充值详情',key:'401000edit'+record.outId+'info',data:{spVoucherId:record.outId},componkey:'401000info'}
+            this.props.dispatch({
+                type:'tab/firstAddTab',
+                payload:paneitem
+            })
+        }
+        if(record.type=='21'){
+            const paneitem={title:'订单详情',key:'201000edit'+record.outId+'info',data:{spOrderId:record.outId},componkey:'201000info'}
+            this.props.dispatch({
+                type:'tab/firstAddTab',
+                payload:paneitem
+            })
+        }
+        if(record.type=='22'){
+            const paneitem={title:'物流详情',key:'401000edit'+record.outId+'info',data:{outId:record.outId},componkey:'401000infowl'}
+            this.props.dispatch({
+                type:'tab/firstAddTab',
+                payload:paneitem
+            })
+        }
     }
 
     //分页方法
