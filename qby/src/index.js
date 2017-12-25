@@ -52,7 +52,7 @@ app.model(require("./models/tab"));
 
 app.model(require("./models/users"));
 
-app.model(require("./models/batchTransaction"));
+app.model(require("./models/operateinout"));
 
 
 // 2. Plugins
