@@ -92,3 +92,15 @@ label{
 .addUser-form.addcg-form .ant-col-offset-4{
 	margin-left: 115px;
 }
+.OrderCenterEidt .ant-table-body .ant-table-thead tr th{
+	background: #fff;
+    text-align: center;
+    padding: 0;
+}
+
+.OrderCenterEidt .ant-table-tbody>tr.ant-table-row-hover>td, .OrderCenterEidt .ant-table-tbody>tr:hover>td, .OrderCenterEidt .ant-table-thead>tr.ant-table-row-hover>td, .OrderCenterEidt .ant-table-thead>tr:hover>td{
+	background:white;
+}
+.OrderCenterEidt .ant-table-tbody > tr > td{
+	border-bottom: 0px;
+}

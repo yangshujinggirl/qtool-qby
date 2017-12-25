@@ -161,7 +161,7 @@ class OrderctEditForm extends React.Component{
   	render(){
 		const { getFieldDecorator } = this.props.form;
      	return(
-          	<Form className="addUser-form">
+          	<Form className="addUser-form addcg-form">
                 <FormItem
                     label="供应商名称"
                     labelCol={{ span: 3,offset: 1 }}
