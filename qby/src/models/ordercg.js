@@ -26,6 +26,8 @@ export default {
             qty: null,
             price:null
         }],
+        nothasFacepay:true,
+        taxRateDisabled:true
     },
     reducers: {
 		synchronous(state, { payload:values}) {
@@ -46,16 +48,22 @@ export default {
         syncGoodsInfo(state, { payload:goodsInfo}) {
 			return {...state,goodsInfo}
         },
+        syncNothasFacepay(state, { payload:nothasFacepay}) {
+			return {...state,nothasFacepay}
+        },
+        syncTaxRateDisabled(state, { payload:taxRateDisabled}) {
+			return {...state,taxRateDisabled}
+        },
         initState(state, { payload: value}) {
 			const editInfo={
 				shippingFeeType:10,
                 shippingFee:null,
-                taxRateType:1,
+                taxRateType:0,
                 taxRate:'',
                 expectedTime:'',
                 name:'',
                 pdSupplierId:null,
-                wsWarehouseId:null
+                wsWarehouseId:''
               };
               const goodsInfo = [
                 {
@@ -123,6 +131,16 @@ export default {
 			yield put({type: 'tab/loding',payload:false});
 			if(result.code=='0'){
                 const info = result.asn;
+                if(!info.shippingFee){
+                    yield put({type: 'syncNothasFacepay',payload:true});
+                }else{
+                    yield put({type: 'syncNothasFacepay',payload:false});
+                }
+                if(!info.taxRate =="" ||!info.taxRate == null||!info.taxRate == undefined||info.taxRate == '0'){
+                    yield put({type: 'syncTaxRateDisabled',payload:false});
+                }else{
+                    yield put({type: 'syncTaxRateDisabled',payload:true});
+                }
                 let editInfo = {};
                 editInfo.expectedTime = info.expectedTime;
                 editInfo.name = info.name;
