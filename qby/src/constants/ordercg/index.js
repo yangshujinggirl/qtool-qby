@@ -1,11 +1,14 @@
 import React from 'react';
 import {GetServerData} from '../../services/services';
-import { Button, Icon } from 'antd';
+import { Button, Icon,message  } from 'antd';
 import { connect } from 'dva';
+import {deepcCloneObj} from '../../utils/commonFc';
 //search
 import OrdercgSearch from './search';
 //table
 import OrdercgTable from './table';
+
+import {GetLodop} from './print';
 
 class OrdercgIndex extends React.Component{
 	state = {};
@@ -20,7 +23,29 @@ class OrdercgIndex extends React.Component{
             type:'ordercg/initState',
             payload:{}
 		})
+	  }
+
+	clearChooseInfo=()=>{
+		const selectedRows=[];
+		const selectedRowKeys = [];
+		this.props.dispatch({
+			type:'ordercg/select',
+			payload:{selectedRowKeys,selectedRows}
+		})
   	}
+	  
+	  //打印采购单
+	  printCgorder = () => {
+		console.log(this.props.selectedRows)
+		if (this.props.selectedRows.length < 1) {
+		  message.error('请选择采购单')
+		  return;
+		}
+		for (var i = 0; i < this.props.selectedRows.length; i++) {
+		  GetLodop(this.props.selectedRows[i].wsAsnId,'wsAsnOrder', this.props.selectedRows[i].asnNo)
+		}
+		 this.clearChooseInfo()
+	  }
 
   	render(){
      	return(
@@ -38,6 +63,7 @@ class OrdercgIndex extends React.Component{
 						type="primary" 
 						size='large'
 						className='mt20 ml10'
+						onClick={this.printCgorder}
 					>
 						打印采购单
 					</Button>
@@ -57,7 +83,8 @@ class OrdercgIndex extends React.Component{
 }
 
 function mapStateToProps(state) {
-	return {};
+	const {tableList,total,limit,currentPage,values,selectedRowKeys,selectedRows} = state.ordercg;
+    return {tableList,total,limit,currentPage,values,selectedRowKeys,selectedRows};
 }
 
 export default connect(mapStateToProps)(OrdercgIndex);
