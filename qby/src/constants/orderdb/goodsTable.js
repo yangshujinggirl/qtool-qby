@@ -126,7 +126,6 @@ class GoodsInfoTable extends React.Component {
 
 function mapStateToProps(state) {
     const {goodsInfo}  = state.orderdb;
-    console.log(goodsInfo);
     return {goodsInfo};
 }
 
