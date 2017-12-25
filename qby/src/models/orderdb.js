@@ -7,6 +7,9 @@ export default {
         currentPage:0,
         total:0,
         tableList:[],
+        orderLogs:[],
+        headTit:[],
+        details:[],
         goodsInfo:[{
             key: 0,
             code:'',
