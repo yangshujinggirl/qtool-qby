@@ -3,43 +3,36 @@ import { connect } from 'dva';
 import EditableTable from '../../components/table/tablebasic';
 import TableLink from '../../components/table/tablelink';
 
-class OrderdbTable extends React.Component {
+class OperateinoutTable extends React.Component {
 	constructor(props) {
         super(props);
-        this.columns = [{
-          title: '调拨单号',
-          dataIndex: 'allocationNo',
-          render: (text, record) => {
-            return (
-              <TableLink text={text} hindClick={this.editInfo.bind(this,record)} type='1'/>
-            );
-          }
+        this.columns = [
+        {
+            title: '费用名称',
+            dataIndex: 'name',
+            render: (text, record) => {
+                return (
+                    <TableLink text={text} hindClick={this.lookInfo.bind(this,record)} type='1'/>
+                );
+            }
+        },
+        {
+            title: '门店名称',
+            dataIndex: 'shopName'
         }, {
-            title: '调出仓库',
-            dataIndex: 'outWsName'
-        },{ 
-            title: '调入仓库',
-            dataIndex: 'callWsName'
-        },{
-            title: '商品数量',
-            dataIndex: 'qtySum'
-        },{
-            title: '订单状态',
-            dataIndex: 'statusStr'
-        },{
-            title: '下单时间',
-            dataIndex: 'createTime'
+            title: '收支情况',
+            dataIndex: 'amount'
         }];
     }
     
     //点击表格上的修改按钮操作
-    editInfo = (record) =>{
-       const spExchangeId=String(record.spExchangeId);
-       const paneitem={title:'订单详情',key:'206000edit'+spExchangeId+'info',data:{spExchangeId:spExchangeId},componkey:'206000info'}
-       this.props.dispatch({
-         type:'tab/firstAddTab',
-         payload:paneitem
-       })
+    lookInfo = (record) =>{
+    //    const wsAsnId=String(record.wsAsnId);
+    //    const paneitem={title:'订单详情',key:'202000edit'+wsAsnId+'info',data:{wsAsnId:wsAsnId},componkey:'202000info'}
+    //    this.props.dispatch({
+    //      type:'tab/firstAddTab',
+    //      payload:paneitem
+    //    })
     }
 
     //分页方法
@@ -56,8 +49,8 @@ class OrderdbTable extends React.Component {
         values.limit=limit;
         values.currentPage=currentPage;
         this.props.dispatch({
-            type:'orderdb/fetch',
-            payload:{code:'qerp.web.sp.exchange.query',values:values}
+            type:'operateinout/fetch',
+            payload:{code:'qerp.web.sp.money.detail',values:values}
         });
         this.props.dispatch({ type: 'tab/loding', payload:true});
     }
@@ -84,11 +77,11 @@ class OrderdbTable extends React.Component {
 }
 
 function mapStateToProps(state) {
-    const {tableList,total,limit,currentPage,values} = state.orderdb;
+    const {tableList,total,limit,currentPage,values} = state.operateinout;
     return {tableList,total,limit,currentPage,values};
 }
 
-export default connect(mapStateToProps)(OrderdbTable);
+export default connect(mapStateToProps)(OperateinoutTable);
  
 
 

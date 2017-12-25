@@ -43,7 +43,6 @@ class OrdermdTable extends React.Component {
     
     //点击表格上的修改按钮操作
     editInfo = (record) =>{
-       console.log(record);
        const spOrderId=String(record.spOrderId)
        const paneitem={title:'订单详情',key:'201000edit'+spOrderId+'info',data:{spOrderId:spOrderId},componkey:'201000info'}
        this.props.dispatch({
@@ -88,7 +87,7 @@ class OrdermdTable extends React.Component {
 	}
 	componentDidMount(){
     //执行初始化数据方法获取list
-		this.initList(this.props.values,this.props.limit,this.props.currentPage);
+		// this.initList(this.props.values,this.props.limit,this.props.currentPage);
 	}
     
 }

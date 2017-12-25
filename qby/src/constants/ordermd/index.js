@@ -7,9 +7,23 @@ import '../../style/ordermd.css';
 import OrdermdTable from './table';
 //search
 import OrdermdSearch from './search';
-
+import Appmodelone from './modal';
 class OrdermdIndex extends React.Component{
 	state = {};
+
+	//导出数据
+	exportData = () => {
+		const values=this.props.values;
+		const result=GetServerData('qerp.web.sp.order.export',values);
+	  }
+
+	addNew = () =>{
+		const paneitem={title:'新增订单',key:'201000edit',componkey:'201000edit',data:null}
+  		this.props.dispatch({
+	    	type:'tab/firstAddTab',
+	    	payload:paneitem
+		});
+  	}
 
   	render(){
      	return(
@@ -19,16 +33,25 @@ class OrdermdIndex extends React.Component{
 						type="primary" 
 						size='large'
 						className='mt20'
+						onClick={this.addNew.bind(this)}
 					>
 						新增订单
 					</Button>
-					<Button 
+					<Appmodelone 
+						text="导出数据" 
+						title="导出数据" 
+						count="数据已经进入导出队列，请前往下载中心查看导出进度"
+						okText="去看看"
+						cancelText="稍后去"
+						/>
+					{/* <Button 
 						type="primary" 
 						size='large'
 						className='mt20 ml10'
+						onClick={this.exportData}
 					>
 						导出数据
-					</Button>
+					</Button> */}
              		<div className='mt15'><OrdermdTable/></div>
         	</div>
       	)
@@ -40,7 +63,8 @@ class OrdermdIndex extends React.Component{
 }
 
 function mapStateToProps(state) {
-	return {};
+	const {values} = state.ordermd;
+    return {values};
 }
 
 export default connect(mapStateToProps)(OrdermdIndex);

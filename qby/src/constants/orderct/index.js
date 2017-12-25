@@ -9,6 +9,19 @@ import OrderctSearch from './search';
 
 class OrderctIndex extends React.Component{
 	state = {};
+
+	addNew = () =>{
+		const paneitem={title:'新建采退单',key:'204000edit',componkey:'204000edit',data:null}
+  		this.props.dispatch({
+	    	type:'tab/firstAddTab',
+	    	payload:paneitem
+		});
+		// this.props.dispatch({
+        //     type:'orderct/initState',
+        //     payload:{}
+		// })
+  	}
+
   	render(){
      	return(
         	<div className='content_box'>
@@ -17,6 +30,7 @@ class OrderctIndex extends React.Component{
 						type="primary" 
 						size='large'
 						className='mt20'
+						onClick={this.addNew.bind(this)}
 					>
 						新建采退单
 					</Button>

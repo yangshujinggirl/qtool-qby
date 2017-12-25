@@ -9,8 +9,6 @@ const app = dva({
     history: useRouterHistory(createHashHistory)({ queryKey: false }),
   });
 
-
-
 app.model(require("./models/account"));
 
 app.model(require("./models/recheck"));
@@ -54,7 +52,7 @@ app.model(require("./models/tab"));
 
 app.model(require("./models/users"));
 
-app.model(require("./models/batchTransaction"));
+app.model(require("./models/operateinout"));
 
 
 // 2. Plugins
