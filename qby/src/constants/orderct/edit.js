@@ -103,14 +103,10 @@ class OrderctEditForm extends React.Component{
                     return res;
                 }).then((json) => {
                     if(json.code=='0'){
-						if(this.props.data){
-							message.success('采退单创建成功');
-						}else{
-							message.success('采退单修改成功');
-						}
+						message.success('采退单创建成功');
 						this.deleteTab();
 						this.refreshList();
-					     this.initState();
+					    this.initState();
                     }else{
 						message.error(json.message);
 					}
