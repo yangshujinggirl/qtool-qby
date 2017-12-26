@@ -100,6 +100,7 @@ class OrdercgTable extends React.Component {
             footer={true}
             pageChange={this.pageChange.bind(this)}
             pageSizeChange={this.pageSizeChange.bind(this)}
+            bordered={true}
             select={true}
             selectType='radio'
             selectChange={this.selectChange.bind(this)}

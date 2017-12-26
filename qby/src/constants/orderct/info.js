@@ -56,13 +56,15 @@ class OrderctInfo extends React.Component{
 				<div className='mb10'><Cardlist cardtitle="采退单信息" cardlist={this.props.headTit}/></div>
 				<div className='mb10'>
 					<EditableTable columns={this.column1} 
-												 dataSource={this.props.details} 
+                         dataSource={this.props.details} 
+                         bordered={true}
 												 title="采退商品"
 												footer={false}/>
 				</div>
 				<div className='mb10'>
 					<EditableTable columns={this.column2} 
-												 dataSource={this.props.orderLogs} 
+                         dataSource={this.props.orderLogs} 
+                         bordered={true}
 												 title="采购单日志"
 												footer={false}/>
 				</div>
