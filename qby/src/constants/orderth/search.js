@@ -7,6 +7,10 @@ const RangePicker = DatePicker.RangePicker;
 class OrderthSearchForm extends React.Component {
     state = {
         type: "20",
+        dateStart: '',
+        dateEnd:'',
+        dateDoneStart:'',
+        dateDoneEnd:''
     };
 
   //点击搜索按钮获取搜索表单数据
@@ -21,6 +25,11 @@ class OrderthSearchForm extends React.Component {
   //搜索请求数据
   initList=(values,limit,currentPage)=>{
         values.type=this.state.type;
+        values.dateStart = this.state.dateStart;
+        values.dateEnd = this.state.dateEnd;
+        values.dateDoneStart = this.state.dateDoneStart;
+        values.dateDoneEnd = this.state.dateDoneEnd;
+
         values.limit=limit;
         values.currentPage=currentPage;
         this.props.dispatch({
@@ -33,10 +42,31 @@ class OrderthSearchForm extends React.Component {
     //同步data
     syncState=(values)=>{
         values.type=this.state.type;
+        
+        values.dateStart = this.state.dateStart;
+        values.dateEnd = this.state.dateEnd;
+        values.dateDoneStart = this.state.dateDoneStart;
+        values.dateDoneEnd = this.state.dateDoneEnd;
+
         this.props.dispatch({
             type:'orderth/synchronous',
             payload:values
         });
+    }
+
+    //时间搜索部分
+    hindDateChange=(type,dates,dateString)=>{
+        if(type ==1){
+            this.setState({
+                dateStart:dateString[0],
+                dateEnd:dateString[1]
+            })
+        }else{
+            this.setState({
+                dateDoneStart:dateString[0],
+                dateDoneEnd:dateString[1]
+            })
+        }
     }
 
     render() {
@@ -67,7 +97,6 @@ class OrderthSearchForm extends React.Component {
                                     <Input placeholder="请输入商品名称"/>
                                     )}
                                 </FormItem>
-                               
                                 <FormItem label='退货单状态'>
                                     {getFieldDecorator('status')(
                                     <Select allowClear={true} placeholder="请选择退货单状态">
@@ -77,6 +106,26 @@ class OrderthSearchForm extends React.Component {
                                     </Select>
                                     )}
                                 </FormItem>
+                                {/* 添加下单时间 */}
+                                <FormItem label='下单时间'>
+                                    {
+                                        <RangePicker
+                                            showTime
+                                            format="YYYY-MM-DD"
+                                            onChange={this.hindDateChange.bind(this,1)}
+                                        />
+                                    }
+                                </FormItem> 
+                                {/* 添加完成时间 */}
+                                <FormItem label='完成时间'>
+                                    {
+                                        <RangePicker
+                                            showTime
+                                            format="YYYY-MM-DD"
+                                            onChange={this.hindDateChange.bind(this,2)}
+                                        />
+                                    }
+                                </FormItem> 
                             </div>
                         </Row>
                     </Col>

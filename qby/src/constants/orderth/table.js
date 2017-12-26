@@ -27,8 +27,8 @@ class OrderthTable extends React.Component {
           title: '订单状态',
           dataIndex: 'statusStr'
         },{
-            title: '预计送达时间',
-            dataIndex: 'expectedTime'
+            title: '下单时间',
+            dataIndex: 'downOrderTime'
         },{
             title: '操作',
             dataIndex: 'opation',

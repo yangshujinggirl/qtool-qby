@@ -6,6 +6,10 @@ const RangePicker = DatePicker.RangePicker;
 
 class OrderctSearchForm extends React.Component {
     state = {
+        dateStart: '',
+        dateEnd:'',
+        dateFahuoStart:'',
+        dateFahuoDoneEnd:''
     };
 
   //点击搜索按钮获取搜索表单数据
@@ -19,6 +23,11 @@ class OrderctSearchForm extends React.Component {
 
   //搜索请求数据
   initList=(values,limit,currentPage)=>{
+        values.dateStart = this.state.dateStart;
+        values.dateEnd = this.state.dateEnd;
+        values.dateFahuoStart = this.state.dateFahuoStart;
+        values.dateFahuoDoneEnd = this.state.dateFahuoDoneEnd;
+
         values.limit=limit;
         values.currentPage=currentPage;
         this.props.dispatch({
@@ -30,10 +39,30 @@ class OrderctSearchForm extends React.Component {
 
     //同步data
     syncState=(values)=>{
+        values.dateStart = this.state.dateStart;
+        values.dateEnd = this.state.dateEnd;
+        values.dateFahuoStart = this.state.dateFahuoStart;
+        values.dateFahuoDoneEnd = this.state.dateFahuoDoneEnd;
+
         this.props.dispatch({
             type:'orderct/synchronous',
             payload:values
         });
+    }
+
+    //时间搜索部分
+    hindDateChange=(type,dates,dateString)=>{
+        if(type ==1){
+            this.setState({
+                dateStart:dateString[0],
+                dateEnd:dateString[1]
+            })
+        }else{
+            this.setState({
+                dateFahuoStart:dateString[0],
+                dateFahuoDoneEnd:dateString[1]
+            })
+        }
     }
 
     render() {
@@ -64,7 +93,6 @@ class OrderctSearchForm extends React.Component {
                                     <Input placeholder="请输入商品名称"/>
                                     )}
                                 </FormItem>
-                               
                                 <FormItem label='订单状态'>
                                     {getFieldDecorator('status')(
                                     <Select allowClear={true} placeholder="请选择订单状态">
@@ -73,6 +101,26 @@ class OrderctSearchForm extends React.Component {
                                     </Select>
                                     )}
                                 </FormItem>
+                                {/* 添加下单时间 */}
+                                <FormItem label='下单时间'>
+                                    {
+                                        <RangePicker
+                                            showTime
+                                            format="YYYY-MM-DD"
+                                            onChange={this.hindDateChange.bind(this,1)}
+                                        />
+                                    }
+                                </FormItem> 
+                                {/* 添加发货时间 */}
+                                <FormItem label='发货时间'>
+                                    {
+                                        <RangePicker
+                                            showTime
+                                            format="YYYY-MM-DD"
+                                            onChange={this.hindDateChange.bind(this,2)}
+                                        />
+                                    }
+                                </FormItem> 
                             </div>
                         </Row>
                     </Col>

@@ -52,7 +52,6 @@ export default {
 				const result=yield call(GetServerData,code,values);
 				yield put({type: 'tab/loding',payload:false});
 				if(result.code=='0'){
-                    console.log(result);
                     let detailsList=result.details;
                     if(detailsList.length){
                         for(var i=0;i<detailsList.length;i++){
@@ -69,36 +68,24 @@ export default {
 				const result=yield call(GetServerData,code,values);
 				yield put({type: 'tab/loding',payload:false});
 				if(result.code=='0'){
-                    console.log(result);
                     const cardtitle='入库单信息'
                     let cardlist = [];
+                    cardlist = [
+                        {lable:'订单号', text:result.spOrder.orderNo},
+                        {lable:'下单时间', text:result.spOrder.createTime},
+                        {lable:'订单状态', text:result.spOrder.statusStr},
+                        {lable:'门店名称', text:result.spOrder.shopName},
+                        {lable:'收货人', text:result.spOrder.recName},
+                        {lable:'收货人电话', text:result.spOrder.recTel},
+                        {lable:'收货地址', text:result.spOrder.recAddress},
+                        {lable:'订单总价', text:result.spOrder.amountSum},
+                        {lable:'创建原因', text:result.spOrder.createTypeStr},
+                        {lable:'预售订单', text:result.spOrder.preSellStatusStr},
+                    ];
+                    let testPH = ['PH123','PH355'];
+                    cardlist.push({lable:'对应配货单', text:testPH.join(' ')});  
                     if(result.spOrder.status == 30){
-                        cardlist = [
-                            {lable:'订单号', text:result.spOrder.orderNo},
-                            {lable:'下单时间', text:result.spOrder.createTime},
-                            {lable:'订单状态', text:result.spOrder.statusStr},
-                            {lable:'门店名称', text:result.spOrder.shopName},
-                            {lable:'收货人', text:result.spOrder.recName},
-                            {lable:'收货人电话', text:result.spOrder.recTel},
-                            {lable:'收货地址', text:result.spOrder.recAddress},
-                            {lable:'订单总价', text:result.spOrder.amountSum},
-                            {lable:'创建原因', text:result.spOrder.createTypeStr},
-                            {lable:'预售订单', text:result.spOrder.preSellStatusStr},
-                            {lable:'取消原因', text:result.spOrder.cancelReason}
-                          ]
-                    }else{
-                        cardlist = [
-                            {lable:'订单号', text:result.spOrder.orderNo},
-                            {lable:'下单时间', text:result.spOrder.createTime},
-                            {lable:'订单状态', text:result.spOrder.statusStr},
-                            {lable:'门店名称', text:result.spOrder.shopName},
-                            {lable:'收货人', text:result.spOrder.recName},
-                            {lable:'收货人电话', text:result.spOrder.recTel},
-                            {lable:'收货地址', text:result.spOrder.recAddress},
-                            {lable:'订单总价', text:result.spOrder.amountSum},
-                            {lable:'创建原因', text:result.spOrder.createTypeStr},
-                            {lable:'预售订单', text:result.spOrder.preSellStatusStr},
-                            ]
+                        cardlist.push({lable:'取消原因', text:result.spOrder.cancelReason});  
                     }
                     let expressList = result.expressInfos;
                     if(expressList.length){
