@@ -44,11 +44,8 @@ class OperateczInfo extends React.Component{
                 
                 <div className='clearfix mt10 mb10'>
                     <div className='fl' style={{lineHeight:'100px'}}>充值金额：{this.props.amount}</div>
-                    <div className='fl'>
+                    <div className='fl' style={{marginLeft:'300px'}}>
                             <Imgmodel picUrl={this.props.picUrl}/>
-                        {/* <div style={{width:"100px",height:"100px",marginLeft:'300px'}}>
-                            <img src={this.props.fileDomain+this.props.picUrl} className='w100 h100'/>
-                        </div> */}
                     </div>
                 </div>
 				<div className='mb10'>
