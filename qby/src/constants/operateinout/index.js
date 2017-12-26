@@ -6,6 +6,8 @@ import { connect } from 'dva';
 import OperateinoutSearch from './search';
 //table
 import OperateinoutTable from './table';
+//导出的弹框
+import Appmodelone from '../ordermd/modal';
 
 class OperateinoutIndex extends React.Component{
     state = {};
@@ -14,7 +16,14 @@ class OperateinoutIndex extends React.Component{
      	return(
         	<div className='content_box'>
                 <OperateinoutSearch/>
-             		<div className='mt15'><OperateinoutTable/></div>
+				<Appmodelone 
+					text="导出数据" 
+					title="导出数据" 
+					count="数据已经进入导出队列，请前往下载中心查看导出进度"
+					okText="去看看"
+					cancelText="稍后去"
+					/>
+				<div className='mt15'><OperateinoutTable/></div>
         	</div>
       	)
 	}
