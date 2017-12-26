@@ -104,7 +104,72 @@ export default {
                       }
                     yield put({type:'syncInfoList',payload:{infoList,cardlist}});
 				} 
-        }
+        },
+        //充值
+        *infofetch2({ payload: {code,values} }, { call, put ,select}) {
+            const result=yield call(GetServerData,code,values);
+            yield put({type: 'tab/loding',payload:false});
+            if(result.code=='0'){
+                let spOrder=result.mbCardMoneyChargeInfo;
+                let infoList=[{
+                    name:spOrder.mbCard.name,
+                    cardNo:spOrder.mbCard.cardNo,
+                    mobile:spOrder.mbCard.mobile,
+                    levelStr:spOrder.mbCard.levelStr,
+                    beforeAmount:spOrder.beforeAmount,
+                    delta:spOrder.delta,
+                    result:spOrder.result,
+                    key:0
+                }];
+                let cardlist = [
+                    {lable:'门店名称', text:spOrder.spShopName},
+                    {lable:'充值订单', text:spOrder.chargeNo},
+                    {lable:'充值时间', text:spOrder.createTime},
+                    {lable:'销售员', text:spOrder.operator},
+                ];
+                yield put({type:'syncInfoList',payload:{infoList,cardlist}});
+            }
+        },
+        //退货
+        *infofetch3({ payload: {code,values} }, { call, put ,select}) {
+            const result=yield call(GetServerData,code,values);
+            yield put({type: 'tab/loding',payload:false});
+            if(result.code=='0'){
+                let spOrder=result.odReturn;
+                let infoList=result.odReturnDetails;
+                if(infoList.length){
+                    for(var i=0;i<infoList.length;i++){
+                        infoList[i].key=i
+                    }
+                }
+                let cardlist = [];
+                if(spOrder.mbCardMobile && spOrder.mbCardName){
+                    cardlist = [
+                        {lable:'门店名称', text:spOrder.spShopName},
+                        {lable:'退货订单', text:spOrder.returnNo},
+                        {lable:'销售订单', text:spOrder.orderNo},
+                        {lable:'退货时间', text:spOrder.createTime},
+                        {lable:'退货员', text:spOrder.operator},
+                        {lable:'抹零优惠', text:spOrder.cutAmount},
+                        {lable:'结算退款', text:spOrder.refundAmount+'（'+spOrder.typeStr+'）'},
+                        {lable:'会员姓名', text:spOrder.mbCardName},
+                        {lable:'会员电话', text:spOrder.mbCardMobile},
+                        {lable:'扣除积分', text:spOrder.returnPoint},
+                    ]
+                }else{
+                    cardlist = [
+                        {lable:'门店名称', text:spOrder.spShopName},
+                        {lable:'退货订单', text:spOrder.returnNo},
+                        {lable:'销售订单', text:spOrder.orderNo},
+                        {lable:'退货时间', text:spOrder.createTime},
+                        {lable:'退货员', text:spOrder.operator},
+                        {lable:'抹零优惠', text:spOrder.cutAmount},
+                        {lable:'结算退款', text:spOrder.refundAmount+'（'+spOrder.typeStr+'）'}
+                    ]
+                }
+                yield put({type:'syncInfoList',payload:{infoList,cardlist}});
+            }
+        },
   	},
   	subscriptions: {},
 };

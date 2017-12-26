@@ -76,6 +76,7 @@ class OperateinoutTable extends React.Component {
           <EditableTable 
             dataSource={this.props.tableList} 
             columns={this.columns} 
+            bordered={true}
             footer={true}
             pageChange={this.pageChange.bind(this)}
             pageSizeChange={this.pageSizeChange.bind(this)}
