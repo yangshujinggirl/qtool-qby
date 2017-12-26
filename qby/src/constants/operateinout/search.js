@@ -104,7 +104,7 @@ class OperateinoutSearchForm extends React.Component {
     componentDidMount(){}
 }
 function mapStateToProps(state) {
-    const {limit,currentPage} = state.ordercg;
+    const {limit,currentPage} = state.operateinout;
     return {limit,currentPage};
 }
 
