@@ -127,7 +127,7 @@
 			}];  
 
 			this.state = {
-				pdBrandId:'',
+				pdBrandId:this.props.pdBrandId,
 				dataSource:[],
 				issku:false
 			};  
@@ -143,8 +143,14 @@
 	handleSubmit = (e) => {
 		this.props.form.validateFields((err, values) => {
 		if (!err) {
+			values.pdBrandId=this.state.pdBrandId
+			values.spuPics=this.props.spuPics
+
 			console.log('Received values of form: ', values);
+			
 			console.log(this.props)
+
+
 		}	
 		});
 	}
@@ -373,16 +379,16 @@
 						labelCol={{ span: 8 }}
 						wrapperCol={{ span: 6 }}
 						>
-						{getFieldDecorator('pdBrandId', {
+						{getFieldDecorator('pdBrandname', {
 							rules: [{ required: true, message: '请选择商品品牌'}],
 							initialValue:this.props.pdBrand.name
 						})(
 							<AutoComplete
-							dataSource={this.state.dataSource}
-							onSelect={this.onSelect}
-							onSearch={this.handleSearch}
-							filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
-							placeholder='请选择商品品牌'
+								dataSource={this.state.dataSource}
+								onSelect={this.onSelect}
+								onSearch={this.handleSearch}
+								filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
+								placeholder='请选择商品品牌'
 							/>
 						)}
 						</FormItem>
@@ -585,18 +591,6 @@
 							<AddEditableTable data={eval(this.props.pdSpuInfo)}/>
 						)}
 					</FormItem>
-					
-
-
-
-						
-						
-						
-						
-					{/* <Row>
-						<Col span={8} style={{textAlign:'right', paddingRight:'10px'}}><p>商品描述:</p></Col>
-					</Row> */}
-						{/* <Row><Col span={20} offset={2}><EditableTable3 BackSpudesDatasouce={this.BackSpudesDatasouce.bind(this)}/></Col></Row>  */}
 					<FormItem wrapperCol={{ offset: 9}} style = {{marginBottom:0}} style = {{marginTop:'20px'}}>
 						<Button onClick={this.Handcancel.bind(this)} style = {{marginRight:'50px'}}>取消</Button>
 						<Button htmlType="submit" onClick={this.handleSubmit.bind(this)}>保存</Button>
@@ -608,9 +602,6 @@
 		this.pdTypeslist()
 		this.Categorylist()
 		this.spuInfo()
-
-
-
 	}
 
 
@@ -620,10 +611,10 @@
 
 	function mapStateToProps(state) {
 		console.log(state)
-		const {limit,currentPage,name,pdCategory1Id,pdCategory2Id,pdBrandId,spuIdPics,pdCategorys,pdBrand,pdTypeslist,pdType1Id,pdType2Id,tag1,tag2,isskus,goodindodatasouce,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell,pdSpuInfo} = state.goods;
+		const {limit,currentPage,name,pdCategory1Id,pdCategory2Id,pdBrandId,spuIdPics,pdCategorys,pdBrand,pdTypeslist,pdType1Id,pdType2Id,tag1,tag2,isskus,goodindodatasouce,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell,pdSpuInfo,spuPics} = state.goods;
 		const {pdCategorysList}=state.IndexPage;
 		console.log(goodindodatasouce)
-		return {limit,currentPage,pdCategorys,pdCategorysList,name,pdCategory1Id,pdCategory2Id,pdBrandId,spuIdPics,pdBrand,pdTypeslist,pdType1Id,pdType2Id,tag1,tag2,isskus,goodindodatasouce,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell,pdSpuInfo};
+		return {limit,currentPage,pdCategorys,pdCategorysList,name,pdCategory1Id,pdCategory2Id,pdBrandId,spuIdPics,pdBrand,pdTypeslist,pdType1Id,pdType2Id,tag1,tag2,isskus,goodindodatasouce,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell,pdSpuInfo,spuPics};
 	}
 
 	export default connect(mapStateToProps)(GoodEdit);

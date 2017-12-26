@@ -13,7 +13,9 @@ constructor(props) {
 	dataIndex: 'operation',
 	render: (text, record, index) => {
 		return (
-		record.type=='2'?<Addavatar/>:<Input type="textarea" rows={4} placeholder="请输入商品描述"  onChange={this.setvalur.bind(this,index)}/>
+		record.type=='2'
+			?<Addavatar imageUrl={record.content} index={index}/>
+			:<Input type="textarea" rows={4} placeholder="请输入商品描述"   value={record.content} onChange={this.setValur.bind(this,index)}/>
 		);
 	}
 	},{
@@ -33,85 +35,50 @@ constructor(props) {
 	count: 2
 	};
 }
-setvalur=(index,e)=>{
-	let dataSourcedata=this.state.dataSource
-	dataSourcedata[index].operation.content=e.target.value
-	this.setState({
-	dataSource:dataSourcedata
-	},function(){
-	const BackSpudesDatasouce=this.props.BackSpudesDatasouce
-	BackSpudesDatasouce(this.state.dataSource)
+setValur=(index,e)=>{
+	//更新数据
+	const pdSpuInfo=this.props.pdSpuInfo.splice(0)
+	pdSpuInfo[index].content=e.target.value
+	this.props.dispatch({
+		type:'goods/pdSpuInfo',
+		payload:pdSpuInfo
 	})
 }
-setimgvalur=(index,messages)=>{
-	let dataSourcedatas=this.state.dataSource
-	dataSourcedatas[index].operation.content=messages
-	this.setState({
-	dataSource:dataSourcedatas
-	},function(){
-	const BackSpudesDatasouce=this.props.BackSpudesDatasouce
-	BackSpudesDatasouce(this.state.dataSource)
-	})
-}
-
-
 
 onDelete = (index) => {
-	let dataSource = [...this.state.dataSource];
-	dataSource.splice(index, 1);
-	this.setState({ dataSource:dataSource },function(){
-		//  const BackSpudesDatasouce=this.props.BackSpudesDatasouce
-		//  BackSpudesDatasouce(this.state.dataSource)
-	});
+	const pdSpuInfo=this.props.pdSpuInfo.splice(0)
+	pdSpuInfo.splice(index, 1);
+	this.props.dispatch({
+		type:'goods/pdSpuInfo',
+		payload:pdSpuInfo
+	})
 }
 
 
 handleAdd = () => {
-	const { count, dataSource } = this.state;
-	const newData = {
-	key: count,
-	operation: {type:'1'}
-	};
-	this.setState({
-	dataSource: [...dataSource, newData],
-	count: count + 1
-	},function(){
-	//   const BackSpudesDatasouce=this.props.BackSpudesDatasouce
-	//   BackSpudesDatasouce(this.state.dataSource)
-	});
+	const pdSpuInfo=this.props.pdSpuInfo.splice(0)
+	pdSpuInfo.push({
+		type:'1',
+		content:null
+	})
+	this.props.dispatch({
+		type:'goods/pdSpuInfo',
+		payload:pdSpuInfo
+	})
+	
 }
 handleAddimg = () => {
-	const { count, dataSource } = this.state;
-	const newData = {
-	key: count,
-	operation: {type:'2'}
-	};
-	this.setState({
-	dataSource: [...dataSource, newData],
-	count: count + 1
-	},function(){
-	//   const BackSpudesDatasouce=this.props.BackSpudesDatasouce
-	//   BackSpudesDatasouce(this.state.dataSource)
-	});
+	const pdSpuInfo=this.props.pdSpuInfo.splice(0)
+	pdSpuInfo.push({
+		type:'2',
+		content:null
+	})
+	this.props.dispatch({
+		type:'goods/pdSpuInfo',
+		payload:pdSpuInfo
+	})
 }
 
-//   SetData=(fileDomain,messages)=>{
-//     console.log(fileDomain)
-//     console.log(messages)
-//       for(var i=0;i<messages.length;i++){
-//         messages[i].key=i+'s'
-//         if(messages[i].type=='1'){
-//            messages[i].operation={type:'1',content:messages[i].content}
-//         }
-//         if(messages[i].type=='2'){
-//            messages[i].operation={type:'2',content:messages[i].content}
-//         }
-//       }
-//       this.setState({
-//         dataSource:messages,
-//         fileDomain:fileDomain
-//       })
-//   }
 
 
 render() {
@@ -128,5 +95,11 @@ render() {
 }
 }
 
-export default AddEditableTable;
+function mapStateToProps(state) {
+    const {pdSpuInfo} = state.goods;
+    return {pdSpuInfo};
+}
+
+export default connect(mapStateToProps)(AddEditableTable);
+
 

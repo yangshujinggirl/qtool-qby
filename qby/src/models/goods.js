@@ -84,11 +84,17 @@ export default {
 		isskus(state, { payload:isskus}) {
 			return {...state,isskus}
 		},
+
+		pdSpuInfo(state, { payload:pdSpuInfo}) {
+			return {...state,pdSpuInfo}
+		},
+
 		infolist(state, { payload:{name,pdCategory1Id,pdCategory2Id,pdBrandId,spuPics,pdBrand,fileList,pdType1Id,pdType2Id,tag1,tag2,initdatasouce,goodindodatasouce,isskus,initisskus,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell,pdSpuInfo}}) {
 			return {...state,name,pdCategory1Id,pdCategory2Id,pdBrandId,spuPics,pdBrand,fileList,pdType1Id,pdType2Id,tag1,tag2,initdatasouce,goodindodatasouce,isskus,initisskus,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell,pdSpuInfo}
 		},
 	
 		uploads(state, { payload:spuPics}) {
+			console.log(spuPics)
 			return {...state,spuPics}
 		},
 		pdTypeslists(state, { payload:pdTypeslist}) {
@@ -164,12 +170,15 @@ export default {
 					const pdSpuinfos=result.pdSpu
 					const fileDomain=result.fileDomain
 					console.log(pdSpuinfos)
-					const {name,pdCategory1Id,pdCategory2Id,pdBrandId,spuIdPics,pdBrand,pdSkus,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell,pdSpuInfo}=pdSpuinfos
+					
+					const {name,pdCategory1Id,pdCategory2Id,pdBrandId,spuIdPics,pdBrand,pdSkus,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell}=pdSpuinfos
+					const pdSpuInfo=eval(pdSpuinfos.pdSpuInfo)
 					//更新图片数据
 					const spuPics=[]
 					for(var i=0;i<spuIdPics.length;i++){
 						spuPics.push(spuIdPics[i].url)
 					}
+					console.log(spuPics)
 					//更新图片展示
 					const fileList=spuIdPics.slice(0)
 					for(var i=0;i<fileList.length;i++){
@@ -198,13 +207,13 @@ export default {
 						console.log(123)
 						//没有规格
 						const values={
-							code:pdSpuinfo.code,
-							barcode:pdSpuinfo.barcode,
-							toBPrice:pdSpuinfo.toBPrice,
-							toCPrice:pdSpuinfo.toCPrice,
-							tagPrice:pdSpuinfo.tagPrice,
-							costPrice:pdSpuinfo.costPrice,
-							key:pdSpuinfo.pdSpuId,
+							code:pdSpuinfos.code,
+							barcode:pdSpuinfos.barcode,
+							toBPrice:pdSpuinfos.toBPrice,
+							toCPrice:pdSpuinfos.toCPrice,
+							tagPrice:pdSpuinfos.tagPrice,
+							costPrice:pdSpuinfos.costPrice,
+							key:pdSpuinfos.pdSpuId,
 							keys:'0000'
 						}
 						initdatasouce.push(values)
