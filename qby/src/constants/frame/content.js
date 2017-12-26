@@ -52,28 +52,25 @@ import OrderthEdit from '../orderth/edit';
 import OrderctIndex from '../orderct/index';
 import OrderctInfo from '../orderct/info';
 import OrderctEdit from '../orderct/edit';
+//pos订单
+import OrderposIndex from '../orderpos/index';
+import OrderposInfo from '../orderpos/info';
 //调拨订单
 import OrderdbIndex from '../orderdb/index';
 import OrderdbInfo from '../orderdb/info';
 import OrderdbEdit from '../orderdb/edit';
 
 
-
-
-
-
-//收支管理
-import OperateinoutIndex from '../operateinout/index';
-import OperatememberIndex from '../operatemember/index';
-
-
 //充值订单
 import CzIndex from '../operatecz/index';
 import OperateczInfo from '../operatecz/info';
 
-
-import BasicSetting from '../basicSetting/basicSetting';
-
+//收支管理
+import OperateinoutIndex from '../operateinout/index';
+import OperatememberIndex from '../operatemember/index';
+//供应商管理
+import OperatesupplierIndex from '../operatesupplier/index';
+import OperatesupplierEdit from '../operatesupplier/edit';
 
 class Content extends React.Component {
     render() {
@@ -137,14 +134,18 @@ class Content extends React.Component {
                                     case "204000info":return <OrderctInfo data={this.props.data}/>;
                                     case "204000edit":return <OrderctEdit data={this.props.data}/>;
                                     
+                                    case '205000':return <OrderposIndex data={this.props.data}/>;
+                                    case '205000info':return <OrderposInfo data={this.props.data}/>;
+
                                     case "206000":return <OrderdbIndex data={this.props.data}/>;
                                     case "206000info":return <OrderdbInfo data={this.props.data}/>;
                                     case "206000edit":return <OrderdbEdit data={this.props.data}/>;
-                                    //
-                                    case "402000":return <OperateinoutIndex data={this.props.data}/>
-                                     case "402500":return <OperatememberIndex data={this.props.data}/>
+                                    //运营管理
+                                    case "402000":return <OperateinoutIndex data={this.props.data}/>;
+                                     case "402500":return <OperatememberIndex data={this.props.data}/>;
+                                     case "405000":return <OperatesupplierIndex data={this.props.data}/>;
+                                     case "405000edit":return <OperatesupplierEdit data={this.props.data}/>;
                                     
-                                    case "120000": return <BasicSetting data={this.props.data}/>;
                                     case "601000": return <AccountIndex data={this.props.data}/>;
                                     case "601000edit": return <AddNewAccount data={this.props.data}/>;
                                     default:  return "我是404";

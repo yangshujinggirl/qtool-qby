@@ -3,43 +3,37 @@ import { connect } from 'dva';
 import EditableTable from '../../components/table/tablebasic';
 import TableLink from '../../components/table/tablelink';
 
-class OrderposTable extends React.Component {
+class OperatesupplierTable extends React.Component {
 	constructor(props) {
         super(props);
         this.columns = [{
-          title: '订单号',
-          dataIndex: 'orderNo',
-          render: (text, record) => {
-            return (
-              <TableLink text={text} hindClick={this.editInfo.bind(this,record)} type='1'/>
-            );
-          }
-        }, {
-          title: '门店名称',
-          dataIndex: 'spShopName'
-        },{
-          title: '订单类型',
-          dataIndex: 'orderTypeStr'
-        },{
-          title: '用户类型',
-          dataIndex: 'levelStr'
-        },{
-          title: '结算金额',
-          dataIndex: 'amount'
-        }, {
-          title: '订单时间',
-          dataIndex: 'createTime'
+                title: '供应商名称',
+                dataIndex: 'name'
+            }, {
+                title: '供应商简称',
+                dataIndex: 'shortName'
+            },{
+                title: '合作状态',
+                dataIndex: 'statusStr'
+            }, {
+                title: '操作',
+                dataIndex: 'opation',
+                render: (text, record) => {
+                    return (
+                        <TableLink text="修改" hindClick={this.editInfo.bind(this,record)} type='1'/>
+                    );
+                }
         }];
     }
     
     //点击表格上的修改按钮操作
     editInfo = (record) =>{
-       const spOrderId=String(record.orderId);
-       const paneitem={title:'订单详情',key:'205000edit'+spOrderId+'info',data:{spOrderId:spOrderId,type:record.orderType},componkey:'205000info'}
-       this.props.dispatch({
-         type:'tab/firstAddTab',
-         payload:paneitem
-       })
+        const pdSupplierId=String(record.pdSupplierId);
+        const paneitem={title:'修改供应商信息',key:'405000edit'+pdSupplierId,data:{pdSupplierId:pdSupplierId},componkey:'405000edit'}
+        this.props.dispatch({
+            type:'tab/firstAddTab',
+            payload:paneitem
+        })
     }
 
     //分页方法
@@ -56,8 +50,8 @@ class OrderposTable extends React.Component {
         values.limit=limit;
         values.currentPage=currentPage;
         this.props.dispatch({
-            type:'orderpos/fetch',
-            payload:{code:'qerp.web.qpos.st.order.query',values:values}
+            type:'operatesupplier/fetch',
+            payload:{code:'qerp.web.pd.supplier.query',values:values}
         });
         this.props.dispatch({ type: 'tab/loding', payload:true});
     }
@@ -67,8 +61,8 @@ class OrderposTable extends React.Component {
           <EditableTable 
             dataSource={this.props.tableList} 
             columns={this.columns} 
-            footer={true}
             bordered={true}
+            footer={true}
             pageChange={this.pageChange.bind(this)}
             pageSizeChange={this.pageSizeChange.bind(this)}
             total={this.props.total}
@@ -78,17 +72,15 @@ class OrderposTable extends React.Component {
         );
 	}
 	componentDidMount(){
-    
+        //执行初始化数据方法获取list
+		this.initList(this.props.values,this.props.limit,this.props.currentPage);
 	}
     
 }
 
 function mapStateToProps(state) {
-    const {tableList,total,limit,currentPage,values} = state.orderpos;
+    const {tableList,total,limit,currentPage,values} = state.operatesupplier;
     return {tableList,total,limit,currentPage,values};
 }
 
-export default connect(mapStateToProps)(OrderposTable);
- 
-
-
+export default connect(mapStateToProps)(OperatesupplierTable);

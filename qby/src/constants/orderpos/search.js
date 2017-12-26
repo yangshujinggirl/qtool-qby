@@ -5,67 +5,52 @@ const FormItem = Form.Item;
 const Option = Select.Option
 const RangePicker = DatePicker.RangePicker;
 
-class OrdermdSearchForm extends React.Component {
+class OrderposSearchForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            dateStart: '',
-            dateEnd:'',
-            datefahuoStart:'',
-            datefahuoEnd:''
+            startTime: '',
+            endTime:'',
       };
     }
-  
-  //点击搜索按钮获取搜索表单数据
-  handleSearch = (e) => {
-    this.props.form.validateFields((err, values) => {
-        this.initList(values,this.props.limit,0);
-        this.syncState(values);
-    });
-  }
 
+    //点击搜索按钮获取搜索表单数据
+    handleSearch = () => {
+        this.props.form.validateFields((err, values) => {
+            this.initList(values,this.props.limit,0);
+            this.syncState(values);
+        });
+    }
 
-  //搜索请求数据
-  initList=(values,limit,currentPage)=>{
-        values.dateStart=this.state.dateStart;
-        values.dateEnd=this.state.dateEnd;
-        values.datefahuoStart=this.state.datefahuoStart;
-        values.datefahuoEnd=this.state.datefahuoEnd;
+    //搜索请求数据
+    initList=(values,limit,currentPage)=>{
+        values.startTime=this.state.startTime;
+        values.endTime=this.state.endTime;
         values.limit=limit;
         values.currentPage=currentPage;
         this.props.dispatch({
-            type:'ordermd/fetch',
-            payload:{code:'qerp.web.sp.order.query',values:values}
+            type:'orderpos/fetch',
+            payload:{code:'qerp.web.qpos.st.order.query',values:values}
         });
         this.props.dispatch({ type: 'tab/loding', payload:true});
     }  
 
     //同步data
     syncState=(values)=>{
-        values.dateStart=this.state.dateStart;
-        values.dateEnd=this.state.dateEnd;
-        values.datefahuoStart=this.state.datefahuoStart;
-        values.datefahuoEnd=this.state.datefahuoEnd;
-        
+        values.startTime=this.state.startTime;
+        values.endTime=this.state.endTime;
         this.props.dispatch({
-            type:'ordermd/synchronous',
+            type:'orderpos/synchronous',
             payload:values
         });
     }
     
     //时间搜索部分
-    hindDateChange=(type,dates,dateString)=>{
-        if(type ==1){
-            this.setState({
-                dateStart:dateString[0],
-                dateEnd:dateString[1]
-            })
-        }else{
-            this.setState({
-                datefahuoStart:dateString[0],
-                datefahuoEnd:dateString[1]
-            })
-        }
+    hindDateChange=(dates,dateString)=>{
+        this.setState({
+            startTime:dateString[0],
+            endTime:dateString[1]
+        })
     }
 
     render() {
@@ -77,18 +62,8 @@ class OrdermdSearchForm extends React.Component {
                         <Row>
                             <div className='serach_form'>
                                 <FormItem label='门店名称'>
-                                    {getFieldDecorator('shopName')(
+                                    {getFieldDecorator('spShopName')(
                                     <Input placeholder="请输入门店名称"/>
-                                    )}
-                                </FormItem>
-                                <FormItem label='收货人电话'>
-                                    {getFieldDecorator('recTel')(
-                                    <Input placeholder="请输入收货人电话"/>
-                                    )}
-                                </FormItem>
-                                <FormItem label='收货人'>
-                                    {getFieldDecorator('recName')(
-                                    <Input placeholder="请输入收货人"/>
                                     )}
                                 </FormItem>
                                 <FormItem label='订单号'>
@@ -96,68 +71,35 @@ class OrdermdSearchForm extends React.Component {
                                     <Input placeholder="请输入订单号"/>
                                     )}
                                 </FormItem>
-                                <FormItem label='商品编码'>
-                                    {getFieldDecorator('code')(
-                                    <Input placeholder="请输入商品编码"/>
-                                    )}
-                                </FormItem>
                                 <FormItem label='商品名称'>
                                     {getFieldDecorator('pdSpuName')(
                                     <Input placeholder="请输入商品名称"/>
                                     )}
                                 </FormItem>
-                                <FormItem label='订单状态'>
-                                    {getFieldDecorator('status')(
-                                    <Select allowClear={true} placeholder="请选择订单状态">
-                                        <Option value='10'>待发货</Option>
-                                        <Option value='20'>已发货</Option>
-                                        <Option value='30'>已取消</Option>
-                                    </Select>
+                                <FormItem label='商品编码'>
+                                    {getFieldDecorator('code')(
+                                    <Input placeholder="请输入商品编码"/>
                                     )}
                                 </FormItem>
                                 <FormItem label='订单类型'>
-                                    {getFieldDecorator('type')(
+                                    {getFieldDecorator('orderType')(
                                     <Select allowClear={true} placeholder="请选择订单类型">
-                                        <Option value='10'>门店</Option>
-                                        <Option value='11'>直邮</Option>
+                                        <Option value='1'>销售订单</Option>
+                                        <Option value='3'>退货订单</Option>
+                                        <Option value='2'>会员充值</Option>
                                     </Select>
                                     )}
                                 </FormItem>
-                                <FormItem label='订单来源'>
-                                    {getFieldDecorator('source')(
-                                    <Select allowClear={true} placeholder="请选择订单来源">
-                                        <Option value='1'>Q掌柜</Option>
-                                        <Option value='2'>Q本营</Option>
-                                    </Select>
-                                    )}
-                                </FormItem>
-                                <FormItem label='预售订单'>
-                                    {getFieldDecorator('preSellStatus')(
-                                    <Select allowClear={true} placeholder="请选择">
-                                        <Option value='1'>是</Option>
-                                        <Option value='0'>否</Option>
-                                    </Select>
-                                    )}
-                                </FormItem>
-                                <FormItem label='下单时间'>
+                                <FormItem label='订单时间'>
                                         {
                                             <RangePicker
                                                 showTime
                                                 format="YYYY-MM-DD HH:mm:ss"
-                                                value={this.state.dateStart?
-                                                        [moment(this.state.dateStart, 'YYYY-MM-DD HH:mm:ss'), moment(this.state.dateEnd, 'YYYY-MM-DD HH:mm:ss')]
+                                                value={this.state.startTime?
+                                                        [moment(this.state.startTime, 'YYYY-MM-DD HH:mm:ss'), moment(this.state.endTime, 'YYYY-MM-DD HH:mm:ss')]
                                                         :null
                                                     }
                                                 onChange={this.hindDateChange.bind(this,1)}
-                                            />
-                                        }
-                                </FormItem>
-                                <FormItem label='发货时间'>
-                                        {
-                                            <RangePicker
-                                                showTime
-                                                format="YYYY-MM-DD HH:mm:ss"
-                                                onChange={this.hindDateChange.bind(this,2)}
                                             />
                                         }
                                 </FormItem>
@@ -166,7 +108,7 @@ class OrdermdSearchForm extends React.Component {
                     </Col>
                 </Row>
                 <div style={{'position':'absolute','right':'0','bottom':'20px'}}>
-                    <Button type="primary" htmlType="submit" size='large' onClick={this.handleSearch.bind(this)}>搜索</Button>
+                    <Button type="primary" htmlType="submit" onClick={this.handleSearch.bind(this)}>搜索</Button>
                 </div>
             </Form>
         );
@@ -197,8 +139,8 @@ class OrdermdSearchForm extends React.Component {
         }
         var currentdate1 = date2.getFullYear() + seperator1 + month1 + seperator1 + strDate1 + " 00:00:00";
         this.setState({
-            dateStart:currentdate1,
-            dateEnd:currentdate
+            startTime:currentdate1,
+            endTime:currentdate
         },function(){
             this.handleSearch();
         })
@@ -209,10 +151,10 @@ class OrdermdSearchForm extends React.Component {
     }
 }
 function mapStateToProps(state) {
-    const {limit,currentPage} = state.ordermd;
+    const {limit,currentPage} = state.orderpos;
     return {limit,currentPage};
 }
 
 
-const OrdermdSearch = Form.create()(OrdermdSearchForm);
-export default connect(mapStateToProps)(OrdermdSearch);
+const OrderposSearch = Form.create()(OrderposSearchForm);
+export default connect(mapStateToProps)(OrderposSearch);

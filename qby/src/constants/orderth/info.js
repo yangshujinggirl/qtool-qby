@@ -57,13 +57,15 @@ class OrderthInfo extends React.Component{
 				<div className='mb10'>
 					<EditableTable columns={this.column1} 
 												 dataSource={this.props.details} 
-												 title="退货商品"
+                         title="退货商品"
+                         bordered={true}
 												footer={false}/>
 				</div>
 				<div className='mb10'>
 					<EditableTable columns={this.column2} 
 												 dataSource={this.props.logs} 
-												 title="订单日志"
+                         title="订单日志"
+                         bordered={true}
 												footer={false}/>
 				</div>
 			</div>

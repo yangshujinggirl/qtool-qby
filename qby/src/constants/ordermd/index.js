@@ -32,7 +32,7 @@ class OrdermdIndex extends React.Component{
 					<Button 
 						type="primary" 
 						size='large'
-						className='mt20'
+						className='mt20 mr10'
 						onClick={this.addNew.bind(this)}
 					>
 						新增订单
