@@ -28,14 +28,12 @@ class OperatesupplierTable extends React.Component {
     
     //点击表格上的修改按钮操作
     editInfo = (record) =>{
-        console.log(record);
-        // if(record.type=='11'){
-        //     const paneitem={title:'充值详情',key:'401000edit'+record.outId+'info',data:{spVoucherId:record.outId},componkey:'401000info'}
-        //     this.props.dispatch({
-        //         type:'tab/firstAddTab',
-        //         payload:paneitem
-        //     })
-        // }
+        const pdSupplierId=String(record.pdSupplierId);
+        const paneitem={title:'修改供应商信息',key:'405000edit'+pdSupplierId,data:{pdSupplierId:pdSupplierId},componkey:'405000edit'}
+        this.props.dispatch({
+            type:'tab/firstAddTab',
+            payload:paneitem
+        })
     }
 
     //分页方法
