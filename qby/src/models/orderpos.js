@@ -7,6 +7,9 @@ export default {
         currentPage:0,
         total:0,
         tableList:[],
+        //
+        cardlist:[],
+        infoList:[]
     },
     reducers: {
 		synchronous(state, { payload:values}) {
@@ -15,11 +18,8 @@ export default {
 		syncTableList(state, { payload:{tableList,total,limit,currentPage}}) {
 			return {...state,tableList,total,limit,currentPage}
         },
-        syncDetailList(state, { payload:{detailsList,limit1,currentPage1,total1}}) {
-			return {...state,detailsList,limit1,currentPage1,total1}
-        },
-        syncInfolist(state, { payload:{cardtitle,cardlist,expressList,orderLogList}}) {
-			return {...state,cardtitle,cardlist,expressList,orderLogList}
+        syncInfoList(state, { payload:{infoList,cardlist}}) {
+			return {...state,infoList,cardlist}
         }
     },
     effects: {
@@ -38,74 +38,73 @@ export default {
                 yield put({type: 'syncTableList',payload:{tableList,total,limit,currentPage}});
             } 
         },
-        //
-        *infofetch({ payload: {code,values} }, { call, put ,select}) {
+        //销售
+        *infofetch1({ payload: {code,values} }, { call, put ,select}) {
 				const result=yield call(GetServerData,code,values);
 				yield put({type: 'tab/loding',payload:false});
 				if(result.code=='0'){
-                    console.log(result);
-                    // let detailsList=result.details;
-                    // if(detailsList.length){
-                    //     for(var i=0;i<detailsList.length;i++){
-                    //         detailsList[i].key=i
-                    //     }
-                    // }
-                    // const limit1=result.limit;
-                    // const currentPage1=result.currentPage;
-                    // const total1=result.total;
-                    // yield put({type: 'syncDetailList',payload:{detailsList,limit1,currentPage1,total1}});
+                    let infoList=result.orderDetails;
+                    if(infoList.length){
+                        for(var i=0;i<infoList.length;i++){
+                            infoList[i].key=i
+                        }
+                    }
+                    let spOrder=result.order;
+                    let cardlist = [];
+                    if(spOrder.pays.length<2){
+                        if(spOrder.mbCardMobile && spOrder.mbCardName){
+                            cardlist=[
+                                 {lable:'门店名称', text:spOrder.spShopName},
+                                 {lable:'销售订单', text:spOrder.orderNo},
+                                 {lable:'销售时间', text:spOrder.createTime},
+                                 {lable:'销售员', text:spOrder.operator},
+                                 {lable:'折扣优惠', text:spOrder.discountAmount},
+                                 {lable:'抹零优惠', text:spOrder.cutAmount},
+                                 {lable:'结算收银', text:spOrder.payAmount+'（'+spOrder.pays[0].typeStr+':'+spOrder.pays[0].amount+'）'},
+                                 {lable:'会员姓名', text:spOrder.mbCardName},
+                                 {lable:'会员电话', text:spOrder.mbCardMobile},
+                                 {lable:'本次积分', text:spOrder.orderPoint}
+                               ]
+                        }else{
+                            cardlist=[
+                                 {lable:'门店名称', text:spOrder.spShopName},
+                                 {lable:'销售订单', text:spOrder.orderNo},
+                                 {lable:'销售时间', text:spOrder.createTime},
+                                 {lable:'销售员', text:spOrder.operator},
+                                 {lable:'折扣优惠', text:spOrder.discountAmount},
+                                 {lable:'抹零优惠', text:spOrder.cutAmount},
+                                 {lable:'结算收银', text:spOrder.payAmount+'（'+spOrder.pays[0].typeStr+':'+spOrder.pays[0].amount+'）'}
+                               ]
+                        }
+                      }else{
+                          if(spOrder.mbCardMobile && spOrder.mbCardName){
+                            cardlist=[
+                                     {lable:'门店名称', text:spOrder.spShopName},
+                                     {lable:'销售订单', text:spOrder.orderNo},
+                                     {lable:'销售时间', text:spOrder.createTime},
+                                     {lable:'销售员', text:spOrder.operator},
+                                     {lable:'折扣优惠', text:spOrder.discountAmount},
+                                     {lable:'抹零优惠', text:spOrder.cutAmount},
+                                     {lable:'结算收银', text:spOrder.payAmount+'（'+spOrder.pays[0].typeStr+':'+spOrder.pays[0].amount +'  '+spOrder.pays[1].typeStr+':'+spOrder.pays[1].amount+'）'},
+                                     {lable:'会员姓名', text:spOrder.mbCardName},
+                                     {lable:'会员电话', text:spOrder.mbCardMobile},
+                                     {lable:'本次积分', text:spOrder.orderPoint}
+                                   ]
+                          }else{
+                            cardlist=[
+                                    {lable:'门店名称', text:spOrder.spShopName},
+                                    {lable:'销售订单', text:spOrder.orderNo},
+                                    {lable:'销售时间', text:spOrder.createTime},
+                                    {lable:'销售员', text:spOrder.operator},
+                                    {lable:'折扣优惠', text:spOrder.discountAmount},
+                                    {lable:'抹零优惠', text:spOrder.cutAmount},
+                                    {lable:'结算收银', text:spOrder.payAmount+'（'+spOrder.pays[0].typeStr+':'+spOrder.pays[0].amount +'  '+spOrder.pays[1].typeStr+':'+spOrder.pays[1].amount+'）'}
+                                ]
+                          }
+                      }
+                    yield put({type:'syncInfoList',payload:{infoList,cardlist}});
 				} 
-            },
-            *infofetchTwo({ payload: {code,values} }, { call, put ,select}) {
-				const result=yield call(GetServerData,code,values);
-				yield put({type: 'tab/loding',payload:false});
-				if(result.code=='0'){
-                    console.log(result);
-                    // const cardtitle='入库单信息'
-                    // let cardlist = [];
-                    // if(result.spOrder.status == 30){
-                    //     cardlist = [
-                    //         {lable:'订单号', text:result.spOrder.orderNo},
-                    //         {lable:'下单时间', text:result.spOrder.createTime},
-                    //         {lable:'订单状态', text:result.spOrder.statusStr},
-                    //         {lable:'门店名称', text:result.spOrder.shopName},
-                    //         {lable:'收货人', text:result.spOrder.recName},
-                    //         {lable:'收货人电话', text:result.spOrder.recTel},
-                    //         {lable:'收货地址', text:result.spOrder.recAddress},
-                    //         {lable:'订单总价', text:result.spOrder.amountSum},
-                    //         {lable:'创建原因', text:result.spOrder.createTypeStr},
-                    //         {lable:'预售订单', text:result.spOrder.preSellStatusStr},
-                    //         {lable:'取消原因', text:result.spOrder.cancelReason}
-                    //       ]
-                    // }else{
-                    //     cardlist = [
-                    //         {lable:'订单号', text:result.spOrder.orderNo},
-                    //         {lable:'下单时间', text:result.spOrder.createTime},
-                    //         {lable:'订单状态', text:result.spOrder.statusStr},
-                    //         {lable:'门店名称', text:result.spOrder.shopName},
-                    //         {lable:'收货人', text:result.spOrder.recName},
-                    //         {lable:'收货人电话', text:result.spOrder.recTel},
-                    //         {lable:'收货地址', text:result.spOrder.recAddress},
-                    //         {lable:'订单总价', text:result.spOrder.amountSum},
-                    //         {lable:'创建原因', text:result.spOrder.createTypeStr},
-                    //         {lable:'预售订单', text:result.spOrder.preSellStatusStr},
-                    //         ]
-                    // }
-                    // let expressList = result.expressInfos;
-                    // if(expressList.length){
-                    //     for(var i=0;i<expressList.length;i++){
-                    //         expressList[i].key=i
-                    //     }
-                    // }
-                    // let orderLogList = result.orderLogs;
-                    // if(orderLogList.length){
-                    //     for(var i=0;i<orderLogList.length;i++){
-                    //         orderLogList[i].key=i
-                    //     }
-                    // }
-                    //  yield put({type: 'syncInfolist',payload:{cardtitle,cardlist,expressList,orderLogList}});
-				} 
-			},
+        }
   	},
   	subscriptions: {},
 };

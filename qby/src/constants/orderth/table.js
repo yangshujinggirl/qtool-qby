@@ -87,6 +87,7 @@ class OrderthTable extends React.Component {
     render() {
         return (
           <EditableTable 
+            bordered={true}
             dataSource={this.props.tableList} 
             columns={this.columns} 
             footer={true}
