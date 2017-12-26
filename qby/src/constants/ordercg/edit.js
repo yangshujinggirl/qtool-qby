@@ -373,7 +373,6 @@ class OrdercgEditForm extends React.Component{
 }
 function mapStateToProps(state) {
 	const {goodsInfo,values,editInfo,nothasFacepay,taxRateDisabled} = state.ordercg;
-	console.log(editInfo);
     return {goodsInfo,values,editInfo,nothasFacepay,taxRateDisabled};
 }
 

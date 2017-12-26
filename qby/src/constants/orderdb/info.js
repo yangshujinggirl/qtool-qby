@@ -58,13 +58,15 @@ class OrderdbInfo extends React.Component{
 				<div className='mb10'>
 					<EditableTable columns={this.column1} 
 												 dataSource={this.props.details} 
-												 title="调拨商品"
+                         title="调拨商品"
+                         bordered={true}
 												footer={false}/>
 				</div>
 				<div className='mb10'>
 					<EditableTable columns={this.column2} 
 												 dataSource={this.props.orderLogs} 
-												 title="调拨单日志"
+                         title="调拨单日志"
+                         bordered={true}
 												footer={false}/>
 				</div>
 			</div>

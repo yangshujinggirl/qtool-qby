@@ -66,6 +66,7 @@ class OrderctTable extends React.Component {
             dataSource={this.props.tableList} 
             columns={this.columns} 
             footer={true}
+            bordered={true}
             pageChange={this.pageChange.bind(this)}
             pageSizeChange={this.pageSizeChange.bind(this)}
             total={this.props.total}

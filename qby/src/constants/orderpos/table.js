@@ -3,39 +3,48 @@ import { connect } from 'dva';
 import EditableTable from '../../components/table/tablebasic';
 import TableLink from '../../components/table/tablelink';
 
-class OrderdbTable extends React.Component {
+class OrdermdTable extends React.Component {
 	constructor(props) {
         super(props);
         this.columns = [{
-          title: '调拨单号',
-          dataIndex: 'allocationNo',
+          title: '订单号',
+          dataIndex: 'orderNo',
           render: (text, record) => {
             return (
               <TableLink text={text} hindClick={this.editInfo.bind(this,record)} type='1'/>
             );
           }
+        },{
+          title: '门店名称',
+          dataIndex: 'shopName'
         }, {
-            title: '调出仓库',
-            dataIndex: 'outWsName'
-        },{ 
-            title: '调入仓库',
-            dataIndex: 'callWsName'
+          title: '商品数量',
+          dataIndex: 'qtySum'
         },{
-            title: '商品数量',
-            dataIndex: 'qtySum'
+          title: '订单金额',
+          dataIndex: 'amountSum'
         },{
-            title: '订单状态',
-            dataIndex: 'statusStr'
+          title: '订单状态',
+          dataIndex: 'statusStr'
         },{
-            title: '下单时间',
-            dataIndex: 'createTime'
+          title: '订单来源',
+          dataIndex: 'sourceName'
+        },{
+          title: '订单类型',
+          dataIndex: 'typeStr'
+        },{
+          title: '收货人',
+          dataIndex: 'recName'
+        }, {
+          title: '下单时间',
+          dataIndex: 'createTime'
         }];
     }
     
     //点击表格上的修改按钮操作
     editInfo = (record) =>{
-       const spExchangeId=String(record.spExchangeId);
-       const paneitem={title:'订单详情',key:'206000edit'+spExchangeId+'info',data:{spExchangeId:spExchangeId},componkey:'206000info'}
+       const spOrderId=String(record.spOrderId)
+       const paneitem={title:'订单详情',key:'201000edit'+spOrderId+'info',data:{spOrderId:spOrderId},componkey:'201000info'}
        this.props.dispatch({
          type:'tab/firstAddTab',
          payload:paneitem
@@ -56,8 +65,8 @@ class OrderdbTable extends React.Component {
         values.limit=limit;
         values.currentPage=currentPage;
         this.props.dispatch({
-            type:'orderdb/fetch',
-            payload:{code:'qerp.web.sp.exchange.query',values:values}
+            type:'ordermd/fetch',
+            payload:{code:'qerp.web.sp.order.query',values:values}
         });
         this.props.dispatch({ type: 'tab/loding', payload:true});
     }
@@ -68,7 +77,6 @@ class OrderdbTable extends React.Component {
             dataSource={this.props.tableList} 
             columns={this.columns} 
             footer={true}
-            bordered={true}
             pageChange={this.pageChange.bind(this)}
             pageSizeChange={this.pageSizeChange.bind(this)}
             total={this.props.total}
@@ -79,17 +87,17 @@ class OrderdbTable extends React.Component {
 	}
 	componentDidMount(){
     //执行初始化数据方法获取list
-		this.initList(this.props.values,this.props.limit,this.props.currentPage);
+		// this.initList(this.props.values,this.props.limit,this.props.currentPage);
 	}
     
 }
 
 function mapStateToProps(state) {
-    const {tableList,total,limit,currentPage,values} = state.orderdb;
+    const {tableList,total,limit,currentPage,values} = state.ordermd;
     return {tableList,total,limit,currentPage,values};
 }
 
-export default connect(mapStateToProps)(OrderdbTable);
+export default connect(mapStateToProps)(OrdermdTable);
  
 
 
