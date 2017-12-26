@@ -112,13 +112,13 @@ export default {
                            {lable:'预计到达时间',text:asn.expectedTime}
                            ];
                 if (asn.shippingFeeType == 20) {
-                  headTit.push({lable:'物流费用',text:'到付'},{text:'到付金额',text:asn.shippingFee});
+                  headTit.push({lable:'物流费用',text:'到付'},{lable:'到付金额',text:asn.shippingFee});
                 }else{
                   headTit.push({lable:'物流费用',text:asn.wsWarehouseName});
                 }
                 headTit.push({lable:'收货仓库',text:'包邮'});
                 if (asn.taxRateType == 1) {
-                  headTit.push({lable:'是否含税',text:'是'},{text:'含税税点',text:asn.taxRate +'%'});
+                  headTit.push({lable:'是否含税',text:'是'},{lable:'含税税点',text:asn.taxRate +'%'});
                 }else{
                   headTit.push({lable:'是否含税',text:'否'});
                 }
