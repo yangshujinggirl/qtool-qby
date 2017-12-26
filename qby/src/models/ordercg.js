@@ -59,11 +59,11 @@ export default {
 				shippingFeeType:10,
                 shippingFee:null,
                 taxRateType:0,
-                taxRate:'',
+                taxRate:[],
                 expectedTime:'',
                 name:'',
                 pdSupplierId:null,
-                wsWarehouseId:''
+                wsWarehouseId:[]
               };
               const goodsInfo = [
                 {
@@ -148,11 +148,11 @@ export default {
                 editInfo.shippingFee = info.shippingFee;
                 editInfo.shippingFeeType = info.shippingFeeType;
                 editInfo.taxRateType = info.taxRateType;
-                editInfo.wsWarehouseId = info.wsWarehouseId;
-                if(info.taxRate == null){
-                    editInfo.taxRate = ''
+                editInfo.wsWarehouseId = String(info.wsWarehouseId);
+                if(info.taxRate == null ||info.taxRate == undefined){
+                    editInfo.taxRate = [];
                 }else{
-                    editInfo.taxRate = info.taxRate;
+                    editInfo.taxRate = String(info.taxRate);
                 }
                 const goodsInfoList =  result.details;
                 let goodsInfo = [];

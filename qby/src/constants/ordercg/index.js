@@ -22,8 +22,16 @@ class OrdercgIndex extends React.Component{
 		this.props.dispatch({
             type:'ordercg/initState',
             payload:{}
+		});
+		this.props.dispatch({
+			type:'ordercg/syncTaxRateDisabled',
+			payload:true
 		})
-	  }
+		this.props.dispatch({
+			type:'ordercg/syncNothasFacepay',
+			payload:true
+		})
+	}
 
 	clearChooseInfo=()=>{
 		const selectedRows=[];

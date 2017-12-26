@@ -79,8 +79,10 @@ class OrdercgEditForm extends React.Component{
 				console.log(values);
 				let data = this.props.editInfo;
 				data.shippingFee = values.shippingFee;
-				data.taxRate = values.taxRate;
+				data.taxRate = values.taxRate instanceof Array?"":values.taxRate;
 				data.wsWarehouseId = values.wsWarehouseId;
+				data.shippingFeeType = values.shippingFeeType;
+				data.taxRateType = values.taxRateType;
 				data.details = this.props.goodsInfo;
 				data.type = "10";
 				if(this.props.data){
@@ -179,7 +181,6 @@ class OrdercgEditForm extends React.Component{
 
 	RadioChange = (e) =>{
 		//10包邮 20到付
-		console.log(e.target.value);
 		let formvalueTemp =deepcCloneObj(this.props.editInfo);
 		if(e.target.value == '20'){
 			this.props.dispatch({
@@ -204,25 +205,26 @@ class OrdercgEditForm extends React.Component{
 
 	//是否含税改变
 	RadioChangeTaxRate = (e) =>{
+		console.log(e.target.value);
 		let formvalueTemp = deepcCloneObj(this.props.editInfo);
 		if(e.target.value=='1'){
 			formvalueTemp.taxRateType = 1;
-				this.props.form.setFieldsValue({
-					taxRate:String(formvalueTemp.taxRate)
-				})
-				this.props.dispatch({
-					type:'ordercg/syncEditInfo',
-					payload:formvalueTemp
-				})
-				this.props.dispatch({
-					type:'ordercg/syncTaxRateDisabled',
-					payload:false
-				})
+			this.props.form.setFieldsValue({
+				taxRate:[]
+			})
+			this.props.dispatch({
+				type:'ordercg/syncEditInfo',
+				payload:formvalueTemp
+			})
+			this.props.dispatch({
+				type:'ordercg/syncTaxRateDisabled',
+				payload:false
+			})
 		 }else{
 			formvalueTemp.taxRateType = 0;
-			formvalueTemp.taxRate = '';
+			formvalueTemp.taxRate = [];
 			this.props.form.setFieldsValue({
-				taxRate:String(formvalueTemp.taxRate)
+				taxRate:[]
 			})
 			this.props.dispatch({
 				type:'ordercg/syncEditInfo',
@@ -281,7 +283,7 @@ class OrdercgEditForm extends React.Component{
             	>
 					{getFieldDecorator('wsWarehouseId', {
 						rules: [{ required: true, message: '请选择收货仓库' }],
-						initialValue:String(this.props.editInfo.wsWarehouseId) 
+						initialValue:this.props.editInfo.wsWarehouseId
 					})(
 						<Select placeholder="请选择收货仓库">
 							{
@@ -339,7 +341,7 @@ class OrdercgEditForm extends React.Component{
 					wrapperCol={{ span: 6 }}
 				>
 					{getFieldDecorator('taxRate', {
-						initialValue:String(this.props.editInfo.taxRate)
+						initialValue:this.props.editInfo.taxRate
 					})(
 						<Select  placeholder="请选择含税税率" disabled={this.props.taxRateDisabled}>
 							<Option value='0'>0%</Option>
