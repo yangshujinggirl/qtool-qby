@@ -20,6 +20,7 @@ class NormalLoginForm extends React.Component {
                         sessionStorage.setItem('name', JSON.stringify(json.name));
                         sessionStorage.setItem('adminType', JSON.stringify(json.adminType));
                         sessionStorage.setItem('wsName', JSON.stringify(json.wsName));
+                        sessionStorage.setItem('fileDomain', JSON.stringify(json.fileDomain));
                         this.context.router.push('/home')
                        
                     }else{

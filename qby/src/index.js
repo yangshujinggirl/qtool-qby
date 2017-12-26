@@ -11,6 +11,8 @@ const app = dva({
 
 app.model(require("./models/account"));
 
+app.model(require("./models/operatecz"));
+
 app.model(require("./models/recheck"));
 
 app.model(require("./models/wscheck"));

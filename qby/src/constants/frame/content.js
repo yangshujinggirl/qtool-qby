@@ -10,6 +10,7 @@ import Brandindex from '../goods/brand/index';
 import Specsindex from '../goods/specs/index';
 
 
+
 // import WarehouseinInfo from '../wsin/info';
 
 import WarehouseIndex from '../wsout/index';
@@ -56,9 +57,20 @@ import OrderdbIndex from '../orderdb/index';
 import OrderdbInfo from '../orderdb/info';
 import OrderdbEdit from '../orderdb/edit';
 
+
+
+
+
+
 //收支管理
 import OperateinoutIndex from '../operateinout/index';
 import OperatememberIndex from '../operatemember/index';
+
+
+//充值订单
+import CzIndex from '../operatecz/index';
+import OperateczInfo from '../operatecz/info';
+
 
 import BasicSetting from '../basicSetting/basicSetting';
 
@@ -86,7 +98,10 @@ class Content extends React.Component {
                                     case "304000":return  <Specsindex data={this.props.data}/>;
 
                                    
-                                    case "40000":return  <Wsshipping data={this.props.data}/>;
+                                    case "401000":return  <CzIndex data={this.props.data}/>;
+                                    case "401000info":return  <OperateczInfo data={this.props.data}/>;
+                                    
+                                    
                                     case "50000":return  <StockManageIndex data={this.props.data}/>;
                                     case "60000":return  <WsmoveIndex data={this.props.data}/>;
                                     case "60000info":return  <WsmoveInfo data={this.props.data}/>;
