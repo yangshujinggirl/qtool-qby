@@ -21,50 +21,50 @@
 			},{
 				title: '商品编码',
 				dataIndex: 'code',
-				render: (text, record) => {
+				render: (text, record,index) => {
 					return (
-						<Input value={text}/>
+						<Input value={text} onChange={this.hindCodechange.bind(this,index)}/>
 					);
 				}
 
 			}, {
 				title: '商品条码',
 				dataIndex: 'barcode',
-				render: (text, record) => {
+				render: (text, record,index) => {
 					return (
-						<Input value={text}/>
+						<Input value={text} onChange={this.hindBarcodechange.bind(this,index)}/>
 					);
 				}
 			},{
 				title: '售价',
 				dataIndex: 'toBPrice',
-				render: (text, record) => {
+				render: (text, record,index) => {
 					return (
-						<Input value={text}/>
+						<Input value={text} onChange={this.hindtoBPricechange.bind(this,index)}/>
 					);
 				}
 			},{
 				title: '零售价',
 				dataIndex: 'toCPrice',
-				render: (text, record) => {
+				render: (text, record,index) => {
 					return (
-						<Input value={text}/>
+						<Input value={text} onChange={this.hindtoCPricechange.bind(this,index)}/>
 					);
 				}
 			},{
 				title: '建议零售价',
 				dataIndex: 'tagPrice',
-				render: (text, record) => {
+				render: (text, record,index) => {
 					return (
-						<Input value={text}/>
+						<Input value={text} onChange={this.hindtagPricechange.bind(this,index)}/>
 					);
 				}
 			},{
 				title: '进货价',
 				dataIndex: 'costPrice',
-				render: (text, record) => {
+				render: (text, record,index) => {
 					return (
-						<Input value={text}/>
+						<Input value={text} onChange={this.hindcostPricechange.bind(this,index)}/>
 					);
 				}
 			},{
@@ -79,49 +79,49 @@
 			this.columnsuse = [{
 				title: '商品编码',
 				dataIndex: 'code',
-				render: (text, record) => {
+				render: (text, record,index) => {
 					return (
-						<Input value={text}/>
+						<Input value={text} onChange={this.hindCodechange.bind(this,index)}/>
 					);
 				}
 			},{
 				title: '商品条码',
 				dataIndex: 'barcode',
-				render: (text, record) => {
+				render: (text, record,index) => {
 					return (
-						<Input value={text}/>
+						<Input value={text} onChange={this.hindBarcodechange.bind(this,index)}/>
 					);
 				}
 			}, {
 				title: '售价',
 				dataIndex: 'toBPrice',
-				render: (text, record) => {
+				render: (text, record,index) => {
 					return (
-						<Input value={text}/>
+						<Input value={text} onChange={this.hindtoBPricechange.bind(this,index)}/>
 					);
 				}
 			},{
 				title: '零售价',
 				dataIndex: 'toCPrice',
-				render: (text, record) => {
+				render: (text, record,index) => {
 					return (
-						<Input value={text}/>
+						<Input value={text} onChange={this.hindtoCPricechange.bind(this,index)}/>
 					);
 				}
 			},{
 				title: '建议零售价',
 				dataIndex: 'tagPrice',
-				render: (text, record) => {
+				render: (text, record,index) => {
 					return (
-						<Input value={text}/>
+						<Input value={text} onChange={this.hindtagPricechange.bind(this,index)}/>
 					);
 				}
 			},{
 				title: '进货价',
 				dataIndex: 'costPrice',
-				render: (text, record) => {
+				render: (text, record,index) => {
 					return (
-						<Input value={text}/>
+						<Input value={text} onChange={this.hindcostPricechange.bind(this,index)}/>
 					);
 				}
 			}];  
@@ -133,32 +133,124 @@
 			};  
 		}
 
+		hindCodechange=(index,e)=>{
+			const goodindodatasouce=this.props.goodindodatasouce.slice(0)
+			goodindodatasouce[index].code=e.target.value
+			this.props.dispatch({
+				type:'goods/goodindodatasouce',
+				payload:goodindodatasouce
+			})
+		}
 
+		hindBarcodechange=(index,e)=>{
+			const goodindodatasouce=this.props.goodindodatasouce.slice(0)
+			goodindodatasouce[index].barcode=e.target.value
+			this.props.dispatch({
+				type:'goods/goodindodatasouce',
+				payload:goodindodatasouce
+			})
+		}
 
+		hindtoBPricechange=(index,e)=>{
+			const goodindodatasouce=this.props.goodindodatasouce.slice(0)
+			goodindodatasouce[index].toBPrice=e.target.value
+			this.props.dispatch({
+				type:'goods/goodindodatasouce',
+				payload:goodindodatasouce
+			})
+		}
 
+		hindtoCPricechange=(index,e)=>{
+			const goodindodatasouce=this.props.goodindodatasouce.slice(0)
+			goodindodatasouce[index].toCPrice=e.target.value
+			this.props.dispatch({
+				type:'goods/goodindodatasouce',
+				payload:goodindodatasouce
+			})
+		}
 		
+		hindtagPricechange=(index,e)=>{
+			const goodindodatasouce=this.props.goodindodatasouce.slice(0)
+			goodindodatasouce[index].tagPrice=e.target.value
+			this.props.dispatch({
+				type:'goods/goodindodatasouce',
+				payload:goodindodatasouce
+			})
+		}
 
-
-
+		hindcostPricechange=(index,e)=>{
+			const goodindodatasouce=this.props.goodindodatasouce.slice(0)
+			goodindodatasouce[index].costPrice=e.target.value
+			this.props.dispatch({
+				type:'goods/goodindodatasouce',
+				payload:goodindodatasouce
+			})
+		}
 	handleSubmit = (e) => {
-		this.props.form.validateFields((err, values) => {
+		this.props.form.validateFields((err, value) => {
 		if (!err) {
-			values.pdBrandId=this.state.pdBrandId
-			values.spuPics=this.props.spuPics
+			console.log(this.state.pdBrandId)
+			value.pdBrandId=this.state.pdBrandId
+			value.spuPics=this.props.spuPics
+			value.pdSpuInfo=this.props.pdSpuInfo
+			console.log('Received values of form: ', value);
+			// console.log(this.props)
+			// let values={name:value}
+			value.pdSpuId=this.props.data.pdSpuId
+			//判断是上传还是非上传表
+			const isskus=this.props.isskus
+			if(isskus){
+				console.log(1)
+				value.pdSkus=this.props.goodindodatasouce
 
-			console.log('Received values of form: ', values);
-			
-			console.log(this.props)
+
+				
+			}else{
+				console.log(2)
+				value.code=this.props.goodindodatasouce[0].code
+				value.barcode=this.props.goodindodatasouce[0].barcode
+				value.toBPrice=this.props.goodindodatasouce[0].toBPrice
+				value.toCPrice=this.props.goodindodatasouce[0].toCPrice
+				value.tagPrice=this.props.goodindodatasouce[0].tagPrice
+				value.costPrice=this.props.goodindodatasouce[0].costPrice
+			}
+
+			const values={pdSpu:value}
+			const result=GetServerData('qerp.web.pd.spu.save',values)
+			result.then((res) => {
+				return res;
+			}).then((json) => {
+				if(json.code=='0'){
+					
+
+
+
+					message.success('商品新建成功')
+				}
+			})
+
+
 
 
 		}	
 		});
 	}
 	handleSelectChange = (value) => {
-		console.log(value);
-		this.props.form.setFieldsValue({
-		note: `Hi, ${value === 'male' ? 'man' : 'lady'}!`,
-		});
+		const pdCategory2Id=[]
+		//根据id请求分类数据，更新数据
+		const values={
+			parentId:value,
+			getChildren:true,
+			enabled:true
+		}
+		this.props.dispatch({
+			type:'goods/captlistfetch',
+			payload:{code:'qerp.web.pd.category.list',values:values}
+		})
+		this.props.dispatch({
+			type:'goods/pdCategory2Id',
+			payload:pdCategory2Id
+		})
 	}
 
 	//请求商品分类
@@ -272,28 +364,15 @@
 		})
 	}
 
-	tag1Change=()=>{
+	
 
-	}
-
-	tag2Change=()=>{
-
-	}
+	
 
 
-	handleInputConfirm1=()=>{
+	
+	
 
 
-
-	}
-	handleInputConfirm2=()=>{
-		
-	}
-
-
-	allRadioChange=()=>{
-
-	}
 
 	lotStatusChange=(e)=>{
 		const lotStatusstate=e.target.value
@@ -425,7 +504,7 @@
 					<FormItem>
 						<Row>
 							<Col span={12} offset={8}>
-								<EditableTagGroup tags={this.props.tag1} tagChange={this.tag1Change.bind(this)} types='1' pdTypesId={this.props.pdType1Id}/>
+								<EditableTagGroup tags={this.props.tag1}  types='1' pdTypesId={this.props.pdType1Id}/>
 							</Col>
 						</Row>
 					</FormItem>
@@ -435,7 +514,7 @@
 						wrapperCol={{ span: 6 }}
 						>
 						{getFieldDecorator('guige2', {
-						onChange: this.handleSelectChange_guige1,
+						onChange: this.handleSelectChange_guige2,
 						initialValue:String(this.props.pdType2Id)
 						})(
 						<Select>
@@ -451,7 +530,7 @@
 					<FormItem>
 						<Row>
 							<Col span={12} offset={8}>
-							<EditableTagGroup tags={this.props.tag2} tagChange={this.tag2Change.bind(this)} types='2' pdTypesId={this.props.pdType2Id}/>
+							<EditableTagGroup tags={this.props.tag2}  types='2' pdTypesId={this.props.pdType2Id}/>
 							</Col>
 						</Row>
 					</FormItem>
@@ -514,7 +593,7 @@
 						wrapperCol={{ span: 6 }}
 						>
 						{getFieldDecorator('lotLimitInDay', {
-							initialValue:this.props.lotLimitInDays,
+							initialValue:this.props.lotLimitInDay,
 							rules: [{pattern:/^[0-9]*$/,message:'天数只能是整数'}],
 						})(
 							<Input disabled={this.props.lotStatus=='1'?false:true}/>

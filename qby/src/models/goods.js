@@ -12,7 +12,7 @@ export default {
 		pdBrandId:null,
 		name:null,
 		pdCategory1Id:null,
-		pdCategory2Id:null,
+		pdCategory2Id:[],
 		checkgood:[],
 		limit:16,
 		currentPage:0,
@@ -55,6 +55,9 @@ export default {
 		},
 		goodindodatasouce(state, { payload:goodindodatasouce}) {
 			return {...state,goodindodatasouce}
+		},
+		pdCategory2Id(state, { payload:pdCategory2Id}) {
+			return {...state,pdCategory2Id}
 		},
 
 
@@ -332,7 +335,20 @@ export default {
 				} 
 			},
 
+			*pdCategory2list({ payload: {code,values} }, { call, put ,select}) {
+				const result=yield call(GetServerData,code,values);
+				yield put({type: 'tab/loding',payload:false});
+				console.log(result)
+				if(result.code=='0'){
 
+					// const pdBrands=result.pdBrands
+					// console.log(pdBrands)
+					// const fileDomain=result.fileDomain
+					//  yield put({type: 'pdBrandslist',payload:pdBrands});
+					//  yield put({type: 'IndexPage/fileDomain',payload:fileDomain});
+					 
+				} 
+			},
 
 
 			//selec和tag的变动走的程序
@@ -380,7 +396,11 @@ export default {
 										tagPrice:null,
 										costPrice:null,
 										picUrl:null,
-										keys:tag1[i].keys+tag2[j].keys
+										keys:tag1[i].keys+tag2[j].keys,
+										pdType1Id:pdType1Id,
+										pdType1ValId:tag1[i].keys,
+										pdType2Id:pdType2Id,
+										pdType2ValId:tag2[j].keys
 									})
 	
 								}
