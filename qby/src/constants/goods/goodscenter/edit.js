@@ -189,8 +189,9 @@
 	handleSubmit = (e) => {
 		this.props.form.validateFields((err, value) => {
 		if (!err) {
-			console.log(this.state.pdBrandId)
-			value.pdBrandId=this.state.pdBrandId
+			console.log(this)
+			console.log(this.props.pdBrandId)
+			value.pdBrandId=this.props.pdBrandId
 			value.spuPics=this.props.spuPics
 			value.pdSpuInfo=this.props.pdSpuInfo
 			console.log('Received values of form: ', value);
@@ -221,11 +222,7 @@
 				return res;
 			}).then((json) => {
 				if(json.code=='0'){
-					
-
-
-
-					message.success('商品新建成功')
+					this.delecttab()
 				}
 			})
 
@@ -280,8 +277,17 @@
 
 
 	Handcancel=()=>{
-
+		this.delecttab()
 	}
+
+
+		//删除tab
+		delecttab=()=>{
+			this.props.dispatch({
+				type:'goods/delete',
+				payload:'301000edit'+this.props.data.pdSpuId
+			})
+		}
 
 		handleSearch=(value)=>{
 			let values={name:value}
@@ -306,8 +312,10 @@
 			})
 		}
 		onSelect=(value)=>{
-			this.setState({
-				pdBrandId:value
+			const pdBrandId=value
+			this.props.dispatch({
+				type:'goods/pdBrandId',
+				payload:pdBrandId
 			})
 		}
 
@@ -678,11 +686,14 @@
 		);
 	}
 	componentDidMount(){
-		this.pdTypeslist()
-		this.Categorylist()
-		this.spuInfo()
-	}
+		this.pdTypeslist()		
+		if(this.props.data.pdSpuId){
+			this.Categorylist()
+			this.spuInfo()
+		}
 
+	}
+	
 
 	}
 

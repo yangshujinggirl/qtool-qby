@@ -88,7 +88,20 @@ class GoodsIndex extends React.Component{
 
 	}
 	addspus=()=>{
+		const paneitem={title:'新增商品',key:'301000edit',componkey:'301000edit',data:{pdSpuId:null}}
+		this.props.dispatch({
+		  	type:'tab/firstAddTab',
+		  	payload:paneitem
+		})	
 		
+		
+		this.props.dispatch({
+			type:'goods/initgoodedit',
+			payload:null
+	  })	
+
+
+
 	}
 
 	render(){

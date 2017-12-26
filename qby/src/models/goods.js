@@ -11,7 +11,7 @@ export default {
 		spuPics:[],
 		pdBrandId:null,
 		name:null,
-		pdCategory1Id:null,
+		pdCategory1Id:[],
 		pdCategory2Id:[],
 		checkgood:[],
 		limit:16,
@@ -34,8 +34,8 @@ export default {
 		isPresell:'0',
 		pdSpuInfo:[],
 		//商品信息
-		pdType1Id:null, //规格1的选择id
-		pdType2Id:null, //规格2的选择id
+		pdType1Id:[], //规格1的选择id
+		pdType2Id:[], //规格2的选择id
 		tag1:[],  //规格1的属性列表
 		tag2:[],//规格2的属性列表
 		isskus:false,   //是否有规格，即展现那个商品信息表
@@ -47,6 +47,39 @@ export default {
 
 	},
 	reducers: {
+
+		initgoodedit(state, { payload:pdBrands}) {
+			const name=null
+			const pdCategory1Id=[]
+			const pdCategory2Id=[]
+			const pdCategorys=[]
+			const pdBrand={}
+			const pdBrandId=null
+			const spuPics=[]
+			const pdType1Id=[]
+			const pdType2Id=[]
+			const tag1=[]
+			const tag2=[]
+			const goodindodatasouce=[]
+			const initdatasouce=[]
+			const lotStatus='0'
+			const expdays=null
+			const lotType=null
+			const lotLimitInDay=null
+			const eventNew=true
+			const eventHot=false
+			const isDirectExpress='0'
+			const isPresell='0'
+			const pdSpuInfo=[]
+			const fileList=[]
+
+			return {...state,name,pdCategory1Id,pdCategory2Id,pdCategorys,pdBrand,pdBrandId,spuPics,pdType1Id,pdType2Id,tag1,tag2,goodindodatasouce,initdatasouce,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell,pdSpuInfo,fileList}
+		},
+
+
+
+
+
 		pdBrandslist(state, { payload:pdBrands}) {
 			return {...state,pdBrands}
 		},
@@ -59,7 +92,9 @@ export default {
 		pdCategory2Id(state, { payload:pdCategory2Id}) {
 			return {...state,pdCategory2Id}
 		},
-
+		pdBrandId(state, { payload:pdBrandId}) {
+			return {...state,pdBrandId}
+		},
 
 		stocktablechenge(state, { payload:changedatasouce}) {
 			return {...state,changedatasouce}
@@ -243,7 +278,12 @@ export default {
 								costPrice:pdSkus[i].costPrice,
 								picUrl:pdSkus[i].picUrl,
 								key:pdSkus[i].pdSkuId,
-								keys:(pdSkus[i].pdType2Val==null || pdSkus[i].pdType2Val==undefined || pdSkus[i].pdType2Val=='') ?pdSkus[i].pdType1Val.pdTypeValId:pdSkus[i].pdType1Val.pdTypeValId+pdSkus[i].pdType2Val.pdTypeValId
+								keys:(pdSkus[i].pdType2Val==null || pdSkus[i].pdType2Val==undefined || pdSkus[i].pdType2Val=='') ?pdSkus[i].pdType1Val.pdTypeValId:pdSkus[i].pdType1Val.pdTypeValId+pdSkus[i].pdType2Val.pdTypeValId,
+								pdType1Id:pdSkus[i].pdType1Id,
+								pdType1ValId:pdSkus[i].pdType1ValId,
+								pdType2Id:pdSkus[i].pdType2Id,
+								pdType2ValId:pdSkus[i].pdType2ValId,
+								pdSkuId:pdSkus[i].pdSkuId
 							})
 						}
 				
@@ -401,6 +441,9 @@ export default {
 										pdType1ValId:tag1[i].keys,
 										pdType2Id:pdType2Id,
 										pdType2ValId:tag2[j].keys
+
+
+										
 									})
 	
 								}
@@ -449,6 +492,11 @@ export default {
 								goodindodatasouce[j].costPrice=initdatasouce[i].costPrice
 								goodindodatasouce[j].picUrl=initdatasouce[i].picUrl
 								goodindodatasouce[j].keys=initdatasouce[i].keys
+								goodindodatasouce[j].pdSkuId=initdatasouce[i].pdSkuId
+								goodindodatasouce[j].pdType1Id=initdatasouce[i].pdType1Id
+								goodindodatasouce[j].pdType1ValId=initdatasouce[i].pdType1ValId
+								goodindodatasouce[j].pdType2Id=initdatasouce[i].pdType2Id
+								goodindodatasouce[j].pdType2ValId=initdatasouce[i].pdType2ValId
 							}
 						}
 					}
