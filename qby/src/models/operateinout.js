@@ -7,6 +7,9 @@ export default {
         currentPage:0,
         total:0,
         tableList:[],
+        //
+        cardlist:[],
+        infoList:[]
     },
     reducers: {
 		synchronous(state, { payload:values}) {
@@ -15,13 +18,15 @@ export default {
 		syncTableList(state, { payload:{tableList,total,limit,currentPage}}) {
 			return {...state,tableList,total,limit,currentPage}
         },
+        syncInfoList(state, { payload:{infoList,cardlist}}) {
+			return {...state,infoList,cardlist}
+        }
     },
     effects: {
         *fetch({ payload: {code,values} }, { call, put ,select}) {
             const result=yield call(GetServerData,code,values);
             yield put({type: 'tab/loding',payload:false});
             if(result.code=='0'){
-                console.log(result);
                 const tableList = result.spMoneyDetails;
                 const limit=result.limit;
                 const currentPage=result.currentPage;
@@ -59,6 +64,26 @@ export default {
                 }
                 yield put({type: 'syncTableList',payload:{tableList,total,limit,currentPage}});
             } 
+        },
+        *infofetch({ payload: {code,values} }, { call, put ,select}) {
+            const result=yield call(GetServerData,code,values);
+            yield put({type: 'tab/loding',payload:false});
+            if(result.code=='0'){
+                let infoList=result.spExpressfeeDetails;
+                if(infoList.length){
+                    for(var i=0;i<infoList.length;i++){
+                        infoList[i].key=i
+                    }
+                };
+                let data=result.spExpressFee;
+                let cardlist =[
+                        {lable:'门店名称', text:data.shopName},
+                        {lable:'费用周期', text:data.month+'月物流费用'},
+                        {lable:'订单数', text:data.orderSum},
+                        {lable:'物流费用', text:data.feeSum}
+                    ]
+                yield put({type:'syncInfoList',payload:{infoList,cardlist}});
+            }
         },
   	},
   	subscriptions: {},

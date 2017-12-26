@@ -112,8 +112,6 @@ class GoodsInfoTable extends React.Component {
                         type:'ordercg/syncGoodsInfo',
                         payload:tempDataSource
                     })
-            }else{
-                message.error(json.message);
             }
         })
     }
@@ -159,7 +157,6 @@ class GoodsInfoTable extends React.Component {
 
 function mapStateToProps(state) {
     const {goodsInfo} = state.ordercg;
-    console.log(goodsInfo);
     return {goodsInfo};
 }
 

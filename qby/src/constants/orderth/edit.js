@@ -66,7 +66,7 @@ class OrderthEditForm extends React.Component{
 		e.preventDefault();
 		this.props.form.validateFields((err, values) => {
 		    if (!err) {
-                let data = values;
+				let data = values;
 				data.expectedTime = this.props.formValue.expectedTime;
 				data.type = '20';
                 data.details = this.props.goodsInfo;
@@ -86,9 +86,7 @@ class OrderthEditForm extends React.Component{
 						this.deleteTab();
 						this.refreshList();
 						this.initState();
-                    }else{
-						message.error(json.message);
-					}
+                    }
                 })
             }else{
                 return false;
@@ -141,8 +139,6 @@ class OrderthEditForm extends React.Component{
                 this.props.form.setFieldsValue({
                     supplier:json.spShopName,
                 });
-            }else{
-                message.error(json.message);
             }
         })
     }
@@ -221,7 +217,7 @@ class OrderthEditForm extends React.Component{
             	>
 					{getFieldDecorator('wsWarehouseId', {
 						rules: [{ required: true, message: '请选择收货仓库' }],
-						initialValue:String(this.props.formValue.wsWarehouseId) 
+						initialValue:this.props.formValue.wsWarehouseId
 					})(
 						<Select placeholder="请选择收货仓库">
 							{

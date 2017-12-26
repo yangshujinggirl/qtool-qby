@@ -6,7 +6,9 @@ const RangePicker = DatePicker.RangePicker;
 
 class OrdercgSearchForm extends React.Component {
   state = {
-      type:"10"
+      type:"10",
+      downOrderStart:'',
+      downOrderEnd:''
   };
 
   //点击搜索按钮获取搜索表单数据
@@ -23,6 +25,8 @@ class OrdercgSearchForm extends React.Component {
         values.type=this.state.type;
         values.limit=limit;
         values.currentPage=currentPage;
+        values.downOrderStart = this.state.downOrderStart;
+        values.downOrderEnd = this.state.downOrderEnd;
         this.props.dispatch({
             type:'ordercg/fetch',
             payload:{code:'qerp.web.ws.asn.query',values:values}
@@ -33,10 +37,20 @@ class OrdercgSearchForm extends React.Component {
     //同步data
     syncState=(values)=>{
         values.type=this.state.type;
+        values.downOrderStart = this.state.downOrderStart;
+        values.downOrderEnd = this.state.downOrderEnd;
         this.props.dispatch({
             type:'ordercg/synchronous',
             payload:values
         });
+    }
+
+    //时间搜索部分
+    hindDateChange=(dates,dateString)=>{
+        this.setState({
+            downOrderStart:dateString[0],
+            downOrderEnd:dateString[1]
+        })
     }
     
     render() {
@@ -75,6 +89,16 @@ class OrdercgSearchForm extends React.Component {
                                         <Option value='30'>已收货</Option>
                                     </Select>
                                     )}
+                                </FormItem>
+                                {/* 添加下单时间 */}
+                                <FormItem label='下单时间'>
+                                    {
+                                        <RangePicker
+                                            showTime
+                                            format="YYYY-MM-DD"
+                                            onChange={this.hindDateChange.bind(this)}
+                                        />
+                                    }
                                 </FormItem> 
                             </div>
                         </Row>

@@ -27,9 +27,9 @@ class OperateinoutTable extends React.Component {
     
     //点击表格上的修改按钮操作
     lookInfo = (record) =>{
-        console.log(record.type);
         if(record.type=='11'){
-            const paneitem={title:'充值详情',key:'401000edit'+record.outId+'info',data:{spVoucherId:record.outId},componkey:'401000info'}
+            const spVoucherId=String(record.outId)
+            const paneitem={title:'充值详情',key:'401000edit'+spVoucherId+'info',data:{spVoucherId:spVoucherId},componkey:'401000info'}
             this.props.dispatch({
                 type:'tab/firstAddTab',
                 payload:paneitem
@@ -43,7 +43,7 @@ class OperateinoutTable extends React.Component {
             })
         }
         if(record.type=='22'){
-            const paneitem={title:'物流详情',key:'401000edit'+record.outId+'info',data:{outId:record.outId},componkey:'401000infowl'}
+            const paneitem={title:'物流详情',key:'402000edit'+record.outId+'info',data:{spExpressFeeId:record.outId},componkey:'402000info'}
             this.props.dispatch({
                 type:'tab/firstAddTab',
                 payload:paneitem

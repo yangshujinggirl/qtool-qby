@@ -62,13 +62,13 @@ import OrderdbIndex from '../orderdb/index';
 import OrderdbInfo from '../orderdb/info';
 import OrderdbEdit from '../orderdb/edit';
 
-
 //充值订单
 import CzIndex from '../operatecz/index';
 import OperateczInfo from '../operatecz/info';
 
 //收支管理
 import OperateinoutIndex from '../operateinout/index';
+import OperateinoutInfo from '../operateinout/info';
 import OperatememberIndex from '../operatemember/index';
 //供应商管理
 import OperatesupplierIndex from '../operatesupplier/index';
@@ -145,6 +145,7 @@ class Content extends React.Component {
                                     case "206000edit":return <OrderdbEdit data={this.props.data}/>;
                                     //运营管理
                                     case "402000":return <OperateinoutIndex data={this.props.data}/>;
+                                    case "402000info":return <OperateinoutInfo data={this.props.data}/>;
                                      case "402500":return <OperatememberIndex data={this.props.data}/>;
                                      case "405000":return <OperatesupplierIndex data={this.props.data}/>;
                                      case "405000edit":return <OperatesupplierEdit data={this.props.data}/>;
