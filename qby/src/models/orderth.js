@@ -13,11 +13,7 @@ export default {
         logs:[],
         //编辑部分
         formValue:{},
-        goodsInfo:[
-            {
-                key: 0
-            }
-        ]
+        goodsInfo:[]
     },
     reducers: {
 		synchronous(state, { payload:values}) {
@@ -40,7 +36,7 @@ export default {
 				spOrderNo:'',
 				supplier:'',		
 				expectedTime:'',
-				wsWarehouseId:'',
+				wsWarehouseId:[],
                 reason:''
               };
               const goodsInfo = [];
@@ -116,7 +112,7 @@ export default {
                 formValue.spOrderNo = result.asn.spOrderNo;
 				formValue.supplier = result.asn.name;		
 				formValue.expectedTime = result.asn.expectedTime;
-				formValue.wsWarehouseId = result.asn.wsWarehouseId;
+				formValue.wsWarehouseId = String(result.asn.wsWarehouseId);
                 formValue.reason = result.asn.reason;
                 yield put({type: 'syncEditInfo',payload:formValue});
                 yield put({type: 'syncGoodsInfo',payload:goodsInfo});
