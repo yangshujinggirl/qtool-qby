@@ -5,6 +5,7 @@
 	import SkuPicturesWall from './itemupload';
 	import Skucom from './skucom';
 	import EditableTagGroup from './tag';
+	import AddEditableTable from './add'
 	import TableCanEdit from './edittable';
 	const RadioGroup = Radio.Group;
 
@@ -573,7 +574,18 @@
 						</RadioGroup>
 						)}
 					</FormItem>
-
+					<FormItem
+						label="商品描述"
+						labelCol={{ span: 8 }}
+						wrapperCol={{ span: 6 }}
+					>
+						{getFieldDecorator('ssd', {
+							 
+						})(
+							<AddEditableTable/>
+						)}
+					</FormItem>
+					
 
 
 
