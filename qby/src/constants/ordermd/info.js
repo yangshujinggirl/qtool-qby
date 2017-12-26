@@ -101,18 +101,21 @@ class OrdermdInfo extends React.Component{
 							total={this.props.total1}
 							limit={this.props.limit1}
 							current={Number(this.props.currentPage1)+1}
+							bordered={true}
 						/>
 				</div>
 				<div className='mb10'>
 					<EditableTable columns={this.column2} 
 												 dataSource={this.props.expressList} 
 												 title="物流信息"
+												 bordered={true}
 												footer={false}/>
 				</div>
 				<div className='mb10'>
 					<EditableTable columns={this.column3} 
 												 dataSource={this.props.orderLogList} 
 												 title="订单日志"
+												 bordered={true}
 												footer={false}/>
 				</div>
 			</div>
