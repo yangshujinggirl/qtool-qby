@@ -3,7 +3,7 @@ import { connect } from 'dva';
 import EditableTable from '../../components/table/tablebasic';
 import TableLink from '../../components/table/tablelink';
 
-class OrdermdTable extends React.Component {
+class OrderposTable extends React.Component {
 	constructor(props) {
         super(props);
         this.columns = [{
@@ -14,29 +14,20 @@ class OrdermdTable extends React.Component {
               <TableLink text={text} hindClick={this.editInfo.bind(this,record)} type='1'/>
             );
           }
-        },{
-          title: '门店名称',
-          dataIndex: 'shopName'
         }, {
-          title: '商品数量',
-          dataIndex: 'qtySum'
-        },{
-          title: '订单金额',
-          dataIndex: 'amountSum'
-        },{
-          title: '订单状态',
-          dataIndex: 'statusStr'
-        },{
-          title: '订单来源',
-          dataIndex: 'sourceName'
+          title: '门店名称',
+          dataIndex: 'spShopName'
         },{
           title: '订单类型',
-          dataIndex: 'typeStr'
+          dataIndex: 'orderTypeStr'
         },{
-          title: '收货人',
-          dataIndex: 'recName'
+          title: '用户类型',
+          dataIndex: 'levelStr'
+        },{
+          title: '结算金额',
+          dataIndex: 'amount'
         }, {
-          title: '下单时间',
+          title: '订单时间',
           dataIndex: 'createTime'
         }];
     }
@@ -65,8 +56,8 @@ class OrdermdTable extends React.Component {
         values.limit=limit;
         values.currentPage=currentPage;
         this.props.dispatch({
-            type:'ordermd/fetch',
-            payload:{code:'qerp.web.sp.order.query',values:values}
+            type:'orderpos/fetch',
+            payload:{code:'qerp.web.qpos.st.order.query',values:values}
         });
         this.props.dispatch({ type: 'tab/loding', payload:true});
     }
@@ -77,6 +68,7 @@ class OrdermdTable extends React.Component {
             dataSource={this.props.tableList} 
             columns={this.columns} 
             footer={true}
+            bordered={true}
             pageChange={this.pageChange.bind(this)}
             pageSizeChange={this.pageSizeChange.bind(this)}
             total={this.props.total}
@@ -93,11 +85,11 @@ class OrdermdTable extends React.Component {
 }
 
 function mapStateToProps(state) {
-    const {tableList,total,limit,currentPage,values} = state.ordermd;
+    const {tableList,total,limit,currentPage,values} = state.orderpos;
     return {tableList,total,limit,currentPage,values};
 }
 
-export default connect(mapStateToProps)(OrdermdTable);
+export default connect(mapStateToProps)(OrderposTable);
  
 
 

@@ -36,6 +36,8 @@ app.model(require("./models/orderct"));
 
 app.model(require("./models/orderth"));
 
+app.model(require("./models/orderpos"));
+
 app.model(require("./models/ordercg"));
 
 app.model(require("./models/ordermd"));

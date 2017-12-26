@@ -21,8 +21,8 @@ class Appmodelone extends React.Component {
   }
   render() {
     return (
-      <div style={{display:'inline-block',marginLeft:'10px'}}>
-        <Button type="primary" size='large' onClick={this.showModal}>{this.props.text}</Button>
+      <div style={{display:'inline-block'}}>
+        <Button type="primary" size='large' className='mt20' onClick={this.showModal}>{this.props.text}</Button>
         <Modal
           title={this.props.title}
           visible={this.state.visible}

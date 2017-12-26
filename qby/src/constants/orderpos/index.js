@@ -4,10 +4,10 @@ import { Button, Icon } from 'antd';
 import { connect } from 'dva';
 import '../../style/ordermd.css';
 //table
-import OrdermdTable from './table';
+import OrderposTable from './table';
 //search
-import OrdermdSearch from './search';
-import Appmodelone from './modal';
+import OrderposSearch from './search';
+import Appmodelone from '../ordermd/modal';
 class OrderposIndex extends React.Component{
 	state = {};
 
@@ -28,15 +28,7 @@ class OrderposIndex extends React.Component{
   	render(){
      	return(
         	<div className='content_box'>
-                <OrdermdSearch/>
-					<Button 
-						type="primary" 
-						size='large'
-						className='mt20'
-						onClick={this.addNew.bind(this)}
-					>
-						新增订单
-					</Button>
+                <OrderposSearch/>
 					<Appmodelone 
 						text="导出数据" 
 						title="导出数据" 
@@ -52,7 +44,7 @@ class OrderposIndex extends React.Component{
 					>
 						导出数据
 					</Button> */}
-             		<div className='mt15'><OrdermdTable/></div>
+             		<div className='mt15'><OrderposTable/></div>
         	</div>
       	)
 	}
