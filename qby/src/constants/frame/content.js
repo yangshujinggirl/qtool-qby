@@ -8,6 +8,8 @@ import Stockindex from '../goods/stock/index';
 import Classificationindex from '../goods/classification/index';
 import Brandindex from '../goods/brand/index';
 import Specsindex from '../goods/specs/index';
+import GoodtimeIndex from '../goods/goodtime/index';
+import GoodEditForm from '../goods/goodtime/edit';
 
 
 
@@ -93,7 +95,8 @@ class Content extends React.Component {
                                     case "302000":return  <Classificationindex data={this.props.data}/>;
                                     case "303000":return  <Brandindex data={this.props.data}/>;
                                     case "304000":return  <Specsindex data={this.props.data}/>;
-
+                                    case "305000":return  <GoodtimeIndex data={this.props.data}/>;
+                                    case "305000edit":return  <GoodEditForm data={this.props.data}/>;
                                    
                                     case "401000":return  <CzIndex data={this.props.data}/>;
                                     case "401000info":return  <OperateczInfo data={this.props.data}/>;

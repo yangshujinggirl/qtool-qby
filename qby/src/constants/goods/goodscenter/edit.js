@@ -195,9 +195,10 @@
 			value.spuPics=this.props.spuPics
 			value.pdSpuInfo=this.props.pdSpuInfo
 			console.log('Received values of form: ', value);
-			// console.log(this.props)
-			// let values={name:value}
-			value.pdSpuId=this.props.data.pdSpuId
+			if(this.props.data.pdSpuId){
+				value.pdSpuId=this.props.data.pdSpuId
+			}
+			
 			//判断是上传还是非上传表
 			const isskus=this.props.isskus
 			if(isskus){
