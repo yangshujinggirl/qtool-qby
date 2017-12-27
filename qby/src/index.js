@@ -45,13 +45,8 @@ app.model(require("./models/orderpos"));
 app.model(require("./models/ordercg"));
 
 app.model(require("./models/ordermd"));
-
 app.model(require("./models/warehouse"));
-
-app.model(require("./models/storageDetail"));
-
 app.model(require("./models/IndexPage"));
-
 app.model(require("./models/tab"));
 
 app.model(require("./models/users"));
@@ -61,6 +56,8 @@ app.model(require("./models/operatemember"));
 app.model(require("./models/operateinout"));
 
 app.model(require("./models/operatesupplier"));
+
+app.model(require("./models/operatebanner"));
 // 2. Plugins
 // app.use({});
 

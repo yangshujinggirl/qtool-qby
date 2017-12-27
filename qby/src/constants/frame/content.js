@@ -73,6 +73,9 @@ import OperatememberIndex from '../operatemember/index';
 //供应商管理
 import OperatesupplierIndex from '../operatesupplier/index';
 import OperatesupplierEdit from '../operatesupplier/edit';
+//banner管理
+import OperatebannerIndex from '../operatebanner/index';
+import OperatebannerEdit from '../operatebanner/edit';
 
 class Content extends React.Component {
     render() {
@@ -149,6 +152,8 @@ class Content extends React.Component {
                                      case "402500":return <OperatememberIndex data={this.props.data}/>;
                                      case "405000":return <OperatesupplierIndex data={this.props.data}/>;
                                      case "405000edit":return <OperatesupplierEdit data={this.props.data}/>;
+                                     case "404000":return <OperatebannerIndex data={this.props.data}/>;
+                                     case "404000edit":return <OperatebannerEdit data={this.props.data}/>
                                     
                                     case "601000": return <AccountIndex data={this.props.data}/>;
                                     case "601000edit": return <AddNewAccount data={this.props.data}/>;

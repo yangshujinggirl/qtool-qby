@@ -1,0 +1,29 @@
+.upimg_box{
+    width: 375px;
+    height: 225px;
+}
+.upimg_box img{
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+.upimg_box_out{
+    width: 375px;
+    height: 225px;
+    border: 1px solid #d9d9d9;
+    position: relative;
+    cursor: pointer;
+}
+.upimg_box_out .avatar-uploader-trigger{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+}
+
+.addUser-form.operatebanner-form .ant-col-3{
+    width: 90px;
+}
+.addUser-form.operatebanner-form .ant-col-offset-4{
+    margin-left: 120px;
+}
