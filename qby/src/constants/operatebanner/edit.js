@@ -65,7 +65,12 @@ class OperatebannerEditForm extends React.Component{
 		this.props.form.validateFields((err, values) => {
 		    if (!err) {
                 let data = values;
-                data.url = this.props.formValue.url;
+                if(!this.props.formValue.url){
+                    message.error('请上传图片')
+                    return false;
+                }else{
+                    data.url = this.props.formValue.url;
+                }
                 if(this.props.data){
                     data.pdBannerId = this.props.data.pdBannerId;
                 }
@@ -88,7 +93,53 @@ class OperatebannerEditForm extends React.Component{
                 return false;
             }
         });
-	}
+    }
+    
+    //到h5配置页面
+    toConfigureH5 = (e) => {
+		e.preventDefault();
+		this.props.form.validateFields((err, values) => {
+		    if (!err) {
+                let data = values;
+                if(!this.props.formValue.url){
+                    message.error('请上传图片')
+                    return false;
+                }else{
+                    data.url = this.props.formValue.url;
+                }
+                if(this.props.data){
+                    data.pdBannerId = this.props.data.pdBannerId;
+                }
+                const result=GetServerData('qerp.web.pd.banner.save',{"pdBanner":data});
+                result.then((res) => {
+                    return res;
+                }).then((json) => {
+                    if(json.code=='0'){
+                        if(this.props.data){
+							const pdBannerId=String(this.props.data.pdBannerId);
+                            const paneitem={title:'修改H5页面',key:'404000edit'+pdBannerId+'h5',data:{pdBannerId:pdBannerId},componkey:'404000editH5'}
+                            this.props.dispatch({
+                                type:'tab/firstAddTab',
+                                payload:paneitem
+                            })
+						}else{
+                            const paneitem={title:'新增H5页面',key:'404000edith5',data:null,componkey:'404000editH5'}
+                            this.props.dispatch({
+                                type:'tab/firstAddTab',
+                                payload:paneitem
+                            })
+						}
+                    }
+                    this.deleteTab();
+                    this.refreshList();
+                    this.initState();
+                })
+            }else{
+                return false;
+            }
+        });
+    }
+
 
 	//取消
 	hindCancel=()=>{
@@ -152,6 +203,7 @@ class OperatebannerEditForm extends React.Component{
                 </FormItem>
             	<FormItem wrapperCol={{ offset: 4}} style = {{marginBottom:0}}>
               		<Button className='mr30' onClick={this.hindCancel.bind(this)}>取消</Button>
+                    <Button className='mr30' onClick={this.toConfigureH5.bind(this)}>配置页面</Button>
               		<Button htmlType="submit" type="primary" onClick={this.handleSubmit.bind(this)}>保存</Button>
             	</FormItem>
           	</Form>

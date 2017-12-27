@@ -9,7 +9,9 @@ export default {
         tableList:[],
         formValue:{
             name:'',
-            status:[],
+			status:[],
+			url:'',
+			rank:''
         },
     },
     reducers: {
@@ -58,13 +60,6 @@ export default {
 				formValue.status = String(result.pdBanner.status);
 				formValue.rank = result.pdBanner.rank;
 				formValue.url = result.pdBanner.url;
-                // formValue.contactName = result.pdSupplier.contactName;
-                // formValue.contactTel = result.pdSupplier.contactTel;
-                // formValue.bankName = result.pdSupplier.bankName;
-                // formValue.bankNo = result.pdSupplier.bankNo;
-                // formValue.accountName = result.pdSupplier.accountName;
-                // formValue.taxRate = result.pdSupplier.taxRate||result.pdSupplier.taxRate==0?String(result.pdSupplier.taxRate):'';
-                // formValue.remark = result.pdSupplier.remark;		
                 yield put({type: 'syncEditInfo',payload:formValue});
 			} 
 		},

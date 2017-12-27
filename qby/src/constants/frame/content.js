@@ -76,6 +76,7 @@ import OperatesupplierEdit from '../operatesupplier/edit';
 //banner管理
 import OperatebannerIndex from '../operatebanner/index';
 import OperatebannerEdit from '../operatebanner/edit';
+import H5_configure from '../operatebanner/editH5';
 
 class Content extends React.Component {
     render() {
@@ -154,6 +155,7 @@ class Content extends React.Component {
                                      case "405000edit":return <OperatesupplierEdit data={this.props.data}/>;
                                      case "404000":return <OperatebannerIndex data={this.props.data}/>;
                                      case "404000edit":return <OperatebannerEdit data={this.props.data}/>
+                                     case "404000editH5":return <H5_configure data={this.props.data}/>
                                     
                                     case "601000": return <AccountIndex data={this.props.data}/>;
                                     case "601000edit": return <AddNewAccount data={this.props.data}/>;
