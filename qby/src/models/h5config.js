@@ -4,7 +4,8 @@ export default {
   	namespace: 'h5config',
   	state: {
         configArr:[],
-        currentItem:1
+        currentItem:1,
+        syncInitFc:{}
 	},
 	  
   	reducers: {
@@ -14,6 +15,9 @@ export default {
         syncCurrentItem(state, { payload:currentItem}) {
             return {...state,currentItem}
         },
+        syncInitFc(state, { payload:syncInitFc}) {
+            return {...state,syncInitFc}
+        }
   	},
   	effects: {
   		

@@ -13,7 +13,8 @@ class ShowImgs extends React.Component{
 		this.props.dispatch({
             type:'h5config/syncCurrentItem',
             payload:this.props.index
-        });
+		});
+		this.props.syncInitFc.changeFormValue(this.props.index);
 	}
 
 	deleteItem = ()=>{
@@ -82,10 +83,16 @@ class ShowImgs extends React.Component{
     };
 
 	render(){
+		const fileDomain=eval(sessionStorage.getItem('fileDomain'));
 		return (
                 <div className={this.props.index == this.props.currentItem?'preview-img selected-border':'preview-img'}>
                     <div className='preview-img-wrapper' onClick={this.editItem.bind(this)}>
-                            {/* <img src={this.props.fileDomain+this.props.currentData.text}/> */}
+					{
+						this.props.data.text?
+						<img src={fileDomain+this.props.data.text}/>
+						:null
+					}
+					
                     </div>  
                     <div className='button-list'>
                         <span onClick={this.upItem.bind(this)}><Icon type="up" /></span>
@@ -99,8 +106,8 @@ class ShowImgs extends React.Component{
 }
 
 function mapStateToProps(state) {
-    const {configArr,currentItem}= state.h5config;
-	return {configArr,currentItem};
+    const {configArr,currentItem,syncInitFc}= state.h5config;
+	return {configArr,currentItem,syncInitFc};
 }
 
 export default connect(mapStateToProps)(ShowImgs);

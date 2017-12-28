@@ -8,12 +8,12 @@ class AvatarImg extends React.Component {
         if (info.file.status === 'done') {
             if(info.file.response.code==0){
                 const urldata=info.file.response.data;
-                let tempFormValue = deepcCloneObj(this.props.formValue);
-                tempFormValue.url = urldata[0];
-                // this.props.dispatch({
-                //     type:'operatebanner/syncEditInfo',
-                //     payload:tempFormValue
-                // })
+                let tempConfigArr = deepcCloneObj(this.props.configArr);
+                tempConfigArr[this.props.currentItem].text = urldata[0];
+                this.props.dispatch({
+                    type:'h5config/syncConfigArr',
+                    payload:tempConfigArr
+                });
             }
         }
     }
@@ -43,15 +43,15 @@ class AvatarImg extends React.Component {
                 onChange={this.handleChange}
             >
             {
-                // imageUrl==null || imageUrl=='' || imageUrl==undefined ?
+                !this.props.configArr[this.props.currentItem].text?
                 <Icon type="plus" className="h5-avatar-uploader-trigger" />
-                // :
-                // <div className='upload-img-wrapper'>
-                // <div className='upload-img-shadow'>
-                //     <div>重新上传</div>
-                // </div>
-                // <img src={imageUrl} alt="" className="h5-avatar" /> 
-                // </div>
+                :
+                <div className='upload-img-wrapper'>
+                    <div className='upload-img-shadow'>
+                        <div>重新上传</div>
+                    </div>
+                    <img src={fileDomain+this.props.configArr[this.props.currentItem].text} alt="" className="h5-avatar" /> 
+                </div>
             }
             </Upload>
         );
@@ -59,7 +59,8 @@ class AvatarImg extends React.Component {
 }
 
 function mapStateToProps(state) {
-   return {};
+	const {configArr,currentItem}= state.h5config;
+	return {configArr,currentItem};
 }
 
 export default connect(mapStateToProps)(AvatarImg);

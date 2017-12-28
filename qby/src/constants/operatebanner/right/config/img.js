@@ -1,4 +1,7 @@
 import { Form, Select, Input, Button,Upload, Icon, message,Radio} from 'antd';
+import {deepcCloneObj} from '../../../../utils/commonFc';
+import {GetServerData} from '../../../../services/services';
+import { connect } from 'dva';
 //引入Avatar上传图片组件
 import AvatarImg from './avatar';
 const FormItem = Form.Item;
@@ -9,8 +12,53 @@ class EditImgForm extends React.Component{
 	constructor(props) {
 	    super(props);
 	    this.state = {
+			code:''
 	    }
-    }
+	}
+		
+	saveCode = (e) =>{
+		let tempConfigArr = deepcCloneObj(this.props.configArr);
+			tempConfigArr[this.props.currentItem].code = e.target.value;
+			this.props.dispatch({
+					type:'h5config/syncConfigArr',
+					payload:tempConfigArr
+			});
+	}
+
+	handleSubmit = (e) =>{
+		e.preventDefault();
+		this.props.form.validateFields((err, values) => {
+			if (!err) {
+				if(!values.code){
+					return false;
+				}
+				const result=GetServerData('qerp.web.pd.banner.config.pdInfo',values);
+				// result.then((res) => {
+				// 	return res;
+				// }).then((json) => {
+				// 	if(json.code == "0"){
+						
+				// 	}
+				// })
+			}
+		})
+	}
+
+	initFc = () =>{
+		const syncInitFc = {
+			changeFormValue:this.changeFormValue
+		}
+		this.props.dispatch({
+			type:'h5config/syncInitFc',
+			payload:syncInitFc
+		});
+	}
+	
+	changeFormValue = (index) =>{
+		this.props.form.setFieldsValue({
+			code: this.props.configArr[index].code?this.props.configArr[index].code:'',
+		});
+	}
     
 	render(){
 		const { getFieldDecorator,getFieldProps } = this.props.form;
@@ -21,10 +69,7 @@ class EditImgForm extends React.Component{
 	              labelCol={{ span: 8 }}
 	              wrapperCol={{ span: 6 }}
 	              >
-	              {getFieldDecorator('img', {
-	              })(
 	                <AvatarImg/>  
-	              )}
 	            </FormItem>
                 <FormItem
 	              label="链接商品"
@@ -32,10 +77,10 @@ class EditImgForm extends React.Component{
 	              wrapperCol={{ span: 9 }}
 	            >
 	              {getFieldDecorator('code', {
-	                rules: [{ message: '请输入商品编码' }],
-	                //  initialValue:this.state.currentData.code
+	                	rules: [{ message: '请输入商品编码' }],
+	                 	initialValue:''
 	              })(
-	                <Input placeholder = '请输入商品编码'/>
+	                <Input placeholder='请输入商品编码' onChange={this.saveCode.bind(this)}/>
 	              )}
 	            </FormItem>
                 <FormItem
@@ -49,16 +94,23 @@ class EditImgForm extends React.Component{
 	                 wrapperCol={{ offset: 8}}
 	            >
                     <Button style={{marginRight:'10px'}}>取消</Button>
-                    <Button>确定</Button>
+                    <Button onClick={this.handleSubmit.bind(this)}>确定</Button>
 	            </FormItem>
             </Form>
 		)
 	}
 
 	componentDidMount(){
-		
+		this.initFc()
 	}
 }
 
+function mapStateToProps(state) {
+	const {configArr,currentItem}= state.h5config;
+	console.log(configArr);
+	console.log(currentItem);
+	return {configArr,currentItem};
+}
+
 const ImgEdit = Form.create()(EditImgForm);
-export default ImgEdit;
+export default connect(mapStateToProps)(ImgEdit);
