@@ -82,6 +82,8 @@ import H5_configure from '../operatebanner/editH5';
 import OperateIndex from '../operatesp/index';
 import SpEditForms from '../operatesp/edit';
 
+import DownloadIndex from '../download/index';
+
 class Content extends React.Component {
     render() {
         return (   
@@ -119,7 +121,9 @@ class Content extends React.Component {
                                     case "60000info":return  <WsmoveInfo data={this.props.data}/>;
                                     case "60000edit":return  <WsmoveUser data={this.props.data}/>;
                                     case "60000edits":return  <WsmoveNewuser data={this.props.data}/>;
-                                    case "70000":return  <WscheckIndex data={this.props.data}/>;
+
+                                    case "701000":return  <DownloadIndex data={this.props.data}/>;
+
                                     case "70000edit":return  <Wschecknewedit data={this.props.data}/>;
                                     case "70000editing":return  <WscheckEdit data={this.props.data}/>;
                                     case "70000info":return  <WscheckInfo data={this.props.data}/>;
