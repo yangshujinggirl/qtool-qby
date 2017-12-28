@@ -9,7 +9,6 @@ class ShowGoods extends React.Component{
 	}
 
 	editItem = () =>{
-        console.log('sdsd');
 		this.props.dispatch({
             type:'h5config/syncCurrentItem',
             payload:this.props.index
@@ -106,7 +105,7 @@ class ShowGoods extends React.Component{
                     </div>
                     :
                     <div className={this.props.index == this.props.currentItem?'preview-goods-two selected-border':'preview-goods-two'}>
-                        <div onClick={this.editItem.bind(this)} >
+                        <div className="goodstwo-wrapper" onClick={this.editItem.bind(this)}>
                             <div className='goods-content-two'>
                                 <div className='content-img-two'>
                                     <img/>

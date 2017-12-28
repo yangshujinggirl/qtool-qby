@@ -22,7 +22,7 @@ class GoodsEditForm extends React.Component{
 	}
     
 	render(){
-		const { getFieldDecorator } = this.props.form;
+        const { getFieldDecorator } = this.props.form;
 		return (
 			<Form>
 	     	  	<FormItem
@@ -30,18 +30,12 @@ class GoodsEditForm extends React.Component{
                     labelCol={{ span: 8 }}
                     wrapperCol={{ span: 12 }}
 	              >
-	              {getFieldDecorator('template', {
-	              	    initialValue:this.props.data?Number(this.props.data.template):1
-	              })(
-	                <RadioGroup onChange={this.radioChange.bind(this)}>
+	                <RadioGroup onChange={this.radioChange.bind(this)} value={Number(this.props.data.template)}>
                         <Radio value={1}>单列展示</Radio>
                         <Radio value={2}>双列展示</Radio>
 	                </RadioGroup>
-	              )}
 	            </FormItem>
                 {
-                    this.props.data?
-                    (
                     this.props.data.template == 1?
                     <FormItem
                         label="链接商品"
@@ -92,8 +86,6 @@ class GoodsEditForm extends React.Component{
                             <p style={{color:'red'}}>输入的商品编码相同</p>
                         </FormItem>
                     </div>
-                    )
-                    :null
                 }
                 <FormItem
                         wrapperCol={{ offset: 8}}
