@@ -73,6 +73,10 @@ import OperatememberIndex from '../operatemember/index';
 //供应商管理
 import OperatesupplierIndex from '../operatesupplier/index';
 import OperatesupplierEdit from '../operatesupplier/edit';
+//banner管理
+import OperatebannerIndex from '../operatebanner/index';
+import OperatebannerEdit from '../operatebanner/edit';
+import H5_configure from '../operatebanner/editH5';
 
 import OperateIndex from '../operatesp/index';
 import SpEditForms from '../operatesp/edit';
@@ -155,6 +159,9 @@ class Content extends React.Component {
                                      case "402500":return <OperatememberIndex data={this.props.data}/>;
                                      case "405000":return <OperatesupplierIndex data={this.props.data}/>;
                                      case "405000edit":return <OperatesupplierEdit data={this.props.data}/>;
+                                     case "404000":return <OperatebannerIndex data={this.props.data}/>;
+                                     case "404000edit":return <OperatebannerEdit data={this.props.data}/>
+                                     case "404000editH5":return <H5_configure data={this.props.data}/>
                                     
                                     case "601000": return <AccountIndex data={this.props.data}/>;
                                     case "601000edit": return <AddNewAccount data={this.props.data}/>;
