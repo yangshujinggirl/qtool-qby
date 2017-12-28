@@ -45,7 +45,8 @@ class EditableTable extends React.Component {
             type:this.props.selectType
           };
         return (
-            <Table 
+            <Table
+                loading={this.props.loading}
                 bordered 
                 dataSource={this.props.dataSource} 
                 columns={this.props.columns} 

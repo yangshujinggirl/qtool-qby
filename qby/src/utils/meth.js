@@ -1,3 +1,5 @@
+import { Modal, Button } from 'antd';
+const confirm = Modal.confirm;
 
 //js判断元素是否在数组中
     export function isInArray(arr,value) {
@@ -25,7 +27,17 @@
   	}
 
 
-
+	export function successdown(data) {
+		confirm({
+			title: '数据已经进入导出队列',
+			content: '请前往下载中心查看导出进度',
+			cancelText:'稍后去',
+			okText:'去看看',
+			onOk() {
+			  data.hindOK()
+			}
+		  });
+	}
 
 
 

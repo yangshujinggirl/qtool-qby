@@ -2,6 +2,7 @@ import {GetServerData} from '../../../services/services';
 import {GetLodop} from '../../../utils/print';
 import { Button,message} from 'antd';
 import { connect } from 'dva';
+import { successdown } from '../../../utils/meth'
 
 import Goodlist from './goodslist';
 import '../../../style/goods.css';
@@ -104,6 +105,37 @@ class GoodsIndex extends React.Component{
 
 	}
 
+	okceshi=()=>{
+		const paneitem={title:'下载中心',key:'701000',componkey:'701000',data:null}
+		this.props.dispatch({
+		  	type:'tab/firstAddTab',
+		  	payload:paneitem
+		})
+
+	}
+	
+	downLoad=()=>{
+		//请求数据
+		// let values={a:'1'}
+		// const result=GetServerData('qerp.web.pd.spu.statushot',values)
+		// result.then((res) => {
+		// 	return res;
+		// }).then((json) => {
+		// 	if(json.code=='0'){
+		// 		const data={
+		// 			hindOK:this.okceshi,
+		// 		}
+		// 		successdown(data)
+		// 	}
+		// })
+
+		const data={
+			hindOK:this.okceshi,
+		}
+		successdown(data)
+
+	}
+
 	render(){
 
 		return(
@@ -117,6 +149,7 @@ class GoodsIndex extends React.Component{
 					<div className='btn_lists'><Appmodel title='批量操作' text='批量畅销' count={this.props.checkgood.length>0?'商品将会在Q掌柜首页畅销尖货栏目展示售卖，确认吗？':'请选择商品'} hindClick={this.pinHot.bind(this,50)}/></div>
 					<div className='btn_lists'><Appmodel title='批量操作' text='批量下畅销' count={this.props.checkgood.length>0?'商品状态将变为上新状态，Q掌柜将会对外售卖，确认吗?':'请选择商品'} hindClick={this.pinHot.bind(this,60)}/></div>
 					<Button type="primary" className='btn_lists' onClick={this.addspus.bind(this)}>新增商品</Button>
+					<Button type="primary" className='btn_lists' onClick={this.downLoad.bind(this)}>导出数据</Button>
 				</div>
 				<Goodlist/>
 			</div>

@@ -4,6 +4,7 @@ import { Spin } from 'antd';
 
 import GoodsIndex from '../goods/goodscenter/index';
 import GoodEdit from '../goods/goodscenter/edit';
+import Goodinfo from '../goods/goodscenter/info';
 import Stockindex from '../goods/stock/index';
 import Classificationindex from '../goods/classification/index';
 import Brandindex from '../goods/brand/index';
@@ -78,6 +79,11 @@ import OperatebannerIndex from '../operatebanner/index';
 import OperatebannerEdit from '../operatebanner/edit';
 import H5_configure from '../operatebanner/editH5';
 
+import OperateIndex from '../operatesp/index';
+import SpEditForms from '../operatesp/edit';
+
+import DownloadIndex from '../download/index';
+
 class Content extends React.Component {
     render() {
         return (   
@@ -87,7 +93,6 @@ class Content extends React.Component {
                         {
                             (() => {
                                 switch (this.props.componkey) {
-                                    // case "10000": return <WarehouseinIndex data={this.props.data}/>;
                                     case "10000edit": return <WarehouseinEdit data={this.props.data}/>;
                                     case "10000info": return  <WarehouseinInfo data={this.props.data}/>;
                                     case "20000": return  <WarehouseIndex data={this.props.data}/>;
@@ -95,6 +100,8 @@ class Content extends React.Component {
 
                                     case "301000":return  <GoodsIndex data={this.props.data}/>;
                                     case "301000edit":return  <GoodEdit data={this.props.data}/>;
+                                    case "301000info":return  <Goodinfo data={this.props.data}/>;
+
                                     case "301700":return  <Stockindex data={this.props.data}/>;
                                     case "302000":return  <Classificationindex data={this.props.data}/>;
                                     case "303000":return  <Brandindex data={this.props.data}/>;
@@ -105,13 +112,18 @@ class Content extends React.Component {
                                     case "401000":return  <CzIndex data={this.props.data}/>;
                                     case "401000info":return  <OperateczInfo data={this.props.data}/>;
                                     
+                                    case "403000":return  <OperateIndex data={this.props.data}/>;
+                                    case "403000edit":return  <SpEditForms data={this.props.data}/>;
+                                    
                                     
                                     case "50000":return  <StockManageIndex data={this.props.data}/>;
                                     case "60000":return  <WsmoveIndex data={this.props.data}/>;
                                     case "60000info":return  <WsmoveInfo data={this.props.data}/>;
                                     case "60000edit":return  <WsmoveUser data={this.props.data}/>;
                                     case "60000edits":return  <WsmoveNewuser data={this.props.data}/>;
-                                    case "70000":return  <WscheckIndex data={this.props.data}/>;
+
+                                    case "701000":return  <DownloadIndex data={this.props.data}/>;
+
                                     case "70000edit":return  <Wschecknewedit data={this.props.data}/>;
                                     case "70000editing":return  <WscheckEdit data={this.props.data}/>;
                                     case "70000info":return  <WscheckInfo data={this.props.data}/>;

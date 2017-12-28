@@ -17,8 +17,8 @@ class SearchForm extends React.Component {
         values.limit=limit;
         values.currentPage=currentPage;
         this.props.dispatch({
-            type:'goodtime/fetch',
-            payload:{code:'qerp.web.pd.task.time.query',values:values}
+            type:'operatesp/fetch',
+            payload:{code:'qerp.web.sp.shop.query',values:values}
         });
         this.props.dispatch({ type: 'tab/loding', payload:true});
     }  
@@ -26,7 +26,7 @@ class SearchForm extends React.Component {
     //同步data
     syncState=(values)=>{
         this.props.dispatch({
-            type:'goodtime/synchronous',
+            type:'operatesp/synchronous',
             payload:values
         });
     }
@@ -38,35 +38,38 @@ class SearchForm extends React.Component {
                     <Col span={24} className='formbox_col'>
                         <Row>
                             <div className='serach_form'>
-                                <FormItem label='商品编码'>
-                                    {getFieldDecorator('code')(
+                                <FormItem label='门店名称'>
+                                    {getFieldDecorator('name')(
                                     <Input placeholder="请输入门店名称"/>
                                     )}
                                 </FormItem>
-                                <FormItem label='最后修改人'>
-                                    {getFieldDecorator('updateUserName')(
+                                <FormItem label='门店电话'>
+                                    {getFieldDecorator('mobile')(
                                     <Input placeholder="请输入退货单号"/>
                                     )}
                                 </FormItem>
-                                <FormItem label='定时操作'>
-                                    {getFieldDecorator('opstatus')(
-                                    <Select allowClear={true} placeholder="请选择退货单状态">
-                                        <Option value='1'>售卖</Option>
-                                        <Option value='2'>停售</Option>
-                                        <Option value='3'>上新</Option>
-                                        <Option value='4'>下新</Option>
-                                        <Option value='5'>畅销</Option>
-                                        <Option value='6'>下畅销</Option>
-                                    </Select>
+                                <FormItem label='门店姓名'>
+                                    {getFieldDecorator('shopman')(
+                                    <Input placeholder="请输入退货单号"/>
                                     )}
                                 </FormItem>
-                                <FormItem label='状态'>
+                                <FormItem label='门店状态'>
                                     {getFieldDecorator('status')(
                                     <Select allowClear={true} placeholder="请选择退货单状态">
                                        <Option value='1'>待执行</Option>
                                        <Option value='2'>已执行</Option>
                                        <Option value='0'>无效</Option>
                                     </Select>
+                                    )}
+                                </FormItem>
+                                <FormItem label='所在省份'>
+                                    {getFieldDecorator('province')(
+                                        <Input placeholder="请输入退货单号"/>
+                                    )}
+                                </FormItem>
+                                <FormItem label='所在城市'>
+                                    {getFieldDecorator('city')(
+                                        <Input placeholder="请输入退货单号"/>
                                     )}
                                 </FormItem>
                             </div>

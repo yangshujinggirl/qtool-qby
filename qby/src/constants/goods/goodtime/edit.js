@@ -1,44 +1,36 @@
-import React from 'react';
 import {GetServerData} from '../../../services/services';
-import {deepcCloneObj} from '../../../utils/commonFc';
 import { connect } from 'dva';
-import { Form, Select, Input, Button ,message,Modal, Row, Col,DatePicker,Radio,Checkbox} from 'antd';
+import { Form, Input, Button ,message,DatePicker,Checkbox} from 'antd';
 import moment from 'moment';
-const CheckboxGroup = Checkbox.Group;
 
+const CheckboxGroup = Checkbox.Group;
 const FormItem = Form.Item;
-const Option = Select.Option;
 const { TextArea } = Input;
 
 class GoodEditForm extends React.Component{
-
 	constructor(props) {
 		super(props);
 		this.state = {
-			//初始值
-			inittaskName:null,
-			initcodes:null,
-			//功能值
-			check1:false,
-			check2:false,
-			check3:false,
-			check4:false,
-			check5:false,
-			check6:false,
-			taskTime:null, 
-			salestatus:null,//是否在售
-			statusnew:null,//是否上架
-			statushot:null//是否畅销
+			codes:[],
+			check1:null,
+			check2:null,
+			check3:null,
+			check4:null,
+			check5:null,
+			check6:null,
+			salestatus:0,
+			statusnew:0,
+			statushot:0,
+			taskTime:[],
+			taskName:null
 		}
 	}
-
-	//请求页面初始化数据
-  	initDateEdit = (value) =>{
-		  //请求用户信息
-  		this.props.dispatch({type:'orderth/editfetch',payload:value})
-    	this.props.dispatch({ type: 'tab/loding', payload:true})
+	componentWillMount(){
+		if(this.props.data){
+			this.getinfoData()
+		}
 	}
-
+	
 	//删除当前tab
 	deleteTab=()=>{
 		const pane = eval(sessionStorage.getItem("pane"));
@@ -48,7 +40,7 @@ class GoodEditForm extends React.Component{
 		if(this.props.data){
 			this.props.dispatch({
 				type:'tab/initDeletestate',
-				payload:'203000edit'+this.props.data.wsAsnId
+				payload:'305000edit'+this.props.data.pdTaskTimeId
 			  });
 		}else{
 			this.props.dispatch({
@@ -56,25 +48,18 @@ class GoodEditForm extends React.Component{
 				payload:'203000edit'
 			  });
 		}
+		this.refreshList()
 	}
 
 	//刷新列表
 	refreshList=()=>{
+		const values=this.props.values
 		this.props.dispatch({
-            type:'orderth/fetch',
-            payload:{code:'qerp.web.ws.asn.query',values:this.props.values}
-		})
+            type:'goodtime/fetch',
+            payload:{code:'qerp.web.pd.task.time.query',values:values}
+        });
 		this.props.dispatch({ type: 'tab/loding', payload:true}) 
 	}
-
-
-	//初始化state
-	initState=()=>{
-		this.props.dispatch({
-            type:'orderth/initState',
-            payload:{}
-		})
-    }
 
 	kg=(arr)=>{
         arr!=''
@@ -86,37 +71,35 @@ class GoodEditForm extends React.Component{
 		e.preventDefault();
 		this.props.form.validateFields((err, value) => {
 		    if (!err) {
-			   console.log(value)
-			   value.taskTime=this.state.taskTime
-			   value.salestatus=this.state.salestatus
-			   value.statusnew=this.state.statusnew
-			   value.statushot=this.state.statushot
-			   const codes=value.codes.split(/\s+/).filter(this.kg)
-			   console.log(codes)
-				
-			   if(this.state.salestatus == null && this.state.statusnew ==null && this.state.statushot==null){
-				message.error('请选择定时操作');
-			  }else{
-				const values={
-					taskTime:value,
-					codes:codes
-				}
-				const result=GetServerData('qerp.web.pd.task.time.save',values)
-				result.then((res) => {
-					return res;
-				  }).then((json) => {
-					  console.log(json)
-					  if(json.code=='0'){
-						  //删除当前tab，刷新列表页
-						//    if(this.props.InFo){
-						// 	  message.success('定时修改成功');
-						//    }else{
-						// 	  message.success('定时设置成功');
-						//    }
-						 
-					  }
+				if(this.state.salestatus == null && this.state.statusnew ==null && this.state.statushot==null){
+					message.error('请选择定时操作');
+				}else{
+					value.taskTime=this.state.taskTime
+					value.salestatus=this.state.salestatus
+					value.statusnew=this.state.statusnew
+					value.statushot=this.state.statushot
+					const codes=value.codes.split(/\s+/).filter(this.kg)
+					if(this.props.data){
+						value.pdTaskTimeId=this.props.data.pdTaskTimeId
+					}
+					const values={
+						taskTime:value,
+						codes:codes
+					}
+					const result=GetServerData('qerp.web.pd.task.time.save',values)
+					result.then((res) => {
+						return res;
+				  	}).then((json) => {
+					  	if(json.code=='0'){
+							this.deleteTab()
+						   	if(this.props.data){
+							  	message.success('定时修改成功');
+						   	}else{
+							  	message.success('定时设置成功');
+						   	}
+					  	}
 					})
-			  }
+			  	}
             }
         });
 	}
@@ -124,79 +107,8 @@ class GoodEditForm extends React.Component{
 	//取消
 	hindCancel=()=>{
 		this.deleteTab()
-		this.refreshList()
     }
-
-    //输入订单编号请求数据
-    spOrderNoblue=(e)=>{
-        const spOrderNovalue=e.target.value
-        const values={spOrderNo:spOrderNovalue}
-        const result=GetServerData('qerp.web.ws.asn.save.pre',values)
-        result.then((res) => {
-            return res;
-        }).then((json) => {
-            if(json.code=='0'){
-                let goodsInfoList = json.details;
-                let goodsInfo=[];
-                for(var i=0;i<goodsInfoList.length;i++){
-                    let tempJson = {};
-                    tempJson.key=i
-                    tempJson.qtyline=true
-                    tempJson.priceline=true	
-                    tempJson.pdCode = goodsInfoList[i].pdCode
-                    tempJson.pdName = goodsInfoList[i].pdName
-                    tempJson.pdSkuType = goodsInfoList[i].pdSkuType
-                    tempJson.qty = goodsInfoList[i].qty
-                    tempJson.price = goodsInfoList[i].price
-					tempJson.wsAsnDetailId = goodsInfoList[i].wsAsnDetailId
-					tempJson.spOrderDetailId = goodsInfoList[i].spOrderDetailId
-                    goodsInfo.push(tempJson);
-                }
-                let tempFormvalue = deepcCloneObj(this.props.formValue);
-                tempFormvalue.supplier = json.spShopName;
-                tempFormvalue.spOrderId = json.spOrderId;
-                this.props.dispatch({
-                    type:'orderth/syncEditInfo',
-                    payload:tempFormvalue
-                });
-                this.props.dispatch({
-                    type:'orderth/syncGoodsInfo',
-                    payload:goodsInfo
-                });
-                this.props.form.setFieldsValue({
-                    supplier:json.spShopName,
-                });
-            }else{
-                message.error(json.message);
-            }
-        })
-    }
-    
-    //选择预计送达时间
-	chooseArriveTime = (date, dateString) =>{
-		let tempFormvalue =deepcCloneObj(this.props.formValue);
-		tempFormvalue.expectedTime = dateString;
-        this.props.dispatch({
-            type:'orderth/syncEditInfo',
-            payload:tempFormvalue
-        })
-    }
-    
-    //收货仓库列表
-	warehouseList = () =>{
-		let value={type:1};
-		const result=GetServerData('qerp.web.ws.warehouse.all.list',value);
-		result.then((res) => {
-			return res;
-		}).then((json) => {
-			this.setState({
-				warehouses:json.warehouses
-			})
-		})
-	}
-
 	onChange1=(e)=>{
-		console.log(e.target.checked)
 		if(this.state.check1==true && e.target.checked==false){
 			this.setState({
 				check1:false,
@@ -210,10 +122,8 @@ class GoodEditForm extends React.Component{
 				salestatus:e.target.checked?1:0
 			})
 		} 
-
 	}
 	onChange2=(e)=>{
-		console.log(e.target.checked)
 		if(this.state.check2==true && e.target.checked==false){
 			this.setState({
 				check1:false,
@@ -229,7 +139,6 @@ class GoodEditForm extends React.Component{
 		} 
 	}
 	onChange3=(e)=>{
-		console.log(e.target.checked)
 		if(this.state.check3==true && e.target.checked==false){
 			this.setState({
 				check3:false,
@@ -245,7 +154,6 @@ class GoodEditForm extends React.Component{
 		}
 	}
 	onChange4=(e)=>{
-		console.log(e.target.checked)
 		if(this.state.check4==true && e.target.checked==false){
 			this.setState({
 				check3:false,
@@ -261,7 +169,6 @@ class GoodEditForm extends React.Component{
 		}
 	}
 	onChange5=(e)=>{
-		console.log(e.target.checked)
 		if(this.state.check5==true && e.target.checked==false){
 			this.setState({
 				check5:false,
@@ -275,32 +182,76 @@ class GoodEditForm extends React.Component{
 				statushot:e.target.checked?1:0
 			})
 		}
-
 	}
 	onChange6=(e)=>{
-		console.log(e.target.checked);
-		console.log(this.state.check6);
-	   if(this.state.check6==true && e.target.checked==false){
-		   this.setState({
-			   check5:false,
-			   check6:false,
-			   statushot:null
-		   })
-	   }else{
-		   this.setState({
-			   check6:e.target.checked,
-			   check5:!e.target.checked,
-			   statushot:e.target.checked?0:1
-		   })
-	   }
+	   	if(this.state.check6==true && e.target.checked==false){
+		   	this.setState({
+			   	check5:false,
+			   	check6:false,
+			   	statushot:null
+		   	})
+	   	}else{
+		   	this.setState({
+			   	check6:e.target.checked,
+			   	check5:!e.target.checked,
+			   	statushot:e.target.checked?0:1
+		   	})
+	   	}
 	}
 	timeChange=(date,dateString)=>{
-		console.log(dateString);
         this.setState({
             taskTime:dateString
         })
 	}
-  	render(){
+	getinfoData=()=>{
+		const values={pdTaskTimeId:this.props.data.pdTaskTimeId}
+		const result=GetServerData('qerp.web.pd.task.time.info',values)
+		result.then((res) => {
+			return res;
+		}).then((json) => {
+			  	if(json.code=='0'){
+					const taskTime=json.taskTime.taskTime
+					const taskName=json.taskTime.taskName
+					const codes=json.codes.join('\r\n')
+					const check1=(json.taskTime.salestatus==1)?true:false
+					const check2=(json.taskTime.salestatus==0)?true:false
+					const check3=(json.taskTime.statusnew==1)?true:false
+					const check4=(json.taskTime.statusnew==0)?true:false
+					const check5=(json.taskTime.statushot==1)?true:false
+					const check6=(json.taskTime.statushot==0)?true:false
+					const salestatus=json.taskTime.salestatus
+					const statusnew=json.taskTime.statusnew
+					const statushot=json.taskTime.statushot
+					this.setState({
+						check1:check1,
+						check2:check2,
+						check3:check3,
+						check4:check4,
+						check5:check5,
+						check6:check6,
+						taskTime:taskTime, 
+						salestatus:salestatus,//是否在售
+						statusnew:statusnew,//是否上架
+						statushot:statushot,//是否畅销
+						codes:codes,
+						taskName:taskName
+					})
+				}
+		})	
+	}
+	handUse=()=>{
+		const values={pdTaskTimeId:this.props.data.pdTaskTimeId}
+		const result=GetServerData('qerp.web.pd.task.time.status.update',values)
+		result.then((res) => {
+			return res;
+		}).then((json) => {
+			if(json.code=='0'){
+				this.deleteTab()
+				message.success('强制无效成功');
+			}
+		})
+	}
+  	render(){  
 		const { getFieldDecorator } = this.props.form;
      	return(
           	<Form className="addUser-form addcg-form">
@@ -311,7 +262,7 @@ class GoodEditForm extends React.Component{
 				>
 					{getFieldDecorator('taskName', {
 						rules: [{ required: true, message: '请输入订单编号'}],
-						// initialValue:this.props.formValue.taskName
+						initialValue:this.state.taskName
 					})(
 						<Input placeholder="请输入订单编号"/>
 					)}
@@ -323,7 +274,7 @@ class GoodEditForm extends React.Component{
 				>
 					{getFieldDecorator('codes', {
 						rules: [{ required: true, message: '请输入订单编号'}],
-						// initialValue:this.props.formValue.taskName
+						initialValue:this.state.codes
 					})(
 						<TextArea rows={4} />
 					)}
@@ -335,7 +286,7 @@ class GoodEditForm extends React.Component{
 					>
 					{getFieldDecorator('taskTime', {
 						rules: [{ required: true, message: '请输入定时时间' }],
-						// initialValue:this.props.InFo?moment(this.state.timing):null
+						initialValue:this.props.data?moment(this.state.taskTime):null
 					})(
 					<DatePicker  format="YYYY-MM-DD HH:mm" showTime onChange={this.timeChange.bind(this)}/>
 					)}
@@ -359,27 +310,20 @@ class GoodEditForm extends React.Component{
         		</FormItem>
             	<FormItem wrapperCol={{ offset: 4}} style = {{marginBottom:0}}>
               		<Button className='mr30' onClick={this.hindCancel.bind(this)}>取消</Button>
-              		<Button htmlType="submit" type="primary" onClick={this.handleSubmit.bind(this)}>保存</Button>
+					  {
+						  this.props.data?<Button htmlType="submit" type="primary" onClick={this.handUse.bind(this)}>强制无效</Button>:null
+
+					  }
+              		<Button htmlType="submit" type="primary" onClick={this.handleSubmit.bind(this)} className='ml30'>保存</Button>
             	</FormItem>
           	</Form>
       	)
   	}
-  	componentDidMount(){
-		
-
-          //请求仓库列表信息
-		// this.warehouseList();
-    	// if(this.props.data){
-		// 	  const payload={code:'qerp.web.ws.asn.detail',values:{'wsAsnId':this.props.data.wsAsnId,'needReturnQty':1}}
-		// 	  //请求表单信息
-		// 	this.initDateEdit(payload)
-		// }
-  	}
+  	
 }
 function mapStateToProps(state) {
-    const {values,formValue,goodsInfo} = state.orderth;
-    console.log(goodsInfo);
-    return {values,formValue,goodsInfo};
+	const {values} = state.goodtime;
+    return {values};
 }
 
 const GoodEditForms = Form.create()(GoodEditForm);
