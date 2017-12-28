@@ -107,8 +107,6 @@ class EditImgForm extends React.Component{
 
 function mapStateToProps(state) {
 	const {configArr,currentItem}= state.h5config;
-	console.log(configArr);
-	console.log(currentItem);
 	return {configArr,currentItem};
 }
 
