@@ -1,0 +1,359 @@
+
+/*添加配置h5页面样式*/
+.h5-wrapper{
+    float: left;
+    width: 100%;
+    overflow: auto;
+}
+.h5-container{
+  min-width: 1060px;
+  padding: 40px 0px 80px 60px;
+  float: left;
+  width: 100%;
+  position: relative;
+}
+.left-add{
+  float: left;
+  width: 150px;
+  height: 230px;
+}
+.add-list{
+  float: left;
+  width: 150px;
+  height: 198px;
+  border:1px solid #EFEFEF;
+  box-sizing:border-box;
+  -moz-box-sizing:border-box; /* Firefox */
+  -webkit-box-sizing:border-box; /* Safari */
+}
+.add-list li{
+  height: 49px;
+  line-height: 49px;
+  text-align: center;
+  font-size: 12px;
+}
+.add-list li:hover{
+  color:#35BAB0;
+  cursor: pointer;
+}
+.center-preview{
+  float: left;
+  width: 395px;
+  margin-left: 20px;
+}
+.preview-content{
+  float: left;
+  width: 395px;
+  min-height:300px;
+  max-height: 500px;
+  overflow-y: auto;
+  border:1px solid #EFEFEF;
+  box-sizing:border-box;
+  padding: 10px 10px 0px 10px;
+  -moz-box-sizing:border-box; /* Firefox */
+  -webkit-box-sizing:border-box; /* Safari */
+}
+
+/*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/  
+.preview-content::-webkit-scrollbar  
+{  
+    width: 0px;  
+    height: 16px;  
+    background-color: #F5F5F5;  
+}  
+  
+/*定义滚动条轨道 内阴影+圆角*/  
+.preview-content::-webkit-scrollbar-track  
+{  
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);  
+    border-radius: 10px;  
+    background-color: #F5F5F5;  
+}  
+  
+/*定义滑块 内阴影+圆角*/  
+.preview-content::-webkit-scrollbar-thumb  
+{  
+    border-radius: 10px;  
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);  
+    background-color: #555;  
+}  
+
+.right-configure{
+  float: left;
+  width: 390px;
+  margin-left: 20px;
+}
+.config-content{
+  float: left;
+  width: 390px;
+  border: 1px solid #EFEFEF;
+  padding-top: 20px;
+}
+
+.area-name {
+  float: left;
+}
+.area-name span{
+  width: 2px;
+  height: 12px;
+  display: inline-block;
+  background: #40454A;
+  float: left;
+}
+.area-name p{
+  float: left;
+  margin-left: 10px;
+  line-height: 12px;
+  font-size: 14px;
+  color:#333333;
+  display: inline-block;
+  margin-bottom: 20px;
+}
+
+.preview-img{
+  width: 100%;
+  height: 188px;
+  background: #D8D8D8;
+  border:1px dashed #979797;
+  position: relative;
+  margin-bottom: 10px;
+}
+.selected-border{
+  border:1px dashed #35BAB0 !important;
+}
+.preview-img-wrapper{
+  width: 100%;
+  height: 100%;
+}
+.preview-img-wrapper img{
+  width: 100%;
+  height: 100%;
+}
+.preview-goods{
+  width: 100%;
+  height: 120px;
+  background: #D8D8D8;
+  border:1px dashed #979797;
+  position: relative;
+  margin-bottom: 10px;
+}
+.preview-goods-two{
+  width: 100%;
+  height: 248px;
+  background: #D8D8D8;
+  border:1px dashed #979797;
+  position: relative;
+  margin-bottom: 10px;
+}
+.goods-content{
+  width: 100%;
+  height: 100%;
+}
+.goods-content-img{
+  width: 118px;
+  height: 118px;
+  background: #666;
+  float: left;
+}
+.goods-content-img img{
+  width: 100%;
+  height: 100%;
+}
+.goods-content-info{
+  width: 253px;
+  height: 118px;
+  float: left;
+}
+.goods-content-info p{
+  display: block;
+  width: 230px;
+  height: 50px;
+  margin-left: 10px;
+  margin-top: 30px;
+}
+.goods-content-info span{
+    margin-left: 10px;
+    font-size: 20px;
+    color: #666;
+}
+.goods-content-info button{
+   width: 50px;
+   height: 21px;
+   border: 1px solid #666666;
+   line-height: 21px;
+   text-align: center;
+   float: right;
+   margin-right: 10px;
+   margin-top: 5px;
+}
+
+.button-list{
+  position: absolute;
+  top: 0px;
+  right: 5px;
+}
+.button-list span{
+  display: inline-block;
+  margin-right: 5px;
+  width: 32px;
+  height: 22px;
+  text-align: center;
+  line-height: 22px;
+  color: white;
+  background: rgba(51,51,51,0.8);
+  cursor: pointer;
+}
+
+.goods-content-two{
+  width: 163px;
+  height: 100%;
+  margin:23px 0px 0px 16px;
+  float: left;
+}
+.content-img-two{
+  width: 163px;
+  height: 163px;
+  background: #666;
+}
+.content-img-two img{
+  width: 100%;
+  height: 100%;
+}
+.content-info-two p{
+  display: block;
+  width: 100%;
+  height: 30px;
+}
+.content-info-two span{
+    font-size: 15px;
+    color: #666;
+}
+.content-info-two button{
+   width: 50px;
+   height: 21px;
+   border: 1px solid #666666;
+   line-height: 21px;
+   text-align: center;
+   float: right;
+   margin-top: 5px;
+}
+.preview-text{
+  width: 100%;
+  height: 150px;
+  background: #D8D8D8;
+  border:1px dashed #979797;
+  position: relative;
+  margin-bottom: 10px;
+}
+.text-content{
+  width: 100%;
+  height: 100%;
+  padding: 25px 10px 10px 10px;
+}
+.text-content p{
+  display: block;
+  background: white;
+  width: 100%;
+  height: 100%;
+}
+.preview-rule{
+  width: 100%;
+  height: 200px;
+  background: #D8D8D8;
+  border:1px dashed #979797;
+  position: relative;
+  margin-bottom: 10px;
+}
+.rule-wrapper{
+  width: 100%;
+  padding: 25px 10px 10px 10px;
+}
+.rule-header{
+  width: 100%;
+  height: 50px;
+  text-align: center;
+  line-height: 50px;
+  background: white;
+  overflow: hidden;
+}
+.rule-content{
+  width: 100%;
+  height: 100px;
+  margin-top: 10px;
+  background: white;
+}
+.rule-content .textareas{
+  height: 100px;
+}
+
+
+.h5-avatar-uploader,
+.h5-avatar-uploader-trigger,
+.h5-avatar {
+  width: 150px;
+  height: 150px;
+}
+
+.h5-avatar-uploader{
+  display: block;
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.h5-avatar-uploader-trigger {
+  display: table-cell;
+  vertical-align: middle;
+  font-size: 28px;
+  color: #999;
+}
+.h5-avatar-uploader-trigger:before{
+  line-height: 150px;
+}
+
+.submit-buttons{
+  position: absolute;
+  bottom: 20px;
+}
+.submit-buttons button{
+  width: 100px;
+  height: 35px;
+  line-height: 35px;
+  border: none;
+  margin-top: 30px;
+}
+.submit-buttons .submit-cancel{
+   background: #D8D8D8;
+   margin-left: 229px;
+}
+.submit-buttons .submit-save{
+   background: #35BAB0;
+   margin-left: 30px;
+}
+
+.upload-img-wrapper{
+  width: 150px;
+  height: 150px;
+  position: relative;
+}
+.upload-img-shadow{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0px;
+  top: 0px;
+  background: rgba(153, 153, 153, 0.1);
+}
+.upload-img-shadow div{
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  width: 100%;
+  height: 30px;
+  text-align: center;
+  line-height: 30px;
+  background: rgba(242, 242, 242, 0.6);
+  color: #35BAB0;
+}
+
+.banner_message{color: red;}
+.banner_message_w{color: red;opacity: 0;}
