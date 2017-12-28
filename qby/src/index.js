@@ -11,6 +11,8 @@ const app = dva({
 
 app.model(require("./models/account"));
 
+app.model(require("./models/operatesp"));
+
 app.model(require("./models/goodtime"));
 
 app.model(require("./models/operatecz"));

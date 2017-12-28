@@ -1,31 +1,34 @@
 import { connect } from 'dva';
-import EditableTable from '../../../components/table/tablebasic';
-import TableLink from '../../../components/table/tablelink';
+import EditableTable from '../../components/table/tablebasic';
+import TableLink from '../../components/table/tablelink';
 
-class GoodtimeTable extends React.Component {
+class SpTable extends React.Component {
 	constructor(props) {
 		super(props);
 		this.columns = [{
-			title: '定时名称',
-			dataIndex: 'taskName'
+			title: '门店名称',
+			dataIndex: 'name'
 		}, {
-			title: '定时操作',
-			dataIndex: 'opstatusStr'
+			title: '门店电话',
+			dataIndex: 'mobile'
 		},{
-			title: '状态',
+			title: '店主姓名',
+			dataIndex: 'shopman'
+		},{
+			title: '门店状态',
 			dataIndex: 'statusStr'
 		},{
-			title: '最后修改人',
-			dataIndex: 'updateUserName'
-		},{
-			title: '定时时间',
-			dataIndex: 'taskTime'
-		},{
+			title: '所在城市',
+			dataIndex: 'provinces'
+        },{
+			title: '账户余额',
+			dataIndex: 'amount'
+        },{
 			title: '操作',
 			dataIndex: 'opation',
 			render: (text, record) => {
 				return (
-					<TableLink type={record.status == 1?'1':'2'} text='修改' hindClick={this.editInfo.bind(this,record)}/>
+					<TableLink type={'1'} text='修改' hindClick={this.editInfo.bind(this,record)}/>
 				);
 			}
 		}]
@@ -33,8 +36,8 @@ class GoodtimeTable extends React.Component {
 	
 	//点击表格上的修改按钮操作
 	editInfo = (record) =>{
-		const pdTaskTimeId=String(record.pdTaskTimeId);
-		const paneitem={title:'修改定时',key:'305000edit'+pdTaskTimeId,data:{pdTaskTimeId:pdTaskTimeId},componkey:'305000edit'}
+		const spShopId=String(record.spShopId);
+		const paneitem={title:'修改门店',key:'403000edit'+spShopId,data:{spShopId:spShopId},componkey:'403000edit'}
 		this.props.dispatch({
 			type:'tab/firstAddTab',
 			payload:paneitem
@@ -54,10 +57,9 @@ class GoodtimeTable extends React.Component {
 	initList=(values,limit,currentPage)=>{
 		values.limit=limit;
 		values.currentPage=currentPage;
-		values.type = "20";
 		this.props.dispatch({
-            type:'goodtime/fetch',
-            payload:{code:'qerp.web.pd.task.time.query',values:values}
+            type:'operatesp/fetch',
+            payload:{code:'qerp.web.sp.shop.query',values:values}
         });
 		this.props.dispatch({ type: 'tab/loding', payload:true});
 	}
@@ -66,7 +68,7 @@ class GoodtimeTable extends React.Component {
 		return (
 			<EditableTable 
 				bordered={true}
-				dataSource={this.props.taskTimes} 
+				dataSource={this.props.spShops} 
 				columns={this.columns} 
 				footer={true}
 				pageChange={this.pageChange.bind(this)}
@@ -74,18 +76,17 @@ class GoodtimeTable extends React.Component {
 				total={this.props.total}
 				limit={this.props.limit}
 				current={Number(this.props.currentPage)+1}
-				// loading={true}
 			/>
 		);
 	}
 }
 
 function mapStateToProps(state) {
-	const {taskTimes,total,limit,currentPage,values} = state.goodtime;
-	return {taskTimes,total,limit,currentPage,values};
+	const {spShops,total,limit,currentPage,values} = state.operatesp;
+	return {spShops,total,limit,currentPage,values};
 }
 
-export default connect(mapStateToProps)(GoodtimeTable);
+export default connect(mapStateToProps)(SpTable);
 
 
 

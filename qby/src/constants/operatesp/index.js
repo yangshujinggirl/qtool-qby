@@ -1,13 +1,13 @@
 
-import {GetServerData} from '../../../services/services';
+import {GetServerData} from '../../services/services';
 import { Button, Icon } from 'antd';
 import { connect } from 'dva';
-import GoodtimeTable from './table';
+import SpTable from './table';
 import SearchForms from './search';
 
-class GoodtimeIndex extends React.Component{
+class OperateIndex extends React.Component{
 	addNew = () =>{
-		const paneitem={title:'新建定时',key:'305000edit',componkey:'305000edit',data:null}
+		const paneitem={title:'新建门店',key:'403000edit',componkey:'403000edit',data:null}
   		this.props.dispatch({
 	    	type:'tab/firstAddTab',
 	    	payload:paneitem
@@ -23,12 +23,12 @@ class GoodtimeIndex extends React.Component{
 					className='mt20'
 					onClick={this.addNew}
 				>
-					新增定时
+					新建门店
 				</Button>
-             	<div className='mt15'><GoodtimeTable/></div>
+             	<div className='mt15'><SpTable/></div>
         	</div>
       	)
 	}	
 }
 
-export default connect()(GoodtimeIndex);
+export default connect()(OperateIndex);

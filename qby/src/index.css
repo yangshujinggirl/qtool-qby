@@ -105,6 +105,7 @@ strong, b, .b { font-weight: bold; }
 .lh3 { line-height:3;}
 .mt30{margin-top:30px;}
 .mr30{margin-right:30px;}
+.ml30{margin-left: 30px;}
 /*颜色*/
 .f333 { color: #333; }
 .f666 { color: #666; }

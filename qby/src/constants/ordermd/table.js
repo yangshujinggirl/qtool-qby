@@ -83,6 +83,7 @@ class OrdermdTable extends React.Component {
             limit={this.props.limit}
             current={Number(this.props.currentPage)+1}
             bordered={true}
+            // loading={true}
             />
         );
 	}

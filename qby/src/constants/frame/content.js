@@ -74,6 +74,9 @@ import OperatememberIndex from '../operatemember/index';
 import OperatesupplierIndex from '../operatesupplier/index';
 import OperatesupplierEdit from '../operatesupplier/edit';
 
+import OperateIndex from '../operatesp/index';
+import SpEditForms from '../operatesp/edit';
+
 class Content extends React.Component {
     render() {
         return (   
@@ -100,6 +103,9 @@ class Content extends React.Component {
                                    
                                     case "401000":return  <CzIndex data={this.props.data}/>;
                                     case "401000info":return  <OperateczInfo data={this.props.data}/>;
+                                    
+                                    case "403000":return  <OperateIndex data={this.props.data}/>;
+                                    case "403000edit":return  <SpEditForms data={this.props.data}/>;
                                     
                                     
                                     case "50000":return  <StockManageIndex data={this.props.data}/>;
