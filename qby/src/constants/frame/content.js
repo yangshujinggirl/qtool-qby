@@ -4,6 +4,7 @@ import { Spin } from 'antd';
 
 import GoodsIndex from '../goods/goodscenter/index';
 import GoodEdit from '../goods/goodscenter/edit';
+import Goodinfo from '../goods/goodscenter/info';
 import Stockindex from '../goods/stock/index';
 import Classificationindex from '../goods/classification/index';
 import Brandindex from '../goods/brand/index';
@@ -90,7 +91,6 @@ class Content extends React.Component {
                         {
                             (() => {
                                 switch (this.props.componkey) {
-                                    // case "10000": return <WarehouseinIndex data={this.props.data}/>;
                                     case "10000edit": return <WarehouseinEdit data={this.props.data}/>;
                                     case "10000info": return  <WarehouseinInfo data={this.props.data}/>;
                                     case "20000": return  <WarehouseIndex data={this.props.data}/>;
@@ -98,6 +98,8 @@ class Content extends React.Component {
 
                                     case "301000":return  <GoodsIndex data={this.props.data}/>;
                                     case "301000edit":return  <GoodEdit data={this.props.data}/>;
+                                    case "301000info":return  <Goodinfo data={this.props.data}/>;
+
                                     case "301700":return  <Stockindex data={this.props.data}/>;
                                     case "302000":return  <Classificationindex data={this.props.data}/>;
                                     case "303000":return  <Brandindex data={this.props.data}/>;

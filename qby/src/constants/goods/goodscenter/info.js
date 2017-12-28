@@ -1,65 +1,392 @@
+import { Input,Form} from 'antd';
 import {GetServerData} from '../../../services/services';
+import Imgmodel from '../../../components/model/modelimg';
+import EditableTable from '../../../components/table/tablebasic';
 import { connect } from 'dva';
-import EditableTableInfo from '../../../components/table/table_info';
-import Cardlist from '../../../components/table/cardlist';
 
 
-class WarehouseinInfo extends React.Component{
+const FormItem = Form.Item;
+
+class App extends React.Component {
 	constructor(props) {
 		super(props);
-		this.columns1 = [{
+		this.columns = [{
+			title: '规格',
+			dataIndex: 'name'
+		},{
+			title: '商品编码',
+			dataIndex: 'code',
+		}, {
 			title: '商品条码',
-			dataIndex: 'pdBarcode'
+			dataIndex: 'barcode'
 		},{
-			title: '商品名称',
-			dataIndex: 'pdName'
+			title: '售价',
+			dataIndex: 'toBPrice'
+		},{
+			title: '零售价',
+			dataIndex: 'toCPrice'
+		},{
+			title: '建议零售价',
+			dataIndex: 'tagPrice'
+		},{
+			title: '进货价',
+			dataIndex: 'costPrice'
+		},{
+			title: 'SKU图片',
+			dataIndex: 'picUrl',
+			render: (text, record,index) => {
+				return (
+					<Imgmodel picUrl={text}/>
+				);
+			}
+		}];    
+		this.columnsuse = [{
+			title: '商品编码',
+			dataIndex: 'code'
+		},{
+			title: '商品条码',
+			dataIndex: 'barcode'
 		}, {
-			title: '商品规格',
-			dataIndex: 'pdSkuType'
+			title: '售价',
+			dataIndex: 'toBPrice'
 		},{
-			title: '预收数量',
-			dataIndex: 'qty'
+			title: '零售价',
+			dataIndex: 'toCPrice'
 		},{
-			title: '已收数量',
-			dataIndex: 'qtyReceived'
+			title: '建议零售价',
+			dataIndex: 'tagPrice'
 		},{
-			title: '差异',
-			dataIndex: 'qtyDifference'
-		}];
-		this.columns2 = [{
-			title: '操作',
-			dataIndex: 'operateName'
-		},{
-			title: '操作时间',
-			dataIndex: 'operateTime'
-		}, {
-			title: '操作人',
-			dataIndex: 'operateUser'
-		}];
+			title: '进货价',
+			dataIndex: 'costPrice'
+		}];  
+
+		this.state = {
+			pdBrandId:this.props.pdBrandId,
+			dataSource:[],
+			issku:false,
+			spuIdPics:[],
+			pdSpuInfo:[]
+		};  
 	}
-	infofetch=(wsAsnId)=>{
-		this.props.dispatch({
-			type:'goods/infofetch',
-			payload:{code:'qerp.web.ws.asn.detail',values:{wsAsnId:wsAsnId}}
-		}) 
+
+
+	getinfoData=()=>{
+		let values={pdSpuId:this.props.data.pdSpuId}
+		const result=GetServerData('qerp.web.pd.spu.info',values)
+		result.then((res) => {
+			return res;
+		}).then((json) => {
+			if(json.code=='0'){
+				const spuIdPics=json.pdSpu.spuIdPics
+				const pdSkus=json.pdSpu.pdSkus
+				const code=json.pdSpu.code
+				const barcode=json.pdSpu.barcode
+				const toBPrice=json.pdSpu.toBPrice
+				const toCPrice=json.pdSpu.toCPrice
+				const tagPrice=json.pdSpu.tagPrice
+				const costPrice=json.pdSpu.costPrice
+				const pdSpuInfo=eval(json.pdSpu.pdSpuInfo)
+				const name=json.pdSpu.name
+				const pdCategory1name=json.pdSpu.pdCategory1.name
+				const pdCategory2name=json.pdSpu.pdCategory2.name
+				const pdBrandname=json.pdSpu.pdBrand.name
+				const lotStatus=json.pdSpu.lotStatus
+				const expdays=json.pdSpu.expdays
+				const lotType=json.pdSpu.lotType
+				const lotLimitInDay=json.pdSpu.lotLimitInDay
+				const eventNew=json.pdSpu.eventNew
+				const eventHot=json.pdSpu.eventHot
+				const isDirectExpress=json.pdSpu.isDirectExpress
+				const isPresell=json.pdSpu.isPresell
+				const pdSpuId=json.pdSpu.pdSpuId
+				const dataSource=[]
+
+				if(pdSkus.length>0){
+					const pdType1Id=pdSkus[0].pdType1Id
+					const pdType2Id=pdSkus[0].pdType2Id==null?'00':pdSkus[0].pdType2Id
+					for(var i=0;i<pdSkus.length;i++){
+						dataSource.push({
+							name:(pdSkus[i].pdType2Val==null || pdSkus[i].pdType2Val==undefined || pdSkus[i].pdType2Val=='') ?pdSkus[i].pdType1Val.name:pdSkus[i].pdType1Val.name+'/'+pdSkus[i].pdType2Val.name,
+							code:pdSkus[i].code,
+							barcode:pdSkus[i].barcode,
+							toBPrice:pdSkus[i].toBPrice,
+							toCPrice:pdSkus[i].toCPrice,
+							tagPrice:pdSkus[i].tagPrice,
+							costPrice:pdSkus[i].costPrice,
+							picUrl:pdSkus[i].picUrl,
+							key:pdSkus[i].pdSkuId,
+							keys:(pdSkus[i].pdType2Val==null || pdSkus[i].pdType2Val==undefined || pdSkus[i].pdType2Val=='') ?pdSkus[i].pdType1Val.pdTypeValId:pdSkus[i].pdType1Val.pdTypeValId+pdSkus[i].pdType2Val.pdTypeValId,
+							pdType1Id:pdSkus[i].pdType1Id,
+							pdType1ValId:pdSkus[i].pdType1ValId,
+							pdType2Id:pdSkus[i].pdType2Id,
+							pdType2ValId:pdSkus[i].pdType2ValId,
+							pdSkuId:pdSkus[i].pdSkuId
+						})
+					}
+				}else{
+					const values={
+						code:code,
+						barcode:barcode,
+						toBPrice:toBPrice,
+						toCPrice:toCPrice,
+						tagPrice:tagPrice,
+						costPrice:costPrice,
+						key:pdSpuId,
+						keys:'0000'
+					}
+					dataSource.push(values)
+				}
+				
+
+				this.setState({
+					lotStatus:lotStatus,
+					spuIdPics:spuIdPics,
+					issku:pdSkus.length>0?true:false,
+					dataSource:dataSource,
+					pdSpuInfo:pdSpuInfo
+
+				},function(){
+					this.props.form.setFieldsValue({
+						name: name,
+						pdCategory1name:pdCategory1name,
+						pdCategory2name:pdCategory2name,
+						pdBrandname:pdBrandname,
+						lotStatus:lotStatus=='0'?'否':'是',
+						expdays:expdays,
+						lotType:lotType=='0'?'到期日期':'生产日期',
+						lotLimitInDay:lotLimitInDay,
+						eventNew:eventNew?'是':'否',
+						eventHot:eventHot?'是':'否',
+						isDirectExpress:isDirectExpress=='0'?'否':'是',
+						isPresell:isPresell=='0'?'否':'是',
+					});
+				})
+			}
+		})
 	}
-	render(){
-		return(
-			<div>
-				<div className='mb10'><Cardlist cardtitle={this.props.cardtitle} cardlist={this.props.cardlist}/></div>
-				<div className='mb10'><EditableTableInfo columns={this.columns1} data={this.props.details} title={this.props.detailstitle}/></div>
-				<div className='mb10'><EditableTableInfo columns={this.columns2} data={this.props.logs} title={this.props.logstitle}/></div>
-			</div>
-		)
-	}
+	render() {
+		const { getFieldDecorator } = this.props.form;
+	return (
+		<Form>
+			<FormItem
+				label="商品名称"
+				labelCol={{ span: 8 }}
+				wrapperCol={{ span: 6 }}
+				className='parentinput'
+			>
+				{getFieldDecorator('name', {
+				})(
+					<Input disabled/>
+				)}
+			</FormItem>
+			<FormItem
+				label="商品分类"
+				labelCol={{ span: 8 }}
+				wrapperCol={{ span: 6 }}
+				className='parentinput'
+			>
+				{getFieldDecorator('pdCategory1name', {
+				})(
+					<Input disabled/>
+				)}
+			</FormItem>
+			<FormItem
+				label="商品类型"
+				labelCol={{ span: 8 }}
+				wrapperCol={{ span: 6 }}
+				className='parentinput'
+			>
+				{getFieldDecorator('pdCategory2name', {
+				})(
+					<Input disabled/>
+				)}
+			</FormItem>
+			<FormItem
+				label="品牌"
+				labelCol={{ span: 8 }}
+				wrapperCol={{ span: 6 }}
+				className='parentinput'
+			>
+				{getFieldDecorator('pdBrandname', {
+				})(
+					<Input disabled/>
+				)}
+			</FormItem>
+			<FormItem
+				label="商品图片"
+				labelCol={{ span: 8 }}
+				wrapperCol={{ span: 6 }}
+				className='parentinput'
+			>
+				{getFieldDecorator('img', {
+				})(
+					<div>
+						{
+							this.state.spuIdPics.map((item,index)=>{
+								return (<div key={index}><Imgmodel picUrl={item.url}/></div>)
+							})
+						}
+					</div>
+				)}
+			</FormItem>
+			<FormItem
+				label="商品信息"
+				labelCol={{ span: 4 }}
+				wrapperCol={{ span: 16 }}
+				className='parentinput'
+			>
+				{getFieldDecorator('info', {
+				})(
+					<EditableTable columns={this.state.issku?this.columns:this.columnsuse} dataSource={this.state.dataSource} bordered={true}/>
+				)}
+			</FormItem>
+			<FormItem
+				label="开启批次管理"
+				labelCol={{ span: 8 }}
+				wrapperCol={{ span: 6 }}
+				className='parentinput'
+			>
+				{getFieldDecorator('lotStatus', {
+				})(
+					<Input disabled/>
+				)}
+			</FormItem>
+
+			{
+				this.state.lotStatus==1
+				?
+				<FormItem
+				label="保质期"
+				labelCol={{ span: 8 }}
+				wrapperCol={{ span: 6 }}
+				className='parentinput'
+			>
+				{getFieldDecorator('expdays', {
+				})(
+					<Input disabled/>
+				)}
+			</FormItem>
+			:null
+			}
+			{
+				this.state.lotStatus==1
+				?
+				<FormItem
+				label="保质依据"
+				labelCol={{ span: 8 }}
+				wrapperCol={{ span: 6 }}
+				className='parentinput'
+			>
+				{getFieldDecorator('lotType', {
+				})(
+					<Input disabled/>
+				)}
+			</FormItem>
+			:null
+
+
+
+
+			}
+			{
+
+			this.state.lotStatus==1
+			?
+			<FormItem
+				label="禁止入库"
+				labelCol={{ span: 8 }}
+				wrapperCol={{ span: 6 }}
+				className='parentinput'
+			>
+				{getFieldDecorator('lotLimitInDay', {
+				})(
+					<Input disabled/>
+				)}
+			</FormItem>
+			:null
+
+
+			}
+			
+			<FormItem
+				label="加入上新"
+				labelCol={{ span: 8 }}
+				wrapperCol={{ span: 6 }}
+				className='parentinput'
+			>
+				{getFieldDecorator('eventNew', {
+				})(
+					<Input disabled/>
+				)}
+			</FormItem>
+			<FormItem
+				label="加入畅销"
+				labelCol={{ span: 8 }}
+				wrapperCol={{ span: 6 }}
+				className='parentinput'
+			>
+				{getFieldDecorator('eventHot', {
+				})(
+					<Input disabled/>
+				)}
+			</FormItem>
+			<FormItem
+				label="直邮商品"
+				labelCol={{ span: 8 }}
+				wrapperCol={{ span: 6 }}
+				className='parentinput'
+			>
+				{getFieldDecorator('isDirectExpress', {
+				})(
+					<Input disabled/>
+				)}
+			</FormItem>
+			<FormItem
+				label="预售商品"
+				labelCol={{ span: 8 }}
+				wrapperCol={{ span: 6 }}
+				className='parentinput'
+			>
+				{getFieldDecorator('isPresell', {
+				})(
+					<Input disabled/>
+				)}
+			</FormItem>
+			<FormItem
+				label="预售商品"
+				labelCol={{ span: 8 }}
+				wrapperCol={{ span: 6 }}
+				className='parentinput'
+			>
+				{getFieldDecorator('infos', {
+				})(
+					<div>
+						{
+							this.state.pdSpuInfo.map((item,index)=>{
+								return(
+									<div>
+										{
+											item.type=='1'?item.content:<Imgmodel picUrl={item.content}/>
+										}
+									</div>
+								)
+							})
+
+
+						}
+					</div>
+				)}
+			</FormItem>	
+		</Form>
+	);
+}
+
 	componentDidMount(){
-		this.infofetch(this.props.data.wsAsnId)
+		this.getinfoData()
 	}
+
 }
 
-function mapStateToProps(state) {
-	const {cardtitle,cardlist,detailstitle,details,logstitle,logs} = state.goods;
-	return {cardtitle,cardlist,detailstitle,details,logstitle,logs};
-}
-export default connect(mapStateToProps)(WarehouseinInfo);
+const Goodinfo = Form.create()(App);
 
+export default Goodinfo;

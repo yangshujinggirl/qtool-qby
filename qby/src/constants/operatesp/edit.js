@@ -47,7 +47,6 @@ class SpEditForm extends React.Component{
 	}
 	componentWillMount(){
 		if(this.props.data){
-            console.log(1)
 			this.getinfoData()
 		}
 	}
