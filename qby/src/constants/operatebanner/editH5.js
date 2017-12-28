@@ -11,7 +11,7 @@ import RightConfig from './right/index';
 class H5_configure extends React.Component{
 	constructor(props) {
 	    super(props);
-	    this.state = {}
+	    this.state = {};
 	}
 
 	render(){
@@ -26,23 +26,25 @@ class H5_configure extends React.Component{
 		)
 	}
 
-  componentDidMount(){
+	componentDidMount(){
 		if(this.props.data){
-			let data = {
-				'pdBannerId':this.props.data.pdBannerId
-			}
-			const result=GetServerData('qerp.web.pd.banner.config.info',data);
-			result.then((res) => {
-				return res;
-			}).then((json) => {
-				if(json.code == "0"){
-					
-				}else{
-					message.error(json.message);
+			if(!this.props.data.addNew){
+				let data = {
+					'pdBannerId':this.props.data.pdBannerId
 				}
-			}) 
+				const result=GetServerData('qerp.web.pd.banner.config.info',data);
+				result.then((res) => {
+					return res;
+				}).then((json) => {
+					if(json.code == "0"){
+						
+					}else{
+						message.error(json.message);
+					}
+				}) 
+			}
 		}
-  }
+	}
 
 }
 

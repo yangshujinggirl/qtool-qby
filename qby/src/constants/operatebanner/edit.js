@@ -115,24 +115,26 @@ class OperatebannerEditForm extends React.Component{
                     return res;
                 }).then((json) => {
                     if(json.code=='0'){
+                        this.deleteTab();
+                        this.refreshList();
+                        this.initState();
                         if(this.props.data){
 							const pdBannerId=String(this.props.data.pdBannerId);
-                            const paneitem={title:'修改H5页面',key:'404000edith5'+pdBannerId+'h5',data:{pdBannerId:pdBannerId},componkey:'404000editH5'}
+                            const paneitem={title:'修改H5页面',key:'404000edit'+pdBannerId+'h5',data:{'pdBannerId':pdBannerId,'addNew':0},componkey:'404000editH5'}
                             this.props.dispatch({
                                 type:'tab/firstAddTab',
                                 payload:paneitem
                             })
 						}else{
-                            const paneitem={title:'新增H5页面',key:'404000edith5',data:null,componkey:'404000editH5'}
+                            const pdBannerId = json.pdBannerId;
+                            const paneitem={title:'新增H5页面',key:'404000edith5',data:{'pdBannerId':pdBannerId,'addNew':1},componkey:'404000editH5'}
                             this.props.dispatch({
                                 type:'tab/firstAddTab',
                                 payload:paneitem
                             })
 						}
                     }
-                    this.deleteTab();
-                    this.refreshList();
-                    this.initState();
+                    
                 })
             }else{
                 return false;

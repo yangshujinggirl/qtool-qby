@@ -1,4 +1,5 @@
 import {GetServerData} from '../../../services/services';
+import {deepcCloneObj} from '../../../utils/commonFc';
 import { Button, Icon } from 'antd';
 import { connect } from 'dva';
 
@@ -7,7 +8,21 @@ class LeftAddType extends React.Component{
 	
 	//新增添加的类型  
 	addNewItem = (type) =>{
-        console.log(type);
+        let tempConfigArr = deepcCloneObj(this.props.configArr);
+        if(type == 2){
+            tempConfigArr.push({"type":type,"template":"1"})
+        }else{
+            tempConfigArr.push({'type':type});
+        }
+        this.props.dispatch({
+            type:'h5config/syncConfigArr',
+            payload:tempConfigArr
+        });
+        let tempCurrentItem = tempConfigArr.length-1;
+        this.props.dispatch({
+            type:'h5config/syncCurrentItem',
+            payload:tempCurrentItem
+        });
     }
     
   	render(){
@@ -31,7 +46,8 @@ class LeftAddType extends React.Component{
 }
 
 function mapStateToProps(state) {
-	return {};
+    const {configArr,currentItem}= state.h5config;
+	return {configArr,currentItem};
 }
 
 export default connect(mapStateToProps)(LeftAddType);

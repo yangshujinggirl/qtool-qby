@@ -17,12 +17,38 @@ class RightConfig extends React.Component{
                     <span></span>
                     <p>配置编辑区</p>
                 </div>
-                <div className='config-content'>
-                    {/* <ImgEdit/> */}
-                    {/* <GoodsEdit/> */}
-                    {/* <TextEdit/> */}
-                    <RuleEdit/>
-                </div>       
+                {
+                    this.props.currentItem >= 0?
+                    (
+                        this.props.configArr.length?
+                        <div className='config-content'>
+                        {
+                            this.props.configArr[this.props.currentItem].type == 1?
+                            <ImgEdit data={this.props.configArr[this.props.currentItem]}/>
+                            :(
+                            this.props.configArr[this.props.currentItem].type == 2?
+                            <GoodsEdit data={this.props.configArr[this.props.currentItem]}/>
+                            :
+                            (
+                                this.props.configArr[this.props.currentItem].type == 3?
+                                <TextEdit data={this.props.configArr[this.props.currentItem]}/>
+                                :
+                                (
+                                    this.props.configArr[this.props.currentItem].type == 4?
+                                    <RuleEdit data={this.props.configArr[this.props.currentItem]}/>
+                                    :
+                                    null
+                                )
+                            )
+                            )
+                        }   
+                        </div>  
+                        :
+                        null     
+                    )
+                    :
+                    null
+                }
             </div>
       	)
 	}
@@ -31,7 +57,8 @@ class RightConfig extends React.Component{
 }
 
 function mapStateToProps(state) {
-	return {};
+	const {configArr,currentItem}= state.h5config;
+	return {configArr,currentItem};
 }
 
 export default connect(mapStateToProps)(RightConfig);
