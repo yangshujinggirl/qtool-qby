@@ -117,7 +117,7 @@ class OperatebannerEditForm extends React.Component{
                     if(json.code=='0'){
                         if(this.props.data){
 							const pdBannerId=String(this.props.data.pdBannerId);
-                            const paneitem={title:'修改H5页面',key:'404000edit'+pdBannerId+'h5',data:{pdBannerId:pdBannerId},componkey:'404000editH5'}
+                            const paneitem={title:'修改H5页面',key:'404000edith5'+pdBannerId+'h5',data:{pdBannerId:pdBannerId},componkey:'404000editH5'}
                             this.props.dispatch({
                                 type:'tab/firstAddTab',
                                 payload:paneitem
