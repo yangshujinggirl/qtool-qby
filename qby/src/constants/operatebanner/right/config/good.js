@@ -27,7 +27,6 @@ class GoodsEditForm extends React.Component{
 		e.preventDefault();
 		this.props.form.validateFields((err, values) => {
 			if (!err) {
-                console.log(values);
                 if(values.rowcode){
                     if(values.rowcode == values.code){
                         message.error('输入的商品编码相同');

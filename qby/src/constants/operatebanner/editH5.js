@@ -15,6 +15,25 @@ class H5_configure extends React.Component{
 	    this.state = {};
 	}
 
+	//删除当前tab
+	deleteTab=()=>{
+		const pane = eval(sessionStorage.getItem("pane"));
+		if(pane.length<=1){
+			return
+		}
+		if(!this.props.data.addNew){
+			this.props.dispatch({
+				type:'tab/initDeletestate',
+				payload:'404000edit'+this.props.data.pdBannerId+'h5'
+			  });
+		}else{
+			this.props.dispatch({
+				type:'tab/initDeletestate',
+				payload:'404000edith5'
+			});
+		}
+	}
+
 	//保存总的信息
     saveArrList = () =>{
 		var data = {};
@@ -36,11 +55,15 @@ class H5_configure extends React.Component{
 			}).then((json) => {
 				if(json.code == '0'){
 					message.success('保存成功');
-					// if (this.props.bannerEdit) {
-					// 	Hinedremove('404000EditH5'+this.props.bannerId)
-					// }else{
-					// 	Hinedremove('404000NewH5')
-					// }
+					this.props.dispatch({
+						type:'h5config/syncConfigArr',
+						payload:[]
+					});
+					this.props.dispatch({
+						type:'h5config/syncCurrentItem',
+						payload:0
+					});
+					this.deleteTab();
 				}
 		   })
 		}else{
@@ -97,6 +120,15 @@ class H5_configure extends React.Component{
 						});
 					}
 				}) 
+			}else{
+				this.props.dispatch({
+					type:'h5config/syncConfigArr',
+					payload:[]
+				});
+				this.props.dispatch({
+					type:'h5config/syncCurrentItem',
+					payload:0
+				});
 			}
 		}
 	}

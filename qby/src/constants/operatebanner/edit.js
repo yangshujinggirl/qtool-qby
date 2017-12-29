@@ -118,6 +118,14 @@ class OperatebannerEditForm extends React.Component{
                         this.deleteTab();
                         this.refreshList();
                         this.initState();
+                        this.props.dispatch({
+                            type:'h5config/syncConfigArr',
+                            payload:[]
+                        });
+                        this.props.dispatch({
+                            type:'h5config/syncCurrentItem',
+                            payload:0
+                        });
                         if(this.props.data){
 							const pdBannerId=String(this.props.data.pdBannerId);
                             const paneitem={title:'修改H5页面',key:'404000edit'+pdBannerId+'h5',data:{'pdBannerId':pdBannerId,'addNew':0},componkey:'404000editH5'}
@@ -221,7 +229,8 @@ class OperatebannerEditForm extends React.Component{
 }
 function mapStateToProps(state) {
     const {values,formValue} = state.operatebanner;
-    return {values,formValue};
+    const {configArr,currentItem}= state.h5config;
+    return {values,formValue,configArr,currentItem};
 }
 
 const OperatebannerEdit = Form.create()(OperatebannerEditForm);
