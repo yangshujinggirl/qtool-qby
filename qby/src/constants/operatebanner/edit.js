@@ -199,7 +199,7 @@ class OperatebannerEditForm extends React.Component{
                     wrapperCol={{ span: 6 }}
                 >
                 {getFieldDecorator('rank', {
-                    rules: [{required: true, message: '请输入banner权重'}],
+                    rules: [{required: true, message: '请输入banner权重'},{pattern:/^100(\.0*)?$|^0*$|^[0-9]?[0-9]?(\.[0-9]*)?$/,message: '权重在0-100之间'}],
                     initialValue:this.props.formValue.rank
                 })(
                     <Input placeholder = '请输入banner权重'/>
