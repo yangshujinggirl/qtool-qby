@@ -54,7 +54,6 @@ export default {
 			const result=yield call(GetServerData,code,values);
 			yield put({type: 'tab/loding',payload:false});
 			if(result.code=='0'){
-				console.log(result);
                 let formValue = {};
 				formValue.name = result.pdBanner.name;
 				formValue.status = String(result.pdBanner.status);

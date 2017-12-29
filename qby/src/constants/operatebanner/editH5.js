@@ -75,6 +75,22 @@ class H5_configure extends React.Component{
 		}
 	}
 
+	cancelSave = () =>{
+		this.props.dispatch({
+			type:'h5config/syncConfigArr',
+			payload:[]
+		});
+		this.props.dispatch({
+			type:'h5config/syncConfigArrPre',
+			payload:[]
+		});
+		this.props.dispatch({
+			type:'h5config/syncCurrentItem',
+			payload:0
+		});
+		this.deleteTab();
+	}
+
 	render(){
 		return (
 			<div className='content_box h5-wrapper'>
@@ -83,7 +99,7 @@ class H5_configure extends React.Component{
 				   <CenterPreview/>
 				   <RightConfig/>
 				   <div className='submit-buttons'>
-                        <button className='submit-cancel'>取消</button>
+                        <button className='submit-cancel' onClick={this.cancelSave}>取消</button>
                         <button className='submit-save' onClick={this.saveArrList}>保存</button>
                    </div>
                 </div>
