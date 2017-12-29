@@ -17,10 +17,10 @@ class EditImgForm extends React.Component{
 	}
 		
 	saveCode = (e) =>{
-		let tempConfigArr = deepcCloneObj(this.props.configArr);
+		let tempConfigArr = deepcCloneObj(this.props.configArrPre);
 			tempConfigArr[this.props.currentItem].code = e.target.value;
 			this.props.dispatch({
-					type:'h5config/syncConfigArr',
+					type:'h5config/syncConfigArrPre',
 					payload:tempConfigArr
 			});
 	}
@@ -28,20 +28,43 @@ class EditImgForm extends React.Component{
 	handleSubmit = (e) =>{
 		e.preventDefault();
 		this.props.form.validateFields((err, values) => {
+			let configArrEnd = deepcCloneObj(this.props.configArr);
+			configArrEnd[this.props.currentItem].code =values.code;
+			configArrEnd[this.props.currentItem].text = this.props.configArrPre[this.props.currentItem].text;
+			this.props.dispatch({
+				type:'h5config/syncConfigArr',
+				payload:configArrEnd
+			});
 			if (!err) {
 				if(!values.code){
 					return false;
 				}
 				const result=GetServerData('qerp.web.pd.banner.config.pdInfo',values);
-				// result.then((res) => {
-				// 	return res;
-				// }).then((json) => {
-				// 	if(json.code == "0"){
-						
-				// 	}
-				// })
 			}
 		})
+	}
+
+	handCancel = () =>{
+		this.props.form.setFieldsValue({
+			code: this.props.configArr.length?
+				  (this.props.configArr[this.props.currentItem].code?this.props.configArr[this.props.currentItem].code:''):
+				  ''
+		});
+		let tempConfigArr = deepcCloneObj(this.props.configArrPre);
+		tempConfigArr[this.props.currentItem].code =this.props.configArr.length?
+													(this.props.configArr[this.props.currentItem].code?
+													 this.props.configArr[this.props.currentItem].code:
+													 ''):
+													 '';
+		tempConfigArr[this.props.currentItem].text =this.props.configArr.length?
+													(this.props.configArr[this.props.currentItem].text?
+													 this.props.configArr[this.props.currentItem].text:
+													 ''):
+													 '';											 
+		this.props.dispatch({
+				type:'h5config/syncConfigArrPre',
+				payload:tempConfigArr
+		});
 	}
 
 	render(){
@@ -53,7 +76,10 @@ class EditImgForm extends React.Component{
 	              labelCol={{ span: 8 }}
 	              wrapperCol={{ span: 6 }}
 	              >
-	                <AvatarImg/>  
+					<AvatarImg data={this.props.configArrPre[this.props.currentItem].text?
+									this.props.configArrPre[this.props.currentItem].text:
+									null}
+									/>  
 	            </FormItem>
                 <FormItem
 	              label="链接商品"
@@ -77,7 +103,7 @@ class EditImgForm extends React.Component{
 	            <FormItem
 	                 wrapperCol={{ offset: 8}}
 	            >
-                    <Button style={{marginRight:'10px'}}>取消</Button>
+                    <Button style={{marginRight:'10px'}} onClick={this.handCancel.bind(this)}>取消</Button>
                     <Button onClick={this.handleSubmit.bind(this)}>确定</Button>
 	            </FormItem>
             </Form>
@@ -90,14 +116,14 @@ class EditImgForm extends React.Component{
 }
 
 function mapStateToProps(state) {
-	const {configArr,currentItem}= state.h5config;
-	return {configArr,currentItem};
+	const {configArr,configArrPre,currentItem}= state.h5config;
+	return {configArr,configArrPre,currentItem};
 }
 
 const ImgEdit = Form.create({
 	mapPropsToFields(props) { 
 		return { 
-			code: {value: props.configArr[props.currentItem].code?props.configArr[props.currentItem].code:''} 
+			code: {value: props.configArrPre[props.currentItem].code?props.configArrPre[props.currentItem].code:''} 
 		}; 
 	}
 })(EditImgForm);

@@ -16,10 +16,10 @@ class ShowGoods extends React.Component{
 	}
 
 	deleteItem = ()=>{
-		let tempConfigArr = deepcCloneObj(this.props.configArr);
+		let tempConfigArr = deepcCloneObj(this.props.configArrPre);
         tempConfigArr.splice(this.props.index,1);
         this.props.dispatch({
-            type:'h5config/syncConfigArr',
+            type:'h5config/syncConfigArrPre',
             payload:tempConfigArr
         });
         this.props.dispatch({
@@ -30,7 +30,7 @@ class ShowGoods extends React.Component{
     
     //上移元素
 	upItem = () =>{
-        let tempConfigArr = deepcCloneObj(this.props.configArr);
+        let tempConfigArr = deepcCloneObj(this.props.configArrPre);
         tempConfigArr.map((elem, index) =>{
             elem.selected = false;
         });
@@ -51,7 +51,7 @@ class ShowGoods extends React.Component{
 
     //下移元素
 	downItem = () =>{
-        let tempConfigArr = deepcCloneObj(this.props.configArr);
+        let tempConfigArr = deepcCloneObj(this.props.configArrPre);
         tempConfigArr.map((elem, index) =>{
             elem.selected = false;
         });
@@ -75,7 +75,7 @@ class ShowGoods extends React.Component{
         arr[index1] = arr.splice(index2, 1, arr[index1])[0];
         let tempConfigArr = arr;
         this.props.dispatch({
-            type:'h5config/syncConfigArr',
+            type:'h5config/syncConfigArrPre',
             payload:tempConfigArr
         });
     };
@@ -181,8 +181,8 @@ class ShowGoods extends React.Component{
 }
 
 function mapStateToProps(state) {
-    const {configArr,currentItem}= state.h5config;
-	return {configArr,currentItem};
+    const {configArrPre,currentItem}= state.h5config;
+	return {configArrPre,currentItem};
 }
 
 export default connect(mapStateToProps)(ShowGoods);

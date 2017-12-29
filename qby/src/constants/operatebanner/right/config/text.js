@@ -13,12 +13,40 @@ class TextEditForm extends React.Component{
 	
 	//显示当时的文本
 	showTextCurrent = (e) =>{
-		let tempConfigArr = deepcCloneObj(this.props.configArr);
+		let tempConfigArr = deepcCloneObj(this.props.configArrPre);
         tempConfigArr[this.props.currentItem].text = e.target.value;
         this.props.dispatch({
-            type:'h5config/syncConfigArr',
+            type:'h5config/syncConfigArrPre',
             payload:tempConfigArr
         });
+	}
+
+	handleSubmit = (e) =>{
+		e.preventDefault();
+		let configArrEnd = deepcCloneObj(this.props.configArr);
+			configArrEnd[this.props.currentItem].text = this.props.configArrPre[this.props.currentItem].text;
+			this.props.dispatch({
+				type:'h5config/syncConfigArr',
+				payload:configArrEnd
+			});
+	}
+
+	handCancel = () =>{
+		this.props.form.setFieldsValue({
+			text: this.props.configArr.length?
+				  (this.props.configArr[this.props.currentItem].text?this.props.configArr[this.props.currentItem].text:''):
+				  ''
+		});
+		let tempConfigArr = deepcCloneObj(this.props.configArrPre);
+		tempConfigArr[this.props.currentItem].text =this.props.configArr.length?
+													(this.props.configArr[this.props.currentItem].text?
+													 this.props.configArr[this.props.currentItem].text:
+													 ''):
+													 '';
+		this.props.dispatch({
+				type:'h5config/syncConfigArrPre',
+				payload:tempConfigArr
+		});
 	}
     
 	render(){
@@ -35,8 +63,8 @@ class TextEditForm extends React.Component{
                 )}
 	            </FormItem>
 	            <FormItem wrapperCol={{offset: 8}}>
-                    <Button style={{marginRight:'10px'}}>取消</Button>
-                    <Button>确定</Button>
+                    <Button style={{marginRight:'10px'}} onClick={this.handCancel.bind(this)}>取消</Button>
+                    <Button onClick={this.handleSubmit.bind(this)}>确定</Button>
 	            </FormItem>
 	        </Form>
 		)
@@ -48,14 +76,14 @@ class TextEditForm extends React.Component{
 }
 
 function mapStateToProps(state) {
-	const {configArr,currentItem}= state.h5config;
-	return {configArr,currentItem};
+	const {configArr,configArrPre,currentItem}= state.h5config;
+	return {configArr,configArrPre,currentItem};
 }
 
 const TextEdit = Form.create({
 	mapPropsToFields(props) { 
 		return { 
-            text: {value: props.configArr[props.currentItem].text?props.configArr[props.currentItem].text:''},
+            text: {value: props.configArrPre[props.currentItem].text?props.configArrPre[props.currentItem].text:''},
 		}; 
 	}
 })(TextEditForm);

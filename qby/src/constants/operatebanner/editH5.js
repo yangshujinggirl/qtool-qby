@@ -38,7 +38,7 @@ class H5_configure extends React.Component{
     saveArrList = () =>{
 		var data = {};
 		data.pdBannerId = this.props.data.pdBannerId;
-		data.pdBannerConfig = this.props.configArr;
+		data.pdBannerConfig = this.props.configArrPre;
 		if(data.pdBannerConfig.length){
 			for(var i=0;i<data.pdBannerConfig.length;i++){
 				if(data.pdBannerConfig[i].type=='4'){
@@ -57,6 +57,10 @@ class H5_configure extends React.Component{
 					message.success('保存成功');
 					this.props.dispatch({
 						type:'h5config/syncConfigArr',
+						payload:[]
+					});
+					this.props.dispatch({
+						type:'h5config/syncConfigArrPre',
 						payload:[]
 					});
 					this.props.dispatch({
@@ -115,6 +119,10 @@ class H5_configure extends React.Component{
 							payload:initdataArr
 						});
 						this.props.dispatch({
+							type:'h5config/syncConfigArrPre',
+							payload:initdataArr
+						});
+						this.props.dispatch({
 							type:'h5config/syncCurrentItem',
 							payload:0
 						});
@@ -123,6 +131,10 @@ class H5_configure extends React.Component{
 			}else{
 				this.props.dispatch({
 					type:'h5config/syncConfigArr',
+					payload:[]
+				});
+				this.props.dispatch({
+					type:'h5config/syncConfigArrPre',
 					payload:[]
 				});
 				this.props.dispatch({
@@ -136,8 +148,8 @@ class H5_configure extends React.Component{
 }
 
 function mapStateToProps(state) {
-	const {configArr,currentItem}= state.h5config;
-	return {configArr,currentItem};
+	const {configArr,configArrPre,currentItem}= state.h5config;
+	return {configArr,configArrPre,currentItem};
 }
 
 export default connect(mapStateToProps)(H5_configure);

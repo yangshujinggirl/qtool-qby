@@ -8,15 +8,22 @@ class LeftAddType extends React.Component{
 	
 	//新增添加的类型  
 	addNewItem = (type) =>{
-        let tempConfigArr = deepcCloneObj(this.props.configArr);
+        let tempConfigArr = deepcCloneObj(this.props.configArrPre);
+        let configArrEnd = deepcCloneObj(this.props.configArr);
         if(type == 2){
             tempConfigArr.push({"type":type,"template":"1"})
+            configArrEnd.push({"type":type,"template":"1"})
         }else{
             tempConfigArr.push({'type':type});
+            configArrEnd.push({'type':type});
         }
         this.props.dispatch({
-            type:'h5config/syncConfigArr',
+            type:'h5config/syncConfigArrPre',
             payload:tempConfigArr
+        });
+        this.props.dispatch({
+            type:'h5config/syncConfigArr',
+            payload:configArrEnd
         });
         let tempCurrentItem = tempConfigArr.length-1;
         this.props.dispatch({
@@ -46,8 +53,9 @@ class LeftAddType extends React.Component{
 }
 
 function mapStateToProps(state) {
-    const {configArr,currentItem,syncInitFc}= state.h5config;
-	return {configArr,currentItem,syncInitFc};
+    const {configArr,configArrPre,currentItem,syncInitFc}= state.h5config;
+    console.log(configArrPre);
+	return {configArr,configArrPre,currentItem,syncInitFc};
 }
 
 export default connect(mapStateToProps)(LeftAddType);

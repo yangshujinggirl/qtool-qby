@@ -18,10 +18,10 @@ class CenterPreview extends React.Component{
                     <p>预览区</p>
                 </div>
                 {
-                    this.props.configArr.length?
+                    this.props.configArrPre.length?
                     <div className='preview-content'>
                         {
-                            this.props.configArr.map((elem, index) =>{
+                            this.props.configArrPre.map((elem, index) =>{
                                 if(elem.type == 1){
                                     return <ShowImgs key={index} data={elem} index={index}/>;
                                 }else if(elem.type == 2){
@@ -44,8 +44,8 @@ class CenterPreview extends React.Component{
 }
 
 function mapStateToProps(state) {
-    const {configArr}= state.h5config;
-	return {configArr};
+    const {configArrPre}= state.h5config;
+	return {configArrPre};
 }
 
 export default connect(mapStateToProps)(CenterPreview);

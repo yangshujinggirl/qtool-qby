@@ -123,6 +123,10 @@ class OperatebannerEditForm extends React.Component{
                             payload:[]
                         });
                         this.props.dispatch({
+                            type:'h5config/syncConfigArrPre',
+                            payload:[]
+                        });
+                        this.props.dispatch({
                             type:'h5config/syncCurrentItem',
                             payload:0
                         });

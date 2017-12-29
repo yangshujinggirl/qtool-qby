@@ -13,13 +13,21 @@ class GoodsEditForm extends React.Component{
     }
 
     radioChange = (e) =>{
-        let tempConfigArr = deepcCloneObj(this.props.configArr);
+        let tempConfigArr = deepcCloneObj(this.props.configArrPre);
+        let configArrEnd = deepcCloneObj(this.props.configArr);
         tempConfigArr[this.props.currentItem]={};
         tempConfigArr[this.props.currentItem].template =e.target.value;
         tempConfigArr[this.props.currentItem].type = 2;
+        configArrEnd[this.props.currentItem]={};
+        configArrEnd[this.props.currentItem].template =e.target.value;
+        configArrEnd[this.props.currentItem].type = 2;
+        this.props.dispatch({
+            type:'h5config/syncConfigArrPre',
+            payload:tempConfigArr
+        });
         this.props.dispatch({
             type:'h5config/syncConfigArr',
-            payload:tempConfigArr
+            payload:configArrEnd
         });
     }
     
@@ -53,11 +61,17 @@ class GoodsEditForm extends React.Component{
                                         tempData.rowPdSpu.url =  json.pdSpu.url;
                                         tempData.rowPdSpu.name = json.pdSpu.name;
                                         tempData.rowPdSpu.price = json.pdSpu.price;
-                                        let tempConfigArr = deepcCloneObj(this.props.configArr);
+                                        let tempConfigArr = deepcCloneObj(this.props.configArrPre);
                                         tempConfigArr[this.props.currentItem] =tempData;
                                         this.props.dispatch({
-                                            type:'h5config/syncConfigArr',
+                                            type:'h5config/syncConfigArrPre',
                                             payload:tempConfigArr
+                                        });
+                                        let configArrEnd = deepcCloneObj(this.props.configArr);
+                                        configArrEnd[this.props.currentItem] = tempData;
+                                        this.props.dispatch({
+                                            type:'h5config/syncConfigArr',
+                                            payload:configArrEnd
                                         });
                                     }else{
                                         message.error('未找到商品2编码');
@@ -79,11 +93,17 @@ class GoodsEditForm extends React.Component{
                             tempData.pdSpu.url =  json.pdSpu.url;
                             tempData.pdSpu.name = json.pdSpu.name;
                             tempData.pdSpu.price = json.pdSpu.price;
-                            let tempConfigArr = deepcCloneObj(this.props.configArr);
+                            let tempConfigArr = deepcCloneObj(this.props.configArrPre);
                             tempConfigArr[this.props.currentItem] =tempData;
                             this.props.dispatch({
-                                type:'h5config/syncConfigArr',
+                                type:'h5config/syncConfigArrPre',
                                 payload:tempConfigArr
+                            });
+                            let configArrEnd = deepcCloneObj(this.props.configArr);
+                            configArrEnd[this.props.currentItem] = tempData;
+                            this.props.dispatch({
+                                type:'h5config/syncConfigArr',
+                                payload:configArrEnd
                             });
                         }
                     })
@@ -91,23 +111,49 @@ class GoodsEditForm extends React.Component{
 			}
 		})
     }
+
+    handCancel = () =>{
+		this.props.form.setFieldsValue({
+			code: this.props.configArr.length?
+				  (this.props.configArr[this.props.currentItem].code?this.props.configArr[this.props.currentItem].code:''):
+                  '',
+            rowcode: this.props.configArr.length?
+            (this.props.configArr[this.props.currentItem].rowcode?this.props.configArr[this.props.currentItem].rowcode:''):
+            ''
+		});
+		let tempConfigArr = deepcCloneObj(this.props.configArrPre);
+		tempConfigArr[this.props.currentItem].code =this.props.configArr.length?
+													(this.props.configArr[this.props.currentItem].code?
+													 this.props.configArr[this.props.currentItem].code:
+													 ''):
+													 '';
+		tempConfigArr[this.props.currentItem].rowcode =this.props.configArr.length?
+													(this.props.configArr[this.props.currentItem].rowcode?
+													 this.props.configArr[this.props.currentItem].rowcode:
+													 ''):
+													 '';											 
+		this.props.dispatch({
+				type:'h5config/syncConfigArrPre',
+				payload:tempConfigArr
+		});
+	}
     
     //实时保存商品编码
 	saveGoodCode = (e) =>{
-        let tempConfigArr = deepcCloneObj(this.props.configArr);
+        let tempConfigArr = deepcCloneObj(this.props.configArrPre);
         tempConfigArr[this.props.currentItem].code = e.target.value;
         this.props.dispatch({
-            type:'h5config/syncConfigArr',
+            type:'h5config/syncConfigArrPre',
             payload:tempConfigArr
         });
     }
     
     //实时保存商品编码
     saveRowCode = (e) =>{
-        let tempConfigArr = deepcCloneObj(this.props.configArr);
+        let tempConfigArr = deepcCloneObj(this.props.configArrPre);
         tempConfigArr[this.props.currentItem].rowcode = e.target.value;
         this.props.dispatch({
-            type:'h5config/syncConfigArr',
+            type:'h5config/syncConfigArrPre',
             payload:tempConfigArr
         });
     }
@@ -140,7 +186,7 @@ class GoodsEditForm extends React.Component{
                 )}
                 </FormItem>
 	            <FormItem wrapperCol={{offset: 8}}>
-                    <Button style={{marginRight:'10px'}}>取消</Button>
+                    <Button style={{marginRight:'10px'}} onClick={this.handCancel.bind(this)}>取消</Button>
                     <Button onClick={this.handleSubmit.bind(this)}>确定</Button>
 	            </FormItem>
 	        </Form>
@@ -182,7 +228,7 @@ class GoodsEditForm extends React.Component{
                 </FormItem>
                 {/* <p style={{color:'red'}}>输入的商品编码相同</p> */}
 	            <FormItem wrapperCol={{offset: 8}}>
-                    <Button style={{marginRight:'10px'}}>取消</Button>
+                    <Button style={{marginRight:'10px'}} onClick={this.handCancel.bind(this)}>取消</Button>
                     <Button onClick={this.handleSubmit.bind(this)}>确定</Button>
 	            </FormItem>
             </Form>
@@ -195,15 +241,15 @@ class GoodsEditForm extends React.Component{
 }
 
 function mapStateToProps(state) {
-    const {configArr,currentItem}= state.h5config;
-	return {configArr,currentItem};
+    const {configArr,currentItem,configArrPre}= state.h5config;
+	return {configArr,currentItem,configArrPre};
 }
 
 const GoodsEdit = Form.create({
     mapPropsToFields(props) { 
 		return { 
-            code: {value: props.configArr[props.currentItem].code?props.configArr[props.currentItem].code:''} ,
-            rowcode:{value: props.configArr[props.currentItem].rowcode?props.configArr[props.currentItem].rowcode:''}
+            code: {value: props.configArrPre[props.currentItem].code?props.configArrPre[props.currentItem].code:''} ,
+            rowcode:{value: props.configArrPre[props.currentItem].rowcode?props.configArrPre[props.currentItem].rowcode:''}
 		}; 
 	}
 })(GoodsEditForm);

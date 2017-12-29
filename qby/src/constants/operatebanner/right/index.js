@@ -20,22 +20,22 @@ class RightConfig extends React.Component{
                 {
                     this.props.currentItem >= 0?
                     (
-                        this.props.configArr.length?
+                        this.props.configArrPre.length?
                         <div className='config-content'>
                         {
-                            this.props.configArr[this.props.currentItem].type == 1?
-                            <ImgEdit data={this.props.configArr[this.props.currentItem]}/>
+                            this.props.configArrPre[this.props.currentItem].type == 1?
+                            <ImgEdit data={this.props.configArrPre[this.props.currentItem]}/>
                             :(
-                            this.props.configArr[this.props.currentItem].type == 2?
-                            <GoodsEdit data={this.props.configArr[this.props.currentItem]}/>
+                            this.props.configArrPre[this.props.currentItem].type == 2?
+                            <GoodsEdit data={this.props.configArrPre[this.props.currentItem]}/>
                             :
                             (
-                                this.props.configArr[this.props.currentItem].type == 3?
-                                <TextEdit data={this.props.configArr[this.props.currentItem]}/>
+                                this.props.configArrPre[this.props.currentItem].type == 3?
+                                <TextEdit data={this.props.configArrPre[this.props.currentItem]}/>
                                 :
                                 (
-                                    this.props.configArr[this.props.currentItem].type == 4?
-                                    <RuleEdit data={this.props.configArr[this.props.currentItem]}/>
+                                    this.props.configArrPre[this.props.currentItem].type == 4?
+                                    <RuleEdit data={this.props.configArrPre[this.props.currentItem]}/>
                                     :
                                     null
                                 )
@@ -57,8 +57,8 @@ class RightConfig extends React.Component{
 }
 
 function mapStateToProps(state) {
-	const {configArr,currentItem}= state.h5config;
-	return {configArr,currentItem};
+	const {configArr,configArrPre,currentItem}= state.h5config;
+	return {configArr,configArrPre,currentItem};
 }
 
 export default connect(mapStateToProps)(RightConfig);

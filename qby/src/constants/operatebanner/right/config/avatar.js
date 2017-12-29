@@ -8,10 +8,10 @@ class AvatarImg extends React.Component {
         if (info.file.status === 'done') {
             if(info.file.response.code==0){
                 const urldata=info.file.response.data;
-                let tempConfigArr = deepcCloneObj(this.props.configArr);
+                let tempConfigArr = deepcCloneObj(this.props.configArrPre);
                 tempConfigArr[this.props.currentItem].text = urldata[0];
                 this.props.dispatch({
-                    type:'h5config/syncConfigArr',
+                    type:'h5config/syncConfigArrPre',
                     payload:tempConfigArr
                 });
             }
@@ -43,14 +43,14 @@ class AvatarImg extends React.Component {
                 onChange={this.handleChange}
             >
             {
-                !this.props.configArr[this.props.currentItem].text?
+                !this.props.data?
                 <Icon type="plus" className="h5-avatar-uploader-trigger" />
                 :
                 <div className='upload-img-wrapper'>
                     <div className='upload-img-shadow'>
                         <div>重新上传</div>
                     </div>
-                    <img src={fileDomain+this.props.configArr[this.props.currentItem].text} alt="" className="h5-avatar" /> 
+                    <img src={fileDomain+this.props.data} alt="" className="h5-avatar"/> 
                 </div>
             }
             </Upload>
@@ -59,8 +59,8 @@ class AvatarImg extends React.Component {
 }
 
 function mapStateToProps(state) {
-	const {configArr,currentItem}= state.h5config;
-	return {configArr,currentItem};
+	const {configArr,configArrPre,currentItem}= state.h5config;
+	return {configArr,configArrPre,currentItem};
 }
 
 export default connect(mapStateToProps)(AvatarImg);
