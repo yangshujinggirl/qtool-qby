@@ -86,7 +86,7 @@ class ShowText extends React.Component{
 		return (
 	              <div className={this.props.index == this.props.currentItem?'preview-text selected-border':'preview-text'}>
                         <div className='text-content' onClick={this.editItem.bind(this)}>
-                            <TextArea rows={4} className='textareas' disabled/>
+                            <TextArea rows={4} value={this.props.data.text?this.props.data.text:''} className='textareas' disabled/>
                         </div>
                         <div className='button-list'>
                             <span onClick={this.upItem.bind(this)}><Icon type="up" /></span>
