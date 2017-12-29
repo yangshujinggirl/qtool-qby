@@ -44,22 +44,6 @@ class EditImgForm extends React.Component{
 		})
 	}
 
-	initFc = () =>{
-		const syncInitFc = {
-			changeFormValue:this.changeFormValue
-		}
-		this.props.dispatch({
-			type:'h5config/syncInitFc',
-			payload:syncInitFc
-		});
-	}
-	
-	changeFormValue = (index) =>{
-		this.props.form.setFieldsValue({
-			code: this.props.configArr[index].code?this.props.configArr[index].code:'',
-		});
-	}
-    
 	render(){
 		const { getFieldDecorator,getFieldProps } = this.props.form;
 		return (
@@ -80,7 +64,7 @@ class EditImgForm extends React.Component{
 	                	rules: [{ message: '请输入商品编码' }],
 	                 	initialValue:''
 	              })(
-	                <Input placeholder='请输入商品编码' onChange={this.saveCode.bind(this)}/>
+						<Input placeholder='请输入商品编码' onChange={this.saveCode.bind(this)}/>
 	              )}
 	            </FormItem>
                 <FormItem
@@ -100,8 +84,8 @@ class EditImgForm extends React.Component{
 		)
 	}
 
-	componentDidMount(){
-		this.initFc()
+	componentDidUpdate(){
+
 	}
 }
 
@@ -110,5 +94,11 @@ function mapStateToProps(state) {
 	return {configArr,currentItem};
 }
 
-const ImgEdit = Form.create()(EditImgForm);
+const ImgEdit = Form.create({
+	mapPropsToFields(props) { 
+		return { 
+			code: {value: props.configArr[props.currentItem].code?props.configArr[props.currentItem].code:''} 
+		}; 
+	}
+})(EditImgForm);
 export default connect(mapStateToProps)(ImgEdit);

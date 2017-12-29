@@ -46,8 +46,8 @@ class LeftAddType extends React.Component{
 }
 
 function mapStateToProps(state) {
-    const {configArr,currentItem}= state.h5config;
-	return {configArr,currentItem};
+    const {configArr,currentItem,syncInitFc}= state.h5config;
+	return {configArr,currentItem,syncInitFc};
 }
 
 export default connect(mapStateToProps)(LeftAddType);

@@ -56,3 +56,33 @@ export function post(url, paramsObj) {
 
     return result;
 }
+
+// 发送 post 请求
+export function post2(url, paramsObj) {
+    var result = fetch(url, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: obj2params(paramsObj)
+    }).then((res) => {
+        if (res.status !== 200) {            
+            return {message:'网络错误'};                   
+        }
+        let json = res.json();
+        return json;
+    }).then((json) => {
+        if(json.code=='E_300'){
+             window.location.href= '/';
+             sessionStorage.clear();
+        }
+        jsessionid = json.sessionId;
+        return json;
+    }).catch(function(err) {      
+        return {message:'网络错误'};      
+    });
+
+    return result;
+}

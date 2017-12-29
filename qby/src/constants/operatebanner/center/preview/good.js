@@ -81,6 +81,7 @@ class ShowGoods extends React.Component{
     };
 
 	render(){
+        const fileDomain=eval(sessionStorage.getItem('fileDomain'));
 		return (
             <div>
                 {
@@ -88,13 +89,26 @@ class ShowGoods extends React.Component{
                     <div className={this.props.index == this.props.currentItem?'preview-goods selected-border':'preview-goods'}>
                         <div className='goods-content' onClick={this.editItem.bind(this)}>
                             <div className='goods-content-img'>
-                                <img/>
+                                <img src={this.props.data.pdSpu?(fileDomain+this.props.data.pdSpu.url):null}/>
                             </div>
-                            <div className='goods-content-info'>
-                                <p>示例商品</p>
-                                <span>￥317</span>
-                                <button disabled>立即购买</button>
-                            </div>
+                            {
+	                      	this.props.data.pdSpu?
+	                      	(
+	                      		<div className='goods-content-info'>
+	                      		  <p>{this.props.data.pdSpu.name}</p>
+		                      	  <span>{this.props.data.pdSpu.price}</span>
+		                      	  <button disabled>立即购买</button>
+		                      	</div>
+	                      	)
+	                      	:
+	                      	(
+	                      		<div className='goods-content-info'>
+		                      		<p>示例商品</p>
+			                      	<span>￥317</span>
+			                      	<button disabled>立即购买</button>
+		                      	</div>
+	                      	)
+	                        }    
                         </div>
                         <div className='button-list'>
                             <span onClick={this.upItem.bind(this)}><Icon type="up" /></span>
@@ -108,23 +122,49 @@ class ShowGoods extends React.Component{
                         <div className="goodstwo-wrapper" onClick={this.editItem.bind(this)}>
                             <div className='goods-content-two'>
                                 <div className='content-img-two'>
-                                    <img/>
+                                    <img src={this.props.data.pdSpu?(fileDomain+this.props.data.pdSpu.url):null}/>
                                 </div>
-                                <div className='content-info-two'>
-                                    <p>示例商品</p>
-                                    <span>￥317</span>
-                                    <button>立即购买</button>
-                                </div>
+                                {
+		                      	this.props.data.pdSpu?
+		                      	(
+		                      		<div className='content-info-two'>
+		                      		  <p>{this.props.data.pdSpu.name}</p>
+			                      	  <span>{this.props.data.pdSpu.price}</span>
+			                      	  <button>立即购买</button>
+			                      	</div>
+		                      	)
+		                      	:
+		                      	(
+		                      		<div className='content-info-two'>
+		                          	  <p>示例商品</p>
+		                          	  <span>￥317</span>
+		                          	  <button>立即购买</button>
+		                          </div>
+		                      	)
+		                        }  
                             </div>
                             <div className='goods-content-two'>
                                 <div className='content-img-two'>
-                                    <img/>
+                                    <img src={this.props.data.rowPdSpu?(fileDomain+this.props.data.rowPdSpu.url):null}/>
                                 </div> 
-                                <div className='content-info-two'>
-                                    <p>示例商品</p>
-                                    <span>￥317</span>
-                                    <button disabled>立即购买</button>
-                                </div>
+                                {
+		                      	this.props.data.rowPdSpu?
+		                      	(
+		                      		<div className='content-info-two'>
+		                      		  <p>{this.props.data.rowPdSpu.name}</p>
+			                      	  <span>{this.props.data.rowPdSpu.price}</span>
+			                      	  <button disabled>立即购买</button>
+			                      	</div>
+		                      	)
+		                      	:
+		                      	(
+		                      		<div className='content-info-two'>
+		                          	  <p>示例商品</p>
+		                          	  <span>￥317</span>
+		                          	  <button disabled>立即购买</button>
+		                          </div>
+		                      	)
+		                        }  
                             </div>
                         </div>
                         <div className='button-list'>

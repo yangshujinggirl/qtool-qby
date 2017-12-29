@@ -14,7 +14,9 @@ class ShowImgs extends React.Component{
             type:'h5config/syncCurrentItem',
             payload:this.props.index
 		});
-		this.props.syncInitFc.changeFormValue(this.props.index);
+		// if(this.props.currentItem >=0){
+		// 	this.props.syncInitFc.changeFormValue(this.props.index);
+		// }
 	}
 
 	deleteItem = ()=>{

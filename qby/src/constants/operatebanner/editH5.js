@@ -21,6 +21,10 @@ class H5_configure extends React.Component{
                    <LeftAddType/>
 				   <CenterPreview/>
 				   <RightConfig/>
+				   <div className='submit-buttons'>
+                        <button className='submit-cancel'>取消</button>
+                        <button className='submit-save'>保存</button>
+                   </div>
                 </div>
             </div>
 		)
