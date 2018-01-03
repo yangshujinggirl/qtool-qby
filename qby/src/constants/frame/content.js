@@ -84,6 +84,9 @@ import SpEditForms from '../operatesp/edit';
 
 import DownloadIndex from '../download/index';
 
+
+import ConsumptionInfo from '../operatemember/info';
+
 class Content extends React.Component {
     render() {
         return (   
@@ -112,6 +115,7 @@ class Content extends React.Component {
                                     case "401000":return  <CzIndex data={this.props.data}/>;
                                     case "401000info":return  <OperateczInfo data={this.props.data}/>;
                                     
+                                    case "402500edit":return  <ConsumptionInfo data={this.props.data}/>;
                                     case "403000":return  <OperateIndex data={this.props.data}/>;
                                     case "403000edit":return  <SpEditForms data={this.props.data}/>;
                                     
