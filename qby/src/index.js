@@ -11,6 +11,16 @@ const app = dva({
 
 app.model(require("./models/account"));
 
+app.model(require("./models/datacg"));
+
+app.model(require("./models/datawstime"));
+
+app.model(require("./models/datawshis"));
+
+app.model(require("./models/datawson"));
+
+app.model(require("./models/dataws"));
+
 app.model(require("./models/operatesp"));
 
 app.model(require("./models/goodtime"));

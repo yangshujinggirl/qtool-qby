@@ -87,6 +87,9 @@ import DownloadIndex from '../download/index';
 
 import ConsumptionInfo from '../operatemember/info';
 
+import DatawsIndex from '../dataws/index';
+import DatacgIndex from '../datacg/index';
+
 class Content extends React.Component {
     render() {
         return (   
@@ -127,6 +130,10 @@ class Content extends React.Component {
                                     case "60000edits":return  <WsmoveNewuser data={this.props.data}/>;
 
                                     case "701000":return  <DownloadIndex data={this.props.data}/>;
+
+                                    case "701700":return  <DatawsIndex data={this.props.data}/>;
+                                    case "702500":return  <DatacgIndex data={this.props.data}/>;
+
 
                                     case "70000edit":return  <Wschecknewedit data={this.props.data}/>;
                                     case "70000editing":return  <WscheckEdit data={this.props.data}/>;

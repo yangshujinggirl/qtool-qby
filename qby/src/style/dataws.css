@@ -1,0 +1,15 @@
+.stock-tabs .ant-tabs-bar{
+    border-bottom: 1px solid #f4f4f4;
+    margin-bottom: 20px;
+    padding: 0px;
+    width: 100%;
+}
+.stock-tabs .ant-tabs:not(.ant-tabs-vertical) > .ant-tabs-content-animated{
+    position: relative;
+    top: 0px;
+    height: auto;
+    padding: 0px;
+}
+.stock-tabs .ant-tabs:not(.ant-tabs-vertical) > .ant-tabs-content{
+    overflow-y: initial;
+}
