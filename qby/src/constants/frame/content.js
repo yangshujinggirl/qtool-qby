@@ -135,7 +135,7 @@ class Content extends React.Component {
 
                                     case "701000":return  <DownloadIndex data={this.props.data}/>;
 
-                                    case "701700":return  <DatawsIndex data={this.props.data}/>;
+                                    case "703004":return  <DatawsIndex data={this.props.data}/>;
                                     case "702500":return  <DatacgIndex data={this.props.data}/>;
 
 
