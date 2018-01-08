@@ -1,4 +1,4 @@
-import WarehouseIndexTable from './table';
+import OperateczTable from './table';
 import WrappedAdvancedSearchForm from './search';
 
 class CzIndex extends React.Component{
@@ -7,7 +7,7 @@ class CzIndex extends React.Component{
 			<div>
 				<WrappedAdvancedSearchForm/>
 				<div className='mt15'>
-					<WarehouseIndexTable/>
+					<OperateczTable/>
 				</div>
 			</div>
 		)

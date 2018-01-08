@@ -11,6 +11,8 @@ const app = dva({
 
 app.model(require("./models/account"));
 
+app.model(require("./models/warehouse"));
+
 app.model(require("./models/feedback"));
 
 app.model(require("./models/datacg"));
@@ -31,22 +33,13 @@ app.model(require("./models/operatecz"));
 
 app.model(require("./models/recheck"));
 
-app.model(require("./models/wscheck"));
-
 app.model(require("./models/adjust"));
 
 app.model(require("./models/jedit"));
 
-app.model(require("./models/wsedit"));
-
-app.model(require("./models/wspost"));
-
-app.model(require("./models/wsmove"));
-
 app.model(require("./models/postcheck"));
 
 app.model(require("./models/goods"));
-
 
 app.model(require("./models/orderdb"));
 
@@ -59,7 +52,6 @@ app.model(require("./models/orderpos"));
 app.model(require("./models/ordercg"));
 
 app.model(require("./models/ordermd"));
-app.model(require("./models/warehouse"));
 app.model(require("./models/IndexPage"));
 app.model(require("./models/tab"));
 

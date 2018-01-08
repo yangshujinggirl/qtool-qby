@@ -4,7 +4,7 @@ import TableLink from '../../components/table/tablelink';
 import CollectionsPage from './model';
 
 
-class WarehouseIndexTable extends React.Component {
+class OperateczTable extends React.Component {
 	constructor(props) {
 		super(props);
 		this.columns = [
@@ -65,8 +65,8 @@ class WarehouseIndexTable extends React.Component {
 		values.limit=limit
 		values.currentPage=currentPage
 		this.props.dispatch({
-			type:'warehouse/fetch',
-			payload:{code:'qerp.web.ws.order.query',values:values}
+			type:'operatecz/fetch',
+			payload:{code:'qerp.web.sp.voucher.query',values:values}
 		})
 		this.props.dispatch({ type: 'tab/loding', payload:true}) 
 	}
@@ -112,7 +112,7 @@ function mapStateToProps(state) {
 	return {spVouchers,total,limit,currentPage,values,fileDomain};
 }
 
-export default connect(mapStateToProps)(WarehouseIndexTable);
+export default connect(mapStateToProps)(OperateczTable);
 
 
 
