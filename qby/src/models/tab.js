@@ -17,7 +17,6 @@ export default {
         },
         //刷新,第一次进入页面
         refresh(state, { payload:pannelfirst}) {
-            console.log(pannelfirst)
             var pane = eval(sessionStorage.getItem("pane"));
             var activeKey = sessionStorage.getItem('activeKey');
             var openKey = eval(sessionStorage.getItem("openKey"));
@@ -27,8 +26,6 @@ export default {
                 pane.push(pannelfirst)
                 activeKey=pannelfirst.key
                 openKey=[pannelfirst.openkey]
-                console.log(activeKey)
-                console.log(openKey)
             }
             sessionStorage.setItem("pane", JSON.stringify(pane));
             sessionStorage.setItem("activeKey", activeKey);
@@ -115,20 +112,6 @@ export default {
                                         openkey:String(menus[0].urResourceId)
                 }
                
-                console.log(pannelfirst)
-
-
-
-
-
-
-
-
-
-
-
-
-                
                 yield put({type: 'menulist',payload:menus});
                 yield put({type: 'refresh',payload:pannelfirst});
             } 

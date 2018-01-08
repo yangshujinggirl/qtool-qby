@@ -1,7 +1,7 @@
 import '../../style/user.css';
 import { connect } from 'dva';
 import CollectionsPage from '../frame/pop';
-import { Menu, Dropdown, Icon } from 'antd';
+import { Menu, Dropdown, Icon ,Button} from 'antd';
 
 class User extends React.Component {
     constructor(props) {
@@ -26,12 +26,24 @@ class User extends React.Component {
             })
           }
     }
+    download=()=>{
+        const paneitem={title:'下载中心',key:'000001',componkey:'000001',data:null}
+        this.props.dispatch({
+          type:'tab/firstAddTab',
+          payload:paneitem
+      });
+    }
     render() {
         const name=eval(sessionStorage.getItem('name'));
         return(
-            <Dropdown overlay={this.menu} trigger={['click']}>
-                <div className='user pointer'>Qtools | {name}<Icon type="down" className='icon-down'/></div> 
-            </Dropdown>
+            <div className='clearfix'>
+                <div className='fl' style={{height:'80px',lineHeight:'80px'}} onClick={this.download.bind(this)}>下载中心</div>
+
+                <Dropdown overlay={this.menu} trigger={['click']}>
+
+                    <div className='user pointer'>Qtools | {name}<Icon type="down" className='icon-down'/></div> 
+                </Dropdown>
+            </div>
         )
     }
 }

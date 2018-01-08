@@ -7,7 +7,6 @@ const SubMenu = Menu.SubMenu;
 
 class Siders extends React.Component {
     setTab =  (item) =>{
-		console.log(item)
 		const key =String(item.key);
 		const paneitem={title:item.item.props.children.props.children,key:String(item.key),data:null,componkey:String(item.key)};
         this.props.dispatch({
@@ -17,14 +16,12 @@ class Siders extends React.Component {
 	}
 
 	onOpenChange=(key)=>{
-		console.log(key)
 		this.props.dispatch({
             type:'tab/openkey',
             payload:key
           })
 	}
     render() {
-		console.log(this.props.openKey)
         return (   
     		<div className='sidebox'>
     			<Sider className={this.props.isHideSider?'slidebox hide':'slidebox'} width='220'>

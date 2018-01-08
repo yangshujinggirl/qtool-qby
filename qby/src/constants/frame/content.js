@@ -133,7 +133,7 @@ class Content extends React.Component {
                                     case "60000edit":return  <WsmoveUser data={this.props.data}/>;
                                     case "60000edits":return  <WsmoveNewuser data={this.props.data}/>;
 
-                                    case "701000":return  <DownloadIndex data={this.props.data}/>;
+                                    case "000001":return  <DownloadIndex data={this.props.data}/>;
 
                                     case "703004":return  <DatawsIndex data={this.props.data}/>;
                                     case "702500":return  <DatacgIndex data={this.props.data}/>;
@@ -151,7 +151,7 @@ class Content extends React.Component {
 
                                     case "90000": return <WsIndex data={this.props.data}/>;
                                     case "90000edit": return <Addws data={this.props.data}/>;
-                                    // 
+                                
                                     case "201000":return <OrdermdIndex data={this.props.data}/>;
                                     case "201000info":return <OrdermdInfo data={this.props.data}/>;
                                     case "201000edit":return <OrdermdEdit data={this.props.data}/>;
