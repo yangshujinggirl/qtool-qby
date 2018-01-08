@@ -11,6 +11,8 @@ const app = dva({
 
 app.model(require("./models/account"));
 
+app.model(require("./models/feedback"));
+
 app.model(require("./models/datacg"));
 
 app.model(require("./models/datawstime"));

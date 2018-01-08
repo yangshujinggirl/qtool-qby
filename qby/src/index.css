@@ -170,6 +170,7 @@ ins { text-decoration: none; }
 .serach_form .ant-form-item .ant-input{width: 180px;}
 .serach_form .ant-form-item .ant-select-lg .ant-select-selection--single{width:180px;}
 .serach_form .ant-form-item .ant-calendar-picker .ant-input{width: 290px;}
+.serach_form .ant-form-item  .noant-calendar-picker .ant-input{width: 180px;}
 .serach_form .ant-form-item .ant-form-item-control-wrapper{display: inline-block;}
 .serach_form .ant-form-item{margin-right: 15px;}
 .serach_form{display: flex;flex-wrap: wrap;}

@@ -90,6 +90,10 @@ import ConsumptionInfo from '../operatemember/info';
 import DatawsIndex from '../dataws/index';
 import DatacgIndex from '../datacg/index';
 
+import FeedbackIndex from '../feedback/index';
+import Feedbackedit from '../feedback/edit';
+
+
 class Content extends React.Component {
     render() {
         return (   
@@ -182,6 +186,10 @@ class Content extends React.Component {
                                     
                                     case "601000": return <AccountIndex data={this.props.data}/>;
                                     case "601000edit": return <AddNewAccount data={this.props.data}/>;
+
+                                    case "406000": return <FeedbackIndex data={this.props.data}/>;
+                                    case "406000edit": return <Feedbackedit data={this.props.data}/>;
+
                                     default:  return "我是404";
                                 }
                             })()
