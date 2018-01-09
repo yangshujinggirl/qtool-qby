@@ -163,14 +163,11 @@ class Goodlist extends React.Component {
                                                 item.list_img_name.length>0?
                                                 (item.list_img_name.map((subitem,subindex)=>{
                                                     return (<div key={subindex} className='icon_img'>
-                                                        <img src={subitem}/>
+                                                        <img src={require('../../../assets/'+subitem)}/>
                                                     </div>
                                                     )
                                                 }))
                                                 :<div className='icon_img'></div>
-
-
-
                                             }
 
 
