@@ -13,3 +13,5 @@
 
 .btn_boxs{margin-top:20px;text-align: right;}
 .btn_lists{margin-left: 10px;display: inline-block;}
+.ant-btn.disabled, .ant-btn[disabled], .ant-btn.disabled:hover, .ant-btn[disabled]:hover, .ant-btn.disabled:focus, .ant-btn[disabled]:focus, .ant-btn.disabled:active, .ant-btn[disabled]:active, .ant-btn.disabled.active, .ant-btn[disabled].active{color: rgba(0, 0, 0, 0.25)}
+

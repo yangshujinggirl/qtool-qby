@@ -132,164 +132,60 @@
 				issku:false
 			};  
 		}
-
-		hindCodechange=(index,e)=>{
-			const goodindodatasouce=this.props.goodindodatasouce.slice(0)
-			goodindodatasouce[index].code=e.target.value
+		//商品信息请求
+		spuInfo=()=>{
+			const value={pdSpuId:this.props.data.pdSpuId}
 			this.props.dispatch({
-				type:'goods/goodindodatasouce',
-				payload:goodindodatasouce
+				type:'goods/infofetch',
+				payload:{code:'qerp.web.pd.spu.info',values:value}
 			})
 		}
-
-		hindBarcodechange=(index,e)=>{
-			const goodindodatasouce=this.props.goodindodatasouce.slice(0)
-			goodindodatasouce[index].barcode=e.target.value
-			this.props.dispatch({
-				type:'goods/goodindodatasouce',
-				payload:goodindodatasouce
-			})
-		}
-
-		hindtoBPricechange=(index,e)=>{
-			const goodindodatasouce=this.props.goodindodatasouce.slice(0)
-			goodindodatasouce[index].toBPrice=e.target.value
-			this.props.dispatch({
-				type:'goods/goodindodatasouce',
-				payload:goodindodatasouce
-			})
-		}
-
-		hindtoCPricechange=(index,e)=>{
-			const goodindodatasouce=this.props.goodindodatasouce.slice(0)
-			goodindodatasouce[index].toCPrice=e.target.value
-			this.props.dispatch({
-				type:'goods/goodindodatasouce',
-				payload:goodindodatasouce
-			})
-		}
-		
-		hindtagPricechange=(index,e)=>{
-			const goodindodatasouce=this.props.goodindodatasouce.slice(0)
-			goodindodatasouce[index].tagPrice=e.target.value
-			this.props.dispatch({
-				type:'goods/goodindodatasouce',
-				payload:goodindodatasouce
-			})
-		}
-
-		hindcostPricechange=(index,e)=>{
-			const goodindodatasouce=this.props.goodindodatasouce.slice(0)
-			goodindodatasouce[index].costPrice=e.target.value
-			this.props.dispatch({
-				type:'goods/goodindodatasouce',
-				payload:goodindodatasouce
-			})
-		}
-	handleSubmit = (e) => {
-		this.props.form.validateFields((err, value) => {
-		if (!err) {
-			console.log(this)
-			console.log(this.props.pdBrandId)
-			value.pdBrandId=this.props.pdBrandId
-			value.spuPics=this.props.spuPics
-			value.pdSpuInfo=this.props.pdSpuInfo
-			console.log('Received values of form: ', value);
-			if(this.props.data.pdSpuId){
-				value.pdSpuId=this.props.data.pdSpuId
+		//商品规格
+		pdTypeslist=()=>{
+			const value={
+				enabled:true
 			}
-			
-			//判断是上传还是非上传表
-			const isskus=this.props.isskus
-			if(isskus){
-				console.log(1)
-				value.pdSkus=this.props.goodindodatasouce
-
-
-				
-			}else{
-				console.log(2)
-				value.code=this.props.goodindodatasouce[0].code
-				value.barcode=this.props.goodindodatasouce[0].barcode
-				value.toBPrice=this.props.goodindodatasouce[0].toBPrice
-				value.toCPrice=this.props.goodindodatasouce[0].toCPrice
-				value.tagPrice=this.props.goodindodatasouce[0].tagPrice
-				value.costPrice=this.props.goodindodatasouce[0].costPrice
-			}
-
-			const values={pdSpu:value}
-			const result=GetServerData('qerp.web.pd.spu.save',values)
-			result.then((res) => {
-				return res;
-			}).then((json) => {
-				if(json.code=='0'){
-					this.delecttab()
-				}
-			})
-
-
-
-
-		}	
-		});
-	}
-	handleSelectChange = (value) => {
-		const pdCategory2Id=[]
-		//根据id请求分类数据，更新数据
-		const values={
-			parentId:value,
-			getChildren:true,
-			enabled:true
-		}
-		this.props.dispatch({
-			type:'goods/captlistfetch',
-			payload:{code:'qerp.web.pd.category.list',values:values}
-		})
-		this.props.dispatch({
-			type:'goods/pdCategory2Id',
-			payload:pdCategory2Id
-		})
-	}
-
-	//请求商品分类
-	Categorylist=()=>{
-		const value={
-			getChildren:false,
-			enabled:true
-		}
-		this.props.dispatch({
-			type:'IndexPage/categoryfetch',
-			payload:{code:'qerp.web.pd.category.list',values:value}
-		})
-	}
-
-	//商品规格
-	pdTypeslist=()=>{
-		const value={
-			enabled:true
-		}
-		this.props.dispatch({
-			type:'goods/pdTypeslist',
-			payload:{code:'qerp.web.pd.type.list',values:value}
-		})
-		
-	}
-
-
-
-	Handcancel=()=>{
-		this.delecttab()
-	}
-
-
-		//删除tab
-		delecttab=()=>{
 			this.props.dispatch({
-				type:'goods/delete',
-				payload:'301000edit'+this.props.data.pdSpuId
+				type:'goods/pdTypeslist',
+				payload:{code:'qerp.web.pd.type.list',values:value}
 			})
 		}
+		//请求商品分类
+		Categorylist=()=>{
+			const value={
+				getChildren:false,
+				enabled:true
+			}
+			this.props.dispatch({
+				type:'goods/categoryfetch',
+				payload:{code:'qerp.web.pd.category.list',values:value}
+			})
+		}
+		//商品分类change
+		handleSelectChange = (value) => {
+			const pdCategory2Id=[]
+			//根据id请求分类数据，更新数据
+			const values={
+				parentId:value,
+				getChildren:true,
+				enabled:true
+			}
+			this.props.dispatch({
+				type:'goods/captlistfetch',
+				payload:{code:'qerp.web.pd.category.list',values:values}
+			})
+			//初始化pdCategory2Id
+			this.props.dispatch({
+				type:'goods/pdCategory2Id',
+				payload:pdCategory2Id
+			})
+			//设置pdCategory2值为空
+			this.props.form.setFieldsValue({
+				pdCategory2Id:[],
+			  });
 
+		}
+		//品牌Search
 		handleSearch=(value)=>{
 			let values={name:value}
 			const result=GetServerData('qerp.web.pd.brand.search',values)
@@ -312,6 +208,7 @@
 				}
 			})
 		}
+		//品牌Select
 		onSelect=(value)=>{
 			const pdBrandId=value
 			this.props.dispatch({
@@ -319,91 +216,161 @@
 				payload:pdBrandId
 			})
 		}
-
-
-	//商品信息请求
-	spuInfo=()=>{
-		const value={pdSpuId:this.props.data.pdSpuId}
-		this.props.dispatch({
-			type:'goods/infofetch',
-			payload:{code:'qerp.web.pd.spu.info',values:value}
-		})
-	}
-
-
-	//判断商品信息是哪个表格：非上传表和上传表
-	tableColumn=()=>{
-		const pdType1Id=this.props.pdType1Id
-		const pdType2Id=this.props.pdType2Id 
-		const tag1=this.props.tag1 
-		const tag2=this.props.tag2
-		if(pdType1Id!='00' && tag1.length>0){
-			if(pdType2Id=='00' || (pdType2Id!='00' && tag2.length>0)){
-				const isskus=true
-				this.props.dispatch({
-					type:'goods/isskus',
-					payload:isskus
-				})
+		//是否开启批次管理
+		lotStatusChange=(e)=>{
+			const lotStatusstate=e.target.value
+			this.props.dispatch({
+				type:'goods/lotStatusstate',
+				payload:lotStatusstate
+			})
+			this.props.form.setFieldsValue({
+				expdays: null,
+				lotLimitInDay:null,
+			  });
+	
+			if(lotStatusstate=='1'){
+				this.props.form.setFieldsValue({
+					lotType:'1'
+				  });
+			}else{
+				this.props.form.setFieldsValue({
+					lotType:null
+				  });
 			}
 		}
 
+		//商品规格信息
 
-	}
-
-
-	handleSelectChange_guige1=(value)=>{
-		const pdType1Ids=value
-		const pdType2Ids=this.props.pdType2Id
-		const tag1s=[]
-		const tag2s=this.props.tag2
-		this.props.dispatch({
-			type:'goods/goodsinfoChange',
-			payload:{pdType1Ids,pdType2Ids,tag1s,tag2s}
-		})
-	}
-
-	handleSelectChange_guige2=(value)=>{
-		const pdType1Ids=this.props.pdType1Id
-		const pdType2Ids=value
-		const tag1s=this.props.tag1
-		const tag2s=[]
-		this.props.dispatch({
-			type:'goods/goodsinfoChange',
-			payload:{pdType1Ids,pdType2Ids,tag1s,tag2s}
-		})
-	}
-
-	
-
-	
-
-
-	
-	
-
-
-
-	lotStatusChange=(e)=>{
-		const lotStatusstate=e.target.value
-		this.props.dispatch({
-			type:'goods/lotStatusstate',
-			payload:lotStatusstate
-		})
-		this.props.form.setFieldsValue({
-			expdays: null,
-			lotLimitInDay:null,
-		  });
-
-		if(lotStatusstate=='1'){
-			this.props.form.setFieldsValue({
-				lotType:'1'
-			  });
-		}else{
-			this.props.form.setFieldsValue({
-				lotType:null
-			  });
+		handleSelectChange_guige1=(value)=>{
+			const pdType1Ids=value
+			const pdType2Ids=this.props.pdType2Id
+			const tag1s=[]
+			const tag2s=this.props.tag2
+			this.props.dispatch({
+				type:'goods/goodsinfoChange',
+				payload:{pdType1Ids,pdType2Ids,tag1s,tag2s}
+			})
 		}
-	}
+	
+		handleSelectChange_guige2=(value)=>{
+			const pdType1Ids=this.props.pdType1Id
+			const pdType2Ids=value
+			const tag1s=this.props.tag1
+			const tag2s=[]
+			this.props.dispatch({
+				type:'goods/goodsinfoChange',
+				payload:{pdType1Ids,pdType2Ids,tag1s,tag2s}
+			})
+		}
+		//商品编码change
+		hindCodechange=(index,e)=>{
+			const goodindodatasouce=this.props.goodindodatasouce.slice(0)
+			goodindodatasouce[index].code=e.target.value
+			this.props.dispatch({
+				type:'goods/goodindodatasouce',
+				payload:goodindodatasouce
+			})
+		}
+		//商品条码change
+		hindBarcodechange=(index,e)=>{
+			const goodindodatasouce=this.props.goodindodatasouce.slice(0)
+			goodindodatasouce[index].barcode=e.target.value
+			this.props.dispatch({
+				type:'goods/goodindodatasouce',
+				payload:goodindodatasouce
+			})
+		}
+		//商品售价change
+		hindtoBPricechange=(index,e)=>{
+			const goodindodatasouce=this.props.goodindodatasouce.slice(0)
+			goodindodatasouce[index].toBPrice=e.target.value
+			this.props.dispatch({
+				type:'goods/goodindodatasouce',
+				payload:goodindodatasouce
+			})
+		}
+		//零售价change
+		hindtoCPricechange=(index,e)=>{
+			const goodindodatasouce=this.props.goodindodatasouce.slice(0)
+			goodindodatasouce[index].toCPrice=e.target.value
+			this.props.dispatch({
+				type:'goods/goodindodatasouce',
+				payload:goodindodatasouce
+			})
+		}
+		//建议零售价
+		hindtagPricechange=(index,e)=>{
+			const goodindodatasouce=this.props.goodindodatasouce.slice(0)
+			goodindodatasouce[index].tagPrice=e.target.value
+			this.props.dispatch({
+				type:'goods/goodindodatasouce',
+				payload:goodindodatasouce
+			})
+		}
+		//进货价售价
+		hindcostPricechange=(index,e)=>{
+			const goodindodatasouce=this.props.goodindodatasouce.slice(0)
+			goodindodatasouce[index].costPrice=e.target.value
+			this.props.dispatch({
+				type:'goods/goodindodatasouce',
+				payload:goodindodatasouce
+			})
+		}
+
+		//确定
+		handleSubmit = (e) => {
+			this.props.form.validateFields((err, value) => {
+			if (!err) {
+				value.pdBrandId=this.props.pdBrandId
+				value.spuPics=this.props.spuPics
+				value.pdSpuInfo=this.props.pdSpuInfo
+				if(this.props.data.pdSpuId){
+					value.pdSpuId=this.props.data.pdSpuId
+				}
+				
+				//判断是上传还是非上传表
+				const isskus=this.props.isskus
+				if(isskus){
+					value.pdSkus=this.props.goodindodatasouce
+				}else{
+					value.code=this.props.goodindodatasouce[0].code
+					value.barcode=this.props.goodindodatasouce[0].barcode
+					value.toBPrice=this.props.goodindodatasouce[0].toBPrice
+					value.toCPrice=this.props.goodindodatasouce[0].toCPrice
+					value.tagPrice=this.props.goodindodatasouce[0].tagPrice
+					value.costPrice=this.props.goodindodatasouce[0].costPrice
+				}
+
+				const values={pdSpu:value}
+				const result=GetServerData('qerp.web.pd.spu.save',values)
+				result.then((res) => {
+					return res;
+				}).then((json) => {
+					if(json.code=='0'){
+						this.delecttab()
+					}
+				})
+			}	
+			});
+		}
+		//取消
+		Handcancel=()=>{
+			this.delecttab()
+		}
+		//删除tab
+		delecttab=()=>{
+			if(this.props.data.pdSpuId){
+				this.props.dispatch({
+					type:'goods/delete',
+					payload:'301000edit'+this.props.data.pdSpuId
+				})
+			}else{
+				this.props.dispatch({
+					type:'goods/delete',
+					payload:'301000edit'
+				})
+			}
+		}
 
 	render() {
 		const { getFieldDecorator } = this.props.form;
@@ -420,7 +387,7 @@
 					})(
 						<Input placeholder="请输入商品名称"/>
 					)}
-						</FormItem>
+			</FormItem>
 						<FormItem
 							label="商品分类"
 							labelCol={{ span: 8 }}
@@ -433,7 +400,7 @@
 							})(
 								<Select placeholder="请选择商品分类">
 									{
-									this.props.pdCategorysList.map((item,index)=>{
+									this.props.goodpdCategorys.map((item,index)=>{
 										return (<Option value={String(item.pdCategoryId)} key={index}>{item.name}</Option>)
 									})
 									}
@@ -561,7 +528,6 @@
 							 initialValue:String(this.props.lotStatus)
 						})(
 							<RadioGroup
-							
 						>
 							<Radio value='1'>是</Radio>
 							<Radio value='0'>否</Radio>
@@ -669,6 +635,32 @@
 						)}
 					</FormItem>
 					<FormItem
+						label="箱规销售"
+						labelCol={{ span: 8 }}
+						wrapperCol={{ span: 6 }}
+					>
+						{getFieldDecorator('containerSpec', {
+							rules: [{ required: true, message: '请输入箱规销售' }],
+							initialValue:this.props.containerSpec
+						})(
+							<Input placeholder="请输入箱规销售"/>
+						)}
+					</FormItem>
+					<FormItem
+						label="分成类别"
+						labelCol={{ span: 8 }}
+						wrapperCol={{ span: 6 }}
+					>
+						{getFieldDecorator('shareType', {
+							 initialValue:String(this.props.shareType)
+						})(
+							<RadioGroup>
+								<Radio value='1'>食品类</Radio>
+								<Radio value='0'>非食品类</Radio>
+							</RadioGroup>
+						)}
+					</FormItem>
+					<FormItem
 						label="商品描述"
 						labelCol={{ span: 8 }}
 						wrapperCol={{ span: 6 }}
@@ -687,10 +679,10 @@
 		);
 	}
 	componentDidMount(){
-		this.pdTypeslist()		
+		this.pdTypeslist()	
+		this.Categorylist()
 		if(this.props.data.pdSpuId){
-			this.Categorylist()
-			this.spuInfo()
+			 this.spuInfo()
 		}
 
 	}
@@ -701,11 +693,8 @@
 	const GoodEdit = Form.create()(App);
 
 	function mapStateToProps(state) {
-		console.log(state)
-		const {limit,currentPage,name,pdCategory1Id,pdCategory2Id,pdBrandId,spuIdPics,pdCategorys,pdBrand,pdTypeslist,pdType1Id,pdType2Id,tag1,tag2,isskus,goodindodatasouce,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell,pdSpuInfo,spuPics} = state.goods;
-		const {pdCategorysList}=state.IndexPage;
-		console.log(goodindodatasouce)
-		return {limit,currentPage,pdCategorys,pdCategorysList,name,pdCategory1Id,pdCategory2Id,pdBrandId,spuIdPics,pdBrand,pdTypeslist,pdType1Id,pdType2Id,tag1,tag2,isskus,goodindodatasouce,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell,pdSpuInfo,spuPics};
+		const {limit,currentPage,name,pdCategory1Id,pdCategory2Id,pdBrandId,spuIdPics,pdCategorys,pdBrand,pdTypeslist,pdType1Id,pdType2Id,tag1,tag2,isskus,goodindodatasouce,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell,pdSpuInfo,spuPics,goodpdCategorys,shareType,containerSpec} = state.goods;
+		return {limit,currentPage,name,pdCategory1Id,pdCategory2Id,pdBrandId,spuIdPics,pdCategorys,pdBrand,pdTypeslist,pdType1Id,pdType2Id,tag1,tag2,isskus,goodindodatasouce,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell,pdSpuInfo,spuPics,goodpdCategorys,shareType,containerSpec};
 	}
 
 	export default connect(mapStateToProps)(GoodEdit);

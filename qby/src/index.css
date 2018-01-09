@@ -151,6 +151,7 @@ ins { text-decoration: none; }
 /*Button */
 .icon_add{font-weight: 900;}
 
+
 /* table */
 .ant-table-bordered .ant-table-thead > tr > th, .ant-table-bordered .ant-table-tbody > tr > td{text-align:center}
 .ant-table-bordered .ant-table-thead > tr > th{font-size: 14px;color: #666;background: #f4f4f4;font-weight: normal;}
@@ -206,3 +207,5 @@ ins { text-decoration: none; }
 /* 去掉input外框 */
 .parentinput .ant-input{border:none}
 .parentinput .ant-input-disabled{background: #fff;color: rgba(0, 0, 0, 0.65)}
+
+

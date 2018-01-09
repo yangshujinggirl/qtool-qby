@@ -8,9 +8,9 @@ import Goodssearchform from './search';
 import Appmodel from '../../../components/model/modelbasic';
 
 const poptext1='商品状态将变为上架状态，Q掌柜将会对外售卖，确认吗'
-const poptext2='商品状态将变为下架状态，Q掌柜将会对外售卖，确认吗?'
-const poptext3='商品将会在Q掌柜首页每日上新栏目展示售卖，确认吗？'
-const poptext4='商品将会停止在Q掌柜首页畅销尖货栏目展示售卖，在其他栏目继续展示售卖，确认吗？'
+const poptext2='商品状态将变为下架状态，Q掌柜将会对外售卖，确认吗'
+const poptext3='商品将会在Q掌柜首页每日上新栏目展示售卖，确认吗'
+const poptext4='商品将会停止在Q掌柜首页畅销尖货栏目展示售卖，在其他栏目继续展示售卖，确认吗'
 const poptext5='商品将会在Q掌柜首页畅销尖货栏目展示售卖，确认吗？'
 const poptext6='商品状态将变为上新状态，Q掌柜将会对外售卖，确认吗'
 
