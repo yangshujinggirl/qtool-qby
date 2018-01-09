@@ -78,7 +78,7 @@ class Goodlist extends React.Component {
                             return (
                                 <li className='list' key={index}>
                                     <div className='list_l'>
-                                        <img src={fileDomain+item.mainPicUrl}/>
+                                        <img src={item.mainPicUrl?fileDomain+item.mainPicUrl:require('../../../assets/nogoods.png')}/>
                                         <Checkbox className='list_check' checked={item.check} onChange={this.checkonChange.bind(this,index)}/>
                                     </div>
                                     <div className='list_r'>

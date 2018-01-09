@@ -44,7 +44,7 @@ class PicturesWall extends React.Component {
 	}
 	const isLt2M = file.size / 1024 / 1024 < 2;
 	if (!isLt2M) {
-	message.error('图片文件需小于2MB');
+		message.error('图片文件需小于2MB');
 	}
 	return (isJPG || isPNG) && isLt2M;
 	}
@@ -52,14 +52,14 @@ class PicturesWall extends React.Component {
 	const { previewVisible, previewImage, fileList } = this.state;
 	const uploadButton = (
 		<div>
-		<Icon type="plus" />
-		<div className="ant-upload-text">添加图片</div>
+			<Icon type="plus" />
+			<div className="ant-upload-text">添加图片</div>
 		</div>
 	);
 	return (
 	<div className="clearfix">
 		<Upload
-			 beforeUpload={this.beforeUpload}
+			beforeUpload={this.beforeUpload}
 			action="/erpWebRest/qcamp/upload.htm?type=spu"
 			listType="picture-card"
 			fileList={fileList}

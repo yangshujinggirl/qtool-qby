@@ -4,28 +4,28 @@ import { connect } from 'dva';
 
 //图片upload
 function beforeUpload(file) {
-  const isJPG = file.type === 'image/jpeg';
-    const isPNG = file.type === 'image/png';
-  if (!isJPG && !isPNG) {
-    message.error('You can only upload JPG/PNG file!');
-  }
-  const isLt2M = file.size / 1024 / 1024 < 2;
-  if (!isLt2M) {
-    message.error('Image must smaller than 2MB!');
-  }
-  return (isJPG || isPNG) && isLt2M;
+const isJPG = file.type === 'image/jpeg';
+	const isPNG = file.type === 'image/png';
+if (!isJPG && !isPNG) {
+	message.error('You can only upload JPG/PNG file!');
+}
+const isLt2M = file.size / 1024 / 1024 < 2;
+if (!isLt2M) {
+	message.error('Image must smaller than 2MB!');
+}
+return (isJPG || isPNG) && isLt2M;
 }
 
 class Addavatar extends React.Component {
-  state = {
+state = {
 	imageUrl:this.props.imageUrl?this.props.imageUrl:null
-  };
-  handleChange = (info) => {
-   if (info.file.status === 'done') {
-      const urldata=info.file.response.data;
-      this.setState({
-        imageUrl:urldata[0],
-      },function(){
+};
+handleChange = (info) => {
+if (info.file.status === 'done') {
+	const urldata=info.file.response.data;
+	this.setState({
+		imageUrl:urldata[0],
+	},function(){
 			//更新到对应数组中
 			const pdSpuInfo=this.props.pdSpuInfo.splice(0)
 			pdSpuInfo[this.props.index].content=this.state.imageUrl
@@ -35,42 +35,42 @@ class Addavatar extends React.Component {
 			})
 
 
-      })
-    }
-  }
+	})
+	}
+}
 
 
 
 
-  render() {
+render() {
 	const imageUrl = this.state.imageUrl;
 	const fileDomain=eval(sessionStorage.getItem('fileDomain'));
-    return (
-      <Upload
-        className="avatar-uploader"
-        name="avatar"
-        showUploadList={false}
-        action="/erpWebRest/qcamp/upload.htm?type=content"
-        beforeUpload={beforeUpload}
-        onChange={this.handleChange}
-        name="imgFile"
-      >
-        {
-          imageUrl ?
-            <div style={{width:'100px',height:'100px'}}>
+	return (
+	<Upload
+		className="avatar-uploader"
+		name="avatar"
+		showUploadList={false}
+		action="/erpWebRest/qcamp/upload.htm?type=content"
+		beforeUpload={beforeUpload}
+		onChange={this.handleChange}
+		name="imgFile"
+	>
+		{
+		imageUrl ?
+			<div style={{width:'100px',height:'100px'}}>
 				<img src={fileDomain+imageUrl} alt="" className='w100 h100'/>
 			</div> 
 			:
-            <Icon type="plus" className="avatar-uploader-trigger" />
-        }
-      </Upload>
-    );
-  }
+			<Icon type="plus" className="avatar-uploader-trigger" />
+		}
+	</Upload>
+	);
+}
 
 }
 function mapStateToProps(state) {
-    const {pdSpuInfo} = state.goods;
-    return {pdSpuInfo};
+	const {pdSpuInfo} = state.goods;
+	return {pdSpuInfo};
 }
 
 export default connect(mapStateToProps)(Addavatar);

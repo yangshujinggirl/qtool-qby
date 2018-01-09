@@ -17,7 +17,8 @@
 			super(props);
 			this.columns = [{
 				title: '规格',
-				dataIndex: 'name'
+				dataIndex: 'name',
+				width:'10%'
 			},{
 				title: '商品编码',
 				dataIndex: 'code',

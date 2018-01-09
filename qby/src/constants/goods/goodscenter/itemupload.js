@@ -1,7 +1,7 @@
 import { Upload, Icon, Modal } from 'antd';
 import { connect } from 'dva';
 
-
+const fileDomain=eval(sessionStorage.getItem('fileDomain'));
 function beforeUpload(file) {
     const isJPG = file.type === 'image/jpeg';
       const isPNG = file.type === 'image/png';
@@ -21,7 +21,7 @@ class SkuPicturesWall extends React.Component {
     fileList: this.props.url==null?[]:[{
         uid: -1,
         status: 'done',
-        url: this.props.fileDomain+this.props.url,
+        url:fileDomain+this.props.url,
       }]
   };
 
@@ -87,8 +87,8 @@ class SkuPicturesWall extends React.Component {
 }
 
 function mapStateToProps(state) {
-    const {fileList,fileDomain,goodindodatasouce} = state.goods;
-    return {fileList,fileDomain,goodindodatasouce};
+    const {fileList,goodindodatasouce} = state.goods;
+    return {fileList,goodindodatasouce};
 }
 
 export default connect(mapStateToProps)(SkuPicturesWall);
