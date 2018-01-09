@@ -100,6 +100,8 @@ class App extends React.Component {
 				const isPresell=json.pdSpu.isPresell
 				const pdSpuId=json.pdSpu.pdSpuId
 				const dataSource=[]
+				const containerSpec=json.pdSpu.containerSpec
+				const shareTypeStr=json.pdSpu.shareTypeStr
 
 				if(pdSkus.length>0){
 					const pdType1Id=pdSkus[0].pdType1Id
@@ -159,6 +161,8 @@ class App extends React.Component {
 						eventHot:eventHot?'是':'否',
 						isDirectExpress:isDirectExpress=='0'?'否':'是',
 						isPresell:isPresell=='0'?'否':'是',
+						containerSpec:containerSpec,
+						shareType:shareTypeStr
 					});
 				})
 			}
@@ -353,7 +357,29 @@ class App extends React.Component {
 				)}
 			</FormItem>
 			<FormItem
-				label="预售商品"
+				label="箱规销售"
+				labelCol={{ span: 8 }}
+				wrapperCol={{ span: 6 }}
+				className='parentinput'
+			>
+				{getFieldDecorator('containerSpec', {
+				})(
+					<Input disabled/>
+				)}
+			</FormItem>
+			<FormItem
+				label="分成类别"
+				labelCol={{ span: 8 }}
+				wrapperCol={{ span: 6 }}
+				className='parentinput'
+			>
+				{getFieldDecorator('shareType', {
+				})(
+					<Input disabled/>
+				)}
+			</FormItem>
+			<FormItem
+				label="商品描述"
 				labelCol={{ span: 8 }}
 				wrapperCol={{ span: 6 }}
 				className='parentinput'
@@ -377,6 +403,11 @@ class App extends React.Component {
 					</div>
 				)}
 			</FormItem>	
+			
+			
+
+
+
 		</Form>
 	);
 }

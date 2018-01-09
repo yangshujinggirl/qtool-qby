@@ -90,7 +90,7 @@ class GoodsIndex extends React.Component{
 		})	
 		this.props.dispatch({
 			type:'goods/initgoodedit',
-			payload:null
+			payload:{}
 	  	})	
 	}
 	render(){

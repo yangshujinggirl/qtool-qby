@@ -42,15 +42,11 @@ export default {
 		//其他
 		fileList: [],
 		spuPics:[],
-		
-		
-		
-		pdBrands:[],
 
 	},
 	reducers: {
 		//初始化商品编辑
-		initgoodedit(state, { payload:pdBrands}) {
+		initgoodedit(state, { payload:{}}) {
 			const name=null
 			const pdCategory1Id=[]
 			const pdCategory2Id=[]
@@ -74,8 +70,10 @@ export default {
 			const isPresell='0'
 			const pdSpuInfo=[]
 			const fileList=[]
+			const shareType='0'
+			const containerSpec=null
 
-			return {...state,name,pdCategory1Id,pdCategory2Id,pdCategorys,pdBrand,pdBrandId,spuPics,pdType1Id,pdType2Id,tag1,tag2,goodindodatasouce,initdatasouce,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell,pdSpuInfo,fileList}
+			return {...state,name,pdCategory1Id,pdCategory2Id,pdCategorys,pdBrand,pdBrandId,spuPics,pdType1Id,pdType2Id,tag1,tag2,goodindodatasouce,initdatasouce,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell,pdSpuInfo,fileList,shareType,containerSpec}
 		},
 		//商品list
 		goodslist(state, { payload:{goodslist,total,limit,currentPage}}) {
@@ -100,8 +98,8 @@ export default {
 			return {...state,pdTypeslist}
 		},
 		//商品编辑信息
-		infolist(state, { payload:{name,pdCategory1Id,pdCategory2Id,pdBrandId,spuPics,pdBrand,fileList,pdType1Id,pdType2Id,tag1,tag2,initdatasouce,goodindodatasouce,isskus,initisskus,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell,pdSpuInfo}}) {
-			return {...state,name,pdCategory1Id,pdCategory2Id,pdBrandId,spuPics,pdBrand,fileList,pdType1Id,pdType2Id,tag1,tag2,initdatasouce,goodindodatasouce,isskus,initisskus,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell,pdSpuInfo}
+		infolist(state, { payload:{name,pdCategory1Id,pdCategory2Id,pdBrandId,spuPics,pdBrand,fileList,pdType1Id,pdType2Id,tag1,tag2,initdatasouce,goodindodatasouce,isskus,initisskus,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell,pdSpuInfo,shareType,containerSpec}}) {
+			return {...state,name,pdCategory1Id,pdCategory2Id,pdBrandId,spuPics,pdBrand,fileList,pdType1Id,pdType2Id,tag1,tag2,initdatasouce,goodindodatasouce,isskus,initisskus,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell,pdSpuInfo,shareType,containerSpec}
 		},
 		//商品类型
 		pdCategorys(state, { payload:pdCategorys}) {
@@ -252,7 +250,7 @@ export default {
 			if(result.code=='0'){
 				const pdSpuinfos=result.pdSpu
 				const fileDomain=result.fileDomain
-				const {name,pdCategory1Id,pdCategory2Id,pdBrandId,spuIdPics,pdBrand,pdSkus,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell}=pdSpuinfos
+				const {name,pdCategory1Id,pdCategory2Id,pdBrandId,spuIdPics,pdBrand,pdSkus,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell,shareType,containerSpec}=pdSpuinfos
 				const pdSpuInfo=eval(pdSpuinfos.pdSpuInfo)
 				//更新图片数据
 				const spuPics=[]
@@ -329,7 +327,7 @@ export default {
 				}
 
 				const goodindodatasouce=initdatasouce.slice(0)
-				yield put({type: 'infolist',payload:{name,pdCategory1Id,pdCategory2Id,pdBrandId,spuPics,pdBrand,fileList,pdType1Id,pdType2Id,tag1,tag2,initdatasouce,goodindodatasouce,isskus,initisskus,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell,pdSpuInfo}});
+				yield put({type: 'infolist',payload:{name,pdCategory1Id,pdCategory2Id,pdBrandId,spuPics,pdBrand,fileList,pdType1Id,pdType2Id,tag1,tag2,initdatasouce,goodindodatasouce,isskus,initisskus,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell,pdSpuInfo,shareType,containerSpec}});
 				//根据id请求类型的opation
 				const value={"parentId":pdCategory1Id,"getChildren":true,"enabled":true}
 				yield put({type: 'captlistfetch',payload:{code:'qerp.web.pd.category.list',values:value}});
