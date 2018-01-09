@@ -58,8 +58,8 @@ export default {
 			const pdBrand={}
 			const pdBrandId=null
 			const spuPics=[]
-			const pdType1Id=[]
-			const pdType2Id=[]
+			const pdType1Id='00'
+			const pdType2Id='00'
 			const tag1=[]
 			const tag2=[]
 			const goodindodatasouce=[]
