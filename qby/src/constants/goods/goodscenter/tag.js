@@ -12,11 +12,9 @@ state = {
 handleClose = (removedTag) => {
 	const tags = this.props.tags.filter(tag => tag !== removedTag);
 }
-
 showInput = () => {
 	this.setState({ inputVisible: true }, () => this.input.focus());
 }
-
 handleInputChange = (e) => {
 	const str=e.target.value.replace(/\s+/g,"");  
 	this.setState({ inputValue: str });
@@ -39,7 +37,8 @@ handleInputConfirm = () => {
 	getTypevallist=(inputValue,id)=>{
 		const values={
 			pdTypeId:id,
-			enabled:true
+			enabled:true,
+			firstent:true
 		}
 		const result=GetServerData('qerp.web.pd.typeval.list',values)
 		result.then((res) => {
@@ -63,13 +62,20 @@ handleInputConfirm = () => {
 							payload:{iallpdTypeVals,types}
 						})
 						this.hindok()
-						message.success('此属性已存在',.8)
-
+						if(this.state.firstent){
+							message.success('此属性已存在',.8)
+						}
+						this.setState({
+							firstent:true
+						})
 					}else{
-						//不存在
-						   this.newTypevallist(inputValue,id)
-
-
+						this.setState({
+							firstent:false
+						},function(){
+							//不存在
+							this.newTypevallist(inputValue,id)
+						})
+						
 
 					}
 

@@ -664,7 +664,7 @@
 					<FormItem
 						label="商品描述"
 						labelCol={{ span: 8 }}
-						wrapperCol={{ span: 6 }}
+						wrapperCol={{ span: 10 }}
 					>
 						{getFieldDecorator('ssd', {
 							 
