@@ -160,9 +160,13 @@ class Goodlist extends React.Component {
                                         <p className='main'>售价：￥{item.minPrice}</p>
                                         <div className='icons'>
                                             {   
-                                                item.list_img_name.length>0?item.list_img_name.map((subitem,subindex)=>{
-                                                    return <div key={subindex} className='icon_img'><img src={subitem}/></div>
-                                                })
+                                                item.list_img_name.length>0?
+                                                (item.list_img_name.map((subitem,subindex)=>{
+                                                    return (<div key={subindex} className='icon_img'>
+                                                        <img src={subitem}/>
+                                                    </div>
+                                                    )
+                                                }))
                                                 :<div className='icon_img'></div>
 
 
@@ -202,6 +206,7 @@ class Goodlist extends React.Component {
 function mapStateToProps(state) {
     console.log(state)
     const {limit,currentPage,goodslist,fileDomain,total,values} = state.goods;
+    console.log(goodslist)
     const {pdCategorysList}=state.IndexPage;
     return {limit,currentPage,pdCategorysList,goodslist,fileDomain,total,values};
 }

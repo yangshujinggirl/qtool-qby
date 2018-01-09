@@ -1,30 +1,20 @@
-import { Form, Row, Col, Input, Button, Icon,Select ,DatePicker} from 'antd';
+import { Form, Row, Col, Input, Button, Icon,Select} from 'antd';
 import { connect } from 'dva';
 
 const FormItem = Form.Item;
 const Option = Select.Option
-const RangePicker = DatePicker.RangePicker;
 
 class AdvancedSearchForm extends React.Component {
-    state = {
-        createTimeST: undefined,
-        createTimeET:undefined,
-        expectedTimeST:undefined,
-        expectedTimeET:undefined
-    };
+    //搜索
     handleSearch = (e) => {
         this.props.form.validateFields((err, values) => {
             this.initWarehouseList(values,this.props.limit,0)
             this.synchronousState(values)
-            // this.initselect()
+            this.initselect()
         });
     }
     //搜搜请求数据
     initWarehouseList=(values,limit,currentPage)=>{
-        // values.createTimeST=this.state.createTimeST 
-        // values.createTimeET=this.state.createTimeET 
-        // values.expectedTimeST=this.state.expectedTimeST 
-        // values.expectedTimeET=this.state.expectedTimeET 
         values.limit=limit
         values.currentPage=currentPage
         this.props.dispatch({
@@ -35,29 +25,14 @@ class AdvancedSearchForm extends React.Component {
     }
     //同步data
     synchronousState=(values)=>{
-        values.createTimeST=this.state.createTimeST 
-        values.createTimeET=this.state.createTimeET 
-        values.expectedTimeST=this.state.expectedTimeST 
-        values.expectedTimeET=this.state.expectedTimeET 
         this.props.dispatch({
             type:'goods/synchronous',
             payload:values
         })
     }
-    hinddataChange=(dates, dateString)=>{
-        this.setState({
-            createTimeST:dateString[0],
-            createTimeET:dateString[1]
-        })
-    }
-    dataonChanges(date, dateString) {
-        this.setState({
-            expectedTimeST:dateString[0],
-            expectedTimeET:dateString[1]
-        })
-    }
-      //商品列表
-      Categorylist=()=>{
+    
+    //商品列表
+    Categorylist=()=>{
         let value={
             getChildren:false,
             enabled:true
@@ -76,7 +51,6 @@ class AdvancedSearchForm extends React.Component {
 	  	})
 	}
     render() {
-        const adminType=eval(sessionStorage.getItem('adminType'));
         const { getFieldDecorator } = this.props.form;
         return (
             <Form  className='formbox'>
@@ -86,22 +60,22 @@ class AdvancedSearchForm extends React.Component {
                             <div className='serach_form'>
                                 <FormItem label='商品编码'>
                                     {getFieldDecorator('code')(
-                                        <Input placeholder="请输入" className='form_input_width'/>
+                                        <Input placeholder="请输入商品编码" className='form_input_width'/>
                                     )}
                                 </FormItem>
                                 <FormItem label='商品名称'>
                                     {getFieldDecorator('name')(
-                                        <Input placeholder="请输入" />
+                                        <Input placeholder="请输入商品名称" />
                                     )}
                                 </FormItem>
                                 <FormItem label='品牌分类'>
                                     {getFieldDecorator('pdBrandName')(
-                                        <Input placeholder="请输入" />
+                                        <Input placeholder="请输入品牌分类" />
                                     )}
                                 </FormItem>
                                 <FormItem label='商品分类'>
                                     {getFieldDecorator('pdCategory1Id')(
-                                        <Select allowClear={true} size="large" placeholder="请选择">
+                                        <Select allowClear={true} size="large" placeholder="请选择商品分类">
                                             {
                                                 this.props.pdCategorysList.map((item,index)=>{
                                                     return (<Option value={String(item.pdCategoryId)} key={index}>{item.name}</Option>)
@@ -112,7 +86,7 @@ class AdvancedSearchForm extends React.Component {
                                 </FormItem>
                                 <FormItem label='是否完整'>
                                     {getFieldDecorator('infoStatus')(
-                                        <Select allowClear={true} size="large" placeholder="请选择">
+                                        <Select allowClear={true} size="large" placeholder="请选择是否完整">
                                             <Option value='1'>是</Option>
                                             <Option value='0'>否</Option>
                                         </Select>
@@ -120,7 +94,7 @@ class AdvancedSearchForm extends React.Component {
                                 </FormItem>
                                 <FormItem label='是否在售'>
                                     {getFieldDecorator('status')(
-                                        <Select allowClear={true} size="large" placeholder="请选择">
+                                        <Select allowClear={true} size="large" placeholder="请选择是否在售">
                                             <Option value="10">是</Option>
                                             <Option value="20">否</Option>
                                         </Select>
@@ -128,7 +102,7 @@ class AdvancedSearchForm extends React.Component {
                                 </FormItem>
                                 <FormItem label='是否上新'>
                                     {getFieldDecorator('isNew')(
-                                        <Select allowClear={true} size="large" placeholder="请选择">
+                                        <Select allowClear={true} size="large" placeholder="请选择是否上新">
                                             <Option value="true">是</Option>
                                             <Option value="false">否</Option>
                                         </Select>
@@ -136,7 +110,7 @@ class AdvancedSearchForm extends React.Component {
                                 </FormItem>
                                 <FormItem label='是否畅销'>
                                     {getFieldDecorator('isHot')(
-                                        <Select allowClear={true} size="large" placeholder="请选择">
+                                        <Select allowClear={true} size="large" placeholder="请选择是否畅销">
                                             <Option value="true">是</Option>
                                             <Option value="false">否</Option>
                                         </Select>
@@ -144,7 +118,7 @@ class AdvancedSearchForm extends React.Component {
                                 </FormItem>
                                 <FormItem label='直邮商品'>
                                     {getFieldDecorator('isDirectExpress')(
-                                        <Select allowClear={true} size="large" placeholder="请选择">
+                                        <Select allowClear={true} size="large" placeholder="请选择直邮商品">
                                             <Option value="1">是</Option>
                                             <Option value="0">否</Option>
                                         </Select>
@@ -152,7 +126,7 @@ class AdvancedSearchForm extends React.Component {
                                 </FormItem>
                                 <FormItem label='预售商品'>
                                     {getFieldDecorator('isPresell')(
-                                        <Select allowClear={true} size="large" placeholder="请选择">
+                                        <Select allowClear={true} size="large" placeholder="请选择预售商品">
                                             <Option value="1">是</Option>
                                             <Option value="0">否</Option>
                                         </Select>

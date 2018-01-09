@@ -172,27 +172,27 @@ export default {
 					goodslist[i].list_img_name=[]
 					if(goodslist[i].skuStatus==1){
 						//多规格
-						goodslist[i].list_img_name.push('../../assets/icon_skuStatus.png')
+						goodslist[i].list_img_name.push('../../../assets/icon_skuStatus.png')
 					}
 					if(goodslist[i].infoStatus==0){
 						//缺货
-						goodslist[i].list_img_name.push('../../assets/icon_que.png')
+						goodslist[i].list_img_name.push('../../../assets/icon_que.png')
 					}
 					if(goodslist[i].eventHot==true){
 						//畅销
-						goodslist[i].list_img_name.push('../../assets/icon_hot.png')
+						goodslist[i].list_img_name.push('../../../assets/icon_hot.png')
 					}
 					if(goodslist[i].eventNew==true){
 						//上新
-						goodslist[i].list_img_name.push('../../assets/icon_new.png')
+						goodslist[i].list_img_name.push('../../../assets/icon_new.png')
 					}
 					if(goodslist[i].isDirectExpress==1){
 						//直邮
-						goodslist[i].list_img_name.push('../../assets/icon_zhi.png')
+						goodslist[i].list_img_name.push('../../../assets/icon_zhi.png')
 					}
 					if(goodslist[i].isPresell==1){
 						//预售
-						goodslist[i].list_img_name.push('../../assets/icon_yu.png')
+						goodslist[i].list_img_name.push('../../../assets/icon_yu.png')
 					}
 			
 				}
