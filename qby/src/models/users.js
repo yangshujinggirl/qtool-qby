@@ -9,7 +9,8 @@ export default {
 			const result=yield call(GetServerData,code,values);
 			yield put({type: 'tab/loding',payload:false});
             if(result.code=='0'){
-            	yield put(routerRedux.push('/'));
+				location.reload();
+            	// yield put(routerRedux.push('/'));
             } 
         }
   	},

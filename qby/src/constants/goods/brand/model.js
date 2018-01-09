@@ -130,7 +130,7 @@ class CollectionsPage extends React.Component {
               this.props.type=='1'
               ?
               <div onClick={this.showModal} style={{color:'#35bab0',width:'122px',height:'82px'}}>
-                <img src={fileDomain+this.props.url} className='w100 h100'/>
+                <img src={this.props.url?(fileDomain+this.props.url):require('../../../assets/nogoods.png')} className='w100 h100'/>
               </div>
               :
               <Button type={this.props.statetype} onClick={this.showModal}>{this.props.text}</Button>
