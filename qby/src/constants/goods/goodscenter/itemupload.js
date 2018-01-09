@@ -38,7 +38,6 @@ class SkuPicturesWall extends React.Component {
 
 
   handleChange = ({ fileList }) => {
-    console.log(fileList)
     this.setState({fileList})
     var s=fileList.every(function(currentValue){
         return  currentValue.status=='done'
@@ -89,7 +88,6 @@ class SkuPicturesWall extends React.Component {
 
 function mapStateToProps(state) {
     const {fileList,fileDomain,goodindodatasouce} = state.goods;
-    console.log(fileDomain)
     return {fileList,fileDomain,goodindodatasouce};
 }
 

@@ -38,14 +38,13 @@ export default {
 		initdatasouce:[],  //商品信息初始数据
 		goodindodatasouce:[], //商品信息数据
 		initisskus:false, //初始化数据状态,
-		pdTypes:[],
-		brandurl:'',
+		
 		//其他
 		fileList: [],
 		spuPics:[],
-		ishindok:false,
-		changedatasouce:[],
-		datasoucedata:[],
+		
+		
+		
 		pdBrands:[],
 
 	},
@@ -115,12 +114,8 @@ export default {
 
 
 
-		pdBrandslist(state, { payload:pdBrands}) {
-			return {...state,pdBrands}
-		},
-		stocktableinfo(state, { payload:datasoucedata}) {
-			return {...state,datasoucedata}
-		},
+		
+		
 		goodindodatasouce(state, { payload:goodindodatasouce}) {
 			return {...state,goodindodatasouce}
 		},
@@ -142,9 +137,7 @@ export default {
 		},
 		
 
-		brandurl(state, { payload:brandurl}) {
-			return {...state,brandurl}
-		},
+		
 		isskus(state, { payload:isskus}) {
 			return {...state,isskus}
 		},
@@ -158,10 +151,7 @@ export default {
 			return {...state,spuPics}
 		},
 		
-		pdTypes(state, { payload:pdTypes}) {
-			return {...state,pdTypes}
-		},
-	
+		
 		//商品信息数据拼接
 		infolists(state, { payload:{pdType1Id,pdType2Id,tag1,tag2,isskus,goodindodatasouce}}) {
 			return {...state,pdType1Id,pdType2Id,tag1,tag2,isskus,goodindodatasouce}
@@ -346,95 +336,6 @@ export default {
 				
 			} 
 		}, 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-			// *getAsnFinish({ payload: {code,values} }, { call, put ,select}) {
-			// 	const valuedata = yield select(state => state.wsin.values);
-			// 	const result=yield call(GetServerData,code,values);
-			// 	yield put({type: 'tab/loding',payload:false});
-			// 	if(result.code=='0'){
-			// 		message.success('强制完成成功',.8)
-			// 		const initselectedRows=[]
-			// 		const initselectedRowKeys=[]
-			// 		yield put({type: 'select',payload:{initselectedRowKeys,initselectedRows}});
-			// 		yield put({type: 'fetch',payload:{code:'qerp.web.ws.asn.query',values:valuedata}});
-			// 	} 
-			// }, 
-			// *specsfetch({ payload: {code,values} }, { call, put ,select}) {
-			// 	const result=yield call(GetServerData,code,values);
-			// 	yield put({type: 'tab/loding',payload:false});
-			// 	if(result.code=='0'){
-			// 		const pdTypes=result.pdTypes
-			// 		for(var i=0;i<pdTypes.length;i++){
-			// 			pdTypes[i].key=i
-			// 		}
-			// 		yield put({type: 'pdTypes',payload:pdTypes});
-					
-			// 	} 
-			// }, 
-			
-			
-			// *classfetch({ payload: {code,values} }, { call, put ,select}) {
-			// 	const result=yield call(GetServerData,code,values);
-			// 	yield put({type: 'tab/loding',payload:false});
-			// 	if(result.code=='0'){
-			// 		// const pdCategoryslist=result.pdCategorys
-			// 		// for(var i=0;i<pdCategoryslist.length;i++){
-			// 		// 	pdCategoryslist[i].childrens=pdCategoryslist[i].children
-			// 		// 	delete pdCategoryslist[i].children
-			// 		// }
-			// 		// yield put({type: 'pdCategoryslist',payload:pdCategoryslist});
-			// 	} 
-			// }, 
-
-			// *brandfetch({ payload: {code,values} }, { call, put ,select}) {
-			// 	const result=yield call(GetServerData,code,values);
-			// 	yield put({type: 'tab/loding',payload:false});
-			// 	if(result.code=='0'){
-			// 		const pdBrands=result.pdBrands
-			// 		const fileDomain=result.fileDomain
-			// 		 yield put({type: 'pdBrandslist',payload:pdBrands});
-			// 		 yield put({type: 'IndexPage/fileDomain',payload:fileDomain});
-					 
-			// 	} 
-			// },
-			// *pdCategory2list({ payload: {code,values} }, { call, put ,select}) {
-			// 	const result=yield call(GetServerData,code,values);
-			// 	yield put({type: 'tab/loding',payload:false});
-			// 	if(result.code=='0'){
-
-			// 		// const pdBrands=result.pdBrands
-			// 		// const fileDomain=result.fileDomain
-			// 		//  yield put({type: 'pdBrandslist',payload:pdBrands});
-			// 		//  yield put({type: 'IndexPage/fileDomain',payload:fileDomain});
-					 
-			// 	} 
-			// },
-
-
 			//selec和tag的变动走的程序
 			*goodsinfoChange({ payload: {pdType1Ids,pdType2Ids,tag1s,tag2s} }, { call, put ,select}) {
 				//得到更新后的数据
@@ -542,23 +443,8 @@ export default {
 
 
 				yield put({type: 'infolists',payload:{pdType1Id,pdType2Id,tag1,tag2,isskus,goodindodatasouce}});	
-
-
-
-
-
-
-
-
-
-				
-
-			
 			}, 
-
-
-
-
+			
 			*delete({ payload: id }, { call, put ,select}) {
 				yield put({type: 'tab/initDeletestate',payload:id});
 				yield put({type: 'initstatus',payload:{}});

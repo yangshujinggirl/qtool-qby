@@ -35,6 +35,7 @@ class Avatar extends React.Component {
     
     render() {
         const imageUrl = this.state.imageUrl
+        const fileDomain=eval(sessionStorage.getItem('fileDomain'));
     	return (
             <Upload
                 name="avatar"
@@ -47,7 +48,7 @@ class Avatar extends React.Component {
                 {
                     imageUrl 
                     ?
-                        <img src={this.props.fileDomain+imageUrl} alt="" style = {{width:'122px', height:'82px', verticalAlign:'middle', cursor: 'pointer'}}/> 
+                        <img src={fileDomain+imageUrl} alt="" style = {{width:'122px', height:'82px', verticalAlign:'middle', cursor: 'pointer'}}/> 
                     :
                         <Icon type="plus" style = {{width:'122px', height:'82px', verticalAlign:'middle', border: '1px dashed #d9d9d9', cursor: 'pointer', display: 'table-cell'}}/>
                 }
@@ -58,8 +59,7 @@ class Avatar extends React.Component {
 
 function mapStateToProps(state) {
     const {pdBrands} = state.goods;
-    const {fileDomain} = state.IndexPage;
-    return {pdBrands,fileDomain};
+    return {pdBrands};
 }
 
 export default connect(mapStateToProps)(Avatar);

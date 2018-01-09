@@ -75,7 +75,6 @@ class CollectionsPages extends React.Component {
 	}
 	setValues=()=>{
 		const form = this.form;
-		console.log(this)
 		const data=this.props.data
 		form.setFieldsValue({
 			name:null,

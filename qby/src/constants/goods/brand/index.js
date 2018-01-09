@@ -6,7 +6,7 @@ import { connect } from 'dva';
 class Brandindex extends React.Component {
 	getBrandData=()=>{
 		this.props.dispatch({
-			type:'goods/brandfetch',
+			type:'brand/brandfetch',
 			payload:{code:'qerp.web.pd.brand.list',values:{}}
 		})
 	}
@@ -40,7 +40,7 @@ class Brandindex extends React.Component {
 }
 
 function mapStateToProps(state) {
-	const {pdBrands} = state.goods;
+	const {pdBrands} = state.brand;
     return {pdBrands};
 }
 

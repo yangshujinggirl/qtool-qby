@@ -58,14 +58,13 @@ class Classificationindex extends React.Component {
 	}
 	getClassData=()=>{
 		this.props.dispatch({
-			type:'goods/classfetch',
+			type:'fenlei/classfetch',
 			payload:{code:'qerp.web.pd.category.list',values:{getChildren:true}}
 		})
 	}
 
 
 	render() {
-		console.log(this)
 		return (
 			<div className='content_box'>
 					<div className='tr mb15'><CollectionsPages title='新增分类' text='新增分类' statetype='primary'/></div> 
@@ -79,8 +78,7 @@ class Classificationindex extends React.Component {
 }
 
 function mapStateToProps(state) {
-	const {pdCategoryslist} = state.goods;
-	console.log(pdCategoryslist)
+	const {pdCategoryslist} = state.fenlei;
     return {pdCategoryslist};
 }
 

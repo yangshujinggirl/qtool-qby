@@ -126,7 +126,6 @@ class CollectionsPage extends React.Component {
 
 
   render() {
-      console.log(this)
     return (
       <div style={{display:'inline-block'}}>
           { 
@@ -155,8 +154,7 @@ class CollectionsPage extends React.Component {
 
 
 function mapStateToProps(state) {
-	const {pdCategoryslist} = state.goods;
-	console.log(pdCategoryslist)
+	const {pdCategoryslist} = state.fenlei;
     return {pdCategoryslist};
 }
 

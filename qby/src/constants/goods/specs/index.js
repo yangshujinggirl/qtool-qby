@@ -54,14 +54,13 @@ class Specsindex extends React.Component {
 	}
 	getSpecsData=()=>{
 		this.props.dispatch({
-			type:'goods/specsfetch',
+			type:'specs/specsfetch',
 			payload:{code:'qerp.web.pd.type.list',values:{}}
 		})
 	}
 
 
 	render() {
-		console.log(this)
 		return (
 			<div className='content_box'>
 					<div className='tr mb15'><CollectionsPages title='新增规格' text='新增规格' statetype='primary'/></div>
@@ -75,7 +74,7 @@ class Specsindex extends React.Component {
 }
 
 function mapStateToProps(state) {
-	const {pdTypes} = state.goods;
+	const {pdTypes} = state.specs;
     return {pdTypes};
 }
 

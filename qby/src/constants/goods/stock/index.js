@@ -83,7 +83,7 @@ render() {
 
 
 function mapStateToProps(state) {
-	const {pdTypes,datasoucedata,changedatasouce,ishindok} = state.goods;
+	const {pdTypes,datasoucedata,changedatasouce,ishindok} = state.stock;
     return {pdTypes,datasoucedata,changedatasouce,ishindok};
 }
 export default connect(mapStateToProps)(Stockindex);

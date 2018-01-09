@@ -84,7 +84,6 @@ handleAddimg = () => {
 render() {
 	const { dataSource } = this.state;
 	const columns = this.columns;
-	console.log(this.props.data)
 	return (
 	<div style = {{marginTop:'15px'}}>
 		<Button style = {{marginLeft:'22px'}} onClick={this.handleAdd}>添加文本</Button>

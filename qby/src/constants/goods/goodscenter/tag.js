@@ -10,10 +10,7 @@ state = {
 };
 
 handleClose = (removedTag) => {
-	
 	const tags = this.props.tags.filter(tag => tag !== removedTag);
-	console.log(tags);
-	// this.setState({ tags });
 }
 
 showInput = () => {
@@ -26,12 +23,10 @@ handleInputChange = (e) => {
 }
 
 handleInputConfirm = () => {
-	console.log(12)
 	//判断select是都选中
 	//对inoutvalue进行判断，判断是否已经存在相同的名字，如果存在，则获取id，如果不存在，则新建一个，再拉取id
 	const inputValue=this.state.inputValue
 	const pdTypesId=this.props.pdTypesId
-	console.log(pdTypesId)
 	if(pdTypesId=='00'){
 		message.error('请确保选择了规格',.8);
 		return
@@ -42,7 +37,6 @@ handleInputConfirm = () => {
 
 //规格属性匹配
 	getTypevallist=(inputValue,id)=>{
-		console.log(13)
 		const values={
 			pdTypeId:id,
 			enabled:true
@@ -52,16 +46,12 @@ handleInputConfirm = () => {
 			return res;
 		}).then((json) => {
 			if(json.code=='0'){
-				console.log(14)
 				const allpdTypeVals=json.pdTypeVals
-				console.log(allpdTypeVals)
 				//判断inputValue是否已经存在
 				const iallpdTypeVal=allpdTypeVals.filter((currentValue)=>{
 						return currentValue.name==inputValue
 					})
-					console.log(iallpdTypeVal)
 					if(iallpdTypeVal.length>0){
-						console.log('cunzai')
 						//存在
 						const iallpdTypeVals={
 							name:iallpdTypeVal[0].name,
@@ -76,8 +66,6 @@ handleInputConfirm = () => {
 						message.success('此属性已存在',.8)
 
 					}else{
-						console.log(15)
-						console.log('bucunzai')
 						//不存在
 						   this.newTypevallist(inputValue,id)
 
@@ -102,7 +90,6 @@ handleInputConfirm = () => {
 			return res;
 		}).then((json) => {
 			if(json.code=='0'){
-				console.log(json)
 				this.getTypevallist(inputValue,id)
 			}
 		})
@@ -125,9 +112,6 @@ hindok=()=>{
 		const pdType2Ids=this.props.pdType2Id
 		const tag1s=this.props.tag1
 		const tag2s=this.props.tag2
-		console.log(tag1s)
-		console.log(tag2s)
-
 		this.props.dispatch({
 			type:'goods/goodsinfoChange',
 			payload:{pdType1Ids,pdType2Ids,tag1s,tag2s}
@@ -183,7 +167,6 @@ render() {
 }
 
 function mapStateToProps(state) {
-	console.log(state)
 	const {cardtitle,cardlist,details,binCode,values,limit,currentPage,name,pdCategory1Id,pdCategory2Id,pdBrandId,spuIdPics,pdCategorys,pdBrand,pdTypeslist,pdType1Id,pdType2Id,tag1,tag2,isskus,goodindodatasouce} = state.goods;
 	const {pdCategorysList}=state.IndexPage;
 	return {cardtitle,cardlist,details,binCode,values,limit,currentPage,pdCategorys,pdCategorysList,name,pdCategory1Id,pdCategory2Id,pdBrandId,spuIdPics,pdBrand,pdTypeslist,pdType1Id,pdType2Id,tag1,tag2,isskus,goodindodatasouce};

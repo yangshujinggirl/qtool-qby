@@ -79,8 +79,6 @@ class CollectionsPage extends React.Component {
         if (err) {
             return;
         }
-        console.log(value)
-
         value.url=this.props.brandurl
         if(this.props.data.pdBrandId){
             value.pdBrandId=this.props.data.pdBrandId
@@ -125,13 +123,14 @@ class CollectionsPage extends React.Component {
 
 
   render() {
+    const fileDomain=eval(sessionStorage.getItem('fileDomain'));
     return (
       <div style={{display:'inline-block'}}>
           { 
               this.props.type=='1'
               ?
               <div onClick={this.showModal} style={{color:'#35bab0',width:'122px',height:'82px'}}>
-                <img src={this.props.fileDomain+this.props.url} className='w100 h100'/>
+                <img src={fileDomain+this.props.url} className='w100 h100'/>
               </div>
               :
               <Button type={this.props.statetype} onClick={this.showModal}>{this.props.text}</Button>
@@ -155,9 +154,8 @@ class CollectionsPage extends React.Component {
 }
 
 function mapStateToProps(state) {
-    const {pdBrands,brandurl} = state.goods;
-    const {fileDomain} = state.IndexPage;
-    return {pdBrands,fileDomain,brandurl};
+    const {pdBrands,brandurl} = state.brand;
+    return {pdBrands,brandurl};
 }
 
 

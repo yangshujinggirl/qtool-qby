@@ -11,6 +11,14 @@ const app = dva({
 
 app.model(require("./models/account"));
 
+app.model(require("./models/stock"));
+
+app.model(require("./models/specs"));
+
+app.model(require("./models/brand"));
+
+app.model(require("./models/fenlei"));
+
 app.model(require("./models/warehouse"));
 
 app.model(require("./models/feedback"));
