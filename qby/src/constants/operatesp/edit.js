@@ -173,13 +173,13 @@ class SpEditForm extends React.Component{
                         initfileList:initfileList,
                         name:json.spShop.name,
 						sname:json.spShop.sname,
-						shopType:json.spShop.shopType,
+						shopType:json.spShop.shopType==undefined || json.spShop.shopType==null || json.spShop.shopType=='' ?[]:String(json.spShop.shopType),
                         printName:json.spShop.printName,
                         no:json.spShop.no,
                         mobile:json.spShop.mobile,
                         telephone:json.spShop.telephone,
                         shopman:json.spShop.shopman,
-                        status:json.spShop.status,
+                        status:json.spShop.status==undefined || json.spShop.status==null || json.spShop.status==''?[]:String(json.spShop.status),
                         provinceId:json.spShop.provinceId,
                         cityId:json.spShop.cityId,
                         districtId:json.spShop.districtId,
@@ -254,7 +254,7 @@ class SpEditForm extends React.Component{
 	  }
 
 	selectChange=(value)=>{
-		if(value=='3'){
+		if(value=='2'){
 			this.setState({
 				shopType:value,
 				foodShareRatio:this.state.initfoodShareRatio,
@@ -269,14 +269,49 @@ class SpEditForm extends React.Component{
 		}
 	}
 	hindChange1=(e)=>{
-		this.setState({
-			foodShareRatio:e.target.value
-		})
+		const patt=/^([0-9]*)+(.|.[0-9]{1,2})?$/
+		const values=e.target.value
+		const isvalues=patt.test(values)
+		if(isvalues){
+			this.setState({
+				foodShareRatio:e.target.value
+			})
+		}
+	}
+
+	hindBlue1=(e)=>{
+		const patt=/^([0-9]*)+(.[0-9]{1,2})?$/
+		const values=e.target.value
+		const isvalues=patt.test(values)
+		if(isvalues){
+			this.setState({
+				foodShareRatio:e.target.value
+			})
+		}else{
+			this.setState({
+				foodShareRatio:Number(e.target.value)
+			})	
+		}
 	}
 	hindChange2=(e)=>{
-		this.setState({
-			nonfoodShareRatio:e.target.value
-		})
+		const patt=/^([0-9]*)+(.|.[0-9]{1,2})?$/
+		const values=e.target.value
+		const isvalues=patt.test(values)
+		if(isvalues){
+			this.setState({
+				nonfoodShareRatio:e.target.value
+			})
+		}
+	}
+	hindBlue2=(e)=>{
+		const patt=/^([0-9]*)+(.[0-9]{1,2})?$/
+		const values=e.target.value
+		const isvalues=patt.test(values)
+		if(isvalues){
+			this.setState({
+				nonfoodShareRatio:Number(e.target.value)
+			})
+		}
 	}
 
   	render(){  
@@ -413,16 +448,14 @@ class SpEditForm extends React.Component{
 					<div className='felxboxs'>
 						<div style={{width:'45%'}}>
 							<p className='tc'>食品尿不湿类</p>
-							<Input suffix='%' disabled={this.state.shopType=='3'?false:true} value={this.state.foodShareRatio} onChange={this.hindChange1.bind(this)}/>
+							<Input suffix='%' disabled={this.state.shopType=='2'?false:true} value={this.state.foodShareRatio} onChange={this.hindChange1.bind(this)} onBlur={this.hindBlue1.bind(this)}/>
 						</div>
 						<div style={{width:'45%'}}>
 							<p className='tc'>非食品尿不湿类</p>
-							<Input suffix='%' disabled={this.state.shopType=='3'?false:true} value={this.state.nonfoodShareRatio} onChange={this.hindChange2.bind(this)}/>
+							<Input suffix='%' disabled={this.state.shopType=='2'?false:true} value={this.state.nonfoodShareRatio} onChange={this.hindChange2.bind(this)} onBlur={this.hindBlue2.bind(this)}/>
 						</div>
 					</div>
 				</FormItem>
-
-
                 <FormItem
                     label="所属城市"
                     labelCol={{ span: 3,offset: 1 }}
@@ -481,9 +514,9 @@ class SpEditForm extends React.Component{
 					)}
 				</FormItem>
                 <FormItem
-                label="营业时间"
-                labelCol={{ span: 3,offset: 1 }}
-				wrapperCol={{ span: 6 }}
+					label="营业时间"
+					labelCol={{ span: 3,offset: 1 }}
+					wrapperCol={{ span: 6 }}
             >
               {getFieldDecorator('businessTime', {
               })(
