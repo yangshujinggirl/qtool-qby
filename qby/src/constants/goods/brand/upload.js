@@ -26,7 +26,7 @@ class Avatar extends React.Component {
             },function(){
                 const imageUrl=this.state.imageUrl
                 this.props.dispatch({
-                    type:'goods/brandurl',
+                    type:'brand/brandurl',
                     payload:imageUrl
                 })
             })
@@ -58,7 +58,7 @@ class Avatar extends React.Component {
 }
 
 function mapStateToProps(state) {
-    const {pdBrands} = state.goods;
+    const {pdBrands} = state.brand;
     return {pdBrands};
 }
 

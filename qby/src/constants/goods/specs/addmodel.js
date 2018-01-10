@@ -63,7 +63,7 @@ class CollectionsPages extends React.Component {
 					form.resetFields();
 					this.setState({ visible: false });
 					this.props.dispatch({
-						type:'goods/specsfetch',
+						type:'specs/specsfetch',
 						payload:{code:'qerp.web.pd.type.list',values:{}}
 					})
 				}

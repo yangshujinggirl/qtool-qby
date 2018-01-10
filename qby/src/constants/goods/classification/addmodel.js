@@ -16,17 +16,17 @@ const CollectionCreateForm = Form.create()(
 				onOk={onCreate}
 			>
 				<Form>
-				<FormItem 
-				label="分类名称"
-				labelCol={{ span: 5 }}
-				wrapperCol={{ span: 12 }}
-				>
-				{getFieldDecorator('name', {
-					rules: [{ required: true, message: '请输入分类名称' }],
-				})(
-					<Input/>
-				)}
-				</FormItem>
+					<FormItem 
+					label="分类名称"
+					labelCol={{ span: 5 }}
+					wrapperCol={{ span: 12 }}
+					>
+					{getFieldDecorator('name', {
+						rules: [{ required: true, message: '请输入分类名称' }],
+					})(
+						<Input/>
+					)}
+					</FormItem>
 				</Form>
 			</Modal>
 		);
@@ -61,7 +61,7 @@ class CollectionsPages extends React.Component {
 					form.resetFields();
 					this.setState({ visible: false });
 					this.props.dispatch({
-						type:'goods/classfetch',
+						type:'fenlei/classfetch',
 						payload:{code:'qerp.web.pd.category.list',values:{getChildren:true}}
 					})
 				}

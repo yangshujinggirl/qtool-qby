@@ -90,10 +90,11 @@ class CollectionsPage extends React.Component {
             return res;
         }).then((json) => {
             if(json.code=='0'){
+                console.log(json)
                 form.resetFields();
                 this.setState({ visible: false });
                 this.props.dispatch({
-                    type:'goods/brandfetch',
+                    type:'brand/brandfetch',
                     payload:{code:'qerp.web.pd.brand.list',values:{}}
                 })
 
@@ -130,7 +131,7 @@ class CollectionsPage extends React.Component {
               this.props.type=='1'
               ?
               <div onClick={this.showModal} style={{color:'#35bab0',width:'122px',height:'82px'}}>
-                <img src={this.props.url?(fileDomain+this.props.url):require('../../../assets/nogoods.png')} className='w100 h100'/>
+                <img src={this.props.url?(fileDomain+this.props.url):require('../../../assets/img_brandnologo.png')} className='w100 h100'/>
               </div>
               :
               <Button type={this.props.statetype} onClick={this.showModal}>{this.props.text}</Button>
