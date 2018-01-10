@@ -40,17 +40,17 @@ class SearchForm extends React.Component {
                             <div className='serach_form'>
                                 <FormItem label='商品编码'>
                                     {getFieldDecorator('code')(
-                                    <Input placeholder="请输入门店名称"/>
+                                    <Input placeholder="请输入商品编码"/>
                                     )}
                                 </FormItem>
                                 <FormItem label='最后修改人'>
                                     {getFieldDecorator('updateUserName')(
-                                    <Input placeholder="请输入退货单号"/>
+                                    <Input placeholder="请输入最后修改人"/>
                                     )}
                                 </FormItem>
                                 <FormItem label='定时操作'>
                                     {getFieldDecorator('opstatus')(
-                                    <Select allowClear={true} placeholder="请选择退货单状态">
+                                    <Select allowClear={true} placeholder="请选择定时操作">
                                         <Option value='1'>售卖</Option>
                                         <Option value='2'>停售</Option>
                                         <Option value='3'>上新</Option>
@@ -62,7 +62,7 @@ class SearchForm extends React.Component {
                                 </FormItem>
                                 <FormItem label='状态'>
                                     {getFieldDecorator('status')(
-                                    <Select allowClear={true} placeholder="请选择退货单状态">
+                                    <Select allowClear={true} placeholder="请选择状态">
                                        <Option value='1'>待执行</Option>
                                        <Option value='2'>已执行</Option>
                                        <Option value='0'>无效</Option>

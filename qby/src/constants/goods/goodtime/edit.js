@@ -261,10 +261,10 @@ class GoodEditForm extends React.Component{
 					wrapperCol={{ span: 6 }}
 				>
 					{getFieldDecorator('taskName', {
-						rules: [{ required: true, message: '请输入订单编号'}],
+						rules: [{ required: true, message: '请输入定时名称'}],
 						initialValue:this.state.taskName
 					})(
-						<Input placeholder="请输入订单编号"/>
+						<Input placeholder="请输入定时名称"/>
 					)}
 				</FormItem>
 				<FormItem
@@ -273,7 +273,7 @@ class GoodEditForm extends React.Component{
 					wrapperCol={{ span: 6 }}
 				>
 					{getFieldDecorator('codes', {
-						rules: [{ required: true, message: '请输入订单编号'}],
+						rules: [{ required: true, message: '请输入商品编码'}],
 						initialValue:this.state.codes
 					})(
 						<TextArea rows={4} />
@@ -285,7 +285,7 @@ class GoodEditForm extends React.Component{
 					wrapperCol={{ span:6 }}
 					>
 					{getFieldDecorator('taskTime', {
-						rules: [{ required: true, message: '请输入定时时间' }],
+						rules: [{ required: true, message: '请选择定时时间' }],
 						initialValue:this.props.data?moment(this.state.taskTime):null
 					})(
 					<DatePicker  format="YYYY-MM-DD HH:mm" showTime onChange={this.timeChange.bind(this)}/>
