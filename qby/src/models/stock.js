@@ -2,7 +2,6 @@ import {GetServerData} from '../services/services';
 export default {
 namespace: 'stock',
 state: {
-	pdTypes:[],
 	datasoucedata:[],
 	changedatasouce:[],
 	ishindok:false,
@@ -10,6 +9,12 @@ state: {
 reducers: {
 	stocktableinfo(state, { payload:datasoucedata}) {
 		return {...state,datasoucedata}
+	},
+	stocktablechenge(state, { payload:changedatasouce}) {
+		return {...state,changedatasouce}
+	},
+	stocktablechengeok(state, { payload:ishindok}) {
+		return {...state,ishindok}
 	},
 
 },

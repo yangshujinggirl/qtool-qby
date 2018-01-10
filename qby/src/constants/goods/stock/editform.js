@@ -64,17 +64,8 @@ handleSubmit = (e) => {
 					type:'goods/stocktablechengeok',
 					payload:ishindok
 				})
-
-
-
-
-				
-
-				
 			}
 		})
-
-
 	}
 	});
 }
@@ -112,7 +103,7 @@ handleEnt=(e)=>{
 					datasouce.wsQty=json.wsQty//可售
 					datasoucedata.push(datasouce)
 					this.props.dispatch({
-						type:'goods/stocktableinfo',
+						type:'stock/stocktableinfo',
 						payload:datasoucedata
 					})
 				})
@@ -124,12 +115,7 @@ handleEnt=(e)=>{
 
 	}
 }
-handleSelectChange = (value) => {
-	console.log(value);
-	this.props.form.setFieldsValue({
-	note: `Hi, ${value === 'male' ? 'man' : 'lady'}!`,
-	});
-}
+
 render() {
 	const { getFieldDecorator } = this.props.form;
 	return (
@@ -151,11 +137,8 @@ render() {
 			this.state.isinfo?
 			<EditableTable columns={this.columns} dataSource={this.props.datasoucedata} bordered={true}/>
 			:null
-
 		}
 		</FormItem>
-
-
 		<FormItem
 		label="增减库存"
 		labelCol={{ span: 6 }}
@@ -167,11 +150,8 @@ render() {
 			<Input placeholder='请输入增减库存'/>
 		)}
 		</FormItem>
-
-
-
 		<FormItem
-		wrapperCol={{ span: 12, offset: 5 }}
+			wrapperCol={{ span: 12, offset: 5 }}
 		>
 		<Button type="primary" onClick={this.handleSubmit.bind(this)}>
 			确定
@@ -185,7 +165,7 @@ render() {
 const WrappedApp = Form.create()(App);
 
 function mapStateToProps(state) {
-	const {pdTypes,datasoucedata,changedatasouce,ishindok} = state.stock;
-	return {pdTypes,datasoucedata,changedatasouce,ishindok};
+	const {datasoucedata,changedatasouce,ishindok} = state.stock;
+	return {datasoucedata,changedatasouce,ishindok};
 }
 export default connect(mapStateToProps)(WrappedApp);

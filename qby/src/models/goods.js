@@ -122,12 +122,7 @@ export default {
 			return {...state,pdBrandId}
 		},
 
-		stocktablechenge(state, { payload:changedatasouce}) {
-			return {...state,changedatasouce}
-		},
-		stocktablechengeok(state, { payload:ishindok}) {
-			return {...state,ishindok}
-		},
+	
 
 		
 		lotStatusstate(state, { payload:lotStatus}) {
