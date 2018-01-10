@@ -18,6 +18,9 @@ class SpTable extends React.Component {
 			title: '门店状态',
 			dataIndex: 'statusStr'
 		},{
+			title: '门店类型',
+			dataIndex: 'shopTypeStr'
+		},{
 			title: '所在城市',
 			dataIndex: 'provinces'
         },{

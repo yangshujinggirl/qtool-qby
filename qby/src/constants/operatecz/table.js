@@ -106,8 +106,8 @@ class OperateczTable extends React.Component {
 }
 
 function mapStateToProps(state) {
-	const {spVouchers,total,limit,currentPage,values,fileDomain} = state.operatecz;
-	return {spVouchers,total,limit,currentPage,values,fileDomain};
+	const {spVouchers,total,limit,currentPage,values} = state.operatecz;
+	return {spVouchers,total,limit,currentPage,values};
 }
 
 export default connect(mapStateToProps)(OperateczTable);

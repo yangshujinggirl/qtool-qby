@@ -23,7 +23,7 @@ class SpEditForm extends React.Component{
             mobile:null,
             telephone:null,
             shopman:null,
-            status:null,
+            status:[],
             provinceId:null,
             cityId:null,
             districtId:null,
@@ -40,7 +40,12 @@ class SpEditForm extends React.Component{
 			spname:null,
 			spusername:null,
 			sppassword:null,
-			urUserId:null
+			urUserId:null,
+			shopType:[],
+			foodShareRatio:null,
+			nonfoodShareRatio:null,
+			initfoodShareRatio:null,
+			initnonfoodShareRatio:null,
 
 
 		}
@@ -167,7 +172,8 @@ class SpEditForm extends React.Component{
                         spShopPics:spShopPics,
                         initfileList:initfileList,
                         name:json.spShop.name,
-                        sname:json.spShop.sname,
+						sname:json.spShop.sname,
+						shopType:json.spShop.shopType,
                         printName:json.spShop.printName,
                         no:json.spShop.no,
                         mobile:json.spShop.mobile,
@@ -187,7 +193,11 @@ class SpEditForm extends React.Component{
                         wechat:json.spShop.wechat,
                         remark:json.spShop.remark,
 						shopcity:[String(json.spShop.provinceId),String(json.spShop.cityId),String(json.spShop.districtId)],
-						urUserId:json.spShop.urUserId
+						urUserId:json.spShop.urUserId,
+						foodShareRatio:json.spShop.foodShareRatio,
+						nonfoodShareRatio:json.spShop.nonfoodShareRatio,
+						initfoodShareRatio:json.spShop.foodShareRatio,
+						initnonfoodShareRatio:json.spShop.nonfoodShareRatio,
                     },function(){
                         const spShopPics=this.state.spShopPics
                         this.props.dispatch({
@@ -243,6 +253,32 @@ class SpEditForm extends React.Component{
 		});
 	  }
 
+	selectChange=(value)=>{
+		if(value=='3'){
+			this.setState({
+				shopType:value,
+				foodShareRatio:this.state.initfoodShareRatio,
+				nonfoodShareRatio:this.state.initnonfoodShareRatio
+			})
+		}else{
+			this.setState({
+				shopType:value,
+				foodShareRatio:null,
+				nonfoodShareRatio:null
+			})
+		}
+	}
+	hindChange1=(e)=>{
+		this.setState({
+			foodShareRatio:e.target.value
+		})
+	}
+	hindChange2=(e)=>{
+		this.setState({
+			nonfoodShareRatio:e.target.value
+		})
+	}
+
   	render(){  
 		const { getFieldDecorator } = this.props.form;
      	return(
@@ -260,7 +296,7 @@ class SpEditForm extends React.Component{
 						rules: [{ required: true, message: '请输入门店名称'}],
 						initialValue:this.state.name
 					})(
-						<Input/>
+						<Input placeholder='请输入门店名称'/>
 					)}
 				</FormItem>
                 <FormItem
@@ -272,7 +308,7 @@ class SpEditForm extends React.Component{
 						rules: [{ required: true, message: '请输入门店简称'}],
 						initialValue:this.state.sname
 					})(
-						<Input/>
+						<Input placeholder='请输入门店简称'/>
 					)}
 				</FormItem>
                 <FormItem
@@ -284,7 +320,7 @@ class SpEditForm extends React.Component{
 						rules: [{ required: true, message: '请输入打印名称'}],
 						initialValue:this.state.printName
 					})(
-						<Input/>
+						<Input placeholder='请输入打印名称'/>
 					)}
 				</FormItem>
                 <FormItem
@@ -296,7 +332,7 @@ class SpEditForm extends React.Component{
 						rules: [{ required: true, message: '请输入门店编号'}],
 						initialValue:this.state.no
 					})(
-						<Input/>
+						<Input placeholder='请输入门店编号'/>
                     )}
                     
 				</FormItem>
@@ -309,7 +345,7 @@ class SpEditForm extends React.Component{
 						rules: [{ required: true, message: '请输入店主手机'}],
 						initialValue:this.state.mobile
 					})(
-						<Input/>
+						<Input placeholder='请输入店主手机'/>
 					)}
 				</FormItem>
                 <FormItem
@@ -321,7 +357,7 @@ class SpEditForm extends React.Component{
 						rules: [{ required: true, message: '请输入门店电话'}],
 						initialValue:this.state.telephone
 					})(
-						<Input/>
+						<Input placeholder='请输入门店电话'/>
 					)}
 				</FormItem>
                 <FormItem
@@ -333,7 +369,7 @@ class SpEditForm extends React.Component{
 						rules: [{ required: true, message: '请输入门店店主'}],
 						initialValue:this.state.shopman
 					})(
-						<Input/>
+						<Input placeholder='请输入门店店主'/>
 					)}
 				</FormItem>
                 <FormItem
@@ -343,7 +379,7 @@ class SpEditForm extends React.Component{
 				>
 					{getFieldDecorator('status', {
 						rules: [{ required: true, message: '请选择门店状态'}],
-						initialValue:String(this.state.status)
+						initialValue:this.state.status
 					})(
 						<Select placeholder="请选择门店状态">
                         <Option value="0">待开业</Option>
@@ -352,6 +388,41 @@ class SpEditForm extends React.Component{
                       </Select>
 					)}
 				</FormItem>
+				<FormItem
+					label="门店类型"
+					labelCol={{ span: 3,offset: 1 }}
+					wrapperCol={{ span: 6 }}
+				>
+					{getFieldDecorator('shopType', {
+						rules: [{ required: true, message: '请选择门店类型'}],
+						initialValue:this.state.shopType,
+						onChange:this.selectChange
+					})(
+						<Select placeholder="请选择门店类型">
+							<Option value="1">直营</Option>
+							<Option value="2">联营</Option>
+							<Option value="3">加盟</Option>
+                      </Select>
+					)}
+				</FormItem>
+				<FormItem
+					label="分成比例"
+					labelCol={{ span: 3,offset: 1 }}
+					wrapperCol={{ span: 6 }}
+				>
+					<div className='felxboxs'>
+						<div style={{width:'45%'}}>
+							<p className='tc'>食品尿不湿类</p>
+							<Input suffix='%' disabled={this.state.shopType=='3'?false:true} value={this.state.foodShareRatio} onChange={this.hindChange1.bind(this)}/>
+						</div>
+						<div style={{width:'45%'}}>
+							<p className='tc'>非食品尿不湿类</p>
+							<Input suffix='%' disabled={this.state.shopType=='3'?false:true} value={this.state.nonfoodShareRatio} onChange={this.hindChange2.bind(this)}/>
+						</div>
+					</div>
+				</FormItem>
+
+
                 <FormItem
                     label="所属城市"
                     labelCol={{ span: 3,offset: 1 }}
@@ -373,7 +444,7 @@ class SpEditForm extends React.Component{
 						rules: [{ required: true, message: '请输入门店地址'}],
 						initialValue:this.state.address
 					})(
-						<Input/>
+						<Input placeholder='请输入门店地址'/>
 					)}
 				</FormItem>
                 <FormItem
@@ -384,7 +455,7 @@ class SpEditForm extends React.Component{
 					{getFieldDecorator('square', {
 						initialValue:this.state.square
 					})(
-						<Input/>
+						<Input placeholder='请输入门店面积'/>
 					)}
 				</FormItem>
                 <FormItem
@@ -395,7 +466,7 @@ class SpEditForm extends React.Component{
 					{getFieldDecorator('rental', {
 						initialValue:this.state.rental
 					})(
-						<Input/>
+						<Input placeholder='请输入门店租金'/>
 					)}
 				</FormItem>
                 <FormItem
@@ -406,7 +477,7 @@ class SpEditForm extends React.Component{
 					{getFieldDecorator('staffCost', {
 						initialValue:this.state.staffCost
 					})(
-						<Input/>
+						<Input placeholder='请输入人事费用'/>
 					)}
 				</FormItem>
                 <FormItem
@@ -417,9 +488,9 @@ class SpEditForm extends React.Component{
               {getFieldDecorator('businessTime', {
               })(
                 <div>
-                    <TimePicker  onChange={this.fromonChange.bind(this)}  value={(this.props.data && this.state.fromtime!=null && this.state.fromtime!=undefined && this.state.fromtime!='' && this.state.fromtime!=[])?moment(String(this.state.fromtime),'HH:mm'):null} style={{width:'45%'}} format="HH:mm"/>
+                    <TimePicker  onChange={this.fromonChange.bind(this)}  value={(this.state.fromtime!=null && this.state.fromtime!=undefined && this.state.fromtime!='' && this.state.fromtime!=[])?moment(String(this.state.fromtime),'HH:mm'):null} style={{width:'45%'}} format="HH:mm"/>
                     <span style={{display:'inline-block',width:'10%',textAlign:'center'}}>至</span>
-                    <TimePicker  onChange={this.endonChange.bind(this)}  value={(this.props.data && this.state.endtime!=null && this.state.endtime!=undefined && this.state.endtime!='' && this.state.endtime!=[])?moment(this.state.endtime,'HH:mm'):null} style={{width:'45%'}} format="HH:mm"/>
+                    <TimePicker  onChange={this.endonChange.bind(this)}  value={(this.state.endtime!=null && this.state.endtime!=undefined && this.state.endtime!='' && this.state.endtime!=[])?moment(this.state.endtime,'HH:mm'):null} style={{width:'45%'}} format="HH:mm"/>
                 </div>
               )}
             </FormItem>
@@ -442,7 +513,7 @@ class SpEditForm extends React.Component{
 					{getFieldDecorator('wechat', {
 						initialValue:this.state.wechat
 					})(
-						<Input/>
+						<Input placeholder='请输入店主微信'/>
 					)}
 				</FormItem>
                 <FormItem
@@ -453,7 +524,7 @@ class SpEditForm extends React.Component{
 					{getFieldDecorator('remark', {
 						initialValue:this.state.remark
 					})(
-						<TextArea rows={4} />
+						<TextArea rows={4} placeholder='请输入店主备注'/>
 					)}
 				</FormItem>
             	<FormItem wrapperCol={{ offset: 4}} style = {{marginBottom:0}}>

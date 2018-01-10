@@ -45,31 +45,40 @@ class SearchForm extends React.Component {
                                 </FormItem>
                                 <FormItem label='门店电话'>
                                     {getFieldDecorator('mobile')(
-                                    <Input placeholder="请输入退货单号"/>
+                                    <Input placeholder="请输入门店电话"/>
                                     )}
                                 </FormItem>
                                 <FormItem label='门店姓名'>
                                     {getFieldDecorator('shopman')(
-                                    <Input placeholder="请输入退货单号"/>
+                                    <Input placeholder="请输入门店姓名"/>
                                     )}
                                 </FormItem>
                                 <FormItem label='门店状态'>
                                     {getFieldDecorator('status')(
-                                    <Select allowClear={true} placeholder="请选择退货单状态">
+                                    <Select allowClear={true} placeholder="请选择门店状态">
                                        <Option value='1'>待执行</Option>
                                        <Option value='2'>已执行</Option>
                                        <Option value='0'>无效</Option>
                                     </Select>
                                     )}
                                 </FormItem>
+                                <FormItem label='门店类型'>
+                                    {getFieldDecorator('shopType')(
+                                    <Select allowClear={true} placeholder="请选择门店类型">
+                                       <Option value='1'>直营</Option>
+                                       <Option value='2'>联营</Option>
+                                       <Option value='3'>加盟</Option>
+                                    </Select>
+                                    )}
+                                </FormItem>
                                 <FormItem label='所在省份'>
                                     {getFieldDecorator('province')(
-                                        <Input placeholder="请输入退货单号"/>
+                                        <Input placeholder="请输入所在省份"/>
                                     )}
                                 </FormItem>
                                 <FormItem label='所在城市'>
                                     {getFieldDecorator('city')(
-                                        <Input placeholder="请输入退货单号"/>
+                                        <Input placeholder="请输入所在城市"/>
                                     )}
                                 </FormItem>
                             </div>
