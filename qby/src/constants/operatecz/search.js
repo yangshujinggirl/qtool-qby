@@ -7,8 +7,8 @@ const FormItem = Form.Item;
 
 class AdvancedSearchForm extends React.Component {
     state = {
-        createTimeST: undefined,
-        createTimeET:undefined
+        voucherDateStart: undefined,
+        voucherDateEnd:undefined
     };
     handleSearch = (e) => {
         this.props.form.validateFields((err, values) => {
@@ -38,17 +38,13 @@ class AdvancedSearchForm extends React.Component {
         })
     }
     hinddataChange=(dates, dateStrings)=>{
-        console.log(dateStrings)
         this.setState({
             voucherDateStart:dateStrings[0],
             voucherDateEnd:dateStrings[1]
         })
     }
-   
 
-  
     render() {
-        
         const { getFieldDecorator } = this.props.form;
         return (
             <Form  className='formbox'>
@@ -58,12 +54,12 @@ class AdvancedSearchForm extends React.Component {
                             <div className='serach_form'>
                                 <FormItem label='门店名称'>
                                     {getFieldDecorator('shopName')(
-                                        <Input placeholder="请输入" className='form_input_width'/>
+                                        <Input placeholder="请输入门店名称" className='form_input_width'/>
                                     )}
                                 </FormItem>
                                 <FormItem label='审核状态'>
                                 {getFieldDecorator('status')(
-                                    <Select allowClear={true} placeholder="请选择">
+                                    <Select allowClear={true} placeholder="请选择审核状态">
                                         <Option value='0'>待审核</Option>
                                         <Option value='1'>审核通过</Option>
                                         <Option value='2'>审核不通过</Option>
@@ -72,7 +68,7 @@ class AdvancedSearchForm extends React.Component {
                                 </FormItem>
                                 <FormItem label='充值号'>
                                     {getFieldDecorator('voucherNo')(
-                                        <Input placeholder="请输入" />
+                                        <Input placeholder="请输入充值号" />
                                     )}
                                 </FormItem>
                                 <FormItem label='充值时间'>

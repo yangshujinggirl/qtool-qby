@@ -31,13 +31,12 @@ class OperateczTable extends React.Component {
               render: (text, record) => {
                 return (
                     <CollectionsPage 
-                    title='充值审核' 
-                    type='1' 
-                    text={text} 
-                    types={record.status== 0 ? 1: 2} 
-                    data={{shopName:record.shopName,amount:record.amount,spVoucherId:record.spVoucherId}}
-                    fileDomain={this.props.fileDomain}
-                    url={record.picUrl} 
+                        title='充值审核' 
+                        type='1' 
+                        text={text} 
+                        types={record.status== 0 ? 1: 2} 
+                        data={{shopName:record.shopName,amount:record.amount,spVoucherId:record.spVoucherId}}
+                        url={record.picUrl} 
                     />
                 );
               }
@@ -84,12 +83,10 @@ class OperateczTable extends React.Component {
 	//分页方法
 	pageChange=(page,pageSize)=>{
 		this.initWarehouseList(this.props.values,pageSize,Number(page-1))
-		this.initselect()
 	}
 	//pagesize变化
 	pageSizeChange=(current,size)=>{
 		this.initWarehouseList(this.props.values,size,0)
-		this.initselect()
 	}
 	render() {
 		return (
@@ -102,6 +99,7 @@ class OperateczTable extends React.Component {
 				limit={this.props.limit}
                 current={Number(this.props.currentPage)+1}
                 bordered={true}
+                footer={true}
 				/>
 		);
 	}
