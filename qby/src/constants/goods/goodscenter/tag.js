@@ -136,38 +136,38 @@ saveInputRef = input => this.input = input
 render() {
 	const { tags, inputVisible, inputValue } = this.state;
 	return (
-	<div>
-		{this.props.tags.map((tag, index) => {
-		// const isLongTag = tag.length > 20;
-		const tagElem = (
-			<Tag key={index} closable={index !== 0} afterClose={() => this.handleClose(tag)}>
-			{/* {isLongTag ? `${tag.slice(0, 20)}...` : tag} */}
-			{tag.name}
+		<div>
+			{
+				this.props.tags.map((tag, index) => {
+					const tagElem = (
+						<Tag key={index} closable={index !== '-1'} afterClose={() => this.handleClose(tag)}>
+						{tag.name}
+						</Tag>
+					);
+					return  tagElem;
+				})
+			}
+			{inputVisible && (
+			<Input
+				ref={this.saveInputRef}
+				type="text"
+				size="small"
+				style={{ width: 78 }}
+				value={inputValue}
+				onChange={this.handleInputChange}
+				onBlur={this.handleInputConfirm}
+				onPressEnter={this.handleInputConfirm}
+			/>
+			)}
+			{!inputVisible && (
+			<Tag
+				onClick={this.showInput}
+				style={{ background: '#fff', borderStyle: 'dashed' }}
+			>
+				<Icon type="plus" /> 新建属性
 			</Tag>
-		);
-		return  tagElem;
-		})}
-		{inputVisible && (
-		<Input
-			ref={this.saveInputRef}
-			type="text"
-			size="small"
-			style={{ width: 78 }}
-			value={inputValue}
-			onChange={this.handleInputChange}
-			onBlur={this.handleInputConfirm}
-			onPressEnter={this.handleInputConfirm}
-		/>
-		)}
-		{!inputVisible && (
-		<Tag
-			onClick={this.showInput}
-			style={{ background: '#fff', borderStyle: 'dashed' }}
-		>
-			<Icon type="plus" /> 新建属性
-		</Tag>
-		)}
-	</div>
+			)}
+		</div>
 	);
 }
 }

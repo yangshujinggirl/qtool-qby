@@ -12,6 +12,7 @@ export default {
 		goodpdCategorys:[],//商品分类
 		pdCategorys:[],//商品类型
 		pdTypeslist:[],//商品规格
+		povisible:false,
 		//商品编辑
 		name:null,
 		pdCategory1Id:[],
@@ -110,7 +111,9 @@ export default {
 			return {...state,pdCategory2Id}
 		},
 
-
+		povisible(state, { payload:povisible}) {
+			return {...state,povisible}
+		},
 
 		
 		

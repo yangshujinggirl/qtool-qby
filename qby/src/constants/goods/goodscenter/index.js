@@ -1,11 +1,10 @@
 import '../../../style/goods.css';
 import {GetServerData} from '../../../services/services';
-import { Button,message} from 'antd';
+import { Button,message,Modal} from 'antd';
 import { connect } from 'dva';
 import { successdown } from '../../../utils/meth'
 import Goodlist from './goodslist';
 import Goodssearchform from './search';
-import Appmodel from '../../../components/model/modelbasic';
 
 const poptext1='商品状态将变为上架状态，Q掌柜将会对外售卖，确认吗'
 const poptext2='商品状态将变为下架状态，Q掌柜将会对外售卖，确认吗'
@@ -16,8 +15,36 @@ const poptext6='商品状态将变为上新状态，Q掌柜将会对外售卖，
 
 
 class GoodsIndex extends React.Component{
+	state={
+		visible: false,
+		type:'10'
+	}
+	handleOk = (e) => {
+       	if(this.state.type=='10' || this.state.type=='20'){
+			this.piSell(this.state.type)
+	   	}
+	   	if(this.state.type=='30' || this.state.type=='40'){
+			this.pinNew(this.state.type)
+		}
+		if(this.state.type=='50' || this.state.type=='60'){
+			this.pinHot(this.state.type)	
+		}
+	}
+	handleCancel = (e) => {
+        this.setState({
+			visible: false
+		})
+	}
+	showModal=(id)=>{
+		this.setState({
+			visible: true,
+			count:id=='10'?poptext1:(id=='20'?poptext2:(id=='30'?poptext3:(id=='40'?poptext4:(id=='50'?poptext5:poptext6)))),
+			type:id
+		})
+	}
 	//批量售卖
 	piSell=(state)=>{
+		console.log('售卖')
 		if(this.props.checkgood.length>0){
 			let pdSpuIds=this.props.checkgood
 			let values={
@@ -28,10 +55,14 @@ class GoodsIndex extends React.Component{
 			result.then((res) => {
 				return res;
 			}).then((json) => {
+				const povisible=false
 				if(json.code=='0'){
 					this.props.dispatch({
 						type:'goods/fetch',
 						payload:{code:'qerp.web.pd.spu.query',values:this.props.values}
+					})
+					this.setState({
+						visible:false
 					})
 				}
 			})
@@ -39,6 +70,7 @@ class GoodsIndex extends React.Component{
 	}
 	//批量上新
 	pinNew=(state)=>{
+		console.log('上新')
 		if(this.props.checkgood.length>0){
 			let pdSpuIds=this.props.checkgood
 			let values={
@@ -50,9 +82,13 @@ class GoodsIndex extends React.Component{
 				return res;
 			}).then((json) => {
 				if(json.code=='0'){
+					const povisible=false
 					this.props.dispatch({
 						type:'goods/fetch',
 						payload:{code:'qerp.web.pd.spu.query',values:this.props.values}
+					})
+					this.setState({
+						visible:false
 					})
 				}
 			})
@@ -61,6 +97,7 @@ class GoodsIndex extends React.Component{
 	}
 	//批量畅销
 	pinHot=(state)=>{
+		console.log('畅销')
 		if(this.props.checkgood.length>0){
 			let pdSpuIds=this.props.checkgood
 			let values={
@@ -72,9 +109,13 @@ class GoodsIndex extends React.Component{
 				return res;
 			}).then((json) => {
 				if(json.code=='0'){
+					const povisible=false
 					this.props.dispatch({
 						type:'goods/fetch',
 						payload:{code:'qerp.web.pd.spu.query',values:this.props.values}
+					})
+					this.setState({
+						visible:false
 					})
 				}
 			})
@@ -98,15 +139,23 @@ class GoodsIndex extends React.Component{
 			<div>
 				<Goodssearchform/>
 				<div className='btn_boxs'>
-					<div className='btn_lists'><Appmodel title='批量操作' text='批量售卖' count={this.props.checkgood.length>0?poptext1:'请选择商品'} hindClick={this.piSell.bind(this,10)}/></div>
-					<div className='btn_lists'><Appmodel title='批量操作' text='批量停售' count={this.props.checkgood.length>0?poptext2:'请选择商品'} hindClick={this.piSell.bind(this,20)}/></div>
-					<div className='btn_lists'><Appmodel title='批量操作' text='批量上新' count={this.props.checkgood.length>0?poptext3:'请选择商品'} hindClick={this.pinNew.bind(this,30)}/></div>
-					<div className='btn_lists'><Appmodel title='批量操作' text='批量下新' count={this.props.checkgood.length>0?poptext4:'请选择商品'} hindClick={this.pinNew.bind(this,40)}/></div>
-					<div className='btn_lists'><Appmodel title='批量操作' text='批量畅销' count={this.props.checkgood.length>0?poptext5:'请选择商品'} hindClick={this.pinHot.bind(this,50)}/></div>
-					<div className='btn_lists'><Appmodel title='批量操作' text='批量下畅销' count={this.props.checkgood.length>0?poptext6:'请选择商品'} hindClick={this.pinHot.bind(this,60)}/></div>
+					<div className='btn_lists'><Button type="primary" onClick={this.showModal.bind(this,10)}>批量售卖</Button></div>
+					<div className='btn_lists'><Button type="primary" onClick={this.showModal.bind(this,20)}>批量停售</Button></div>
+					<div className='btn_lists'><Button type="primary" onClick={this.showModal.bind(this,30)}>批量上新</Button></div>
+					<div className='btn_lists'><Button type="primary" onClick={this.showModal.bind(this,40)}>批量下新</Button></div>
+					<div className='btn_lists'><Button type="primary" onClick={this.showModal.bind(this,50)}>批量畅销</Button></div>
+					<div className='btn_lists'><Button type="primary" onClick={this.showModal.bind(this,60)}>批量下畅销</Button></div>
 					<Button type="primary" className='btn_lists' onClick={this.addspus.bind(this)}>新增商品</Button>
 				</div>
 				<Goodlist/>
+				<Modal
+					title='批量操作'
+					visible={this.state.visible}
+					onOk={this.handleOk}
+					onCancel={this.handleCancel}
+				>
+					<div>{this.props.checkgood.length>0?this.state.count:'请选择商品'}</div>
+				</Modal>
 			</div>
 		)
 	}

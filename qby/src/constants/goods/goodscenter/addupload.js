@@ -7,11 +7,11 @@ function beforeUpload(file) {
 const isJPG = file.type === 'image/jpeg';
 	const isPNG = file.type === 'image/png';
 if (!isJPG && !isPNG) {
-	message.error('You can only upload JPG/PNG file!');
+	message.error('仅支持jpg/jpeg/png格式');
 }
 const isLt2M = file.size / 1024 / 1024 < 2;
 if (!isLt2M) {
-	message.error('Image must smaller than 2MB!');
+	message.error('图片文件需小于2MB');
 }
 return (isJPG || isPNG) && isLt2M;
 }

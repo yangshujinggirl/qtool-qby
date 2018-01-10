@@ -9,7 +9,10 @@ export default {
         tableList:[],
         cardtitle:null,
         cardlist:[],
-        details:[]
+        details:[],
+        delimit:15,
+        decurrentPage:0,
+        detotal:0
 
     },
     reducers: {
@@ -19,8 +22,11 @@ export default {
 					syncTableList(state, { payload:{tableList,total,limit,currentPage}}) {
 						return {...state,tableList,total,limit,currentPage}
             },
-            cardInfoslist(state, { payload:{cardtitle,cardlist,details}}) {
-                return {...state,cardtitle,cardlist,details}
+            cardInfoslist(state, { payload:{cardtitle,cardlist}}) {
+                return {...state,cardtitle,cardlist}
+            },
+            details(state, { payload:{details,delimit,decurrentPage,detotal}}) {
+                return {...state,details,delimit,decurrentPage,detotal}
             },
     },
     effects: {
@@ -43,19 +49,18 @@ export default {
                 yield put({type: 'tab/loding',payload:false});
                 if(result.code=='0'){
                     const cardInfos=result.cardInfo
-                    const details=result.details
                     const birthday=result.cardInfo.birthday
                     const birthdaylist=[]
                     for(var i=0;i<birthday.length;i++){
                         if(i==0){
                             birthdaylist.push({
                                 lable:'宝宝生日',
-                                text:birthday[i].data+'【'+birthday[i].type+'】'
+                                text:birthday[i].date+'【'+birthday[i].typeStr+'】'
                             })
                         }else{
                             birthdaylist.push({
                                 lable:'宝宝生日'+i,
-                                text:birthday[i].data+'【'+birthday[i].type+'】'
+                                text:birthday[i].date+'【'+birthday[i].typeStr+'】'
                             })
                         }
                     }
@@ -76,7 +81,18 @@ export default {
                     ]
 
                     const cardlist=cardlist1.concat(birthdaylist,cardlist2)
-                yield put({type: 'cardInfoslist',payload:{cardtitle,cardlist,details}});
+                yield put({type: 'cardInfoslist',payload:{cardtitle,cardlist}});
+            } 
+        },
+        *detailfetch({ payload: {code,values} }, { call, put ,select}) {
+            const result=yield call(GetServerData,code,values);
+                yield put({type: 'tab/loding',payload:false});
+                if(result.code=='0'){
+                    const details=result.details
+                    const delimit=result.details
+                    const decurrentPage=result.currentPage
+                    const detotal=result.total
+                    yield put({type: 'details',payload:{details,delimit,decurrentPage,detotal}});
             } 
         },
 
