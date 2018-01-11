@@ -14,7 +14,7 @@ import GoodEditForm from '../goods/goodtime/edit';
 
 
 
-
+import DataspIndex from '../datasp/index';
 
 
 
@@ -112,6 +112,7 @@ class Content extends React.Component {
 
                                     case "703004":return  <DatawsIndex data={this.props.data}/>;
                                     case "702500":return  <DatacgIndex data={this.props.data}/>;
+                                    case "703000":return  <DataspIndex data={this.props.data}/>;
 
 
                                    

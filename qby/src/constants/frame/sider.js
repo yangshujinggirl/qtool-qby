@@ -7,6 +7,7 @@ const SubMenu = Menu.SubMenu;
 
 class Siders extends React.Component {
     setTab =  (item) =>{
+		console.log(item)
 		const key =String(item.key);
 		const paneitem={title:item.item.props.children.props.children,key:String(item.key),data:null,componkey:String(item.key)};
         this.props.dispatch({
