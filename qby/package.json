@@ -13,6 +13,7 @@
     "antd": "^3.1.1",
     "babel-runtime": "^6.9.2",
     "dva": "^1.2.1",
+    "echarts-for-react": "^2.0.4",
     "react": "^15.4.0",
     "react-dom": "^15.4.0"
   },
