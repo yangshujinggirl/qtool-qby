@@ -173,7 +173,7 @@ ins { text-decoration: none; }
 .ant-form-item .ant-form-item-label label{color: #666; }
 .serach_form .ant-form-item .ant-form-item-label label{color: #666; }
 .serach_form .ant-form-item .ant-input{width: 180px;}
-.serach_form .ant-form-item .ant-select-lg .ant-select-selection--single{width:180px;}
+.serach_form .ant-form-item .ant-select-selection--single{width:180px;}
 .serach_form .ant-form-item .ant-calendar-picker .ant-input{width: 290px;}
 .serach_form .ant-form-item  .noant-calendar-picker .ant-input{width: 180px;}
 .serach_form .ant-form-item .ant-form-item-control-wrapper{display: inline-block;}
