@@ -2,12 +2,18 @@ import dva from 'dva';
 import './index.css';
 import 'antd/dist/antd.less';
 
+
 import { useRouterHistory } from 'dva/router';
 import { createHashHistory } from 'history';
 // 1. Initialize
 const app = dva({
     history: useRouterHistory(createHashHistory)({ queryKey: false }),
   });
+
+
+
+
+
 
 app.model(require("./models/account"));
 
