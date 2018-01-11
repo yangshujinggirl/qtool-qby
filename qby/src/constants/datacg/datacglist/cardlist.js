@@ -6,7 +6,6 @@ const FormItem = Form.Item;
 class DatacglistCard extends React.Component {
   state = {};
   render() {
-     
     return (
         <div className='cardlistbox'>
             <Card style={{ width: 220 }} className='tc'>

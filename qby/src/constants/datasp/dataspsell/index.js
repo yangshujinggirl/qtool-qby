@@ -1,16 +1,17 @@
-import {GetServerData} from '../../../services/services';
+// import {GetServerData} from '../../../services/services';
 import { Button, Icon } from 'antd';
 import { connect } from 'dva';
-// import DatawshisTable from './table';
-// import DatawshisSearch from './search';
-import {Getexpont} from '../../../services/expont';
+import Cardlist from '../../../components/card/cardlist';
+import Cards from '../../../components/card/catds';
+// import {Getexpont} from '../../../services/expont';
 
 class DataspsellIndex extends React.Component{
 	state = {};
   	render(){
      	return(
         	<div>
-                123
+				<Cards/>
+                <Cardlist/>
 				
         	</div>
       	)
