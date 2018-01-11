@@ -6,10 +6,10 @@ const RangePicker = DatePicker.RangePicker;
 
 class OrderctSearchForm extends React.Component {
     state = {
-        dateStart: '',
-        dateEnd:'',
-        dateFahuoStart:'',
-        dateFahuoDoneEnd:''
+        createTimeST: '',
+        createTimeET:'',
+        deliveryTimeST:'',
+        deliveryTimeET:''
     };
 
   //点击搜索按钮获取搜索表单数据
@@ -23,10 +23,10 @@ class OrderctSearchForm extends React.Component {
 
   //搜索请求数据
   initList=(values,limit,currentPage)=>{
-        values.dateStart = this.state.dateStart;
-        values.dateEnd = this.state.dateEnd;
-        values.dateFahuoStart = this.state.dateFahuoStart;
-        values.dateFahuoDoneEnd = this.state.dateFahuoDoneEnd;
+        values.createTimeST = this.state.createTimeST;
+        values.createTimeET = this.state.createTimeET;
+        values.deliveryTimeST = this.state.deliveryTimeST;
+        values.deliveryTimeET = this.state.deliveryTimeET;
 
         values.limit=limit;
         values.currentPage=currentPage;
@@ -39,10 +39,10 @@ class OrderctSearchForm extends React.Component {
 
     //同步data
     syncState=(values)=>{
-        values.dateStart = this.state.dateStart;
-        values.dateEnd = this.state.dateEnd;
-        values.dateFahuoStart = this.state.dateFahuoStart;
-        values.dateFahuoDoneEnd = this.state.dateFahuoDoneEnd;
+        values.createTimeST = this.state.createTimeST;
+        values.createTimeET = this.state.createTimeET;
+        values.deliveryTimeST = this.state.deliveryTimeST;
+        values.deliveryTimeET = this.state.deliveryTimeET;
 
         this.props.dispatch({
             type:'orderct/synchronous',
@@ -54,13 +54,13 @@ class OrderctSearchForm extends React.Component {
     hindDateChange=(type,dates,dateString)=>{
         if(type ==1){
             this.setState({
-                dateStart:dateString[0],
-                dateEnd:dateString[1]
+                createTimeST:dateString[0],
+                createTimeET:dateString[1]
             })
         }else{
             this.setState({
-                dateFahuoStart:dateString[0],
-                dateFahuoDoneEnd:dateString[1]
+                deliveryTimeST:dateString[0],
+                deliveryTimeET:dateString[1]
             })
         }
     }

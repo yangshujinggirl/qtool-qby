@@ -11,8 +11,8 @@ class OrdermdSearchForm extends React.Component {
         this.state = {
             dateStart: '',
             dateEnd:'',
-            datefahuoStart:'',
-            datefahuoEnd:''
+            deliveryTimeST:'',
+            deliveryTimeET:''
       };
     }
   
@@ -29,8 +29,8 @@ class OrdermdSearchForm extends React.Component {
   initList=(values,limit,currentPage)=>{
         values.dateStart=this.state.dateStart;
         values.dateEnd=this.state.dateEnd;
-        values.datefahuoStart=this.state.datefahuoStart;
-        values.datefahuoEnd=this.state.datefahuoEnd;
+        values.deliveryTimeST=this.state.deliveryTimeST;
+        values.deliveryTimeET=this.state.deliveryTimeET;
         values.limit=limit;
         values.currentPage=currentPage;
         this.props.dispatch({
@@ -44,8 +44,8 @@ class OrdermdSearchForm extends React.Component {
     syncState=(values)=>{
         values.dateStart=this.state.dateStart;
         values.dateEnd=this.state.dateEnd;
-        values.datefahuoStart=this.state.datefahuoStart;
-        values.datefahuoEnd=this.state.datefahuoEnd;
+        values.deliveryTimeST=this.state.deliveryTimeST;
+        values.deliveryTimeET=this.state.deliveryTimeET;
         
         this.props.dispatch({
             type:'ordermd/synchronous',
@@ -62,8 +62,8 @@ class OrdermdSearchForm extends React.Component {
             })
         }else{
             this.setState({
-                datefahuoStart:dateString[0],
-                datefahuoEnd:dateString[1]
+                deliveryTimeST:dateString[0],
+                deliveryTimeET:dateString[1]
             })
         }
     }
@@ -111,9 +111,8 @@ class OrdermdSearchForm extends React.Component {
                                     <Select allowClear={true} placeholder="请选择订单状态">
                                         {/* <Option value='10'>待发货</Option> */}
                                         <Option value='10'>待合单</Option>
-                                        <Option value='11'>待分配</Option>
-                                        <Option value='12'>待检核</Option>
-
+                                        <Option value='15'>待分配</Option>
+                                        <Option value='16'>待检核</Option>
                                         <Option value='20'>已发货</Option>
                                         <Option value='30'>已取消</Option>
                                     </Select>

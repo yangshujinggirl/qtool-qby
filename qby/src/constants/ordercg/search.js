@@ -7,8 +7,8 @@ const RangePicker = DatePicker.RangePicker;
 class OrdercgSearchForm extends React.Component {
   state = {
       type:"10",
-      downOrderStart:'',
-      downOrderEnd:''
+      createTimeST:'',
+      createTimeET:''
   };
 
   //点击搜索按钮获取搜索表单数据
@@ -25,8 +25,8 @@ class OrdercgSearchForm extends React.Component {
         values.type=this.state.type;
         values.limit=limit;
         values.currentPage=currentPage;
-        values.downOrderStart = this.state.downOrderStart;
-        values.downOrderEnd = this.state.downOrderEnd;
+        values.createTimeST = this.state.createTimeST;
+        values.createTimeET = this.state.createTimeET;
         this.props.dispatch({
             type:'ordercg/fetch',
             payload:{code:'qerp.web.ws.asn.query',values:values}
@@ -37,8 +37,8 @@ class OrdercgSearchForm extends React.Component {
     //同步data
     syncState=(values)=>{
         values.type=this.state.type;
-        values.downOrderStart = this.state.downOrderStart;
-        values.downOrderEnd = this.state.downOrderEnd;
+        values.createTimeST = this.state.createTimeST;
+        values.createTimeET = this.state.createTimeET;
         this.props.dispatch({
             type:'ordercg/synchronous',
             payload:values
@@ -48,8 +48,8 @@ class OrdercgSearchForm extends React.Component {
     //时间搜索部分
     hindDateChange=(dates,dateString)=>{
         this.setState({
-            downOrderStart:dateString[0],
-            downOrderEnd:dateString[1]
+            createTimeST:dateString[0],
+            createTimeET:dateString[1]
         })
     }
     

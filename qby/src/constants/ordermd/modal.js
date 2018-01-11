@@ -1,11 +1,23 @@
 import { Modal, Button } from 'antd';
+import {GetServerData} from '../../services/services';
+import { connect } from 'dva';
+import {deepcCloneObj} from '../../utils/commonFc';
 
 class Appmodelone extends React.Component {
   state = { visible: false }
   showModal = () => {
-    this.setState({
-      visible: true,
-    });
+    let data =deepcCloneObj(this.props.dataValue);
+    data.type = this.props.type;
+    const result=GetServerData('qerp.web.sys.doc.task',data);
+      result.then((res) => {
+          return res;
+      }).then((json) => {
+          if(json.code=='0'){
+              this.setState({
+                visible: true,
+              });
+          }
+      })
   }
   handleOk = (e) => {
     this.setState({

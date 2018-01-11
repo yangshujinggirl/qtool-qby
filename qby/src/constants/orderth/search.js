@@ -7,10 +7,10 @@ const RangePicker = DatePicker.RangePicker;
 class OrderthSearchForm extends React.Component {
     state = {
         type: "20",
-        dateStart: '',
-        dateEnd:'',
-        dateDoneStart:'',
-        dateDoneEnd:''
+        createTimeST: '',
+        createTimeET:'',
+        finishTimeST:'',
+        finishTimeET:''
     };
 
   //点击搜索按钮获取搜索表单数据
@@ -25,10 +25,10 @@ class OrderthSearchForm extends React.Component {
   //搜索请求数据
   initList=(values,limit,currentPage)=>{
         values.type=this.state.type;
-        values.dateStart = this.state.dateStart;
-        values.dateEnd = this.state.dateEnd;
-        values.dateDoneStart = this.state.dateDoneStart;
-        values.dateDoneEnd = this.state.dateDoneEnd;
+        values.createTimeST = this.state.createTimeST;
+        values.createTimeET = this.state.createTimeET;
+        values.finishTimeST = this.state.finishTimeST;
+        values.finishTimeET = this.state.finishTimeET;
 
         values.limit=limit;
         values.currentPage=currentPage;
@@ -43,10 +43,10 @@ class OrderthSearchForm extends React.Component {
     syncState=(values)=>{
         values.type=this.state.type;
         
-        values.dateStart = this.state.dateStart;
-        values.dateEnd = this.state.dateEnd;
-        values.dateDoneStart = this.state.dateDoneStart;
-        values.dateDoneEnd = this.state.dateDoneEnd;
+        values.createTimeST = this.state.createTimeST;
+        values.createTimeET = this.state.createTimeET;
+        values.finishTimeST = this.state.finishTimeST;
+        values.finishTimeET = this.state.finishTimeET;
 
         this.props.dispatch({
             type:'orderth/synchronous',
@@ -58,13 +58,13 @@ class OrderthSearchForm extends React.Component {
     hindDateChange=(type,dates,dateString)=>{
         if(type ==1){
             this.setState({
-                dateStart:dateString[0],
-                dateEnd:dateString[1]
+                createTimeST:dateString[0],
+                createTimeET:dateString[1]
             })
         }else{
             this.setState({
-                dateDoneStart:dateString[0],
-                dateDoneEnd:dateString[1]
+                finishTimeST:dateString[0],
+                finishTimeET:dateString[1]
             })
         }
     }

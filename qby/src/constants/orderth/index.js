@@ -6,6 +6,7 @@ import { connect } from 'dva';
 import OrderthTable from './table';
 //search
 import OrderthSearch from './search';
+import Appmodelone from '../ordermd/modal';
 
 class OrderthIndex extends React.Component{
 	state = {};
@@ -29,18 +30,27 @@ class OrderthIndex extends React.Component{
 					<Button 
 						type="primary" 
 						size='large'
-						className='mt20'
+						className='mt20 mr10'
 						onClick={this.addNew}
 					>
 						新建退货单
 					</Button>
-					<Button 
+					{/* <Button 
 						type="primary" 
 						size='large'
 						className='mt20 ml10'
 					>
 						导出数据
-					</Button>
+					</Button> */}
+					<Appmodelone 
+						text="导出数据" 
+						title="导出数据" 
+						count="数据已经进入导出队列，请前往下载中心查看导出进度"
+						okText="去看看"
+						cancelText="稍后去"
+						dataValue={this.props.values}
+						type="11"
+						/>
              		<div className='mt15'><OrderthTable/></div>
         	</div>
       	)
@@ -52,7 +62,8 @@ class OrderthIndex extends React.Component{
 }
 
 function mapStateToProps(state) {
-	return {};
+	const {values} = state.orderth;
+	return {values};
 }
 
 export default connect(mapStateToProps)(OrderthIndex);

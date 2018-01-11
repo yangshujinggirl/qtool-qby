@@ -7,6 +7,7 @@ import {deepcCloneObj} from '../../utils/commonFc';
 import OrdercgSearch from './search';
 //table
 import OrdercgTable from './table';
+import Appmodelone from '../ordermd/modal';
 
 import {GetLodop} from './print';
 
@@ -70,18 +71,27 @@ class OrdercgIndex extends React.Component{
                     <Button 
 						type="primary" 
 						size='large'
-						className='mt20 ml10'
+						className='mt20 ml10 mr10'
 						onClick={this.printCgorder}
 					>
 						打印采购单
 					</Button>
-					<Button 
+					<Appmodelone 
+						text="导出数据" 
+						title="导出数据" 
+						count="数据已经进入导出队列，请前往下载中心查看导出进度"
+						okText="去看看"
+						cancelText="稍后去"
+						dataValue={this.props.values}
+						type="15"
+						/>
+					{/* <Button 
 						type="primary" 
 						size='large'
 						className='mt20 ml10'
 					>
 						导出数据
-					</Button>
+					</Button> */}
              		<div className='mt15'><OrdercgTable/></div>
         	</div>
       	)

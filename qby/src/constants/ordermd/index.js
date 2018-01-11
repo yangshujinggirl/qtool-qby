@@ -43,6 +43,8 @@ class OrdermdIndex extends React.Component{
 						count="数据已经进入导出队列，请前往下载中心查看导出进度"
 						okText="去看看"
 						cancelText="稍后去"
+						dataValue={this.props.values}
+						type="10"
 						/>
 					{/* <Button 
 						type="primary" 

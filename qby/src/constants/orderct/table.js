@@ -28,7 +28,7 @@ class OrderctTable extends React.Component {
           dataIndex: 'statusStr'
         },{
           title: '下单时间',
-          dataIndex: 'orderDownTime'
+          dataIndex: 'createTime'
         }];
     }
     

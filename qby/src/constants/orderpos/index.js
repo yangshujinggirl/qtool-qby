@@ -35,6 +35,8 @@ class OrderposIndex extends React.Component{
 						count="数据已经进入导出队列，请前往下载中心查看导出进度"
 						okText="去看看"
 						cancelText="稍后去"
+						dataValue={this.props.values}
+						type="18"
 						/>
 					{/* <Button 
 						type="primary" 
@@ -55,7 +57,7 @@ class OrderposIndex extends React.Component{
 }
 
 function mapStateToProps(state) {
-	const {values} = state.ordermd;
+	const {values} = state.orderpos;
     return {values};
 }
 

@@ -82,8 +82,10 @@ export default {
                         {lable:'创建原因', text:result.spOrder.createTypeStr},
                         {lable:'预售订单', text:result.spOrder.preSellStatusStr},
                     ];
-                    let testPH = ['PH123','PH355'];
-                    cardlist.push({lable:'对应配货单', text:testPH.join(' ')});  
+                    if(result.wsOrderNos.length){
+                        let wsOrderNos = result.wsOrderNos;
+                        cardlist.push({lable:'对应配货单', text:wsOrderNos.join(' ')});  
+                    }
                     if(result.spOrder.status == 30){
                         cardlist.push({lable:'取消原因', text:result.spOrder.cancelReason});  
                     }
