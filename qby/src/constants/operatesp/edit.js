@@ -269,7 +269,7 @@ class SpEditForm extends React.Component{
 		}
 	}
 	hindChange1=(e)=>{
-		const patt=/^([0-9]*)+(.|.[0-9]{1,2})?$/
+		const patt=/^([0-9]*)+((\.)|.[0-9]{1,2})?$/
 		const values=e.target.value
 		const isvalues=patt.test(values)
 		if(isvalues){
@@ -280,21 +280,16 @@ class SpEditForm extends React.Component{
 	}
 
 	hindBlue1=(e)=>{
-		const patt=/^([0-9]*)+(.[0-9]{1,2})?$/
-		const values=e.target.value
-		const isvalues=patt.test(values)
-		if(isvalues){
+		var values=e.target.value
+		if(values){
+			values=parseFloat(e.target.value)
 			this.setState({
-				foodShareRatio:e.target.value
+				foodShareRatio:values
 			})
-		}else{
-			this.setState({
-				foodShareRatio:Number(e.target.value)
-			})	
 		}
 	}
 	hindChange2=(e)=>{
-		const patt=/^([0-9]*)+(.|.[0-9]{1,2})?$/
+		const patt=/^([0-9]*)+((\.)|.[0-9]{1,2})?$/
 		const values=e.target.value
 		const isvalues=patt.test(values)
 		if(isvalues){
@@ -304,12 +299,11 @@ class SpEditForm extends React.Component{
 		}
 	}
 	hindBlue2=(e)=>{
-		const patt=/^([0-9]*)+(.[0-9]{1,2})?$/
-		const values=e.target.value
-		const isvalues=patt.test(values)
-		if(isvalues){
+		var values=e.target.value
+		if(values){
+			values=parseFloat(e.target.value)
 			this.setState({
-				nonfoodShareRatio:Number(e.target.value)
+				nonfoodShareRatio:values
 			})
 		}
 	}
