@@ -36,8 +36,26 @@ export default {
 		tag1:[],  //规格1的属性列表
 		tag2:[],//规格2的属性列表
 		isskus:false,   //是否有规格，即展现那个商品信息表
-		initdatasouce:[],  //商品信息初始数据
-		goodindodatasouce:[], //商品信息数据
+		initdatasouce:[{
+			code:null,
+			barcode:null,
+			toBPrice:null,
+			toCPrice:null,
+			tagPrice:null,
+			costPrice:null,
+			key:'0000',
+			keys:'0000'
+		}],  //商品信息初始数据
+		goodindodatasouce:[{
+			code:null,
+			barcode:null,
+			toBPrice:null,
+			toCPrice:null,
+			tagPrice:null,
+			costPrice:null,
+			key:'0000',
+			keys:'0000'
+		}], //商品信息数据
 		initisskus:false, //初始化数据状态,
 		
 		//其他

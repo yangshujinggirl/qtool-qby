@@ -153,6 +153,8 @@ ins { text-decoration: none; }
 /*Button */
 .icon_add{font-weight: 900;}
 
+/* radius */
+.ant-radio-checked  .ant-radio-inner:after{border-radius: 50%;}
 
 /* table */
 .ant-table-bordered .ant-table-thead > tr > th, .ant-table-bordered .ant-table-tbody > tr > td{text-align:center}
