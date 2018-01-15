@@ -28,6 +28,7 @@ class SpTable extends React.Component {
 			dataIndex: 'handleTime'
 		},{
 			title: '操作',
+			width:'10%',
 			dataIndex: 'opation',
 			render: (text, record) => {
 				return (
@@ -39,8 +40,8 @@ class SpTable extends React.Component {
 	
 	//点击表格上的修改按钮操作
 	editInfo = (record) =>{
-		const feedbackId=String(record.feedbackId);
-		const paneitem={title:'反馈处理',key:'406000edit'+feedbackId,data:{feedbackId:feedbackId},componkey:'406000edit'}
+		const spFeedbackId=String(record.spFeedbackId);
+		const paneitem={title:'反馈处理',key:'406000edit'+spFeedbackId,data:{spFeedbackId:spFeedbackId},componkey:'406000edit'}
 		this.props.dispatch({
 			type:'tab/firstAddTab',
 			payload:paneitem

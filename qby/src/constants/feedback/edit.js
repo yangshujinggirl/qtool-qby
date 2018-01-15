@@ -31,14 +31,14 @@ class Feedbackedit extends React.Component{
     }
 	
     infofetch=(id)=>{
+		console.log(id)
         this.props.dispatch({
             type:'feedback/infofetch',
-            payload:{code:'qerp.app.sp.feedback.detail',values:{feedbackId:id}}
+            payload:{code:'qerp.web.sp.feedback.detail',values:{feedbackId:id}}
         })
     }
 
 	handletypeSelectChange=(value)=>{
-		console.log(value)
 		const type=value
 		this.props.dispatch({
 			type:'feedback/typechange',
@@ -200,7 +200,7 @@ class Feedbackedit extends React.Component{
 		)
 	}
 	componentDidMount(){
-		// this.infofetch(this.props.data.feedbackId)
+		 this.infofetch(this.props.data.spFeedbackId)
 	}
 	
 }

@@ -6,7 +6,8 @@ const RangePicker = DatePicker.RangePicker;
 
 class SearchForm extends React.Component {
     state={
-        createTime:null,
+        createTimeST:null,
+        createTimeET:null
     }
     handleSearch = (e) => {
         this.props.form.validateFields((err, values) => {
@@ -17,7 +18,8 @@ class SearchForm extends React.Component {
 
     //搜索请求数据
     initList=(values,limit,currentPage)=>{
-        values.createTime=this.state.createTime;
+        values.createTimeST=this.state.createTimeST;
+        values.createTimeET=this.state.createTimeET;
         values.limit=limit;
         values.currentPage=currentPage;
         this.props.dispatch({
@@ -35,9 +37,10 @@ class SearchForm extends React.Component {
             payload:values
         });
     }
-    hinddataChange=(date, dateString)=>{
+    hindDateChange=(date, dateString)=>{
         this.setState({
-            createTime:dateString,
+            createTimeST:dateString[0],
+            createTimeET:dateString[1]
         })
     }
    
@@ -59,12 +62,14 @@ class SearchForm extends React.Component {
                                     <Input placeholder="请输入反馈门店"/>
                                     )}
                                 </FormItem>
-                                <FormItem label='门店类型'>
+                                <FormItem label='反馈类型'>
                                 {getFieldDecorator('type')(
                                     <Select allowClear={true} placeholder="请选择门店类型">
-                                    <Option value='1'>待执行</Option>
-                                    <Option value='2'>已执行</Option>
-                                    <Option value='0'>无效</Option>
+                                    <Option value='1'>运营相关问题</Option>
+                                    <Option value='2'>商品相关问题</Option>
+                                    <Option value='3'>设计相关问题</Option>
+                                    <Option value='4'>招商相关问题</Option>
+                                    <Option value='5'>系统相关问题</Option>
                                     </Select>
                                 )}
                                 </FormItem>
@@ -72,28 +77,27 @@ class SearchForm extends React.Component {
                                     {getFieldDecorator('status')(
                                     <Select allowClear={true} placeholder="请选择反馈状态">
                                         <Option value='1'>待执行</Option>
-                                        <Option value='2'>已执行</Option>
-                                        <Option value='0'>无效</Option>
+                                        <Option value='2'>处理中</Option>
+                                        <Option value='3'>已处理</Option>
                                     </Select>
                                     )}
                                 </FormItem>
                                 <FormItem label='处理时长'>
                                     {getFieldDecorator('handleTimeType')(
                                     <Select allowClear={true} placeholder="请选择处理时长">
-                                        <Option value='1'>待执行</Option>
-                                        <Option value='2'>已执行</Option>
-                                        <Option value='0'>无效</Option>
+                                        <Option value='1'>0-5h</Option>
+                                        <Option value='2'>5-24h</Option>
+                                        <Option value='3'>24h以上</Option>
                                     </Select>
                                     )}
                                 </FormItem>
                                 <FormItem label='反馈时间'>
                                     {getFieldDecorator('time')(
-                                        <DatePicker
+                                        <RangePicker
                                             showTime
                                             format="YYYY-MM-DD"
-                                            className='noant-calendar-picker'
-                                            onChange={this.hinddataChange.bind(this)}
-                                        />
+                                            onChange={this.hindDateChange.bind(this)}
+                                    />
                                     )}
                                 </FormItem>  
                             </div>
@@ -108,7 +112,7 @@ class SearchForm extends React.Component {
     }
 
     componentDidMount(){
-        // this.handleSearch()
+        this.handleSearch()
     }
 }
 function mapStateToProps(state) {

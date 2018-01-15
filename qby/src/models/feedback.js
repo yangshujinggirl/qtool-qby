@@ -19,7 +19,7 @@ export default {
 		logstitle:'处理日志',
 		logs:[],
 		remark:'我是反馈内容',
-		feedbackPics:[{url:'qtltest/spu/1801/03/1514975342433.jpg'},{url:'qtltest/spu/1801/03/1514974955127.jpg'}],
+		feedbackPics:[],
 		type:'1',
 		status:'2',
 		editremark:null,
