@@ -1,15 +1,20 @@
-import { Form, Row, Col, Input, Button, Icon,Select ,DatePicker} from 'antd';
+import { Form, Row, Col, Input, Button, Icon,Select ,DatePicker,AutoComplete} from 'antd';
 import { connect } from 'dva';
-
+import {GetServerData} from '../../../services/services';
 
 const FormItem = Form.Item;
 
 class StockSearchForm extends React.Component {
-  state = {};
+  state = {
+    pdCategorys:[],
+    spShopId:null
+  };
 
   //点击搜索按钮获取搜索表单数据
   handleSearch = (e) => {
     this.props.form.validateFields((err, values) => {
+        values.spShopId=this.state.spShopId
+        console.log(values)
         this.initStockList(values,this.props.limit,0);
         this.syncState(values);
     });
@@ -19,8 +24,8 @@ class StockSearchForm extends React.Component {
         values.limit=limit;
         values.currentPage=currentPage;
         this.props.dispatch({
-            type:'stock/fetch',
-            payload:{code:'qerp.web.ws.inv.spu.query',values:values}
+            type:'dataspcun/fetch',
+            payload:{code:'qerp.web.qpos.pd.inv.query',values:values}
         });
         this.props.dispatch({ type: 'tab/loding', payload:true});
     }  
@@ -28,12 +33,66 @@ class StockSearchForm extends React.Component {
     //同步data
     syncState=(values)=>{
         this.props.dispatch({
-            type:'stock/synchronous',
+            type:'dataspcun/synchronous',
             payload:values
         });
     }
 
-  
+    categorylist=()=>{
+        let values={
+            getChildren:false,
+            enabled:true
+        }
+        const result=GetServerData('qerp.web.pd.category.list',values)
+        result.then((res) => {
+            return res;
+        }).then((json) => {
+            if(json.code=='0'){
+               const pdCategorys=json.pdCategorys
+               this.setState({
+                    pdCategorys:pdCategorys
+               })
+               
+            }
+        })
+
+
+
+    }
+
+    //智能搜索
+    handleSearchs=(value)=>{
+        this.setState({
+            spShopId:null
+        })
+        let values={name:value}
+        const result=GetServerData('qerp.web.sp.shop.list',values)
+            result.then((res) => {
+            return res;
+        }).then((json) => {
+            if(json.code=='0'){
+                var shopss=json.shops
+                var datasouce=[]
+                for(var i=0;i<shopss.length;i++){
+                    datasouce.push({
+                        text:shopss[i].name,
+                        value:shopss[i].spShopId
+                    })
+                }
+                this.setState({
+                    dataSource:datasouce
+                });
+            }
+        })
+    }
+
+    //智能选择
+    onSelect=(value)=>{
+        this.setState({
+            spShopId:value
+        })
+    }
+
 
   render() {
       const { getFieldDecorator } = this.props.form;
@@ -44,21 +103,46 @@ class StockSearchForm extends React.Component {
             <Col span={24} className='formbox_col'>
                 <Row>
                 <div className='serach_form'>
-                    <FormItem label='商品名称'>
+                    <FormItem label='门店名称'>
                         {getFieldDecorator('barcode')(
-                        <Input placeholder="请输入商品名称"/>
+                        <AutoComplete size="large"
+                            dataSource={this.state.dataSource}
+                            onSelect={this.onSelect}
+                            onSearch={this.handleSearchs}
+                            placeholder='请选择供应商名称'
+                            filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
+                        />
                         )}
                     </FormItem>
-                    <FormItem label='商品编码'>
-                        {getFieldDecorator('name')(
+                    <FormItem label='商品名称'>
+                        {getFieldDecorator('pdSpuName')(
                         <Input placeholder="请输入商品编码"/>
                         )}
                     </FormItem>
                     <FormItem label='商品条码'>
-                        {getFieldDecorator('ccname')(
+                        {getFieldDecorator('barcode')(
                         <Input placeholder="请输入商品条码"/>
                         )}
                     </FormItem>
+                    <FormItem label='商品编码'>
+                        {getFieldDecorator('code')(
+                        <Input placeholder="请输入商品条码"/>
+                        )}
+                    </FormItem>
+                    <FormItem label='商品分类'>
+                        {getFieldDecorator('pdCategoryId')(
+                           <Select  placeholder="请选择" allowClear={true}>
+                            {
+                                this.state.pdCategorys.map((item,index)=>{
+                                    return (<Option value={String(item.pdCategoryId)} key={index}>{item.name}</Option>)
+       
+                                })
+                            }
+                            </Select>
+                        )}
+                    </FormItem>
+
+
                     </div>
                 </Row>
             </Col>
@@ -71,12 +155,14 @@ class StockSearchForm extends React.Component {
   }
 
   componentDidMount(){
-    // this.handleSearch()
+      this.categorylist()
+    this.handleSearch()
+
 }
   
 }
 function mapStateToProps(state) {
-    const {limit,currentPage} = state.datawson;
+    const {limit,currentPage} = state.dataspcun;
     return {limit,currentPage};
 }
 

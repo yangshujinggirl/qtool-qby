@@ -2,37 +2,31 @@ import { connect } from 'dva';
 import EditableTable from '../../../components/table/tablemodel';
 
 
-
-
-
 class DataspcunTable extends React.Component {
 	constructor(props) {
         super(props);
 		this.columns = [{
+            title: '序号',
+            dataIndex: 'index'
+          },{
             title: '商品编码',
-            dataIndex: 'barcode'
+            dataIndex: 'code'
           }, {
             title: '商品条码',
-            dataIndex: 'pdSpu.name'
+            dataIndex: 'barcode'
           },{
             title: '商品名称',
-            dataIndex: 'specification'
+            dataIndex: 'pdSpuName'
 		  },{
-            title: '商品规格',
-            dataIndex: 'wsWarehouseName'
+            title: '商品分类',
+            dataIndex: 'pdCategoryName'
 		  },{
-            title: '仓库总库存',
+            title: '规格',
+            dataIndex: 'displayName'
+          },{
+            title: '数量',
             dataIndex: 'qty'
-          },{
-            title: '分配库存',
-            dataIndex: 'qtyAllocated'
-          },{
-            title: '占用库存',
-            dataIndex: 'qtyOnhold'
-          },{
-            title: '次品库存',
-            dataIndex: 'qtyBad'
-        }];   
+          }];   
     }
 	
 	//分页方法
@@ -49,8 +43,8 @@ class DataspcunTable extends React.Component {
         values.limit=limit;
         values.currentPage=currentPage;
         this.props.dispatch({
-            type:'stock/fetch',
-            payload:{code:'qerp.web.ws.inv.spu.query',values:values}
+            type:'dataspcun/fetch',
+            payload:{code:'qerp.web.qpos.pd.inv.query',values:values}
         });
         this.props.dispatch({ type: 'tab/loding', payload:true});
     }
@@ -58,7 +52,7 @@ class DataspcunTable extends React.Component {
     render() {
         return (
 			<EditableTable
-				dataSource={this.props.datasouce} 
+				dataSource={this.props.pdInvVos} 
 				columns={this.columns} 
 				pageChange={this.pageChange.bind(this)}
 				pageSizeChange={this.pageSizeChange.bind(this)}
@@ -73,8 +67,8 @@ class DataspcunTable extends React.Component {
 }
 
 function mapStateToProps(state) {
-    const {datasouce,total,limit,currentPage,values} = state.datawson;
-    return {datasouce,total,limit,currentPage,values};
+    const {pdInvVos,limit,currentPage,total,values} = state.dataspcun;
+    return {pdInvVos,limit,currentPage,total,values};
 }
 
 export default connect(mapStateToProps)(DataspcunTable);
