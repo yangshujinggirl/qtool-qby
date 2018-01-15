@@ -1,27 +1,15 @@
 import { Card } from 'antd';
 
 class Cardlist extends React.Component {
-    state = {
-        data:[{
-            title:'门店排行榜',
-            value:'2330',
-            type:'1'
-        },{
-            title:'学习门店',
-            value:'23310',
-            type:'2'
-        }]
-    };
     render() {
-       
       return (
-          <div className='cardlistbox'>
+          <div className='cardlistbox tc mt30'>
                 {
-                    this.state.data.map((item,index)=>{
+                    this.props.data.map((item,index)=>{
                         return(
-                            <Card style={{ width: 220,background:item.type=='1'?'red':'pink' }} key={index}>
+                            <Card style={{ width: 220,color:"#fff",padding:'10px 0',cursor:'pointer',background:item.bg}} key={index}>
                                 <p>{item.title}</p>
-                                <p>{item.value}</p>
+                                <p className='f24'>{item.value}</p>
                             </Card>
                         )
                     })
@@ -36,4 +24,6 @@ class Cardlist extends React.Component {
   }
 
   export default Cardlist;
+
+  
   

@@ -12,13 +12,13 @@
     "production": {
       "extraBabelPlugins": [
         "transform-runtime",
-        ["import", { "libraryName": "antd", "style": "true" }]
+        ["import", { "libraryName": "antd","libraryDirectory": "es", "style": "true" }]
       ]
     }
   },
  "proxy": {
     "/erpWebRest": {
-        "target": "http://v1.qby.test.qtoolsbaby.cn:81",
+        "target": "http://v1.qby.testin.qtoolsbaby.cn:81",
         "secure": false,
         "changeOrigin": true
       }

@@ -1,7 +1,6 @@
 import dva from 'dva';
-import './index.css';
 import 'antd/dist/antd.less';
-
+import './index.css';
 
 import { useRouterHistory } from 'dva/router';
 import { createHashHistory } from 'history';
@@ -16,6 +15,18 @@ const app = dva({
 
 
 app.model(require("./models/account"));
+
+
+
+
+
+
+app.model(require("./models/dataspsell"));
+
+
+
+
+
 
 app.model(require("./models/stock"));
 

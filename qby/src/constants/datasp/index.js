@@ -18,7 +18,7 @@ class DataspIndex extends React.Component{
                     <TabPane tab="销售数据" key="1">
                         <DataspsellIndex/>
                     </TabPane>
-                    <TabPane tab="门店效期" key="2">
+                    <TabPane tab="门店库存" key="2">
                         <DataspsellIndex/>
                     </TabPane>
                     <TabPane tab="历史库存" key="3">

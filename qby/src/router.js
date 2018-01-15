@@ -2,16 +2,17 @@ import { Router, Route } from 'dva/router';
 import IndexPage from './routes/IndexPage';
 import Login from './routes/Login';
 import { LocaleProvider, DatePicker, message } from 'antd';
-import zhCN from 'antd/lib/locale-provider/zh_CN';
+
+// import zhCN from 'antd/lib/locale-provider/zh_CN';
 
 function RouterConfig({ history }) {
   	return (
-		<LocaleProvider locale={zhCN}>
+		// <LocaleProvider locale={zhCN}>
 		<Router history={history}>
 			<Route path="/" component={Login}/>
 			<Route path="/home" component={IndexPage}/>
 		</Router>
-		</LocaleProvider>
+		// </LocaleProvider>
   	);
 }
 
