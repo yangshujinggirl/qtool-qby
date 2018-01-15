@@ -5,6 +5,8 @@ import { connect } from 'dva';
 import '../../style/dataws.css';
 import DataspsellIndex from './dataspsell/index';
 import DataspcunIndex from './dataspcun/index';
+import DatasphiscunIndex from './datasphiscun/index';
+import DataspfenIndex from './dataspfen/index';
 
 const TabPane = Tabs.TabPane;
 
@@ -22,10 +24,10 @@ class DataspIndex extends React.Component{
                         <DataspcunIndex/>
                     </TabPane>
                     <TabPane tab="历史库存" key="3">
-                        <DataspsellIndex/>
+                        <DatasphiscunIndex/>
                     </TabPane>
                     <TabPane tab="联营分成" key="4">
-                        <DataspsellIndex/>
+                        <DataspfenIndex/>
                     </TabPane>
                 </Tabs>
         	</div>

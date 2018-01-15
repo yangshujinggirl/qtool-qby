@@ -21,6 +21,20 @@ app.model(require("./models/account"));
 
 
 
+app.model(require("./models/dataspfen"));
+
+
+
+
+
+
+app.model(require("./models/datasphiscun"));
+
+
+
+
+
+
 app.model(require("./models/dataspcun"));
 
 
