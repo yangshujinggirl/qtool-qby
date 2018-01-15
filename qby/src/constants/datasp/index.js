@@ -4,7 +4,7 @@ import { Button, Icon,Tabs } from 'antd';
 import { connect } from 'dva';
 import '../../style/dataws.css';
 import DataspsellIndex from './dataspsell/index';
-
+import DataspcunIndex from './dataspcun/index';
 
 const TabPane = Tabs.TabPane;
 
@@ -19,7 +19,7 @@ class DataspIndex extends React.Component{
                         <DataspsellIndex/>
                     </TabPane>
                     <TabPane tab="门店库存" key="2">
-                        <DataspsellIndex/>
+                        <DataspcunIndex/>
                     </TabPane>
                     <TabPane tab="历史库存" key="3">
                         <DataspsellIndex/>
