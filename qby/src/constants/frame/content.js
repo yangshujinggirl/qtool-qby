@@ -72,6 +72,7 @@ import ConsumptionInfo from '../operatemember/info';
 import DatawsIndex from '../dataws/index';
 import DatacgIndex from '../datacg/index';
 import DataposIndex from '../datapos/index';
+import DataFinanceIndex from '../datafinance/index';
 
 import FeedbackIndex from '../feedback/index';
 import Feedbackedit from '../feedback/edit';
@@ -115,12 +116,8 @@ class Content extends React.Component {
                                     case "702500":return  <DatacgIndex data={this.props.data}/>;
                                     case "703000":return  <DataspIndex data={this.props.data}/>;
                                     case "703006":return  <DataposIndex data={this.props.data}/>;
+                                    case "703005":return <DataFinanceIndex data={this.props.data}/>
 
-
-                                   
-
-
-                                    
                                 
                                     case "201000":return <OrdermdIndex data={this.props.data}/>;
                                     case "201000info":return <OrdermdInfo data={this.props.data}/>;
