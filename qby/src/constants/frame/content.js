@@ -74,6 +74,7 @@ import DatacgIndex from '../datacg/index';
 
 import DatagoIndex from '../datagoods/index';
 
+import DataorderIndex from '../dataorder/index';
 
 import FeedbackIndex from '../feedback/index';
 import Feedbackedit from '../feedback/edit';
@@ -109,7 +110,7 @@ class Content extends React.Component {
                                     case "403000":return  <OperateIndex data={this.props.data}/>;
                                     case "403000edit":return  <SpEditForms data={this.props.data}/>;
                                     
-                                    
+                                    case "703003":return  <DataorderIndex data={this.props.data}/>;
                                    
 
                                     case "000001":return  <DownloadIndex data={this.props.data}/>;
