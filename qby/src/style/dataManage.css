@@ -100,14 +100,9 @@
     line-height: 30px;
 }
 .search-form .ant-input,.search-form .ant-select{
-    font-size: 14px;
-    color: #384162;
     width: 200px;
 }
-.data-manage .ant-input,.data-manage .ant-select{
-    font-size: 14px;
-    color: #384162;
-}
+
 .search-form.time-select .ant-calendar-picker-input{
     width: 320px;
 }
