@@ -11,7 +11,12 @@ class Cards extends React.Component {
                             <Card style={{ width: 220,textAlign:'center'}} key={index} bordered={false}>
                                 <p>{item.title}</p>
                                 <p className='f24'>{item.value}</p>
-                                <p><Icon type={item.type=='0'?'caret-down':'caret-up'} />{item.rate+'%'+item.text}</p>
+                                {
+                                    item.rate=='0'?<p>{item.rate+'%'+item.text}</p>:
+                                    <p><Icon type={item.type=='0'?'caret-down':'caret-up'} style={{color:item.type=='0'?"#ED6531":"#5DB637"}}/>{item.rate+'%'+item.text}</p>
+                                }
+                                
+                                
                             </Card>    
                         )   
                     })

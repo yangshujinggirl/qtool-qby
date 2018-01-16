@@ -72,8 +72,12 @@ import ConsumptionInfo from '../operatemember/info';
 import DatawsIndex from '../dataws/index';
 import DatacgIndex from '../datacg/index';
 
+import DatagoIndex from '../datagoods/index';
+
+
 import FeedbackIndex from '../feedback/index';
 import Feedbackedit from '../feedback/edit';
+
 
 
 class Content extends React.Component {
@@ -114,7 +118,7 @@ class Content extends React.Component {
                                     case "702500":return  <DatacgIndex data={this.props.data}/>;
                                     case "703000":return  <DataspIndex data={this.props.data}/>;
 
-
+                                    case "703002":return  <DatagoIndex data={this.props.data}/>;
                                    
 
 
