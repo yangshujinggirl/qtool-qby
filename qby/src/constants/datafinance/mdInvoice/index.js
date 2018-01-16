@@ -5,6 +5,7 @@ import { Link } from 'dva/router';
 import EditableTable from '../../../components/table/tablebasic';
 import {GetServerData} from '../../../services/services';
 import moment from 'moment';
+import Appmodelone from "../../ordermd/modal";
 const FormItem = Form.Item;
 const Option = Select.Option;
 const { RangePicker } = DatePicker;
@@ -20,6 +21,7 @@ class MdInvoiceIndexForm extends React.Component {
             currentPage:0,
             limit:10,
             month:'',
+            exportData:{}
         };
     }
 
@@ -55,13 +57,12 @@ class MdInvoiceIndexForm extends React.Component {
                     month:this.state.month,
                     name:this.state.name
                 }
+                this.setState({
+                    exportData:data
+                });
                 self.getServerData(data);
             })
         })
-    }
-
-    exportData = () =>{
-
     }
 
     render() {
@@ -95,14 +96,24 @@ class MdInvoiceIndexForm extends React.Component {
                     <Button type="primary" htmlType="submit" onClick={this.handleSubmit.bind(this)} size='large'>搜索</Button>
                 </div>
                 </Form>
-                <Button 
+                {/* 导出 */}
+                <Appmodelone 
+						text="导出数据" 
+						title="导出数据" 
+						count="数据已经进入导出队列，请前往下载中心查看导出进度"
+						okText="去看看"
+						cancelText="稍后去"
+						dataValue={this.state.exportData}
+						type="76"
+						/>
+                {/* <Button 
 						type="primary" 
 						size='large'
 						className='mt20'
 						onClick={this.exportData}
 					>
                         导出数据
-				</Button>
+				</Button> */}
                 <div className='mt15'>
                     <EditableTable 
                         columns={this.columns} 
@@ -211,6 +222,9 @@ class MdInvoiceIndexForm extends React.Component {
                 limit:10,
                 month:this.state.month,
             }
+            this.setState({
+                exportData:values
+            })
             self.getServerData(values);
         })
     }

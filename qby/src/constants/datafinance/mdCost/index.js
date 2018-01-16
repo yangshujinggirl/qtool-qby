@@ -29,7 +29,26 @@ class MdCostIndexForm extends React.Component {
         },{
             title: '成本报表',
             dataIndex: 'url',
+            render:(text, row, index)=>{
+                return <span style={{color:"#35BAB0"}} onClick={this.download.bind(this,text)}>下载</span>
+            }
         }];
+    }
+
+    //下载
+    download = (text) =>{
+        let data = {
+            type:"70",
+            downloadParam:text
+        };
+        const result=GetServerData('qerp.web.sys.doc.task',data);
+        result.then((res) => {
+            return res;
+        }).then((json) => {
+            if(json.code=='0'){
+
+            }
+        });
     }
 
     dateChange = (date, dateString) =>{

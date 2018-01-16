@@ -49,14 +49,31 @@ class CostCheckIndexForm extends React.Component {
     }
 
     onDownloadCheck = (record) => {
-        let url=record.url;
-        window.open(url);
+        let data = {
+            type:"71",
+            downloadParam:record.url
+        };
+        const result=GetServerData('qerp.web.sys.doc.task',data);
+        // let url=record.url;
+        // window.open(url);
     }
 
-    //下载预售信息
+    //预售订单下载
     downloadPreSale = (record) =>{
-        let preSellUrl = record.preSellUrl;
-        window.open(preSellUrl);
+        let data = {
+            type:"72",
+            downloadParam:record.preSellUrl
+        };
+        const result=GetServerData('qerp.web.sys.doc.task',data);
+        // result.then((res) => {
+        //     return res;
+        // }).then((json) => {
+        //     if(json.code=='0'){
+
+        //     }
+        // });
+        // let preSellUrl = record.preSellUrl;
+        // window.open(preSellUrl);
     }
 
     render() {

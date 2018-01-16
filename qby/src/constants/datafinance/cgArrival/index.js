@@ -5,6 +5,7 @@ import { Link } from 'dva/router';
 import EditableTable from '../../../components/table/tablebasic';
 import {GetServerData} from '../../../services/services';
 import moment from 'moment';
+import Appmodelone from '../../ordermd/modal';
 const FormItem = Form.Item;
 const Option = Select.Option;
 const { RangePicker } = DatePicker;
@@ -20,7 +21,8 @@ class CgArrivalIndexForm extends React.Component {
             limit:10,
             month:'',
             createTimeST:'',
-            createTimeET:''
+            createTimeET:'',
+            exportData:{}
         };
         this.columns = [{
             title: '供应商名称',
@@ -67,16 +69,14 @@ class CgArrivalIndexForm extends React.Component {
                     supplierName:this.state.supplierName,
                     createTimeST:this.state.createTimeST,
                     createTimeET:this.state.createTimeET
-                }
+                };
+                this.setState({
+                    exportData:data
+                })
                 self.getServerData(data);
             })
         })
     }
-
-    //导出数据
-	exportData = () => {
-		
-	}
 
     render() {
         const { getFieldDecorator } = this.props.form;
@@ -109,15 +109,24 @@ class CgArrivalIndexForm extends React.Component {
                     <Button type="primary" htmlType="submit" onClick={this.handleSubmit.bind(this)} size='large'>搜索</Button>
                 </div>
                 </Form>
-                <Button 
+                {/* <Button 
 						type="primary" 
 						size='large'
 						className='mt20'
 						onClick={this.exportData}
 					>
                         导出数据
-				</Button>
-                {/*搜索部分 */}
+                </Button> */}
+                {/* 导出 */}
+                <Appmodelone 
+						text="导出数据" 
+						title="导出数据" 
+						count="数据已经进入导出队列，请前往下载中心查看导出进度"
+						okText="去看看"
+						cancelText="稍后去"
+						dataValue={this.state.exportData}
+						type="75"
+						/>
                 <div className='mt15'>
                     <EditableTable 
                         columns={this.columns} 
