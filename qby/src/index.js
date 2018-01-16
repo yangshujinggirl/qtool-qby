@@ -21,6 +21,13 @@ app.model(require("./models/account"));
 
 
 
+app.model(require("./models/datas"));
+
+
+
+
+
+
 app.model(require("./models/dataclassdes"));
 
 
