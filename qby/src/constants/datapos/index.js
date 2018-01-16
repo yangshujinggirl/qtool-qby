@@ -11,6 +11,8 @@ import ClerkSale from './clerkSale';
 import ReceiptReport from './receiptReport';
 import ProfitReport from './profitReport';
 import InOutReport from './inoutReport';
+import AdjustLogIndex from './adjustLog';
+import InventorydiffLogIndex from './inventorydiffLog';
 
 const FormItem = Form.Item;
 const TabPane = Tabs.TabPane;
@@ -123,6 +125,12 @@ class DataposIndexForm extends React.Component{
                     </TabPane>
                     <TabPane tab="进销存报表" key="6">
                         {this.state.key == 6 && <InOutReport shopId={this.state.sureShopId}/>} 
+                    </TabPane>
+                    <TabPane tab="损益日志" key="7">
+                        {this.state.key == 7 && <AdjustLogIndex shopId={this.state.sureShopId}/>} 
+                    </TabPane>
+                    <TabPane tab="盘点日志" key="8">
+                        {this.state.key == 8 && <InventorydiffLogIndex shopId={this.state.sureShopId}/>} 
                     </TabPane>
                 </Tabs>
             }
