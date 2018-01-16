@@ -6,8 +6,9 @@ import {deepcCloneObj} from '../../utils/commonFc';
 class Appmodelone extends React.Component {
   state = { visible: false }
   showModal = () => {
-    let data =deepcCloneObj(this.props.dataValue);
+    let data ={};
     data.type = this.props.type;
+    data.downloadParam = deepcCloneObj(this.props.dataValue);
     const result=GetServerData('qerp.web.sys.doc.task',data);
       result.then((res) => {
           return res;

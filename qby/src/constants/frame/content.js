@@ -71,6 +71,8 @@ import ConsumptionInfo from '../operatemember/info';
 
 import DatawsIndex from '../dataws/index';
 import DatacgIndex from '../datacg/index';
+import DataposIndex from '../datapos/index';
+import DataFinanceIndex from '../datafinance/index';
 
 import DatagoIndex from '../datagoods/index';
 
@@ -118,13 +120,11 @@ class Content extends React.Component {
                                     case "703004":return  <DatawsIndex data={this.props.data}/>;
                                     case "702500":return  <DatacgIndex data={this.props.data}/>;
                                     case "703000":return  <DataspIndex data={this.props.data}/>;
+                                    case "703006":return  <DataposIndex data={this.props.data}/>;
+                                    case "703005":return <DataFinanceIndex data={this.props.data}/>
 
                                     case "703002":return  <DatagoIndex data={this.props.data}/>;
                                    
-
-
-                                    
-                                
                                     case "201000":return <OrdermdIndex data={this.props.data}/>;
                                     case "201000info":return <OrdermdInfo data={this.props.data}/>;
                                     case "201000edit":return <OrdermdEdit data={this.props.data}/>;
