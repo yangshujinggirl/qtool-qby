@@ -5,15 +5,29 @@ import { connect } from 'dva';
 import { Link } from 'dva/router';
 import '../../style/dataManage.css';
 
+import DailyBill from './dailyBill';
+import HotSellGoods from './hotSellGoods';
+import ClerkSale from './clerkSale';
+import ReceiptReport from './receiptReport';
+import ProfitReport from './profitReport';
+import InOutReport from './inoutReport';
+
 const FormItem = Form.Item;
 const TabPane = Tabs.TabPane;
 
 class DataposIndexForm extends React.Component{
 	state = {
+        key:"1",
         shopId:null,
         sureShopId:null,
         dataSources:[],
     };
+
+    tabChange = (index)=>{
+        this.setState({
+            key:index
+        })
+    }
 
     //智能搜索框搜索事件
     handleSearch = (value) => {
@@ -91,24 +105,24 @@ class DataposIndexForm extends React.Component{
                     </Form>
                 </div>
                 :
-                <Tabs defaultActiveKey="1">
+                <Tabs defaultActiveKey="1"  onTabClick={this.tabChange.bind(this)}>
                     <TabPane tab="每日对账单" key="1">
-                        {/* <DataspsellIndex/> */}
+                        {this.state.key == 1 && <DailyBill shopId={this.state.sureShopId}/>} 
                     </TabPane>
                     <TabPane tab="热销商品" key="2">
-                        {/* <DataspcunIndex/> */}
+                        {this.state.key == 2 && <HotSellGoods shopId={this.state.sureShopId}/>} 
                     </TabPane>
                     <TabPane tab="店员销售" key="3">
-                        {/* <DataspsellIndex/> */}
+                        {this.state.key == 3 && <ClerkSale shopId={this.state.sureShopId}/>} 
                     </TabPane>
                     <TabPane tab="收货报表" key="4">
-                        {/* <DataspsellIndex/> */}
+                        {this.state.key == 4 && <ReceiptReport shopId={this.state.sureShopId}/>} 
                     </TabPane>
                     <TabPane tab="利润报表" key="5">
-                        {/* <DataspsellIndex/> */}
+                        {this.state.key == 5 && <ProfitReport shopId={this.state.sureShopId}/>} 
                     </TabPane>
                     <TabPane tab="进销存报表" key="6">
-                        {/* <DataspsellIndex/> */}
+                        {this.state.key == 6 && <InOutReport shopId={this.state.sureShopId}/>} 
                     </TabPane>
                 </Tabs>
             }

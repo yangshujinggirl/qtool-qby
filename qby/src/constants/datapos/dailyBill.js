@@ -3,7 +3,7 @@ import { connect } from 'dva';
 import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,message,DatePicker,Tooltip,Pagination } from 'antd';
 import { Link } from 'dva/router';
 import '../../style/dataManage.css';
-import CommonTable from './commonTable';
+import EditableTable from '../../components/table/tablebasic';
 import {GetServerData} from '../../services/services';
 import moment from 'moment';
 const FormItem = Form.Item;
@@ -97,6 +97,7 @@ class DailyBillForm extends React.Component {
                 type:values.type
             },function(){
                 let data = {
+                    shopId:this.props.shopId,
                     currentPage:0,
                     limit:10,
                     startDate:this.state.startDate,
@@ -111,6 +112,7 @@ class DailyBillForm extends React.Component {
     //导出数据
     exportList = () =>{
         let data = {
+            shopId:this.props.shopId,
             currentPage:0,
             limit:10,
             startDate:this.state.startDate,
@@ -123,8 +125,6 @@ class DailyBillForm extends React.Component {
         }).then((json) => {
             if(json.code=='0'){
 
-            }else{  
-                message.error(json.message); 
             }
         })
     }
@@ -137,7 +137,7 @@ class DailyBillForm extends React.Component {
         const { getFieldDecorator } = this.props.form;
         return (
             <div className="daily-bill border-top-style">
-                <div className="scroll-wrapper">
+                <div>
                 {/* 数据展示部分 */}
                 <div className="top-data">
                     <ul>
@@ -233,18 +233,19 @@ class DailyBillForm extends React.Component {
                         <Button className="export-btn" onClick={this.exportList.bind(this)}>导出数据</Button>
                     </div>
                 </Form>
-                <CommonTable 
+                <EditableTable 
                     columns={this.columns} 
                     dataSource={this.state.dataSource}
-                    pagination={false}
+                    footer={true}
+                    pageChange={this.pageChange.bind(this)}
+                    pageSizeChange={this.onShowSizeChange.bind(this)}
                     total={this.state.total}
+                    limit={this.state.limit}
                     current={this.state.currentPage+1}
-                    pageSize={this.state.limit}
-                    onShowSizeChange={this.onShowSizeChange}
-                    pageChange={this.pageChange}
+                    bordered={true}
                     />
                 </div>
-                <div className="footer-pagefixed">
+                {/* <div className="footer-pagefixed">
                     <Pagination 
                         total={this.state.total} 
                         current={this.state.currentPage+1}
@@ -254,14 +255,14 @@ class DailyBillForm extends React.Component {
                         onChange={this.pageChange} 
                         pageSizeOptions={['10','12','15','17','20','50','100','200']}
                         />
-                </div>
+                </div> */}
             </div>
         );
     }
 
     //获取数据
     getServerData = (values) =>{
-        const result=GetServerData('qerp.pos.rp.day.account.page',values)
+        const result=GetServerData('qerp.web.rp.day.account.page',values)
         result.then((res) => {
             return res;
         }).then((json) => {
@@ -314,6 +315,7 @@ class DailyBillForm extends React.Component {
             lastMonthDate:lastMonthDate
         },function(){
             let values = {
+                shopId:this.props.shopId,
                 currentPage:0,
                 limit:10,
                 startDate:this.state.startDate,
