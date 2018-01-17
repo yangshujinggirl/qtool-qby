@@ -1,5 +1,6 @@
 import EditableTable from '../../components/table/tablebasic';
 import {Getexpont} from '../../services/expont';
+import {GetServerData} from '../../services/services';
 
 class DownloadIndex extends React.Component{
     constructor(props) {
@@ -7,16 +8,16 @@ class DownloadIndex extends React.Component{
 		this.columns = [
             {
               title: '数据名称',
-              dataIndex: 'voucherNo'
+              dataIndex: 'fileName'
             }, {
               title: '数据申请时间',
-              dataIndex: 'shopName'
+              dataIndex: 'createTime'
             },{
               title: '数据产生时间',
-              dataIndex: 'amount'
+              dataIndex: 'generatedTime'
             }, {
               title: '数据状态',
-              dataIndex: 'createTime'
+              dataIndex: 'fileStatusStr'
             },{
               title: '操作',
               dataIndex: 'statusStr',
@@ -40,18 +41,55 @@ class DownloadIndex extends React.Component{
     }
     hindDown=(record)=>{
         if(record.state=='1'){
-            //调用下载接口
-            // const data=this.props.values;
-            // const result=Getexpont('qerp.web.ws.inv.bin.export',data)
+            window.open(record.filePath)
         }
     }
 
+    getdownlist=(limit,currentPage)=>{
+        const values={limit:limit,currentPage:currentPage}
+        const result=GetServerData('qerp.web.sys.doc.list',values);
+        result.then((res) => {
+            return res;
+        }).then((json) => {
+            if(json.code=='0'){
+               const sysDownloadDoc=json.sysDownloadDoc
+               this.setState({
+                    dataSource:sysDownloadDoc,
+                    limit:json.limit,
+                    total:json.total,
+                    currentPage:json.currentPage
+               }) 
+            }
+        })    
+    }
 
+
+    //分页方法
+	pageChange=(page,pageSize)=>{
+		this.getdownlist(pageSize,Number(page-1))
+	}
+	//pagesize变化
+	pageSizeChange=(current,size)=>{
+		this.getdownlist(size,0)
+	}
 	render(){
 		return(
-			<EditableTable bordered={true} dataSource={this.state.dataSource} columns={this.columns}/>
+            <EditableTable 
+            bordered={true} 
+            dataSource={this.state.dataSource} 
+            columns={this.columns}
+            footer={true}
+            pageChange={this.pageChange.bind(this)}
+            pageSizeChange={this.pageSizeChange.bind(this)}
+            total={this.state.total}
+            limit={this.state.limit}
+            current={Number(this.state.currentPage)+1}
+            />
 		)
-	}
+    }
+    componentDidMount(){
+        this.getdownlist(10,0)
+    }
 }
 
 export default DownloadIndex;
