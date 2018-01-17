@@ -1,79 +1,26 @@
 import {GetServerData} from '../services/services';
 import NP from 'number-precision'
 
+function databi(a,b){
+	var Rate=0
+	if(a!=0 && b!=0){
+		Rate=NP.round(NP.divide(NP.minus(a,b),b),2); 
+	}else{
+		if(b==0){
+			Rate=(a!=0)?100:0
+		}else{
+			Rate=0
+		}
+	}
+	return Rate
+}
+
 export default {
 	namespace: 'dataspsell',
 	state: {
-		shopSaleData:{
-			updateTime:"2017/11/17 12:00",
-			posAmount:'100',
-			saleAmount:'200',
-			cleanAmount:'100',
-			yesterdayAmount:'200',
-			yesterdayCostAmount:'100',
-			upPosAmount:'200',
-			upSaleAmount:'100',
-			upCleanAmount:'200',
-			upYesterdayAmount:'100',
-			upYesterdayCostAmount:'200',
-			shopRank:'100',
-			studyShop:'200',
-			guidanceShop:'100',
-			carefulShop:'200',
-			yesterdaysellRate:'20',
-			posAmountBi:'10',
-			possaleAmountBi:'20',
-			poscleanAmountBi:'15',
-			yesterdaysellRateBi:"40",
-		},
-		data:[{
-			title:'毛销售额',
-			value:'109862',
-			rate:'10',
-			text:'同比上周',
-			type:'0'
-		},{
-			title:'销售额',
-			value:'109862',
-			rate:'10',
-			text:'同比上周',
-			type:'1'
-		},{
-			title:'净收款',
-			value:'109862',
-			rate:'10',
-			text:'同比上周',
-			type:'1'
-		},{
-			title:'昨日毛利率',
-			value:'20%',
-			rate:'10',
-			text:'同比上周',
-			type:'1'
-		}],
-		listdata:[{
-			title:'门店排行榜',
-			value:'1000',
-			type:'1',
-			bg:'pink'
-		},{
-			title:'学习门店',
-			value:'1000',
-			type:'2',
-			bg:'yellow'
-
-		},{
-			title:'指导门店',
-			value:'1000',
-			type:'3',
-			bg:'blue'
-		},{
-			title:'注意门店',
-			value:'1000',
-			type:'4',
-			bg:'red'
-		}],
-		shopSaleDatas:[],
+		shopSaleData:{},
+		data:[],
+		listdata:[],
 		xdata:['周一','周二','周三','周四','周五','周六','周日'],
 		data1:[11, 21, 15, 13, 12, 13, 10],
 		data2:[1, 2, 2, 5, 3, 2, 0],
@@ -96,10 +43,10 @@ export default {
 				const shopSaleData=result.shopSaleData
 				shopSaleData.yesterdaysellRate=NP.round(NP.divide(NP.minus(shopSaleData.yesterdayAmount, shopSaleData.yesterdayCostAmount),shopSaleData.yesterdayAmount),2);//昨日毛利率
 				shopSaleData.upyesterdaysellRate=NP.round(NP.divide(NP.minus(shopSaleData.upYesterdayAmount, shopSaleData.upYesterdayCostAmount),shopSaleData.upYesterdayAmount),2);//上期昨日毛利率
-				shopSaleData.posAmountBi=NP.round(NP.divide(NP.minus(shopSaleData.posAmount, shopSaleData.upPosAmount), shopSaleData.upPosAmount),2); 
-				shopSaleData.possaleAmountBi=NP.round(NP.divide(NP.minus(shopSaleData.saleAmount, shopSaleData.upSaleAmount), shopSaleData.upSaleAmount),2); 
-				shopSaleData.poscleanAmountBi=NP.round(NP.divide(NP.minus(shopSaleData.cleanAmount, shopSaleData.upCleanAmount), shopSaleData.upCleanAmount),2);
-				shopSaleData.yesterdaysellRateBi=NP.round(NP.divide(NP.minus(shopSaleData.yesterdaysellRate, shopSaleData.upyesterdaysellRate), shopSaleData.upyesterdaysellRate),2); 
+				shopSaleData.posAmountBi=databi(shopSaleData.posAmount,shopSaleData.upPosAmount) //毛销售额
+				shopSaleData.possaleAmountBi=databi(shopSaleData.posAmount,shopSaleData.upPosAmount)  //销售额
+				shopSaleData.poscleanAmountBi=databi(shopSaleData.cleanAmount,shopSaleData.upCleanAmount)  //净收款
+				shopSaleData.yesterdaysellRateBi=databi(shopSaleData.yesterdaysellRate,shopSaleData.upyesterdaysellRate)  //昨日毛利率
 				const data=[{
 					title:'毛销售额',
 					value:shopSaleData.posAmount,
@@ -143,8 +90,6 @@ export default {
 					value:shopSaleData.carefulShop,
 					type:'4'
 				}]
-
-
 				yield put({type: 'selldatalist',payload:{shopSaleData,data,listdata}});
 			} 
 		},

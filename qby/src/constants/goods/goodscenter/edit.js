@@ -3,10 +3,10 @@
 	import { connect } from 'dva';
 	import PicturesWall from './upload';
 	import SkuPicturesWall from './itemupload';
-	import Skucom from './skucom';
 	import EditableTagGroup from './tag';
 	import AddEditableTable from './add'
 	import TableCanEdit from './edittable';
+	import EditableCell from './tablepiuse';
 	const RadioGroup = Radio.Group;
 
 	const FormItem = Form.Item;
@@ -516,7 +516,20 @@
 						labelCol={{ span: 4 }}
 						wrapperCol={{ span: 16 }}
 					>
-						<TableCanEdit columns={this.props.isskus?this.columns:this.columnsuse} dataSources={this.props.goodindodatasouce}/>
+						<div>
+							<TableCanEdit columns={this.props.isskus?this.columns:this.columnsuse} dataSources={this.props.goodindodatasouce}/>
+							{
+								this.props.isskus?
+								<div style={{display:'flex',textAlign:'center',padding:'15px 15px 0 15px'}}>
+									<div style={{lineHeight:'45px'}}>批量设置：</div>
+									<div style={{width:'100px',height:'45px',color:'#35bab0'}}><EditableCell text='价格' title='toBPrice'/></div>
+									<div style={{width:'100px',height:'45px',color:'#35bab0'}}><EditableCell text='零售价' title='toCPrice'/></div>
+									<div style={{width:'100px',height:'45px',color:'#35bab0'}}><EditableCell text='建议零售价' title='tagPrice'/></div>
+									<div style={{width:'100px',height:'45px',color:'#35bab0'}}><EditableCell text='进货价' title='costPrice'/></div>
+                				</div>
+								:null
+							}
+						</div>
 						
 					</FormItem>
 					<FormItem
@@ -559,7 +572,7 @@
 							disabled={this.props.lotStatus=='1'?false:true}
 						>
 							<Radio value='1'>生产日期</Radio>
-							<Radio value='0'>到期日期</Radio>
+							<Radio value='2'>到期日期</Radio>
 						</RadioGroup>
 						)}
 					</FormItem>

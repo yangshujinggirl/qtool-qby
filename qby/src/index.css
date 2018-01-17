@@ -213,3 +213,4 @@ ins { text-decoration: none; }
 .parentinput .ant-input-disabled{background: #fff;color: rgba(0, 0, 0, 0.65)}
 
 
+.cardlistbox{display: flex;flex-wrap: wrap;justify-content: space-between;}

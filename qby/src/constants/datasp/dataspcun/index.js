@@ -8,7 +8,6 @@ import DataspcunSearch from './search';
 
 class DataspcunIndex extends React.Component{
 	state = {};
-
 	//导出数据
 	exportData = () => {
 		const data=this.props.values;
