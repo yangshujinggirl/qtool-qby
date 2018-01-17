@@ -16,7 +16,8 @@ export default {
         cardtitle:'',
         cardlist:[],
         expressList:[],
-        orderLogList:[]
+        orderLogList:[],
+        isCancel:false
     },
     reducers: {
 		synchronous(state, { payload:values}) {
@@ -28,8 +29,8 @@ export default {
         syncDetailList(state, { payload:{detailsList,limit1,currentPage1,total1}}) {
 			return {...state,detailsList,limit1,currentPage1,total1}
         },
-        syncInfolist(state, { payload:{cardtitle,cardlist,expressList,orderLogList}}) {
-			return {...state,cardtitle,cardlist,expressList,orderLogList}
+        syncInfolist(state, { payload:{cardtitle,cardlist,expressList,orderLogList,isCancel}}) {
+			return {...state,cardtitle,cardlist,expressList,orderLogList,isCancel}
         }
     },
     effects: {
@@ -88,7 +89,8 @@ export default {
                     }
                     if(result.spOrder.status == 30){
                         cardlist.push({lable:'取消原因', text:result.spOrder.cancelReason});  
-                    }
+                    };
+                    let isCancel = result.spOrder.isCancel;
                     let expressList = result.expressInfos;
                     if(expressList.length){
                         for(var i=0;i<expressList.length;i++){
@@ -101,7 +103,7 @@ export default {
                             orderLogList[i].key=i
                         }
                     }
-                     yield put({type: 'syncInfolist',payload:{cardtitle,cardlist,expressList,orderLogList}});
+                     yield put({type: 'syncInfolist',payload:{cardtitle,cardlist,expressList,orderLogList,isCancel}});
 				} 
 			},
   	},
