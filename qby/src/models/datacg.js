@@ -1,26 +1,33 @@
 import {GetServerData} from '../services/services';
 import NP from 'number-precision'
 
+function databi(a,b){
+	var Rate=0
+	if(a!=0 && b!=0){
+		Rate=NP.round(NP.divide(NP.minus(a,b),b),2); 
+	}else{
+		if(b==0){
+			Rate=(a!=0)?100:0
+		}else{
+			Rate=0
+		}
+	}
+	return Rate
+}
+
 export default {
 	namespace: 'datacg',
 	state: {
-		analysis:{},
-		updateTime:null,
+		iRpPurchaseAnalysis:{},
 		data:[],
-		listdata:[],
-
-		xdata:['周一','周二','周三','周四','周五','周六','周日'],
-		data1:[11, 21, 15, 13, 12, 13, 10],
-		data2:[1, 2, 2, 5, 3, 2, 0],
-		data3:[11, 11, 15, 13, 12, 13, 10],
-		data4:[1, 22, 2, 5, 3, 2, 0]
+		analysis:[]
 	},
 	reducers: {
-		selldatalist(state, { payload:{analysis,updateTime,data,listdata}}) {
-			return {...state,analysis,updateTime,data,listdata}
+		selldatalist(state, { payload:{iRpPurchaseAnalysis,data}}) {
+			return {...state,iRpPurchaseAnalysis,data}
 		},
-		tablefetch(state, { payload:shopSaleDatas}) {
-			return {...state,shopSaleDatas}
+		tablefetch(state, { payload:analysis}) {
+			return {...state,analysis}
 		},
 	},
 	effects: {
@@ -30,102 +37,46 @@ export default {
 			console.log(result)
 			if(result.code=='0'){
 				const iRpPurchaseAnalysis=result.iRpPurchaseAnalysis
-				
-
-			
-				if(analysis.qbyAmount!=0 && analysis.upQbyAmount!=0){
-					analysis.qbyAmountRate=NP.round(NP.divide(NP.minus(analysis.qbyAmount, analysis.upQbyAmount),analysis.upQbyAmount),2); //掌柜金额环比
-				}else{
-					if(analysis.upQbyAmount==0 ){
-						analysis.qbyAmountRate=(analysis.qbyAmount!=0)?100:0
-					}else{
-						analysis.qbyAmountRate=0
-					}
-				}
-				console.log('002')
-				if(analysis.qbyQty!=0 && analysis.upQbyQty!=0){
-					analysis.qbyQtyRate=NP.round(NP.divide(NP.minus(analysis.qbyQty, analysis.upQbyQty),analysis.upQbyQty),2); //掌柜数量环比
-				}else{
-					if(analysis.upQbyQty==0 ){
-						analysis.qbyQtyRate=(analysis.qbyQty!=0)?100:0
-					}else{
-						analysis.qbyQtyRate=0
-					}
-				}
-				console.log('003')
-				if(analysis.posAmount!=0 && analysis.upPosAmount!=0){
-					analysis.posAmountRate=NP.round(NP.divide(NP.minus(analysis.posAmount, analysis.upPosAmount),analysis.upPosAmount),2); //pos金额环比
-				}else{
-					if(analysis.upPosAmount==0 ){
-						analysis.posAmountRate=(analysis.posAmount!=0)?100:0
-					}else{
-						analysis.posAmountRate=0
-					}
-				}
-				console.log('004')
-				if(analysis.posQty!=0 && analysis.upPosQty!=0){
-					analysis.posQtyRate=NP.round(NP.divide(NP.minus(analysis.posQty, analysis.upPosQty),analysis.upPosQty),2); //pos数量环比
-				}else{
-					if(analysis.upPosQty==0 ){
-						analysis.posQtyRate=(analysis.posQty!=0)?100:0
-					}else{
-						analysis.posQtyRate=0
-					}
-				}
-
-				console.log(123)
+				iRpPurchaseAnalysis.purchaseAmountRate=databi(iRpPurchaseAnalysis.purchaseAmount,iRpPurchaseAnalysis.upPurchaseAmount) //采购金额
+				iRpPurchaseAnalysis.purchaseQtyRate=databi(iRpPurchaseAnalysis.purchaseQty,iRpPurchaseAnalysis.upPurchaseQty) //采购数量
+				iRpPurchaseAnalysis.returnAmountRate=databi(iRpPurchaseAnalysis.returnAmount,iRpPurchaseAnalysis.upReturnAmount) //才退金额
+				iRpPurchaseAnalysis.returnQtyRate=databi(iRpPurchaseAnalysis.returnQty,iRpPurchaseAnalysis.upReturnQty) //才退数量
 				const data=[{
-					title:'掌柜销售金额',
-					value:analysis.qbyAmount,
-					rate:Math.abs(analysis.qbyAmountRate),
-					text:'同比上周',
-					type:(analysis.qbyAmountRate<0)?'0':'1'
+					title:'本月采购金额',
+					value:iRpPurchaseAnalysis.purchaseAmount,
+					rate:Math.abs(iRpPurchaseAnalysis.purchaseAmountRate),
+					text:'同比上月',
+					type:(iRpPurchaseAnalysis.purchaseAmountRate<0)?'0':'1'
 				},{
-					title:'掌柜销售数量',
-					value:analysis.qbyQty,
-					rate:Math.abs(analysis.qbyQtyRate),
-					text:'同比上周',
-					type:(analysis.qbyQtyRate<0)?'0':'1'
+					title:'本月采购商品数',
+					value:iRpPurchaseAnalysis.purchaseQty,
+					rate:Math.abs(iRpPurchaseAnalysis.purchaseQtyRate),
+					text:'同比上月',
+					type:(iRpPurchaseAnalysis.qbyQtyRate<0)?'0':'1'
 				},{
-					title:'POS销售金额',
-					value:analysis.posAmount,
-					rate:Math.abs(analysis.posAmountRate),
-					text:'同比上周',
-					type:(analysis.posAmountRate<0)?'0':'1'
+					title:'本月采退金额',
+					value:iRpPurchaseAnalysis.returnAmount,
+					rate:Math.abs(iRpPurchaseAnalysis.returnAmountRate),
+					text:'同比上月',
+					type:(iRpPurchaseAnalysis.returnAmountRate<0)?'0':'1'
 				},{
-					title:'POS销售数量',
-					value:analysis.posQty,
-					rate:Math.abs(analysis.posQtyRate),
-					text:'同比上周',
-					type:(analysis.posQtyRate<0)?'0':'1'
+					title:'本月采退商品数',
+					value:iRpPurchaseAnalysis.returnQty,
+					rate:Math.abs(iRpPurchaseAnalysis.returnQtyRate),
+					text:'同比上月',
+					type:(iRpPurchaseAnalysis.returnQtyRate<0)?'0':'1'
 				}]
 
-				console.log(456)
-				const listdata=[{
-					title:'POS热销商品',
-					value:analysis.posSellPd,
-					type:'1',
-					bg:'#949494'
-				},{
-					title:'掌柜热销商品',
-					value:analysis.qbySellPd,
-					type:'2',
-					bg:"#ABDB7D"
-
-				},{
-					title:'建议采购商品',
-					value:analysis.proposalPd,
-					type:'3',
-					bg:'#71A6F1'
-				},{
-					title:'掌柜滞销商品',
-					value:analysis.unsalablePd,
-					type:'4',
-					bg:'#BC2739'
-				}]
-				
-
-				yield put({type: 'selldatalist',payload:{analysis,updateTime,data,listdata}});
+				yield put({type: 'selldatalist',payload:{iRpPurchaseAnalysis,data}});
+			}	
+		},
+		*tablefetch({ payload: {code,values} }, { call, put ,select}) {
+			const result=yield call(GetServerData,code,values);
+			yield put({type: 'tab/loding',payload:false});
+			console.log(result)
+			if(result.code=='0'){
+				const analysis=result.analysis
+				yield put({type: 'tablefetch',payload:analysis});
 			}	
 		},
 		

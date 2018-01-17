@@ -8,7 +8,7 @@ class Cards extends React.Component {
                 {
                     this.props.data.map((item,index)=>{
                         return(
-                            <Card style={{ width: '20%',textAlign:'center'}} key={index} bordered={false}>
+                            <Card style={{ width: '15%',textAlign:'center'}} key={index} bordered={false}>
                                 <p>{item.title}</p>
                                 <p className='f24'>{item.value}</p>
                                 {
@@ -20,8 +20,6 @@ class Cards extends React.Component {
                             </Card>    
                         )   
                     })
-
-
                 }             
             </div>
         </Card>   
