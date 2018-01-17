@@ -13,10 +13,10 @@ class SpTable extends React.Component {
 			dataIndex: 'remark'
 		},{
 			title: '反馈类型',
-			dataIndex: 'type'
+			dataIndex: 'typeStr'
 		},{
 			title: '反馈状态',
-			dataIndex: 'status'
+			dataIndex: 'statusStr'
 		},{
 			title: '反馈门店',
 			dataIndex: 'shopName'
