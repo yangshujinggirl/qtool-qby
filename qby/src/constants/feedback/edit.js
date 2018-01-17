@@ -67,7 +67,7 @@ class Feedbackedit extends React.Component{
 		}
 		this.props.dispatch({
 			type:'tab/initDeletestate',
-			payload:'406000edit'+this.props.data.feedbackId
+			payload:'406000edit'+this.props.data.spFeedbackId
 		});
 		// this.refreshList(this.props.values,this.props.limit,this.props.currentPage)
 	}
@@ -95,7 +95,7 @@ class Feedbackedit extends React.Component{
 			remark:remark
 		}
 
-		const result=GetServerData('erp.web.sp.feedback.update',values)
+		const result=GetServerData('qerp.web.sp.feedback.update',values)
 		result.then((res) => {
 			return res;
 		}).then((json) => {

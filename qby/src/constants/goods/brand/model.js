@@ -79,7 +79,7 @@ class CollectionsPage extends React.Component {
         if (err) {
             return;
         }
-        value.url=this.props.url
+        value.url=this.props.brandurl
         if(this.props.data.pdBrandId){
             value.pdBrandId=this.props.data.pdBrandId
         }
@@ -117,7 +117,7 @@ class CollectionsPage extends React.Component {
             status:String(data.status)
         });
         this.props.dispatch({
-            type:'goods/brandurl',
+            type:'brand/brandurl',
             payload:brandurl
         })
     }

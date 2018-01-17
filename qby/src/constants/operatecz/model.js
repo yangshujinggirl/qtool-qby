@@ -156,10 +156,7 @@ class CollectionsPage extends React.Component {
         }).then((json) => {
             if(json.code=='0'){
                 this.setState({ visible: false });
-                this.props.dispatch({
-                    type:'operatecz/fetch',
-                    payload:{code:'qerp.web.sp.voucher.query',values:values}
-                })
+                this.refresh()
             }
         })
     }
