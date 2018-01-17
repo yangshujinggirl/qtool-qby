@@ -75,7 +75,7 @@ handleSubmit = (e) => {
 handleEnt=(e)=>{
 	if(e.keyCode=='13'){
 		const values={
-			code:'100008'
+			code:e.target.values
 		}
 		const result=GetServerData('qerp.web.pd.spu.invinfo',values)
 		result.then((res) => {

@@ -376,19 +376,19 @@
 	render() {
 		const { getFieldDecorator } = this.props.form;
 		return (
-		<Form>
-			<FormItem
-					label="商品名称"
-					labelCol={{ span: 8 }}
-					wrapperCol={{ span: 6 }}
-				>
-					{getFieldDecorator('name', {
-						rules: [{ required: true, message: '请输入商品名称' }],
-						initialValue:this.props.name
-					})(
-						<Input placeholder="请输入商品名称"/>
-					)}
-			</FormItem>
+					<Form>
+						<FormItem
+								label="商品名称"
+								labelCol={{ span: 8 }}
+								wrapperCol={{ span: 6 }}
+							>
+								{getFieldDecorator('name', {
+									rules: [{ required: true, message: '请输入商品名称' }],
+									initialValue:this.props.name
+								})(
+									<Input placeholder="请输入商品名称"/>
+								)}
+						</FormItem>
 						<FormItem
 							label="商品分类"
 							labelCol={{ span: 8 }}
@@ -519,6 +519,7 @@
 						<TableCanEdit columns={this.props.isskus?this.columns:this.columnsuse} dataSources={this.props.goodindodatasouce}/>
 						
 					</FormItem>
+
 					<FormItem
 						label="开启批次管理"
 						labelCol={{ span: 8 }}
