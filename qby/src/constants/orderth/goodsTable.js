@@ -154,7 +154,6 @@ class GoodsInfoTable extends React.Component {
 
 function mapStateToProps(state) {
     const {goodsInfo}  = state.orderth;
-    console.log(goodsInfo);
     return {goodsInfo};
 }
 
