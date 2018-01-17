@@ -3,7 +3,7 @@ import { Card } from 'antd';
 class Cardlist extends React.Component {
 	render() {
 		return (
-			<Card title={this.props.cardtitle} noHovering={true}>
+			<Card title={this.props.cardtitle}>
 				<div className='cardlist'>
 					{
 						this.props.cardlist.map((item,index)=>{
