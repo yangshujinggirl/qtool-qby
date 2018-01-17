@@ -59,7 +59,7 @@ export default {
                             })
                         }else{
                             birthdaylist.push({
-                                lable:'宝宝生日'+i,
+                                lable:'宝宝生日'+(i+1),
                                 text:birthday[i].date+'【'+birthday[i].typeStr+'】'
                             })
                         }
@@ -89,7 +89,7 @@ export default {
                 yield put({type: 'tab/loding',payload:false});
                 if(result.code=='0'){
                     const details=result.details
-                    const delimit=result.details
+                    const delimit=result.limit
                     const decurrentPage=result.currentPage
                     const detotal=result.total
                     yield put({type: 'details',payload:{details,delimit,decurrentPage,detotal}});

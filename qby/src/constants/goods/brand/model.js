@@ -130,7 +130,7 @@ class CollectionsPage extends React.Component {
           { 
               this.props.type=='1'
               ?
-              <div onClick={this.showModal} style={{color:'#35bab0',width:'122px',height:'82px'}}>
+              <div onClick={this.showModal} style={{color:'#35bab0',width:'122px',height:'82px'}} className='pointer'>
                 <img src={this.props.url?(fileDomain+this.props.url):require('../../../assets/img_brandnologo.png')} className='w100 h100'/>
               </div>
               :

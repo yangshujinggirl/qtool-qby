@@ -37,7 +37,7 @@ class User extends React.Component {
         const name=eval(sessionStorage.getItem('name'));
         return(
             <div className='clearfix'>
-                <div className='fl' style={{height:'80px',lineHeight:'80px'}} onClick={this.download.bind(this)}>下载中心</div>
+                <div className='fl pointer' style={{height:'80px',lineHeight:'80px'}} onClick={this.download.bind(this)}>下载中心</div>
 
                 <Dropdown overlay={this.menu} trigger={['click']}>
 

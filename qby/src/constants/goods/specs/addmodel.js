@@ -88,7 +88,7 @@ class CollectionsPages extends React.Component {
 				{ 
 					this.props.type=='1'
 					?
-					<div onClick={this.showModal} style={{color:'#35bab0'}}>{this.props.text}</div>
+					<div onClick={this.showModal} style={{color:'#35bab0'}} className='pointer'>{this.props.text}</div>
 					:
 					<Button type={this.props.statetype} onClick={this.showModal}>{this.props.text}</Button>
 

@@ -132,14 +132,21 @@ class CollectionsPage extends React.Component {
             }).then((json) => {
                 if(json.code=='0'){
                     form.resetFields();
-                    this.setState({ visible: false });
-                    this.props.dispatch({
-                        type:'operatecz/fetch',
-                        payload:{code:'qerp.web.sp.voucher.query',values:values}
-                    })
+                    this.setState({ visible: false },function(){
+                        this.refresh()
+                    });
+                    
                 }
             })
         });
+    }
+
+    refresh=()=>{
+        const values=this.props.values
+        this.props.dispatch({
+            type:'operatecz/fetch',
+            payload:{code:'qerp.web.sp.voucher.query',values:values}
+        })
     }
     handleCreate = () => {
         const values={spVoucherId:this.props.data.spVoucherId,status:'1'}
@@ -174,7 +181,7 @@ class CollectionsPage extends React.Component {
                 { 
                     this.props.type=='1'
                     ?
-                    <div onClick={this.props.types=='1'?this.showModal:null} className={this.props.types=='1'?'theme-color':null}>
+                    <div onClick={this.props.types=='1'?this.showModal:null} className={this.props.types=='1'?'theme-color pointer':null}>
                             {this.props.text}
                     </div>
                     :
