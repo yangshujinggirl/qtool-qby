@@ -559,7 +559,7 @@
 							disabled={this.props.lotStatus=='1'?false:true}
 						>
 							<Radio value='1'>生产日期</Radio>
-							<Radio value='0'>到期日期</Radio>
+							<Radio value='2'>到期日期</Radio>
 						</RadioGroup>
 						)}
 					</FormItem>
