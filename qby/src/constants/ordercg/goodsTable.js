@@ -18,6 +18,7 @@ class GoodsInfoTable extends React.Component {
         this.columns = [{
             title: '商品编码',
             dataIndex: 'pdCode',
+            width:'150px',
             render: (text, record, index) => {
                 return (
                     <Input 
@@ -27,9 +28,10 @@ class GoodsInfoTable extends React.Component {
                         onBlur={this.onBluepdCode.bind(this,index)}/>
                 )
             }
-        }, {
+        },{
             title: '采购数量',
             dataIndex: 'qty',
+            width:'100px',
             render: (text, record, index) => {
                 return (
                     <Input 
@@ -42,6 +44,7 @@ class GoodsInfoTable extends React.Component {
         },{
             title: '采购价格',
             dataIndex: 'price',
+            width:'100px',
             render: (text, record, index) => {
                 return (
                     <Input 
@@ -54,7 +57,7 @@ class GoodsInfoTable extends React.Component {
         },{
             title: '',
             dataIndex: 'operation',
-            width:'50px',
+            width:'80px',
             render: (text, record, index) => {
                 return (
                     this.props.goodsInfo.length > 1?

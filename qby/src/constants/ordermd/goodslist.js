@@ -7,7 +7,7 @@ class GoodsListTable extends React.Component {
       super(props);
       this.columns = [{
         title: '商品编码',
-        width:150,
+        width:"150px",
         dataIndex: 'Code',
         render: (text, record, index) => {
             return (
@@ -22,7 +22,7 @@ class GoodsListTable extends React.Component {
       }, {
         title: '预订数量',
         dataIndex: 'qty',
-        width:100,
+        width:"100px",
         render: (text, record, index) => {
             return (
                     <Input 
@@ -35,6 +35,7 @@ class GoodsListTable extends React.Component {
       },{
         title: '商品单价',
         dataIndex: 'retailPrice',
+        width:"100px",
         render: (text, record, index) => {
             return (
                 <p style={{textAlign:'center'}}>{this.state.dataSource[index].retailPrice}</p>
@@ -43,7 +44,7 @@ class GoodsListTable extends React.Component {
       },{
         title: '',
         dataIndex: 'operation',
-        width:'50px',
+        width:'80px',
         render: (text, record, index) => {
           return (
             this.state.dataSource.length > 1
@@ -102,8 +103,6 @@ class GoodsListTable extends React.Component {
     onBluepdCode=(index)=>{
         let temDataSource = this.state.dataSource;
         let code = temDataSource[index].Code;
-        console.log(temDataSource)
-        console.log(code)
         if (!code) {
             return;
         }
@@ -112,7 +111,6 @@ class GoodsListTable extends React.Component {
         result.then((res) => {
             return res;
         }).then((json) => {
-            console.log(json)
             if(json.code=='0'){
                 temDataSource[index].retailPrice=(!json.pdSku?json.pdSpu.toBPrice:json.pdSku.toBPrice);
                 this.setState({
@@ -121,8 +119,6 @@ class GoodsListTable extends React.Component {
                     const Getdetail=this.props.Getdetail;
                     Getdetail(this.state.dataSource);
                 })
-            }else{
-                message.error(json.message);
             }
         })
     }
@@ -144,7 +140,8 @@ class GoodsListTable extends React.Component {
         const columns = this.columns;
         return (
             <div style={{marginTop:'0px'}}>
-            <Table dataSource={dataSource} style = {{padding:0}} columns={columns} pagination={false} showHeader={true} bordered={false} className='OrderCenterEidt' ref="dfafalk"/>
+            <Table dataSource={dataSource} style = {{padding:0}} columns={columns} pagination={false} showHeader={true} bordered={false} 
+            className='OrderCenterEidt' ref="dfafalk"/>
             <Button style={{margin:'15px 10px 0 7px', width:'100px'}} onClick={this.handleAdd}>+商品</Button>
             </div>
         );

@@ -155,7 +155,7 @@ class OrdermdEditForm extends React.Component{
                 spShop.recCityId=json.spShop.cityId;
                 spShop.recDistrictId=json.spShop.districtId;
                 spShop.recName=json.spShop.shopman;
-                spShop.recTel=json.spShop.mobile;
+                spShop.recTel=json.spShop.telephone;
                 spShop.recAddress=json.spShop.address;
                 this.setState({
                     spShop:spShop
@@ -163,7 +163,7 @@ class OrdermdEditForm extends React.Component{
                 this.props.form.setFieldsValue({
                     spAddressId:[String(json.spShop.provinceId),String(json.spShop.cityId),String(json.spShop.districtId)],
                     recAddress:json.spShop.address,
-                    recTel:json.spShop.mobile,
+                    recTel:json.spShop.telephone,
                     recName:json.spShop.shopman,
                 });
             }
@@ -265,7 +265,7 @@ class OrdermdEditForm extends React.Component{
   	render(){
         const { getFieldDecorator,getFieldProps } = this.props.form;
      	return(
-          	<Form className="addUser-form">
+          	<Form className="addUser-form show-table-form">
                 <FormItem
               		label="创建类型"
               		labelCol={{ span: 3,offset: 1 }}

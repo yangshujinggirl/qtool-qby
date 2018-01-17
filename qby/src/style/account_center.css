@@ -95,7 +95,9 @@ label{
 .OrderCenterEidt .ant-table-body .ant-table-thead tr th{
 	background: #fff;
     text-align: center;
-    padding: 0;
+	padding: 0;
+	height: 35px;
+	line-height: 35px;
 }
 
 .OrderCenterEidt .ant-table-tbody>tr.ant-table-row-hover>td, .OrderCenterEidt .ant-table-tbody>tr:hover>td, .OrderCenterEidt .ant-table-thead>tr.ant-table-row-hover>td, .OrderCenterEidt .ant-table-thead>tr:hover>td{

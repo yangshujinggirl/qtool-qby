@@ -6,3 +6,7 @@
 .modal-form .ant-form-item-label{
     text-align: right;
 }
+.show-table-form .show-goods-table .ant-table-thead tr th{
+    height: 35px;
+    line-height: 35px;
+}
