@@ -26,7 +26,7 @@ export default {
 		selldatalist(state, { payload:{iRpPurchaseAnalysis,data}}) {
 			return {...state,iRpPurchaseAnalysis,data}
 		},
-		tablefetch(state, { payload:analysis}) {
+		tablefetchs(state, { payload:analysis}) {
 			return {...state,analysis}
 		},
 	},
@@ -76,7 +76,10 @@ export default {
 			console.log(result)
 			if(result.code=='0'){
 				const analysis=result.analysis
-				yield put({type: 'tablefetch',payload:analysis});
+				for(var i=0;i<analysis.length;i++){
+					analysis[i].index=i+1
+				}
+				yield put({type: 'tablefetchs',payload:analysis});
 			}	
 		},
 		
