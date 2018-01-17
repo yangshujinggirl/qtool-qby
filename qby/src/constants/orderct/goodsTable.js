@@ -37,7 +37,26 @@ class GoodsInfoTable extends React.Component {
                     onChange={this.handleChangePrice.bind(this, index)}/>
 				);
 			}
-		}];
+		},{
+            title: '',
+            dataIndex: 'operation',
+            width:'80px',
+            render: (text, record, index) => {
+              return (
+                this.props.goodsInfo.length > 1
+                ?
+                <div style={{color: '#35bab0', cursor:'pointer'}} onClick={this.onDelete.bind(this,index)}>删除</div>
+                :
+                null
+              );
+            }
+          }];
+    }
+
+    onDelete = (index)=>{
+        let tempDataSource = deepcCloneObj(this.props.goodsInfo);
+        tempDataSource.splice(index, 1);
+        this.syncGoodsInfo(tempDataSource);
     }
 
     handleChangeCode = (index,e) =>{
@@ -47,7 +66,6 @@ class GoodsInfoTable extends React.Component {
     }
 
     onBluepdCode = (index) =>{
-        console.log(index);
         let tempDataSource = deepcCloneObj(this.props.goodsInfo);
         let pdCode = tempDataSource[index].pdCode;
         if (!pdCode) {
@@ -60,13 +78,10 @@ class GoodsInfoTable extends React.Component {
         }).then((json) => {
             if(json.code=='0'){
                 tempDataSource[index].price = json.pdSpu.costPrice;
-                console.log(tempDataSource);
                 this.props.dispatch({
                     type:'orderct/syncGoodsInfo',
                     payload:tempDataSource
                 })
-            }else{
-                message.error(json.message);
             }
         })
     }
@@ -127,7 +142,6 @@ class GoodsInfoTable extends React.Component {
 
 function mapStateToProps(state) {
     const {goodsInfo}  = state.orderct;
-    console.log(goodsInfo);
     return {goodsInfo};
 }
 
