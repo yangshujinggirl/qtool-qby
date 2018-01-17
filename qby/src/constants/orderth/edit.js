@@ -69,7 +69,8 @@ class OrderthEditForm extends React.Component{
 				let data = values;
 				data.expectedTime = this.props.formValue.expectedTime;
 				data.type = '20';
-                data.details = this.props.goodsInfo;
+				data.details = this.props.goodsInfo;
+				data.spOrderId = this.props.formValue.spOrderId;
                 if(this.props.data){
                     data.wsAsnId = this.props.data.wsAsnId;
                 }
@@ -110,7 +111,7 @@ class OrderthEditForm extends React.Component{
         }).then((json) => {
             if(json.code=='0'){
                 let goodsInfoList = json.details;
-                let goodsInfo=[];
+				let goodsInfo=[];
                 for(var i=0;i<goodsInfoList.length;i++){
                     let tempJson = {};
                     tempJson.key=i
