@@ -83,7 +83,7 @@ function mapStateToProps(state) {
 const TextEdit = Form.create({
 	mapPropsToFields(props) { 
 		return { 
-            text: {value: props.configArrPre[props.currentItem].text?props.configArrPre[props.currentItem].text:''},
+            text: Form.createFormField({value: props.configArrPre[props.currentItem].text?props.configArrPre[props.currentItem].text:''}),
 		}; 
 	}
 })(TextEditForm);

@@ -248,8 +248,8 @@ function mapStateToProps(state) {
 const GoodsEdit = Form.create({
     mapPropsToFields(props) { 
 		return { 
-            code: {value: props.configArrPre[props.currentItem].code?props.configArrPre[props.currentItem].code:''} ,
-            rowcode:{value: props.configArrPre[props.currentItem].rowcode?props.configArrPre[props.currentItem].rowcode:''}
+            code:Form.createFormField({value: props.configArrPre[props.currentItem].code?props.configArrPre[props.currentItem].code:''}) ,
+            rowcode:Form.createFormField({value: props.configArrPre[props.currentItem].rowcode?props.configArrPre[props.currentItem].rowcode:''})
 		}; 
 	}
 })(GoodsEditForm);
