@@ -77,6 +77,7 @@ export default {
 		//其他
 		fileList: [],
 		spuPics:[],
+		methup:{}
 
 	},
 	reducers: {
@@ -107,6 +108,7 @@ export default {
 			const fileList=[]
 			const shareType='0'
 			const containerSpec=null
+
 
 			return {...state,name,pdCategory1Id,pdCategory2Id,pdCategorys,pdBrand,pdBrandId,spuPics,pdType1Id,pdType2Id,tag1,tag2,goodindodatasouce,initdatasouce,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell,pdSpuInfo,fileList,shareType,containerSpec}
 		},
@@ -159,7 +161,9 @@ export default {
 			return {...state,pdBrandId}
 		},
 
-	
+		methup(state, { payload:methup}) {
+			return {...state,methup}
+		},
 
 		
 		lotStatusstate(state, { payload:lotStatus}) {
@@ -366,7 +370,8 @@ export default {
 					}
 			
 				}
-
+				const setinitfileList = yield select(state => state.goods.methup.setinitfileList);
+				setinitfileList(fileList)
 				const goodindodatasouce=initdatasouce.slice(0)
 				yield put({type: 'infolist',payload:{name,pdCategory1Id,pdCategory2Id,pdBrandId,spuPics,pdBrand,fileList,pdType1Id,pdType2Id,tag1,tag2,initdatasouce,goodindodatasouce,isskus,initisskus,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell,pdSpuInfo,shareType,containerSpec}});
 				//根据id请求类型的opation
