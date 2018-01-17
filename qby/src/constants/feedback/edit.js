@@ -26,7 +26,7 @@ class Feedbackedit extends React.Component{
 			dataIndex: 'operator'
 		}, {
 			title: '处理时间',
-			dataIndex: 'operatTime'
+			dataIndex: 'createTime'
 		}];	
     }
 	
@@ -34,7 +34,7 @@ class Feedbackedit extends React.Component{
 		console.log(id)
         this.props.dispatch({
             type:'feedback/infofetch',
-            payload:{code:'qerp.web.sp.feedback.detail',values:{feedbackId:id}}
+            payload:{code:'qerp.web.sp.feedback.detail',values:{spFeedbackId:id}}
         })
     }
 
@@ -84,23 +84,23 @@ class Feedbackedit extends React.Component{
 		this.deleteTab()
 	}
 	handleSubmit=()=>{
-		const feedbackId=this.props.data.feedbackId
+		const spFeedbackId=this.props.data.spFeedbackId
 		const type=this.props.type
 		const status=this.props.status
 		const remark=this.props.editremark
 		const values={
-			feedbackId:feedbackId,
+			spFeedbackId:spFeedbackId,
 			type:type,
 			status:status,
 			remark:remark
 		}
 
-		const result=GetServerData('qerp.app.sp.feedback.update',values)
+		const result=GetServerData('erp.web.sp.feedback.update',values)
 		result.then((res) => {
 			return res;
 		}).then((json) => {
 			if(json.code=='0'){
-					this.deleteTab()
+				this.deleteTab()
 			}
 		})
 	}
@@ -168,9 +168,9 @@ class Feedbackedit extends React.Component{
 								style={{width:'200px'}}
 								value={this.props.status}
 							>
-								<Option value="1">待处理</Option>
-								<Option value="2">处理中</Option>
-								<Option value="3">已处理</Option>
+								<Option value="10">待处理</Option>
+								<Option value="20">处理中</Option>
+								<Option value="30">已处理</Option>
 							</Select>
 						</FormItem>
 						<FormItem
