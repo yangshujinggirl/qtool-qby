@@ -8,8 +8,6 @@ import DatawsonSearch from './search';
 
 class DatawsonIndex extends React.Component{
 	state = {};
-
-
 	//导出数据
 	exportData = () => {
 		const data=this.props.values;
@@ -21,15 +19,15 @@ class DatawsonIndex extends React.Component{
      	return(
         	<div>
                 <DatawsonSearch/>
-                    <Button 
-						type="primary" 
-						size='large'
-						className='mt10'
-						onClick={this.exportData}
-					>
-                        导出数据
-					</Button>
-             		<div className='mt15'><DatawsonTable/></div>
+				<Button 
+					type="primary" 
+					size='large'
+					className='mt10'
+					onClick={this.exportData}
+				>
+					导出数据
+				</Button>
+             	<div className='mt15'><DatawsonTable/></div>
         	</div>
       	)
   	}

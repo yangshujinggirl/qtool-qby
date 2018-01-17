@@ -8,11 +8,14 @@ const { MonthPicker, RangePicker } = DatePicker;
 const dateFormat = 'YYYY-MM-DD';
 
 class BatchStockSearchForm extends React.Component {
-  state = {};
+  state = {
+    data:null
+  };
 
   //点击搜索按钮获取搜索表单数据
   handleSearch = (e) => {
     this.props.form.validateFields((err, values) => {
+        values.data=this.state.data
         this.initList(values,this.props.limit,0);
         this.syncState(values);
     });
@@ -24,7 +27,7 @@ class BatchStockSearchForm extends React.Component {
         values.currentPage=currentPage;
         this.props.dispatch({
             type:'datawshis/fetch',
-            payload:{code:'qerp.web.ws.inv.bin.query',values:values}
+            payload:{code:'qerp.web.pd.historyInvdata.query',values:values}
         });
         this.props.dispatch({ type: 'tab/loding', payload:true});
     }  
@@ -37,7 +40,12 @@ class BatchStockSearchForm extends React.Component {
         });
     }
     
-    
+    hindtimeChange=(date,dateString)=>{
+        this.setState({
+            data:dateString
+        })
+        
+    }
 
   render() {
       const { getFieldDecorator } = this.props.form;
@@ -49,23 +57,27 @@ class BatchStockSearchForm extends React.Component {
                 <Row>
                 <div className='serach_form'>
                 <FormItem label='商品名称'>
-                {getFieldDecorator('barcode')(
+                {getFieldDecorator('pdSpuName')(
                 <Input placeholder="请输入商品名称"/>
                 )}
             </FormItem>
             <FormItem label='商品编码'>
-                {getFieldDecorator('name')(
+                {getFieldDecorator('pdCode')(
                 <Input placeholder="请输入商品编码"/>
                 )}
             </FormItem>
             <FormItem label='商品条码'>
-                {getFieldDecorator('names')(
-                <Input placeholder="请输入商品编码"/>
+                {getFieldDecorator('pdBarcode')(
+                <Input placeholder="请输入商品条码"/>
                 )}
             </FormItem>
             <FormItem label='选择时间'>
                 {getFieldDecorator('ccname')(
-                    <DatePicker defaultValue={moment('2015/01/01', dateFormat)} format={dateFormat} />
+                    <DatePicker 
+                        format={dateFormat} 
+                        onChange={this.hindtimeChange.bind(this)}
+                        className='noant-calendar-picker'
+                    />
                 )}
             </FormItem>
 
@@ -81,7 +93,7 @@ class BatchStockSearchForm extends React.Component {
     );
   }
   componentDidMount(){
-    // this.handleSearch();
+     this.handleSearch();
   }
 }
 function mapStateToProps(state) {

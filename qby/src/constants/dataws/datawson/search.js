@@ -19,8 +19,8 @@ class StockSearchForm extends React.Component {
         values.limit=limit;
         values.currentPage=currentPage;
         this.props.dispatch({
-            type:'stock/fetch',
-            payload:{code:'qerp.web.ws.inv.spu.query',values:values}
+            type:'dataws/fetch',
+            payload:{code:'qerp.web.pd.invdata.query',values:values}
         });
         this.props.dispatch({ type: 'tab/loding', payload:true});
     }  
@@ -28,7 +28,7 @@ class StockSearchForm extends React.Component {
     //同步data
     syncState=(values)=>{
         this.props.dispatch({
-            type:'stock/synchronous',
+            type:'dataws/synchronous',
             payload:values
         });
     }
@@ -45,17 +45,17 @@ class StockSearchForm extends React.Component {
                 <Row>
                 <div className='serach_form'>
                     <FormItem label='商品名称'>
-                        {getFieldDecorator('barcode')(
+                        {getFieldDecorator('pdSpuName')(
                         <Input placeholder="请输入商品名称"/>
                         )}
                     </FormItem>
                     <FormItem label='商品编码'>
-                        {getFieldDecorator('name')(
+                        {getFieldDecorator('pdCode')(
                         <Input placeholder="请输入商品编码"/>
                         )}
                     </FormItem>
                     <FormItem label='商品条码'>
-                        {getFieldDecorator('ccname')(
+                        {getFieldDecorator('pdBarcode')(
                         <Input placeholder="请输入商品条码"/>
                         )}
                     </FormItem>
@@ -71,7 +71,7 @@ class StockSearchForm extends React.Component {
   }
 
   componentDidMount(){
-    // this.handleSearch()
+    this.handleSearch()
 }
   
 }

@@ -1,38 +1,9 @@
 import { connect } from 'dva';
-import EditableTable from '../../../components/table/tablemodel';
-
-
-
-
+import EditableTable from '../../../components/table/tablebasic';
 
 class DatawsonTable extends React.Component {
 	constructor(props) {
-        super(props);
-		this.columns = [{
-            title: '商品编码',
-            dataIndex: 'barcode'
-          }, {
-            title: '商品条码',
-            dataIndex: 'pdSpu.name'
-          },{
-            title: '商品名称',
-            dataIndex: 'specification'
-		  },{
-            title: '商品规格',
-            dataIndex: 'wsWarehouseName'
-		  },{
-            title: '仓库总库存',
-            dataIndex: 'qty'
-          },{
-            title: '分配库存',
-            dataIndex: 'qtyAllocated'
-          },{
-            title: '占用库存',
-            dataIndex: 'qtyOnhold'
-          },{
-            title: '次品库存',
-            dataIndex: 'qtyBad'
-        }];   
+        super(props); 
     }
 	
 	//分页方法
@@ -49,8 +20,8 @@ class DatawsonTable extends React.Component {
         values.limit=limit;
         values.currentPage=currentPage;
         this.props.dispatch({
-            type:'stock/fetch',
-            payload:{code:'qerp.web.ws.inv.spu.query',values:values}
+            type:'dataws/fetch',
+            payload:{code:'qerp.web.pd.invdata.query',values:values}
         });
         this.props.dispatch({ type: 'tab/loding', payload:true});
     }
@@ -58,13 +29,16 @@ class DatawsonTable extends React.Component {
     render() {
         return (
 			<EditableTable
-				dataSource={this.props.datasouce} 
-				columns={this.columns} 
+				dataSource={this.props.invdatas} 
+				columns={this.props.headArr} 
 				pageChange={this.pageChange.bind(this)}
 				pageSizeChange={this.pageSizeChange.bind(this)}
 				total={this.props.total}
 				limit={this.props.limit}
-				current={Number(this.props.currentPage)+1}
+                current={Number(this.props.currentPage)+1}
+                bordered={true}
+                scroll={{ x: '160%'}}
+                footer={true}
 				/>
         );
 	}
@@ -73,8 +47,9 @@ class DatawsonTable extends React.Component {
 }
 
 function mapStateToProps(state) {
-    const {datasouce,total,limit,currentPage,values} = state.datawson;
-    return {datasouce,total,limit,currentPage,values};
+    const {headArr,invdatas,total,limit,currentPage,values} = state.dataws;
+    console.log(headArr)
+    return {headArr,invdatas,total,limit,currentPage,values};
 }
 
 export default connect(mapStateToProps)(DatawsonTable);

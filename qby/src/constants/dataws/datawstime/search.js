@@ -1,29 +1,31 @@
 import { Form, Row, Col, Input, Button, Icon,Select ,DatePicker} from 'antd';
-const FormItem = Form.Item;
 import { connect } from 'dva';
+import moment from 'moment';
+
+const FormItem = Form.Item;
 const Option = Select.Option
-const RangePicker = DatePicker.RangePicker;
+const { MonthPicker, RangePicker } = DatePicker;
+const dateFormat = 'YYYY-MM-DD';
 
-class TransactionSearchForm extends React.Component {
-  state = {};
-
-  //点击搜索按钮获取搜索表单数据
-  handleSearch = (e) => {
-    this.props.form.validateFields((err, values) => {
-        values.invType = '10';
-        this.initList(values,this.props.limit,0);
-        this.syncState(values);
-    });
-  }
-
-
-  //搜索请求数据
-  initList=(values,limit,currentPage)=>{
+class BatchStockSearchForm extends React.Component {
+    state = {
+        expireDays:null
+    };
+    //点击搜索按钮获取搜索表单数据
+    handleSearch = (e) => {
+        this.props.form.validateFields((err, values) => {
+            values.expireDays=this.state.data
+            this.initList(values,this.props.limit,0);
+            this.syncState(values);
+        });
+    }
+    //搜索请求数据
+    initList=(values,limit,currentPage)=>{
         values.limit=limit;
         values.currentPage=currentPage;
         this.props.dispatch({
-            type:'transaction/fetch',
-            payload:{code:'qerp.web.ws.inv.trans.query',values:values}
+            type:'datawstime/fetch',
+            payload:{code:'qerp.web.pd.historyInvdata.query',values:values}
         });
         this.props.dispatch({ type: 'tab/loding', payload:true});
     }  
@@ -31,51 +33,54 @@ class TransactionSearchForm extends React.Component {
     //同步data
     syncState=(values)=>{
         this.props.dispatch({
-            type:'transaction/synchronous',
+            type:'datawstime/synchronous',
             payload:values
         });
     }
-
-  
+    
+    hindtimeChange=(date,dateString)=>{
+        this.setState({
+            expireDays:dateString
+        })
+        
+    }
 
   render() {
       const { getFieldDecorator } = this.props.form;
       const adminType=eval(sessionStorage.getItem('adminType'));
     return (
-        <Form  className='formbox'>
+      <Form  className='formbox'>
         <Row gutter={40} className='formbox_row'>
             <Col span={24} className='formbox_col'>
                 <Row>
-                    <div className='serach_form'>
-                    
-                    <FormItem label='商品名称'>
-                    {getFieldDecorator('barcode')(
-                    <Input placeholder="请输入商品名称"/>
-                    )}
-                </FormItem>
-                <FormItem label='商品编码'>
-                    {getFieldDecorator('name')(
-                    <Input placeholder="请输入商品编码"/>
-                    )}
-                </FormItem>
-                <FormItem label='商品条码'>
-                    {getFieldDecorator('ccname')(
-                    <Input placeholder="请输入商品条码"/>
-                    )}
-                </FormItem>
-                <FormItem label='到期日期'>
-                    {getFieldDecorator('ccnamsse')(
-                        <Select defaultValue="jack">
-                            <Option value="jack">已过期</Option>
-                            <Option value="lucy">7天内过期</Option>
-                            <Option value="disabled">30天内过期</Option>
-                            <Option value="1">90天内过期</Option>
-                      </Select>
-                    )}
-                </FormItem>
+                <div className='serach_form'>
+                <FormItem label='商品名称'>
+                {getFieldDecorator('pdSpuName')(
+                <Input placeholder="请输入商品名称"/>
+                )}
+            </FormItem>
+            <FormItem label='商品编码'>
+                {getFieldDecorator('pdCode')(
+                <Input placeholder="请输入商品编码"/>
+                )}
+            </FormItem>
+            <FormItem label='商品条码'>
+                {getFieldDecorator('pdBarcode')(
+                <Input placeholder="请输入商品条码"/>
+                )}
+            </FormItem>
+            <FormItem label='选择时间'>
+                {getFieldDecorator('ccname')(
+                    <DatePicker 
+                    format={dateFormat} 
+                    onChange={this.hindtimeChange.bind(this)}
+                    className='noant-calendar-picker'
+                    />
+                )}
+            </FormItem>
 
-                
-                    </div>
+
+                </div>
                 </Row>
             </Col>
         </Row>
@@ -86,7 +91,7 @@ class TransactionSearchForm extends React.Component {
     );
   }
   componentDidMount(){
-    // this.handleSearch();
+     this.handleSearch();
   }
 }
 function mapStateToProps(state) {
@@ -94,5 +99,13 @@ function mapStateToProps(state) {
     return {limit,currentPage};
 }
 
-const DatawstimeSearch = Form.create()(TransactionSearchForm);
+const DatawstimeSearch = Form.create()(BatchStockSearchForm);
 export default connect(mapStateToProps)(DatawstimeSearch);
+
+
+
+
+
+
+
+

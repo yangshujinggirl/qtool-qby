@@ -67,7 +67,7 @@ class EditableTable extends React.Component {
                 rowClassName={this.rowClassName.bind(this)}
                 rowSelection={this.props.select?rowSelection:null}
                 title={this.props.title?() => this.props.title:null}
-                
+                scroll={this.props.scroll}
                 />
         );
     }
