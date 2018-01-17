@@ -57,8 +57,8 @@ this.setState({
 
 
 Cleardata=()=>{
-const Cleardata=this.refs.wrappedApper.Cleardata
-Cleardata()
+	const Cleardata=this.refs.wrappedApper.Cleardata
+	Cleardata()
 }
 
 Focus=()=>{
@@ -67,6 +67,7 @@ Focus()
 }
 
 render() {
+	console.log(this.props.ishindok)
 	return (
 		<div className='content_box'>
 			<WrappedApp/>
@@ -77,6 +78,12 @@ render() {
 			}
 		</div>
 	);
+}
+componentDidMount(){
+	this.props.dispatch({
+		type:'stock/initinfo',
+		payload:{}
+	})
 }
 }
 

@@ -57,11 +57,11 @@ handleSubmit = (e) => {
 					}
 				)
 				this.props.dispatch({
-					type:'goods/stocktablechenge',
+					type:'stock/stocktablechenge',
 					payload:changedatasouce
 				})
 				this.props.dispatch({
-					type:'goods/stocktablechengeok',
+					type:'stock/stocktablechengeok',
 					payload:ishindok
 				})
 			}
@@ -70,12 +70,17 @@ handleSubmit = (e) => {
 	});
 }
 
-
+hindkeyup=(e)=>{
+	console.log(e.keyCode)
+	if(e.keyCode=='13'){
+		this.handleSubmit(e)
+	}
+}
 
 handleEnt=(e)=>{
 	if(e.keyCode=='13'){
 		const values={
-			code:'100008'
+			code:e.target.value
 		}
 		const result=GetServerData('qerp.web.pd.spu.invinfo',values)
 		result.then((res) => {
@@ -98,15 +103,18 @@ handleEnt=(e)=>{
 							datasouce.specification = json.pdSku.pdType2Val.name
 						}
 					}
-					datasouce.name=json.pdSpu.name//名字
-					datasouce.qty=json.qty//在售
-					datasouce.wsQty=json.wsQty//可售
-					datasoucedata.push(datasouce)
-					this.props.dispatch({
-						type:'stock/stocktableinfo',
-						payload:datasoucedata
-					})
+						datasouce.name=json.pdSpu.name//名字
+						datasouce.qty=json.qty//在售
+						datasouce.wsQty=json.wsQty//可售
+						datasoucedata.push(datasouce)
+						this.props.dispatch({
+							type:'stock/stocktableinfo',
+							payload:datasoucedata
+						})
 				})
+				
+					
+
 
 				
 			}
@@ -147,7 +155,7 @@ render() {
 		{getFieldDecorator('delta', {
 			rules: [{ required: true, message: '请输入增减库存' }],
 		})(
-			<Input placeholder='请输入增减库存'/>
+			<Input placeholder='请输入增减库存' onKeyUp={this.hindkeyup.bind(this)}/>
 		)}
 		</FormItem>
 		<FormItem
