@@ -46,15 +46,6 @@ class OrdermdEditForm extends React.Component{
 	// 	}
 	// }
 
-	//刷新账号列表
-	// refreshAccountList=()=>{
-	// 	this.props.dispatch({
-    //         type:'account/fetch',
-    //         payload:{code:'qerp.web.ur.user.query',values:{limit:this.props.limit,currentPage:0}}
-	// 	})
-	// 	this.props.dispatch({ type: 'tab/loding', payload:true}) 
-	// }
-
 
 	//初始化state
 	// initState=()=>{

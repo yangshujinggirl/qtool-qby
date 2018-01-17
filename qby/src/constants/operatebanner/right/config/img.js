@@ -123,7 +123,7 @@ function mapStateToProps(state) {
 const ImgEdit = Form.create({
 	mapPropsToFields(props) { 
 		return { 
-			code: {value: props.configArrPre[props.currentItem].code?props.configArrPre[props.currentItem].code:''} 
+			code:Form.createFormField({value: props.configArrPre[props.currentItem].code?props.configArrPre[props.currentItem].code:''})
 		}; 
 	}
 })(EditImgForm);

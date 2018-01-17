@@ -32,7 +32,7 @@ export default {
                 const currentPage=result.currentPage;
                 const total=result.total;
                 for(var i=0;i<tableList.length;i++){
-                    tableList[i].key=tableList[i].outId;
+                    tableList[i].key=i+1;
                     if(tableList[i].type==21){
                         if(tableList[i].amount>0){
                             tableList[i].amount='订单费用：+'+tableList[i].amount

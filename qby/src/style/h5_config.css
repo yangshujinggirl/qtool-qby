@@ -177,10 +177,10 @@
     color: #666;
 }
 .goods-content-info button{
-   width: 50px;
+   width: 66px;
    height: 21px;
    border: 1px solid #666666;
-   line-height: 21px;
+   line-height: 20px;
    text-align: center;
    float: right;
    margin-right: 10px;
@@ -233,10 +233,10 @@
     color: #666;
 }
 .content-info-two button{
-   width: 50px;
+   width: 66px;
    height: 21px;
    border: 1px solid #666666;
-   line-height: 21px;
+   line-height: 20px;
    text-align: center;
    float: right;
    margin-top: 5px;

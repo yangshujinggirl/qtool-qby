@@ -3,7 +3,7 @@ import { connect } from 'dva';
 import EditableTable from '../../components/table/tablebasic';
 import EditableTableInfo from '../../components/table/table_info';
 import Cardlist from '../../components/table/cardlist';
-
+import CollectionsPage from './cancelOrderModal';
 
 class OrdermdInfo extends React.Component{
 	constructor(props) {
@@ -89,6 +89,13 @@ class OrdermdInfo extends React.Component{
 	render(){
 		return(
 			<div>
+				{
+					!this.props.isCancel 
+					? null
+					:<div style={{textAlign:'right',marginRight:"15px",marginBottom:'15px'}}>
+						<CollectionsPage spOrderId={this.props.data.spOrderId}/>
+					</div>
+        }
 				<div className='mb10'><Cardlist cardtitle={this.props.cardtitle} cardlist={this.props.cardlist}/></div>
 				<div className='mb10'>
 					<EditableTable 
@@ -127,8 +134,8 @@ class OrdermdInfo extends React.Component{
 }
 
 function mapStateToProps(state) {
-    const {detailsList,detailstitle,cardtitle,cardlist,expressList,orderLogList,limit1,currentPage1,total1} = state.ordermd;
-		return {detailsList,detailstitle,cardtitle,cardlist,expressList,orderLogList,limit1,currentPage1,total1};
+    const {detailsList,detailstitle,cardtitle,cardlist,expressList,orderLogList,limit1,currentPage1,total1,isCancel} = state.ordermd;
+		return {detailsList,detailstitle,cardtitle,cardlist,expressList,orderLogList,limit1,currentPage1,total1,isCancel};
 }
 export default connect(mapStateToProps)(OrdermdInfo);
 
