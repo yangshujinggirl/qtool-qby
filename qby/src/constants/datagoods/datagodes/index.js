@@ -6,9 +6,6 @@ import Cards from '../../../components/card/catds';
 import EchartsTest from '../../../echarts/datagodes';
 import NP from 'number-precision'
 
-
-
-
 class DatagodesIndex extends React.Component{
 	state = {};
 	getTopfetch=()=>{
@@ -46,7 +43,7 @@ class DatagodesIndex extends React.Component{
       	)
 	  }
 	componentDidMount(){
-		// this.getTopfetch()
+		this.getTopfetch()
 	}
 }
 
