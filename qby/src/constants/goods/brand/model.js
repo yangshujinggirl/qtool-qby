@@ -79,7 +79,7 @@ class CollectionsPage extends React.Component {
         if (err) {
             return;
         }
-        value.url=this.props.brandurl
+        value.url=this.props.url
         if(this.props.data.pdBrandId){
             value.pdBrandId=this.props.data.pdBrandId
         }

@@ -1,7 +1,7 @@
 import { Form, Row, Col, Input, Button, Icon,Select ,DatePicker,AutoComplete} from 'antd';
 import { connect } from 'dva';
 import {GetServerData} from '../../../services/services';
-
+import moment from 'moment';
 const FormItem = Form.Item;
 const dateFormat = 'YYYY-MM-DD';
 class StockSearchForm extends React.Component {
@@ -151,7 +151,8 @@ class StockSearchForm extends React.Component {
                     >
                         {getFieldDecorator('date')(
                             
-                            <DatePicker format={dateFormat} className='noant-calendar-picker' onChange={this.timeChange.bind(this)}/>
+                            <DatePicker defaultValue={moment('2015/01/01', dateFormat)} format={dateFormat}  className='noant-calendar-picker' onChange={this.timeChange.bind(this)}/>
+                        
                         )}
                     </FormItem>
 
@@ -168,6 +169,7 @@ class StockSearchForm extends React.Component {
   }
 
   componentDidMount(){
+   
       this.categorylist()
     this.handleSearch()
 

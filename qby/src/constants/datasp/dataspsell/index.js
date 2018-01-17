@@ -3,7 +3,7 @@ import { Button, Icon } from 'antd';
 import { connect } from 'dva';
 import Cardlist from '../../../components/card/cardlist';
 import Cards from '../../../components/card/catds';
-import EchartsTest from '../../../echarts/index1';
+import EchartsTest from '../../../echarts/datasp';
 import DataspTable from './table';
 import NP from 'number-precision'
 
@@ -29,13 +29,13 @@ class DataspsellIndex extends React.Component{
       	)
 	  }
 	componentDidMount(){
-		// this.getTopfetch()
+		this.getTopfetch()
 	}
 }
 
 
 function mapStateToProps(state) {
-	const {shopSaleData,data,listdata,startRpDate,endRpDate} = state.dataspsell;
-	return {shopSaleData,data,listdata,startRpDate,endRpDate};
+	const {shopSaleData,data,listdata} = state.dataspsell;
+	return {shopSaleData,data,listdata};
 }
 export default connect(mapStateToProps)(DataspsellIndex);

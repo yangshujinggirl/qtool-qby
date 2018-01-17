@@ -26,7 +26,6 @@ class EchartsTest extends Component {
 
 
     hindChange=(date,dateString)=>{
-        console.log(dateString)
         this.setState({
             startRpDate:dateString[0],
             endRpDate:dateString[1],
@@ -37,33 +36,40 @@ class EchartsTest extends Component {
     }
 
     //数据请求
-
     fetdraw=(values)=>{
-        const result=GetServerData('qerp.web.rp.shop.sale.data.list',values)
+        const result=GetServerData('qerp.web.rp.shop.sale.data.chart.query',values)
         result.then((res) => {
             return res;
         }).then((json) => {
             console.log(json)
             if(json.code=='0'){
-
-
                 const shopSaleDatas=json.shopSaleDatas
 				const xdata=[]
 				const data1=[] 
-				const data2=[] 
+                const data2=[] 
+                const data3=[]
+                const data4=[]
 				for(var i=0;i<shopSaleDatas.length;i++){
-					xdata.push(shopSaleDatas[i].rpDate)
-					data1.push(shopSaleDatas[i].qtySum) //订单数
-					data2.push(shopSaleDatas[i].amountSum) //销售额
+					xdata.push(shopSaleDatas[i].rpDateTime)
+					data1.push(shopSaleDatas[i].qbyQty) //订单数
+                    data2.push(shopSaleDatas[i].qbyAmount) //销售额
+                    data3.push(shopSaleDatas[i].posQty) //pos数量
+                    data4.push(shopSaleDatas[i].posAmount) //pos销售额
 				}
 
                 this.setState({
                     xdata:xdata,
                     type:'1',
                     data1:data1,
-                    data2:data2
+                    data2:data2,
+                    data3:data3,
+                    data4:data4,
                 },function(){
                     this.writeCall()
+                    this.props.dispatch({
+                        type:'dataspsell/tablefetch',
+                        payload:shopSaleDatas
+                    })
                 })
             }
         })
@@ -159,9 +165,9 @@ class EchartsTest extends Component {
         );
     }
     componentDidMount() {
-        const startRpDate='2017-12-15'
-        const endRpDate='2018-1-15'
-        const values={startRpDate:startRpDate,endRpDate:endRpDate}
+        const startDate='2017-12-15'
+        const endDate='2018-1-15'
+        const values={startRpDate:startDate,endRpDate:endDate}
         this.fetdraw(values)
         
     }

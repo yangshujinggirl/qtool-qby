@@ -1,5 +1,6 @@
 import { Table} from 'antd';
 
+
 class TableCanEdit extends React.Component {
     rowClassName=(record, index)=>{
         if (index % 2) {
@@ -10,13 +11,15 @@ class TableCanEdit extends React.Component {
       }
     render() {
         return (
-            <Table 
-                bordered
-                dataSource={this.props.dataSources} 
-                columns={this.props.columns} 
-                pagination={false}
-                rowClassName={this.rowClassName.bind(this)}
-                />
+                <Table 
+                    bordered
+                    dataSource={this.props.dataSources} 
+                    columns={this.props.columns} 
+                    pagination={false}
+                    rowClassName={this.rowClassName.bind(this)}
+                    />
+            
+            
         );
     }
 }
