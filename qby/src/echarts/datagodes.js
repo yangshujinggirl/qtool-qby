@@ -3,6 +3,7 @@ import { DatePicker,Switch } from 'antd'
 import moment from 'moment';
 import { connect } from 'dva';
 import {GetServerData} from '../services/services';
+import {timeForMat} from '../utils/meth';
 
 const { MonthPicker, RangePicker } = DatePicker;
 const dateFormat = 'YYYY-MM-DD';
@@ -43,16 +44,17 @@ class EchartsTest extends Component {
         result.then((res) => {
             return res;
         }).then((json) => {
-            console.log(json)
             if(json.code=='0'){
                 const analysis=json.analysis
 				const xdata=[]
 				const data1=[] 
 				const data2=[] 
 				const data3=[] 
-				const data4=[] 
+                const data4=[] 
+                console.log(values)
+                console.log(json)
 				for(var i=0;i<analysis.length;i++){
-					xdata.push(analysis[i].rpDateStr)
+					xdata.push(analysis[i].rpDateMd)
 					data1.push(analysis[i].qbyQty) //掌柜数量
 					data2.push(analysis[i].posQty) //pos数量
 					data3.push(analysis[i].qbyAmount) //掌柜金额
@@ -157,7 +159,7 @@ class EchartsTest extends Component {
             <div className='rel'>
                 <div style={{position:"absolute",right:"102px",top:"-4px",zIndex:'1000'}}>
                 <RangePicker
-                    defaultValue={[moment('2017-12-15', dateFormat), moment('2018-1-15', dateFormat)]}
+                    defaultValue={[moment(timeForMat(30).t2, dateFormat), moment(timeForMat(30).t1, dateFormat)]}
                     format={dateFormat}
                     onChange={this.hindChange.bind(this)}
                     disabledTime={this.disabledTimes.bind(this)}
@@ -169,8 +171,8 @@ class EchartsTest extends Component {
         );
     }
     componentDidMount() {
-        const startRpDate='2017-12-15'
-        const endRpDate='2018-1-15'
+        const startRpDate=timeForMat(30).t2
+        const endRpDate=timeForMat(30).t1
         const values={startRpDate:startRpDate,endRpDate:endRpDate,code:null}
         this.fetdraw(values)
         
