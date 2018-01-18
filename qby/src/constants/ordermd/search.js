@@ -110,7 +110,7 @@ class OrdermdSearchForm extends React.Component {
                                     {getFieldDecorator('status')(
                                     <Select allowClear={true} placeholder="请选择订单状态">
                                         {/* <Option value='10'>待发货</Option> */}
-                                        <Option value='10'>待合单</Option>
+                                        <Option value='11'>待合单</Option>
                                         <Option value='15'>待分配</Option>
                                         <Option value='16'>待检核</Option>
                                         <Option value='20'>已发货</Option>
