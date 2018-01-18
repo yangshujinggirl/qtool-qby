@@ -36,8 +36,8 @@ class ClerkSaleForm extends React.Component {
                 // key:-2
             },
             setsouce:[],
-            dateStart:'',
-            dateEnd:''
+            startDate:'',
+            endDate:''
         };
         this.amount = <Tooltip placement="top" title='销售订单金额-退款订单金额'>
                         销售额&nbsp;<Icon type="exclamation-circle-o" />
@@ -102,8 +102,8 @@ class ClerkSaleForm extends React.Component {
     searchTable = () =>{
         let values={
             shopId:this.props.shopId,
-            dateStart:this.state.dateStart,
-            dateEnd:this.state.dateEnd
+            startDate:this.state.startDate,
+            endDate:this.state.endDate
         };
         this.initdataspuce(values);
     }
@@ -146,8 +146,8 @@ class ClerkSaleForm extends React.Component {
 
    dataChange = (dates,dateStrings) =>{
         this.setState({
-            dateStart:dateStrings[0],
-            dateEnd:dateStrings[1]
+            startDate:dateStrings[0],
+            endDate:dateStrings[1]
         })
     }
 
@@ -217,8 +217,8 @@ class ClerkSaleForm extends React.Component {
         let a=dy+'-'+dm+'-'+dd;
         let values={
             shopId:this.props.shopId,
-            dateStart:a,
-            dateEnd:a
+            startDate:a,
+            endDate:a
         };
         this.initdataspuce(values)
     }
