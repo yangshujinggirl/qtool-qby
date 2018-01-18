@@ -1,3 +1,19 @@
+function contains(arr, obj) {
+	  var i = arr.length;
+	  while (i--) {
+	    if (arr[i].keys === obj) {
+	      return true;
+	    }
+	  }
+	  return false;
+	}
+Array.prototype.remove = function(val) {
+	var index = this.indexOf(val);
+	if (index > -1) {
+	this.splice(index, 1);
+	}
+	};
+
 import {GetServerData} from '../services/services';
 import {  Button, message } from 'antd';
 export default {
@@ -61,6 +77,7 @@ export default {
 		//其他
 		fileList: [],
 		spuPics:[],
+		methup:{}
 
 	},
 	reducers: {
@@ -91,6 +108,7 @@ export default {
 			const fileList=[]
 			const shareType='0'
 			const containerSpec=null
+
 
 			return {...state,name,pdCategory1Id,pdCategory2Id,pdCategorys,pdBrand,pdBrandId,spuPics,pdType1Id,pdType2Id,tag1,tag2,goodindodatasouce,initdatasouce,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell,pdSpuInfo,fileList,shareType,containerSpec}
 		},
@@ -143,7 +161,9 @@ export default {
 			return {...state,pdBrandId}
 		},
 
-	
+		methup(state, { payload:methup}) {
+			return {...state,methup}
+		},
 
 		
 		lotStatusstate(state, { payload:lotStatus}) {
@@ -316,10 +336,19 @@ export default {
 					pdType1Id=pdSkus[0].pdType1Id
 					pdType2Id=pdSkus[0].pdType2Id==null?'00':pdSkus[0].pdType2Id
 					for(var i=0;i<pdSkus.length;i++){
-						tag1.push({name:pdSkus[i].pdType1Val.name,keys:pdSkus[i].pdType1Val.pdTypeValId})
+						//如果id不在
+						const sd=contains(tag1,pdSkus[i].pdType1Val.pdTypeValId)
+						if(!sd){
+							tag1.push({name:pdSkus[i].pdType1Val.name,keys:pdSkus[i].pdType1Val.pdTypeValId})
+						}
+
 						if(pdSkus[i].pdType2Val==null || pdSkus[i].pdType2Val==undefined ||  pdSkus[i].pdType2Val==''){
 						}else{
-							tag2.push({name:pdSkus[i].pdType2Val.name,keys:pdSkus[i].pdType2Val.pdTypeValId})
+							const sd2=contains(tag2,pdSkus[i].pdType2Val.pdTypeValId)
+							if(!sd2){
+								tag2.push({name:pdSkus[i].pdType2Val.name,keys:pdSkus[i].pdType2Val.pdTypeValId})
+							}
+							
 						}
 						initdatasouce.push({
 							name:(pdSkus[i].pdType2Val==null || pdSkus[i].pdType2Val==undefined || pdSkus[i].pdType2Val=='') ?pdSkus[i].pdType1Val.name:pdSkus[i].pdType1Val.name+'/'+pdSkus[i].pdType2Val.name,
@@ -341,7 +370,8 @@ export default {
 					}
 			
 				}
-
+				const setinitfileList = yield select(state => state.goods.methup.setinitfileList);
+				setinitfileList(fileList)
 				const goodindodatasouce=initdatasouce.slice(0)
 				yield put({type: 'infolist',payload:{name,pdCategory1Id,pdCategory2Id,pdBrandId,spuPics,pdBrand,fileList,pdType1Id,pdType2Id,tag1,tag2,initdatasouce,goodindodatasouce,isskus,initisskus,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell,pdSpuInfo,shareType,containerSpec}});
 				//根据id请求类型的opation
@@ -374,6 +404,8 @@ export default {
 				if(pdType1Ids!='00' && tag1s.length>0){
 					if(pdType2Ids=='00' || (pdType2Ids!='00' && tag2s.length>0)){
 						//上传表
+						console.log('上传表')
+						console.log(tag1)
 						isskus=true
 						goodindodatasouce=[]
 						if(tag2.length>0){
@@ -478,6 +510,28 @@ export default {
 				}
 				const tag1s=tag1
 				const tag2s=tag2
+				yield put({type: 'tagslist',payload:{tag1,tag2}});
+				yield put({type: 'goodsinfoChange',payload:{pdType1Ids,pdType2Ids,tag1s,tag2s}});
+
+			},
+			*deletetags({ payload: {iallpdTypeVals,types} }, { call, put ,select}) {
+				const tag1in = yield select(state => state.goods.tag1);
+				const tag2in = yield select(state => state.goods.tag2);
+				const pdType1Ids = yield select(state => state.goods.pdType1Id);
+				const pdType2Ids = yield select(state => state.goods.pdType2Id);
+				const tag1=tag1in.slice(0)
+				const tag2=tag2in.slice(0)
+				console.log(iallpdTypeVals)
+				if(types=='1'){
+					tag1.remove(iallpdTypeVals)
+				}
+				if(types=='2'){
+					tag2.remove(iallpdTypeVals)
+				}
+				const tag1s=tag1
+				const tag2s=tag2
+				console.log(tag1)
+				console.log(tag2s)
 				yield put({type: 'tagslist',payload:{tag1,tag2}});
 				yield put({type: 'goodsinfoChange',payload:{pdType1Ids,pdType2Ids,tag1s,tag2s}});
 

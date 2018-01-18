@@ -36,7 +36,8 @@ class Feedbackedit extends React.Component{
             type:'feedback/infofetch',
             payload:{code:'qerp.web.sp.feedback.detail',values:{spFeedbackId:id}}
         })
-    }
+	}
+	
 
 	handletypeSelectChange=(value)=>{
 		const type=value
@@ -67,9 +68,9 @@ class Feedbackedit extends React.Component{
 		}
 		this.props.dispatch({
 			type:'tab/initDeletestate',
-			payload:'406000edit'+this.props.data.feedbackId
+			payload:'406000edit'+this.props.data.spFeedbackId
 		});
-		// this.refreshList(this.props.values,this.props.limit,this.props.currentPage)
+		this.refreshList(this.props.values,this.props.limit,this.props.currentPage)
 	}
 
 	refreshList=(values,limit,currentPage)=>{
@@ -95,7 +96,7 @@ class Feedbackedit extends React.Component{
 			remark:remark
 		}
 
-		const result=GetServerData('erp.web.sp.feedback.update',values)
+		const result=GetServerData('qerp.web.sp.feedback.update',values)
 		result.then((res) => {
 			return res;
 		}).then((json) => {
@@ -156,6 +157,7 @@ class Feedbackedit extends React.Component{
 								<Option value="3">设计相关问题</Option>
 								<Option value="4">招商相关问题</Option>
 								<Option value="5">系统相关问题</Option>
+								<Option value="6">其他</Option>
 							</Select>
 						</FormItem>
 						<FormItem

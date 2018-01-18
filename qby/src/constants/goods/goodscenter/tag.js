@@ -10,7 +10,15 @@ state = {
 };
 
 handleClose = (removedTag) => {
-	const tags = this.props.tags.filter(tag => tag !== removedTag);
+	console.log(removedTag)
+	const iallpdTypeVals=removedTag
+	const types=this.props.types
+	this.props.dispatch({
+		type:'goods/deletetags',
+		payload:{iallpdTypeVals,types}
+	})
+	// const tags = this.props.tags.filter(tag => tag !== removedTag);
+
 }
 showInput = () => {
 	this.setState({ inputVisible: true }, () => this.input.focus());

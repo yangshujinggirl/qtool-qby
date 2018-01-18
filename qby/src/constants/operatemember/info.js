@@ -76,8 +76,8 @@ class ConsumptionInfo extends React.Component{
 						title="消费记录"
 						bordered={true}
 						footer={true}
-						// pageChange={this.pageChange.bind(this)}
-						// pageSizeChange={this.pageSizeChange.bind(this)}
+						pageChange={this.pageChange.bind(this)}
+						pageSizeChange={this.pageSizeChange.bind(this)}
 						total={this.props.detotal}
 						limit={this.props.delimit}
 						current={Number(this.props.decurrentPage)+1}
@@ -94,8 +94,9 @@ class ConsumptionInfo extends React.Component{
 }
 
 function mapStateToProps(state) {
-	const {cardtitle,cardlist,details} = state.operatemember;
-		return {cardtitle,cardlist,details};
+	const {cardtitle,cardlist,details,detotal,delimit,decurrentPage} = state.operatemember;
+	console.log()
+		return {cardtitle,cardlist,details,detotal,delimit,decurrentPage};
 }
 export default connect(mapStateToProps)(ConsumptionInfo);
 

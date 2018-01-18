@@ -37,7 +37,11 @@ class Goodlist extends React.Component {
 		this.props.dispatch({
 		  	type:'tab/firstAddTab',
 		  	payload:paneitem
-		})
+        })
+        this.props.dispatch({
+			type:'goods/initgoodedit',
+			payload:{}
+	  	})	
     }
 
     //刷新列表

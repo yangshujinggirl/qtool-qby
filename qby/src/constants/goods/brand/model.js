@@ -79,7 +79,7 @@ class CollectionsPage extends React.Component {
         if (err) {
             return;
         }
-        value.url=this.props.url
+        value.url=this.props.brandurl
         if(this.props.data.pdBrandId){
             value.pdBrandId=this.props.data.pdBrandId
         }
@@ -117,7 +117,7 @@ class CollectionsPage extends React.Component {
             status:String(data.status)
         });
         this.props.dispatch({
-            type:'goods/brandurl',
+            type:'brand/brandurl',
             payload:brandurl
         })
     }
@@ -130,7 +130,7 @@ class CollectionsPage extends React.Component {
           { 
               this.props.type=='1'
               ?
-              <div onClick={this.showModal} style={{color:'#35bab0',width:'122px',height:'82px'}}>
+              <div onClick={this.showModal} style={{color:'#35bab0',width:'122px',height:'82px'}} className='pointer'>
                 <img src={this.props.url?(fileDomain+this.props.url):require('../../../assets/img_brandnologo.png')} className='w100 h100'/>
               </div>
               :

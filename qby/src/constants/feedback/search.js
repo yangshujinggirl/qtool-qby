@@ -70,15 +70,16 @@ class SearchForm extends React.Component {
                                     <Option value='3'>设计相关问题</Option>
                                     <Option value='4'>招商相关问题</Option>
                                     <Option value='5'>系统相关问题</Option>
+                                    <Option value='6'>其他</Option>
                                     </Select>
                                 )}
                                 </FormItem>
                                 <FormItem label='反馈状态'>
                                     {getFieldDecorator('status')(
                                     <Select allowClear={true} placeholder="请选择反馈状态">
-                                        <Option value='1'>待执行</Option>
-                                        <Option value='2'>处理中</Option>
-                                        <Option value='3'>已处理</Option>
+                                        <Option value='10'>待处理</Option>
+                                        <Option value='20'>处理中</Option>
+                                        <Option value='30'>已处理</Option>
                                     </Select>
                                     )}
                                 </FormItem>

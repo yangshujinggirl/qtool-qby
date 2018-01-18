@@ -31,16 +31,19 @@ class PicturesWall extends React.Component {
 				payload:spuPics
 		  	})
 		}
+	}
 
 
-
-		
+	setinitfileList=(value)=>{
+		this.setState({
+			fileList:value
+		})
 	}
 	beforeUpload=(file)=>{
-	const isJPG = file.type === 'image/jpeg';
-	const isPNG = file.type === 'image/png';
-	if (!isJPG && !isPNG) {
-	message.error('仅支持jpg/jpeg/png格式');
+		const isJPG = file.type === 'image/jpeg';
+		const isPNG = file.type === 'image/png';
+		if (!isJPG && !isPNG) {
+		message.error('仅支持jpg/jpeg/png格式');
 	}
 	const isLt2M = file.size / 1024 / 1024 < 2;
 	if (!isLt2M) {
@@ -49,36 +52,46 @@ class PicturesWall extends React.Component {
 	return (isJPG || isPNG) && isLt2M;
 	}
 	render() {
-	const { previewVisible, previewImage, fileList } = this.state;
-	const uploadButton = (
-		<div>
-			<Icon type="plus" />
-			<div className="ant-upload-text">添加图片</div>
-		</div>
-	);
+		const { previewVisible, previewImage, fileList } = this.state;
+		const uploadButton = (
+			<div>
+				<Icon type="plus" />
+				<div className="ant-upload-text">添加图片</div>
+			</div>
+		);
 	return (
-	<div className="clearfix">
-		<Upload
-			beforeUpload={this.beforeUpload}
-			action="/erpWebRest/qcamp/upload.htm?type=spu"
-			listType="picture-card"
-			fileList={fileList}
-			onPreview={this.handlePreview}
-			onChange={this.handleChange}
-			name="imgFile"
-		>
-		{fileList.length >= 1000 ? null : uploadButton}
-		</Upload>
-		<Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
-			<img alt="example" style={{ width: '100%' }} src={previewImage} />
-		</Modal>
-	</div>
-		)
+		<div className="clearfix">
+			<Upload
+				beforeUpload={this.beforeUpload}
+				action="/erpWebRest/qcamp/upload.htm?type=spu"
+				listType="picture-card"
+				fileList={fileList}
+				onPreview={this.handlePreview}
+				onChange={this.handleChange}
+				name="imgFile"
+			>
+			{fileList.length >= 1000 ? null : uploadButton}
+			</Upload>
+			<Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
+				<img alt="example" style={{ width: '100%' }} src={previewImage} />
+			</Modal>
+		</div>
+	)
+
+	
+	
 
 
 
 	}
-
+	componentDidMount(){
+		const methup={}
+		methup.setinitfileList=this.setinitfileList
+		this.props.dispatch({
+			type:'goods/methup',
+			payload:methup
+		})
+	}
 	
 
 
@@ -91,6 +104,7 @@ class PicturesWall extends React.Component {
 
 	function mapStateToProps(state) {
 		const {fileList} = state.goods;
+		console.log(fileList)
 		return {fileList};
 	}
 

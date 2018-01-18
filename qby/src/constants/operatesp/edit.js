@@ -100,6 +100,8 @@ class SpEditForm extends React.Component{
                 value.fromtime=this.state.fromtime
                 value.endtime=this.state.endtime
 				value.startTime=this.state.startTime
+				value.foodShareRatio=this.state.foodShareRatio
+				value.nonfoodShareRatio=this.state.nonfoodShareRatio
 				if(this.props.data){
 					value.spShopId=this.props.data.spShopId
 				}

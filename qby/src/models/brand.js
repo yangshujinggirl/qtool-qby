@@ -20,7 +20,6 @@ effects: {
 				yield put({type: 'tab/loding',payload:false});
 				if(result.code=='0'){
 					const pdBrands=result.pdBrands
-					const fileDomain=result.fileDomain
 					yield put({type: 'pdBrandslist',payload:pdBrands});
 				} 
 			},

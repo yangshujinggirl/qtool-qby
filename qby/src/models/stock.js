@@ -16,6 +16,12 @@ reducers: {
 	stocktablechengeok(state, { payload:ishindok}) {
 		return {...state,ishindok}
 	},
+	initinfo(state, { payload:{}}) {
+		const datasoucedata=[]
+		const changedatasouce=[]
+		const ishindok=false
+		return {...state,datasoucedata,changedatasouce,ishindok}
+	},
 
 },
 effects: {
