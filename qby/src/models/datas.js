@@ -1,13 +1,13 @@
 import {GetServerData} from '../services/services';
 export default {
-    namespace: 'datas',
-    state: {
+	namespace: 'datas',
+	state: {
 		pdAnalysis:[],
 		limit:15,
 		currentPage:0,
 		total:0
 	},
-    reducers: {
+	reducers: {
 		synchronous(state, { payload:values}) {
 			return {...state,values}
 		},
@@ -15,7 +15,7 @@ export default {
 			return {...state,pdAnalysis,limit,currentPage,total}
 		},
 	},
-   	effects: {
+	effects: {
 		*fetch({ payload: {code,values} }, { call, put ,select}) {
 			const result=yield call(GetServerData,code,values);
 			yield put({type: 'tab/loding',payload:false});
@@ -29,7 +29,7 @@ export default {
 				}
 				yield put({type: 'fetchlist',payload:{pdAnalysis,limit,currentPage,total}});
 			} 
-  		},
-    },
-    subscriptions: {},
-  };
+		},
+	},
+	subscriptions: {},
+};

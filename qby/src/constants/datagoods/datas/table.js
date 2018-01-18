@@ -52,8 +52,8 @@ class DataspcunhisTable extends React.Component {
 		values.limit=limit;
 		values.currentPage=currentPage;
 		this.props.dispatch({
-			type:'datasphiscun/fetch',
-			payload:{code:'qerp.web.qpos.pd.historyInv.query',values:values}
+			type:'datas/fetch',
+			payload:{code:'qerp.web.rp.spu.data.page',values:values}
 		});
 		this.props.dispatch({ type: 'tab/loding', payload:true});
 	}
@@ -61,13 +61,17 @@ class DataspcunhisTable extends React.Component {
 	render() {
 		return (
 			<EditableTable
-				dataSource={this.props.pdInvVos} 
+				dataSource={this.props.pdAnalysis} 
 				columns={this.columns} 
 				pageChange={this.pageChange.bind(this)}
 				pageSizeChange={this.pageSizeChange.bind(this)}
 				total={this.props.total}
 				limit={this.props.limit}
 				current={Number(this.props.currentPage)+1}
+				footer={true}
+				bordered={true}
+
+
 				/>
 		);
 	}
@@ -76,8 +80,8 @@ class DataspcunhisTable extends React.Component {
 }
 
 function mapStateToProps(state) {
-	const {pdInvVos,limit,currentPage,total,values} = state.datas;
-	return {pdInvVos,limit,currentPage,total,values};
+	const {pdAnalysis,limit,currentPage,total,values} = state.datas;
+	return {pdAnalysis,limit,currentPage,total,values};
 }
 
 export default connect(mapStateToProps)(DataspcunhisTable);

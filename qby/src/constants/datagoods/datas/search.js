@@ -1,6 +1,7 @@
 import { Form, Row, Col, Input, Button, Icon,Select ,DatePicker,AutoComplete} from 'antd';
 import { connect } from 'dva';
 import {GetServerData} from '../../../services/services';
+import moment from 'moment';
 
 const FormItem = Form.Item;
 const dateFormat = 'YYYY-MM-DD';
@@ -78,12 +79,15 @@ class StockSearchForm extends React.Component {
                     <FormItem 
                         label='销售时间'
                     >
-                        {getFieldDecorator('date')(
+                        {getFieldDecorator('date',{
+                            initialValue:[moment(this.state.startRpDate,dateFormat), moment(this.state.startRpDate, dateFormat)]
+                        })(
                             
                             <RangePicker
                             showTime
                             format="YYYY-MM-DD"
                             onChange={this.hindDateChange.bind(this)}
+                           
                         />
                         )}
                     </FormItem>
@@ -101,7 +105,18 @@ class StockSearchForm extends React.Component {
   }
 
   componentDidMount(){
-    this.handleSearch()
+    var myDate=new Date()
+    const tody=String(myDate.getFullYear()+'-'+(myDate.getMonth()+1)+'-'+myDate.getDate())
+    const startRpDate=tody
+    const endRpDate=tody
+    this.setState({
+        startRpDate:startRpDate,
+        endRpDate:endRpDate
+    },function(){
+        this.handleSearch()
+    })
+
+    
 
 }
   
