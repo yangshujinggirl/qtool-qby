@@ -77,9 +77,9 @@ class SearchForm extends React.Component {
                                 <FormItem label='反馈状态'>
                                     {getFieldDecorator('status')(
                                     <Select allowClear={true} placeholder="请选择反馈状态">
-                                        <Option value='1'>待执行</Option>
-                                        <Option value='2'>处理中</Option>
-                                        <Option value='3'>已处理</Option>
+                                        <Option value='10'>待处理</Option>
+                                        <Option value='20'>处理中</Option>
+                                        <Option value='30'>已处理</Option>
                                     </Select>
                                     )}
                                 </FormItem>
