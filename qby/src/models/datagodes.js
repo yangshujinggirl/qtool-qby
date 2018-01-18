@@ -25,11 +25,11 @@ export default {
 		listdata:[],
 		datasouce:[],
 
-		xdata:['周一','周二','周三','周四','周五','周六','周日'],
-		data1:[11, 21, 15, 13, 12, 13, 10],
-		data2:[1, 2, 2, 5, 3, 2, 0],
-		data3:[11, 11, 15, 13, 12, 13, 10],
-		data4:[1, 22, 2, 5, 3, 2, 0]
+		xdata:[],
+		data1:[],
+		data2:[],
+		data3:[],
+		data4:[]
 	},
 	reducers: {
 		selldatalist(state, { payload:{analysis,updateTime,data,listdata}}) {
