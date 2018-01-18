@@ -145,7 +145,7 @@ class DailyBillForm extends React.Component {
                             <div>
                                 <p style={{color:"#FB6349"}}>
                                     <i>¥</i>
-                                    {this.state.rpDayAccount.cleanAmount&&this.state.rpDayAccount.cleanAmount!="0"?this.state.rpDayAccount.cleanAmount.split('.')[0]:"0"}
+                                    {this.state.rpDayAccount.cleanAmount && this.state.rpDayAccount.cleanAmount!="0"?this.state.rpDayAccount.cleanAmount.split('.')[0]:"0"}
                                     <span>.{this.state.rpDayAccount.cleanAmount&&this.state.rpDayAccount.cleanAmount!="0"?this.state.rpDayAccount.cleanAmount.split('.')[1]:"00"}</span>
                                 </p>
                                 <span className="explain-span">
@@ -159,8 +159,8 @@ class DailyBillForm extends React.Component {
                             <div>
                                 <p style={{color:"#F7A303"}}>
                                     <i>¥</i>
-                                    {this.state.rpDayAccount.amount&&this.state.rpDayAccount.amount!="0"?this.state.rpDayAccount.amount.split('.')[0]:"0"}
-                                    <span>.{this.state.rpDayAccount.amount&&this.state.rpDayAccount.amount!="0"?this.state.rpDayAccount.amount.split('.')[1]:"00"}</span>
+                                    {this.state.rpDayAccount.saleAmount&&this.state.rpDayAccount.saleAmount!="0"?this.state.rpDayAccount.saleAmount.split('.')[0]:"0"}
+                                    <span>.{this.state.rpDayAccount.saleAmount&&this.state.rpDayAccount.saleAmount!="0"?this.state.rpDayAccount.saleAmount.split('.')[1]:"00"}</span>
                                 </p>
                                 <span className="explain-span">
                                     <Tooltip title="销售订单金额-退款订单金额">
