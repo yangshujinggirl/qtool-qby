@@ -1,11 +1,12 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,message,DatePicker,Tooltip,Pagination} from 'antd';
+import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,message,DatePicker,Tooltip,Pagination,Row,Col} from 'antd';
 import { Link } from 'dva/router';
 import '../../style/dataManage.css';
 import EditableTable from '../../components/table/tablebasic';
 import moment from 'moment';
 import {GetServerData} from '../../services/services';
+import Appmodelone  from '../ordermd/modal';
 const FormItem = Form.Item;
 const Option = Select.Option;
 const { RangePicker,MonthPicker } = DatePicker;
@@ -200,7 +201,7 @@ class ProfitReportForm extends React.Component {
                     shopId:this.props.shopId,
                     currentPage:"0",
                     limit:"10",
-                    rpDate:this.state.rpDate,
+                    rpDate:this.state.rpDate+"-01",
                     name:this.state.name
                 }
                 self.getServerData(data);
@@ -214,7 +215,7 @@ class ProfitReportForm extends React.Component {
             shopId:this.props.shopId,
             currentPage:"0",
             limit:"10",
-            rpDate:this.state.rpDate,
+            rpDate:this.state.rpDate+"-01",
             name:this.state.name
         }
         const result=GetServerData('qerp.qpos.rp.profit.export',data);
@@ -249,7 +250,7 @@ class ProfitReportForm extends React.Component {
                 shopId:this.props.shopId,
                 currentPage:"0",
                 limit:"10",
-                rpDate:this.state.rpDate
+                rpDate:this.state.rpDate+"-01"
             }
             self.getServerData(values);
         })
@@ -296,42 +297,56 @@ class ProfitReportForm extends React.Component {
                         </ul>
                     </div>
                     {/*搜索部分 */}
-                    <Form className="search-form">
-                        <FormItem
-                        label="订单时间"
-                        labelCol={{ span: 5 }}
-                        wrapperCol={{span: 10}}>
-                            <MonthPicker 
-                            value={this.state.rpDate?moment(this.state.rpDate, dateFormat):null}
-                            format={dateFormat}
-                            onChange={this.dateChange.bind(this)}/>
-                        </FormItem>
-                        <FormItem
-                        label="商品名称"
-                        labelCol={{ span: 5 }}
-                        wrapperCol={{span: 10}}>
-                        {getFieldDecorator('name')(
-                            <Input/>
-                        )}
-                        </FormItem>
-                        <FormItem>
-                            <Button type="primary" icon="search" onClick={this.handleSubmit.bind(this)}>搜索</Button>
-                        </FormItem>
-                        <div className="export-div">
-                            <Button className="export-btn" onClick={this.exportList.bind(this)}>导出数据</Button>
+                    <Form  className='formbox'>
+                        <Row gutter={40} className='formbox_row' style={{marginTop:"20px"}}>
+                            <Col span={24} className='formbox_col'>
+                                <Row>
+                                    <div className='serach_form'>
+                                        <FormItem
+                                        label="订单时间"
+                                       >
+                                            <MonthPicker 
+                                            value={this.state.rpDate?moment(this.state.rpDate, dateFormat):null}
+                                            format={dateFormat}
+                                            onChange={this.dateChange.bind(this)}/>
+                                        </FormItem>
+                                        <FormItem
+                                        label="商品名称"
+                                       >
+                                        {getFieldDecorator('name')(
+                                            <Input/>
+                                        )}
+                                        </FormItem>
+                                    </div>
+                                </Row>
+                            </Col>
+                        </Row>
+                        <div style={{'position':'absolute','right':'0','bottom':'20px'}}>
+                            <Button type="primary" htmlType="submit" onClick={this.handleSubmit.bind(this)} size='large'>搜索</Button>
                         </div>
                     </Form>
-                    <EditableTable 
-                        columns={this.columns} 
-                        dataSource={this.state.dataSource}
-                        footer={true}
-                        pageChange={this.pageChange.bind(this)}
-                        pageSizeChange={this.onShowSizeChange.bind(this)}
-                        total={this.state.total}
-                        limit={this.state.limit}
-                        current={this.state.currentPage+1}
-                        bordered={true}
-                        />
+                    <Appmodelone 
+						text="导出数据" 
+						title="导出数据" 
+						count="数据已经进入导出队列，请前往下载中心查看导出进度"
+						okText="去看看"
+						cancelText="稍后去"
+						dataValue={this.state.exportData}
+						type="75"
+						/>
+                    <div className="mt15">
+                        <EditableTable 
+                            columns={this.columns} 
+                            dataSource={this.state.dataSource}
+                            footer={true}
+                            pageChange={this.pageChange.bind(this)}
+                            pageSizeChange={this.onShowSizeChange.bind(this)}
+                            total={this.state.total}
+                            limit={this.state.limit}
+                            current={this.state.currentPage+1}
+                            bordered={true}
+                            />
+                    </div>   
                 </div>
             </div>
         );

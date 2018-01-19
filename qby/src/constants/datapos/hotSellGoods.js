@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,message,DatePicker,Pagination} from 'antd';
+import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,message,DatePicker,Pagination,Row, Col} from 'antd';
 import { Link } from 'dva/router';
 import '../../style/dataManage.css';
 import EditableTable from '../../components/table/tablebasic';
@@ -138,19 +138,27 @@ class HotSellGoodsForm extends React.Component {
             <div className="hot-sell">
                 <div>
                     {/*搜索部分 */}
-                    <Form className="search-form">
-                        <FormItem
-                        label="选择时间"
-                        labelCol={{ span: 5 }}
-                        wrapperCol={{span: 10}}>
-                            <RangePicker 
-                                value={this.state.startDate?[moment(this.state.startDate, dateFormat), moment(this.state.endDate, dateFormat)]:null}
-                                format={dateFormat}
-                                onChange={this.dateChange.bind(this)} />
-                        </FormItem>
-                        <FormItem>
-                            <Button type="primary" icon="search" onClick={this.handleSubmit.bind(this)}>搜索</Button>
-                        </FormItem>
+                    <Form  className='formbox'>
+                        <Row gutter={40} className='formbox_row' style={{marginTop:"20px"}}>
+                            <Col span={24} className='formbox_col'>
+                                <Row>
+                                    <div className='serach_form'>
+                                    <FormItem
+                                    label="选择时间"
+                                    labelCol={{ span: 5 }}
+                                    wrapperCol={{span: 10}}>
+                                        <RangePicker 
+                                            value={this.state.startDate?[moment(this.state.startDate, dateFormat), moment(this.state.endDate, dateFormat)]:null}
+                                            format={dateFormat}
+                                            onChange={this.dateChange.bind(this)} />
+                                    </FormItem>
+                                    </div>
+                                </Row>
+                            </Col>
+                        </Row>
+                        <div style={{'position':'absolute','right':'0','bottom':'20px'}}>
+                            <Button type="primary" htmlType="submit" onClick={this.handleSubmit.bind(this)} size='large'>搜索</Button>
+                        </div>
                     </Form>
                     <div className="hotSell-wrapper">
                         {

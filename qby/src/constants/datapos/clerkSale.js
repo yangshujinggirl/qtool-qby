@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,message,DatePicker,Tooltip} from 'antd';
+import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,message,DatePicker,Tooltip,Row, Col} from 'antd';
 import { Link } from 'dva/router';
 import '../../style/dataManage.css';
 import {GetServerData} from '../../services/services';
@@ -163,22 +163,28 @@ class ClerkSaleForm extends React.Component {
             <div className="clerk-sale">
                 <div className="clerk-sale-wrapper">
                     {/*搜索部分 */}
-                    <Form className="search-form">
-                        <FormItem
-                        label="选择时间"
-                        labelCol={{ span: 5 }}
-                        wrapperCol={{span: 10}}>
-                            <RangePicker 
-                                defaultValue={[moment(a,dateFormat),moment(a, dateFormat)]}
-                                format="YYYY-MM-DD"
-                                allowClear={false}
-                                onChange={this.dataChange.bind(this)} />
-                        </FormItem>
-                        <FormItem>
-                            <Button type="primary" icon="search" onClick={this.searchTable.bind(this)}>搜索</Button>
-                        </FormItem>
+                    <Form  className='formbox'>
+                        <Row gutter={40} className='formbox_row' style={{marginTop:"20px"}}>
+                            <Col span={24} className='formbox_col'>
+                                <Row>
+                                    <div className='serach_form'>
+                                        <FormItem
+                                            label="选择时间">
+                                            <RangePicker 
+                                                defaultValue={[moment(a,dateFormat),moment(a, dateFormat)]}
+                                                format="YYYY-MM-DD"
+                                                allowClear={false}
+                                                onChange={this.dataChange.bind(this)} />
+                                        </FormItem>
+                                    </div>
+                                </Row>
+                            </Col>
+                        </Row>
+                        <div style={{'position':'absolute','right':'0','bottom':'20px'}}>
+                            <Button type="primary" htmlType="submit" onClick={this.searchTable.bind(this)} size='large'>搜索</Button>
+                        </div>
                     </Form>
-                    <div className="charts-table-wrapper">
+                    <div className="charts-table-wrapper mt15">
                         <div className="charts-wrapper">
                             <p style={{paddingBottom:"20px",fontSize:"14px",color:" #384162"}}>销售数据</p>
                             {/* <TestCharts/> */}
