@@ -9,13 +9,13 @@ const dateFormat = 'YYYY-MM-DD';
 
 class BatchStockSearchForm extends React.Component {
   state = {
-    data:null
+    date:null
   };
 
   //点击搜索按钮获取搜索表单数据
   handleSearch = (e) => {
     this.props.form.validateFields((err, values) => {
-        values.data=this.state.data
+        values.date=this.state.date
         this.initList(values,this.props.limit,0);
         this.syncState(values);
     });
@@ -23,6 +23,7 @@ class BatchStockSearchForm extends React.Component {
 
   //搜索请求数据
   initList=(values,limit,currentPage)=>{
+        values.date=this.state.date
         values.limit=limit;
         values.currentPage=currentPage;
         this.props.dispatch({
@@ -42,7 +43,7 @@ class BatchStockSearchForm extends React.Component {
     
     hindtimeChange=(date,dateString)=>{
         this.setState({
-            data:dateString
+            date:dateString
         })
         
     }
@@ -63,7 +64,7 @@ class BatchStockSearchForm extends React.Component {
             </FormItem>
             <FormItem label='商品编码'>
                 {getFieldDecorator('pdCode')(
-                <Input placeholder="请输入商品编码"/>
+                    <Input placeholder="请输入商品编码"/>
                 )}
             </FormItem>
             <FormItem label='商品条码'>
@@ -72,7 +73,9 @@ class BatchStockSearchForm extends React.Component {
                 )}
             </FormItem>
             <FormItem label='选择时间'>
-                {getFieldDecorator('ccname')(
+                {getFieldDecorator('ccname',{
+                      initialValue:moment(this.state.date, dateFormat)
+                })(
                     <DatePicker 
                         format={dateFormat} 
                         onChange={this.hindtimeChange.bind(this)}
@@ -93,7 +96,15 @@ class BatchStockSearchForm extends React.Component {
     );
   }
   componentDidMount(){
-     this.handleSearch();
+    var myDate=new Date()
+    myDate.setTime(myDate.getTime()-24*60*60*1000);
+    const yesterday=String(myDate.getFullYear()+'-'+(myDate.getMonth()+1)+'-'+myDate.getDate())
+    this.setState({
+        date:yesterday
+    },function(){
+        this.handleSearch()
+    })
+     
   }
 }
 function mapStateToProps(state) {

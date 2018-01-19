@@ -1,24 +1,26 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,message,DatePicker,Tooltip,Pagination,Row, Col} from 'antd';
+import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,message,DatePicker,Tooltip,Pagination,Row, Col,AutoComplete} from 'antd';
 import { Link } from 'dva/router';
 import EditableTable from '../../../components/table/tablebasic';
 import {GetServerData} from '../../../services/services';
 import moment from 'moment';
 const FormItem = Form.Item;
 const Option = Select.Option;
-const { RangePicker } = DatePicker;
+const { RangePicker,MonthPicker } = DatePicker;
 const dateFormat = 'YYYY-MM';
 
 class MdCostIndexForm extends React.Component {
     constructor(props) {
         super(props);
         this.state={
+            dataSources:[],
             dataSource:[],
             total:0,
             currentPage:0,
-            limit:10,
+            limit:15,
             month:'',
+            spShopId:null,
         };
         this.columns = [{
             title: '门店名称',
@@ -57,38 +59,81 @@ class MdCostIndexForm extends React.Component {
         })
     }
 
-    //表格的方法
+    
     pageChange=(page,pageSize)=>{
         this.setState({
             currentPage:page-1
+        },function(){
+            let data = {
+                currentPage:0,
+                limit:10,
+                month:this.state.month,
+                spShopId:this.state.spShopId
+            }
+            this.getServerData(data);
         });
     }
     onShowSizeChange=(current, pageSize)=>{
         this.setState({
             limit:pageSize,
             currentPage:current-1
+        },function(){
+            let data = {
+                currentPage:0,
+                limit:10,
+                month:this.state.month,
+                spShopId:this.state.spShopId
+            }
+            this.getServerData(data);
         })
     }
 
-    handleSubmit = (e) =>{
-        const self = this;
-        e.preventDefault();
-        this.props.form.validateFields((err, values) => {
-            this.setState({
-                spShopId:values.type
-            },function(){
-                let data = {
-                    currentPage:0,
-                    limit:10,
-                    month:this.state.month,
+    handleSubmit = () =>{
+        let data = {
+            currentPage:0,
+            limit:10,
+            month:this.state.month,
+            spShopId:this.state.spShopId
+        }
+        this.getServerData(data);
+    }
+
+    //智能搜索
+    handleSearchs=(value)=>{
+        this.setState({
+            spShopId:null
+        })
+        let values={name:value}
+        const result=GetServerData('qerp.web.sp.shop.list',values)
+            result.then((res) => {
+            return res;
+        }).then((json) => {
+            if(json.code=='0'){
+                var shopss=json.shops
+                var dataSources=[]
+                for(var i=0;i<shopss.length;i++){
+                    dataSources.push({
+                        text:shopss[i].name,
+                        value:shopss[i].spShopId
+                    })
                 }
-                self.getServerData(data);
-            })
+                this.setState({
+                    dataSources:dataSources
+                });
+            }
         })
     }
 
+    //智能选择
+    onSelect=(value)=>{
+        this.setState({
+            spShopId:value
+        })
+    }
     render() {
         const { getFieldDecorator } = this.props.form;
+        const d = new Date()
+        const data=String(d.getFullYear())+'-'+String((d.getMonth()+1))
         return (
             <div>
                 <Form  className='formbox'>
@@ -96,19 +141,27 @@ class MdCostIndexForm extends React.Component {
                         <Col span={24} className='formbox_col'>
                             <Row>
                                 <div className='serach_form'>
-                                    <FormItem label='商品名称'>
+                                    <FormItem label='门店名称'>
                                         {getFieldDecorator('name')(
-                                        <Input placeholder="请输入商品名称"/>
+                                            <AutoComplete size="large"
+                                            dataSource={this.state.dataSources}
+                                            onSelect={this.onSelect}
+                                            onSearch={this.handleSearchs}
+                                            placeholder='请选择门店名称'
+                                            filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
+                                        />    
                                         )}
                                     </FormItem>
                                     <FormItem
                                         label="选择时间"
                                         labelCol={{ span: 5 }}
                                         wrapperCol={{span: 10}}>
-                                        <DatePicker  
-                                            value={this.state.month?moment(this.state.month, dateFormat):null}
+                                        <MonthPicker  
+                                            defaultValue={moment(data, 'YYYY-MM')}
+                                            className='noant-calendar-picker'
                                             format={dateFormat}
                                             onChange={this.dateChange.bind(this)} />
+                                        
                                     </FormItem>
                                 </div>
                         </Row>
@@ -161,34 +214,18 @@ class MdCostIndexForm extends React.Component {
 
     //获取当前时间
      getNowFormatDate = () =>{
-        const self = this;
-        var date = new Date();
-        var seperator1 = "-";
-        var month = date.getMonth() + 1;
-        var beforeMonth = date.getMonth();
-        var strDate = date.getDate();
-        if (month >= 1 && month <= 9) {
-            month = "0" + month;
-        }
-        if (beforeMonth >= 1 && beforeMonth <= 9) {
-            beforeMonth = "0" + beforeMonth;
-        }
-        if(beforeMonth == 0){
-            beforeMonth = "12"
-        }
-        if (strDate >= 0 && strDate <= 9) {
-            strDate = "0" + strDate;
-        }
-        var currentdate = date.getFullYear() + seperator1 + month;
+        var d = new Date()
+        const data=String(d.getFullYear())+'-'+String((d.getMonth()+1))
         this.setState({
-            month:currentdate,
+            month:data,
         },function(){
             let values = {
                 currentPage:0,
                 limit:10,
                 month:this.state.month,
+                spShopId:this.state.spShopId
             }
-            self.getServerData(values);
+            this.getServerData(values);
         })
     }
 

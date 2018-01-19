@@ -23,7 +23,7 @@ export default {
 			const result=yield call(GetServerData,code,values);
 			yield put({type: 'tab/loding',payload:false});
 			if(result.code=='0'){
-				const validDateInfos=result.invdatas
+				const validDateInfos=result.validDateInfos
 				const limit=result.limit;
 				const currentPage=result.currentPage;
 				const total=result.total;

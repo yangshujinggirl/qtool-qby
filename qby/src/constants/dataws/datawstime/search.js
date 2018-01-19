@@ -14,7 +14,6 @@ class BatchStockSearchForm extends React.Component {
     //点击搜索按钮获取搜索表单数据
     handleSearch = (e) => {
         this.props.form.validateFields((err, values) => {
-            values.expireDays=this.state.data
             this.initList(values,this.props.limit,0);
             this.syncState(values);
         });
@@ -25,7 +24,7 @@ class BatchStockSearchForm extends React.Component {
         values.currentPage=currentPage;
         this.props.dispatch({
             type:'datawstime/fetch',
-            payload:{code:'qerp.web.pd.historyInvdata.query',values:values}
+            payload:{code:'qerp.web.pd.validDate.query',values:values}
         });
         this.props.dispatch({ type: 'tab/loding', payload:true});
     }  
@@ -38,16 +37,10 @@ class BatchStockSearchForm extends React.Component {
         });
     }
     
-    hindtimeChange=(date,dateString)=>{
-        this.setState({
-            expireDays:dateString
-        })
-        
-    }
+  
 
   render() {
       const { getFieldDecorator } = this.props.form;
-      const adminType=eval(sessionStorage.getItem('adminType'));
     return (
       <Form  className='formbox'>
         <Row gutter={40} className='formbox_row'>
@@ -61,7 +54,7 @@ class BatchStockSearchForm extends React.Component {
             </FormItem>
             <FormItem label='商品编码'>
                 {getFieldDecorator('pdCode')(
-                <Input placeholder="请输入商品编码"/>
+                    <Input placeholder="请输入商品编码"/>
                 )}
             </FormItem>
             <FormItem label='商品条码'>
@@ -69,13 +62,16 @@ class BatchStockSearchForm extends React.Component {
                 <Input placeholder="请输入商品条码"/>
                 )}
             </FormItem>
-            <FormItem label='选择时间'>
-                {getFieldDecorator('ccname')(
-                    <DatePicker 
-                    format={dateFormat} 
-                    onChange={this.hindtimeChange.bind(this)}
-                    className='noant-calendar-picker'
-                    />
+            <FormItem label='到期天数'>
+                {getFieldDecorator('expireDays',{
+                    initialValue:'40'
+                })(
+                    <Select>
+                        <Option value="10">已过期</Option>
+                        <Option value="20">7天内过期</Option>
+                        <Option value="30">30天内过期</Option>
+                        <Option value="40">90天内过期</Option>
+                    </Select>
                 )}
             </FormItem>
 

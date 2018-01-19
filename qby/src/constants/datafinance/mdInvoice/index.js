@@ -8,7 +8,7 @@ import moment from 'moment';
 import Appmodelone from "../../ordermd/modal";
 const FormItem = Form.Item;
 const Option = Select.Option;
-const { RangePicker } = DatePicker;
+const { RangePicker ,MonthPicker} = DatePicker;
 const dateFormat = 'YYYY-MM';
 
 class MdInvoiceIndexForm extends React.Component {
@@ -21,7 +21,7 @@ class MdInvoiceIndexForm extends React.Component {
             currentPage:0,
             limit:10,
             month:'',
-            exportData:{}
+            name:null
         };
     }
 
@@ -35,38 +35,52 @@ class MdInvoiceIndexForm extends React.Component {
     pageChange=(page,pageSize)=>{
         this.setState({
             currentPage:page-1
+        },function(){
+            let data = {
+                currentPage:0,
+                limit:10,
+                month:this.state.month,
+                name:this.state.name
+            }
+            this.getServerData(data)
         });
     }
     onShowSizeChange=(current, pageSize)=>{
         this.setState({
             limit:pageSize,
             currentPage:current-1
+        },function(){
+            let data = {
+                currentPage:0,
+                limit:10,
+                month:this.state.month,
+                name:this.state.name
+            }
+            this.getServerData(data)
         })
     }
 
     handleSubmit = (e) =>{
-        const self = this;
-        e.preventDefault();
-        this.props.form.validateFields((err, values) => {
-            this.setState({
-                name:values.name
-            },function(){
-                let data = {
-                    currentPage:0,
-                    limit:10,
-                    month:this.state.month,
-                    name:this.state.name
-                }
-                this.setState({
-                    exportData:data
-                });
-                self.getServerData(data);
-            })
-        })
+        let data = {
+            currentPage:0,
+            limit:10,
+            month:this.state.month,
+            name:this.state.name
+        }
+        this.getServerData(data)
     }
 
     render() {
         const { getFieldDecorator } = this.props.form;
+        var d = new Date()
+        var data2=d.getMonth()
+        var data1=d.getFullYear()
+        if(data2==0){
+            data2=12
+            data1=d.getFullYear()-1
+        }
+        const data=String(data1)+'-'+String(data2)
+        console.log(this)
         return (
             <div>
                 <Form  className='formbox'>
@@ -83,8 +97,9 @@ class MdInvoiceIndexForm extends React.Component {
                                         label="选择时间"
                                         labelCol={{ span: 5 }}
                                         wrapperCol={{span: 10}}>
-                                        <DatePicker  
-                                            value={this.state.month?moment(this.state.month, dateFormat):null}
+                                    <MonthPicker  
+                                            defaultValue={moment(data, 'YYYY-MM')}
+                                            className='noant-calendar-picker'
                                             format={dateFormat}
                                             onChange={this.dateChange.bind(this)} />
                                     </FormItem>
@@ -106,14 +121,7 @@ class MdInvoiceIndexForm extends React.Component {
 						dataValue={this.state.exportData}
 						type="76"
 						/>
-                {/* <Button 
-						type="primary" 
-						size='large'
-						className='mt20'
-						onClick={this.exportData}
-					>
-                        导出数据
-				</Button> */}
+               
                 <div className='mt15'>
                     <EditableTable 
                         columns={this.columns} 
@@ -125,6 +133,7 @@ class MdInvoiceIndexForm extends React.Component {
                         limit={this.state.limit}
                         current={this.state.currentPage+1}
                         bordered={true}
+                        scroll={{ x: '130%' }}                    
                         />
                 </div>
             </div>
@@ -195,38 +204,27 @@ class MdInvoiceIndexForm extends React.Component {
 
     //获取当前时间
      getNowFormatDate = () =>{
-        const self = this;
-        var date = new Date();
-        var seperator1 = "-";
-        var month = date.getMonth() + 1;
-        var beforeMonth = date.getMonth();
-        var strDate = date.getDate();
-        if (month >= 1 && month <= 9) {
-            month = "0" + month;
+        var d = new Date()
+        var data2=d.getMonth()
+        var data1=d.getFullYear()
+        if(data2==0){
+            data2=12
+            data1=d.getFullYear()-1
         }
-        if (beforeMonth >= 1 && beforeMonth <= 9) {
-            beforeMonth = "0" + beforeMonth;
-        }
-        if(beforeMonth == 0){
-            beforeMonth = "12"
-        }
-        if (strDate >= 0 && strDate <= 9) {
-            strDate = "0" + strDate;
-        }
-        var currentdate = date.getFullYear() + seperator1 + month;
+        const data=String(data1)+'-'+String(data2)
         this.setState({
-            month:currentdate,
+            month:data
         },function(){
-            let values = {
-                currentPage:0,
-                limit:10,
+            const value={
+                name:this.state.name,
                 month:this.state.month,
+                limit:15,
+                currentPage:0
             }
-            this.setState({
-                exportData:values
-            })
-            self.getServerData(values);
+            this.getServerData(value)
+
         })
+       
     }
 
     componentDidMount(){
