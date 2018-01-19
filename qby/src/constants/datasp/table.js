@@ -71,7 +71,6 @@ class SpselldataTable extends React.Component {
             footer={false}
             bordered={true}
             select={false}
-           
             />
         );
     }

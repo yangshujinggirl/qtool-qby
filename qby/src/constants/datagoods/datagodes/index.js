@@ -14,11 +14,19 @@ class DatagodesIndex extends React.Component{
 	}
 	desinfo=()=>{
 		Modal.info({
-			title: 'This is a notification message',
+			title: '字段解释',
 			content: (
-			  <div>
-				<p>some messages...some messages...</p>
-				<p>some messages...some messages...</p>
+			  <div className='lists'>
+				<p>【掌柜销售金额】：掌柜产生的所有订单总金额 （去除取消订单）</p>
+				<p>【掌柜销售数量】：掌柜销售出的商品的总数量（去掉取消订单）</p>
+				<p>【POS销售金额】：POS产生的所有门店销售总金额（去除退货）</p>
+				<p>【POS销售数量】：POS产生的所有门店销售数量（去除退货）</p>
+				<p>【同比上周】： 同比上周=（今日数据-上周今日整日数据）/上周今日整日数据</p>
+				<p>【门店热销商品】：在POS上历史7天销售数量大于等于100的商品</p>
+				<p>【掌柜热销商品】：在掌柜中历史7天销售数量大于等于100的商品</p>
+				<p>【建议采购商品】：明星商品，建议采购的商品。可售库存/掌柜历史10天的销售量小于等于30%</p>
+				<p>【滞销商品】：销售较差，不受欢迎的商品。掌柜历史10天的销售量/可售库存小于等于20%</p>
+
 			  </div>
 			),
 			onOk() {},

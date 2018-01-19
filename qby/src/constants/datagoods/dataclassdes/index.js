@@ -12,11 +12,17 @@ class DataclassdesIndex extends React.Component{
 	state = {};
 	desinfo=()=>{
 		Modal.info({
-			title: 'This is a notification message',
+			title: '字段说明',
 			content: (
-			  <div>
-				<p>some messages...some messages...</p>
-				<p>some messages...some messages...</p>
+			  <div className='lists'>
+				<p>【掌柜销售数量】：该分类在掌柜中销售的数量（包含Q本营创建的门店订单，不含取消订单）</p>
+				<p>【掌柜销售数量占比】：该分类在掌柜中销售的数量在全部分类销售数量中占比 </p>
+				<p>【掌柜销售金额】：该分类在掌柜中销售的总金金额（包含Q本营创建的门店订单，不含取消订单）</p>
+				<p>【掌柜销售金额占比】：该分类在掌柜中销售的总金额在全部分类销售的总金额中占比</p>
+				<p>【POS销售数量】：该分类在POS中销售的数量（只计算销售订单）</p>
+				<p>【POS销售数量占比】：该分类在POS销售的数量在全部分类销售数量中占比 </p>
+				<p>【POS销售金额】：该分类在POS中销售的总金金额（只计算销售订单）</p>
+				<p>【POS销售金额占比】：该分类在POS中销售的总金额在全部分类销售的总金额中占比</p>
 			  </div>
 			),
 			onOk() {},

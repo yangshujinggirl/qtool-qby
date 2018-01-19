@@ -18,11 +18,20 @@ class DatasporderIndex extends React.Component{
 	}
 	desinfo=()=>{
 		Modal.info({
-			title: 'This is a notification message',
+			title: '字段说明',
 			content: (
-			<div>
-				<p>some messages...some messages...</p>
-				<p>some messages...some messages...</p>
+			<div className='lists'>
+				<p>【总订单数】：总体门店订单数（包含取消订单）</p>
+				<p>【有效订单数】：未取消的门店订单数量 </p>
+				<p>【预售订单数】：预售订单的数量</p>
+				<p>【直邮订单数】：直邮订单的数量</p>
+				<p>【取消订单数】：已经取消的门店订单数量</p>
+				<p>【销售额】：全部门店订单销售总额</p>
+				<p>【有效销售额】：未取消的门店订单的销售总额</p>
+				<p>【预售销售额】：预售订单的订单金额总和</p>
+				<p>【直邮销售额】：直邮订单的订单金额总和</p>
+				<p>【取消订单额】：取消订单的订单金额总和</p>
+				<p>【同比上周】： 同比上周=（今日数据-上周今日整日数据）/上周今日整日数据</p>
 			</div>
 			),
 			onOk() {},

@@ -19,11 +19,19 @@ class DataposorderIndex extends React.Component{
 	}
 	desinfo=()=>{
 		Modal.info({
-			title: 'This is a notification message',
+			title: '字段说明',
 			content: (
-			<div>
-				<p>some messages...some messages...</p>
-				<p>some messages...some messages...</p>
+			<div className='lists'>
+				<p>【销售订单数】：POS中产生的销售订单数量</p>
+				<p>【会员订单数】：POS中产生会员积分的销售订单数量</p>
+				<p>【充值订单数】：POS中产生的充值订单数量</p>
+				<p>【退款订单数】：POS中产生的退款订单数量</p>
+				<p>【毛销售额】：POS中产生的所有销售订单的订单金额总和</p>
+				<p>【销售额】：POS中产生的所有销售订单的订单金额-POS中产生的退货订单的退款金额</p>
+				<p>【会员销售额】：POS中所有产生会员积分的销售订单订单金额总和</p>
+				<p>【充值金额】：POS中所产生的充值订单的充值总金额</p>
+				<p>【退款金额】：POS中所产生的退货订单的退款总金额</p>
+				<p>【同比上周】： 同比上周=（今日数据-上周今日整日数据）/上周今日整日数据</p>
 			</div>
 			),
 			onOk() {},

@@ -214,3 +214,6 @@ ins { text-decoration: none; }
 
 
 .cardlistbox{display: flex;flex-wrap: wrap;justify-content: space-between;}
+
+.ant-modal-wrap .ant-confirm-info{width:550px!important;}
+.ant-modal-wrap .ant-confirm-info .lists p{margin-bottom: 10px;}
