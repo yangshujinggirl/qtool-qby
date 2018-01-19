@@ -142,6 +142,8 @@ app.model(require("./models/operatesupplier"));
 app.model(require("./models/operatebanner"));
 
 app.model(require("./models/h5config"));
+
+app.model(require("./models/dataposManage"));
 // 2. Plugins
 // app.use({});
 

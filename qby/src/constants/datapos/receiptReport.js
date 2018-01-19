@@ -30,8 +30,7 @@ class ReceiptReportForm extends React.Component {
             dataIndex: 'orderNo',
             render: (text, record, index) => {
                 return (
-                    <div onClick={this.toRoute.bind(this,record)} style={{color:"#35BAB0",cursor:"pointer"}}>{text}</div>
-                    // <Link to={{pathname:'/dataManage/receiptDetail',query:{id:record.pdOrderId,orderNo:record.orderNo,qtySum:record.qtySum,receiveQty:record.receiveQty,statusStr:record.statusStr}}}>{text}</Link>
+                    <div onClick={this.toDetailInfo.bind(this,record)} style={{color:"#35BAB0",cursor:"pointer"}}>{text}</div>
                 )
             }
         },{
@@ -50,6 +49,18 @@ class ReceiptReportForm extends React.Component {
             title: '最后操作时间',
             dataIndex: 'operateTime',
         }];
+    }
+
+    //
+    toDetailInfo = (record) =>{
+        console.log(record);
+        const pdOrderId=String(record.pdOrderId);
+        console.log(pdOrderId);
+        const paneitem={title:'订单详情',key:'703006edit'+pdOrderId+'info',data:{pdOrderId:pdOrderId,shopId:this.props.shopId,details:record},componkey:'703006info'}
+        this.props.dispatch({
+            type:'tab/firstAddTab',
+            payload:paneitem
+        })
     }
 
     toRoute = (record) =>{
