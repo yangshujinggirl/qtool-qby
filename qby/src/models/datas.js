@@ -5,7 +5,8 @@ export default {
 		pdAnalysis:[],
 		limit:15,
 		currentPage:0,
-		total:0
+		total:0,
+		values:{}
 	},
 	reducers: {
 		synchronous(state, { payload:values}) {

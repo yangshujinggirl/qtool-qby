@@ -21,6 +21,13 @@ app.model(require("./models/account"));
 
 
 
+app.model(require("./models/downlaod"));
+
+
+
+
+
+
 app.model(require("./models/dataposorder"));
 
 

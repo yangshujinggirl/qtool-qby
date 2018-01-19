@@ -1,6 +1,7 @@
 import EditableTable from '../../components/table/tablebasic';
 import {Getexpont} from '../../services/expont';
 import {GetServerData} from '../../services/services';
+import { connect } from 'dva';
 
 class DownloadIndex extends React.Component{
     constructor(props) {
@@ -44,26 +45,13 @@ class DownloadIndex extends React.Component{
             window.open(record.filePath)
         }
     }
-
     getdownlist=(limit,currentPage)=>{
         const values={limit:limit,currentPage:currentPage}
-        const result=GetServerData('qerp.web.sys.doc.list',values);
-        result.then((res) => {
-            return res;
-        }).then((json) => {
-            if(json.code=='0'){
-               const sysDownloadDoc=json.sysDownloadDoc
-               this.setState({
-                    dataSource:sysDownloadDoc,
-                    limit:json.limit,
-                    total:json.total,
-                    currentPage:json.currentPage
-               }) 
-            }
-        })    
+        this.props.dispatch({
+            type:'downlaod/fetch',
+            payload:{code:'qerp.web.sys.doc.list',values:values}
+        });   
     }
-
-
     //分页方法
 	pageChange=(page,pageSize)=>{
 		this.getdownlist(pageSize,Number(page-1))
@@ -76,20 +64,25 @@ class DownloadIndex extends React.Component{
 		return(
             <EditableTable 
             bordered={true} 
-            dataSource={this.state.dataSource} 
+            dataSource={this.props.sysDownloadDoc} 
             columns={this.columns}
             footer={true}
             pageChange={this.pageChange.bind(this)}
             pageSizeChange={this.pageSizeChange.bind(this)}
-            total={this.state.total}
-            limit={this.state.limit}
-            current={Number(this.state.currentPage)+1}
+            total={this.props.total}
+            limit={this.props.limit}
+            current={Number(this.props.currentPage)+1}
             />
 		)
     }
     componentDidMount(){
-        this.getdownlist(10,0)
+        this.getdownlist(15,0)
     }
+
 }
 
-export default DownloadIndex;
+function mapStateToProps(state) {
+	const {sysDownloadDoc,total,limit,currentPage} = state.downlaod;
+	return {sysDownloadDoc,total,limit,currentPage};
+}
+export default connect(mapStateToProps)(DownloadIndex);

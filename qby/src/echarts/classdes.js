@@ -77,7 +77,7 @@ class EchartsTest extends Component {
                     this.writeCall()
                     this.props.dispatch({
                         type:'dataclassdes/tablefetch',
-                        payload:{categoryAnalysis,updateTime}
+                        payload:{categoryAnalysis,updateTime,values}
                     })
                 })
             }

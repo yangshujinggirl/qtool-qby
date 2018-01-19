@@ -1,3 +1,6 @@
+import { Modal, Button } from 'antd';
+const confirm = Modal.confirm;
+
 import {GetServerData} from '../services/services';
 export default {
 	namespace: 'IndexPage',
@@ -44,10 +47,6 @@ export default {
               	yield put({type: 'pdCategorys',payload:pdCategorys});
             } 
 		}, 
-
-
-
-
 		*cityfetch({ payload: {code,values} }, { call, put ,select}) {
 			const result=yield call(GetServerData,code,values);
 			yield put({type: 'tab/loding',payload:false});

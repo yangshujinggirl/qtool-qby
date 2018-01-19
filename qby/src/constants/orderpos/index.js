@@ -1,6 +1,6 @@
 import React from 'react';
 import {GetServerData} from '../../services/services';
-import { Button, Icon } from 'antd';
+import { Button, Icon ,Modal} from 'antd';
 import { connect } from 'dva';
 import '../../style/ordermd.css';
 //table
@@ -8,14 +8,45 @@ import OrderposTable from './table';
 //search
 import OrderposSearch from './search';
 import Appmodelone from '../ordermd/modal';
+const confirm = Modal.confirm;
 class OrderposIndex extends React.Component{
 	state = {};
-
 	//导出数据
-	exportData = () => {
-		const values=this.props.values;
-		const result=GetServerData('qerp.web.sp.order.export',values);
-	  }
+	exportData = (type,data) => {
+		const values={
+			type:type,
+			downloadParam:data,
+		}
+		const result=GetServerData('qerp.web.sys.doc.task',values);
+		result.then((res) => {
+			return res;
+		}).then((json) => {
+			if(json.code=='0'){
+				var _dispatch=this.props.dispatch
+				confirm({
+					title: '数据已经进入导出队列',
+					content: '请前往下载中心查看导出进度',
+					cancelText:'稍后去',
+					okText:'去看看',
+					onOk() {
+						const paneitem={title:'下载中心',key:'000001',componkey:'000001',data:null}
+						_dispatch({
+							type:'tab/firstAddTab',
+							payload:paneitem
+						});
+						_dispatch({
+							type:'downlaod/fetch',
+							payload:{code:'qerp.web.sys.doc.list',values:{limit:15,currentPage:0}}
+						});
+					},
+					onCancel() {
+						
+					},
+	  			});
+			}
+		})
+	
+	}
 
 	addNew = () =>{
 		const paneitem={title:'新增订单',key:'201000edit',componkey:'201000edit',data:null}
@@ -29,23 +60,14 @@ class OrderposIndex extends React.Component{
      	return(
         	<div className='content_box'>
                 <OrderposSearch/>
-					<Appmodelone 
-						text="导出数据" 
-						title="导出数据" 
-						count="数据已经进入导出队列，请前往下载中心查看导出进度"
-						okText="去看看"
-						cancelText="稍后去"
-						dataValue={this.props.values}
-						type="18"
-						/>
-					{/* <Button 
+					<Button 
 						type="primary" 
 						size='large'
 						className='mt20 ml10'
-						onClick={this.exportData}
+						onClick={this.exportData.bind(this,18,this.props.values)}
 					>
 						导出数据
-					</Button> */}
+					</Button>
              		<div className='mt15'><OrderposTable/></div>
         	</div>
       	)
