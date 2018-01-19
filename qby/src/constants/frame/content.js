@@ -82,6 +82,7 @@ import FeedbackIndex from '../feedback/index';
 import Feedbackedit from '../feedback/edit';
 
 import DataTable from '../datagoods/table';
+import SpselldataTable from '../datasp/table';
 
 
 
@@ -116,6 +117,7 @@ class Content extends React.Component {
                                     
                                     case "703003":return  <DataorderIndex data={this.props.data}/>;
                                     case "703002edit":return  <DataTable data={this.props.data}/>;
+                                    case "703000edit":return  <SpselldataTable data={this.props.data}/>;
                                    
 
                                     case "000001":return  <DownloadIndex data={this.props.data}/>;

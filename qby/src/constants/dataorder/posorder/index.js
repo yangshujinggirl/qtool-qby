@@ -5,6 +5,8 @@ import Cardlist from '../../../components/card/cardlist';
 import Cards from '../../../components/card/catds';
 import EchartsTest from '../../../echarts/dataposorder';
 import NP from 'number-precision'
+import DataclassTable from './table';
+
 
 class DataposorderIndex extends React.Component{
 	state = {};
@@ -39,6 +41,7 @@ class DataposorderIndex extends React.Component{
 				<div style={{border:'1px solid #e8e8e8',padding:'20px',marginTop:'30px'}}>
 					<EchartsTest type='1'/>
 				</div>
+				<div className='mt30'><DataclassTable/></div>
 			</div>
 		)
 	}

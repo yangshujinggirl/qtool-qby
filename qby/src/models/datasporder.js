@@ -24,6 +24,7 @@ export default {
 		datalist1:[],
 		datalist2:[],
 		listdata:[],
+		rpShopOrderDatas:[],
 
 		xdata:[],
 		data1:[],
@@ -34,9 +35,6 @@ export default {
 	reducers: {
 		selldatalist(state, { payload:{analysis,updateTime,datalist1,datalist2}}) {
 			return {...state,analysis,updateTime,datalist1,datalist2}
-		},
-		tablefetch(state, { payload:shopSaleDatas}) {
-			return {...state,shopSaleDatas}
 		},
 	},
 	effects: {
@@ -127,6 +125,13 @@ export default {
 				yield put({type: 'selldatalist',payload:{analysis,updateTime,datalist1,datalist2}});
 			}	
 		},
+		
+
+
+
+
+
+
 		
 },
 	subscriptions: {},

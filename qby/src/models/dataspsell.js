@@ -26,14 +26,22 @@ export default {
 		data2:[],
 		data3:[],
 		data4:[],
-		analysis:[]
+		shopSaleDatas:[],
+		datasouce:[],
+		tabledatasouce:[]
 	},
 	reducers: {
 		selldatalist(state, { payload:{shopSaleData,data,listdata}}) {
 			return {...state,shopSaleData,data,listdata}
 		},
-		tablefetch(state, { payload:analysis}) {
-			return {...state,analysis}
+		shopSaleDatas(state, { payload:shopSaleDatas}) {
+			return {...state,shopSaleDatas}
+		},
+		initdatasouce(state, { payload:datasouce}) {
+			return {...state,datasouce}
+		},
+		tabledatasouce(state, { payload:tabledatasouce}) {
+			return {...state,tabledatasouce}
 		},
 	},
 	effects: {
@@ -100,6 +108,25 @@ export default {
 					bg:'#BC2739'
 				}]
 				yield put({type: 'selldatalist',payload:{shopSaleData,data,listdata}});
+			} 
+		},
+		*tablefetch({ payload: {code,values} }, { call, put ,select}) {
+			const result=yield call(GetServerData,code,values);
+			yield put({type: 'tab/loding',payload:false});
+			if(result.code=='0'){
+				const shopSaleDatas=result.shopSaleDatas
+				yield put({type: 'shopSaleDatas',payload:shopSaleDatas});
+			} 
+		},
+		*soucetetch({ payload: {code,values} }, { call, put ,select}) {
+			const result=yield call(GetServerData,code,values);
+			yield put({type: 'tab/loding',payload:false});
+			if(result.code=='0'){
+				const tabledatasouce=result.shopSaleDatas
+				for(var i=0;i<tabledatasouce.length;i++){
+					tabledatasouce[i].rank=i+1
+				}
+				yield put({type: 'tabledatasouce',payload:tabledatasouce});
 			} 
 		},
 		

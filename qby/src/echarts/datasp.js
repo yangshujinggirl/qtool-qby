@@ -33,6 +33,7 @@ class EchartsTest extends Component {
         },function(){
             const values={startRpDate:this.state.startRpDate,endRpDate:this.state.endRpDate,code:this.state.code}
             this.fetdraw(values)
+            this.gettabledata()
         })
     }
 
@@ -71,15 +72,21 @@ class EchartsTest extends Component {
                     data4:data4
                 },function(){
                     this.writeCall()
-                   
-                    this.props.dispatch({
-                        type:'dataspsell/tablefetch',
-                        payload:analysis
-                    });
-
                 })
             }
         })
+    }
+
+
+    gettabledata=()=>{
+        const values={
+            startRpDate:this.state.startRpDate,
+            endRpDate:this.state.endRpDate,
+        }
+		this.props.dispatch({
+			type:'dataspsell/tablefetch',
+			payload:{code:'qerp.web.rp.shop.sale.data.list',values:values}
+		})
     }
 
 
@@ -182,6 +189,7 @@ class EchartsTest extends Component {
         },function(){
             const values={startRpDate:startRpDate,endRpDate:endRpDate}
             this.fetdraw(values)
+            this.gettabledata()
         })
        
         

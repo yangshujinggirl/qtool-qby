@@ -3,7 +3,7 @@ import { connect } from 'dva';
 import EditableTable from '../../components/table/tablebasic';
 import TableLink from '../../components/table/tablelink';
 
-class dataTable extends React.Component {
+class DataTable extends React.Component {
 	constructor(props) {
         super(props);
         this.columns1 = [{
@@ -125,7 +125,7 @@ function mapStateToProps(state) {
     return {datasouce};
 }
 
-export default connect(mapStateToProps)(dataTable);
+export default connect(mapStateToProps)(DataTable);
  
 
 

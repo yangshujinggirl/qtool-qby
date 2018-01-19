@@ -18,7 +18,7 @@ class DataspfenTable extends React.Component {
             title: '分成金额',
             dataIndex: 'intoAmount'
 		  },{
-            title: '非商品数量',
+            title: '非食品数量',
             dataIndex: 'notPosQty'
 		  },{
             title: '非食品金额',

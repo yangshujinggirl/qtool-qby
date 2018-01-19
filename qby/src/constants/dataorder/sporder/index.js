@@ -4,6 +4,7 @@ import { connect } from 'dva';
 import Cardlist from '../../../components/card/cardlist';
 import Cards from '../../../components/card/catds';
 import EchartsTest from '../../../echarts/datasporder';
+import DataclassTable from './table';
 import NP from 'number-precision'
 
 class DatasporderIndex extends React.Component{
@@ -39,6 +40,7 @@ class DatasporderIndex extends React.Component{
 				<div style={{border:'1px solid #e8e8e8',padding:'20px',marginTop:'30px'}}>
 					<EchartsTest type='1'/>
 				</div>
+				<div className='mt30'><DataclassTable/></div>
 			</div>
 		)
 	}

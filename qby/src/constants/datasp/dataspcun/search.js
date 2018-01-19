@@ -104,7 +104,7 @@ class StockSearchForm extends React.Component {
                 <Row>
                 <div className='serach_form'>
                     <FormItem label='门店名称'>
-                        {getFieldDecorator('barcode')(
+                        {getFieldDecorator('bspname')(
                         <AutoComplete size="large"
                             dataSource={this.state.dataSource}
                             onSelect={this.onSelect}

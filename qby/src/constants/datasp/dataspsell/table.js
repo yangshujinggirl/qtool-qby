@@ -27,12 +27,15 @@ class DataspTable extends React.Component {
 			dataIndex: 'posQty'
 		}];   
 	}
+
+	//getdatasouce
+	
 	
 	
 	render() {
 		return (
 			<EditableTable
-				dataSource={this.props.analysis} 
+				dataSource={this.props.shopSaleDatas} 
 				columns={this.columns} 
 				bordered={true}
 				footer={false}
@@ -43,8 +46,8 @@ class DataspTable extends React.Component {
 }
 
 function mapStateToProps(state) {
-	const {analysis} = state.dataspsell;
-	return {analysis};
+	const {shopSaleDatas} = state.dataspsell;
+	return {shopSaleDatas};
 }
 
 export default connect(mapStateToProps)(DataspTable);

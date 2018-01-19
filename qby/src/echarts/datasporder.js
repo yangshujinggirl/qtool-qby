@@ -169,9 +169,6 @@ class EchartsTest extends Component {
 
 
 
-function mapStateToProps(state) {
-    const {data1,data2,data3,data4,xdata} = state.datagodes;
-    return {data1,data2,data3,data4,xdata};
-}
 
-export default connect(mapStateToProps)(EchartsTest);
+
+export default connect()(EchartsTest);
