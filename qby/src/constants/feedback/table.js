@@ -19,7 +19,7 @@ class SpTable extends React.Component {
 			dataIndex: 'statusStr'
 		},{
 			title: '反馈门店',
-			dataIndex: 'shopName'
+			dataIndex: 'spShopName'
         },{
 			title: '反馈时间',
 			dataIndex: 'createTime'

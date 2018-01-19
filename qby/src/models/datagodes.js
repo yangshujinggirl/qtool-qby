@@ -111,6 +111,10 @@ export default {
 			yield put({type: 'tab/loding',payload:false});
 			if(result.code=='0'){
 				const datasouce=result.analysis
+				for(var i=0;i<datasouce.length;i++){
+					datasouce[i].rank=(i+1)
+				}
+
 				const updateTimes=result.updateTime?result.updateTime:null
 				yield put({type: 'datasouce',payload:{datasouce,updateTimes}});
 			}	

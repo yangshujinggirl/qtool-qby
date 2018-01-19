@@ -95,7 +95,7 @@ class DataTable extends React.Component {
         if(this.props.data.id=='1'){
             this.props.dispatch({
                 type:'datagodes/soucetetch',
-                payload:{code:'qerp.web.rp.pd.analysis.list',values:values}
+                payload:{code:'qerp.web.rp.pos.sell.list',values:values}
             })
         }
         if(this.props.data.id=='2'){
@@ -107,13 +107,13 @@ class DataTable extends React.Component {
         if(this.props.data.id=='3'){
             this.props.dispatch({
                 type:'datagodes/soucetetch',
-                payload:{code:'qerp.web.rp.purchase.list',values:values}
+                payload:{code:'qerp.web.rp.pd.purchase.list',values:values}
             })
         }
         if(this.props.data.id=='4'){
             this.props.dispatch({
                 type:'datagodes/soucetetch',
-                payload:{code:'qerp.web.rp.pd.analysis.list',values:values}
+                payload:{code:'qerp.web.rp.unsalable.list',values:values}
             })
         }
     }

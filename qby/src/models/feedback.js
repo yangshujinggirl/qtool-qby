@@ -66,7 +66,7 @@ export default {
 				const cardtitle='反馈信息'
 				const cardlist=[
 					{lable:'反馈编号',text:feedbacks[0].feedbackNo},
-					{lable:'反馈门店',text:feedbacks[0].shopName},
+					{lable:'反馈门店',text:feedbacks[0].spShopName},
 					{lable:'门店店主',text:feedbacks[0].shopMan},
 					{lable:'店主电话',text:feedbacks[0].telephone},
 					{lable:'反馈类型',text:feedbacks[0].typeStr},
