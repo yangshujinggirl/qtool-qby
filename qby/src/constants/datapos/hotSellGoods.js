@@ -34,10 +34,10 @@ class HotSellGoodsForm extends React.Component {
             dataIndex: 'displayName',
         },{
             title: '销售数量',
-            dataIndex: 'posQty',
+            dataIndex: 'qty',
         },{
             title: '销售金额',
-            dataIndex: 'posAmount',
+            dataIndex: 'amount',
         },{
             title: '商品剩余库存',
             dataIndex: 'invQty',
@@ -186,7 +186,7 @@ class HotSellGoodsForm extends React.Component {
                         <EditableTable 
                             columns={this.columns} 
                             dataSource={this.state.dataSource}
-                            footer={true}
+                            footer={false}
                             pageChange={this.pageChange.bind(this)}
                             pageSizeChange={this.onShowSizeChange.bind(this)}
                             total={this.state.total}

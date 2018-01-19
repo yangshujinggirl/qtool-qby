@@ -5,6 +5,7 @@ import { Link } from 'dva/router';
 import '../../style/dataManage.css';
 import {GetServerData} from '../../services/services';
 import EditableTable from '../../components/table/tablebasic';
+import Appmodelone  from '../ordermd/modal';
 import moment from 'moment';
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -18,7 +19,7 @@ class InventorydiffLogIndexForm extends React.Component {
             dataSource:[],
             total:0,
             currentPage:0,
-            limit:10,
+            limit:15,
             adjustTimeStart:"",
             adjustTimeEnd:"",
             windowHeight:''
@@ -78,9 +79,9 @@ class InventorydiffLogIndexForm extends React.Component {
                 name:values.name
             },function(){
                 let data = {
-                    shopId:this.props.shopId,
+                    spShopId:this.props.shopId,
                     currentPage:0,
-                    limit:10,
+                    limit:this.state.limit,
                     adjustTimeStart:this.state.adjustTimeStart,
                     adjustTimeEnd:this.state.adjustTimeEnd,
                     name:this.state.name,
@@ -94,9 +95,9 @@ class InventorydiffLogIndexForm extends React.Component {
     //导出数据
     exportList = () =>{
         let data = {
-            shopId:this.props.shopId,
+            spShopId:this.props.shopId,
             currentPage:0,
-            limit:10,
+            limit:15,
             adjustTimeStart:this.state.adjustTimeStart,
             adjustTimeEnd:this.state.adjustTimeEnd,
             name:this.state.name,
@@ -128,7 +129,7 @@ class InventorydiffLogIndexForm extends React.Component {
                                         labelCol={{ span: 5 }}
                                         wrapperCol={{span: 10}}>
                                             <RangePicker 
-                                                value={[moment(this.state.adjustTimeStart, dateFormat), moment(this.state.adjustTimeEnd, dateFormat)]}
+                                                value={this.state.adjustTimeStart?[moment(this.state.adjustTimeStart, dateFormat), moment(this.state.adjustTimeEnd, dateFormat)]:null}
                                                 format={dateFormat}
                                                 onChange={this.dateChange.bind(this)} />
                                         </FormItem>
@@ -213,9 +214,9 @@ class InventorydiffLogIndexForm extends React.Component {
             adjustTimeEnd:currentdate
         },function(){
             let values = {
-                shopId:this.props.shopId,
+                spShopId:this.props.shopId,
                 currentPage:0,
-                limit:10,
+                limit:15,
                 adjustTimeStart:this.state.adjustTimeStart,
                 adjustTimeEnd:this.state.adjustTimeEnd,
                 type:2

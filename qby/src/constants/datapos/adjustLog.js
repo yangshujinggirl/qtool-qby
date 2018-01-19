@@ -1,11 +1,12 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,message,DatePicker,Tooltip,Pagination } from 'antd';
+import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,message,DatePicker,Tooltip,Pagination,Row,Col} from 'antd';
 import { Link } from 'dva/router';
 import '../../style/dataManage.css';
 import EditableTable from '../../components/table/tablebasic';
 import {GetServerData} from '../../services/services';
 import moment from 'moment';
+import Appmodelone  from '../ordermd/modal';
 import RemarkText from './remarkModal';
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -19,7 +20,7 @@ class AdjustLogIndexForm extends React.Component {
             dataSource:[],
             total:0,
             currentPage:0,
-            limit:10,
+            limit:15,
             adjustTimeStart:"",
             adjustTimeEnd:"",
             visible:false,
@@ -82,7 +83,7 @@ class AdjustLogIndexForm extends React.Component {
             currentPage:page-1
         },function(){
             let data = {
-                shopId:this.props.shopId,
+                spShopId:this.props.shopId,
                 currentPage:this.state.currentPage,
                 limit:this.state.limit,
                 adjustTimeStart:this.state.adjustTimeStart,
@@ -101,7 +102,7 @@ class AdjustLogIndexForm extends React.Component {
             currentPage:0
         },function(){
             let data = {
-                shopId:this.props.shopId,
+                spShopId:this.props.shopId,
                 currentPage:this.state.currentPage,
                 limit:this.state.limit,
                 adjustTimeStart:this.state.adjustTimeStart,
@@ -121,9 +122,9 @@ class AdjustLogIndexForm extends React.Component {
                 name:values.name
             },function(){
                 let data = {
-                    shopId:this.props.shopId,
+                    spShopId:this.props.shopId,
                     currentPage:0,
-                    limit:10,
+                    limit:this.state.limit,
                     adjustTimeStart:this.state.adjustTimeStart,
                     adjustTimeEnd:this.state.adjustTimeEnd,
                     name:this.state.name,
@@ -137,9 +138,7 @@ class AdjustLogIndexForm extends React.Component {
     //导出数据
     exportList = () =>{
         let data = {
-            shopId:this.props.shopId,
-            currentPage:0,
-            limit:10,
+            spShopId:this.props.shopId,
             adjustTimeStart:this.state.adjustTimeStart,
             adjustTimeEnd:this.state.adjustTimeEnd,
             name:this.state.name,
@@ -268,9 +267,9 @@ class AdjustLogIndexForm extends React.Component {
             adjustTimeEnd:currentdate
         },function(){
             let values = {
-                shopId:this.props.shopId,
+                spShopId:this.props.shopId,
                 currentPage:0,
-                limit:10,
+                limit:15,
                 adjustTimeStart:this.state.adjustTimeStart,
                 adjustTimeEnd:this.state.adjustTimeEnd,
                 type:1
