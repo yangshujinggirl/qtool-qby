@@ -27,12 +27,11 @@ class EchartsTest extends Component {
 
 
     hindChange=(date,dateString)=>{
-        console.log(dateString)
         this.setState({
             startRpDate:dateString[0],
             endRpDate:dateString[1],
         },function(){
-            const values={startRpDate:this.state.startRpDate,endRpDate:this.state.endRpDate,code:this.state.code}
+            const values={startRpDate:this.state.startRpDate,endRpDate:this.state.endRpDate}
             this.fetdraw(values)
         })
     }
@@ -40,20 +39,20 @@ class EchartsTest extends Component {
     //数据请求
 
     fetdraw=(values)=>{
-        const result=GetServerData('qerp.web.rp.category.analysis.query',values)
+        const result=GetServerData('qerp.web.rp.category.analysis.list',values)
         result.then((res) => {
             return res;
         }).then((json) => {
-            console.log(json)
             if(json.code=='0'){
                 const categoryAnalysis=json.categoryAnalysis
+                const updateTime=json.updateTime
                 for(var i=0;i<categoryAnalysis.length;i++){
                     categoryAnalysis[i].qbyQtyBi=NP.round(NP.divide(categoryAnalysis[i].qbyQty,categoryAnalysis[i].ofQbyQty),2) //掌柜数量占比
                     categoryAnalysis[i].qbyAmountBi=NP.round(NP.divide(categoryAnalysis[i].qbyAmount,categoryAnalysis[i].ofQbyAmount),2) //掌柜金额占比
                     categoryAnalysis[i].posQtyBi=NP.round(NP.divide(categoryAnalysis[i].posQty,categoryAnalysis[i].ofPosQty),2) //pos数量占比
                     categoryAnalysis[i].posAmountBi=NP.round(NP.divide(categoryAnalysis[i].posAmount,categoryAnalysis[i].ofPosAmount),2) //pos金额占比
                 }
-                const updateTime=json.updateTime
+                
 				const xdata=[]
 				const data1=[] 
 				const data2=[] 
@@ -84,22 +83,12 @@ class EchartsTest extends Component {
             }
         })
     }
-
-
-    disabledTimes=(dates,partial)=>{
-        console.log(dates)
-        console.log(partial)
-    }
-
-
     checkonChange=(checked)=>{
-        console.log(checked)
         this.setState({
             type:checked
         },function(){
             this.writeCall()
         })
-
     }
     
     //绘制
@@ -110,9 +99,6 @@ class EchartsTest extends Component {
         const data3=this.state.data3
         const data4=this.state.data4
         const type=this.state.type
-
-        console.log(xdata)
-        console.log(data1)
         // 基于准备好的dom，初始化echarts实例
         var myChart = echarts.init(document.getElementById('mains'));
         // 绘制图表
@@ -167,14 +153,15 @@ class EchartsTest extends Component {
     }
 
     render() {
+        const myDate=new Date()
+        const tody=String(myDate.getFullYear())+'-'+String(myDate.getMonth()+1)+'-'+String(myDate.getDate())
         return (
             <div className='rel'>
                 <div style={{position:"absolute",right:"102px",top:"-4px",zIndex:'1000'}}>
                 <RangePicker
-                    defaultValue={[moment('2017-12-15', dateFormat), moment('2018-1-15', dateFormat)]}
+                    defaultValue={[moment(tody, dateFormat), moment(tody, dateFormat)]}
                     format={dateFormat}
                     onChange={this.hindChange.bind(this)}
-                    disabledTime={this.disabledTimes.bind(this)}
                 />
                 </div>
                 <div style={{position:"absolute",left:"322px",top:"1px",zIndex:'1000'}}><Switch checked={this.state.type=='1'?true:false} onChange={this.checkonChange.bind(this)} checkedChildren="销售数量" unCheckedChildren="销售金额"/></div>
@@ -183,9 +170,11 @@ class EchartsTest extends Component {
         );
     }
     componentDidMount() {
-        const startRpDate='2017-12-15'
-        const endRpDate='2018-1-15'
-        const values={startRpDate:startRpDate,endRpDate:endRpDate,code:null}
+        var myDate=new Date()
+        const tody=String(myDate.getFullYear()+'-'+(myDate.getMonth()+1)+'-'+myDate.getDate())
+        const startRpDate=tody
+        const endRpDate=tody
+        const values={startRpDate:startRpDate,endRpDate:endRpDate}
         this.fetdraw(values)
         
     }

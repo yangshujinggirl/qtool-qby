@@ -3,46 +3,45 @@ import { Button, Icon,Modal } from 'antd';
 import { connect } from 'dva';
 import Cardlist from '../../../components/card/cardlist';
 import Cards from '../../../components/card/catds';
-import EchartsTest from '../../../echarts/datagodes';
+import EchartsTest from '../../../echarts/dataposorder';
 import NP from 'number-precision'
-
 
 class DataposorderIndex extends React.Component{
 	state = {};
 	getTopfetch=()=>{
 		const values={}
 		this.props.dispatch({
-			type:'datagodes/sellfetch',
-            payload:{code:'qerp.web.rp.shop.order.query',values:values}
+			type:'dataposorder/sellfetch',
+			payload:{code:'qerp.web.rp.pos.order.query',values:values}
 		})
 	}
 	desinfo=()=>{
 		Modal.info({
 			title: 'This is a notification message',
 			content: (
-			  <div>
+			<div>
 				<p>some messages...some messages...</p>
 				<p>some messages...some messages...</p>
-			  </div>
+			</div>
 			),
 			onOk() {},
-		  });
+		});
 	}
-  	render(){
-     	return(
-        	<div>
+	render(){
+		return(
+			<div>
 				<div className='clearfix mb10'>
 					<p className='fl'>数据更新于:{this.props.updateTime}</p>
 					<p className='fr pointer' onClick={this.desinfo.bind(this)}>定义数据说明<Icon type="question-circle-o" style={{color:"#ED6531"}}/></p>	
 				</div>
-				<Cards data={this.props.data}/>
-                <Cardlist data={this.props.listdata}/>
+				<div><Cards data={this.props.datalist1}/></div>
+				<div className='mt10'><Cards data={this.props.datalist2}/></div>
 				<div style={{border:'1px solid #e8e8e8',padding:'20px',marginTop:'30px'}}>
 					<EchartsTest type='1'/>
 				</div>
-        	</div>
-      	)
-	  }
+			</div>
+		)
+	}
 	componentDidMount(){
 		this.getTopfetch()
 	}
@@ -50,8 +49,9 @@ class DataposorderIndex extends React.Component{
 
 
 function mapStateToProps(state) {
-	const {analysis,data,listdata,updateTime} = state.datagodes;
-	console.log(listdata)
-	return {analysis,data,listdata,updateTime};
+	const {updateTime,datalist1,datalist2} = state.dataposorder;
+	return {updateTime,datalist1,datalist2};
 }
 export default connect(mapStateToProps)(DataposorderIndex);
+
+

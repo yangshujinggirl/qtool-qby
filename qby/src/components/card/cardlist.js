@@ -4,16 +4,16 @@ class Cardlist extends React.Component {
     hindClick=(index)=>{
         console.log(index)
         if(index=='0'){
-            
+            this.props.hindent(1)
         }
         if(index=='1'){
-            
+            this.props.hindent(2)
         }
         if(index=='2'){
-            
+            this.props.hindent(3)
         }
         if(index=='3'){
-            
+            this.props.hindent(4)  
         }
 
 

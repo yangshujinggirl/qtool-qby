@@ -10,13 +10,6 @@ import NP from 'number-precision'
 
 class DataclassdesIndex extends React.Component{
 	state = {};
-	getTopfetch=()=>{
-		const values={}
-		this.props.dispatch({
-			type:'datagodes/sellfetch',
-            payload:{code:'qerp.web.rp.pd.analysis.query',values:values}
-		})
-	}
 	desinfo=()=>{
 		Modal.info({
 			title: 'This is a notification message',
@@ -48,8 +41,7 @@ class DataclassdesIndex extends React.Component{
 
 
 function mapStateToProps(state) {
-	const {analysis,data,listdata,updateTime} = state.datagodes;
-	console.log(listdata)
+	const {analysis,data,listdata,updateTime} = state.dataclassdes;
 	return {analysis,data,listdata,updateTime};
 }
 export default connect(mapStateToProps)(DataclassdesIndex);

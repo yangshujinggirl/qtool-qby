@@ -1,18 +1,12 @@
 
-import {GetServerData} from '../../services/services';
-import { Button, Icon,Tabs } from 'antd';
-import { connect } from 'dva';
-import '../../style/dataws.css';
+import { Tabs } from 'antd';
 import DatagodesIndex from './datagodes/index';
 import DataclassdesIndex from './dataclassdes/index';
 import DatasIndex from './datas/index';
 
-
 const TabPane = Tabs.TabPane;
 
-
 class DatagoIndex extends React.Component{
-	state = {};
   	render(){       
      	return(
         	<div className='content_box stock-tabs'>
@@ -32,4 +26,4 @@ class DatagoIndex extends React.Component{
   	}
 }
 
-export default connect()(DatagoIndex);
+export default DatagoIndex;

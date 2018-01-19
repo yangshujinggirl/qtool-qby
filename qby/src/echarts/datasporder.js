@@ -3,6 +3,7 @@ import { DatePicker,Switch } from 'antd'
 import moment from 'moment';
 import { connect } from 'dva';
 import {GetServerData} from '../services/services';
+import {timeForMat} from '../utils/meth';
 
 const { MonthPicker, RangePicker } = DatePicker;
 const dateFormat = 'YYYY-MM-DD';
@@ -17,21 +18,17 @@ class EchartsTest extends Component {
         type:'1',
         data1:[],
 		data2:[],
-		data3:[],
-        data4:[],
-        startRpDate:null,
-        endRpDate:null,
-        code:null
+        startDate:null,
+        endDate:null,
     }
 
 
     hindChange=(date,dateString)=>{
-        console.log(dateString)
         this.setState({
-            startRpDate:dateString[0],
-            endRpDate:dateString[1],
+            startDate:dateString[0],
+            endDate:dateString[1],
         },function(){
-            const values={startRpDate:this.state.startRpDate,endRpDate:this.state.endRpDate,code:this.state.code}
+            const values={startDate:this.state.startDate,endDate:this.state.endDate}
             this.fetdraw(values)
         })
     }
@@ -39,20 +36,24 @@ class EchartsTest extends Component {
     //数据请求
 
     fetdraw=(values)=>{
-        const result=GetServerData('qerp.web.rp.shop.order.list',values)
+        const result=GetServerData('qerp.web.rp.shop.orderdate.query',values)
         result.then((res) => {
             return res;
         }).then((json) => {
-            console.log(json)
             if(json.code=='0'){
-                const rpShopOrderDatas=json.rpShopOrderDatas
+                const shopOrderData=json.shopOrderDatas
 				const xdata=[]
 				const data1=[] 
 				const data2=[] 
-				for(var i=0;i<rpShopOrderDatas.length;i++){
-					xdata.push(rpShopOrderDatas[i].rpDate)
-					data1.push(rpShopOrderDatas[i].qtySum) //订单数
-					data2.push(rpShopOrderDatas[i].amountSum) //销售额
+				for(var i=0;i<shopOrderData.length;i++){
+                    if(values.startDate==values.endDate){
+                        xdata.push(shopOrderData[i].rpDateTime)
+                    }else{
+                        xdata.push(shopOrderData[i].rpDate)
+                    }
+					
+					data1.push(shopOrderData[i].qtySum) //订单数
+					data2.push(shopOrderData[i].amountSum) //销售额
 				}
 
                 this.setState({
@@ -68,14 +69,10 @@ class EchartsTest extends Component {
     }
 
 
-    disabledTimes=(dates,partial)=>{
-        console.log(dates)
-        console.log(partial)
-    }
+   
 
 
     checkonChange=(checked)=>{
-        console.log(checked)
         this.setState({
             type:checked
         },function(){
@@ -90,9 +87,6 @@ class EchartsTest extends Component {
         const data1=this.state.data1
         const data2=this.state.data2
         const type=this.state.type
-
-        console.log(xdata)
-        console.log(data1)
         // 基于准备好的dom，初始化echarts实例
         var myChart = echarts.init(document.getElementById('main'));
         // 绘制图表
@@ -141,14 +135,15 @@ class EchartsTest extends Component {
     }
 
     render() {
+        const startDate=timeForMat(7).t2
+        const endDate=timeForMat(7).t1
         return (
             <div className='rel'>
                 <div style={{position:"absolute",right:"102px",top:"-4px",zIndex:'1000'}}>
                 <RangePicker
-                    defaultValue={[moment('2017-12-15', dateFormat), moment('2018-1-15', dateFormat)]}
+                    defaultValue={[moment(startDate, dateFormat), moment(endDate, dateFormat)]}
                     format={dateFormat}
                     onChange={this.hindChange.bind(this)}
-                    disabledTime={this.disabledTimes.bind(this)}
                 />
                 </div>
                 <div style={{position:"absolute",left:"322px",top:"1px",zIndex:'1000'}}><Switch checked={this.state.type=='1'?true:false} onChange={this.checkonChange.bind(this)} checkedChildren="销售数量" unCheckedChildren="销售金额"/></div>
@@ -157,10 +152,16 @@ class EchartsTest extends Component {
         );
     }
     componentDidMount() {
-        const startDate='2017-12-15'
-        const endDate='2018-1-15'
-        const values={startDate:startDate,endDate:endDate}
-        this.fetdraw(values)
+        const startDate=timeForMat(7).t2
+        const endDate=timeForMat(7).t1
+        this.setState({
+            startDate:startDate,
+            endDate:endDate,
+        },function(){
+            const values={startDate:startDate,endDate:endDate}
+            this.fetdraw(values)
+        })
+       
         
     }
 

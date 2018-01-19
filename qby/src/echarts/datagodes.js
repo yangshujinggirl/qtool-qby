@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { DatePicker,Switch } from 'antd'
+import { DatePicker,Switch,Input } from 'antd'
 import moment from 'moment';
 import { connect } from 'dva';
 import {GetServerData} from '../services/services';
+import {timeForMat} from '../utils/meth';
 
 const { MonthPicker, RangePicker } = DatePicker;
 const dateFormat = 'YYYY-MM-DD';
@@ -26,7 +27,6 @@ class EchartsTest extends Component {
 
 
     hindChange=(date,dateString)=>{
-        console.log(dateString)
         this.setState({
             startRpDate:dateString[0],
             endRpDate:dateString[1],
@@ -43,16 +43,15 @@ class EchartsTest extends Component {
         result.then((res) => {
             return res;
         }).then((json) => {
-            console.log(json)
             if(json.code=='0'){
                 const analysis=json.analysis
 				const xdata=[]
 				const data1=[] 
 				const data2=[] 
 				const data3=[] 
-				const data4=[] 
+                const data4=[] 
 				for(var i=0;i<analysis.length;i++){
-					xdata.push(analysis[i].rpDateStr)
+					xdata.push(analysis[i].rpDateMd)
 					data1.push(analysis[i].qbyQty) //掌柜数量
 					data2.push(analysis[i].posQty) //pos数量
 					data3.push(analysis[i].qbyAmount) //掌柜金额
@@ -74,14 +73,9 @@ class EchartsTest extends Component {
     }
 
 
-    disabledTimes=(dates,partial)=>{
-        console.log(dates)
-        console.log(partial)
-    }
-
+    
 
     checkonChange=(checked)=>{
-        console.log(checked)
         this.setState({
             type:checked
         },function(){
@@ -98,9 +92,6 @@ class EchartsTest extends Component {
         const data3=this.state.data3
         const data4=this.state.data4
         const type=this.state.type
-
-        console.log(xdata)
-        console.log(data1)
         // 基于准备好的dom，初始化echarts实例
         var myChart = echarts.init(document.getElementById('main'));
         // 绘制图表
@@ -152,15 +143,23 @@ class EchartsTest extends Component {
         });
     }
 
+    hindkeyup=(e)=>{
+        console.log(e)
+        if(e.keyCode=='13'){
+            const values={startRpDate:this.state.startRpDate,endRpDate:this.state.endRpDate,code:e.target.value}
+            this.fetdraw(values)
+        }
+    }
+
     render() {
         return (
             <div className='rel'>
+                <div style={{position:"absolute",left:'160px',top:'-4px',zIndex:'1000'}}><Input placeholder="请输入商品编码" style={{width:"150px"}} onKeyUp={this.hindkeyup.bind(this)}/></div>
                 <div style={{position:"absolute",right:"102px",top:"-4px",zIndex:'1000'}}>
                 <RangePicker
-                    defaultValue={[moment('2017-12-15', dateFormat), moment('2018-1-15', dateFormat)]}
+                    defaultValue={[moment(timeForMat(30).t2, dateFormat), moment(timeForMat(30).t1, dateFormat)]}
                     format={dateFormat}
                     onChange={this.hindChange.bind(this)}
-                    disabledTime={this.disabledTimes.bind(this)}
                 />
                 </div>
                 <div style={{position:"absolute",left:"322px",top:"1px",zIndex:'1000'}}><Switch checked={this.state.type=='1'?true:false} onChange={this.checkonChange.bind(this)} checkedChildren="销售数量" unCheckedChildren="销售金额"/></div>
@@ -169,10 +168,16 @@ class EchartsTest extends Component {
         );
     }
     componentDidMount() {
-        const startRpDate='2017-12-15'
-        const endRpDate='2018-1-15'
-        const values={startRpDate:startRpDate,endRpDate:endRpDate,code:null}
-        this.fetdraw(values)
+        const startRpDate=timeForMat(30).t2
+        const endRpDate=timeForMat(30).t1
+        this.setState({
+            startRpDate:startRpDate,
+            endRpDate:endRpDate,
+        },function(){
+            const values={startRpDate:startRpDate,endRpDate:endRpDate,code:null}
+            this.fetdraw(values)
+        })
+       
         
     }
 

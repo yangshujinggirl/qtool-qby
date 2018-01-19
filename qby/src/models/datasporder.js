@@ -6,8 +6,8 @@ function databi(a,b){
 	if(a>0 && b>0){
 		Rate=NP.round(NP.divide(NP.minus(a,b),b),2); 
 	}else{
-		if(b==0 || b<0){
-			Rate=(a!=0)?100:0
+		if(b<=0){
+			Rate=(a>0)?100:0
 		}else{
 			Rate=0
 		}
@@ -25,11 +25,11 @@ export default {
 		datalist2:[],
 		listdata:[],
 
-		xdata:['周一','周二','周三','周四','周五','周六','周日'],
-		data1:[11, 21, 15, 13, 12, 13, 10],
-		data2:[1, 2, 2, 5, 3, 2, 0],
-		data3:[11, 11, 15, 13, 12, 13, 10],
-		data4:[1, 22, 2, 5, 3, 2, 0]
+		xdata:[],
+		data1:[],
+		data2:[],
+		data3:[],
+		data4:[]
 	},
 	reducers: {
 		selldatalist(state, { payload:{analysis,updateTime,datalist1,datalist2}}) {

@@ -32,6 +32,9 @@ class OrdermdTable extends React.Component {
         },{
           title: '订单类型',
           dataIndex: 'typeStr'
+        },,{
+          title: '是否预售',
+          dataIndex: 'preSellStatusStr'
         },{
           title: '收货人',
           dataIndex: 'recName'

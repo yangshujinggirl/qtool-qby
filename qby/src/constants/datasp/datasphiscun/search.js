@@ -15,7 +15,7 @@ class StockSearchForm extends React.Component {
   handleSearch = (e) => {
     this.props.form.validateFields((err, values) => {
         values.spShopId=this.state.spShopId
-        values.data=this.state.data
+        values.date=this.state.date
         console.log(values)
         this.initStockList(values,this.props.limit,0);
         this.syncState(values);
@@ -147,11 +147,13 @@ class StockSearchForm extends React.Component {
                         )}
                     </FormItem>
                     <FormItem 
-                    label='选择时间'
+                        label='选择时间'
                     >
-                        {getFieldDecorator('date')(
+                        {getFieldDecorator('dates',{
+                             initialValue:moment(this.state.date, dateFormat)
                             
-                            <DatePicker defaultValue={moment('2015/01/01', dateFormat)} format={dateFormat}  className='noant-calendar-picker' onChange={this.timeChange.bind(this)}/>
+                        })(
+                            <DatePicker format={dateFormat}  className='noant-calendar-picker' onChange={this.timeChange.bind(this)}/>
                         
                         )}
                     </FormItem>
@@ -169,9 +171,16 @@ class StockSearchForm extends React.Component {
   }
 
   componentDidMount(){
+    var myDate=new Date()
+    myDate.setTime(myDate.getTime()-24*60*60*1000);
+    const yesterday=String(myDate.getFullYear()+'-'+(myDate.getMonth()+1)+'-'+myDate.getDate())
+    this.setState({
+        date:yesterday
+    },function(){
+        this.handleSearch()
+    })
+    this.categorylist()
    
-      this.categorylist()
-    this.handleSearch()
 
 }
   

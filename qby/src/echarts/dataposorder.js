@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { DatePicker,Switch,Input } from 'antd'
+import { DatePicker,Switch } from 'antd'
 import moment from 'moment';
 import { connect } from 'dva';
 import {GetServerData} from '../services/services';
@@ -18,72 +18,57 @@ class EchartsTest extends Component {
         type:'1',
         data1:[],
 		data2:[],
-		data3:[],
-        data4:[],
-        startRpDate:null,
-        endRpDate:null,
-        code:null
+        startDate:null,
+        endDate:null,
     }
 
 
     hindChange=(date,dateString)=>{
         this.setState({
-            startRpDate:dateString[0],
-            endRpDate:dateString[1],
+            startDate:dateString[0],
+            endDate:dateString[1],
         },function(){
-            const values={startRpDate:this.state.startRpDate,endRpDate:this.state.endRpDate,code:this.state.code}
+            const values={startDate:this.state.startDate,endDate:this.state.endDate}
             this.fetdraw(values)
         })
     }
 
     //数据请求
-
     fetdraw=(values)=>{
-        const result=GetServerData('qerp.web.rp.shop.sale.data.chart.query',values)
+        const result=GetServerData('qerp.web.rp.pos.orderdate.query',values)
         result.then((res) => {
             return res;
         }).then((json) => {
             if(json.code=='0'){
-                const analysis=json.shopSaleDatas
+                const posOrderDatas=json.posOrderDatas
 				const xdata=[]
 				const data1=[] 
-				const data2=[] 
-				const data3=[] 
-                const data4=[] 
-				for(var i=0;i<analysis.length;i++){
+                const data2=[] 
+				for(var i=0;i<posOrderDatas.length;i++){
                     if(values.startDate==values.endDate){
-                        xdata.push(analysis[i].rpDateTime)
+                        xdata.push(posOrderDatas[i].rpDateTimeStr)
                     }else{
-                        xdata.push(analysis[i].rpDate)
+                        xdata.push(posOrderDatas[i].rpDateStr)
                     }
-					data1.push(analysis[i].qbyQty) //掌柜数量
-					data2.push(analysis[i].posQty) //pos数量
-					data3.push(analysis[i].qbyAmount) //掌柜金额
-					data4.push(analysis[i].posAmount) //pos金额
+					
+					data1.push(posOrderDatas[i].orderQtySum) //订单数
+					data2.push(posOrderDatas[i].amount) //销售额
 				}
-
                 this.setState({
                     xdata:xdata,
                     type:'1',
                     data1:data1,
-                    data2:data2,
-                    data3:data3,
-                    data4:data4
+                    data2:data2
                 },function(){
                     this.writeCall()
-                   
-                    this.props.dispatch({
-                        type:'dataspsell/tablefetch',
-                        payload:analysis
-                    });
-
                 })
             }
         })
     }
 
 
-    
+   
+
 
     checkonChange=(checked)=>{
         this.setState({
@@ -99,11 +84,9 @@ class EchartsTest extends Component {
         const xdata=this.state.xdata
         const data1=this.state.data1
         const data2=this.state.data2
-        const data3=this.state.data3
-        const data4=this.state.data4
         const type=this.state.type
         // 基于准备好的dom，初始化echarts实例
-        var myChart = echarts.init(document.getElementById('main'));
+        var myChart = echarts.init(document.getElementById('mains'));
         // 绘制图表
         myChart.setOption({
             title: {
@@ -113,7 +96,7 @@ class EchartsTest extends Component {
                 trigger: 'axis'
             },
             legend: {
-                data:['掌柜销售','POS销售']
+                data:[]
             },
             toolbox: {
                 show: false,
@@ -142,45 +125,38 @@ class EchartsTest extends Component {
                 {
                     name:'掌柜销售',
                     type:'line',
-                    data:type=='1'?data1:data3
-                },
-                {
-                    name:'POS销售',
-                    type:'line',
-                    data:type=='1'?data2:data4
+                    data:type=='1'?data1:data2
                 }
+                
             ]
         });
     }
 
-
     render() {
-        var myDate=new Date()
-        const tody=String(myDate.getFullYear()+'-'+(myDate.getMonth()+1)+'-'+myDate.getDate())
+        const startDate=timeForMat(7).t2
+        const endDate=timeForMat(7).t1
         return (
             <div className='rel'>
                 <div style={{position:"absolute",right:"102px",top:"-4px",zIndex:'1000'}}>
                 <RangePicker
-                    defaultValue={[moment(tody, dateFormat), moment(tody, dateFormat)]}
+                    defaultValue={[moment(startDate, dateFormat), moment(endDate, dateFormat)]}
                     format={dateFormat}
                     onChange={this.hindChange.bind(this)}
                 />
                 </div>
                 <div style={{position:"absolute",left:"322px",top:"1px",zIndex:'1000'}}><Switch checked={this.state.type=='1'?true:false} onChange={this.checkonChange.bind(this)} checkedChildren="销售数量" unCheckedChildren="销售金额"/></div>
-                <div id="main" style={{ height: 400 }}></div>
+                <div id="mains" style={{ height: 400 }}></div>
             </div>
         );
     }
     componentDidMount() {
-        var myDate=new Date()
-        const tody=String(myDate.getFullYear()+'-'+(myDate.getMonth()+1)+'-'+myDate.getDate())
-        const startRpDate=tody
-        const endRpDate=tody
+        const startDate=timeForMat(7).t2
+        const endDate=timeForMat(7).t1
         this.setState({
-            startRpDate:startRpDate,
-            endRpDate:endRpDate,
+            startDate:startDate,
+            endDate:endDate,
         },function(){
-            const values={startRpDate:startRpDate,endRpDate:endRpDate}
+            const values={startDate:startDate,endDate:endDate}
             this.fetdraw(values)
         })
        
@@ -194,4 +170,3 @@ class EchartsTest extends Component {
 
 
 export default connect()(EchartsTest);
-
