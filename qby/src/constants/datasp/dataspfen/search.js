@@ -8,17 +8,16 @@ const FormItem = Form.Item;
 const dateFormat = 'YYYY-MM-DD';
 class StockSearchForm extends React.Component {
   state = {
-    pdCategorys:[],
-    spShopId:null,
-    rpDate:null
+        pdCategorys:[],
+        spShopId:null,
+        date:null
   };
 
   //点击搜索按钮获取搜索表单数据
   handleSearch = (e) => {
     this.props.form.validateFields((err, values) => {
         values.spShopId=this.state.spShopId
-        values.rpDate=this.state.data
-        console.log(values)
+        values.rpDate=this.state.date
         this.initStockList(values,this.props.limit,0);
         this.syncState(values);
     });
@@ -93,12 +92,12 @@ class StockSearchForm extends React.Component {
                 <Row>
                 <div className='serach_form'>
                     <FormItem label='门店名称'>
-                        {getFieldDecorator('barcode')(
+                        {getFieldDecorator('name')(
                         <AutoComplete size="large"
                             dataSource={this.state.dataSource}
                             onSelect={this.onSelect}
                             onSearch={this.handleSearchs}
-                            placeholder='请选择供应商名称'
+                            placeholder='请选择门店名称'
                             filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
                         />
                         )}
@@ -106,7 +105,9 @@ class StockSearchForm extends React.Component {
                     <FormItem 
                         label='选择时间'
                     >
-                        {getFieldDecorator('codes')(
+                        {getFieldDecorator('codes',{
+                              initialValue:moment(this.state.date, dateFormat)
+                        })(
                             <DatePicker format={dateFormat} className='noant-calendar-picker' onChange={this.timeChange.bind(this)}/>
                         )}
                     </FormItem>
@@ -124,7 +125,20 @@ class StockSearchForm extends React.Component {
   }
 
   componentDidMount(){
-    this.handleSearch()
+    var myDate=new Date()
+    myDate.setTime(myDate.getTime()-24*60*60*1000);
+    const yesterday=String(myDate.getFullYear()+'-'+(myDate.getMonth()+1)+'-'+myDate.getDate())
+    this.setState({
+        date:yesterday
+    },function(){
+        this.handleSearch()
+    })
+    
+
+
+
+
+    
 
 }
   

@@ -44,6 +44,11 @@ export default {
                 const total=result.total;
                 for(var i=0;i<tableList.length;i++){
                     tableList[i].key=tableList[i].spOrderId;
+                    if(tableList[i].preSellStatus=='1'){
+                        tableList[i].preSellStatusStr='是'
+                    }else{
+                        tableList[i].preSellStatusStr='否'
+                    }
                 }
                 yield put({type: 'syncTableList',payload:{tableList,total,limit,currentPage}});
             } 

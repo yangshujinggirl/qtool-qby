@@ -3,11 +3,11 @@ import NP from 'number-precision'
 
 function databi(a,b){
 	var Rate=0
-	if(a!=0 && b!=0){
+	if(a>0 && b>0){
 		Rate=NP.round(NP.divide(NP.minus(a,b),b),2); 
 	}else{
-		if(b==0){
-			Rate=(a!=0)?100:0
+		if(b<=0){
+			Rate=(a>0)?100:0
 		}else{
 			Rate=0
 		}
@@ -21,18 +21,19 @@ export default {
 		shopSaleData:{},
 		data:[],
 		listdata:[],
-		xdata:['周一','周二','周三','周四','周五','周六','周日'],
-		data1:[11, 21, 15, 13, 12, 13, 10],
-		data2:[1, 2, 2, 5, 3, 2, 0],
-		data3:[11, 11, 15, 13, 12, 13, 10],
-		data4:[1, 22, 2, 5, 3, 2, 0]
+		xdata:[],
+		data1:[],
+		data2:[],
+		data3:[],
+		data4:[],
+		analysis:[]
 	},
 	reducers: {
 		selldatalist(state, { payload:{shopSaleData,data,listdata}}) {
 			return {...state,shopSaleData,data,listdata}
 		},
-		tablefetch(state, { payload:shopSaleDatas}) {
-			return {...state,shopSaleDatas}
+		tablefetch(state, { payload:analysis}) {
+			return {...state,analysis}
 		},
 	},
 	effects: {
@@ -40,9 +41,11 @@ export default {
 			const result=yield call(GetServerData,code,values);
 			yield put({type: 'tab/loding',payload:false});
 			if(result.code=='0'){
+				console.log(result)
 				const shopSaleData=result.shopSaleData
 				shopSaleData.yesterdaysellRate=NP.round(NP.divide(NP.minus(shopSaleData.yesterdayAmount, shopSaleData.yesterdayCostAmount),shopSaleData.yesterdayAmount),2);//昨日毛利率
 				shopSaleData.upyesterdaysellRate=NP.round(NP.divide(NP.minus(shopSaleData.upYesterdayAmount, shopSaleData.upYesterdayCostAmount),shopSaleData.upYesterdayAmount),2);//上期昨日毛利率
+
 				shopSaleData.posAmountBi=databi(shopSaleData.posAmount,shopSaleData.upPosAmount) //毛销售额
 				shopSaleData.possaleAmountBi=databi(shopSaleData.posAmount,shopSaleData.upPosAmount)  //销售额
 				shopSaleData.poscleanAmountBi=databi(shopSaleData.cleanAmount,shopSaleData.upCleanAmount)  //净收款
@@ -75,20 +78,26 @@ export default {
 				const listdata=[{
 					title:'门店排行榜',
 					value:shopSaleData.shopRank,
-					type:'1'
+					type:'1',
+					bg:'#949494'
+
 				},{
 					title:'学习门店',
 					value:shopSaleData.studyShop,
-					type:'2'
+					type:'2',
+					bg:"#ABDB7D"
 
 				},{
 					title:'指导门店',
 					value:shopSaleData.guidanceShop,
-					type:'3'
+					type:'3',
+					bg:'#71A6F1'
+
 				},{
 					title:'注意门店',
 					value:shopSaleData.carefulShop,
-					type:'4'
+					type:'4',
+					bg:'#BC2739'
 				}]
 				yield put({type: 'selldatalist',payload:{shopSaleData,data,listdata}});
 			} 

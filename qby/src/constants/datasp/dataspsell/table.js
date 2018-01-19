@@ -32,7 +32,7 @@ class DataspTable extends React.Component {
 	render() {
 		return (
 			<EditableTable
-				dataSource={this.props.shopSaleDatas} 
+				dataSource={this.props.analysis} 
 				columns={this.columns} 
 				bordered={true}
 				footer={false}
@@ -43,8 +43,8 @@ class DataspTable extends React.Component {
 }
 
 function mapStateToProps(state) {
-	const {shopSaleDatas} = state.dataspsell;
-	return {shopSaleDatas};
+	const {analysis} = state.dataspsell;
+	return {analysis};
 }
 
 export default connect(mapStateToProps)(DataspTable);

@@ -7,7 +7,7 @@ class DataspfenTable extends React.Component {
         super(props);
 		this.columns = [{
             title: '门店名称',
-            dataIndex: 'name'
+            dataIndex: 'shopName'
           },{
             title: '食品类数量',
             dataIndex: 'posQty'
@@ -16,7 +16,7 @@ class DataspfenTable extends React.Component {
             dataIndex: 'posAmount'
           },{
             title: '分成金额',
-            dataIndex: 'IntoAmount'
+            dataIndex: 'intoAmount'
 		  },{
             title: '非商品数量',
             dataIndex: 'notPosQty'
@@ -67,7 +67,7 @@ class DataspfenTable extends React.Component {
 }
 
 function mapStateToProps(state) {
-    const {divisions,limit,currentPage,total,values} = state.dataspcun;
+    const {divisions,limit,currentPage,total,values} = state.dataspfen;
     return {divisions,limit,currentPage,total,values};
 }
 

@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { DatePicker,Switch } from 'antd'
+import { DatePicker,Switch,Input } from 'antd'
 import moment from 'moment';
 import { connect } from 'dva';
 import {GetServerData} from '../services/services';
+import {timeForMat} from '../utils/meth';
 
 const { MonthPicker, RangePicker } = DatePicker;
 const dateFormat = 'YYYY-MM-DD';
@@ -36,25 +37,29 @@ class EchartsTest extends Component {
     }
 
     //数据请求
+
     fetdraw=(values)=>{
         const result=GetServerData('qerp.web.rp.shop.sale.data.chart.query',values)
         result.then((res) => {
             return res;
         }).then((json) => {
-            console.log(json)
             if(json.code=='0'){
-                const shopSaleDatas=json.shopSaleDatas
+                const analysis=json.shopSaleDatas
 				const xdata=[]
 				const data1=[] 
-                const data2=[] 
-                const data3=[]
-                const data4=[]
-				for(var i=0;i<shopSaleDatas.length;i++){
-					xdata.push(shopSaleDatas[i].rpDateTime)
-					data1.push(shopSaleDatas[i].qbyQty) //订单数
-                    data2.push(shopSaleDatas[i].qbyAmount) //销售额
-                    data3.push(shopSaleDatas[i].posQty) //pos数量
-                    data4.push(shopSaleDatas[i].posAmount) //pos销售额
+				const data2=[] 
+				const data3=[] 
+                const data4=[] 
+				for(var i=0;i<analysis.length;i++){
+                    if(values.startDate==values.endDate){
+                        xdata.push(analysis[i].rpDateTime)
+                    }else{
+                        xdata.push(analysis[i].rpDate)
+                    }
+					data1.push(analysis[i].qbyQty) //掌柜数量
+					data2.push(analysis[i].posQty) //pos数量
+					data3.push(analysis[i].qbyAmount) //掌柜金额
+					data4.push(analysis[i].posAmount) //pos金额
 				}
 
                 this.setState({
@@ -63,27 +68,24 @@ class EchartsTest extends Component {
                     data1:data1,
                     data2:data2,
                     data3:data3,
-                    data4:data4,
+                    data4:data4
                 },function(){
                     this.writeCall()
+                   
                     this.props.dispatch({
                         type:'dataspsell/tablefetch',
-                        payload:shopSaleDatas
-                    })
+                        payload:analysis
+                    });
+
                 })
             }
         })
     }
 
 
-    disabledTimes=(dates,partial)=>{
-        console.log(dates)
-        console.log(partial)
-    }
-
+    
 
     checkonChange=(checked)=>{
-        console.log(checked)
         this.setState({
             type:checked
         },function(){
@@ -97,10 +99,9 @@ class EchartsTest extends Component {
         const xdata=this.state.xdata
         const data1=this.state.data1
         const data2=this.state.data2
+        const data3=this.state.data3
+        const data4=this.state.data4
         const type=this.state.type
-
-        console.log(xdata)
-        console.log(data1)
         // 基于准备好的dom，初始化echarts实例
         var myChart = echarts.init(document.getElementById('main'));
         // 绘制图表
@@ -112,7 +113,7 @@ class EchartsTest extends Component {
                 trigger: 'axis'
             },
             legend: {
-                data:[]
+                data:['掌柜销售','POS销售']
             },
             toolbox: {
                 show: false,
@@ -141,22 +142,28 @@ class EchartsTest extends Component {
                 {
                     name:'掌柜销售',
                     type:'line',
-                    data:type=='1'?data1:data2
+                    data:type=='1'?data1:data3
+                },
+                {
+                    name:'POS销售',
+                    type:'line',
+                    data:type=='1'?data2:data4
                 }
-                
             ]
         });
     }
 
+
     render() {
+        var myDate=new Date()
+        const tody=String(myDate.getFullYear()+'-'+(myDate.getMonth()+1)+'-'+myDate.getDate())
         return (
             <div className='rel'>
                 <div style={{position:"absolute",right:"102px",top:"-4px",zIndex:'1000'}}>
                 <RangePicker
-                    defaultValue={[moment('2017-12-15', dateFormat), moment('2018-1-15', dateFormat)]}
+                    defaultValue={[moment(tody, dateFormat), moment(tody, dateFormat)]}
                     format={dateFormat}
                     onChange={this.hindChange.bind(this)}
-                    disabledTime={this.disabledTimes.bind(this)}
                 />
                 </div>
                 <div style={{position:"absolute",left:"322px",top:"1px",zIndex:'1000'}}><Switch checked={this.state.type=='1'?true:false} onChange={this.checkonChange.bind(this)} checkedChildren="销售数量" unCheckedChildren="销售金额"/></div>
@@ -165,10 +172,18 @@ class EchartsTest extends Component {
         );
     }
     componentDidMount() {
-        const startDate='2017-12-15'
-        const endDate='2018-1-15'
-        const values={startRpDate:startDate,endRpDate:endDate}
-        this.fetdraw(values)
+        var myDate=new Date()
+        const tody=String(myDate.getFullYear()+'-'+(myDate.getMonth()+1)+'-'+myDate.getDate())
+        const startRpDate=tody
+        const endRpDate=tody
+        this.setState({
+            startRpDate:startRpDate,
+            endRpDate:endRpDate,
+        },function(){
+            const values={startRpDate:startRpDate,endRpDate:endRpDate}
+            this.fetdraw(values)
+        })
+       
         
     }
 
@@ -176,9 +191,7 @@ class EchartsTest extends Component {
 
 
 
-function mapStateToProps(state) {
-    const {data1,data2,data3,data4,xdata} = state.datagodes;
-    return {data1,data2,data3,data4,xdata};
-}
 
-export default connect(mapStateToProps)(EchartsTest);
+
+export default connect()(EchartsTest);
+
