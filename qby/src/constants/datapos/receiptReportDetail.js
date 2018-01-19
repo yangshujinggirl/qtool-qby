@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,message,DatePicker,Tooltip,Pagination} from 'antd';
+import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,message,DatePicker,Tooltip,Pagination,Row,Col} from 'antd';
 import { Link } from 'dva/router';
 import '../../style/dataManage.css';
 import {GetServerData} from '../../services/services';
@@ -142,27 +142,34 @@ class ReceiptDetailsForm extends React.Component {
                         商品收货明细
                     </div>
                     {/*搜索部分 */}
-                    <Form className="search-form time-select">
-                        <FormItem
-                            label="商品名称／条形码"
-                            labelCol={{ span: 5 }}
-                            wrapperCol={{span: 10}}>
-                        {getFieldDecorator('keywords')(
-                            <Input/>
-                        )}
-                        </FormItem>
-                        <FormItem
-                            label="操作时间"
-                            labelCol={{ span: 5 }}
-                            wrapperCol={{span: 10}}>
-                        {getFieldDecorator('time')(
-                            <RangePicker onChange={this.dateChange.bind(this)} 
-                            format={dateFormat}/>
-                        )}
-                        </FormItem>
-                        <FormItem>
-                            <Button type="primary" icon="search" onClick={this.handleSubmit.bind(this)}>搜索</Button>
-                        </FormItem>
+                    <Form  className='formbox'>
+                        <Row gutter={40} className='formbox_row' style={{marginTop:"20px"}}>
+                            <Col span={24} className='formbox_col'>
+                                <Row>
+                                    <div className='serach_form'>
+                                        <FormItem
+                                            label="商品名称／条形码"
+                                            className="goods-key"
+                                           >
+                                        {getFieldDecorator('keywords')(
+                                            <Input/>
+                                        )}
+                                        </FormItem>
+                                        <FormItem
+                                            label="操作时间"
+                                           >
+                                        {getFieldDecorator('time')(
+                                            <RangePicker onChange={this.dateChange.bind(this)} 
+                                            format={dateFormat}/>
+                                        )}
+                                        </FormItem>
+                                    </div>
+                                </Row>
+                            </Col>
+                        </Row>
+                        <div style={{'position':'absolute','right':'0','bottom':'20px'}}>
+                            <Button type="primary" htmlType="submit" onClick={this.handleSubmit.bind(this)} size='large'>搜索</Button>
+                        </div>
                     </Form>
                     <EditableTable 
                     columns={this.columns} 

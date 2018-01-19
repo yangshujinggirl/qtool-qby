@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,message,DatePicker,Pagination } from 'antd';
+import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,message,DatePicker,Pagination,Row,Col} from 'antd';
 import { Link } from 'dva/router';
 import {GetServerData} from '../../services/services';
 import '../../style/dataManage.css';
@@ -186,41 +186,46 @@ class ReceiptReportForm extends React.Component {
             <div className="receipt-report">
                 <div>
                     {/*搜索部分 */}
-                    <Form className="search-form">
-                        <FormItem
-                        className="operate-time"
-                        label="最近操作时间"
-                        labelCol={{ span: 5 }}
-                        wrapperCol={{span: 10}}>
-                            <RangePicker 
-                                value={this.state.operateST?[moment(this.state.operateST, dateFormat), moment(this.state.operateET, dateFormat)]:null}
-                                format={dateFormat}
-                                onChange={this.dateChange.bind(this)} />
-                        </FormItem>
-                        <FormItem
-                        label="订单状态"
-                        labelCol={{ span: 5 }}
-                        wrapperCol={{span: 10}}>
-                        {getFieldDecorator('status')(
-                            <Select>
-                                <Option value="10">收货中</Option>
-                                <Option value="20">待收货</Option>
-                                <Option value="30">已收货</Option>
-                            </Select>
-                        )}
-                        </FormItem>
-                        <FormItem
-                         className="operate-time"
-                        label="配货单号"
-                        labelCol={{ span: 5 }}
-                        wrapperCol={{span: 10}}>
-                        {getFieldDecorator('orderNo')(
-                        <Input/>
-                        )}
-                        </FormItem>
-                        <FormItem>
-                            <Button type="primary" icon="search" onClick={this.handleSubmit.bind(this)}>搜索</Button>
-                        </FormItem>
+                    <Form  className='formbox'>
+                        <Row gutter={40} className='formbox_row' style={{marginTop:"20px"}}>
+                            <Col span={24} className='formbox_col'>
+                                <Row>
+                                    <div className='serach_form'>
+                                        <FormItem
+                                        className="operate-time"
+                                        label="最近操作时间"
+                                       >
+                                            <RangePicker 
+                                                value={this.state.operateST?[moment(this.state.operateST, dateFormat), moment(this.state.operateET, dateFormat)]:null}
+                                                format={dateFormat}
+                                                onChange={this.dateChange.bind(this)} />
+                                        </FormItem>
+                                        <FormItem
+                                        label="订单状态"
+                                       >
+                                        {getFieldDecorator('status')(
+                                            <Select>
+                                                <Option value="10">收货中</Option>
+                                                <Option value="20">待收货</Option>
+                                                <Option value="30">已收货</Option>
+                                            </Select>
+                                        )}
+                                        </FormItem>
+                                        <FormItem
+                                        className="operate-time"
+                                        label="配货单号"
+                                        >
+                                        {getFieldDecorator('orderNo')(
+                                        <Input/>
+                                        )}
+                                        </FormItem>
+                                    </div>
+                                </Row>
+                            </Col>
+                        </Row>
+                        <div style={{'position':'absolute','right':'0','bottom':'20px'}}>
+                            <Button type="primary" htmlType="submit" onClick={this.handleSubmit.bind(this)} size='large'>搜索</Button>
+                        </div>
                     </Form>
                     <EditableTable 
                         columns={this.columns} 

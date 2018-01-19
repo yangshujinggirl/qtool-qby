@@ -1,11 +1,12 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,message,DatePicker,Tooltip,Pagination} from 'antd';
+import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,message,DatePicker,Tooltip,Pagination,Row,Col} from 'antd';
 import { Link } from 'dva/router';
 import '../../style/dataManage.css';
 import EditableTable from '../../components/table/tablebasic';
 import moment from 'moment';
 import {GetServerData} from '../../services/services';
+import Appmodelone  from '../ordermd/modal';
 const FormItem = Form.Item;
 const Option = Select.Option;
 const { RangePicker,MonthPicker } = DatePicker;
@@ -82,109 +83,139 @@ class ProfitReportForm extends React.Component {
 
     //表格的方法
     pageChange=(page,pageSize)=>{
+        const self = this;
         this.setState({
             currentPage:page-1
+        },function(){
+            let data = {
+                currentPage:this.state.currentPage,
+                limit:this.state.limit,
+                rpDate:this.state.rpDate+"-01",
+                name:this.state.name
+            }
+            self.getServerData(data);
         });
     }
     onShowSizeChange=(current, pageSize)=>{
+        const self = this;
         this.setState({
             limit:pageSize,
-            currentPage:current-1
+            currentPage:0
+        },function(){
+            let data = {
+                currentPage:this.state.currentPage,
+                limit:this.state.limit,
+                rpDate:this.state.rpDate+"-01",
+                name:this.state.name
+            };
+            self.getServerData(data);
         })
     }
 
     //获取数据
     getServerData = (values) =>{
-        let dataList = [
-            {
-                barcode:"34523201",
-                name:"商品1",
-                displayName:"小规格",
-                pdCategory1:"零食类",
-                saleSinglePrice:"23",
-                qty:"30",
-                amount:"34523.00",
-                pdCostAmount:"16",
-                sumCostAmount:"18",
-                saleProfitAmount:"3",
-                saleProfitRate:"6",
-                adjustQty:"10",
-                adjustCostAmount:"3",
-                pdProfit:"23"
-            },
-            {
-                barcode:"34523201",
-                name:"商品1",
-                displayName:"小规格",
-                pdCategory1:"零食类",
-                saleSinglePrice:"23",
-                qty:"30",
-                amount:"34523.00",
-                pdCostAmount:"16",
-                sumCostAmount:"18",
-                saleProfitAmount:"3",
-                saleProfitRate:"6",
-                adjustQty:"10",
-                adjustCostAmount:"3",
-                pdProfit:"23"
-            },
-            {
-                barcode:"34523201",
-                name:"商品1",
-                displayName:"小规格",
-                pdCategory1:"零食类",
-                saleSinglePrice:"23",
-                qty:"30",
-                amount:"34523.00",
-                pdCostAmount:"16",
-                sumCostAmount:"18",
-                saleProfitAmount:"3",
-                saleProfitRate:"6",
-                adjustQty:"10",
-                adjustCostAmount:"3",
-                pdProfit:"23"
-            },
-            {
-                barcode:"34523201",
-                name:"商品1",
-                displayName:"小规格",
-                pdCategory1:"零食类",
-                saleSinglePrice:"23",
-                qty:"30",
-                amount:"34523.00",
-                pdCostAmount:"16",
-                sumCostAmount:"18",
-                saleProfitAmount:"3",
-                saleProfitRate:"6",
-                adjustQty:"10",
-                adjustCostAmount:"3",
-                pdProfit:"23"
-            }
-        ];
-        let  rpProfit={
-            amount:"2432.00",
-            saleCostAmount:"543.00",
-            profitAmount:"223.00"
-        };
-        this.setState({
-            rpProfit:rpProfit
-        })
-        for(let i=0;i<dataList.length;i++){
-            dataList[i].key = i+1;
-        }
-        this.setState({
-            dataSource:dataList,
-            total:Number('3'),
-            currentPage:Number('0'),
-            limit:Number("10")
-        })
+        // let dataList = [
+        //     {
+        //         barcode:"34523201",
+        //         name:"商品1",
+        //         displayName:"小规格",
+        //         pdCategory1:"零食类",
+        //         saleSinglePrice:"23",
+        //         qty:"30",
+        //         amount:"34523.00",
+        //         pdCostAmount:"16",
+        //         sumCostAmount:"18",
+        //         saleProfitAmount:"3",
+        //         saleProfitRate:"6",
+        //         adjustQty:"10",
+        //         adjustCostAmount:"3",
+        //         pdProfit:"23"
+        //     },
+        //     {
+        //         barcode:"34523201",
+        //         name:"商品1",
+        //         displayName:"小规格",
+        //         pdCategory1:"零食类",
+        //         saleSinglePrice:"23",
+        //         qty:"30",
+        //         amount:"34523.00",
+        //         pdCostAmount:"16",
+        //         sumCostAmount:"18",
+        //         saleProfitAmount:"3",
+        //         saleProfitRate:"6",
+        //         adjustQty:"10",
+        //         adjustCostAmount:"3",
+        //         pdProfit:"23"
+        //     },
+        //     {
+        //         barcode:"34523201",
+        //         name:"商品1",
+        //         displayName:"小规格",
+        //         pdCategory1:"零食类",
+        //         saleSinglePrice:"23",
+        //         qty:"30",
+        //         amount:"34523.00",
+        //         pdCostAmount:"16",
+        //         sumCostAmount:"18",
+        //         saleProfitAmount:"3",
+        //         saleProfitRate:"6",
+        //         adjustQty:"10",
+        //         adjustCostAmount:"3",
+        //         pdProfit:"23"
+        //     },
+        //     {
+        //         barcode:"34523201",
+        //         name:"商品1",
+        //         displayName:"小规格",
+        //         pdCategory1:"零食类",
+        //         saleSinglePrice:"23",
+        //         qty:"30",
+        //         amount:"34523.00",
+        //         pdCostAmount:"16",
+        //         sumCostAmount:"18",
+        //         saleProfitAmount:"3",
+        //         saleProfitRate:"6",
+        //         adjustQty:"10",
+        //         adjustCostAmount:"3",
+        //         pdProfit:"23"
+        //     }
+        // ];
+        // let  rpProfit={
+        //     amount:"2432.00",
+        //     saleCostAmount:"543.00",
+        //     profitAmount:"223.00"
+        // };
+        // this.setState({
+        //     rpProfit:rpProfit
+        // })
+        // for(let i=0;i<dataList.length;i++){
+        //     dataList[i].key = i+1;
+        // }
+        // this.setState({
+        //     dataSource:dataList,
+        //     total:Number('3'),
+        //     currentPage:Number('0'),
+        //     limit:Number("10")
+        // })
 
         const result=GetServerData('qerp.web.rp.profit.page',values)
         result.then((res) => {
             return res;
         }).then((json) => {
             if(json.code=='0'){
-                let dataList = ""
+                let dataList = [];
+                dataList = json.rpProfits;
+                for(let i=0;i<dataList.length;i++){
+                    dataList[i].key = i+1;
+                };
+                let  rpProfit = json.rpProfit;
+                this.setState({
+                    rpProfit:rpProfit,
+                    dataSource:dataList,
+                    total:Number(json.total),
+                    currentPage:Number(json.currentPage),
+                    limit:Number(json.limit)
+                })
             }
         })
     }
@@ -199,8 +230,8 @@ class ProfitReportForm extends React.Component {
                 let data = {
                     shopId:this.props.shopId,
                     currentPage:"0",
-                    limit:"10",
-                    rpDate:this.state.rpDate,
+                    limit:this.state.limit,
+                    rpDate:this.state.rpDate+"-01",
                     name:this.state.name
                 }
                 self.getServerData(data);
@@ -213,8 +244,8 @@ class ProfitReportForm extends React.Component {
         let data = {
             shopId:this.props.shopId,
             currentPage:"0",
-            limit:"10",
-            rpDate:this.state.rpDate,
+            limit:"15",
+            rpDate:this.state.rpDate+"-01",
             name:this.state.name
         }
         const result=GetServerData('qerp.qpos.rp.profit.export',data);
@@ -248,8 +279,8 @@ class ProfitReportForm extends React.Component {
             let values = {
                 shopId:this.props.shopId,
                 currentPage:"0",
-                limit:"10",
-                rpDate:this.state.rpDate
+                limit:"15",
+                rpDate:this.state.rpDate+"-01"
             }
             self.getServerData(values);
         })
@@ -265,7 +296,12 @@ class ProfitReportForm extends React.Component {
                         <ul>
                             <li>
                                 <div>
-                                    <p style={{color:"#FB6349"}}><i>¥</i>{this.state.rpProfit.amount.split('.')[0]}<span>.{this.state.rpProfit.amount.split('.')[1]}</span></p>
+                                    <p style={{color:"#FB6349"}}><i>¥</i>
+                                    {this.state.rpProfit.amount && this.state.rpProfit.amount!="0"?this.state.rpProfit.amount.split('.')[0]:"0"}
+                                    <span>.
+                                    {this.state.rpProfit.amount && this.state.rpProfit.amount!="0"?this.state.rpProfit.amount.split('.')[1]:"00"}
+                                    </span>
+                                    </p>
                                     <span className="explain-span">
                                         <Tooltip title="时间段内商品销售结算金额总和">
                                             销售额&nbsp;<Icon type="exclamation-circle-o"/>
@@ -275,7 +311,11 @@ class ProfitReportForm extends React.Component {
                             </li>
                             <li>
                                 <div>
-                                    <p style={{color:"#F7A303"}}><i>¥</i>{this.state.rpProfit.saleCostAmount.split('.')[0]}<span>.{this.state.rpProfit.saleCostAmount.split('.')[1]}</span></p>
+                                    <p style={{color:"#F7A303"}}><i>¥</i>
+                                    {this.state.rpProfit.saleCostAmount && this.state.rpProfit.saleCostAmount!="0"?this.state.rpProfit.saleCostAmount.split('.')[0]:"0"}
+                                    <span>.
+                                    {this.state.rpProfit.saleCostAmount && this.state.rpProfit.saleCostAmount!="0"?this.state.rpProfit.saleCostAmount.split('.')[1]:"00"}
+                                    </span></p>
                                     <span className="explain-span">
                                         <Tooltip title="商品成本*销售数量">
                                             销售成本&nbsp;<Icon type="exclamation-circle-o"/>
@@ -285,7 +325,11 @@ class ProfitReportForm extends React.Component {
                             </li>
                             <li>
                                 <div>
-                                    <p style={{color:"#51C193"}}><i>¥</i>{this.state.rpProfit.profitAmount.split('.')[0]}<span>.{this.state.rpProfit.profitAmount.split('.')[1]}</span></p>
+                                    <p style={{color:"#51C193"}}><i>¥</i>
+                                    {this.state.rpProfit.profitAmount && this.state.rpProfit.profitAmount!="0"?this.state.rpProfit.profitAmount.split('.')[0]:"0"}
+                                    <span>.
+                                    {this.state.rpProfit.profitAmount && this.state.rpProfit.profitAmount!="0"?this.state.rpProfit.profitAmount.split('.')[1]:"00"}
+                                    </span></p>
                                     <span className="explain-span">
                                         <Tooltip title="销售额-销售成本">
                                             销售毛利&nbsp;<Icon type="exclamation-circle-o"/>
@@ -296,42 +340,56 @@ class ProfitReportForm extends React.Component {
                         </ul>
                     </div>
                     {/*搜索部分 */}
-                    <Form className="search-form">
-                        <FormItem
-                        label="订单时间"
-                        labelCol={{ span: 5 }}
-                        wrapperCol={{span: 10}}>
-                            <MonthPicker 
-                            value={this.state.rpDate?moment(this.state.rpDate, dateFormat):null}
-                            format={dateFormat}
-                            onChange={this.dateChange.bind(this)}/>
-                        </FormItem>
-                        <FormItem
-                        label="商品名称"
-                        labelCol={{ span: 5 }}
-                        wrapperCol={{span: 10}}>
-                        {getFieldDecorator('name')(
-                            <Input/>
-                        )}
-                        </FormItem>
-                        <FormItem>
-                            <Button type="primary" icon="search" onClick={this.handleSubmit.bind(this)}>搜索</Button>
-                        </FormItem>
-                        <div className="export-div">
-                            <Button className="export-btn" onClick={this.exportList.bind(this)}>导出数据</Button>
+                    <Form  className='formbox'>
+                        <Row gutter={40} className='formbox_row' style={{marginTop:"20px"}}>
+                            <Col span={24} className='formbox_col'>
+                                <Row>
+                                    <div className='serach_form'>
+                                        <FormItem
+                                        label="订单时间"
+                                       >
+                                            <MonthPicker 
+                                            value={this.state.rpDate?moment(this.state.rpDate, dateFormat):null}
+                                            format={dateFormat}
+                                            onChange={this.dateChange.bind(this)}/>
+                                        </FormItem>
+                                        <FormItem
+                                        label="商品名称"
+                                       >
+                                        {getFieldDecorator('name')(
+                                            <Input/>
+                                        )}
+                                        </FormItem>
+                                    </div>
+                                </Row>
+                            </Col>
+                        </Row>
+                        <div style={{'position':'absolute','right':'0','bottom':'20px'}}>
+                            <Button type="primary" htmlType="submit" onClick={this.handleSubmit.bind(this)} size='large'>搜索</Button>
                         </div>
                     </Form>
-                    <EditableTable 
-                        columns={this.columns} 
-                        dataSource={this.state.dataSource}
-                        footer={true}
-                        pageChange={this.pageChange.bind(this)}
-                        pageSizeChange={this.onShowSizeChange.bind(this)}
-                        total={this.state.total}
-                        limit={this.state.limit}
-                        current={this.state.currentPage+1}
-                        bordered={true}
-                        />
+                    <Appmodelone 
+						text="导出数据" 
+						title="导出数据" 
+						count="数据已经进入导出队列，请前往下载中心查看导出进度"
+						okText="去看看"
+						cancelText="稍后去"
+						dataValue={this.state.exportData}
+						type="75"
+						/>
+                    <div className="mt15">
+                        <EditableTable 
+                            columns={this.columns} 
+                            dataSource={this.state.dataSource}
+                            footer={true}
+                            pageChange={this.pageChange.bind(this)}
+                            pageSizeChange={this.onShowSizeChange.bind(this)}
+                            total={this.state.total}
+                            limit={this.state.limit}
+                            current={this.state.currentPage+1}
+                            bordered={true}
+                            />
+                    </div>   
                 </div>
             </div>
         );

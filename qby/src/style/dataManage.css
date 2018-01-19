@@ -288,3 +288,7 @@
     margin-right: 60%;
 }
 
+.goods-key .ant-form-item-label{
+    width: 110px;
+}
+

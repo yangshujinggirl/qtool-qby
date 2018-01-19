@@ -1,10 +1,11 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,message,DatePicker,Tooltip} from 'antd';
+import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,message,DatePicker,Tooltip,Row,Col} from 'antd';
 import { Link } from 'dva/router';
 import '../../style/dataManage.css';
 import {GetServerData} from '../../services/services';
 import EditableTable from '../../components/table/tablebasic';
+import Appmodelone  from '../ordermd/modal';
 import moment from 'moment';
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -18,7 +19,7 @@ class InventorydiffLogIndexForm extends React.Component {
             dataSource:[],
             total:0,
             currentPage:0,
-            limit:10,
+            limit:15,
             adjustTimeStart:"",
             adjustTimeEnd:"",
             windowHeight:''
@@ -78,8 +79,9 @@ class InventorydiffLogIndexForm extends React.Component {
                 name:values.name
             },function(){
                 let data = {
+                    spShopId:this.props.shopId,
                     currentPage:0,
-                    limit:10,
+                    limit:this.state.limit,
                     adjustTimeStart:this.state.adjustTimeStart,
                     adjustTimeEnd:this.state.adjustTimeEnd,
                     name:this.state.name,
@@ -93,54 +95,69 @@ class InventorydiffLogIndexForm extends React.Component {
     //导出数据
     exportList = () =>{
         let data = {
+            spShopId:this.props.shopId,
             currentPage:0,
-            limit:10,
+            limit:15,
             adjustTimeStart:this.state.adjustTimeStart,
             adjustTimeEnd:this.state.adjustTimeEnd,
             name:this.state.name,
             type:2
         }
-        const result=GetServerData('qerp.web.pd.adjust.export',data);
-        result.then((res) => {
-            return res;
-        }).then((json) => {
-            if(json.code=='0'){
+        // const result=GetServerData('qerp.web.pd.adjust.export',data);
+        // result.then((res) => {
+        //     return res;
+        // }).then((json) => {
+        //     if(json.code=='0'){
 
-            }
-        })
+        //     }
+        // })
     }
 
     render() {
         const { getFieldDecorator } = this.props.form;
         return (
             <div className="daily-bill">
-                <div>
+                <div className="mb15">
                     {/*搜索部分 */}
-                    <Form className="search-form">
-                        <FormItem
-                        label="盘点损益时间"
-                        labelCol={{ span: 5 }}
-                        wrapperCol={{span: 10}}>
-                            <RangePicker 
-                                value={[moment(this.state.adjustTimeStart, dateFormat), moment(this.state.adjustTimeEnd, dateFormat)]}
-                                format={dateFormat}
-                                onChange={this.dateChange.bind(this)} />
-                        </FormItem>
-                        <FormItem
-                        label="商品名称"
-                        labelCol={{ span: 5 }}
-                        wrapperCol={{span: 10}}>
-                        {getFieldDecorator('name')(
-                            <Input />
-                        )}
-                        </FormItem>
-                        <FormItem>
-                            <Button type="primary" icon="search" onClick={this.handleSearch.bind(this)}>搜索</Button>
-                        </FormItem>
-                        <div className="export-div">
-                            <Button className="export-btn" onClick={this.exportList.bind(this)}>导出数据</Button>
+                    <Form  className='formbox'>
+                        <Row gutter={40} className='formbox_row' style={{marginTop:"20px"}}>
+                            <Col span={24} className='formbox_col'>
+                                <Row>
+                                    <div className='serach_form'>
+                                        <FormItem
+                                        label="盘点损益时间"
+                                        labelCol={{ span: 5 }}
+                                        wrapperCol={{span: 10}}>
+                                            <RangePicker 
+                                                value={this.state.adjustTimeStart?[moment(this.state.adjustTimeStart, dateFormat), moment(this.state.adjustTimeEnd, dateFormat)]:null}
+                                                format={dateFormat}
+                                                onChange={this.dateChange.bind(this)} />
+                                        </FormItem>
+                                        <FormItem
+                                        label="商品名称"
+                                        labelCol={{ span: 5 }}
+                                        wrapperCol={{span: 10}}>
+                                        {getFieldDecorator('name')(
+                                            <Input />
+                                        )}
+                                        </FormItem>
+                                    </div>
+                                </Row>
+                            </Col>
+                        </Row>
+                        <div style={{'position':'absolute','right':'0','bottom':'20px'}}>
+                            <Button type="primary" htmlType="submit" onClick={this.handleSearch.bind(this)} size='large'>搜索</Button>
                         </div>
                     </Form>
+                    <Appmodelone 
+						text="导出数据" 
+						title="导出数据" 
+						count="数据已经进入导出队列，请前往下载中心查看导出进度"
+						okText="去看看"
+						cancelText="稍后去"
+						dataValue={this.state.exportData}
+						type="75"
+						/>
                 </div>
                 <EditableTable 
                     columns={this.columns} 
@@ -159,7 +176,7 @@ class InventorydiffLogIndexForm extends React.Component {
 
     //获取数据
     getServerData = (values) =>{
-        const result=GetServerData('qerp.web.pd.adjust.detail',values)
+        const result=GetServerData('qerp.web.qpos.pd.adjust.detail',values)
         result.then((res) => {
             return res;
         }).then((json) => {
@@ -197,8 +214,9 @@ class InventorydiffLogIndexForm extends React.Component {
             adjustTimeEnd:currentdate
         },function(){
             let values = {
+                spShopId:this.props.shopId,
                 currentPage:0,
-                limit:10,
+                limit:15,
                 adjustTimeStart:this.state.adjustTimeStart,
                 adjustTimeEnd:this.state.adjustTimeEnd,
                 type:2
