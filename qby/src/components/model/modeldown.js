@@ -6,19 +6,17 @@ class App extends React.Component {
         this.setState({
             visible: true,
     });
-  }
-  handleOk = (e) => {
-    console.log(e);
-    this.setState({
-      visible: false,
-    });
-  }
-  handleCancel = (e) => {
-    console.log(e);
-    this.setState({
-      visible: false,
-    });
-  }
+  	}
+  	handleOk = (e) => {
+		this.setState({
+			visible: false,
+		});
+  	}
+	handleCancel = (e) => {
+		this.setState({
+			visible: false,
+		});
+	}
   render() {
     return (
       <div>

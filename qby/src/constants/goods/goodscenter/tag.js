@@ -10,7 +10,6 @@ state = {
 };
 
 handleClose = (removedTag) => {
-	console.log(removedTag)
 	const iallpdTypeVals=removedTag
 	const types=this.props.types
 	this.props.dispatch({

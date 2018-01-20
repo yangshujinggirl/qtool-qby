@@ -90,7 +90,6 @@ class CollectionsPage extends React.Component {
             return res;
         }).then((json) => {
             if(json.code=='0'){
-                console.log(json)
                 form.resetFields();
                 this.setState({ visible: false });
                 this.props.dispatch({
