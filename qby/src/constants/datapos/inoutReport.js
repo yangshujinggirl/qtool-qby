@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,message,DatePicker,Tooltip,Pagination} from 'antd';
+import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,message,DatePicker,Tooltip,Pagination,Row,Col} from 'antd';
 import { Link } from 'dva/router';
 import '../../style/dataManage.css';
 import EditableTable from '../../components/table/tablebasic';
@@ -27,7 +27,7 @@ class InOutReportForm extends React.Component {
             },
             total:0,
             currentPage:0,
-            limit:10,
+            limit:15,
             rpDate:'',
             name:'',
             windowHeight:''
@@ -91,110 +91,128 @@ class InOutReportForm extends React.Component {
 
     //表格的方法
     pageChange=(page,pageSize)=>{
+        const self = this;
         this.setState({
             currentPage:page-1
+        },function(){
+            let data = {
+                currentPage:this.state.currentPage,
+                limit:this.state.limit,
+                rpDate:this.state.rpDate,
+                name:this.state.name
+            }
+            self.getServerData(data);
         });
     }
     onShowSizeChange=(current, pageSize)=>{
+        const self = this;
         this.setState({
             limit:pageSize,
-            currentPage:current-1
+            currentPage:0
+        },function(){
+            let data = {
+                currentPage:this.state.currentPage,
+                limit:this.state.limit,
+                rpDate:this.state.rpDate,
+                name:this.state.name
+            };
+            self.getServerData(data);
         })
     }
 
     //获取数据
     getServerData = (values) =>{
-        let dataList = [
-            {
-                barcode:"42104", //#String 商品条码
-                name:"我是商品1",//#String 商品名称
-                displayName:"500ml",//#String 商品规格
-                pdCategory1:"食品类",//#String 商品分类
-                qty:"20",//#String 期初库存数量
-                invAmount:"10",//#String 期初库存成本
-                recQty:"50",//#String 收货数量
-                recAmount:"20",//#String 收货成本
-                posQty:"30",//#String 销售数量
-                sumCostAmount:"30",//#String销售成本
-                adjustQty:"2",//#String损益数量
-                adjustCostAmount:"20",//#String损益成本
-                checkQty:"10",//#String 盘点损益数
-                checkAmount:"20",//#String 盘点损益成本
-                finalQty:"30",//#String 期末库存数量
-                finalInvAmount:"20",//#String 期末库存成本
-            },
-            {
-                barcode:"42104", //#String 商品条码
-                name:"我是商品1",//#String 商品名称
-                displayName:"500ml",//#String 商品规格
-                pdCategory1:"食品类",//#String 商品分类
-                qty:"20",//#String 期初库存数量
-                invAmount:"10",//#String 期初库存成本
-                recQty:"50",//#String 收货数量
-                recAmount:"20",//#String 收货成本
-                posQty:"30",//#String 销售数量
-                sumCostAmount:"30",//#String销售成本
-                adjustQty:"2",//#String损益数量
-                adjustCostAmount:"20",//#String损益成本
-                checkQty:"10",//#String 盘点损益数
-                checkAmount:"20",//#String 盘点损益成本
-                finalQty:"30",//#String 期末库存数量
-                finalInvAmount:"20",//#String 期末库存成本
-            },
-            {
-                barcode:"42104", //#String 商品条码
-                name:"我是商品1",//#String 商品名称
-                displayName:"500ml",//#String 商品规格
-                pdCategory1:"食品类",//#String 商品分类
-                qty:"20",//#String 期初库存数量
-                invAmount:"10",//#String 期初库存成本
-                recQty:"50",//#String 收货数量
-                recAmount:"20",//#String 收货成本
-                posQty:"30",//#String 销售数量
-                sumCostAmount:"30",//#String销售成本
-                adjustQty:"2",//#String损益数量
-                adjustCostAmount:"20",//#String损益成本
-                checkQty:"10",//#String 盘点损益数
-                checkAmount:"20",//#String 盘点损益成本
-                finalQty:"30",//#String 期末库存数量
-                finalInvAmount:"20",//#String 期末库存成本
-            },
-            {
-                barcode:"42104", //#String 商品条码
-                name:"我是商品1",//#String 商品名称
-                displayName:"500ml",//#String 商品规格
-                pdCategory1:"食品类",//#String 商品分类
-                qty:"20",//#String 期初库存数量
-                invAmount:"10",//#String 期初库存成本
-                recQty:"50",//#String 收货数量
-                recAmount:"20",//#String 收货成本
-                posQty:"30",//#String 销售数量
-                sumCostAmount:"30",//#String销售成本
-                adjustQty:"2",//#String损益数量
-                adjustCostAmount:"20",//#String损益成本
-                checkQty:"10",//#String 盘点损益数
-                checkAmount:"20",//#String 盘点损益成本
-                finalQty:"30",//#String 期末库存数量
-                finalInvAmount:"20",//#String 期末库存成本
-            }
-        ];
-        let  inventory={
-            finalInvSumAmount:"54348.00",//#String 期末库存总成本
-            invSumAmount:"54242.00",//#String 期初库存总成本
-            recSumAmount:"59342.00",//#String 收货总成本
-            saleSumCostAmount:"4342.00",//#String 销售总成本
-            adjustSumCostAmount:"5432.00",//#String 损益总成本
-        };
-        for(let i=0;i<dataList.length;i++){
-            dataList[i].key = i+1;
-        };
-        this.setState({
-            inventory:inventory,
-            dataSource:dataList,
-            total:Number('3'),
-            currentPage:Number('0'),
-            limit:Number("10")
-        });
+        // let dataList = [
+        //     {
+        //         barcode:"42104", //#String 商品条码
+        //         name:"我是商品1",//#String 商品名称
+        //         displayName:"500ml",//#String 商品规格
+        //         pdCategory1:"食品类",//#String 商品分类
+        //         qty:"20",//#String 期初库存数量
+        //         invAmount:"10",//#String 期初库存成本
+        //         recQty:"50",//#String 收货数量
+        //         recAmount:"20",//#String 收货成本
+        //         posQty:"30",//#String 销售数量
+        //         sumCostAmount:"30",//#String销售成本
+        //         adjustQty:"2",//#String损益数量
+        //         adjustCostAmount:"20",//#String损益成本
+        //         checkQty:"10",//#String 盘点损益数
+        //         checkAmount:"20",//#String 盘点损益成本
+        //         finalQty:"30",//#String 期末库存数量
+        //         finalInvAmount:"20",//#String 期末库存成本
+        //     },
+        //     {
+        //         barcode:"42104", //#String 商品条码
+        //         name:"我是商品1",//#String 商品名称
+        //         displayName:"500ml",//#String 商品规格
+        //         pdCategory1:"食品类",//#String 商品分类
+        //         qty:"20",//#String 期初库存数量
+        //         invAmount:"10",//#String 期初库存成本
+        //         recQty:"50",//#String 收货数量
+        //         recAmount:"20",//#String 收货成本
+        //         posQty:"30",//#String 销售数量
+        //         sumCostAmount:"30",//#String销售成本
+        //         adjustQty:"2",//#String损益数量
+        //         adjustCostAmount:"20",//#String损益成本
+        //         checkQty:"10",//#String 盘点损益数
+        //         checkAmount:"20",//#String 盘点损益成本
+        //         finalQty:"30",//#String 期末库存数量
+        //         finalInvAmount:"20",//#String 期末库存成本
+        //     },
+        //     {
+        //         barcode:"42104", //#String 商品条码
+        //         name:"我是商品1",//#String 商品名称
+        //         displayName:"500ml",//#String 商品规格
+        //         pdCategory1:"食品类",//#String 商品分类
+        //         qty:"20",//#String 期初库存数量
+        //         invAmount:"10",//#String 期初库存成本
+        //         recQty:"50",//#String 收货数量
+        //         recAmount:"20",//#String 收货成本
+        //         posQty:"30",//#String 销售数量
+        //         sumCostAmount:"30",//#String销售成本
+        //         adjustQty:"2",//#String损益数量
+        //         adjustCostAmount:"20",//#String损益成本
+        //         checkQty:"10",//#String 盘点损益数
+        //         checkAmount:"20",//#String 盘点损益成本
+        //         finalQty:"30",//#String 期末库存数量
+        //         finalInvAmount:"20",//#String 期末库存成本
+        //     },
+        //     {
+        //         barcode:"42104", //#String 商品条码
+        //         name:"我是商品1",//#String 商品名称
+        //         displayName:"500ml",//#String 商品规格
+        //         pdCategory1:"食品类",//#String 商品分类
+        //         qty:"20",//#String 期初库存数量
+        //         invAmount:"10",//#String 期初库存成本
+        //         recQty:"50",//#String 收货数量
+        //         recAmount:"20",//#String 收货成本
+        //         posQty:"30",//#String 销售数量
+        //         sumCostAmount:"30",//#String销售成本
+        //         adjustQty:"2",//#String损益数量
+        //         adjustCostAmount:"20",//#String损益成本
+        //         checkQty:"10",//#String 盘点损益数
+        //         checkAmount:"20",//#String 盘点损益成本
+        //         finalQty:"30",//#String 期末库存数量
+        //         finalInvAmount:"20",//#String 期末库存成本
+        //     }
+        // ];
+        // let  inventory={
+        //     finalInvSumAmount:"54348.00",//#String 期末库存总成本
+        //     invSumAmount:"54242.00",//#String 期初库存总成本
+        //     recSumAmount:"59342.00",//#String 收货总成本
+        //     saleSumCostAmount:"4342.00",//#String 销售总成本
+        //     adjustSumCostAmount:"5432.00",//#String 损益总成本
+        // };
+        // for(let i=0;i<dataList.length;i++){
+        //     dataList[i].key = i+1;
+        // };
+        // this.setState({
+        //     inventory:inventory,
+        //     dataSource:dataList,
+        //     total:Number('3'),
+        //     currentPage:Number('0'),
+        //     limit:Number("10")
+        // });
         this.props.dispatch({ type: 'tab/loding', payload:true});
         const result=GetServerData('qerp.web.rp.inventory.page',values)
         result.then((res) => {
@@ -202,7 +220,20 @@ class InOutReportForm extends React.Component {
         }).then((json) => {
             this.props.dispatch({ type: 'tab/loding', payload:false});
             if(json.code=='0'){
-                console.log('进销存报表数据请求成功');
+                let dataList = [];
+                dataList = json.inventorys;
+                for(let i=0;i<dataList.length;i++){
+                    dataList[i].key = i+1;
+                };
+                let inventory={};
+                inventory = json.inventory;
+                this.setState({
+                    inventory:inventory,
+                    dataSource:dataList,
+                    total:Number(json.total),
+                    currentPage:Number(json.currentPage),
+                    limit:Number(json.limit)
+                });
             }
         })
     }
@@ -217,7 +248,7 @@ class InOutReportForm extends React.Component {
                 let data = {
                     shopId:this.props.shopId,
                     currentPage:0,
-                    limit:10,
+                    limit:this.state.limit,
                     rpDate:this.state.rpDate,
                     name:this.state.name
                 }
@@ -230,8 +261,6 @@ class InOutReportForm extends React.Component {
     exportList = () =>{
         let data = {
             shopId:this.props.shopId,
-            currentPage:0,
-            limit:10,
             rpDate:this.state.rpDate,
             name:this.state.name
         }
@@ -296,7 +325,7 @@ class InOutReportForm extends React.Component {
             let values = {
                 shopId:this.props.shopId,
                 currentPage:0,
-                limit:10,
+                limit:15,
                 rpDate:this.state.rpDate
             }
             self.getServerData(values);
@@ -313,7 +342,12 @@ class InOutReportForm extends React.Component {
                         <ul>
                             <li>
                                 <div>
-                                    <p style={{color:"#806EC6"}}><i>¥</i>{this.state.inventory.finalInvSumAmount.split('.')[0]}<span>.{this.state.inventory.finalInvSumAmount.split('.')[1]}</span></p>
+                                    <p style={{color:"#806EC6"}}><i>¥</i>
+                                    {this.state.inventory.finalInvSumAmount&&this.state.inventory.finalInvSumAmount!="0"?this.state.inventory.finalInvSumAmount.split('.')[0]:"0"}
+                                    <span>.
+                                    {this.state.inventory.finalInvSumAmount&&this.state.inventory.finalInvSumAmount!="0"?this.state.inventory.finalInvSumAmount.split('.')[1]:"00"}
+                                    </span>
+                                    </p>
                                     <span className="explain-span">
                                         <Tooltip title="期初库存总成本+进货总成本-销售总成本-损益总成本">
                                             期末库存总成本&nbsp;<Icon type="exclamation-circle-o"/>
@@ -323,7 +357,11 @@ class InOutReportForm extends React.Component {
                             </li>
                             <li>
                                 <div>
-                                    <p style={{color:"#F4A314"}}><i>¥</i>{this.state.inventory.invSumAmount.split('.')[0]}<span>.{this.state.inventory.invSumAmount.split('.')[1]}</span></p>
+                                    <p style={{color:"#F4A314"}}><i>¥</i>
+                                    {this.state.inventory.invSumAmount&&this.state.inventory.invSumAmount!="0"?this.state.inventory.invSumAmount.split('.')[0]:"0"}
+                                    <span>.
+                                    {this.state.inventory.invSumAmount&&this.state.inventory.invSumAmount!="0"?this.state.inventory.invSumAmount.split('.')[1]:"00"}
+                                    </span></p>
                                     <span className="explain-span">
                                         <Tooltip title="期初库存总数量*期初商品移动总成本">
                                             期末库存总成本&nbsp;<Icon type="exclamation-circle-o"/>
@@ -333,7 +371,11 @@ class InOutReportForm extends React.Component {
                             </li>
                             <li>
                                 <div>
-                                    <p style={{color:"#0D89C8"}}><i>¥</i>{this.state.inventory.recSumAmount.split('.')[0]}<span>.{this.state.inventory.recSumAmount.split('.')[1]}</span></p>
+                                    <p style={{color:"#0D89C8"}}><i>¥</i>
+                                    {this.state.inventory.recSumAmount&&this.state.inventory.recSumAmount!="0"?this.state.inventory.recSumAmount.split('.')[0]:"0"}
+                                    <span>.
+                                    {this.state.inventory.recSumAmount&&this.state.inventory.recSumAmount!="0"?this.state.inventory.recSumAmount.split('.')[1]:"00"}
+                                    </span></p>
                                     <span className="explain-span">
                                         <Tooltip title="收货总数量*收货商品移动总成本">
                                             收货总成本&nbsp;<Icon type="exclamation-circle-o"/>
@@ -343,7 +385,11 @@ class InOutReportForm extends React.Component {
                             </li>
                             <li>
                                 <div>
-                                    <p style={{color:"#51C193"}}><i>¥</i>{this.state.inventory.saleSumCostAmount.split('.')[0]}<span>.{this.state.inventory.saleSumCostAmount.split('.')[1]}</span></p>
+                                    <p style={{color:"#51C193"}}><i>¥</i>
+                                    {this.state.inventory.saleSumCostAmount&&this.state.inventory.saleSumCostAmount!="0"?this.state.inventory.saleSumCostAmount.split('.')[0]:"0"}
+                                    <span>.
+                                    {this.state.inventory.saleSumCostAmount&&this.state.inventory.saleSumCostAmount!="0"?this.state.inventory.saleSumCostAmount.split('.')[1]:"00"}
+                                    </span></p>
                                     <span className="explain-span">
                                         <Tooltip title="销售总数量*销售商品移动总成本">
                                             销售总成本&nbsp;<Icon type="exclamation-circle-o"/>
@@ -353,7 +399,11 @@ class InOutReportForm extends React.Component {
                             </li>
                             <li>
                                 <div>
-                                    <p style={{color:"#F24343"}}><i>¥</i>{this.state.inventory.adjustSumCostAmount.split('.')[0]}<span>.{this.state.inventory.adjustSumCostAmount.split('.')[1]}</span></p>
+                                    <p style={{color:"#F24343"}}><i>¥</i>
+                                    {this.state.inventory.adjustSumCostAmount&&this.state.inventory.adjustSumCostAmount!="0"?this.state.inventory.adjustSumCostAmount.split('.')[0]:"0"}
+                                    <span>.
+                                    {this.state.inventory.adjustSumCostAmount&&this.state.inventory.adjustSumCostAmount!="0"?this.state.inventory.adjustSumCostAmount.split('.')[1]:"00"}
+                                    </span></p>
                                     <span className="explain-span">
                                     <Tooltip title="损益总数量*损益商品移动总成本">
                                         损益成本&nbsp;<Icon type="exclamation-circle-o"/>
@@ -364,31 +414,42 @@ class InOutReportForm extends React.Component {
                         </ul>
                     </div>
                     {/*搜索部分 */}
-                    <Form className="search-form">
-                        <FormItem
-                        label="订单时间"
-                        labelCol={{ span: 5 }}
-                        wrapperCol={{span: 10}}>
-                            <MonthPicker 
-                            value={this.state.rpDate?moment(this.state.rpDate, dateFormat):null}
-                            format={dateFormat}
-                            onChange={this.dateChange.bind(this)}/>
-                        </FormItem>
-                        <FormItem
-                        label="商品名称"
-                        labelCol={{ span: 5 }}
-                        wrapperCol={{span: 10}}>
-                        {getFieldDecorator('name')(
-                            <Input/>
-                        )}
-                        </FormItem>
-                        <FormItem>
-                            <Button type="primary" icon="search" onClick={this.handleSubmit.bind(this)}>搜索</Button>
-                        </FormItem>
-                        <div className="export-div">
-                            <Button className="export-btn" onClick={this.exportList.bind(this)}>导出数据</Button>
+                    <Form  className='formbox'>
+                        <Row gutter={40} className='formbox_row' style={{marginTop:"20px"}}>
+                            <Col span={24} className='formbox_col'>
+                                <Row>
+                                    <div className='serach_form'>
+                                        <FormItem
+                                        label="订单时间"
+                                        >
+                                            <MonthPicker 
+                                            value={this.state.rpDate?moment(this.state.rpDate, dateFormat):null}
+                                            format={dateFormat}
+                                            onChange={this.dateChange.bind(this)}/>
+                                        </FormItem>
+                                        <FormItem
+                                        label="商品名称"
+                                        >
+                                        {getFieldDecorator('name')(
+                                            <Input/>
+                                        )}
+                                        </FormItem>
+                                    </div>
+                                </Row>
+                            </Col>
+                        </Row>
+                        <div style={{'position':'absolute','right':'0','bottom':'20px'}}>
+                            <Button type="primary" htmlType="submit" onClick={this.handleSubmit.bind(this)} size='large'>搜索</Button>
                         </div>
                     </Form>
+                    <Button 
+						type="primary" 
+						size='large'
+						className='mt20 ml10 mb15'
+						onClick={this.exportList.bind(this)}
+					>
+						导出数据
+					</Button>
                     <EditableTable 
                         columns={this.columns} 
                         dataSource={this.state.dataSource}
