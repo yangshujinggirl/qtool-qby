@@ -230,7 +230,6 @@ class ReceiptDetailsForm extends React.Component {
 
 function mapStateToProps(state){
     const {detailInfo,headerInfo,detailId} = state.dataposManage;
-    console.log(detailInfo);
     return {detailInfo,headerInfo,detailId};
 }
 
