@@ -86,7 +86,12 @@ class EchartsTest extends Component {
 		this.props.dispatch({
 			type:'dataspsell/tablefetch',
 			payload:{code:'qerp.web.rp.shop.sale.data.list',values:values}
-		})
+        })
+        this.props.dispatch({
+			type:'dataspsell/synvalues',
+			payload:values
+        })
+        
     }
 
 

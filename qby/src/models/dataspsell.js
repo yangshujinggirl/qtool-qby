@@ -28,7 +28,8 @@ export default {
 		data4:[],
 		shopSaleDatas:[],
 		datasouce:[],
-		tabledatasouce:[]
+		tabledatasouce:[],
+		values:{}
 	},
 	reducers: {
 		selldatalist(state, { payload:{shopSaleData,data,listdata}}) {
@@ -42,6 +43,9 @@ export default {
 		},
 		tabledatasouce(state, { payload:tabledatasouce}) {
 			return {...state,tabledatasouce}
+		},
+		synvalues(state, { payload:values}) {
+			return {...state,values}
 		},
 	},
 	effects: {
