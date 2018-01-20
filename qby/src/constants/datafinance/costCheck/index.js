@@ -91,7 +91,7 @@ class CostCheckIndexForm extends React.Component {
 
     //预售订单下载
     downloadPreSale = (record) =>{
-        this.exportData('72',record.url)
+        this.exportData('72',record.preSellUrl)
     }
 
     render() {
