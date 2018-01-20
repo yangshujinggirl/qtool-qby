@@ -197,12 +197,13 @@ class ProfitReportForm extends React.Component {
         //     currentPage:Number('0'),
         //     limit:Number("10")
         // })
-
+        this.props.dispatch({ type: 'tab/loding', payload:true});
         const result=GetServerData('qerp.web.rp.profit.page',values)
         result.then((res) => {
             return res;
         }).then((json) => {
             if(json.code=='0'){
+                this.props.dispatch({ type: 'tab/loding', payload:false});
                 let dataList = [];
                 dataList = json.rpProfits;
                 for(let i=0;i<dataList.length;i++){
