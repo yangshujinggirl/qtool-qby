@@ -24,7 +24,7 @@ class DownloadIndex extends React.Component{
               dataIndex: 'statusStr',
               render: (text, record) => {
                 return (
-                    <div className={record.state=='1'?'theme-color pointer':'placehold-color'} onClick={this.hindDown.bind(this,record)}>下载</div>
+                    <div className={record.type=='1'?'theme-color pointer':'placehold-color'} onClick={this.hindDown.bind(this,record)}>下载</div>
                 );
               }
             }];  
@@ -41,7 +41,7 @@ class DownloadIndex extends React.Component{
         }
     }
     hindDown=(record)=>{
-        if(record.state=='1'){
+        if(record.type=='1'){
             window.open(record.filePath)
         }
     }
