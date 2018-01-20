@@ -1,5 +1,5 @@
 import {GetServerData} from '../../../services/services';
-import { Button, Icon } from 'antd';
+import { Button, Icon ,Modal} from 'antd';
 import { connect } from 'dva';
 import Cardlist from '../../../components/card/cardlist';
 import Cards from '../../../components/card/catds';
@@ -101,7 +101,7 @@ class DataspsellIndex extends React.Component{
 
 
 function mapStateToProps(state) {
-	const {shopSaleData,data,listdata} = state.dataspsell;
-	return {shopSaleData,data,listdata};
+	const {shopSaleData,data,listdata,updateTime} = state.dataspsell;
+	return {shopSaleData,data,listdata,updateTime};
 }
 export default connect(mapStateToProps)(DataspsellIndex);
