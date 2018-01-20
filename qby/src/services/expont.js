@@ -1,7 +1,7 @@
 import { post } from '../utils/expont'
 
 export function Getexpont(code,values) {
-    const result = post('/erpQwmsRest/qwmsrestExport.htm',{
+    const result = post('/erpWebRest/webrestExport.htm',{
          'code':code,
          'data':JSON.stringify(values)
     })

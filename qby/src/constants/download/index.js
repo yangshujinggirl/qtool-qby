@@ -1,7 +1,8 @@
 import EditableTable from '../../components/table/tablebasic';
-import {Getexpont} from '../../services/expont';
 import {GetServerData} from '../../services/services';
+import {Getexpont} from '../../services/expont';
 import { connect } from 'dva';
+
 
 class DownloadIndex extends React.Component{
     constructor(props) {
@@ -42,7 +43,8 @@ class DownloadIndex extends React.Component{
     }
     hindDown=(record)=>{
         if(record.fileStatus=='2'){
-            window.open(record.filePath)
+            const values={sysDownloadDocId:record.sysDownloadDocId}
+            const result=Getexpont('qerp.web.sys.doc.download',values)
         }
     }
     getdownlist=(limit,currentPage)=>{
