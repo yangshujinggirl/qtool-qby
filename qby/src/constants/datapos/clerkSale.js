@@ -109,10 +109,12 @@ class ClerkSaleForm extends React.Component {
     }
 
     initdataspuce=(values)=>{
+        this.props.dispatch({ type: 'tab/loding', payload:true});
         const result=GetServerData('qerp.web.rp.day.users.list',values)
         result.then((res) => {
                 return res;
         }).then((json) => {
+            this.props.dispatch({ type: 'tab/loding', payload:false});
             if(json.code=='0'){
                 //总销售数据列表
                 let userSales=json.accounts;
@@ -221,6 +223,10 @@ class ClerkSaleForm extends React.Component {
         var dm=("0" + (d.getMonth() + 1)).slice(-2);
         var dd=("0"+d.getDate()).slice(-2);
         let a=dy+'-'+dm+'-'+dd;
+        this.setState({
+            startDate:a,
+            endDate:a
+        });
         let values={
             shopId:this.props.shopId,
             startDate:a,

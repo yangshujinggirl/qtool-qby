@@ -77,11 +77,13 @@ class ReceiptReportForm extends React.Component {
 
     //获取数据
     getServerData = (values) =>{
+        this.props.dispatch({ type: 'tab/loding', payload:true});
         const result=GetServerData('qerp.web.order.receiveRep',values)
         result.then((res) => {
             return res;
         }).then((json) => {
             if(json.code=='0'){
+                this.props.dispatch({ type: 'tab/loding', payload:false});
                 let dataList = json.pdOrderVos;
                 for(let i=0;i<dataList.length;i++){
                     dataList[i].key = i+1;

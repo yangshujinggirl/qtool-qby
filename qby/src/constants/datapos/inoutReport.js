@@ -194,11 +194,12 @@ class InOutReportForm extends React.Component {
             currentPage:Number('0'),
             limit:Number("10")
         });
-
+        this.props.dispatch({ type: 'tab/loding', payload:true});
         const result=GetServerData('qerp.web.rp.inventory.page',values)
         result.then((res) => {
             return res;
         }).then((json) => {
+            this.props.dispatch({ type: 'tab/loding', payload:false});
             if(json.code=='0'){
                 console.log('进销存报表数据请求成功');
             }

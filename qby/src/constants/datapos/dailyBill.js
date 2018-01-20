@@ -295,10 +295,12 @@ class DailyBillForm extends React.Component {
 
     //获取数据
     getServerData = (values) =>{
+        this.props.dispatch({ type: 'tab/loding', payload:true});
         const result=GetServerData('qerp.web.rp.day.account.page',values)
         result.then((res) => {
             return res;
         }).then((json) => {
+            this.props.dispatch({ type: 'tab/loding', payload:false});
             if(json.code=='0'){
                 let rpDayAccount =json.rpDayAccount;
                 let dataList = json.rpDayAccounts;
