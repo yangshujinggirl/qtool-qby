@@ -10,6 +10,8 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 const { RangePicker } = DatePicker;
 const dateFormat = 'YYYY-MM-DD';
+const confirm = Modal.confirm;
+
 
 class CgArrivalIndexForm extends React.Component {
     constructor(props) {
@@ -55,6 +57,41 @@ class CgArrivalIndexForm extends React.Component {
             currentPage:current-1
         })
     }
+    exportData = (type,data) => {
+		const values={
+			type:type,
+			downloadParam:data,
+		}
+		const result=GetServerData('qerp.web.sys.doc.task',values);
+		result.then((res) => {
+			return res;
+		}).then((json) => {
+			if(json.code=='0'){
+				var _dispatch=this.props.dispatch
+				confirm({
+					title: '数据已经进入导出队列',
+					content: '请前往下载中心查看导出进度',
+					cancelText:'稍后去',
+					okText:'去看看',
+					onOk() {
+						const paneitem={title:'下载中心',key:'000001',componkey:'000001',data:null}
+						_dispatch({
+							type:'tab/firstAddTab',
+							payload:paneitem
+						});
+						_dispatch({
+							type:'downlaod/fetch',
+							payload:{code:'qerp.web.sys.doc.list',values:{limit:15,currentPage:0}}
+						});
+					},
+					onCancel() {
+						
+					},
+	  			});
+			}
+		})
+	
+	}
 
     handleSubmit = (e) =>{
         const self = this;
@@ -80,6 +117,13 @@ class CgArrivalIndexForm extends React.Component {
 
     render() {
         const { getFieldDecorator } = this.props.form;
+        let data = {
+            currentPage:0,
+            limit:10,
+            supplierName:this.state.supplierName,
+            createTimeST:this.state.createTimeST,
+            createTimeET:this.state.createTimeET
+        };
         return (
             <div>
                 <Form  className='formbox'>
@@ -109,24 +153,16 @@ class CgArrivalIndexForm extends React.Component {
                     <Button type="primary" htmlType="submit" onClick={this.handleSubmit.bind(this)} size='large'>搜索</Button>
                 </div>
                 </Form>
-                {/* <Button 
-						type="primary" 
-						size='large'
-						className='mt20'
-						onClick={this.exportData}
+                <Button 
+                    type="primary" 
+                    size='large'
+                    className='mt20'
+                    onClick={this.exportData.bind(this,75,data)}
 					>
                         导出数据
-                </Button> */}
-                {/* 导出 */}
-                <Appmodelone 
-						text="导出数据" 
-						title="导出数据" 
-						count="数据已经进入导出队列，请前往下载中心查看导出进度"
-						okText="去看看"
-						cancelText="稍后去"
-						dataValue={this.state.exportData}
-						type="75"
-						/>
+                </Button>
+                
+                
                 <div className='mt15'>
                     <EditableTable 
                         columns={this.columns} 

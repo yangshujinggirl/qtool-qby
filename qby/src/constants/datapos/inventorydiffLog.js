@@ -11,6 +11,7 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 const { RangePicker } = DatePicker;
 const dateFormat = 'YYYY-MM-DD';
+const confirm = Modal.confirm;
 
 class InventorydiffLogIndexForm extends React.Component {
     constructor(props) {
@@ -93,7 +94,7 @@ class InventorydiffLogIndexForm extends React.Component {
     }
 
     //导出数据
-    exportList = () =>{
+    exportDatas = () =>{
         let data = {
             spShopId:this.props.shopId,
             currentPage:0,
@@ -103,15 +104,44 @@ class InventorydiffLogIndexForm extends React.Component {
             name:this.state.name,
             type:2
         }
-        // const result=GetServerData('qerp.web.pd.adjust.export',data);
-        // result.then((res) => {
-        //     return res;
-        // }).then((json) => {
-        //     if(json.code=='0'){
-
-        //     }
-        // })
+        this.exportData(86,data)
     }
+
+    exportData = (type,data) => {
+		const values={
+			type:type,
+			downloadParam:data,
+		}
+		const result=GetServerData('qerp.web.sys.doc.task',values);
+		result.then((res) => {
+			return res;
+		}).then((json) => {
+			if(json.code=='0'){
+				var _dispatch=this.props.dispatch
+				confirm({
+					title: '数据已经进入导出队列',
+					content: '请前往下载中心查看导出进度',
+					cancelText:'稍后去',
+					okText:'去看看',
+					onOk() {
+						const paneitem={title:'下载中心',key:'000001',componkey:'000001',data:null}
+						_dispatch({
+							type:'tab/firstAddTab',
+							payload:paneitem
+						});
+						_dispatch({
+							type:'downlaod/fetch',
+							payload:{code:'qerp.web.sys.doc.list',values:{limit:15,currentPage:0}}
+						});
+					},
+					onCancel() {
+						
+					},
+	  			});
+			}
+		})
+	
+	}
 
     render() {
         const { getFieldDecorator } = this.props.form;
@@ -149,15 +179,14 @@ class InventorydiffLogIndexForm extends React.Component {
                             <Button type="primary" htmlType="submit" onClick={this.handleSearch.bind(this)} size='large'>搜索</Button>
                         </div>
                     </Form>
-                    <Appmodelone 
-						text="导出数据" 
-						title="导出数据" 
-						count="数据已经进入导出队列，请前往下载中心查看导出进度"
-						okText="去看看"
-						cancelText="稍后去"
-						dataValue={this.state.exportData}
-						type="75"
-						/>
+                    <Button 
+						type="primary" 
+						size='large'
+						className='mt20 ml10'
+						onClick={this.exportDatas.bind(this)}
+					>
+						导出数据
+					</Button>
                 </div>
                 <EditableTable 
                     columns={this.columns} 

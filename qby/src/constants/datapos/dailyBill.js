@@ -11,6 +11,7 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 const { RangePicker } = DatePicker;
 const dateFormat = 'YYYY-MM-DD';
+const confirm = Modal.confirm;
 
 class DailyBillForm extends React.Component {
     constructor(props) {
@@ -99,7 +100,7 @@ class DailyBillForm extends React.Component {
     }
 
     //导出数据
-    exportList = () =>{
+    exportDatas = () =>{
         let data = {
             shopId:this.props.shopId,
             currentPage:0,
@@ -108,15 +109,46 @@ class DailyBillForm extends React.Component {
             endDate:this.state.endDate,
             type:this.state.type
         }
-        const result=GetServerData('qerp.qpos.rp.day.account.export',data);
-        result.then((res) => {
-            return res;
-        }).then((json) => {
-            if(json.code=='0'){
-
-            }
-        })
+        this.exportData(80,data)
     }
+
+    exportData = (type,data) => {
+		const values={
+			type:type,
+			downloadParam:data,
+		}
+		const result=GetServerData('qerp.web.sys.doc.task',values);
+		result.then((res) => {
+			return res;
+		}).then((json) => {
+			if(json.code=='0'){
+				var _dispatch=this.props.dispatch
+				confirm({
+					title: '数据已经进入导出队列',
+					content: '请前往下载中心查看导出进度',
+					cancelText:'稍后去',
+					okText:'去看看',
+					onOk() {
+						const paneitem={title:'下载中心',key:'000001',componkey:'000001',data:null}
+						_dispatch({
+							type:'tab/firstAddTab',
+							payload:paneitem
+						});
+						_dispatch({
+							type:'downlaod/fetch',
+							payload:{code:'qerp.web.sys.doc.list',values:{limit:15,currentPage:0}}
+						});
+					},
+					onCancel() {
+						
+					},
+	  			});
+			}
+		})
+	
+	}
+
+
 
     // setDisabledDate = (current) =>{
     //     return  current+30*24*60*60*1000 && current+30*24*60*60*1000 < moment().endOf('day');
@@ -222,15 +254,14 @@ class DailyBillForm extends React.Component {
                     <Button type="primary" htmlType="submit" onClick={this.handleSubmit.bind(this)} size='large'>搜索</Button>
                 </div>
                 </Form>
-                <Appmodelone 
-						text="导出数据" 
-						title="导出数据" 
-						count="数据已经进入导出队列，请前往下载中心查看导出进度"
-						okText="去看看"
-						cancelText="稍后去"
-						dataValue={this.state.exportData}
-						type="75"
-						/>
+                <Button 
+						type="primary" 
+						size='large'
+						className='mt20 ml10'
+						onClick={this.exportDatas.bind(this)}
+					>
+						导出数据
+					</Button>
                 {/* <Form className="search-form">
                     <FormItem
                     className="daily-billTime"

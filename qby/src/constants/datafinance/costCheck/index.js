@@ -9,6 +9,7 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 const { RangePicker } = DatePicker;
 const dateFormat = 'YYYY-MM';
+const confirm = Modal.confirm;
 
 class CostCheckIndexForm extends React.Component {
     constructor(props) {
@@ -49,31 +50,48 @@ class CostCheckIndexForm extends React.Component {
     }
 
     onDownloadCheck = (record) => {
-        let data = {
-            type:"71",
-            downloadParam:record.url
-        };
-        const result=GetServerData('qerp.web.sys.doc.task',data);
-        // let url=record.url;
-        // window.open(url);
+        this.exportData('71',record.url)
     }
+
+    exportData = (type,data) => {
+		const values={
+			type:type,
+			downloadParam:data,
+		}
+		const result=GetServerData('qerp.web.sys.doc.task',values);
+		result.then((res) => {
+			return res;
+		}).then((json) => {
+			if(json.code=='0'){
+				var _dispatch=this.props.dispatch
+				confirm({
+					title: '数据已经进入导出队列',
+					content: '请前往下载中心查看导出进度',
+					cancelText:'稍后去',
+					okText:'去看看',
+					onOk() {
+						const paneitem={title:'下载中心',key:'000001',componkey:'000001',data:null}
+						_dispatch({
+							type:'tab/firstAddTab',
+							payload:paneitem
+						});
+						_dispatch({
+							type:'downlaod/fetch',
+							payload:{code:'qerp.web.sys.doc.list',values:{limit:15,currentPage:0}}
+						});
+					},
+					onCancel() {
+						
+					},
+	  			});
+			}
+		})
+	
+	}
 
     //预售订单下载
     downloadPreSale = (record) =>{
-        let data = {
-            type:"72",
-            downloadParam:record.preSellUrl
-        };
-        const result=GetServerData('qerp.web.sys.doc.task',data);
-        // result.then((res) => {
-        //     return res;
-        // }).then((json) => {
-        //     if(json.code=='0'){
-
-        //     }
-        // });
-        // let preSellUrl = record.preSellUrl;
-        // window.open(preSellUrl);
+        this.exportData('72',record.url)
     }
 
     render() {
