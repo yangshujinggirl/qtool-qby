@@ -75,7 +75,7 @@ class OrderctIndex extends React.Component{
 						type="primary" 
 						size='large'
 						className='mt20 ml10'
-						onClick={this.exportData.bind(this,15,this.props.values)}
+						onClick={this.exportData.bind(this,16,this.props.values)}
 					>
 						导出数据
 					</Button>
