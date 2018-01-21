@@ -55,12 +55,12 @@ class OrderdbEditForm extends React.Component{
 		    if (!err) {
                 const results=this.checkrule();
                 if(results==false){
-                    message.error('商品编码和调出数量不能为空'); 
+                    message.error('商品编码和调出数量不能为空',.8); 
                     return 
                 }
                 // id判断
                 if(values.outwsWarehouseId==values.callwsWarehouseId){
-                    message.error('调出仓库与调入仓库不能相同'); 
+                    message.error('调出仓库与调入仓库不能相同',.8); 
                     return
                 }
                 values.details=this.props.goodsInfo;
@@ -70,12 +70,12 @@ class OrderdbEditForm extends React.Component{
                     return res;
                 }).then((json) => {
                     if(json.code=='0'){
-						message.success('订单创建成功');
+						message.success('订单创建成功',.8);
 						this.deleteTab();
 						this.refreshList();
 					    //  this.initState();
                     }else{
-						message.error(json.message);
+						message.error(json.message,.8);
 					}
                 })
             }else{

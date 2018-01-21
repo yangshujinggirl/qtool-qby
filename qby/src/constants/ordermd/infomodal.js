@@ -47,7 +47,7 @@ class Infomodel extends React.Component {
                 this.setState({
                     visible: false,
                 },function(){
-                    message.success('创建成功');
+                    message.success('创建成功',.8);
                     this.props.deleteTab();
                     this.props.refreshList();
                 });

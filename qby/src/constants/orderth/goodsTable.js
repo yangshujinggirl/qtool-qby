@@ -80,7 +80,7 @@ class GoodsInfoTable extends React.Component {
             let temDataSource = deepcCloneObj(this.props.goodsInfo);
             temDataSource[index].qty =qtyvalue;
             temDataSource[index].qtyline =false;
-            message.error('只能输入数字')
+            message.error('只能输入数字',.8)
             this.props.dispatch({
                 type:'orderth/syncGoodsInfo',
                 payload:temDataSource
@@ -133,7 +133,7 @@ class GoodsInfoTable extends React.Component {
                 type:'orderth/syncGoodsInfo',
                 payload:temDataSource
             })
-            message.error('价格可输入最多两位小数的非负数')
+            message.error('价格可输入最多两位小数的非负数',.8)
         }
     }
 

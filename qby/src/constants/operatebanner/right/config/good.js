@@ -37,7 +37,7 @@ class GoodsEditForm extends React.Component{
 			if (!err) {
                 if(values.rowcode){
                     if(values.rowcode == values.code){
-                        message.error('输入的商品编码相同');
+                        message.error('输入的商品编码相同',.8);
                         return false;
                     }else{
                         let data = {"code":values.code};
@@ -74,11 +74,11 @@ class GoodsEditForm extends React.Component{
                                             payload:configArrEnd
                                         });
                                     }else{
-                                        message.error('未找到商品2编码');
+                                        message.error('未找到商品2编码',.8);
                                     }
                                 })
                             }else{
-                                message.error('未找到商品1编码');
+                                message.error('未找到商品1编码',.8);
                             }
                         })
                     }

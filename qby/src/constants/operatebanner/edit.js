@@ -66,7 +66,7 @@ class OperatebannerEditForm extends React.Component{
 		    if (!err) {
                 let data = values;
                 if(!this.props.formValue.url){
-                    message.error('请上传图片')
+                    message.error('请上传图片',.8)
                     return false;
                 }else{
                     data.url = this.props.formValue.url;
@@ -80,9 +80,9 @@ class OperatebannerEditForm extends React.Component{
                 }).then((json) => {
                     if(json.code=='0'){
 						if(this.props.data){
-							message.success('修改成功');
+							message.success('修改成功',.8);
 						}else{
-							message.success('新建成功');
+							message.success('新建成功',.8);
 						}
 						this.deleteTab();
 						this.refreshList();
@@ -102,7 +102,7 @@ class OperatebannerEditForm extends React.Component{
 		    if (!err) {
                 let data = values;
                 if(!this.props.formValue.url){
-                    message.error('请上传图片')
+                    message.error('请上传图片',.8)
                     return false;
                 }else{
                     data.url = this.props.formValue.url;

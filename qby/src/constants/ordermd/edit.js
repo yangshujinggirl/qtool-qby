@@ -71,10 +71,10 @@ class OrdermdEditForm extends React.Component{
                     spShop:data
                 },function(){
                     if(!this.state.spShop.spShopId){
-                        message.error('请选择门店')
+                        message.error('请选择门店',.8)
                     }else{
                         if(Number(this.state.spShop.qtySum)<1){
-                            message.error('商品数量不能为0')
+                            message.error('商品数量不能为0',.8)
                         }else{
                             let value={
                                 spOrder:this.state.spShop,

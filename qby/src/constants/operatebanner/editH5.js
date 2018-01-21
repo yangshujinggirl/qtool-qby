@@ -54,7 +54,7 @@ class H5_configure extends React.Component{
 				return res;
 			}).then((json) => {
 				if(json.code == '0'){
-					message.success('保存成功');
+					message.success('保存成功',.8);
 					this.props.dispatch({
 						type:'h5config/syncConfigArr',
 						payload:[]
@@ -71,7 +71,7 @@ class H5_configure extends React.Component{
 				}
 		   })
 		}else{
-			message.error('请先填写配置信息');
+			message.error('请先填写配置信息',.8);
 		}
 	}
 

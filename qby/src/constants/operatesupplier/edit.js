@@ -76,15 +76,15 @@ class OperatesupplierEditForm extends React.Component{
                 }).then((json) => {
                     if(json.code=='0'){
 						if(this.props.data){
-							message.success('修改成功');
+							message.success('修改成功',.8);
 						}else{
-							message.success('新建成功');
+							message.success('新建成功',.8);
 						}
 						this.deleteTab();
 						this.refreshList();
 						this.initState();
                     }else{
-						message.error(json.message);
+						message.error(json.message,.8);
 					}
                 })
             }else{

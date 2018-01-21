@@ -164,6 +164,7 @@ class EchartsTest extends Component {
                     defaultValue={[moment(timeForMat(30).t2, dateFormat), moment(timeForMat(30).t1, dateFormat)]}
                     format={dateFormat}
                     onChange={this.hindChange.bind(this)}
+                    allowClear={false}
                 />
                 </div>
                 <div style={{position:"absolute",left:"520px",top:"38px",zIndex:'1000'}}><Switch checked={this.state.type=='1'?true:false} onChange={this.checkonChange.bind(this)} checkedChildren="销售数量" unCheckedChildren="销售金额"/></div>

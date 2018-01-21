@@ -18,7 +18,7 @@
 .list_r .btn{height: 20px;font-size: 12px;margin-right: 4px;padding:0 8px;margin-top:10px;color: #666;}
 .list_check{position: absolute;left: 10px;top:10px;}
 
-.btn_boxs{margin-top:20px;text-align: right;}
-.btn_lists{margin-left: 10px;display: inline-block;}
+.btn_boxs{margin-top:20px;text-align: left;}
+.btn_lists{margin-right: 10px;display: inline-block;}
 .ant-btn.disabled, .ant-btn[disabled], .ant-btn.disabled:hover, .ant-btn[disabled]:hover, .ant-btn.disabled:focus, .ant-btn[disabled]:focus, .ant-btn.disabled:active, .ant-btn[disabled]:active, .ant-btn.disabled.active, .ant-btn[disabled].active{color: rgba(0, 0, 0, 0.25)}
 

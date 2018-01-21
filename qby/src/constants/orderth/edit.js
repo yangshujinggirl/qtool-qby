@@ -80,9 +80,9 @@ class OrderthEditForm extends React.Component{
                 }).then((json) => {
                     if(json.code=='0'){
 						if(this.props.data){
-							message.success('退货单修改成功');
+							message.success('退货单修改成功',.8);
 						}else{
-							message.success('退货单创建成功');
+							message.success('退货单创建成功',.8);
 						}
 						this.deleteTab();
 						this.refreshList();

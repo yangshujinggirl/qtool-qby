@@ -16,7 +16,7 @@ class MyUploadMember extends React.Component {
                 //执行初始化数据方法获取list
                 this.initList(this.props.values,this.props.limit,this.props.currentPage);
             }else{
-              message.error(file.response.message);
+              message.error(file.response.message,.8);
             }
           return file.response.status === 'success';
         }

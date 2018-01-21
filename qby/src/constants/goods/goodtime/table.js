@@ -25,7 +25,9 @@ class GoodtimeTable extends React.Component {
 			dataIndex: 'opation',
 			render: (text, record) => {
 				return (
-					<TableLink type={record.status == 1?'1':'2'} text='修改' hindClick={this.editInfo.bind(this,record)}/>
+					record.status == 1?
+					(<TableLink text='修改' type={"1"} hindClick={this.editInfo.bind(this,record)}/>)
+					:null
 				);
 			}
 		}]

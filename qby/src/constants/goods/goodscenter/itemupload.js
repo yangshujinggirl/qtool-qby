@@ -11,7 +11,7 @@ function beforeUpload(file) {
 	}
 	const isLt2M = file.size / 1024 / 1024 < 2;
 	if (!isLt2M) {
-		message.error('图片文件需小于2MB');
+		message.error('图片文件需小于2MB',.8);
 		return
 	}
 	return (isJPG || isPNG) && isLt2M;
