@@ -75,22 +75,22 @@ class OrderctSearchForm extends React.Component {
                             <div className='serach_form'>
                                 <FormItem label='供应商名称'>
                                     {getFieldDecorator('name')(
-                                    <Input placeholder="请输入供应商名称"/>
+                                    <Input placeholder="请输入供应商名称" autoComplete="off"/>
                                     )}
                                 </FormItem>
                                 <FormItem label='退货单号'>
                                     {getFieldDecorator('asnNo')(
-                                    <Input placeholder="请输入退货单号"/>
+                                    <Input placeholder="请输入退货单号" autoComplete="off"/>
                                     )}
                                 </FormItem>
                                 <FormItem label='商品编码'>
                                     {getFieldDecorator('pdCode')(
-                                    <Input placeholder="请输入商品编码"/>
+                                    <Input placeholder="请输入商品编码" autoComplete="off"/>
                                     )}
                                 </FormItem>
                                 <FormItem label='商品名称'>
                                     {getFieldDecorator('pdName')(
-                                    <Input placeholder="请输入商品名称"/>
+                                    <Input placeholder="请输入商品名称" autoComplete="off"/>
                                     )}
                                 </FormItem>
                                 <FormItem label='订单状态'>

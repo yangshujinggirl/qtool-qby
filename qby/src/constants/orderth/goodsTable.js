@@ -11,10 +11,7 @@ class GoodsInfoTable extends React.Component {
             dataIndex: 'pdCode',
             render: (text, record, index) => {
                 return (
-                    <Input 
-                        value={this.props.goodsInfo[index].pdCode} 
-                        disabled
-                        />
+                    <span>{this.props.goodsInfo[index].pdCode}</span>
                 )
             }
         },{
@@ -22,9 +19,10 @@ class GoodsInfoTable extends React.Component {
             dataIndex: 'pdName',
             render: (text, record, index) => {
                 return (
-                    <div className='border_none'>
-                        <Input value={this.props.goodsInfo[index].pdName}  disabled/>
-                    </div>
+                    <span>{this.props.goodsInfo[index].pdName}</span>
+                    // <div className='border_none'>
+                    //     <Input value={this.props.goodsInfo[index].pdName}  disabled/>
+                    // </div>
                 )
             }
         },{
@@ -32,14 +30,16 @@ class GoodsInfoTable extends React.Component {
 			dataIndex: 'pdSkuType',
 			render: (text, record, index) => {
 				return (
-					<div className='border_none'>
-						<Input value={this.props.goodsInfo[index].pdSkuType} disabled/>
-					</div>
+                    <span>{this.props.goodsInfo[index].pdSkuType}</span>
+					// <div className='border_none'>
+					// 	<Input value={this.props.goodsInfo[index].pdSkuType} disabled/>
+					// </div>
 				);
 			}
 		},{
 			title: '退货数量',
-			dataIndex: 'qty',
+            dataIndex: 'qty',
+            width:"150px",
 			render: (text, record, index) => {
 				return (
 					<div className={record.qtyline?null:'data_waring'}>
@@ -50,6 +50,7 @@ class GoodsInfoTable extends React.Component {
 		},{
             title: '退货价格',
             dataIndex: 'price',
+            width:"150px",
             render: (text, record, index) => {
                 return (
                     <div className={record.priceline?null:'data_waring'}>

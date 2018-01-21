@@ -331,7 +331,7 @@ class OrdermdEditForm extends React.Component{
 					{getFieldDecorator('recAddress', {
 						rules: [{ required: true, message: '请输入门店地址' }],
 					})(
-						<Input placeholder="请输入职位"/>
+						<Input placeholder="请输入职位" autoComplete="off"/>
 					)}
 				</FormItem>
                 <FormItem
@@ -342,7 +342,7 @@ class OrdermdEditForm extends React.Component{
 					{getFieldDecorator('recTel', {
 						rules: [{ required: true, message: '请输入收货电话' }],
 					})(
-						<Input placeholder="请输入收货电话"/>
+						<Input placeholder="请输入收货电话" autoComplete="off"/>
 					)}
 				</FormItem>
                 <FormItem
@@ -353,7 +353,7 @@ class OrdermdEditForm extends React.Component{
 					{getFieldDecorator('recName', {
 						rules: [{ required: true, message: '请输入收货人' }],
 					})(
-						<Input placeholder="请输入收货人"/>
+						<Input placeholder="请输入收货人" autoComplete="off"/>
 					)}
 				</FormItem>
                 <FormItem

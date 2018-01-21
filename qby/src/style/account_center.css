@@ -99,10 +99,17 @@ label{
 	height: 35px;
 	line-height: 35px;
 }
+.OrderCenterEidt .ant-table-thead > tr > th{
+	border-bottom: none;
+}
 
 .OrderCenterEidt .ant-table-tbody>tr.ant-table-row-hover>td, .OrderCenterEidt .ant-table-tbody>tr:hover>td, .OrderCenterEidt .ant-table-thead>tr.ant-table-row-hover>td, .OrderCenterEidt .ant-table-thead>tr:hover>td{
 	background:white;
 }
 .OrderCenterEidt .ant-table-tbody > tr > td{
 	border-bottom: 0px;
+	text-align: center;
+}
+.OrderCenterEidt .ant-table-tbody > tr > td input{
+	text-align: center;
 }
