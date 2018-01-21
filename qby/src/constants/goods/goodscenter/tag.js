@@ -42,6 +42,10 @@ handleInputConfirm = () => {
 
 //规格属性匹配
 	getTypevallist=(inputValue,id)=>{
+		// console.log(inputValue)
+		// console.log(this.props.tags)
+
+
 		const values={
 			pdTypeId:id,
 			enabled:true,
@@ -69,8 +73,7 @@ handleInputConfirm = () => {
 							payload:{iallpdTypeVals,types}
 						})
 						this.hindok()
-						if(this.state.firstent){
-						}
+						if(this.state.firstent){}
 						this.setState({
 							firstent:true
 						})
