@@ -48,7 +48,6 @@ class DatawsonTable extends React.Component {
 
 function mapStateToProps(state) {
     const {headArr,invdatas,total,limit,currentPage,values} = state.dataws;
-    console.log(headArr)
     return {headArr,invdatas,total,limit,currentPage,values};
 }
 

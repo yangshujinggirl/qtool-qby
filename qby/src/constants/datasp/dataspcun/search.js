@@ -14,7 +14,6 @@ class StockSearchForm extends React.Component {
   handleSearch = (e) => {
     this.props.form.validateFields((err, values) => {
         values.spShopId=this.state.spShopId
-        console.log(values)
         this.initStockList(values,this.props.limit,0);
         this.syncState(values);
     });

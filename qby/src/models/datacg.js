@@ -33,7 +33,6 @@ export default {
 		*sellfetch({ payload: {code,values} }, { call, put ,select}) {
 			const result=yield call(GetServerData,code,values);
 			yield put({type: 'tab/loding',payload:false});
-			console.log(result)
 			if(result.code=='0'){
 				const iRpPurchaseAnalysis=result.iRpPurchaseAnalysis
 				iRpPurchaseAnalysis.purchaseAmountRate=databi(iRpPurchaseAnalysis.purchaseAmount,iRpPurchaseAnalysis.upPurchaseAmount) //采购金额
@@ -72,7 +71,6 @@ export default {
 		*tablefetch({ payload: {code,values} }, { call, put ,select}) {
 			const result=yield call(GetServerData,code,values);
 			yield put({type: 'tab/loding',payload:false});
-			console.log(result)
 			if(result.code=='0'){
 				const analysis=result.analysis
 				for(var i=0;i<analysis.length;i++){

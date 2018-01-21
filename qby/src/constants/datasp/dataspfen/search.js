@@ -74,7 +74,6 @@ class StockSearchForm extends React.Component {
         })
     }
     timeChange=(date,dateString)=>{
-        console.log(dateString)
         this.setState({
             date:dateString
         })

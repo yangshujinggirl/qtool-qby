@@ -16,7 +16,6 @@ class StockSearchForm extends React.Component {
     this.props.form.validateFields((err, values) => {
         values.spShopId=this.state.spShopId
         values.date=this.state.date
-        console.log(values)
         this.initStockList(values,this.props.limit,0);
         this.syncState(values);
     });
@@ -93,7 +92,6 @@ class StockSearchForm extends React.Component {
     }
 
     timeChange=(date,dateString)=>{
-        console.log(dateString)
         this.setState({
             data:dateString
         })
