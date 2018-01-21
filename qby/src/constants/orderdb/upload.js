@@ -42,7 +42,7 @@ class MyUpload extends React.Component {
         };
         return (
         <Upload {...props} fileList={this.state.fileList}>
-            <Button type="primary" style={{position:'absolute',right:'135px',top:'24px'}}>
+            <Button type="primary" style={{position:'absolute',right:'135px',top:'24px',zIndex:"1000"}}>
             导入商品信息
             </Button>
         </Upload>

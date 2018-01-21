@@ -79,7 +79,7 @@ class OrderctSearchForm extends React.Component {
                                     )}
                                 </FormItem>
                                 <FormItem label='退货单号'>
-                                    {getFieldDecorator('asnNo')(
+                                    {getFieldDecorator('orderNo')(
                                     <Input placeholder="请输入退货单号" autoComplete="off"/>
                                     )}
                                 </FormItem>

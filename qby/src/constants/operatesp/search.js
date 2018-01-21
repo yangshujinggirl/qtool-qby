@@ -40,17 +40,17 @@ class SearchForm extends React.Component {
                             <div className='serach_form'>
                                 <FormItem label='门店名称'>
                                     {getFieldDecorator('name')(
-                                    <Input placeholder="请输入门店名称"/>
+                                    <Input placeholder="请输入门店名称" autoComplete="off"/>
                                     )}
                                 </FormItem>
                                 <FormItem label='门店电话'>
                                     {getFieldDecorator('mobile')(
-                                    <Input placeholder="请输入门店电话"/>
+                                    <Input placeholder="请输入门店电话" autoComplete="off"/>
                                     )}
                                 </FormItem>
                                 <FormItem label='门店姓名'>
                                     {getFieldDecorator('shopman')(
-                                    <Input placeholder="请输入门店姓名"/>
+                                    <Input placeholder="请输入门店姓名" autoComplete="off"/>
                                     )}
                                 </FormItem>
                                 <FormItem label='门店状态'>
@@ -73,12 +73,12 @@ class SearchForm extends React.Component {
                                 </FormItem>
                                 <FormItem label='所在省份'>
                                     {getFieldDecorator('province')(
-                                        <Input placeholder="请输入所在省份"/>
+                                        <Input placeholder="请输入所在省份" autoComplete="off"/>
                                     )}
                                 </FormItem>
                                 <FormItem label='所在城市'>
                                     {getFieldDecorator('city')(
-                                        <Input placeholder="请输入所在城市"/>
+                                        <Input placeholder="请输入所在城市" autoComplete="off"/>
                                     )}
                                 </FormItem>
                             </div>

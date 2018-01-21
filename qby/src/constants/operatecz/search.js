@@ -54,7 +54,7 @@ class AdvancedSearchForm extends React.Component {
                             <div className='serach_form'>
                                 <FormItem label='门店名称'>
                                     {getFieldDecorator('shopName')(
-                                        <Input placeholder="请输入门店名称" className='form_input_width'/>
+                                        <Input placeholder="请输入门店名称" className='form_input_width' autoComplete="off"/>
                                     )}
                                 </FormItem>
                                 <FormItem label='审核状态'>
@@ -68,7 +68,7 @@ class AdvancedSearchForm extends React.Component {
                                 </FormItem>
                                 <FormItem label='充值号'>
                                     {getFieldDecorator('voucherNo')(
-                                        <Input placeholder="请输入充值号" />
+                                        <Input placeholder="请输入充值号" autoComplete="off"/>
                                     )}
                                 </FormItem>
                                 <FormItem label='充值时间'>

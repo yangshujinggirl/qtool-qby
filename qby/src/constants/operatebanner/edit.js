@@ -175,7 +175,7 @@ class OperatebannerEditForm extends React.Component{
 						rules: [{ required: true, message: '请输入banner名称'}],
 						initialValue:this.props.formValue.name
 					})(
-						<Input placeholder="请输入banner名称" maxLength='15'/>
+						<Input placeholder="请输入banner名称" maxLength='15' autoComplete="off"/>
 					)}
 				</FormItem>
                 <FormItem
@@ -202,7 +202,7 @@ class OperatebannerEditForm extends React.Component{
                     rules: [{required: true, message: '请输入banner权重'},{pattern:/^100(\.0*)?$|^0*$|^[0-9]?[0-9]?(\.[0-9]*)?$/,message: '权重在0-100之间'}],
                     initialValue:this.props.formValue.rank
                 })(
-                    <Input placeholder = '请输入banner权重'/>
+                    <Input placeholder = '请输入banner权重' autoComplete="off"/>
                 )}
                 </FormItem>
                 <FormItem

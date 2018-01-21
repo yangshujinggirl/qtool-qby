@@ -45,7 +45,7 @@ class AccountSearchForm extends React.Component {
                     <div className='serach_form'>
                     <FormItem label='姓名'>
                         {getFieldDecorator('name')(
-                            <Input placeholder="请输入" className='form_input_width'/>
+                            <Input placeholder="请输入" className='form_input_width' autoComplete="off"/>
                         )}
                     </FormItem>
                     

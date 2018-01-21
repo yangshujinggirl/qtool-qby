@@ -60,22 +60,22 @@ class OperatememberSearchForm extends React.Component {
                             <div className='serach_form'>
                                 <FormItem label='门店名称'>
                                     {getFieldDecorator('spShopName')(
-                                    <Input placeholder="请输入门店名称"/>
+                                    <Input placeholder="请输入门店名称" autoComplete="off"/>
                                     )}
                                 </FormItem>
                                 <FormItem label='会员姓名'>
                                     {getFieldDecorator('mbCardName')(
-                                    <Input placeholder="请输入会员姓名"/>
+                                    <Input placeholder="请输入会员姓名" autoComplete="off"/>
                                     )}
                                 </FormItem>
                                 <FormItem label='会员电话'>
                                     {getFieldDecorator('mbCardMobile')(
-                                    <Input placeholder="请输入会员手机"/>
+                                    <Input placeholder="请输入会员手机" autoComplete="off"/>
                                     )}
                                 </FormItem>
                                 <FormItem label='会员卡号'>
                                     {getFieldDecorator('mbCardNo')(
-                                    <Input placeholder="请输入会员卡号"/>
+                                    <Input placeholder="请输入会员卡号" autoComplete="off"/>
                                     )}
                                 </FormItem>
                                 <FormItem label='会员级别'>
@@ -102,7 +102,7 @@ class OperatememberSearchForm extends React.Component {
                     </Col>
                 </Row>
                 <div style={{'position':'absolute','right':'0','bottom':'20px'}}>
-                    <Button type="primary" htmlType="submit" onClick={this.handleSearch.bind(this)}>搜索</Button>
+                    <Button type="primary" htmlType="submit" size='large' onClick={this.handleSearch.bind(this)}>搜索</Button>
                 </div>
             </Form>
         );

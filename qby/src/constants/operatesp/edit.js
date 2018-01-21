@@ -327,7 +327,7 @@ class SpEditForm extends React.Component{
 						rules: [{ required: true, message: '请输入门店名称'}],
 						initialValue:this.state.name
 					})(
-						<Input placeholder='请输入门店名称'/>
+						<Input placeholder='请输入门店名称' autoComplete="off"/>
 					)}
 				</FormItem>
                 <FormItem
@@ -339,7 +339,7 @@ class SpEditForm extends React.Component{
 						rules: [{ required: true, message: '请输入门店简称'}],
 						initialValue:this.state.sname
 					})(
-						<Input placeholder='请输入门店简称'/>
+						<Input placeholder='请输入门店简称' autoComplete="off"/>
 					)}
 				</FormItem>
                 <FormItem
@@ -351,7 +351,7 @@ class SpEditForm extends React.Component{
 						rules: [{ required: true, message: '请输入打印名称'}],
 						initialValue:this.state.printName
 					})(
-						<Input placeholder='请输入打印名称'/>
+						<Input placeholder='请输入打印名称' autoComplete="off"/>
 					)}
 				</FormItem>
                 <FormItem
@@ -363,7 +363,7 @@ class SpEditForm extends React.Component{
 						rules: [{ required: true, message: '请输入门店编号'}],
 						initialValue:this.state.no
 					})(
-						<Input placeholder='请输入门店编号'/>
+						<Input placeholder='请输入门店编号' autoComplete="off"/>
                     )}
                     
 				</FormItem>
@@ -376,7 +376,7 @@ class SpEditForm extends React.Component{
 						rules: [{ required: true, message: '请输入店主手机'}],
 						initialValue:this.state.mobile
 					})(
-						<Input placeholder='请输入店主手机'/>
+						<Input placeholder='请输入店主手机' autoComplete="off"/>
 					)}
 				</FormItem>
                 <FormItem
@@ -388,7 +388,7 @@ class SpEditForm extends React.Component{
 						rules: [{ required: true, message: '请输入门店电话'}],
 						initialValue:this.state.telephone
 					})(
-						<Input placeholder='请输入门店电话'/>
+						<Input placeholder='请输入门店电话' autoComplete="off"/>
 					)}
 				</FormItem>
                 <FormItem
@@ -400,7 +400,7 @@ class SpEditForm extends React.Component{
 						rules: [{ required: true, message: '请输入门店店主'}],
 						initialValue:this.state.shopman
 					})(
-						<Input placeholder='请输入门店店主'/>
+						<Input placeholder='请输入门店店主' autoComplete="off"/>
 					)}
 				</FormItem>
                 <FormItem
@@ -473,7 +473,7 @@ class SpEditForm extends React.Component{
 						rules: [{ required: true, message: '请输入门店地址'}],
 						initialValue:this.state.address
 					})(
-						<Input placeholder='请输入门店地址'/>
+						<Input placeholder='请输入门店地址' autoComplete="off"/>
 					)}
 				</FormItem>
                 <FormItem
@@ -484,7 +484,7 @@ class SpEditForm extends React.Component{
 					{getFieldDecorator('square', {
 						initialValue:this.state.square
 					})(
-						<Input placeholder='请输入门店面积'/>
+						<Input placeholder='请输入门店面积' autoComplete="off"/>
 					)}
 				</FormItem>
                 <FormItem
@@ -495,7 +495,7 @@ class SpEditForm extends React.Component{
 					{getFieldDecorator('rental', {
 						initialValue:this.state.rental
 					})(
-						<Input placeholder='请输入门店租金'/>
+						<Input placeholder='请输入门店租金' autoComplete="off"/>
 					)}
 				</FormItem>
                 <FormItem
@@ -506,7 +506,7 @@ class SpEditForm extends React.Component{
 					{getFieldDecorator('staffCost', {
 						initialValue:this.state.staffCost
 					})(
-						<Input placeholder='请输入人事费用'/>
+						<Input placeholder='请输入人事费用' autoComplete="off"/>
 					)}
 				</FormItem>
                 <FormItem
@@ -542,7 +542,7 @@ class SpEditForm extends React.Component{
 					{getFieldDecorator('wechat', {
 						initialValue:this.state.wechat
 					})(
-						<Input placeholder='请输入店主微信'/>
+						<Input placeholder='请输入店主微信' autoComplete="off"/>
 					)}
 				</FormItem>
                 <FormItem
@@ -553,7 +553,7 @@ class SpEditForm extends React.Component{
 					{getFieldDecorator('remark', {
 						initialValue:this.state.remark
 					})(
-						<TextArea rows={4} placeholder='请输入店主备注'/>
+						<TextArea rows={4} placeholder='请输入店主备注' autoComplete="off"/>
 					)}
 				</FormItem>
             	<FormItem wrapperCol={{ offset: 4}} style = {{marginBottom:0}}>

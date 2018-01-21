@@ -142,7 +142,7 @@ class OrderdbEditForm extends React.Component{
 				<MyUpload/> 
 				<Button type="primary" 
 						onClick={this.ZaiSpuExcel.bind(this)} 
-						style={{position:'absolute',right:'15px',top:'24px'}}>下载导入模板</Button>
+						style={{position:'absolute',right:'15px',top:'24px',zIndex:"1000"}}>下载导入模板</Button>
 				<Form className="addUser-form">
 				<FormItem
 						label="调出仓库"

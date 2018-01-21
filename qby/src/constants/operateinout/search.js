@@ -60,7 +60,7 @@ class OperateinoutSearchForm extends React.Component {
                             <div className='serach_form'>
                                 <FormItem label='门店名称'>
                                     {getFieldDecorator('shopName')(
-                                    <Input placeholder="请输入门店名称"/>
+                                    <Input placeholder="请输入门店名称" autoComplete="off"/>
                                     )}
                                 </FormItem>
                                 <FormItem label='收支筛选'>
