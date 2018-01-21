@@ -56,9 +56,9 @@ class SearchForm extends React.Component {
                                 <FormItem label='门店状态'>
                                     {getFieldDecorator('status')(
                                     <Select allowClear={true} placeholder="请选择门店状态">
-                                       <Option value='1'>待执行</Option>
-                                       <Option value='2'>已执行</Option>
-                                       <Option value='0'>无效</Option>
+                                       <Option value='0'>待开业</Option>
+                                       <Option value='10'>开业中</Option>
+                                       <Option value='20'>关业中</Option>
                                     </Select>
                                     )}
                                 </FormItem>

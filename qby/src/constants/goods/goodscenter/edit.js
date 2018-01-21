@@ -7,6 +7,7 @@
 	import AddEditableTable from './add'
 	import TableCanEdit from './edittable';
 	import EditableCell from './tablepiuse';
+	import {deepcCloneObj} from '../../../utils/commonFc';
 	const RadioGroup = Radio.Group;
 
 	const FormItem = Form.Item;
@@ -348,7 +349,8 @@
 					return res;
 				}).then((json) => {
 					if(json.code=='0'){
-						this.delecttab()
+						this.delecttab();
+						this.initWarehouseList();
 					}
 				})
 			}	
@@ -371,6 +373,17 @@
 					payload:'301000edit'
 				})
 			}
+		}
+
+		//搜搜请求数据
+		initWarehouseList=()=>{
+			let values =deepcCloneObj(this.props.values); 
+			values.currentPage="0";
+			this.props.dispatch({
+				type:'goods/fetch',
+				payload:{code:'qerp.web.pd.spu.query',values:values}
+			})
+			this.props.dispatch({type:'tab/loding',payload:true})
 		}
 
 	render() {
@@ -707,8 +720,8 @@
 	const GoodEdit = Form.create()(App);
 
 	function mapStateToProps(state) {
-		const {limit,currentPage,name,pdCategory1Id,pdCategory2Id,pdBrandId,spuIdPics,pdCategorys,pdBrand,pdTypeslist,pdType1Id,pdType2Id,tag1,tag2,isskus,goodindodatasouce,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell,pdSpuInfo,spuPics,goodpdCategorys,shareType,containerSpec,methup} = state.goods;
-		return {limit,currentPage,name,pdCategory1Id,pdCategory2Id,pdBrandId,spuIdPics,pdCategorys,pdBrand,pdTypeslist,pdType1Id,pdType2Id,tag1,tag2,isskus,goodindodatasouce,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell,pdSpuInfo,spuPics,goodpdCategorys,shareType,containerSpec,methup};
+		const {values,limit,currentPage,name,pdCategory1Id,pdCategory2Id,pdBrandId,spuIdPics,pdCategorys,pdBrand,pdTypeslist,pdType1Id,pdType2Id,tag1,tag2,isskus,goodindodatasouce,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell,pdSpuInfo,spuPics,goodpdCategorys,shareType,containerSpec,methup} = state.goods;
+		return {values,limit,currentPage,name,pdCategory1Id,pdCategory2Id,pdBrandId,spuIdPics,pdCategorys,pdBrand,pdTypeslist,pdType1Id,pdType2Id,tag1,tag2,isskus,goodindodatasouce,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell,pdSpuInfo,spuPics,goodpdCategorys,shareType,containerSpec,methup};
 	}
 
 	export default connect(mapStateToProps)(GoodEdit);
