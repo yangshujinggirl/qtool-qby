@@ -7,18 +7,26 @@ import DatasIndex from './datas/index';
 const TabPane = Tabs.TabPane;
 
 class DatagoIndex extends React.Component{
+    state={
+        key:'1'
+    }
+    tabChange = (index)=>{
+        this.setState({
+            key:index
+        })
+    }
   	render(){       
      	return(
         	<div className='content_box stock-tabs'>
-                <Tabs defaultActiveKey="1">
+                <Tabs defaultActiveKey="1" onTabClick={this.tabChange.bind(this)}>
                     <TabPane tab="商品分析" key="1">
-                        <DatagodesIndex/>
+                        {this.state.key == 1 && <DatagodesIndex/>} 
                     </TabPane>
                     <TabPane tab="分类分析" key="2">
-                        <DataclassdesIndex/>
+                        {this.state.key == 2 && <DataclassdesIndex/>} 
                     </TabPane>
                     <TabPane tab="商品数据" key="3">
-                        <DatasIndex/>
+                        {this.state.key == 3 && <DatasIndex/>} 
                     </TabPane>
                 </Tabs>
         	</div>

@@ -84,7 +84,7 @@ export default {
 				}]
 
 				const datalist2=[{
-					title:'毛利润额',
+					title:'毛销售额',
 					value:analysis.amount,
 					rate:Math.abs(analysis.amountRate),
 					text:'同比上周',

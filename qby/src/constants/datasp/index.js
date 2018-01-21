@@ -12,22 +12,29 @@ const TabPane = Tabs.TabPane;
 
 
 class DataspIndex extends React.Component{
-	state = {};
+	state = {
+        key:'1'
+    };
+    tabChange = (index)=>{
+        this.setState({
+            key:index
+        })
+    }
   	render(){       
      	return(
         	<div className='content_box stock-tabs'>
-                <Tabs defaultActiveKey="1">
+                <Tabs defaultActiveKey="1" onTabClick={this.tabChange.bind(this)}>
                     <TabPane tab="销售数据" key="1">
-                        <DataspsellIndex/>
+                        {this.state.key == '1' && <DataspsellIndex/>} 
                     </TabPane>
                     <TabPane tab="门店库存" key="2">
-                        <DataspcunIndex/>
+                        {this.state.key == '2' && <DataspcunIndex/>} 
                     </TabPane>
                     <TabPane tab="历史库存" key="3">
-                        <DatasphiscunIndex/>
+                        {this.state.key == '3' && <DatasphiscunIndex/>} 
                     </TabPane>
                     <TabPane tab="联营分成" key="4">
-                        <DataspfenIndex/>
+                        {this.state.key == '4' && <DataspfenIndex/>} 
                     </TabPane>
                 </Tabs>
         	</div>

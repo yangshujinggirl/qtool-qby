@@ -99,8 +99,13 @@ class DataclassTable extends React.Component {
             }
         })
 	}
-    hindChange=()=>{
-
+    hindChange=(data,datastr)=>{
+		this.setState({
+			startDate:datastr[0],
+            endDate:datastr[1],
+		},function(){
+			this.initstockList()
+		})
     }
 	render() {
         const startDate=timeForMat(7).t2

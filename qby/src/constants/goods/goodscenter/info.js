@@ -20,6 +20,9 @@ class App extends React.Component {
 			title: '商品条码',
 			dataIndex: 'barcode'
 		},{
+			title: '库存',
+			dataIndex: 'inventory'
+		},{
 			title: '售价',
 			dataIndex: 'toBPrice'
 		},{
@@ -46,6 +49,9 @@ class App extends React.Component {
 		},{
 			title: '商品条码',
 			dataIndex: 'barcode'
+		},{
+			title: '库存',
+			dataIndex: 'inventory'
 		}, {
 			title: '售价',
 			dataIndex: 'toBPrice'
@@ -61,7 +67,6 @@ class App extends React.Component {
 		}];  
 
 		this.state = {
-			pdBrandId:this.props.pdBrandId,
 			dataSource:[],
 			issku:false,
 			spuIdPics:[],
@@ -102,7 +107,7 @@ class App extends React.Component {
 				const dataSource=[]
 				const containerSpec=json.pdSpu.containerSpec
 				const shareTypeStr=json.pdSpu.shareTypeStr
-
+				const inventory=json.pdSpu.inventory
 				if(pdSkus.length>0){
 					const pdType1Id=pdSkus[0].pdType1Id
 					const pdType2Id=pdSkus[0].pdType2Id==null?'00':pdSkus[0].pdType2Id
@@ -122,7 +127,8 @@ class App extends React.Component {
 							pdType1ValId:pdSkus[i].pdType1ValId,
 							pdType2Id:pdSkus[i].pdType2Id,
 							pdType2ValId:pdSkus[i].pdType2ValId,
-							pdSkuId:pdSkus[i].pdSkuId
+							pdSkuId:pdSkus[i].pdSkuId,
+							inventory:inventory,
 						})
 					}
 				}else{
@@ -133,13 +139,15 @@ class App extends React.Component {
 						toCPrice:toCPrice,
 						tagPrice:tagPrice,
 						costPrice:costPrice,
+						inventory:inventory,
 						key:pdSpuId,
 						keys:'0000'
 					}
 					dataSource.push(values)
 				}
-				
-
+				for(var i=0;i<pdSpuInfo.length;i++){
+					pdSpuInfo[i].key=String(i+1)
+				}
 				this.setState({
 					lotStatus:lotStatus,
 					spuIdPics:spuIdPics,
@@ -150,13 +158,13 @@ class App extends React.Component {
 				},function(){
 					this.props.form.setFieldsValue({
 						name: name,
-						pdCategory1name:pdCategory1name,
+						 pdCategory1name:pdCategory1name,
 						pdCategory2name:pdCategory2name,
-						pdBrandname:pdBrandname,
-						lotStatus:lotStatus=='0'?'否':'是',
-						expdays:expdays,
+						 pdBrandname:pdBrandname,
+						 lotStatus:lotStatus=='0'?'否':'是',
+						expdays:expdays==null || undefined ? '' :expdays,
 						lotType:lotType=='0'?'到期日期':'生产日期',
-						lotLimitInDay:lotLimitInDay,
+						lotLimitInDay:lotLimitInDay==null || undefined?'':lotLimitInDay,
 						eventNew:eventNew?'是':'否',
 						eventHot:eventHot?'是':'否',
 						isDirectExpress:isDirectExpress=='0'?'否':'是',
@@ -390,7 +398,7 @@ class App extends React.Component {
 						{
 							this.state.pdSpuInfo.map((item,index)=>{
 								return(
-									<div>
+									<div key={index}>
 										{
 											item.type=='1'?item.content:<Imgmodel picUrl={item.content}/>
 										}
