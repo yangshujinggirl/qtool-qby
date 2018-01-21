@@ -1,4 +1,4 @@
-import { Upload, Icon, Modal } from 'antd';
+import { Upload, Icon, Modal ,message} from 'antd';
 import { connect } from 'dva';
 
 const fileDomain=eval(sessionStorage.getItem('fileDomain'));
@@ -7,10 +7,12 @@ function beforeUpload(file) {
 	const isPNG = file.type === 'image/png';
 	if (!isJPG && !isPNG) {
 		message.error('仅支持jpg/jpeg/png格式');
+		return
 	}
 	const isLt2M = file.size / 1024 / 1024 < 2;
 	if (!isLt2M) {
 		message.error('图片文件需小于2MB');
+		return
 	}
 	return (isJPG || isPNG) && isLt2M;
 }

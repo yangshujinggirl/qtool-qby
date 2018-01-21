@@ -70,7 +70,6 @@ handleInputConfirm = () => {
 						})
 						this.hindok()
 						if(this.state.firstent){
-							message.success('此属性已存在',.8)
 						}
 						this.setState({
 							firstent:true

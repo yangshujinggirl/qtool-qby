@@ -399,7 +399,7 @@
 							rules: [{ required: true, message: '请输入商品名称' }],
 							initialValue:this.props.name
 						})(
-							<Input placeholder="请输入商品名称"/>
+							<Input placeholder="请输入商品名称" autoComplete="off"/>
 						)}
 				</FormItem>
 				<FormItem
@@ -570,7 +570,7 @@
 								initialValue:this.props.expdays,
 								rules: [{pattern:/^[0-9]*$/,message:'天数只能是整数'}],
 							})(
-								<Input disabled={this.props.lotStatus=='1'?false:true}/>
+								<Input disabled={this.props.lotStatus=='1'?false:true} autoComplete="off"/>
 							)}
 					</FormItem>
 					<FormItem
@@ -598,7 +598,7 @@
 							initialValue:this.props.lotLimitInDay,
 							rules: [{pattern:/^[0-9]*$/,message:'天数只能是整数'}],
 						})(
-							<Input disabled={this.props.lotStatus=='1'?false:true}/>
+							<Input disabled={this.props.lotStatus=='1'?false:true} autoComplete="off"/>
 						)}
 					</FormItem>
 					<FormItem
@@ -670,7 +670,7 @@
 							rules: [{ required: true, message: '请输入箱规销售' }],
 							initialValue:this.props.containerSpec
 						})(
-							<Input placeholder="请输入箱规销售"/>
+							<Input placeholder="请输入箱规销售" autoComplete="off"/>
 						)}
 					</FormItem>
 					<FormItem

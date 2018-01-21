@@ -94,8 +94,23 @@ export default {
 			const pdType2Id='00'
 			const tag1=[]
 			const tag2=[]
-			const goodindodatasouce=[]
-			const initdatasouce=[]
+			const goodindodatasouce=[{
+				code:null,
+				barcode:null,
+				toBPrice:null,
+				toCPrice:null,
+				tagPrice:null,
+				costPrice:null,
+			}]
+			const initdatasouce=[{
+				code:null,
+				barcode:null,
+				toBPrice:null,
+				toCPrice:null,
+				tagPrice:null,
+				costPrice:null,
+			
+			}]
 			const lotStatus='0'
 			const expdays=null
 			const lotType=null

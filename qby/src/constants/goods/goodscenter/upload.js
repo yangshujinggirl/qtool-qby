@@ -1,6 +1,20 @@
 import { connect } from 'dva';
-import { Upload, Icon, Modal } from 'antd';
+import { Upload, Icon, Modal ,message} from 'antd';
 
+
+function beforeUpload(file){
+	const isJPG = file.type === 'image/jpeg';
+	const isPNG = file.type === 'image/png';
+	if (!isJPG && !isPNG) {
+	message.error('仅支持jpg/jpeg/png格式');
+}
+const isLt2M = file.size / 1024 / 1024 < 2;
+if (!isLt2M) {
+	message.error('图片文件需小于2MB');
+}
+
+return (isJPG || isPNG) && isLt2M;
+}
 // 商品图片上传组件
 class PicturesWall extends React.Component {
 	state = {
@@ -38,18 +52,7 @@ class PicturesWall extends React.Component {
 			fileList:value
 		})
 	}
-	beforeUpload=(file)=>{
-		const isJPG = file.type === 'image/jpeg';
-		const isPNG = file.type === 'image/png';
-		if (!isJPG && !isPNG) {
-		message.error('仅支持jpg/jpeg/png格式');
-	}
-	const isLt2M = file.size / 1024 / 1024 < 2;
-	if (!isLt2M) {
-		message.error('图片文件需小于2MB');
-	}
-	return (isJPG || isPNG) && isLt2M;
-	}
+	
 	render() {
 		const { previewVisible, previewImage, fileList } = this.state;
 		const uploadButton = (
@@ -61,12 +64,13 @@ class PicturesWall extends React.Component {
 	return (
 		<div className="clearfix">
 			<Upload
-				beforeUpload={this.beforeUpload}
+				beforeUpload={beforeUpload}
 				action="/erpWebRest/qcamp/upload.htm?type=spu"
 				listType="picture-card"
 				fileList={fileList}
 				onPreview={this.handlePreview}
 				onChange={this.handleChange}
+				// showUploadList={false}
 				name="imgFile"
 			>
 			{fileList.length >= 1000 ? null : uploadButton}

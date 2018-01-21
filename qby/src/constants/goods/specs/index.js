@@ -1,6 +1,6 @@
 require('../../../style/specs.css')
 import React from 'react';
-import EditableTable from '../../../components/table/tablebasic'
+import EditableTable from '../../../components/table/tablebasics'
 import CollectionsPage from './model'
 import CollectionsPages from './addmodel'
 import { Button } from 'antd';
@@ -62,7 +62,7 @@ class Specsindex extends React.Component {
 
 	render() {
 		return (
-			<div className='content_box'>
+			<div className='content_box classssd'>
 					<div className='tr mb15'><CollectionsPages title='新增规格' text='新增规格' statetype='primary'/></div>
 					<EditableTable dataSource={this.props.pdTypes} columns={this.columns} showHeader={false} bordered={false}/>
 			</div>

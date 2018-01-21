@@ -1,6 +1,6 @@
 require('../../../style/specs.css')
 import React from 'react';
-import EditableTable from '../../../components/table/tablebasic'
+import EditableTable from '../../../components/table/tablebasics'
 import CollectionsPage from './model'
 import CollectionsPages from './addmodel'
 import { Button } from 'antd';
@@ -66,7 +66,7 @@ class Classificationindex extends React.Component {
 
 	render() {
 		return (
-			<div className='content_box'>
+			<div className='content_box classssd'>
 					<div className='tr mb15'><CollectionsPages title='新增分类' text='新增分类' statetype='primary'/></div> 
 					<EditableTable dataSource={this.props.pdCategoryslist} columns={this.columns} showHeader={false} bordered={false}/>
 			</div>

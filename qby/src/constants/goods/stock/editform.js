@@ -136,7 +136,7 @@ render() {
 		{getFieldDecorator('code', {
 			rules: [{ required: true, message: '请输入商品编码' }],
 		})(
-			<Input placeholder='请输入商品编码' onKeyUp={this.handleEnt.bind(this)}/>
+			<Input placeholder='请输入商品编码' onKeyUp={this.handleEnt.bind(this)} autoComplete="off"/>
 		)}
 		</FormItem>
 		<FormItem
@@ -155,7 +155,7 @@ render() {
 		{getFieldDecorator('delta', {
 			rules: [{ required: true, message: '请输入增减库存' }],
 		})(
-			<Input placeholder='请输入增减库存' onKeyUp={this.hindkeyup.bind(this)}/>
+			<Input placeholder='请输入增减库存' onKeyUp={this.hindkeyup.bind(this)} autoComplete="off"/>
 		)}
 		</FormItem>
 		<FormItem
