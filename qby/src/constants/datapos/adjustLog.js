@@ -22,8 +22,8 @@ class AdjustLogIndexForm extends React.Component {
             total:0,
             currentPage:0,
             limit:15,
-            adjustTimeStart:"",
-            adjustTimeEnd:"",
+            adjustTimeST:"",
+            adjustTimeET:"",
             visible:false,
             remarkText:'',
             windowHeight:''
@@ -72,8 +72,8 @@ class AdjustLogIndexForm extends React.Component {
 
     dateChange = (date, dateString) =>{
         this.setState({
-            adjustTimeStart:dateString[0],
-            adjustTimeEnd:dateString[1]
+            adjustTimeST:dateString[0],
+            adjustTimeET:dateString[1]
         })
     }
 
@@ -87,8 +87,8 @@ class AdjustLogIndexForm extends React.Component {
                 spShopId:this.props.shopId,
                 currentPage:this.state.currentPage,
                 limit:this.state.limit,
-                adjustTimeStart:this.state.adjustTimeStart,
-                adjustTimeEnd:this.state.adjustTimeEnd,
+                adjustTimeST:this.state.adjustTimeST,
+                adjustTimeET:this.state.adjustTimeET,
                 name:this.state.name,
                 type:1
             }
@@ -106,8 +106,8 @@ class AdjustLogIndexForm extends React.Component {
                 spShopId:this.props.shopId,
                 currentPage:this.state.currentPage,
                 limit:this.state.limit,
-                adjustTimeStart:this.state.adjustTimeStart,
-                adjustTimeEnd:this.state.adjustTimeEnd,
+                adjustTimeST:this.state.adjustTimeST,
+                adjustTimeET:this.state.adjustTimeET,
                 name:this.state.name,
                 type:1
             }
@@ -126,8 +126,8 @@ class AdjustLogIndexForm extends React.Component {
                     spShopId:this.props.shopId,
                     currentPage:0,
                     limit:this.state.limit,
-                    adjustTimeStart:this.state.adjustTimeStart,
-                    adjustTimeEnd:this.state.adjustTimeEnd,
+                    adjustTimeST:this.state.adjustTimeST,
+                    adjustTimeET:this.state.adjustTimeET,
                     name:this.state.name,
                     type:1
                 }
@@ -140,8 +140,8 @@ class AdjustLogIndexForm extends React.Component {
     exportDatas = () =>{
         let data = {
             spShopId:this.props.shopId,
-            adjustTimeStart:this.state.adjustTimeStart,
-            adjustTimeEnd:this.state.adjustTimeEnd,
+            adjustTimeST:this.state.adjustTimeST,
+            adjustTimeET:this.state.adjustTimeET,
             name:this.state.name,
             type:1
         }
@@ -207,8 +207,8 @@ class AdjustLogIndexForm extends React.Component {
                                     label="损益时间"
                                     >
                                         <RangePicker 
-                                            value={this.state.adjustTimeStart?
-                                                    [moment(this.state.adjustTimeStart, dateFormat), moment(this.state.adjustTimeEnd, dateFormat)]
+                                            value={this.state.adjustTimeST?
+                                                    [moment(this.state.adjustTimeST, dateFormat), moment(this.state.adjustTimeET, dateFormat)]
                                                     :null
                                                 }
                                             format={dateFormat}
@@ -295,15 +295,15 @@ class AdjustLogIndexForm extends React.Component {
         }
         var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate;
         this.setState({
-            adjustTimeStart:currentdate,
-            adjustTimeEnd:currentdate
+            adjustTimeST:currentdate,
+            adjustTimeET:currentdate
         },function(){
             let values = {
                 spShopId:this.props.shopId,
                 currentPage:0,
                 limit:15,
-                adjustTimeStart:this.state.adjustTimeStart,
-                adjustTimeEnd:this.state.adjustTimeEnd,
+                adjustTimeST:this.state.adjustTimeST,
+                adjustTimeET:this.state.adjustTimeET,
                 type:1
             }
             self.getServerData(values);  

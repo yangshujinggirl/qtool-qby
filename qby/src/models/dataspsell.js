@@ -4,7 +4,7 @@ import NP from 'number-precision'
 function databi(a,b){
 	var Rate=0
 	if(a>0 && b>0){
-		Rate=NP.round(NP.divide(NP.minus(a,b),b),2); 
+		Rate=NP.round(NP.divide(NP.times(NP.minus(a,b),100),b),2); 
 	}else{
 		if(b<=0){
 			Rate=(a>0)?100:0
@@ -29,11 +29,12 @@ export default {
 		shopSaleDatas:[],
 		datasouce:[],
 		tabledatasouce:[],
-		values:{}
+		values:{},
+		updateTime:null
 	},
 	reducers: {
-		selldatalist(state, { payload:{shopSaleData,data,listdata}}) {
-			return {...state,shopSaleData,data,listdata}
+		selldatalist(state, { payload:{shopSaleData,data,listdata,updateTime}}) {
+			return {...state,shopSaleData,data,listdata,updateTime}
 		},
 		shopSaleDatas(state, { payload:shopSaleDatas}) {
 			return {...state,shopSaleDatas}
@@ -53,13 +54,13 @@ export default {
 			const result=yield call(GetServerData,code,values);
 			yield put({type: 'tab/loding',payload:false});
 			if(result.code=='0'){
-				console.log(result)
 				const shopSaleData=result.shopSaleData
+				const updateTime=shopSaleData.updateTime
 				shopSaleData.yesterdaysellRate=NP.round(NP.divide(NP.minus(shopSaleData.yesterdayAmount, shopSaleData.yesterdayCostAmount),shopSaleData.yesterdayAmount),2);//昨日毛利率
+				shopSaleData.yesterdaysellRates=String(NP.times(shopSaleData.yesterdaysellRate,100))+'%';//昨日毛利率展示
 				shopSaleData.upyesterdaysellRate=NP.round(NP.divide(NP.minus(shopSaleData.upYesterdayAmount, shopSaleData.upYesterdayCostAmount),shopSaleData.upYesterdayAmount),2);//上期昨日毛利率
-
 				shopSaleData.posAmountBi=databi(shopSaleData.posAmount,shopSaleData.upPosAmount) //毛销售额
-				shopSaleData.possaleAmountBi=databi(shopSaleData.posAmount,shopSaleData.upPosAmount)  //销售额
+				shopSaleData.possaleAmountBi=databi(shopSaleData.saleAmount,shopSaleData.upSaleAmount)  //销售额
 				shopSaleData.poscleanAmountBi=databi(shopSaleData.cleanAmount,shopSaleData.upCleanAmount)  //净收款
 				shopSaleData.yesterdaysellRateBi=databi(shopSaleData.yesterdaysellRate,shopSaleData.upyesterdaysellRate)  //昨日毛利率
 				const data=[{
@@ -82,7 +83,7 @@ export default {
 					type:(shopSaleData.poscleanAmountBi<0)?'0':'1'
 				},{
 					title:'昨日毛利率',
-					value:shopSaleData.yesterdaysellRate,
+					value:shopSaleData.yesterdaysellRates,
 					rate:Math.abs(shopSaleData.yesterdaysellRateBi),
 					text:'同比上周',
 					type:(shopSaleData.yesterdaysellRateBi<0)?'0':'1'
@@ -111,7 +112,7 @@ export default {
 					type:'4',
 					bg:'#BC2739'
 				}]
-				yield put({type: 'selldatalist',payload:{shopSaleData,data,listdata}});
+				yield put({type: 'selldatalist',payload:{shopSaleData,data,listdata,updateTime}});
 			} 
 		},
 		*tablefetch({ payload: {code,values} }, { call, put ,select}) {

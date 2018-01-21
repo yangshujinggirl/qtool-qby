@@ -12,16 +12,23 @@ const TabPane = Tabs.TabPane;
 
 
 class DataorderIndex extends React.Component{
-	state = {};
+	state = {
+        key:'1'
+    };
+    tabChange = (index)=>{
+        this.setState({
+            key:index
+        })
+    }
   	render(){       
      	return(
         	<div className='content_box stock-tabs'>
-                <Tabs defaultActiveKey="1">
+                <Tabs defaultActiveKey="1" onTabClick={this.tabChange.bind(this)}>
                     <TabPane tab="门店订单" key="1">
-                        <DatasporderIndex/>
+                        {this.state.key == 1 && <DatasporderIndex/>} 
                     </TabPane>
                     <TabPane tab="POS订单" key="2">
-                        <DataposorderIndex/>
+                        {this.state.key == 2 && <DataposorderIndex/>} 
                     </TabPane>
                 </Tabs>
         	</div>

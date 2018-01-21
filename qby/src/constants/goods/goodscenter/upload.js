@@ -16,7 +16,6 @@ class PicturesWall extends React.Component {
 		});
 	}
 	handleChange = ({ fileList }) => {
-		console.log(fileList)
 		this.setState({fileList})
 		var s=fileList.every(function(currentValue){
 			return  currentValue.status=='done'
@@ -104,7 +103,6 @@ class PicturesWall extends React.Component {
 
 	function mapStateToProps(state) {
 		const {fileList} = state.goods;
-		console.log(fileList)
 		return {fileList};
 	}
 

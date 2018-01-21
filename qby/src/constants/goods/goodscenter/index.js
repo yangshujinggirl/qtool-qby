@@ -44,7 +44,6 @@ class GoodsIndex extends React.Component{
 	}
 	//批量售卖
 	piSell=(state)=>{
-		console.log('售卖')
 		if(this.props.checkgood.length>0){
 			let pdSpuIds=this.props.checkgood
 			let values={
@@ -70,7 +69,6 @@ class GoodsIndex extends React.Component{
 	}
 	//批量上新
 	pinNew=(state)=>{
-		console.log('上新')
 		if(this.props.checkgood.length>0){
 			let pdSpuIds=this.props.checkgood
 			let values={
@@ -97,7 +95,6 @@ class GoodsIndex extends React.Component{
 	}
 	//批量畅销
 	pinHot=(state)=>{
-		console.log('畅销')
 		if(this.props.checkgood.length>0){
 			let pdSpuIds=this.props.checkgood
 			let values={

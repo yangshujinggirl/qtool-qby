@@ -50,48 +50,16 @@ class CostCheckIndexForm extends React.Component {
     }
 
     onDownloadCheck = (record) => {
-        this.exportData('71',record.url)
+        // this.exportData('71',record.url)
+        window.open(record.url)
     }
 
-    exportData = (type,data) => {
-		const values={
-			type:type,
-			downloadParam:data,
-		}
-		const result=GetServerData('qerp.web.sys.doc.task',values);
-		result.then((res) => {
-			return res;
-		}).then((json) => {
-			if(json.code=='0'){
-				var _dispatch=this.props.dispatch
-				confirm({
-					title: '数据已经进入导出队列',
-					content: '请前往下载中心查看导出进度',
-					cancelText:'稍后去',
-					okText:'去看看',
-					onOk() {
-						const paneitem={title:'下载中心',key:'000001',componkey:'000001',data:null}
-						_dispatch({
-							type:'tab/firstAddTab',
-							payload:paneitem
-						});
-						_dispatch({
-							type:'downlaod/fetch',
-							payload:{code:'qerp.web.sys.doc.list',values:{limit:15,currentPage:0}}
-						});
-					},
-					onCancel() {
-						
-					},
-	  			});
-			}
-		})
-	
-	}
+   
 
     //预售订单下载
     downloadPreSale = (record) =>{
-        this.exportData('72',record.preSellUrl)
+        // this.exportData('72',record.preSellUrl)
+        window.open(record.preSellUrl)
     }
 
     render() {

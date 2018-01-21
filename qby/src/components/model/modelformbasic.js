@@ -6,19 +6,19 @@ const CollectionCreateForm = Form.create()(
     const { visible, onCancel, onCreate, form } = props;
     const { getFieldDecorator } = form;
     return (
-      <Modal
-        visible={visible}
-        title="Create a new collection"
-        okText="Create"
-        onCancel={onCancel}
-        onOk={onCreate}
-      >
+      	<Modal
+			visible={visible}
+			title="Create a new collection"
+			okText="Create"
+			onCancel={onCancel}
+			onOk={onCreate}
+      	>
         <Form layout="vertical">
           <FormItem label="所属规格">
             {getFieldDecorator('asd', {
-              rules: [{ required: true, message: 'Please input the title of collection!' }],
+              	rules: [{ required: true, message: 'Please input the title of collection!' }],
             })(
-              <Input />
+              	<Input />
             )}
           </FormItem>
           <FormItem label="属性名称">
@@ -64,8 +64,6 @@ class CollectionsPage extends React.Component {
       if (err) {
         return;
       }
-
-      console.log('Received values of form: ', values);
       form.resetFields();
       this.setState({ visible: false });
     });

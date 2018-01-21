@@ -103,7 +103,11 @@ class EchartsTest extends Component {
                 trigger: 'axis'
             },
             legend: {
-                data:['掌柜销售','POS销售']
+                data:['掌柜销售','POS销售'],
+            },
+            grid:{
+                //  left:'5%',
+                top:'80'
             },
             toolbox: {
                 show: false,
@@ -155,15 +159,15 @@ class EchartsTest extends Component {
         return (
             <div className='rel'>
                 <div style={{position:"absolute",left:'160px',top:'-4px',zIndex:'1000'}}><Input placeholder="请输入商品编码" style={{width:"150px"}} onKeyUp={this.hindkeyup.bind(this)}/></div>
-                <div style={{position:"absolute",right:"102px",top:"-4px",zIndex:'1000'}}>
+                <div style={{position:"absolute",left:"159px",top:"34px",zIndex:'1000'}}>
                 <RangePicker
                     defaultValue={[moment(timeForMat(30).t2, dateFormat), moment(timeForMat(30).t1, dateFormat)]}
                     format={dateFormat}
                     onChange={this.hindChange.bind(this)}
                 />
                 </div>
-                <div style={{position:"absolute",left:"322px",top:"1px",zIndex:'1000'}}><Switch checked={this.state.type=='1'?true:false} onChange={this.checkonChange.bind(this)} checkedChildren="销售数量" unCheckedChildren="销售金额"/></div>
-                <div id="main" style={{ height: 400 }}></div>
+                <div style={{position:"absolute",left:"520px",top:"38px",zIndex:'1000'}}><Switch checked={this.state.type=='1'?true:false} onChange={this.checkonChange.bind(this)} checkedChildren="销售数量" unCheckedChildren="销售金额"/></div>
+                <div id="main" style={{ height: 400}}></div>
             </div>
         );
     }

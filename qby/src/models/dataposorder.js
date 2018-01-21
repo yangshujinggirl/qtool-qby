@@ -4,7 +4,7 @@ import NP from 'number-precision'
 function databi(a,b){
 	var Rate=0
 	if(a>0 && b>0){
-		Rate=NP.round(NP.divide(NP.minus(a,b),b),2); 
+		Rate=NP.round(NP.divide(NP.times(NP.minus(a,b),100),b),2); 
 	}else{
 		if(b<=0){
 			Rate=(a>0)?100:0
@@ -84,7 +84,7 @@ export default {
 				}]
 
 				const datalist2=[{
-					title:'毛利润额',
+					title:'毛销售额',
 					value:analysis.amount,
 					rate:Math.abs(analysis.amountRate),
 					text:'同比上周',

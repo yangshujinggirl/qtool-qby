@@ -10,14 +10,21 @@ const TabPane = Tabs.TabPane;
 
 
 class DatacgIndex extends React.Component{
-	state = {};
+	state = {
+		key:'1'
+	};
+	tabChange = (index)=>{
+        this.setState({
+            key:index
+        })
+    }
 
   	render(){       
      	return(
         	<div className='content_box stock-tabs'>
-                <Tabs defaultActiveKey="1">
+                <Tabs defaultActiveKey="1" onTabClick={this.tabChange.bind(this)}>
                     <TabPane tab="采购分析" key="1">
-                        <DatacglistIndex/>
+						{this.state.key == '1' && <DatacglistIndex/>} 
                     </TabPane>
                 </Tabs>
         	</div>

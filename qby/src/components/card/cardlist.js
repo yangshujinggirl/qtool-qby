@@ -2,7 +2,6 @@ import { Card } from 'antd';
 
 class Cardlist extends React.Component {
     hindClick=(index)=>{
-        console.log(index)
         if(index=='0'){
             this.props.hindent(1)
         }
