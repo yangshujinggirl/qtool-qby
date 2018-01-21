@@ -4,6 +4,7 @@ import { connect } from 'dva';
 import { Form, Select, Input, Button ,message,Modal, Row, Col,AutoComplete,Cascader } from 'antd';
 import GoodsListTable from './goodslist';
 import Infomodel from './infomodal';
+import MyUploadMd from './upload';
 const FormItem = Form.Item;
 const Option = Select.Option;
 
@@ -211,10 +212,7 @@ class OrdermdEditForm extends React.Component{
                     qtySum:this.state.allnumber,
                     amountSum:0,
                 });
-            }
-
-
-            
+            }   
         })
     }
 
@@ -260,11 +258,23 @@ class OrdermdEditForm extends React.Component{
 	hindCancel=()=>{
 		this.deleteTab()
 		this.refreshList()
-	}
+    }
+    
+    // 下载导入模板
+    ZaiSpuExcel=()=>{
+        window.open('../../../../sources/Excel/order.xlsx');
+    }
     
   	render(){
         const { getFieldDecorator,getFieldProps } = this.props.form;
      	return(
+             <div>
+                <MyUploadMd/> 
+                <Button type="primary" 
+                        onClick={this.ZaiSpuExcel.bind(this)} 
+                        style={{position:'absolute',right:'15px',top:'24px',zIndex:'1000'}}>
+                        下载导入模板
+                </Button>
           	<Form className="addUser-form show-table-form">
                 <FormItem
               		label="创建类型"
@@ -375,10 +385,12 @@ class OrdermdEditForm extends React.Component{
 				</FormItem>
             	<FormItem wrapperCol={{ offset: 4}} style = {{marginBottom:0}}>
               		<Button className='mr30' onClick={this.hindCancel.bind(this)}>取消</Button>
-              		<Button htmlType="submit" type="primary" onClick={this.handleSubmit.bind(this)}>保存</Button>
+              		<Button type="primary" onClick={this.handleSubmit.bind(this)}>保存</Button>
             	</FormItem>
                 <Infomodel ref='models' deleteTab={this.deleteTab.bind(this)} refreshList={this.refreshList.bind(this)}/> 
           	</Form>
+             </div>
+            
       	)
   	}
   	componentDidMount(){

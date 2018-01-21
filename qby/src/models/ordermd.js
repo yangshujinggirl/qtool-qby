@@ -17,7 +17,9 @@ export default {
         cardlist:[],
         expressList:[],
         orderLogList:[],
-        isCancel:false
+        isCancel:false,
+        goodsInfo:[],
+        mdopdermeth:{}
     },
     reducers: {
 		synchronous(state, { payload:values}) {
@@ -31,7 +33,13 @@ export default {
         },
         syncInfolist(state, { payload:{cardtitle,cardlist,expressList,orderLogList,isCancel}}) {
 			return {...state,cardtitle,cardlist,expressList,orderLogList,isCancel}
-        }
+        },
+        syncGoodsInfo(state, { payload:goodsInfo}) {
+			return {...state,goodsInfo}
+        },
+        mdopdermeth(state, { payload:mdopdermeth}) {
+			return {...state,mdopdermeth}
+        },
     },
     effects: {
         *fetch({ payload: {code,values} }, { call, put ,select}) {

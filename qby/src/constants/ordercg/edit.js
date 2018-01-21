@@ -101,9 +101,7 @@ class OrdercgEditForm extends React.Component{
 						this.deleteTab();
 						this.refreshList();
 						this.initState();
-                    }else{
-						message.error(json.message);
-					}
+                    }
                 })
             }
 		});
