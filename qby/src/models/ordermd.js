@@ -17,7 +17,8 @@ export default {
         cardlist:[],
         expressList:[],
         orderLogList:[],
-        isCancel:false
+        isCancel:false,
+        goodsInfo:[]
     },
     reducers: {
 		synchronous(state, { payload:values}) {
@@ -31,7 +32,10 @@ export default {
         },
         syncInfolist(state, { payload:{cardtitle,cardlist,expressList,orderLogList,isCancel}}) {
 			return {...state,cardtitle,cardlist,expressList,orderLogList,isCancel}
-        }
+        },
+        syncGoodsInfo(state, { payload:goodsInfo}) {
+			return {...state,goodsInfo}
+        },
     },
     effects: {
         *fetch({ payload: {code,values} }, { call, put ,select}) {

@@ -146,6 +146,17 @@ class GoodsListTable extends React.Component {
             </div>
         );
     }
+
+    componentDidMount(){
+        this.setState({
+            dataSource:this.props.dataSource
+        })
+    }
   }
 
-  export default GoodsListTable;
+function mapStateToProps(state) {
+    const {goodsInfo}  = state.ordermd;
+    return {goodsInfo};
+}   
+
+export default connect(mapStateToProps)(GoodsListTable);
