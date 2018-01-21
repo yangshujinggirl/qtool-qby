@@ -74,7 +74,7 @@ class OrderctSearchForm extends React.Component {
                         <Row>
                             <div className='serach_form'>
                                 <FormItem label='供应商名称'>
-                                    {getFieldDecorator('name')(
+                                    {getFieldDecorator('supplier')(
                                     <Input placeholder="请输入供应商名称" autoComplete="off"/>
                                     )}
                                 </FormItem>
