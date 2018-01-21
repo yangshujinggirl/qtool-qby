@@ -41,10 +41,10 @@ class Siders extends React.Component {
 								this.props.menus.map((item,index)=>{
 									return (
 										<SubMenu title={
-														<div className='itembox'>
-															<IconLogo type={item.type}/>
-															<span>{item.name}</span>
-														</div>
+													<div className='itembox'>
+														<IconLogo type={item.type}/>
+														<span>{item.name}</span>
+													</div>
 														} 
 												 key={item.urResourceId}>
 											{
