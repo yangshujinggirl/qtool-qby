@@ -375,6 +375,7 @@
 			}
 		}
 
+		
 		//搜搜请求数据
 		initWarehouseList=()=>{
 			let values =deepcCloneObj(this.props.values); 
@@ -667,7 +668,7 @@
 						wrapperCol={{ span: 6 }}
 					>
 						{getFieldDecorator('containerSpec', {
-							rules: [{ required: true, message: '请输入箱规销售' }],
+							rules: [{ required: true, message: '请输入箱规销售' },{pattern:/^[0-9]*$/,message:'请输入数字'}],
 							initialValue:this.props.containerSpec
 						})(
 							<Input placeholder="请输入箱规销售" autoComplete="off"/>
