@@ -25,7 +25,7 @@ class ProfitReportForm extends React.Component {
             },
             total:0,
             currentPage:0,
-            limit:10,
+            limit:15,
             rpDate:'',
             name:'',
             windowHeight:''
@@ -90,7 +90,7 @@ class ProfitReportForm extends React.Component {
             let data = {
                 currentPage:this.state.currentPage,
                 limit:this.state.limit,
-                rpDate:this.state.rpDate+"-01",
+                rpDate:this.state.rpDate?(this.state.rpDate+"-01"):"",
                 name:this.state.name
             }
             self.getServerData(data);
@@ -105,7 +105,7 @@ class ProfitReportForm extends React.Component {
             let data = {
                 currentPage:this.state.currentPage,
                 limit:this.state.limit,
-                rpDate:this.state.rpDate+"-01",
+                rpDate:this.state.rpDate?(this.state.rpDate+"-01"):"",
                 name:this.state.name
             };
             self.getServerData(data);
@@ -232,7 +232,7 @@ class ProfitReportForm extends React.Component {
                     shopId:this.props.shopId,
                     currentPage:"0",
                     limit:this.state.limit,
-                    rpDate:this.state.rpDate+"-01",
+                    rpDate:this.state.rpDate?(this.state.rpDate+"-01"):"",
                     name:this.state.name
                 }
                 self.getServerData(data);
@@ -244,9 +244,7 @@ class ProfitReportForm extends React.Component {
     exportDatas = () =>{
         let data = {
             shopId:this.props.shopId,
-            currentPage:"0",
-            limit:"15",
-            rpDate:this.state.rpDate+"-01",
+            rpDate:this.state.rpDate?(this.state.rpDate+"-01"):"",
             name:this.state.name
         }
         this.exportData(81,data)
@@ -311,7 +309,7 @@ class ProfitReportForm extends React.Component {
                 shopId:this.props.shopId,
                 currentPage:"0",
                 limit:"15",
-                rpDate:this.state.rpDate+"-01"
+                rpDate:this.state.rpDate?(this.state.rpDate+"-01"):""
             }
             self.getServerData(values);
         })
