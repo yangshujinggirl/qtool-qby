@@ -136,13 +136,13 @@ class GoodsIndex extends React.Component{
 			<div>
 				<Goodssearchform/>
 				<div className='btn_boxs'>
-					<div className='btn_lists'><Button type="primary" onClick={this.showModal.bind(this,10)}>批量售卖</Button></div>
-					<div className='btn_lists'><Button type="primary" onClick={this.showModal.bind(this,20)}>批量停售</Button></div>
-					<div className='btn_lists'><Button type="primary" onClick={this.showModal.bind(this,30)}>批量上新</Button></div>
-					<div className='btn_lists'><Button type="primary" onClick={this.showModal.bind(this,40)}>批量下新</Button></div>
-					<div className='btn_lists'><Button type="primary" onClick={this.showModal.bind(this,50)}>批量畅销</Button></div>
-					<div className='btn_lists'><Button type="primary" onClick={this.showModal.bind(this,60)}>批量下畅销</Button></div>
-					<Button type="primary" className='btn_lists' onClick={this.addspus.bind(this)}>新增商品</Button>
+					<Button type="primary" className='btn_lists' size='large' onClick={this.addspus.bind(this)}>新增商品</Button>
+					<div className='btn_lists'><Button type="primary" size='large' onClick={this.showModal.bind(this,10)}>批量售卖</Button></div>
+					<div className='btn_lists'><Button type="primary" size='large' onClick={this.showModal.bind(this,20)}>批量停售</Button></div>
+					<div className='btn_lists'><Button type="primary" size='large' onClick={this.showModal.bind(this,30)}>批量上新</Button></div>
+					<div className='btn_lists'><Button type="primary" size='large' onClick={this.showModal.bind(this,40)}>批量下新</Button></div>
+					<div className='btn_lists'><Button type="primary" size='large' onClick={this.showModal.bind(this,50)}>批量畅销</Button></div>
+					<div className='btn_lists'><Button type="primary" size='large' onClick={this.showModal.bind(this,60)}>批量下畅销</Button></div>
 				</div>
 				<Goodlist/>
 				<Modal

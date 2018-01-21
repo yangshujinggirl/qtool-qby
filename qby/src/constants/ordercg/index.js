@@ -83,7 +83,7 @@ class OrdercgIndex extends React.Component{
 	  printCgorder = () => {
 		console.log(this.props.selectedRows)
 		if (this.props.selectedRows.length < 1) {
-		  message.error('请选择采购单')
+		  message.error('请选择采购单',.8)
 		  return;
 		}
 		for (var i = 0; i < this.props.selectedRows.length; i++) {
@@ -107,7 +107,7 @@ class OrdercgIndex extends React.Component{
                     <Button 
 						type="primary" 
 						size='large'
-						className='mt20 ml10 mr10'
+						className='mt20 ml10'
 						onClick={this.printCgorder}
 					>
 						打印采购单

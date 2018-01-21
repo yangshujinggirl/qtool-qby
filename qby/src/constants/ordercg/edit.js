@@ -94,9 +94,9 @@ class OrdercgEditForm extends React.Component{
                 }).then((json) => {
                     if(json.code=='0'){
 						if(this.props.data){
-							message.success('采购单修改成功');
+							message.success('采购单修改成功',.8);
 						}else{
-							message.success('采购单创建成功');
+							message.success('采购单创建成功',.8);
 						}
 						this.deleteTab();
 						this.refreshList();

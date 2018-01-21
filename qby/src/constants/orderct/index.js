@@ -66,7 +66,7 @@ class OrderctIndex extends React.Component{
 					<Button
 						type="primary" 
 						size='large'
-						className='mt20 mr10'
+						className='mt20'
 						onClick={this.addNew.bind(this)}
 					>
 						新建采退单

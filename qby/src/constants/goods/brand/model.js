@@ -133,7 +133,7 @@ class CollectionsPage extends React.Component {
                 <img src={this.props.url?(fileDomain+this.props.url):require('../../../assets/img_brandnologo.png')} className='w100 h100'/>
               </div>
               :
-              <Button type={this.props.statetype} onClick={this.showModal}>{this.props.text}</Button>
+              <Button type={this.props.statetype} size='large' onClick={this.showModal}>{this.props.text}</Button>
 
           }
         

@@ -22,7 +22,7 @@ class MyUploadMd extends React.Component {
                 }
                 this.props.mdopdermeth.funct(goodsInfo)
             }else{
-                message.error(file.response.message);
+                message.error(file.response.message,.8);
             }
             return file.response.status === 'success';
           }

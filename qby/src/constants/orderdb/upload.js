@@ -26,7 +26,7 @@ class MyUpload extends React.Component {
                     payload:goodsInfo
                 })
               }else{
-                message.error(file.response.message);
+                message.error(file.response.message,.8);
               }
             return file.response.status === 'success';
           }

@@ -78,7 +78,7 @@ class GoodsInfoTable extends React.Component {
                 temDataSource[index].qtyline = true;
             }else{
                 temDataSource[index].qtyline = false;
-                message.error('请输入正整数的商品数量');
+                message.error('请输入正整数的商品数量',.8);
             }
         }
     }

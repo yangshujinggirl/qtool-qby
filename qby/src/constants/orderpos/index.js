@@ -63,7 +63,7 @@ class OrderposIndex extends React.Component{
 					<Button 
 						type="primary" 
 						size='large'
-						className='mt20 ml10'
+						className='mt20'
 						onClick={this.exportData.bind(this,18,this.props.values)}
 					>
 						导出数据

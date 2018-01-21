@@ -13,7 +13,7 @@ class Brandindex extends React.Component {
 	render() {
 		return (
 			<div className='content_box'>
-				<div className='tr mb15'>
+				<div className='tl mb15'>
 					<CollectionsPage title='新增品牌' text='新增品牌' statetype='primary' data={{name:null,status:'1'}} url={null}/>
 				</div> 
 				<p>品牌管理</p>

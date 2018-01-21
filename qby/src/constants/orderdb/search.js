@@ -52,7 +52,7 @@ class OrderdbSearchForm extends React.Component {
                     warehouses:warehouses
                 })
            }else{
-               message.error(json.message);
+               message.error(json.message,.8);
            }
 
         })

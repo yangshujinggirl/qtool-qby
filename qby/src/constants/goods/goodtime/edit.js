@@ -45,8 +45,8 @@ class GoodEditForm extends React.Component{
 		}else{
 			this.props.dispatch({
 				type:'tab/initDeletestate',
-				payload:'203000edit'
-			  });
+				payload:'305000edit'
+			});
 		}
 		this.refreshList()
 	}
@@ -72,7 +72,7 @@ class GoodEditForm extends React.Component{
 		this.props.form.validateFields((err, value) => {
 		    if (!err) {
 				if(this.state.salestatus == null && this.state.statusnew ==null && this.state.statushot==null){
-					message.error('请选择定时操作');
+					message.error('请选择定时操作',.8);
 				}else{
 					value.taskTime=this.state.taskTime
 					value.salestatus=this.state.salestatus
@@ -93,9 +93,9 @@ class GoodEditForm extends React.Component{
 					  	if(json.code=='0'){
 							this.deleteTab()
 						   	if(this.props.data){
-							  	message.success('定时修改成功');
+							  	message.success('定时修改成功',.8);
 						   	}else{
-							  	message.success('定时设置成功');
+							  	message.success('定时设置成功',.8);
 						   	}
 					  	}
 					})
@@ -247,7 +247,7 @@ class GoodEditForm extends React.Component{
 		}).then((json) => {
 			if(json.code=='0'){
 				this.deleteTab()
-				message.success('强制无效成功');
+				message.success('强制无效成功',.8);
 			}
 		})
 	}

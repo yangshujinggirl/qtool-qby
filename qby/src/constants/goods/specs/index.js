@@ -63,7 +63,7 @@ class Specsindex extends React.Component {
 	render() {
 		return (
 			<div className='content_box classssd'>
-					<div className='tr mb15'><CollectionsPages title='新增规格' text='新增规格' statetype='primary'/></div>
+					<div className='tl mb15'><CollectionsPages title='新增规格' text='新增规格' statetype='primary'/></div>
 					<EditableTable dataSource={this.props.pdTypes} columns={this.columns} showHeader={false} bordered={false}/>
 			</div>
 		)

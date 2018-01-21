@@ -348,7 +348,7 @@ class DailyBillForm extends React.Component {
                     limit:Number(json.limit)
                 })
             }else{  
-                message.error(json.message); 
+                message.error(json.message,.8); 
             }
         })
     }

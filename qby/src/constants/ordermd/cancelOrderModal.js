@@ -68,7 +68,7 @@ class CollectionsPage extends React.Component {
                         this.setState({ 
                             visible: false 
                         },function(){
-                            message.success('订单取消成功')
+                            message.success('订单取消成功',.8)
                         });
                 }
             })
