@@ -465,7 +465,7 @@
 						<FormItem
 						label="商品图片"
 						labelCol={{ span: 8 }}
-						wrapperCol={{ span: 6 }}
+						wrapperCol={{ span: 16 }}
 						>
 						{getFieldDecorator('imgs', {
 							

@@ -227,15 +227,15 @@ class App extends React.Component {
 			<FormItem
 				label="商品图片"
 				labelCol={{ span: 8 }}
-				wrapperCol={{ span: 6 }}
+				wrapperCol={{ span: 16 }}
 				className='parentinput'
 			>
 				{getFieldDecorator('img', {
 				})(
-					<div>
+					<div className='serach_form'>
 						{
 							this.state.spuIdPics.map((item,index)=>{
-								return (<div key={index}><Imgmodel picUrl={item.url}/></div>)
+								return (<div key={index} className='mr10'><Imgmodel picUrl={item.url}/></div>)
 							})
 						}
 					</div>
