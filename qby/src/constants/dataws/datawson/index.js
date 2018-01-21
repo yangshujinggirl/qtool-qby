@@ -54,7 +54,7 @@ class DatawsonIndex extends React.Component{
 				<Button 
 					type="primary" 
 					size='large'
-					className='mt10'
+					className='mt20'
 					onClick={this.exportData.bind(this,60,this.props.values)}
 				>
 					导出数据

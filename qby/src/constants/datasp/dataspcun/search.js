@@ -104,7 +104,7 @@ class StockSearchForm extends React.Component {
                 <div className='serach_form'>
                     <FormItem label='门店名称'>
                         {getFieldDecorator('bspname')(
-                        <AutoComplete size="large"
+                        <AutoComplete
                             dataSource={this.state.dataSource}
                             onSelect={this.onSelect}
                             onSearch={this.handleSearchs}
@@ -115,17 +115,17 @@ class StockSearchForm extends React.Component {
                     </FormItem>
                     <FormItem label='商品名称'>
                         {getFieldDecorator('pdSpuName')(
-                        <Input placeholder="请输入商品编码"/>
+                        <Input placeholder="请输入商品编码" autoComplete="off"/>
                         )}
                     </FormItem>
                     <FormItem label='商品条码'>
                         {getFieldDecorator('barcode')(
-                        <Input placeholder="请输入商品条码"/>
+                        <Input placeholder="请输入商品条码" autoComplete="off"/>
                         )}
                     </FormItem>
                     <FormItem label='商品编码'>
                         {getFieldDecorator('code')(
-                        <Input placeholder="请输入商品条码"/>
+                        <Input placeholder="请输入商品条码" autoComplete="off"/>
                         )}
                     </FormItem>
                     <FormItem label='商品分类'>

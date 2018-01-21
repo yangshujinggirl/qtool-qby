@@ -133,7 +133,7 @@ class CgArrivalIndexForm extends React.Component {
                                 <div className='serach_form'>
                                     <FormItem label='供应商名称'>
                                         {getFieldDecorator('supplierName')(
-                                            <Input placeholder="请输入供应商名称"/>
+                                            <Input placeholder="请输入供应商名称" autoComplete="off"/>
                                         )}
                                     </FormItem>
                                     <FormItem

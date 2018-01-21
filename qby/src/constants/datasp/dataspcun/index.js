@@ -53,12 +53,12 @@ class DataspcunIndex extends React.Component{
                     <Button 
 						type="primary" 
 						size='large'
-						className='mt10'
+						className='mt15'
 						onClick={this.exportData.bind(this,54,this.props.values)}
 					>
                         导出数据
 					</Button>
-             		<div className='mt15'><DataspcunTable/></div>
+             		<div className='mt20'><DataspcunTable/></div>
         	</div>
       	)
   	}

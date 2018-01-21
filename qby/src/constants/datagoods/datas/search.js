@@ -62,17 +62,17 @@ class StockSearchForm extends React.Component {
                 <div className='serach_form'>
                     <FormItem label='商品名称'>
                         {getFieldDecorator('name')(
-                        <Input placeholder="请输入商品编码"/>
+                        <Input placeholder="请输入商品编码" autoComplete="off"/>
                         )}
                     </FormItem>
                     <FormItem label='商品条码'>
                         {getFieldDecorator('barcode')(
-                        <Input placeholder="请输入商品条码"/>
+                        <Input placeholder="请输入商品条码" autoComplete="off"/>
                         )}
                     </FormItem>
                     <FormItem label='商品编码'>
                         {getFieldDecorator('code')(
-                        <Input placeholder="请输入商品条码"/>
+                        <Input placeholder="请输入商品条码" autoComplete="off"/>
                         )}
                     </FormItem>
                     
@@ -87,7 +87,7 @@ class StockSearchForm extends React.Component {
                             showTime
                             format="YYYY-MM-DD"
                             onChange={this.hindDateChange.bind(this)}
-                           
+                            allowClear={false}
                         />
                         )}
                     </FormItem>
