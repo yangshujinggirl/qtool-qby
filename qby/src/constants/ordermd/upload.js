@@ -20,10 +20,7 @@ class MyUploadMd extends React.Component {
                     json.key = i;
                     goodsInfo.push(json);
                 }
-                this.props.dispatch({
-                    type:'ordermd/syncGoodsInfo',
-                    payload:goodsInfo
-                })
+                this.props.mdopdermeth.funct(goodsInfo)
             }else{
                 message.error(file.response.message);
             }
@@ -41,7 +38,7 @@ class MyUploadMd extends React.Component {
         };
         return (
         <Upload {...props} fileList={this.state.fileList}>
-            <Button type="primary" style={{position:'absolute',right:'135px',top:'24px'}}>
+            <Button type="primary" style={{position:'absolute',right:'135px',top:'24px',zIndex:"1000"}}>
             导入预定商品
             </Button>
         </Upload>
@@ -50,8 +47,8 @@ class MyUploadMd extends React.Component {
 }
 
 function mapStateToProps(state) {
-    const {goodsInfo}  = state.ordermd;
-    return {goodsInfo};
+    const {goodsInfo,mdopdermeth}  = state.ordermd;
+    return {goodsInfo,mdopdermeth};
 }
 
 export default connect(mapStateToProps)(MyUploadMd);

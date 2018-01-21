@@ -1,6 +1,9 @@
 import { Form, Select, Input, Button, Radio, DatePicker, message,AutoComplete,Table, Upload,Cascader} from 'antd';
 import {GetServerData} from '../../services/services';
 import React from 'react';
+import { connect } from 'dva';
+
+
 
 class GoodsListTable extends React.Component {
     constructor(props) {
@@ -134,6 +137,16 @@ class GoodsListTable extends React.Component {
             dataSource:temDataSource
         })
     }
+
+    settable=(value)=>{
+        this.setState({
+            dataSource:value
+        },function(){
+            const Getdetail=this.props.Getdetail;
+            Getdetail(this.state.dataSource)
+        });
+    }
+
   
     render() {
         const { dataSource } = this.state;
@@ -148,9 +161,19 @@ class GoodsListTable extends React.Component {
     }
 
     componentDidMount(){
-        this.setState({
-            dataSource:this.props.dataSource
+        const mdopdermeth={
+            funct:this.settable
+        }
+        this.props.dispatch({
+            type:'ordermd/mdopdermeth',
+            payload:mdopdermeth
         })
+
+
+
+
+
+        
     }
   }
 

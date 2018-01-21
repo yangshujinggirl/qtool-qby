@@ -269,10 +269,12 @@ class OrdermdEditForm extends React.Component{
         const { getFieldDecorator,getFieldProps } = this.props.form;
      	return(
              <div>
-            <MyUploadMd/> 
-            <Button type="primary" 
-                    onClick={this.ZaiSpuExcel.bind(this)} 
-                    style={{position:'absolute',right:'15px',top:'24px'}}>下载导入模板</Button>
+                <MyUploadMd/> 
+                <Button type="primary" 
+                        onClick={this.ZaiSpuExcel.bind(this)} 
+                        style={{position:'absolute',right:'15px',top:'24px',zIndex:'1000'}}>
+                        下载导入模板
+                </Button>
           	<Form className="addUser-form show-table-form">
                 <FormItem
               		label="创建类型"

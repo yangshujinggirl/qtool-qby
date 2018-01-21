@@ -18,7 +18,8 @@ export default {
         expressList:[],
         orderLogList:[],
         isCancel:false,
-        goodsInfo:[]
+        goodsInfo:[],
+        mdopdermeth:{}
     },
     reducers: {
 		synchronous(state, { payload:values}) {
@@ -35,6 +36,9 @@ export default {
         },
         syncGoodsInfo(state, { payload:goodsInfo}) {
 			return {...state,goodsInfo}
+        },
+        mdopdermeth(state, { payload:mdopdermeth}) {
+			return {...state,mdopdermeth}
         },
     },
     effects: {
