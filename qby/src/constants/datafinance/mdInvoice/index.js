@@ -141,7 +141,7 @@ class MdInvoiceIndexForm extends React.Component {
                                 <div className='serach_form'>
                                     <FormItem label='门店名称'>
                                         {getFieldDecorator('name')(
-                                        <Input placeholder="请输入门店名称"/>
+                                        <Input placeholder="请输入门店名称" autoComplete="off"/>
                                         )}
                                     </FormItem>
                                     <FormItem
@@ -152,7 +152,8 @@ class MdInvoiceIndexForm extends React.Component {
                                             defaultValue={moment(data, 'YYYY-MM')}
                                             className='noant-calendar-picker'
                                             format={dateFormat}
-                                            onChange={this.dateChange.bind(this)} />
+                                            onChange={this.dateChange.bind(this)}
+                                            allowClear={false} />
                                     </FormItem>
                                 </div>
                         </Row>
@@ -166,7 +167,7 @@ class MdInvoiceIndexForm extends React.Component {
                 <Button 
 						type="primary" 
 						size='large'
-						className='mt20 ml10'
+						className='mt20'
 						onClick={this.exportData.bind(this,76,datas)}
 					>
 						导出数据
@@ -232,7 +233,7 @@ class MdInvoiceIndexForm extends React.Component {
                     title: "详细信息",
                     dataIndex:"detailInfo",
                     render: (text, row, index) => {
-                        return <span style={{color:"#35BAB0"}} onClick={this.downLoad.bind(this,row)}>下载</span>
+                        return <span style={{color:"#35BAB0",cursor:"pointer"}} onClick={this.downLoad.bind(this,row)}>下载</span>
                     },
                 })
                 this.columns = tempcolumns;

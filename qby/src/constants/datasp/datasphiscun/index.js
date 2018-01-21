@@ -55,12 +55,12 @@ class DatasphiscunIndex extends React.Component{
                     <Button 
 						type="primary" 
 						size='large'
-						className='mt10'
+						className='mt15'
 						onClick={this.exportData.bind(this,55,this.props.values)}
 					>
                         导出数据
 					</Button>
-             		<div className='mt15'><DataspcunhisTable/></div>
+             		<div className='mt20'><DataspcunhisTable/></div>
         	</div>
       	)
   	}

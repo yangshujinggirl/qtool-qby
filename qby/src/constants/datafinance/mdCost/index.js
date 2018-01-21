@@ -138,7 +138,7 @@ class MdCostIndexForm extends React.Component {
                                 <div className='serach_form'>
                                     <FormItem label='门店名称'>
                                         {getFieldDecorator('name')(
-                                            <AutoComplete size="large"
+                                            <AutoComplete
                                             dataSource={this.state.dataSources}
                                             onSelect={this.onSelect}
                                             onSearch={this.handleSearchs}
@@ -155,8 +155,8 @@ class MdCostIndexForm extends React.Component {
                                             defaultValue={moment(data, 'YYYY-MM')}
                                             className='noant-calendar-picker'
                                             format={dateFormat}
-                                            onChange={this.dateChange.bind(this)} />
-                                        
+                                            onChange={this.dateChange.bind(this)} allowClear={false}/>
+                                            
                                     </FormItem>
                                 </div>
                         </Row>

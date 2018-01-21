@@ -76,7 +76,7 @@ class DataclassdesIndex extends React.Component{
 					<Button 
 						type="primary" 
 						size='large'
-						className='mt20 mb10'
+						className='mt20 mb15'
 						onClick={this.exportData.bind(this,30,this.props.values)}
 					>
 						导出数据

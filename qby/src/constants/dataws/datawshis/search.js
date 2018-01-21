@@ -59,17 +59,17 @@ class BatchStockSearchForm extends React.Component {
                 <div className='serach_form'>
                 <FormItem label='商品名称'>
                 {getFieldDecorator('pdSpuName')(
-                <Input placeholder="请输入商品名称"/>
+                <Input placeholder="请输入商品名称" autoComplete="off"/>
                 )}
             </FormItem>
             <FormItem label='商品编码'>
                 {getFieldDecorator('pdCode')(
-                    <Input placeholder="请输入商品编码"/>
+                    <Input placeholder="请输入商品编码" autoComplete="off"/>
                 )}
             </FormItem>
             <FormItem label='商品条码'>
                 {getFieldDecorator('pdBarcode')(
-                <Input placeholder="请输入商品条码"/>
+                <Input placeholder="请输入商品条码" autoComplete="off"/>
                 )}
             </FormItem>
             <FormItem label='选择时间'>
@@ -80,6 +80,7 @@ class BatchStockSearchForm extends React.Component {
                         format={dateFormat} 
                         onChange={this.hindtimeChange.bind(this)}
                         className='noant-calendar-picker'
+                        allowClear={false}
                     />
                 )}
             </FormItem>

@@ -92,7 +92,7 @@ class StockSearchForm extends React.Component {
                 <div className='serach_form'>
                     <FormItem label='门店名称'>
                         {getFieldDecorator('name')(
-                        <AutoComplete size="large"
+                        <AutoComplete
                             dataSource={this.state.dataSource}
                             onSelect={this.onSelect}
                             onSearch={this.handleSearchs}
@@ -107,7 +107,7 @@ class StockSearchForm extends React.Component {
                         {getFieldDecorator('codes',{
                               initialValue:moment(this.state.date, dateFormat)
                         })(
-                            <DatePicker format={dateFormat} className='noant-calendar-picker' onChange={this.timeChange.bind(this)}/>
+                            <DatePicker format={dateFormat} allowClear={false} className='noant-calendar-picker' onChange={this.timeChange.bind(this)}/>
                         )}
                     </FormItem>
 

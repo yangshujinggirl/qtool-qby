@@ -118,7 +118,8 @@ class DataclassTable extends React.Component {
                     <RangePicker
                         defaultValue={[moment(startDate, dateFormat), moment(endDate, dateFormat)]}
                         format={dateFormat}
-                        onChange={this.hindChange.bind(this)}
+						onChange={this.hindChange.bind(this)}
+						allowClear={false}
                     />
                     <Button 
                         type="primary" 
