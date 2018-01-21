@@ -14,10 +14,10 @@ class GoodsInfoTable extends React.Component {
             dataIndex: 'code',
             render: (text, record, index) => {
                 return (
-                    <div className={record.codeline?null:'data_waring'}>
+                    <div>
                         <Input value={this.props.goodsInfo[index].code} placeholder="请输入商品编码" 
                         onChange={this.handleChangeCode.bind(this, index)} 
-                        onBlur={this.handleChangeCode.bind(this, index)}/>
+                        onBlur={this.handleChangeCode.bind(this, index)} required/>
                     </div>
                 )
             }
@@ -26,10 +26,10 @@ class GoodsInfoTable extends React.Component {
             dataIndex: 'qty',
             render: (text, record, index) => {
                 return (
-                    <div className={record.qtyline?null:'data_waring'}>
+                    <div>
                         <Input value={this.props.goodsInfo[index].qty} placeholder="预订数量" 
                         onChange={this.handleChangeQty.bind(this, index)} 
-                        onBlur={this.handleChangeQty.bind(this, index)}/>
+                        onBlur={this.handleChangeQtyMess.bind(this, index)} required/>
                     </div>
                 )
             }
@@ -55,7 +55,6 @@ class GoodsInfoTable extends React.Component {
         temDataSource[index].code = codevalue
         if(codevalue=='' || codevalue==undefined || codevalue==null){
             temDataSource[index].codeline = false;
-            message.error('请输入商品编码');
         }else{
             temDataSource[index].codeline = true;
         }
@@ -67,15 +66,21 @@ class GoodsInfoTable extends React.Component {
         const qtyvalue=e.target.value;
         let temDataSource =deepcCloneObj(this.props.goodsInfo);
         temDataSource[index].qty = qtyvalue
-        const str=/^[1-9]\d*$/
-        const patt=str.test(qtyvalue)
-        if(patt){
-            temDataSource[index].qtyline = true;
-        }else{
-            temDataSource[index].qtyline = false;
-            message.error('请输入正整数的商品数量');
-        }
         this.syncGoodsInfo(temDataSource);
+    }
+
+    handleChangeQtyMess = (index,e)=>{
+        const str=/^[1-9]\d*$/;
+        let temDataSource =deepcCloneObj(this.props.goodsInfo);
+        if(e.target.value){
+            const patt=str.test(e.target.value)
+            if(patt){
+                temDataSource[index].qtyline = true;
+            }else{
+                temDataSource[index].qtyline = false;
+                message.error('请输入正整数的商品数量');
+            }
+        }
     }
 
     //删除

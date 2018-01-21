@@ -54,12 +54,12 @@ class SearchForm extends React.Component {
                             <div className='serach_form'>
                                 <FormItem label='反馈编号'>
                                     {getFieldDecorator('feedbackNo')(
-                                    <Input placeholder="请输入反馈编号"/>
+                                    <Input placeholder="请输入反馈编号" autoComplete="off"/>
                                     )}
                                 </FormItem>
                                 <FormItem label='反馈门店'>
                                     {getFieldDecorator('spShopName')(
-                                    <Input placeholder="请输入反馈门店"/>
+                                    <Input placeholder="请输入反馈门店" autoComplete="off"/>
                                     )}
                                 </FormItem>
                                 <FormItem label='反馈类型'>

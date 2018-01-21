@@ -45,7 +45,7 @@ class OperatesupplierSearchForm extends React.Component {
                             <div className='serach_form'>
                                 <FormItem label='供应商名称'>
                                     {getFieldDecorator('name')(
-                                    <Input placeholder="请输入供应商名称"/>
+                                    <Input placeholder="请输入供应商名称" autoComplete="off"/>
                                     )}
                                 </FormItem>
                                 <FormItem label='合作状态'>

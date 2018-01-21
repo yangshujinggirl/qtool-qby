@@ -142,7 +142,7 @@ class OrderdbEditForm extends React.Component{
 				<MyUpload/> 
 				<Button type="primary" 
 						onClick={this.ZaiSpuExcel.bind(this)} 
-						style={{position:'absolute',right:'15px',top:'24px'}}>下载导入模板</Button>
+						style={{position:'absolute',right:'15px',top:'24px',zIndex:"1000"}}>下载导入模板</Button>
 				<Form className="addUser-form">
 				<FormItem
 						label="调出仓库"
@@ -195,7 +195,7 @@ class OrderdbEditForm extends React.Component{
 						{getFieldDecorator('reason', {
 							rules: [{min:5,message: '请选择5-100字调拨原因',max:100,required:true},],
 						})(
-							<TextArea rows={4} placeholder="请选择5-100字调拨原因"/>
+							<TextArea rows={4} placeholder="请选择5-100字调拨原因" autoComplete="off"/>
 						)}
 					</FormItem>
 					<FormItem wrapperCol={{ offset: 4}} style = {{marginBottom:0}}>

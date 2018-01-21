@@ -45,12 +45,12 @@ class OperatebannerSearchForm extends React.Component {
                             <div className='serach_form'>
                                 <FormItem label='banner名称'>
                                     {getFieldDecorator('name')(
-                                    <Input placeholder="请输入banner名称"/>
+                                    <Input placeholder="请输入banner名称" autoComplete="off"/>
                                     )}
                                 </FormItem>
                                 <FormItem label='创建人'>
                                     {getFieldDecorator('urUserName')(
-                                    <Input placeholder="请输入创建人"/>
+                                    <Input placeholder="请输入创建人" autoComplete="off"/>
                                     )}
                                 </FormItem>
                                 <FormItem label='banner状态'>

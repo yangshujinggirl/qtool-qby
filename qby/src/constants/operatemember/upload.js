@@ -44,7 +44,7 @@ class MyUploadMember extends React.Component {
       };
       return (
         <Upload {...props} fileList={this.state.fileList} style={{display:'inline-block'}}>
-          <Button type="primary">
+          <Button type="primary" size='large'>
              导入会员信息
           </Button>
         </Upload>

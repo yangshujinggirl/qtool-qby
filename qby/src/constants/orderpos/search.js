@@ -63,22 +63,22 @@ class OrderposSearchForm extends React.Component {
                             <div className='serach_form'>
                                 <FormItem label='门店名称'>
                                     {getFieldDecorator('spShopName')(
-                                    <Input placeholder="请输入门店名称"/>
+                                    <Input placeholder="请输入门店名称" autoComplete="off"/>
                                     )}
                                 </FormItem>
                                 <FormItem label='订单号'>
                                     {getFieldDecorator('orderNo')(
-                                    <Input placeholder="请输入订单号"/>
+                                    <Input placeholder="请输入订单号" autoComplete="off"/>
                                     )}
                                 </FormItem>
                                 <FormItem label='商品名称'>
                                     {getFieldDecorator('pdSpuName')(
-                                    <Input placeholder="请输入商品名称"/>
+                                    <Input placeholder="请输入商品名称" autoComplete="off"/>
                                     )}
                                 </FormItem>
                                 <FormItem label='商品编码'>
                                     {getFieldDecorator('code')(
-                                    <Input placeholder="请输入商品编码"/>
+                                    <Input placeholder="请输入商品编码" autoComplete="off"/>
                                     )}
                                 </FormItem>
                                 <FormItem label='订单类型'>

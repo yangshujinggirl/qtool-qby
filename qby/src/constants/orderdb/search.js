@@ -68,17 +68,17 @@ class OrderdbSearchForm extends React.Component {
                             <div className='serach_form'>
                                 <FormItem label='调拨单号'>
                                     {getFieldDecorator('allocationNo')(
-                                    <Input placeholder="请输入调拨单号"/>
+                                    <Input placeholder="请输入调拨单号" autoComplete="off"/>
                                     )}
                                 </FormItem>
                                 <FormItem label='商品编码'>
                                     {getFieldDecorator('code')(
-                                    <Input placeholder="请输入商品编码"/>
+                                    <Input placeholder="请输入商品编码" autoComplete="off"/>
                                     )}
                                 </FormItem>
                                 <FormItem label='商品名称'>
                                     {getFieldDecorator('spuName')(
-                                    <Input placeholder="请输入商品名称"/>
+                                    <Input placeholder="请输入商品名称" autoComplete="off"/>
                                     )}
                                 </FormItem>
                                 <FormItem label='调入仓库'>

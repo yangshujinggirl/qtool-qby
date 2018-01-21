@@ -177,7 +177,7 @@ class AddNewAccountForm extends React.Component{
 						rules: [{ required: true, message: '请输入账号名称'},{pattern:/^.{1,30}$/,message:'请输入1-30字账号名称'}],
 						initialValue:this.props.urUser.username
 					})(
-						<Input placeholder="请输入账号名称" disabled={this.props.data?true:false}/>
+						<Input placeholder="请输入账号名称" disabled={this.props.data?true:false} autoComplete="off"/>
 					)}
 				</FormItem>
 				<FormItem
@@ -189,7 +189,7 @@ class AddNewAccountForm extends React.Component{
 						rules: [{ required: true, message: '请输入姓名' },{pattern:/^.{1,10}$/,message:'请输入1-10字姓名'}],
 						initialValue:this.props.urUser.name
 					})(
-						<Input placeholder="请输入姓名"/>
+						<Input placeholder="请输入姓名" autoComplete="off"/>
 					)}
 				</FormItem>
 				<FormItem
@@ -201,7 +201,7 @@ class AddNewAccountForm extends React.Component{
 						rules: [{ required: true, message: '请输入职位' },{pattern:/^.{1,10}$/,message:'请输入1-10字职位名'}],
 						initialValue:this.props.urUser.job
 					})(
-						<Input placeholder="请输入职位"/>
+						<Input placeholder="请输入职位" autoComplete="off"/>
 					)}
 				</FormItem>
 				<FormItem
@@ -213,7 +213,7 @@ class AddNewAccountForm extends React.Component{
 						rules: [{ required: true, message: '请输入邮箱' }],
 						initialValue:this.props.urUser.email
 					})(
-						<Input placeholder="请输入邮箱"/>
+						<Input placeholder="请输入邮箱" autoComplete="off"/>
 					)}
 				</FormItem>
 				<FormItem
@@ -225,7 +225,7 @@ class AddNewAccountForm extends React.Component{
 						rules: [{ required: true, message: '请输入手机号' },{pattern:/^[0-9]{1,20}$/,message:'输入正确手机号'}],
 						initialValue:this.props.urUser.mobile
 					})(
-						<Input placeholder="请输入手机号"/>
+						<Input placeholder="请输入手机号" autoComplete="off"/>
 					)}
 				</FormItem>
             	<FormItem

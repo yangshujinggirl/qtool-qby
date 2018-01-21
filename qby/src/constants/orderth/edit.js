@@ -103,45 +103,47 @@ class OrderthEditForm extends React.Component{
 
     //输入订单编号请求数据
     spOrderNoblue=(e)=>{
-        const spOrderNovalue=e.target.value
-        const values={spOrderNo:spOrderNovalue}
-        const result=GetServerData('qerp.web.ws.asn.save.pre',values)
-        result.then((res) => {
-            return res;
-        }).then((json) => {
-            if(json.code=='0'){
-                let goodsInfoList = json.details;
-				let goodsInfo=[];
-                for(var i=0;i<goodsInfoList.length;i++){
-                    let tempJson = {};
-                    tempJson.key=i
-                    tempJson.qtyline=true
-                    tempJson.priceline=true	
-                    tempJson.pdCode = goodsInfoList[i].pdCode
-                    tempJson.pdName = goodsInfoList[i].pdName
-                    tempJson.pdSkuType = goodsInfoList[i].pdSkuType
-                    tempJson.qty = goodsInfoList[i].qty
-                    tempJson.price = goodsInfoList[i].price
-					tempJson.wsAsnDetailId = goodsInfoList[i].wsAsnDetailId
-					tempJson.spOrderDetailId = goodsInfoList[i].spOrderDetailId
-                    goodsInfo.push(tempJson);
-                }
-                let tempFormvalue = deepcCloneObj(this.props.formValue);
-                tempFormvalue.supplier = json.spShopName;
-                tempFormvalue.spOrderId = json.spOrderId;
-                this.props.dispatch({
-                    type:'orderth/syncEditInfo',
-                    payload:tempFormvalue
-                });
-                this.props.dispatch({
-                    type:'orderth/syncGoodsInfo',
-                    payload:goodsInfo
-                });
-                this.props.form.setFieldsValue({
-                    supplier:json.spShopName,
-                });
-            }
-        })
+		if(e.target.value){
+			const spOrderNovalue=e.target.value
+			const values={spOrderNo:spOrderNovalue}
+			const result=GetServerData('qerp.web.ws.asn.save.pre',values)
+			result.then((res) => {
+				return res;
+			}).then((json) => {
+				if(json.code=='0'){
+					let goodsInfoList = json.details;
+					let goodsInfo=[];
+					for(var i=0;i<goodsInfoList.length;i++){
+						let tempJson = {};
+						tempJson.key=i
+						tempJson.qtyline=true
+						tempJson.priceline=true	
+						tempJson.pdCode = goodsInfoList[i].pdCode
+						tempJson.pdName = goodsInfoList[i].pdName
+						tempJson.pdSkuType = goodsInfoList[i].pdSkuType
+						tempJson.qty = goodsInfoList[i].qty
+						tempJson.price = goodsInfoList[i].price
+						tempJson.wsAsnDetailId = goodsInfoList[i].wsAsnDetailId
+						tempJson.spOrderDetailId = goodsInfoList[i].spOrderDetailId
+						goodsInfo.push(tempJson);
+					}
+					let tempFormvalue = deepcCloneObj(this.props.formValue);
+					tempFormvalue.supplier = json.spShopName;
+					tempFormvalue.spOrderId = json.spOrderId;
+					this.props.dispatch({
+						type:'orderth/syncEditInfo',
+						payload:tempFormvalue
+					});
+					this.props.dispatch({
+						type:'orderth/syncGoodsInfo',
+						payload:goodsInfo
+					});
+					this.props.form.setFieldsValue({
+						supplier:json.spShopName,
+					});
+				}
+			})
+		}
     }
     
     //选择预计送达时间
@@ -181,7 +183,7 @@ class OrderthEditForm extends React.Component{
 						rules: [{ required: true, message: '请输入订单编号'}],
 						initialValue:this.props.formValue.spOrderNo
 					})(
-						<Input placeholder="请输入订单编号" onBlur={this.spOrderNoblue.bind(this)}/>
+						<Input placeholder="请输入订单编号" onBlur={this.spOrderNoblue.bind(this)} autoComplete="off"/>
 					)}
 				</FormItem>
                 <FormItem
@@ -238,7 +240,7 @@ class OrderthEditForm extends React.Component{
 						rules: [{ required: true, message: '请输入退货原因' }],
 						initialValue:this.props.formValue.reason
 					})(
-						<Input placeholder="请输入退货原因"/>
+						<Input placeholder="请输入退货原因" autoComplete="off"/>
 					)}
 				</FormItem>
             	<FormItem wrapperCol={{ offset: 4}} style = {{marginBottom:0}}>

@@ -315,7 +315,7 @@ class OrdercgEditForm extends React.Component{
 					{getFieldDecorator('shippingFee', {
 						initialValue:this.props.editInfo.shippingFee
 					})(
-						<Input placeholder="请输入到付金额" disabled={this.props.nothasFacepay}/>
+						<Input placeholder="请输入到付金额" disabled={this.props.nothasFacepay}  autoComplete="off"/>
 					)}
 				</FormItem>
 				<FormItem

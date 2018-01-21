@@ -112,7 +112,7 @@ class OperatesupplierEditForm extends React.Component{
 						rules: [{ required: true, message: '请填写供应商名称'}],
 						initialValue:this.props.formValue.name
 					})(
-						<Input placeholder="请填写供应商名称"/>
+						<Input placeholder="请填写供应商名称" autoComplete="off"/>
 					)}
 				</FormItem>
                 <FormItem
@@ -124,7 +124,7 @@ class OperatesupplierEditForm extends React.Component{
                         rules: [{ required: true, message: '请填写供应商简称' }],
 						initialValue:this.props.formValue.shortName
 					})(
-						<Input placeholder = "请填写供应商简称"/>
+						<Input placeholder = "请填写供应商简称" autoComplete="off"/>
 					)}
 				</FormItem>
                 <FormItem
@@ -135,7 +135,7 @@ class OperatesupplierEditForm extends React.Component{
 					{getFieldDecorator('contactName', {
 						initialValue:this.props.formValue.contactName
 					})(
-						<Input placeholder = "请填写联系人"/>
+						<Input placeholder = "请填写联系人" autoComplete="off"/>
 					)}
 				</FormItem>
                 <FormItem
@@ -146,7 +146,7 @@ class OperatesupplierEditForm extends React.Component{
 					{getFieldDecorator('contactTel', {
 						initialValue:this.props.formValue.contactTel
 					})(
-						<Input placeholder = "请填写联系电话"/>
+						<Input placeholder = "请填写联系电话" autoComplete="off"/>
 					)}
 				</FormItem>
                 <FormItem
@@ -158,7 +158,7 @@ class OperatesupplierEditForm extends React.Component{
                         rules: [{ required: true, message: '请填写开户银行' }],
                         initialValue:this.props.formValue.bankName
                     })(
-                        <Input placeholder = "请填写开户银行"/>
+                        <Input placeholder = "请填写开户银行" autoComplete="off"/>
                     )}
                 </FormItem>
                 <FormItem
@@ -170,7 +170,7 @@ class OperatesupplierEditForm extends React.Component{
                         rules: [{ required: true, message: '请填写银行卡号' },{ pattern: /^[0-9]*$/, message: '银行卡号只能是数字' }],
                         initialValue:this.props.formValue.bankNo
                     })(
-                        <Input placeholder = "请填写银行卡号"/>
+                        <Input placeholder = "请填写银行卡号" autoComplete="off"/>
                     )}
                 </FormItem>
                 <FormItem
@@ -182,7 +182,7 @@ class OperatesupplierEditForm extends React.Component{
                         rules: [{ required: true, message: '请填写开户名' }],
                         initialValue:this.props.formValue.accountName
                     })(
-                        <Input placeholder = "请填写开户名"/>
+                        <Input placeholder = "请填写开户名" autoComplete="off"/>
                     )}
                 </FormItem>
                 <FormItem
@@ -228,7 +228,7 @@ class OperatesupplierEditForm extends React.Component{
                     {getFieldDecorator('remark', {
                         initialValue:this.props.formValue.remark
                     })(
-                        <Input type="textarea" rows={4} placeholder="请填写供应商备注"/>
+                        <Input type="textarea" rows={4} placeholder="请填写供应商备注" autoComplete="off"/>
                     )}
                 </FormItem>
             	<FormItem wrapperCol={{ offset: 4}} style = {{marginBottom:0}}>

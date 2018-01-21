@@ -186,7 +186,7 @@ class OrderctEditForm extends React.Component{
 					{getFieldDecorator('wsAsnNo', {
 						rules: [{ required: true, message: '请输入采购订单'}],
 					})(
-						<Input placeholder="请输入采购订单"/>
+						<Input placeholder="请输入采购订单" autoComplete="off"/>
 					)}
 				</FormItem>
                 <FormItem
@@ -206,7 +206,7 @@ class OrderctEditForm extends React.Component{
 					{getFieldDecorator('reason', {
 						rules: [{ required: true, message: '请输入退货原因' }],
 					})(
-						<Input placeholder="请输入退货原因"/>
+						<Input placeholder="请输入退货原因" autoComplete="off"/>
 					)}
 				</FormItem>
                 <FormItem
@@ -264,7 +264,7 @@ class OrderctEditForm extends React.Component{
 					{getFieldDecorator('recName', {
 						rules: [{ required: true, message: '请输入收货人' }]
 					})(
-						<Input placeholder="请输入收货人"/>
+						<Input placeholder="请输入收货人" autoComplete="off"/>
 					)}
 				</FormItem>
                 <FormItem
@@ -275,7 +275,7 @@ class OrderctEditForm extends React.Component{
 					{getFieldDecorator('recTelephone', {
 						rules: [{ required: true, message: '请输入收货电话' }]
 					})(
-						<Input placeholder="请输入收货电话"/>
+						<Input placeholder="请输入收货电话" autoComplete="off"/>
 					)}
 				</FormItem>
                 <FormItem
@@ -300,7 +300,7 @@ class OrderctEditForm extends React.Component{
 					{getFieldDecorator('recAddress', {
 						rules: [{ required: true, message: '请输入收货详细地址' }],
 					})(
-						<Input placeholder="请输入收货详细地址"/>
+						<Input placeholder="请输入收货详细地址" autoComplete="off"/>
 					)}
 				</FormItem>
                 <FormItem
@@ -310,7 +310,7 @@ class OrderctEditForm extends React.Component{
 				>
 					{getFieldDecorator('remark', {
 					})(
-						<Input type="textarea" rows={4} placeholder="请输入订单备注"/>
+						<Input type="textarea" rows={4} placeholder="请输入订单备注" autoComplete="off"/>
 					)}
 				</FormItem>
             	<FormItem wrapperCol={{ offset: 4}} style = {{marginBottom:0}}>
