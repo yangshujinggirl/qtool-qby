@@ -111,6 +111,9 @@ class Content extends React.Component {
                                    
                                     case "401000":return  <CzIndex data={this.props.data}/>;
                                     case "401000info":return  <OperateczInfo data={this.props.data}/>;
+
+                                    case "402000infoCZ":return  <OperateczInfo data={this.props.data}/>;
+                                    case "402000infoOrder":return <OrdermdInfo data={this.props.data}/>;
                                     
                                     case "402500edit":return  <ConsumptionInfo data={this.props.data}/>;
                                     case "403000":return  <OperateIndex data={this.props.data}/>;

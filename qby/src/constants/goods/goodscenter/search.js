@@ -75,7 +75,7 @@ class AdvancedSearchForm extends React.Component {
                                 </FormItem>
                                 <FormItem label='商品分类'>
                                     {getFieldDecorator('pdCategory1Id')(
-                                        <Select allowClear={true} size="large" placeholder="请选择商品分类">
+                                        <Select allowClear={true} placeholder="请选择商品分类">
                                             {
                                                 this.props.pdCategorysList.map((item,index)=>{
                                                     return (<Option value={String(item.pdCategoryId)} key={index}>{item.name}</Option>)
@@ -86,7 +86,7 @@ class AdvancedSearchForm extends React.Component {
                                 </FormItem>
                                 <FormItem label='是否完整'>
                                     {getFieldDecorator('infoStatus')(
-                                        <Select allowClear={true} size="large" placeholder="请选择是否完整">
+                                        <Select allowClear={true} placeholder="请选择是否完整">
                                             <Option value='1'>是</Option>
                                             <Option value='0'>否</Option>
                                         </Select>
@@ -94,7 +94,7 @@ class AdvancedSearchForm extends React.Component {
                                 </FormItem>
                                 <FormItem label='是否在售'>
                                     {getFieldDecorator('status')(
-                                        <Select allowClear={true} size="large" placeholder="请选择是否在售">
+                                        <Select allowClear={true} placeholder="请选择是否在售">
                                             <Option value="10">是</Option>
                                             <Option value="20">否</Option>
                                         </Select>
@@ -102,7 +102,7 @@ class AdvancedSearchForm extends React.Component {
                                 </FormItem>
                                 <FormItem label='是否上新'>
                                     {getFieldDecorator('isNew')(
-                                        <Select allowClear={true} size="large" placeholder="请选择是否上新">
+                                        <Select allowClear={true} placeholder="请选择是否上新">
                                             <Option value="true">是</Option>
                                             <Option value="false">否</Option>
                                         </Select>
@@ -110,7 +110,7 @@ class AdvancedSearchForm extends React.Component {
                                 </FormItem>
                                 <FormItem label='是否畅销'>
                                     {getFieldDecorator('isHot')(
-                                        <Select allowClear={true} size="large" placeholder="请选择是否畅销">
+                                        <Select allowClear={true} placeholder="请选择是否畅销">
                                             <Option value="true">是</Option>
                                             <Option value="false">否</Option>
                                         </Select>
@@ -118,7 +118,7 @@ class AdvancedSearchForm extends React.Component {
                                 </FormItem>
                                 <FormItem label='直邮商品'>
                                     {getFieldDecorator('isDirectExpress')(
-                                        <Select allowClear={true} size="large" placeholder="请选择直邮商品">
+                                        <Select allowClear={true} placeholder="请选择直邮商品">
                                             <Option value="1">是</Option>
                                             <Option value="0">否</Option>
                                         </Select>
@@ -126,7 +126,7 @@ class AdvancedSearchForm extends React.Component {
                                 </FormItem>
                                 <FormItem label='预售商品'>
                                     {getFieldDecorator('isPresell')(
-                                        <Select allowClear={true} size="large" placeholder="请选择预售商品">
+                                        <Select allowClear={true} placeholder="请选择预售商品">
                                             <Option value="1">是</Option>
                                             <Option value="0">否</Option>
                                         </Select>

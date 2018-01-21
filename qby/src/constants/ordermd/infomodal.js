@@ -51,8 +51,6 @@ class Infomodel extends React.Component {
                     this.props.deleteTab();
                     this.props.refreshList();
                 });
-            }else{
-                message.error(json.message)
             }
         })
     }

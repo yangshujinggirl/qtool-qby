@@ -29,14 +29,14 @@ class OperateinoutTable extends React.Component {
     lookInfo = (record) =>{
         if(record.type=='11'){
             const spVoucherId=String(record.outId)
-            const paneitem={title:'充值详情',key:'401000edit'+spVoucherId+'info',data:{spVoucherId:spVoucherId},componkey:'401000info'}
+            const paneitem={title:'充值详情',key:'402000edit'+spVoucherId+'info',data:{spVoucherId:spVoucherId},componkey:'402000infoCZ'}
             this.props.dispatch({
                 type:'tab/firstAddTab',
                 payload:paneitem
             })
         }
         if(record.type=='21'){
-            const paneitem={title:'订单详情',key:'201000edit'+record.outId+'info',data:{spOrderId:record.outId},componkey:'201000info'}
+            const paneitem={title:'订单详情',key:'402000edit'+record.outId+'info',data:{spOrderId:record.outId},componkey:'402000infoOrder'}
             this.props.dispatch({
                 type:'tab/firstAddTab',
                 payload:paneitem
