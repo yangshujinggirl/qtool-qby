@@ -559,10 +559,10 @@ class SpEditForm extends React.Component{
             	<FormItem wrapperCol={{ offset: 4}} style = {{marginBottom:0}}>
               		<Button className='mr30' onClick={this.hindCancel.bind(this)}>取消</Button>
 					  {
-						  this.props.data?<Button htmlType="submit" type="primary" onClick={this.handUse.bind(this)}>重置密码</Button>:null
+						  this.props.data?<Button  type="primary" onClick={this.handUse.bind(this)}>重置密码</Button>:null
 
 					  }
-              		<Button htmlType="submit" type="primary" onClick={this.handleSubmit.bind(this)} className='ml30'>保存</Button>
+              		<Button  type="primary" onClick={this.handleSubmit.bind(this)} className='ml30'>保存</Button>
             	</FormItem>
           	</Form>
       	)

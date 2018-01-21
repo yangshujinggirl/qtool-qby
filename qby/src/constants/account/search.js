@@ -70,7 +70,7 @@ class AccountSearchForm extends React.Component {
                 </Col>
             </Row>
             <div style={{'position':'absolute','right':'0','bottom':'20px'}}>
-                <Button type="primary" htmlType="submit" size='large' onClick={this.handleSearch.bind(this)}>搜索</Button>
+                <Button type="primary"  size='large' onClick={this.handleSearch.bind(this)}>搜索</Button>
             </div>
         </Form>
         );
