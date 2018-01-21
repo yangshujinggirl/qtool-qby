@@ -46,6 +46,10 @@ class SpTable extends React.Component {
 			type:'tab/firstAddTab',
 			payload:paneitem
 		})
+		this.props.dispatch({
+            type:'feedback/initstatedata',
+            payload:{}
+		});
 	}
 
 	//分页方法
@@ -64,7 +68,9 @@ class SpTable extends React.Component {
 		this.props.dispatch({
             type:'feedback/fetch',
             payload:{code:'qerp.web.sp.feedback.query',values:values}
-        });
+		});
+
+		
 		this.props.dispatch({ type: 'tab/loding', payload:true});
 	}
 

@@ -243,7 +243,7 @@ class OrderthEditForm extends React.Component{
 				</FormItem>
             	<FormItem wrapperCol={{ offset: 4}} style = {{marginBottom:0}}>
               		<Button className='mr30' onClick={this.hindCancel.bind(this)}>取消</Button>
-              		<Button htmlType="submit" type="primary" onClick={this.handleSubmit.bind(this)}>保存</Button>
+              		<Button type="primary" onClick={this.handleSubmit.bind(this)}>保存</Button>
             	</FormItem>
           	</Form>
       	)

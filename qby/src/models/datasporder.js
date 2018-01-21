@@ -41,7 +41,6 @@ export default {
 		*sellfetch({ payload: {code,values} }, { call, put ,select}) {
 			const result=yield call(GetServerData,code,values);
 			yield put({type: 'tab/loding',payload:false});
-			console.log(result)
 			if(result.code=='0'){
 				const analysis=result.shopOrderData
 				const updateTime=analysis.updateTime

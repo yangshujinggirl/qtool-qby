@@ -114,12 +114,10 @@ class EchartsTest extends Component {
         const data3=this.state.data3
         const data4=this.state.data4
         const type=this.state.type
-
-        console.log(xdata)
-        console.log(data1)
-        console.log(data2)
-        console.log(data3)
-        console.log(data4)
+        for(var i=0;i<data1.length;i++){
+            data1[i]=String(data1[i])
+        }
+        
         // 基于准备好的dom，初始化echarts实例
         var myChart = echarts.init(document.getElementById('main'));
         // 绘制图表

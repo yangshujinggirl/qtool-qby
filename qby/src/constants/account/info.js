@@ -260,7 +260,7 @@ class AddNewAccountForm extends React.Component{
             	<FormItem wrapperCol={{ offset: 4}} style = {{marginBottom:0}}>
               		<Button className='mr30' onClick={this.hindCancel.bind(this)}>取消</Button>
 					<Button className={this.props.data?'mr30':'hide'} onClick={this.resetPassword.bind(this)}>重置密码</Button>
-              		<Button htmlType="submit" type="primary" onClick={this.handleSubmit.bind(this)}>保存</Button>
+              		<Button  type="primary" onClick={this.handleSubmit.bind(this)}>保存</Button>
             	</FormItem>
           	</Form>
       	)

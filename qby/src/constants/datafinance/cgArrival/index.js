@@ -150,7 +150,7 @@ class CgArrivalIndexForm extends React.Component {
                     </Col>
                 </Row>
                 <div style={{'position':'absolute','right':'0','bottom':'20px'}}>
-                    <Button type="primary" htmlType="submit" onClick={this.handleSubmit.bind(this)} size='large'>搜索</Button>
+                    <Button type="primary"  onClick={this.handleSubmit.bind(this)} size='large'>搜索</Button>
                 </div>
                 </Form>
                 <Button 

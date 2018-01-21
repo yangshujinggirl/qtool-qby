@@ -389,38 +389,38 @@
 	render() {
 		const { getFieldDecorator } = this.props.form;
 		return (
-		<Form>
-			<FormItem
-					label="商品名称"
+			<Form>
+				<FormItem
+						label="商品名称"
+						labelCol={{ span: 8 }}
+						wrapperCol={{ span: 6 }}
+					>
+						{getFieldDecorator('name', {
+							rules: [{ required: true, message: '请输入商品名称' }],
+							initialValue:this.props.name
+						})(
+							<Input placeholder="请输入商品名称"/>
+						)}
+				</FormItem>
+				<FormItem
+					label="商品分类"
 					labelCol={{ span: 8 }}
 					wrapperCol={{ span: 6 }}
 				>
-					{getFieldDecorator('name', {
-						rules: [{ required: true, message: '请输入商品名称' }],
-						initialValue:this.props.name
+					{getFieldDecorator('pdCategory1Id', {
+						rules: [{ required: true, message: '请选择商品分类'}],
+						onChange: this.handleSelectChange,
+						initialValue:String(this.props.pdCategory1Id)
 					})(
-						<Input placeholder="请输入商品名称"/>
+						<Select placeholder="请选择商品分类">
+							{
+								this.props.goodpdCategorys.map((item,index)=>{
+									return (<Option value={String(item.pdCategoryId)} key={index}>{item.name}</Option>)
+								})
+							}
+						</Select>
 					)}
-			</FormItem>
-						<FormItem
-							label="商品分类"
-							labelCol={{ span: 8 }}
-							wrapperCol={{ span: 6 }}
-						>
-							{getFieldDecorator('pdCategory1Id', {
-								rules: [{ required: true, message: '请选择商品分类'}],
-								onChange: this.handleSelectChange,
-								initialValue:String(this.props.pdCategory1Id)
-							})(
-								<Select placeholder="请选择商品分类">
-									{
-									this.props.goodpdCategorys.map((item,index)=>{
-										return (<Option value={String(item.pdCategoryId)} key={index}>{item.name}</Option>)
-									})
-									}
-								</Select>
-							)}
-						</FormItem>
+				</FormItem>
 					<FormItem
 						label="商品类型"
 						labelCol={{ span: 8 }}
@@ -700,7 +700,7 @@
 					</FormItem>
 					<FormItem wrapperCol={{ offset: 9}} style = {{marginBottom:0}} style = {{marginTop:'20px'}}>
 						<Button onClick={this.Handcancel.bind(this)} style = {{marginRight:'50px'}}>取消</Button>
-						<Button htmlType="submit" onClick={this.handleSubmit.bind(this)}>保存</Button>
+						<Button onClick={this.handleSubmit.bind(this)} type="primary">保存</Button>
 					</FormItem>
 		</Form>
 		);

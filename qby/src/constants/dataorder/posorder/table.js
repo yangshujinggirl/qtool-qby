@@ -13,7 +13,7 @@ class DataclassTable extends React.Component {
 		super(props);
 		this.columns = [{
 			title: '时间',
-			dataIndex: 'rpDate'
+			dataIndex: 'rpDateStr'
 		},{
 			title: '总订单数',
 			dataIndex: 'orderQtySum'

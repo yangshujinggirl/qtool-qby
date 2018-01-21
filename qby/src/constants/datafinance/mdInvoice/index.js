@@ -117,8 +117,6 @@ class MdInvoiceIndexForm extends React.Component {
             data1=d.getFullYear()-1
         }
         const data=String(data1)+'-'+String(data2)
-        console.log(this)
-
         let datas = {
             currentPage:0,
             limit:10,
@@ -152,7 +150,7 @@ class MdInvoiceIndexForm extends React.Component {
                     </Col>
                 </Row>
                 <div style={{'position':'absolute','right':'0','bottom':'20px'}}>
-                    <Button type="primary" htmlType="submit" onClick={this.handleSubmit.bind(this)} size='large'>搜索</Button>
+                    <Button type="primary"  onClick={this.handleSubmit.bind(this)} size='large'>搜索</Button>
                 </div>
                 </Form>
                 
@@ -240,8 +238,8 @@ class MdInvoiceIndexForm extends React.Component {
         })
     }
 
-    downLoad = (row)=>{
-        console.log(row);
+    downLoad = ()=>{
+       
     }
 
     //获取当前时间
