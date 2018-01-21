@@ -108,7 +108,7 @@ class OrderposSearchForm extends React.Component {
                     </Col>
                 </Row>
                 <div style={{'position':'absolute','right':'0','bottom':'20px'}}>
-                    <Button type="primary" htmlType="submit" onClick={this.handleSearch.bind(this)}>搜索</Button>
+                    <Button type="primary" size='large' htmlType="submit" onClick={this.handleSearch.bind(this)}>搜索</Button>
                 </div>
             </Form>
         );
