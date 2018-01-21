@@ -46,7 +46,7 @@ class NormalLoginForm extends React.Component {
                     {getFieldDecorator('username', {
                         rules: [{ required: true, message: '请输入用户名' }],
                     })(
-                        <Input className='loin_input_model' placeholder="请输入用户名" />
+                        <Input className='loin_input_model' placeholder="请输入用户名"/>
                     )}
                 </FormItem>
                 <FormItem className='login_password'>

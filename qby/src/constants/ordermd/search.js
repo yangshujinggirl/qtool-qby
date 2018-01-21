@@ -78,32 +78,32 @@ class OrdermdSearchForm extends React.Component {
                             <div className='serach_form'>
                                 <FormItem label='门店名称'>
                                     {getFieldDecorator('shopName')(
-                                    <Input placeholder="请输入门店名称"/>
+                                    <Input placeholder="请输入门店名称" autoComplete="off"/>
                                     )}
                                 </FormItem>
                                 <FormItem label='收货人电话'>
                                     {getFieldDecorator('recTel')(
-                                    <Input placeholder="请输入收货人电话"/>
+                                    <Input placeholder="请输入收货人电话" autoComplete="off"/>
                                     )}
                                 </FormItem>
                                 <FormItem label='收货人'>
                                     {getFieldDecorator('recName')(
-                                    <Input placeholder="请输入收货人"/>
+                                    <Input placeholder="请输入收货人" autoComplete="off"/>
                                     )}
                                 </FormItem>
                                 <FormItem label='订单号'>
                                     {getFieldDecorator('orderNo')(
-                                    <Input placeholder="请输入订单号"/>
+                                    <Input placeholder="请输入订单号" autoComplete="off"/>
                                     )}
                                 </FormItem>
                                 <FormItem label='商品编码'>
                                     {getFieldDecorator('code')(
-                                    <Input placeholder="请输入商品编码"/>
+                                    <Input placeholder="请输入商品编码" autoComplete="off"/>
                                     )}
                                 </FormItem>
                                 <FormItem label='商品名称'>
                                     {getFieldDecorator('pdSpuName')(
-                                    <Input placeholder="请输入商品名称"/>
+                                    <Input placeholder="请输入商品名称" autoComplete="off"/>
                                     )}
                                 </FormItem>
                                 <FormItem label='订单状态'>

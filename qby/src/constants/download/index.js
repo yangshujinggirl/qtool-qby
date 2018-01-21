@@ -15,7 +15,7 @@ class DownloadIndex extends React.Component{
               title: '数据申请时间',
               dataIndex: 'createTime'
             },{
-              title: '数据产生时间',
+              title: '数据产出时间',
               dataIndex: 'generatedTime'
             }, {
               title: '数据状态',

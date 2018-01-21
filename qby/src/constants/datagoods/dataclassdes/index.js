@@ -69,7 +69,7 @@ class DataclassdesIndex extends React.Component{
         	<div>
 				<div className='clearfix mb10'>
 					<p className='fl'>数据更新于:{this.props.updateTime}</p>
-					<p className='fr pointer' onClick={this.desinfo.bind(this)}>定义数据说明<Icon type="question-circle-o" style={{color:"#ED6531"}}/></p>	
+					<p className='fr pointer' onClick={this.desinfo.bind(this)}>数据定义说明<Icon type="question-circle-o" style={{color:"#ED6531",marginLeft:"4px"}}/></p>	
 				</div>
 				<div style={{border:'1px solid #e8e8e8',padding:'20px',marginTop:'30px'}}>
 					<EchartsTest type='1'/>

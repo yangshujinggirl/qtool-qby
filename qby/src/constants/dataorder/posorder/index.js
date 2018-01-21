@@ -42,7 +42,7 @@ class DataposorderIndex extends React.Component{
 			<div>
 				<div className='clearfix mb10'>
 					<p className='fl'>数据更新于:{this.props.updateTime}</p>
-					<p className='fr pointer' onClick={this.desinfo.bind(this)}>定义数据说明<Icon type="question-circle-o" style={{color:"#ED6531"}}/></p>	
+					<p className='fr pointer' onClick={this.desinfo.bind(this)}>数据定义说明<Icon type="question-circle-o" style={{color:"#ED6531",marginLeft:"4px"}}/></p>	
 				</div>
 				<div><Cards data={this.props.datalist1}/></div>
 				<div className='mt10'><Cards data={this.props.datalist2}/></div>

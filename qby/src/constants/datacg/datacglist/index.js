@@ -41,7 +41,7 @@ class DatacglistIndex extends React.Component{
 		return(
 			<div>
 				<div className='clearfix mb10'>
-					<p className='fr pointer' onClick={this.desinfo.bind(this)}>定义数据说明<Icon type="question-circle-o" style={{color:"#ED6531"}}/></p>	
+					<p className='fr pointer' onClick={this.desinfo.bind(this)}>数据定义说明<Icon type="question-circle-o" style={{color:"#ED6531",marginLeft:"4px"}}/></p>	
 				</div>
 				<Cards data={this.props.data}/>
 				<div className='mt10'><DatacgTable/></div>

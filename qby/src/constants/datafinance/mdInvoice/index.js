@@ -98,14 +98,23 @@ class MdInvoiceIndexForm extends React.Component {
 	}
 
     handleSubmit = (e) =>{
-        let data = {
-            currentPage:0,
-            limit:10,
-            month:this.state.month,
-            name:this.state.name
-        }
-        this.getServerData(data)
+        this.props.form.validateFields((err, values) => {
+            if (!err) {
+              this.setState({
+                  name:values.name
+              },function(){
+                let data = {
+                    currentPage:0,
+                    limit:this.state.limit,
+                    month:this.state.month,
+                    name:this.state.name
+                }
+                this.getServerData(data)
+              })
+            }
+        })
     }
+
 
     render() {
         const { getFieldDecorator } = this.props.form;
@@ -130,9 +139,9 @@ class MdInvoiceIndexForm extends React.Component {
                         <Col span={24} className='formbox_col'>
                             <Row>
                                 <div className='serach_form'>
-                                    <FormItem label='商品名称'>
+                                    <FormItem label='门店名称'>
                                         {getFieldDecorator('name')(
-                                        <Input placeholder="请输入商品名称"/>
+                                        <Input placeholder="请输入门店名称"/>
                                         )}
                                     </FormItem>
                                     <FormItem
