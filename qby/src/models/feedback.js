@@ -20,8 +20,13 @@ export default {
 		total:0
 	  },
   	reducers: {
+
 		infolist(state, { payload:{cardtitle,cardlist,logstitle,logs,remark,feedbackPics,type,status}}) {
 			return {...state,cardtitle,cardlist,logstitle,logs,remark,feedbackPics,type,status}
+		},
+		initstatedata(state, { payload:{}}) {
+			const editremark=null
+			return {...state,editremark}
 		},
 		typechange(state, { payload:type}) {
 			return {...state,type}
@@ -47,7 +52,7 @@ export default {
 				const feedbacks=result.feedbacks
 				const limit=result.limit;
                 const currentPage=result.currentPage;
-                const total=result.total;
+				const total=result.total;
 			   yield put({type: 'fetchlist',payload:{feedbacks,limit,currentPage,total}});
 			} 
   		}, 
