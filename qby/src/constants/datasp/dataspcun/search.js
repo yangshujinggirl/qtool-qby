@@ -108,14 +108,14 @@ class StockSearchForm extends React.Component {
                             dataSource={this.state.dataSource}
                             onSelect={this.onSelect}
                             onSearch={this.handleSearchs}
-                            placeholder='请选择供应商名称'
+                            placeholder='请选择门店名称'
                             filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
                         />
                         )}
                     </FormItem>
                     <FormItem label='商品名称'>
                         {getFieldDecorator('pdSpuName')(
-                        <Input placeholder="请输入商品编码" autoComplete="off"/>
+                        <Input placeholder="请输入商品名称" autoComplete="off"/>
                         )}
                     </FormItem>
                     <FormItem label='商品条码'>
@@ -125,7 +125,7 @@ class StockSearchForm extends React.Component {
                     </FormItem>
                     <FormItem label='商品编码'>
                         {getFieldDecorator('code')(
-                        <Input placeholder="请输入商品条码" autoComplete="off"/>
+                        <Input placeholder="请输入商品编码" autoComplete="off"/>
                         )}
                     </FormItem>
                     <FormItem label='商品分类'>

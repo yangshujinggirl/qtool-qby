@@ -26,6 +26,9 @@ class DataspfenTable extends React.Component {
           },{
             title: '分成金额',
             dataIndex: 'notIntoAmount'
+          // },{
+          //   title: '下载',
+          //   dataIndex: 'notIntoAmount'
           }];   
     }
 	
