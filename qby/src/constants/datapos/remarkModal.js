@@ -13,7 +13,7 @@ class RemarkText extends React.Component{
                 title="损益备注"
                 visible={this.props.visible}
                 onCancel={this.hideModal}
-                closable={false}
+                closable={true}
                 footer={null}
                 maskClosable={true}
             >

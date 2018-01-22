@@ -48,6 +48,9 @@ class OrdermdInfo extends React.Component{
 					}, {
 						title: '操作人',
 						dataIndex: 'operateUser'
+					}, {
+						title: '备注',
+						dataIndex: 'remark'
 					}];
     }
 
