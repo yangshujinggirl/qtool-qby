@@ -10,7 +10,12 @@ const dateFormat = 'YYYY-MM-DD';
 const monthFormat = 'YYYY/MM';
 
 // 引入 ECharts 主模块
-var echarts = require('echarts');
+// var echarts = require('echarts');
+
+var echarts = require('echarts/lib/echarts');
+require('echarts/lib/chart/line');
+require('echarts/lib/component/tooltip');
+require('echarts/lib/component/title');
 
 class EchartsTest extends Component {
     state={
@@ -64,6 +69,10 @@ class EchartsTest extends Component {
                 },function(){
                     this.writeCall()
                 })
+
+
+
+                
             }
         })
     }
@@ -87,12 +96,11 @@ class EchartsTest extends Component {
         const data1=this.state.data1
         const data2=this.state.data2
         const type=this.state.type
-
         console.log(xdata)
         console.log(data1)
         console.log(data2)
         // 基于准备好的dom，初始化echarts实例
-        var myChart = echarts.init(document.getElementById('main'));
+        var myChart = echarts.init(document.getElementById('mainsporder'));
         console.log(myChart)
         // 绘制图表
         myChart.setOption({
@@ -130,12 +138,14 @@ class EchartsTest extends Component {
             },
             series: [
                 {
-                    name:'掌柜销售',
+                    name:type=='1'?'销售数量':'销售金额',
                     type:'line',
                     data:type=='1'?data1:data2
                 }
                 
             ]
+        },{
+            notMerge:true
         });
         console.log(12)
     }
@@ -154,11 +164,12 @@ class EchartsTest extends Component {
                 />
                 </div>
                 <div style={{position:"absolute",left:"322px",top:"1px",zIndex:'1000'}}><Switch checked={this.state.type=='1'?true:false} onChange={this.checkonChange.bind(this)} checkedChildren="销售数量" unCheckedChildren="销售金额"/></div>
-                <div id="main" style={{ height: 400 ,width:"100%"}}></div>
+                <div id="mainsporder" style={{ height: 400 ,width:"100%"}}></div>
             </div>
         );
     }
     componentDidMount() {
+        console.log('01')
         const startDate=timeForMat(7).t2
         const endDate=timeForMat(7).t1
         this.setState({
