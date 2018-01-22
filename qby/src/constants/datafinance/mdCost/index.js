@@ -60,8 +60,8 @@ class MdCostIndexForm extends React.Component {
             currentPage:page-1
         },function(){
             let data = {
-                currentPage:0,
-                limit:10,
+                currentPage:this.state.currentPage,
+                limit:this.state.limit,
                 month:this.state.month,
                 spShopId:this.state.spShopId
             }
@@ -71,11 +71,11 @@ class MdCostIndexForm extends React.Component {
     onShowSizeChange=(current, pageSize)=>{
         this.setState({
             limit:pageSize,
-            currentPage:current-1
+            currentPage:0
         },function(){
             let data = {
                 currentPage:0,
-                limit:10,
+                limit:this.state.limit,
                 month:this.state.month,
                 spShopId:this.state.spShopId
             }
@@ -86,7 +86,7 @@ class MdCostIndexForm extends React.Component {
     handleSubmit = () =>{
         let data = {
             currentPage:0,
-            limit:10,
+            limit:this.state.limit,
             month:this.state.month,
             spShopId:this.state.spShopId
         }

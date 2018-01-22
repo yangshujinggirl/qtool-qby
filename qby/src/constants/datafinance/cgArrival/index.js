@@ -49,12 +49,30 @@ class CgArrivalIndexForm extends React.Component {
     pageChange=(page,pageSize)=>{
         this.setState({
             currentPage:page-1
+        },function(){
+            let data = {
+                currentPage:this.state.currentPage,
+                limit:this.state.limit,
+                month:this.state.month,
+                spShopId:this.state.spShopId
+            }
+            this.getServerData(data);
         });
     }
+    
     onShowSizeChange=(current, pageSize)=>{
         this.setState({
             limit:pageSize,
-            currentPage:current-1
+            currentPage:0
+        },function(){
+            let data = {
+                currentPage:this.state.currentPage,
+                limit:this.state.limit,
+                supplierName:this.state.supplierName,
+                createTimeST:this.state.createTimeST,
+                createTimeET:this.state.createTimeET
+            }
+            this.getServerData(data);
         })
     }
     exportData = (type,data) => {
