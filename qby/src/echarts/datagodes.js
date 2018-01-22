@@ -4,6 +4,7 @@ import moment from 'moment';
 import { connect } from 'dva';
 import {GetServerData} from '../services/services';
 import {timeForMat} from '../utils/meth';
+import Clisklist from '../components/switchs/lrsw';
 
 const { MonthPicker, RangePicker } = DatePicker;
 const dateFormat = 'YYYY-MM-DD';
@@ -43,7 +44,6 @@ class EchartsTest extends Component {
     //数据请求
 
     fetdraw=(values)=>{
-        console.log('002')
         const result=GetServerData('qerp.web.rp.pd.analysis.list',values)
         result.then((res) => {
             return res;
@@ -62,7 +62,6 @@ class EchartsTest extends Component {
 					data3.push(analysis[i].qbyAmount) //掌柜金额
 					data4.push(analysis[i].posAmount) //pos金额
 				}
-                console.log('003')
                 this.setState({
                     xdata:xdata,
                     type:'1',
@@ -71,7 +70,6 @@ class EchartsTest extends Component {
                     data3:data3,
                     data4:data4
                 },function(){
-                    console.log('004')
                     this.writeCall()
                 })
             }
@@ -81,29 +79,30 @@ class EchartsTest extends Component {
 
     
 
-    checkonChange=(checked)=>{
+    checkonChange1=()=>{
         this.setState({
-            type:checked
+            type:1
         },function(){
             this.writeCall()
         })
-
     }
+    checkonChange2=()=>{
+        this.setState({
+            type:2
+        },function(){
+            this.writeCall()
+        })
+    }
+
+
     
     //绘制
     writeCall=()=>{
-        console.log('005')
         const xdata=this.state.xdata
         const data1=this.state.data1
         const data2=this.state.data2
         const data3=this.state.data3
         const data4=this.state.data4
-        console.log(xdata)
-        console.log(data1)
-        console.log(data2)
-        console.log(data3)
-        console.log(data4)
-       
         const type=this.state.type
         // 基于准备好的dom，初始化echarts实例
         var myChart = echarts.init(document.getElementById('maingod'));
@@ -117,9 +116,12 @@ class EchartsTest extends Component {
             },
             legend: {
                 data:['掌柜销售','POS销售'],
+                top:"43",
+                left:"460"
             },
             grid:{
-                top:'80'
+                left:"50",
+                top:'100'
             },
             toolbox: {
                 show: false,
@@ -162,7 +164,6 @@ class EchartsTest extends Component {
     }
 
     hindkeyup=(e)=>{
-        console.log(e)
         if(e.keyCode=='13'){
             const values={startRpDate:this.state.startRpDate,endRpDate:this.state.endRpDate,code:e.target.value}
             this.fetdraw(values)
@@ -170,11 +171,10 @@ class EchartsTest extends Component {
     }
 
     render() {
-        console.log(this)
         return (
             <div className='rel'>
-                <div style={{position:"absolute",left:'160px',top:'-4px',zIndex:'1000'}}><Input placeholder="请输入商品编码" style={{width:"150px"}} onKeyUp={this.hindkeyup.bind(this)}/></div>
-                <div style={{position:"absolute",left:"159px",top:"34px",zIndex:'1000'}}>
+                <div style={{position:"absolute",left:'300px',top:'40px',zIndex:'1000'}}><Input placeholder="请输入商品编码" style={{width:"150px"}} onKeyUp={this.hindkeyup.bind(this)}/></div>
+                <div style={{position:"absolute",left:"0px",top:"40px",zIndex:'1000'}}>
                 <RangePicker
                     defaultValue={[moment(timeForMat(30).t2, dateFormat), moment(timeForMat(30).t1, dateFormat)]}
                     format={dateFormat}
@@ -182,7 +182,7 @@ class EchartsTest extends Component {
                     allowClear={false}
                 />
                 </div>
-                <div style={{position:"absolute",left:"520px",top:"38px",zIndex:'1000'}}><Switch checked={this.state.type=='1'?true:false} onChange={this.checkonChange.bind(this)} checkedChildren="销售数量" unCheckedChildren="销售金额"/></div>
+                <div style={{position:"absolute",right:"100px",top:"40px",zIndex:'1000'}}><Clisklist listClick1={this.checkonChange1.bind(this)} listClick2={this.checkonChange2.bind(this)}/></div>
                 <div id="maingod" style={{ height: 400}}></div>
             </div>
         );
@@ -194,7 +194,6 @@ class EchartsTest extends Component {
             startRpDate:startRpDate,
             endRpDate:endRpDate,
         },function(){
-            console.log('001')
             const values={startRpDate:startRpDate,endRpDate:endRpDate,code:null}
             this.fetdraw(values)
         })

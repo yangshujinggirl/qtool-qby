@@ -3,43 +3,58 @@ import { Card } from 'antd';
 
 const typebg={
     width:"50%",
-    background:"#35bab0"
+    background:"#35bab0",
+    float:"left",
+    height:"32px",
+    color:"#fff",
+    lineHeight:"32px",
+    textAlign:"center"
 }
 const notypebg={
     width:"50%",
-    background:"#fff"
+    background:"#fff",
+    float:"left",
+    height:"32px",
+    color:"#666",
+    lineHeight:"32px",
+    textAlign:"center"
+   
 }
 
-class Cardlist extends React.Component {
-    style={
+class Clisklist extends React.Component {
+    state={
         type:"1"
     }
     hindclick1=()=>{
        this.setState({
             type:'1' 
-       })
+        },function(){
+            this.props.listClick1()
+        })
 
     }
     hindclick2=()=>{
         this.setState({
             type:'2' 
-       })
+        },function(){
+            this.props.listClick2()
+        })
     }
 
     render() {
       return (
-          <div style={{width:"100px"}}>
-                <div style={this.state.type=='1'?'typebg':'notypebg'} onClick={this.hindclick1.bind(this)}>销售数量</div>
-                <div style={this.state.type=='1'?'notypebg':'typebg'} onClick={this.hindclick2.bind(this)}>销售金额</div>
-          </div>
-      );
+            <div style={{width:"150px",border:"1px solid #e8e8e8"}} className='clearfix'>
+                <div style={this.state.type=='1'?typebg:notypebg} onClick={this.hindclick1.bind(this)}>销售数量</div>
+                <div style={this.state.type=='1'?notypebg:typebg} onClick={this.hindclick2.bind(this)}>销售金额</div>
+            </div>
+        );
     }
   
     
     
   }
 
-  export default Cardlist;
+  export default Clisklist;
 
   
   

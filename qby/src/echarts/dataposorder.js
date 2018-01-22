@@ -4,6 +4,7 @@ import moment from 'moment';
 import { connect } from 'dva';
 import {GetServerData} from '../services/services';
 import {timeForMat} from '../utils/meth';
+import Clisklist from '../components/switchs/lrsw';
 
 const { MonthPicker, RangePicker } = DatePicker;
 const dateFormat = 'YYYY-MM-DD';
@@ -30,6 +31,20 @@ class EchartsTest extends Component {
         },function(){
             const values={startDate:this.state.startDate,endDate:this.state.endDate}
             this.fetdraw(values)
+        })
+    }
+    checkonChange1=()=>{
+        this.setState({
+            type:1
+        },function(){
+            this.writeCall()
+        })
+    }
+    checkonChange2=()=>{
+        this.setState({
+            type:2
+        },function(){
+            this.writeCall()
         })
     }
 
@@ -98,6 +113,10 @@ class EchartsTest extends Component {
             legend: {
                 data:[]
             },
+            grid:{
+                left:"50",
+                top:'100'
+            },
             toolbox: {
                 show: false,
                 feature: {
@@ -139,7 +158,7 @@ class EchartsTest extends Component {
         const endDate=timeForMat(7).t1
         return (
             <div className='rel'>
-                <div style={{position:"absolute",right:"102px",top:"-4px",zIndex:'1000'}}>
+                <div style={{position:"absolute",left:"0px",top:"40px",zIndex:'1000'}}>
                 <RangePicker
                     defaultValue={[moment(startDate, dateFormat), moment(endDate, dateFormat)]}
                     format={dateFormat}
@@ -147,7 +166,7 @@ class EchartsTest extends Component {
                     allowClear={false}
                 />
                 </div>
-                <div style={{position:"absolute",left:"322px",top:"1px",zIndex:'1000'}}><Switch checked={this.state.type=='1'?true:false} onChange={this.checkonChange.bind(this)} checkedChildren="销售数量" unCheckedChildren="销售金额"/></div>
+                <div style={{position:"absolute",right:"100px",top:"40px",zIndex:'1000'}}><Clisklist listClick1={this.checkonChange1.bind(this)} listClick2={this.checkonChange2.bind(this)}/></div>
                 <div id="mainsposorder" style={{ height: 400 }}></div>
             </div>
         );
