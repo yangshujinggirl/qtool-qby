@@ -67,7 +67,7 @@ class PicturesWall extends React.Component {
 				beforeUpload={beforeUpload}
 				action="/erpWebRest/qcamp/upload.htm?type=spu"
 				listType="picture-card"
-				fileList={fileList}
+				// fileList={fileList}
 				onPreview={this.handlePreview}
 				onChange={this.handleChange}
 				// showUploadList={false}
@@ -111,3 +111,9 @@ class PicturesWall extends React.Component {
 	}
 
 	export default connect(mapStateToProps)(PicturesWall);
+
+
+
+
+
+	
