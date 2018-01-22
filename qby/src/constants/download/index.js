@@ -2,6 +2,7 @@ import EditableTable from '../../components/table/tablebasic';
 import {GetServerData} from '../../services/services';
 import {Getexpont} from '../../services/expont';
 import { connect } from 'dva';
+import { Button } from 'antd';
 
 
 class DownloadIndex extends React.Component{
@@ -61,20 +62,33 @@ class DownloadIndex extends React.Component{
 	//pagesize变化
 	pageSizeChange=(current,size)=>{
 		this.getdownlist(size,0)
-	}
+    }
+    handleDownload=()=>{
+        this.props.dispatch({
+            type:'downlaod/fetch',
+            payload:{code:'qerp.web.sys.doc.list',values:{limit:15,currentPage:0}}
+        });
+    }
 	render(){
 		return(
-            <EditableTable 
-            bordered={true} 
-            dataSource={this.props.sysDownloadDoc} 
-            columns={this.columns}
-            footer={true}
-            pageChange={this.pageChange.bind(this)}
-            pageSizeChange={this.pageSizeChange.bind(this)}
-            total={this.props.total}
-            limit={this.props.limit}
-            current={Number(this.props.currentPage)+1}
-            />
+            <div>
+                <div style={{textAlign:'right'}}>
+                    <Button type="primary" size='large' className='mb10' onClick={this.handleDownload.bind(this)} style={{display:'inline-block'}}>
+                        刷新
+                    </Button>
+                </div>
+                <EditableTable 
+                    bordered={true} 
+                    dataSource={this.props.sysDownloadDoc} 
+                    columns={this.columns}
+                    footer={true}
+                    pageChange={this.pageChange.bind(this)}
+                    pageSizeChange={this.pageSizeChange.bind(this)}
+                    total={this.props.total}
+                    limit={this.props.limit}
+                    current={Number(this.props.currentPage)+1}
+                />
+            </div>
 		)
     }
     componentDidMount(){

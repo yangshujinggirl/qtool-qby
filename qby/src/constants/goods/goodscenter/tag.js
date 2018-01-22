@@ -27,10 +27,10 @@ handleInputChange = (e) => {
 	this.setState({ inputValue: str });
 }
 
-handleInputConfirm = () => {
+handleInputConfirm = (e) => {
 	//判断select是都选中
 	//对inoutvalue进行判断，判断是否已经存在相同的名字，如果存在，则获取id，如果不存在，则新建一个，再拉取id
-	const inputValue=this.state.inputValue
+	const inputValue=e.target.value
 	const pdTypesId=this.props.pdTypesId
 	if(pdTypesId=='00'){
 		message.error('请确保选择了规格',.8);
@@ -42,8 +42,39 @@ handleInputConfirm = () => {
 
 //规格属性匹配
 	getTypevallist=(inputValue,id)=>{
-		// console.log(inputValue)
-		// console.log(this.props.tags)
+		console.log(inputValue)
+		console.log(this.props.tag1)
+		console.log(this.props.tag2)
+		console.log(this.props.types)
+		var dayvalues=0
+		if(!inputValue){
+			message.error('此属性不能为空');
+			return
+		}
+		if(this.props.types=='1'){
+			dayvalues=this.props.tag1.filter((currentValue)=>{
+				return currentValue.name==inputValue
+			})
+			if(dayvalues.length>0){
+				message.error('此属性已存在');
+				return
+			}
+		}
+		if(this.props.types=='2'){
+			dayvalues=this.props.tag2.filter((currentValue)=>{
+				return currentValue.name==inputValue
+			})
+			if(dayvalues.length>0){
+				message.error('此属性已存在');
+				return
+			}
+		}
+
+
+
+
+
+
 
 
 		const values={

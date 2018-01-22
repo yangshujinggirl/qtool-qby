@@ -19,10 +19,10 @@ class AddEditableTable extends React.Component {
 		},{
 			title: 'operations',
 			dataIndex: 'operations',
-			width:'50px',
+			width:'100px',
 			render: (text, record, index) => {
 				return (
-					<p onClick={this.onDelete.bind(this,index)}>删除</p>
+					<p onClick={this.onDelete.bind(this,index)} className='theme-color'>删除</p>
 				);
 			}
 		}];

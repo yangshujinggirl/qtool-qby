@@ -180,7 +180,7 @@ class Content extends React.Component {
                     </Spin>
                 </div>
                 <div className='footer'>
-                    Designed by Qtools Online
+                Designed by Qtools Apps
                 </div>
   			</div>
         )

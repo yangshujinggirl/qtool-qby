@@ -375,6 +375,7 @@
 			}
 		}
 
+		
 		//搜搜请求数据
 		initWarehouseList=()=>{
 			let values =deepcCloneObj(this.props.values); 
@@ -464,7 +465,7 @@
 						<FormItem
 						label="商品图片"
 						labelCol={{ span: 8 }}
-						wrapperCol={{ span: 6 }}
+						wrapperCol={{ span: 16 }}
 						>
 						{getFieldDecorator('imgs', {
 							
@@ -667,7 +668,7 @@
 						wrapperCol={{ span: 6 }}
 					>
 						{getFieldDecorator('containerSpec', {
-							rules: [{ required: true, message: '请输入箱规销售' }],
+							rules: [{ required: true, message: '请输入箱规销售' },{pattern:/^[0-9]*$/,message:'请输入数字'}],
 							initialValue:this.props.containerSpec
 						})(
 							<Input placeholder="请输入箱规销售" autoComplete="off"/>
@@ -698,10 +699,14 @@
 							<AddEditableTable data={eval(this.props.pdSpuInfo)}/>
 						)}
 					</FormItem>
+					<FormItem  style = {{marginTop:'20px'}}>
+						<div style={{width:"100%",height:"1px",background:"#e8e8e8"}}></div>
+					</FormItem>
 					<FormItem wrapperCol={{ offset: 9}} style = {{marginBottom:0}} style = {{marginTop:'20px'}}>
 						<Button onClick={this.Handcancel.bind(this)} style = {{marginRight:'50px'}}>取消</Button>
 						<Button onClick={this.handleSubmit.bind(this)} type="primary">保存</Button>
 					</FormItem>
+					
 		</Form>
 		);
 	}

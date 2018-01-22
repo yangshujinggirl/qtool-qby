@@ -112,9 +112,9 @@ class Feedbackedit extends React.Component{
 				<div className='mb10'>
 					<Cardlist cardtitle={this.props.cardtitle} cardlist={this.props.cardlist}/>
 				</div>
-				<div>
-					<p>反馈内容</p>
-					<Form>
+				<div style={{padding:'10px 0',border:'1px solid #e8e8e8',margin:'10px 0',marginBottom:"10px"}}>
+					<p style={{borderBottom:'1px solid #e8e8e8',padding:'5px 10px 15px'}}>反馈内容</p>
+					<Form className='mt20'>
 						<FormItem
 							label="反馈内容"
 							labelCol={{ span: 2 }}
@@ -139,9 +139,9 @@ class Feedbackedit extends React.Component{
 						</FormItem>
       				</Form>
 				</div>
-				<div>
-					<p>反馈处理</p>
-					<Form>
+				<div style={{padding:'10px 0',border:'1px solid #e8e8e8',marginBottom:"10px"}}>
+					<p style={{borderBottom:'1px solid #e8e8e8',padding:'5px 10px 15px'}}>反馈处理</p>
+					<Form className='mt20'>
 						<FormItem
 							label="反馈类型"
 							labelCol={{ span: 2 }}
@@ -180,10 +180,11 @@ class Feedbackedit extends React.Component{
 							labelCol={{ span: 2 }}
 							wrapperCol={{ span: 12 }}
 						>
-							<TextArea rows={4} value={this.props.editremark} onChange={this.editremarkchange.bind(this)}/>
+							<TextArea rows={4} value={this.props.editremark} onChange={this.editremarkchange.bind(this)} placeholder='备注信息，最多200字，方便其他人了解，非必填' maxLength='200'/>
 						</FormItem>
       				</Form>
 				</div>
+
 
 					<div className='mb10'>
 						<EditableTable 

@@ -45,7 +45,7 @@ export default {
 		isPresell:'0',
 		pdSpuInfo:[],
 		shareType:'0',
-		containerSpec:null,
+		containerSpec:'1',
 		//商品信息
 		pdType1Id:'00', //规格1的选择id
 		pdType2Id:'00', //规格2的选择id
@@ -122,7 +122,7 @@ export default {
 			const pdSpuInfo=[]
 			const fileList=[]
 			const shareType='0'
-			const containerSpec=null
+			const containerSpec='1'
 
 
 			return {...state,name,pdCategory1Id,pdCategory2Id,pdCategorys,pdBrand,pdBrandId,spuPics,pdType1Id,pdType2Id,tag1,tag2,goodindodatasouce,initdatasouce,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell,pdSpuInfo,fileList,shareType,containerSpec}
@@ -448,6 +448,9 @@ export default {
 								}
 							}
 
+							console.log(goodindodatasouce)
+							
+
 						}else{
 							for(var i=0;i<tag1.length;i++){
 									goodindodatasouce.push({
@@ -459,7 +462,11 @@ export default {
 										tagPrice:null,
 										costPrice:null,
 										picUrl:null,
-										keys:tag1[i].keys
+										keys:tag1[i].keys,
+										pdType1Id:pdType1Id,
+										pdType1ValId:tag1[i].keys,
+										pdType2Id:null,
+										pdType2ValId:null
 									})
 	
 								

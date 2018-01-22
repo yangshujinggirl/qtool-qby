@@ -19,10 +19,15 @@ class Imgmodel extends React.Component {
     }
     render() {
         const fileDomain=eval(sessionStorage.getItem('fileDomain'));
+        console.log(fileDomain)
         return (
             <div>
                 <div style={{width:"100px",height:"100px"}} onClick={this.showModal}>
-                    <img src={fileDomain+this.props.picUrl} className='w100 h100'/>
+                    {
+                        !this.props.picUrl?''
+                        :<img src={fileDomain+this.props.picUrl} className='w100 h100'/>
+                    }
+                    
                 </div>
                 <Modal
                     visible={this.state.visible}
@@ -31,7 +36,12 @@ class Imgmodel extends React.Component {
                     footer={null}
                 >
                     <div>
-                        <img src={fileDomain+this.props.picUrl} className='w100 h100'/>
+                        {
+                            !this.props.picUrl?''
+                            : <img src={fileDomain+this.props.picUrl} className='w100 h100'/>
+
+                        }
+                       
                     </div>
                 </Modal>
             </div>

@@ -9,7 +9,7 @@ const dateFormat = 'YYYY-MM-DD';
 
 class BatchStockSearchForm extends React.Component {
     state = {
-        expireDays:null
+        expireType:null
     };
     //点击搜索按钮获取搜索表单数据
     handleSearch = (e) => {
@@ -63,7 +63,7 @@ class BatchStockSearchForm extends React.Component {
                 )}
             </FormItem>
             <FormItem label='到期天数'>
-                {getFieldDecorator('expireDays',{
+                {getFieldDecorator('expireType',{
                     initialValue:'40'
                 })(
                     <Select>

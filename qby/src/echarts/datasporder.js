@@ -87,8 +87,13 @@ class EchartsTest extends Component {
         const data1=this.state.data1
         const data2=this.state.data2
         const type=this.state.type
+
+        console.log(xdata)
+        console.log(data1)
+        console.log(data2)
         // 基于准备好的dom，初始化echarts实例
         var myChart = echarts.init(document.getElementById('main'));
+        console.log(myChart)
         // 绘制图表
         myChart.setOption({
             title: {
@@ -132,6 +137,7 @@ class EchartsTest extends Component {
                 
             ]
         });
+        console.log(12)
     }
 
     render() {
@@ -148,7 +154,7 @@ class EchartsTest extends Component {
                 />
                 </div>
                 <div style={{position:"absolute",left:"322px",top:"1px",zIndex:'1000'}}><Switch checked={this.state.type=='1'?true:false} onChange={this.checkonChange.bind(this)} checkedChildren="销售数量" unCheckedChildren="销售金额"/></div>
-                <div id="main" style={{ height: 400 }}></div>
+                <div id="main" style={{ height: 400 ,width:"100%"}}></div>
             </div>
         );
     }
