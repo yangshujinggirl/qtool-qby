@@ -296,3 +296,7 @@
     width: 110px;
 }
 
+.ant-tooltip-inner{
+    min-height: 0;
+}
+

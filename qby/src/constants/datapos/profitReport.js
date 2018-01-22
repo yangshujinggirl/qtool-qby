@@ -296,6 +296,7 @@ class ProfitReportForm extends React.Component {
                                         label="订单时间"
                                        >
                                             <MonthPicker 
+                                            allowClear={false}
                                             value={this.state.rpDate?moment(this.state.rpDate, dateFormat):null}
                                             format={dateFormat}
                                             onChange={this.dateChange.bind(this)}/>

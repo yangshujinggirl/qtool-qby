@@ -192,6 +192,18 @@ class DailyBillForm extends React.Component {
                         </li>
                         <li>
                             <div>
+                                <p style={{color:"#806EC6"}}>
+                                {this.state.rpDayAccount.orderQty?this.state.rpDayAccount.orderQty:"0"}
+                                </p>
+                                <span className="explain-span">
+                                    <Tooltip title="销售订单的总数量">
+                                        订单量&nbsp;<Icon type="exclamation-circle-o"/>
+                                    </Tooltip>
+                                </span>
+                            </div>
+                        </li>
+                        <li>
+                            <div>
                                 <p style={{color:"#51C193"}}>
                                     <i>¥</i>
                                     {this.state.rpDayAccount.rechargeAmount&&this.state.rpDayAccount.rechargeAmount!="0"?this.state.rpDayAccount.rechargeAmount.split('.')[0]:"0"}
@@ -203,18 +215,6 @@ class DailyBillForm extends React.Component {
                                 <span className="explain-span">
                                     <Tooltip title="充值订单的总金额">
                                         充值金额&nbsp;<Icon type="exclamation-circle-o"/>
-                                    </Tooltip>
-                                </span>
-                            </div>
-                        </li>
-                        <li>
-                            <div>
-                                <p style={{color:"#806EC6"}}>
-                                {this.state.rpDayAccount.orderQty?this.state.rpDayAccount.orderQty:"0"}
-                                </p>
-                                <span className="explain-span">
-                                    <Tooltip title="销售订单的总数量">
-                                        订单量&nbsp;<Icon type="exclamation-circle-o"/>
                                     </Tooltip>
                                 </span>
                             </div>

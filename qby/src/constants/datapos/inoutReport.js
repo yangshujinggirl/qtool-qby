@@ -424,6 +424,7 @@ class InOutReportForm extends React.Component {
                                         className="monthSelect-input"
                                         >
                                             <MonthPicker 
+                                            allowClear={false}
                                             value={this.state.rpDate?moment(this.state.rpDate, dateFormat):null}
                                             format={dateFormat}
                                             onChange={this.dateChange.bind(this)}/>
