@@ -164,7 +164,7 @@ ins { text-decoration: none; }
 .ant-table.ant-table-bordered .ant-table-footer{background: #fff;padding:30px;}
 .ant-table-placeholder{display: none;}
 .ant-table.ant-table-bordered  .ant-table-footer:before{background: #fff;}
-.ant-table-thead > tr > th.ant-table-selection-column .ant-radio-wrapper, .ant-table-tbody > tr > td.ant-table-selection-column .ant-radio-wrapper .ant-radio-inner:after{border-radius: 50%;width: 6.5px;height: 6.5px;}
+.ant-table-thead > tr > th.ant-table-selection-column .ant-radio-wrapper, .ant-table-tbody > tr > td.ant-table-selection-column .ant-radio-wrapper .ant-radio-inner:after{border-radius: 50%;}
 
 /* 分页 */
 .pagination{border-top:1px solid #F4F4F4;padding-top: 20px;}
@@ -223,6 +223,7 @@ ins { text-decoration: none; }
 
 
 .classssd .ant-table-thead > tr.ant-table-row-hover > td, .classssd .ant-table-tbody > tr.ant-table-row-hover > td, .classssd .ant-table-thead > tr:hover > td, .classssd .ant-table-tbody > tr:hover > td{background: none;}
+<<<<<<< HEAD
 .editable-cell {
   position: relative;
 }
@@ -264,4 +265,8 @@ ins { text-decoration: none; }
 
 .editable-add-btn {
   margin-bottom: 8px;
+=======
+.ant-card{
+  border-radius: 0px;
+>>>>>>> 051b935fb689dabbf4e19cd8ce64e076a56748dd
 }

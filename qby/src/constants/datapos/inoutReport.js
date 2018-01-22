@@ -431,7 +431,7 @@ class InOutReportForm extends React.Component {
                                         label="商品名称"
                                         >
                                         {getFieldDecorator('name')(
-                                            <Input/>
+                                            <Input autoComplete="off"/>
                                         )}
                                         </FormItem>
                                     </div>
@@ -445,7 +445,7 @@ class InOutReportForm extends React.Component {
                     <Button 
 						type="primary" 
 						size='large'
-						className='mt20 ml10 mb15'
+						className='mt20 mb15'
 						onClick={this.exportList.bind(this)}
 					>
 						导出数据

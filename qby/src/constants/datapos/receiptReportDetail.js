@@ -152,7 +152,7 @@ class ReceiptDetailsForm extends React.Component {
                                             className="goods-key"
                                            >
                                         {getFieldDecorator('keywords')(
-                                            <Input/>
+                                            <Input  autoComplete="off"/>
                                         )}
                                         </FormItem>
                                         <FormItem
@@ -182,34 +182,12 @@ class ReceiptDetailsForm extends React.Component {
                     current={this.state.currentPage+1}
                     bordered={true}
                     />
-                    {/* <CommonTable 
-                        columns={this.columns} 
-                        dataSource={this.state.dataSource}
-                        pagination={false}
-                        total={20}
-                        current={1}
-                        pageSize={10}
-                        onShowSizeChange={this.onShowSizeChange}
-                        pageChange={this.pageChange}
-                        /> */}
                 </div>
-                {/* <div className="footer-pagefixed">
-                    <Pagination 
-                        total={this.state.total} 
-                        current={this.state.currentPage+1}
-                        pageSize={this.state.limit}
-                        showSizeChanger 
-                        onShowSizeChange={this.onShowSizeChange} 
-                        onChange={this.pageChange} 
-                        pageSizeOptions={['10','12','15','17','20','50','100','200']}
-                        />
-                </div> */}
             </div>
         );
     }
 
     componentDidMount(){
-        console.log(this.props.data.pdOrderId);
         this.setState({
             detailsInfo:this.props.data.details
         })
