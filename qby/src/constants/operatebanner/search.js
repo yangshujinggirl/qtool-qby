@@ -55,7 +55,7 @@ class OperatebannerSearchForm extends React.Component {
                                 </FormItem>
                                 <FormItem label='banner状态'>
                                     {getFieldDecorator('status')(
-                                    <Select allowClear={true} placeholder="请选择">
+                                    <Select allowClear={true} placeholder="请选择banner状态">
                                         <Option value='1'>上线</Option>
                                         <Option value='0'>下线</Option>
                                     </Select>

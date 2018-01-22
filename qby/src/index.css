@@ -86,6 +86,7 @@ strong, b, .b { font-weight: bold; }
 .mt10 { margin-top: 10px; }
 .mr10 { margin-right: 10px; }
 .mb10 { margin-bottom: 10px; }
+.mb20{margin-bottom: 20px;}
 .ml10 { margin-left: 10px; }
 .mt15 { margin-top: 15px; }
 .mb15 { margin-bottom: 15px; }

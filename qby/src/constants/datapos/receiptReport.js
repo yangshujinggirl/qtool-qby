@@ -206,7 +206,7 @@ class ReceiptReportForm extends React.Component {
                                         label="订单状态"
                                        >
                                         {getFieldDecorator('status')(
-                                            <Select>
+                                            <Select allowClear placeholder="请选择订单状态">
                                                 <Option value="10">收货中</Option>
                                                 <Option value="20">待收货</Option>
                                                 <Option value="30">已收货</Option>
@@ -218,7 +218,7 @@ class ReceiptReportForm extends React.Component {
                                         label="配货单号"
                                         >
                                         {getFieldDecorator('orderNo')(
-                                        <Input  autoComplete="off"/>
+                                        <Input placeholder="请输入配货单号" autoComplete="off"/>
                                         )}
                                         </FormItem>
                                     </div>

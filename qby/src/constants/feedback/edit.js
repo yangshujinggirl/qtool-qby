@@ -186,7 +186,7 @@ class Feedbackedit extends React.Component{
 				</div>
 
 
-					<div className='mb10'>
+					<div className='mb20'>
 						<EditableTable 
 							columns={this.columns} 
 							dataSource={this.props.logs} 
@@ -194,7 +194,7 @@ class Feedbackedit extends React.Component{
 							bordered={true}
 						/>
 					</div>
-					<FormItem wrapperCol={{ offset: 4}} style = {{marginBottom:0}}>
+					<FormItem style = {{marginBottom:0,textAlign:"center"}}>
 						<Button className='mr30' onClick={this.hindCancel.bind(this)}>取消</Button>
 						<Button htmlType="submit" type="primary" onClick={this.handleSubmit.bind(this)}>确定</Button>
             	</FormItem>

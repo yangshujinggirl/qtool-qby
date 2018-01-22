@@ -136,7 +136,7 @@ class OrdermdSearchForm extends React.Component {
                                 </FormItem>
                                 <FormItem label='预售订单'>
                                     {getFieldDecorator('preSellStatus')(
-                                    <Select allowClear={true} placeholder="请选择">
+                                    <Select allowClear={true} placeholder="请选择是否预售">
                                         <Option value='1'>是</Option>
                                         <Option value='0'>否</Option>
                                     </Select>

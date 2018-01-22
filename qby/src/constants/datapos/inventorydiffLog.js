@@ -168,7 +168,7 @@ class InventorydiffLogIndexForm extends React.Component {
                                         labelCol={{ span: 5 }}
                                         wrapperCol={{span: 10}}>
                                         {getFieldDecorator('name')(
-                                            <Input autoComplete="off"/>
+                                            <Input placeholder="请输入商品名称" autoComplete="off"/>
                                         )}
                                         </FormItem>
                                     </div>

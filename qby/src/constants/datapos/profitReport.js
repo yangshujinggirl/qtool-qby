@@ -304,7 +304,7 @@ class ProfitReportForm extends React.Component {
                                         label="商品名称"
                                        >
                                         {getFieldDecorator('name')(
-                                            <Input  autoComplete="off"/>
+                                            <Input placeholder="请输入商品名称" autoComplete="off"/>
                                         )}
                                         </FormItem>
                                     </div>

@@ -130,7 +130,7 @@ class StockSearchForm extends React.Component {
                     </FormItem>
                     <FormItem label='商品分类'>
                         {getFieldDecorator('pdCategoryId')(
-                           <Select  placeholder="请选择" allowClear={true}>
+                           <Select  placeholder="请选择商品分类" allowClear={true}>
                             {
                                 this.state.pdCategorys.map((item,index)=>{
                                     return (<Option value={String(item.pdCategoryId)} key={index}>{item.name}</Option>)
