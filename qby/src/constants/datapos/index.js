@@ -103,7 +103,7 @@ class DataposIndexForm extends React.Component{
                                 />
                             )}
                         </FormItem>
-                        <Button htmlType="submit" type="primary" style={{marginTop:"1px"}} onClick={this.handleSubmit.bind(this)}>搜索</Button>
+                        <Button htmlType="submit" type="primary" style={{marginTop:"1px"}} onClick={this.handleSubmit.bind(this)}>进入门店</Button>
                     </Form>
                 </div>
                 :
