@@ -50,7 +50,7 @@ class OperatesupplierSearchForm extends React.Component {
                                 </FormItem>
                                 <FormItem label='合作状态'>
                                     {getFieldDecorator('status')(
-                                    <Select allowClear={true} placeholder="请选择">
+                                    <Select allowClear={true} placeholder="请选择合作状态">
                                         <Option value='10'>合作中</Option>
                                         <Option value='20'>待合作</Option>
                                         <Option value='21'>停止合作</Option>

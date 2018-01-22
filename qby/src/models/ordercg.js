@@ -114,9 +114,9 @@ export default {
                 if (asn.shippingFeeType == 20) {
                   headTit.push({lable:'物流费用',text:'到付'},{lable:'到付金额',text:asn.shippingFee});
                 }else{
-                  headTit.push({lable:'物流费用',text:asn.wsWarehouseName});
+                  headTit.push({lable:'物流费用',text:'包邮'});
                 }
-                headTit.push({lable:'收货仓库',text:'包邮'});
+                headTit.push({lable:'收货仓库',text:asn.wsWarehouseName});
                 if (asn.taxRateType == 1) {
                   headTit.push({lable:'是否含税',text:'是'},{lable:'含税税点',text:asn.taxRate +'%'});
                 }else{

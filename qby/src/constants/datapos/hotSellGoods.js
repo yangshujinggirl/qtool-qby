@@ -150,6 +150,7 @@ class HotSellGoodsForm extends React.Component {
                                     labelCol={{ span: 5 }}
                                     wrapperCol={{span: 10}}>
                                         <RangePicker 
+                                            allowClear={false}
                                             value={this.state.startDate?[moment(this.state.startDate, dateFormat), moment(this.state.endDate, dateFormat)]:null}
                                             format={dateFormat}
                                             onChange={this.dateChange.bind(this)} />

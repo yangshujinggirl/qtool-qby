@@ -80,7 +80,7 @@ class OperatememberSearchForm extends React.Component {
                                 </FormItem>
                                 <FormItem label='会员级别'>
                                     {getFieldDecorator('mbCardLevel')(
-                                    <Select allowClear={true} placeholder="请选择">
+                                    <Select allowClear={true} placeholder="请选择会员级别">
                                         <Option value=''>全部</Option>
                                         <Option value='1'>金卡</Option>
                                         <Option value='2'>银卡</Option>

@@ -232,6 +232,7 @@ class DailyBillForm extends React.Component {
                                         <RangePicker 
                                             // disabledDate={this.setDisabledDate.bind(this)}
                                             // ranges={{ range: moment["2017-09-01","2017-10-01"] }}     
+                                            allowClear={false}
                                             value={this.state.startDate?[moment(this.state.startDate, dateFormat), moment(this.state.endDate, dateFormat)]:null}
                                             format={dateFormat}
                                             onChange={this.dateChange.bind(this)} />
@@ -239,7 +240,7 @@ class DailyBillForm extends React.Component {
                                     <FormItem
                                     label="订单分类">
                                     {getFieldDecorator('type')(
-                                        <Select>
+                                        <Select allowClear placeholder="请选择订单类型">
                                             <Option value="1">销售订单</Option>
                                             <Option value="2">充值订单</Option>
                                             <Option value="3">退货订单</Option>

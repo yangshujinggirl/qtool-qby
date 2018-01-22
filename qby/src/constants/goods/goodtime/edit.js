@@ -314,7 +314,7 @@ class GoodEditForm extends React.Component{
 						  this.props.data?<Button htmlType="submit" type="primary" onClick={this.handUse.bind(this)}>强制无效</Button>:null
 
 					  }
-              		<Button type="primary" onClick={this.handleSubmit.bind(this)} className='ml30'>保存</Button>
+              		<Button type="primary" onClick={this.handleSubmit.bind(this)}>保存</Button>
             	</FormItem>
           	</Form>
       	)

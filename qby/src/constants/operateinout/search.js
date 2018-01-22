@@ -65,7 +65,7 @@ class OperateinoutSearchForm extends React.Component {
                                 </FormItem>
                                 <FormItem label='收支筛选'>
                                     {getFieldDecorator('status')(
-                                    <Select allowClear={true} placeholder="请选择">
+                                    <Select allowClear={true} placeholder="请选择收支筛选">
                                         <Option value='1'>充值</Option>
                                         <Option value='2'>支出</Option>
                                     </Select>
@@ -73,7 +73,7 @@ class OperateinoutSearchForm extends React.Component {
                                 </FormItem>
                                 <FormItem label='费用筛选'>
                                     {getFieldDecorator('type')(
-                                    <Select allowClear={true} placeholder="请选择">
+                                    <Select allowClear={true} placeholder="请选择费用筛选">
                                         <Option value='21'>订单费用</Option>
                                         <Option value='11'>门店充值</Option>
                                         <Option value='22'>物流费用</Option>

@@ -159,7 +159,7 @@ render() {
 		)}
 		</FormItem>
 		<FormItem
-			wrapperCol={{ span: 12, offset: 5 }}
+			wrapperCol={{ span: 12, offset: 6 }}
 		>
 		<Button type="primary" onClick={this.handleSubmit.bind(this)}>
 			确定

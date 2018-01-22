@@ -64,7 +64,7 @@ class SearchForm extends React.Component {
                                 </FormItem>
                                 <FormItem label='反馈类型'>
                                 {getFieldDecorator('type')(
-                                    <Select allowClear={true} placeholder="请选择门店类型">
+                                    <Select allowClear={true} placeholder="请选择反馈类型">
                                     <Option value='1'>运营相关问题</Option>
                                     <Option value='2'>商品相关问题</Option>
                                     <Option value='3'>设计相关问题</Option>
