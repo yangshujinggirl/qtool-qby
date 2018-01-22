@@ -26,6 +26,9 @@ class DataspcunTable extends React.Component {
           },{
             title: '数量',
             dataIndex: 'qty'
+          },{
+            title: '价格',
+            dataIndex: 'toBPrice'
           }];   
     }
 	

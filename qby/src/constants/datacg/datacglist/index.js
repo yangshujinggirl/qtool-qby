@@ -44,7 +44,10 @@ class DatacglistIndex extends React.Component{
 					<p className='fr pointer' onClick={this.desinfo.bind(this)}>数据定义说明<Icon type="question-circle-o" style={{color:"#ED6531",marginLeft:"4px"}}/></p>	
 				</div>
 				<Cards data={this.props.data}/>
-				<div className='mt10'><DatacgTable/></div>
+				<div className='mt10'>
+					<p style={{marginBottom:"10px",marginTop:"20px"}}>建议采购商品</p>
+					<DatacgTable/>
+				</div>
 			</div>
 		)
 	}
