@@ -11,12 +11,12 @@ const dateFormat = 'YYYY-MM-DD';
 const monthFormat = 'YYYY/MM';
 
 // 引入 ECharts 主模块
-// var echarts = require('echarts');
+var echarts = require('echarts');
 
-var echarts = require('echarts/lib/echarts');
-require('echarts/lib/chart/line');
-require('echarts/lib/component/tooltip');
-require('echarts/lib/component/title');
+// var echarts = require('echarts/lib/echarts');
+// require('echarts/lib/chart/line');
+// require('echarts/lib/component/tooltip');
+// require('echarts/lib/component/title');
 
 class EchartsTest extends Component {
     state={
@@ -159,8 +159,6 @@ class EchartsTest extends Component {
                 }
                 
             ]
-        },{
-            notMerge:true
         });
     }
 

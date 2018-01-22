@@ -188,8 +188,6 @@ class EchartsTest extends Component {
                     data:type=='1'?data2:data4
                 }
             ]
-        },{
-            notMerge:true
         });
     }
 

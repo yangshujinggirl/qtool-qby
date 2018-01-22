@@ -62,7 +62,7 @@ class StockSearchForm extends React.Component {
                 <div className='serach_form'>
                     <FormItem label='商品名称'>
                         {getFieldDecorator('name')(
-                        <Input placeholder="请输入商品编码" autoComplete="off"/>
+                        <Input placeholder="请输入商品名称" autoComplete="off"/>
                         )}
                     </FormItem>
                     <FormItem label='商品条码'>
@@ -72,7 +72,7 @@ class StockSearchForm extends React.Component {
                     </FormItem>
                     <FormItem label='商品编码'>
                         {getFieldDecorator('code')(
-                        <Input placeholder="请输入商品条码" autoComplete="off"/>
+                        <Input placeholder="请输入商品编码" autoComplete="off"/>
                         )}
                     </FormItem>
                     

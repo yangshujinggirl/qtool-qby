@@ -56,7 +56,7 @@ class DataspfenIndex extends React.Component{
 						type="primary" 
 						size='large'
 						className='mt15'
-						onClick={this.exportData.bind(this,57,this.props.values)}
+						onClick={this.exportData.bind(this,56,this.props.values)}
 					>
                         导出数据
 					</Button>
