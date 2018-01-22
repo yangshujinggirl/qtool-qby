@@ -50,6 +50,10 @@ export default {
 			yield put({type: 'tab/loding',payload:false});
 			if(result.code=='0'){
 				const feedbacks=result.feedbacks
+				for(var i=0;i<feedbacks.length;i++){
+					feedbacks[i].remark=feedbacks[i].remark.length>15?feedbacks[i].remark.substring(0,15)+'...':feedbacks[i].remark
+				}
+
 				const limit=result.limit;
                 const currentPage=result.currentPage;
 				const total=result.total;

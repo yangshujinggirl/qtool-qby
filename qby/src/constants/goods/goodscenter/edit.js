@@ -699,10 +699,14 @@
 							<AddEditableTable data={eval(this.props.pdSpuInfo)}/>
 						)}
 					</FormItem>
+					<FormItem  style = {{marginTop:'20px'}}>
+						<div style={{width:"100%",height:"1px",background:"#e8e8e8"}}></div>
+					</FormItem>
 					<FormItem wrapperCol={{ offset: 9}} style = {{marginBottom:0}} style = {{marginTop:'20px'}}>
 						<Button onClick={this.Handcancel.bind(this)} style = {{marginRight:'50px'}}>取消</Button>
 						<Button onClick={this.handleSubmit.bind(this)} type="primary">保存</Button>
 					</FormItem>
+					
 		</Form>
 		);
 	}
