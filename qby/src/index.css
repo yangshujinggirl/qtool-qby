@@ -268,3 +268,6 @@ ins { text-decoration: none; }
 .ant-card{
   border-radius: 0px;
 }
+.ant-calendar-range-picker-separator{
+  vertical-align: middle;
+}
