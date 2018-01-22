@@ -49,7 +49,8 @@ class DownloadIndex extends React.Component{
         }
     }
     getdownlist=(limit,currentPage)=>{
-        const values={limit:limit,currentPage:currentPage}
+        const values={limit:limit,currentPage:currentPage};
+        this.props.dispatch({ type: 'tab/loding', payload:true});
         this.props.dispatch({
             type:'downlaod/fetch',
             payload:{code:'qerp.web.sys.doc.list',values:values}
@@ -64,6 +65,7 @@ class DownloadIndex extends React.Component{
 		this.getdownlist(size,0)
     }
     handleDownload=()=>{
+        this.props.dispatch({ type: 'tab/loding', payload:true});
         this.props.dispatch({
             type:'downlaod/fetch',
             payload:{code:'qerp.web.sys.doc.list',values:{limit:15,currentPage:0}}
