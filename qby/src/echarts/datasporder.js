@@ -10,7 +10,12 @@ const dateFormat = 'YYYY-MM-DD';
 const monthFormat = 'YYYY/MM';
 
 // 引入 ECharts 主模块
-var echarts = require('echarts');
+// var echarts = require('echarts');
+
+var echarts = require('echarts/lib/echarts');
+require('echarts/lib/chart/line');
+require('echarts/lib/component/tooltip');
+require('echarts/lib/component/title');
 
 class EchartsTest extends Component {
     state={
@@ -64,6 +69,10 @@ class EchartsTest extends Component {
                 },function(){
                     this.writeCall()
                 })
+
+
+
+                
             }
         })
     }
@@ -87,7 +96,6 @@ class EchartsTest extends Component {
         const data1=this.state.data1
         const data2=this.state.data2
         const type=this.state.type
-
         console.log(xdata)
         console.log(data1)
         console.log(data2)
@@ -136,6 +144,8 @@ class EchartsTest extends Component {
                 }
                 
             ]
+        },{
+            notMerge:true
         });
         console.log(12)
     }
@@ -159,6 +169,7 @@ class EchartsTest extends Component {
         );
     }
     componentDidMount() {
+        console.log('01')
         const startDate=timeForMat(7).t2
         const endDate=timeForMat(7).t1
         this.setState({

@@ -129,6 +129,8 @@ class EchartsTest extends Component {
                 }
                 
             ]
+        },{
+            notMerge:true
         });
     }
 

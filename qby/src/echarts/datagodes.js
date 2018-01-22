@@ -10,7 +10,11 @@ const dateFormat = 'YYYY-MM-DD';
 const monthFormat = 'YYYY/MM';
 
 // 引入 ECharts 主模块
-var echarts = require('echarts');
+// var echarts = require('echarts');
+var echarts = require('echarts/lib/echarts');
+require('echarts/lib/chart/line');
+require('echarts/lib/component/tooltip');
+require('echarts/lib/component/title');
 
 class EchartsTest extends Component {
     state={
@@ -39,6 +43,7 @@ class EchartsTest extends Component {
     //数据请求
 
     fetdraw=(values)=>{
+        console.log('002')
         const result=GetServerData('qerp.web.rp.pd.analysis.list',values)
         result.then((res) => {
             return res;
@@ -57,7 +62,7 @@ class EchartsTest extends Component {
 					data3.push(analysis[i].qbyAmount) //掌柜金额
 					data4.push(analysis[i].posAmount) //pos金额
 				}
-
+                console.log('003')
                 this.setState({
                     xdata:xdata,
                     type:'1',
@@ -66,6 +71,7 @@ class EchartsTest extends Component {
                     data3:data3,
                     data4:data4
                 },function(){
+                    console.log('004')
                     this.writeCall()
                 })
             }
@@ -86,11 +92,18 @@ class EchartsTest extends Component {
     
     //绘制
     writeCall=()=>{
+        console.log('005')
         const xdata=this.state.xdata
         const data1=this.state.data1
         const data2=this.state.data2
         const data3=this.state.data3
         const data4=this.state.data4
+        console.log(xdata)
+        console.log(data1)
+        console.log(data2)
+        console.log(data3)
+        console.log(data4)
+       
         const type=this.state.type
         // 基于准备好的dom，初始化echarts实例
         var myChart = echarts.init(document.getElementById('main'));
@@ -106,7 +119,6 @@ class EchartsTest extends Component {
                 data:['掌柜销售','POS销售'],
             },
             grid:{
-                //  left:'5%',
                 top:'80'
             },
             toolbox: {
@@ -144,6 +156,8 @@ class EchartsTest extends Component {
                     data:type=='1'?data2:data4
                 }
             ]
+        },{
+            notMerge:true
         });
     }
 
@@ -156,6 +170,7 @@ class EchartsTest extends Component {
     }
 
     render() {
+        console.log(this)
         return (
             <div className='rel'>
                 <div style={{position:"absolute",left:'160px',top:'-4px',zIndex:'1000'}}><Input placeholder="请输入商品编码" style={{width:"150px"}} onKeyUp={this.hindkeyup.bind(this)}/></div>
@@ -179,6 +194,7 @@ class EchartsTest extends Component {
             startRpDate:startRpDate,
             endRpDate:endRpDate,
         },function(){
+            console.log('001')
             const values={startRpDate:startRpDate,endRpDate:endRpDate,code:null}
             this.fetdraw(values)
         })
