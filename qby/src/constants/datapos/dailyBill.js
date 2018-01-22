@@ -257,43 +257,11 @@ class DailyBillForm extends React.Component {
                 <Button 
 						type="primary" 
 						size='large'
-						className='mt20 ml10'
+						className='mt20'
 						onClick={this.exportDatas.bind(this)}
 					>
 						导出数据
-					</Button>
-                {/* <Form className="search-form">
-                    <FormItem
-                    className="daily-billTime"
-                     label="订单时间"
-                     labelCol={{ span: 5 }}
-                     wrapperCol={{span: 10}}>
-                        <RangePicker 
-                            // disabledDate={this.setDisabledDate.bind(this)}
-                            // ranges={{ range: moment["2017-09-01","2017-10-01"] }}     
-                            value={this.state.startDate?[moment(this.state.startDate, dateFormat), moment(this.state.endDate, dateFormat)]:null}
-                            format={dateFormat}
-                            onChange={this.dateChange.bind(this)} />
-                    </FormItem>
-                    <FormItem
-                    label="订单分类"
-                    labelCol={{ span: 5 }}
-                    wrapperCol={{span: 10}}>
-                    {getFieldDecorator('type')(
-                        <Select>
-                            <Option value="1">销售订单</Option>
-                            <Option value="2">充值订单</Option>
-                            <Option value="3">退货订单</Option>
-                        </Select>
-                    )}
-                    </FormItem>
-                    <FormItem>
-                        <Button type="primary" icon="search" onClick={this.handleSubmit.bind(this)}>搜索</Button>
-                    </FormItem>
-                    <div className="export-div">
-                        <Button className="export-btn" onClick={this.exportList.bind(this)}>导出数据</Button>
-                    </div>
-                </Form> */}
+				</Button>
                 <div className="mt15">
                     <EditableTable 
                         columns={this.columns} 
@@ -307,19 +275,7 @@ class DailyBillForm extends React.Component {
                         bordered={true}
                         />
                 </div>
-                
                 </div>
-                {/* <div className="footer-pagefixed">
-                    <Pagination 
-                        total={this.state.total} 
-                        current={this.state.currentPage+1}
-                        pageSize={this.state.limit}
-                        showSizeChanger 
-                        onShowSizeChange={this.onShowSizeChange} 
-                        onChange={this.pageChange} 
-                        pageSizeOptions={['10','12','15','17','20','50','100','200']}
-                        />
-                </div> */}
             </div>
         );
     }

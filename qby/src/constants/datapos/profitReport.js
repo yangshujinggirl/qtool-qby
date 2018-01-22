@@ -114,89 +114,6 @@ class ProfitReportForm extends React.Component {
 
     //获取数据
     getServerData = (values) =>{
-        // let dataList = [
-        //     {
-        //         barcode:"34523201",
-        //         name:"商品1",
-        //         displayName:"小规格",
-        //         pdCategory1:"零食类",
-        //         saleSinglePrice:"23",
-        //         qty:"30",
-        //         amount:"34523.00",
-        //         pdCostAmount:"16",
-        //         sumCostAmount:"18",
-        //         saleProfitAmount:"3",
-        //         saleProfitRate:"6",
-        //         adjustQty:"10",
-        //         adjustCostAmount:"3",
-        //         pdProfit:"23"
-        //     },
-        //     {
-        //         barcode:"34523201",
-        //         name:"商品1",
-        //         displayName:"小规格",
-        //         pdCategory1:"零食类",
-        //         saleSinglePrice:"23",
-        //         qty:"30",
-        //         amount:"34523.00",
-        //         pdCostAmount:"16",
-        //         sumCostAmount:"18",
-        //         saleProfitAmount:"3",
-        //         saleProfitRate:"6",
-        //         adjustQty:"10",
-        //         adjustCostAmount:"3",
-        //         pdProfit:"23"
-        //     },
-        //     {
-        //         barcode:"34523201",
-        //         name:"商品1",
-        //         displayName:"小规格",
-        //         pdCategory1:"零食类",
-        //         saleSinglePrice:"23",
-        //         qty:"30",
-        //         amount:"34523.00",
-        //         pdCostAmount:"16",
-        //         sumCostAmount:"18",
-        //         saleProfitAmount:"3",
-        //         saleProfitRate:"6",
-        //         adjustQty:"10",
-        //         adjustCostAmount:"3",
-        //         pdProfit:"23"
-        //     },
-        //     {
-        //         barcode:"34523201",
-        //         name:"商品1",
-        //         displayName:"小规格",
-        //         pdCategory1:"零食类",
-        //         saleSinglePrice:"23",
-        //         qty:"30",
-        //         amount:"34523.00",
-        //         pdCostAmount:"16",
-        //         sumCostAmount:"18",
-        //         saleProfitAmount:"3",
-        //         saleProfitRate:"6",
-        //         adjustQty:"10",
-        //         adjustCostAmount:"3",
-        //         pdProfit:"23"
-        //     }
-        // ];
-        // let  rpProfit={
-        //     amount:"2432.00",
-        //     saleCostAmount:"543.00",
-        //     profitAmount:"223.00"
-        // };
-        // this.setState({
-        //     rpProfit:rpProfit
-        // })
-        // for(let i=0;i<dataList.length;i++){
-        //     dataList[i].key = i+1;
-        // }
-        // this.setState({
-        //     dataSource:dataList,
-        //     total:Number('3'),
-        //     currentPage:Number('0'),
-        //     limit:Number("10")
-        // })
         this.props.dispatch({ type: 'tab/loding', payload:true});
         const result=GetServerData('qerp.web.rp.profit.page',values)
         result.then((res) => {
@@ -375,6 +292,7 @@ class ProfitReportForm extends React.Component {
                                 <Row>
                                     <div className='serach_form'>
                                         <FormItem
+                                        className="monthSelect-input"
                                         label="订单时间"
                                        >
                                             <MonthPicker 
@@ -386,7 +304,7 @@ class ProfitReportForm extends React.Component {
                                         label="商品名称"
                                        >
                                         {getFieldDecorator('name')(
-                                            <Input/>
+                                            <Input  autoComplete="off"/>
                                         )}
                                         </FormItem>
                                     </div>
@@ -400,7 +318,7 @@ class ProfitReportForm extends React.Component {
                     <Button 
 						type="primary" 
 						size='large'
-						className='mt20 ml10'
+						className='mt20'
 						onClick={this.exportDatas.bind(this)}
 					>
 						导出数据

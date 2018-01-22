@@ -218,7 +218,7 @@ class AdjustLogIndexForm extends React.Component {
                                     label="商品名称"
                                     >
                                     {getFieldDecorator('name')(
-                                        <Input />
+                                        <Input autoComplete="off"/>
                                     )}
                                 </FormItem>
                                 </div>
@@ -232,7 +232,7 @@ class AdjustLogIndexForm extends React.Component {
                 <Button 
 						type="primary" 
 						size='large'
-						className='mt20 ml10'
+						className='mt20'
 						onClick={this.exportDatas.bind(this)}
 					>
 						导出数据
