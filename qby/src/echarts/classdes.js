@@ -61,9 +61,6 @@ class EchartsTest extends Component {
                 const categoryAnalysis=json.categoryAnalysis
                 const updateTime=json.updateTime
                 for(var i=0;i<categoryAnalysis.length;i++){
-
-
-
                     categoryAnalysis[i].qbyQtyBi=String(NP.round(NP.divide(NP.times(categoryAnalysis[i].qbyQty,100),categoryAnalysis[i].ofQbyQty),2))+'%' //掌柜数量占比
                     categoryAnalysis[i].qbyAmountBi=String(NP.round(NP.divide(NP.times(categoryAnalysis[i].qbyAmount,100),categoryAnalysis[i].ofQbyAmount),2))+'%' //掌柜金额占比
                     categoryAnalysis[i].posQtyBi=String(NP.round(NP.divide(NP.times(categoryAnalysis[i].posQty,100),categoryAnalysis[i].ofPosQty),2))+'%' //pos数量占比
@@ -129,11 +126,11 @@ class EchartsTest extends Component {
             legend: {
                 data: ['掌柜销售', 'POS销售'],
                 top:"43",
-                left:"300"
+                left:"300",
             },
             grid:{
                 left:"50",
-                top:'100'
+                top:'100',
             },
             toolbox: {
                 show: false,
@@ -172,8 +169,6 @@ class EchartsTest extends Component {
                     data:type=='1'?data2:data4
                 }
             ]
-        },{
-            notMerge:true
         });
     }
 

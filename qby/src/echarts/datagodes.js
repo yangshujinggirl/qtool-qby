@@ -11,12 +11,7 @@ const dateFormat = 'YYYY-MM-DD';
 const monthFormat = 'YYYY/MM';
 
 // 引入 ECharts 主模块
-// var echarts = require('echarts');
-var echarts = require('echarts/lib/echarts');
-require('echarts/lib/chart/line');
-require('echarts/lib/component/tooltip');
-require('echarts/lib/component/title');
-
+ var echarts = require('echarts');
 class EchartsTest extends Component {
     state={
         xdata:[],
@@ -42,7 +37,6 @@ class EchartsTest extends Component {
     }
 
     //数据请求
-
     fetdraw=(values)=>{
         const result=GetServerData('qerp.web.rp.pd.analysis.list',values)
         result.then((res) => {
@@ -98,6 +92,7 @@ class EchartsTest extends Component {
     
     //绘制
     writeCall=()=>{
+        console.log(1)
         const xdata=this.state.xdata
         const data1=this.state.data1
         const data2=this.state.data2
@@ -106,6 +101,7 @@ class EchartsTest extends Component {
         const type=this.state.type
         // 基于准备好的dom，初始化echarts实例
         var myChart = echarts.init(document.getElementById('maingod'));
+        console.log(myChart)
         // 绘制图表
         myChart.setOption({
             title: {
@@ -115,7 +111,11 @@ class EchartsTest extends Component {
                 trigger: 'axis'
             },
             legend: {
-                data:['掌柜销售','POS销售'],
+                data:[{
+                    name:'掌柜销售'
+                },{
+                    name:'POS销售'
+                }],
                 top:"43",
                 left:"460"
             },
@@ -158,8 +158,6 @@ class EchartsTest extends Component {
                     data:type=='1'?data2:data4
                 }
             ]
-        },{
-            notMerge:true
         });
     }
 
@@ -205,9 +203,7 @@ class EchartsTest extends Component {
 
 
 
-function mapStateToProps(state) {
-    const {data1,data2,data3,data4,xdata} = state.datagodes;
-    return {data1,data2,data3,data4,xdata};
-}
 
-export default connect(mapStateToProps)(EchartsTest);
+   
+
+export default connect()(EchartsTest);

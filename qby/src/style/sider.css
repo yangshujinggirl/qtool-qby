@@ -94,7 +94,7 @@
 }
 
 /* .itembox{padding-left: 16px;} */
-.itemmain{padding-left: 25px;}
+.itemmain{padding-left: 0px;}
 .ant-menu-dark .ant-menu-item:hover,.ant-menu-dark .ant-menu-submenu-title:hover,.ant-menu.ant-menu-dark .ant-menu-item-selected{
 	background: #101316;
 }
