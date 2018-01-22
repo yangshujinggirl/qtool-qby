@@ -24,7 +24,7 @@ class HotSellGoodsForm extends React.Component {
             endDate:"",
         };
         this.columns = [{
-            title: '排行',
+            title: '排名',
             dataIndex: 'index',
             render:(text, record, index) =>{
                 return <span>{index+1}</span>
