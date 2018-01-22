@@ -7,7 +7,7 @@ class User extends React.Component {
     constructor(props) {
         super(props);
         this.menu=(
-            <Menu onClick={this.onClick}>
+            <Menu className="drop-editOut" onClick={this.onClick}>
                 <Menu.Item key="0" className='item'>
                     <CollectionsPage/>
                 </Menu.Item>
