@@ -67,7 +67,7 @@ class EchartsTest extends Component {
 				const data3=[] 
                 const data4=[] 
 				for(var i=0;i<analysis.length;i++){
-                    if(values.startDate==values.endDate){
+                    if(values.startRpDate==values.endRpDate){
                         xdata.push(analysis[i].rpDateTime)
                     }else{
                         xdata.push(analysis[i].rpDate)

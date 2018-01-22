@@ -18,13 +18,11 @@ class InOutReportForm extends React.Component {
         super(props);
         this.state={
             dataSource:[],
-            inventory:{
-                finalInvSumAmount:"",//#String 期末库存总成本
-                invSumAmount:"",//#String 期初库存总成本
-                recSumAmount:"",//#String 收货总成本
-                saleSumCostAmount:"",//#String 销售总成本
-                adjustSumCostAmount:"",//#String 损益总成本
-            },
+            finalInvAmountSum:null,
+            invAmountSum:null,
+            receiptAmountSum:null,
+            saleAmountSum:null,
+            adjustAmountSum:null,
             total:0,
             currentPage:0,
             limit:15,
@@ -33,6 +31,9 @@ class InOutReportForm extends React.Component {
             windowHeight:''
         };
         this.columns = [{
+            title: '序号',
+            dataIndex: 'rank',
+        },{
             title: '商品条码',
             dataIndex: 'barcode',
         },{
@@ -52,25 +53,25 @@ class InOutReportForm extends React.Component {
             dataIndex: 'invAmount',
         },{
             title: '收货数量',
-            dataIndex: 'recQty',
+            dataIndex: 'recSumQty',
         },{
             title: '收货成本',
-            dataIndex: 'recAmount',
+            dataIndex: 'recSumAmount',
         },{
             title: '销售数量',
-            dataIndex: 'posQty',
+            dataIndex: 'posSumQty',
         },{
             title: '销售成本',
             dataIndex: 'sumCostAmount',
         },{
             title: '损益数量',
-            dataIndex: 'adjustQty',
+            dataIndex: 'adjustSumQty',
         },{
             title: '损益成本',
             dataIndex: 'adjustCostAmount',
         },{
             title: '盘点损益数',
-            dataIndex: 'checkQty',
+            dataIndex: 'checkSumQty',
         },{
             title: '盘点损益成本',
             dataIndex: 'checkAmount',
@@ -98,7 +99,7 @@ class InOutReportForm extends React.Component {
             let data = {
                 currentPage:this.state.currentPage,
                 limit:this.state.limit,
-                rpDate:this.state.rpDate,
+                time:this.state.rpDate,
                 name:this.state.name
             }
             self.getServerData(data);
@@ -113,7 +114,7 @@ class InOutReportForm extends React.Component {
             let data = {
                 currentPage:this.state.currentPage,
                 limit:this.state.limit,
-                rpDate:this.state.rpDate,
+                time:this.state.rpDate,
                 name:this.state.name
             };
             self.getServerData(data);
@@ -122,113 +123,28 @@ class InOutReportForm extends React.Component {
 
     //获取数据
     getServerData = (values) =>{
-        // let dataList = [
-        //     {
-        //         barcode:"42104", //#String 商品条码
-        //         name:"我是商品1",//#String 商品名称
-        //         displayName:"500ml",//#String 商品规格
-        //         pdCategory1:"食品类",//#String 商品分类
-        //         qty:"20",//#String 期初库存数量
-        //         invAmount:"10",//#String 期初库存成本
-        //         recQty:"50",//#String 收货数量
-        //         recAmount:"20",//#String 收货成本
-        //         posQty:"30",//#String 销售数量
-        //         sumCostAmount:"30",//#String销售成本
-        //         adjustQty:"2",//#String损益数量
-        //         adjustCostAmount:"20",//#String损益成本
-        //         checkQty:"10",//#String 盘点损益数
-        //         checkAmount:"20",//#String 盘点损益成本
-        //         finalQty:"30",//#String 期末库存数量
-        //         finalInvAmount:"20",//#String 期末库存成本
-        //     },
-        //     {
-        //         barcode:"42104", //#String 商品条码
-        //         name:"我是商品1",//#String 商品名称
-        //         displayName:"500ml",//#String 商品规格
-        //         pdCategory1:"食品类",//#String 商品分类
-        //         qty:"20",//#String 期初库存数量
-        //         invAmount:"10",//#String 期初库存成本
-        //         recQty:"50",//#String 收货数量
-        //         recAmount:"20",//#String 收货成本
-        //         posQty:"30",//#String 销售数量
-        //         sumCostAmount:"30",//#String销售成本
-        //         adjustQty:"2",//#String损益数量
-        //         adjustCostAmount:"20",//#String损益成本
-        //         checkQty:"10",//#String 盘点损益数
-        //         checkAmount:"20",//#String 盘点损益成本
-        //         finalQty:"30",//#String 期末库存数量
-        //         finalInvAmount:"20",//#String 期末库存成本
-        //     },
-        //     {
-        //         barcode:"42104", //#String 商品条码
-        //         name:"我是商品1",//#String 商品名称
-        //         displayName:"500ml",//#String 商品规格
-        //         pdCategory1:"食品类",//#String 商品分类
-        //         qty:"20",//#String 期初库存数量
-        //         invAmount:"10",//#String 期初库存成本
-        //         recQty:"50",//#String 收货数量
-        //         recAmount:"20",//#String 收货成本
-        //         posQty:"30",//#String 销售数量
-        //         sumCostAmount:"30",//#String销售成本
-        //         adjustQty:"2",//#String损益数量
-        //         adjustCostAmount:"20",//#String损益成本
-        //         checkQty:"10",//#String 盘点损益数
-        //         checkAmount:"20",//#String 盘点损益成本
-        //         finalQty:"30",//#String 期末库存数量
-        //         finalInvAmount:"20",//#String 期末库存成本
-        //     },
-        //     {
-        //         barcode:"42104", //#String 商品条码
-        //         name:"我是商品1",//#String 商品名称
-        //         displayName:"500ml",//#String 商品规格
-        //         pdCategory1:"食品类",//#String 商品分类
-        //         qty:"20",//#String 期初库存数量
-        //         invAmount:"10",//#String 期初库存成本
-        //         recQty:"50",//#String 收货数量
-        //         recAmount:"20",//#String 收货成本
-        //         posQty:"30",//#String 销售数量
-        //         sumCostAmount:"30",//#String销售成本
-        //         adjustQty:"2",//#String损益数量
-        //         adjustCostAmount:"20",//#String损益成本
-        //         checkQty:"10",//#String 盘点损益数
-        //         checkAmount:"20",//#String 盘点损益成本
-        //         finalQty:"30",//#String 期末库存数量
-        //         finalInvAmount:"20",//#String 期末库存成本
-        //     }
-        // ];
-        // let  inventory={
-        //     finalInvSumAmount:"54348.00",//#String 期末库存总成本
-        //     invSumAmount:"54242.00",//#String 期初库存总成本
-        //     recSumAmount:"59342.00",//#String 收货总成本
-        //     saleSumCostAmount:"4342.00",//#String 销售总成本
-        //     adjustSumCostAmount:"5432.00",//#String 损益总成本
-        // };
-        // for(let i=0;i<dataList.length;i++){
-        //     dataList[i].key = i+1;
-        // };
-        // this.setState({
-        //     inventory:inventory,
-        //     dataSource:dataList,
-        //     total:Number('3'),
-        //     currentPage:Number('0'),
-        //     limit:Number("10")
-        // });
         this.props.dispatch({ type: 'tab/loding', payload:true});
-        const result=GetServerData('qerp.web.rp.inventory.page',values)
+        const result=GetServerData('qerp.web.qpos.rp.inventory.page',values)
         result.then((res) => {
             return res;
         }).then((json) => {
             this.props.dispatch({ type: 'tab/loding', payload:false});
             if(json.code=='0'){
-                let dataList = [];
+                const finalInvAmountSum=json.finalInvAmountSum //期末库存总成本
+                const invAmountSum=json.invAmountSum //期初库存总成本
+                const receiptAmountSum=json.receiptAmountSum // 收货总成本
+                const saleAmountSum=json.saleAmountSum //销售总成本
+                const adjustAmountSum=json.adjustAmountSum//损益总成本
                 dataList = json.inventorys;
                 for(let i=0;i<dataList.length;i++){
                     dataList[i].key = i+1;
                 };
-                let inventory={};
-                inventory = json.inventory;
                 this.setState({
-                    inventory:inventory,
+                    finalInvAmountSum:finalInvAmountSum,
+                    invAmountSum:invAmountSum,
+                    receiptAmountSum:receiptAmountSum,
+                    saleAmountSum:saleAmountSum,
+                    adjustAmountSum:adjustAmountSum,
                     dataSource:dataList,
                     total:Number(json.total),
                     currentPage:Number(json.currentPage),
@@ -249,7 +165,7 @@ class InOutReportForm extends React.Component {
                     shopId:this.props.shopId,
                     currentPage:0,
                     limit:this.state.limit,
-                    rpDate:this.state.rpDate,
+                    time:this.state.rpDate,
                     name:this.state.name
                 }
                 self.getServerData(data);
@@ -326,7 +242,8 @@ class InOutReportForm extends React.Component {
                 shopId:this.props.shopId,
                 currentPage:0,
                 limit:15,
-                rpDate:this.state.rpDate
+                time:this.state.rpDate,
+                name:this.state.name
             }
             self.getServerData(values);
         })
@@ -343,9 +260,9 @@ class InOutReportForm extends React.Component {
                             <li>
                                 <div>
                                     <p style={{color:"#806EC6"}}><i>¥</i>
-                                    {this.state.inventory.finalInvSumAmount&&this.state.inventory.finalInvSumAmount!="0"?this.state.inventory.finalInvSumAmount.split('.')[0]:"0"}
+                                    {this.state.finalInvAmountSum&&this.state.finalInvAmountSum!="0"?this.state.finalInvAmountSum.split('.')[0]:"0"}
                                     <span>.
-                                    {this.state.inventory.finalInvSumAmount&&this.state.inventory.finalInvSumAmount!="0"?this.state.inventory.finalInvSumAmount.split('.')[1]:"00"}
+                                    {this.state.finalInvAmountSum&&this.state.finalInvAmountSum!="0"?this.state.finalInvAmountSum.split('.')[1]:"00"}
                                     </span>
                                     </p>
                                     <span className="explain-span">
@@ -358,9 +275,9 @@ class InOutReportForm extends React.Component {
                             <li>
                                 <div>
                                     <p style={{color:"#F4A314"}}><i>¥</i>
-                                    {this.state.inventory.invSumAmount&&this.state.inventory.invSumAmount!="0"?this.state.inventory.invSumAmount.split('.')[0]:"0"}
+                                    {this.state.invAmountSum&&this.state.invAmountSum!="0"?this.state.invAmountSum.split('.')[0]:"0"}
                                     <span>.
-                                    {this.state.inventory.invSumAmount&&this.state.inventory.invSumAmount!="0"?this.state.inventory.invSumAmount.split('.')[1]:"00"}
+                                    {this.state.invAmountSum&&this.state.invAmountSum!="0"?this.state.invAmountSum.split('.')[1]:"00"}
                                     </span></p>
                                     <span className="explain-span">
                                         <Tooltip title="期初库存总数量*期初商品移动总成本">
@@ -372,9 +289,9 @@ class InOutReportForm extends React.Component {
                             <li>
                                 <div>
                                     <p style={{color:"#0D89C8"}}><i>¥</i>
-                                    {this.state.inventory.recSumAmount&&this.state.inventory.recSumAmount!="0"?this.state.inventory.recSumAmount.split('.')[0]:"0"}
+                                    {this.state.receiptAmountSum&&this.state.receiptAmountSum!="0"?this.state.receiptAmountSum.split('.')[0]:"0"}
                                     <span>.
-                                    {this.state.inventory.recSumAmount&&this.state.inventory.recSumAmount!="0"?this.state.inventory.recSumAmount.split('.')[1]:"00"}
+                                    {this.state.receiptAmountSum&&this.state.receiptAmountSum!="0"?this.state.receiptAmountSum.split('.')[1]:"00"}
                                     </span></p>
                                     <span className="explain-span">
                                         <Tooltip title="收货总数量*收货商品移动总成本">
@@ -386,9 +303,9 @@ class InOutReportForm extends React.Component {
                             <li>
                                 <div>
                                     <p style={{color:"#51C193"}}><i>¥</i>
-                                    {this.state.inventory.saleSumCostAmount&&this.state.inventory.saleSumCostAmount!="0"?this.state.inventory.saleSumCostAmount.split('.')[0]:"0"}
+                                    {this.state.saleAmountSum&&this.state.saleAmountSum!="0"?this.state.saleAmountSum.split('.')[0]:"0"}
                                     <span>.
-                                    {this.state.inventory.saleSumCostAmount&&this.state.inventory.saleSumCostAmount!="0"?this.state.inventory.saleSumCostAmount.split('.')[1]:"00"}
+                                    {this.state.saleAmountSum&&this.state.saleAmountSum!="0"?this.state.saleAmountSum.split('.')[1]:"00"}
                                     </span></p>
                                     <span className="explain-span">
                                         <Tooltip title="销售总数量*销售商品移动总成本">
@@ -400,9 +317,9 @@ class InOutReportForm extends React.Component {
                             <li>
                                 <div>
                                     <p style={{color:"#F24343"}}><i>¥</i>
-                                    {this.state.inventory.adjustSumCostAmount&&this.state.inventory.adjustSumCostAmount!="0"?this.state.inventory.adjustSumCostAmount.split('.')[0]:"0"}
+                                    {this.state.adjustAmountSum&&this.state.adjustAmountSum!="0"?this.state.adjustAmountSum.split('.')[0]:"0"}
                                     <span>.
-                                    {this.state.inventory.adjustSumCostAmount&&this.state.inventory.adjustSumCostAmount!="0"?this.state.inventory.adjustSumCostAmount.split('.')[1]:"00"}
+                                    {this.state.adjustAmountSum&&this.state.adjustAmountSum!="0"?this.state.adjustAmountSum.split('.')[1]:"00"}
                                     </span></p>
                                     <span className="explain-span">
                                     <Tooltip title="损益总数量*损益商品移动总成本">
@@ -462,6 +379,7 @@ class InOutReportForm extends React.Component {
                         limit={this.state.limit}
                         current={this.state.currentPage+1}
                         bordered={true}
+                        scroll={{ x: '130%' }}   
                         />
                 </div>
             </div>
