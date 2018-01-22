@@ -272,6 +272,10 @@
     overflow-y: auto;
 }
 
+.serach_form .ant-form-item.monthSelect-input .ant-calendar-picker .ant-input{
+    width: 180px;
+}
+
 
 /* 基础设置的一些样式 */
 .basic-setting .ant-form-item-control-wrapper{

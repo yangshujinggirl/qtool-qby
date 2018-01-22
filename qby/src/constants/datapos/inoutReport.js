@@ -421,6 +421,7 @@ class InOutReportForm extends React.Component {
                                     <div className='serach_form'>
                                         <FormItem
                                         label="订单时间"
+                                        className="monthSelect-input"
                                         >
                                             <MonthPicker 
                                             value={this.state.rpDate?moment(this.state.rpDate, dateFormat):null}
