@@ -121,8 +121,8 @@ class ProfitReportForm extends React.Component {
         result.then((res) => {
             return res;
         }).then((json) => {
+            this.props.dispatch({ type: 'tab/loding', payload:false});
             if(json.code=='0'){
-                this.props.dispatch({ type: 'tab/loding', payload:false});
                 let dataList = [];
                 dataList = json.rpProfits;
                 for(let i=0;i<dataList.length;i++){
