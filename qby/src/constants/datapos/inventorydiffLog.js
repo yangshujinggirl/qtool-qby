@@ -61,14 +61,38 @@ class InventorydiffLogIndexForm extends React.Component {
 
     //表格的方法
     pageChange=(page,pageSize)=>{
+        const self = this;
         this.setState({
             currentPage:page-1
+        },function(){
+            let data = {
+                spShopId:this.props.shopId,
+                currentPage:this.state.currentPage,
+                limit:this.state.limit,
+                adjustTimeST:this.state.adjustTimeST,
+                adjustTimeET:this.state.adjustTimeET,
+                name:this.state.name,
+                type:2
+            }
+            self.getServerData(data);
         });
     }
     onShowSizeChange=(current, pageSize)=>{
+        const self = this;
         this.setState({
             limit:pageSize,
-            currentPage:current-1
+            currentPage:0
+        },function(){
+            let data = {
+                spShopId:this.props.shopId,
+                currentPage:this.state.currentPage,
+                limit:this.state.limit,
+                adjustTimeST:this.state.adjustTimeST,
+                adjustTimeET:this.state.adjustTimeET,
+                name:this.state.name,
+                type:2
+            }
+            self.getServerData(data);
         })
     }
 
