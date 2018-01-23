@@ -8,7 +8,7 @@ class DataspTable extends React.Component {
 	constructor(props) {
 		super(props);
 		this.columns = [{
-			title: '门店编码',
+			title: '门店编号',
 			dataIndex: 'no'
 		}, {
 			title: '门店名称',

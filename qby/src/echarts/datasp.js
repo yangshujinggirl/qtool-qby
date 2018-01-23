@@ -129,6 +129,7 @@ class EchartsTest extends Component {
         const data3=this.state.data3
         const data4=this.state.data4
         const type=this.state.type
+        
         for(var i=0;i<data1.length;i++){
             data1[i]=String(data1[i])
         }
@@ -141,7 +142,8 @@ class EchartsTest extends Component {
                 text: '门店销售趋势图'
             },
             tooltip: {
-                trigger: 'axis'
+                trigger: 'axis',
+                formatter: this.state.type=='1'?'{b0}-{b1}<br />{a1}: {c0}<br />{a0}: {c1}':null
             },
             legend: {
                 data:['掌柜销售','POS销售'],
