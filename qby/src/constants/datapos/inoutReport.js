@@ -64,6 +64,12 @@ class InOutReportForm extends React.Component {
             title: '销售成本',
             dataIndex: 'sumCostAmount',
         },{
+            title: '退货数量',
+            dataIndex: 'returnQty',
+        },{
+            title: '退货成本',
+            dataIndex: 'returnSumAmount',
+        },{
             title: '损益数量',
             dataIndex: 'adjustSumQty',
         },{
