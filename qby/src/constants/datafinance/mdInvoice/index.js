@@ -176,7 +176,7 @@ class MdInvoiceIndexForm extends React.Component {
                     <EditableTable 
                         columns={this.columns} 
                         dataSource={this.state.dataSource}
-                        footer={true}
+                        // footer={true}
                         pageChange={this.pageChange.bind(this)}
                         pageSizeChange={this.onShowSizeChange.bind(this)}
                         total={this.state.total}
@@ -213,15 +213,15 @@ class MdInvoiceIndexForm extends React.Component {
                 },{
                     title: '销售总金额',
                     dataIndex: 'amount'
-                },{
-                    title: '销售数量',
-                    dataIndex: 'salesSumQty'
+                // },{
+                //     title: '销售数量',
+                //     dataIndex: 'salesSumQty'
                 },{
                     title: '退货总金额',
                     dataIndex: 'returnAmount'
-                },{
-                    title: '退货数量',
-                    dataIndex: 'refundSumQty'
+                // },{
+                //     title: '退货数量',
+                //     dataIndex: 'refundSumQty'
                 }];
                 for(var i = 0;i < categoryNames.length; i++){
                     tempcolumns.push({
@@ -229,13 +229,13 @@ class MdInvoiceIndexForm extends React.Component {
                       dataIndex: ['changeName'+i]
                     })
                 };
-                tempcolumns.push({
-                    title: "详细信息",
-                    dataIndex:"detailInfo",
-                    render: (text, row, index) => {
-                        return <span style={{color:"#35BAB0",cursor:"pointer"}} onClick={this.downLoad.bind(this,row)}>下载</span>
-                    },
-                })
+                // tempcolumns.push({
+                //     title: "详细信息",
+                //     dataIndex:"detailInfo",
+                //     render: (text, row, index) => {
+                //         return <span style={{color:"#35BAB0",cursor:"pointer"}} onClick={this.downLoad.bind(this,row)}>下载</span>
+                //     },
+                // })
                 this.columns = tempcolumns;
 
                 this.setState({

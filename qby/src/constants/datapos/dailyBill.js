@@ -73,7 +73,7 @@ class DailyBillForm extends React.Component {
             currentPage:page-1
         },function(){
             let data = {
-                spShopId:this.props.shopId,
+                shopId:this.props.shopId,
                 currentPage:this.state.currentPage,
                 limit:this.state.limit,
                 startDate:this.state.startDate,
@@ -90,7 +90,7 @@ class DailyBillForm extends React.Component {
             currentPage:0
         },function(){
             let data = {
-                spShopId:this.props.shopId,
+                shopId:this.props.shopId,
                 currentPage:this.state.currentPage,
                 limit:this.state.limit,
                 startDate:this.state.startDate,
