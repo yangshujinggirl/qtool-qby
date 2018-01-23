@@ -82,8 +82,8 @@ class ReceiptReportForm extends React.Component {
         result.then((res) => {
             return res;
         }).then((json) => {
+            this.props.dispatch({ type: 'tab/loding', payload:false});
             if(json.code=='0'){
-                this.props.dispatch({ type: 'tab/loding', payload:false});
                 let dataList = json.pdOrderVos;
                 for(let i=0;i<dataList.length;i++){
                     dataList[i].key = i+1;
@@ -95,6 +95,7 @@ class ReceiptReportForm extends React.Component {
                     limit:Number(json.limit)
                 })
             }
+            
         })
     }
    
@@ -113,7 +114,7 @@ class ReceiptReportForm extends React.Component {
             currentPage:page-1
         },function(){
             let data = {
-                shopId:this.props.shopId,
+                spShopId:this.props.shopId,
                 currentPage:this.state.currentPage,
                 limit:this.state.limit,
                 operateST:this.state.operateST,
@@ -131,7 +132,7 @@ class ReceiptReportForm extends React.Component {
             currentPage:0
         },function(){
             let data = {
-                shopId:this.props.shopId,
+                spShopId:this.props.shopId,
                 currentPage:this.state.currentPage,
                 limit:this.state.limit,
                 operateST:this.state.operateST,
@@ -152,7 +153,7 @@ class ReceiptReportForm extends React.Component {
                 orderNo:values.orderNo
             },function(){
                 let data = {
-                    shopId:this.props.shopId,
+                    spShopId:this.props.shopId,
                     currentPage:0,
                     limit:this.state.limit,
                     operateST:this.state.operateST,
@@ -195,7 +196,7 @@ class ReceiptReportForm extends React.Component {
             operateET:currentdate
         },function(){
             let values = {
-                shopId:this.props.shopId,
+                spShopId:this.props.shopId,
                 currentPage:0,
                 limit:15,
                 operateST:this.state.operateST,
