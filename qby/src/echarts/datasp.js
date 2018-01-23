@@ -143,7 +143,7 @@ class EchartsTest extends Component {
             },
             tooltip: {
                 trigger: 'axis',
-                formatter: this.state.type=='1'?'{b0}-{b1}<br />{a1}: {c0}<br />{a0}: {c1}':null
+                // formatter: this.state.type=='1'?'{b0}-{b1}<br />{a1}: {c0}<br />{a0}: {c1}':null
             },
             legend: {
                 data:['掌柜销售','POS销售'],

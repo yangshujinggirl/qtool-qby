@@ -281,7 +281,7 @@ class InOutReportForm extends React.Component {
                                     </span></p>
                                     <span className="explain-span">
                                         <Tooltip title="期初库存总数量*期初商品移动总成本">
-                                            期末库存总成本&nbsp;<Icon type="exclamation-circle-o"/>
+                                            期初库存总成本&nbsp;<Icon type="exclamation-circle-o"/>
                                         </Tooltip>
                                     </span>
                                 </div>
