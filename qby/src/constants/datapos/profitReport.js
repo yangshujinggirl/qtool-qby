@@ -88,6 +88,7 @@ class ProfitReportForm extends React.Component {
             currentPage:page-1
         },function(){
             let data = {
+                shopId:this.props.shopId,
                 currentPage:this.state.currentPage,
                 limit:this.state.limit,
                 rpDate:this.state.rpDate?(this.state.rpDate+"-01"):"",
@@ -103,6 +104,7 @@ class ProfitReportForm extends React.Component {
             currentPage:0
         },function(){
             let data = {
+                shopId:this.props.shopId,
                 currentPage:this.state.currentPage,
                 limit:this.state.limit,
                 rpDate:this.state.rpDate?(this.state.rpDate+"-01"):"",
