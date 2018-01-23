@@ -110,7 +110,7 @@ class DailyBillForm extends React.Component {
                 let data = {
                     shopId:this.props.shopId,
                     currentPage:0,
-                    limit:10,
+                    limit:this.state.limit,
                     startDate:this.state.startDate,
                     endDate:this.state.endDate,
                     type:this.state.type
@@ -124,8 +124,6 @@ class DailyBillForm extends React.Component {
     exportDatas = () =>{
         let data = {
             shopId:this.props.shopId,
-            currentPage:0,
-            limit:10,
             startDate:this.state.startDate,
             endDate:this.state.endDate,
             type:this.state.type

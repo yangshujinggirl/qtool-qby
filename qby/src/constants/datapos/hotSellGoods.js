@@ -58,19 +58,6 @@ class HotSellGoodsForm extends React.Component {
         })
     }
 
-    //表格的方法
-    pageChange=(page,pageSize)=>{
-        this.setState({
-            currentPage:page-1
-        });
-    }
-    onShowSizeChange=(current, pageSize)=>{
-        this.setState({
-            limit:pageSize,
-            currentPage:current-1
-        })
-    }
-
     //获取数据
     getServerData = (values) =>{
         this.props.dispatch({ type: 'tab/loding', payload:true});
@@ -85,13 +72,13 @@ class HotSellGoodsForm extends React.Component {
                     for(let i=0;i<dataList.length;i++){
                         dataList[i].key = i+1;
                     }
-                    this.setState({
-                        dataSource:dataList,
-                        total:Number(json.total),
-                        currentPage:Number(json.currentPage),
-                        limit:Number(json.limit)
-                    });
                 }
+                this.setState({
+                    dataSource:dataList,
+                    total:Number(json.total),
+                    currentPage:Number(json.currentPage),
+                    limit:Number(json.limit)
+                });
             }
         })
     }
@@ -196,23 +183,11 @@ class HotSellGoodsForm extends React.Component {
                             columns={this.columns} 
                             dataSource={this.state.dataSource}
                             footer={false}
-                            pageChange={this.pageChange.bind(this)}
-                            pageSizeChange={this.onShowSizeChange.bind(this)}
                             total={this.state.total}
                             limit={this.state.limit}
                             current={this.state.currentPage+1}
                             bordered={true}
                             />
-                        {/* <CommonTable 
-                            columns={this.columns} 
-                            dataSource={this.state.dataSource}
-                            pagination={false}
-                            total={20}
-                            current={1}
-                            pageSize={10}
-                            onShowSizeChange={this.onShowSizeChange}
-                            pageChange={this.pageChange}
-                            /> */}
                     </div>
                 </div>
                 <div className="footer-pagefixed">

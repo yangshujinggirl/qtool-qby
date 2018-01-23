@@ -19,7 +19,7 @@ class ReceiptReportForm extends React.Component {
             dataSource:[],
             total:0,
             currentPage:0,
-            limit:10,
+            limit:15,
             operateST:'',
             operateET:'',
             status:'',
@@ -108,15 +108,38 @@ class ReceiptReportForm extends React.Component {
 
     //表格的方法
     pageChange=(page,pageSize)=>{
+        const self = this;
         this.setState({
-            currentPage:page
+            currentPage:page-1
+        },function(){
+            let data = {
+                shopId:this.props.shopId,
+                currentPage:this.state.currentPage,
+                limit:this.state.limit,
+                operateST:this.state.operateST,
+                operateET:this.state.operateET,
+                status:this.state.status,
+                orderNo:this.state.orderNo
+            }
+            self.getServerData(data);
         });
     }
     onShowSizeChange=(current, pageSize)=>{
+        const self = this;
         this.setState({
-            pageSize:pageSize,
-            current:current,
-            currentPage:1
+            limit:pageSize,
+            currentPage:0
+        },function(){
+            let data = {
+                shopId:this.props.shopId,
+                currentPage:this.state.currentPage,
+                limit:this.state.limit,
+                operateST:this.state.operateST,
+                operateET:this.state.operateET,
+                status:this.state.status,
+                orderNo:this.state.orderNo
+            }
+            self.getServerData(data);
         })
     }
 
@@ -131,7 +154,7 @@ class ReceiptReportForm extends React.Component {
                 let data = {
                     shopId:this.props.shopId,
                     currentPage:0,
-                    limit:10,
+                    limit:this.state.limit,
                     operateST:this.state.operateST,
                     operateET:this.state.operateET,
                     status:this.state.status,
@@ -174,7 +197,7 @@ class ReceiptReportForm extends React.Component {
             let values = {
                 shopId:this.props.shopId,
                 currentPage:0,
-                limit:10,
+                limit:15,
                 operateST:this.state.operateST,
                 operateET:this.state.operateET
             }
