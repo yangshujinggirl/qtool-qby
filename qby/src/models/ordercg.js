@@ -158,7 +158,7 @@ export default {
                 let goodsInfo = [];
                 for(var i=0;i<goodsInfoList.length;i++){
                     let json = {
-                        key:i+1,
+                        key:i+1+'s',
                         price:goodsInfoList[i].price,
                         qty:goodsInfoList[i].qty,
                         pdCode:goodsInfoList[i].pdCode

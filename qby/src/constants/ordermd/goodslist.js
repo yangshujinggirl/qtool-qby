@@ -131,11 +131,16 @@ class GoodsListTable extends React.Component {
     }
   
     handleChangeQty=(index, e)=>{
-        let temDataSource = this.state.dataSource;
-        temDataSource[index].qty = e.target.value;
-        this.setState({
-            dataSource:temDataSource
-        })
+        const pays=/^[0-9]*$/
+        const changevalue=e.target.value
+        const srt=pays.test(changevalue)
+        if(srt){
+            let temDataSource = this.state.dataSource;
+            temDataSource[index].qty = e.target.value;
+            this.setState({
+                dataSource:temDataSource
+            })
+        }
     }
 
     settable=(value)=>{

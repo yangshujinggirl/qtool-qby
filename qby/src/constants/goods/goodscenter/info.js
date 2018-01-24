@@ -128,7 +128,7 @@ class App extends React.Component {
 							pdType2Id:pdSkus[i].pdType2Id,
 							pdType2ValId:pdSkus[i].pdType2ValId,
 							pdSkuId:pdSkus[i].pdSkuId,
-							inventory:inventory,
+							inventory:pdSkus[i].inventory,
 						})
 					}
 				}else{
