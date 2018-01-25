@@ -43,9 +43,12 @@ export function post(url, paramsObj) {
                 const index=filename.search(/filename=/)
                 const filenames=filename.substring(index+9,filename.length)
                 var url = window.URL.createObjectURL(blob);
+                
                 var a = document.createElement('a');
                 a.href = url;
+                console.log(a)
                 a.download = filenames;
+                document.body.appendChild(a)
                 a.click();                  
             })
         }
