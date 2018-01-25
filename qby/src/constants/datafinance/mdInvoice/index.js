@@ -183,7 +183,7 @@ class MdInvoiceIndexForm extends React.Component {
                         limit={this.state.limit}
                         current={this.state.currentPage+1}
                         bordered={true}
-                        scroll={{ x: '160%' }}                    
+                        scroll={{ x: '300%' }}                    
                         />
                 </div>
             </div>
@@ -212,13 +212,13 @@ class MdInvoiceIndexForm extends React.Component {
                     dataIndex: 'name',
                 },{
                     title: '销售总金额',
-                    dataIndex: 'amount'
+                    dataIndex: 'amount',
                 // },{
                 //     title: '销售数量',
                 //     dataIndex: 'salesSumQty'
                 },{
                     title: '退货总金额',
-                    dataIndex: 'returnAmount'
+                    dataIndex: 'returnAmount',
                 // },{
                 //     title: '退货数量',
                 //     dataIndex: 'refundSumQty'
@@ -226,7 +226,8 @@ class MdInvoiceIndexForm extends React.Component {
                 for(var i = 0;i < categoryNames.length; i++){
                     tempcolumns.push({
                       title: categoryNames[i],
-                      dataIndex: ['changeName'+i]
+                      dataIndex: ['changeName'+i],
+
                     })
                 };
                 // tempcolumns.push({
