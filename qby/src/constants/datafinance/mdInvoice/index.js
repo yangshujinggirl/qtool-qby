@@ -183,7 +183,7 @@ class MdInvoiceIndexForm extends React.Component {
                         limit={this.state.limit}
                         current={this.state.currentPage+1}
                         bordered={true}
-                        scroll={{ x: '130%' }}                    
+                        scroll={{ x: '160%' }}                    
                         />
                 </div>
             </div>
