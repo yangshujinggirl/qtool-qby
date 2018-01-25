@@ -211,18 +211,18 @@ class MdInvoiceIndexForm extends React.Component {
                 let tempcolumns = [{
                     title: '门店名称',
                     dataIndex: 'name',
-                    width:200
+                    width:300
                 },{
                     title: '销售总金额',
                     dataIndex: 'amount',
-                    width:200
+                    width:120
                 // },{
                 //     title: '销售数量',
                 //     dataIndex: 'salesSumQty'
                 },{
                     title: '退货总金额',
                     dataIndex: 'returnAmount',
-                    width:200
+                    width:120
                 // },{
                 //     title: '退货数量',
                 //     dataIndex: 'refundSumQty'
@@ -231,7 +231,7 @@ class MdInvoiceIndexForm extends React.Component {
                     tempcolumns.push({
                       title: categoryNames[i],
                       dataIndex: ['changeName'+i],
-                      width:200
+                      width:120
 
                     })
                 };
