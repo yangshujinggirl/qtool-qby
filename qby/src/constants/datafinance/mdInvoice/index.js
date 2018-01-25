@@ -22,7 +22,8 @@ class MdInvoiceIndexForm extends React.Component {
             currentPage:0,
             limit:10,
             month:'',
-            name:null
+            name:null,
+            datalen:'100'
         };
     }
 
@@ -183,7 +184,7 @@ class MdInvoiceIndexForm extends React.Component {
                         limit={this.state.limit}
                         current={this.state.currentPage+1}
                         bordered={true}
-                        scroll={{ x: '300%' }}                    
+                        scroll={{ x: this.state.datalen}}                    
                         />
                 </div>
             </div>
@@ -210,15 +211,18 @@ class MdInvoiceIndexForm extends React.Component {
                 let tempcolumns = [{
                     title: '门店名称',
                     dataIndex: 'name',
+                    width:200
                 },{
                     title: '销售总金额',
                     dataIndex: 'amount',
+                    width:200
                 // },{
                 //     title: '销售数量',
                 //     dataIndex: 'salesSumQty'
                 },{
                     title: '退货总金额',
                     dataIndex: 'returnAmount',
+                    width:200
                 // },{
                 //     title: '退货数量',
                 //     dataIndex: 'refundSumQty'
@@ -227,6 +231,7 @@ class MdInvoiceIndexForm extends React.Component {
                     tempcolumns.push({
                       title: categoryNames[i],
                       dataIndex: ['changeName'+i],
+                      width:200
 
                     })
                 };
@@ -238,12 +243,17 @@ class MdInvoiceIndexForm extends React.Component {
                 //     },
                 // })
                 this.columns = tempcolumns;
-
+                var datalen=0
+                for(var i=0;i<this.columns.length;i++){
+                    datalen=datalen+Number(this.columns[i].width)
+                }
+                
                 this.setState({
                     dataSource:dataList,
                     total:Number(json.total),
                     currentPage:Number(json.currentPage),
-                    limit:Number(json.limit)
+                    limit:Number(json.limit),
+                    datalen:datalen
                 })
             }
         })
