@@ -20,7 +20,7 @@ class MdInvoiceIndexForm extends React.Component {
             dataSource:[],
             total:0,
             currentPage:0,
-            limit:10,
+            limit:15,
             month:'',
             name:null
         };
