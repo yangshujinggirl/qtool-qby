@@ -2,19 +2,18 @@ import { Upload, Icon, Modal ,message} from 'antd';
 import { connect } from 'dva';
 
 const fileDomain=eval(sessionStorage.getItem('fileDomain'));
-function beforeUpload(file) {
+function beforeUpload(file){
 	const isJPG = file.type === 'image/jpeg';
 	const isPNG = file.type === 'image/png';
 	if (!isJPG && !isPNG) {
-		message.error('仅支持jpg/jpeg/png格式');
-		return
-	}
-	const isLt2M = file.size / 1024 / 1024 < 2;
-	if (!isLt2M) {
-		message.error('图片文件需小于2MB',.8);
-		return
-	}
-	return (isJPG || isPNG) && isLt2M;
+	message.error('仅支持jpg/jpeg/png格式',.8);
+}
+const isLt2M = file.size / 1024 / 1024 < 2;
+if (!isLt2M) {
+	message.error('图片文件需小于2MB',.8);
+}
+
+return (isJPG || isPNG) && isLt2M;
 }
 class SkuPicturesWall extends React.Component {
 state = {
@@ -23,7 +22,7 @@ state = {
 	fileList: this.props.url==null?[]:[{
 		uid: -1,
 		status: 'done',
-		url:fileDomain+this.props.url,
+		url:eval(sessionStorage.getItem('fileDomain'))+this.props.url,
 	}]
 };
 
@@ -39,25 +38,76 @@ handlePreview = (file) => {
 
 
 
-handleChange = ({ fileList }) => {
-	this.setState({fileList})
-	var s=fileList.every(function(currentValue){
-		return  currentValue.status=='done'
-	})
-	if(s){
-		var goodindodatasouce=this.props.goodindodatasouce.slice(0)
-		for(var i=0;i<fileList.length;i++){
-			goodindodatasouce[this.props.index].picUrl=fileList[i].response.data[0]
-		}
+// handleChange = ({ fileList }) => {
+// 	this.setState({fileList})
+// 	var s=fileList.every(function(currentValue){
+// 		return  currentValue.status=='done'
+// 	})
+// 	if(s){
+// 		var goodindodatasouce=this.props.goodindodatasouce.slice(0)
+// 		for(var i=0;i<fileList.length;i++){
+// 			goodindodatasouce[this.props.index].picUrl=fileList[i].response.data[0]
+// 		}
 
-		//处理table的数据
-		this.props.dispatch({
-			type:'goods/goodindodatasouce',
-			payload:goodindodatasouce
+// 		//处理table的数据
+// 		this.props.dispatch({
+// 			type:'goods/goodindodatasouce',
+// 			payload:goodindodatasouce
+// 		})
+// 	}
+
+// }
+
+
+handleChange = (info) => {
+	console.log(info)
+	if(info.file.status === 'uploading'){
+		const fileList=info.fileList
+		this.setState({
+			fileList:fileList
+		})
+	}
+	if(info.file.status === 'done'){
+		const fileList=info.fileList
+		this.setState({
+			fileList:fileList
+		},function(){
+			const fileList=this.state.fileList
+			var goodindodatasouce=this.props.goodindodatasouce.slice(0)
+			for(var i=0;i<fileList.length;i++){
+				goodindodatasouce[this.props.index].picUrl=fileList[i].response.data[0]
+			}
+			//处理table的数据
+			this.props.dispatch({
+				type:'goods/goodindodatasouce',
+				payload:goodindodatasouce
+			})
+		})
+	}
+	if(info.file.status === 'removed'){
+		const fileList=info.fileList
+		this.setState({
+			fileList:fileList
+		},function(){
+			const fileList=this.state.fileList
+			var goodindodatasouce=this.props.goodindodatasouce.slice(0)
+			for(var i=0;i<fileList.length;i++){
+				goodindodatasouce[this.props.index].picUrl=fileList[i].response.data[0]
+			}
+			//处理table的数据
+			this.props.dispatch({
+				type:'goods/goodindodatasouce',
+				payload:goodindodatasouce
+			})
 		})
 	}
 
+
+
 }
+
+
+
 render() {
 	const { previewVisible, previewImage, fileList } = this.state;
 	const uploadButton = (
