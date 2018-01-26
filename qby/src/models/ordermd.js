@@ -8,9 +8,10 @@ export default {
         total:0,
         tableList:[],
         //订单详情信息
-        limit1:15,
+        limit1:50,
         currentPage1:0,
         total1:0,
+        values1:{},
         detailsList:[],
         detailstitle:'订单内容',
         cardtitle:'',

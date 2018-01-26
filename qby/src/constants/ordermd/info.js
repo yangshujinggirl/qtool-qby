@@ -59,10 +59,10 @@ class OrdermdInfo extends React.Component{
       //获取订单信息列表
 			this.props.dispatch({
 				type:'ordermd/infofetch',
-				payload:{code:'qerp.web.sp.order.detail.page',values:{spOrderId:spOrderId}}
-					}) 
+				payload:{code:'qerp.web.sp.order.detail.page',values:{spOrderId:spOrderId,limit:"50",currentPage:"0"}}
+			}) 
 					//获取物流和订单日志列表
-					this.props.dispatch({
+			this.props.dispatch({
 				type:'ordermd/infofetchTwo',
 				payload:{code:'qerp.web.sp.order.detail',values:{spOrderId:spOrderId}}
 			}) 
