@@ -137,7 +137,7 @@ class OrdermdInfo extends React.Component{
 }
 
 function mapStateToProps(state) {
-    const {detailsList,detailstitle,cardtitle,cardlist,expressList,orderLogList,limit1,currentPage1,total1,isCancel} = state.ordermd;
+		const {detailsList,detailstitle,cardtitle,cardlist,expressList,orderLogList,limit1,currentPage1,total1,isCancel} = state.ordermd;
 		return {detailsList,detailstitle,cardtitle,cardlist,expressList,orderLogList,limit1,currentPage1,total1,isCancel};
 }
 export default connect(mapStateToProps)(OrdermdInfo);
