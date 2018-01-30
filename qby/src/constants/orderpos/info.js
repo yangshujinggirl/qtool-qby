@@ -80,6 +80,20 @@ class OrderposInfo extends React.Component{
             title: '实退价',
             dataIndex: 'payPrice',
           }];
+
+          this.columnLogs = [{
+            title: '操作',
+            dataIndex: 'operateName',
+          }, {
+            title: '操作时间',
+            dataIndex: 'operateTime'
+          }, {
+            title: '操作人',
+            dataIndex: 'operateUser',
+          }, {
+            title: '备注',
+            dataIndex: 'remark',
+          }];
           
     }
 
@@ -128,6 +142,13 @@ class OrderposInfo extends React.Component{
                                 } 
 												  dataSource={this.props.infoList} 
                           title="订单内容"
+                          bordered={true}
+                          footer={false}/>
+				</div>
+        <div className='mb10'>
+          <EditableTable columns={this.columnLogs} 
+												  dataSource={this.props.LogsList} 
+                          title="订单日志"
                           bordered={true}
                           footer={false}/>
 				</div>

@@ -9,7 +9,8 @@ export default {
         tableList:[],
         //
         cardlist:[],
-        infoList:[]
+        infoList:[],
+        LogsList:[]
     },
     reducers: {
 		synchronous(state, { payload:values}) {
@@ -18,8 +19,8 @@ export default {
 		syncTableList(state, { payload:{tableList,total,limit,currentPage}}) {
 			return {...state,tableList,total,limit,currentPage}
         },
-        syncInfoList(state, { payload:{infoList,cardlist}}) {
-			return {...state,infoList,cardlist}
+        syncInfoList(state, { payload:{infoList,cardlist,LogsList}}) {
+			return {...state,infoList,cardlist,LogsList}
         }
     },
     effects: {
@@ -48,6 +49,17 @@ export default {
                         for(var i=0;i<infoList.length;i++){
                             infoList[i].key=i
                         }
+                    };
+                    let LogsList=[];
+                    if(result.orderLogs){
+                         LogsList=result.orderLogs;
+                        if(LogsList.length){
+                            for(var i=0;i<LogsList.length;i++){
+                                LogsList[i].key=i
+                            }
+                        }
+                    }else{
+                        LogsList=[];
                     }
                     let spOrder=result.order;
                     let cardlist = [];
@@ -102,7 +114,7 @@ export default {
                                 ]
                           }
                       }
-                    yield put({type:'syncInfoList',payload:{infoList,cardlist}});
+                    yield put({type:'syncInfoList',payload:{infoList,cardlist,LogsList}});
 				} 
         },
         //充值
@@ -121,13 +133,24 @@ export default {
                     result:spOrder.result,
                     key:0
                 }];
+                let LogsList=[];
+                if(result.orderLogs){
+                    LogsList=result.orderLogs;
+                    if(LogsList.length){
+                        for(var i=0;i<LogsList.length;i++){
+                            LogsList[i].key=i
+                        }
+                    };
+                }else{
+                    LogsList=[];
+                }
                 let cardlist = [
                     {lable:'门店名称', text:spOrder.spShopName},
                     {lable:'充值订单', text:spOrder.chargeNo},
                     {lable:'充值时间', text:spOrder.createTime},
                     {lable:'销售员', text:spOrder.operator},
                 ];
-                yield put({type:'syncInfoList',payload:{infoList,cardlist}});
+                yield put({type:'syncInfoList',payload:{infoList,cardlist,LogsList}});
             }
         },
         //退货
@@ -141,6 +164,17 @@ export default {
                     for(var i=0;i<infoList.length;i++){
                         infoList[i].key=i
                     }
+                };
+                let LogsList=[];
+                if(result.orderLogs){
+                    LogsList=result.orderLogs;
+                    if(LogsList.length){
+                        for(var i=0;i<LogsList.length;i++){
+                            LogsList[i].key=i
+                        }
+                    };
+                }else{
+                    LogsList=[];
                 }
                 let cardlist = [];
                 if(spOrder.mbCardMobile && spOrder.mbCardName){
@@ -167,7 +201,7 @@ export default {
                         {lable:'结算退款', text:spOrder.refundAmount+'（'+spOrder.typeStr+'）'}
                     ]
                 }
-                yield put({type:'syncInfoList',payload:{infoList,cardlist}});
+                yield put({type:'syncInfoList',payload:{infoList,cardlist,LogsList}});
             }
         },
   	},

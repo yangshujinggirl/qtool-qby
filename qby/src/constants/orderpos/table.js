@@ -26,7 +26,10 @@ class OrderposTable extends React.Component {
         },{
           title: '结算金额',
           dataIndex: 'amount'
-        }, {
+        },{
+          title: '订单状态',
+          dataIndex: 'statusStr'
+        },{
           title: '订单时间',
           dataIndex: 'createTime'
         }];
