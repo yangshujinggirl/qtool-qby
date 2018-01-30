@@ -105,11 +105,11 @@ class OrdermdInfo extends React.Component{
 							columns={this.column1} 
 							dataSource={this.props.detailsList} 
 							title={this.props.detailstitle}
-							footer={this.props.total1>50 ?true:false}
+							footer={this.props.total1>50?true:false}
 							pageChange={this.pageChange.bind(this)}
 							pageSizeChange={this.pageSizeChange.bind(this)}
-							total={this.props.total1}
-							limit={this.props.limit1}
+							total={Number(this.props.total1)}
+							limit={Number(this.props.limit1)}
 							current={Number(this.props.currentPage1)+1}
 							bordered={true}
 						/>
