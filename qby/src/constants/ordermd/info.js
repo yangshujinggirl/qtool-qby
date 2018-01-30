@@ -4,6 +4,7 @@ import EditableTable from '../../components/table/tablebasic';
 import EditableTableInfo from '../../components/table/table_info';
 import Cardlist from '../../components/table/cardlist';
 import CollectionsPage from './cancelOrderModal';
+import TableNormal from '../../components/table/table_normal';
 
 class OrdermdInfo extends React.Component{
 	constructor(props) {
@@ -101,7 +102,7 @@ class OrdermdInfo extends React.Component{
         }
 				<div className='mb10'><Cardlist cardtitle={this.props.cardtitle} cardlist={this.props.cardlist}/></div>
 				<div className='mb10'>
-					<EditableTable 
+					<TableNormal 
 							columns={this.column1} 
 							dataSource={this.props.detailsList} 
 							title={this.props.detailstitle}
