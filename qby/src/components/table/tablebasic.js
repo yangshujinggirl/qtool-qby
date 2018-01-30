@@ -18,7 +18,7 @@ class Paginations extends React.Component {
                 total={this.props.total} 
                 current={this.props.current}
                 pageSizeOptions={['15','30','50','100','200','500']}
-                defaultPageSize={15}
+                defaultPageSize={this.props.limit=="50"?Number(this.props.limit):15}
                 className='tc pagination'/>
                 
                 
