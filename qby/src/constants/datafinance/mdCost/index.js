@@ -216,7 +216,7 @@ class MdCostIndexForm extends React.Component {
         },function(){
             let values = {
                 currentPage:0,
-                limit:10,
+                limit:15,
                 month:this.state.month,
                 spShopId:this.state.spShopId
             }
