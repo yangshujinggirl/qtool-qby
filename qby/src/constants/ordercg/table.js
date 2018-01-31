@@ -1,6 +1,9 @@
 import React from 'react';
 import { connect } from 'dva';
+import {Modal, Button } from 'antd';
+const confirm = Modal.confirm;
 import EditableTable from '../../components/table/tablebasic';
+import {GetServerData} from '../../services/services';
 import TableLink from '../../components/table/tablelink';
 
 class OrdercgTable extends React.Component {
@@ -72,24 +75,33 @@ class OrdercgTable extends React.Component {
     //改变付款状态
     changePayStatus = (record) =>{
       console.log(record);
-      let values = {};
-      values.wsAsnId = record.wsAsnId;
-      if(record.payStatus == "10"){
-        values.payStatus = "20";
-      }else{
-        values.payStatus = "10";
-      }
-      const result=GetServerData('qerp.web.ws.asn.payStatus',values);
-      result.then((res) => {
-        return res;
-      }).then((json) => {
-        if(json.code=='0'){
-          console.log('改变成功');
-          console.log(this.props.values);
-          console.log(this.props.limit);
-          this.initList(this.props.values,this.props.limit,0)
-        }
-      })
+      confirm({
+        title: '改变付款状态',
+        content: record.payStatus=="10"?'您确定要改变为已付款状态吗':'您确定要改变为待付款状态吗？',
+        onOk() {
+          let values = {};
+          values.wsAsnId = record.wsAsnId;
+          if(record.payStatus == "10"){
+            values.payStatus = "20";
+          }else{
+            values.payStatus = "10";
+          }
+          const result=GetServerData('qerp.web.ws.asn.payStatus',values);
+          result.then((res) => {
+            return res;
+          }).then((json) => {
+            if(json.code=='0'){
+              console.log('改变成功');
+              console.log(this.props.values);
+              console.log(this.props.limit);
+              this.initList(this.props.values,this.props.limit,0)
+            }
+          })
+        },
+        onCancel() {
+          
+        },
+      });
     }
 
     //分页方法
@@ -121,25 +133,26 @@ class OrdercgTable extends React.Component {
         type:'ordercg/select',
         payload:{selectedRowKeys,selectedRows}
       })
-	}
+  }
+  
 
     render() {
         return (
-          <EditableTable 
-            dataSource={this.props.tableList} 
-            columns={this.columns} 
-            footer={true}
-            pageChange={this.pageChange.bind(this)}
-            pageSizeChange={this.pageSizeChange.bind(this)}
-            bordered={true}
-            select={true}
-            selectType='radio'
-            selectChange={this.selectChange.bind(this)}
-            selectedRowKeys={this.props.selectedRowKeys}
-            total={this.props.total}
-            limit={this.props.limit}
-            current={Number(this.props.currentPage)+1}
-            />
+            <EditableTable 
+              dataSource={this.props.tableList} 
+              columns={this.columns} 
+              footer={true}
+              pageChange={this.pageChange.bind(this)}
+              pageSizeChange={this.pageSizeChange.bind(this)}
+              bordered={true}
+              select={true}
+              selectType='radio'
+              selectChange={this.selectChange.bind(this)}
+              selectedRowKeys={this.props.selectedRowKeys}
+              total={this.props.total}
+              limit={this.props.limit}
+              current={Number(this.props.currentPage)+1}
+              />
         );
 	}
 	componentDidMount(){
