@@ -1,9 +1,9 @@
 import {GetServerData} from '../../services/services';
 import { connect } from 'dva';
-import { Form, Input, Button ,message,DatePicker,Checkbox,Select,Cascader,TimePicker,Modal} from 'antd';
+import { Form, Input, Button ,message,DatePicker,Checkbox,Select,Cascader,TimePicker,Modal,Radio } from 'antd';
 import moment from 'moment';
 import PicturesWall from './upload';
-
+const RadioGroup = Radio.Group;
 const CheckboxGroup = Checkbox.Group;
 const FormItem = Form.Item;
 const { TextArea } = Input;
@@ -46,7 +46,8 @@ class SpEditForm extends React.Component{
 			nonfoodShareRatio:null,
 			initfoodShareRatio:null,
 			initnonfoodShareRatio:null,
-
+			openWechat:0,
+			openAlipay:0
 
 		}
 	}
@@ -92,7 +93,9 @@ class SpEditForm extends React.Component{
 		e.preventDefault();
 		this.props.form.validateFields((err, value) => {
 		    if (!err) {
-                console.log(value)
+				console.log(value)
+				value.openWechat = String(value.openWechat);
+				value.openAlipay = String(value.openAlipay);
                 value.spShopPics=this.props.spShopPics
                 value.provinceId=value.shop_city[0]
                 value.cityId=value.shop_city[1]
@@ -181,7 +184,7 @@ class SpEditForm extends React.Component{
                         mobile:json.spShop.mobile,
                         telephone:json.spShop.telephone,
                         shopman:json.spShop.shopman,
-                        status:json.spShop.status==undefined || json.spShop.status==null || json.spShop.status==''?[]:String(json.spShop.status),
+                        status:!json.spShop.status&&json.spShop.status!=0?[]:String(json.spShop.status),
                         provinceId:json.spShop.provinceId,
                         cityId:json.spShop.cityId,
                         districtId:json.spShop.districtId,
@@ -200,6 +203,8 @@ class SpEditForm extends React.Component{
 						nonfoodShareRatio:json.spShop.nonfoodShareRatio,
 						initfoodShareRatio:json.spShop.foodShareRatio,
 						initnonfoodShareRatio:json.spShop.nonfoodShareRatio,
+						openWechat:!json.spShop.openWechat||json.spShop.openWechat=="0"?0:json.spShop.openAlipay,
+						openAlipay:!json.spShop.openAlipay||json.spShop.openAlipay=="0"?0:json.spShop.openAlipay
                     },function(){
                         const spShopPics=this.state.spShopPics
                         this.props.dispatch({
@@ -313,7 +318,7 @@ class SpEditForm extends React.Component{
   	render(){  
 		const { getFieldDecorator } = this.props.form;
      	return(
-          	<Form className="addUser-form addcg-form">
+          	<Form className="addUser-form addcg-form operate-shop-form">
                 <FormItem
 				>
 					<PicturesWall initfileList={this.state.initfileList}/>
@@ -532,6 +537,36 @@ class SpEditForm extends React.Component{
 						initialValue:(this.props.data && this.state.startTime!=null && this.state.startTime!=undefined  && this.state.startTime!='' && this.state.startTime!=[])?moment(this.state.startTime):null
 					})(
 					<DatePicker  format="YYYY-MM-DD" showTime onChange={this.timeChange.bind(this)}/>
+					)}
+				</FormItem>
+				<FormItem
+					label="微信支付扫码"
+					labelCol={{ span: 3,offset: 1 }}
+					wrapperCol={{ span:6 }}
+					>
+					{getFieldDecorator('openWechat', {
+						rules: [{ required: true, message: '请选择是否使用微信扫码支付'}],
+						initialValue:Number(this.state.openWechat) 
+					})(
+						<RadioGroup>
+							<Radio value={1}>开启</Radio>
+							<Radio value={0}>关闭</Radio>
+					  	</RadioGroup>
+					)}
+				</FormItem>
+				<FormItem
+					label="支付宝扫码"
+					labelCol={{ span: 3,offset: 1 }}
+					wrapperCol={{ span:6 }}
+					>
+					{getFieldDecorator('openAlipay', {
+						rules: [{ required: true, message: '请选择是否使用支付宝扫码'}],
+						initialValue:Number(this.state.openAlipay) 
+					})(
+						<RadioGroup>
+							<Radio value={1}>开启</Radio>
+							<Radio value={0}>关闭</Radio>
+					  	</RadioGroup>
 					)}
 				</FormItem>
                 <FormItem

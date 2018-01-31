@@ -89,6 +89,9 @@ label{
 .addUser-form.addcg-form .ant-col-3{
 	width: 85px;
 }
+.addUser-form.addcg-form.operate-shop-form .ant-col-3{
+	width: 90px;
+}
 .addUser-form.addcg-form .ant-col-offset-4{
 	margin-left: 115px;
 }

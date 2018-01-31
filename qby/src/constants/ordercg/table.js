@@ -30,6 +30,14 @@ class OrdercgTable extends React.Component {
             title: '预计送达时间',
             dataIndex: 'expectedTime'
         },{
+          title: '付款状态',
+          dataIndex: 'payStatusStr',
+          render: (text, record) => {
+            return(   
+                        <TableLink text={text} hindClick={this.changePayStatus.bind(this,record)} type="1"/>
+            );
+          }
+        },{
             title: '操作',
             dataIndex: 'opation',
             render: (text, record) => {
@@ -59,6 +67,29 @@ class OrdercgTable extends React.Component {
          type:'tab/firstAddTab',
          payload:paneitem
        })
+    }
+
+    //改变付款状态
+    changePayStatus = (record) =>{
+      console.log(record);
+      let values = {};
+      values.wsAsnId = record.wsAsnId;
+      if(record.payStatus == "10"){
+        values.payStatus = "20";
+      }else{
+        values.payStatus = "10";
+      }
+      const result=GetServerData('qerp.web.ws.asn.payStatus',values);
+      result.then((res) => {
+        return res;
+      }).then((json) => {
+        if(json.code=='0'){
+          console.log('改变成功');
+          console.log(this.props.values);
+          console.log(this.props.limit);
+          this.initList(this.props.values,this.props.limit,0)
+        }
+      })
     }
 
     //分页方法

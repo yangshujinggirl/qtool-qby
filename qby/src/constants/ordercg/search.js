@@ -90,6 +90,14 @@ class OrdercgSearchForm extends React.Component {
                                     </Select>
                                     )}
                                 </FormItem>
+                                <FormItem label='付款状态'>
+                                    {getFieldDecorator('payStatus')(
+                                    <Select allowClear={true} placeholder="请选择付款状态">
+                                        <Option value='10'>待付款</Option>
+                                        <Option value='20'>已付款</Option>
+                                    </Select>
+                                    )}
+                                </FormItem>
                                 {/* 添加下单时间 */}
                                 <FormItem label='下单时间'>
                                     {

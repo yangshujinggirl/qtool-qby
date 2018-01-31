@@ -77,6 +77,7 @@ class OperateinoutSearchForm extends React.Component {
                                         <Option value='21'>订单费用</Option>
                                         <Option value='11'>门店充值</Option>
                                         <Option value='22'>物流费用</Option>
+                                        <Option value='25'>收银结算</Option>
                                         <Option value='24'>取消退款</Option>
                                     </Select>
                                     )}
