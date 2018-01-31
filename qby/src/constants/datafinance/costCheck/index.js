@@ -78,10 +78,12 @@ class CostCheckIndexForm extends React.Component {
 
     //获取数据
     getServerData = (values) =>{
+        this.props.dispatch({ type: 'tab/loding', payload:true});
         const result=GetServerData('qerp.web.pd.costmonthdata.query',values)
         result.then((res) => {
             return res;
         }).then((json) => {
+            this.props.dispatch({ type: 'tab/loding', payload:false});
             if(json.code=='0'){
                 let dataList = json.costmonthdatas;
                 if(dataList.length){

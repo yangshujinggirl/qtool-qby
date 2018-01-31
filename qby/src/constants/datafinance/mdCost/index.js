@@ -186,10 +186,12 @@ class MdCostIndexForm extends React.Component {
 
     //获取数据
     getServerData = (values) =>{
+        this.props.dispatch({ type: 'tab/loding', payload:true});
         const result=GetServerData('qerp.web.sp.shopCost.query',values)
         result.then((res) => {
             return res;
         }).then((json) => {
+            this.props.dispatch({ type: 'tab/loding', payload:false});
             if(json.code=='0'){
                 let dataList = json.shopCosts;
                 if(dataList.length){
@@ -216,7 +218,7 @@ class MdCostIndexForm extends React.Component {
         },function(){
             let values = {
                 currentPage:0,
-                limit:10,
+                limit:15,
                 month:this.state.month,
                 spShopId:this.state.spShopId
             }

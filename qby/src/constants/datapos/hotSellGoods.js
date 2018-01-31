@@ -19,7 +19,7 @@ class HotSellGoodsForm extends React.Component {
             dataSource:[],
             total:0,
             currentPage:0,
-            limit:10,
+            limit:15,
             startDate:"",
             endDate:"",
         };
@@ -105,7 +105,7 @@ class HotSellGoodsForm extends React.Component {
             let values = {
                 shopId:this.props.shopId,
                 currentPage:0,
-                limit:10,
+                limit:15,
                 startDate:this.state.startDate,
                 endDate:this.state.endDate
             }
@@ -119,7 +119,7 @@ class HotSellGoodsForm extends React.Component {
             let data = {
                 shopId:this.props.shopId,
                 currentPage:0,
-                limit:10,
+                limit:this.state.limit,
                 startDate:this.state.startDate,
                 endDate:this.state.endDate
             }

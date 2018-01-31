@@ -120,7 +120,7 @@ class CgArrivalIndexForm extends React.Component {
             },function(){
                 let data = {
                     currentPage:0,
-                    limit:10,
+                    limit:this.state.limit,
                     supplierName:this.state.supplierName,
                     createTimeST:this.state.createTimeST,
                     createTimeET:this.state.createTimeET
@@ -200,10 +200,12 @@ class CgArrivalIndexForm extends React.Component {
 
     //获取数据
     getServerData = (values) =>{
+        this.props.dispatch({ type: 'tab/loding', payload:true});
         const result=GetServerData('qerp.web.ws.purchasedata.query',values)
         result.then((res) => {
             return res;
         }).then((json) => {
+            this.props.dispatch({ type: 'tab/loding', payload:false});
             if(json.code=='0'){
                 let dataList = json.purchasedatas;
                 if(dataList.length){
@@ -224,7 +226,7 @@ class CgArrivalIndexForm extends React.Component {
     componentDidMount(){
         let data = {
             currentPage:0,
-            limit:10
+            limit:15
         }
         //获取当前时间
         this.getServerData(data);

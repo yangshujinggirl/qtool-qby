@@ -94,6 +94,7 @@ export default {
 			const pdType2Id='00'
 			const tag1=[]
 			const tag2=[]
+			const isskus=false
 			const goodindodatasouce=[{
 				code:null,
 				barcode:null,
@@ -125,7 +126,7 @@ export default {
 			const containerSpec='1'
 
 
-			return {...state,name,pdCategory1Id,pdCategory2Id,pdCategorys,pdBrand,pdBrandId,spuPics,pdType1Id,pdType2Id,tag1,tag2,goodindodatasouce,initdatasouce,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell,pdSpuInfo,fileList,shareType,containerSpec}
+			return {...state,name,pdCategory1Id,pdCategory2Id,pdCategorys,pdBrand,pdBrandId,spuPics,pdType1Id,pdType2Id,tag1,tag2,goodindodatasouce,initdatasouce,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell,pdSpuInfo,fileList,shareType,containerSpec,isskus}
 		},
 		//商品list
 		goodslist(state, { payload:{goodslist,total,limit,currentPage}}) {
@@ -308,6 +309,8 @@ export default {
 				for(var i=0;i<spuIdPics.length;i++){
 					spuPics.push(spuIdPics[i].url)
 				}
+				console.log(spuPics)
+
 				//更新图片展示
 				const fileList=spuIdPics.slice(0)
 				for(var i=0;i<fileList.length;i++){

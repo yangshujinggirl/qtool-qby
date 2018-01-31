@@ -33,7 +33,7 @@ export default {
                 const currentPage=result.currentPage;
                 const total=result.total;
                 for(var i=0;i<tableList.length;i++){
-                    tableList[i].key=tableList[i].orderId;
+                    tableList[i].key=i+1;
                 }
                 yield put({type: 'syncTableList',payload:{tableList,total,limit,currentPage}});
             } 

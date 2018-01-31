@@ -3,16 +3,17 @@ import React from 'react';
 import { connect } from 'dva';
 
 //图片upload
-function beforeUpload(file) {
-const isJPG = file.type === 'image/jpeg';
+function beforeUpload(file){
+	const isJPG = file.type === 'image/jpeg';
 	const isPNG = file.type === 'image/png';
-if (!isJPG && !isPNG) {
+	if (!isJPG && !isPNG) {
 	message.error('仅支持jpg/jpeg/png格式',.8);
 }
 const isLt2M = file.size / 1024 / 1024 < 2;
 if (!isLt2M) {
 	message.error('图片文件需小于2MB',.8);
 }
+
 return (isJPG || isPNG) && isLt2M;
 }
 

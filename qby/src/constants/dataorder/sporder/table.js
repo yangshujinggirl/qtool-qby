@@ -86,11 +86,13 @@ class DataclassTable extends React.Component {
 	
 	//列表数据请求   
 	initstockList=()=>{
+		this.props.dispatch({ type: 'tab/loding', payload:true});
         const values={startDate:this.state.startDate,endDate:this.state.endDate}
         const result=GetServerData('qerp.web.rp.shop.order.list',values)
         result.then((res) => {
             return res;
         }).then((json) => {
+			this.props.dispatch({ type: 'tab/loding', payload:false});
             if(json.code=='0'){
                 const rpShopOrderDatas=json.rpShopOrderDatas
                 this.setState({

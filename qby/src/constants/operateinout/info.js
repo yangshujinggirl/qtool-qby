@@ -63,6 +63,7 @@ class OperateinoutInfo extends React.Component{
 				<div className='mb10'>
 					<EditableTable  columns={this.column} 
                                     dataSource={this.props.infoList}
+                                    title='订单详情'
                                     bordered={true}
                                     footer={false}/>
 				</div>
@@ -75,7 +76,7 @@ class OperateinoutInfo extends React.Component{
 }
 
 function mapStateToProps(state) {
-    const {cardlist,infoList} = state.orderpos;
+    const {cardlist,infoList} = state.operateinout;
     return {cardlist,infoList};
 }
 export default connect(mapStateToProps)(OperateinoutInfo);

@@ -4,6 +4,7 @@ import EditableTable from '../../components/table/tablebasic';
 import EditableTableInfo from '../../components/table/table_info';
 import Cardlist from '../../components/table/cardlist';
 import CollectionsPage from './cancelOrderModal';
+import TableNormal from '../../components/table/table_normal';
 
 class OrdermdInfo extends React.Component{
 	constructor(props) {
@@ -59,10 +60,10 @@ class OrdermdInfo extends React.Component{
       //获取订单信息列表
 			this.props.dispatch({
 				type:'ordermd/infofetch',
-				payload:{code:'qerp.web.sp.order.detail.page',values:{spOrderId:spOrderId}}
-					}) 
+				payload:{code:'qerp.web.sp.order.detail.page',values:{spOrderId:spOrderId,limit:"50",currentPage:"0"}}
+			}) 
 					//获取物流和订单日志列表
-					this.props.dispatch({
+			this.props.dispatch({
 				type:'ordermd/infofetchTwo',
 				payload:{code:'qerp.web.sp.order.detail',values:{spOrderId:spOrderId}}
 			}) 
@@ -101,15 +102,15 @@ class OrdermdInfo extends React.Component{
         }
 				<div className='mb10'><Cardlist cardtitle={this.props.cardtitle} cardlist={this.props.cardlist}/></div>
 				<div className='mb10'>
-					<EditableTable 
+					<TableNormal 
 							columns={this.column1} 
 							dataSource={this.props.detailsList} 
 							title={this.props.detailstitle}
-							footer={this.props.total1>50 ?true:false}
+							footer={this.props.total1>50?true:false}
 							pageChange={this.pageChange.bind(this)}
 							pageSizeChange={this.pageSizeChange.bind(this)}
-							total={this.props.total1}
-							limit={this.props.limit1}
+							total={Number(this.props.total1)}
+							limit={Number(this.props.limit1)}
 							current={Number(this.props.currentPage1)+1}
 							bordered={true}
 						/>
@@ -137,7 +138,7 @@ class OrdermdInfo extends React.Component{
 }
 
 function mapStateToProps(state) {
-    const {detailsList,detailstitle,cardtitle,cardlist,expressList,orderLogList,limit1,currentPage1,total1,isCancel} = state.ordermd;
+		const {detailsList,detailstitle,cardtitle,cardlist,expressList,orderLogList,limit1,currentPage1,total1,isCancel} = state.ordermd;
 		return {detailsList,detailstitle,cardtitle,cardlist,expressList,orderLogList,limit1,currentPage1,total1,isCancel};
 }
 export default connect(mapStateToProps)(OrdermdInfo);

@@ -18,7 +18,7 @@ class Paginations extends React.Component {
                 total={this.props.total} 
                 current={this.props.current}
                 pageSizeOptions={['15','30','50','100','200','500']}
-                defaultPageSize={15}
+                pageSize={this.props.pageSize}
                 className='tc pagination'/>
                 
                 
@@ -56,7 +56,7 @@ class EditableTable extends React.Component {
                                 pageSizeChange={this.props.pageSizeChange} 
                                 total={Number(this.props.total)}
                                 current={Number(this.props.current)}
-                               
+                                pageSize={Number(this.props.limit)}
                                 />
                     :null
                                 

@@ -8,7 +8,8 @@ const typebg={
     height:"32px",
     color:"#fff",
     lineHeight:"32px",
-    textAlign:"center"
+    textAlign:"center",
+    cursor:"pointer",
 }
 const notypebg={
     width:"50%",
@@ -17,7 +18,8 @@ const notypebg={
     height:"32px",
     color:"#666",
     lineHeight:"32px",
-    textAlign:"center"
+    textAlign:"center",
+    cursor:"pointer",
    
 }
 

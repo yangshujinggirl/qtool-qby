@@ -20,7 +20,9 @@ class PicturesWall extends React.Component {
 	state = {
 		previewVisible: false,
 		previewImage: '',
-		fileList: this.props.fileList
+		fileList: this.props.fileList,
+		loading:false
+
 	};
 	handleCancel = () => this.setState({ previewVisible: false })
 	handlePreview = (file) => {
@@ -29,21 +31,68 @@ class PicturesWall extends React.Component {
 			previewVisible: true
 		});
 	}
-	handleChange = ({ fileList }) => {
-		this.setState({fileList})
-		var s=fileList.every(function(currentValue){
-			return  currentValue.status=='done'
-		})
-		if(s){
-			const spuPics=[]
-			for(var i=0;i<fileList.length;i++){
-				spuPics.push(fileList[i].response.data[0])
-			}
-			this.props.dispatch({
-				type:'goods/uploads',
-				payload:spuPics
-		  	})
+	// handleChange = ({ fileList }) => {
+	// 	this.setState({fileList})
+	// 	console.log(fileList)
+
+
+	// 	var s=fileList.every(function(currentValue){
+	// 		return  currentValue.status=='done'
+	// 	})
+	// 	if(s){
+	// 		const spuPics=[]
+	// 		for(var i=0;i<fileList.length;i++){
+	// 			spuPics.push(fileList[i].response.data[0])
+	// 		}
+	// 		this.props.dispatch({
+	// 			type:'goods/uploads',
+	// 			payload:spuPics
+	// 	  	})
+	// 	}
+	// }
+
+
+	handleChange = (info) => {
+		console.log(info)
+		if(info.file.status === 'uploading'){
+			const fileList=info.fileList
+			this.setState({
+				fileList:fileList
+			})
 		}
+
+		if(info.file.status === 'done'){
+			const fileList=info.fileList
+			this.setState({
+				fileList:fileList
+			},function(){
+				const spuPics=[]
+				for(var i=0;i<fileList.length;i++){
+					spuPics.push(fileList[i].response.data[0])
+				}
+				this.props.dispatch({
+					type:'goods/uploads',
+					payload:spuPics
+				  })
+			})
+		}
+		if(info.file.status === 'removed'){
+			const fileList=info.fileList
+			this.setState({
+				fileList:fileList
+			},function(){
+				const spuPics=[]
+				for(var i=0;i<fileList.length;i++){
+					spuPics.push(fileList[i].response.data[0])
+				}
+				this.props.dispatch({
+					type:'goods/uploads',
+					payload:spuPics
+				  })
+			})
+		}
+
+
 	}
 
 
@@ -67,7 +116,7 @@ class PicturesWall extends React.Component {
 				beforeUpload={beforeUpload}
 				action="/erpWebRest/qcamp/upload.htm?type=spu"
 				listType="picture-card"
-				// fileList={fileList}
+				fileList={fileList}
 				onPreview={this.handlePreview}
 				onChange={this.handleChange}
 				// showUploadList={false}
