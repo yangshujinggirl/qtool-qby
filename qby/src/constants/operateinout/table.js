@@ -49,6 +49,13 @@ class OperateinoutTable extends React.Component {
                 payload:paneitem
             })
         }
+        if(record.type=='25'){
+            const paneitem={title:'收银对账',key:'402000edit'+record.outId+'info',data:{spShopId:record.outId},componkey:'402000infoMoney'}
+            this.props.dispatch({
+                type:'tab/firstAddTab',
+                payload:paneitem
+            })
+        }
     }
 
     //分页方法

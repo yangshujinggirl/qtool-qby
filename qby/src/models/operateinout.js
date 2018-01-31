@@ -9,7 +9,10 @@ export default {
         tableList:[],
         //
         cardlist:[],
-        infoList:[]
+        infoList:[],
+        //收银详情
+        moneycardlist:[],
+        moneyinfoList:[]
     },
     reducers: {
 		synchronous(state, { payload:values}) {
@@ -20,6 +23,9 @@ export default {
         },
         syncInfoList(state, { payload:{infoList,cardlist}}) {
 			return {...state,infoList,cardlist}
+        },
+        syncMoneyInfoList(state, { payload:{moneyinfoList,moneycardlist}}) {
+			return {...state,moneyinfoList,moneycardlist}
         }
     },
     effects: {
@@ -85,6 +91,25 @@ export default {
                 yield put({type:'syncInfoList',payload:{infoList,cardlist}});
             }
         },
+        *moneyInfofetch({ payload: {code,values} }, { call, put ,select}) {
+            const result=yield call(GetServerData,code,values);
+            yield put({type: 'tab/loding',payload:false});
+            if(result.code=='0'){
+                let moneyinfoList=result.odOrders;
+                if(moneyinfoList.length){
+                    for(var i=0;i<moneyinfoList.length;i++){
+                        moneyinfoList[i].key=i
+                    }
+                };
+                let data=result.spShop;
+                let moneycardlist =[
+                        {lable:'门店名称', text:data.shopName},
+                        {lable:'账目时间', text:data.createTime},
+                        {lable:'结算金额', text:data.sumAmount}
+                    ]
+                yield put({type:'syncMoneyInfoList',payload:{moneyinfoList,moneycardlist}});
+            }
+        }
   	},
   	subscriptions: {},
 };
