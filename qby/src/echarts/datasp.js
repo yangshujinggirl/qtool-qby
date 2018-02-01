@@ -196,7 +196,7 @@ class EchartsTest extends Component {
 
     render() {
         var myDate=new Date()
-        const tody=String(myDate.getFullYear()+'-'+(myDate.getMonth()+1)+'-'+myDate.getDate())
+        const tody=String(myDate.getFullYear()+'-'+("0"+(myDate.getMonth()+1)).slice(-2)+'-'+("0"+myDate.getDate()).slice(-2))
         return (
             <div className='rel'>
                 <div style={{position:"absolute",left:"0px",top:"40px",zIndex:'1000'}}>
@@ -214,7 +214,7 @@ class EchartsTest extends Component {
     }
     componentDidMount() {
         var myDate=new Date()
-        const tody=String(myDate.getFullYear()+'-'+(myDate.getMonth()+1)+'-'+myDate.getDate())
+        const tody=String(myDate.getFullYear()+'-'+("0"+(myDate.getMonth()+1)).slice(-2)+'-'+("0"+myDate.getDate()).slice(-2))
         const startRpDate=tody
         const endRpDate=tody
         this.setState({
