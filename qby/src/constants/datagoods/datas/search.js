@@ -106,7 +106,7 @@ class StockSearchForm extends React.Component {
 
   componentDidMount(){
     var myDate=new Date()
-    const tody=String(myDate.getFullYear()+'-'+(myDate.getMonth()+1)+'-'+myDate.getDate())
+    const tody=String(myDate.getFullYear()+'-'+("0"+(myDate.getMonth()+1)).slice(-2)+'-'+("0"+myDate.getDate()).slice(-2))
     const startRpDate=tody
     const endRpDate=tody
     this.setState({

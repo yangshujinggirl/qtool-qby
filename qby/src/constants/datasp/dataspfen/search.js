@@ -126,7 +126,7 @@ class StockSearchForm extends React.Component {
   componentDidMount(){
     var myDate=new Date()
     myDate.setTime(myDate.getTime()-24*60*60*1000);
-    const yesterday=String(myDate.getFullYear()+'-'+(myDate.getMonth()+1)+'-'+myDate.getDate())
+    const yesterday=String(myDate.getFullYear()+'-'+("0"+(myDate.getMonth()+1)).slice(-2)+'-'+("0"+myDate.getDate()).slice(-2))
     this.setState({
         date:yesterday
     },function(){
