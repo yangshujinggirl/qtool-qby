@@ -217,7 +217,9 @@ class ReceiptDetailsForm extends React.Component {
         if(this.props.data.pdOrderId){
             let values = {
                 shopId:this.props.data.shopId,
-                pdOrderId:this.props.data.pdOrderId
+                pdOrderId:this.props.data.pdOrderId,
+                currentPage:0,
+                limit:15
             };
             this.getServerData(values);
         }
