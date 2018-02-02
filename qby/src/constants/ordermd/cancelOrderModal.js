@@ -80,7 +80,7 @@ class CollectionsPage extends React.Component {
     render() {
         return (
             <div>
-                <Button type="primary" onClick={this.showModal}>取消订单</Button>
+                {/* <Button type="primary" onClick={this.showModal}>取消订单</Button> */}
                 <CollectionCreateForm
                 ref={this.saveFormRef}
                 visible={this.state.visible}
