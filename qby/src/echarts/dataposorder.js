@@ -164,7 +164,7 @@ class EchartsTest extends Component {
                     allowClear={false}
                 />
                 </div>
-                <div style={{position:"absolute",right:"100px",top:"40px",zIndex:'1000'}}><Clisklist listClick1={this.checkonChange1.bind(this)} listClick2={this.checkonChange2.bind(this)}/></div>
+                <div style={{position:"absolute",right:"100px",top:"40px",zIndex:'1000'}}><Clisklist listClick1={this.checkonChange1.bind(this)} listClick2={this.checkonChange2.bind(this)} type={this.state.type}/></div>
                 <div id="mainsposorder" style={{ height: 400 }}></div>
             </div>
         );
