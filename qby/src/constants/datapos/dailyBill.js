@@ -39,11 +39,17 @@ class DailyBillForm extends React.Component {
             title: '结算金额',
             dataIndex: 'amount',
         },{
-            title: '微信',
+            title: '微信(转账）',
             dataIndex: 'wechatAmount',
         },{
-            title: '支付宝',
+            title: '微信(扫码）',
+            dataIndex: 'scanWechatAmount',
+        },{
+            title: '支付宝(转账）',
             dataIndex: 'alipayAmount',
+        },{
+            title: '支付宝(扫码）',
+            dataIndex: 'scanAlipayAmount',
         },{
             title: '现金',
             dataIndex: 'cashAmount',
