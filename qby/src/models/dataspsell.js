@@ -1,7 +1,9 @@
 import {GetServerData} from '../services/services';
 import NP from 'number-precision'
 
-function databi(a,b){
+function databi(sa,sb){
+	const a=(sa==null)?0:sa
+	const b=(sb==null)?0:sb
 	var Rate=0
 	if(a>0 && b>0){
 		Rate=NP.round(NP.divide(NP.times(NP.minus(a,b),100),b),2); 

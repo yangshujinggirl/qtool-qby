@@ -142,7 +142,7 @@ class EchartsTest extends Component {
             },
             series: [
                 {
-                    name:type=='1'?'销售数量':'销售金额',
+                    name:type=='1'?'订单数量':'订单金额',
                     type:'line',
                     data:type=='1'?data1:data2
                 }
