@@ -4,7 +4,7 @@ import moment from 'moment';
 import { connect } from 'dva';
 import {GetServerData} from '../services/services';
 import {timeForMat} from '../utils/meth';
-import Clisklist from '../components/switchs/lrsw';
+import Clisklists from '../components/switchs/lrswa';
 
 const { MonthPicker, RangePicker } = DatePicker;
 const dateFormat = 'YYYY-MM-DD';
@@ -175,7 +175,7 @@ class EchartsTest extends Component {
                     allowClear={false}
                 />
                 </div>
-                <div style={{position:"absolute",right:"100px",top:"40px",zIndex:'1000'}}><Clisklist listClick1={this.checkonChange1.bind(this)} listClick2={this.checkonChange2.bind(this)} type={this.state.type}/></div>
+                <div style={{position:"absolute",right:"100px",top:"40px",zIndex:'1000'}}><Clisklists listClick1={this.checkonChange1.bind(this)} listClick2={this.checkonChange2.bind(this)} type={this.state.type}/></div>
                 <div id="mainsporder" style={{ height: 400 ,width:"100%"}}></div>
             </div>
         );
