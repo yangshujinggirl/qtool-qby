@@ -74,34 +74,34 @@ class OrdercgTable extends React.Component {
 
     //改变付款状态
     changePayStatus = (record) =>{
-      console.log(record);
-      confirm({
-        title: '改变付款状态',
-        content: record.payStatus=="10"?'您确定要改变为已付款状态吗':'您确定要改变为待付款状态吗？',
-        onOk() {
-          let values = {};
-          values.wsAsnId = record.wsAsnId;
-          if(record.payStatus == "10"){
+      	console.log(record);
+		let values = {};
+        values.wsAsnId = record.wsAsnId;
+        if(record.payStatus == "10"){
             values.payStatus = "20";
-          }else{
+        }else{
             values.payStatus = "10";
-          }
-          const result=GetServerData('qerp.web.ws.asn.payStatus',values);
-          result.then((res) => {
+        }
+        const result=GetServerData('qerp.web.ws.asn.payStatus',values);
+        result.then((res) => {
             return res;
-          }).then((json) => {
+        }).then((json) => {
             if(json.code=='0'){
-              console.log('改变成功');
-              console.log(this.props.values);
-              console.log(this.props.limit);
-              this.initList(this.props.values,this.props.limit,0)
+              this.initList(this.props.values,this.props.limit,this.props.currentPage)
             }
-          })
-        },
-        onCancel() {
+        })
+
+
+    //   confirm({
+    //     title: '改变付款状态',
+    //     content: record.payStatus=="10"?'您确定要改变为已付款状态吗':'您确定要改变为待付款状态吗？',
+    //     onOk() {
           
-        },
-      });
+    //     },
+    //     onCancel() {
+          
+    //     },
+    //   });
     }
 
     //分页方法

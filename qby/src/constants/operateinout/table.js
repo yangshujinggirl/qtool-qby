@@ -36,21 +36,21 @@ class OperateinoutTable extends React.Component {
             })
         }
         if(record.type=='21'){
-            const paneitem={title:'订单详情',key:'402000edit'+record.outId+'info',data:{spOrderId:record.outId},componkey:'402000infoOrder'}
+            const paneitem={title:'订单详情',key:'402000edit'+record.outId+'infoorder',data:{spOrderId:record.outId},componkey:'402000infoOrder'}
             this.props.dispatch({
                 type:'tab/firstAddTab',
                 payload:paneitem
             })
         }
         if(record.type=='22'){
-            const paneitem={title:'物流详情',key:'402000edit'+record.outId+'info',data:{spExpressFeeId:record.outId},componkey:'402000info'}
+            const paneitem={title:'物流详情',key:'402000edit'+record.outId+'infows',data:{spExpressFeeId:record.outId},componkey:'402000info'}
             this.props.dispatch({
                 type:'tab/firstAddTab',
                 payload:paneitem
             })
         }
         if(record.type=='25'){
-            const paneitem={title:'收银对账',key:'402000edit'+record.outId+'info',data:{spShopId:record.outId},componkey:'402000infoMoney'}
+            const paneitem={title:'收银对账',key:'402000edit'+record.outId+'infomoney',data:{spShopId:record.outId},componkey:'402000infoMoney'}
             this.props.dispatch({
                 type:'tab/firstAddTab',
                 payload:paneitem

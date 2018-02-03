@@ -65,10 +65,10 @@ class OperateinoutSearchForm extends React.Component {
                                 </FormItem>
                                 <FormItem label='收支筛选'>
                                     {getFieldDecorator('status')(
-                                    <Select allowClear={true} placeholder="请选择收支筛选">
-                                        <Option value='1'>充值</Option>
-                                        <Option value='2'>支出</Option>
-                                    </Select>
+                                        <Select allowClear={true} placeholder="请选择收支筛选">
+                                            <Option value='1'>收入</Option>
+                                            <Option value='2'>支出</Option>
+                                        </Select>
                                     )}
                                 </FormItem>
                                 <FormItem label='费用筛选'>
