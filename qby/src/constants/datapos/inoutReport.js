@@ -141,7 +141,7 @@ class InOutReportForm extends React.Component {
                 const receiptAmountSum=json.receiptAmountSum // 收货总成本
                 const saleAmountSum=json.saleAmountSum //销售总成本
                 const adjustPdCheckAmountSum=json.adjustPdCheckAmountSum//损益总成本
-                dataList = json.inventorys;
+                const dataList = json.inventorys;
                 for(let i=0;i<dataList.length;i++){
                     dataList[i].key = i+1;
                 };
