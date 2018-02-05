@@ -29,11 +29,11 @@ class OperateinoutMoneyInfo extends React.Component{
     }
 
     
-	infofetch=(spShopId)=>{
+	infofetch=(spShopId,type,dayTime,spMoneyDetailId)=>{
       //获取订单信息列表
 			this.props.dispatch({
 				type:'operateinout/moneyInfofetch',
-				payload:{code:'qerp.web.pos.money.detail',values:{spShopId:spShopId}}
+				payload:{code:'qerp.web.pos.money.detail',values:{spShopId:spShopId,type:type,dayTime:dayTime,spMoneyDetailId:spMoneyDetailId}}
             }) 
     }
     
@@ -52,7 +52,7 @@ class OperateinoutMoneyInfo extends React.Component{
 		)
 	}
 	componentDidMount(){
-		this.infofetch(this.props.data.spShopId)
+		this.infofetch(this.props.data.spShopId,this.props.data.type,this.props.data.dayTime,this.props.data.spMoneyDetailId)
 	}
 }
 
