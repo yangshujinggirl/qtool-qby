@@ -105,3 +105,24 @@ const confirm = Modal.confirm;
 		 	t2: timer2
 		}
 	}
+
+
+
+	//默认上个月
+	export function timeyesterdaymoute (count) {
+		// 拼接时间
+		let time1 = new Date()
+		time1.setTime(time1.getTime()) //当前日期
+		var Y1 = time1.getFullYear()  //当前年
+		var Y2=time1.getMonth() //上个月
+		if(Y2=='0'){
+			Y1=Y1-1
+			Y2=12
+		}
+		let M1 = (Y2> 10 ? Y2 : '0' + Y2) //当前月
+		let timer1 = Y1 + '-' + M1 
+
+		return {
+		 	t1: timer1
+		}
+	}

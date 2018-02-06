@@ -29,7 +29,7 @@ class DataspfenTable extends React.Component {
             dataIndex: 'notIntoAmount'
           },{
             title: '下载',
-			dataIndex: 'notIntoAmount',
+			dataIndex: 'notIntoAmountsss',
 			render: (text, record) => {
                 return (
                     <TableLink text='下载' hindClick={this.lookInfo.bind(this,record)} type='1'/>
