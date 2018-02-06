@@ -132,7 +132,7 @@ class OrderdbEditForm extends React.Component{
 	
 	// 下载导入模板
     ZaiSpuExcel=()=>{
-        window.open('../../../../sources/Excel/msorder.xlsx')
+        window.open('../../static/msorder.xlsx')
     }
 
   	render(){
