@@ -37,7 +37,7 @@ class MdCostIndexForm extends React.Component {
             title: '成本报表',
             dataIndex: 'url',
             render:(text, row, index)=>{
-                return <span style={{color:"#35BAB0"}} onClick={this.download.bind(this,text)}>下载</span>
+                return <span style={{color:"#35BAB0",cursor:"pointer"}} onClick={this.download.bind(this,text)}>下载</span>
             }
         }];
     }

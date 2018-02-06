@@ -1,6 +1,9 @@
 import { connect } from 'dva';
 import EditableTable from '../../../components/table/tablemodel';
 import TableLink from '../../../components/table/tablelink';
+import {GetServerData} from '../../../services/services';
+import { Button, Icon,Modal } from 'antd';
+const confirm = Modal.confirm;
 
 
 class DataspfenTable extends React.Component {
@@ -41,9 +44,11 @@ class DataspfenTable extends React.Component {
 
 	lookInfo=(record)=>{
 		const data={
-			shopId:record.shopId,
-			startRpDate:record.startRpDate,
+			spShopId:record.shopId,
+			rpDate:this.props.values.rpDate,
 		}
+		console.log(this.props.values)
+		console.log(this.props.values.rpDate)
 		this.exportData(57,data)
 
 	}
