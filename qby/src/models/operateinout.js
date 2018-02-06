@@ -104,8 +104,8 @@ export default {
                 let data=result.spShop;
                 let moneycardlist =[
                         {lable:'门店名称', text:data.shopName},
-                        {lable:'账目时间', text:data.createTime},
-                        {lable:'结算金额', text:data.sumAmount}
+                        {lable:'账目时间', text:data.dayTime},
+                        {lable:'结算金额', text:data.amount}
                     ]
                 yield put({type:'syncMoneyInfoList',payload:{moneyinfoList,moneycardlist}});
             }
