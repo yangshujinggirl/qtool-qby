@@ -32,7 +32,7 @@ class InOutReportForm extends React.Component {
         };
         this.columns = [{
             title: '序号',
-            dataIndex: 'rank',
+            dataIndex: 'key',
         },{
             title: '商品条码',
             dataIndex: 'barcode',
@@ -53,13 +53,13 @@ class InOutReportForm extends React.Component {
             dataIndex: 'invAmount',
         },{
             title: '收货数量',
-            dataIndex: 'recSumQty',
+            dataIndex: 'recQty',
         },{
             title: '收货成本',
-            dataIndex: 'recSumAmount',
+            dataIndex: 'recAmount',
         },{
             title: '销售数量',
-            dataIndex: 'posSumQty',
+            dataIndex: 'posQty',
         },{
             title: '销售成本',
             dataIndex: 'sumCostAmount',
@@ -71,7 +71,7 @@ class InOutReportForm extends React.Component {
             dataIndex: 'returnSumAmount',
         },{
             title: '损益数量',
-            dataIndex: 'adjustSumQty',
+            dataIndex: 'adjustQty',
         },{
             title: '损益成本',
             dataIndex: 'adjustCostAmount',
@@ -103,6 +103,7 @@ class InOutReportForm extends React.Component {
             currentPage:page-1
         },function(){
             let data = {
+                shopId:this.props.shopId,
                 currentPage:this.state.currentPage,
                 limit:this.state.limit,
                 time:this.state.rpDate,
@@ -118,6 +119,7 @@ class InOutReportForm extends React.Component {
             currentPage:0
         },function(){
             let data = {
+                shopId:this.props.shopId,
                 currentPage:this.state.currentPage,
                 limit:this.state.limit,
                 time:this.state.rpDate,

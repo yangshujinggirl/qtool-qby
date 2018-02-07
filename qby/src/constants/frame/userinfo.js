@@ -2,6 +2,7 @@ import '../../style/user.css';
 import { connect } from 'dva';
 import CollectionsPage from '../frame/pop';
 import { Menu, Dropdown, Icon ,Button} from 'antd';
+import {GetServerData} from '../../services/services';
 
 class User extends React.Component {
     constructor(props) {
@@ -16,6 +17,9 @@ class User extends React.Component {
                 </Menu.Item>
             </Menu>
         );
+        this.state={
+            dda:null
+        }
     }
     onClick=({key})=>{
         if(key=='1'){
@@ -33,8 +37,32 @@ class User extends React.Component {
           payload:paneitem
       });
     }
+
+
+    getUserinfo=()=>{
+        const values={}
+        const result=GetServerData('qerp.web.bs.userinfo',values)
+        result.then((res) => {
+           return res;
+        }).then((json) => {
+            if(json.code=='0'){
+                console.log('wo ai ni')
+                sessionStorage.setItem('name', JSON.stringify(json.urUser.name));
+                const name=eval(sessionStorage.getItem('name'));
+                console.log(name)
+                sessionStorage.setItem('adminType', JSON.stringify(json.urUser.adminType));
+                sessionStorage.setItem('wsName', JSON.stringify(json.urUser.wsName));
+                sessionStorage.setItem('fileDomain', JSON.stringify(json.urUser.fileDomain));
+                this.setState({
+                    dda:null
+                })
+                
+            }
+        }) 
+    }
     render() {
         const name=eval(sessionStorage.getItem('name'));
+        console.log(name)
         return(
             <div className='clearfix'>
                 <div className='fl pointer' style={{height:'80px',lineHeight:'80px',color:"#999",fontSize:"14px"}} onClick={this.download.bind(this)}>下载中心</div>
@@ -46,6 +74,10 @@ class User extends React.Component {
             </div>
         )
     }
+    componentDidMount(){
+        this.getUserinfo()
+    }
+
 }
 
 export default connect()(User);
