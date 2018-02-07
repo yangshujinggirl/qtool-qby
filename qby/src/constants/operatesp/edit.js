@@ -149,6 +149,7 @@ class SpEditForm extends React.Component{
         })
 	}
 	getinfoData=()=>{
+		console.log(1)
 		const values={spShopId:this.props.data.spShopId}
 		const result=GetServerData('qerp.web.sp.shop.info',values)
 		result.then((res) => {
@@ -171,8 +172,9 @@ class SpEditForm extends React.Component{
                                 }
                             })
                         }
-                    }
-
+					}
+					console.log('wo ai ni')
+					console.log(json.spShop.openWechat)
                     this.setState({
                         spShopPics:spShopPics,
                         initfileList:initfileList,
@@ -203,9 +205,10 @@ class SpEditForm extends React.Component{
 						nonfoodShareRatio:json.spShop.nonfoodShareRatio,
 						initfoodShareRatio:json.spShop.foodShareRatio,
 						initnonfoodShareRatio:json.spShop.nonfoodShareRatio,
-						openWechat:!json.spShop.openWechat||json.spShop.openWechat=="0"?0:json.spShop.openAlipay,
-						openAlipay:!json.spShop.openAlipay||json.spShop.openAlipay=="0"?0:json.spShop.openAlipay
+						openWechat:(!json.spShop.openWechat||json.spShop.openWechat=="0")?0:json.spShop.openWechat,
+						openAlipay:(!json.spShop.openAlipay||json.spShop.openAlipay=="0")?0:json.spShop.openAlipay
                     },function(){
+						console.log(this.state.openWechat)
                         const spShopPics=this.state.spShopPics
                         this.props.dispatch({
                             type:'operatesp/spShopPics',
@@ -316,6 +319,7 @@ class SpEditForm extends React.Component{
 	}
 
   	render(){  
+		console.log(this.state.openWechat)
 		const { getFieldDecorator } = this.props.form;
      	return(
           	<Form className="addUser-form addcg-form operate-shop-form">
@@ -603,6 +607,7 @@ class SpEditForm extends React.Component{
       	)
   	}
   	componentDidMount(){
+		  console.log(1)
         this.props.dispatch({
             type:'operatesp/region',
             payload:{code:'qerp.web.bs.region',values:{}}
