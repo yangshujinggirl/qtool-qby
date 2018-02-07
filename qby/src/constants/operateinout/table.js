@@ -36,7 +36,7 @@ class OperateinoutTable extends React.Component {
             })
         }
         if(record.type=='21'){
-            const paneitem={title:'订单详情',key:'402000edit'+record.outId+'info',data:{spOrderId:record.outId},componkey:'402000infoOrder'}
+            const paneitem={title:'订单详情',key:'402000edit'+record.outId+'info21',data:{spOrderId:record.outId},componkey:'402000infoOrder'}
             this.props.dispatch({
                 type:'tab/firstAddTab',
                 payload:paneitem
@@ -49,6 +49,14 @@ class OperateinoutTable extends React.Component {
                 payload:paneitem
             })
         }
+        if(record.type=='24'){
+            const paneitem={title:'订单详情',key:'402000edit'+record.outId+'info24',data:{spOrderId:record.outId},componkey:'402000infoOrder'}
+            this.props.dispatch({
+                type:'tab/firstAddTab',
+                payload:paneitem
+            })
+        }
+
     }
 
     //分页方法
