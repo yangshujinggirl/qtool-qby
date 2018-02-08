@@ -77,7 +77,7 @@ class InOutReportForm extends React.Component {
             dataIndex: 'adjustCostAmount',
         },{
             title: '盘点损益数',
-            dataIndex: 'checkSumQty',
+            dataIndex: 'checkQty',
         },{
             title: '盘点损益成本',
             dataIndex: 'checkAmount',
