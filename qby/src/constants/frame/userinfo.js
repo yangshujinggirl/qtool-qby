@@ -9,6 +9,9 @@ class User extends React.Component {
         super(props);
         this.menu=(
             <Menu className="drop-editOut" onClick={this.onClick}>
+                <Menu.Item key="2" className='item'>
+                    使用说明
+                </Menu.Item>
                 <Menu.Item key="0" className='item'>
                     <CollectionsPage/>
                 </Menu.Item>
@@ -28,7 +31,11 @@ class User extends React.Component {
                 type:'users/layout',
                 payload:{code:'qerp.web.bs.logout',values:null}
             })
-          }
+        }
+
+        if(key == '2'){
+            window.open('../../static/help.pdf');
+        }
     }
     download=()=>{
         const paneitem={title:'下载中心',key:'000001',componkey:'000001',data:null}
