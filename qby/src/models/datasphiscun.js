@@ -20,7 +20,7 @@ export default {
 				const result=yield call(GetServerData,code,values);
 				yield put({type: 'tab/loding',payload:false});
 				if(result.code=='0'){
-					const pdInvVos=result.pdInvVos
+					const pdInvVos=(!result.pdInvVos)?[]:result.pdInvVos
 					const limit=result.limit;
 					const currentPage=result.currentPage;
 					const total=result.total;

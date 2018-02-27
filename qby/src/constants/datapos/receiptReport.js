@@ -192,12 +192,12 @@ class ReceiptReportForm extends React.Component {
         //     strDate1 = "0" + strDate1;
         // }
         // var currentdate1 = date2.getFullYear() + seperator1 + month1 + seperator1 + strDate1;
-        const startRpDate=timeForMattoday(30).t2
-        const endRpDate=timeForMattoday(30).t1
-        this.setState({
-            operateST:startRpDate,
-            operateET:endRpDate
-        },function(){
+        // const startRpDate=timeForMattoday(30).t2
+        // const endRpDate=timeForMattoday(30).t1
+        // this.setState({
+        //     operateST:startRpDate,
+        //     operateET:endRpDate
+        // },function(){
             let values = {
                 spShopId:this.props.shopId,
                 currentPage:0,
@@ -206,7 +206,7 @@ class ReceiptReportForm extends React.Component {
                 operateET:this.state.operateET
             }
             self.getServerData(values);
-        })
+        // })
     }
 
     render() {

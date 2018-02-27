@@ -21,14 +21,15 @@ export default {
 			const result=yield call(GetServerData,code,values);
 			yield put({type: 'tab/loding',payload:false});
 			if(result.code=='0'){
-			 	const pdInvVos=result.pdInvVos
+				 const pdInvVos=(!result.pdInvVos)?[]:result.pdInvVos
+				 console.log(pdInvVos)
 				const limit=result.limit;
-            	const currentPage=result.currentPage;
+        		const currentPage=result.currentPage;
 				const total=result.total;
 				for(var i=0;i<pdInvVos.length;i++){
 					pdInvVos[i].index=i+1
 				}
-			yield put({type: 'fetchlist',payload:{pdInvVos,limit,currentPage,total}});
+				yield put({type: 'fetchlist',payload:{pdInvVos,limit,currentPage,total}});
 			} 
   		},
   },

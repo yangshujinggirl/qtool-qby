@@ -23,7 +23,7 @@ const notypebg={
    
 }
 
-class Clisklist extends React.Component {
+class Clisklists extends React.Component {
     state={
         type:"1"
     }
@@ -48,8 +48,8 @@ class Clisklist extends React.Component {
     render() {
       return (
             <div style={{width:"150px",border:"1px solid #e8e8e8"}} className='clearfix'>
-                <div style={this.props.type=='1'?typebg:notypebg} onClick={this.hindclick1.bind(this)}>销售数量</div>
-                <div style={this.props.type=='1'?notypebg:typebg} onClick={this.hindclick2.bind(this)}>销售金额</div>
+                <div style={this.props.type=='1'?typebg:notypebg} onClick={this.hindclick1.bind(this)}>订单数量</div>
+                <div style={this.props.type=='1'?notypebg:typebg} onClick={this.hindclick2.bind(this)}>订单金额</div>
             </div>
         );
     }
@@ -58,7 +58,7 @@ class Clisklist extends React.Component {
     
   }
 
-  export default Clisklist;
+  export default Clisklists;
 
   
   
