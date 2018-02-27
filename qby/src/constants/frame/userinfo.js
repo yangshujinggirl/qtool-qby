@@ -59,7 +59,7 @@ class User extends React.Component {
                 console.log(name)
                 sessionStorage.setItem('adminType', JSON.stringify(json.urUser.adminType));
                 sessionStorage.setItem('wsName', JSON.stringify(json.urUser.wsName));
-                sessionStorage.setItem('fileDomain', JSON.stringify(json.urUser.fileDomain));
+                sessionStorage.setItem('fileDomain', JSON.stringify(json.fileDomain));
                 this.setState({
                     dda:null
                 })
