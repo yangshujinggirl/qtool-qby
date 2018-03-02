@@ -32,7 +32,7 @@ class InOutReportForm extends React.Component {
         };
         this.columns = [{
             title: '序号',
-            dataIndex: 'rank',
+            dataIndex: 'key',
         },{
             title: '商品条码',
             dataIndex: 'barcode',
@@ -53,13 +53,13 @@ class InOutReportForm extends React.Component {
             dataIndex: 'invAmount',
         },{
             title: '收货数量',
-            dataIndex: 'recSumQty',
+            dataIndex: 'recQty',
         },{
             title: '收货成本',
-            dataIndex: 'recSumAmount',
+            dataIndex: 'recAmount',
         },{
             title: '销售数量',
-            dataIndex: 'posSumQty',
+            dataIndex: 'posQty',
         },{
             title: '销售成本',
             dataIndex: 'sumCostAmount',
@@ -71,13 +71,13 @@ class InOutReportForm extends React.Component {
             dataIndex: 'returnSumAmount',
         },{
             title: '损益数量',
-            dataIndex: 'adjustSumQty',
+            dataIndex: 'adjustQty',
         },{
             title: '损益成本',
             dataIndex: 'adjustCostAmount',
         },{
             title: '盘点损益数',
-            dataIndex: 'checkSumQty',
+            dataIndex: 'checkQty',
         },{
             title: '盘点损益成本',
             dataIndex: 'checkAmount',
@@ -103,6 +103,7 @@ class InOutReportForm extends React.Component {
             currentPage:page-1
         },function(){
             let data = {
+                shopId:this.props.shopId,
                 currentPage:this.state.currentPage,
                 limit:this.state.limit,
                 time:this.state.rpDate,
@@ -118,6 +119,7 @@ class InOutReportForm extends React.Component {
             currentPage:0
         },function(){
             let data = {
+                shopId:this.props.shopId,
                 currentPage:this.state.currentPage,
                 limit:this.state.limit,
                 time:this.state.rpDate,
@@ -141,7 +143,7 @@ class InOutReportForm extends React.Component {
                 const receiptAmountSum=json.receiptAmountSum // 收货总成本
                 const saleAmountSum=json.saleAmountSum //销售总成本
                 const adjustPdCheckAmountSum=json.adjustPdCheckAmountSum//损益总成本
-                dataList = json.inventorys;
+                const dataList = json.inventorys;
                 for(let i=0;i<dataList.length;i++){
                     dataList[i].key = i+1;
                 };
@@ -250,7 +252,7 @@ class InOutReportForm extends React.Component {
                 limit:15,
                 time:this.state.rpDate,
                 name:this.state.name
-            }
+            };
             self.getServerData(values);
         })
     }

@@ -30,9 +30,9 @@ class DataspIndex extends React.Component{
                     <TabPane tab="门店库存" key="2">
                         {this.state.key == '2' && <DataspcunIndex/>} 
                     </TabPane>
-                    {/* <TabPane tab="历史库存" key="3">
+                    <TabPane tab="历史库存" key="3">
                         {this.state.key == '3' && <DatasphiscunIndex/>} 
-                    </TabPane> */}
+                    </TabPane>
                     <TabPane tab="联营分成" key="4">
                         {this.state.key == '4' && <DataspfenIndex/>} 
                     </TabPane>

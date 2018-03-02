@@ -18,7 +18,11 @@
   },
  "proxy": {
     "/erpWebRest": {
+<<<<<<< HEAD
         "target": "http://v1.qby.test.qtoolsbaby.cn:81",
+=======
+        "target": "http://vx.qby.testin.qtoolsbaby.cn:81",
+>>>>>>> 7968ed40b504803a83949874e936398f9f8c30f7
         "secure": false,
         "changeOrigin": true
       }

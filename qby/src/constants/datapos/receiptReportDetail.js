@@ -55,7 +55,7 @@ class ReceiptDetailsForm extends React.Component {
             dataIndex: 'consignee',
         },{
             title: '最后操作时间',
-            dataIndex: 'updateTime',
+            dataIndex: 'operateTime',
         }];
     }
 
@@ -73,7 +73,7 @@ class ReceiptDetailsForm extends React.Component {
             currentPage:page-1
         },function(){
             let data = {
-                shopId:this.props.shopId,
+                spShopId:this.props.shopId,
                 pdOrderId:this.props.data.pdOrderId,
                 currentPage:this.state.currentPage,
                 limit:this.state.limit,
@@ -91,7 +91,7 @@ class ReceiptDetailsForm extends React.Component {
             currentPage:0
         },function(){
             let data = {
-                shopId:this.props.shopId,
+                spShopId:this.props.shopId,
                 pdOrderId:this.props.data.pdOrderId,
                 currentPage:this.state.currentPage,
                 limit:this.state.limit,
@@ -134,7 +134,7 @@ class ReceiptDetailsForm extends React.Component {
                 keywords:values.keywords
             },function(){
                 let values = {
-                    shopId:this.props.data.shopId,
+                    spShopId:this.props.data.shopId,
                     pdOrderId:this.props.data.pdOrderId,
                     currentPage:0,
                     limit:this.state.limit,
@@ -216,8 +216,10 @@ class ReceiptDetailsForm extends React.Component {
         })
         if(this.props.data.pdOrderId){
             let values = {
-                shopId:this.props.data.shopId,
-                pdOrderId:this.props.data.pdOrderId
+                spShopId:this.props.data.shopId,
+                pdOrderId:this.props.data.pdOrderId,
+                currentPage:0,
+                limit:15
             };
             this.getServerData(values);
         }

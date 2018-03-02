@@ -4,7 +4,10 @@ import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,m
 import { Link } from 'dva/router';
 import EditableTable from '../../../components/table/tablebasic';
 import {GetServerData} from '../../../services/services';
+import {timeyesterdaymoute} from '../../../utils/meth';
 import moment from 'moment';
+
+
 const FormItem = Form.Item;
 const Option = Select.Option;
 const { RangePicker,MonthPicker } = DatePicker;
@@ -34,7 +37,7 @@ class MdCostIndexForm extends React.Component {
             title: '成本报表',
             dataIndex: 'url',
             render:(text, row, index)=>{
-                return <span style={{color:"#35BAB0"}} onClick={this.download.bind(this,text)}>下载</span>
+                return <span style={{color:"#35BAB0",cursor:"pointer"}} onClick={this.download.bind(this,text)}>下载</span>
             }
         }];
     }
@@ -127,8 +130,9 @@ class MdCostIndexForm extends React.Component {
     }
     render() {
         const { getFieldDecorator } = this.props.form;
-        const d = new Date()
-        const data=String(d.getFullYear())+'-'+String((d.getMonth()+1))
+        // const d = new Date()
+        // const data=String(d.getFullYear())+'-'+String((d.getMonth()+1))
+        const data=timeyesterdaymoute().t1
         return (
             <div>
                 <Form  className='formbox'>
@@ -211,8 +215,10 @@ class MdCostIndexForm extends React.Component {
 
     //获取当前时间
      getNowFormatDate = () =>{
-        var d = new Date()
-        const data=String(d.getFullYear())+'-'+String((d.getMonth()+1))
+        // var d = new Date()
+        // const data=String(d.getFullYear())+'-'+String((d.getMonth()+1))
+        const data=timeyesterdaymoute().t1
+        console.log(data)
         this.setState({
             month:data,
         },function(){
