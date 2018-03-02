@@ -166,16 +166,16 @@ export default {
                     }
                 };
                 let LogsList=[];
-                if(result.orderLogs){
-                    LogsList=result.orderLogs;
-                    if(LogsList.length){
-                        for(var i=0;i<LogsList.length;i++){
-                            LogsList[i].key=i
-                        }
-                    };
-                }else{
-                    LogsList=[];
-                }
+                // if(result.orderLogs){
+                //     LogsList=result.orderLogs;
+                //     if(LogsList.length){
+                //         for(var i=0;i<LogsList.length;i++){
+                //             LogsList[i].key=i
+                //         }
+                //     };
+                // }else{
+                //     LogsList=[];
+                // }
                 let cardlist = [];
                 if(spOrder.mbCardMobile && spOrder.mbCardName){
                     cardlist = [

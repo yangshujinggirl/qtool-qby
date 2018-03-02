@@ -161,8 +161,8 @@
 	}
 
 	function mapStateToProps(state) {
-		const {cardlist,infoList} = state.orderpos;
-		return {cardlist,infoList};
+		const {cardlist,infoList,LogsList} = state.orderpos;
+		return {cardlist,infoList,LogsList};
 	}
 	export default connect(mapStateToProps)(OrderposInfo);
 
