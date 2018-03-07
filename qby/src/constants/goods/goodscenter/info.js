@@ -90,7 +90,7 @@ class App extends React.Component {
 				const toCPrice=json.pdSpu.toCPrice
 				const tagPrice=json.pdSpu.tagPrice
 				const costPrice=json.pdSpu.costPrice
-				const pdSpuInfo=eval(json.pdSpu.pdSpuInfo)
+				const pdSpuInfo=json.pdSpu.pdSpuInfo?eval(json.pdSpu.pdSpuInfo):[]
 				const name=json.pdSpu.name
 				const pdCategory1name=json.pdSpu.pdCategory1.name
 				const pdCategory2name=json.pdSpu.pdCategory2.name
