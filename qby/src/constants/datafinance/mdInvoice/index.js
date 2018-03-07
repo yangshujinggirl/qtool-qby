@@ -177,7 +177,7 @@ class MdInvoiceIndexForm extends React.Component {
                     <EditableTable 
                         columns={this.columns} 
                         dataSource={this.state.dataSource}
-                        // footer={true}
+                        footer={true}
                         pageChange={this.pageChange.bind(this)}
                         pageSizeChange={this.onShowSizeChange.bind(this)}
                         total={this.state.total}
@@ -217,17 +217,19 @@ class MdInvoiceIndexForm extends React.Component {
                 },{
                     title: '销售总金额',
                     dataIndex: 'amount',
+                     width:120
+                },{
+                    title: '销售数量',
+                    dataIndex: 'salesSumQty',
                     width:120
-                // },{
-                //     title: '销售数量',
-                //     dataIndex: 'salesSumQty'
                 },{
                     title: '退货总金额',
                     dataIndex: 'returnAmount',
+                     width:120
+                },{
+                    title: '退货数量',
+                    dataIndex: 'refundSumQty',
                     width:120
-                // },{
-                //     title: '退货数量',
-                //     dataIndex: 'refundSumQty'
                 }];
                 for(var i = 0;i < categoryNames.length; i++){
                     tempcolumns.push({
@@ -237,13 +239,14 @@ class MdInvoiceIndexForm extends React.Component {
 
                     })
                 };
-                // tempcolumns.push({
-                //     title: "详细信息",
-                //     dataIndex:"detailInfo",
-                //     render: (text, row, index) => {
-                //         return <span style={{color:"#35BAB0",cursor:"pointer"}} onClick={this.downLoad.bind(this,row)}>下载</span>
-                //     },
-                // })
+                tempcolumns.push({
+                    title: "详细信息",
+                    dataIndex:"detailInfo",
+                    width:120,
+                    render: (text, record, index) => {
+                        return <span className={record.url?'theme-color pointer':'placehold-color'} onClick={this.downLoad.bind(this,record)}>下载</span>
+                    },
+                })
                 this.columns = tempcolumns;
                 var datalen=0
                 for(var i=0;i<this.columns.length;i++){
@@ -261,8 +264,10 @@ class MdInvoiceIndexForm extends React.Component {
         })
     }
 
-    downLoad = ()=>{
-       
+    downLoad = (record)=>{
+        if(record.url){
+            window.open(record.url)
+        }
     }
 
     //获取当前时间
