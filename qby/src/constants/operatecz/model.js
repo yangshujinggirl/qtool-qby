@@ -44,7 +44,7 @@ const CollectionCreateForm = Form.create()(
                         )}
                     </FormItem>
                     <FormItem 
-                        label="品牌图片"
+                        label="充值凭证"
                         labelCol={{ span: 5 }}
                         wrapperCol={{ span: 12 }}
                         >
