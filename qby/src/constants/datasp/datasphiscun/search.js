@@ -8,7 +8,7 @@ class StockSearchForm extends React.Component {
   state = {
     pdCategorys:[],
     spShopId:null,
-    data:null
+    date:null
   };
 
   //点击搜索按钮获取搜索表单数据
@@ -92,8 +92,9 @@ class StockSearchForm extends React.Component {
     }
 
     timeChange=(date,dateString)=>{
+        console.log(dateString)
         this.setState({
-            data:dateString
+            date:dateString
         })
     }
 
