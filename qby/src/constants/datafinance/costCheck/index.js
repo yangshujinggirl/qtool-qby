@@ -27,7 +27,7 @@ class CostCheckIndexForm extends React.Component {
               return (
                 this.state.dataSource.length > 0 ?
                 (
-                  (!text && record.url)?
+                  (record.url)?
                   <div onClick = {this.onDownloadCheck.bind(this,record)} style={{color: '#35bab0', cursor:'pointer'}}>下载</div>
                   :<div>{text}</div>
                 ) : null
@@ -40,7 +40,7 @@ class CostCheckIndexForm extends React.Component {
                 return (
                   this.state.dataSource.length > 0 ?
                   (
-                    (!text && record.preSellUrl)?
+                    (record.preSellUrl)?
                     <div onClick = {this.downloadPreSale.bind(this,record)} style={{color: '#35bab0', cursor:'pointer'}}>下载</div>
                     :<div>{text}</div>
                   ) : null
