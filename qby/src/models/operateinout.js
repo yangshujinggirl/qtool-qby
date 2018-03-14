@@ -60,6 +60,13 @@ export default {
                             tableList[i].amount='取消退款：'+tableList[i].amount
                         }
                     }
+                    if(tableList[i].type==25){
+                        if(tableList[i].amount>0){
+                            tableList[i].amount='收银结算：+'+tableList[i].amount
+                        }else{
+                            tableList[i].amount='收银结算：'+tableList[i].amount
+                        }
+                    }
                     if(tableList[i].type==11){
                         if(tableList[i].amount>0){
                             tableList[i].amount='充值金额：+'+tableList[i].amount
