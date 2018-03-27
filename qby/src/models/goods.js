@@ -300,7 +300,32 @@ export default {
 			const result=yield call(GetServerData,code,values);
 			yield put({type: 'tab/loding',payload:false});
 			if(result.code=='0'){
+				console.log(result)
 				const pdSpuinfos=result.pdSpu
+				pdSpuinfos.pdSpuId=String(pdSpuinfos.pdSpuId)
+				if(pdSpuinfos.pdSkus & pdSpuinfos.pdSkus.length>0){
+					for(var i=0;i<pdSpuinfos.pdSkus.length;i++){
+						if(pdSpuinfos.pdSkus[i].pdSkuId){
+							pdSpuinfos.pdSkus[i].pdSkuId=String(pdSpuinfos.pdSkus[i].pdSkuId)
+							pdSpuinfos.pdSkus[i].pdSpuId=String(pdSpuinfos.pdSkus[i].pdSpuId)
+							if(pdSpuinfos.pdSkus[i].pdType1Id){
+								pdSpuinfos.pdSkus[i].pdType1Id=String(pdSpuinfos.pdSkus[i].pdType1Id)
+								pdSpuinfos.pdSkus[i].pdType1ValId=String(pdSpuinfos.pdSkus[i].pdType1ValId)
+								pdSpuinfos.pdSkus[i].pdType1.pdTypeId=String(pdSpuinfos.pdSkus[i].pdType1.pdTypeId)
+								pdSpuinfos.pdSkus[i].pdType1Val.pdTypeId=String(pdSpuinfos.pdSkus[i].pdType1Val.pdTypeId)
+								pdSpuinfos.pdSkus[i].pdType1Val.pdTypeValId=String(pdSpuinfos.pdSkus[i].pdType1Val.pdTypeValId)
+							}
+							if(pdSpuinfos.pdSkus[i].pdType2Id){
+								pdSpuinfos.pdSkus[i].pdType2Id=String(pdSpuinfos.pdSkus[i].pdType2Id)
+								pdSpuinfos.pdSkus[i].pdType2ValId=String(pdSpuinfos.pdSkus[i].pdType2ValId)
+								pdSpuinfos.pdSkus[i].pdType2.pdTypeId=String(pdSpuinfos.pdSkus[i].pdType2.pdTypeId)
+								pdSpuinfos.pdSkus[i].pdType2Val.pdTypeId=String(pdSpuinfos.pdSkus[i].pdType2Val.pdTypeId)
+								pdSpuinfos.pdSkus[i].pdType2Val.pdTypeValId=String(pdSpuinfos.pdSkus[i].pdType2Val.pdTypeValId)
+							}
+						}
+	
+					}
+				}
 				const fileDomain=result.fileDomain
 				const {name,pdCategory1Id,pdCategory2Id,pdBrandId,spuIdPics,pdBrand,pdSkus,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell,shareType,containerSpec}=pdSpuinfos
 				const pdSpuInfo=eval(pdSpuinfos.pdSpuInfo)
@@ -378,7 +403,7 @@ export default {
 							costPrice:pdSkus[i].costPrice,
 							picUrl:pdSkus[i].picUrl,
 							key:pdSkus[i].pdSkuId,
-							keys:(pdSkus[i].pdType2Val==null || pdSkus[i].pdType2Val==undefined || pdSkus[i].pdType2Val=='') ?pdSkus[i].pdType1Val.pdTypeValId:pdSkus[i].pdType1Val.pdTypeValId+pdSkus[i].pdType2Val.pdTypeValId,
+							keys:(pdSkus[i].pdType2Val==null || pdSkus[i].pdType2Val==undefined || pdSkus[i].pdType2Val=='') ?pdSkus[i].pdType1Val.pdTypeValId:String(pdSkus[i].pdType1Val.pdTypeValId)+String(pdSkus[i].pdType2Val.pdTypeValId),
 							pdType1Id:pdSkus[i].pdType1Id,
 							pdType1ValId:pdSkus[i].pdType1ValId,
 							pdType2Id:pdSkus[i].pdType2Id,
@@ -438,7 +463,7 @@ export default {
 										tagPrice:null,
 										costPrice:null,
 										picUrl:null,
-										keys:tag1[i].keys+tag2[j].keys,
+										keys:String(tag1[i].keys)+String(tag2[j].keys),
 										pdType1Id:pdType1Id,
 										pdType1ValId:tag1[i].keys,
 										pdType2Id:pdType2Id,
