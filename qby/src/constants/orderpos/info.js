@@ -145,13 +145,13 @@
 							bordered={true}
 							footer={false}/>
 					</div>
-			<div className='mb10'>
+			{/* <div className='mb10'>
 			<EditableTable columns={this.columnLogs} 
 							dataSource={this.props.LogsList} 
 							title="订单日志"
 							bordered={true}
 							footer={false}/>
-					</div>
+					</div> */}
 				</div>
 			)
 		}
