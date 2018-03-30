@@ -78,7 +78,7 @@ export default {
 					accountInfo[i].key=accountInfo[i].urUserId;
 				}
 				const total=result.total;
-              	yield put({type: 'accountList',payload:{accountInfo,total,limit,currentPage}});
+              	yield put({type:'accountList',payload:{accountInfo,total,limit,currentPage}});
             } 
         }, 
   		*infofetch({ payload: {code,values} }, { call, put }) {

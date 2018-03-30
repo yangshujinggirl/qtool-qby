@@ -5,9 +5,6 @@ import {cloneObj} from '../../utils/commonFc';
 const Option = Select.Option
 const RangePicker = DatePicker.RangePicker;
 
-
-
-
 class AccountSearchForm extends React.Component {
     handleSearch = (e) => {
         this.props.form.validateFields((err, values) => {

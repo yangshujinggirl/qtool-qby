@@ -86,6 +86,8 @@ import Feedbackedit from '../feedback/edit';
 import DataTable from '../datagoods/table';
 import SpselldataTable from '../datasp/table';
 
+//日志
+import Config from '../goods/goodscenter/config';
 
 
 class Content extends React.Component {
@@ -174,7 +176,7 @@ class Content extends React.Component {
 
                                     case "406000": return <FeedbackIndex data={this.props.data}/>;
                                     case "406000edit": return <Feedbackedit data={this.props.data}/>;
-
+                                    case "301000editconfig": return <Config />
                                     default:  return "我是404";
                                 }
                             })()

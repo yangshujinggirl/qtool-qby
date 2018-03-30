@@ -66,16 +66,25 @@ class Goodlist extends React.Component {
 
     //商品详情
     titClick=(id)=>{
-        const paneitem={title:'商品详情',key:'301000edit'+String(id)+'info',componkey:'301000info',data:{pdSpuId:id}}
+        const paneitem={title:'商品详情',key:'301000edit'+String(id)+'info',componkey:'301000info',data:{pdSpuId:id}};
 		this.props.dispatch({
 		  	type:'tab/firstAddTab',
 		  	payload:paneitem
 		})
     }
+    //商品日志
+    outconfig=(id)=>{
+        console.log(id)
+        const paneitem = {title:'商品日志',key:'301000editconfig'+String(id),componkey:'301000editconfig',data:{pdSpuId:id}};
+        this.props.dispatch({
+            type:'tab/firstAddTab',
+            payload:paneitem
+        })
+    }
     render() {
         const fileDomain=eval(sessionStorage.getItem('fileDomain'));
         return (
-            <div>
+            <div className='mygoodslist'>
                 <ul className='listbox clearfix'>
                     {   
                         this.props.goodslist.map((item,index)=>{
@@ -100,13 +109,14 @@ class Goodlist extends React.Component {
                                                 }))
                                                 :<div className='icon_img'></div>
                                             }
-                                        </div>
-                                        <div>
-                                            <Button className='btn' disabled={item.status==20?false:true} onClick={this.hindsell.bind(this,item.pdSpuId,10)}>售卖</Button>
-                                            <Button className='btn' disabled={item.status==20?true:false} onClick={this.hindsell.bind(this,item.pdSpuId,20)}>停售</Button>
-                                            <Button className='btn' onClick={this.editspu.bind(this,item.pdSpuId)}>编辑</Button>
-                                        </div>
+                                        </div>                           
                                     </div>
+                                    <ul className='btnall'>
+                                           <li><Button className='btn' disabled={item.status==20?false:true} onClick={this.hindsell.bind(this,item.pdSpuId,10)}>售卖</Button></li>
+                                           <li><Button className='btn' disabled={item.status==20?true:false} onClick={this.hindsell.bind(this,item.pdSpuId,20)}>停售</Button></li>
+                                           <li><Button className='btn' onClick={this.editspu.bind(this,item.pdSpuId)}>编辑</Button></li>
+                                           <li><Button className='btn' onClick={this.outconfig.bind(this,item.pdSpuId)}>日志</Button></li>
+                                    </ul>
                                 </li>
                             )
                         })

@@ -34,14 +34,9 @@ if (info.file.status === 'done') {
 				type:'goods/pdSpuInfo',
 				payload:pdSpuInfo
 			})
-
-
-	})
+		})
 	}
 }
-
-
-
 
 render() {
 	const imageUrl = this.state.imageUrl;

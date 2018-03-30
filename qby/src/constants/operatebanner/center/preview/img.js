@@ -91,7 +91,6 @@ class ShowImgs extends React.Component{
 						<img src={fileDomain+this.props.data.text}/>
 						:null
 					}
-					
                     </div>  
                     <div className='button-list'>
                         <span onClick={this.upItem.bind(this)}><Icon type="up" /></span>

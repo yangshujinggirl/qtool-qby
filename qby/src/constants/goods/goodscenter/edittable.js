@@ -18,10 +18,8 @@ class TableCanEdit extends React.Component {
 						pagination={false}
 						rowClassName={this.rowClassName.bind(this)}
 						/>
-				
-				
-		);
-	}
+			);
+		}
 }
 
 export default TableCanEdit

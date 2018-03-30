@@ -74,40 +74,35 @@ effects: {
 	*fetch({ payload: {code,values} }, { call, put ,select}) {
 		const result=yield call(GetServerData,code,values);
 		yield put({type: 'tab/loding',payload:false});	
-		if(result.code=='0'){
-
-
-
-
-			const taskTimes = result.taskTimes;
-			const limit=result.limit
-			const currentPage=result.currentPage
-			const total=result.total
-			// for(var i=0;i<wsAdjustslist.length;i++){
-			// 	wsAdjustslist[i].key=wsAdjustslist[i].wsAsnId
-			// }
-			yield put({type: 'taskTimeslist',payload:{taskTimes,total,limit,currentPage}});
-		} 
-
+			if(result.code=='0'){
+				const taskTimes = result.taskTimes;
+				const limit=result.limit;
+				const currentPage=result.currentPage;
+				const total=result.total;
+				// for(var i=0;i<wsAdjustslist.length;i++){
+				// 	wsAdjustslist[i].key=wsAdjustslist[i].wsAsnId
+				// }
+				yield put({type: 'taskTimeslist',payload:{taskTimes,total,limit,currentPage}});
+			} 
 		}, 
 		*infofetch({ payload: {code,values} }, { call, put ,select}) {
 			const result=yield call(GetServerData,code,values);
 			yield put({type: 'tab/loding',payload:false});
-			if(result.code=='0'){
-				const taskTime=result.taskTime.taskTime
-				const taskName=result.taskTime.taskName
-				const codes=result.codes.join('\r\n')
-				const check1=(result.taskTime.salestatus==1)?true:false
-				const check2=(result.taskTime.salestatus==0)?true:false
-				const check3=(result.taskTime.statusnew==1)?true:false
-				const check4=(result.taskTime.statusnew==0)?true:false
-				const check5=(result.taskTime.statushot==1)?true:false
-				const check6=(result.taskTime.statushot==0)?true:false
-				const salestatus=result.taskTime.salestatus
-				const statusnew=result.taskTime.statusnew
-				const statushot=result.taskTime.statushot
-				yield put({type: 'infolist',payload:{taskName,codes,check1,check2,check3,check4,check5,check6,salestatus,statusnew,statushot,taskTime}});	
-			} 
+				if(result.code=='0'){
+					const taskTime=result.taskTime.taskTime
+					const taskName=result.taskTime.taskName
+					const codes=result.codes.join('\r\n')
+					const check1=(result.taskTime.salestatus==1)?true:false
+					const check2=(result.taskTime.salestatus==0)?true:false
+					const check3=(result.taskTime.statusnew==1)?true:false
+					const check4=(result.taskTime.statusnew==0)?true:false
+					const check5=(result.taskTime.statushot==1)?true:false
+					const check6=(result.taskTime.statushot==0)?true:false
+					const salestatus=result.taskTime.salestatus
+					const statusnew=result.taskTime.statusnew
+					const statushot=result.taskTime.statushot
+					yield put({type: 'infolist',payload:{taskName,codes,check1,check2,check3,check4,check5,check6,salestatus,statusnew,statushot,taskTime}});	
+				} 
 			}, 
 			*newsearchfetch({ payload: {code,values} }, { call, put ,select}) {
 				const result=yield call(GetServerData,code,values);
@@ -119,7 +114,6 @@ effects: {
 						wsInvSearchs[i].key=wsInvSearchs[i].wsInvBinId
 					}
 					yield put({type: 'wsInvSearchs',payload:wsInvSearchs});
-
 				} 
 			}, 
 			*delete({ payload: id }, { call, put ,select}) {
