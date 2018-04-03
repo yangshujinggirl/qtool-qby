@@ -9,7 +9,7 @@ class Config extends React.Component{
             columns : [
                 {
                     title: '操作类型',
-                    dataIndex: 'actionType',   
+                    dataIndex: 'actionTypeStr',   
                 },
                 {
                     title: '操作描述',
@@ -54,43 +54,66 @@ class Config extends React.Component{
                 //     }
                 // }
                 const configdatas = json.data;
-                // console.log(configdatas);
+                console.log(configdatas)
                 //商品描述规则
                 for(var i=0;i<configdatas.length;i++){
-                        console.log(configdatas[i]);
-                //公共部分函数 
-                     String.prototype.format = function() {  
-                        if(arguments.length == 0) return this;  
-                        let param = arguments[0];  
-                        let s = this;  
-                        if(typeof(param) == 'object') {  
-                        for(let key in param)  
-                            s = s.replace(new RegExp("\\{" + key + "\\}", "g"), param[key]);  
-                            return s;  
-                        } else {  
-                            for(let i = 0; i < arguments.length; i++){
-                                s = s.replace(new RegExp("%s"), arguments[i]); 
-                            }  
-                            return s;  
-                        }  
-                    }
+                
+                    configdatas[i].key = i;
+                    //先判断操作类型，共9种         
+                    console.log(configdatas[i]);
+                     //公共部分format函数,必须在循环内 
                     var code = configdatas[i].pdSpuId;
                     var beforeContent=configdatas[i].beforeContent;
                     var afterContent=configdatas[i].afterContent;
+                    var operationStr=configdatas[i].operationTypeStr;
+                        String.prototype.format = function() {  
+                            if(arguments.length == 0) return this;  
+                            let param = arguments[0];  
+                            let s = this;  
+                            if(typeof(param) == 'object') {  
+                            for(let key in param)  
+                                s = s.replace(new RegExp("\\{" + key + "\\}", "g"), param[key]);  
+                                return s;  
+                            } else {  
+                                for(let i = 0; i < arguments.length; i++){
+                                    s = s.replace(new RegExp("%s"), arguments[i]); 
+                                }  
+                                return s;  
+                            }  
+                        }       
+                        //商品描述每次的条件判断部分
+                        // if(configdatas[i].operationType==""){    
+                        //         var operationTypeStr=operationStr.format(code,beforeContent,afterContent);
+                        //             //重新改变返回数据中的商品描述
+                        //         configdatas[i].operationTypeStr = operationTypeStr;
+                        // }
+                        // else if(configdatas[i].operationType==""){
+                        //         var operationTypeStr=operationStr.format(code,beforeContent,afterContent);
+                        //             //重新改变返回数据中的商品描述
+                        //         configdatas[i].operationTypeStr = operationTypeStr;
+                        // }
 
-                    //条件判断部分
-                    if(configdatas[i].operationType=='SKUXIZ'){
-                        // console.log(configdatas[i]);
-                    //带%s的描述转换
-                       
-                        var operationStr="新增商品编码为%s的sku";
-                        var operationTypeStr=operationStr.format(code,beforeContent,afterContent);
-                        console.log(operationTypeStr)
-                            //重新改变返回数据中的商品描述
-                        configdatas[i].operationTypeStr = operationTypeStr;
-                    // }
-                }
-                //建立数据源
+                        switch(configdatas[i].operationType){
+                            case("XZYGSP"):
+                                  var operationTypeStr=operationStr.format(code,beforeContent,afterContent);
+                                 configdatas[i].operationTypeStr = operationTypeStr;
+                                 break;   
+                            case("XGSPMC"):
+                                 var operationTypeStr=operationStr.format(code,beforeContent,afterContent);
+                                configdatas[i].operationTypeStr = operationTypeStr;
+                                break;   
+                            case("XGSPFL"):
+                                var operationTypeStr=operationStr.format(code,beforeContent,afterContent);
+                                configdatas[i].operationTypeStr = operationTypeStr;
+                               break; 
+                            case("XZMSLR"):
+                                var operationTypeStr=operationStr.format(code,beforeContent,afterContent);
+                                configdatas[i].operationTypeStr = operationTypeStr;
+                                break;
+                       }
+
+
+                //最后立数据源
                 this.setState({
                     dataSource:configdatas
                 })
