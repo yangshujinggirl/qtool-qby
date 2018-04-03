@@ -16,7 +16,7 @@ export function GetServerData2(code,values) {
     return result
 }
 
-export function GetServerData2(code,values) {
+export function GetServerDataconfig(code,values) {
     const result = post2('/erpWebRest/webrest.htm',{
         'code':code,
         'mbPdSpuLog':JSON.stringify(values)
