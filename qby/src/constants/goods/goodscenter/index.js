@@ -15,132 +15,127 @@
 
 
 	// 测试table开始
-	// class EditableCell extends React.Component {
-	// 	state = {
-	// 		value: this.props.value,
-	// 		editable: false,
-	// 	}
-	// 	handleChange = (index) => {
-	// 		console.log(index)
-	// 		//根据信息展示弹窗
-	// 	}
+// 	class EditableCell extends React.Component {
+// 			state = {
+// 				value: this.props.value,
+// 				editable: false,
+// 			}
+// 			handleChange = (index) => {
+// 				console.log(index)
+// 				//根据信息展示弹窗
+// 			}
 		
-	// 	render() {
-	// 		console.log(this)
-	// 		const { value, editable } = this.state;
-	// 		return (
-	// 		<div className="editable-cell">
-	// 				{
-
-	// 				this.props.types=='1'?<span>{this.props.data}</span>:
-	// 					this.props.data.map((item,index)=>{
-	// 					return (
-	// 						<span key={index}>
-								
-
-	// 							{
-	// 								item.type=='2'?
-	// 								<span onClick={this.handleChange.bind(this,index)}>{item.replacevalue}</span>:
-	// 								item.replacevalue
-
-	// 							}
-
-
-						
-	// 						</span>
-	// 						)
-	// 					})
-
-	// 				}
-
-
-	// 		</div>
-	// 		);
-	// 	}	}
+// 				render() {
+// 					console.log(this)
+// 					const { value, editable } = this.state;
+// 					return (
+// 					<div className="editable-cell">
+// 							{
+// 							this.props.types=='1'?<span>{this.props.data}</span>:
+// 								this.props.data.map((item,index)=>{
+// 								return (
+// 									<span key={index}>
+// 										{
+// 											item.type=='2'?
+// 											<span onClick={this.handleChange.bind(this,index)}>{item.replacevalue}</span>:
+// 											item.replacevalue
+// 										}
+// 									</span>
+// 									)
+// 								})
+// 							}
+// 					</div>
+// 					);
+// 		}	
+// }
 		
 	//以下为正式内容
 
-	/*class EditableTable extends React.Component {
-		constructor(props) {
-			super(props);
-			this.columns = [{
-			title: 'name',
-			dataIndex: 'des',
-			width: '30%',
-			render: (text, record) => (
-					<EditableCell
-					data={text}
-					types={record.types}
-					/>
-				),
-			}, {
-			title: 'age',
-			dataIndex: 'age',
-			}, {
-			title: 'address',
-			dataIndex: 'address',
-			}];
+	// class EditableTable extends React.Component {
+	// 	constructor(props) {
+	// 		super(props);
+	// 		this.columns = [{
+	// 				title: 'name',
+	// 				dataIndex: 'des',
+	// 				width: '30%',
+	// 				render: (text, record) => (
+	// 						<EditableCell
+	// 							data={text}
+	// 							types={record.types}
+	// 						/>
+	// 				),
+	// 		}, 
 			
-			this.state = {
-				dataSource: [{
-							key: '0',
-							name: 'Edward King 0',
-							age: '32',
-							address: 'London, Park Lane no. 0',
-							types:'2',
-							des:[
-							{
-								name:"%s",
-								type:"1",
-								replacevalue:'修改商品编码'
-							},{
-								name:"%s",
-								type:"1",
-								replacevalue:'1234'
-							},{
-								name:"由",
-								type:"1",
-								replacevalue:'由'
-							},{
-								name:"%s",
-								type:"2",
-								replacevalue:'ph123'
-							},{
-								name:"改为",
-								type:"1",
-								replacevalue:'改为'
-							},{
-								name:"%s",
-								type:"2",
-								replacevalue:'ph456'
-							}
-						]
+	// 		{
+	// 			title: 'age',
+	// 			dataIndex: 'age',
+	// 		}, 
+			
+	// 		{
+	// 			title: 'address',
+	// 			dataIndex: 'address',
+	// 		}];
+			
+	// 		this.state = {
+	// 			dataSource: [{
+	// 						key: '0',
+	// 						name: 'Edward King 0',
+	// 						age: '32',
+	// 						address: 'London, Park Lane no. 0',
+	// 						types:'2',
+	// 						des:[
+	// 						{
+	// 							name:"%s",
+	// 							type:"1",
+	// 							replacevalue:'修改商品编码'
+	// 						},{
+	// 							name:"%s",
+	// 							type:"1",
+	// 							replacevalue:'1234'
+	// 						},{
+	// 							name:"由",
+	// 							type:"1",
+	// 							replacevalue:'由'
+	// 						},{
+	// 							name:"%s",
+	// 							type:"2",
+	// 							replacevalue:'ph123'
+	// 						},{
+	// 							name:"改为",
+	// 							type:"1",
+	// 							replacevalue:'改为'
+	// 						},{
+	// 							name:"%s",
+	// 							type:"2",
+	// 							replacevalue:'ph456'
+	// 						}
+	// 					]
 
-				},
-			{
-				key: '1',
-				name: 'Edward King 1',
-				age: '32',
-				types:"1", //我的数据中没有url及商品描述信息（判断功能同上字段）
-				address: 'London, Park Lane no. 1',
-				des:'我修改了AAA'  //操作描述数据（判断功能同上字段）
-			}],
-			count: 2,
-			};
-		}
+	// 			},
+	// 		{
+	// 			key: '1',
+	// 			name: 'Edward King 1',
+	// 			age: '32',
+	// 			types:"1", //我的数据中没有url及商品描述信息（判断功能同上字段）
+	// 			address: 'London, Park Lane no. 1',
+	// 			des:'我修改了AAA'  //操作描述数据（判断功能同上字段）
+	// 		}],
+	// 		count: 2,
+	// 		};
+	// 	}
 
 		
-		render() {
-			const { dataSource } = this.state;
-			const columns = this.columns;
-			return (
-			<div>
-				<Table bordered dataSource={dataSource} columns={columns} />
-			</div>
-			);
-		}
-		}
-	*/
+	// 	render() {
+	// 		const { dataSource } = this.state;
+	// 		const columns = this.columns;
+	// 		return (
+	// 		<div>
+	// 			<Table bordered dataSource={dataSource} columns={columns} />
+	// 		</div>
+	// 		);
+	// 	}
+	// }
+	
 	//处理逻辑
 
 	// 进入table页面请求数据,之后设置数据源：dataSource
@@ -287,7 +282,7 @@
 						<div className='btn_lists'><Button type="primary" size='large' onClick={this.showModal.bind(this,50)}>批量畅销</Button></div>
 						<div className='btn_lists'><Button type="primary" size='large' onClick={this.showModal.bind(this,60)}>批量下畅销</Button></div>
 					</div>
-
+				
 					<Goodlist/>
 					<Modal
 						title='批量操作'

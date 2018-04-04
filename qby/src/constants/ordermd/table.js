@@ -6,7 +6,7 @@ import TableLink from '../../components/table/tablelink';
 class OrdermdTable extends React.Component {
 	constructor(props) {
         super(props);
-        this.columns = [{
+     this.columns = [{
           title: '订单号',
           dataIndex: 'orderNo',
           render: (text, record) => {
@@ -92,7 +92,9 @@ class OrdermdTable extends React.Component {
 	}
 	componentDidMount(){
     //执行初始化数据方法获取list
-		// this.initList(this.props.values,this.props.limit,this.props.currentPage);
+    // this.initList(this.props.values,this.props.limit,this.props.currentPage);
+    console.log(this.props.values);
+    console.log(this.props.limit,this.props.currentPage)
 	}
     
 }

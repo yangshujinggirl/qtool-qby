@@ -47,6 +47,7 @@ export default {
             const result=yield call(GetServerData,code,values);
             yield put({type: 'tab/loding',payload:false});
             if(result.code=='0'){
+                console.log(result)
                 const tableList = result.spOrders;
                 const limit=result.limit;
                 const currentPage=result.currentPage;

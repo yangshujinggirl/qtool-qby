@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'dva';
 import { Table } from 'antd';
 import {GetServerData} from '../../../services/services';
+import EditableTable from '../../../components/table/tablemodel';
+
 class Config extends React.Component{
     constructor(){
         super();
@@ -13,7 +15,8 @@ class Config extends React.Component{
                 },
                 {
                     title: '操作描述',
-                    dataIndex: 'operationTypeStr',   
+                    dataIndex: 'operation',
+                    render:()=>{}   
                 },
                 {
                     title: '操作时间',
@@ -24,43 +27,46 @@ class Config extends React.Component{
                     dataIndex: 'operater',   
                 }
           ],
-            dataSource : []
+            dataSource : [],
+            configdataslast : [],
+            sendid:null
         }
     }
     showConfig=(value)=>{
         let values = {
             mbPdSpuLog:{
-                pdSpuId:String(this.props.pane[2].data.pdSpuId),
-                type:'',
-                actionType:'',        
-                operationType:'',  
-                urUserId:'', 
-                createTime:''
+                pdSpuId:String(this.props.pane[1].data.pdSpuId),
+                // type:'',
+                // actionType:'',        
+                // operationType:'',  
+                // urUserId:'', 
+                // createTime:''
             }         
         };
-        let pdSpuId = this.props.pane[2].data.pdSpuId;
+        // let pdSpuId = this.props.pane[2].data.pdSpuId;
         //请求日志
-        const result=GetServerData('qerp.web.pd.spulog.list',values);
+        let result=GetServerData('qerp.web.pd.spulog.list',values);
         result.then((res) => {
             return res;
         }).then((json) => {
             if(json.code=='0'){
+                this.setState({
+                    configdataslast:json
+                })
+                const configdatas = json.data;
                 // console.log(json)
-                //加定的规则规则
+                //加定的规则规则例子
                 // for(var i=0;i<data.length;i++){
                 //     data[i].key = i;
                 //     if(data[i].user=='1'){
                 //         data[i].operater = data[i].operater+'【定】';
                 //     }
                 // }
-                const configdatas = json.data;
+             
                 console.log(configdatas)
                 //商品描述规则
                 for(var i=0;i<configdatas.length;i++){
-                
-                    configdatas[i].key = i;
-                    //先判断操作类型，共9种         
-                    console.log(configdatas[i]);
+                    configdatas[i].key = i;  
                      //公共部分format函数,必须在循环内 
                     var code = configdatas[i].pdSpuId;
                     var beforeContent=configdatas[i].beforeContent;
@@ -81,35 +87,34 @@ class Config extends React.Component{
                                 return s;  
                             }  
                         }       
-                        //商品描述每次的条件判断部分
-                        // if(configdatas[i].operationType==""){    
-                        //         var operationTypeStr=operationStr.format(code,beforeContent,afterContent);
-                        //             //重新改变返回数据中的商品描述
-                        //         configdatas[i].operationTypeStr = operationTypeStr;
-                        // }
-                        // else if(configdatas[i].operationType==""){
-                        //         var operationTypeStr=operationStr.format(code,beforeContent,afterContent);
-                        //             //重新改变返回数据中的商品描述
-                        //         configdatas[i].operationTypeStr = operationTypeStr;
-                        // }
-
+                        //商品描述
                         switch(configdatas[i].operationType){
-                            case("XZYGSP"):
-                                  var operationTypeStr=operationStr.format(code,beforeContent,afterContent);
-                                 configdatas[i].operationTypeStr = operationTypeStr;
-                                 break;   
-                            case("XGSPMC"):
-                                 var operationTypeStr=operationStr.format(code,beforeContent,afterContent);
-                                configdatas[i].operationTypeStr = operationTypeStr;
-                                break;   
-                            case("XGSPFL"):
-                                var operationTypeStr=operationStr.format(code,beforeContent,afterContent);
-                                configdatas[i].operationTypeStr = operationTypeStr;
-                               break; 
-                            case("XZMSLR"):
-                                var operationTypeStr=operationStr.format(code,beforeContent,afterContent);
-                                configdatas[i].operationTypeStr = operationTypeStr;
-                                break;
+                            // case("XZYGSP"):
+                            //       var operationTypeStr=operationStr.format(code,beforeContent,afterContent);
+                            //      configdatas[i].operationTypeStr = operationTypeStr;
+                            //      break;   
+                            // case("XGSPMC"):
+                            //      var operationTypeStr=operationStr.format(code,beforeContent,afterContent);
+                            //     configdatas[i].operationTypeStr = operationTypeStr;
+                            //     break;   
+                            // case("XGSPFL"):
+                            //     var operationTypeStr=operationStr.format(code,beforeContent,afterContent);
+                            //     configdatas[i].operationTypeStr = operationTypeStr;
+                            //    break; 
+                            // case("XZMSLR"):
+                            //     configdatas[i].operationTypeStr = operationStr.format(code,beforeContent,afterContent);
+                            //     break;
+                            //新增图片
+                            case("XZMSTP"):
+                                    var str="新增商品图片【%s】"
+                                    var desstr = str.replace(/%s/,'图片链接');
+                                    configdatas[i].operationTypeStr = desstr;
+                                    break;
+                            case("SCMSTP"):
+                                    var str="删除商品图片【%s】"
+                                    var desstr = str.replace(/%s/,'图片链接');
+                                    configdatas[i].operationTypeStr = desstr;
+                                    break;
                        }
 
 
@@ -118,28 +123,79 @@ class Config extends React.Component{
                     dataSource:configdatas
                 })
             } 
+            // console.log(configdatas)
         }
     })
 }
-    componentDidMount(){
+    
+
+    //分页方法
+    pageChange=(value,page,pageSize)=>{
+        let values = {
+            mbPdSpuLog:{
+                pdSpuId:String(this.props.pane[1].data.pdSpuId)
+            }         
+        };
+            this.initList(values,pageSize,Number(page-1))
+    }
+    //pagesize变化
+    pageSizeChange=(value,current,size)=>{
+        let values = {
+            mbPdSpuLog:{
+                pdSpuId:String(this.props.pane[1].data.pdSpuId)
+            }         
+        };
+            this.initList(values,size,0)
+    }
+    
+    //列表数据请求   
+    initList=(values,limit,currentPage)=>{
+        //新增属性
+            values.limit=limit;
+            values.currentPage=Number(currentPage);
+        console.log(values);
+        //分页变化时请求数据
+        let result=GetServerData('qerp.web.pd.spulog.list',values);
+            result.then((res) => {
+                return res;
+            }).then((json) => {
+                    console.log(json.data)
+                    this.setState({
+                        dataSource:json.data
+                    })
+         })
+    }
+
+
+    componentWillMount(){
         this.showConfig();
-        // console.log(this.props.pane[2].data);
+        this.setState({
+            sendid: this.props.pane[1].data.pdSpuId
+        })
+        
+        console.log(this.props.pane[1].data.pdSpuId);
     }
 
     render(){
         return(
-            <Table
-                bordered
-                columns={this.state.columns}
+            <EditableTable 
+				columns={this.state.columns}
                 dataSource={this.state.dataSource}
-          />
+				pageChange={this.pageChange.bind(this,this.props.values)}
+				pageSizeChange={this.pageSizeChange.bind(this,this.props.values)}
+				total={this.state.configdataslast.total}
+				limit={this.state.configdataslast.limit}
+				current={Number(this.props.currentPage)+1}
+			/>
+            
         )
     }
 }
 
 function mapStateToProps(state){
-    const {pane,activeKey} = state.tab;
-    return {pane,activeKey}
+    const {pane,total,limit,currentPage,activeKey} = state.tab;
+  
+    return {total,limit,currentPage,pane,activeKey}
 }
 // export default Config;
 export default connect(mapStateToProps)(Config);
