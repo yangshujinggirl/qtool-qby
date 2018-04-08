@@ -176,7 +176,7 @@ class Content extends React.Component {
 
                                     case "406000": return <FeedbackIndex data={this.props.data}/>;
                                     case "406000edit": return <Feedbackedit data={this.props.data}/>;
-                                    case "301000editconfig": return <Config />
+                                    case "301000editconfig": return <Config data={this.props.data}/>
                                     default:  return "我是404";
                                 }
                             })()
