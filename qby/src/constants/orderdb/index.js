@@ -50,15 +50,23 @@ class OrderdbIndex extends React.Component{
 	}
 
 	addNew = () =>{
+		const goodsInfo=[{
+            key: 0,
+            code:'',
+            qty: '',
+            codeline:true,
+            qtyline:true,
+        }]
 		const paneitem={title:'新建调拨单',key:'206000edit',componkey:'206000edit',data:null}
   		this.props.dispatch({
 	    	type:'tab/firstAddTab',
 	    	payload:paneitem
 		});
-		// this.props.dispatch({
-        //     type:'orderct/initState',
-        //     payload:{}
-		// })
+
+		this.props.dispatch({
+            type:'orderdb/syncGoodsInfo',
+            payload:goodsInfo
+		})
   	}
 
   	render(){
