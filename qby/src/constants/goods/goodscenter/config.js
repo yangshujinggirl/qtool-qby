@@ -100,9 +100,9 @@ class EditableCell extends React.Component {
                         <span key={index}>
                             {
                                 item.name=='%s'?(
-                                    (item.type=='2' && item.indexs=='1')?<span onClick={this.handleChange1.bind(this,item.replacevalue)} style={{color:'blue',cursor:'pointer'}}>图片链接</span>
+                                    (item.type=='2' && item.indexs=='1')?<span onClick={this.handleChange1.bind(this,item.replacevalue)} style={{color:'#35bab0',cursor:'pointer'}}>图片链接</span>
                                     :(
-                                        item.type=='3'?(item.indexs=='2'?<span onClick={this.handleChange2.bind(this,item)} style={{color:'blue',cursor:'pointer'}}>修改前商品描述</span>:(item.indexs=='3'?<span onClick={this.handleChange3.bind(this,item)} style={{color:'blue',cursor:'pointer'}}>修改后商品描述</span>:'')):((item.type=='4' && item.indexs=='1')?<span onClick={this.handleChange4.bind(this,item.replacevalue)} style={{color:'blue',cursor:'pointer'}}>商品描述</span>:'')
+                                        item.type=='3'?(item.indexs=='2'?<span onClick={this.handleChange2.bind(this,item)} style={{color:'#35bab0',cursor:'pointer'}}>修改前商品描述</span>:(item.indexs=='3'?<span onClick={this.handleChange3.bind(this,item)} style={{color:'#35bab0',cursor:'pointer'}}>修改后商品描述</span>:'')):((item.type=='4' && item.indexs=='1')?<span onClick={this.handleChange4.bind(this,item.replacevalue)} style={{color:'#35bab0',cursor:'pointer'}}>商品描述</span>:'')
                                     )
                                 ):item.replacevalue
 
