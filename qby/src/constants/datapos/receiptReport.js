@@ -112,7 +112,7 @@ class ReceiptReportForm extends React.Component {
     pageChange=(page,pageSize)=>{
         const self = this;
         this.setState({
-            currentPage:page-1
+            currentPage:Number(page)-1
         },function(){
             let data = {
                 spShopId:this.props.shopId,
@@ -169,35 +169,6 @@ class ReceiptReportForm extends React.Component {
 
     getNowFormatDate = () =>{
         const self = this;
-        // let date = new Date();
-        // let seperator1 = "-";
-        // let month = date.getMonth() + 1;
-        // let strDate = date.getDate();
-        // if (month >= 1 && month <= 9) {
-        //     month = "0" + month;
-        // }
-        // if (strDate >= 0 && strDate <= 9) {
-        //     strDate = "0" + strDate;
-        // }
-        // let currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate;
-
-        // let date2 = new Date(date);
-        // date2.setDate(date.getDate() - 30);
-        // let month1 = date2.getMonth() + 1;
-        // let strDate1 = date2.getDate();
-        // if (month1 >= 1 && month1 <= 9) {
-        //     month1 = "0" + month;
-        // }
-        // if (strDate1 >= 0 && strDate1 <= 9) {
-        //     strDate1 = "0" + strDate1;
-        // }
-        // var currentdate1 = date2.getFullYear() + seperator1 + month1 + seperator1 + strDate1;
-        // const startRpDate=timeForMattoday(30).t2
-        // const endRpDate=timeForMattoday(30).t1
-        // this.setState({
-        //     operateST:startRpDate,
-        //     operateET:endRpDate
-        // },function(){
             let values = {
                 spShopId:this.props.shopId,
                 currentPage:0,
@@ -206,7 +177,6 @@ class ReceiptReportForm extends React.Component {
                 operateET:this.state.operateET
             }
             self.getServerData(values);
-        // })
     }
 
     render() {

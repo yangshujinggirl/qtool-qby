@@ -73,7 +73,7 @@ class ReceiptDetailsForm extends React.Component {
             currentPage:page-1
         },function(){
             let data = {
-                spShopId:this.props.shopId,
+                spShopId:this.props.data.shopId,
                 pdOrderId:this.props.data.pdOrderId,
                 currentPage:this.state.currentPage,
                 limit:this.state.limit,
@@ -91,7 +91,7 @@ class ReceiptDetailsForm extends React.Component {
             currentPage:0
         },function(){
             let data = {
-                spShopId:this.props.shopId,
+                spShopId:this.props.data.shopId,
                 pdOrderId:this.props.data.pdOrderId,
                 currentPage:this.state.currentPage,
                 limit:this.state.limit,
