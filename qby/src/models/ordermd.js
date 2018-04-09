@@ -90,7 +90,13 @@ export default {
                     const currentPage1=result.currentPage;
                     const total1=result.total;
                     yield put({type: 'syncDetailList',payload:{detailsList,limit1,currentPage1,total1}});
-				} 
+				}else{
+                    const detailsList=[]
+                    const limit1=50
+                    const currentPage1=0
+                    const total1=0
+                    yield put({type: 'syncDetailList',payload:{detailsList,limit1,currentPage1,total1}}); 
+                }
             },
             *infofetchTwo({ payload: {code,values} }, { call, put ,select}) {
 				const result=yield call(GetServerData,code,values);
@@ -131,7 +137,14 @@ export default {
                         }
                     }
                     yield put({type: 'syncInfolist',payload:{cardtitle,cardlist,expressList,orderLogList,isCancel}});
-				} 
+				}else{
+                    const cardtitle=''
+                    const cardlist=[]
+                    const expressList=[]
+                    const orderLogList=[]
+                    const isCancel=false
+                    yield put({type: 'syncInfolist',payload:{cardtitle,cardlist,expressList,orderLogList,isCancel}});
+                }
 			},
   	},
   	subscriptions: {},

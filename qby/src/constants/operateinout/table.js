@@ -49,6 +49,7 @@ class OperateinoutTable extends React.Component {
                 payload:paneitem
             })
         }
+        
         if(record.type=='25'){
             const paneitem={title:'收银对账',key:'402000edit'+record.spMoneyDetailId+'infomoney',data:{spShopId:record.spShopId,type:record.type,dayTime:record.dayTime,spMoneyDetailId:record.spMoneyDetailId},componkey:'402000infoMoney'}
             this.props.dispatch({

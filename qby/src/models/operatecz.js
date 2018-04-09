@@ -64,6 +64,7 @@ export default {
 					const picUrl=spVoucher.picUrl
 					yield put({type: 'infolist',payload:{cardtitle,cardlist,logstitle,logs,amount,picUrl}});
 				}else{
+					console.log('wo sdsd')
 					const cardtitle=''
 					const cardlist=[]
 					const logstitle=''
