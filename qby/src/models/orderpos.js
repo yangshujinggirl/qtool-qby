@@ -115,7 +115,12 @@ export default {
                           }
                       }
                     yield put({type:'syncInfoList',payload:{infoList,cardlist,LogsList}});
-				} 
+				}else{
+                    const infoList=[]
+                    const cardlist=[]
+                    const LogsList=[]
+                    yield put({type:'syncInfoList',payload:{infoList,cardlist,LogsList}});
+                }
         },
         //充值
         *infofetch2({ payload: {code,values} }, { call, put ,select}) {
@@ -151,6 +156,11 @@ export default {
                     {lable:'销售员', text:spOrder.operator},
                 ];
                 yield put({type:'syncInfoList',payload:{infoList,cardlist,LogsList}});
+            }else{
+                const infoList=[]
+                const cardlist=[]
+                const LogsList=[]
+                yield put({type:'syncInfoList',payload:{infoList,cardlist,LogsList}});
             }
         },
         //退货
@@ -166,16 +176,6 @@ export default {
                     }
                 };
                 let LogsList=[];
-                // if(result.orderLogs){
-                //     LogsList=result.orderLogs;
-                //     if(LogsList.length){
-                //         for(var i=0;i<LogsList.length;i++){
-                //             LogsList[i].key=i
-                //         }
-                //     };
-                // }else{
-                //     LogsList=[];
-                // }
                 let cardlist = [];
                 if(spOrder.mbCardMobile && spOrder.mbCardName){
                     cardlist = [
@@ -201,6 +201,11 @@ export default {
                         {lable:'结算退款', text:spOrder.refundAmount+'（'+spOrder.typeStr+'）'}
                     ]
                 }
+                yield put({type:'syncInfoList',payload:{infoList,cardlist,LogsList}});
+            }else{
+                const infoList=[]
+                const cardlist=[]
+                const LogsList=[]
                 yield put({type:'syncInfoList',payload:{infoList,cardlist,LogsList}});
             }
         },
