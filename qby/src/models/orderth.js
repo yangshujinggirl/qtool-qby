@@ -62,9 +62,6 @@ export default {
             const result=yield call(GetServerData,code,values);
             yield put({type: 'tab/loding',payload:false});
             if(result.code=='0'){
-                console.log(result);
-
-
                 let asn=result.asn;
                 let details = result.details;
                 let logs = result.logs;
@@ -85,6 +82,12 @@ export default {
                                 {lable:'退货金额',text:asn.amountSum + '元'}
                             ];
                  yield put({type: 'syncInfolist',payload:{headTitle,headTit,details,logs}});
+            }else{
+                const headTitle=''
+                const headTit=[]
+                const details=[]
+                const logs=[]
+                yield put({type: 'syncInfolist',payload:{headTitle,headTit,details,logs}});
             } 
         },
         *editfetch({ payload: {code,values} }, { call, put }) {
