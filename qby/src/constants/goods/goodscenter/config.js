@@ -3,7 +3,7 @@ import { connect } from 'dva';
 import { Table ,Modal} from 'antd';
 import {GetServerData} from '../../../services/services';
 import EditableTable from '../../../components/table/tablemodel';
-
+import './config.css';
 
 
 String.prototype.format = function() {  
@@ -99,11 +99,15 @@ class EditableCell extends React.Component {
                     return (
                         <span key={index}>
                             {
-                                item.name=='%s'?(
-                                    (item.type=='2' && item.indexs=='1')?<span onClick={this.handleChange1.bind(this,item.replacevalue)} style={{color:'#35bab0',cursor:'pointer'}}>图片链接</span>
-                                    :(
+                                item.name=='%s'?
+                                (
+                                    (item.type=='2' && item.indexs=='3')?<span onClick={this.handleChange1.bind(this,item.replacevalue)} style={{color:'#35bab0',cursor:'pointer'}}>图片链接</span>
+                                    :(item.type=='2' && item.indexs=='1'?item.replacevalue:(
                                         item.type=='3'?(item.indexs=='2'?<span onClick={this.handleChange2.bind(this,item)} style={{color:'#35bab0',cursor:'pointer'}}>修改前商品描述</span>:(item.indexs=='3'?<span onClick={this.handleChange3.bind(this,item)} style={{color:'#35bab0',cursor:'pointer'}}>修改后商品描述</span>:'')):((item.type=='4' && item.indexs=='1')?<span onClick={this.handleChange4.bind(this,item.replacevalue)} style={{color:'#35bab0',cursor:'pointer'}}>商品描述</span>:'')
-                                    )
+                                    ))
+                                    
+                                    
+                                    
                                 ):item.replacevalue
 
                             }
@@ -113,6 +117,7 @@ class EditableCell extends React.Component {
                 }
 
                 <Modal
+                    className='model-log'
                     title={this.state.title}
                     visible={this.state.visible}
                     onOk={this.handleOk}
@@ -145,6 +150,7 @@ class EditableCell extends React.Component {
         );
     }	
 }
+
 
 
 
@@ -254,7 +260,7 @@ class Config extends React.Component{
                                     name:data[i].dess[j],
                                     type:data[i].operadatatype,
                                     indexs:fuindex,
-                                    replacevalue:(data[i].operadatatype=='2' || data[i].operadatatype=='4') ?addContent+beforeContent+afterContent:(fuindex=='1'?addContent:(fuindex=='2'?beforeContent:(fuindex=='3'?afterContent:''))),
+                                    replacevalue:(data[i].operadatatype=='4') ?addContent+beforeContent+afterContent:(fuindex=='1'?addContent:(fuindex=='2'?beforeContent:(fuindex=='3'?afterContent:''))),
 
                                 })
                             }else{
