@@ -89,7 +89,12 @@ export default {
                                 {lable:'退货备注',text:spCtorder.remark}
                    );
                  yield put({type: 'syncInfolist',payload:{headTit,details,orderLogs}});
-            } 
+            }else{
+                const headTit=[]
+                const details=[]
+                const orderLogs=[]
+                yield put({type: 'syncInfolist',payload:{headTit,details,orderLogs}});
+            }
         },
   	},
   	subscriptions: {},
