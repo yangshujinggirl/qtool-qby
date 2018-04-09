@@ -46,12 +46,18 @@ class OrdermdTable extends React.Component {
     
     //点击表格上的修改按钮操作
     editInfo = (record) =>{
-       const spOrderId=String(record.spOrderId)
-       const paneitem={title:'订单详情',key:'201000edit'+spOrderId+'info',data:{spOrderId:spOrderId},componkey:'201000info'}
-       this.props.dispatch({
-         type:'tab/firstAddTab',
-         payload:paneitem
-       })
+       	const spOrderId=String(record.spOrderId)
+		const paneitem={title:'订单详情',key:'201000edit'+spOrderId+'info',data:{spOrderId:spOrderId},componkey:'201000info'}
+       	this.props.dispatch({
+			type:'tab/firstAddTab',
+			payload:paneitem
+		})
+		this.props.dispatch({
+			type:'ordermd/initsyncDetailList',
+			payload:{}
+		})
+
+		   
     }
 
     //分页方法
@@ -76,26 +82,20 @@ class OrdermdTable extends React.Component {
 
     render() {
         return (
-          <EditableTable 
-            dataSource={this.props.tableList} 
-            columns={this.columns} 
-            footer={true}
-            pageChange={this.pageChange.bind(this)}
-            pageSizeChange={this.pageSizeChange.bind(this)}
-            total={this.props.total}
-            limit={this.props.limit}
-            current={Number(this.props.currentPage)+1}
-            bordered={true}
-            // loading={true}
+          	<EditableTable 
+				dataSource={this.props.tableList} 
+				columns={this.columns} 
+				footer={true}
+				pageChange={this.pageChange.bind(this)}
+				pageSizeChange={this.pageSizeChange.bind(this)}
+				total={this.props.total}
+				limit={this.props.limit}
+				current={Number(this.props.currentPage)+1}
+				bordered={true}
             />
         );
 	}
-	componentDidMount(){
-    //执行初始化数据方法获取list
-    // this.initList(this.props.values,this.props.limit,this.props.currentPage);
-    console.log(this.props.values);
-    console.log(this.props.limit,this.props.currentPage)
-	}
+	
     
 }
 

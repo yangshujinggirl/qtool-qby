@@ -41,6 +41,18 @@ export default {
         mdopdermeth(state, { payload:mdopdermeth}) {
 			return {...state,mdopdermeth}
         },
+        initsyncDetailList(state, { payload:{}}) {
+            const detailsList=[]
+            const limit1=50
+            const currentPage1=0
+            const total1=0
+            const cardtitle=''
+            const cardlist=[]
+            const expressList=[]
+            const orderLogList=[]
+            const isCancel=false
+			return {...state,detailsList,limit1,currentPage1,total1,cardtitle,cardlist,expressList,orderLogList,isCancel}
+        },
     },
     effects: {
         *fetch({ payload: {code,values} }, { call, put ,select}) {
@@ -118,7 +130,7 @@ export default {
                             orderLogList[i].key=i
                         }
                     }
-                     yield put({type: 'syncInfolist',payload:{cardtitle,cardlist,expressList,orderLogList,isCancel}});
+                    yield put({type: 'syncInfolist',payload:{cardtitle,cardlist,expressList,orderLogList,isCancel}});
 				} 
 			},
   	},

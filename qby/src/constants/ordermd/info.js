@@ -58,16 +58,16 @@ class OrdermdInfo extends React.Component{
     
 	infofetch=(spOrderId)=>{
       //获取订单信息列表
-			this.props.dispatch({
-				type:'ordermd/infofetch',
-				payload:{code:'qerp.web.sp.order.detail.page',values:{spOrderId:spOrderId,limit:"50",currentPage:"0"}}
-			}) 
-					//获取物流和订单日志列表
-			this.props.dispatch({
-				type:'ordermd/infofetchTwo',
-				payload:{code:'qerp.web.sp.order.detail',values:{spOrderId:spOrderId}}
-			}) 
-		}
+		this.props.dispatch({
+			type:'ordermd/infofetch',
+			payload:{code:'qerp.web.sp.order.detail.page',values:{spOrderId:spOrderId,limit:"50",currentPage:"0"}}
+		}) 
+		//获取物流和订单日志列表
+		this.props.dispatch({
+			type:'ordermd/infofetchTwo',
+			payload:{code:'qerp.web.sp.order.detail',values:{spOrderId:spOrderId}}
+		}) 
+	}
 		
 		//分页方法
     pageChange=(page,pageSize)=>{
@@ -88,7 +88,7 @@ class OrdermdInfo extends React.Component{
 					payload:{code:'qerp.web.sp.order.detail.page',values:values}
 			});
 			this.props.dispatch({ type: 'tab/loding', payload:true});
-		}
+	}
     
 	render(){
 		return(
