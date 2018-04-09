@@ -33,6 +33,7 @@ export default {
         syncEditInfo(state, { payload:formValue}) {
 			return {...state,formValue}
         },
+        
         syncGoodsInfo(state, { payload:goodsInfo}) {
 			return {...state,goodsInfo}
         },

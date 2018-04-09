@@ -85,15 +85,25 @@ handleChange = (info) => {
 		})
 	}
 	if(info.file.status === 'removed'){
+		console.log(23)
 		const fileList=info.fileList
 		this.setState({
 			fileList:fileList
 		},function(){
 			const fileList=this.state.fileList
+			console.log(fileList.length)
 			var goodindodatasouce=this.props.goodindodatasouce.slice(0)
-			for(var i=0;i<fileList.length;i++){
-				goodindodatasouce[this.props.index].picUrl=fileList[i].response.data[0]
+			if(fileList.length>0){
+				for(var i=0;i<fileList.length;i++){
+					goodindodatasouce[this.props.index].picUrl=fileList[i].response.data[0]
+				}
+			}else{
+				goodindodatasouce[this.props.index].picUrl=null
 			}
+
+
+
+			console.log(goodindodatasouce)
 			//处理table的数据
 			this.props.dispatch({
 				type:'goods/goodindodatasouce',

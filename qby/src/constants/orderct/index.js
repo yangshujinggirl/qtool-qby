@@ -12,15 +12,21 @@ const confirm = Modal.confirm;
 class OrderctIndex extends React.Component{
 	state = {};
 	addNew = () =>{
+		const goodsInfo=[{
+            key: 0,
+            pdCode:null,
+            qty: null,
+            price:null
+        }]
 		const paneitem={title:'新建采退单',key:'204000edit',componkey:'204000edit',data:null}
   		this.props.dispatch({
 	    	type:'tab/firstAddTab',
 	    	payload:paneitem
 		});
-		// this.props.dispatch({
-        //     type:'orderct/initState',
-        //     payload:{}
-		// })
+		this.props.dispatch({
+            type:'orderct/syncGoodsInfo',
+            payload:goodsInfo
+		})
   	}
 
 	  exportData = (type,data) => {

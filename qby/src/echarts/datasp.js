@@ -106,6 +106,7 @@ class EchartsTest extends Component {
 			type:'dataspsell/synvalues',
 			payload:values
         })
+        this.props.dispatch({ type: 'tab/loding', payload:true});
         
     }
 
