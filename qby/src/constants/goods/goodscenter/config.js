@@ -315,6 +315,12 @@ class Config extends React.Component{
     componentWillMount(){
         this.showConfig();
     }
+    componentWillReceiveProps(nextProps){
+        const keys='301000editconfig'+String(this.props.data.pdSpuId)
+        if(nextProps.activeKey==keys){
+            this.showConfig();
+        }
+    }
 
     render(){
         return(
@@ -334,7 +340,6 @@ class Config extends React.Component{
 
 function mapStateToProps(state){
     const {pane,total,limit,currentPage,activeKey} = state.tab;
-  
     return {total,limit,currentPage,pane,activeKey}
 }
 // export default Config;

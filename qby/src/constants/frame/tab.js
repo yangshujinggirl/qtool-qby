@@ -8,6 +8,7 @@ const TabPane = Tabs.TabPane;
 
 class Tab extends React.Component {
   	onChange = (activeKey) => {
+		  
     	let activeKeys={key:activeKey}
     	this.props.dispatch({
         	type:'tab/firstAddTab',
