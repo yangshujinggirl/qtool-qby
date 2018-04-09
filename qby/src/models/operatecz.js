@@ -63,7 +63,15 @@ export default {
 					const amount=spVoucher.amount
 					const picUrl=spVoucher.picUrl
 					yield put({type: 'infolist',payload:{cardtitle,cardlist,logstitle,logs,amount,picUrl}});
-				} 
+				}else{
+					const cardtitle=''
+					const cardlist=[]
+					const logstitle=''
+					const logs=[]
+					const amount=''
+					const picUrl=[]
+					yield put({type: 'infolist',payload:{cardtitle,cardlist,logstitle,logs,amount,picUrl}});
+				}
 			}, 
 			*getAsnFinish({ payload: {code,values} }, { call, put ,select}) {
 				const valuedata = yield select(state => state.wsin.values);

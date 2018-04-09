@@ -96,6 +96,10 @@ export default {
                         {lable:'物流费用', text:data.feeSum}
                     ]
                 yield put({type:'syncInfoList',payload:{infoList,cardlist}});
+            }else{
+                const infoList=[]
+                const cardlist=[]
+                yield put({type:'syncInfoList',payload:{infoList,cardlist}});
             }
         },
         *moneyInfofetch({ payload: {code,values} }, { call, put ,select}) {
@@ -114,6 +118,10 @@ export default {
                         {lable:'账目时间', text:data.dayTime},
                         {lable:'结算金额', text:data.amount}
                     ]
+                yield put({type:'syncMoneyInfoList',payload:{moneyinfoList,moneycardlist}});
+            }else{
+                const moneyinfoList=[]
+                const moneycardlist=[]
                 yield put({type:'syncMoneyInfoList',payload:{moneyinfoList,moneycardlist}});
             }
         }

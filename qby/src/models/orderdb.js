@@ -70,8 +70,13 @@ export default {
                 for(var i=0;i<orderLogs.length;i++){
                     orderLogs[i].key=i
                 }
-                 yield put({type: 'syncInfolist',payload:{headTit,details,orderLogs}});
-            } 
+                yield put({type: 'syncInfolist',payload:{headTit,details,orderLogs}});
+            }else{
+                const headTit=[]
+                const details=[]
+                const orderLogs=[]
+                yield put({type: 'syncInfolist',payload:{headTit,details,orderLogs}});
+            }
         },
   	},
   	subscriptions: {},
