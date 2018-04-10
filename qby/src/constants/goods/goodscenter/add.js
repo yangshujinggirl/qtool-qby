@@ -3,6 +3,7 @@ import { Table, Input, Icon, Button ,Upload, message} from 'antd';
 import Addavatar from './addupload';
 import { connect } from 'dva';
 
+
 class AddEditableTable extends React.Component {
 	constructor(props) {
 		super(props);
@@ -51,7 +52,11 @@ class AddEditableTable extends React.Component {
 	}
 
 	handleAdd = () => {
-		const pdSpuInfo=this.props.pdSpuInfo.splice(0)
+		var pdSpuInfoinit1=this.props.pdSpuInfo
+		if(!pdSpuInfoinit1){
+			pdSpuInfoinit1=[]
+		}
+		const pdSpuInfo=pdSpuInfoinit1.splice(0)
 		pdSpuInfo.push({
 			type:'1',
 			content:null
@@ -62,7 +67,11 @@ class AddEditableTable extends React.Component {
 		})
 	}
 	handleAddimg = () => {
-		const pdSpuInfo=this.props.pdSpuInfo.splice(0)
+		var pdSpuInfoinit2=this.props.pdSpuInfo
+		if(!pdSpuInfoinit2){
+			pdSpuInfoinit2=[]
+		}
+		const pdSpuInfo=pdSpuInfoinit2.splice(0)
 		pdSpuInfo.push({
 			type:'2',
 			content:null
