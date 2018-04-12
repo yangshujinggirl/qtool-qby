@@ -28,7 +28,7 @@ if (info.file.status === 'done') {
 		imageUrl:urldata[0],
 	},function(){
 			//更新到对应数组中
-			const pdSpuInfo=this.props.pdSpuInfo.splice(0)
+			const pdSpuInfo=this.props.pdSpuInfo.slice(0)
 			pdSpuInfo[this.props.index].content=this.state.imageUrl
 			this.props.dispatch({
 				type:'goods/pdSpuInfo',
@@ -63,7 +63,14 @@ render() {
 	);
 }
 
+	componentWillReceiveProps(nextProps){
+		this.setState({
+			imageUrl:nextProps.imageUrl
+		})
+	}
 }
+
+
 function mapStateToProps(state) {
 	const {pdSpuInfo} = state.goods;
 	return {pdSpuInfo};

@@ -43,7 +43,7 @@ class AddEditableTable extends React.Component {
 	}
 
 	onDelete = (index) => {
-		const pdSpuInfo=this.props.pdSpuInfo.splice(0)
+		const pdSpuInfo=this.props.pdSpuInfo.slice(0)
 		pdSpuInfo.splice(index, 1);
 		this.props.dispatch({
 			type:'goods/pdSpuInfo',
@@ -56,7 +56,7 @@ class AddEditableTable extends React.Component {
 		if(!pdSpuInfoinit1){
 			pdSpuInfoinit1=[]
 		}
-		const pdSpuInfo=pdSpuInfoinit1.splice(0)
+		const pdSpuInfo=pdSpuInfoinit1.slice(0)
 		pdSpuInfo.push({
 			type:'1',
 			content:null
@@ -71,7 +71,7 @@ class AddEditableTable extends React.Component {
 		if(!pdSpuInfoinit2){
 			pdSpuInfoinit2=[]
 		}
-		const pdSpuInfo=pdSpuInfoinit2.splice(0)
+		const pdSpuInfo=pdSpuInfoinit2.slice(0)
 		pdSpuInfo.push({
 			type:'2',
 			content:null
