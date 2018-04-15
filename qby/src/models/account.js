@@ -1,6 +1,5 @@
 import {GetServerData} from '../services/services';
 
-
 export default {
   	namespace: 'account',
   	state: {
@@ -19,15 +18,17 @@ export default {
 		limit:10,
 		currentPage:0,
 		total:0,
-		urRoleIds:[]
+		urRoleIds:[],
+		checkedKeys:[],
+		rolesData:[]
 	  },
 	  
   	reducers: {
 		accountList(state, { payload: {accountInfo,total,limit,currentPage}}) {
 			return {...state,accountInfo,total,limit,currentPage}
 		},
-		urUserinfo(state, { payload: {urUser,urRoleIds}}) {
-			return {...state,urUser,urRoleIds}
+		urUserinfo(state, { payload: {urUser,urRoleIds,checkedKeys,rolesData}}) {
+			return {...state,urUser,urRoleIds,checkedKeys,rolesData}
 		},
 		cleardata(state, { payload: urUser}) {
 			return {...state,urUser}
@@ -58,13 +59,23 @@ export default {
 				urRoleIds:[]
 			  };
 			  const urRoleIds=[];
-			return {...state,urUser,urRoleIds}
+			  const checkedKeys=[]; //选中的权限
+			  const rolesData=[]   //提交的权限
+			return {...state,urUser,urRoleIds,checkedKeys,rolesData}
 		},
 		//初始化urRoleIds
 		initUrRoleIds(state, { payload: value}){
 			const urRoleIds = [];
 			return {...state,urRoleIds}
+		},
+		opUrRoleIds(state, { payload: {checkedKeys,rolesData}}){
+			console.log(checkedKeys)
+			console.log(rolesData)
+			return {...state,checkedKeys,rolesData}
 		}
+
+
+
   	},
   	effects: {
   		*fetch({ payload: {code,values} }, { call, put ,select}) {
@@ -88,7 +99,9 @@ export default {
 				const urUser = result.urUser;
 				const urRoleIds=result.urUser.urRoleIds;
 				urUser.status=String(urUser.status);
-	 	 		yield put({type: 'urUserinfo',payload:{urUser,urRoleIds}});
+				const checkedKeys=urRoleIds
+				const rolesData=urRoleIds
+	 	 		yield put({type: 'urUserinfo',payload:{urUser,urRoleIds,checkedKeys,rolesData}});
 			} 
 		},
 		*rolelist({ payload: {code,values} }, { call, put }) {
@@ -99,6 +112,9 @@ export default {
 	 	 		 yield put({type: 'totalurRoles',payload:totalurRoles});
 			} 
 		}
+
+
+
   	},
   	subscriptions: {
 

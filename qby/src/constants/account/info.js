@@ -3,19 +3,20 @@ import {GetServerData} from '../../services/services';
 import { connect } from 'dva';
 import { Form, Select, Input, Button ,message,Modal, Row, Col} from 'antd';
 import UserTags from './usertags';
+import Treerole from './tree';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
 
 class AddNewAccountForm extends React.Component{
-
 	constructor(props) {
 		super(props);
 		this.state = {
-			hasUserTags:true
+			hasUserTags:true,
+			rolesData:[],
+			checkedKeys:[]
 		}
 	}
-
 	//修改数据初始化页面
   	initDateEdit = (value) =>{
 		  //请求用户信息
@@ -71,11 +72,12 @@ class AddNewAccountForm extends React.Component{
 		e.preventDefault();
 		this.props.form.validateFields((err, values) => {
 		  if (!err) {
-			  if(this.props.urRoleIds.length){
-				  this.setState({
-					hasUserTags:true
-				  });
-				values.urRoleIds=this.props.urRoleIds;
+			  console.log(this.props.rolesData)
+				if(this.props.rolesData.length<1){
+					message.warn('请选择权限')
+					return
+				}
+				values.urRoleIds=this.props.rolesData;
 				if(this.props.data){
 					values.urUserId=this.props.data.urUserId
 				}else{
@@ -97,12 +99,7 @@ class AddNewAccountForm extends React.Component{
 						}
 					}
 				})
-			  }else{
-				this.setState({
-					hasUserTags:false
-				  });
-				 return false;
-			  }
+			  
 		  }
 		});
 	}
@@ -161,7 +158,7 @@ class AddNewAccountForm extends React.Component{
 	changeHasTagStatus = () =>{
 		this.setState({
 			hasUserTags:true
-		  });
+		});
 	}
 
   	render(){
@@ -248,20 +245,15 @@ class AddNewAccountForm extends React.Component{
               		labelCol={{ span: 3,offset: 1 }}
 					wrapperCol={{ span: 8 }}
 					  >
-					<UserTags changeHasTagStatus={this.changeHasTagStatus.bind(this)}/>
-					{
-						!this.state.hasUserTags
-						?
-						<p className="error-info">请选择分配权限</p>
-						:
-						null
-					}
+					<Treerole  checkedKeys={this.props.urRoleIds}/>
+					
             	</FormItem>
             	<FormItem wrapperCol={{ offset: 4}} style = {{marginBottom:0}}>
               		<Button className='mr30' onClick={this.hindCancel.bind(this)}>取消</Button>
 					<Button className={this.props.data?'mr30':'hide'} onClick={this.resetPassword.bind(this)}>重置密码</Button>
               		<Button  type="primary" onClick={this.handleSubmit.bind(this)}>保存</Button>
             	</FormItem>
+				
           	</Form>
       	)
   	}
@@ -271,12 +263,15 @@ class AddNewAccountForm extends React.Component{
 			  //请求用户信息
 			this.initDateEdit(payload)
 		}
+		
+
+
   	}
 }
 function mapStateToProps(state) {
-	const {accountInfo,urUser,urRoleIds,wsWarehouseId} = state.account;
+	const {accountInfo,urUser,urRoleIds,wsWarehouseId,rolesData} = state.account;
 	const {warehouses}=state.IndexPage;
-    return {accountInfo,urUser,warehouses,urRoleIds,wsWarehouseId};
+    return {accountInfo,urUser,warehouses,urRoleIds,wsWarehouseId,rolesData};
 }
 
 const AddNewAccount = Form.create()(AddNewAccountForm);
