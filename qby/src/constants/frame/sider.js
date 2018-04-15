@@ -7,9 +7,13 @@ const SubMenu = Menu.SubMenu;
 
 class Siders extends React.Component {
     setTab =  (item) =>{
-		console.log(item)
 		const key =String(item.key);
-		const paneitem={title:item.item.props.children.props.children,key:String(item.key),data:null,componkey:String(item.key)};
+		const paneitem={
+			title:item.item.props.children.props.children,
+			key:String(item.key),
+			data:{rolelists:item.item.props.rolelist},
+			componkey:String(item.key)
+		};
         this.props.dispatch({
             type:'tab/firstAddTab',
             payload:paneitem
@@ -20,9 +24,10 @@ class Siders extends React.Component {
 		this.props.dispatch({
             type:'tab/openkey',
             payload:key
-          })
+        })
 	}
     render() {
+		
         return (   
     		<div className='sidebox'>
     			<Sider className={this.props.isHideSider?'slidebox hide':'slidebox'} width='220'>
@@ -50,7 +55,30 @@ class Siders extends React.Component {
 											{
 												item.children.map((subitem,subindex)=>{
 													return(
-														<Menu.Item  index={subitem.urResourceId} key={subitem.urResourceId}>
+														<Menu.Item  
+															index={subitem.urResourceId} 
+															key={subitem.urResourceId} 
+															// rolelist={subitem.url}
+															rolelist={[
+																{
+																	role:'qerp.web.sp.order.save',
+																	roleStr:'新增订单',
+																	openstate:true 
+																},
+																{
+																	role:'qerp.web.sys.doc.task',
+																	roleStr:'导出数据',
+																	openstate:true 
+																},
+																{
+																	role:'qerp.web.sp.order.cancel',
+																	roleStr:'取消订单',
+																	openstate:true  
+																}
+															]}
+
+															
+														>
 															<div className='itemmain'>{subitem.name}</div>
 														</Menu.Item>
 													)

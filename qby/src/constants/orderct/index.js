@@ -91,7 +91,7 @@ class OrderctIndex extends React.Component{
     }
     
 	componentDidMount(){
-		
+		console.log(this)
 	}
 }
 

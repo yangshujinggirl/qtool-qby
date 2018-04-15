@@ -87,6 +87,7 @@ export default {
             const result=yield call(GetServerData,code,values);
             if(result.code=='0'){
                 let {menus}=result;
+                console.log(menus)
                 let first = menus[0].children[0];
                 const firstItem={title:first.name,key:String(first.urResourceId)};
                 sessionStorage.setItem("firstItem", JSON.stringify(firstItem)); 
@@ -108,7 +109,27 @@ export default {
                 const pannelfirst = {
                                         title:menus[0].children[0].name,
                                         key:String(menus[0].children[0].urResourceId),
-                                        data:null,componkey:String(menus[0].children[0].urResourceId),
+                                        // data:{rolelists:menus[0].children[0].url},
+                                        data:{
+                                                rolelists:[
+                                                    {
+                                                        role:'qerp.web.sp.order.save',
+                                                        roleStr:'新增订单',
+                                                        openstate:true 
+                                                    },
+                                                    {
+                                                        role:'qerp.web.sys.doc.task',
+                                                        roleStr:'导出数据',
+                                                        openstate:true 
+                                                    },
+                                                    {
+                                                        role:'qerp.web.sp.order.cancel',
+                                                        roleStr:'取消订单',
+                                                        openstate:true  
+                                                    }
+                                                ]  
+                                        },
+                                        componkey:String(menus[0].children[0].urResourceId),
                                         openkey:String(menus[0].urResourceId)
                 }
                

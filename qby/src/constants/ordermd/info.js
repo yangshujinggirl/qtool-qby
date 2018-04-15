@@ -94,12 +94,14 @@ class OrdermdInfo extends React.Component{
 		return(
 			<div>
 				{
-					!this.props.isCancel 
-					? null
-					:<div style={{textAlign:'right',marginRight:"15px",marginBottom:'15px'}}>
-						<CollectionsPage spOrderId={this.props.data.spOrderId}/>
-					</div>
-        }
+					this.props.data.cancelorders.openstate?(
+						!this.props.isCancel 
+						? null
+						:<div style={{textAlign:'right',marginRight:"15px",marginBottom:'15px'}}>
+							<CollectionsPage spOrderId={this.props.data.spOrderId}/>
+						</div>
+					):null
+        		}
 				<div className='mb10'><Cardlist cardtitle={this.props.cardtitle} cardlist={this.props.cardlist}/></div>
 				<div className='mb10'>
 					<TableNormal 

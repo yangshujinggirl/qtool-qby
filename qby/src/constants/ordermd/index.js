@@ -3,15 +3,13 @@ import {GetServerData} from '../../services/services';
 import { Button, Icon,Modal } from 'antd';
 import { connect } from 'dva';
 import '../../style/ordermd.css';
-//table
 import OrdermdTable from './table';
-//search
 import OrdermdSearch from './search';
 import Appmodelone from './modal';
+
 const confirm = Modal.confirm;
 class OrdermdIndex extends React.Component{
 	state = {};
-
 	//导出数据
 	exportData = (type,data) => {
 		const values={
@@ -59,33 +57,55 @@ class OrdermdIndex extends React.Component{
   	}
 
   	render(){
+		const rolelists=this.props.data.rolelists
+		//新增订单
+		const addorder=rolelists.find((currentValue,index)=>{
+			return currentValue.role=="qerp.web.sp.order.save"
+		})
+		//导出数据
+		const expontdata=rolelists.find((currentValue,index)=>{
+			return currentValue.role=="qerp.web.sys.doc.task"
+		})
+		//取消订单
+		const cancelorder=rolelists.find((currentValue,index)=>{
+			return currentValue.role=="qerp.web.sp.order.cancel"
+		})
+
+
      	return(
         	<div className='content_box'>
                 <OrdermdSearch/>
-					<Button 
-						type="primary" 
-						size='large'
-						className='mt20'
-						onClick={this.addNew.bind(this)}
-					>
-						新增订单
-					</Button>
-					<Button 
-						type="primary" 
-						size='large'
-						className='mt20 ml10'
-						onClick={this.exportData.bind(this,10,this.props.values)}
-					>
-						导出数据
-					</Button>
-             		<div className='mt15'><OrdermdTable/></div>
+					{
+						addorder.openstate?
+						<Button 
+							type="primary" 
+							size='large'
+							className='mt20'
+							onClick={this.addNew.bind(this)}
+						>
+							新增订单
+						</Button>
+						:null
+					}
+					{
+						expontdata.openstate?
+						<Button 
+							type="primary" 
+							size='large'
+							className='mt20 ml10'
+							onClick={this.exportData.bind(this,10,this.props.values)}
+						>
+							导出数据
+						</Button>
+						:null
+					}
+					
+             		<div className='mt15'><OrdermdTable cancelorderobj={cancelorder}/></div>
         	</div>
       	)
 	}
 	  
-	componentDidMount(){
-		
-	}
+	
 }
 
 function mapStateToProps(state) {
