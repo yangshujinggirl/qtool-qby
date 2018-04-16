@@ -66,33 +66,48 @@ class OrderctIndex extends React.Component{
 	}
 	
   	render(){
+		const rolelists=this.props.data.rolelists
+		// //新增采购单
+		const addorder=rolelists.find((currentValue,index)=>{
+			return currentValue.remark=="qerp.web.sp.ctorder.save"
+		})
+		//导出数据
+		const expontdata=rolelists.find((currentValue,index)=>{
+			return currentValue.remark=="qerp.web.sys.doc.task"
+		})
+		
      	return(
         	<div className='content_box'>
                 <OrderctSearch/>
-					<Button
+					{
+						addorder?
+							<Button
+								type="primary" 
+								size='large'
+								className='mt20 mr10'
+								onClick={this.addNew.bind(this)}
+							>	
+								新建采退单
+							</Button>
+						:null
+					}
+					{
+						expontdata?
+						<Button 
 						type="primary" 
 						size='large'
-						className='mt20'
-						onClick={this.addNew.bind(this)}
-					>
-						新建采退单
-					</Button>
-					<Button 
-						type="primary" 
-						size='large'
-						className='mt20 ml10'
+						className='mt20 mr10'
 						onClick={this.exportData.bind(this,16,this.props.values)}
 					>
 						导出数据
 					</Button>
+					:null
+					}
+					
              		<div className='mt15'><OrderctTable/></div>
         	</div>
       	)
     }
-    
-	componentDidMount(){
-		console.log(this)
-	}
 }
 
 function mapStateToProps(state) {

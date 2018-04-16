@@ -65,7 +65,7 @@ class OrderthTable extends React.Component {
 		  title: '下单时间',
 		  dataIndex: 'createTime'
 	  }
-  ];
+  	];
 	
 
 
@@ -141,7 +141,7 @@ class OrderthTable extends React.Component {
         );
 	}
 	componentDidMount(){
-    //执行初始化数据方法获取list
+    	//执行初始化数据方法获取list
 		this.initList(this.props.values,this.props.limit,this.props.currentPage);
 	}
     
