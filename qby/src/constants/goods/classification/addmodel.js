@@ -27,6 +27,20 @@ const CollectionCreateForm = Form.create()(
 						<Input/>
 					)}
 					</FormItem>
+					<FormItem 
+						label="分类类型"
+						labelCol={{ span: 5 }}
+						wrapperCol={{ span: 12 }}
+					>
+					{getFieldDecorator('type', {
+						rules: [{ required: true, message: '请选择' }],
+					})(
+						<Select placeholder="请选择">
+							<Option value='1'>线上</Option>
+							<Option value='2'>线下</Option>
+						</Select>
+					)}
+					</FormItem>
 				</Form>
 			</Modal>
 		);

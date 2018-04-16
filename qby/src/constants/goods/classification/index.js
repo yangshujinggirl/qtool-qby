@@ -21,7 +21,15 @@ class Classificationindex extends React.Component {
 							record.childrens.map((item,index)=>{
 								return ( 
 									<div className='list-item' key={index}>
-										<CollectionsPage  type='2' statetype={item.status=='1'?null:'dashed'} data={{pdCategoryIds:item.parentId,name:item.name,status:item.status,pdCategoryId:item.pdCategoryId}} title='修改属性' text={item.name} pdTypes={this.props.pdTypes}/>
+										<CollectionsPage  
+											type='2' 
+											statetype={item.status=='1'?null:'dashed'} 
+											data={{pdCategoryIds:item.parentId,name:item.name,status:item.status,pdCategoryId:item.pdCategoryId}} 
+											title='修改属性' 
+											text={item.name} 
+											pdTypes={this.props.pdTypes}
+											
+										/>
 									</div>
 								)
 							})
@@ -30,14 +38,45 @@ class Classificationindex extends React.Component {
 				);
 			}
 			}, {
-			width: '100px',
-			dataIndex: 'operation',
+				width: '100px',
+				dataIndex: 'operation',
+				render: (text, record) => {
+					return (
+						<CollectionsPage type='1' pdTypes={this.props.pdTypes} data={{pdCategoryIds:record.pdCategoryId,name:null,status:'1'}} title='新增属性' text='新增属性'/>
+					);
+				}
+			}]
+			this.columnsrole=[{
+				width: '100px',
+				dataIndex: 'name'
+			}, {
+			dataIndex: 'attribute',
 			render: (text, record) => {
 				return (
-					<CollectionsPage type='1' pdTypes={this.props.pdTypes} data={{pdCategoryIds:record.pdCategoryId,name:null,status:'1'}} title='新增属性' text='新增属性'/>
+					<div className='list-con'>
+						{
+							record.childrens.map((item,index)=>{
+								return ( 
+									<div className='list-item' key={index}>
+										<CollectionsPage  
+											rolelists={this.props.data.rolelists}
+											type='2' 
+											statetype={item.status=='1'?null:'dashed'} 
+											data={{pdCategoryIds:item.parentId,name:item.name,status:item.status,pdCategoryId:item.pdCategoryId}} 
+											title='修改属性' 
+											text={item.name} 
+											pdTypes={this.props.pdTypes}/>
+									</div>
+								)
+							})
+						}
+					</div> 
 				);
 			}
 			}]
+
+
+
 
 
 		this.state = {
@@ -65,10 +104,20 @@ class Classificationindex extends React.Component {
 
 
 	render() {
+		const rolelists=this.props.data.rolelists
+		// //新增修改
+		const addorder=rolelists.find((currentValue,index)=>{
+			return currentValue.remark=="qerp.web.sp.ctorder.save"
+		})
+		
+
 		return (
 			<div className='content_box classssd'>
-					<div className='tl mb15'><CollectionsPages title='新增分类' text='新增分类' statetype='primary'/></div> 
-					<EditableTable dataSource={this.props.pdCategoryslist} columns={this.columns} showHeader={false} bordered={false}/>
+					{
+						addorder?<div className='tl mb15'><CollectionsPages title='新增分类' text='新增分类' statetype='primary'/></div> :null
+					}
+					
+					<EditableTable dataSource={this.props.pdCategoryslist} columns={addorder?this.columns:this.columnsrole} showHeader={false} bordered={false}/>
 			</div>
 		)
 	}	
