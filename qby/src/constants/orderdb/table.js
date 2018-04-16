@@ -62,6 +62,13 @@ class OrderdbTable extends React.Component {
         this.props.dispatch({ type: 'tab/loding', payload:true});
     }
 
+    selectChange=(selectedRowKeys,selectedRows)=>{
+        this.props.dispatch({
+          type:'orderdb/select',
+          payload:{selectedRowKeys,selectedRows}
+        })
+    }
+
     render() {
         return (
           <EditableTable 
@@ -74,6 +81,10 @@ class OrderdbTable extends React.Component {
             total={this.props.total}
             limit={this.props.limit}
             current={Number(this.props.currentPage)+1}
+            select={this.props.overorderobj?true:false}
+            selectType='radio'
+            selectChange={this.selectChange.bind(this)}
+            selectedRowKeys={this.props.selectedRowKeys}
             />
         );
 	}
@@ -85,8 +96,8 @@ class OrderdbTable extends React.Component {
 }
 
 function mapStateToProps(state) {
-    const {tableList,total,limit,currentPage,values} = state.orderdb;
-    return {tableList,total,limit,currentPage,values};
+    const {tableList,total,limit,currentPage,values,selectedRowKeys} = state.orderdb;
+    return {tableList,total,limit,currentPage,values,selectedRowKeys};
 }
 
 export default connect(mapStateToProps)(OrderdbTable);

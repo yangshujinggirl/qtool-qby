@@ -10,6 +10,8 @@ export default {
         orderLogs:[],
         headTit:[],
         details:[],
+        selectedRowKeys:[],
+        selectedRows:[],
         goodsInfo:[{
             key: 0,
             code:'',
@@ -19,6 +21,9 @@ export default {
         }]
     },
     reducers: {
+        select(state, { payload:{selectedRowKeys,selectedRows}}) {
+			return {...state,selectedRowKeys,selectedRows}
+        },
 		synchronous(state, { payload:values}) {
 			return {...state,values}
 		},
@@ -32,6 +37,7 @@ export default {
 			return {...state,goodsInfo}
         },
     },
+
     effects: {
         *fetch({ payload: {code,values} }, { call, put ,select}) {
             const result=yield call(GetServerData,code,values);
