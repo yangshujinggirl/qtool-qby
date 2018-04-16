@@ -1,10 +1,11 @@
 import React from 'react';
 import { connect } from 'dva';
 import {Modal, Button } from 'antd';
-const confirm = Modal.confirm;
 import EditableTable from '../../components/table/tablebasic';
 import {GetServerData} from '../../services/services';
 import TableLink from '../../components/table/tablelink';
+
+const confirm = Modal.confirm;
 
 class OrdercgTable extends React.Component {
 	constructor(props) {
@@ -35,11 +36,11 @@ class OrdercgTable extends React.Component {
         },{
           title: '付款状态',
           dataIndex: 'payStatusStr',
-          render: (text, record) => {
-            return(   
-                        <TableLink text={text} hindClick={this.changePayStatus.bind(this,record)} type="1"/>
-            );
-          }
+        //   render: (text, record) => {
+        //     return(   
+        //                 <TableLink text={text} hindClick={this.changePayStatus.bind(this,record)} type="1"/>
+        //     );
+        //   }
         },{
             title: '操作',
             dataIndex: 'opation',
@@ -62,7 +63,7 @@ class OrdercgTable extends React.Component {
          payload:paneitem
        })
     }
-    //
+    //修改采购单
     editInfo = (record) =>{
       const wsAsnId=String(record.wsAsnId);
        const paneitem={title:'修改采购单',key:'202000edit'+wsAsnId,data:{wsAsnId:wsAsnId},componkey:'202000edit'}
@@ -74,7 +75,6 @@ class OrdercgTable extends React.Component {
 
     //改变付款状态
     changePayStatus = (record) =>{
-      	console.log(record);
 		let values = {};
         values.wsAsnId = record.wsAsnId;
         if(record.payStatus == "10"){
@@ -92,16 +92,7 @@ class OrdercgTable extends React.Component {
         })
 
 
-    //   confirm({
-    //     title: '改变付款状态',
-    //     content: record.payStatus=="10"?'您确定要改变为已付款状态吗':'您确定要改变为待付款状态吗？',
-    //     onOk() {
-          
-    //     },
-    //     onCancel() {
-          
-    //     },
-    //   });
+    
     }
 
     //分页方法

@@ -14,7 +14,18 @@ const confirm = Modal.confirm;
 
 class OrdercgIndex extends React.Component{
 	state = {};
-
+	//table搜索
+	initList=(values,limit,currentPage)=>{
+		values.type = "10";
+		 values.limit=limit;
+		 values.currentPage=currentPage;
+		 this.props.dispatch({
+			 type:'ordercg/fetch',
+			 payload:{code:'qerp.web.ws.asn.query',values:values}
+		 });
+		 this.props.dispatch({ type: 'tab/loding', payload:true});
+	}
+	//新建采购单
 	addNew = () =>{
 		const paneitem={title:'新建采购单',key:'202000edit',componkey:'202000edit',data:null}
   		this.props.dispatch({
@@ -34,7 +45,7 @@ class OrdercgIndex extends React.Component{
 			payload:true
 		})
 	}
-
+	//导出数据
 	exportData = (type,data) => {
 		const values={
 			type:type,
@@ -70,6 +81,7 @@ class OrdercgIndex extends React.Component{
 		})
 	
 	}
+	//清除选中
 	clearChooseInfo=()=>{
 		const selectedRows=[];
 		const selectedRowKeys = [];
@@ -80,8 +92,7 @@ class OrdercgIndex extends React.Component{
   	}
 	  
 	  //打印采购单
-	  printCgorder = () => {
-		console.log(this.props.selectedRows)
+	printCgorder = () => {
 		if (this.props.selectedRows.length < 1) {
 		  message.error('请选择采购单',.8)
 		  return;
@@ -90,9 +101,75 @@ class OrdercgIndex extends React.Component{
 		  GetLodop(this.props.selectedRows[i].wsAsnId,'wsAsnOrder', this.props.selectedRows[i].asnNo)
 		}
 		 this.clearChooseInfo()
-	  }
+	}
+
+	//强制完成
+	mandatoryOrder=()=>{
+		if (this.props.selectedRows.length < 1) {
+			message.error('请选择采购单',.8)
+			return;
+		}
+
+
+
+	}
+		  
+
+
+
+	//已付款和待付款
+	payamount=()=>{
+		console.log(this.props.selectedRows)
+		if (this.props.selectedRows.length < 1) {
+			message.error('请选择采购单',.8)
+			return;
+		}
+		let values = {};
+		values.wsAsnId = this.props.selectedRows[0].wsAsnId;
+		if(this.props.selectedRows[0].payStatus == "10"){
+			values.payStatus = "20";
+		}else{
+			values.payStatus = "10";
+		}
+		const result=GetServerData('qerp.web.ws.asn.payStatus',values);
+		result.then((res) => {
+			return res;
+		}).then((json) => {
+			if(json.code=='0'){
+					this.initList(this.props.values,this.props.limit,this.props.currentPage)
+					this.clearChooseInfo()
+			}
+		})
+
+	}
+
+		
 
   	render(){
+		const rolelists=this.props.data.rolelists
+		// //新增采购单
+		// const addorder=rolelists.find((currentValue,index)=>{
+		// 	return currentValue.role=="qerp.web.sp.order.save"
+		// })
+		// //导出数据
+		// const expontdata=rolelists.find((currentValue,index)=>{
+		// 	return currentValue.role=="qerp.web.sys.doc.task"
+		// })
+		// //打印订单
+		// const cancelorder=rolelists.find((currentValue,index)=>{
+		// 	return currentValue.role=="qerp.web.sp.order.cancel"
+		// })
+		// //付款操作
+		// const cancelorder=rolelists.find((currentValue,index)=>{
+		// 	return currentValue.role=="qerp.web.sp.order.cancel"
+		// })
+		// //强制完成
+		// const cancelorder=rolelists.find((currentValue,index)=>{
+		// 	return currentValue.role=="qerp.web.sp.order.cancel"
+		// })
+
+
+
      	return(
         	<div className='content_box'>
                 <OrdercgSearch/>
@@ -100,6 +177,30 @@ class OrdercgIndex extends React.Component{
 						type="primary" 
 						size='large'
 						className='mt20'
+						onClick={this.mandatoryOrder.bind(this)}
+					>
+						强制完成
+					</Button>
+					<Button 
+						type="primary" 
+						size='large'
+						className='mt20 ml10'
+						onClick={this.payamount.bind(this)}
+					>
+						已付款
+					</Button>
+					<Button 
+						type="primary" 
+						size='large'
+						className='mt20 ml10'
+						onClick={this.payamount.bind(this)}
+					>
+						待付款
+					</Button>
+					<Button 
+						type="primary" 
+						size='large'
+						className='mt20 ml10'
 						onClick={this.addNew.bind(this)}
 					>
 						新建采购单
@@ -112,7 +213,6 @@ class OrdercgIndex extends React.Component{
 					>
 						打印采购单
 					</Button>
-					
 					<Button 
 						type="primary" 
 						size='large'
@@ -126,7 +226,7 @@ class OrdercgIndex extends React.Component{
       	)
 	}
 	  
-	componentDidMount(){}
+	
 }
 
 function mapStateToProps(state) {
