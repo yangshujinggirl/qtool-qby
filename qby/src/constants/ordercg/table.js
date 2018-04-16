@@ -10,48 +10,89 @@ const confirm = Modal.confirm;
 class OrdercgTable extends React.Component {
 	constructor(props) {
         super(props);
-        this.columns = [{
-          title: '采购单号',
-          dataIndex: 'asnNo',
-          render: (text, record) => {
-            return (
-              <TableLink text={text} hindClick={this.lookInfo.bind(this,record)} type='1'/>
-            );
-          }
-        },{
-          title: '供应商名称',
-          dataIndex: 'name'
-        }, {
-          title: '商品数量',
-          dataIndex: 'qtySum'
-        },{
-          title: '订单金额',
-          dataIndex: 'amountSum'
-        },{
-          title: '订单状态',
-          dataIndex: 'statusStr'
-        },{
-            title: '预计送达时间',
-            dataIndex: 'expectedTime'
-        },{
-          title: '付款状态',
-          dataIndex: 'payStatusStr',
-        //   render: (text, record) => {
-        //     return(   
-        //                 <TableLink text={text} hindClick={this.changePayStatus.bind(this,record)} type="1"/>
-        //     );
-        //   }
-        },{
-            title: '操作',
-            dataIndex: 'opation',
-            render: (text, record) => {
-              return(
-                          record.status == 10?
-                          <TableLink text='修改' hindClick={this.editInfo.bind(this,record)} type="1"/>
-                          :null
-              );
-            }
-        }];
+        this.columns = [
+			{
+				title: '采购单号',
+				dataIndex: 'asnNo',
+				render: (text, record) => {
+					return (
+						<TableLink text={text} hindClick={this.lookInfo.bind(this,record)} type='1'/>
+					);
+				}
+			},
+			{
+				title: '供应商名称',
+				dataIndex: 'name'
+			}, 
+			{
+				title: '商品数量',
+				dataIndex: 'qtySum'
+			},
+			{
+			title: '订单金额',
+			dataIndex: 'amountSum'
+			},
+			{
+			title: '订单状态',
+			dataIndex: 'statusStr'
+			},
+			{
+				title: '预计送达时间',
+				dataIndex: 'expectedTime'
+			},
+			{
+			title: '付款状态',
+			dataIndex: 'payStatusStr',
+			},
+			{
+				title: '操作',
+				dataIndex: 'opation',
+				render: (text, record) => {
+				return(
+					record.status == 10?
+						<TableLink text='修改' hindClick={this.editInfo.bind(this,record)} type="1"/>
+						:null
+				);
+				}
+			}
+		];
+		
+		this.columnsrole = [
+			{
+				title: '采购单号',
+				dataIndex: 'asnNo',
+				render: (text, record) => {
+				return (
+						<TableLink text={text} hindClick={this.lookInfo.bind(this,record)} type='1'/>
+				);
+				}
+			},
+			{
+				title: '供应商名称',
+				dataIndex: 'name'
+			}, 
+			{
+				title: '商品数量',
+				dataIndex: 'qtySum'
+			},
+			{
+				title: '订单金额',
+				dataIndex: 'amountSum'
+			},
+			{
+				title: '订单状态',
+				dataIndex: 'statusStr'
+			},
+			{
+			title: '预计送达时间',
+			dataIndex: 'expectedTime'
+			},
+			{
+				title: '付款状态',
+				dataIndex: 'payStatusStr'
+			}
+		];
+
     }
     
     //点击表格上的修改按钮操作
@@ -131,7 +172,7 @@ class OrdercgTable extends React.Component {
         return (
             <EditableTable 
               dataSource={this.props.tableList} 
-              columns={this.columns} 
+              columns={this.props.addorderobj?this.columns:this.columnsrole} 
               footer={true}
               pageChange={this.pageChange.bind(this)}
               pageSizeChange={this.pageSizeChange.bind(this)}

@@ -3,15 +3,12 @@ import {GetServerData} from '../../services/services';
 import { Button, Icon,message,Modal  } from 'antd';
 import { connect } from 'dva';
 import {deepcCloneObj} from '../../utils/commonFc';
-//search
 import OrdercgSearch from './search';
-//table
 import OrdercgTable from './table';
 import Appmodelone from '../ordermd/modal';
-
 import {GetLodop} from './print';
-const confirm = Modal.confirm;
 
+const confirm = Modal.confirm;
 class OrdercgIndex extends React.Component{
 	state = {};
 	//table搜索
@@ -109,14 +106,17 @@ class OrdercgIndex extends React.Component{
 			message.error('请选择采购单',.8)
 			return;
 		}
-
-
-
+		const values={wsAsnId:this.props.selectedRows[i].wsAsnId}
+		const result=GetServerData('qerp.web.ws.asn.finish',values);
+		result.then((res) => {
+			return res;
+		}).then((json) => {
+			if(json.code=='0'){
+				this.initList(this.props.values,this.props.limit,this.props.currentPage)
+				this.clearChooseInfo()
+			}
+		})
 	}
-		  
-
-
-
 	//已付款和待付款
 	payamount=()=>{
 		console.log(this.props.selectedRows)
@@ -147,81 +147,105 @@ class OrdercgIndex extends React.Component{
 
   	render(){
 		const rolelists=this.props.data.rolelists
+		console.log(rolelists)
 		// //新增采购单
-		// const addorder=rolelists.find((currentValue,index)=>{
-		// 	return currentValue.role=="qerp.web.sp.order.save"
-		// })
-		// //导出数据
-		// const expontdata=rolelists.find((currentValue,index)=>{
-		// 	return currentValue.role=="qerp.web.sys.doc.task"
-		// })
-		// //打印订单
-		// const cancelorder=rolelists.find((currentValue,index)=>{
-		// 	return currentValue.role=="qerp.web.sp.order.cancel"
-		// })
-		// //付款操作
-		// const cancelorder=rolelists.find((currentValue,index)=>{
-		// 	return currentValue.role=="qerp.web.sp.order.cancel"
-		// })
-		// //强制完成
-		// const cancelorder=rolelists.find((currentValue,index)=>{
-		// 	return currentValue.role=="qerp.web.sp.order.cancel"
-		// })
-
-
-
+		const addorder=rolelists.find((currentValue,index)=>{
+			return currentValue.remark=="qerp.web.ws.asn.save"
+		})
+		//导出数据
+		const expontdata=rolelists.find((currentValue,index)=>{
+			return currentValue.remark=="qerp.web.sys.doc.task"
+		})
+		//打印订单
+		const printorder=rolelists.find((currentValue,index)=>{
+			return currentValue.remark=="qerp.web.sp.order.print"
+		})
+		//付款操作
+		const payorder=rolelists.find((currentValue,index)=>{
+			return currentValue.remark=="qerp.web.ws.asn.payStatus"
+		})
+		//强制完成
+		const overorder=rolelists.find((currentValue,index)=>{
+			return currentValue.remark=="qerp.web.ws.asn.finish"
+		})
      	return(
         	<div className='content_box'>
                 <OrdercgSearch/>
-					<Button 
-						type="primary" 
-						size='large'
-						className='mt20'
-						onClick={this.mandatoryOrder.bind(this)}
+					{
+						overorder?
+						<Button 
+							type="primary" 
+							size='large'
+							className='mt20 mr10'
+							onClick={this.mandatoryOrder.bind(this)}
 					>
 						强制完成
 					</Button>
-					<Button 
+					:null
+					}
+					{
+						payorder?
+						<Button 
 						type="primary" 
 						size='large'
-						className='mt20 ml10'
+						className='mt20 mr10'
 						onClick={this.payamount.bind(this)}
 					>
 						已付款
 					</Button>
-					<Button 
+					:null
+					}
+
+					{
+						payorder?
+						<Button 
 						type="primary" 
 						size='large'
-						className='mt20 ml10'
+						className='mt20 mr10'
 						onClick={this.payamount.bind(this)}
 					>
 						待付款
 					</Button>
-					<Button 
+					:null
+					}
+
+					{
+						addorder?
+						<Button 
 						type="primary" 
 						size='large'
-						className='mt20 ml10'
+						className='mt20 mr10'
 						onClick={this.addNew.bind(this)}
 					>
 						新建采购单
 					</Button>
-                    <Button 
+					:null
+					}
+					{
+						printorder?
+						<Button 
 						type="primary" 
 						size='large'
-						className='mt20 ml10'
+						className='mt20 mr10'
 						onClick={this.printCgorder}
 					>
 						打印采购单
 					</Button>
-					<Button 
+					:null
+					}
+					{
+						expontdata?
+						<Button 
 						type="primary" 
 						size='large'
-						className='mt20 ml10'
+						className='mt20 mr10'
 						onClick={this.exportData.bind(this,15,this.props.values)}
 					>
 						导出数据
 					</Button>
-             		<div className='mt15'><OrdercgTable/></div>
+					:null
+					}
+             		<div className='mt15'><OrdercgTable addorderobj={addorder}/></div>
         	</div>
       	)
 	}
