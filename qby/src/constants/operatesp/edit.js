@@ -47,7 +47,8 @@ class SpEditForm extends React.Component{
 			initfoodShareRatio:null,
 			initnonfoodShareRatio:null,
 			openWechat:0,
-			openAlipay:0
+			openAlipay:0,
+			onlinetName:null
 
 		}
 	}
@@ -93,7 +94,6 @@ class SpEditForm extends React.Component{
 		e.preventDefault();
 		this.props.form.validateFields((err, value) => {
 		    if (!err) {
-				console.log(value)
 				value.openWechat = String(value.openWechat);
 				value.openAlipay = String(value.openAlipay);
                 value.spShopPics=this.props.spShopPics
@@ -149,7 +149,6 @@ class SpEditForm extends React.Component{
         })
 	}
 	getinfoData=()=>{
-		console.log(1)
 		const values={spShopId:this.props.data.spShopId}
 		const result=GetServerData('qerp.web.sp.shop.info',values)
 		result.then((res) => {
@@ -173,10 +172,9 @@ class SpEditForm extends React.Component{
                             })
                         }
 					}
-					console.log('wo ai ni')
-					console.log(json.spShop.openWechat)
                     this.setState({
-                        spShopPics:spShopPics,
+						spShopPics:spShopPics,
+						onlinetName:json.spShop.onlinetName,
                         initfileList:initfileList,
                         name:json.spShop.name,
 						sname:json.spShop.sname,
@@ -208,7 +206,6 @@ class SpEditForm extends React.Component{
 						openWechat:(!json.spShop.openWechat||json.spShop.openWechat=="0")?0:json.spShop.openWechat,
 						openAlipay:(!json.spShop.openAlipay||json.spShop.openAlipay=="0")?0:json.spShop.openAlipay
                     },function(){
-						console.log(this.state.openWechat)
                         const spShopPics=this.state.spShopPics
                         this.props.dispatch({
                             type:'operatesp/spShopPics',
@@ -319,7 +316,6 @@ class SpEditForm extends React.Component{
 	}
 
   	render(){  
-		console.log(this.state.openWechat)
 		const { getFieldDecorator } = this.props.form;
      	return(
           	<Form className="addUser-form addcg-form operate-shop-form">
@@ -361,6 +357,18 @@ class SpEditForm extends React.Component{
 						initialValue:this.state.printName
 					})(
 						<Input placeholder='请输入打印名称' autoComplete="off"/>
+					)}
+				</FormItem>
+				<FormItem
+					label="电商名称"
+					labelCol={{ span: 3,offset: 1 }}
+					wrapperCol={{ span: 6 }}
+				>
+					{getFieldDecorator('onlinetName', {
+						rules: [{ required: true, message: '请输入电商名称'}],
+						initialValue:this.state.onlinetName
+					})(
+						<Input placeholder='请输入电商名称' autoComplete="off"/>
 					)}
 				</FormItem>
                 <FormItem
@@ -607,7 +615,6 @@ class SpEditForm extends React.Component{
       	)
   	}
   	componentDidMount(){
-		  console.log(1)
         this.props.dispatch({
             type:'operatesp/region',
             payload:{code:'qerp.web.bs.region',values:{}}
