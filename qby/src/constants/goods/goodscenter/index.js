@@ -132,25 +132,59 @@
 				payload:{}
 				})	
 		}
-
-		hindceshi=()=>{
-
-		}
 		render(){
+			const rolelists=this.props.data.rolelists
+			// //增改商品
+			const addorder=rolelists.find((currentValue,index)=>{
+				return currentValue.remark=="qerp.web.ws.asn.save"
+			})
+			//售卖开关
+			const sellopen=rolelists.find((currentValue,index)=>{
+				return currentValue.remark=="qerp.web.sys.doc.tasks"
+			})
+			//批量上新
+			const newopen=rolelists.find((currentValue,index)=>{
+				return currentValue.remark=="qerp.web.sp.order.print"
+			})
+			//批量畅销
+			const hotopen=rolelists.find((currentValue,index)=>{
+				return currentValue.remark=="qerp.web.ws.asn.payStatus"
+			})
+			
+
+
 			return(
 				<div>
 					<Goodssearchform/>
 					<div className='btn_boxs'>
-						<Button type="primary" className='btn_lists' size='large' onClick={this.addspus.bind(this)}>新增商品</Button>
-						<div className='btn_lists'><Button type="primary" size='large' onClick={this.showModal.bind(this,10)}>批量售卖</Button></div>
-						<div className='btn_lists'><Button type="primary" size='large' onClick={this.showModal.bind(this,20)}>批量停售</Button></div>
-						<div className='btn_lists'><Button type="primary" size='large' onClick={this.showModal.bind(this,30)}>批量上新</Button></div>
-						<div className='btn_lists'><Button type="primary" size='large' onClick={this.showModal.bind(this,40)}>批量下新</Button></div>
-						<div className='btn_lists'><Button type="primary" size='large' onClick={this.showModal.bind(this,50)}>批量畅销</Button></div>
-						<div className='btn_lists'><Button type="primary" size='large' onClick={this.showModal.bind(this,60)}>批量下畅销</Button></div>
+						{
+							addorder?<Button type="primary" className='btn_lists' size='large' onClick={this.addspus.bind(this)}>新增商品</Button>:null
+						}
+						{
+							sellopen?<div className='btn_lists'><Button type="primary" size='large' onClick={this.showModal.bind(this,10)}>批量售卖</Button></div>:null
+
+
+						}
+						{
+							sellopen?<div className='btn_lists'><Button type="primary" size='large' onClick={this.showModal.bind(this,20)}>批量停售</Button></div>:null
+						}
+						{
+							newopen?<div className='btn_lists'><Button type="primary" size='large' onClick={this.showModal.bind(this,30)}>批量上新</Button></div>:null
+
+						}
+						{
+							newopen?<div className='btn_lists'><Button type="primary" size='large' onClick={this.showModal.bind(this,40)}>批量下新</Button></div>:null
+						}
+						{
+							hotopen?<div className='btn_lists'><Button type="primary" size='large' onClick={this.showModal.bind(this,50)}>批量畅销</Button></div>:null
+						}
+						{
+							hotopen?<div className='btn_lists'><Button type="primary" size='large' onClick={this.showModal.bind(this,60)}>批量下畅销</Button></div>:null
+						}
+						
 					</div>
 				
-					<Goodlist/>
+					<Goodlist addorderobj={addorder} sellopenobj={sellopen}/>
 					<Modal
 						title='批量操作'
 						visible={this.state.visible}

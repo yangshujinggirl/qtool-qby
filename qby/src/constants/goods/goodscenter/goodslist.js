@@ -1,5 +1,5 @@
 import '../../../style/goods.css';
-import {  Button,Checkbox,Pagination} from 'antd';
+import {  Button,Checkbox,Pagination,message} from 'antd';
 import { connect } from 'dva';
 import {GetServerData} from '../../../services/services';
 
@@ -16,32 +16,40 @@ class Goodlist extends React.Component {
     }
     //售卖、停售
     hindsell=(id,state,e)=>{
-        const s=[]
-        s.push(id)
-        let values={
-            pdSpuIds:s,
-            status:state
-        }
-        const result=GetServerData('qerp.web.pd.spu.status',values)
-        result.then((res) => {
-            return res;
-        }).then((json) => {
-            if(json.code=='0'){
-                this.refreshSearch(this.props.limit,this.props.currentPage) 
+        if(this.props.sellopenobj){
+            const s=[]
+            s.push(id)
+            let values={
+                pdSpuIds:s,
+                status:state
             }
-        })
+            const result=GetServerData('qerp.web.pd.spu.status',values)
+            result.then((res) => {
+                return res;
+            }).then((json) => {
+                if(json.code=='0'){
+                    this.refreshSearch(this.props.limit,this.props.currentPage) 
+                }
+            })
+        }else{
+            message.error('无权限修改');
+        }
     }
     //商品编辑
     editspu=(id)=>{
-        const paneitem={title:'商品编辑',key:'301000edit'+String(id),componkey:'301000edit',data:{pdSpuId:id}}
-		this.props.dispatch({
-		  	type:'tab/firstAddTab',
-		  	payload:paneitem
-        })
-        this.props.dispatch({
-			type:'goods/initgoodedit',
-			payload:{}
-	  	})	
+        if(this.props.addorderobj){
+            const paneitem={title:'商品编辑',key:'301000edit'+String(id),componkey:'301000edit',data:{pdSpuId:id}}
+            this.props.dispatch({
+                  type:'tab/firstAddTab',
+                  payload:paneitem
+            })
+            this.props.dispatch({
+                type:'goods/initgoodedit',
+                payload:{}
+              })
+        }else{
+            message.error('无权限修改');
+        }  	
     }
 
     //刷新列表
@@ -114,7 +122,7 @@ class Goodlist extends React.Component {
                                     <ul className='btnall'>
                                            <li><Button className='btn' disabled={item.status==20?false:true} onClick={this.hindsell.bind(this,item.pdSpuId,10)}>售卖</Button></li>
                                            <li><Button className='btn' disabled={item.status==20?true:false} onClick={this.hindsell.bind(this,item.pdSpuId,20)}>停售</Button></li>
-                                           <li><Button className='btn' onClick={this.editspu.bind(this,item.pdSpuId)}>编辑</Button></li>
+                                           <li><Button className='btn' onClick={this.editspu.bind(this,item.pdSpuId)} style={this.props.addorderobj?null:{background:'#F5F5F5',color:'rgba(0, 0, 0, 0.25)'}}>编辑</Button></li>
                                            <li><Button className='btn' onClick={this.outconfig.bind(this,item.pdSpuId)}>日志</Button></li>
                                     </ul>
                                 </li>
