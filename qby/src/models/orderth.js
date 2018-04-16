@@ -13,9 +13,14 @@ export default {
         logs:[],
         //编辑部分
         formValue:{},
-        goodsInfo:[]
+        goodsInfo:[],
+        selectedRowKeys:[],
+        selectedRows:[],
     },
     reducers: {
+        select(state, { payload:{selectedRowKeys,selectedRows}}) {
+			return {...state,selectedRowKeys,selectedRows}
+        },
 		synchronous(state, { payload:values}) {
 			return {...state,values}
 		},

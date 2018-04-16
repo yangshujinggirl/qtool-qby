@@ -40,7 +40,36 @@ class OrderthTable extends React.Component {
               );
             }
         }
-    ];
+	];
+	this.columnsrole = [{
+		title: '退货单号',
+		dataIndex: 'asnNo',
+		render: (text, record) => {
+		  return (
+			<TableLink text={text} hindClick={this.lookInfo.bind(this,record)} type='1'/>
+		  );
+		}
+	  },{
+		title: '门店名称',
+		dataIndex: 'name'
+	  }, {
+		title: '商品数量',
+		dataIndex: 'qtySum'
+	  },{
+		title: '订单金额',
+		dataIndex: 'amountSum'
+	  },{
+		title: '订单状态',
+		dataIndex: 'statusStr'
+	  },{
+		  title: '下单时间',
+		  dataIndex: 'createTime'
+	  }
+  ];
+	
+
+
+
     }
     
     //点击表格上的修改按钮操作
@@ -82,20 +111,32 @@ class OrderthTable extends React.Component {
             payload:{code:'qerp.web.ws.asn.query',values:values}
         });
         this.props.dispatch({ type: 'tab/loding', payload:true});
-    }
+	}
+	
+	//列表数据选择
+	selectChange=(selectedRowKeys,selectedRows)=>{
+		this.props.dispatch({
+		  	type:'orderth/select',
+		  	payload:{selectedRowKeys,selectedRows}
+		})
+	}
 
     render() {
         return (
           <EditableTable 
             bordered={true}
             dataSource={this.props.tableList} 
-            columns={this.columns} 
+            columns={this.props.addorderobj?this.columns:this.columnsrole} 
             footer={true}
             pageChange={this.pageChange.bind(this)}
             pageSizeChange={this.pageSizeChange.bind(this)}
             total={this.props.total}
             limit={this.props.limit}
             current={Number(this.props.currentPage)+1}
+            select={this.props.addorderobj?true:false}
+            selectType='radio'
+            selectChange={this.selectChange.bind(this)}
+            selectedRowKeys={this.props.selectedRowKeys}
             />
         );
 	}
@@ -107,8 +148,8 @@ class OrderthTable extends React.Component {
 }
 
 function mapStateToProps(state) {
-    const {tableList,total,limit,currentPage,values} = state.orderth;
-    return {tableList,total,limit,currentPage,values};
+    const {tableList,total,limit,currentPage,values,selectedRowKeys,selectedRows} = state.orderth;
+    return {tableList,total,limit,currentPage,values,selectedRowKeys,selectedRows};
 }
 
 export default connect(mapStateToProps)(OrderthTable);

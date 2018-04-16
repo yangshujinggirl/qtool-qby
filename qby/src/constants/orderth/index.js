@@ -1,17 +1,15 @@
 import React from 'react';
 import {GetServerData} from '../../services/services';
-import { Button, Icon ,Modal} from 'antd';
+import { Button, Icon ,Modal,message} from 'antd';
 import { connect } from 'dva';
-//table
 import OrderthTable from './table';
-//search
 import OrderthSearch from './search';
 import Appmodelone from '../ordermd/modal';
-const confirm = Modal.confirm;
 
+const confirm = Modal.confirm;
 class OrderthIndex extends React.Component{
 	state = {};
-
+	//新建
 	addNew = () =>{
 		const paneitem={title:'新建退货单',key:'203000edit',componkey:'203000edit',data:null}
   		this.props.dispatch({
@@ -22,8 +20,9 @@ class OrderthIndex extends React.Component{
             type:'orderth/initState',
             payload:{}
 		})
-  	}
-	  exportData = (type,data) => {
+	}
+	//导出数据
+	exportData = (type,data) => {
 		const values={
 			type:type,
 			downloadParam:data,
@@ -56,41 +55,122 @@ class OrderthIndex extends React.Component{
 	  			});
 			}
 		})
-	
+	}
+
+	//列表数据请求   
+    initList=(values,limit,currentPage)=>{
+        values.limit=limit;
+        values.currentPage=currentPage;
+        values.type = "20";
+        this.props.dispatch({
+            type:'orderth/fetch',
+            payload:{code:'qerp.web.ws.asn.query',values:values}
+        });
+        this.props.dispatch({ type: 'tab/loding', payload:true});
+	}
+
+	//清除选中
+	clearChooseInfo=()=>{
+		const selectedRows=[];
+		const selectedRowKeys = [];
+		this.props.dispatch({
+			type:'orderth/select',
+			payload:{selectedRowKeys,selectedRows}
+		})
+  	}
+	//强制完成
+	mandatoryOrder=()=>{
+		if (this.props.selectedRows.length < 1) {
+			message.error('请选择退货单',.8)
+			return;
+		}
+		const values={wsAsnId:this.props.selectedRows[0].wsAsnId}
+		const result=GetServerData('qerp.web.ws.asn.finish',values);
+		result.then((res) => {
+			return res;
+		}).then((json) => {
+			if(json.code=='0'){
+				this.initList(this.props.values,this.props.limit,this.props.currentPage)
+				this.clearChooseInfo()
+			}
+		})
 	}
   	render(){
+		const rolelists=this.props.data.rolelists
+		// //新增
+		const addorder=rolelists.find((currentValue,index)=>{
+			return currentValue.remark=="qerp.web.ws.asn.save"
+		})
+		//导出数据
+		const expontdata=rolelists.find((currentValue,index)=>{
+			return currentValue.remark=="qerp.web.sys.doc.task"
+		})
+		//强制完成
+		const overorder=rolelists.find((currentValue,index)=>{
+			return currentValue.remark=="qerp.web.ws.asn.finish"
+		})
+
+
+
      	return(
         	<div className='content_box'>
                 <OrderthSearch/>
+				{
+					overorder?
 					<Button 
-						type="primary" 
-						size='large'
-						className='mt20 mr10'
-						onClick={this.addNew}
-					>
+					type="primary" 
+					size='large'
+					className='mt20 mr10'
+					onClick={this.mandatoryOrder.bind(this)}
+				>
+					强制完成
+				</Button>
+				:null
+
+
+
+				}
+				{
+					addorder?
+					<Button 
+					type="primary" 
+					size='large'
+					className='mt20 mr10'
+					onClick={this.addNew}
+				>
 						新建退货单
 					</Button>
+				:null
+
+
+				}
+
+				{
+					expontdata?
 					<Button 
-						type="primary" 
-						size='large'
-						className='mt20'
-						onClick={this.exportData.bind(this,11,this.props.values)}
-					>
-						导出数据
-					</Button>
-             		<div className='mt15'><OrderthTable/></div>
+					type="primary" 
+					size='large'
+					className='mt20'
+					onClick={this.exportData.bind(this,11,this.props.values)}
+				>
+					导出数据
+				</Button>
+				:null
+
+				}
+				
+					
+             		<div className='mt15'>
+					 	<OrderthTable addorderobj={addorder}/>
+					</div>
         	</div>
       	)
-	}
-	  
-	componentDidMount(){
-		
 	}
 }
 
 function mapStateToProps(state) {
-	const {values} = state.orderth;
-	return {values};
+	const {values,selectedRows,limit,currentPage} = state.orderth;
+	return {values,selectedRows,limit,currentPage};
 }
 
 export default connect(mapStateToProps)(OrderthIndex);
