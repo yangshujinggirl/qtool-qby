@@ -82,6 +82,7 @@ export default {
             return {...state,pane,activeKey}
         }
     },
+
     effects: {
         *fetch({ payload: {code,values} }, { call, put }) {
             const result=yield call(GetServerData,code,values);
@@ -106,29 +107,30 @@ export default {
                               menus[i].type = 'account'
                            }
                 }
+
+
+                //menu 权限假数据，正式环境删除
+                for(var j=0;j<menus.length;j++){
+                    if(menus[j].children.length>0){
+                        for(var z=0;z<menus[j].children.length;z++){
+                            menus[j].children[z].children=[{
+                                remark:'qerp.web.sp.order.save',
+                                name:'新增订单'
+                            },{
+                                remark:'qerp.web.sys.doc.task',
+                                name:'导出数据'
+                               
+                            }]
+                        }
+                    }
+                }
+
+
+
                 const pannelfirst = {
                                         title:menus[0].children[0].name,
                                         key:String(menus[0].children[0].urResourceId),
-                                        // data:{rolelists:menus[0].children[0].url},
-                                        data:{
-                                                rolelists:[
-                                                    {
-                                                        role:'qerp.web.sp.order.save',
-                                                        roleStr:'新增订单',
-                                                        openstate:true 
-                                                    },
-                                                    {
-                                                        role:'qerp.web.sys.doc.task',
-                                                        roleStr:'导出数据',
-                                                        openstate:true 
-                                                    },
-                                                    {
-                                                        role:'qerp.web.sp.order.cancel',
-                                                        roleStr:'取消订单',
-                                                        openstate:true  
-                                                    }
-                                                ]  
-                                        },
+                                        data:{rolelists:menus[0].children[0].children},
                                         componkey:String(menus[0].children[0].urResourceId),
                                         openkey:String(menus[0].urResourceId)
                 }

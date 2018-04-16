@@ -60,23 +60,21 @@ class OrdermdIndex extends React.Component{
 		const rolelists=this.props.data.rolelists
 		//新增订单
 		const addorder=rolelists.find((currentValue,index)=>{
-			return currentValue.role=="qerp.web.sp.order.save"
+			return currentValue.remark=="qerp.web.sp.order.save"
 		})
 		//导出数据
 		const expontdata=rolelists.find((currentValue,index)=>{
-			return currentValue.role=="qerp.web.sys.doc.task"
+			return currentValue.remark=="qerp.web.sys.doc.task"
 		})
 		//取消订单
 		const cancelorder=rolelists.find((currentValue,index)=>{
-			return currentValue.role=="qerp.web.sp.order.cancel"
+			return currentValue.remark=="qerp.web.sp.order.cancel"
 		})
-
-
      	return(
         	<div className='content_box'>
                 <OrdermdSearch/>
 					{
-						addorder.openstate?
+						addorder?
 						<Button 
 							type="primary" 
 							size='large'
@@ -88,7 +86,7 @@ class OrdermdIndex extends React.Component{
 						:null
 					}
 					{
-						expontdata.openstate?
+						expontdata?
 						<Button 
 							type="primary" 
 							size='large'
@@ -99,7 +97,6 @@ class OrdermdIndex extends React.Component{
 						</Button>
 						:null
 					}
-					
              		<div className='mt15'><OrdermdTable cancelorderobj={cancelorder}/></div>
         	</div>
       	)

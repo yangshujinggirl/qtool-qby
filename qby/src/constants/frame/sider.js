@@ -27,7 +27,6 @@ class Siders extends React.Component {
         })
 	}
     render() {
-		
         return (   
     		<div className='sidebox'>
     			<Sider className={this.props.isHideSider?'slidebox hide':'slidebox'} width='220'>
@@ -58,26 +57,7 @@ class Siders extends React.Component {
 														<Menu.Item  
 															index={subitem.urResourceId} 
 															key={subitem.urResourceId} 
-															// rolelist={subitem.url}
-															rolelist={[
-																{
-																	role:'qerp.web.sp.order.save',
-																	roleStr:'新增订单',
-																	openstate:true 
-																},
-																{
-																	role:'qerp.web.sys.doc.task',
-																	roleStr:'导出数据',
-																	openstate:true 
-																},
-																{
-																	role:'qerp.web.sp.order.cancel',
-																	roleStr:'取消订单',
-																	openstate:true  
-																}
-															]}
-
-															
+															rolelist={subitem.children}
 														>
 															<div className='itemmain'>{subitem.name}</div>
 														</Menu.Item>

@@ -91,10 +91,11 @@ class OrdermdInfo extends React.Component{
 	}
     
 	render(){
+		console.log(this.props.data.cancelorders)
 		return(
 			<div>
 				{
-					this.props.data.cancelorders.openstate?(
+					this.props.data.cancelorders?(
 						!this.props.isCancel 
 						? null
 						:<div style={{textAlign:'right',marginRight:"15px",marginBottom:'15px'}}>
