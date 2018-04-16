@@ -35,6 +35,29 @@ class SpTable extends React.Component {
 				);
 			}
 		}]
+
+		this.columnsrole = [{
+			title: '门店名称',
+			dataIndex: 'name'
+		}, {
+			title: '门店电话',
+			dataIndex: 'mobile'
+		},{
+			title: '店主姓名',
+			dataIndex: 'shopman'
+		},{
+			title: '门店状态',
+			dataIndex: 'statusStr'
+		},{
+			title: '门店类型',
+			dataIndex: 'shopTypeStr'
+		},{
+			title: '所在城市',
+			dataIndex: 'provinces'
+        },{
+			title: '账户余额',
+			dataIndex: 'amount'
+        }]
 	}
 	
 	//点击表格上的修改按钮操作
@@ -72,7 +95,7 @@ class SpTable extends React.Component {
 			<EditableTable 
 				bordered={true}
 				dataSource={this.props.spShops} 
-				columns={this.columns} 
+				columns={this.props.addorderobj?this.columns:this.columnsrole} 
 				footer={true}
 				pageChange={this.pageChange.bind(this)}
 				pageSizeChange={this.pageSizeChange.bind(this)}

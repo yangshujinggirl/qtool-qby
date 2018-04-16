@@ -49,10 +49,17 @@ class OperateinoutIndex extends React.Component{
 	
 	}
   	render(){
+		const rolelists=this.props.data.rolelists
+		//导出数据
+		const expontdata=rolelists.find((currentValue,index)=>{
+			return currentValue.remark=="qerp.web.sys.doc.task"
+		}) 
      	return(
         	<div className='content_box'>
                 <OperateinoutSearch/>
-				<Button 
+				{
+					expontdata?
+					<Button 
 					type="primary" 
 					size='large'
 					className='mt20'
@@ -60,6 +67,9 @@ class OperateinoutIndex extends React.Component{
 					>
 						导出数据
 				</Button>
+				:null
+				}
+				
 				<div className='mt15'><OperateinoutTable/></div>
         	</div>
       	)

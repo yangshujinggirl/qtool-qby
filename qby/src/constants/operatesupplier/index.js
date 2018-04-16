@@ -23,10 +23,17 @@ class OperatesupplierIndex extends React.Component{
   	}
     
   	render(){
+		const rolelists=this.props.data.rolelists
+		// //新增采购单
+		const addorder=rolelists.find((currentValue,index)=>{
+			return currentValue.remark=="qerp.web.sp.exchange.save"
+		})  
      	return(
         	<div className='content_box'>
                 <OperatesupplierSearch/>
-				<Button 
+				{
+					addorder?
+					<Button 
 					type="primary" 
 					size='large'
 					className='mt20'
@@ -34,7 +41,11 @@ class OperatesupplierIndex extends React.Component{
 				>
 					新建供应商
 				</Button>
-				<div className='mt15'><OperatesupplierTable/></div>
+				:null
+
+				}
+				
+				<div className='mt15'><OperatesupplierTable addorderobj={addorder}/></div>
         	</div>
       	)
 	}

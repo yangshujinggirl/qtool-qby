@@ -24,6 +24,16 @@ class OperatesupplierTable extends React.Component {
                     );
                 }
         }];
+        this.columnsrole= [{
+            title: '供应商名称',
+            dataIndex: 'name'
+        }, {
+            title: '供应商简称',
+            dataIndex: 'shortName'
+        },{
+            title: '合作状态',
+            dataIndex: 'statusStr'
+        }];
     }
     
     //点击表格上的修改按钮操作
@@ -60,7 +70,7 @@ class OperatesupplierTable extends React.Component {
         return (
           <EditableTable 
             dataSource={this.props.tableList} 
-            columns={this.columns} 
+            columns={this.props.addorderobj?this.columns:this.columnsrole} 
             bordered={true}
             footer={true}
             pageChange={this.pageChange.bind(this)}
