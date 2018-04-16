@@ -1,4 +1,4 @@
-import { Button, Modal, Form, Input,Select } from 'antd';
+import { Button, Modal, Form, Input,Select ,message} from 'antd';
 import {GetServerData} from '../../../services/services';
 import { connect } from 'dva';
 import Avatar from './upload';
@@ -66,9 +66,16 @@ class CollectionsPage extends React.Component {
         visible: false,
     };
     showModal = () => {
-        this.setState({ visible: true },function(){
-            this.setValues()
-        });
+        if(this.props.addorderobj){
+            this.setState({ visible: true },function(){
+                this.setValues()
+            });
+        }else{
+            message.error('无修改权限')
+        }
+
+
+        
     }
     handleCancel = () => {
         this.setState({ visible: false });

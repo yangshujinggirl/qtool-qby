@@ -105,7 +105,7 @@ class Classificationindex extends React.Component {
 
 	render() {
 		const rolelists=this.props.data.rolelists
-		// //新增修改
+		//新增修改
 		const addorder=rolelists.find((currentValue,index)=>{
 			return currentValue.remark=="qerp.web.sp.ctorder.save"
 		})

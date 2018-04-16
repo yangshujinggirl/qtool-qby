@@ -1,4 +1,4 @@
-import { Button, Modal, Form, Input, Radio,Select } from 'antd';
+import { Button, Modal, Form, Input, Radio,Select ,message} from 'antd';
 import {GetServerData} from '../../../services/services';
 import { connect } from 'dva';
 const FormItem = Form.Item;
@@ -72,9 +72,17 @@ class CollectionsPage extends React.Component {
         visible: false,
     };
     showModal = () => {
-        this.setState({ visible: true },function(){
-            this.setValues()
-        });
+        const rolelists=this.props.rolelists
+        const addorder=rolelists.find((currentValue,index)=>{
+            return currentValue.remark=="qerp.web.sp.ctorder.save"
+        })
+        if(addorder){
+            this.setState({ visible: true },function(){
+                this.setValues()
+            });
+        }else{
+            message.error('无修改权限')
+        }
     }
     handleCancel = () => {
         this.setState({ visible: false });
