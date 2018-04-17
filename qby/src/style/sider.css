@@ -92,6 +92,15 @@
 	margin-right: 18px;
 	background:url(../assets/icon_account_hover.png) no-repeat center center;background-size: cover;
 }
+.ant-menu-dark .ant-menu-item:hover .online, .ant-menu-dark .ant-menu-submenu-title:hover .online{
+	width: 24px;
+	height: 24px;
+	display: inline-block;
+	margin-right: 18px;
+	background:url(../assets/icon_online_hover.png) no-repeat center center;background-size: cover;
+}
+
+
 
 /* .itembox{padding-left: 16px;} */
 .itemmain{padding-left: 0px;}

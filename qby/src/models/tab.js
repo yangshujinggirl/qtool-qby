@@ -1,6 +1,7 @@
 import {isInArray} from '../utils/meth.js';
 import {GetServerData} from '../services/services';
 
+
 export default {
     namespace: 'tab',
     state: {
@@ -94,10 +95,10 @@ export default {
                 sessionStorage.setItem("firstItem", JSON.stringify(firstItem)); 
                 for(var i=0;i<menus.length;i++){
                     if (menus[i].urResourceId == 200000) {
-                              menus[i].type = 'order'
-                           }else if (menus[i].urResourceId == 300000){
-                              menus[i].type = 'goods'
-                           }else if (menus[i].urResourceId == 400000){
+                                menus[i].type = 'order'
+                            }else if (menus[i].urResourceId == 300000){
+                                menus[i].type = 'goods'
+                            }else if (menus[i].urResourceId == 400000){
                               menus[i].type = 'operation'
                            }else if (menus[i].urResourceId == 700000){
                               menus[i].type = 'datacenter'
@@ -105,6 +106,8 @@ export default {
                               menus[i].type = 'wsn'
                            }else if (menus[i].urResourceId == 600000){
                               menus[i].type = 'account'
+                           }else if(menus[i].urResourceId == 800000){
+                                menus[i].type = 'online'
                            }
                 }
 
