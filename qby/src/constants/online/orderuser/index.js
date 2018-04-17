@@ -76,68 +76,72 @@ class OrderuserIndex extends React.Component{
         })
     }
 
-
+    //select拦截
     selectedRowreturn=()=>{
         if (this.state.selectedRows.length < 1) {
 			message.error('请选择采购单',.8)
 			return;
         }
     }
-
     //重新推送
     postMessage=()=>{
         this.selectedRowreturn()
-        const values={id:this.state.selectedRows[0].id}
-        const result=GetServerData('qerp.web.bs.userinfo',values)
-        result.then((res) => {
-           return res;
-        }).then((json) => {
-            if(json.code=='0'){
-                this.setState({
-                    selectedRowKeys:[],
-                    selectedRows:[]
-                },function(){
-                    this.hindSearch(this.state.searchvalue)
-                })
-            }
-        }) 
-        
+        for(var i=0;i<this.state.selectedRows.length;i++){
+            const values={id:this.state.selectedRows[0].id}
+            const result=GetServerData('qerp.web.bs.userinfo',values)
+            result.then((res) => {
+               return res;
+            }).then((json) => {
+                if(json.code=='0'){
+                    this.setState({
+                        selectedRowKeys:[],
+                        selectedRows:[]
+                    },function(){
+                        this.hindSearch(this.state.searchvalue)
+                    })
+                }
+            })
+        }  
     }
     //重新拆单
     disconnectOrder=()=>{
         this.selectedRowreturn()
-        const values={id:this.state.selectedRows[0].id}
-        const result=GetServerData('qerp.web.bs.userinfo',values)
-        result.then((res) => {
-           return res;
-        }).then((json) => {
-            if(json.code=='0'){
-                this.setState({
-                    selectedRowKeys:[],
-                    selectedRows:[]
-                },function(){
-                    this.hindSearch(this.state.searchvalue)
-                })
-            }
-        }) 
+        for(var i=0;i<this.state.selectedRows.length;i++){  
+            const values={id:this.state.selectedRows[0].id}
+            const result=GetServerData('qerp.web.bs.userinfo',values)
+            result.then((res) => {
+               return res;
+            }).then((json) => {
+                if(json.code=='0'){
+                    this.setState({
+                        selectedRowKeys:[],
+                        selectedRows:[]
+                    },function(){
+                        this.hindSearch(this.state.searchvalue)
+                    })
+                }
+            }) 
+        }
     }
     //重新匹配商品
     matchOrder=()=>{
         this.selectedRowreturn()
-        const values={id:this.state.selectedRows[0].id}
-        const result=GetServerData('qerp.web.bs.userinfo',values)
-        result.then((res) => {
-           return res;
-        }).then((json) => {
-            if(json.code=='0'){
-                this.setState({
-                    selectedRowKeys:[],
-                    selectedRows:[]
-                },function(){
-                    this.hindSearch(this.state.searchvalue)
-                })
-            }
-        })  
+        for(var i=0;i<this.state.selectedRows.length;i++){
+            const values={id:this.state.selectedRows[0].id}
+            const result=GetServerData('qerp.web.bs.userinfo',values)
+            result.then((res) => {
+               return res;
+            }).then((json) => {
+                if(json.code=='0'){
+                    this.setState({
+                        selectedRowKeys:[],
+                        selectedRows:[]
+                    },function(){
+                        this.hindSearch(this.state.searchvalue)
+                    })
+                }
+            }) 
+        }
     }
 
     //获得选中行数据

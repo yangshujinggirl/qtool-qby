@@ -59,7 +59,7 @@ class SearchTable extends React.Component {
         return (
             <EditableTable 
                 select={true}
-                selectType='radio'
+                selectType='checkbox'
                 selectChange={this.selectChange.bind(this)}
                 selectedRowKeys={this.props.selectedRowKeys}
                 dataSource={this.props.datasouce} 
