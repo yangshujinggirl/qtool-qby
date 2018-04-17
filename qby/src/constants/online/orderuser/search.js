@@ -1,6 +1,7 @@
 import { Form, Row, Col, Input, Button, Icon,Select ,DatePicker} from 'antd';
 import moment from 'moment';
 import * as confgdata  from './confg';
+import {timeForMats} from '../../../utils/meth';
 
 const { MonthPicker, RangePicker } = DatePicker;
 const Option = Select.Option
@@ -107,6 +108,10 @@ class Searchform extends React.Component {
                                                 showTime
                                                 format={confgdata.dateFormat}
                                                 onChange={this.hindDateChange.bind(this)}
+                                                value={this.state.startTime?
+                                                    [moment(this.state.startTime), moment(this.state.endTime)]
+                                                    :null
+                                                }
                                             />
                                         }
                                 </FormItem>
@@ -121,7 +126,15 @@ class Searchform extends React.Component {
         );
     }
     componentDidMount(){
-        this.handleSearch()
+        const startTime=timeForMats(30).t2
+        const endTime=timeForMats(30).t1
+        this.setState({
+            startTime:startTime,
+            endTime:endTime
+        },function(){
+            this.handleSearch()
+        })
+        
     }
 }
 
