@@ -5,31 +5,48 @@ import EditableTable from '../../../components/table/tablemodel';
 class DataspcunTable extends React.Component {
 	constructor(props) {
         super(props);
-		this.columns = [{
-            title: '序号',
-            dataIndex: 'index'
-          },{
-            title: '商品编码',
-            dataIndex: 'code'
-          }, {
-            title: '商品条码',
-            dataIndex: 'barcode'
-          },{
-            title: '商品名称',
-            dataIndex: 'pdSpuName'
-		  },{
-            title: '商品分类',
-            dataIndex: 'pdCategoryName'
-		  },{
-            title: '规格',
-            dataIndex: 'displayName'
-          },{
-            title: '数量',
-            dataIndex: 'qty'
-          },{
-            title: '价格',
-            dataIndex: 'toBPrice'
-          }];   
+		this.columns = [
+			{
+            	title: '序号',
+            	dataIndex: 'index'
+			},
+			{
+            	title: '商品编码',
+            	dataIndex: 'code'
+			}, 
+			{
+            	title: '商品条码',
+            	dataIndex: 'barcode'
+		  	},
+		  	{
+				title: '商品名称',
+				dataIndex: 'pdSpuName'
+		  	},
+			{
+				title: '商品分类',
+				dataIndex: 'pdCategoryName'
+			},
+			{
+				title: '规格',
+				dataIndex: 'displayName'
+			},
+			{
+				title: '数量',
+				dataIndex: 'qty'
+			},
+			{
+				title: '在途数量（销）',
+				dataIndex: 'onsellqty'
+			},
+			{
+				title: '在途数量（出）',
+				dataIndex: 'ontuqty'
+			},
+			{
+				title: '价格',
+				dataIndex: 'toBPrice'
+			}
+		];   
     }
 	
 	//分页方法

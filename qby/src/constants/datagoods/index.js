@@ -15,23 +15,87 @@ class DatagoIndex extends React.Component{
             key:index
         })
     }
-  	render(){       
+  	render(){  
+        const rolelists=this.props.data.rolelists
+		//商品分析
+		const goodanalysis=rolelists.find((currentValue,index)=>{
+			return currentValue.remark=="qerp.web.sys.doc.tasks"
+        })
+        //分类分析
+        const classanalysis=rolelists.find((currentValue,index)=>{
+			return currentValue.remark=="qerp.web.sys.doc.task"
+        })
+        //商品数据
+        const gooddata=rolelists.find((currentValue,index)=>{
+			return currentValue.remark=="qerp.web.sys.doc.task"
+        })
+        
+
+
+              
      	return(
         	<div className='content_box stock-tabs'>
                 <Tabs defaultActiveKey="1" onTabClick={this.tabChange.bind(this)}>
-                    <TabPane tab="商品分析" key="1">
+                    {
+                        goodanalysis?
+                        <TabPane tab="商品分析" key="1">
                         {this.state.key == 1 && <DatagodesIndex/>} 
-                    </TabPane>
-                    <TabPane tab="分类分析" key="2">
-                        {this.state.key == 2 && <DataclassdesIndex/>} 
-                    </TabPane>
-                    <TabPane tab="商品数据" key="3">
-                        {this.state.key == 3 && <DatasIndex/>} 
-                    </TabPane>
+                        </TabPane>
+                        :null
+                    }
+                    {
+                        classanalysis?
+                        <TabPane tab="分类分析" key="2">
+                            {this.state.key == 2 && <DataclassdesIndex/>} 
+                        </TabPane>
+                        :null
+                    }
+                    {
+                        gooddata?
+                        <TabPane tab="商品数据" key="3">
+                         {this.state.key == 3 && <DatasIndex/>} 
+                        </TabPane>
+                        :null
+                    }
+                   
+                    
+                   
                 </Tabs>
         	</div>
       	)
-  	}
+      }
+      componentDidMount(){
+        const rolelists=this.props.data.rolelists
+		//商品分析
+		const goodanalysis=rolelists.find((currentValue,index)=>{
+			return currentValue.remark=="qerp.web.sys.doc.tasks"
+        })
+        //分类分析
+        const classanalysis=rolelists.find((currentValue,index)=>{
+			return currentValue.remark=="qerp.web.sys.doc.task"
+        })
+        //商品数据
+        const gooddata=rolelists.find((currentValue,index)=>{
+			return currentValue.remark=="qerp.web.sys.doc.task"
+        })
+
+        if(goodanalysis){
+            this.setState({
+                key:'1'
+            })
+        }else{
+            if(classanalysis){
+                this.setState({
+                    key:'2'
+                })
+            }else{
+                this.setState({
+                    key:'3'
+                })
+            }
+        }
+
+      }
 }
 
 export default DatagoIndex;
