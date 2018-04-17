@@ -165,7 +165,6 @@ class OrdercgTable extends React.Component {
       	})
   	}
   
-
     render() {
         return (
             <EditableTable 
