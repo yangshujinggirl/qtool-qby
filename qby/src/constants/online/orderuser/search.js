@@ -132,7 +132,7 @@ class Searchform extends React.Component {
             startTime:startTime,
             endTime:endTime
         },function(){
-            this.handleSearch()
+            // this.handleSearch()
         })
         
     }

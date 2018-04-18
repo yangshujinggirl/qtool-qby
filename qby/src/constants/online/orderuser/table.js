@@ -1,4 +1,7 @@
 import EditableTable from '../../../components/table/tablebasic';
+import TableLink from '../../../components/table/tablelink';
+import { connect } from 'dva';
+
 
 class SearchTable extends React.Component {
 	constructor(props) {
@@ -6,7 +9,12 @@ class SearchTable extends React.Component {
         this.columns = [
             {
                 title: '订单号',
-                dataIndex: 'shopName1'
+                dataIndex: 'shopName1',
+                render: (text, record) => {
+					return (
+						<TableLink text={text} hindClick={this.lookInfo.bind(this,record)} type='1'/>
+					);
+				}
             }, 
             {
                 title: '有赞订单号',
@@ -43,6 +51,15 @@ class SearchTable extends React.Component {
         ];
     }
  
+    //跳转到详情页面
+    lookInfo=(record)=>{
+        const wsAsnId=String(record.wsAsnId);
+        const paneitem={title:'订单详情',key:'801000edit'+wsAsnId+'info',data:{wsAsnId:wsAsnId},componkey:'801000info'}
+        this.props.dispatch({
+            type:'tab/firstAddTab',
+            payload:paneitem
+        })
+    }
     //分页方法
     pageChange=(page,pageSize)=>{
         this.props.getPageSizeDate(pageSize,Number(page-1))
@@ -76,7 +93,7 @@ class SearchTable extends React.Component {
 	}
 }
 
-export default SearchTable;
+export default connect()(SearchTable);
  
 
 

@@ -91,12 +91,17 @@ import Config from '../goods/goodscenter/config';
 
 import InfouserIndex from '../online/infouser/index';
 import OrderuserIndex from '../online/orderuser/index';
+import OrderuserInfo from '../online/orderuser/info';
 
 import OnlineGoodsIndex from '../online/infogoods/index';
 
 import OnlineGoodEdit from '../online/infogoods/edit';
 import OnlineGoodinfo from '../online/infogoods/info';
 import OnlineConfig from '../online/infogoods/config';
+
+
+
+
 
 
 
@@ -192,12 +197,16 @@ class Content extends React.Component {
 
                                     
                                     case "801000": return <OrderuserIndex data={this.props.data}/>
+                                    case "801000info": return <OrderuserInfo data={this.props.data}/>;
                                     case "803000": return <InfouserIndex data={this.props.data}/>
 
                                     case "802000": return <OnlineGoodsIndex data={this.props.data}/>
                                     case "802000edit":return  <OnlineGoodEdit data={this.props.data}/>;
                                     case "802000info":return  <OnlineGoodinfo data={this.props.data}/>;
                                     case "802000editconfig": return <OnlineConfig data={this.props.data}/>;
+                                    
+
+                                    
 
                                     
 
