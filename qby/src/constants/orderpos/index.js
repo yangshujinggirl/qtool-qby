@@ -57,17 +57,26 @@ class OrderposIndex extends React.Component{
   	}
 
   	render(){
+		const rolelists=this.props.data.rolelists
+		//导出数据
+		const expontdata=rolelists.find((currentValue,index)=>{
+			return currentValue.remark=="qerp.web.sys.doc.task"
+		})
      	return(
         	<div className='content_box'>
                 <OrderposSearch/>
-					<Button 
-						type="primary" 
-						size='large'
-						className='mt20'
-						onClick={this.exportData.bind(this,18,this.props.values)}
-					>
-						导出数据
-					</Button>
+					{
+						expontdata?
+						<Button 
+							type="primary" 
+							size='large'
+							className='mt20'
+							onClick={this.exportData.bind(this,18,this.props.values)}
+						>
+							导出数据
+						</Button>
+						:null
+					}
              		<div className='mt15'><OrderposTable/></div>
         	</div>
       	)
