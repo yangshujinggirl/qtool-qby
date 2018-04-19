@@ -7,7 +7,7 @@ class OrderuserIndex extends React.Component{
     state = {
         searchvalue:null,
         datasouce:[{
-            shopName1:"122",
+            orderNo:"122",
             key:"1"
         }],
         total:0,
@@ -54,15 +54,15 @@ class OrderuserIndex extends React.Component{
     hindSearch=(values)=>{
         values.limit=this.state.limit
         values.currentPage=this.state.currentPage
-        const result=GetServerData('qerp.web.bs.userinfo',values)
+        const result=GetServerData('qerp.web.ec.pd.userOrder.query',values)
         result.then((res) => {
            return res;
         }).then((json) => {
             if(json.code=='0'){
                 this.setState({
                     searchvalue:values,
-                    datasouce:json.datasouce,
-                    totol:json.totol,
+                    datasouce:json.userOrder,
+                    total:json.total,
                     currentPage:json.currentPage,
                     limit:json.limit
                 })
@@ -89,9 +89,12 @@ class OrderuserIndex extends React.Component{
     //重新推送
     postMessage=()=>{
         this.selectedRowreturn()
+        const ecOrderIds=[]
         for(var i=0;i<this.state.selectedRows.length;i++){
-            const values={id:this.state.selectedRows[0].id}
-            const result=GetServerData('qerp.web.bs.userinfo',values)
+            ecOrderIds.push(this.state.selectedRows[i].ecOrderId)
+        }
+        const values={ecOrderIds:ecOrderIds}
+        const result=GetServerData('qerp.web.ec.pd.spulog.list',values)
             result.then((res) => {
                return res;
             }).then((json) => {
@@ -104,47 +107,31 @@ class OrderuserIndex extends React.Component{
                     })
                 }
             })
-        }  
     }
-    //重新拆单
-    disconnectOrder=()=>{
-        this.selectedRowreturn()
-        for(var i=0;i<this.state.selectedRows.length;i++){  
-            const values={id:this.state.selectedRows[0].id}
-            const result=GetServerData('qerp.web.bs.userinfo',values)
-            result.then((res) => {
-               return res;
-            }).then((json) => {
-                if(json.code=='0'){
-                    this.setState({
-                        selectedRowKeys:[],
-                        selectedRows:[]
-                    },function(){
-                        this.hindSearch(this.state.searchvalue)
-                    })
-                }
-            }) 
-        }
-    }
+    
     //重新匹配商品
     matchOrder=()=>{
         this.selectedRowreturn()
+        const ecOrderIds=[]
         for(var i=0;i<this.state.selectedRows.length;i++){
-            const values={id:this.state.selectedRows[0].id}
-            const result=GetServerData('qerp.web.bs.userinfo',values)
-            result.then((res) => {
-               return res;
-            }).then((json) => {
-                if(json.code=='0'){
-                    this.setState({
-                        selectedRowKeys:[],
-                        selectedRows:[]
-                    },function(){
-                        this.hindSearch(this.state.searchvalue)
-                    })
-                }
-            }) 
+            if(this.state.selectedRows[i].status=='-1'){
+                ecOrderIds.push(this.state.selectedRows[i].ecOrderId)
+            }
         }
+        const values={ecOrderIds:ecOrderIds}
+        const result=GetServerData('qerp.web.ec.pd.userOrder.reMatch',values)
+        result.then((res) => {
+            return res;
+        }).then((json) => {
+            if(json.code=='0'){
+                this.setState({
+                    selectedRowKeys:[],
+                    selectedRows:[]
+                },function(){
+                    this.hindSearch(this.state.searchvalue)
+                })
+            }
+        }) 
     }
 
     //获得选中行数据
@@ -163,7 +150,7 @@ class OrderuserIndex extends React.Component{
                     type="primary" 
                     size='large'
                     className='mt20 mr10'
-                    onClick={this.exportData.bind(this,20,this.state.searchvalue)}
+                    onClick={this.exportData.bind(this,91,this.state.searchvalue)}
                 >
                     导出数据
                 </Button>
@@ -171,7 +158,7 @@ class OrderuserIndex extends React.Component{
                     type="primary" 
                     size='large'
                     className='mt20 mr10'
-                    onClick={this.postMessage.bind(this,20,this.state.searchvalue)}
+                    onClick={this.postMessage.bind(this)}
                 >
                     重新推送
                 </Button>
@@ -179,15 +166,7 @@ class OrderuserIndex extends React.Component{
                     type="primary" 
                     size='large'
                     className='mt20 mr10'
-                    onClick={this.disconnectOrder.bind(this,20,this.state.searchvalue)}
-                >
-                    重新拆单
-                </Button>
-                <Button 
-                    type="primary" 
-                    size='large'
-                    className='mt20 mr10'
-                    onClick={this.matchOrder.bind(this,20,this.state.searchvalue)}
+                    onClick={this.matchOrder.bind(this)}
                 >
                     重新匹配商品
                 </Button>

@@ -2,14 +2,13 @@ import EditableTable from '../../../components/table/tablebasic';
 import TableLink from '../../../components/table/tablelink';
 import { connect } from 'dva';
 
-
 class SearchTable extends React.Component {
 	constructor(props) {
         super(props);
         this.columns = [
             {
                 title: '订单号',
-                dataIndex: 'shopName1',
+                dataIndex: 'orderNo',
                 render: (text, record) => {
 					return (
 						<TableLink text={text} hindClick={this.lookInfo.bind(this,record)} type='1'/>
@@ -18,43 +17,43 @@ class SearchTable extends React.Component {
             }, 
             {
                 title: '有赞订单号',
-                dataIndex: 'amount2'
+                dataIndex: 'outNo'
             },
             {
                 title: '归属门店',
-                dataIndex: 'shopName3'
+                dataIndex: 'shopName'
             }, 
             {
                 title: '商品数量',
-                dataIndex: 'amount4'
+                dataIndex: 'qty'
             },
             {
                 title: '订单金额',
-                dataIndex: 'shopName5'
+                dataIndex: 'amount'
             }, 
             {
                 title: '实际支付金额',
-                dataIndex: 'amount6'
+                dataIndex: 'payAmount'
             },
             {
                 title: '订单状态',
-                dataIndex: 'shopName7'
+                dataIndex: 'statusStr'
             },
             {
                 title: '推送仓库',
-                dataIndex: 'shopName8'
+                dataIndex: 'warehouseStr'
             },
             {
                 title: '下单时间',
-                dataIndex: 'shopName9'
+                dataIndex: 'payTime'
             }
         ];
     }
  
     //跳转到详情页面
     lookInfo=(record)=>{
-        const wsAsnId=String(record.wsAsnId);
-        const paneitem={title:'订单详情',key:'801000edit'+wsAsnId+'info',data:{wsAsnId:wsAsnId},componkey:'801000info'}
+        const id=String(record.ecOrderId);
+        const paneitem={title:'订单详情',key:'801000edit'+id+'info',data:{record:record,id:id},componkey:'801000info'}
         this.props.dispatch({
             type:'tab/firstAddTab',
             payload:paneitem
@@ -68,7 +67,7 @@ class SearchTable extends React.Component {
     pageSizeChange=(current,size)=>{
         this.props.getPageSizeDate(size,Number(current-1))
     }
-
+    //多选框选择
     selectChange=(selectedRowKeys,selectedRows)=>{
         this.props.getSelectDate(selectedRowKeys,selectedRows)
     }

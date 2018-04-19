@@ -9,9 +9,7 @@ class App extends React.Component {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                console.log('Received values of form: ', values);
-                this.props.hindCancel()
-                const result=GetServerData('qerp.web.bs.userinfo',values)
+                const result=GetServerData('qerp.web.ec.pd.userOrder.save',values)
                 result.then((res) => {
                     return res;
                 }).then((json) => {
@@ -33,7 +31,7 @@ class App extends React.Component {
                     labelCol={{ span: 4 }}
                     wrapperCol={{ span: 6 }}
                     >
-                {getFieldDecorator('name', {
+                {getFieldDecorator('idCardName', {
                     rules: [{ required: true, message: '请输入姓名' }],
                 })(
                     <Input />
@@ -44,8 +42,8 @@ class App extends React.Component {
                     labelCol={{ span: 4 }}
                     wrapperCol={{ span: 6 }}
                 >
-                    {getFieldDecorator('acc', {
-                        rules: [{ required: true, message: 'Please input your note!' }],
+                    {getFieldDecorator('idCardNo', {
+                        rules: [{ required: true, message: '请输入身份证号' }],
                     })(
                         <Input />
                     )}
@@ -55,8 +53,8 @@ class App extends React.Component {
                     labelCol={{ span: 4 }}
                     wrapperCol={{ span: 6 }}
                 >
-                    {getFieldDecorator('people', {
-                        rules: [{ required: true, message: 'Please input your note!' }],
+                    {getFieldDecorator('recName', {
+                        rules: [{ required: true, message: '请输入收货人' }],
                     })(
                         <Input />
                     )}
@@ -66,8 +64,8 @@ class App extends React.Component {
                     labelCol={{ span: 4 }}
                     wrapperCol={{ span: 6 }}
                 >
-                {getFieldDecorator('tel', {
-                    rules: [{ required: true, message: 'Please input your note!' }],
+                {getFieldDecorator('recTelephone', {
+                    rules: [{ required: true, message: '请输入收货电话' }],
                 })(
                         <Input />
                 )}
@@ -78,7 +76,7 @@ class App extends React.Component {
                     wrapperCol={{ span: 8 }}
                 >
                     {getFieldDecorator('address', {
-                        rules: [{ required: true, message: 'Please input your note!' }],
+                        rules: [{ required: true, message: '请输入收货地址' }],
                     })(
                         <Input />
                     )}

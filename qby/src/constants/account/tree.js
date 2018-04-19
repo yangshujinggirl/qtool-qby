@@ -72,6 +72,9 @@ class Treerole extends React.Component {
 			return res;
 		}).then((json) => {
 			if(json.code=='0'){
+				console.log(json)
+
+
 				const urRoles=[{
 					name: '订单中心',
 					urRoleId:'201000',

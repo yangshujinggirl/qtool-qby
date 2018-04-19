@@ -31,10 +31,10 @@ class Cardlists extends React.Component {
     setInitData=(data)=>{
         const form = this.formRef.props.form;
         form.setFieldsValue({
-            name:data[0].text,
-            acc:data[1].text,
-            people:data[2].text,
-            tel:data[3].text,
+            idCardName:data[0].text,
+            idCardNo:data[1].text,
+            recName:data[2].text,
+            recTelephone:data[3].text,
             address:data[4].text
         })
     }

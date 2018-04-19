@@ -15,8 +15,8 @@ class Searchform extends React.Component {
     //点击搜索按钮获取搜索表单数据
     handleSearch = (e) => {
         this.props.form.validateFields((err, values) => {
-            values.startTime=this.state.startTime
-            values.endTime=this.state.endTime
+            values.payTimeST=this.state.startTime
+            values.payTimeET=this.state.endTime
             this.props.hindFormSearch(values)
         });
     }
@@ -36,52 +36,52 @@ class Searchform extends React.Component {
                         <Row>
                             <div className='serach_form'>
                                 <FormItem label='门店名称'>
-                                    {getFieldDecorator('username')(
+                                    {getFieldDecorator('shopName')(
                                         <Input placeholder={confgdata.placeholder_input} autoComplete="off"/>
                                     )}
                                 </FormItem>
                                 <FormItem label='订单号'>
-                                    {getFieldDecorator('acc')(
+                                    {getFieldDecorator('orderNo')(
                                         <Input placeholder={confgdata.placeholder_input} autoComplete="off"/>
                                     )}
                                 </FormItem>
                                 <FormItem label='有赞订单号'>
-                                    {getFieldDecorator('tel')(
+                                    {getFieldDecorator('outNo')(
                                         <Input placeholder={confgdata.placeholder_input} autoComplete="off"/>
                                     )}
                                 </FormItem>
                                 <FormItem label='商品编码'>
-                                    {getFieldDecorator('username')(
+                                    {getFieldDecorator('skuCode')(
                                         <Input placeholder={confgdata.placeholder_input} autoComplete="off"/>
                                     )}
                                 </FormItem>
                                 <FormItem label='商品名称'>
-                                    {getFieldDecorator('acc')(
+                                    {getFieldDecorator('name')(
                                         <Input placeholder={confgdata.placeholder_input} autoComplete="off"/>
                                     )}
                                 </FormItem>
                                 <FormItem label='收货电话'>
-                                    {getFieldDecorator('tel')(
+                                    {getFieldDecorator('recTelephone')(
                                         <Input placeholder={confgdata.placeholder_input} autoComplete="off"/>
                                     )}
                                 </FormItem>
                                 <FormItem label='收货人'>
-                                    {getFieldDecorator('tel')(
+                                    {getFieldDecorator('recName')(
                                         <Input placeholder={confgdata.placeholder_input} autoComplete="off"/>
                                     )}
                                 </FormItem>
                                 <FormItem label='身份证号'>
-                                    {getFieldDecorator('tel')(
+                                    {getFieldDecorator('idCardNo')(
                                         <Input placeholder={confgdata.placeholder_input} autoComplete="off"/>
                                     )}
                                 </FormItem>
                                 <FormItem label='快递单号'>
-                                    {getFieldDecorator('tel')(
+                                    {getFieldDecorator('expressNo')(
                                         <Input placeholder={confgdata.placeholder_input} autoComplete="off"/>
                                     )}
                                 </FormItem>
                                 <FormItem label='订单状态'>
-                                    {getFieldDecorator('orderType')(
+                                    {getFieldDecorator('status')(
                                     <Select allowClear={true} placeholder="请选择">
                                         {
                                             confgdata.orderState.map((item,index)=>{
@@ -92,7 +92,7 @@ class Searchform extends React.Component {
                                     )}
                                 </FormItem>
                                 <FormItem label='推送仓库'>
-                                    {getFieldDecorator('orderType')(
+                                    {getFieldDecorator('warehouseId')(
                                     <Select allowClear={true} placeholder="请选择">
                                         {
                                             confgdata.wshouse.map((item,index)=>{
@@ -102,7 +102,7 @@ class Searchform extends React.Component {
                                     </Select>
                                     )}
                                 </FormItem>
-                                <FormItem label='订单时间'>
+                                <FormItem label='下单时间'>
                                         {
                                             <RangePicker
                                                 showTime
@@ -132,7 +132,7 @@ class Searchform extends React.Component {
             startTime:startTime,
             endTime:endTime
         },function(){
-            // this.handleSearch()
+            this.handleSearch()
         })
         
     }
