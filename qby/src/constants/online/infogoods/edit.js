@@ -38,7 +38,7 @@
 					);
 				}
 			},{
-				title: '售价',
+				title: '采购价格',
 				dataIndex: 'toBPrice',
 				render: (text, record,index) => {
 					return (
@@ -46,7 +46,7 @@
 					);
 				}
 			},{
-				title: '零售价',
+				title: '到货价格',
 				dataIndex: 'toCPrice',
 				render: (text, record,index) => {
 					return (
@@ -54,7 +54,7 @@
 					);
 				}
 			},{
-				title: '建议零售价',
+				title: '出库价格',
 				dataIndex: 'tagPrice',
 				render: (text, record,index) => {
 					return (
@@ -62,7 +62,7 @@
 					);
 				}
 			},{
-				title: '进货价',
+				title: '售价',
 				dataIndex: 'costPrice',
 				render: (text, record,index) => {
 					return (
@@ -95,7 +95,7 @@
 					);
 				}
 			}, {
-				title: '售价',
+				title: '采购价格',
 				dataIndex: 'toBPrice',
 				render: (text, record,index) => {
 					return (
@@ -103,7 +103,7 @@
 					);
 				}
 			},{
-				title: '零售价',
+				title: '到货价格',
 				dataIndex: 'toCPrice',
 				render: (text, record,index) => {
 					return (
@@ -111,7 +111,7 @@
 					);
 				}
 			},{
-				title: '建议零售价',
+				title: '出库价格',
 				dataIndex: 'tagPrice',
 				render: (text, record,index) => {
 					return (
@@ -119,7 +119,7 @@
 					);
 				}
 			},{
-				title: '进货价',
+				title: '售价',
 				dataIndex: 'costPrice',
 				render: (text, record,index) => {
 					return (
@@ -138,7 +138,7 @@
 		spuInfo=()=>{
 			const value={pdSpuId:this.props.data.pdSpuId}
 			this.props.dispatch({
-				type:'goods/infofetch',
+				type:'onlinegood/infofetch',
 				payload:{code:'qerp.web.pd.spu.info',values:value}
 			})
 		}
@@ -148,7 +148,7 @@
 				enabled:true
 			}
 			this.props.dispatch({
-				type:'goods/pdTypeslist',
+				type:'onlinegood/pdTypeslist',
 				payload:{code:'qerp.web.pd.type.list',values:value}
 			})
 		}
@@ -159,7 +159,7 @@
 				enabled:true
 			}
 			this.props.dispatch({
-				type:'goods/categoryfetch',
+				type:'onlinegood/categoryfetch',
 				payload:{code:'qerp.web.pd.category.list',values:value}
 			})
 		}
@@ -173,12 +173,12 @@
 				enabled:true
 			}
 			this.props.dispatch({
-				type:'goods/captlistfetch',
+				type:'onlinegood/captlistfetch',
 				payload:{code:'qerp.web.pd.category.list',values:values}
 			})
 			//初始化pdCategory2Id
 			this.props.dispatch({
-				type:'goods/pdCategory2Id',
+				type:'onlinegood/pdCategory2Id',
 				payload:pdCategory2Id
 			})
 			//设置pdCategory2值为空
@@ -214,7 +214,7 @@
 		onSelect=(value)=>{
 			const pdBrandId=value
 			this.props.dispatch({
-				type:'goods/pdBrandId',
+				type:'onlinegood/pdBrandId',
 				payload:pdBrandId
 			})
 		}
@@ -222,7 +222,7 @@
 		lotStatusChange=(e)=>{
 			const lotStatusstate=e.target.value
 			this.props.dispatch({
-				type:'goods/lotStatusstate',
+				type:'onlinegood/lotStatusstate',
 				payload:lotStatusstate
 			})
 			this.props.form.setFieldsValue({
@@ -249,7 +249,7 @@
 			const tag1s=[]
 			const tag2s=this.props.tag2
 			this.props.dispatch({
-				type:'goods/goodsinfoChange',
+				type:'onlinegood/goodsinfoChange',
 				payload:{pdType1Ids,pdType2Ids,tag1s,tag2s}
 			})
 		}
@@ -260,7 +260,7 @@
 			const tag1s=this.props.tag1
 			const tag2s=[]
 			this.props.dispatch({
-				type:'goods/goodsinfoChange',
+				type:'onlinegood/goodsinfoChange',
 				payload:{pdType1Ids,pdType2Ids,tag1s,tag2s}
 			})
 		}
@@ -269,7 +269,7 @@
 			const goodindodatasouce=this.props.goodindodatasouce.slice(0)
 			goodindodatasouce[index].code=e.target.value
 			this.props.dispatch({
-				type:'goods/goodindodatasouce',
+				type:'onlinegood/goodindodatasouce',
 				payload:goodindodatasouce
 			})
 		}
@@ -278,7 +278,7 @@
 			const goodindodatasouce=this.props.goodindodatasouce.slice(0)
 			goodindodatasouce[index].barcode=e.target.value
 			this.props.dispatch({
-				type:'goods/goodindodatasouce',
+				type:'onlinegood/goodindodatasouce',
 				payload:goodindodatasouce
 			})
 		}
@@ -287,7 +287,7 @@
 			const goodindodatasouce=this.props.goodindodatasouce.slice(0)
 			goodindodatasouce[index].toBPrice=e.target.value
 			this.props.dispatch({
-				type:'goods/goodindodatasouce',
+				type:'onlinegood/goodindodatasouce',
 				payload:goodindodatasouce
 			})
 		}
@@ -296,7 +296,7 @@
 			const goodindodatasouce=this.props.goodindodatasouce.slice(0)
 			goodindodatasouce[index].toCPrice=e.target.value
 			this.props.dispatch({
-				type:'goods/goodindodatasouce',
+				type:'onlinegood/goodindodatasouce',
 				payload:goodindodatasouce
 			})
 		}
@@ -305,7 +305,7 @@
 			const goodindodatasouce=this.props.goodindodatasouce.slice(0)
 			goodindodatasouce[index].tagPrice=e.target.value
 			this.props.dispatch({
-				type:'goods/goodindodatasouce',
+				type:'onlinegood/goodindodatasouce',
 				payload:goodindodatasouce
 			})
 		}
@@ -314,7 +314,7 @@
 			const goodindodatasouce=this.props.goodindodatasouce.slice(0)
 			goodindodatasouce[index].costPrice=e.target.value
 			this.props.dispatch({
-				type:'goods/goodindodatasouce',
+				type:'onlinegood/goodindodatasouce',
 				payload:goodindodatasouce
 			})
 		}
@@ -364,12 +364,12 @@
 		delecttab=()=>{
 			if(this.props.data.pdSpuId){
 				this.props.dispatch({
-					type:'goods/delete',
+					type:'onlinegood/delete',
 					payload:'301000edit'+this.props.data.pdSpuId
 				})
 			}else{
 				this.props.dispatch({
-					type:'goods/delete',
+					type:'onlinegood/delete',
 					payload:'301000edit'
 				})
 			}
@@ -381,7 +381,7 @@
 			let values =deepcCloneObj(this.props.values); 
 			values.currentPage="0";
 			this.props.dispatch({
-				type:'goods/fetch',
+				type:'onlinegood/fetch',
 				payload:{code:'qerp.web.pd.spu.query',values:values}
 			})
 			this.props.dispatch({type:'tab/loding',payload:true})
@@ -467,9 +467,9 @@
 							labelCol={{ span: 8 }}
 							wrapperCol={{ span: 6 }}
 						>
-							{getFieldDecorator('name', {
+							{getFieldDecorator('region', {
 								rules: [{ required: true, message: '请输入' }],
-								initialValue:this.props.name
+								initialValue:this.props.region
 							})(
 								<Input placeholder="请输入" autoComplete="off"/>
 							)}
@@ -548,10 +548,10 @@
 								this.props.isskus?
 								<div style={{display:'flex',textAlign:'center',padding:'15px 15px 0 15px'}}>
 									<div style={{lineHeight:'45px'}}>批量设置：</div>
-									<div style={{width:'100px',height:'45px',color:'#35bab0'}}><EditableCell text='价格' title='toBPrice'/></div>
-									<div style={{width:'100px',height:'45px',color:'#35bab0'}}><EditableCell text='零售价' title='toCPrice'/></div>
-									<div style={{width:'100px',height:'45px',color:'#35bab0'}}><EditableCell text='建议零售价' title='tagPrice'/></div>
-									<div style={{width:'100px',height:'45px',color:'#35bab0'}}><EditableCell text='进货价' title='costPrice'/></div>
+									<div style={{width:'100px',height:'45px',color:'#35bab0'}}><EditableCell text='采购价格' title='toBPrice'/></div>
+									<div style={{width:'100px',height:'45px',color:'#35bab0'}}><EditableCell text='到货价格' title='toCPrice'/></div>
+									<div style={{width:'100px',height:'45px',color:'#35bab0'}}><EditableCell text='出库价格' title='tagPrice'/></div>
+									<div style={{width:'100px',height:'45px',color:'#35bab0'}}><EditableCell text='售价' title='costPrice'/></div>
                 				</div>
 								:null
 							}
@@ -563,13 +563,13 @@
 						labelCol={{ span: 8 }}
 						wrapperCol={{ span: 6 }}
 					>
-						{getFieldDecorator('pdCategory1Idaa', {
+						{getFieldDecorator('warehouseId', {
 							rules: [{ required: true, message: '请选择'}],
-							initialValue:String(this.props.pdCategory1Id)
+							initialValue:String(this.props.warehouseId)
 						})(
 							<Select placeholder="请选择">
-								<Option value='1'>1</Option>
-								<Option value='2'>2</Option>
+								<Option value='1'>杭州仓</Option>
+								<Option value='2'>重庆仓</Option>
 							</Select>
 						)}
 					</FormItem>
@@ -578,11 +578,10 @@
 						labelCol={{ span: 8 }}
 						wrapperCol={{ span: 6 }}
 						>
-						{getFieldDecorator('lotLimitInDay', {
-							initialValue:this.props.lotLimitInDay,
-							rules: [{pattern:/^[0-9]*$/,message:'天数只能是整数'}],
+						{getFieldDecorator('shareRatio', {
+							initialValue:this.props.shareRatio
 						})(
-							<Input autoComplete="off"/>
+							<Input autoComplete="off" addonAfter="%"/>
 						)}
 					</FormItem>
 					<FormItem
@@ -601,9 +600,9 @@
 						labelCol={{ span: 8 }}
 						wrapperCol={{ span: 6 }}
 						>
-						{getFieldDecorator('lotLimitInDay1', {
-							initialValue:this.props.lotLimitInDay,
-							rules: [{pattern:/^[0-9]*$/,message:'天数只能是整数'}],
+						{getFieldDecorator('remark1', {
+							initialValue:this.props.remark1
+							
 						})(
 							<Input autoComplete="off"/>
 						)}
@@ -613,9 +612,8 @@
 						labelCol={{ span: 8 }}
 						wrapperCol={{ span: 6 }}
 						>
-						{getFieldDecorator('lotLimitInDay2', {
-							initialValue:this.props.lotLimitInDay,
-							rules: [{pattern:/^[0-9]*$/,message:'天数只能是整数'}],
+						{getFieldDecorator('remark2', {
+							initialValue:this.props.remark2
 						})(
 							<Input autoComplete="off"/>
 						)}
@@ -625,9 +623,9 @@
 						labelCol={{ span: 8 }}
 						wrapperCol={{ span: 6 }}
 						>
-						{getFieldDecorator('lotLimitInDay3', {
-							initialValue:this.props.lotLimitInDay,
-							rules: [{pattern:/^[0-9]*$/,message:'天数只能是整数'}],
+						{getFieldDecorator('remark3', {
+							initialValue:this.props.remark3,
+							
 						})(
 							<Input autoComplete="off"/>
 						)}
@@ -658,8 +656,8 @@
 	const GoodEdit = Form.create()(App);
 
 	function mapStateToProps(state) {
-		const {values,limit,currentPage,name,pdCategory1Id,pdCategory2Id,pdBrandId,spuIdPics,pdCategorys,pdBrand,pdTypeslist,pdType1Id,pdType2Id,tag1,tag2,isskus,goodindodatasouce,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell,pdSpuInfo,spuPics,goodpdCategorys,shareType,containerSpec,methup} = state.goods;
-		return {values,limit,currentPage,name,pdCategory1Id,pdCategory2Id,pdBrandId,spuIdPics,pdCategorys,pdBrand,pdTypeslist,pdType1Id,pdType2Id,tag1,tag2,isskus,goodindodatasouce,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell,pdSpuInfo,spuPics,goodpdCategorys,shareType,containerSpec,methup};
+		const {values,limit,currentPage,name,pdCategory1Id,pdCategory2Id,pdBrandId,spuIdPics,pdCategorys,pdBrand,pdTypeslist,pdType1Id,pdType2Id,tag1,tag2,isskus,goodindodatasouce,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell,pdSpuInfo,spuPics,goodpdCategorys,shareType,containerSpec,methup,region} = state.onlinegood;
+		return {values,limit,currentPage,name,pdCategory1Id,pdCategory2Id,pdBrandId,spuIdPics,pdCategorys,pdBrand,pdTypeslist,pdType1Id,pdType2Id,tag1,tag2,isskus,goodindodatasouce,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell,pdSpuInfo,spuPics,goodpdCategorys,shareType,containerSpec,methup,region};
 	}
 
 	export default connect(mapStateToProps)(GoodEdit);

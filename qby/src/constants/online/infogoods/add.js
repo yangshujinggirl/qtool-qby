@@ -37,7 +37,7 @@ class AddEditableTable extends React.Component {
 		const pdSpuInfo=this.props.pdSpuInfo.splice(0)
 		pdSpuInfo[index].content=e.target.value
 		this.props.dispatch({
-			type:'goods/pdSpuInfo',
+			type:'onlinegood/pdSpuInfo',
 			payload:pdSpuInfo
 		})
 	}
@@ -46,7 +46,7 @@ class AddEditableTable extends React.Component {
 		const pdSpuInfo=this.props.pdSpuInfo.slice(0)
 		pdSpuInfo.splice(index, 1);
 		this.props.dispatch({
-			type:'goods/pdSpuInfo',
+			type:'onlinegood/pdSpuInfo',
 			payload:pdSpuInfo
 		})
 	}
@@ -62,7 +62,7 @@ class AddEditableTable extends React.Component {
 			content:null
 		})
 		this.props.dispatch({
-			type:'goods/pdSpuInfo',
+			type:'onlinegood/pdSpuInfo',
 			payload:pdSpuInfo
 		})
 	}
@@ -77,7 +77,7 @@ class AddEditableTable extends React.Component {
 			content:null
 		})
 		this.props.dispatch({
-			type:'goods/pdSpuInfo',
+			type:'onlinegood/pdSpuInfo',
 			payload:pdSpuInfo
 		})
 	}
@@ -95,7 +95,7 @@ class AddEditableTable extends React.Component {
 }
 
 function mapStateToProps(state) {
-    const {pdSpuInfo} = state.goods;
+    const {pdSpuInfo} = state.onlinegood;
     return {pdSpuInfo};
 }
 

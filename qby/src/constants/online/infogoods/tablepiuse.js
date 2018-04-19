@@ -17,7 +17,7 @@ class EditableCell extends React.Component {
                 goodindodatasouce[i][this.props.title]=this.state.value
             }
             this.props.dispatch({
-				type:'goods/goodindodatasouce',
+				type:'onlinegood/goodindodatasouce',
 				payload:goodindodatasouce
 			})
         });
@@ -54,7 +54,7 @@ class EditableCell extends React.Component {
   }
 
   function mapStateToProps(state) {
-	const {goodindodatasouce} = state.goods;
+	const {goodindodatasouce} = state.onlinegood;
 	return {goodindodatasouce};
 }
   export default connect(mapStateToProps)(EditableCell);

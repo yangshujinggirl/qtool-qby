@@ -31,7 +31,7 @@ if (info.file.status === 'done') {
 			const pdSpuInfo=this.props.pdSpuInfo.slice(0)
 			pdSpuInfo[this.props.index].content=this.state.imageUrl
 			this.props.dispatch({
-				type:'goods/pdSpuInfo',
+				type:'onlinegood/pdSpuInfo',
 				payload:pdSpuInfo
 			})
 		})
@@ -72,7 +72,7 @@ render() {
 
 
 function mapStateToProps(state) {
-	const {pdSpuInfo} = state.goods;
+	const {pdSpuInfo} = state.onlinegood;
 	return {pdSpuInfo};
 }
 

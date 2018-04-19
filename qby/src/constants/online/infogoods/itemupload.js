@@ -79,7 +79,7 @@ handleChange = (info) => {
 			}
 			//处理table的数据
 			this.props.dispatch({
-				type:'goods/goodindodatasouce',
+				type:'onlinegood/goodindodatasouce',
 				payload:goodindodatasouce
 			})
 		})
@@ -106,7 +106,7 @@ handleChange = (info) => {
 			console.log(goodindodatasouce)
 			//处理table的数据
 			this.props.dispatch({
-				type:'goods/goodindodatasouce',
+				type:'onlinegood/goodindodatasouce',
 				payload:goodindodatasouce
 			})
 		})
@@ -149,7 +149,7 @@ render() {
 }
 
 function mapStateToProps(state) {
-	const {fileList,goodindodatasouce} = state.goods;
+	const {fileList,goodindodatasouce} = state.onlinegood;
 	return {fileList,goodindodatasouce};
 }
 

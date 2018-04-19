@@ -18,7 +18,7 @@ class AdvancedSearchForm extends React.Component {
         values.limit=limit
         values.currentPage=currentPage
         this.props.dispatch({
-            type:'goods/fetch',
+            type:'onlinegood/fetch',
             payload:{code:'qerp.web.pd.spu.query',values:values}
         })
         this.props.dispatch({type:'tab/loding',payload:true})
@@ -26,7 +26,7 @@ class AdvancedSearchForm extends React.Component {
     //同步data
     synchronousState=(values)=>{
         this.props.dispatch({
-            type:'goods/synchronous',
+            type:'onlinegood/synchronous',
             payload:values
         })
     }
@@ -46,7 +46,7 @@ class AdvancedSearchForm extends React.Component {
 		const selectedRows=[]
 		const selectedRowKeys=[]
 		this.props.dispatch({
-	    	type:'goods/select',
+	    	type:'onlinegood/select',
 	    	payload:{selectedRowKeys,selectedRows}
 	  	})
 	}
@@ -79,10 +79,10 @@ class AdvancedSearchForm extends React.Component {
                                     )}
                                 </FormItem>
                                 <FormItem label='商品状态'>
-                                    {getFieldDecorator('status')(
+                                    {getFieldDecorator('spuStatus')(
                                         <Select allowClear={true} placeholder="请选择">
-                                            <Option value="10">停售</Option>
-                                            <Option value="20">售卖</Option>
+                                            <Option value="1">售卖</Option>
+                                            <Option value="2">停售</Option>
                                         </Select>
                                     )}
                                 </FormItem>
@@ -90,15 +90,15 @@ class AdvancedSearchForm extends React.Component {
                                     {getFieldDecorator('infoStatus')(
                                         <Select allowClear={true} placeholder="请选择">
                                             <Option value='1'>完整</Option>
-                                            <Option value='0'>不完整</Option>
+                                            <Option value='2'>不完整</Option>
                                         </Select>
                                     )}
                                 </FormItem>
                                 <FormItem label='保税仓库'>
-                                    {getFieldDecorator('isHot')(
+                                    {getFieldDecorator('warehouseId')(
                                         <Select allowClear={true} placeholder="请选择">
-                                            <Option value="true">杭州仓</Option>
-                                            <Option value="false">重庆仓</Option>
+                                            <Option value="1">杭州仓</Option>
+                                            <Option value="2">重庆仓</Option>
                                         </Select>
                                     )}
                                 </FormItem>
@@ -118,7 +118,7 @@ class AdvancedSearchForm extends React.Component {
     }
 }
 function mapStateToProps(state) {
-    const {limit,currentPage} = state.goods;
+    const {limit,currentPage} = state.onlinegood;
     const {pdCategorysList}=state.IndexPage;
     return {limit,currentPage,pdCategorysList};
 }

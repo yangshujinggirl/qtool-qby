@@ -10,7 +10,7 @@ class Goodlist extends React.Component {
         goodslist[index].check=e.target.checked
         const {total,limit,currentPage}=this.props
         this.props.dispatch({
-            type:'goods/goodslist',
+            type:'onlinegood/goodslist',
 	    	payload:{goodslist,total,limit,currentPage}
         })
     }
@@ -44,7 +44,7 @@ class Goodlist extends React.Component {
                   payload:paneitem
             })
             this.props.dispatch({
-                type:'goods/initgoodedit',
+                type:'onlinegood/initgoodedit',
                 payload:{}
               })
         }else{
@@ -58,7 +58,7 @@ class Goodlist extends React.Component {
         values.limit=limit
         values.currentPage=currentPage
         this.props.dispatch({
-            type:'goods/fetch',
+            type:'onlinegood/fetch',
             payload:{code:'qerp.web.pd.spu.query',values:values}
         })
     }
@@ -147,7 +147,7 @@ class Goodlist extends React.Component {
     
 }
 function mapStateToProps(state) {
-    const {limit,currentPage,goodslist,total,values} = state.goods;
+    const {limit,currentPage,goodslist,total,values} = state.onlinegood;
     return {limit,currentPage,goodslist,total,values};
 }
 

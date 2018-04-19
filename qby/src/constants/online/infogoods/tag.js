@@ -13,7 +13,7 @@ handleClose = (removedTag) => {
 	const iallpdTypeVals=removedTag
 	const types=this.props.types
 	this.props.dispatch({
-		type:'goods/deletetags',
+		type:'onlinegood/deletetags',
 		payload:{iallpdTypeVals,types}
 	})
 	// const tags = this.props.tags.filter(tag => tag !== removedTag);
@@ -100,7 +100,7 @@ handleInputConfirm = (e) => {
 						}
 						const types=this.props.types
 						this.props.dispatch({
-							type:'goods/newtags',
+							type:'onlinegood/newtags',
 							payload:{iallpdTypeVals,types}
 						})
 						this.hindok()
@@ -159,7 +159,7 @@ hindok=()=>{
 		const tag1s=this.props.tag1
 		const tag2s=this.props.tag2
 		this.props.dispatch({
-			type:'goods/goodsinfoChange',
+			type:'onlinegood/goodsinfoChange',
 			payload:{pdType1Ids,pdType2Ids,tag1s,tag2s}
 		})
 
@@ -213,7 +213,7 @@ render() {
 }
 
 function mapStateToProps(state) {
-	const {cardtitle,cardlist,details,binCode,values,limit,currentPage,name,pdCategory1Id,pdCategory2Id,pdBrandId,spuIdPics,pdCategorys,pdBrand,pdTypeslist,pdType1Id,pdType2Id,tag1,tag2,isskus,goodindodatasouce} = state.goods;
+	const {cardtitle,cardlist,details,binCode,values,limit,currentPage,name,pdCategory1Id,pdCategory2Id,pdBrandId,spuIdPics,pdCategorys,pdBrand,pdTypeslist,pdType1Id,pdType2Id,tag1,tag2,isskus,goodindodatasouce} = state.onlinegood;
 	const {pdCategorysList}=state.IndexPage;
 	return {cardtitle,cardlist,details,binCode,values,limit,currentPage,pdCategorys,pdCategorysList,name,pdCategory1Id,pdCategory2Id,pdBrandId,spuIdPics,pdBrand,pdTypeslist,pdType1Id,pdType2Id,tag1,tag2,isskus,goodindodatasouce};
 }

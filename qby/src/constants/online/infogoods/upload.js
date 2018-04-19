@@ -71,7 +71,7 @@ class PicturesWall extends React.Component {
 					spuPics.push(fileList[i].response.data[0])
 				}
 				this.props.dispatch({
-					type:'goods/uploads',
+					type:'onlinegood/uploads',
 					payload:spuPics
 				  })
 			})
@@ -86,7 +86,7 @@ class PicturesWall extends React.Component {
 					spuPics.push(fileList[i].response.data[0])
 				}
 				this.props.dispatch({
-					type:'goods/uploads',
+					type:'onlinegood/uploads',
 					payload:spuPics
 				  })
 			})
@@ -140,7 +140,7 @@ class PicturesWall extends React.Component {
 		const methup={}
 		methup.setinitfileList=this.setinitfileList
 		this.props.dispatch({
-			type:'goods/methup',
+			type:'onlinegood/methup',
 			payload:methup
 		})
 	}
@@ -155,7 +155,7 @@ class PicturesWall extends React.Component {
 	}
 
 	function mapStateToProps(state) {
-		const {fileList} = state.goods;
+		const {fileList} = state.onlinegood;
 		return {fileList};
 	}
 

@@ -58,7 +58,7 @@
 					const povisible=false
 					if(json.code=='0'){
 						this.props.dispatch({
-							type:'goods/fetch',
+							type:'onlinegood/fetch',
 							payload:{code:'qerp.web.pd.spu.query',values:this.props.values}
 						})
 						this.setState({
@@ -83,7 +83,7 @@
 					if(json.code=='0'){
 						const povisible=false
 						this.props.dispatch({
-							type:'goods/fetch',
+							type:'onlinegood/fetch',
 							payload:{code:'qerp.web.pd.spu.query',values:this.props.values}
 						})
 						this.setState({
@@ -109,7 +109,7 @@
 					if(json.code=='0'){
 						const povisible=false
 						this.props.dispatch({
-							type:'goods/fetch',
+							type:'onlinegood/fetch',
 							payload:{code:'qerp.web.pd.spu.query',values:this.props.values}
 						})
 						this.setState({
@@ -128,7 +128,7 @@
 					payload:paneitem
 			})	
 			this.props.dispatch({
-				type:'goods/initgoodedit',
+				type:'onlinegood/initgoodedit',
 				payload:{}
 				})	
 		}
@@ -191,7 +191,7 @@
 		}
 	}
 	function mapStateToProps(state) {
-		const {checkgood,values} = state.goods;
+		const {checkgood,values} = state.onlinegood;
 			return {checkgood,values};
 	}
 
