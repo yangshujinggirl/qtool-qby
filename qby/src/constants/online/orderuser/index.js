@@ -6,10 +6,7 @@ import SearchTable from './table';
 class OrderuserIndex extends React.Component{
     state = {
         searchvalue:null,
-        datasouce:[{
-            orderNo:"122",
-            key:"1"
-        }],
+        datasouce:[],
         total:0,
         currentPage:0,
         limit:15,

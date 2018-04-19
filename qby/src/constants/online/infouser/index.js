@@ -49,7 +49,7 @@ class InfouserIndex extends React.Component{
     hindSearch=(values)=>{
         values.limit=this.state.limit
         values.currentPage=this.state.currentPage
-        const result=GetServerData('qerp.web.pd.spu.query',values)
+        const result=GetServerData('qerp.web.ec.user_consume_query',values)
         result.then((res) => {
            return res;
         }).then((json) => {
