@@ -17,7 +17,7 @@ class Tabletitle extends React.Component {
 				<div className='clearfix' style={{height:'32px',lineHeight:"32px"}}>
 					<div className='fl'>子单{this.props.listindex}信息</div>
 					{
-						this.props.isdelivery?<div className='fr'><Shipeditmodel modeltit={'子单'+this.props.listindex+'信息'}/></div>:null
+						this.props.isdelivery?<div className='fr'><Shipeditmodel modeltit={'子单'+this.props.listindex+'信息'} ecOrderId={this.props.ecOrderId}/></div>:null
 					}
 				</div>
 				<div className='clearfix'>
@@ -173,7 +173,7 @@ class OrderuserInfo extends React.Component{
 					<Cardlist cardtitle='订单信息' cardlist={this.state.orderinfo}/>
 				</div>
                 <div className='mb10 list-cad'>
-					<Cardlists cardtitle='收货信息' cardlist={this.state.receiptinfo} canedit={this.state.canedit}/>
+					<Cardlists cardtitle='收货信息' cardlist={this.state.receiptinfo} canedit={this.state.canedit} ecOrderId={this.props.data.id}/>
 				</div>
 				<div className='mb10'>
 					<EditableTable 
@@ -199,6 +199,7 @@ class OrderuserInfo extends React.Component{
 											ecSuborderNo={item.ecSuborderNo}
 											warehouseStr={item.warehouseStr}
 											status={item.status}
+											ecOrderId={this.props.data.id}
 											/>}
 									bordered={true}
 									footer={false}/>

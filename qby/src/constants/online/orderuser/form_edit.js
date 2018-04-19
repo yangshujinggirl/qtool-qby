@@ -9,6 +9,7 @@ class App extends React.Component {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
+                values.ecOrderId=this.props.ecOrderId
                 const result=GetServerData('qerp.web.ec.pd.userOrder.save',values)
                 result.then((res) => {
                     return res;

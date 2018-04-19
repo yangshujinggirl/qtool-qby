@@ -59,6 +59,7 @@ class Shipeditmodel extends React.Component {
                 return;
             }
             console.log('Received values of form: ', values);
+            values.ecOrderId=this.props.ecOrderId
             const result=GetServerData('qerp.web.ec.pd.userOrder.query',values)
             result.then((res) => {
                return res;
