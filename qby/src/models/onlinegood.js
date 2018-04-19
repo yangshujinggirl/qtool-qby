@@ -84,6 +84,7 @@ export default {
 	reducers: {
 		//初始化商品编辑
 		initgoodedit(state, { payload:{}}) {
+			const region=null
 			const name=null
 			const pdCategory1Id=[]
 			const pdCategory2Id=[]
@@ -127,7 +128,7 @@ export default {
 			const containerSpec='1'
 
 
-			return {...state,name,pdCategory1Id,pdCategory2Id,pdCategorys,pdBrand,pdBrandId,spuPics,pdType1Id,pdType2Id,tag1,tag2,goodindodatasouce,initdatasouce,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell,pdSpuInfo,fileList,shareType,containerSpec,isskus}
+			return {...state,region,name,pdCategory1Id,pdCategory2Id,pdCategorys,pdBrand,pdBrandId,spuPics,pdType1Id,pdType2Id,tag1,tag2,goodindodatasouce,initdatasouce,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell,pdSpuInfo,fileList,shareType,containerSpec,isskus}
 		},
 		//商品list
 		goodslist(state, { payload:{goodslist,total,limit,currentPage}}) {
@@ -328,7 +329,7 @@ export default {
 					}
 				}
 				const fileDomain=result.fileDomain
-				const {name,pdCategory1Id,pdCategory2Id,pdBrandId,spuIdPics,pdBrand,pdSkus,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell,shareType,containerSpec}=pdSpuinfos
+				const {region,name,pdCategory1Id,pdCategory2Id,pdBrandId,spuIdPics,pdBrand,pdSkus,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell,shareType,containerSpec}=pdSpuinfos
 				const pdSpuInfo=eval(pdSpuinfos.pdSpuInfo)
 				//更新图片数据
 				const spuPics=[]
@@ -417,7 +418,7 @@ export default {
 				const setinitfileList = yield select(state => state.onlinegood.methup.setinitfileList);
 				setinitfileList(fileList)
 				const goodindodatasouce=initdatasouce.slice(0)
-				yield put({type: 'infolist',payload:{name,pdCategory1Id,pdCategory2Id,pdBrandId,spuPics,pdBrand,fileList,pdType1Id,pdType2Id,tag1,tag2,initdatasouce,goodindodatasouce,isskus,initisskus,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell,pdSpuInfo,shareType,containerSpec}});
+				yield put({type: 'infolist',payload:{region,name,pdCategory1Id,pdCategory2Id,pdBrandId,spuPics,pdBrand,fileList,pdType1Id,pdType2Id,tag1,tag2,initdatasouce,goodindodatasouce,isskus,initisskus,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell,pdSpuInfo,shareType,containerSpec}});
 				//根据id请求类型的opation
 				const value={"parentId":pdCategory1Id,"getChildren":true,"enabled":true}
 				yield put({type: 'captlistfetch',payload:{code:'qerp.web.pd.category.list',values:value}});

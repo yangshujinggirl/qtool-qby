@@ -19,11 +19,10 @@ class Treerole extends React.Component {
 		});
   	}
 	onCheck = (checkedKeys,e) => {
-		console.log(e)
 		const postcheckedKeys=[]
 		for(var i=0;i<e.checkedNodes.length;i++){
-			if(e.checkedNodes[i].props.level=='3'){
-				postcheckedKeys.push(e.checkedNodes[i].props.urRoleId)
+			if((!e.checkedNodes[i].props.children) || (e.checkedNodes[i].props.children.length<1)){
+				postcheckedKeys.push(String(e.checkedNodes[i].key))
 			}
 		}
 		this.setState({ 
@@ -73,22 +72,7 @@ class Treerole extends React.Component {
 			return res;
 		}).then((json) => {
 			if(json.code=='0'){
-				console.log(json)
 				const urRoles=json.urRoles
-
-				// const urRoles=[{
-				// 	name: '订单中心',
-				// 	urRoleId:'201000',
-				// 	children: [{
-				// 	  	name: '门店订单',
-				// 	  	urRoleId:'2010001',
-				// 	  	children: [
-				// 			{ name: '新增',urRoleId:'20100011',type:"child"},
-				// 			{ name: '导出',urRoleId:'20100012',type:"child"},
-				// 			{ name: '信息',urRoleId:'20100013',type:"child"}
-				// 	  	],
-				// 	}],
-				//   }]
 				this.renderRoleData(urRoles)
 				this.setState({
 					treeData:urRoles,

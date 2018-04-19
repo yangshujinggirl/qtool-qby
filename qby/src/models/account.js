@@ -98,6 +98,9 @@ export default {
 			if(result.code=='0'){
 				const urUser = result.urUser;
 				const urRoleIds=result.urUser.urRoleIds;
+				for(var i=0;i<urRoleIds.length;i++){
+					urRoleIds[i]=String(urRoleIds[i])
+				}
 				urUser.status=String(urUser.status);
 				const checkedKeys=urRoleIds
 				const rolesData=urRoleIds
