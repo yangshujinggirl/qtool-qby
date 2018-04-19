@@ -24,19 +24,19 @@ class DataspIndex extends React.Component{
         const rolelists=this.props.data.rolelists
 		//销售数据
 		const selldatarole=rolelists.find((currentValue,index)=>{
-			return currentValue.remark=="qerp.web.sys.doc.tasks"
+			return currentValue.url=="qerp.web.rp.shop.sale.data.query"
         })
         //门店库存
         const spcundatarole=rolelists.find((currentValue,index)=>{
-			return currentValue.remark=="qerp.web.sys.doc.task"
+			return currentValue.url=="qerp.web.pd.category.list"
         })
         //历史库存
         const hiscunrole=rolelists.find((currentValue,index)=>{
-			return currentValue.remark=="qerp.web.sys.doc.task"
+			return currentValue.url=="qerp.web.pd.category.list"
         })
         //联营分成
         const liandatarole=rolelists.find((currentValue,index)=>{
-			return currentValue.remark=="qerp.web.sys.doc.task"
+			return currentValue.url=="qerp.web.rp.shop.Joint.division.page"
         })       
      	return(
         	<div className='content_box stock-tabs'>
@@ -77,19 +77,19 @@ class DataspIndex extends React.Component{
             const rolelists=this.props.data.rolelists
             //销售数据
             const selldatarole=rolelists.find((currentValue,index)=>{
-                return currentValue.remark=="qerp.web.sys.doc.tasks"
+                return currentValue.url=="qerp.web.rp.shop.sale.data.query"
             })
             //门店库存
             const spcundatarole=rolelists.find((currentValue,index)=>{
-                return currentValue.remark=="qerp.web.sys.doc.task"
+                return currentValue.url=="qerp.web.pd.category.list"
             })
             //历史库存
             const hiscunrole=rolelists.find((currentValue,index)=>{
-                return currentValue.remark=="qerp.web.sys.doc.task"
+                return currentValue.url=="qerp.web.pd.category.list"
             })
             //联营分成
             const liandatarole=rolelists.find((currentValue,index)=>{
-                return currentValue.remark=="qerp.web.sys.doc.task"
+                return currentValue.url=="qerp.web.rp.shop.Joint.division.page"
             })
             if(selldatarole){
                 this.setState({

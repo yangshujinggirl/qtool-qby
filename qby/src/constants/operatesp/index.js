@@ -52,13 +52,13 @@ class OperateIndex extends React.Component{
 
   	render(){
 		const rolelists=this.props.data.rolelists
-		// //新增采购单
+		// //新增门店
 		const addorder=rolelists.find((currentValue,index)=>{
-			return currentValue.remark=="qerp.web.sp.exchange.save"
+			return currentValue.url=="qerp.web.sp.shop.save"
 		})
 		//导出数据
 		const expontdata=rolelists.find((currentValue,index)=>{
-			return currentValue.remark=="qerp.web.sys.doc.task"
+			return currentValue.url=="qerp.web.sys.doc.task"
 		})
 		
 		

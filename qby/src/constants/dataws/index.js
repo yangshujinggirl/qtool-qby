@@ -24,15 +24,15 @@ class DatawsIndex extends React.Component{
         const rolelists=this.props.data.rolelists
 		//实时库存
 		const shicunrole=rolelists.find((currentValue,index)=>{
-			return currentValue.remark=="qerp.web.sys.doc.tasks"
+			return currentValue.url=="qerp.web.pd.invdata.query"
         })
         //历史库存
         const hiscunrole=rolelists.find((currentValue,index)=>{
-			return currentValue.remark=="qerp.web.sys.doc.task"
+			return currentValue.url=="qerp.web.pd.historyInvdata.query"
         })
         //商品效期
         const goodqirole=rolelists.find((currentValue,index)=>{
-			return currentValue.remark=="qerp.web.sys.doc.task"
+			return currentValue.url=="qerp.web.pd.validDate.query"
         })      
      	return(
         	<div className='content_box stock-tabs'>
@@ -70,15 +70,15 @@ class DatawsIndex extends React.Component{
         const rolelists=this.props.data.rolelists
 		//实时库存
 		const shicunrole=rolelists.find((currentValue,index)=>{
-			return currentValue.remark=="qerp.web.sys.doc.tasks"
+			return currentValue.url=="qerp.web.pd.invdata.query"
         })
         //历史库存
         const hiscunrole=rolelists.find((currentValue,index)=>{
-			return currentValue.remark=="qerp.web.sys.doc.task"
+			return currentValue.url=="qerp.web.pd.historyInvdata.query"
         })
         //商品效期
         const goodqirole=rolelists.find((currentValue,index)=>{
-			return currentValue.remark=="qerp.web.sys.doc.task"
+			return currentValue.url=="qerp.web.pd.validDate.query"
         })
         if(shicunrole){
             this.setState({

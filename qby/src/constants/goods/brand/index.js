@@ -14,11 +14,8 @@ class Brandindex extends React.Component {
 		const rolelists=this.props.data.rolelists
 		//新增修改
 		const addorder=rolelists.find((currentValue,index)=>{
-			return currentValue.remark=="qerp.web.sp.ctorder.save"
+			return currentValue.url=="qerp.web.pd.brand.save"
 		})
-
-
-
 		return (
 			<div className='content_box'>
 				{

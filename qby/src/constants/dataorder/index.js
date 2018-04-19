@@ -24,11 +24,11 @@ class DataorderIndex extends React.Component{
         const rolelists=this.props.data.rolelists
 		//门店订单
 		const sporderrole=rolelists.find((currentValue,index)=>{
-			return currentValue.remark=="qerp.web.sys.doc.tasks"
+			return currentValue.url=="qerp.web.rp.shop.order.query"
         })
         //pos订单
         const posorderrole=rolelists.find((currentValue,index)=>{
-			return currentValue.remark=="qerp.web.sys.doc.task"
+			return currentValue.url=="qerp.web.rp.pos.order.query"
         })
       
      	return(
@@ -56,11 +56,11 @@ class DataorderIndex extends React.Component{
         const rolelists=this.props.data.rolelists
 		//门店订单
 		const sporderrole=rolelists.find((currentValue,index)=>{
-			return currentValue.remark=="qerp.web.sys.doc.tasks"
+			return currentValue.url=="qerp.web.rp.shop.order.query"
         })
         //pos订单
         const posorderrole=rolelists.find((currentValue,index)=>{
-			return currentValue.remark=="qerp.web.sys.doc.task"
+			return currentValue.url=="qerp.web.rp.pos.order.query"
         })
 
         if(sporderrole){

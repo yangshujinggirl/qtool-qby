@@ -136,23 +136,20 @@
 			const rolelists=this.props.data.rolelists
 			// //增改商品
 			const addorder=rolelists.find((currentValue,index)=>{
-				return currentValue.remark=="qerp.web.ws.asn.save"
+				return currentValue.url=="qerp.web.pd.spu.save"
 			})
 			//售卖开关
 			const sellopen=rolelists.find((currentValue,index)=>{
-				return currentValue.remark=="qerp.web.sys.doc.tasks"
+				return currentValue.url=="qerp.web.pd.spu.status"
 			})
 			//批量上新
 			const newopen=rolelists.find((currentValue,index)=>{
-				return currentValue.remark=="qerp.web.sp.order.print"
+				return currentValue.url=="qerp.web.pd.spu.statusnew"
 			})
 			//批量畅销
 			const hotopen=rolelists.find((currentValue,index)=>{
-				return currentValue.remark=="qerp.web.ws.asn.payStatus"
+				return currentValue.url=="qerp.web.pd.spu.statushot"
 			})
-			
-
-
 			return(
 				<div>
 					<Goodssearchform/>

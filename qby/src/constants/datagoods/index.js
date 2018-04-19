@@ -19,15 +19,15 @@ class DatagoIndex extends React.Component{
         const rolelists=this.props.data.rolelists
 		//商品分析
 		const goodanalysis=rolelists.find((currentValue,index)=>{
-			return currentValue.remark=="qerp.web.sys.doc.tasks"
+			return currentValue.url=="qerp.web.rp.pd.analysis.query"
         })
         //分类分析
         const classanalysis=rolelists.find((currentValue,index)=>{
-			return currentValue.remark=="qerp.web.sys.doc.task"
+			return currentValue.url=="qerp.web.rp.category.analysis.list"
         })
         //商品数据
         const gooddata=rolelists.find((currentValue,index)=>{
-			return currentValue.remark=="qerp.web.sys.doc.task"
+			return currentValue.url=="qerp.web.rp.spu.data.page"
         })
         
 
@@ -68,15 +68,15 @@ class DatagoIndex extends React.Component{
         const rolelists=this.props.data.rolelists
 		//商品分析
 		const goodanalysis=rolelists.find((currentValue,index)=>{
-			return currentValue.remark=="qerp.web.sys.doc.tasks"
+			return currentValue.url=="qerp.web.rp.pd.analysis.query"
         })
         //分类分析
         const classanalysis=rolelists.find((currentValue,index)=>{
-			return currentValue.remark=="qerp.web.sys.doc.task"
+			return currentValue.url=="qerp.web.rp.category.analysis.list"
         })
         //商品数据
         const gooddata=rolelists.find((currentValue,index)=>{
-			return currentValue.remark=="qerp.web.sys.doc.task"
+			return currentValue.url=="qerp.web.rp.spu.data.page"
         })
 
         if(goodanalysis){
