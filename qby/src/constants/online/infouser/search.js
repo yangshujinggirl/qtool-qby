@@ -6,27 +6,27 @@ const dateFormat = 'YYYY-MM-DD';
 
 class Searchform extends React.Component {
     state = {
-        starttime: '',
-        endtime:'',
+        firstCosumeTime:'',
+        lastCosumeTime:'',
     };
     //点击搜索按钮获取搜索表单数据
     handleSearch = (e) => {
         this.props.form.validateFields((err, values) => {
-            values.starttime=this.state.starttime
-            values.endtime=this.state.endtime
+            values.firstCosumeTime=this.state.starttime
+            values.lastCosumeTime=this.state.endtime
             this.props.hindFormSearch(values)
         });
     }
     //时间搜索部分
     startDateChange=(dates,dateString)=>{
         this.setState({
-            starttime:dateString
+            firstCosumeTime:dateString
         })
     }
     //时间搜索
     endDateChange=(dates,dateString)=>{
         this.setState({
-            endtime:dateString
+            lastCosumeTime:dateString
         })
     }
     render() {
@@ -38,22 +38,22 @@ class Searchform extends React.Component {
                         <Row>
                             <div className='serach_form'>
                                 <FormItem label='用户姓名'>
-                                    {getFieldDecorator('username')(
+                                    {getFieldDecorator('userName')(
                                         <Input placeholder="请输入" autoComplete="off"/>
                                     )}
                                 </FormItem>
                                 <FormItem label='身份证号'>
-                                    {getFieldDecorator('acc')(
+                                    {getFieldDecorator('idCardNo')(
                                         <Input placeholder="请输入" autoComplete="off"/>
                                     )}
                                 </FormItem>
                                 <FormItem label='手机号'>
-                                    {getFieldDecorator('tel')(
+                                    {getFieldDecorator('telephoneNo')(
                                         <Input placeholder="请输入" autoComplete="off"/>
                                     )}
                                 </FormItem>
                                 <FormItem label='初次消费时间'>
-                                    {getFieldDecorator('starttime')(
+                                    {getFieldDecorator('firstCosumeTime')(
                                         <DatePicker  
                                             format={dateFormat} 
                                             className='noant-calendar-picker'
@@ -62,7 +62,7 @@ class Searchform extends React.Component {
                                     )}
                                 </FormItem>
                                 <FormItem label='最后消费时间'>
-                                    {getFieldDecorator('endtime')(
+                                    {getFieldDecorator('lastCosumeTime')(
                                         <DatePicker  
                                             format={dateFormat} 
                                             className='noant-calendar-picker'

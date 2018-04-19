@@ -6,31 +6,31 @@ class SearchTable extends React.Component {
         this.columns = [
             {
                 title: '用户姓名',
-                dataIndex: 'shopName1'
+                dataIndex: 'userName'
             }, 
             {
                 title: '身份证号',
-                dataIndex: 'amount2'
+                dataIndex: 'idCardNo'
             },
             {
                 title: '手机号',
-                dataIndex: 'shopName3'
+                dataIndex: 'telephoneNo'
             }, 
             {
                 title: '消费次数',
-                dataIndex: 'amount4'
+                dataIndex: 'cosumeCounts'
             },
             {
                 title: '消费金额',
-                dataIndex: 'shopName5'
+                dataIndex: 'cosumeSunAmount'
             }, 
             {
                 title: '初次消费时间',
-                dataIndex: 'amount6'
+                dataIndex: 'firstCosumeTime'
             },
             {
                 title: '最后消费时间',
-                dataIndex: 'shopName7'
+                dataIndex: 'lastCosumeTime'
             }
         ];
     }

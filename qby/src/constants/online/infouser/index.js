@@ -49,15 +49,15 @@ class InfouserIndex extends React.Component{
     hindSearch=(values)=>{
         values.limit=this.state.limit
         values.currentPage=this.state.currentPage
-        const result=GetServerData('qerp.web.bs.userinfo',values)
+        const result=GetServerData('qerp.web.pd.spu.query',values)
         result.then((res) => {
            return res;
         }).then((json) => {
             if(json.code=='0'){
                 this.setState({
                     searchvalue:values,
-                    datasouce:json.datasouce,
-                    totol:json.totol,
+                    datasouce:json.cosumedatas,
+                    total:json.total,
                     currentPage:json.currentPage,
                     limit:json.limit
                 })
@@ -82,7 +82,7 @@ class InfouserIndex extends React.Component{
                     type="primary" 
                     size='large'
                     className='mt20'
-                    onClick={this.exportData.bind(this,20,this.state.searchvalue)}
+                    onClick={this.exportData.bind(this,90,this.state.searchvalue)}
                 >
                     导出数据
                 </Button>
