@@ -69,8 +69,6 @@ export default {
 			return {...state,urRoleIds}
 		},
 		opUrRoleIds(state, { payload: {checkedKeys,rolesData}}){
-			console.log(checkedKeys)
-			console.log(rolesData)
 			return {...state,checkedKeys,rolesData}
 		}
 

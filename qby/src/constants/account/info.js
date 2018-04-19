@@ -72,7 +72,6 @@ class AddNewAccountForm extends React.Component{
 		e.preventDefault();
 		this.props.form.validateFields((err, values) => {
 		  if (!err) {
-			  console.log(this.props.rolesData)
 				if(this.props.rolesData.length<1){
 					message.warn('请选择权限')
 					return
