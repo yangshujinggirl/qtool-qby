@@ -60,15 +60,15 @@ class OrdermdIndex extends React.Component{
 		const rolelists=this.props.data.rolelists
 		//新增订单
 		const addorder=rolelists.find((currentValue,index)=>{
-			return currentValue.remark=="qerp.web.sp.order.save"
+			return currentValue.url=="qerp.web.sp.order.save"
 		})
 		//导出数据
 		const expontdata=rolelists.find((currentValue,index)=>{
-			return currentValue.remark=="qerp.web.sys.doc.task"
+			return currentValue.url=="qerp.web.sys.doc.task"
 		})
 		//取消订单
 		const cancelorder=rolelists.find((currentValue,index)=>{
-			return currentValue.remark=="qerp.web.sp.order.cancel"
+			return currentValue.url=="qerp.web.sp.order.cancel"
 		})
      	return(
         	<div className='content_box'>

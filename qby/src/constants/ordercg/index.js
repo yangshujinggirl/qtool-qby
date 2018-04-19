@@ -147,6 +147,7 @@ class OrdercgIndex extends React.Component{
 
   	render(){
 		const rolelists=this.props.data.rolelists
+		console.log(rolelists)
 		// //新增采购单
 		const addorder=rolelists.find((currentValue,index)=>{
 			return currentValue.remark=="qerp.web.ws.asn.save"
