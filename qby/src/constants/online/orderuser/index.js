@@ -140,6 +140,25 @@ class OrderuserIndex extends React.Component{
     }
 
   	render(){
+        const rolelists=this.props.data.rolelists
+		//重新推送
+		const addorder=rolelists.find((currentValue,index)=>{
+			return currentValue.url=="qerp.web.ec.pd.spulog.list"
+		})
+		//导出数据
+		const expontdata=rolelists.find((currentValue,index)=>{
+			return currentValue.url=="qerp.web.sys.doc.task"
+		})
+		//重新匹配商品
+		const overorder=rolelists.find((currentValue,index)=>{
+			return currentValue.url=="qerp.web.ec.pd.userOrder.reMatch"
+        })
+        //修改订单
+        const editorder=rolelists.find((currentValue,index)=>{
+			return currentValue.url=="qerp.web.ec.pd.userOrder.save"
+        })
+
+
      	return(
         	<div className='content_box'>
                 <SearchForm  hindFormSearch={this.hindSearch.bind(this)}/>

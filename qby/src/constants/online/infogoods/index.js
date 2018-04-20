@@ -134,33 +134,19 @@
 		}
 		render(){
 			const rolelists=this.props.data.rolelists
-			// // //增改商品
-			// const addorder=rolelists.find((currentValue,index)=>{
-			// 	return currentValue.remark=="qerp.web.ws.asn.save"
-			// })
-			// //售卖开关
-			// const sellopen=rolelists.find((currentValue,index)=>{
-			// 	return currentValue.remark=="qerp.web.sys.doc.tasks"
-			// })
-			// //批量上新
-			// const newopen=rolelists.find((currentValue,index)=>{
-			// 	return currentValue.remark=="qerp.web.sp.order.print"
-			// })
-			// //批量畅销
-			// const hotopen=rolelists.find((currentValue,index)=>{
-			// 	return currentValue.remark=="qerp.web.ws.asn.payStatus"
-			// })
-
-			const addorder=true
+			//增改商品
+			const addorder=rolelists.find((currentValue,index)=>{
+				return currentValue.url=="qerp.web.ec.pd.spu.save"
+			})
+			//导出数据
+			const expontdata=rolelists.find((currentValue,index)=>{
+				return currentValue.url=="qerp.web.sys.doc.task"
+			})
 			//售卖开关
-			const sellopen=true
-			//批量上新
-			const newopen=true
-			//批量畅销
-			const hotopen=true
-			
-
-
+			const newopen=rolelists.find((currentValue,index)=>{
+				return currentValue.url=="qerp.web.pd.spu.status"
+			})
+		
 			return(
 				<div>
 					<Goodssearchform/>

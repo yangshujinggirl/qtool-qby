@@ -29,7 +29,7 @@ class GoodtimeIndex extends React.Component{
 						size='large'
 						className='mt20'
 						onClick={this.addNew}
-				>
+					>
 						新增定时
 					</Button>
 					:null

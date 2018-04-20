@@ -47,7 +47,7 @@ class OrdermdIndex extends React.Component{
 	
 	}
 
-
+	//新增订单
 	addNew = () =>{
 		const paneitem={title:'新增订单',key:'201000edit',componkey:'201000edit',data:null}
   		this.props.dispatch({
