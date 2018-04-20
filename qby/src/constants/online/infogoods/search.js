@@ -8,6 +8,7 @@ class AdvancedSearchForm extends React.Component {
     //搜索
     handleSearch = (e) => {
         this.props.form.validateFields((err, values) => {
+           // console.log(values)
             this.initWarehouseList(values,this.props.limit,0)
             this.synchronousState(values)
             this.initselect()
@@ -16,7 +17,7 @@ class AdvancedSearchForm extends React.Component {
     //搜搜请求数据
     initWarehouseList=(values,limit,currentPage)=>{
         values.limit=limit
-        values.currentPage=currentPage
+        values.currentPage=currentPage;
         this.props.dispatch({
             type:'onlinegood/fetch',
             payload:{code:'qerp.web.ec.pd.spu.query',values:values}
