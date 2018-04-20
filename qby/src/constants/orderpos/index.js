@@ -60,7 +60,7 @@ class OrderposIndex extends React.Component{
 		const rolelists=this.props.data.rolelists
 		//导出数据
 		const expontdata=rolelists.find((currentValue,index)=>{
-			return currentValue.remark=="qerp.web.sys.doc.task"
+			return currentValue.url=="qerp.web.sys.doc.task"
 		})
      	return(
         	<div className='content_box'>
