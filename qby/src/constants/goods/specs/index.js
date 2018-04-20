@@ -21,7 +21,7 @@ class Specsindex extends React.Component {
 						<div className='list-con'>
 							{
 								record.pdTypeVals.map((item,index)=>{
-									return  <div className='list-item' key={index}><CollectionsPage  type='2' statetype={item.status=='1'?null:'dashed'} data={{pdTypeId:item.pdTypeId,name:item.name,status:item.status,pdTypeValId:item.pdTypeValId}} title='修改属性' text={item.name} pdTypes={this.props.pdTypes}/></div>
+									return  <div className='list-item' key={index}><CollectionsPage  type='2' statetype={item.status=='1'?null:'dashed'} data={{pdTypeId:item.pdTypeId,name:item.name,status:item.status,pdTypeValId:item.pdTypeValId}} title='修改属性' text={item.name} pdTypes={this.props.pdTypes} rolelists={this.props.data.rolelists}/></div>
 								})
 							}
 						</div> 
@@ -33,7 +33,7 @@ class Specsindex extends React.Component {
 				dataIndex: 'operation',
 				render: (text, record) => {
 				return (
-					<CollectionsPage type='1' pdTypes={this.props.pdTypes} data={{pdTypeId:record.pdTypeId,name:null,status:'1'}} title='新增属性' text='新增属性'/>
+					<CollectionsPage type='1' pdTypes={this.props.pdTypes} data={{pdTypeId:record.pdTypeId,name:null,status:'1'}} title='新增属性' text='新增属性' rolelists={this.props.data.rolelists}/>
 				);
 			}
 			}
@@ -91,7 +91,7 @@ class Specsindex extends React.Component {
 		return (
 			<div className='content_box classssd'>
 				{
-					addorder?<div className='tl mb15'><CollectionsPages title='新增规格' text='新增规格' statetype='primary'/></div>:null
+					addorder?<div className='tl mb15'><CollectionsPages title='新增规格' text='新增规格' statetype='primary' rolelists={this.props.data.rolelists}/></div>:null
 				}
 					
 					<EditableTable dataSource={this.props.pdTypes} columns={addorder?this.columns:this.columnsrole} showHeader={false} bordered={false}/>
