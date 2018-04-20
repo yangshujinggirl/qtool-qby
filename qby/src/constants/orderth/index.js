@@ -85,7 +85,7 @@ class OrderthIndex extends React.Component{
 			return;
 		}
 		const values={wsAsnId:this.props.selectedRows[0].wsAsnId}
-		const result=GetServerData('qerp.web.ws.asn.finish',values);
+		const result=GetServerData('qerp.web.sp.ws.asn.finish',values);
 		result.then((res) => {
 			return res;
 		}).then((json) => {
