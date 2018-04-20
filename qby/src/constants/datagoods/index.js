@@ -30,9 +30,6 @@ class DatagoIndex extends React.Component{
 			return currentValue.url=="qerp.web.rp.spu.data.page"
         })
         
-
-
-              
      	return(
         	<div className='content_box stock-tabs'>
                 <Tabs defaultActiveKey="1" onTabClick={this.tabChange.bind(this)}>
@@ -57,8 +54,6 @@ class DatagoIndex extends React.Component{
                         </TabPane>
                         :null
                     }
-                   
-                    
                    
                 </Tabs>
         	</div>
