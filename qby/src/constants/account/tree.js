@@ -20,12 +20,23 @@ class Treerole extends React.Component {
   	}
 	onCheck = (checkedKeys,e) => {
 		console.log(e)
+
+		//遍历最后一级权限数据，取到基础权限key,判断key是否在checkedKeys数组中，如果在，不动，不在，则添加
+
+
+
+		
+
 		const postcheckedKeys=[]
 		for(var i=0;i<e.checkedNodes.length;i++){
 			if((!e.checkedNodes[i].props.children) || (e.checkedNodes[i].props.children.length<1)){
 				postcheckedKeys.push(String(e.checkedNodes[i].key))
 			}
+
 		}
+
+		
+
 		this.setState({ 
 			checkedKeys:checkedKeys,
 			postcheckedKeys:postcheckedKeys
@@ -63,15 +74,6 @@ class Treerole extends React.Component {
 			if(data[i].children){
 				this.renderRoleData(data[i].children)
 			}
-			if(!data[i].children || data[i].children.length<0){
-					// for(j=0;j<){
-
-					// }
-
-
-
-			}
-
 		}
 	}
 	//请求数据
