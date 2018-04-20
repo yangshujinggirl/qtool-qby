@@ -97,20 +97,18 @@ class OrderthIndex extends React.Component{
 	}
   	render(){
 		const rolelists=this.props.data.rolelists
-		// //新增
+		//增改
 		const addorder=rolelists.find((currentValue,index)=>{
-			return currentValue.remark=="qerp.web.ws.asn.save"
+			return currentValue.url=="qerp.web.ws.asn.save"
 		})
 		//导出数据
 		const expontdata=rolelists.find((currentValue,index)=>{
-			return currentValue.remark=="qerp.web.sys.doc.task"
+			return currentValue.url=="qerp.web.sys.doc.task"
 		})
 		//强制完成
 		const overorder=rolelists.find((currentValue,index)=>{
-			return currentValue.remark=="qerp.web.ws.asn.finish"
+			return currentValue.url=="qerp.web.ws.asn.finish"
 		})
-
-
 
      	return(
         	<div className='content_box'>
@@ -126,9 +124,6 @@ class OrderthIndex extends React.Component{
 					强制完成
 				</Button>
 				:null
-
-
-
 				}
 				{
 					addorder?
@@ -141,10 +136,7 @@ class OrderthIndex extends React.Component{
 						新建退货单
 					</Button>
 				:null
-
-
 				}
-
 				{
 					expontdata?
 					<Button 
@@ -156,10 +148,7 @@ class OrderthIndex extends React.Component{
 					导出数据
 				</Button>
 				:null
-
 				}
-				
-					
              		<div className='mt15'>
 					 	<OrderthTable addorderobj={addorder}/>
 					</div>
