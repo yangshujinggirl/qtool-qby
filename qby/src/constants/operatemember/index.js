@@ -21,10 +21,10 @@ class OperatememberIndex extends React.Component{
         	<div className='content_box'>
                 <OperatememberSearch/>
              		<div className='mt20'>
-                        {/* <Button type="primary" size='large' className='mr10' onClick={this.handleDownload} style={{display:'inline-block'}}>
+                        <Button type="primary" size='large' className='mr10' onClick={this.handleDownload} style={{display:'inline-block'}}>
                             下载导入模板
                         </Button>
-                        <MyUploadMember/> */}
+                        <MyUploadMember/>
                         <div className="mt15">
                             <OperatememberTable/>
                         </div>
