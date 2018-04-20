@@ -78,7 +78,7 @@ class OrdermdIndex extends React.Component{
 						<Button 
 							type="primary" 
 							size='large'
-							className='mt20'
+							className='mt20 mr10'
 							onClick={this.addNew.bind(this)}
 						>
 							新增订单
@@ -90,7 +90,7 @@ class OrdermdIndex extends React.Component{
 						<Button 
 							type="primary" 
 							size='large'
-							className='mt20 ml10'
+							className='mt20 mr10'
 							onClick={this.exportData.bind(this,10,this.props.values)}
 						>
 							导出数据
