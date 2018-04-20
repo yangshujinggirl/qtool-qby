@@ -16,7 +16,7 @@ class AdvancedSearchForm extends React.Component {
     //搜搜请求数据
     initWarehouseList=(values,limit,currentPage)=>{
         values.limit=limit
-        values.currentPage=currentPage
+        values.currentPage=currentPage;
         this.props.dispatch({
             type:'onlinegood/fetch',
             payload:{code:'qerp.web.ec.pd.spu.query',values:values}
@@ -35,7 +35,9 @@ class AdvancedSearchForm extends React.Component {
     Categorylist=()=>{
         let value={
             getChildren:false,
-            enabled:true
+            enabled:true,
+            //电商中心为type:'2'
+            type:'2'
         }
         this.props.dispatch({
             type:'IndexPage/categoryfetch',
