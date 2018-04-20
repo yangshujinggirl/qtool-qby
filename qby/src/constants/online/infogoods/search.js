@@ -8,7 +8,6 @@ class AdvancedSearchForm extends React.Component {
     //搜索
     handleSearch = (e) => {
         this.props.form.validateFields((err, values) => {
-           // console.log(values)
             this.initWarehouseList(values,this.props.limit,0)
             this.synchronousState(values)
             this.initselect()
@@ -36,7 +35,9 @@ class AdvancedSearchForm extends React.Component {
     Categorylist=()=>{
         let value={
             getChildren:false,
-            enabled:true
+            enabled:true,
+            //电商中心为type:'2'
+            type:'2'
         }
         this.props.dispatch({
             type:'IndexPage/categoryfetch',

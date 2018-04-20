@@ -36,7 +36,9 @@ class AdvancedSearchForm extends React.Component {
     Categorylist=()=>{
         let value={
             getChildren:false,
-            enabled:true
+            enabled:true,
+            //商品中心为type:'1'
+            type:'1'
         }
         this.props.dispatch({
             type:'IndexPage/categoryfetch',
