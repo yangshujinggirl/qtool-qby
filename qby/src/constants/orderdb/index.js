@@ -1,6 +1,6 @@
 import React from 'react';
 import {GetServerData} from '../../services/services';
-import { Button, Icon,Modal } from 'antd';
+import { Button, Icon,Modal,message } from 'antd';
 import { connect } from 'dva';
 //table
 import OrderdbTable from './table';
