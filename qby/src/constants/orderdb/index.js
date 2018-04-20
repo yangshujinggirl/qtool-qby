@@ -108,21 +108,18 @@ class OrderdbIndex extends React.Component{
 	}
   	render(){
 		const rolelists=this.props.data.rolelists
-		// //新增采购单
+		// //新增
 		const addorder=rolelists.find((currentValue,index)=>{
-			return currentValue.remark=="qerp.web.sp.exchange.save"
+			return currentValue.url=="qerp.web.sp.exchange.save"
 		})
 		//导出数据
 		const expontdata=rolelists.find((currentValue,index)=>{
-			return currentValue.remark=="qerp.web.sys.doc.task"
+			return currentValue.url=="qerp.web.sys.doc.task"
 		})
 		//强制完成
 		const overorder=rolelists.find((currentValue,index)=>{
-			return currentValue.remark=="qerp.web.ws.asn.finish"
+			return currentValue.url=="qerp.web.ws.asn.finish"
 		})
-
-
-
      	return(
         	<div className='content_box'>
                 <OrderdbSearch/>
@@ -165,9 +162,6 @@ class OrderdbIndex extends React.Component{
 					</Button>
 					:null
 					}
-
-					
-	
              		<div className='mt15'><OrderdbTable overorderobj={overorder}/></div>
         	</div>
       	)

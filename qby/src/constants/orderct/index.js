@@ -103,7 +103,6 @@ class OrderctIndex extends React.Component{
 					</Button>
 					:null
 					}
-					
              		<div className='mt15'><OrderctTable/></div>
         	</div>
       	)
