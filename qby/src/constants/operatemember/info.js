@@ -89,7 +89,7 @@ class ConsumptionInfo extends React.Component{
 	}
 	componentDidMount(){
 		this.infofetch(this.props.data.mbCardId)
-		this.detailfetch(this.props.data.mbCardId,10,0)
+		this.detailfetch(this.props.data.mbCardId,15,0)
 	}
 }
 
