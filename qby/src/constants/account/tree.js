@@ -19,6 +19,7 @@ class Treerole extends React.Component {
 		});
   	}
 	onCheck = (checkedKeys,e) => {
+		console.log(e)
 		const postcheckedKeys=[]
 		for(var i=0;i<e.checkedNodes.length;i++){
 			if((!e.checkedNodes[i].props.children) || (e.checkedNodes[i].props.children.length<1)){
@@ -62,6 +63,15 @@ class Treerole extends React.Component {
 			if(data[i].children){
 				this.renderRoleData(data[i].children)
 			}
+			if(!data[i].children || data[i].children.length<0){
+					// for(j=0;j<){
+
+					// }
+
+
+
+			}
+
 		}
 	}
 	//请求数据
