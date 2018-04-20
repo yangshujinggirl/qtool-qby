@@ -67,13 +67,13 @@ class OrderctIndex extends React.Component{
 	
   	render(){
 		const rolelists=this.props.data.rolelists
-		// //新增采购单
+		// //新增
 		const addorder=rolelists.find((currentValue,index)=>{
-			return currentValue.remark=="qerp.web.sp.ctorder.save"
+			return currentValue.url=="qerp.web.sp.ctorder.save"
 		})
 		//导出数据
 		const expontdata=rolelists.find((currentValue,index)=>{
-			return currentValue.remark=="qerp.web.sys.doc.task"
+			return currentValue.url=="qerp.web.sys.doc.task"
 		})
 		
      	return(
