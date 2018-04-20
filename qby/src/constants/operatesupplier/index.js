@@ -24,7 +24,7 @@ class OperatesupplierIndex extends React.Component{
     
   	render(){
 		const rolelists=this.props.data.rolelists
-		// //新增采购单
+		// //新增
 		const addorder=rolelists.find((currentValue,index)=>{
 			return currentValue.url=="qerp.web.pd.supplier.save"
 		})  
