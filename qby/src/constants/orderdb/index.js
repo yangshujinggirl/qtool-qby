@@ -167,8 +167,7 @@ class OrderdbIndex extends React.Component{
 					}
 
 					
-					
-					
+	
              		<div className='mt15'><OrderdbTable overorderobj={overorder}/></div>
         	</div>
       	)

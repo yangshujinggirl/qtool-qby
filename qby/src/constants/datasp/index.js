@@ -28,11 +28,11 @@ class DataspIndex extends React.Component{
         })
         //门店库存
         const spcundatarole=rolelists.find((currentValue,index)=>{
-			return currentValue.url=="qerp.web.pd.category.list"
+			return currentValue.url=="qerp.web.qpos.pd.inv.query"
         })
         //历史库存
         const hiscunrole=rolelists.find((currentValue,index)=>{
-			return currentValue.url=="qerp.web.pd.category.list"
+			return currentValue.url=="qerp.web.qpos.pd.historyInv.query"
         })
         //联营分成
         const liandatarole=rolelists.find((currentValue,index)=>{

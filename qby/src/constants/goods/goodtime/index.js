@@ -14,17 +14,27 @@ class GoodtimeIndex extends React.Component{
 		});
   	}
   	render(){
+		const rolelists=this.props.data.rolelists
+		// //增改定时
+		const addorder=rolelists.find((currentValue,index)=>{
+			return currentValue.url=="qerp.web.pd.task.time.save"
+		}) 
      	return(
         	<div className='content_box'>
                 <SearchForms/>
-				<Button 
-					type="primary" 
-					size='large'
-					className='mt20'
-					onClick={this.addNew}
+				{
+					addorder?
+					<Button 
+						type="primary" 
+						size='large'
+						className='mt20'
+						onClick={this.addNew}
 				>
-					新增定时
-				</Button>
+						新增定时
+					</Button>
+					:null
+				}
+				
              	<div className='mt15'><GoodtimeTable/></div>
         	</div>
       	)

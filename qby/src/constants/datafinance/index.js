@@ -28,19 +28,19 @@ class DataFinanceIndexForm extends React.Component{
         const rolelists=this.props.data.rolelists
 		//门店成本
 		const spchengrole=rolelists.find((currentValue,index)=>{
-			return currentValue.remark=="qerp.web.sp.shopCost.query"
+			return currentValue.url=="qerp.web.sp.shopCost.query"
         })
         //成本核算
         const suanchengrole=rolelists.find((currentValue,index)=>{
-			return currentValue.remark=="qerp.web.pd.costmonthdata.query"
+			return currentValue.url=="qerp.web.pd.costmonthdata.query"
         })
         //采购到货
         const cgchengrole=rolelists.find((currentValue,index)=>{
-			return currentValue.remark=="qerp.web.ws.purchasedata.query"
+			return currentValue.url=="qerp.web.ws.purchasedata.query"
         })
         //门店发票
         const piaorole=rolelists.find((currentValue,index)=>{
-			return currentValue.remark=="qerp.web.sp.shopdata.query"
+			return currentValue.url=="qerp.web.sp.shopdata.query"
         })
         const { getFieldDecorator } = this.props.form;       
      	return(
@@ -82,19 +82,19 @@ class DataFinanceIndexForm extends React.Component{
         const rolelists=this.props.data.rolelists
 		//门店成本
 		const spchengrole=rolelists.find((currentValue,index)=>{
-			return currentValue.remark=="qerp.web.sp.shopCost.query"
+			return currentValue.url=="qerp.web.sp.shopCost.query"
         })
         //成本核算
         const suanchengrole=rolelists.find((currentValue,index)=>{
-			return currentValue.remark=="qerp.web.pd.costmonthdata.query"
+			return currentValue.url=="qerp.web.pd.costmonthdata.query"
         })
         //采购到货
         const cgchengrole=rolelists.find((currentValue,index)=>{
-			return currentValue.remark=="qerp.web.ws.purchasedata.query"
+			return currentValue.url=="qerp.web.ws.purchasedata.query"
         })
         //门店发票
         const piaorole=rolelists.find((currentValue,index)=>{
-			return currentValue.remark=="qerp.web.sp.shopdata.query"
+			return currentValue.url=="qerp.web.sp.shopdata.query"
         })
         if(spchengrole){
             this.tabChange('1')
