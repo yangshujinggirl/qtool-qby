@@ -150,23 +150,23 @@ class OrdercgIndex extends React.Component{
 		console.log(rolelists)
 		// //新增采购单
 		const addorder=rolelists.find((currentValue,index)=>{
-			return currentValue.remark=="qerp.web.ws.asn.save"
+			return currentValue.url=="qerp.web.ws.asn.save"
 		})
 		//导出数据
 		const expontdata=rolelists.find((currentValue,index)=>{
-			return currentValue.remark=="qerp.web.sys.doc.task"
+			return currentValue.url=="qerp.web.sys.doc.task"
 		})
 		//打印订单
 		const printorder=rolelists.find((currentValue,index)=>{
-			return currentValue.remark=="qerp.web.sp.order.print"
+			return currentValue.url=="qerp.web.sp.order.print"
 		})
 		//付款操作
 		const payorder=rolelists.find((currentValue,index)=>{
-			return currentValue.remark=="qerp.web.ws.asn.payStatus"
+			return currentValue.url=="qerp.web.ws.asn.payStatus"
 		})
 		//强制完成
 		const overorder=rolelists.find((currentValue,index)=>{
-			return currentValue.remark=="qerp.web.ws.asn.finish"
+			return currentValue.url=="qerp.web.ws.asn.finish"
 		})
      	return(
         	<div className='content_box'>
