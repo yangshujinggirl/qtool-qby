@@ -2,18 +2,14 @@ import React from 'react';
 import {GetServerData} from '../../services/services';
 import { Button, Icon } from 'antd';
 import { connect } from 'dva';
-//search
 import OperatememberSearch from './search';
-//table
 import OperatememberTable from './table';
-//
 import MyUploadMember from './upload';
 
 class OperatememberIndex extends React.Component{
     state = {};
-
     handleDownload=()=>{
-        window.open('../../sources/Excel/member.xlsx')
+        window.open('../../static/member.xlsx')
     }
     
   	render(){
