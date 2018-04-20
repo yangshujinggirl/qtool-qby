@@ -82,6 +82,10 @@ export default {
 
                     const cardlist=cardlist1.concat(birthdaylist,cardlist2)
                 yield put({type: 'cardInfoslist',payload:{cardtitle,cardlist}});
+            }else{
+                const cardtitle='会员信息'
+                const cardlist=[]
+                yield put({type: 'cardInfoslist',payload:{cardtitle,cardlist}});
             } 
         },
         *detailfetch({ payload: {code,values} }, { call, put ,select}) {
@@ -93,7 +97,13 @@ export default {
                     const decurrentPage=result.currentPage
                     const detotal=result.total
                     yield put({type: 'details',payload:{details,delimit,decurrentPage,detotal}});
-            } 
+            }else{
+                const details=[]
+                const delimit=15
+                const decurrentPage=0
+                const detotal=0
+                yield put({type: 'details',payload:{details,delimit,decurrentPage,detotal}});
+            }
         },
 
 
