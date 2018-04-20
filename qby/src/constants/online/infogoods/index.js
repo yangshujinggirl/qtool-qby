@@ -12,8 +12,7 @@
 	const poptext4='商品将会停止在Q掌柜首页畅销尖货栏目展示售卖，在其他栏目继续展示售卖，确认吗'
 	const poptext5='商品将会在Q掌柜首页畅销尖货栏目展示售卖，确认吗？'
 	const poptext6='商品状态将变为上新状态，Q掌柜将会对外售卖，确认吗'
-
-
+	const confirm = Modal.confirm;
 
 	class OnlineGoodsIndex extends React.Component{
 		state={
@@ -130,7 +129,7 @@
 			this.props.dispatch({
 				type:'onlinegood/initgoodedit',
 				payload:{}
-				})	
+			})	
 		}
 		render(){
 			const rolelists=this.props.data.rolelists
@@ -147,6 +146,44 @@
 				return currentValue.url=="qerp.web.pd.spu.status"
 			})
 		
+
+
+			exportData = (type,data) => {
+				const values={
+					type:type,
+					downloadParam:data,
+				}
+				const result=GetServerData('qerp.web.sys.doc.task',values);
+				result.then((res) => {
+					return res;
+				}).then((json) => {
+					if(json.code=='0'){
+						var _dispatch=this.props.dispatch
+						confirm({
+							title: '数据已经进入导出队列',
+							content: '请前往下载中心查看导出进度',
+							cancelText:'稍后去',
+							okText:'去看看',
+							onOk() {
+								const paneitem={title:'下载中心',key:'000001',componkey:'000001',data:null}
+								_dispatch({
+									type:'tab/firstAddTab',
+									payload:paneitem
+								});
+								_dispatch({
+									type:'downlaod/fetch',
+									payload:{code:'qerp.web.sys.doc.list',values:{limit:16,currentPage:0}}
+								});
+							},
+							onCancel() {
+								
+							},
+						  });
+					}
+				})
+			
+			}
+		
 			return(
 				<div>
 					<Goodssearchform/>
@@ -155,14 +192,9 @@
 							addorder?<Button type="primary" className='btn_lists' size='large' onClick={this.addspus.bind(this)}>新增商品</Button>:null
 						}
 						{
-							sellopen?<div className='btn_lists'><Button type="primary" size='large' onClick={this.showModal.bind(this,10)}>导出数据</Button></div>:null
-
-
+							sellopen?<div className='btn_lists'><Button type="primary" size='large' onClick={this.exportData.bind(this,32,this.props.values)}>导出数据</Button></div>:null
 						}
-						
-						
 					</div>
-				
 					<Goodlist addorderobj={addorder} sellopenobj={sellopen}/>
 					<Modal
 						title='批量操作'

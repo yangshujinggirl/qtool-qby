@@ -344,7 +344,7 @@
 				}
 
 				const values={pdSpu:value}
-				const result=GetServerData('qerp.web.pd.spu.save',values)
+				const result=GetServerData('qerp.web.ec.pd.spu.save',values)
 				result.then((res) => {
 					return res;
 				}).then((json) => {

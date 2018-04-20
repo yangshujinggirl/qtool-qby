@@ -19,7 +19,7 @@ class AdvancedSearchForm extends React.Component {
         values.currentPage=currentPage
         this.props.dispatch({
             type:'onlinegood/fetch',
-            payload:{code:'qerp.web.pd.spu.query',values:values}
+            payload:{code:'qerp.web.ec.pd.spu.query',values:values}
         })
         this.props.dispatch({type:'tab/loding',payload:true})
     }
@@ -49,7 +49,10 @@ class AdvancedSearchForm extends React.Component {
 	    	type:'onlinegood/select',
 	    	payload:{selectedRowKeys,selectedRows}
 	  	})
-	}
+    }
+    
+    
+
     render() {
         const { getFieldDecorator } = this.props.form;
         return (
