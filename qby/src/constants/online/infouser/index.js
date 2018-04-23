@@ -56,7 +56,7 @@ class InfouserIndex extends React.Component{
             if(json.code=='0'){
                 this.setState({
                     searchvalue:values,
-                    datasouce:json.cosumedatas,
+                    datasouce:json.consumes,
                     total:json.total,
                     currentPage:json.currentPage,
                     limit:json.limit

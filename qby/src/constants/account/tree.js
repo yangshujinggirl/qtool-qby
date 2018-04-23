@@ -2,6 +2,7 @@ import { Tree } from 'antd';
 import {GetServerData} from '../../services/services';
 import { connect } from 'dva';
 
+
 const TreeNode = Tree.TreeNode;
 class Treerole extends React.Component {
   	state = {
@@ -10,7 +11,7 @@ class Treerole extends React.Component {
 		checkedKeys:[],
 		postcheckedKeys: [],
 		selectedKeys: [],
-		treeData:[],
+		treeData:[]
   	}
   	onExpand = (expandedKeys) => {
 		this.setState({
@@ -19,10 +20,18 @@ class Treerole extends React.Component {
 		});
   	}
 	onCheck = (checkedKeys,e) => {
+		//功能权限带出基础权限
 		const postcheckedKeys=[]
 		for(var i=0;i<e.checkedNodes.length;i++){
 			if((!e.checkedNodes[i].props.children) || (e.checkedNodes[i].props.children.length<1)){
-				postcheckedKeys.push(String(e.checkedNodes[i].key))
+				postcheckedKeys.push(e.checkedNodes[i].key)
+				const newcheckedKeys=checkedKeys.filter((item)=>{
+					return item==e.checkedNodes[i].props.code
+				})
+				if(newcheckedKeys.length<1){
+					checkedKeys.push(e.checkedNodes[i].props.code)
+					postcheckedKeys.push(e.checkedNodes[i].props.code)
+				}
 			}
 		}
 		this.setState({ 
@@ -44,7 +53,7 @@ class Treerole extends React.Component {
 		return data.map((item) => {
 			if (item.children) {
 				return (
-					<TreeNode title={item.name} key={item.urRoleId} dataRef={item}>
+					<TreeNode title={item.name} key={item.urRoleId} dataRef={item} code={item.code}>
 						{this.renderTreeNodes(item.children)}
 					</TreeNode>
 				);
@@ -55,6 +64,7 @@ class Treerole extends React.Component {
 
 
 	//数据循环处理
+	
 	renderRoleData = (data) => {
 		for(var i=0;i<data.length;i++){
 			data[i].title=data[i].name

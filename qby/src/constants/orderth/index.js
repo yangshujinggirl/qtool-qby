@@ -85,7 +85,7 @@ class OrderthIndex extends React.Component{
 			return;
 		}
 		const values={wsAsnId:this.props.selectedRows[0].wsAsnId}
-		const result=GetServerData('qerp.web.ws.asn.finish',values);
+		const result=GetServerData('qerp.web.sp.ws.asn.finish',values);
 		result.then((res) => {
 			return res;
 		}).then((json) => {
@@ -97,6 +97,7 @@ class OrderthIndex extends React.Component{
 	}
   	render(){
 		const rolelists=this.props.data.rolelists
+		console.log(rolelists)
 		//增改
 		const addorder=rolelists.find((currentValue,index)=>{
 			return currentValue.url=="qerp.web.ws.asn.save"
@@ -109,6 +110,7 @@ class OrderthIndex extends React.Component{
 		const overorder=rolelists.find((currentValue,index)=>{
 			return currentValue.url=="qerp.web.ws.asn.finish"
 		})
+		
 
      	return(
         	<div className='content_box'>

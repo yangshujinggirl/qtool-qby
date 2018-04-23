@@ -1,6 +1,6 @@
 import React from 'react';
 import {GetServerData} from '../../services/services';
-import { Button, Icon,Modal } from 'antd';
+import { Button, Icon,Modal,message } from 'antd';
 import { connect } from 'dva';
 //table
 import OrderdbTable from './table';
@@ -94,9 +94,9 @@ class OrderdbIndex extends React.Component{
 		if (this.props.selectedRows.length < 1) {
 			message.error('请选择调拨单',.8)
 			return;
-		}
+		}  
 		const values={wsAsnId:this.props.selectedRows[0].wsAsnId}
-		const result=GetServerData('qerp.web.ws.asn.finish',values);
+		const result=GetServerData('qerp.web.sp.ws.asn.finish',values);
 		result.then((res) => {
 			return res;
 		}).then((json) => {

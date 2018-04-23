@@ -6,27 +6,27 @@ const dateFormat = 'YYYY-MM-DD';
 
 class Searchform extends React.Component {
     state = {
-        firstConsumeTime:'',
-        lastConsumeTime:'',
+        firstCosumeTime:'',
+        lastCosumeTime:'',
     };
     //点击搜索按钮获取搜索表单数据
     handleSearch = (e) => {
         this.props.form.validateFields((err, values) => {
-            values.firstConsumeTime=this.state.firstConsumeTime
-            values.lastConsumeTime=this.state.lastConsumeTime
+            values.firstCosumeTime=this.state.firstCosumeTime
+            values.lastCosumeTime=this.state.lastCosumeTime
             this.props.hindFormSearch(values)
         });
     }
     //时间搜索部分
     startDateChange=(dates,dateString)=>{
         this.setState({
-            firstConsumeTime:dateString
+            firstCosumeTime:dateString
         })
     }
     //时间搜索
     endDateChange=(dates,dateString)=>{
         this.setState({
-            lastConsumeTime:dateString
+            lastCosumeTime:dateString
         })
     }
     render() {
@@ -53,7 +53,7 @@ class Searchform extends React.Component {
                                     )}
                                 </FormItem>
                                 <FormItem label='初次消费时间'>
-                                    {getFieldDecorator('firstConsumeTime')(
+                                    {getFieldDecorator('firstCosumeTime')(
                                         <DatePicker  
                                             format={dateFormat} 
                                             className='noant-calendar-picker'
@@ -62,7 +62,7 @@ class Searchform extends React.Component {
                                     )}
                                 </FormItem>
                                 <FormItem label='最后消费时间'>
-                                    {getFieldDecorator('lastConsumeTime')(
+                                    {getFieldDecorator('lastCosumeTime')(
                                         <DatePicker  
                                             format={dateFormat} 
                                             className='noant-calendar-picker'
