@@ -8,6 +8,8 @@
 	import TableCanEdit from './edittable';
 	import EditableCell from './tablepiuse';
 	import {deepcCloneObj} from '../../../utils/commonFc';
+	import './config.css';
+
 	const RadioGroup = Radio.Group;
 
 	const FormItem = Form.Item;
@@ -324,6 +326,10 @@
 		handleSubmit = (e) => {
 			this.props.form.validateFields((err, value) => {
 			if (!err) {
+				if(parseFloat(value.shareRatio)>100){
+					message.warning('分成比例只能小于100')
+					return 
+				}
 				value.source='1'
 				value.pdBrandId=this.props.pdBrandId
 				value.spuPics=this.props.spuPics
@@ -579,9 +585,11 @@
 						label="分成比例"
 						labelCol={{ span: 8 }}
 						wrapperCol={{ span: 6 }}
+						className='bili'
 						>
 						{getFieldDecorator('shareRatio', {
-							initialValue:this.props.shareRatio
+							initialValue:this.props.shareRatio,
+							rules: [{ pattern: /^(0|[1-9][0-9]*)+(\.[0-9]{1,2})?$/, message: '请输入带1到2位的数字'}],
 						})(
 							<Input autoComplete="off" addonAfter="%"/>
 						)}

@@ -1,1 +1,4 @@
 .model-log .ant-modal-close-x{width: 25px;height: 25px;line-height: 30px;}
+.bili .ant-input-group-addon{background: #fff;}
+.bili .ant-input-group .ant-input{border-right: 0;}
+.bili .ant-input:hover{border-color:#d9d9d9;}
