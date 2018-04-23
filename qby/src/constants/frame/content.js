@@ -139,21 +139,21 @@ class Content extends React.Component {
                                     case "403000":return  <OperateIndex data={this.props.data}/>;
                                     case "403000edit":return  <SpEditForms data={this.props.data}/>;
                                     
-                                    case "703003":return  <DataorderIndex data={this.props.data}/>;
-                                    case "703002edit":return  <DataTable data={this.props.data}/>;
-                                    case "703000edit":return  <SpselldataTable data={this.props.data}/>;
+                                    case "704000":return  <DataorderIndex data={this.props.data}/>;
+                                    case "703000edit":return  <DataTable data={this.props.data}/>;
+                                    case "702000edit":return  <SpselldataTable data={this.props.data}/>;
                                    
 
                                     case "000001":return  <DownloadIndex data={this.props.data}/>;
 
-                                    case "703004":return  <DatawsIndex data={this.props.data}/>;
-                                    case "702500":return  <DatacgIndex data={this.props.data}/>;
-                                    case "703000":return  <DataspIndex data={this.props.data}/>;
-                                    case "703006":return  <DataposIndex data={this.props.data}/>;
+                                    case "705000":return  <DatawsIndex data={this.props.data}/>;
+                                    case "701000":return  <DatacgIndex data={this.props.data}/>;
+                                    case "702000":return  <DataspIndex data={this.props.data}/>;
+                                    case "707000":return  <DataposIndex data={this.props.data}/>;
                                     case "703006info":return <ReceiptDetails data={this.props.data}/>
-                                    case "703005":return <DataFinanceIndex data={this.props.data}/>
+                                    case "706000":return <DataFinanceIndex data={this.props.data}/>
 
-                                    case "703002":return  <DatagoIndex data={this.props.data}/>;
+                                    case "703000":return  <DatagoIndex data={this.props.data}/>;
                                    
                                     case "201000":return <OrdermdIndex data={this.props.data}/>;
                                     case "201000info":return <OrdermdInfo data={this.props.data}/>;

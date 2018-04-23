@@ -42,28 +42,28 @@ class DatagodesIndex extends React.Component{
 			payload:{datasouce,updateTimes}
 	  	})
 		if(index==1){
-			const paneitem={title:'pos热销',key:'703002edit1',data:{id:'1'},componkey:'703002edit'}
+			const paneitem={title:'pos热销',key:'703000edit1',data:{id:'1'},componkey:'703000edit'}
 			this.props.dispatch({
 				  type:'tab/firstAddTab',
 				  payload:paneitem
 			})
 		}
 		if(index==2){
-			const paneitem={title:'掌柜热销',key:'703002edit2',data:{id:'2'},componkey:'703002edit'}
+			const paneitem={title:'掌柜热销',key:'703000edit2',data:{id:'2'},componkey:'703000edit'}
 			this.props.dispatch({
 				  type:'tab/firstAddTab',
 				  payload:paneitem
 			})
 		}
 		if(index==3){
-			const paneitem={title:'建议采购',key:'703002edit3',data:{id:'3'},componkey:'703002edit'}
+			const paneitem={title:'建议采购',key:'703000edit3',data:{id:'3'},componkey:'703000edit'}
 			this.props.dispatch({
 				  type:'tab/firstAddTab',
 				  payload:paneitem
 			})
 		}
 		if(index==4){
-			const paneitem={title:'掌柜滞销',key:'703002edit4',data:{id:'4'},componkey:'703002edit'}
+			const paneitem={title:'掌柜滞销',key:'703000edit4',data:{id:'4'},componkey:'703000edit'}
 			this.props.dispatch({
 				  type:'tab/firstAddTab',
 				  payload:paneitem
