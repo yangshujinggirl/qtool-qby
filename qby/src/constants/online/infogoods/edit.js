@@ -159,7 +159,7 @@
 			const value={
 				getChildren:false,
 				enabled:true,
-				type:'2'
+				type:'1'
 			}
 			this.props.dispatch({
 				type:'onlinegood/categoryfetch',
