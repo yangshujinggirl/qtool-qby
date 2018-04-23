@@ -14,6 +14,7 @@ class SpEditForm extends React.Component{
 	constructor(props) {
 		super(props);
 		this.state = {
+			ecName:null,
             spShopPics:[],
             initfileList:[],
             name:null,
@@ -169,6 +170,7 @@ class SpEditForm extends React.Component{
                         }
 					}
                     this.setState({
+						ecName:json.spShop.ecName,
 						spShopPics:spShopPics,
 						onlinetName:json.spShop.onlinetName,
                         initfileList:initfileList,

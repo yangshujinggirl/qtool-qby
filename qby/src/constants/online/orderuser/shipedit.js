@@ -17,7 +17,7 @@ const CollectionCreateForm = Form.create()(
                 >
                     <Form layout="vertical">
                         <FormItem label="物流公司">
-                            {getFieldDecorator('ecLogisticMappingId', {
+                            {getFieldDecorator('ecExpressCodeMappingId', {
                                 rules: [{ required: true, message: '请选择物流公司' }],
                             })(
                                 <Select
