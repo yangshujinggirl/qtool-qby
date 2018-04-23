@@ -10,7 +10,15 @@ import Appmodelone from '../ordermd/modal';
 const confirm = Modal.confirm;
 
 class OrderdbIndex extends React.Component{
-	state = {};
+	state = {
+		searchvalue:null,
+        datasource:[],
+        total:0,
+        currentPage:0,
+        limit:15,
+        selectedRowKeys:[],
+        selectedRows:[]
+	};
 
 	//导出数据
 	exportData = (type,data) => {
@@ -69,43 +77,73 @@ class OrderdbIndex extends React.Component{
 		})
 	  }
 
-	//清除选中
-	clearChooseInfo=()=>{
-		const selectedRows=[];
-		const selectedRowKeys = [];
-		this.props.dispatch({
-			type:'orderdb/select',
-			payload:{selectedRowKeys,selectedRows}
-		})
-  	}
-	  
-	  	//列表数据请求   
-	 	initList=(values,limit,currentPage)=>{
-        	values.limit=limit;
-        	values.currentPage=currentPage;
-			this.props.dispatch({
-				type:'orderdb/fetch',
-				payload:{code:'qerp.web.sp.exchange.query',values:values}
-			});
-        	this.props.dispatch({ type: 'tab/loding', payload:true});
-    	}
 	//强制完成
 	mandatoryOrder=()=>{
-		if (this.props.selectedRows.length < 1) {
+		if (this.state.selectedRows.length < 1) {
 			message.error('请选择调拨单',.8)
 			return;
 		}  
-		const values={wsAsnId:this.props.selectedRows[0].wsAsnId}
+		const values={wsAsnId:this.state.selectedRows[0].wsAsnId}
 		const result=GetServerData('qerp.web.sp.ws.asn.finish',values);
 		result.then((res) => {
 			return res;
 		}).then((json) => {
 			if(json.code=='0'){
-				this.initList(this.props.values,this.props.limit,this.props.currentPage)
-				this.clearChooseInfo()
+				this.setState({
+					selectedRowKeys:[],
+					selectedRows:[]
+				},function(){
+					this.hindSearch(this.state.searchvalue)
+					}
+				)
 			}
 		})
 	}
+	//重构
+	//table搜索
+	hindSearch=(values)=>{
+		values.limit=this.state.limit
+		values.currentPage=this.state.currentPage
+		const result=GetServerData('qerp.web.sp.exchange.query',values)
+		result.then((res) => {
+		return res;
+		}).then((json) => {
+			if(json.code=='0'){
+				var dbdatas = json.exchanges;
+				for(var i=0;i<dbdatas.length;i++){
+					dbdatas[i].key=i;
+				}
+				this.setState({
+					searchvalue:values,
+					datasource:dbdatas,
+					total:json.total,
+					currentPage:json.currentPage,
+					limit:json.limit,
+					selectedRowKeys:[],
+					selectedRows:[]
+				})
+			}
+		}) 
+	}
+
+	//获得分页当前limit,currentPage
+	getPageSize=(limit,currentPage)=>{
+        this.setState({
+            limit:limit,
+            currentPage:currentPage
+        },function(){
+            this.hindSearch(this.state.searchvalue)
+        })
+    }
+
+	//获得选中行数据
+	getSelectDate=(selectedRowKeys,selectedRows)=>{
+		this.setState({
+			selectedRowKeys:selectedRowKeys,
+			selectedRows:selectedRows
+		})
+	}
+
   	render(){
 		const rolelists=this.props.data.rolelists
 		// //新增
@@ -122,7 +160,7 @@ class OrderdbIndex extends React.Component{
 		})
      	return(
         	<div className='content_box'>
-                <OrderdbSearch/>
+                <OrderdbSearch OrderdbFormSearch={this.hindSearch.bind(this)}/>
 					{
 						overorder?
 						<Button 
@@ -156,22 +194,30 @@ class OrderdbIndex extends React.Component{
 						type="primary" 
 						size='large'
 						className='mt20 mr10'
-						onClick={this.exportData.bind(this,17,this.props.values)}
+						onClick={this.exportData.bind(this,17,this.state.searchvalue)}
 					>
 						导出数据
 					</Button>
 					:null
 					}
-             		<div className='mt15'><OrderdbTable overorderobj={overorder}/></div>
+             		<div className='mt15'>
+					  <OrderdbTable 
+					    overorderobj={overorder}
+						getPageSizeDate={this.getPageSize.bind(this)}
+                        total={this.state.total} 
+                        limit={this.state.limit} 
+                        currentPage={this.state.currentPage}
+                        datasource={this.state.datasource}
+                        getSelectDate={this.getSelectDate.bind(this)}
+                        selectedRowKeys={this.state.selectedRowKeys}  
+					  
+					  />
+					</div>
         	</div>
       	)
     }
     
 }
 
-function mapStateToProps(state) {
-	const {values,limit,currentPage,selectedRows} = state.orderdb;
-	return {values,limit,currentPage,selectedRows};
-}
 
-export default connect(mapStateToProps)(OrderdbIndex);
+export default connect()(OrderdbIndex);

@@ -13,30 +13,9 @@ class OrderdbSearchForm extends React.Component {
   //点击搜索按钮获取搜索表单数据
   handleSearch = (e) => {
     this.props.form.validateFields((err, values) => {
-        this.initList(values,this.props.limit,0);
-        this.syncState(values);
+        this.props.OrderdbFormSearch(values)
     });
   }
-
-
-  //搜索请求数据
-  initList=(values,limit,currentPage)=>{
-        values.limit=limit;
-        values.currentPage=currentPage;
-        this.props.dispatch({
-            type:'orderdb/fetch',
-            payload:{code:'qerp.web.sp.exchange.query',values:values}
-        });
-        this.props.dispatch({ type: 'tab/loding', payload:true});
-    }  
-
-    //同步data
-    syncState=(values)=>{
-        this.props.dispatch({
-            type:'orderdb/synchronous',
-            payload:values
-        });
-    }
 
     //请求仓库列表
     wslist=()=>{
@@ -116,13 +95,10 @@ class OrderdbSearchForm extends React.Component {
 
     componentDidMount(){
         this.wslist();
+        this.handleSearch()
     }
-}
-function mapStateToProps(state) {
-    const {limit,currentPage} = state.orderdb;
-    return {limit,currentPage};
 }
 
 
 const OrderdbSearch = Form.create()(OrderdbSearchForm);
-export default connect(mapStateToProps)(OrderdbSearch);
+export default OrderdbSearch;
