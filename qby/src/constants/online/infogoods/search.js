@@ -16,6 +16,7 @@ class AdvancedSearchForm extends React.Component {
     //搜搜请求数据
     initWarehouseList=(values,limit,currentPage)=>{
         values.limit=limit
+        values.source='1'
         values.currentPage=currentPage;
         this.props.dispatch({
             type:'onlinegood/fetch',

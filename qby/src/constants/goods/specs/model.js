@@ -146,14 +146,14 @@ class CollectionsPage extends React.Component {
           }
         
         <CollectionCreateForm
-          ref={this.saveFormRef}
-          visible={this.state.visible}
-          onCancel={this.handleCancel}
-          onCreate={this.handleCreate}
-          setValues={this.setValues}
-          pdTypes={this.props.pdTypes}
-          data={this.props.data}
-          title={this.props.title}
+            ref={this.saveFormRef}
+            visible={this.state.visible}
+            onCancel={this.handleCancel}
+            onCreate={this.handleCreate}
+            setValues={this.setValues}
+            pdTypes={this.props.pdTypes}
+            data={this.props.data}
+            title={this.props.title}
         />
       </div>
     );
