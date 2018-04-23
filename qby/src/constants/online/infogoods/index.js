@@ -85,7 +85,9 @@
 						const povisible=false
 						this.props.dispatch({
 							type:'onlinegood/fetch',
-							payload:{code:'qerp.web.pd.spu.query',values:this.props.values}
+							//payload:{code:'qerp.web.pd.spu.query',values:this.props.values}
+							//修改接口
+							payload:{code:'qerp.web.ec.pd.spu.query',values:this.props.values}
 						})
 						this.setState({
 							visible:false
@@ -111,7 +113,9 @@
 						const povisible=false
 						this.props.dispatch({
 							type:'onlinegood/fetch',
-							payload:{code:'qerp.web.pd.spu.query',values:this.props.values}
+							//payload:{code:'qerp.web.pd.spu.query',values:this.props.values}
+							//修改接口
+							payload:{code:'qerp.web.ec.pd.spu.query',values:this.props.values}
 						})
 						this.setState({
 							visible:false
