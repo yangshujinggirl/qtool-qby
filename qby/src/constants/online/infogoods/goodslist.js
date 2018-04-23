@@ -38,7 +38,7 @@ class Goodlist extends React.Component {
     //商品编辑
     editspu=(id)=>{
         if(this.props.addorderobj){
-            const paneitem={title:'商品编辑',key:'802000edit'+String(id),componkey:'802000edit',data:{pdSpuId:id}}
+            const paneitem={title:'商品编辑',key:'802000edit'+String(id),componkey:'802000edit',data:{pdSpuId:id,type:'2'}}
             this.props.dispatch({
                   type:'tab/firstAddTab',
                   payload:paneitem
