@@ -52,11 +52,7 @@ class SpEditForm extends React.Component{
 
 		}
 	}
-	componentWillMount(){
-		if(this.props.data){
-			this.getinfoData()
-		}
-	}
+	
 	
 	//删除当前tab
 	deleteTab=()=>{
@@ -364,9 +360,9 @@ class SpEditForm extends React.Component{
 					labelCol={{ span: 3,offset: 1 }}
 					wrapperCol={{ span: 6 }}
 				>
-					{getFieldDecorator('onlinetName', {
+					{getFieldDecorator('ecName', {
 						rules: [{ required: true, message: '请输入电商名称'}],
-						initialValue:this.state.onlinetName
+						initialValue:this.state.ecName
 					})(
 						<Input placeholder='请输入电商名称' autoComplete="off"/>
 					)}
@@ -618,8 +614,15 @@ class SpEditForm extends React.Component{
         this.props.dispatch({
             type:'operatesp/region',
             payload:{code:'qerp.web.bs.region',values:{}}
-        });
-    }
+		});
+		if(this.props.data){
+			this.getinfoData()
+		}
+	}
+	
+	componentWillMount(){
+		
+	}
 }
 const SpEditForms = Form.create()(SpEditForm);
 function mapStateToProps(state) {

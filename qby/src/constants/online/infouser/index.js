@@ -77,6 +77,7 @@ class InfouserIndex extends React.Component{
 
   	render(){
         const rolelists=this.props.data.rolelists
+        console.log(rolelists)
 		//导出数据
 		const expontdata=rolelists.find((currentValue,index)=>{
 			return currentValue.url=="qerp.web.sys.doc.task"
@@ -84,7 +85,9 @@ class InfouserIndex extends React.Component{
      	return(
         	<div className='content_box'>
                 <SearchForm  hindFormSearch={this.hindSearch.bind(this)}/>
-                <Button 
+                {
+                    expontdata?
+                    <Button 
                     type="primary" 
                     size='large'
                     className='mt20'
@@ -92,6 +95,8 @@ class InfouserIndex extends React.Component{
                 >
                     导出数据
                 </Button>
+                :null
+                }
                 <div className='mt15'>
                     <SearchTable 
                         getPageSizeDate={this.getPageSize.bind(this)}
