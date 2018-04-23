@@ -15,6 +15,7 @@ class Searchform extends React.Component {
     //点击搜索按钮获取搜索表单数据
     handleSearch = (e) => {
         this.props.form.validateFields((err, values) => {
+            console.log(values)
             values.payTimeST=this.state.startTime
             values.payTimeET=this.state.endTime
             this.props.hindFormSearch(values)
