@@ -76,7 +76,7 @@ class App extends React.Component {
 
 	//请求商品信息
 	getinfoData=()=>{
-		let values={pdSpuId:this.props.data.pdSpuId}
+		let values={pdSpuId:this.props.data.pdSpuId,type:"2"}
 		const result=GetServerData('qerp.web.pd.spu.info',values)
 		result.then((res) => {
 			return res;

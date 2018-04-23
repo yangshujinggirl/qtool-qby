@@ -136,7 +136,7 @@
 		}
 		//商品信息请求
 		spuInfo=()=>{
-			const value={pdSpuId:this.props.data.pdSpuId}
+			const value={pdSpuId:this.props.data.pdSpuId,type:"2"}
 			this.props.dispatch({
 				type:'onlinegood/infofetch',
 				payload:{code:'qerp.web.pd.spu.info',values:value}
@@ -156,7 +156,8 @@
 		Categorylist=()=>{
 			const value={
 				getChildren:false,
-				enabled:true
+				enabled:true,
+				type:'2'
 			}
 			this.props.dispatch({
 				type:'onlinegood/categoryfetch',
