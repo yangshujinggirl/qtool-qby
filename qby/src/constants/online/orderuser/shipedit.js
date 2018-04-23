@@ -16,20 +16,26 @@ const CollectionCreateForm = Form.create()(
                     onOk={onCreate}
                 >
                     <Form layout="vertical">
-                        <FormItem label="Title">
-                            {getFieldDecorator('title', {
+                        <FormItem label="物流公司">
+                            {getFieldDecorator('ecExpressCodeMappingId', {
                                 rules: [{ required: true, message: '请选择物流公司' }],
                             })(
                                 <Select
                                     placeholder="请选择"
                                 >
-                                    <Option value="male">male</Option>
-                                    <Option value="female">female</Option>
+                                    <Option value="1">圆通</Option>
+                                    <Option value="2">中通</Option>
+                                    <Option value="3">天天</Option>
+                                    <Option value="4">韵达</Option>
+                                    <Option value="5">邮政</Option>
+                                    <Option value="6">顺丰</Option>
+                                    <Option value="7">申通</Option>
+                                    <Option value="8">物流</Option>
                                 </Select>
                             )}
                         </FormItem>
                         <FormItem label="物流单号">
-                            {getFieldDecorator('order', {
+                            {getFieldDecorator('expressNo', {
                                 rules: [{ required: true, message: '请输入物流单号' }],
                             })(
                                 <Input />
@@ -59,8 +65,9 @@ class Shipeditmodel extends React.Component {
                 return;
             }
             console.log('Received values of form: ', values);
+            values.ecSuborderNo=this.props.ecSuborderNo
             values.ecOrderId=this.props.ecOrderId
-            const result=GetServerData('qerp.web.ec.pd.userOrder.query',values)
+            const result=GetServerData('qerp.web.ec.pd.pullOrderExpress.save',values)
             result.then((res) => {
                return res;
             }).then((json) => {

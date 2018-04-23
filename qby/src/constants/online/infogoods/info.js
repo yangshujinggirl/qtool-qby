@@ -23,17 +23,17 @@ class App extends React.Component {
 			title: '库存',
 			dataIndex: 'inventory'
 		},{
+			title: '采购价格',
+			dataIndex: 'purchasePrice'
+		},{
+			title: '到货价格',
+			dataIndex: 'receivePrice'
+		},{
+			title: '出库价格',
+			dataIndex: 'deliveryPrice'
+		},{
 			title: '售价',
-			dataIndex: 'toBPrice'
-		},{
-			title: '零售价',
-			dataIndex: 'toCPrice'
-		},{
-			title: '建议零售价',
-			dataIndex: 'tagPrice'
-		},{
-			title: '进货价',
-			dataIndex: 'costPrice'
+			dataIndex: 'salePrice'
 		},{
 			title: 'SKU图片',
 			dataIndex: 'picUrl',
@@ -53,17 +53,17 @@ class App extends React.Component {
 			title: '库存',
 			dataIndex: 'inventory'
 		}, {
+			title: '采购价格',
+			dataIndex: 'purchasePrice'
+		},{
+			title: '到货价格',
+			dataIndex: 'receivePrice'
+		},{
+			title: '出库价格',
+			dataIndex: 'deliveryPrice'
+		},{
 			title: '售价',
-			dataIndex: 'toBPrice'
-		},{
-			title: '零售价',
-			dataIndex: 'toCPrice'
-		},{
-			title: '建议零售价',
-			dataIndex: 'tagPrice'
-		},{
-			title: '进货价',
-			dataIndex: 'costPrice'
+			dataIndex: 'salePrice'
 		}];  
 
 		this.state = {
@@ -76,20 +76,26 @@ class App extends React.Component {
 
 	//请求商品信息
 	getinfoData=()=>{
-		let values={pdSpuId:this.props.data.pdSpuId}
-		const result=GetServerData('qerp.web.pd.spu.info',values)
+		let values={pdSpuId:this.props.data.pdSpuId,type:"2"}
+		const result=GetServerData('qerp.web.ec.pd.spu.info',values)
 		result.then((res) => {
 			return res;
 		}).then((json) => {
 			if(json.code=='0'){
+				const region=json.pdSpu.region
+				const warehouseStr=json.pdSpu.warehouseStr
+				const shareRatio=json.pdSpu.shareRatio
+				const remark1=json.pdSpu.remark1
+				const remark2=json.pdSpu.remark2
+				const remark3=json.pdSpu.remark3
 				const spuIdPics=json.pdSpu.spuIdPics
 				const pdSkus=json.pdSpu.pdSkus
 				const code=json.pdSpu.code
 				const barcode=json.pdSpu.barcode
-				const toBPrice=json.pdSpu.toBPrice
-				const toCPrice=json.pdSpu.toCPrice
-				const tagPrice=json.pdSpu.tagPrice
-				const costPrice=json.pdSpu.costPrice
+				const purchasePrice=json.pdSpu.purchasePrice
+				const receivePrice=json.pdSpu.receivePrice
+				const deliveryPrice=json.pdSpu.deliveryPrice
+				const salePrice=json.pdSpu.salePrice
 				const pdSpuInfo=json.pdSpu.pdSpuInfo?eval(json.pdSpu.pdSpuInfo):[]
 				const name=json.pdSpu.name
 				const pdCategory1name=json.pdSpu.pdCategory1.name
@@ -116,10 +122,10 @@ class App extends React.Component {
 							name:(pdSkus[i].pdType2Val==null || pdSkus[i].pdType2Val==undefined || pdSkus[i].pdType2Val=='') ?pdSkus[i].pdType1Val.name:pdSkus[i].pdType1Val.name+'/'+pdSkus[i].pdType2Val.name,
 							code:pdSkus[i].code,
 							barcode:pdSkus[i].barcode,
-							toBPrice:pdSkus[i].toBPrice,
-							toCPrice:pdSkus[i].toCPrice,
-							tagPrice:pdSkus[i].tagPrice,
-							costPrice:pdSkus[i].costPrice,
+							purchasePrice:pdSkus[i].purchasePrice,
+							receivePrice:pdSkus[i].receivePrice,
+							deliveryPrice:pdSkus[i].deliveryPrice,
+							salePrice:pdSkus[i].salePrice,
 							picUrl:pdSkus[i].picUrl,
 							key:pdSkus[i].pdSkuId,
 							keys:(pdSkus[i].pdType2Val==null || pdSkus[i].pdType2Val==undefined || pdSkus[i].pdType2Val=='') ?pdSkus[i].pdType1Val.pdTypeValId:pdSkus[i].pdType1Val.pdTypeValId+pdSkus[i].pdType2Val.pdTypeValId,
@@ -135,10 +141,10 @@ class App extends React.Component {
 					const values={
 						code:code,
 						barcode:barcode,
-						toBPrice:toBPrice,
-						toCPrice:toCPrice,
-						tagPrice:tagPrice,
-						costPrice:costPrice,
+						purchasePrice:purchasePrice,
+						receivePrice:receivePrice,
+						deliveryPrice:deliveryPrice,
+						salePrice:salePrice,
 						inventory:inventory,
 						key:pdSpuId,
 						keys:'0000'
@@ -157,6 +163,12 @@ class App extends React.Component {
 
 				},function(){
 					this.props.form.setFieldsValue({
+						region:region,
+						warehouseStr:json.warehouseStr,
+						shareRatio:shareRatio,
+						remark1:remark1,
+						remark2:remark2,
+						remark3:remark3,
 						name: name,
 						 pdCategory1name:pdCategory1name,
 						pdCategory2name:pdCategory2name,
@@ -225,6 +237,21 @@ class App extends React.Component {
 				)}
 			</FormItem>
 			<FormItem
+				label="国家地区"
+				labelCol={{ span: 8 }}
+				wrapperCol={{ span: 6 }}
+				className='parentinput'
+			>
+				{getFieldDecorator('region', {
+				})(
+					<Input disabled/>
+				)}
+			</FormItem>
+
+
+
+
+			<FormItem
 				label="商品图片"
 				labelCol={{ span: 8 }}
 				wrapperCol={{ span: 16 }}
@@ -253,135 +280,23 @@ class App extends React.Component {
 				)}
 			</FormItem>
 			<FormItem
-				label="开启批次管理"
+				label="保税仓库"
 				labelCol={{ span: 8 }}
 				wrapperCol={{ span: 6 }}
 				className='parentinput'
 			>
-				{getFieldDecorator('lotStatus', {
-				})(
-					<Input disabled/>
-				)}
-			</FormItem>
-
-			{
-				this.state.lotStatus==1
-				?
-				<FormItem
-				label="保质期"
-				labelCol={{ span: 8 }}
-				wrapperCol={{ span: 6 }}
-				className='parentinput'
-			>
-				{getFieldDecorator('expdays', {
-				})(
-					<Input disabled/>
-				)}
-			</FormItem>
-			:null
-			}
-			{
-				this.state.lotStatus==1
-				?
-				<FormItem
-				label="保质依据"
-				labelCol={{ span: 8 }}
-				wrapperCol={{ span: 6 }}
-				className='parentinput'
-			>
-				{getFieldDecorator('lotType', {
-				})(
-					<Input disabled/>
-				)}
-			</FormItem>
-			:null
-
-
-
-
-			}
-			{
-
-			this.state.lotStatus==1
-			?
-			<FormItem
-				label="禁止入库"
-				labelCol={{ span: 8 }}
-				wrapperCol={{ span: 6 }}
-				className='parentinput'
-			>
-				{getFieldDecorator('lotLimitInDay', {
-				})(
-					<Input disabled/>
-				)}
-			</FormItem>
-			:null
-
-
-			}
-			
-			<FormItem
-				label="加入上新"
-				labelCol={{ span: 8 }}
-				wrapperCol={{ span: 6 }}
-				className='parentinput'
-			>
-				{getFieldDecorator('eventNew', {
+				{getFieldDecorator('warehouseStr', {
 				})(
 					<Input disabled/>
 				)}
 			</FormItem>
 			<FormItem
-				label="加入畅销"
+				label="分成比例"
 				labelCol={{ span: 8 }}
 				wrapperCol={{ span: 6 }}
 				className='parentinput'
 			>
-				{getFieldDecorator('eventHot', {
-				})(
-					<Input disabled/>
-				)}
-			</FormItem>
-			<FormItem
-				label="直邮商品"
-				labelCol={{ span: 8 }}
-				wrapperCol={{ span: 6 }}
-				className='parentinput'
-			>
-				{getFieldDecorator('isDirectExpress', {
-				})(
-					<Input disabled/>
-				)}
-			</FormItem>
-			<FormItem
-				label="预售商品"
-				labelCol={{ span: 8 }}
-				wrapperCol={{ span: 6 }}
-				className='parentinput'
-			>
-				{getFieldDecorator('isPresell', {
-				})(
-					<Input disabled/>
-				)}
-			</FormItem>
-			<FormItem
-				label="箱规销售"
-				labelCol={{ span: 8 }}
-				wrapperCol={{ span: 6 }}
-				className='parentinput'
-			>
-				{getFieldDecorator('containerSpec', {
-				})(
-					<Input disabled/>
-				)}
-			</FormItem>
-			<FormItem
-				label="分成类别"
-				labelCol={{ span: 8 }}
-				wrapperCol={{ span: 6 }}
-				className='parentinput'
-			>
-				{getFieldDecorator('shareType', {
+				{getFieldDecorator('shareRatio', {
 				})(
 					<Input disabled/>
 				)}
@@ -411,11 +326,39 @@ class App extends React.Component {
 					</div>
 				)}
 			</FormItem>	
-			
-			
-
-
-
+			<FormItem
+				label="商品备注1"
+				labelCol={{ span: 8 }}
+				wrapperCol={{ span: 6 }}
+				className='parentinput'
+			>
+				{getFieldDecorator('remark1', {
+				})(
+					<Input disabled/>
+				)}
+			</FormItem>
+			<FormItem
+				label="商品备注2"
+				labelCol={{ span: 8 }}
+				wrapperCol={{ span: 6 }}
+				className='parentinput'
+			>
+				{getFieldDecorator('remark2', {
+				})(
+					<Input disabled/>
+				)}
+			</FormItem>
+			<FormItem
+				label="商品备注3"
+				labelCol={{ span: 8 }}
+				wrapperCol={{ span: 6 }}
+				className='parentinput'
+			>
+				{getFieldDecorator('remark3', {
+				})(
+					<Input disabled/>
+				)}
+			</FormItem>
 		</Form>
 	);
 }

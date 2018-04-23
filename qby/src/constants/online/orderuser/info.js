@@ -17,7 +17,7 @@ class Tabletitle extends React.Component {
 				<div className='clearfix' style={{height:'32px',lineHeight:"32px"}}>
 					<div className='fl'>子单{this.props.listindex}信息</div>
 					{
-						this.props.isdelivery?<div className='fr'><Shipeditmodel modeltit={'子单'+this.props.listindex+'信息'} ecOrderId={this.props.ecOrderId}/></div>:null
+						this.props.isdelivery?<div className='fr'><Shipeditmodel modeltit={'子单'+this.props.listindex+'信息'} ecOrderId={this.props.ecOrderId} ecSuborderNo={this.props.ecSuborderNo}/></div>:null
 					}
 				</div>
 				<div className='clearfix'>

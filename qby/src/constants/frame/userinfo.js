@@ -53,10 +53,8 @@ class User extends React.Component {
            return res;
         }).then((json) => {
             if(json.code=='0'){
-                console.log('wo ai ni')
                 sessionStorage.setItem('name', JSON.stringify(json.urUser.name));
                 const name=eval(sessionStorage.getItem('name'));
-                console.log(name)
                 sessionStorage.setItem('adminType', JSON.stringify(json.urUser.adminType));
                 sessionStorage.setItem('wsName', JSON.stringify(json.urUser.wsName));
                 sessionStorage.setItem('fileDomain', JSON.stringify(json.fileDomain));
@@ -69,7 +67,6 @@ class User extends React.Component {
     }
     render() {
         const name=eval(sessionStorage.getItem('name'));
-        console.log(name)
         return(
             <div className='clearfix'>
                 <div className='fl pointer' style={{height:'80px',lineHeight:'80px',color:"#999",fontSize:"14px"}} onClick={this.download.bind(this)}>下载中心</div>

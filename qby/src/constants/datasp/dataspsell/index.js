@@ -24,28 +24,28 @@ class DataspsellIndex extends React.Component{
 			payload:datasouce
 	  	})
 		if(index==1){
-			const paneitem={title:'门店排行',key:'703000edit1',data:{id:'1'},componkey:'703000edit'}
+			const paneitem={title:'门店排行',key:'702000edit1',data:{id:'1'},componkey:'702000edit'}
 			this.props.dispatch({
 				  type:'tab/firstAddTab',
 				  payload:paneitem
 			})
 		}
 		if(index==2){
-			const paneitem={title:'学习门店',key:'703000edit2',data:{id:'2'},componkey:'703000edit'}
+			const paneitem={title:'学习门店',key:'702000edit2',data:{id:'2'},componkey:'702000edit'}
 			this.props.dispatch({
 				  type:'tab/firstAddTab',
 				  payload:paneitem
 			})
 		}
 		if(index==3){
-			const paneitem={title:'指导门店',key:'703000edit3',data:{id:'3'},componkey:'703000edit'}
+			const paneitem={title:'指导门店',key:'702000edit3',data:{id:'3'},componkey:'702000edit'}
 			this.props.dispatch({
 				  type:'tab/firstAddTab',
 				  payload:paneitem
 			})
 		}
 		if(index==4){
-			const paneitem={title:'注意门店',key:'703000edit4',data:{id:'4'},componkey:'703000edit'}
+			const paneitem={title:'注意门店',key:'702000edit4',data:{id:'4'},componkey:'702000edit'}
 			this.props.dispatch({
 				  type:'tab/firstAddTab',
 				  payload:paneitem

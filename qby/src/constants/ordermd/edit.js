@@ -7,6 +7,7 @@ import Infomodel from './infomodal';
 import MyUploadMd from './upload';
 const FormItem = Form.Item;
 const Option = Select.Option;
+const confirm = Modal.confirm;
 
 class OrdermdEditForm extends React.Component{
 
@@ -21,40 +22,7 @@ class OrdermdEditForm extends React.Component{
         };
 	}
 
-	//修改数据初始化页面
-  	// initDateEdit = (value) =>{
-	// 	  //请求用户信息
-  	// 	this.props.dispatch({type:'account/infofetch',payload:value})
-    // 	this.props.dispatch({ type: 'tab/loding', payload:true})
-	// }
-
-	//删除当前tab
-	// deleteTab=()=>{
-	// 	const pane = eval(sessionStorage.getItem("pane"));
-	// 	if(pane.length<=1){
-	// 		return
-	// 	}
-	// 	if(this.props.data){
-	// 		this.props.dispatch({
-	// 			type:'tab/initDeletestate',
-	// 			payload:'601000edit'+this.props.data.urUserId
-	// 		  });
-	// 	}else{
-	// 		this.props.dispatch({
-	// 			type:'tab/initDeletestate',
-	// 			payload:'601000edit'
-	// 		  });
-	// 	}
-	// }
-
-
-	//初始化state
-	// initState=()=>{
-	// 	this.props.dispatch({
-    //         type:'account/initState',
-    //         payload:{}
-	// 	})
-    // }
+	
     
 	//保存
 	handleSubmit = (e) => {
@@ -275,120 +243,120 @@ class OrdermdEditForm extends React.Component{
                         style={{position:'absolute',right:'15px',top:'24px',zIndex:'1000'}}>
                         下载导入模板
                 </Button>
-          	<Form className="addUser-form show-table-form">
-                <FormItem
-              		label="创建类型"
-              		labelCol={{ span: 3,offset: 1 }}
-              		wrapperCol={{ span: 6 }}
-            	>
-					{getFieldDecorator('createType', {
-						rules: [{ required: true, message: '请选择创建类型' }]
-					})(
-						<Select placeholder="请选择创建类型" onChange={this.handleSelectChange.bind(this)}>
-							<Option value='1'>新店铺货</Option>
-                            <Option value='2'>门店赠品</Option>
-                            <Option value='3'>总部样品</Option>
-                            <Option value='4'>办公物料</Option>
-						</Select>
-              		)}
-            	</FormItem>
-				<FormItem
-					label="门店名称"
-					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}
-				>
-					{getFieldDecorator('shopName', {
-						rules: [{ required: true, message: '请选择门店名称'}],
-					})(
-						<AutoComplete
-                            dataSource={this.state.dataSources}
-                            onSelect={this.onSelect}
-                            onSearch={this.handleSearch}
-                            placeholder='请选择门店名称'
-                        />
-					)}
-				</FormItem>
-				<FormItem
-					label="门店城市"
-					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}
-				>
-					{getFieldDecorator('spAddressId', {
-						rules: [{ type: 'array', required: true, message: '请选择所属城市' }],
-					})(
-						<Cascader 
-                            placeholder="请选择所属城市" 
-                            options={this.state.residences}
-                            onChange={this.cityschange.bind(this)}
-                        />
-					)}
-				</FormItem>
-                <FormItem
-					label="门店地址"
-					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}
-				>
-					{getFieldDecorator('recAddress', {
-						rules: [{ required: true, message: '请输入门店地址' }],
-					})(
-						<Input placeholder="请输入职位" autoComplete="off"/>
-					)}
-				</FormItem>
-                <FormItem
-					label="收货电话"
-					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}
-				>
-					{getFieldDecorator('recTel', {
-						rules: [{ required: true, message: '请输入收货电话' }],
-					})(
-						<Input placeholder="请输入收货电话" autoComplete="off"/>
-					)}
-				</FormItem>
-                <FormItem
-					label="收货人"
-					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}
-				>
-					{getFieldDecorator('recName', {
-						rules: [{ required: true, message: '请输入收货人' }],
-					})(
-						<Input placeholder="请输入收货人" autoComplete="off"/>
-					)}
-				</FormItem>
-                <FormItem
-					label="商品信息"
-					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 12 }}
-				>
-					{getFieldDecorator('details')(
-						<GoodsListTable Getdetail={this.Getdetail.bind(this)}/>
-					)}
-				</FormItem>
-                <FormItem
-					label="商品数量"
-					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}
-				>
-					{getFieldDecorator('qtySum')(
-						<Input disabled/>
-					)}
-				</FormItem>
-                <FormItem
-					label="订单总额"
-					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}
-				>
-					{getFieldDecorator('amountSum')(
-						<Input disabled/>
-					)}
-				</FormItem>
-            	<FormItem wrapperCol={{ offset: 4}} style = {{marginBottom:0}}>
-              		<Button className='mr30' onClick={this.hindCancel.bind(this)}>取消</Button>
-              		<Button type="primary" onClick={this.handleSubmit.bind(this)}>保存</Button>
-            	</FormItem>
-                <Infomodel ref='models' deleteTab={this.deleteTab.bind(this)} refreshList={this.refreshList.bind(this)}/> 
-          	</Form>
+                <Form className="addUser-form show-table-form">
+                    <FormItem
+                        label="创建类型"
+                        labelCol={{ span: 3,offset: 1 }}
+                        wrapperCol={{ span: 6 }}
+                    >
+                        {getFieldDecorator('createType', {
+                            rules: [{ required: true, message: '请选择创建类型' }]
+                        })(
+                            <Select placeholder="请选择创建类型" onChange={this.handleSelectChange.bind(this)}>
+                                <Option value='1'>新店铺货</Option>
+                                <Option value='2'>门店赠品</Option>
+                                <Option value='3'>总部样品</Option>
+                                <Option value='4'>办公物料</Option>
+                            </Select>
+                        )}
+                    </FormItem>
+                    <FormItem
+                        label="门店名称"
+                        labelCol={{ span: 3,offset: 1 }}
+                        wrapperCol={{ span: 6 }}
+                    >
+                        {getFieldDecorator('shopName', {
+                            rules: [{ required: true, message: '请选择门店名称'}],
+                        })(
+                            <AutoComplete
+                                dataSource={this.state.dataSources}
+                                onSelect={this.onSelect}
+                                onSearch={this.handleSearch}
+                                placeholder='请选择门店名称'
+                            />
+                        )}
+                    </FormItem>
+                    <FormItem
+                        label="门店城市"
+                        labelCol={{ span: 3,offset: 1 }}
+                        wrapperCol={{ span: 6 }}
+                    >
+                        {getFieldDecorator('spAddressId', {
+                            rules: [{ type: 'array', required: true, message: '请选择所属城市' }],
+                        })(
+                            <Cascader 
+                                placeholder="请选择所属城市" 
+                                options={this.state.residences}
+                                onChange={this.cityschange.bind(this)}
+                            />
+                        )}
+                    </FormItem>
+                    <FormItem
+                        label="门店地址"
+                        labelCol={{ span: 3,offset: 1 }}
+                        wrapperCol={{ span: 6 }}
+                    >
+                        {getFieldDecorator('recAddress', {
+                            rules: [{ required: true, message: '请输入门店地址' }],
+                        })(
+                            <Input placeholder="请输入门店地址" autoComplete="off"/>
+                        )}
+                    </FormItem>
+                    <FormItem
+                        label="收货电话"
+                        labelCol={{ span: 3,offset: 1 }}
+                        wrapperCol={{ span: 6 }}
+                    >
+                        {getFieldDecorator('recTel', {
+                            rules: [{ required: true, message: '请输入收货电话' }],
+                        })(
+                            <Input placeholder="请输入收货电话" autoComplete="off"/>
+                        )}
+                    </FormItem>
+                    <FormItem
+                        label="收货人"
+                        labelCol={{ span: 3,offset: 1 }}
+                        wrapperCol={{ span: 6 }}
+                    >
+                        {getFieldDecorator('recName', {
+                            rules: [{ required: true, message: '请输入收货人' }],
+                        })(
+                            <Input placeholder="请输入收货人" autoComplete="off"/>
+                        )}
+                    </FormItem>
+                    <FormItem
+                        label="商品信息"
+                        labelCol={{ span: 3,offset: 1 }}
+                        wrapperCol={{ span: 12 }}
+                    >
+                        {getFieldDecorator('details')(
+                            <GoodsListTable Getdetail={this.Getdetail.bind(this)}/>
+                        )}
+                    </FormItem>
+                    <FormItem
+                        label="商品数量"
+                        labelCol={{ span: 3,offset: 1 }}
+                        wrapperCol={{ span: 6 }}
+                    >
+                        {getFieldDecorator('qtySum')(
+                            <Input disabled/>
+                        )}
+                    </FormItem>
+                    <FormItem
+                        label="订单总额"
+                        labelCol={{ span: 3,offset: 1 }}
+                        wrapperCol={{ span: 6 }}
+                    >
+                        {getFieldDecorator('amountSum')(
+                            <Input disabled/>
+                        )}
+                    </FormItem>
+                    <FormItem wrapperCol={{ offset: 4}} style = {{marginBottom:0}}>
+                        <Button className='mr30' onClick={this.hindCancel.bind(this)}>取消</Button>
+                        <Button type="primary" onClick={this.handleSubmit.bind(this)}>保存</Button>
+                    </FormItem>
+                    <Infomodel ref='models' deleteTab={this.deleteTab.bind(this)} refreshList={this.refreshList.bind(this)}/> 
+                </Form>
              </div>
             
       	)

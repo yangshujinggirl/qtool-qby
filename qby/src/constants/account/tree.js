@@ -25,15 +25,20 @@ class Treerole extends React.Component {
 		for(var i=0;i<e.checkedNodes.length;i++){
 			if((!e.checkedNodes[i].props.children) || (e.checkedNodes[i].props.children.length<1)){
 				postcheckedKeys.push(e.checkedNodes[i].key)
-				const newcheckedKeys=checkedKeys.filter((item)=>{
-					return item==e.checkedNodes[i].props.code
-				})
-				if(newcheckedKeys.length<1){
-					checkedKeys.push(e.checkedNodes[i].props.code)
-					postcheckedKeys.push(e.checkedNodes[i].props.code)
+                if(e.checkedNodes[i].props.code!='0'){
+					//处理基础权限
+					const newcheckedKeys=checkedKeys.filter((item)=>{
+						return item==e.checkedNodes[i].props.code
+					})
+					if(newcheckedKeys.length<1){
+						checkedKeys.push(e.checkedNodes[i].props.code)
+						postcheckedKeys.push(e.checkedNodes[i].props.code)
+					}
 				}
+				
 			}
 		}
+
 		this.setState({ 
 			checkedKeys:checkedKeys,
 			postcheckedKeys:postcheckedKeys

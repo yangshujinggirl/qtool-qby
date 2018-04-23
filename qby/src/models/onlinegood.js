@@ -30,6 +30,11 @@ export default {
 		pdTypeslist:[],//商品规格
 		povisible:false,
 		//商品编辑
+		remark1:null,
+		remark2:null,
+		remark3:null,
+		shareRatio:null,
+		warehouseId:'',
 		region:null,
 		name:null,
 		pdCategory1Id:[],
@@ -56,20 +61,20 @@ export default {
 		initdatasouce:[{
 			code:null,
 			barcode:null,
-			toBPrice:null,
-			toCPrice:null,
-			tagPrice:null,
-			costPrice:null,
+			purchasePrice:null,
+			receivePrice:null,
+			deliveryPrice:null,
+			salePrice:null,
 			key:'0000',
 			keys:'0000'
 		}],  //商品信息初始数据
 		goodindodatasouce:[{
 			code:null,
 			barcode:null,
-			toBPrice:null,
-			toCPrice:null,
-			tagPrice:null,
-			costPrice:null,
+			purchasePrice:null,
+			receivePrice:null,
+			deliveryPrice:null,
+			salePrice:null,
 			key:'0000',
 			keys:'0000'
 		}], //商品信息数据
@@ -84,6 +89,11 @@ export default {
 	reducers: {
 		//初始化商品编辑
 		initgoodedit(state, { payload:{}}) {
+			const remark1=null
+			const remark2=null
+			const remark3=null
+			const shareRatio=null
+			const warehouseId=''
 			const region=null
 			const name=null
 			const pdCategory1Id=[]
@@ -100,18 +110,18 @@ export default {
 			const goodindodatasouce=[{
 				code:null,
 				barcode:null,
-				toBPrice:null,
-				toCPrice:null,
-				tagPrice:null,
-				costPrice:null,
+				purchasePrice:null,
+				receivePrice:null,
+				deliveryPrice:null,
+				salePrice:null,
 			}]
 			const initdatasouce=[{
 				code:null,
 				barcode:null,
-				toBPrice:null,
-				toCPrice:null,
-				tagPrice:null,
-				costPrice:null,
+				purchasePrice:null,
+				receivePrice:null,
+				deliveryPrice:null,
+				salePrice:null,
 			
 			}]
 			const lotStatus='0'
@@ -128,7 +138,7 @@ export default {
 			const containerSpec='1'
 
 
-			return {...state,region,name,pdCategory1Id,pdCategory2Id,pdCategorys,pdBrand,pdBrandId,spuPics,pdType1Id,pdType2Id,tag1,tag2,goodindodatasouce,initdatasouce,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell,pdSpuInfo,fileList,shareType,containerSpec,isskus}
+			return {...state,remark1,remark2,remark3,shareRatio,warehouseId,region,name,pdCategory1Id,pdCategory2Id,pdCategorys,pdBrand,pdBrandId,spuPics,pdType1Id,pdType2Id,tag1,tag2,goodindodatasouce,initdatasouce,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell,pdSpuInfo,fileList,shareType,containerSpec,isskus}
 		},
 		//商品list
 		goodslist(state, { payload:{goodslist,total,limit,currentPage}}) {
@@ -153,8 +163,8 @@ export default {
 			return {...state,pdTypeslist}
 		},
 		//商品编辑信息
-		infolist(state, { payload:{name,pdCategory1Id,pdCategory2Id,pdBrandId,spuPics,pdBrand,fileList,pdType1Id,pdType2Id,tag1,tag2,initdatasouce,goodindodatasouce,isskus,initisskus,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell,pdSpuInfo,shareType,containerSpec}}) {
-			return {...state,name,pdCategory1Id,pdCategory2Id,pdBrandId,spuPics,pdBrand,fileList,pdType1Id,pdType2Id,tag1,tag2,initdatasouce,goodindodatasouce,isskus,initisskus,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell,pdSpuInfo,shareType,containerSpec}
+		infolist(state, { payload:{remark1,remark2,remark3,shareRatio,warehouseId,region,name,pdCategory1Id,pdCategory2Id,pdBrandId,spuPics,pdBrand,fileList,pdType1Id,pdType2Id,tag1,tag2,initdatasouce,goodindodatasouce,isskus,initisskus,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell,pdSpuInfo,shareType,containerSpec}}) {
+			return {...state,remark1,remark2,remark3,shareRatio,warehouseId,region,name,pdCategory1Id,pdCategory2Id,pdBrandId,spuPics,pdBrand,fileList,pdType1Id,pdType2Id,tag1,tag2,initdatasouce,goodindodatasouce,isskus,initisskus,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell,pdSpuInfo,shareType,containerSpec}
 		},
 		//商品类型
 		pdCategorys(state, { payload:pdCategorys}) {
@@ -329,7 +339,7 @@ export default {
 					}
 				}
 				const fileDomain=result.fileDomain
-				const {region,name,pdCategory1Id,pdCategory2Id,pdBrandId,spuIdPics,pdBrand,pdSkus,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell,shareType,containerSpec}=pdSpuinfos
+				const {remark1,remark2,remark3,shareRatio,warehouseId,region,name,pdCategory1Id,pdCategory2Id,pdBrandId,spuIdPics,pdBrand,pdSkus,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell,shareType,containerSpec}=pdSpuinfos
 				const pdSpuInfo=eval(pdSpuinfos.pdSpuInfo)
 				//更新图片数据
 				const spuPics=[]
@@ -366,10 +376,10 @@ export default {
 					const values={
 						code:pdSpuinfos.code,
 						barcode:pdSpuinfos.barcode,
-						toBPrice:pdSpuinfos.toBPrice,
-						toCPrice:pdSpuinfos.toCPrice,
-						tagPrice:pdSpuinfos.tagPrice,
-						costPrice:pdSpuinfos.costPrice,
+						purchasePrice:pdSpuinfos.purchasePrice,
+						receivePrice:pdSpuinfos.receivePrice,
+						deliveryPrice:pdSpuinfos.deliveryPrice,
+						salePrice:pdSpuinfos.salePrice,
 						key:pdSpuinfos.pdSpuId,
 						keys:'0000'
 					}
@@ -399,10 +409,10 @@ export default {
 							name:(pdSkus[i].pdType2Val==null || pdSkus[i].pdType2Val==undefined || pdSkus[i].pdType2Val=='') ?pdSkus[i].pdType1Val.name:pdSkus[i].pdType1Val.name+'/'+pdSkus[i].pdType2Val.name,
 							code:pdSkus[i].code,
 							barcode:pdSkus[i].barcode,
-							toBPrice:pdSkus[i].toBPrice,
-							toCPrice:pdSkus[i].toCPrice,
-							tagPrice:pdSkus[i].tagPrice,
-							costPrice:pdSkus[i].costPrice,
+							purchasePrice:pdSkus[i].purchasePrice,
+							receivePrice:pdSkus[i].receivePrice,
+							deliveryPrice:pdSkus[i].deliveryPrice,
+							salePrice:pdSkus[i].salePrice,
 							picUrl:pdSkus[i].picUrl,
 							key:pdSkus[i].pdSkuId,
 							keys:(pdSkus[i].pdType2Val==null || pdSkus[i].pdType2Val==undefined || pdSkus[i].pdType2Val=='') ?pdSkus[i].pdType1Val.pdTypeValId:String(pdSkus[i].pdType1Val.pdTypeValId)+String(pdSkus[i].pdType2Val.pdTypeValId),
@@ -418,7 +428,7 @@ export default {
 				const setinitfileList = yield select(state => state.onlinegood.methup.setinitfileList);
 				setinitfileList(fileList)
 				const goodindodatasouce=initdatasouce.slice(0)
-				yield put({type: 'infolist',payload:{region,name,pdCategory1Id,pdCategory2Id,pdBrandId,spuPics,pdBrand,fileList,pdType1Id,pdType2Id,tag1,tag2,initdatasouce,goodindodatasouce,isskus,initisskus,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell,pdSpuInfo,shareType,containerSpec}});
+				yield put({type: 'infolist',payload:{remark1,remark2,remark3,shareRatio,warehouseId,region,name,pdCategory1Id,pdCategory2Id,pdBrandId,spuPics,pdBrand,fileList,pdType1Id,pdType2Id,tag1,tag2,initdatasouce,goodindodatasouce,isskus,initisskus,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell,pdSpuInfo,shareType,containerSpec}});
 				//根据id请求类型的opation
 				const value={"parentId":pdCategory1Id,"getChildren":true,"enabled":true}
 				yield put({type: 'captlistfetch',payload:{code:'qerp.web.pd.category.list',values:value}});
@@ -437,10 +447,10 @@ export default {
 					{
 						code:null,
 						barcode:null,
-						toBPrice:null,
-						toCPrice:null,
-						tagPrice:null,
-						costPrice:null,
+						purchasePrice:null,
+						receivePrice:null,
+						deliveryPrice:null,
+						salePrice:null,
 						keys:'0000'
 					}
 				]
@@ -460,10 +470,10 @@ export default {
 										name:tag1[i].name+'/'+tag2[j].name,
 										code:null,
 										barcode:null,
-										toBPrice:null,
-										toCPrice:null,
-										tagPrice:null,
-										costPrice:null,
+										purchasePrice:null,
+										receivePrice:null,
+										deliveryPrice:null,
+										salePrice:null,
 										picUrl:null,
 										keys:String(tag1[i].keys)+String(tag2[j].keys),
 										pdType1Id:pdType1Id,
@@ -487,10 +497,10 @@ export default {
 										name:tag1[i].name,
 										code:null,
 										barcode:null,
-										toBPrice:null,
-										toCPrice:null,
-										tagPrice:null,
-										costPrice:null,
+										purchasePrice:null,
+										receivePrice:null,
+										deliveryPrice:null,
+										salePrice:null,
 										picUrl:null,
 										keys:tag1[i].keys,
 										pdType1Id:pdType1Id,
@@ -521,10 +531,10 @@ export default {
 								goodindodatasouce[j].name=initdatasouce[i].name
 								goodindodatasouce[j].code=initdatasouce[i].code
 								goodindodatasouce[j].barcode=initdatasouce[i].barcode
-								goodindodatasouce[j].toBPrice=initdatasouce[i].toBPrice
-								goodindodatasouce[j].toCPrice=initdatasouce[i].toCPrice
-								goodindodatasouce[j].tagPrice=initdatasouce[i].tagPrice
-								goodindodatasouce[j].costPrice=initdatasouce[i].costPrice
+								goodindodatasouce[j].purchasePrice=initdatasouce[i].purchasePrice
+								goodindodatasouce[j].receivePrice=initdatasouce[i].receivePrice
+								goodindodatasouce[j].deliveryPrice=initdatasouce[i].deliveryPrice
+								goodindodatasouce[j].salePrice=initdatasouce[i].salePrice
 								goodindodatasouce[j].picUrl=initdatasouce[i].picUrl
 								goodindodatasouce[j].keys=initdatasouce[i].keys
 								goodindodatasouce[j].pdSkuId=initdatasouce[i].pdSkuId
