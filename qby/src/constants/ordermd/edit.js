@@ -331,7 +331,7 @@ class OrdermdEditForm extends React.Component{
 					{getFieldDecorator('recAddress', {
 						rules: [{ required: true, message: '请输入门店地址' }],
 					})(
-						<Input placeholder="请输入职位" autoComplete="off"/>
+						<Input placeholder="请输入门店地址" autoComplete="off"/>
 					)}
 				</FormItem>
                 <FormItem

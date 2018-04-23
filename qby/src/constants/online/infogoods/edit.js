@@ -324,6 +324,7 @@
 		handleSubmit = (e) => {
 			this.props.form.validateFields((err, value) => {
 			if (!err) {
+				value.source='1'
 				value.pdBrandId=this.props.pdBrandId
 				value.spuPics=this.props.spuPics
 				value.pdSpuInfo=this.props.pdSpuInfo
