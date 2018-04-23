@@ -139,7 +139,7 @@
 			const value={pdSpuId:this.props.data.pdSpuId,type:this.props.data.type}
 			this.props.dispatch({
 				type:'onlinegood/infofetch',
-				payload:{code:'qerp.web.pd.spu.info',values:value}
+				payload:{code:'qerp.web.ec.pd.spu.info',values:value}
 			})
 		}
 		//商品规格
