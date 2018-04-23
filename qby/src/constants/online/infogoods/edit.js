@@ -39,7 +39,7 @@
 				}
 			},{
 				title: '采购价格',
-				dataIndex: 'toBPrice',
+				dataIndex: 'purchasePrice',
 				render: (text, record,index) => {
 					return (
 						<Input value={text} onChange={this.hindtoBPricechange.bind(this,index)}/>
@@ -47,7 +47,7 @@
 				}
 			},{
 				title: '到货价格',
-				dataIndex: 'toCPrice',
+				dataIndex: 'receivePrice',
 				render: (text, record,index) => {
 					return (
 						<Input value={text} onChange={this.hindtoCPricechange.bind(this,index)}/>
@@ -55,7 +55,7 @@
 				}
 			},{
 				title: '出库价格',
-				dataIndex: 'tagPrice',
+				dataIndex: 'deliveryPrice',
 				render: (text, record,index) => {
 					return (
 						<Input value={text} onChange={this.hindtagPricechange.bind(this,index)}/>
@@ -63,7 +63,7 @@
 				}
 			},{
 				title: '售价',
-				dataIndex: 'costPrice',
+				dataIndex: 'salePrice',
 				render: (text, record,index) => {
 					return (
 						<Input value={text} onChange={this.hindcostPricechange.bind(this,index)}/>
@@ -96,7 +96,7 @@
 				}
 			}, {
 				title: '采购价格',
-				dataIndex: 'toBPrice',
+				dataIndex: 'purchasePrice',
 				render: (text, record,index) => {
 					return (
 						<Input value={text} onChange={this.hindtoBPricechange.bind(this,index)}/>
@@ -104,7 +104,7 @@
 				}
 			},{
 				title: '到货价格',
-				dataIndex: 'toCPrice',
+				dataIndex: 'receivePrice',
 				render: (text, record,index) => {
 					return (
 						<Input value={text} onChange={this.hindtoCPricechange.bind(this,index)}/>
@@ -112,7 +112,7 @@
 				}
 			},{
 				title: '出库价格',
-				dataIndex: 'tagPrice',
+				dataIndex: 'deliveryPrice',
 				render: (text, record,index) => {
 					return (
 						<Input value={text} onChange={this.hindtagPricechange.bind(this,index)}/>
@@ -120,7 +120,7 @@
 				}
 			},{
 				title: '售价',
-				dataIndex: 'costPrice',
+				dataIndex: 'salePrice',
 				render: (text, record,index) => {
 					return (
 						<Input value={text} onChange={this.hindcostPricechange.bind(this,index)}/>
@@ -286,7 +286,7 @@
 		//商品售价change
 		hindtoBPricechange=(index,e)=>{
 			const goodindodatasouce=this.props.goodindodatasouce.slice(0)
-			goodindodatasouce[index].toBPrice=e.target.value
+			goodindodatasouce[index].purchasePrice=e.target.value
 			this.props.dispatch({
 				type:'onlinegood/goodindodatasouce',
 				payload:goodindodatasouce
@@ -295,7 +295,7 @@
 		//零售价change
 		hindtoCPricechange=(index,e)=>{
 			const goodindodatasouce=this.props.goodindodatasouce.slice(0)
-			goodindodatasouce[index].toCPrice=e.target.value
+			goodindodatasouce[index].receivePrice=e.target.value
 			this.props.dispatch({
 				type:'onlinegood/goodindodatasouce',
 				payload:goodindodatasouce
@@ -304,7 +304,7 @@
 		//建议零售价
 		hindtagPricechange=(index,e)=>{
 			const goodindodatasouce=this.props.goodindodatasouce.slice(0)
-			goodindodatasouce[index].tagPrice=e.target.value
+			goodindodatasouce[index].deliveryPrice=e.target.value
 			this.props.dispatch({
 				type:'onlinegood/goodindodatasouce',
 				payload:goodindodatasouce
@@ -313,7 +313,7 @@
 		//进货价售价
 		hindcostPricechange=(index,e)=>{
 			const goodindodatasouce=this.props.goodindodatasouce.slice(0)
-			goodindodatasouce[index].costPrice=e.target.value
+			goodindodatasouce[index].salePrice=e.target.value
 			this.props.dispatch({
 				type:'onlinegood/goodindodatasouce',
 				payload:goodindodatasouce
@@ -338,10 +338,10 @@
 				}else{
 					value.code=this.props.goodindodatasouce[0].code
 					value.barcode=this.props.goodindodatasouce[0].barcode
-					value.toBPrice=this.props.goodindodatasouce[0].toBPrice
-					value.toCPrice=this.props.goodindodatasouce[0].toCPrice
-					value.tagPrice=this.props.goodindodatasouce[0].tagPrice
-					value.costPrice=this.props.goodindodatasouce[0].costPrice
+					value.purchasePrice=this.props.goodindodatasouce[0].purchasePrice
+					value.receivePrice=this.props.goodindodatasouce[0].receivePrice
+					value.deliveryPrice=this.props.goodindodatasouce[0].deliveryPrice
+					value.salePrice=this.props.goodindodatasouce[0].salePrice
 				}
 
 				const values={pdSpu:value}
@@ -549,10 +549,10 @@
 								this.props.isskus?
 								<div style={{display:'flex',textAlign:'center',padding:'15px 15px 0 15px'}}>
 									<div style={{lineHeight:'45px'}}>批量设置：</div>
-									<div style={{width:'100px',height:'45px',color:'#35bab0'}}><EditableCell text='采购价格' title='toBPrice'/></div>
-									<div style={{width:'100px',height:'45px',color:'#35bab0'}}><EditableCell text='到货价格' title='toCPrice'/></div>
-									<div style={{width:'100px',height:'45px',color:'#35bab0'}}><EditableCell text='出库价格' title='tagPrice'/></div>
-									<div style={{width:'100px',height:'45px',color:'#35bab0'}}><EditableCell text='售价' title='costPrice'/></div>
+									<div style={{width:'100px',height:'45px',color:'#35bab0'}}><EditableCell text='采购价格' title='purchasePrice'/></div>
+									<div style={{width:'100px',height:'45px',color:'#35bab0'}}><EditableCell text='到货价格' title='receivePrice'/></div>
+									<div style={{width:'100px',height:'45px',color:'#35bab0'}}><EditableCell text='出库价格' title='deliveryPrice'/></div>
+									<div style={{width:'100px',height:'45px',color:'#35bab0'}}><EditableCell text='售价' title='salePrice'/></div>
                 				</div>
 								:null
 							}
@@ -657,8 +657,8 @@
 	const GoodEdit = Form.create()(App);
 
 	function mapStateToProps(state) {
-		const {values,limit,currentPage,name,pdCategory1Id,pdCategory2Id,pdBrandId,spuIdPics,pdCategorys,pdBrand,pdTypeslist,pdType1Id,pdType2Id,tag1,tag2,isskus,goodindodatasouce,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell,pdSpuInfo,spuPics,goodpdCategorys,shareType,containerSpec,methup,region} = state.onlinegood;
-		return {values,limit,currentPage,name,pdCategory1Id,pdCategory2Id,pdBrandId,spuIdPics,pdCategorys,pdBrand,pdTypeslist,pdType1Id,pdType2Id,tag1,tag2,isskus,goodindodatasouce,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell,pdSpuInfo,spuPics,goodpdCategorys,shareType,containerSpec,methup,region};
+		const {values,limit,currentPage,name,pdCategory1Id,pdCategory2Id,pdBrandId,spuIdPics,pdCategorys,pdBrand,pdTypeslist,pdType1Id,pdType2Id,tag1,tag2,isskus,goodindodatasouce,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell,pdSpuInfo,spuPics,goodpdCategorys,shareType,containerSpec,methup,region,warehouseId} = state.onlinegood;
+		return {values,limit,currentPage,name,pdCategory1Id,pdCategory2Id,pdBrandId,spuIdPics,pdCategorys,pdBrand,pdTypeslist,pdType1Id,pdType2Id,tag1,tag2,isskus,goodindodatasouce,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell,pdSpuInfo,spuPics,goodpdCategorys,shareType,containerSpec,methup,region,warehouseId};
 	}
 
 	export default connect(mapStateToProps)(GoodEdit);

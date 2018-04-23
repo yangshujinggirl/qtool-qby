@@ -211,7 +211,7 @@ class Config extends React.Component{
             limit:this.state.limit
         };
         //请求日志
-        let result=GetServerData('qerp.web.ec.pd.spulog.list',values);
+        let result=GetServerData('qerp.web.pd.spulog.list',values);
         result.then((res) => {
             return res;
         }).then((json) => {
