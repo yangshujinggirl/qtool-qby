@@ -7,6 +7,7 @@ import Infomodel from './infomodal';
 import MyUploadMd from './upload';
 const FormItem = Form.Item;
 const Option = Select.Option;
+const confirm = Modal.confirm;
 
 class OrdermdEditForm extends React.Component{
 
@@ -21,40 +22,7 @@ class OrdermdEditForm extends React.Component{
         };
 	}
 
-	//修改数据初始化页面
-  	// initDateEdit = (value) =>{
-	// 	  //请求用户信息
-  	// 	this.props.dispatch({type:'account/infofetch',payload:value})
-    // 	this.props.dispatch({ type: 'tab/loding', payload:true})
-	// }
-
-	//删除当前tab
-	// deleteTab=()=>{
-	// 	const pane = eval(sessionStorage.getItem("pane"));
-	// 	if(pane.length<=1){
-	// 		return
-	// 	}
-	// 	if(this.props.data){
-	// 		this.props.dispatch({
-	// 			type:'tab/initDeletestate',
-	// 			payload:'601000edit'+this.props.data.urUserId
-	// 		  });
-	// 	}else{
-	// 		this.props.dispatch({
-	// 			type:'tab/initDeletestate',
-	// 			payload:'601000edit'
-	// 		  });
-	// 	}
-	// }
-
-
-	//初始化state
-	// initState=()=>{
-	// 	this.props.dispatch({
-    //         type:'account/initState',
-    //         payload:{}
-	// 	})
-    // }
+	
     
 	//保存
 	handleSubmit = (e) => {

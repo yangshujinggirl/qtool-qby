@@ -2,6 +2,7 @@ import {GetServerData} from '../../../services/services';
 import { Button, Icon ,Modal} from 'antd';
 import SearchForm from './search';
 import SearchTable from './table';
+const confirm = Modal.confirm;
 
 class InfouserIndex extends React.Component{
     state = {
