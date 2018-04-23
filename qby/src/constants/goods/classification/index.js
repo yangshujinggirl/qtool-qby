@@ -28,6 +28,7 @@ class Classificationindex extends React.Component {
 											title='修改属性' 
 											text={item.name} 
 											pdTypes={this.props.pdTypes}
+											rolelists={this.props.data.rolelists}
 											
 										/>
 									</div>
@@ -42,7 +43,7 @@ class Classificationindex extends React.Component {
 				dataIndex: 'operation',
 				render: (text, record) => {
 					return (
-						<CollectionsPage type='1' pdTypes={this.props.pdTypes} data={{pdCategoryIds:record.pdCategoryId,name:null,status:'1'}} title='新增属性' text='新增属性'/>
+						<CollectionsPage type='1' pdTypes={this.props.pdTypes} data={{pdCategoryIds:record.pdCategoryId,name:null,status:'1'}} title='新增属性' text='新增属性' rolelists={this.props.data.rolelists}/>
 					);
 				}
 			}]

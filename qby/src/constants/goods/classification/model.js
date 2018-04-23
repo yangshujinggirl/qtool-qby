@@ -76,10 +76,12 @@ class CollectionsPage extends React.Component {
     };
     showModal = () => {
         const rolelists=this.props.rolelists
+        console.log(rolelists)
         const addorder=rolelists.find((currentValue,index)=>{
-            return currentValue.remark=="qerp.web.sp.ctorder.save"
+            return currentValue.url=="qerp.web.pd.category.save"
         })
-        if(this.props.addorder){
+      
+        if(addorder){
             this.setState({ visible: true },function(){
                 this.setValues()
             });
