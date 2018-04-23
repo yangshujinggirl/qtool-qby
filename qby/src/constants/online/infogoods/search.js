@@ -32,18 +32,6 @@ class AdvancedSearchForm extends React.Component {
         })
     }
     
-    //商品列表
-    Categorylist=()=>{
-        let value={
-            getChildren:false,
-            enabled:true,
-            type:'2'   //电商中心为type:'2'
-        }
-        this.props.dispatch({
-            type:'IndexPage/categoryfetch',
-            payload:{code:'qerp.web.pd.category.list',values:value}
-        })
-    }
     initselect=()=>{
 		const selectedRows=[]
 		const selectedRowKeys=[]
@@ -118,14 +106,12 @@ class AdvancedSearchForm extends React.Component {
         );
     }
     componentDidMount(){
-         this.Categorylist()
          this.handleSearch()
     }
 }
 function mapStateToProps(state) {
     const {limit,currentPage} = state.onlinegood;
-    const {pdCategorysList}=state.IndexPage;
-    return {limit,currentPage,pdCategorysList};
+    return {limit,currentPage};
 }
 
 const Goodssearchform = Form.create()(AdvancedSearchForm);

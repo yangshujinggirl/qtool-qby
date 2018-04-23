@@ -23,7 +23,7 @@ class Goodlist extends React.Component {
                 pdSpuIds:s,
                 status:state
             }
-            const result=GetServerData('qerp.web.pd.spu.status',values)
+            const result=GetServerData('qerp.web.ec.pd.spu.status',values)
             result.then((res) => {
                 return res;
             }).then((json) => {

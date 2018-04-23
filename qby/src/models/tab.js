@@ -89,7 +89,6 @@ export default {
             const result=yield call(GetServerData,code,values);
             if(result.code=='0'){
                 let {menus}=result;
-                console.log(menus)
                 let first = menus[0].children[0];
                 const firstItem={title:first.name,key:String(first.urResourceId)};
                 sessionStorage.setItem("firstItem", JSON.stringify(firstItem)); 
