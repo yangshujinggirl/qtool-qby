@@ -18,11 +18,11 @@ class SearchTable extends React.Component {
             }, 
             {
                 title: '消费次数',
-                dataIndex: 'cosumeCounts'
+                dataIndex: 'consumeCounts'
             },
             {
                 title: '消费金额',
-                dataIndex: 'cosumeSunAmount'
+                dataIndex: 'consumeSumAmount'
             }, 
             {
                 title: '初次消费时间',
