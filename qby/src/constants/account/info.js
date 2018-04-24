@@ -72,10 +72,10 @@ class AddNewAccountForm extends React.Component{
 		e.preventDefault();
 		this.props.form.validateFields((err, values) => {
 		  if (!err) {
-				if(this.props.rolesData.length<1){
-					message.warn('请选择权限')
-					return
-				}
+				// if(this.props.rolesData.length<1){
+				// 	message.warn('请选择权限')
+				// 	return
+				// }
 				values.urRoleIds=this.props.rolesData;
 				if(this.props.data){
 					values.urUserId=this.props.data.urUserId
@@ -99,7 +99,7 @@ class AddNewAccountForm extends React.Component{
 					}
 				})
 			  
-		  }
+		  	}
 		});
 	}
 

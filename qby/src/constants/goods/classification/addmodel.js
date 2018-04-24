@@ -66,6 +66,7 @@ class CollectionsPages extends React.Component {
 			return;
 		}
 		value.state='1'
+	
 		const values={pdCategory:value}
 		const result=GetServerData('qerp.web.pd.category.save',values)
 			result.then((res) => {

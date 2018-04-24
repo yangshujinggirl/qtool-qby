@@ -100,6 +100,8 @@ class CollectionsPage extends React.Component {
         if (err) {
             return;
         }
+        value.type=this.props.data.type
+        console.log(this.props.data.type)
         if(this.props.data.pdCategoryId){
             value.pdCategoryId=this.props.data.pdCategoryId
         }

@@ -24,7 +24,7 @@ class Classificationindex extends React.Component {
 										<CollectionsPage  
 											type='2' 
 											statetype={item.status=='1'?null:'dashed'} 
-											data={{pdCategoryIds:item.parentId,name:item.name,status:item.status,pdCategoryId:item.pdCategoryId}} 
+											data={{pdCategoryIds:item.parentId,name:item.name,status:item.status,pdCategoryId:item.pdCategoryId,type:item.type}} 
 											title='修改属性' 
 											text={item.name} 
 											pdTypes={this.props.pdTypes}
@@ -43,7 +43,7 @@ class Classificationindex extends React.Component {
 				dataIndex: 'operation',
 				render: (text, record) => {
 					return (
-						<CollectionsPage type='1' pdTypes={this.props.pdTypes} data={{pdCategoryIds:record.pdCategoryId,name:null,status:'1'}} title='新增属性' text='新增属性' rolelists={this.props.data.rolelists}/>
+						<CollectionsPage type='1' pdTypes={this.props.pdTypes} data={{pdCategoryIds:record.pdCategoryId,name:null,status:'1',type:record.type}} title='新增属性' text='新增属性' rolelists={this.props.data.rolelists}/>
 					);
 				}
 			}]
@@ -63,7 +63,7 @@ class Classificationindex extends React.Component {
 											rolelists={this.props.data.rolelists}
 											type='2' 
 											statetype={item.status=='1'?null:'dashed'} 
-											data={{pdCategoryIds:item.parentId,name:item.name,status:item.status,pdCategoryId:item.pdCategoryId}} 
+											data={{pdCategoryIds:item.parentId,name:item.name,status:item.status,pdCategoryId:item.pdCategoryId,type:item.type}} 
 											title='修改属性' 
 											text={item.name} 
 											pdTypes={this.props.pdTypes}/>
