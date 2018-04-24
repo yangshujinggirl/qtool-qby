@@ -90,8 +90,10 @@ class AdvancedSearchForm extends React.Component {
                                 <FormItem label='保税仓库'>
                                     {getFieldDecorator('warehouseId')(
                                         <Select allowClear={true} placeholder="请选择">
-                                            <Option value="1">杭州仓</Option>
-                                            <Option value="2">重庆仓</Option>
+                                            <Option value='1'>杭州仓</Option>
+                                            <Option value='2'>重庆仓</Option>
+                                            <Option value='3'>香港仓</Option>
+                                            <Option value='4'>虚拟仓</Option>
                                         </Select>
                                     )}
                                 </FormItem>

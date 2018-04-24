@@ -578,6 +578,9 @@
 							<Select placeholder="请选择">
 								<Option value='1'>杭州仓</Option>
 								<Option value='2'>重庆仓</Option>
+								<Option value='3'>香港仓</Option>
+								<Option value='4'>虚拟仓</Option>
+
 							</Select>
 						)}
 					</FormItem>
