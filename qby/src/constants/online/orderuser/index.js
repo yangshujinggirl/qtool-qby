@@ -51,7 +51,7 @@ class OrderuserIndex extends React.Component{
     hindSearch=(values)=>{
         values.limit=this.state.limit
         values.currentPage=this.state.currentPage
-        const result=GetServerData('qerp.web.ec.pd.userOrder.query',values)
+        const result=GetServerData('qerp.web.ec.od.userOrder.query',values)
         result.then((res) => {
            return res;
         }).then((json) => {
@@ -116,7 +116,7 @@ class OrderuserIndex extends React.Component{
             }
         }
         const values={ecOrderIds:ecOrderIds}
-        const result=GetServerData('qerp.web.ec.pd.userOrder.reMatch',values)
+        const result=GetServerData('qerp.web.ec.od.userOrder.reMatch',values)
         result.then((res) => {
             return res;
         }).then((json) => {

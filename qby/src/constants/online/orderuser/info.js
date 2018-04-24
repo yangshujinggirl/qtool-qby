@@ -138,7 +138,7 @@ class OrderuserInfo extends React.Component{
 		]
 
         const values={ecOrderId:id}
-        const result=GetServerData('qerp.web.ec.pd.userOrder.detail',values)
+        const result=GetServerData('qerp.web.ec.od.userOrder.detail',values)
         result.then((res) => {
            return res;
         }).then((json) => {
