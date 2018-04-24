@@ -83,7 +83,7 @@ class OperateIndex extends React.Component{
 					type="primary" 
 					size='large'
 					className='mt20 mr10'
-					onClick={this.exportData.bind(this,1,this.props.values)}
+					onClick={this.exportData.bind(this,21,this.props.values)}
 				>
 					导出数据
 				</Button>
