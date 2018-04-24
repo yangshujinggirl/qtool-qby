@@ -14,15 +14,7 @@ class OrdercgEditForm extends React.Component{
 	constructor(props) {
 		super(props);
 		this.state = {
-            // formvalue:{
-			// 	shippingFeeType:10,
-			// 	shippingFee:null,
-			// 	taxRateType:1,
-			// 	taxRate:'',
-			// },
-			//请求供应商的列表信息
 			supplierList:[],
-			//请求的仓库列表信息
 			warehouses:[]
         }
 	}
@@ -76,7 +68,6 @@ class OrdercgEditForm extends React.Component{
 		e.preventDefault();
 		this.props.form.validateFields((err, values) => {
             if (!err) {
-				console.log(values);
 				let data = this.props.editInfo;
 				data.shippingFee = values.shippingFee;
 				data.taxRate = values.taxRate instanceof Array?"":values.taxRate;
@@ -203,7 +194,6 @@ class OrdercgEditForm extends React.Component{
 
 	//是否含税改变
 	RadioChangeTaxRate = (e) =>{
-		console.log(e.target.value);
 		let formvalueTemp = deepcCloneObj(this.props.editInfo);
 		if(e.target.value=='1'){
 			formvalueTemp.taxRateType = 1;

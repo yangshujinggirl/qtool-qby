@@ -57,7 +57,7 @@ class OperatememberTable extends React.Component {
 	
 	//点击表格上的修改按钮操作
 	lookInfo = (record) =>{
-		console.log(record.type);
+		
 	}
 
 	//分页方法

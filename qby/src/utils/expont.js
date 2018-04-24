@@ -46,7 +46,6 @@ export function post(url, paramsObj) {
                 
                 var a = document.createElement('a');
                 a.href = url;
-                console.log(a)
                 a.download = filenames;
                 document.body.appendChild(a)
                 a.click();                  

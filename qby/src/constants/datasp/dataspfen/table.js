@@ -47,8 +47,6 @@ class DataspfenTable extends React.Component {
 			spShopId:record.shopId,
 			rpDate:this.props.values.rpDate,
 		}
-		console.log(this.props.values)
-		console.log(this.props.values.rpDate)
 		this.exportData(57,data)
 
 	}

@@ -42,10 +42,6 @@ handleInputConfirm = (e) => {
 
 //规格属性匹配
 	getTypevallist=(inputValue,id)=>{
-		console.log(inputValue)
-		console.log(this.props.tag1)
-		console.log(this.props.tag2)
-		console.log(this.props.types)
 		var dayvalues=0
 		if(!inputValue){
 			message.error('此属性不能为空');

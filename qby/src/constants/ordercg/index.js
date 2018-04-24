@@ -106,7 +106,7 @@ class OrdercgIndex extends React.Component{
 			message.error('请选择采购单',.8)
 			return;
 		}
-		const values={wsAsnId:this.props.selectedRows[i].wsAsnId}
+		const values={wsAsnId:this.props.selectedRows[0].wsAsnId}
 		const result=GetServerData('qerp.web.sp.ws.asn.finish',values);
 		result.then((res) => {
 			return res;
@@ -119,7 +119,6 @@ class OrdercgIndex extends React.Component{
 	}
 	//已付款和待付款
 	payamount=()=>{
-		console.log(this.props.selectedRows)
 		if (this.props.selectedRows.length < 1) {
 			message.error('请选择采购单',.8)
 			return;
@@ -147,7 +146,6 @@ class OrdercgIndex extends React.Component{
 
   	render(){
 		const rolelists=this.props.data.rolelists
-		console.log(rolelists)
 		// //新增采购单
 		const addorder=rolelists.find((currentValue,index)=>{
 			return currentValue.url=="qerp.web.ws.asn.save"

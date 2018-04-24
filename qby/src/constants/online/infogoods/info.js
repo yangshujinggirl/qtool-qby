@@ -151,6 +151,7 @@ class App extends React.Component {
 					}
 					dataSource.push(values)
 				}
+
 				for(var i=0;i<pdSpuInfo.length;i++){
 					pdSpuInfo[i].key=String(i+1)
 				}
@@ -164,7 +165,7 @@ class App extends React.Component {
 				},function(){
 					this.props.form.setFieldsValue({
 						region:region,
-						warehouseStr:json.warehouseStr,
+						warehouseStr:warehouseStr,
 						shareRatio:shareRatio,
 						remark1:remark1,
 						remark2:remark2,
@@ -181,12 +182,12 @@ class App extends React.Component {
 						eventHot:eventHot?'是':'否',
 						isDirectExpress:isDirectExpress=='0'?'否':'是',
 						isPresell:isPresell=='0'?'否':'是',
-						containerSpec:containerSpec,
-						shareType:shareTypeStr
+						containerSpec:containerSpec
 					});
 				})
 			}
 		})
+		
 	}
 	render() {
 		const { getFieldDecorator } = this.props.form;

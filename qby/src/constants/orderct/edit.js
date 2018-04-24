@@ -97,7 +97,6 @@ class OrderctEditForm extends React.Component{
                 data.recProvinceId = values.recCity[0];
                 data.recCityId = values.recCity[1];
                 data.recDistrictId = values.recCity[2];
-                console.log(data);
                  const result=GetServerData('qerp.web.sp.ctorder.save',data);
                 result.then((res) => {
                     return res;

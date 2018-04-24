@@ -67,7 +67,6 @@ Focus()
 }
 
 render() {
-	console.log(this.props.ishindok)
 	return (
 		<div className='content_box'>
 			<WrappedApp/>

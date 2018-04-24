@@ -1,10 +1,10 @@
 
 import {GetServerData} from '../services/services';
 export default {
-namespace: 'fenlei',
-state: {
-	pdCategoryslist:[]
-},
+	namespace: 'fenlei',
+	state: {
+		pdCategoryslist:[]
+	},
 reducers: {
 	pdCategoryslist(state, { payload:pdCategoryslist}) {
 		return {...state,pdCategoryslist}
@@ -17,6 +17,8 @@ effects: {
 				if(result.code=='0'){
 					const pdCategoryslist=result.pdCategorys
 					for(var i=0;i<pdCategoryslist.length;i++){
+						var typestr=(pdCategoryslist[i].type==1)?'线上':'线下'
+						pdCategoryslist[i].name=pdCategoryslist[i].name+'('+typestr+')'
 						pdCategoryslist[i].childrens=pdCategoryslist[i].children
 						delete pdCategoryslist[i].children
 					}

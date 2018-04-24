@@ -76,7 +76,6 @@ class CollectionsPage extends React.Component {
     };
     showModal = () => {
         const rolelists=this.props.rolelists
-        console.log(rolelists)
         const addorder=rolelists.find((currentValue,index)=>{
             return currentValue.url=="qerp.web.pd.category.save"
         })
@@ -101,7 +100,6 @@ class CollectionsPage extends React.Component {
             return;
         }
         value.type=this.props.data.type
-        console.log(this.props.data.type)
         if(this.props.data.pdCategoryId){
             value.pdCategoryId=this.props.data.pdCategoryId
         }

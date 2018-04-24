@@ -11,7 +11,8 @@ class Classificationindex extends React.Component {
 		super(props);
 		this.columns=[{
 				width: '100px',
-				dataIndex: 'name'
+				dataIndex: 'name',
+				width:'15%'
 			}, {
 			dataIndex: 'attribute',
 			render: (text, record) => {

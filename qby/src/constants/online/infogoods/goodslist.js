@@ -84,7 +84,6 @@ class Goodlist extends React.Component {
     }
     //商品日志
     outconfig=(id)=>{
-        console.log(id)
         const paneitem = {title:'商品日志',key:'802000editconfig'+String(id),componkey:'802000editconfig',data:{pdSpuId:id}};
         this.props.dispatch({
             type:'tab/firstAddTab',

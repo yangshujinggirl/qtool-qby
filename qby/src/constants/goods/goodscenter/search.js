@@ -8,7 +8,6 @@ class AdvancedSearchForm extends React.Component {
     //搜索
     handleSearch = (e) => {
         this.props.form.validateFields((err, values) => {
-            console.log(values)
             this.initWarehouseList(values,this.props.limit,0)
             this.synchronousState(values)
             this.initselect()
@@ -147,7 +146,6 @@ class AdvancedSearchForm extends React.Component {
     }
     componentDidMount(){
          this.Categorylist()
-         console.log(121)
          this.handleSearch()
     }
 }

@@ -73,9 +73,6 @@ class CollectionsPage extends React.Component {
         }else{
             message.error('无修改权限')
         }
-
-
-        
     }
     handleCancel = () => {
         this.setState({ visible: false });
@@ -145,14 +142,14 @@ class CollectionsPage extends React.Component {
           }
         
         <CollectionCreateForm
-          ref={this.saveFormRef}
-          visible={this.state.visible}
-          onCancel={this.handleCancel}
-          onCreate={this.handleCreate}
-          setValues={this.setValues}
-          data={this.props.data}
-          title={this.props.title}
-          url={this.props.url}
+            ref={this.saveFormRef}
+            visible={this.state.visible}
+            onCancel={this.handleCancel}
+            onCreate={this.handleCreate}
+            setValues={this.setValues}
+            data={this.props.data}
+            title={this.props.title}
+            url={this.props.url}
 
         />
       </div>

@@ -64,7 +64,6 @@ export default {
       		const result=yield call(GetServerData,code,values);
       		yield put({type: 'tab/loding',payload:false});
       		if(result.code=='0'){
-				  console.log(result)
 				  const feedbacks=result.feedbacks
 				//内容
 				const remark=feedbacks[0].remark

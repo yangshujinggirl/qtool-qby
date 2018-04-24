@@ -232,7 +232,6 @@ class SpEditForm extends React.Component{
     }
     
     fromonChange=(time,Strtime)=>{
-        console.log(Strtime)
         this.setState({ fromtime: Strtime });
     }
     endonChange=(time,Strtime)=>{
@@ -251,7 +250,6 @@ class SpEditForm extends React.Component{
 		  </div>
 		  ),
 		  onOk() {
-			  console.log(_this)
 			_this.deleteTab()
 		  }
 

@@ -63,7 +63,6 @@ class OrderdbEditForm extends React.Component{
                     return
                 }
                 values.details=this.props.goodsInfo;
-                console.log(values);
                 const result=GetServerData('qerp.web.sp.exchange.save',values);
                 result.then((res) => {
                     return res;

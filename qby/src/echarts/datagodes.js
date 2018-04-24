@@ -92,7 +92,6 @@ class EchartsTest extends Component {
     
     //绘制
     writeCall=()=>{
-        console.log(1)
         const xdata=this.state.xdata
         const data1=this.state.data1
         const data2=this.state.data2
@@ -101,7 +100,6 @@ class EchartsTest extends Component {
         const type=this.state.type
         // 基于准备好的dom，初始化echarts实例
         var myChart = echarts.init(document.getElementById('maingod'));
-        console.log(myChart)
         // 绘制图表
         myChart.setOption({
             title: {

@@ -95,8 +95,7 @@ class ConsumptionInfo extends React.Component{
 
 function mapStateToProps(state) {
 	const {cardtitle,cardlist,details,detotal,delimit,decurrentPage} = state.operatemember;
-	console.log()
-		return {cardtitle,cardlist,details,detotal,delimit,decurrentPage};
+	return {cardtitle,cardlist,details,detotal,delimit,decurrentPage};
 }
 export default connect(mapStateToProps)(ConsumptionInfo);
 

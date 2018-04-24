@@ -34,7 +34,6 @@ class OrderctTable extends React.Component {
     
     //点击表格上的修改按钮操作
     editInfo = (record) =>{
-       console.log(record);
        const spOrderId=String(record.spOrderId);
        const paneitem={title:'采退单详情',key:'204000edit'+spOrderId+'info',data:{spCtorderId:spOrderId},componkey:'204000info'}
        this.props.dispatch({

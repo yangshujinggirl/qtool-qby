@@ -44,7 +44,6 @@ class StockSearchForm extends React.Component {
     }
 
     hindDateChange=(date,dateString)=>{
-        console.log(dateString)
         this.setState({
             startRpDate:dateString[0],
             endRpDate:dateString[1]

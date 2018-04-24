@@ -262,7 +262,6 @@ class OrderthEditForm extends React.Component{
 }
 function mapStateToProps(state) {
     const {values,formValue,goodsInfo} = state.orderth;
-    console.log(goodsInfo);
     return {values,formValue,goodsInfo};
 }
 

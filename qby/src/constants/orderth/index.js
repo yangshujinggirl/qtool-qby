@@ -97,7 +97,6 @@ class OrderthIndex extends React.Component{
 	}
   	render(){
 		const rolelists=this.props.data.rolelists
-		console.log(rolelists)
 		//增改
 		const addorder=rolelists.find((currentValue,index)=>{
 			return currentValue.url=="qerp.web.ws.asn.save"
@@ -152,7 +151,7 @@ class OrderthIndex extends React.Component{
 				:null
 				}
              		<div className='mt15'>
-					 	<OrderthTable addorderobj={addorder}/>
+					 	<OrderthTable addorderobj={overorder}/>
 					</div>
         	</div>
       	)

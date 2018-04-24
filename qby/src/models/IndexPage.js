@@ -26,7 +26,6 @@ export default {
 			return {...state,citylist}
 		},
 		fileDomain(state, { payload: fileDomain}) {
-			console.log(fileDomain)
 			return {...state,fileDomain}
 		},
 	},

@@ -64,7 +64,6 @@ class Shipeditmodel extends React.Component {
             if (err) {
                 return;
             }
-            console.log('Received values of form: ', values);
             values.ecSuborderNo=this.props.ecSuborderNo
             values.ecOrderId=this.props.ecOrderId
             const result=GetServerData('qerp.web.ec.pd.pullOrderExpress.save',values)

@@ -312,7 +312,6 @@ export default {
 			const result=yield call(GetServerData,code,values);
 			yield put({type: 'tab/loding',payload:false});
 			if(result.code=='0'){
-				console.log(result)
 				const pdSpuinfos=result.pdSpu
 				pdSpuinfos.pdSpuId=String(pdSpuinfos.pdSpuId)
 				if(pdSpuinfos.pdSkus & pdSpuinfos.pdSkus.length>0){
@@ -346,7 +345,6 @@ export default {
 				for(var i=0;i<spuIdPics.length;i++){
 					spuPics.push(spuIdPics[i].url)
 				}
-				console.log(spuPics)
 
 				//更新图片展示
 				const fileList=spuIdPics.slice(0)
@@ -459,8 +457,6 @@ export default {
 				if(pdType1Ids!='00' && tag1s.length>0){
 					if(pdType2Ids=='00' || (pdType2Ids!='00' && tag2s.length>0)){
 						//上传表
-						console.log('上传表')
-						console.log(tag1)
 						isskus=true
 						goodindodatasouce=[]
 						if(tag2.length>0){
@@ -488,7 +484,6 @@ export default {
 								}
 							}
 
-							console.log(goodindodatasouce)
 							
 
 						}else{
@@ -583,7 +578,6 @@ export default {
 				const pdType2Ids = yield select(state => state.goods.pdType2Id);
 				const tag1=tag1in.slice(0)
 				const tag2=tag2in.slice(0)
-				console.log(iallpdTypeVals)
 				if(types=='1'){
 					tag1.remove(iallpdTypeVals)
 				}
@@ -592,8 +586,6 @@ export default {
 				}
 				const tag1s=tag1
 				const tag2s=tag2
-				console.log(tag1)
-				console.log(tag2s)
 				yield put({type: 'tagslist',payload:{tag1,tag2}});
 				yield put({type: 'goodsinfoChange',payload:{pdType1Ids,pdType2Ids,tag1s,tag2s}});
 

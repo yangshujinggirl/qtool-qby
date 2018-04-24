@@ -151,11 +151,9 @@ function PrintOneURL(url,orderno){
 
 export function GetLodop(id,type,orderno) {
 	var Url=window.location.host
-	console.log(Url)
 	const jsessionid = getJsessionId();
 	Url='http://'+Url+'/erpQwmsRest/print.htm;jsessionid='+jsessionid+'?type='+type+'&id='+id
 	// Url='http://'+Url+'/erpQwmsRest/print.htm?type='+type+'&id='+id
-	console.log(Url)
 	PrintOneURL(Url,orderno)
 }
 

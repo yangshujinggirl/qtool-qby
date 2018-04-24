@@ -91,7 +91,6 @@ class OrdermdInfo extends React.Component{
 	}
     
 	render(){
-		console.log(this.props.data.cancelorders)
 		return(
 			<div>
 				{

@@ -71,7 +71,6 @@ class GoodsInfoTable extends React.Component {
     }
 
     addGoods = () =>{
-        console.log(this.state.dataSource);
         let dataList = deepcCloneObj(this.props.goodsInfo);
         const newData = {
             key: this.state.rowCount+1,
@@ -81,7 +80,6 @@ class GoodsInfoTable extends React.Component {
         };
         dataList.push(newData);
         this.setState({
-            // dataSource: [...this.state.dataSource, newData],
             rowCount: this.state.rowCount + 1
         },function(){
             

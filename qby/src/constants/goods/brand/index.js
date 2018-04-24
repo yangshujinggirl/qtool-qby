@@ -21,7 +21,7 @@ class Brandindex extends React.Component {
 				{
 					addorder?
 					<div className='tl mb15'>
-						<CollectionsPage title='新增品牌' text='新增品牌' statetype='primary' data={{name:null,status:'1'}} url={null}/>
+						<CollectionsPage title='新增品牌' text='新增品牌' statetype='primary' data={{name:null,status:'1'}} url={null} addorderobj={addorder}/>
 					</div> 
 					:null
 				}

@@ -77,7 +77,6 @@ class InfouserIndex extends React.Component{
 
   	render(){
         const rolelists=this.props.data.rolelists
-        console.log(rolelists)
 		//导出数据
 		const expontdata=rolelists.find((currentValue,index)=>{
 			return currentValue.url=="qerp.web.sys.doc.task"

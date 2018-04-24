@@ -57,7 +57,6 @@ export default {
             const result=yield call(GetServerData,code,values);
             yield put({type: 'tab/loding',payload:false});
             if(result.code=='0'){
-                console.log("调拨单详情信息：",result);
                 const headTit=[
 					{lable:'调拨单号', text:result.exchange.allocationNo},
 					{lable:'下单时间', text:result.exchange.createTime},

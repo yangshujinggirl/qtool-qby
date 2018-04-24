@@ -71,7 +71,6 @@ handleSubmit = (e) => {
 }
 
 hindkeyup=(e)=>{
-	console.log(e.keyCode)
 	if(e.keyCode=='13'){
 		this.handleSubmit(e)
 	}

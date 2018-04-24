@@ -106,7 +106,6 @@ export default {
 			return {...state,datasouce,totolnumber,totolamount,thispoint,onbule,name,levelStr,memberpoint,memberamount,cardNo,mbCardId,isBirthMonth,ismember,payvisible,paytotolamount,themeindex,barcode,cardNoMobile,amountlist,paytypelisy,group,cutAmount,point,amount,rechargevisible,reamount,typeclick1,typeclick2,typeclick3,typeclick4,rechargetype}
 		},
   	    datasouce(state, { payload: datasouce}) {
-              console.log(datasouce)
             var totolnumber=0
             var totolamount=0
             var thispoint=0
@@ -215,9 +214,7 @@ export default {
     effects: {
   	    *barfetch({ payload: {code,values} }, { call, put ,select}) {
             const result=yield call(GetServerData,code,values);
-            console.log(result)
             if(result.code=='0'){
-                console.log(values)
                 const initdatasouce = yield select(state => state.cashier.datasouce);
                 const datasouce=initdatasouce.slice(0)
                 const i=isInArray(datasouce,values.barCode)
@@ -272,7 +269,6 @@ export default {
                             datasouce[i].payPrice=editpayPrice
                         }
                         const str=datasouce.splice(i,1); //删除当前
-                        console.log(str)
                         datasouce.unshift(str[0]); //把这个元素添加到开头
                     }
                 }
@@ -283,7 +279,6 @@ export default {
         },
         *memberinfo({ payload: {code,values} }, { call, put,select }) {
             const result=yield call(GetServerData,code,values);
-            console.log(result)
             if(result.code=='0'){
                 const name=result.mbCardInfo.name
                 const levelStr=result.mbCardInfo.levelStr

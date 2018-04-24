@@ -99,7 +99,6 @@ export default {
 			const result=yield call(GetServerData,code,values);
 			yield put({type: 'tab/loding',payload:false});
 			if(result.code=='0'){
-                console.log(result);
                 let goodsInfoList = result.details;
                 let goodsInfo=[];
                 for(var i=0;i<goodsInfoList.length;i++){

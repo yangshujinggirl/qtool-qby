@@ -31,7 +31,6 @@ class Feedbackedit extends React.Component{
     }
 	
     infofetch=(id)=>{
-		console.log(id)
         this.props.dispatch({
             type:'feedback/infofetch',
             payload:{code:'qerp.web.sp.feedback.detail',values:{spFeedbackId:id}}

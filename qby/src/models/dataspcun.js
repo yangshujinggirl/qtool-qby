@@ -22,7 +22,6 @@ export default {
 			yield put({type: 'tab/loding',payload:false});
 			if(result.code=='0'){
 				 const pdInvVos=(!result.pdInvVos)?[]:result.pdInvVos
-				 console.log(pdInvVos)
 				const limit=result.limit;
         		const currentPage=result.currentPage;
 				const total=result.total;
