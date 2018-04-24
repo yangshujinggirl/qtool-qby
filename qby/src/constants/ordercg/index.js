@@ -106,12 +106,17 @@ class OrdercgIndex extends React.Component{
 			message.error('请选择采购单',.8)
 			return;
 		}
+		if ((this.props.selectedRows[0].status!= 10) && (this.props.selectedRows[0].status!=20)) {
+			message.error('此状态下的订单不能强制完成',.8)
+			return;
+		}
 		const values={wsAsnId:this.props.selectedRows[0].wsAsnId}
 		const result=GetServerData('qerp.web.sp.ws.asn.finish',values);
 		result.then((res) => {
 			return res;
 		}).then((json) => {
 			if(json.code=='0'){
+				message.success('强制完成成功',.8)
 				this.initList(this.props.values,this.props.limit,this.props.currentPage)
 				this.clearChooseInfo()
 			}

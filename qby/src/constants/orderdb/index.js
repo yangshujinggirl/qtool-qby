@@ -82,7 +82,7 @@ class OrderdbIndex extends React.Component{
 			return;
 		} 
 		if((this.state.selectedRows[0].status!=20) && (this.state.selectedRows[0].status!=30)){
-			message.error('该调拨单不能强制完成',.8);
+			message.error('此状态下的订单不能强制完成',.8);
 			return;
 		}
 		const values={wsAsnId:this.state.selectedRows[0].wsAsnId}
@@ -95,6 +95,7 @@ class OrderdbIndex extends React.Component{
 					selectedRowKeys:[],
 					selectedRows:[]
 				},function(){
+					message.success('强制完成成功',.8)
 					this.hindSearch(this.state.searchvalue)
 				})
 			}

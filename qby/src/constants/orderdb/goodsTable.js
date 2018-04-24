@@ -27,7 +27,7 @@ class GoodsInfoTable extends React.Component {
             render: (text, record, index) => {
                 return (
                     <div>
-                        <Input value={this.props.goodsInfo[index].qty} placeholder="预订数量" 
+                        <Input value={this.props.goodsInfo[index].qty} placeholder="调出数量" 
                         onChange={this.handleChangeQty.bind(this, index)} 
                         onBlur={this.handleChangeQtyMess.bind(this, index)} required/>
                     </div>
