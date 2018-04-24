@@ -2,31 +2,40 @@ import { Form, Row, Col, Input, Button, Icon,Select ,DatePicker} from 'antd';
 import moment from 'moment';
 
 const FormItem = Form.Item;
+const { RangePicker } = DatePicker;
 const dateFormat = 'YYYY-MM-DD';
 
 class Searchform extends React.Component {
     state = {
-        firstCosumeTime:'',
-        lastCosumeTime:'',
+        firstCosumeTimeST:'',
+        firstCosumeTimeET:'',
+        lastCosumeTimeST:'',
+        lastCosumeTimeET:''
     };
     //点击搜索按钮获取搜索表单数据
     handleSearch = (e) => {
         this.props.form.validateFields((err, values) => {
-            values.firstCosumeTime=this.state.firstCosumeTime
-            values.lastCosumeTime=this.state.lastCosumeTime
+            values.firstCosumeTimeST=this.state.firstCosumeTimeST
+            values.firstCosumeTimeET=this.state.firstCosumeTimeET
+            values.lastCosumeTimeST=this.state.lastCosumeTimeST
+            values.lastCosumeTimeET=this.state.lastCosumeTimeET
             this.props.hindFormSearch(values)
         });
     }
     //时间搜索部分
     startDateChange=(dates,dateString)=>{
+        console.log(dateString)
         this.setState({
-            firstCosumeTime:dateString
+            firstCosumeTimeST:dateString[0],
+            firstCosumeTimeET:dateString[1]
         })
     }
     //时间搜索
     endDateChange=(dates,dateString)=>{
+        console.log(dateString)
         this.setState({
-            lastCosumeTime:dateString
+            lastCosumeTimeST:dateString[0],
+            lastCosumeTimeET:dateString[1]
         })
     }
     render() {
@@ -54,18 +63,16 @@ class Searchform extends React.Component {
                                 </FormItem>
                                 <FormItem label='初次消费时间'>
                                     {getFieldDecorator('firstCosumeTime')(
-                                        <DatePicker  
+                                        <RangePicker  
                                             format={dateFormat} 
-                                            className='noant-calendar-picker'
                                             onChange={this.startDateChange.bind(this)}
                                             />
                                     )}
                                 </FormItem>
                                 <FormItem label='最后消费时间'>
                                     {getFieldDecorator('lastCosumeTime')(
-                                        <DatePicker  
+                                        <RangePicker  
                                             format={dateFormat} 
-                                            className='noant-calendar-picker'
                                             onChange={this.endDateChange.bind(this)}
                                             />
                                     )}
