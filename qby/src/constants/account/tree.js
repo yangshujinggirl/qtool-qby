@@ -20,6 +20,8 @@ class Treerole extends React.Component {
 		});
   	}
 	onCheck = (checkedKeys,e) => {
+		console.log(checkedKeys)
+		console.log(e)
 		//功能权限带出基础权限
 		const postcheckedKeys=[]
 		for(var i=0;i<e.checkedNodes.length;i++){
@@ -38,7 +40,7 @@ class Treerole extends React.Component {
 				
 			}
 		}
-
+		console.log(postcheckedKeys)
 		this.setState({ 
 			checkedKeys:checkedKeys,
 			postcheckedKeys:postcheckedKeys

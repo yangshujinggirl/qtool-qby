@@ -390,7 +390,7 @@
 			values.currentPage="0";
 			this.props.dispatch({
 				type:'onlinegood/fetch',
-				payload:{code:'qerp.web.pd.spu.query',values:values}
+				payload:{code:'qerp.web.ec.pd.spu.query',values:values}
 			})
 			this.props.dispatch({type:'tab/loding',payload:true})
 		}
