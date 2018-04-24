@@ -60,7 +60,7 @@ class Treerole extends React.Component {
 		return data.map((item) => {
 			if (item.children) {
 				return (
-					<TreeNode title={item.name} key={item.urRoleId} dataRef={item} code={item.code}>
+					<TreeNode title={item.name} key={item.urRoleId} dataRef={item} code={item.code} selectable={false}>
 						{this.renderTreeNodes(item.children)}
 					</TreeNode>
 				);
@@ -109,7 +109,7 @@ class Treerole extends React.Component {
 				autoExpandParent={this.state.autoExpandParent}
 				onCheck={this.onCheck}
 				checkedKeys={this.state.checkedKeys}
-				onSelect={this.onSelect}
+				// onSelect={this.onSelect}
 				selectedKeys={this.state.selectedKeys}
 			>
 				{this.renderTreeNodes(this.state.treeData)}
