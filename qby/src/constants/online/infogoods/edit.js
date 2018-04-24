@@ -373,12 +373,12 @@
 			if(this.props.data.pdSpuId){
 				this.props.dispatch({
 					type:'onlinegood/delete',
-					payload:'301000edit'+this.props.data.pdSpuId
+					payload:'802000edit'+this.props.data.pdSpuId
 				})
 			}else{
 				this.props.dispatch({
 					type:'onlinegood/delete',
-					payload:'301000edit'
+					payload:'802000edit'
 				})
 			}
 		}
