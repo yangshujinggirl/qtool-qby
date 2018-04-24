@@ -24,7 +24,6 @@ class Searchform extends React.Component {
     }
     //时间搜索部分
     startDateChange=(dates,dateString)=>{
-        console.log(dateString)
         this.setState({
             firstCosumeTimeST:dateString[0],
             firstCosumeTimeET:dateString[1]
@@ -32,7 +31,6 @@ class Searchform extends React.Component {
     }
     //时间搜索
     endDateChange=(dates,dateString)=>{
-        console.log(dateString)
         this.setState({
             lastCosumeTimeST:dateString[0],
             lastCosumeTimeET:dateString[1]
