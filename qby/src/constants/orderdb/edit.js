@@ -12,7 +12,6 @@ const RadioGroup = Radio.Group;
 const { TextArea } = Input;
 
 class OrderdbEditForm extends React.Component{
-
 	constructor(props) {
 		super(props);
 		this.state = {

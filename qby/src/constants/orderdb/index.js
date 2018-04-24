@@ -1,10 +1,8 @@
-import React from 'react';
+
 import {GetServerData} from '../../services/services';
 import { Button, Icon,Modal,message } from 'antd';
 import { connect } from 'dva';
-//table
 import OrderdbTable from './table';
-//search
 import OrderdbSearch from './search';
 import Appmodelone from '../ordermd/modal';
 const confirm = Modal.confirm;
@@ -85,7 +83,6 @@ class OrderdbIndex extends React.Component{
 		}  
 		const values={wsAsnId:this.state.selectedRows[0].wsAsnId}
 		const result=GetServerData('qerp.web.sp.ws.asn.finish',values);
-		// const result=GetServerData('qerp.web.sp.ws.asn.finish',values);
 		result.then((res) => {
 			return res;
 		}).then((json) => {
@@ -95,19 +92,17 @@ class OrderdbIndex extends React.Component{
 					selectedRows:[]
 				},function(){
 					this.hindSearch(this.state.searchvalue)
-					}
-				)
+				})
 			}
 		})
 	}
-	//重构
 	//table搜索
 	hindSearch=(values)=>{
 		values.limit=this.state.limit
 		values.currentPage=this.state.currentPage
 		const result=GetServerData('qerp.web.sp.exchange.query',values)
 		result.then((res) => {
-		return res;
+			return res;
 		}).then((json) => {
 			if(json.code=='0'){
 				var dbdatas = json.exchanges;
@@ -186,8 +181,6 @@ class OrderdbIndex extends React.Component{
 						新建调拨单
 					</Button>
 					:null
-
-
 					}
 					{
 						expontdata?
@@ -211,7 +204,6 @@ class OrderdbIndex extends React.Component{
                         datasource={this.state.datasource}
                         getSelectDate={this.getSelectDate.bind(this)}
                         selectedRowKeys={this.state.selectedRowKeys}  
-					  
 					  />
 					</div>
         	</div>

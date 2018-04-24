@@ -10,13 +10,12 @@ class OrderdbSearchForm extends React.Component {
         warehouses:[]
     };
 
-  //点击搜索按钮获取搜索表单数据
-  handleSearch = (e) => {
-    this.props.form.validateFields((err, values) => {
-        this.props.OrderdbFormSearch(values)
-    });
-  }
-
+    //点击搜索按钮获取搜索表单数据
+    handleSearch = (e) => {
+        this.props.form.validateFields((err, values) => {
+            this.props.OrderdbFormSearch(values)
+        });
+    }
     //请求仓库列表
     wslist=()=>{
         const values={type:'1'}
@@ -24,19 +23,16 @@ class OrderdbSearchForm extends React.Component {
         result.then((res) => {
            return res;
         }).then((json) => {
-            console.log(json)
-           if(json.code=='0'){
+            if(json.code=='0'){
                 const warehouses=json.warehouses
                 this.setState({
                     warehouses:warehouses
                 })
-           }else{
+            }else{
                message.error(json.message,.8);
-           }
-
+            }
         })
     }
-
     render() {
         const { getFieldDecorator } = this.props.form;
         return (
