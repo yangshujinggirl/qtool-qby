@@ -9,6 +9,7 @@
 	import EditableCell from './tablepiuse';
 	import {deepcCloneObj} from '../../../utils/commonFc';
 	import './config.css';
+	const { TextArea } = Input;
 
 	const RadioGroup = Radio.Group;
 
@@ -617,7 +618,7 @@
 							initialValue:this.props.remark1
 							
 						})(
-							<Input autoComplete="off"/>
+							<TextArea rows={4} />
 						)}
 					</FormItem>
 					<FormItem
@@ -628,7 +629,7 @@
 						{getFieldDecorator('remark2', {
 							initialValue:this.props.remark2
 						})(
-							<Input autoComplete="off"/>
+							<TextArea rows={4} />
 						)}
 					</FormItem>
 					<FormItem
@@ -640,7 +641,8 @@
 							initialValue:this.props.remark3,
 							
 						})(
-							<Input autoComplete="off"/>
+							
+							<TextArea rows={4} />
 						)}
 					</FormItem>
 					<FormItem  style = {{marginTop:'20px'}}>

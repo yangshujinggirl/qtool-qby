@@ -517,8 +517,8 @@ export default {
 				}
 
 				//最终数据和初始化数据对比，先对比状态，是初始化还是非初始化，如果状态相同，则对比里面数据
-				const initdatasouce = yield select(state => state.goods.initdatasouce);
-				const initisskus=yield select(state => state.goods.initisskus);
+				const initdatasouce = yield select(state => state.onlinegood.initdatasouce);
+				const initisskus=yield select(state => state.onlinegood.initisskus);
 				if(initisskus==isskus){
 					for(var i=0;i<initdatasouce.length;i++){
 						for(var j=0;j<goodindodatasouce.length;j++){
@@ -553,10 +553,10 @@ export default {
 				yield put({type: 'initstatus',payload:{}});
 			},
 			*newtags({ payload: {iallpdTypeVals,types} }, { call, put ,select}) {
-				const tag1in = yield select(state => state.goods.tag1);
-				const tag2in = yield select(state => state.goods.tag2);
-				const pdType1Ids = yield select(state => state.goods.pdType1Id);
-				const pdType2Ids = yield select(state => state.goods.pdType2Id);
+				const tag1in = yield select(state => state.onlinegood.tag1);
+				const tag2in = yield select(state => state.onlinegood.tag2);
+				const pdType1Ids = yield select(state => state.onlinegood.pdType1Id);
+				const pdType2Ids = yield select(state => state.onlinegood.pdType2Id);
 				const tag1=tag1in.slice(0)
 				const tag2=tag2in.slice(0)
 				if(types=='1'){
@@ -572,10 +572,10 @@ export default {
 
 			},
 			*deletetags({ payload: {iallpdTypeVals,types} }, { call, put ,select}) {
-				const tag1in = yield select(state => state.goods.tag1);
-				const tag2in = yield select(state => state.goods.tag2);
-				const pdType1Ids = yield select(state => state.goods.pdType1Id);
-				const pdType2Ids = yield select(state => state.goods.pdType2Id);
+				const tag1in = yield select(state => state.onlinegood.tag1);
+				const tag2in = yield select(state => state.onlinegood.tag2);
+				const pdType1Ids = yield select(state => state.onlinegood.pdType1Id);
+				const pdType2Ids = yield select(state => state.onlinegood.pdType2Id);
 				const tag1=tag1in.slice(0)
 				const tag2=tag2in.slice(0)
 				if(types=='1'){
