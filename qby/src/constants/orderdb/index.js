@@ -80,7 +80,11 @@ class OrderdbIndex extends React.Component{
 		if (this.state.selectedRows.length < 1) {
 			message.error('请选择调拨单',.8)
 			return;
-		}  
+		} 
+		if((this.state.selectedRows[0].status!=20) && (this.state.selectedRows[0].status!=30)){
+			message.error('该调拨单不能强制完成',.8);
+			return;
+		}
 		const values={wsAsnId:this.state.selectedRows[0].wsAsnId}
 		const result=GetServerData('qerp.web.sp.ws.asn.finish',values);
 		result.then((res) => {

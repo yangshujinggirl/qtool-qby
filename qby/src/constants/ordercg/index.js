@@ -117,19 +117,39 @@ class OrdercgIndex extends React.Component{
 			}
 		})
 	}
-	//已付款和待付款
-	payamount=()=>{
+	//已付款
+	alpayamount=()=>{
 		if (this.props.selectedRows.length < 1) {
 			message.error('请选择采购单',.8)
 			return;
 		}
+		if(this.props.selectedRows[0].payStatus == "20"){
+			message.error('此订单付款状态已经为已付款',.8)
+			return;
+		}
 		let values = {};
 		values.wsAsnId = this.props.selectedRows[0].wsAsnId;
-		if(this.props.selectedRows[0].payStatus == "10"){
-			values.payStatus = "20";
-		}else{
-			values.payStatus = "10";
+		values.payStatus = "20";
+		this.payAmount(values)
+	}
+	//待付款
+	wlpayamount=()=>{
+		if (this.props.selectedRows.length < 1) {
+			message.error('请选择采购单',.8)
+			return;
 		}
+		if(this.props.selectedRows[0].payStatus == "10"){
+			message.error('此订单付款状态已经为待付款',.8)
+			return;
+		}
+		let values = {};
+		values.wsAsnId = this.props.selectedRows[0].wsAsnId;
+		values.payStatus = "10";
+		this.payAmount(values)
+	}
+
+	//付款操作
+	payAmount=(values)=>{
 		const result=GetServerData('qerp.web.ws.asn.payStatus',values);
 		result.then((res) => {
 			return res;
@@ -139,8 +159,9 @@ class OrdercgIndex extends React.Component{
 					this.clearChooseInfo()
 			}
 		})
-
 	}
+
+
 
 		
 
@@ -187,7 +208,7 @@ class OrdercgIndex extends React.Component{
 						type="primary" 
 						size='large'
 						className='mt20 mr10'
-						onClick={this.payamount.bind(this)}
+						onClick={this.alpayamount.bind(this)}
 					>
 						已付款
 					</Button>
@@ -200,7 +221,7 @@ class OrdercgIndex extends React.Component{
 						type="primary" 
 						size='large'
 						className='mt20 mr10'
-						onClick={this.payamount.bind(this)}
+						onClick={this.wlpayamount.bind(this)}
 					>
 						待付款
 					</Button>
