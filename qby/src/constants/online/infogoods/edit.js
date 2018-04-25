@@ -139,7 +139,7 @@
 		}
 		//商品信息请求
 		spuInfo=()=>{
-			const value={pdSpuId:this.props.data.pdSpuId,type:this.props.data.type}
+			const value={pdSpuId:this.props.data.pdSpuId,type:this.props.data.type,source:'1'}
 			this.props.dispatch({
 				type:'onlinegood/infofetch',
 				payload:{code:'qerp.web.ec.pd.spu.info',values:value}
