@@ -69,6 +69,8 @@ class SearchTable extends React.Component {
     }
     //多选框选择
     selectChange=(selectedRowKeys,selectedRows)=>{
+        console.log(selectedRowKeys)
+        console.log(selectedRows)
         this.props.getSelectDate(selectedRowKeys,selectedRows)
     }
     render() {

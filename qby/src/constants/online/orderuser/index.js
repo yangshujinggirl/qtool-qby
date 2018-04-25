@@ -1,5 +1,5 @@
 import {GetServerData} from '../../../services/services';
-import { Button, Icon ,Modal} from 'antd';
+import { Button, Icon ,Modal,message} from 'antd';
 import SearchForm from './search';
 import SearchTable from './table';
 
@@ -98,12 +98,8 @@ class OrderuserIndex extends React.Component{
                return res;
             }).then((json) => {
                 if(json.code=='0'){
-                    this.setState({
-                        selectedRowKeys:[],
-                        selectedRows:[]
-                    },function(){
-                        this.hindSearch(this.state.searchvalue)
-                    })
+                    message.success('重新推送成功')
+                    this.hindSearch(this.state.searchvalue)
                 }
             })
     }
@@ -123,12 +119,8 @@ class OrderuserIndex extends React.Component{
             return res;
         }).then((json) => {
             if(json.code=='0'){
-                this.setState({
-                    selectedRowKeys:[],
-                    selectedRows:[]
-                },function(){
-                    this.hindSearch(this.state.searchvalue)
-                })
+                message.success('重新匹配商品成功')
+                this.hindSearch(this.state.searchvalue)
             }
         }) 
     }

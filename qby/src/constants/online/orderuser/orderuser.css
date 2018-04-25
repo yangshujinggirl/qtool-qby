@@ -3,3 +3,18 @@
     height: 46px;
     line-height: 46px;
 }
+
+
+
+.lists .lists-con{
+    padding-top: 1px;
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.lists .lists-con .ant-input{
+    text-align: center;
+    width: 110px;
+}
+

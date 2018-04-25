@@ -1,15 +1,25 @@
-import { Form, Select, Input, Button } from 'antd';
+import { Form, Select, Input, Button ,Cascader} from 'antd';
+import {GetServerData} from '../../../services/services';
+import './orderuser.css';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
 
 class App extends React.Component {
+    state={
+        recProvince:null,
+        recCity:null,
+        recDistrict:null
+    }
     //修改保存
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 values.ecOrderId=this.props.ecOrderId
+                values.recProvince=this.state.recProvince
+                values.recCity=this.state.recCity
+                values.recDistrict=this.state.recDistrict
                 const result=GetServerData('qerp.web.ec.od.userOrder.save',values)
                 result.then((res) => {
                     return res;
@@ -22,6 +32,32 @@ class App extends React.Component {
             }
         });
     }
+
+    initCitylist=(recProvince,recCity,recDistrict)=>{
+        this.setState({
+            recProvince:recProvince,
+            recCity:recCity,
+            recDistrict:recDistrict
+        })
+    }
+
+    hindrecProvince=(e)=>{
+        this.setState({
+            recProvince:e.target.value
+        })
+    }
+
+    hindrecCity=(e)=>{
+        this.setState({
+            recCity:e.target.value
+        })
+    }
+
+    hindrecDistrict=(e)=>{
+        this.setState({
+            recDistrict:e.target.value
+        })
+    }
     render() {
         const {hindCancel} = this.props;
         const { getFieldDecorator } = this.props.form;
@@ -30,7 +66,7 @@ class App extends React.Component {
                 <FormItem
                     label="姓名"
                     labelCol={{ span: 4 }}
-                    wrapperCol={{ span: 6 }}
+                    wrapperCol={{ span: 8 }}
                     >
                 {getFieldDecorator('idCardName', {
                     rules: [{ required: true, message: '请输入姓名' }],
@@ -41,7 +77,7 @@ class App extends React.Component {
                 <FormItem
                     label="身份证号"
                     labelCol={{ span: 4 }}
-                    wrapperCol={{ span: 6 }}
+                    wrapperCol={{ span: 8 }}
                 >
                     {getFieldDecorator('idCardNo', {
                         rules: [{ required: true, message: '请输入身份证号' }],
@@ -52,7 +88,7 @@ class App extends React.Component {
                 <FormItem
                     label="收货人"
                     labelCol={{ span: 4 }}
-                    wrapperCol={{ span: 6 }}
+                    wrapperCol={{ span: 8 }}
                 >
                     {getFieldDecorator('recName', {
                         rules: [{ required: true, message: '请输入收货人' }],
@@ -63,7 +99,7 @@ class App extends React.Component {
                 <FormItem
                     label="收货电话"
                     labelCol={{ span: 4 }}
-                    wrapperCol={{ span: 6 }}
+                    wrapperCol={{ span: 8 }}
                 >
                 {getFieldDecorator('recTelephone', {
                     rules: [{ required: true, message: '请输入收货电话' }],
@@ -71,12 +107,31 @@ class App extends React.Component {
                         <Input />
                 )}
                 </FormItem>
+
+
+                <FormItem
+                    label="收货城市"
+                    labelCol={{ span: 3,offset: 1 }}
+                    wrapperCol={{ span: 11 }}
+                    className='lists'
+                    >
+                        {getFieldDecorator('spAddressId', {
+
+                        })(
+                            <div className='lists-con'>
+                                <Input value={this.state.recProvince} onChange={this.hindrecProvince.bind(this)} placeholder='省'/>
+                                <Input value={this.state.recCity} onChange={this.hindrecCity.bind(this)} placeholder='市'/>
+                                <Input value={this.state.recDistrict} onChange={this.hindrecDistrict.bind(this)} placeholder='区'/>
+                                <span style={{color:'#d9d9d9'}}>(注:依次为省、市、区)</span>
+                            </div>
+                        )}
+                </FormItem>
                 <FormItem
                     label="收货地址"
                     labelCol={{ span: 4 }}
                     wrapperCol={{ span: 8 }}
                 >
-                    {getFieldDecorator('address', {
+                    {getFieldDecorator('recAddress', {
                         rules: [{ required: true, message: '请输入收货地址' }],
                     })(
                         <Input />
@@ -97,6 +152,7 @@ class App extends React.Component {
             </Form>
         );
     }
+   
 }
 
 const WrappedApp = Form.create()(App);

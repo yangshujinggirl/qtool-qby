@@ -113,14 +113,12 @@ class OrderuserInfo extends React.Component{
             	dataIndex: 'remark'
             }
 		];
-    }
+	}
+	
 
-    //获取订单信息列表
-	infofetch=(id)=>{
-		//组装数据
-		//订单数据
-		
-		 const orderinfo=[
+	//设置第一部分用户详情
+	finfofetch=()=>{
+		const orderinfo=[
 			{lable:'订单号',text:this.props.data.record.orderNo},
 			{lable:'有赞订单',text:this.props.data.record.outNo},
 			{lable:'下单时间',text:this.props.data.record.payTime},
@@ -137,33 +135,50 @@ class OrderuserInfo extends React.Component{
 			{lable:'收货电话',text:this.props.data.record.recTelephone},
 			{lable:'收货地址',text:this.props.data.record.address}
 		]
+
+		this.setState({
+			orderinfo:orderinfo,
+			receiptinfo:receiptinfo,
+			canedit:(this.props.data.record.status=='-1' || this.props.data.record.status=='-2' )?true:false
+		})
+	}
+
+
+
+
+    //获取订单信息列表
+	infofetch=(id)=>{
+		//组装数据
+		//订单数据
+		
+		 
         const values={ecOrderId:id}
         const result=GetServerData('qerp.web.ec.od.userOrder.detail',values)
         result.then((res) => {
            return res;
         }).then((json) => {
-            if(json.code=='0'){
-               	this.setState({
-					goodinfo:json.goodinfo,
-					subOrderInfos:json.subOrderInfos,
-					logisticsInfos:json.logisticsInfos,
-					logs:json.logs,
-					orderinfo:orderinfo,
-					receiptinfo:receiptinfo,
-					canedit:(this.props.data.status=='-1' || this.props.data.status=='-2' )?true:false
+            // if(json.code=='0'){
+            //    	this.setState({
+			// 		goodinfo:json.goodinfo,
+			// 		subOrderInfos:json.subOrderInfos,
+			// 		logisticsInfos:json.logisticsInfos,
+			// 		logs:json.logs,
+			// 		orderinfo:orderinfo,
+			// 		receiptinfo:receiptinfo,
+			// 		canedit:(this.props.data.status=='-1' || this.props.data.status=='-2' )?true:false
 
 
-			   	})
-			}else{
-				this.setState({
-					goodinfo:[],
-					subOrderInfos:[],
-					logisticsInfos:[],
-					logs:[],
-					orderinfo:[],
-					receiptinfo:[]
-			   	})
-			}
+			//    	})
+			// }else{
+			// 	this.setState({
+			// 		goodinfo:[],
+			// 		subOrderInfos:[],
+			// 		logisticsInfos:[],
+			// 		logs:[],
+			// 		orderinfo:[],
+			// 		receiptinfo:[]
+			//    	})
+			// }
         }) 
     }
 	render(){
@@ -173,7 +188,15 @@ class OrderuserInfo extends React.Component{
 					<Cardlist cardtitle='订单信息' cardlist={this.state.orderinfo}/>
 				</div>
                 <div className='mb10 list-cad'>
-					<Cardlists cardtitle='收货信息' cardlist={this.state.receiptinfo} canedit={this.state.canedit} ecOrderId={this.props.data.id}/>
+					<Cardlists cardtitle='收货信息' 
+					cardlist={this.state.receiptinfo} 
+					canedit={this.state.canedit} 
+					ecOrderId={this.props.data.id} 
+					recProvince={this.props.data.record.recProvince} 
+					recCity={this.props.data.record.recCity}
+					recDistrict={this.props.data.record.recDistrict}
+					recAddress={this.props.data.record.recAddress}
+					/>
 				</div>
 				<div className='mb10'>
 					<EditableTable 
@@ -228,6 +251,7 @@ class OrderuserInfo extends React.Component{
 		)
 	}
 	componentDidMount(){
+		this.finfofetch()
 		this.infofetch(this.props.data.id)
 	}
 }

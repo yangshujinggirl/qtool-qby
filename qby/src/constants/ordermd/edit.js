@@ -276,6 +276,7 @@ class OrdermdEditForm extends React.Component{
                             />
                         )}
                     </FormItem>
+                    
                     <FormItem
                         label="门店城市"
                         labelCol={{ span: 3,offset: 1 }}
