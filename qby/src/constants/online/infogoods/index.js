@@ -175,6 +175,7 @@
 		}
 		render(){
 			const rolelists=this.props.data.rolelists
+			console.log(rolelists)
 			//增改商品
 			const addorder=rolelists.find((currentValue,index)=>{
 				return currentValue.url=="qerp.web.ec.pd.spu.save"
