@@ -61,7 +61,9 @@ class OrderuserIndex extends React.Component{
                     datasouce:json.userOrder,
                     total:json.total,
                     currentPage:json.currentPage,
-                    limit:json.limit
+                    limit:json.limit,
+                    selectedRowKeys:[],
+                    selectedRows:[]
                 })
             }
         }) 
@@ -116,7 +118,7 @@ class OrderuserIndex extends React.Component{
             }
         }
         const values={ecOrderIds:ecOrderIds}
-        const result=GetServerData('qerp.web.ec.od.userOrder.reMatch',values)
+        const result=GetServerData('qerp.web.ec.od.userOrder.rematch',values)
         result.then((res) => {
             return res;
         }).then((json) => {

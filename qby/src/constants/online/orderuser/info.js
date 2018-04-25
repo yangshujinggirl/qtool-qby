@@ -119,24 +119,24 @@ class OrderuserInfo extends React.Component{
 	infofetch=(id)=>{
 		//组装数据
 		//订单数据
+		
 		 const orderinfo=[
-			{lable:'订单号',text:'this.props.data.orderNo'},
-			{lable:'有赞订单',text:'this.props.data.outNo'},
-			{lable:'下单时间',text:'this.props.data.payTime'},
-			{lable:'订单状态',text:'this.props.data.statusStr'},
-			{lable:'归属门店',text:'this.props.data.shopName'},
-			{lable:'订单金额',text:'this.props.data.amount'},
-			{lable:'实际支付金额',text:'this.props.data.payAmount'}
+			{lable:'订单号',text:this.props.data.record.orderNo},
+			{lable:'有赞订单',text:this.props.data.record.outNo},
+			{lable:'下单时间',text:this.props.data.record.payTime},
+			{lable:'订单状态',text:this.props.data.record.statusStr},
+			{lable:'归属门店',text:this.props.data.record.shopName},
+			{lable:'订单金额',text:this.props.data.record.amount},
+			{lable:'实际支付金额',text:this.props.data.record.payAmount}
 		]
 		//收货信息
 		const receiptinfo=[
-			{lable:'姓名',text:'this.props.data.idCardName'},
-			{lable:'身份证号',text:'this.props.data.idCardNo'},
-			{lable:'收货人',text:'this.props.data.recName'},
-			{lable:'收货电话',text:'this.props.data.recTelephone'},
-			{lable:'收货地址',text:'this.props.data.address'}
+			{lable:'姓名',text:this.props.data.record.idCardName},
+			{lable:'身份证号',text:this.props.data.record.idCardNo},
+			{lable:'收货人',text:this.props.data.record.recName},
+			{lable:'收货电话',text:this.props.data.record.recTelephone},
+			{lable:'收货地址',text:this.props.data.record.address}
 		]
-
         const values={ecOrderId:id}
         const result=GetServerData('qerp.web.ec.od.userOrder.detail',values)
         result.then((res) => {
