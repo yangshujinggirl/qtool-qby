@@ -20,9 +20,6 @@ class App extends React.Component {
 			title: '商品条码',
 			dataIndex: 'barcode'
 		},{
-			title: '库存',
-			dataIndex: 'inventory'
-		},{
 			title: '采购价格',
 			dataIndex: 'purchasePrice'
 		},{
@@ -49,9 +46,6 @@ class App extends React.Component {
 		},{
 			title: '商品条码',
 			dataIndex: 'barcode'
-		},{
-			title: '库存',
-			dataIndex: 'inventory'
 		}, {
 			title: '采购价格',
 			dataIndex: 'purchasePrice'
