@@ -74,8 +74,8 @@ class AdvancedSearchForm extends React.Component {
                                 <FormItem label='商品状态'>
                                     {getFieldDecorator('spuStatus')(
                                         <Select allowClear={true} placeholder="请选择">
-                                            <Option value="1">售卖</Option>
-                                            <Option value="2">停售</Option>
+                                            <Option value="10">售卖</Option>
+                                            <Option value="20">停售</Option>
                                         </Select>
                                     )}
                                 </FormItem>
