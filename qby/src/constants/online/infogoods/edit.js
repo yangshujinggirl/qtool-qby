@@ -671,8 +671,8 @@
 	const GoodEdit = Form.create()(App);
 
 	function mapStateToProps(state) {
-		const {values,limit,currentPage,name,pdCategory1Id,pdCategory2Id,pdBrandId,spuIdPics,pdCategorys,pdBrand,pdTypeslist,pdType1Id,pdType2Id,tag1,tag2,isskus,goodindodatasouce,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell,pdSpuInfo,spuPics,goodpdCategorys,shareType,containerSpec,methup,region,warehouseId} = state.onlinegood;
-		return {values,limit,currentPage,name,pdCategory1Id,pdCategory2Id,pdBrandId,spuIdPics,pdCategorys,pdBrand,pdTypeslist,pdType1Id,pdType2Id,tag1,tag2,isskus,goodindodatasouce,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell,pdSpuInfo,spuPics,goodpdCategorys,shareType,containerSpec,methup,region,warehouseId};
+		const {values,limit,currentPage,name,pdCategory1Id,pdCategory2Id,pdBrandId,spuIdPics,pdCategorys,pdBrand,pdTypeslist,pdType1Id,pdType2Id,tag1,tag2,isskus,goodindodatasouce,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell,pdSpuInfo,spuPics,goodpdCategorys,shareType,containerSpec,methup,region,warehouseId,shareRatio,remark3,remark1,remark2} = state.onlinegood;
+		return {values,limit,currentPage,name,pdCategory1Id,pdCategory2Id,pdBrandId,spuIdPics,pdCategorys,pdBrand,pdTypeslist,pdType1Id,pdType2Id,tag1,tag2,isskus,goodindodatasouce,lotStatus,expdays,lotType,lotLimitInDay,eventNew,eventHot,isDirectExpress,isPresell,pdSpuInfo,spuPics,goodpdCategorys,shareType,containerSpec,methup,region,warehouseId,shareRatio,remark3,remark1,remark2};
 	}
 
 	export default connect(mapStateToProps)(GoodEdit);
