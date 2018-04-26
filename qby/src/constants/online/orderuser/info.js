@@ -155,7 +155,7 @@ class OrderuserInfo extends React.Component{
 					logs:json.logs,
 					orderinfo:orderinfo,
 					receiptinfo:receiptinfo,
-					canedit:(this.props.data.status=='-1' || this.props.data.status=='-2' )?true:false
+					canedit:(orderInfos.status=='-1' || orderInfos.status=='-2' )?true:false
 			   	})
 			}else{
 				this.setState({
