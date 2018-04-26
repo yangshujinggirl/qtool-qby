@@ -79,7 +79,7 @@ class Shipeditmodel extends React.Component {
             }
             values.ecSuborderNo=this.props.ecSuborderNo
             values.ecOrderId=this.props.ecOrderId
-            const result=GetServerData('qerp.web.ec.pd.pullOrderExpress.save',values)
+            const result=GetServerData('qerp.web.ec.express.hk.save',values)
             result.then((res) => {
                return res;
             }).then((json) => {

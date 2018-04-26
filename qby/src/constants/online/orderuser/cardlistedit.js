@@ -7,7 +7,7 @@ class Cardtitles extends React.Component {
 			<div>
                 <div className='fl'>{this.props.cardtitle}</div>
                 {
-                    (this.props.canedit && !this.props.editopen)?<div className='fr'><Button type="primary" onClick={this.props.hindlistClick}>修改收货信息</Button></div>:null
+                    (this.props.editorder && this.props.canedit && !this.props.editopen)?<div className='fr'><Button type="primary" onClick={this.props.hindlistClick}>修改收货信息</Button></div>:null
                 }
                 
             </div>
@@ -56,7 +56,7 @@ class Cardlists extends React.Component {
 
 	render() { 
 		return (
-			<Card title={<Cardtitles cardtitle={this.props.cardtitle} hindlistClick={this.hindlistClick.bind(this)} canedit={this.props.canedit} editopen={this.state.editopen}/>}>
+			<Card title={<Cardtitles cardtitle={this.props.cardtitle} hindlistClick={this.hindlistClick.bind(this)} canedit={this.props.canedit} editopen={this.state.editopen} editorder={this.props.editorder}/>}>
 				<div className='cardlist'>
                     {
                         this.state.editopen? <WrappedApp  wrappedComponentRef={this.saveFormRef} hindCancel={this.hindCancel.bind(this)} ecOrderId={this.props.ecOrderId} infofetch={this.props.infofetch}/>:

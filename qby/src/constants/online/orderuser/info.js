@@ -17,7 +17,7 @@ class Tabletitle extends React.Component {
 				<div className='clearfix' style={{height:'32px',lineHeight:"32px"}}>
 					<div className='fl'>子单{this.props.listindex}信息</div>
 					{
-						this.props.isdelivery?<div className='fr'><Shipeditmodel modeltit={'子单'+this.props.listindex+'信息'} ecOrderId={this.props.ecOrderId} ecSuborderNo={this.props.ecSuborderNo} infofetch={this.props.infofetch}/></div>:null
+						(this.props.postgood && this.props.isdelivery)?<div className='fr'><Shipeditmodel modeltit={'子单'+this.props.listindex+'信息'} ecOrderId={this.props.ecOrderId} ecSuborderNo={this.props.ecSuborderNo} infofetch={this.props.infofetch}/></div>:null
 					}
 				</div>
 				<div className='clearfix'>
@@ -186,6 +186,7 @@ class OrderuserInfo extends React.Component{
 					recDistrict={this.props.data.record.recDistrict}
 					recAddress={this.props.data.record.recAddress}
 					infofetch={this.infofetch.bind(this)}
+					editorder={this.props.data.editorder}
 					/>
 				</div>
 				<div className='mb10'>
@@ -215,6 +216,7 @@ class OrderuserInfo extends React.Component{
 											status={item.status}
 											ecOrderId={this.props.data.id}
 											infofetch={this.infofetch.bind(this)}
+											postgood={this.props.data.postgood}
 											/>}
 									bordered={true}
 									footer={false}/>

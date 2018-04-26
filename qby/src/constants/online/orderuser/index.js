@@ -136,6 +136,7 @@ class OrderuserIndex extends React.Component{
 
   	render(){
         const rolelists=this.props.data.rolelists
+        console.log(rolelists)
 		//重新推送
 		const addorder=rolelists.find((currentValue,index)=>{
 			return currentValue.url=="qerp.web.ec.pd.spulog.list"
@@ -145,7 +146,7 @@ class OrderuserIndex extends React.Component{
 			return currentValue.url=="qerp.web.sys.doc.task"
 		})
 		//重新匹配商品
-		const overorder=rolelists.find((currentValue,index)=>{
+		const repigood=rolelists.find((currentValue,index)=>{
 			return currentValue.url=="qerp.web.ec.pd.userOrder.reMatch"
         })
         //修改订单
@@ -153,8 +154,8 @@ class OrderuserIndex extends React.Component{
 			return currentValue.url=="qerp.web.ec.pd.userOrder.save"
         })
         //发货
-        const editorders=rolelists.find((currentValue,index)=>{
-			return currentValue.url=="qerp.web.ec.pd.userOrder.save"
+        const postgood=rolelists.find((currentValue,index)=>{
+			return currentValue.url=="qerp.web.ec.pd.userOrder.saves"
         })
 
 
@@ -162,30 +163,47 @@ class OrderuserIndex extends React.Component{
      	return(
         	<div className='content_box'>
                 <SearchForm  hindFormSearch={this.hindSearch.bind(this)}/>
-                <Button 
+                {
+                    expontdata?
+                    <Button 
                     type="primary" 
                     size='large'
                     className='mt20 mr10'
                     onClick={this.exportData.bind(this,91,this.state.searchvalue)}
                 >
                     导出数据
-                </Button>
-                <Button 
-                    type="primary" 
-                    size='large'
-                    className='mt20 mr10'
-                    onClick={this.postMessage.bind(this)}
-                >
-                    重新推送
-                </Button>
-                <Button 
+                    </Button>
+                    :null
+
+                }
+                {
+                    addorder?
+                    <Button 
+                        type="primary" 
+                        size='large'
+                        className='mt20 mr10'
+                        onClick={this.postMessage.bind(this)}
+                    >
+                        重新推送
+                    </Button>
+                    :null
+                }
+                {
+                   repigood? 
+                   <Button 
                     type="primary" 
                     size='large'
                     className='mt20 mr10'
                     onClick={this.matchOrder.bind(this)}
                 >
-                    重新匹配商品
+                   重新匹配商品
                 </Button>
+                :null
+
+                }
+
+                
+                
                 <div className='mt15'>
                     <SearchTable 
                         getPageSizeDate={this.getPageSize.bind(this)}
@@ -195,6 +213,8 @@ class OrderuserIndex extends React.Component{
                         datasouce={this.state.datasouce}
                         getSelectDate={this.getSelectDate.bind(this)}
                         selectedRowKeys={this.state.selectedRowKeys}
+                        editorder={editorder}
+                        postgood={postgood}
                     />
                 </div>
         	</div>
