@@ -1,9 +1,11 @@
 
 import {GetServerData} from '../../services/services';
-import { Button, Icon } from 'antd';
+import { Button, Icon ,Modal} from 'antd';
 import { connect } from 'dva';
 import SpTable from './table';
 import SearchForms from './search';
+const confirm = Modal.confirm;
+
 
 class OperateIndex extends React.Component{
 	addNew = () =>{

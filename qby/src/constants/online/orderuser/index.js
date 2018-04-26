@@ -155,7 +155,7 @@ class OrderuserIndex extends React.Component{
         })
         //发货
         const postgood=rolelists.find((currentValue,index)=>{
-			return currentValue.url=="qerp.web.ec.pd.userOrder.saves"
+			return currentValue.url=="qerp.web.ec.express.hk.save"
         })
 
 
