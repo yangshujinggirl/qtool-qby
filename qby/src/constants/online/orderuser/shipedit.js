@@ -66,7 +66,10 @@ class Shipeditmodel extends React.Component {
         this.setState({ visible: true });
     }
     handleCancel = () => {
-        this.setState({ visible: false });
+        const form = this.formRef.props.form;
+        this.setState({ visible: false },function(){
+            form.resetFields();
+        });
     }
     handleCreate = () => {
         const form = this.formRef.props.form;
