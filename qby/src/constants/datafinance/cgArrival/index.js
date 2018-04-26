@@ -20,11 +20,10 @@ class CgArrivalIndexForm extends React.Component {
             dataSource:[],
             total:0,
             currentPage:0,
-            limit:10,
-            month:'',
+            limit:15,
             createTimeST:'',
             createTimeET:'',
-            exportData:{}
+            searchvalue:null
         };
         this.columns = [{
             title: '供应商名称',
@@ -48,31 +47,21 @@ class CgArrivalIndexForm extends React.Component {
     //表格的方法
     pageChange=(page,pageSize)=>{
         this.setState({
-            currentPage:page-1
+            currentPage:Number(page)-1,
+            limit:pageSize
         },function(){
-            let data = {
-                currentPage:this.state.currentPage,
-                limit:this.state.limit,
-                month:this.state.month,
-                spShopId:this.state.spShopId
-            }
-            this.getServerData(data);
-        });
+            this.handleSubmit()
+        })
     }
     
     onShowSizeChange=(current, pageSize)=>{
+        console.log(current)
+        console.log(pageSize)
         this.setState({
-            limit:pageSize,
-            currentPage:0
+            currentPage:Number(current)-1,
+            limit:pageSize
         },function(){
-            let data = {
-                currentPage:this.state.currentPage,
-                limit:this.state.limit,
-                supplierName:this.state.supplierName,
-                createTimeST:this.state.createTimeST,
-                createTimeET:this.state.createTimeET
-            }
-            this.getServerData(data);
+            this.handleSubmit()
         })
     }
     exportData = (type,data) => {
@@ -111,37 +100,44 @@ class CgArrivalIndexForm extends React.Component {
 	
 	}
 
-    handleSubmit = (e) =>{
-        const self = this;
-        e.preventDefault();
-        this.props.form.validateFields((err, values) => {
-            this.setState({
-                supplierName:values.supplierName
-            },function(){
-                let data = {
-                    currentPage:0,
-                    limit:this.state.limit,
-                    supplierName:this.state.supplierName,
-                    createTimeST:this.state.createTimeST,
-                    createTimeET:this.state.createTimeET
-                };
+     //获取数据
+     searchgetServerData = (values) =>{
+        values.limit=this.state.limit
+        values.currentPage=this.state.currentPage
+        this.props.dispatch({ type: 'tab/loding', payload:true});
+        const result=GetServerData('qerp.web.ws.purchasedata.query',values)
+        result.then((res) => {
+            return res;
+        }).then((json) => {
+            this.props.dispatch({ type: 'tab/loding', payload:false});
+            if(json.code=='0'){
+                let dataList = json.purchasedatas;
+                if(dataList.length){
+                    for(let i=0;i<dataList.length;i++){
+                        dataList[i].key = i+1;
+                    }
+                }
                 this.setState({
-                    exportData:data
+                    searchvalue:values,
+                    dataSource:dataList,
+                    total:Number(json.total)
                 })
-                self.getServerData(data);
-            })
+            }
+        })
+    }
+
+
+    handleSubmit = () =>{
+        this.props.form.validateFields((err, values) => {
+            values.createTimeST=this.state.createTimeST
+            values.createTimeET=this.state.createTimeET
+            this.searchgetServerData(values);
+
         })
     }
 
     render() {
         const { getFieldDecorator } = this.props.form;
-        let data = {
-            currentPage:0,
-            limit:10,
-            supplierName:this.state.supplierName,
-            createTimeST:this.state.createTimeST,
-            createTimeET:this.state.createTimeET
-        };
         return (
             <div>
                 <Form  className='formbox'>
@@ -175,12 +171,10 @@ class CgArrivalIndexForm extends React.Component {
                     type="primary" 
                     size='large'
                     className='mt20'
-                    onClick={this.exportData.bind(this,75,data)}
+                    onClick={this.exportData.bind(this,75,this.state.searchvalue)}
 					>
                         导出数据
                 </Button>
-                
-                
                 <div className='mt15'>
                     <EditableTable 
                         columns={this.columns} 
@@ -198,45 +192,13 @@ class CgArrivalIndexForm extends React.Component {
         );
     }
 
-    //获取数据
-    getServerData = (values) =>{
-        this.props.dispatch({ type: 'tab/loding', payload:true});
-        const result=GetServerData('qerp.web.ws.purchasedata.query',values)
-        result.then((res) => {
-            return res;
-        }).then((json) => {
-            this.props.dispatch({ type: 'tab/loding', payload:false});
-            if(json.code=='0'){
-                let dataList = json.purchasedatas;
-                if(dataList.length){
-                    for(let i=0;i<dataList.length;i++){
-                        dataList[i].key = i+1;
-                    }
-                }
-                this.setState({
-                    dataSource:dataList,
-                    total:Number(json.total),
-                    currentPage:Number(json.currentPage),
-                    limit:Number(json.limit)
-                })
-            }
-        })
-    }
-
     componentDidMount(){
-        let data = {
-            currentPage:0,
-            limit:15
-        }
-        //获取当前时间
-        this.getServerData(data);
+        this.handleSubmit()
     }
 }
 
-function mapStateToProps(state){
-   return {};
-}
+
 
 const CgArrivalIndex = Form.create()(CgArrivalIndexForm);
 
-export default connect(mapStateToProps)(CgArrivalIndex);
+export default connect()(CgArrivalIndex);
