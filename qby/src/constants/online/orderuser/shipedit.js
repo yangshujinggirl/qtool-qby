@@ -1,4 +1,5 @@
 import { Button, Modal, Form, Input, Radio ,Select} from 'antd';
+import {GetServerData} from '../../../services/services';
 const FormItem = Form.Item;
 const Option = Select.Option;
 
@@ -15,8 +16,12 @@ const CollectionCreateForm = Form.create()(
                     onCancel={onCancel}
                     onOk={onCreate}
                 >
-                    <Form layout="vertical">
-                        <FormItem label="物流公司">
+                    <Form>
+                        <FormItem 
+                            label="物流公司"
+                            labelCol={{ span: 7 }}
+                            wrapperCol={{ span: 12 }}
+                            >
                             {getFieldDecorator('ecExpressCodeMappingId', {
                                 rules: [{ required: true, message: '请选择物流公司' }],
                             })(
@@ -34,11 +39,15 @@ const CollectionCreateForm = Form.create()(
                                 </Select>
                             )}
                         </FormItem>
-                        <FormItem label="物流单号">
+                        <FormItem 
+                            label="物流单号"
+                            labelCol={{ span: 7 }}
+                            wrapperCol={{ span: 12 }}
+                        >
                             {getFieldDecorator('expressNo', {
                                 rules: [{ required: true, message: '请输入物流单号' }],
                             })(
-                                <Input />
+                                <Input placeholder='请输入'/>
                             )}
                         </FormItem>
                     </Form>
@@ -47,6 +56,7 @@ const CollectionCreateForm = Form.create()(
         }
     }
 );
+
 
 class Shipeditmodel extends React.Component {
     state = {
@@ -72,6 +82,7 @@ class Shipeditmodel extends React.Component {
             }).then((json) => {
                 if(json.code=='0'){
                     this.setState({ visible: false });
+                    this.props.infofetch(this.props.ecOrderId)
                     form.resetFields();
                 }
             }) 

@@ -17,13 +17,13 @@ class Tabletitle extends React.Component {
 				<div className='clearfix' style={{height:'32px',lineHeight:"32px"}}>
 					<div className='fl'>子单{this.props.listindex}信息</div>
 					{
-						this.props.isdelivery?<div className='fr'><Shipeditmodel modeltit={'子单'+this.props.listindex+'信息'} ecOrderId={this.props.ecOrderId} ecSuborderNo={this.props.ecSuborderNo}/></div>:null
+						this.props.isdelivery?<div className='fr'><Shipeditmodel modeltit={'子单'+this.props.listindex+'信息'} ecOrderId={this.props.ecOrderId} ecSuborderNo={this.props.ecSuborderNo} infofetch={this.props.infofetch}/></div>:null
 					}
 				</div>
 				<div className='clearfix'>
 					<div className='cardlist_item fl'><label>子单号：</label><span>{this.props.ecSuborderNo}</span></div>
 					<div className='cardlist_item fl'><label>保税仓库：</label><span>{this.props.warehouseStr}</span></div>
-					<div className='cardlist_item fl'><label>子单状态：</label><span>{this.props.status}</span></div>
+					<div className='cardlist_item fl'><label>子单状态：</label><span>{this.props.statusStr}</span></div>
 				</div>
             </div>
 		);
@@ -116,69 +116,58 @@ class OrderuserInfo extends React.Component{
 	}
 	
 
-	//设置第一部分用户详情
-	finfofetch=()=>{
-		const orderinfo=[
-			{lable:'订单号',text:this.props.data.record.orderNo},
-			{lable:'有赞订单',text:this.props.data.record.outNo},
-			{lable:'下单时间',text:this.props.data.record.payTime},
-			{lable:'订单状态',text:this.props.data.record.statusStr},
-			{lable:'归属门店',text:this.props.data.record.shopName},
-			{lable:'订单金额',text:this.props.data.record.amount},
-			{lable:'实际支付金额',text:this.props.data.record.payAmount}
-		]
-		//收货信息
-		const receiptinfo=[
-			{lable:'姓名',text:this.props.data.record.idCardName},
-			{lable:'身份证号',text:this.props.data.record.idCardNo},
-			{lable:'收货人',text:this.props.data.record.recName},
-			{lable:'收货电话',text:this.props.data.record.recTelephone},
-			{lable:'收货地址',text:this.props.data.record.address}
-		]
 
-		this.setState({
-			orderinfo:orderinfo,
-			receiptinfo:receiptinfo,
-			canedit:(this.props.data.record.status=='-1' || this.props.data.record.status=='-2' )?true:false
-		})
-	}
 
 
 
 
     //获取订单信息列表
 	infofetch=(id)=>{
-		//组装数据
-		//订单数据
-		
-		 
         const values={ecOrderId:id}
         const result=GetServerData('qerp.web.ec.od.userOrder.detail',values)
         result.then((res) => {
            return res;
         }).then((json) => {
-            // if(json.code=='0'){
-            //    	this.setState({
-			// 		goodinfo:json.goodinfo,
-			// 		subOrderInfos:json.subOrderInfos,
-			// 		logisticsInfos:json.logisticsInfos,
-			// 		logs:json.logs,
-			// 		orderinfo:orderinfo,
-			// 		receiptinfo:receiptinfo,
-			// 		canedit:(this.props.data.status=='-1' || this.props.data.status=='-2' )?true:false
+            if(json.code=='0'){
+				const orderInfos=json.orderInfo				
+				const orderinfo=[
+					{lable:'订单号',text:orderInfos.orderNo},
+					{lable:'有赞订单',text:orderInfos.outNo},
+					{lable:'下单时间',text:orderInfos.payTime},
+					{lable:'订单状态',text:orderInfos.statusStr},
+					{lable:'归属门店',text:orderInfos.shopName},
+					{lable:'订单金额',text:orderInfos.amount},
+					{lable:'实际支付金额',text:orderInfos.payAmount}
+				]
+				//收货信息
+				const receiptinfo=[
+					{lable:'姓名',text:orderInfos.idCardName},
+					{lable:'身份证号',text:orderInfos.idCardNo},
+					{lable:'收货人',text:orderInfos.recName},
+					{lable:'收货电话',text:orderInfos.recTelephone},
+					{lable:'收货地址',text:orderInfos.address}
+				]
 
-
-			//    	})
-			// }else{
-			// 	this.setState({
-			// 		goodinfo:[],
-			// 		subOrderInfos:[],
-			// 		logisticsInfos:[],
-			// 		logs:[],
-			// 		orderinfo:[],
-			// 		receiptinfo:[]
-			//    	})
-			// }
+               	this.setState({
+					goodinfo:json.goodinfo,
+					subOrderInfos:json.subOrderInfos,
+					logisticsInfos:json.logisticsInfos,
+					logs:json.logs,
+					orderinfo:orderinfo,
+					receiptinfo:receiptinfo,
+					canedit:(this.props.data.status=='-1' || this.props.data.status=='-2' )?true:false
+			   	})
+			}else{
+				this.setState({
+					goodinfo:[],
+					subOrderInfos:[],
+					logisticsInfos:[],
+					logs:[],
+					orderinfo:[],
+					receiptinfo:[],
+					canedit:false
+			   	})
+			}
         }) 
     }
 	render(){
@@ -221,8 +210,10 @@ class OrderuserInfo extends React.Component{
 											isdelivery={item.isdelivery} 
 											ecSuborderNo={item.ecSuborderNo}
 											warehouseStr={item.warehouseStr}
+											statusStr={item.statusStr}
 											status={item.status}
 											ecOrderId={this.props.data.id}
+											infofetch={this.infofetch.bind(this)}
 											/>}
 									bordered={true}
 									footer={false}/>
@@ -251,7 +242,6 @@ class OrderuserInfo extends React.Component{
 		)
 	}
 	componentDidMount(){
-		this.finfofetch()
 		this.infofetch(this.props.data.id)
 	}
 }
