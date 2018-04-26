@@ -110,7 +110,7 @@ class OrderuserInfo extends React.Component{
             },
             {
             	title: '备注',
-            	dataIndex: 'remark'
+            	dataIndex: 'content'
             }
 		];
 	}
