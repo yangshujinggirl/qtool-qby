@@ -84,15 +84,15 @@ class OrderuserInfo extends React.Component{
 			}, 
 			{
             	title: '物流公司',
-            	dataIndex: 'wsgong'
+            	dataIndex: 'name'
             },
             {
             	title: '物流单号',
-            	dataIndex: 'wsorder'
+            	dataIndex: 'expressNo'
             },
             {
             	title: '获取物流时间',
-            	dataIndex: 'wstime'
+            	dataIndex: 'shipDate'
 			}
         ];
         this.column3 = [
@@ -185,6 +185,7 @@ class OrderuserInfo extends React.Component{
 					recCity={this.props.data.record.recCity}
 					recDistrict={this.props.data.record.recDistrict}
 					recAddress={this.props.data.record.recAddress}
+					infofetch={this.infofetch.bind(this)}
 					/>
 				</div>
 				<div className='mb10'>
@@ -207,7 +208,7 @@ class OrderuserInfo extends React.Component{
 									dataSource={item.subOrderinfo} 
 									title={<Tabletitle 
 											listindex={index+1} 
-											isdelivery={item.isdelivery} 
+											isdelivery={item.isDelivery} 
 											ecSuborderNo={item.ecSuborderNo}
 											warehouseStr={item.warehouseStr}
 											statusStr={item.statusStr}

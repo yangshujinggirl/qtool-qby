@@ -27,6 +27,7 @@ class App extends React.Component {
                     if(json.code=='0'){
                         message.success('修改成功')
                         this.props.hindCancel()
+                        this.props.infofetch(this.props.ecOrderId)
                     }
                 }) 
             }

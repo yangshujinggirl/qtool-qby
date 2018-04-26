@@ -59,7 +59,7 @@ class Cardlists extends React.Component {
 			<Card title={<Cardtitles cardtitle={this.props.cardtitle} hindlistClick={this.hindlistClick.bind(this)} canedit={this.props.canedit} editopen={this.state.editopen}/>}>
 				<div className='cardlist'>
                     {
-                        this.state.editopen? <WrappedApp  wrappedComponentRef={this.saveFormRef} hindCancel={this.hindCancel.bind(this)} ecOrderId={this.props.ecOrderId} />:
+                        this.state.editopen? <WrappedApp  wrappedComponentRef={this.saveFormRef} hindCancel={this.hindCancel.bind(this)} ecOrderId={this.props.ecOrderId} infofetch={this.props.infofetch}/>:
                             this.props.cardlist.map((item,index)=>{
                                 return (<div className='cardlist_item' key={index}><label>{item.lable}：</label><span>{item.text}</span></div>)
                             })

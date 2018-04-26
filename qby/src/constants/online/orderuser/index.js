@@ -109,9 +109,10 @@ class OrderuserIndex extends React.Component{
         this.selectedRowreturn()
         const ecOrderIds=[]
         for(var i=0;i<this.state.selectedRows.length;i++){
-            if(this.state.selectedRows[i].status=='-1'){
-                ecOrderIds.push(this.state.selectedRows[i].ecOrderId)
-            }
+            // if(this.state.selectedRows[i].status=='-1'){
+               
+            // }
+            ecOrderIds.push(this.state.selectedRows[i].ecOrderId)
         }
         const values={ecOrderIds:ecOrderIds}
         const result=GetServerData('qerp.web.ec.od.userOrder.rematch',values)

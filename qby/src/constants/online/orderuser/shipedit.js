@@ -22,7 +22,7 @@ const CollectionCreateForm = Form.create()(
                             labelCol={{ span: 7 }}
                             wrapperCol={{ span: 12 }}
                             >
-                            {getFieldDecorator('ecExpressCodeMappingId', {
+                            {getFieldDecorator('ecExpressCodeId', {
                                 rules: [{ required: true, message: '请选择物流公司' }],
                             })(
                                 <Select
