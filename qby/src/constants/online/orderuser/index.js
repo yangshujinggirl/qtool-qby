@@ -1,7 +1,9 @@
+import { connect } from 'dva';
 import {GetServerData} from '../../../services/services';
 import { Button, Icon ,Modal,message} from 'antd';
 import SearchForm from './search';
 import SearchTable from './table';
+const confirm = Modal.confirm;
 
 class OrderuserIndex extends React.Component{
     state = {
@@ -222,4 +224,4 @@ class OrderuserIndex extends React.Component{
 	}
 }
 
-export default OrderuserIndex;
+export default connect()(OrderuserIndex);

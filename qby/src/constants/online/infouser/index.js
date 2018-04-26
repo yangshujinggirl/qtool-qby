@@ -2,6 +2,8 @@ import {GetServerData} from '../../../services/services';
 import { Button, Icon ,Modal} from 'antd';
 import SearchForm from './search';
 import SearchTable from './table';
+import { connect } from 'dva';
+
 const confirm = Modal.confirm;
 
 class InfouserIndex extends React.Component{
@@ -111,4 +113,4 @@ class InfouserIndex extends React.Component{
 	}
 }
 
-export default InfouserIndex;
+export default connect()(InfouserIndex);
