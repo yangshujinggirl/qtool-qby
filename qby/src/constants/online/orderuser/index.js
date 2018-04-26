@@ -138,7 +138,6 @@ class OrderuserIndex extends React.Component{
 
   	render(){
         const rolelists=this.props.data.rolelists
-        console.log(rolelists)
 		//重新推送
 		const addorder=rolelists.find((currentValue,index)=>{
 			return currentValue.url=="qerp.web.ec.pd.spulog.list"
@@ -160,6 +159,7 @@ class OrderuserIndex extends React.Component{
 			return currentValue.url=="qerp.web.ec.express.hk.save"
         })
 
+        
 
 
      	return(
@@ -217,6 +217,8 @@ class OrderuserIndex extends React.Component{
                         selectedRowKeys={this.state.selectedRowKeys}
                         editorder={editorder}
                         postgood={postgood}
+                        addorder={addorder}
+                        repigood={repigood}
                     />
                 </div>
         	</div>

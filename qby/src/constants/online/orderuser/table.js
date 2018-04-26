@@ -72,9 +72,10 @@ class SearchTable extends React.Component {
         this.props.getSelectDate(selectedRowKeys,selectedRows)
     }
     render() {
+
         return (
             <EditableTable 
-                select={true}
+                select={(this.props.addorder || this.props.repigood)?true:false}
                 selectType='checkbox'
                 selectChange={this.selectChange.bind(this)}
                 selectedRowKeys={this.props.selectedRowKeys}

@@ -2,6 +2,7 @@ import { Card ,Button} from 'antd';
 import WrappedApp from './form_edit';
 
 class Cardtitles extends React.Component {
+    
 	render() {
 		return (
 			<div>

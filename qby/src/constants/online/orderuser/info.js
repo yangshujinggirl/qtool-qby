@@ -17,7 +17,7 @@ class Tabletitle extends React.Component {
 				<div className='clearfix' style={{height:'32px',lineHeight:"32px"}}>
 					<div className='fl'>子单{this.props.listindex}信息</div>
 					{
-						(this.props.postgood && this.props.isdelivery)?<div className='fr'><Shipeditmodel modeltit={'子单'+this.props.listindex+'信息'} ecOrderId={this.props.ecOrderId} ecSuborderNo={this.props.ecSuborderNo} infofetch={this.props.infofetch}/></div>:null
+						(this.props.postgood && this.props.isdelivery)?<div className='fr'><Shipeditmodel modeltit={'子单'+this.props.listindex+'信息'} ecOrderId={this.props.ecOrderId} ecSuborderNo={this.props.ecSuborderNo} infofetch={this.props.infofetch} ecSuborderId={this.props.ecSuborderId}/></div>:null
 					}
 				</div>
 				<div className='clearfix'>
@@ -41,7 +41,11 @@ class OrderuserInfo extends React.Component{
 			logs:[],
 			orderinfo:[],
 			receiptinfo:[],
-			canedit:false //是否显示修改收货地址按钮
+			canedit:false, //是否显示修改收货地址按钮
+			recProvince:null,
+			recCity:null,
+			recDistrict:null,
+			recAddress:null
         }
         this.column1 = [
 			{
@@ -155,7 +159,11 @@ class OrderuserInfo extends React.Component{
 					logs:json.logs,
 					orderinfo:orderinfo,
 					receiptinfo:receiptinfo,
-					canedit:(orderInfos.status=='-1' || orderInfos.status=='-2' )?true:false
+					canedit:(orderInfos.status=='-1' || orderInfos.status=='-2' )?true:false,
+					recProvince:orderInfos.recProvince,
+					recCity:orderInfos.recCity,
+					recDistrict:orderInfos.recDistrict,
+					recAddress:orderInfos.recAddress
 			   	})
 			}else{
 				this.setState({
@@ -165,7 +173,11 @@ class OrderuserInfo extends React.Component{
 					logs:[],
 					orderinfo:[],
 					receiptinfo:[],
-					canedit:false
+					canedit:false,
+					recProvince:null,
+					recCity:null,
+					recDistrict:null,
+					recAddress:null
 			   	})
 			}
         }) 
@@ -178,15 +190,15 @@ class OrderuserInfo extends React.Component{
 				</div>
                 <div className='mb10 list-cad'>
 					<Cardlists cardtitle='收货信息' 
-					cardlist={this.state.receiptinfo} 
-					canedit={this.state.canedit} 
-					ecOrderId={this.props.data.id} 
-					recProvince={this.props.data.record.recProvince} 
-					recCity={this.props.data.record.recCity}
-					recDistrict={this.props.data.record.recDistrict}
-					recAddress={this.props.data.record.recAddress}
-					infofetch={this.infofetch.bind(this)}
-					editorder={this.props.data.editorder}
+						cardlist={this.state.receiptinfo} 
+						canedit={this.state.canedit} 
+						ecOrderId={this.props.data.id} 
+						recProvince={this.state.recProvince} 
+						recCity={this.state.recCity}
+						recDistrict={this.state.recDistrict}
+						recAddress={this.state.recAddress}
+						infofetch={this.infofetch.bind(this)}
+						editorder={this.props.data.editorder}
 					/>
 				</div>
 				<div className='mb10'>
@@ -217,6 +229,7 @@ class OrderuserInfo extends React.Component{
 											ecOrderId={this.props.data.id}
 											infofetch={this.infofetch.bind(this)}
 											postgood={this.props.data.postgood}
+											ecSuborderId={item.ecSuborderId}
 											/>}
 									bordered={true}
 									footer={false}/>
