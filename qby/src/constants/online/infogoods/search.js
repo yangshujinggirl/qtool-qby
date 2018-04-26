@@ -83,7 +83,7 @@ class AdvancedSearchForm extends React.Component {
                                     {getFieldDecorator('infoStatus')(
                                         <Select allowClear={true} placeholder="请选择">
                                             <Option value='1'>完整</Option>
-                                            <Option value='2'>不完整</Option>
+                                            <Option value='0'>不完整</Option>
                                         </Select>
                                     )}
                                 </FormItem>
