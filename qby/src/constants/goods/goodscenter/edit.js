@@ -136,7 +136,7 @@
 		}
 		//商品信息请求
 		spuInfo=()=>{
-			const value={pdSpuId:this.props.data.pdSpuId}
+			const value={pdSpuId:this.props.data.pdSpuId,source:'0'}
 			this.props.dispatch({
 				type:'goods/infofetch',
 				payload:{code:'qerp.web.pd.spu.info',values:value}
@@ -323,6 +323,7 @@
 		handleSubmit = (e) => {
 			this.props.form.validateFields((err, value) => {
 			if (!err) {
+				value.source='0'
 				value.pdBrandId=this.props.pdBrandId
 				value.spuPics=this.props.spuPics
 				value.pdSpuInfo=this.props.pdSpuInfo
@@ -380,6 +381,7 @@
 		initWarehouseList=()=>{
 			let values =deepcCloneObj(this.props.values); 
 			values.currentPage="0";
+			values.source="0";
 			this.props.dispatch({
 				type:'goods/fetch',
 				payload:{code:'qerp.web.pd.spu.query',values:values}

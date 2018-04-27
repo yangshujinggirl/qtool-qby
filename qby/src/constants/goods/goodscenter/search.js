@@ -17,6 +17,7 @@ class AdvancedSearchForm extends React.Component {
     initWarehouseList=(values,limit,currentPage)=>{
         values.limit=limit
         values.currentPage=currentPage
+        values.source='0'
         this.props.dispatch({
             type:'goods/fetch',
             payload:{code:'qerp.web.pd.spu.query',values:values}
