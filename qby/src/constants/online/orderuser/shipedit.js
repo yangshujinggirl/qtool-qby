@@ -28,14 +28,14 @@ const CollectionCreateForm = Form.create()(
                                 <Select
                                     placeholder="请选择"
                                 >
-                                    <Option value="001">圆通</Option>
-                                    <Option value="002">中通</Option>
-                                    <Option value="003">天天</Option>
-                                    <Option value="004">韵达</Option>
-                                    <Option value="005">邮政</Option>
-                                    <Option value="006">顺丰</Option>
-                                    <Option value="007">申通</Option>
-                                    <Option value="008">物流</Option>
+                                    <Option value="1">圆通</Option>
+                                    <Option value="2">中通</Option>
+                                    <Option value="3">天天</Option>
+                                    <Option value="4">韵达</Option>
+                                    <Option value="5">邮政</Option>
+                                    <Option value="6">顺丰</Option>
+                                    <Option value="7">申通</Option>
+                                    <Option value="8">物流</Option>
                                 </Select>
                             )}
                         </FormItem>
@@ -77,7 +77,7 @@ class Shipeditmodel extends React.Component {
             if (err) {
                 return;
             }
-
+            values.warehouse='3'
             values.ecSuborderNo=this.props.ecSuborderNo
             values.ecOrderId=this.props.ecOrderId
             values.ecSuborderId=this.props.ecSuborderId
