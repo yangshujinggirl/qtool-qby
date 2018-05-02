@@ -83,7 +83,7 @@ class OrderuserIndex extends React.Component{
     //重新推送
     postMessage=()=>{
         if (this.state.selectedRows.length < 1) {
-			message.error('请选择采购单',.8)
+			message.error('请选择用户订单',.8)
 			return;
         }
         const ecOrderIds=[]
@@ -105,7 +105,7 @@ class OrderuserIndex extends React.Component{
     //重新匹配商品
     matchOrder=()=>{
         if (this.state.selectedRows.length < 1) {
-			message.error('请选择采购单',.8)
+			message.error('请选择用户订单',.8)
 			return;
         }
         const ecOrderIds=[]
