@@ -43,10 +43,19 @@ class Goodlist extends React.Component {
                   type:'tab/firstAddTab',
                   payload:paneitem
             })
-            this.props.dispatch({
-                type:'goods/initgoodedit',
-                payload:{}
+              var panes = eval(sessionStorage.getItem("pane"));
+              const alwaypan=panes.find((currentValue,index)=>{
+                  return currentValue.key=='301000edit'+String(id)
               })
+              if(!alwaypan){
+                    this.props.dispatch({
+                        type:'goods/initgoodedit',
+                        payload:{}
+                    })
+              }
+
+
+
         }else{
             message.error('无权限修改');
         }  	

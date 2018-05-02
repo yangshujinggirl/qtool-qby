@@ -80,16 +80,12 @@ class OrderuserIndex extends React.Component{
         })
     }
 
-    //select拦截
-    selectedRowreturn=()=>{
+    //重新推送
+    postMessage=()=>{
         if (this.state.selectedRows.length < 1) {
 			message.error('请选择采购单',.8)
 			return;
         }
-    }
-    //重新推送
-    postMessage=()=>{
-        this.selectedRowreturn()
         const ecOrderIds=[]
         for(var i=0;i<this.state.selectedRows.length;i++){
             ecOrderIds.push(this.state.selectedRows[i].ecOrderId)
@@ -108,12 +104,12 @@ class OrderuserIndex extends React.Component{
     
     //重新匹配商品
     matchOrder=()=>{
-        this.selectedRowreturn()
+        if (this.state.selectedRows.length < 1) {
+			message.error('请选择采购单',.8)
+			return;
+        }
         const ecOrderIds=[]
         for(var i=0;i<this.state.selectedRows.length;i++){
-            // if(this.state.selectedRows[i].status=='-1'){
-               
-            // }
             ecOrderIds.push(this.state.selectedRows[i].ecOrderId)
         }
         const values={ecOrderIds:ecOrderIds}

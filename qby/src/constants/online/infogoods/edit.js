@@ -664,8 +664,6 @@
 		}
 
 	}
-	
-
 	}
 
 	const GoodEdit = Form.create()(App);
