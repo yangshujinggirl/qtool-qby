@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import { Table ,Modal} from 'antd';
 import {GetServerData} from '../../../services/services';
-import EditableTable from '../../../components/table/tablemodel';
+import EditableTable from '../../../components/table/tablebasics';
 import './config.css';
 
 
@@ -170,11 +170,13 @@ class Config extends React.Component{
             columns : [
                 {
                     title: '操作类型',
-                    dataIndex: 'actionTypeStr',   
+                    dataIndex: 'actionTypeStr',  
+                    width:'10%'
                 },
                 {
                     title: '操作描述',
                     dataIndex: 'des',
+                    width:'70%',
                     render: (text, record) => (
 							<EditableCell
                             operadatatype={record.operadatatype}
@@ -185,10 +187,12 @@ class Config extends React.Component{
                 {
                     title: '操作时间',
                     dataIndex: 'createTime',   
+                    width:'10%'
                 },
                 {
                     title: '操作人',
-                    dataIndex: 'operater',   
+                    dataIndex: 'operater',
+                    width:'10%'
                 }
           ],
             dataSource : [],
@@ -331,7 +335,8 @@ class Config extends React.Component{
 				pageSizeChange={this.pageSizeChange.bind(this)}
 				total={this.state.total}
 				limit={Number(this.state.limit)}
-				current={Number(this.state.currentPage)+1}
+                current={Number(this.state.currentPage)+1}
+              
 			/>
             
         )
