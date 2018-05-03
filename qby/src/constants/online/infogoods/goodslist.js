@@ -108,10 +108,10 @@ class Goodlist extends React.Component {
                                 <li className='list' key={index}>
                                     <div className='list_l'>
                                         <img src={item.mainPicUrl?fileDomain+item.mainPicUrl:require('../../../assets/nogoods.png')}/>
-                                        <Checkbox className='list_check' checked={item.check} onChange={this.checkonChange.bind(this,index)}/>
+                                        {/* <Checkbox className='list_check' checked={item.check} onChange={this.checkonChange.bind(this,index)}/> */}
                                     </div>
                                     <div className='list_r'>
-                                        <p className='title pointer' onClick={this.titClick.bind(this,item.pdSpuId)}>{item.name}</p>
+                                        <p className='title pointer ellipsis' onClick={this.titClick.bind(this,item.pdSpuId)}>{item.name}</p>
                                         <p className='main'>&nbsp;</p>
                                         <p className='main'>售价：￥{item.minPrice}</p>
                                         <div className='icons'>

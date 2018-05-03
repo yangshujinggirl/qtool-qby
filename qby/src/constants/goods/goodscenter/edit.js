@@ -156,7 +156,8 @@
 		Categorylist=()=>{
 			const value={
 				getChildren:false,
-				enabled:true
+				enabled:true,
+				type:'2'
 			}
 			this.props.dispatch({
 				type:'goods/categoryfetch',

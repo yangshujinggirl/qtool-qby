@@ -270,57 +270,83 @@
 		}
 		//商品编码change
 		hindCodechange=(index,e)=>{
-			const goodindodatasouce=this.props.goodindodatasouce.slice(0)
-			goodindodatasouce[index].code=e.target.value
-			this.props.dispatch({
-				type:'onlinegood/goodindodatasouce',
-				payload:goodindodatasouce
-			})
+			const values=e.target.value
+			if(values.length<=5){
+				const goodindodatasouce=this.props.goodindodatasouce.slice(0)
+				goodindodatasouce[index].code=e.target.value
+				this.props.dispatch({
+					type:'onlinegood/goodindodatasouce',
+					payload:goodindodatasouce
+				})
+			}
 		}
 		//商品条码change
 		hindBarcodechange=(index,e)=>{
-			const goodindodatasouce=this.props.goodindodatasouce.slice(0)
-			goodindodatasouce[index].barcode=e.target.value
-			this.props.dispatch({
-				type:'onlinegood/goodindodatasouce',
-				payload:goodindodatasouce
-			})
+			const values=e.target.value
+			if(values.length<=30){
+				const goodindodatasouce=this.props.goodindodatasouce.slice(0)
+				goodindodatasouce[index].barcode=e.target.value
+				this.props.dispatch({
+					type:'onlinegood/goodindodatasouce',
+					payload:goodindodatasouce
+				})
+			}
 		}
 		//商品售价change
 		hindtoBPricechange=(index,e)=>{
-			const goodindodatasouce=this.props.goodindodatasouce.slice(0)
-			goodindodatasouce[index].purchasePrice=e.target.value
-			this.props.dispatch({
-				type:'onlinegood/goodindodatasouce',
-				payload:goodindodatasouce
-			})
+			const values=e.target.value
+			const re=/^([0-9]*)+((\.)|.[0-9]{1,2})?$/
+			const str=re.test(values)
+			if(str){
+				const goodindodatasouce=this.props.goodindodatasouce.slice(0)
+				goodindodatasouce[index].purchasePrice=e.target.value
+				this.props.dispatch({
+					type:'onlinegood/goodindodatasouce',
+					payload:goodindodatasouce
+				})
+			}
 		}
 		//零售价change
 		hindtoCPricechange=(index,e)=>{
-			const goodindodatasouce=this.props.goodindodatasouce.slice(0)
-			goodindodatasouce[index].receivePrice=e.target.value
-			this.props.dispatch({
-				type:'onlinegood/goodindodatasouce',
-				payload:goodindodatasouce
-			})
+			const values=e.target.value
+			const re=/^([0-9]*)+((\.)|.[0-9]{1,2})?$/
+			const str=re.test(values)
+			if(str){
+				const goodindodatasouce=this.props.goodindodatasouce.slice(0)
+				goodindodatasouce[index].receivePrice=e.target.value
+				this.props.dispatch({
+					type:'onlinegood/goodindodatasouce',
+					payload:goodindodatasouce
+				})
+			}
 		}
 		//建议零售价
 		hindtagPricechange=(index,e)=>{
-			const goodindodatasouce=this.props.goodindodatasouce.slice(0)
-			goodindodatasouce[index].deliveryPrice=e.target.value
-			this.props.dispatch({
-				type:'onlinegood/goodindodatasouce',
-				payload:goodindodatasouce
-			})
+			const values=e.target.value
+			const re=/^([0-9]*)+((\.)|.[0-9]{1,2})?$/
+			const str=re.test(values)
+			if(str){
+				const goodindodatasouce=this.props.goodindodatasouce.slice(0)
+				goodindodatasouce[index].deliveryPrice=e.target.value
+				this.props.dispatch({
+					type:'onlinegood/goodindodatasouce',
+					payload:goodindodatasouce
+				})
+			}
 		}
 		//进货价售价
 		hindcostPricechange=(index,e)=>{
-			const goodindodatasouce=this.props.goodindodatasouce.slice(0)
-			goodindodatasouce[index].salePrice=e.target.value
-			this.props.dispatch({
-				type:'onlinegood/goodindodatasouce',
-				payload:goodindodatasouce
-			})
+			const values=e.target.value
+			const re=/^([0-9]*)+((\.)|.[0-9]{1,2})?$/
+			const str=re.test(values)
+			if(str){
+				const goodindodatasouce=this.props.goodindodatasouce.slice(0)
+				goodindodatasouce[index].salePrice=e.target.value
+				this.props.dispatch({
+					type:'onlinegood/goodindodatasouce',
+					payload:goodindodatasouce
+				})
+			}
 		}
 
 		//确定
@@ -406,7 +432,7 @@
 						wrapperCol={{ span: 6 }}
 					>
 						{getFieldDecorator('name', {
-							rules: [{ required: true, message: '请输入商品名称' }],
+							rules: [{ required: true, message: '请输入商品名称' },{ "max":50, message: '不能超过50字' }],
 							initialValue:this.props.name
 						})(
 							<Input placeholder="请输入" autoComplete="off"/>
@@ -477,7 +503,7 @@
 							wrapperCol={{ span: 6 }}
 						>
 							{getFieldDecorator('region', {
-								rules: [{ required: true, message: '请输入' }],
+								rules: [{ required: true, message: '请输入' },{ "max": 16, message: '不能超过16字' }],
 								initialValue:this.props.region
 							})(
 								<Input placeholder="请输入" autoComplete="off"/>
@@ -615,8 +641,8 @@
 						wrapperCol={{ span: 6 }}
 						>
 						{getFieldDecorator('remark1', {
-							initialValue:this.props.remark1
-							
+							initialValue:this.props.remark1,
+							rules: [{ "max": 200, message: '不能超过200字' }]
 						})(
 							<TextArea rows={4} />
 						)}
@@ -627,7 +653,8 @@
 						wrapperCol={{ span: 6 }}
 						>
 						{getFieldDecorator('remark2', {
-							initialValue:this.props.remark2
+							initialValue:this.props.remark2,
+							rules: [{ "max": 200, message: '不能超过200字' }]
 						})(
 							<TextArea rows={4} />
 						)}
@@ -639,7 +666,7 @@
 						>
 						{getFieldDecorator('remark3', {
 							initialValue:this.props.remark3,
-							
+							rules: [{ "max": 200, message: '不能超过200字' }]
 						})(
 							
 							<TextArea rows={4} />

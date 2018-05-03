@@ -146,6 +146,12 @@ strong, b, .b { font-weight: bold; }
 ins { text-decoration: none; }
 .u { text-decoration: underline;}
 
+.ellipsis{
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+}
+
 /*框架*/
 .ant-tabs:not(.ant-tabs-vertical) > .ant-tabs-content{overflow-y: auto;position: absolute;top:40px;bottom: 0;}
 
