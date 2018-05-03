@@ -197,7 +197,7 @@
 							addorder?<Button type="primary" className='btn_lists' size='large' onClick={this.addspus.bind(this)}>新增商品</Button>:null
 						}
 						{
-							expontdata?<div className='btn_lists'><Button type="primary" size='large' onClick={this.exportData.bind(this,32,this.props.values)}>导出数据</Button></div>:null
+							// expontdata?<div className='btn_lists'><Button type="primary" size='large' onClick={this.exportData.bind(this,32,this.props.values)}>导出数据</Button></div>:null
 						}
 					</div>
 					<Goodlist addorderobj={addorder} sellopenobj={newopen}/>

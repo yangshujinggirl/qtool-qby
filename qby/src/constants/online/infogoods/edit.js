@@ -45,7 +45,7 @@
 				dataIndex: 'purchasePrice',
 				render: (text, record,index) => {
 					return (
-						<Input value={text} onChange={this.hindtoBPricechange.bind(this,index)}/>
+						<Input value={text} onChange={this.hindtoBPricechange.bind(this,index)} onBlur={this.hindtoBPricechangeblue.bind(this,index)}/>
 					);
 				}
 			},{
@@ -53,7 +53,7 @@
 				dataIndex: 'receivePrice',
 				render: (text, record,index) => {
 					return (
-						<Input value={text} onChange={this.hindtoCPricechange.bind(this,index)}/>
+						<Input value={text} onChange={this.hindtoCPricechange.bind(this,index)} onBlur={this.hindtoCPricechangeblue.bind(this,index)}/>
 					);
 				}
 			},{
@@ -61,7 +61,7 @@
 				dataIndex: 'deliveryPrice',
 				render: (text, record,index) => {
 					return (
-						<Input value={text} onChange={this.hindtagPricechange.bind(this,index)}/>
+						<Input value={text} onChange={this.hindtagPricechange.bind(this,index)} onBlur={this.hindtagPricechangeblue.bind(this,index)}/>
 					);
 				}
 			},{
@@ -69,7 +69,7 @@
 				dataIndex: 'salePrice',
 				render: (text, record,index) => {
 					return (
-						<Input value={text} onChange={this.hindcostPricechange.bind(this,index)}/>
+						<Input value={text} onChange={this.hindcostPricechange.bind(this,index)} onBlur={this.hindcostPricechangeblue.bind(this,index)}/>
 					);
 				}
 			},{
@@ -102,7 +102,7 @@
 				dataIndex: 'purchasePrice',
 				render: (text, record,index) => {
 					return (
-						<Input value={text} onChange={this.hindtoBPricechange.bind(this,index)}/>
+						<Input value={text} onChange={this.hindtoBPricechange.bind(this,index)} onBlur={this.hindtoBPricechangeblue.bind(this,index)}/>
 					);
 				}
 			},{
@@ -110,7 +110,7 @@
 				dataIndex: 'receivePrice',
 				render: (text, record,index) => {
 					return (
-						<Input value={text} onChange={this.hindtoCPricechange.bind(this,index)}/>
+						<Input value={text} onChange={this.hindtoCPricechange.bind(this,index)} onBlur={this.hindtoCPricechangeblue.bind(this,index)}/>
 					);
 				}
 			},{
@@ -118,7 +118,7 @@
 				dataIndex: 'deliveryPrice',
 				render: (text, record,index) => {
 					return (
-						<Input value={text} onChange={this.hindtagPricechange.bind(this,index)}/>
+						<Input value={text} onChange={this.hindtagPricechange.bind(this,index)} onBlur={this.hindtagPricechangeblue.bind(this,index)}/>
 					);
 				}
 			},{
@@ -126,7 +126,7 @@
 				dataIndex: 'salePrice',
 				render: (text, record,index) => {
 					return (
-						<Input value={text} onChange={this.hindcostPricechange.bind(this,index)}/>
+						<Input value={text} onChange={this.hindcostPricechange.bind(this,index)} onBlur={this.hindcostPricechangeblue.bind(this,index)}/>
 					);
 				}
 			}];  
@@ -306,6 +306,27 @@
 				})
 			}
 		}
+
+		hindtoBPricechangeblue=(index,e)=>{
+			const values=parseFloat(e.target.value)
+			const re=/^([0-9]*)+((\.)|.[0-9]{1,2})?$/
+			const str=re.test(values)
+			if(str){
+				const goodindodatasouce=this.props.goodindodatasouce.slice(0)
+				goodindodatasouce[index].purchasePrice=values.toFixed(2)
+				this.props.dispatch({
+					type:'onlinegood/goodindodatasouce',
+					payload:goodindodatasouce
+				})
+			}
+		}
+
+
+	
+
+
+
+
 		//零售价change
 		hindtoCPricechange=(index,e)=>{
 			const values=e.target.value
@@ -320,6 +341,26 @@
 				})
 			}
 		}
+
+		hindtoCPricechangeblue=(index,e)=>{
+			const values=parseFloat(e.target.value)
+			const re=/^([0-9]*)+((\.)|.[0-9]{1,2})?$/
+			const str=re.test(values)
+			if(str){
+				const goodindodatasouce=this.props.goodindodatasouce.slice(0)
+				goodindodatasouce[index].receivePrice=values.toFixed(2)
+				this.props.dispatch({
+					type:'onlinegood/goodindodatasouce',
+					payload:goodindodatasouce
+				})
+			}
+		}
+
+
+
+
+
+
 		//建议零售价
 		hindtagPricechange=(index,e)=>{
 			const values=e.target.value
@@ -334,6 +375,25 @@
 				})
 			}
 		}
+
+		hindtagPricechangeblue=(index,e)=>{
+			const values=parseFloat(e.target.value)
+			const re=/^([0-9]*)+((\.)|.[0-9]{1,2})?$/
+			const str=re.test(values)
+			if(str){
+				const goodindodatasouce=this.props.goodindodatasouce.slice(0)
+				goodindodatasouce[index].deliveryPrice=values.toFixed(2)
+				this.props.dispatch({
+					type:'onlinegood/goodindodatasouce',
+					payload:goodindodatasouce
+				})
+			}
+		}
+
+
+
+
+
 		//进货价售价
 		hindcostPricechange=(index,e)=>{
 			const values=e.target.value
@@ -348,6 +408,22 @@
 				})
 			}
 		}
+
+		hindcostPricechangeblue=(index,e)=>{
+			const values=parseFloat(e.target.value)
+			const re=/^([0-9]*)+((\.)|.[0-9]{1,2})?$/
+			const str=re.test(values)
+			if(str){
+				const goodindodatasouce=this.props.goodindodatasouce.slice(0)
+				goodindodatasouce[index].salePrice=values.toFixed(2)
+				this.props.dispatch({
+					type:'onlinegood/goodindodatasouce',
+					payload:goodindodatasouce
+				})
+			}
+		}
+
+
 
 		//确定
 		handleSubmit = (e) => {
