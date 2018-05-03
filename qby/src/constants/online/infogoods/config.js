@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'dva';
 import { Table ,Modal} from 'antd';
 import {GetServerData} from '../../../services/services';
-import EditableTable from '../../../components/table/tablebasics';
+import EditableTable from '../../../components/table/tablemodel';
 import './config.css';
 
 
