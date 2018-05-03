@@ -271,7 +271,7 @@
 		//商品编码change
 		hindCodechange=(index,e)=>{
 			const values=e.target.value
-			if(values.length<=5){
+			if(values.length<=30){
 				const goodindodatasouce=this.props.goodindodatasouce.slice(0)
 				goodindodatasouce[index].code=e.target.value
 				this.props.dispatch({
