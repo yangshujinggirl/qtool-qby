@@ -72,9 +72,7 @@ class OrderdbEditForm extends React.Component{
 						this.deleteTab();
 						this.refreshList();
 					    //  this.initState();
-                    }else{
-						message.error(json.message,.8);
-					}
+                    }
                 })
             }else{
                 return false;

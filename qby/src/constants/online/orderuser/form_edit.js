@@ -82,7 +82,7 @@ class App extends React.Component {
                     wrapperCol={{ span: 8 }}
                 >
                     {getFieldDecorator('idCardNo', {
-                        rules: [{ required: true, message: '请输入身份证号' }],
+                        rules: [{ required: true, message: '请输入身份证号' },{pattern:/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/,message:'请输入合法的身份证号'}],
                     })(
                         <Input />
                     )}
