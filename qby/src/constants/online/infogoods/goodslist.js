@@ -113,7 +113,7 @@ class Goodlist extends React.Component {
                                     <div className='list_r'>
                                         <p className='title pointer' onClick={this.titClick.bind(this,item.pdSpuId)}>{item.name}</p>
                                         <p className='main'>&nbsp;</p>
-                                        <p className='main'>售价：￥{item.minPrice}</p>
+                                        <p className='main'>售价：￥{item.salePrice}</p>
                                         <div className='icons'>
                                             {   
                                                 item.list_img_name.length>0?
