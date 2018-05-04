@@ -74,7 +74,7 @@ class CollectionsPage extends React.Component {
   render() {
     return (
       <div>
-        <div type="primary" onClick={this.showModal}>新增属性</div>
+        <div type="primary" onClick={this.showModal}>新增类型</div>
         <CollectionCreateForm
           ref={this.saveFormRef}
           visible={this.state.visible}

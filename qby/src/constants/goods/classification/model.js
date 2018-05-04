@@ -39,18 +39,18 @@ const CollectionCreateForm = Form.create()(
 
             </FormItem>
                 <FormItem 
-                label="属性名称"
+                label="类型名称"
                 labelCol={{ span: 5 }}
                 wrapperCol={{ span: 12 }}
                 >
                 {getFieldDecorator('name', {
-                    rules: [{ required: true, message: '请输入属性名称' }],
+                    rules: [{ required: true, message: '请输入类型名称' }],
                 })(
                     <Input/>
                 )}
                 </FormItem>
                 <FormItem 
-                label="属性状态"
+                label="类型状态"
                 labelCol={{ span: 5 }}
                 wrapperCol={{ span: 12 }}
                 >
