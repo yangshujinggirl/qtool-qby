@@ -163,7 +163,7 @@ class App extends React.Component {
 						 pdBrandname:pdBrandname,
 						 lotStatus:lotStatus=='0'?'否':'是',
 						expdays:expdays==null || undefined ? '' :expdays,
-						lotType:lotType=='0'?'到期日期':'生产日期',
+						lotType:lotType=='2'?'到期日期':'生产日期',
 						lotLimitInDay:lotLimitInDay==null || undefined?'':lotLimitInDay,
 						eventNew:eventNew?'是':'否',
 						eventHot:eventHot?'是':'否',
