@@ -60,13 +60,16 @@ export default {
 				const updateTime=shopSaleData.updateTime
 				const dsa=!shopSaleData.yesterdayCostAmount?0:shopSaleData.yesterdayCostAmount
 				const dsb=!shopSaleData.upYesterdayCostAmount?0:shopSaleData.upYesterdayCostAmount
-				shopSaleData.yesterdaysellRate=!shopSaleData.yesterdayAmount?0:NP.round(NP.divide(NP.minus(shopSaleData.yesterdayAmount, dsa),shopSaleData.yesterdayAmount),2);//昨日毛利率
+				shopSaleData.yesterdaysellRate=(!shopSaleData.yesterdayAmount || Number(shopSaleData.yesterdayAmount==0))?0:NP.round(NP.divide(NP.minus(shopSaleData.yesterdayAmount, dsa),shopSaleData.yesterdayAmount),2);//昨日毛利率
 				shopSaleData.yesterdaysellRates=String(NP.times(shopSaleData.yesterdaysellRate,100))+'%';//昨日毛利率展示
-				shopSaleData.upyesterdaysellRate=!shopSaleData.upYesterdayAmount?0:NP.round(NP.divide(NP.minus(shopSaleData.upYesterdayAmount, dsb),shopSaleData.upYesterdayAmount),2);//上期昨日毛利率
+				shopSaleData.upyesterdaysellRate=(!shopSaleData.upYesterdayAmount || Number(shopSaleData.upYesterdayAmount)=='0')?0:NP.round(NP.divide(NP.minus(shopSaleData.upYesterdayAmount, dsb),shopSaleData.upYesterdayAmount),2);//上期昨日毛利率
 				shopSaleData.posAmountBi=databi(shopSaleData.posAmount,shopSaleData.upPosAmount) //毛销售额
 				shopSaleData.possaleAmountBi=databi(shopSaleData.saleAmount,shopSaleData.upSaleAmount)  //销售额
 				shopSaleData.poscleanAmountBi=databi(shopSaleData.cleanAmount,shopSaleData.upCleanAmount)  //净收款
 				shopSaleData.yesterdaysellRateBi=databi(shopSaleData.yesterdaysellRate,shopSaleData.upyesterdaysellRate)  //昨日毛利率
+
+				
+				
 				const data=[{
 					title:'毛销售额',
 					value:shopSaleData.posAmount,
