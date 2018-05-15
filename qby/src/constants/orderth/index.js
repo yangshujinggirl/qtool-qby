@@ -120,18 +120,7 @@ class OrderthIndex extends React.Component{
      	return(
         	<div className='content_box'>
                 <OrderthSearch/>
-				{
-					overorder?
-					<Button 
-					type="primary" 
-					size='large'
-					className='mt20 mr10'
-					onClick={this.mandatoryOrder.bind(this)}
-				>
-					强制完成
-				</Button>
-				:null
-				}
+				
 				{
 					addorder?
 					<Button 
@@ -149,10 +138,22 @@ class OrderthIndex extends React.Component{
 					<Button 
 					type="primary" 
 					size='large'
-					className='mt20'
+					className='mt20 mr10'
 					onClick={this.exportData.bind(this,11,this.props.values)}
 				>
 					导出数据
+				</Button>
+				:null
+				}
+				{
+					overorder?
+					<Button 
+					type="primary" 
+					size='large'
+					className='mt20 mr10'
+					onClick={this.mandatoryOrder.bind(this)}
+				>
+					强制完成
 				</Button>
 				:null
 				}

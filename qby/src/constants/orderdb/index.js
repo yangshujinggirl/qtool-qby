@@ -162,19 +162,7 @@ class OrderdbIndex extends React.Component{
      	return(
         	<div className='content_box'>
                 <OrderdbSearch OrderdbFormSearch={this.hindSearch.bind(this)}/>
-					{
-						overorder?
-						<Button 
-						type="primary" 
-						size='large'
-						className='mt20 mr10'
-						onClick={this.mandatoryOrder.bind(this)}
-					>
-						强制完成
-					</Button>
-					:null
-
-					}
+					
 					{
 						addorder?
 						<Button
@@ -198,6 +186,19 @@ class OrderdbIndex extends React.Component{
 						导出数据
 					</Button>
 					:null
+					}
+					{
+						overorder?
+						<Button 
+						type="primary" 
+						size='large'
+						className='mt20 mr10'
+						onClick={this.mandatoryOrder.bind(this)}
+					>
+						强制完成
+					</Button>
+					:null
+
 					}
              		<div className='mt15'>
 					  <OrderdbTable 
