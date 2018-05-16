@@ -91,7 +91,7 @@ class OrderuserIndex extends React.Component{
             ecOrderIds.push(this.state.selectedRows[i].ecOrderId)
         }
         const values={ecOrderIds:ecOrderIds}
-        const result=GetServerData('qerp.web.ec.pd.spulog.list',values)
+        const result=GetServerData('qerp.web.ec.od.repush',values)
             result.then((res) => {
                return res;
             }).then((json) => {
