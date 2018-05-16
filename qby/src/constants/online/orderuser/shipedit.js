@@ -28,14 +28,14 @@ const CollectionCreateForm = Form.create()(
                                 <Select
                                     placeholder="请选择"
                                 >
-                                    <Option value="1">圆通</Option>
-                                    <Option value="2">中通</Option>
-                                    <Option value="3">天天</Option>
+                                    <Option value="1">申通</Option>
+                                    <Option value="2">圆通</Option>
+                                    <Option value="3">中通</Option>
                                     <Option value="4">韵达</Option>
-                                    <Option value="5">邮政</Option>
-                                    <Option value="6">顺丰</Option>
-                                    <Option value="7">申通</Option>
-                                    <Option value="8">物流</Option>
+                                    <Option value="5">天天</Option>
+                                    <Option value="6">物流</Option>
+                                    <Option value="7">顺丰</Option>
+                                    <Option value="8">邮政</Option>
                                 </Select>
                             )}
                         </FormItem>

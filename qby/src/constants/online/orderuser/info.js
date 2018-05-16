@@ -127,11 +127,13 @@ class OrderuserInfo extends React.Component{
 
     //获取订单信息列表
 	infofetch=(id)=>{
-        const values={ecOrderId:id}
+		const values={ecOrderId:id}
+		this.props.dispatch({ type: 'tab/loding', payload:true});
         const result=GetServerData('qerp.web.ec.od.userOrder.detail',values)
         result.then((res) => {
            return res;
         }).then((json) => {
+			this.props.dispatch({ type: 'tab/loding', payload:false});
             if(json.code=='0'){
 				const orderInfos=json.orderInfo				
 				const orderinfo=[

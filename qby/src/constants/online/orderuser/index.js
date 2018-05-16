@@ -53,10 +53,12 @@ class OrderuserIndex extends React.Component{
     hindSearch=(values)=>{
         values.limit=this.state.limit
         values.currentPage=this.state.currentPage
+        this.props.dispatch({ type: 'tab/loding', payload:true});
         const result=GetServerData('qerp.web.ec.od.userOrder.query',values)
         result.then((res) => {
            return res;
         }).then((json) => {
+            this.props.dispatch({ type: 'tab/loding', payload:false});
             if(json.code=='0'){
                 this.setState({
                     searchvalue:values,
@@ -91,10 +93,12 @@ class OrderuserIndex extends React.Component{
             ecOrderIds.push(this.state.selectedRows[i].ecOrderId)
         }
         const values={ecOrderIds:ecOrderIds}
+        this.props.dispatch({ type: 'tab/loding', payload:true});
         const result=GetServerData('qerp.web.ec.od.repush',values)
             result.then((res) => {
                return res;
             }).then((json) => {
+                this.props.dispatch({ type: 'tab/loding', payload:false});
                 if(json.code=='0'){
                     message.success('重新推送成功')
                     this.hindSearch(this.state.searchvalue)
@@ -113,10 +117,12 @@ class OrderuserIndex extends React.Component{
             ecOrderIds.push(this.state.selectedRows[i].ecOrderId)
         }
         const values={ecOrderIds:ecOrderIds}
+        this.props.dispatch({ type: 'tab/loding', payload:true});
         const result=GetServerData('qerp.web.ec.od.userOrder.rematch',values)
         result.then((res) => {
             return res;
         }).then((json) => {
+            this.props.dispatch({ type: 'tab/loding', payload:false});
             if(json.code=='0'){
                 message.success('重新匹配商品成功')
                 this.hindSearch(this.state.searchvalue)
