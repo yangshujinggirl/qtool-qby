@@ -52,10 +52,12 @@ class InfouserIndex extends React.Component{
     hindSearch=(values)=>{
         values.limit=this.state.limit
         values.currentPage=this.state.currentPage
+        this.props.dispatch({ type: 'tab/loding', payload:true});
         const result=GetServerData('qerp.web.ec.user_consume_query',values)
         result.then((res) => {
            return res;
         }).then((json) => {
+            this.props.dispatch({ type: 'tab/loding', payload:false});
             if(json.code=='0'){
                 this.setState({
                     searchvalue:values,

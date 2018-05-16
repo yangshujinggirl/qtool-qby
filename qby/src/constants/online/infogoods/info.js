@@ -71,10 +71,12 @@ class App extends React.Component {
 	//请求商品信息
 	getinfoData=()=>{
 		let values={pdSpuId:this.props.data.pdSpuId,type:"2",source:'1'}
+		this.props.dispatch({ type: 'tab/loding', payload:true});
 		const result=GetServerData('qerp.web.ec.pd.spu.info',values)
 		result.then((res) => {
 			return res;
 		}).then((json) => {
+			this.props.dispatch({ type: 'tab/loding', payload:false});
 			if(json.code=='0'){
 				const region=json.pdSpu.region
 				const warehouseStr=json.pdSpu.warehouseStr
@@ -366,4 +368,4 @@ class App extends React.Component {
 
 const Goodinfo = Form.create()(App);
 
-export default Goodinfo;
+export default connect()(Goodinfo);
