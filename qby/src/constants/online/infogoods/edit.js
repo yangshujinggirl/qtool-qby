@@ -679,11 +679,12 @@
 							initialValue:String(this.props.warehouseId)
 						})(
 							<Select placeholder="请选择">
-								<Option value='1'>杭州仓</Option>
-								<Option value='2'>重庆仓</Option>
-								<Option value='3'>香港仓</Option>
-								<Option value='4'>虚拟仓</Option>
-
+								<Option value='1'>杭州下沙保税</Option>
+								<Option value='2'>重庆丰趣保税</Option>
+								<Option value='3'>香港天弋丽直邮</Option>
+								<Option value='5'>德国直邮</Option>
+								<Option value='6'>杭州学月保税</Option>
+								<Option value='4'>知识付费</Option>
 							</Select>
 						)}
 					</FormItem>

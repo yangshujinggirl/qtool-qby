@@ -12,8 +12,20 @@ export const orderState=[
     {name:'推送失败',key:'-10'}
 ]
 export const wshouse=[
-    {name:'杭州仓',key:'1'},
-    {name:'重庆仓',key:'2'},
-    {name:'香港仓',key:'3'},
-    {name:'虚拟仓',key:'4'}
+    {name:'杭州下沙保税',key:'1'},
+    {name:'重庆丰趣保税',key:'2'},
+    {name:'香港天弋丽直邮',key:'3'},
+    {name:'德国直邮',key:'5'},
+    {name:'杭州学月保税',key:'6'},
+    {name:'知识付费',key:'4'}
 ]
+
+
+
+
+
+								
+								
+								
+								
+							
