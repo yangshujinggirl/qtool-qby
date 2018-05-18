@@ -1,3 +1,4 @@
+
 function contains(arr, obj) {
 	  var i = arr.length;
 	  while (i--) {
@@ -431,7 +432,9 @@ export default {
 				const value={"parentId":pdCategory1Id,"getChildren":true,"enabled":true}
 				yield put({type: 'captlistfetch',payload:{code:'qerp.web.pd.category.list',values:value}});
 				
-			} 
+			}else{
+				yield put({type: 'initgoodedit',payload:{}})
+			}
 		}, 
 			//selec和tag的变动走的程序
 			*goodsinfoChange({ payload: {pdType1Ids,pdType2Ids,tag1s,tag2s} }, { call, put ,select}) {
