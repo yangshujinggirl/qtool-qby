@@ -36,11 +36,11 @@ class Searchform extends React.Component {
                     <Col span={24} className='formbox_col'>
                         <Row>
                             <div className='serach_form'>
-                                <FormItem label='门店名称'>
+                                {/* <FormItem label='门店名称'>
                                     {getFieldDecorator('shopName')(
                                         <Input placeholder={confgdata.placeholder_input} autoComplete="off"/>
                                     )}
-                                </FormItem>
+                                </FormItem> */}
                                 <FormItem label='订单号'>
                                     {getFieldDecorator('orderNo')(
                                         <Input placeholder={confgdata.placeholder_input} autoComplete="off"/>

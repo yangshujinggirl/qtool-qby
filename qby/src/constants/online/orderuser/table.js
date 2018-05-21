@@ -19,10 +19,10 @@ class SearchTable extends React.Component {
                 title: '有赞订单号',
                 dataIndex: 'outNo'
             },
-            {
-                title: '归属门店',
-                dataIndex: 'shopName'
-            }, 
+            // {
+            //     title: '归属门店',
+            //     dataIndex: 'shopName'
+            // }, 
             {
                 title: '商品数量',
                 dataIndex: 'qty'
