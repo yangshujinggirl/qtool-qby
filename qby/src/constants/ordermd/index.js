@@ -49,19 +49,30 @@ class OrdermdIndex extends React.Component{
 
 	//新增订单
 	addNew = () =>{
-		const paneitem={title:'新增订单',key:'201000edit',componkey:'201000edit',data:null}
+		const paneitem={title:'新增订单',key:'201000edit',componkey:'201000edit',data:{type:'1'}}
   		this.props.dispatch({
 	    	type:'tab/firstAddTab',
 	    	payload:paneitem
 		});
-  	}
-
+	}
+	//新增赠品订单
+	addNew1=()=>{
+		const paneitem={title:'新增订单',key:'201000edit1',componkey:'201000edit',data:{type:'2'}}
+  		this.props.dispatch({
+	    	type:'tab/firstAddTab',
+	    	payload:paneitem
+		});
+	}
+	  
   	render(){
 		const rolelists=this.props.data.rolelists
 		//新增订单
 		const addorder=rolelists.find((currentValue,index)=>{
 			return currentValue.url=="qerp.web.sp.order.save"
 		})
+		//新增赠品订单
+		const addorder1=true
+
 		//导出数据
 		const expontdata=rolelists.find((currentValue,index)=>{
 			return currentValue.url=="qerp.web.sys.doc.task"
@@ -85,6 +96,19 @@ class OrdermdIndex extends React.Component{
 						</Button>
 						:null
 					}
+					{
+						addorder1?
+						<Button 
+							type="primary" 
+							size='large'
+							className='mt20 mr10'
+							onClick={this.addNew1.bind(this)}
+						>
+							新增赠品订单
+						</Button>
+						:null
+					}
+
 					{
 						expontdata?
 						<Button 

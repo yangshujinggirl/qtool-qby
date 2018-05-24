@@ -35,7 +35,28 @@ class GoodsListTable extends React.Component {
                         onBlur={this.onBluepdqty.bind(this,index)}/>
             );
         }
-      },{
+      },
+      {
+        title: '商品名称',
+        dataIndex: 'name',
+        width:"100px",
+        render: (text, record, index) => {
+            return (
+                <p style={{textAlign:'center'}}>{this.state.dataSource[index].name}</p>
+            );
+        }
+      },
+      {
+        title: '商品规格',
+        dataIndex: 'names',
+        width:"100px",
+        render: (text, record, index) => {
+            return (
+                <p style={{textAlign:'center'}}>{this.state.dataSource[index].names}</p>
+            );
+        }
+      },
+      {
         title: '商品单价',
         dataIndex: 'retailPrice',
         width:"100px",
@@ -87,7 +108,9 @@ class GoodsListTable extends React.Component {
         key: count,
         Code:'',
         qty: '',
-        retailPrice:''
+        retailPrice:'',
+        name:null,
+        names:null,
       };
       this.setState({
         dataSource: [...dataSource, newData],
@@ -116,6 +139,8 @@ class GoodsListTable extends React.Component {
         }).then((json) => {
             if(json.code=='0'){
                 temDataSource[index].retailPrice=(!json.pdSku?json.pdSpu.toBPrice:json.pdSku.toBPrice);
+                temDataSource[index].name=json.pdSpu.name;
+                temDataSource[index].names=(!json.pdSku?null:(json.pdSku.pdType2Val?json.pdSku.pdType1Val.name+'/'+json.pdSku.pdType2Val.name:json.pdSku.pdType1Val.name));
                 this.setState({
                     dataSource:temDataSource
                 },function(){

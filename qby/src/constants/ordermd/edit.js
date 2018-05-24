@@ -61,11 +61,25 @@ class OrdermdEditForm extends React.Component{
 		const pane = eval(sessionStorage.getItem("pane"));
 		if(pane.length<=1){
 			return
-		}
-        this.props.dispatch({
-            type:'tab/initDeletestate',
-            payload:'201000edit'
-        });
+        }
+        
+        if(this.props.data.type=='1'){
+            this.props.dispatch({
+                type:'tab/initDeletestate',
+                payload:'201000edit'
+            });
+        }
+        if(this.props.data.type=='2'){
+            this.props.dispatch({
+                type:'tab/initDeletestate',
+                payload:'201000edit1'
+            });
+        }
+
+        
+
+
+
 	}
 
 	//刷新账号列表
@@ -244,7 +258,10 @@ class OrdermdEditForm extends React.Component{
                         下载导入模板
                 </Button>
                 <Form className="addUser-form show-table-form">
-                    <FormItem
+                    
+                    {
+                        this.props.data.type=='1'?
+                        <FormItem
                         label="创建类型"
                         labelCol={{ span: 3,offset: 1 }}
                         wrapperCol={{ span: 6 }}
@@ -252,14 +269,35 @@ class OrdermdEditForm extends React.Component{
                         {getFieldDecorator('createType', {
                             rules: [{ required: true, message: '请选择创建类型' }]
                         })(
+                            
                             <Select placeholder="请选择创建类型" onChange={this.handleSelectChange.bind(this)}>
                                 <Option value='1'>新店铺货</Option>
-                                <Option value='2'>门店赠品</Option>
                                 <Option value='3'>总部样品</Option>
                                 <Option value='4'>办公物料</Option>
                             </Select>
                         )}
                     </FormItem>
+                    :
+                    <FormItem
+                    label="创建类型"
+                    labelCol={{ span: 3,offset: 1 }}
+                    wrapperCol={{ span: 6 }}
+                >
+                    {getFieldDecorator('createType', {
+                        rules: [{ required: true, message: '请选择创建类型' }]
+                    })(
+                        
+                        <Select placeholder="请选择创建类型" onChange={this.handleSelectChange.bind(this)}>
+                            <Option value='2'>门店赠品</Option>
+                        </Select>
+                    )}
+                </FormItem>
+
+
+
+
+
+                    }
                     <FormItem
                         label="门店名称"
                         labelCol={{ span: 3,offset: 1 }}
@@ -328,7 +366,7 @@ class OrdermdEditForm extends React.Component{
                     <FormItem
                         label="商品信息"
                         labelCol={{ span: 3,offset: 1 }}
-                        wrapperCol={{ span: 12 }}
+                        wrapperCol={{ span: 16 }}
                     >
                         {getFieldDecorator('details')(
                             <GoodsListTable Getdetail={this.Getdetail.bind(this)}/>
@@ -363,6 +401,7 @@ class OrdermdEditForm extends React.Component{
       	)
   	}
   	componentDidMount(){
+        console.log(this)
         let result1=GetServerData('qerp.web.bs.region','');
         result1.then((res) => {
             return res;

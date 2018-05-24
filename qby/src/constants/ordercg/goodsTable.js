@@ -55,6 +55,26 @@ class GoodsInfoTable extends React.Component {
                 );
             }
         },{
+            title: '商品名称',
+            dataIndex: 'name',
+            width:"100px",
+            render: (text, record, index) => {
+                return (
+                    <p style={{textAlign:'center'}}>{this.props.goodsInfo[index].name}</p>
+                );
+            }
+          },
+          {
+            title: '商品规格',
+            dataIndex: 'names',
+            width:"100px",
+            render: (text, record, index) => {
+                return (
+                    <p style={{textAlign:'center'}}>{this.props.goodsInfo[index].names}</p>
+                );
+            }
+          },
+        {
             title: '',
             dataIndex: 'operation',
             width:'80px',
@@ -76,7 +96,9 @@ class GoodsInfoTable extends React.Component {
             key: this.state.rowCount+1,
             pdCode:'',
             qty: '',
-            price:''
+            price:'',
+            name:null,
+            names:null,
         };
         dataList.push(newData);
         this.setState({
@@ -109,6 +131,8 @@ class GoodsInfoTable extends React.Component {
         }).then((json) => {
             if(json.code=='0'){
                 tempDataSource[index].price = json.pdSpu.costPrice;
+                tempDataSource[index].name=json.pdSpu.name;
+                tempDataSource[index].names=(!json.pdSku?null:(json.pdSku.pdType2Val?json.pdSku.pdType1Val.name+'/'+json.pdSku.pdType2Val.name:json.pdSku.pdType1Val.name));
                     this.props.dispatch({
                         type:'ordercg/syncGoodsInfo',
                         payload:tempDataSource
