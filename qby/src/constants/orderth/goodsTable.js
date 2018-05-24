@@ -63,6 +63,7 @@ class GoodsInfoTable extends React.Component {
         }];
     }
 
+    
     //退货数量修改时
     handleChangeQty=(index, e)=>{
         const qtyvalue= e.target.value;

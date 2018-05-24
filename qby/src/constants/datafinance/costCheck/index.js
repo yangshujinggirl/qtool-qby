@@ -46,7 +46,20 @@ class CostCheckIndexForm extends React.Component {
                   ) : null
                 );
               }
-        }];
+        },{
+            title: '下单未发货数据',
+            dataIndex: 'preSellwarn1',
+            render: (text, record) => {
+              return (
+                this.state.dataSource.length > 0 ?
+                (
+                  (record.preSellUrl)?
+                  <div onClick = {this.downloadPreSale.bind(this,record)} style={{color: '#35bab0', cursor:'pointer'}}>下载</div>
+                  :<div>{text}</div>
+                ) : null
+              );
+            }
+      }];
     }
 
     onDownloadCheck = (record) => {

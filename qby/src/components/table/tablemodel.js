@@ -64,6 +64,7 @@ class EditableTable extends React.Component {
                 pagination={false}
                 rowClassName={this.rowClassName.bind(this)}
                 rowSelection={this.props.select?rowSelection:null}
+                scroll={this.props.scroll}
                 />
         );
     }

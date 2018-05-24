@@ -17,7 +17,7 @@ class GoodsInfoTable extends React.Component {
                     <div>
                         <Input value={this.props.goodsInfo[index].code} placeholder="请输入商品编码" 
                         onChange={this.handleChangeCode.bind(this, index)} 
-                        onBlur={this.handleChangeCode.bind(this, index)} required/>
+                        onBlur={this.handleChangeCodeBlue.bind(this, index)} required/>
                     </div>
                 )
             }
@@ -34,6 +34,25 @@ class GoodsInfoTable extends React.Component {
                 )
             }
         },{
+            title: '商品名称',
+            dataIndex: 'name',
+            width:"100px",
+            render: (text, record, index) => {
+                return (
+                    <p style={{textAlign:'center'}}>{this.props.goodsInfo[index].name}</p>
+                );
+            }
+          },
+          {
+            title: '商品规格',
+            dataIndex: 'names',
+            width:"100px",
+            render: (text, record, index) => {
+                return (
+                    <p style={{textAlign:'center'}}>{this.props.goodsInfo[index].names}</p>
+                );
+            }
+          },{
 			title: '',
 			dataIndex: 'operation',
 			render: (text, record, index) => {
@@ -61,6 +80,26 @@ class GoodsInfoTable extends React.Component {
         this.syncGoodsInfo(temDataSource);
     }
 
+
+    //code blue
+    handleChangeCodeBlue=(index, e)=>{
+        const temDataSource =deepcCloneObj(this.props.goodsInfo);
+        const pdCode = temDataSource[index].code;
+        if (!pdCode) {
+            return;
+        }
+        let data = {code:pdCode};
+        const result=GetServerData('qerp.web.pd.spu.invinfo',data);
+        result.then((res) => {
+            return res;
+        }).then((json) => {
+            if(json.code=='0'){
+                temDataSource[index].name=json.pdSpu.name;
+                temDataSource[index].names=(!json.pdSku?null:(json.pdSku.pdType2Val?json.pdSku.pdType1Val.name+'/'+json.pdSku.pdType2Val.name:json.pdSku.pdType1Val.name));
+                this.syncGoodsInfo(temDataSource);
+            }
+        })
+    }
     // qty变化
     handleChangeQty=(index, e)=>{
         const qtyvalue=e.target.value;
@@ -100,6 +139,8 @@ class GoodsInfoTable extends React.Component {
             retailPrice:'',
             codeline:true,
             qtyline:true,
+            name:null,
+            names:null
         };
         dataList.push(newData);
         this.setState({

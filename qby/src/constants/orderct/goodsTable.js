@@ -38,6 +38,25 @@ class GoodsInfoTable extends React.Component {
 				);
 			}
 		},{
+            title: '商品名称',
+            dataIndex: 'name',
+            width:"100px",
+            render: (text, record, index) => {
+                return (
+                    <p style={{textAlign:'center'}}>{this.props.goodsInfo[index].name}</p>
+                );
+            }
+          },
+          {
+            title: '商品规格',
+            dataIndex: 'names',
+            width:"100px",
+            render: (text, record, index) => {
+                return (
+                    <p style={{textAlign:'center'}}>{this.props.goodsInfo[index].names}</p>
+                );
+            }
+          },{
             title: '',
             dataIndex: 'operation',
             width:'80px',
@@ -52,6 +71,7 @@ class GoodsInfoTable extends React.Component {
             }
           }];
     }
+
 
     onDelete = (index)=>{
         let tempDataSource = deepcCloneObj(this.props.goodsInfo);
@@ -78,6 +98,9 @@ class GoodsInfoTable extends React.Component {
         }).then((json) => {
             if(json.code=='0'){
                 tempDataSource[index].price = json.pdSpu.costPrice;
+                tempDataSource[index].name = json.pdSpu.costPrice;
+                tempDataSource[index].names = json.pdSpu.costPrice;
+
                 this.props.dispatch({
                     type:'orderct/syncGoodsInfo',
                     payload:tempDataSource
@@ -117,7 +140,9 @@ class GoodsInfoTable extends React.Component {
             key: this.state.rowCount+1,
             pdCode:'',
             qty: '',
-            price:''
+            price:'',
+            name:null,
+            names:null
         };
         dataList.push(newData);
         this.setState({

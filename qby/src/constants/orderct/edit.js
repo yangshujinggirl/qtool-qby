@@ -189,7 +189,7 @@ class OrderctEditForm extends React.Component{
                 <FormItem
 					label="商品信息"
 					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 12 }}
+					wrapperCol={{ span: 16 }}
 				>
 					{getFieldDecorator('details')(
                         <GoodsInfoTable/>

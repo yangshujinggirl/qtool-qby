@@ -20,9 +20,16 @@ class OperateinoutTable extends React.Component {
             title: '门店名称',
             dataIndex: 'shopName'
         }, {
-            title: '收支情况',
+            title: '费用类型',
             dataIndex: 'amount'
-        }];
+        },{
+            title: '金额变化',
+            dataIndex: 'amount1'
+        },{
+            title: '时间',
+            dataIndex: 'amount2'
+        }
+    ];
     }
     
     //点击表格上的修改按钮操作
@@ -64,6 +71,7 @@ class OperateinoutTable extends React.Component {
                 payload:paneitem
             })
         }
+        
 
     }
 

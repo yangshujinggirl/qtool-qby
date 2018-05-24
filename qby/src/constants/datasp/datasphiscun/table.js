@@ -26,7 +26,28 @@ class DataspcunhisTable extends React.Component {
 		},{
 			title: '数量',
 			dataIndex: 'qty'
-		},{
+		},
+		{
+			title: '预定未发货数量',
+			dataIndex: 'qty1'
+		},
+		{
+			title: '发货未收货数量',
+			dataIndex: 'qty2'
+		},
+		{
+			title: '预定未收货数量',
+			dataIndex: 'qty3'
+		},
+		{
+			title: '调出待收货数量',
+			dataIndex: 'qty4'
+		},
+		{
+			title: '调入待收货数量',
+			dataIndex: 'qty5'
+		},
+		{
 			title: '价格',
 			dataIndex: 'toBPrice'
 		}];   
@@ -62,6 +83,7 @@ class DataspcunhisTable extends React.Component {
 				total={this.props.total}
 				limit={this.props.limit}
 				current={Number(this.props.currentPage)+1}
+				scroll={{ x: '160%'}}
 				/>
 		);
 	}
