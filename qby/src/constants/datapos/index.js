@@ -13,6 +13,7 @@ import ProfitReport from './profitReport';
 import InOutReport from './inoutReport';
 import AdjustLogIndex from './adjustLog';
 import InventorydiffLogIndex from './inventorydiffLog';
+import Onwayingindex from './onwaying'
 
 const FormItem = Form.Item;
 const TabPane = Tabs.TabPane;
@@ -120,6 +121,9 @@ class DataposIndexForm extends React.Component{
                     <TabPane tab="收货报表" key="4">
                         {this.state.key == 4 && <ReceiptReport shopId={this.state.sureShopId}/>} 
                     </TabPane>
+                    <TabPane tab="在途库存" key="9">
+                        {this.state.key == 9 && <Onwayingindex shopId={this.state.sureShopId}/>} 
+                    </TabPane>      
                     <TabPane tab="利润报表" key="5">
                         {this.state.key == 5 && <ProfitReport shopId={this.state.sureShopId}/>} 
                     </TabPane>
