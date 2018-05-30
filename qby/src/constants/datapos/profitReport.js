@@ -203,7 +203,8 @@ class ProfitReportForm extends React.Component {
 			}
 		})
 	
-	}
+    }
+    
 
 
     //获取当前时间
@@ -271,6 +272,21 @@ class ProfitReportForm extends React.Component {
                                     </span>
                                 </div>
                             </li>
+                            <li>
+                                <div>
+                                    <p style={{color:"#F7A303"}}><i>¥</i>
+                                    {this.state.rpProfit.saleCostAmount && this.state.rpProfit.saleCostAmount!="0"?this.state.rpProfit.saleCostAmount.split('.')[0]:"0"}
+                                    <span>.
+                                    {this.state.rpProfit.saleCostAmount && this.state.rpProfit.saleCostAmount!="0"?this.state.rpProfit.saleCostAmount.split('.')[1]:"00"}
+                                    </span></p>
+                                    <span className="explain-span">
+                                        <Tooltip title="销售订单结算时抹零的金额-退货订单结算时抹零的金额">
+                                            抹零金额&nbsp;<Icon type="exclamation-circle-o"/>
+                                        </Tooltip>
+                                    </span>
+                                </div>
+                            </li>
+
                             <li>
                                 <div>
                                     <p style={{color:"#51C193"}}><i>¥</i>

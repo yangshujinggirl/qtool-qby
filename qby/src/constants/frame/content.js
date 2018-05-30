@@ -101,7 +101,9 @@ import OnlineConfig from '../online/infogoods/config';
 
 
 
-
+import AdjustInfo from '../datapos/adjustinfo'
+import InventoryInfo from '../datapos/inventoryinfo'
+import DbInfo from '../datapos/dbinfo'
 
 
 
@@ -204,6 +206,10 @@ class Content extends React.Component {
                                     case "802000edit":return  <OnlineGoodEdit data={this.props.data}/>;
                                     case "802000info":return  <OnlineGoodinfo data={this.props.data}/>;
                                     case "802000editconfig": return <OnlineConfig data={this.props.data}/>;
+
+                                    case "707000info": return <AdjustInfo data={this.props.data}/>;
+                                    case "707000infoinventory": return <InventoryInfo data={this.props.data}/>
+                                    case "707000infodb": return <DbInfo data={this.props.data}/>
                                     
 
                                     

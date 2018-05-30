@@ -9,6 +9,7 @@ import {timeForMattoday} from '../../utils/meth';
 import moment from 'moment';
 import Appmodelone  from '../ordermd/modal';
 import RemarkText from './remarkModal';
+import TableLink from '../../components/table/tablelink';
 const FormItem = Form.Item;
 const Option = Select.Option;
 const { RangePicker } = DatePicker;
@@ -19,7 +20,9 @@ class AdjustLogIndexForm extends React.Component {
     constructor(props) {
         super(props);
         this.state={
-            dataSource:[],
+            dataSource:[{
+                "barcode":'123456'
+            }],
             total:0,
             currentPage:0,
             limit:15,
@@ -30,40 +33,41 @@ class AdjustLogIndexForm extends React.Component {
             windowHeight:''
         };
         this.columns = [{
-            title: '商品条码',
+            title: '商品损益单号',
             dataIndex: 'barcode',
+            render: (text, record) => {
+                return (
+                  <TableLink text={text} hindClick={this.editInfo.bind(this,record)} type='1'/>
+                );
+            }
         },{
-            title: '商品名称',
+            title: '损益商品数量',
             dataIndex: 'name',
         },{
-            title: '规格',
+            title: '损益类型',
             dataIndex: 'displayName',
         },{
-            title: '成本价',
-            dataIndex: 'averageRecPrice',
-        },{
-            title: '损益数量',
-            dataIndex: 'diffQty',
-        },{
-            title: '损益金额',
-            dataIndex: 'adjustAmount',
-        },{
-            title: '操作人',
+            title: '创建人',
             dataIndex: 'operater',
         },{
-            title: '操作时间',
+            title: '损益时间',
             dataIndex: 'operateTime',
-        },{
-            title: '损益备注',
-            dataIndex: 'remark',
-            render: (text, record, index) => {
-                return (
-                    <span style={{color:"#35BAB0",cursor:"pointer"}} onClick={this.showRemark.bind(this,record)}>查看</span>
-                )
-            }
         }];
     }
 
+    //跳转
+    editInfo=(record)=>{
+        const spOrderId=String(record.spOrderId)
+		const paneitem={title:'订单详情',key:'707000edit'+spOrderId+'info',data:{spOrderId:spOrderId},componkey:'707000info'}
+       	this.props.dispatch({
+			type:'tab/firstAddTab',
+			payload:paneitem
+		})
+		// this.props.dispatch({
+		// 	type:'ordermd/initsyncDetailList',
+		// 	payload:{}
+		// })
+    }
     showRemark = (record) =>{
         this.setState({
             remarkText:record.remark,
@@ -191,7 +195,7 @@ class AdjustLogIndexForm extends React.Component {
         this.setState({
             visible:false
         })
-    }
+    }   
 
     render() {
         const { getFieldDecorator } = this.props.form;
@@ -216,10 +220,37 @@ class AdjustLogIndexForm extends React.Component {
                                             onChange={this.dateChange.bind(this)} />
                                 </FormItem>
                                 <FormItem
+                                    label="损益类型"
+                                    >
+                                    {getFieldDecorator('tyoe')(
+                                       <Select allowClear placeholder="请选择损益类型">
+                                            <Option value="1">店铺活动赠品</Option>
+                                            <Option value="2">仓储快递损坏</Option>
+                                            <Option value="3">商品丢失损坏</Option>
+                                            <Option value="4">盘点差异调整</Option>
+                                            <Option value="5">过期商品处理</Option>
+                                        </Select>
+                                    )}
+                                </FormItem>
+                                <FormItem
+                                    label="订单号"
+                                    >
+                                    {getFieldDecorator('name12')(
+                                        <Input placeholder="请输入订单号" autoComplete="off"/>
+                                    )}
+                                </FormItem>
+                                <FormItem
                                     label="商品名称"
                                     >
                                     {getFieldDecorator('name')(
                                         <Input placeholder="请输入商品名称" autoComplete="off"/>
+                                    )}
+                                </FormItem>
+                                <FormItem
+                                    label="商品条码"
+                                    >
+                                    {getFieldDecorator('name')(
+                                        <Input placeholder="请输入商品条码" autoComplete="off"/>
                                     )}
                                 </FormItem>
                                 </div>
@@ -230,14 +261,14 @@ class AdjustLogIndexForm extends React.Component {
                         <Button type="primary"  onClick={this.handleSearch.bind(this)} size='large'>搜索</Button>
                     </div>
                 </Form>
-                <Button 
+                {/* <Button 
 						type="primary" 
 						size='large'
 						className='mt20'
 						onClick={this.exportDatas.bind(this)}
 					>
 						导出数据
-					</Button>
+					</Button> */}
                 <RemarkText visible={this.state.visible} changeVisible={this.changeVisible.bind(this)}
                             remarkText={this.state.remarkText}/>
                 <div className="mt15">
@@ -300,61 +331,16 @@ class AdjustLogIndexForm extends React.Component {
             }
             self.getServerData(values);  
         })
-
-
-
-
-
-        // const self = this;
-        // let date = new Date();
-        // let seperator1 = "-";
-        // let month = date.getMonth() + 1;
-        // let strDate = date.getDate();
-        // if (month >= 1 && month <= 9) {
-        //     month = "0" + month;
-        // }
-        // if (strDate >= 0 && strDate <= 9) {
-        //     strDate = "0" + strDate;
-        // }
-        // let currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate;
-
-        // let date2 = new Date(date);
-        // date2.setDate(date.getDate() - 30);
-        // let month1 = date2.getMonth() + 1;
-        // let strDate1 = date2.getDate();
-        // if (month1 >= 1 && month1 <= 9) {
-        //     month1 = "0" + month;
-        // }
-        // if (strDate1 >= 0 && strDate1 <= 9) {
-        //     strDate1 = "0" + strDate1;
-        // }
-        // var currentdate1 = date2.getFullYear() + seperator1 + month1 + seperator1 + strDate1;
-        // this.setState({
-        //     adjustTimeST:currentdate1,
-        //     adjustTimeET:currentdate
-        // },function(){
-        //     let values = {
-        //         spShopId:this.props.shopId,
-        //         currentPage:0,
-        //         limit:15,
-        //         adjustTimeST:this.state.adjustTimeST,
-        //         adjustTimeET:this.state.adjustTimeET,
-        //         type:1
-        //     }
-        //     self.getServerData(values);  
-        // })
     }
 
     componentDidMount(){
         //获取当前时间
-        this.getNowFormatDate();
+        // this.getNowFormatDate();
     }
 }
 
-function mapStateToProps(state){
-   return {};
-}
+
 
 const AdjustLogIndex = Form.create()(AdjustLogIndexForm);
 
-export default connect(mapStateToProps)(AdjustLogIndex);
+export default connect()(AdjustLogIndex);

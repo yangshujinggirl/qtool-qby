@@ -3,6 +3,7 @@ import { connect } from 'dva';
 import EditableTable from '../../components/table/tablebasic';
 import TableLink from '../../components/table/tablelink';
 
+
 class OrderdbTable extends React.Component {
 	constructor(props) {
         super(props);
@@ -20,7 +21,7 @@ class OrderdbTable extends React.Component {
             title: '调出仓库',
             dataIndex: 'outWsName'
         },
-        { 
+        {
             title: '调入仓库',
             dataIndex: 'callWsName'
         },
@@ -55,7 +56,7 @@ class OrderdbTable extends React.Component {
     //分页方法
     pageChange=(page,pageSize)=>{
          this.props.getPageSizeDate(pageSize,Number(page-1))
-        }
+    }
     //pagesize变化
     pageSizeChange=(current,size)=>{
           this.props.getPageSizeDate(size,Number(current-1))
