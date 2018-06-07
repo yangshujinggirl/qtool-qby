@@ -36,23 +36,23 @@ class DataspcunTable extends React.Component {
 			},
 			{
 				title: '预定未发货数量',
-				dataIndex: 'qty1'
+				dataIndex: 'waitDeliveryQty'
 			},
 			{
 				title: '发货未收货数量',
-				dataIndex: 'qty2'
+				dataIndex: 'receivingQty'
 			},
 			{
 				title: '预定未收货数量',
-				dataIndex: 'qty3'
+				dataIndex: 'waitReceiveQty'
 			},
 			{
 				title: '调出待收货数量',
-				dataIndex: 'qty4'
+				dataIndex: 'allocateOutWaitingQty'
 			},
 			{
 				title: '调入待收货数量',
-				dataIndex: 'qty5'
+				dataIndex: 'allocateInWaitingQty'
 			},
 			{
 				title: '价格',

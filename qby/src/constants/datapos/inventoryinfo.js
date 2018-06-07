@@ -9,66 +9,123 @@ class InventoryInfo extends React.Component{
         super(props);
         this.column =  [
 			{
-				title: '订单号',
+				title: '商品条码',
 				dataIndex: 'barcode'
 			}, 
 		  	{
-            	title: '盘点sku数量',
-            	dataIndex: 'spuName',
+            	title: '商品名称',
+            	dataIndex: 'name',
 		  	},
 			{
-				title: '商品盘点数量',
-				dataIndex: 'pdSkuType',
+				title: '商品规格',
+				dataIndex: 'displayName',
 				
 			},
 			{
-				title: '创建人',
-				dataIndex: 'qty',
+				title: '成本价',
+				dataIndex: 'averageRecPrice',
 			},
 			{
-				title: '创建时间',
-				dataIndex: 'recQty',
-            }
+				title: '损益数量',
+				dataIndex: 'adjustQty',
+            },
+            {
+				title: '损益总价',
+				dataIndex: 'adjustAmount',
+			}
         ];
-        this.column1=[{
-            title: '操作记录',
-            dataIndex: 'barcode'
-        }, 
-          {
-            title: '操作人',
-            dataIndex: 'spuName',
-          },
-        {
-            title: '操作时间',
-            dataIndex: 'pdSkuType',
-            
-        }]
+        
 
-
+        this.column1=[
+            {
+				title: '商品条码',
+				dataIndex: 'action'
+			}, 
+		  	{
+            	title: '商品名称',
+            	dataIndex: 'operater',
+		  	},
+			{
+				title: '商品规格',
+				dataIndex: 'operateTime'
+			}
+        ]
         this.state={
             headTit:[],
-            details:[],
-            details1:[]
+			details:[],
+            pdSpus:[],
+            checkRecords:[]
         }
-
     }
 
     //请求信息
-    infofetch=()=>{
-        // const values={type:'1'}
-        // const result=GetServerData('qerp.web.ws.warehouse.all.list',values);
-        // result.then((res) => {
-        //    return res;
-        // }).then((json) => {
-        //     if(json.code=='0'){
-        //         const warehouses=json.warehouses
-        //         this.setState({
-        //             warehouses:warehouses
-        //         })
-        //     }else{
-        //        message.error(json.message,.8);
-        //     }
-        // })
+    infofetch=(id)=>{
+        const values={adjustId:id}
+        const result=GetServerData('qerp.pos.pd.adjust.detail',values);
+        result.then((res) => {
+           return res;
+        }).then((json) => {
+            if(json.code=='0'){
+				const headTit=[{
+					label:'订单号',
+					text:this.props.data.adjustNo
+				},{
+					label:'创建人',
+					text:this.props.data.operater
+				},{
+					label:'损益时间',
+					text:this.props.data.operateTime
+				},{
+					label:'损益类型',
+					text:this.props.data.typeStr
+				},{
+					label:'损益备注',
+					text:this.props.data.remark
+				}]
+                const pdSpus=json.pdSpus
+                this.setState({
+					pdSpus:pdSpus,
+					headTit:headTit
+                })
+            }else{
+               message.error(json.message,.8);
+            }
+        })
+    }
+
+    //请求操作日志
+    getOperaLog=(id)=>{
+        const values={checkNo:id}
+        const result=GetServerData('qerp.pos.pd.check.record.query',values);
+        result.then((res) => {
+           return res;
+        }).then((json) => {
+            if(json.code=='0'){
+				const headTit=[{
+					label:'订单号',
+					text:this.props.data.checkNo
+				},{
+					label:'盘点SKU数量',
+					text:this.props.data.skuSum
+				},{
+					label:'盘点商品数量',
+					text:this.props.data.qty
+				},{
+					label:'创建人',
+					text:this.props.data.operater
+				},{
+					label:'创建时间',
+					text:this.props.data.operateTime
+				}]
+                const checkRecords=json.checkRecords
+                this.setState({
+					checkRecords:checkRecords,
+					headTit:headTit
+                })
+            }else{
+               message.error(json.message,.8);
+            }
+        })
     }
 
 
@@ -76,12 +133,12 @@ class InventoryInfo extends React.Component{
 		return(
 			<div>
 				<div className='mb10'>
-					<Cardlist cardtitle="商品盘点信息" cardlist={this.state.headTit}/>
+					<Cardlist cardtitle="商品损益信息" cardlist={this.state.headTit}/>
 				</div>
 				<div className='mb10'>
 					<EditableTable 
 						columns={this.column} 
-						dataSource={this.state.details} 
+						dataSource={this.state.pdSpus} 
                         title="商品信息"
                         bordered={true}
 						footer={false}/>
@@ -89,19 +146,20 @@ class InventoryInfo extends React.Component{
                 <div className='mb10'>
 					<EditableTable 
 						columns={this.column1} 
-						dataSource={this.state.details1} 
+						dataSource={this.state.checkRecords} 
                         title="订单日志"
                         bordered={true}
 						footer={false}/>
 				</div>
+
 			</div>
 		)
 	}
 	componentDidMount(){
-		// this.infofetch(id)
+        this.infofetch(this.props.data.id) 
+        this.getOperaLog(this.props.data.checkNo)
 	}
 }
-
 
 export default connect()(InventoryInfo);
 

@@ -80,19 +80,19 @@ class Onwaying extends React.Component {
             values.currentPage=this.state.currentPage
             values.shopId=this.props.shopId
             this.props.dispatch({ type: 'tab/loding', payload:true});
-            const result=GetServerData('qerp.web.qpos.pd.adjust.detail1',values)
+            const result=GetServerData('qerp.web.qpos.pd.unreceived.query',values)
                 result.then((res) => {
                     return res;
                 }).then((json) => {
                     this.props.dispatch({ type: 'tab/loding', payload:false});
                     if(json.code=='0'){
-                        let dataList = json.adjustSpus;
-                        for(let i=0;i<dataList.length;i++){
-                            dataList[i].key = i+1;
+                        const goods = json.goods;
+                        for(let i=0;i<goods.length;i++){
+                            goods[i].key = i+1;
                         };
                         this.setState({
                             searchvalue:values,
-                            dataSource:dataList,
+                            dataSource:goods,
                             total:Number(json.total),
                         })
                     }
@@ -104,7 +104,7 @@ class Onwaying extends React.Component {
 
     //导出数据
     exportDatas = () =>{
-        this.exportData(85,this.state.searchvalue)
+        this.exportData(87,this.state.searchvalue)
     }
     exportData = (type,data) => {
 		const values={

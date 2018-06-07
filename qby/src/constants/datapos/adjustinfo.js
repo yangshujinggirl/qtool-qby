@@ -14,53 +14,67 @@ class AdjustInfo extends React.Component{
 			}, 
 		  	{
             	title: '商品名称',
-            	dataIndex: 'spuName',
+            	dataIndex: 'name',
 		  	},
 			{
 				title: '商品规格',
-				dataIndex: 'pdSkuType',
+				dataIndex: 'displayName',
 				
 			},
 			{
 				title: '成本价',
-				dataIndex: 'qty',
+				dataIndex: 'averageRecPrice',
 			},
 			{
 				title: '损益数量',
-				dataIndex: 'recQty',
+				dataIndex: 'adjustQty',
             },
             {
 				title: '损益总价',
-				dataIndex: 'recQty1',
+				dataIndex: 'adjustAmount',
 			}
 		];
         this.state={
             headTit:[],
-            details:[]
-
+			details:[],
+			pdSpus:[]
         }
-
     }
 
     //请求信息
-    infofetch=()=>{
-        // const values={type:'1'}
-        // const result=GetServerData('qerp.web.ws.warehouse.all.list',values);
-        // result.then((res) => {
-        //    return res;
-        // }).then((json) => {
-        //     if(json.code=='0'){
-        //         const warehouses=json.warehouses
-        //         this.setState({
-        //             warehouses:warehouses
-        //         })
-        //     }else{
-        //        message.error(json.message,.8);
-        //     }
-        // })
+    infofetch=(id)=>{
+        const values={adjustId:id}
+        const result=GetServerData('qerp.pos.pd.adjust.detail',values);
+        result.then((res) => {
+           return res;
+        }).then((json) => {
+            if(json.code=='0'){
+				const headTit=[{
+					label:'订单号',
+					text:this.props.data.adjustNo
+				},{
+					label:'创建人',
+					text:this.props.data.operater
+				},{
+					label:'损益时间',
+					text:this.props.data.operateTime
+				},{
+					label:'损益类型',
+					text:this.props.data.typeStr
+				},{
+					label:'损益备注',
+					text:this.props.data.remark
+				}]
+                const pdSpus=json.pdSpus
+                this.setState({
+					pdSpus:pdSpus,
+					headTit:headTit
+                })
+            }else{
+               message.error(json.message,.8);
+            }
+        })
     }
-
-
 	render(){
 		return(
 			<div>
@@ -70,7 +84,7 @@ class AdjustInfo extends React.Component{
 				<div className='mb10'>
 					<EditableTable 
 						columns={this.column} 
-						dataSource={this.state.details} 
+						dataSource={this.state.pdSpus} 
                         title="商品信息"
                         bordered={true}
 						footer={false}/>
@@ -79,7 +93,7 @@ class AdjustInfo extends React.Component{
 		)
 	}
 	componentDidMount(){
-		// this.infofetch(id)
+		this.infofetch(this.props.data.id)
 	}
 }
 

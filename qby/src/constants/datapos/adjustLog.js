@@ -20,9 +20,7 @@ class AdjustLogIndexForm extends React.Component {
     constructor(props) {
         super(props);
         this.state={
-            dataSource:[{
-                "barcode":'123456'
-            }],
+            dataSource:[],
             total:0,
             currentPage:0,
             limit:15,
@@ -34,7 +32,7 @@ class AdjustLogIndexForm extends React.Component {
         };
         this.columns = [{
             title: '商品损益单号',
-            dataIndex: 'barcode',
+            dataIndex: 'adjustNo',
             render: (text, record) => {
                 return (
                   <TableLink text={text} hindClick={this.editInfo.bind(this,record)} type='1'/>
@@ -42,10 +40,10 @@ class AdjustLogIndexForm extends React.Component {
             }
         },{
             title: '损益商品数量',
-            dataIndex: 'name',
+            dataIndex: 'qty',
         },{
             title: '损益类型',
-            dataIndex: 'displayName',
+            dataIndex: 'typeStr',
         },{
             title: '创建人',
             dataIndex: 'operater',
@@ -57,22 +55,12 @@ class AdjustLogIndexForm extends React.Component {
 
     //跳转
     editInfo=(record)=>{
-        const spOrderId=String(record.spOrderId)
-		const paneitem={title:'订单详情',key:'707000edit'+spOrderId+'info',data:{spOrderId:spOrderId},componkey:'707000info'}
+        const adjustId=String(record.adjustId)
+		const paneitem={title:'订单详情',key:'707000edit'+adjustId+'info',data:{id:adjustId,adjustNo:record.adjustNo,qty:record.qty,typeStr:record.typeStr,operater:record.operater,operateTime:record.operateTime,remark:record.remark},componkey:'707000info'}
        	this.props.dispatch({
 			type:'tab/firstAddTab',
 			payload:paneitem
 		})
-		// this.props.dispatch({
-		// 	type:'ordermd/initsyncDetailList',
-		// 	payload:{}
-		// })
-    }
-    showRemark = (record) =>{
-        this.setState({
-            remarkText:record.remark,
-            visible:true
-        })
     }
 
     dateChange = (date, dateString) =>{
@@ -84,118 +72,51 @@ class AdjustLogIndexForm extends React.Component {
 
     //表格的方法
     pageChange=(page,pageSize)=>{
-        const self = this;
         this.setState({
-            currentPage:page-1
+            limit:pageSize,
+            currentPage:Number(page)-1
         },function(){
-            let data = {
-                spShopId:this.props.shopId,
-                currentPage:this.state.currentPage,
-                limit:this.state.limit,
-                adjustTimeST:this.state.adjustTimeST,
-                adjustTimeET:this.state.adjustTimeET,
-                name:this.state.name,
-                type:1
-            }
-            self.getServerData(data);
-        });
+            this.handleSearch()
+        })
     }
-    
     onShowSizeChange=(current, pageSize)=>{
         const self = this;
         this.setState({
             limit:pageSize,
             currentPage:0
         },function(){
-            let data = {
-                spShopId:this.props.shopId,
-                currentPage:this.state.currentPage,
-                limit:this.state.limit,
-                adjustTimeST:this.state.adjustTimeST,
-                adjustTimeET:this.state.adjustTimeET,
-                name:this.state.name,
-                type:1
-            }
-            self.getServerData(data);
+            this.handleSearch()
         })
     }
 
     handleSearch = (e) =>{
-        const self = this;
-        e.preventDefault();
         this.props.form.validateFields((err, values) => {
-            this.setState({
-                name:values.name
-            },function(){
-                let data = {
-                    spShopId:this.props.shopId,
-                    currentPage:0,
-                    limit:this.state.limit,
-                    adjustTimeST:this.state.adjustTimeST,
-                    adjustTimeET:this.state.adjustTimeET,
-                    name:this.state.name,
-                    type:1
+            values.adjustTimeST=this.state.adjustTimeST
+            values.adjustTimeET=this.state.adjustTimeET
+            values.limit=this.state.limit
+            values.currentPage=this.state.currentPage
+            values.spShopId=this.props.spShopId
+            this.props.dispatch({ type: 'tab/loding', payload:true});
+            const result=GetServerData('qerp.web.qpos.pd.adjust.detail',values)
+            result.then((res) => {
+                return res;
+            }).then((json) => {
+                this.props.dispatch({ type: 'tab/loding', payload:false});
+                if(json.code=='0'){
+                    const dataList = json.adjustSpus;
+                    for(let i=0;i<dataList.length;i++){
+                        dataList[i].key = i+1;
+                    };
+                    this.setState({
+                        dataSource:dataList,
+                        total:Number(json.total),
+                        currentPage:Number(json.currentPage),
+                        limit:Number(json.limit)
+                    })
                 }
-                self.getServerData(data);
             })
         })
     }
-
-    //导出数据
-    exportDatas = () =>{
-        let data = {
-            spShopId:this.props.shopId,
-            adjustTimeST:this.state.adjustTimeST,
-            adjustTimeET:this.state.adjustTimeET,
-            name:this.state.name,
-            type:1
-        }
-        this.exportData(85,data)
-    }
-
-
-    exportData = (type,data) => {
-		const values={
-			type:type,
-			downloadParam:data,
-		}
-		const result=GetServerData('qerp.web.sys.doc.task',values);
-		result.then((res) => {
-			return res;
-		}).then((json) => {
-			if(json.code=='0'){
-				var _dispatch=this.props.dispatch
-				confirm({
-					title: '数据已经进入导出队列',
-					content: '请前往下载中心查看导出进度',
-					cancelText:'稍后去',
-					okText:'去看看',
-					onOk() {
-						const paneitem={title:'下载中心',key:'000001',componkey:'000001',data:null}
-						_dispatch({
-							type:'tab/firstAddTab',
-							payload:paneitem
-						});
-						_dispatch({
-							type:'downlaod/fetch',
-							payload:{code:'qerp.web.sys.doc.list',values:{limit:15,currentPage:0}}
-						});
-					},
-					onCancel() {
-						
-					},
-	  			});
-			}
-		})
-	
-	}
-
-    //改变visible
-    changeVisible = () =>{
-        this.setState({
-            visible:false
-        })
-    }   
 
     render() {
         const { getFieldDecorator } = this.props.form;
@@ -212,22 +133,18 @@ class AdjustLogIndexForm extends React.Component {
                                     label="损益时间"
                                     >
                                         <RangePicker 
-                                            value={this.state.adjustTimeST?
-                                                    [moment(this.state.adjustTimeST, dateFormat), moment(this.state.adjustTimeET, dateFormat)]
-                                                    :null
-                                                }
                                             format={dateFormat}
                                             onChange={this.dateChange.bind(this)} />
                                 </FormItem>
                                 <FormItem
                                     label="损益类型"
                                     >
-                                    {getFieldDecorator('tyoe')(
+                                    {getFieldDecorator('type')(
                                        <Select allowClear placeholder="请选择损益类型">
-                                            <Option value="1">店铺活动赠品</Option>
-                                            <Option value="2">仓储快递损坏</Option>
-                                            <Option value="3">商品丢失损坏</Option>
-                                            <Option value="4">盘点差异调整</Option>
+                                            <Option value="3">店铺活动赠品</Option>
+                                            <Option value="4">仓储快递损坏</Option>
+                                            <Option value="1">商品丢失损坏</Option>
+                                            <Option value="2">盘点差异调整</Option>
                                             <Option value="5">过期商品处理</Option>
                                         </Select>
                                     )}
@@ -261,16 +178,6 @@ class AdjustLogIndexForm extends React.Component {
                         <Button type="primary"  onClick={this.handleSearch.bind(this)} size='large'>搜索</Button>
                     </div>
                 </Form>
-                {/* <Button 
-						type="primary" 
-						size='large'
-						className='mt20'
-						onClick={this.exportDatas.bind(this)}
-					>
-						导出数据
-					</Button> */}
-                <RemarkText visible={this.state.visible} changeVisible={this.changeVisible.bind(this)}
-                            remarkText={this.state.remarkText}/>
                 <div className="mt15">
                     <EditableTable 
                         columns={this.columns} 
@@ -289,53 +196,9 @@ class AdjustLogIndexForm extends React.Component {
         );
     }
 
-    //获取数据
-    getServerData = (values) =>{
-        this.props.dispatch({ type: 'tab/loding', payload:true});
-        const result=GetServerData('qerp.web.qpos.pd.adjust.detail',values)
-        result.then((res) => {
-            return res;
-        }).then((json) => {
-            this.props.dispatch({ type: 'tab/loding', payload:false});
-            if(json.code=='0'){
-                let dataList = json.adjustSpus;
-                for(let i=0;i<dataList.length;i++){
-                    dataList[i].key = i+1;
-                };
-                this.setState({
-                    dataSource:dataList,
-                    total:Number(json.total),
-                    currentPage:Number(json.currentPage),
-                    limit:Number(json.limit)
-                })
-            }
-        })
-    }
-
-    //获取当前时间
-    getNowFormatDate = () =>{
-        const self = this;
-        const startRpDate=timeForMattoday(30).t2
-        const endRpDate=timeForMattoday(30).t1
-        this.setState({
-            adjustTimeST:startRpDate,
-            adjustTimeET:endRpDate
-        },function(){
-            let values = {
-                spShopId:this.props.shopId,
-                currentPage:0,
-                limit:15,
-                adjustTimeST:this.state.adjustTimeST,
-                adjustTimeET:this.state.adjustTimeET,
-                type:1
-            }
-            self.getServerData(values);  
-        })
-    }
-
     componentDidMount(){
         //获取当前时间
-        // this.getNowFormatDate();
+        this.handleSearch();
     }
 }
 

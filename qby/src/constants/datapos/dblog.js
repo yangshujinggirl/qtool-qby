@@ -9,6 +9,7 @@ import EditableTable from '../../components/table/tablebasic';
 import Appmodelone  from '../ordermd/modal';
 import moment from 'moment';
 import TableLink from '../../components/table/tablelink';
+
 const FormItem = Form.Item;
 const Option = Select.Option;
 const { RangePicker } = DatePicker;
@@ -349,7 +350,7 @@ class InventorydiffLogIndexForm extends React.Component {
     }
     componentDidMount(){
         //获取当前时间
-        // this.handleSearch();
+         this.handleSearch();
     }
 }
 

@@ -9,6 +9,7 @@ import EditableTable from '../../components/table/tablebasic';
 import Appmodelone  from '../ordermd/modal';
 import moment from 'moment';
 import TableLink from '../../components/table/tablelink';
+
 const FormItem = Form.Item;
 const Option = Select.Option;
 const { RangePicker } = DatePicker;
@@ -60,19 +61,17 @@ class InventorydiffLogIndexForm extends React.Component {
     }
 
     editInfo=(record)=>{
-        const spOrderId=String(record.spOrderId)
-		const paneitem={title:'订单详情',key:'707000edit'+spOrderId+'infoinventory',data:{spOrderId:spOrderId},componkey:'707000infoinventory'}
+        const checkId=String(record.checkId)
+		const paneitem={title:'订单详情',key:'707000edit'+checkId+'infoinventory',data:{id:checkId,checkNo:record.checkNo,skuSum:record.skuSum,qty:record.qty,operater:record.operater,operateTime:record.operateTime},componkey:'707000infoinventory'}
        	this.props.dispatch({
 			type:'tab/firstAddTab',
 			payload:paneitem
 		})
     }
-
-
     dateChange = (date, dateString) =>{
         this.setState({
-            adjustTimeST:dateString[0],
-            adjustTimeET:dateString[1]
+            checkTimeStart:dateString[0],
+            checkTimeEnd:dateString[1]
         })
     }
 
@@ -80,18 +79,10 @@ class InventorydiffLogIndexForm extends React.Component {
     pageChange=(page,pageSize)=>{
         const self = this;
         this.setState({
-            currentPage:page-1
+            currentPage:page-1,
+            limit:pageSize
         },function(){
-            let data = {
-                spShopId:this.props.shopId,
-                currentPage:this.state.currentPage,
-                limit:this.state.limit,
-                adjustTimeST:this.state.adjustTimeST,
-                adjustTimeET:this.state.adjustTimeET,
-                name:this.state.name,
-                type:2
-            }
-            self.gethindServerData(data);
+            this.handleSearch()
         });
     }
     onShowSizeChange=(current, pageSize)=>{
@@ -100,83 +91,38 @@ class InventorydiffLogIndexForm extends React.Component {
             limit:pageSize,
             currentPage:0
         },function(){
-            let data = {
-                spShopId:this.props.shopId,
-                currentPage:this.state.currentPage,
-                limit:this.state.limit,
-                adjustTimeST:this.state.adjustTimeST,
-                adjustTimeET:this.state.adjustTimeET,
-                name:this.state.name,
-                type:2
-            }
-            self.gethindServerData(data);
+            this.handleSearch()
         })
     }
 
     handleSearch = (e) =>{
-        const self = this;
         this.props.form.validateFields((err, values) => {
-            const data = {
-                spShopId:this.props.shopId,
-                currentPage:0,
-                limit:this.state.limit,
-                adjustTimeST:this.state.adjustTimeST,
-                adjustTimeET:this.state.adjustTimeET,
-                type:2
-            }
-            self.gethindServerData(data);
+            values.limit=this.state.limit
+            values.currentPage=this.state.currentPage
+            values.spShopId=this.state.spShopId
+            values.checkTimeStart=this.state.checkTimeStart
+            values.checkTimeEnd=this.state.checkTimeEnd
+            this.props.dispatch({ type: 'tab/loding', payload:true});
+            const result=GetServerData('qerp.web.qpos.pd.adjust.detail',values)
+            result.then((res) => {
+                return res;
+            }).then((json) => {
+                if(json.code=='0'){
+                    this.props.dispatch({ type: 'tab/loding', payload:false});
+                    const checkNos = json.checkNos;
+                    for(let i=0;i<checkNos.length;i++){
+                        checkNos[i].key = i+1;
+                    };
+                    this.setState({
+                        dataSource:checkNos,
+                        total:Number(json.total),
+                        currentPage:Number(json.currentPage),
+                        limit:Number(json.limit)
+                    })
+                }
+            })
         })
     }
-
-    //导出数据
-    exportDatas = () =>{
-        let data = {
-            spShopId:this.props.shopId,
-            currentPage:0,
-            limit:15,
-            adjustTimeST:this.state.adjustTimeST,
-            adjustTimeET:this.state.adjustTimeET,
-            type:2
-        }
-        this.exportData(86,data)
-    }
-
-    exportData = (type,data) => {
-		const values={
-			type:type,
-			downloadParam:data,
-		}
-		const result=GetServerData('qerp.web.sys.doc.task',values);
-		result.then((res) => {
-			return res;
-		}).then((json) => {
-			if(json.code=='0'){
-				var _dispatch=this.props.dispatch
-				confirm({
-					title: '数据已经进入导出队列',
-					content: '请前往下载中心查看导出进度',
-					cancelText:'稍后去',
-					okText:'去看看',
-					onOk() {
-						const paneitem={title:'下载中心',key:'000001',componkey:'000001',data:null}
-						_dispatch({
-							type:'tab/firstAddTab',
-							payload:paneitem
-						});
-						_dispatch({
-							type:'downlaod/fetch',
-							payload:{code:'qerp.web.sys.doc.list',values:{limit:15,currentPage:0}}
-						});
-					},
-					onCancel() {
-						
-					},
-	  			});
-			}
-		})
-	
-	}
-
     render() {
         const { getFieldDecorator } = this.props.form;
         return (
@@ -228,14 +174,7 @@ class InventorydiffLogIndexForm extends React.Component {
                             <Button type="primary" htmlType="submit" onClick={this.handleSearch.bind(this)} size='large'>搜索</Button>
                         </div>
                     </Form>
-                    <Button 
-						type="primary" 
-						size='large'
-						className='mt20'
-						onClick={this.exportDatas.bind(this)}
-					>
-						导出数据
-					</Button>
+                    
                 </div>
                 <EditableTable 
                     columns={this.columns} 
@@ -252,38 +191,13 @@ class InventorydiffLogIndexForm extends React.Component {
         );
     }
 
-    //获取数据
-    gethindServerData = (values) =>{
-        this.props.dispatch({ type: 'tab/loding', payload:true});
-        const result=GetServerData('qerp.web.qpos.pd.adjust.detail',values)
-        result.then((res) => {
-            return res;
-        }).then((json) => {
-            if(json.code=='0'){
-                this.props.dispatch({ type: 'tab/loding', payload:false});
-                let dataList = json.adjustSpus;
-                for(let i=0;i<dataList.length;i++){
-                    dataList[i].key = i+1;
-                };
-                this.setState({
-                    dataSource:dataList,
-                    total:Number(json.total),
-                    currentPage:Number(json.currentPage),
-                    limit:Number(json.limit)
-                })
-            }
-        })
-    }
+    
+   
     componentDidMount(){
-        //获取当前时间
-        // this.handleSearch();
+        this.handleSearch();
     }
-}
-
-function mapStateToProps(state){
-  	return {};
 }
 
 const InventorydiffLogIndex = Form.create()(InventorydiffLogIndexForm);
 
-export default connect(mapStateToProps)(InventorydiffLogIndex);
+export default connect()(InventorydiffLogIndex);

@@ -275,9 +275,9 @@ class ProfitReportForm extends React.Component {
                             <li>
                                 <div>
                                     <p style={{color:"#F7A303"}}><i>¥</i>
-                                    {this.state.rpProfit.saleCostAmount && this.state.rpProfit.saleCostAmount!="0"?this.state.rpProfit.saleCostAmount.split('.')[0]:"0"}
+                                    {this.state.rpProfit.cutAmount && this.state.rpProfit.cutAmount!="0"?this.state.rpProfit.cutAmount.split('.')[0]:"0"}
                                     <span>.
-                                    {this.state.rpProfit.saleCostAmount && this.state.rpProfit.saleCostAmount!="0"?this.state.rpProfit.saleCostAmount.split('.')[1]:"00"}
+                                    {this.state.rpProfit.cutAmount && this.state.rpProfit.cutAmount!="0"?this.state.rpProfit.cutAmount.split('.')[1]:"00"}
                                     </span></p>
                                     <span className="explain-span">
                                         <Tooltip title="销售订单结算时抹零的金额-退货订单结算时抹零的金额">
