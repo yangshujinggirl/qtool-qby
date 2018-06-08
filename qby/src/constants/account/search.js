@@ -45,23 +45,19 @@ class AccountSearchForm extends React.Component {
                             <Input placeholder="请输入" className='form_input_width' autoComplete="off"/>
                         )}
                     </FormItem>
-                    
-                    {
-                        adminType=='10'?
-                        <FormItem label='所属身份'>
-                        {getFieldDecorator('warehouseId')(
+                    <FormItem label='手机'>
+                        {getFieldDecorator('mobile')(
+                            <Input placeholder="请输入" className='form_input_width' autoComplete="off"/>
+                        )}
+                    </FormItem>
+                    <FormItem label='状态'>
+                        {getFieldDecorator('status')(
                             <Select allowClear={true} placeholder="请选择">
-                                <Option value='-1'>总部管理</Option>
-                                {
-                                    this.props.warehouses.map((item,index)=>{
-                                        return  <Option value={item.wsWarehouseId} key={index}>{item.name}</Option>
-                                    })
-                                }
+                                <Option value='1'>启用</Option>
+                                <Option value='0'>禁用</Option>
                             </Select>
                         )}
                     </FormItem>
-                    :null
-                    }
                 </div>
                     </Row>
                 </Col>

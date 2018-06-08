@@ -4,6 +4,7 @@ import { Button, Icon } from 'antd';
 import { connect } from 'dva';
 import '../../style/account_center.css';
 import AccountIndexTable from '../account/table';
+import AccountSearch from './search'
 class AccountIndex extends React.Component{
 	//点击添加按钮添加新用户信息
   	addNewAccount = () =>{
@@ -20,6 +21,7 @@ class AccountIndex extends React.Component{
   	render(){
      	return(
         	<div className='content_box'>
+					<AccountSearch/>
 					<Button 
 						type="primary" 
 						onClick={this.addNewAccount.bind(this)}
