@@ -48,21 +48,21 @@ class GoodsListTable extends React.Component {
       },
       {
         title: '商品规格',
-        dataIndex: 'names',
+        dataIndex: 'displayName',
         width:"100px",
         render: (text, record, index) => {
             return (
-                <p style={{textAlign:'center'}}>{this.state.dataSource[index].names}</p>
+                <p style={{textAlign:'center'}}>{this.state.dataSource[index].displayName}</p>
             );
         }
       },
       {
         title: '商品单价',
-        dataIndex: 'retailPrice',
+        dataIndex: 'price',
         width:"100px",
         render: (text, record, index) => {
             return (
-                <p style={{textAlign:'center'}}>{this.state.dataSource[index].retailPrice}</p>
+                <p style={{textAlign:'center'}}>{this.state.dataSource[index].price}</p>
             );
         }
       },{
@@ -85,7 +85,7 @@ class GoodsListTable extends React.Component {
           key: 0,
           Code:'',
           qty: '',
-          retailPrice:''
+          price:''
         }],
         count: 2
       };
@@ -108,9 +108,9 @@ class GoodsListTable extends React.Component {
         key: count,
         Code:'',
         qty: '',
-        retailPrice:'',
+        price:'',
         name:null,
-        names:null,
+        displayName:null,
       };
       this.setState({
         dataSource: [...dataSource, newData],
@@ -138,9 +138,9 @@ class GoodsListTable extends React.Component {
             return res;
         }).then((json) => {
             if(json.code=='0'){
-                temDataSource[index].retailPrice=(!json.pdSku?json.pdSpu.toBPrice:json.pdSku.toBPrice);
+                temDataSource[index].price=(!json.pdSku?json.pdSpu.toBPrice:json.pdSku.toBPrice);
                 temDataSource[index].name=json.pdSpu.name;
-                temDataSource[index].names=(!json.pdSku?null:(json.pdSku.pdType2Val?json.pdSku.pdType1Val.name+'/'+json.pdSku.pdType2Val.name:json.pdSku.pdType1Val.name));
+                temDataSource[index].displayName=(!json.pdSku?null:(json.pdSku.pdType2Val?json.pdSku.pdType1Val.name+'/'+json.pdSku.pdType2Val.name:json.pdSku.pdType1Val.name));
                 this.setState({
                     dataSource:temDataSource
                 },function(){

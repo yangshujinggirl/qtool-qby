@@ -7,7 +7,7 @@ class MyUploadMd extends React.Component {
       }
       handleChange = (info) => {
         let fileList = info.fileList;
-        fileList = fileList.slice(-2);
+        fileList = fileList.slice(-1);
         fileList = fileList.filter((file) => {
           if (file.response) {
             if(file.response.code=='0'){
