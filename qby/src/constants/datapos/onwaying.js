@@ -33,22 +33,22 @@ class Onwaying extends React.Component {
         };
         this.columns = [{
             title: '商品条码',
-            dataIndex: 'barcode',
+            dataIndex: 'goodCode',
         },{
             title: '商品名称',
-            dataIndex: 'name',
+            dataIndex: 'goodName',
         },{
             title: '规格',
             dataIndex: 'displayName',
         },{
             title: averageRecPricesd,
-            dataIndex: 'averageRecPrice',
+            dataIndex: 'waitDeliveryQty',
         },{
             title: diffQtysd,
-            dataIndex: 'diffQty',
+            dataIndex: 'receivingQty',
         },{
             title: adjustAmount,
-            dataIndex: 'adjustAmount',
+            dataIndex: 'waitReceiveQty',
         }];
     }
 
@@ -78,7 +78,7 @@ class Onwaying extends React.Component {
         this.props.form.validateFields((err, values) => {
             values.limit=this.state.limit
             values.currentPage=this.state.currentPage
-            values.shopId=this.props.shopId
+            values.spShopId=this.props.shopId
             this.props.dispatch({ type: 'tab/loding', payload:true});
             const result=GetServerData('qerp.web.qpos.pd.unreceived.query',values)
                 result.then((res) => {
@@ -161,7 +161,7 @@ class Onwaying extends React.Component {
                                 <FormItem
                                     label="商品条码"
                                     >
-                                    {getFieldDecorator('barcode')(
+                                    {getFieldDecorator('code')(
                                         <Input placeholder="请输入商品条码" autoComplete="off"/>
                                     )}
                                 </FormItem>
