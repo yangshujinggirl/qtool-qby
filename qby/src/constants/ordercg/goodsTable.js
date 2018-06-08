@@ -66,11 +66,11 @@ class GoodsInfoTable extends React.Component {
           },
           {
             title: '商品规格',
-            dataIndex: 'names',
+            dataIndex: 'displayName',
             width:"100px",
             render: (text, record, index) => {
                 return (
-                    <p style={{textAlign:'center'}}>{this.props.goodsInfo[index].names}</p>
+                    <p style={{textAlign:'center'}}>{this.props.goodsInfo[index].displayName}</p>
                 );
             }
           },
@@ -98,7 +98,7 @@ class GoodsInfoTable extends React.Component {
             qty: '',
             price:'',
             name:null,
-            names:null,
+            displayName:null,
         };
         dataList.push(newData);
         this.setState({
@@ -132,7 +132,7 @@ class GoodsInfoTable extends React.Component {
             if(json.code=='0'){
                 tempDataSource[index].price = json.pdSpu.costPrice;
                 tempDataSource[index].name=json.pdSpu.name;
-                tempDataSource[index].names=(!json.pdSku?null:(json.pdSku.pdType2Val?json.pdSku.pdType1Val.name+'/'+json.pdSku.pdType2Val.name:json.pdSku.pdType1Val.name));
+                tempDataSource[index].displayName=json.pdSpu.displayName
                     this.props.dispatch({
                         type:'ordercg/syncGoodsInfo',
                         payload:tempDataSource

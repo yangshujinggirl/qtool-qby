@@ -25,19 +25,21 @@ class OrderthTable extends React.Component {
           dataIndex: 'amountSum'
         },{
           title: '到货数量',
-          dataIndex: 'amountSum1'
+          dataIndex: 'qtyReceived'
         },
         {
           title: '到货金额',
-          dataIndex: 'amountSum2'
+          dataIndex: 'moneyReceived'
         },
         {
           title: '订单状态',
           dataIndex: 'statusStr'
-        },{
+		},
+		{
             title: '下单时间',
             dataIndex: 'createTime'
-        },{
+		},
+		{
             title: '操作',
             dataIndex: 'opation',
             render: (text, record) => {
