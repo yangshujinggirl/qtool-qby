@@ -11,34 +11,34 @@ class OrderdbSearchForm extends React.Component {
         orderstate:[
             {
                 value:'待发货',
-                key:'1'
+                key:'10'
             },
             {
                 value:'运输中',
-                key:'2'
+                key:'20'
             },
             {
                 value:'收货中',
-                key:'3'
+                key:'30'
             },
             {
                 value:'已收货',
-                key:'4'
+                key:'40'
             }
         ],
-        dateStart1:null,
-        dateEnd1:null,
-        dateStart2:null,
-        dateEnd2:null
+        createTimeStart:null,
+        createTimeEnd:null,
+        finishTimeStart:null,
+        finishTimeEnd:null
     };
 
     //点击搜索按钮获取搜索表单数据
     handleSearch = (e) => {
         this.props.form.validateFields((err, values) => {
-            values.dateStart1=this.state.dateStart1
-            values.dateEnd1=this.state.dateEnd1
-            values.dateStart2=this.state.dateStart2
-            values.dateEnd2=this.state.dateEnd2
+            values.createTimeStart=this.state.createTimeStart
+            values.createTimeEnd=this.state.createTimeEnd
+            values.finishTimeStart=this.state.finishTimeStart
+            values.finishTimeEnd=this.state.finishTimeEnd
             this.props.OrderdbFormSearch(values)
         });
     }
@@ -62,14 +62,14 @@ class OrderdbSearchForm extends React.Component {
 
     hindDateChange1=(dates,dateString)=>{
         this.setState({
-            dateStart1:dateString[0],
-            dateEnd1:dateString[1]
+            createTimeStart:dateString[0],
+            createTimeEnd:dateString[1]
         })
     }
     hindDateChange2=(dates,dateString)=>{
         this.setState({
-            dateStart2:dateString[0],
-            dateEnd2:dateString[1]
+            finishTimeStart:dateString[0],
+            finishTimeEnd:dateString[1]
         })
     }
 
@@ -120,7 +120,7 @@ class OrderdbSearchForm extends React.Component {
                                     )}
                                 </FormItem>
                                 <FormItem label='订单状态'>
-                                    {getFieldDecorator('outwsWarehouseIdsd')(
+                                    {getFieldDecorator('status')(
                                     <Select allowClear={true} placeholder="请选择调出仓库">
                                     {
                                         this.state.orderstate.map((item,index)=>{

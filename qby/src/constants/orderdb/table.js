@@ -31,7 +31,7 @@ class OrderdbTable extends React.Component {
         },
         {
             title: '到货数量',
-            dataIndex: 'statusStr1'
+            dataIndex: 'recQtySum'
         },
         {
             title: '订单状态',

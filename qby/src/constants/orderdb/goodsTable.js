@@ -45,11 +45,11 @@ class GoodsInfoTable extends React.Component {
           },
           {
             title: '商品规格',
-            dataIndex: 'names',
+            dataIndex: 'displayName',
             width:"100px",
             render: (text, record, index) => {
                 return (
-                    <p style={{textAlign:'center'}}>{this.props.goodsInfo[index].names}</p>
+                    <p style={{textAlign:'center'}}>{this.props.goodsInfo[index].displayName}</p>
                 );
             }
           },{
@@ -95,7 +95,7 @@ class GoodsInfoTable extends React.Component {
         }).then((json) => {
             if(json.code=='0'){
                 temDataSource[index].name=json.pdSpu.name;
-                temDataSource[index].names=(!json.pdSku?null:(json.pdSku.pdType2Val?json.pdSku.pdType1Val.name+'/'+json.pdSku.pdType2Val.name:json.pdSku.pdType1Val.name));
+                temDataSource[index].displayName=(!json.pdSku?null:(json.pdSku.pdType2Val?json.pdSku.pdType1Val.name+'/'+json.pdSku.pdType2Val.name:json.pdSku.pdType1Val.name));
                 this.syncGoodsInfo(temDataSource);
             }
         })
@@ -140,7 +140,7 @@ class GoodsInfoTable extends React.Component {
             codeline:true,
             qtyline:true,
             name:null,
-            names:null
+            displayName:null
         };
         dataList.push(newData);
         this.setState({

@@ -140,7 +140,8 @@ class GoodsListTable extends React.Component {
             if(json.code=='0'){
                 temDataSource[index].price=(!json.pdSku?json.pdSpu.toBPrice:json.pdSku.toBPrice);
                 temDataSource[index].name=json.pdSpu.name;
-                temDataSource[index].displayName=(!json.pdSku?null:(json.pdSku.pdType2Val?json.pdSku.pdType1Val.name+'/'+json.pdSku.pdType2Val.name:json.pdSku.pdType1Val.name));
+                // temDataSource[index].displayName=(!json.pdSku?null:(json.pdSku.pdType2Val?json.pdSku.pdType1Val.name+'/'+json.pdSku.pdType2Val.name:json.pdSku.pdType1Val.name));
+                temDataSource[index].displayName=json.pdSpu.displayName
                 this.setState({
                     dataSource:temDataSource
                 },function(){
