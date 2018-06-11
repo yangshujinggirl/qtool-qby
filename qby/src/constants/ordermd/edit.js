@@ -166,13 +166,15 @@ class OrdermdEditForm extends React.Component{
     }
 
     Getdetail=(messages)=>{
+        console.log(123)
+        console.log(messages)
         //计算
         var dataSource=messages
         var allnumber=0
         var allpay=0
         for(var i=0;i<dataSource.length;i++){
             allnumber=allnumber+Number(dataSource[i].qty)
-            allpay=allpay+parseFloat(parseFloat(dataSource[i].retailPrice)*Number(dataSource[i].qty))
+            allpay=allpay+parseFloat(parseFloat(dataSource[i].price)*Number(dataSource[i].qty))
         }
         //更新到spShop
         var spShop=this.state.spShop
