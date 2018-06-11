@@ -22,15 +22,13 @@ class OrdermdEditForm extends React.Component{
         };
 	}
 
-	
-    
 	//保存
 	handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
         if (!err) {
                 let data = this.state.spShop;
-                data.createType = values.createType;
+                this.props.data.type=='1'?data.createType = values.createType:data.createType = '2';
                 data.recAddress = values.recAddress;
                 data.recName = values.recName;
                 data.recTel = values.recTel;
@@ -75,11 +73,6 @@ class OrdermdEditForm extends React.Component{
                 payload:'201000edit1'
             });
         }
-
-        
-
-
-
 	}
 
 	//刷新账号列表
@@ -285,18 +278,18 @@ class OrdermdEditForm extends React.Component{
                     labelCol={{ span: 3,offset: 1 }}
                     wrapperCol={{ span: 6 }}
                 >
-                    {getFieldDecorator('createType', {
+                    {/* {getFieldDecorator('createType', {
                         rules: [{ required: true, message: '请选择创建类型' }]
                     })(
                         
                         <Select placeholder="请选择创建类型" onChange={this.handleSelectChange.bind(this)}>
                             <Option value='2'>门店赠品</Option>
                         </Select>
-                    )}
+                    )} */}
+                    <label>门店赠品</label>
+
+
                 </FormItem>
-
-
-
 
 
                     }

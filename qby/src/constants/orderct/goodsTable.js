@@ -99,8 +99,7 @@ class GoodsInfoTable extends React.Component {
             if(json.code=='0'){
                 tempDataSource[index].price = json.pdSpu.costPrice;
                 tempDataSource[index].name = json.pdSpu.name;
-                tempDataSource[index].displayName = json.pdSpu.displayName;
-
+                tempDataSource[index].displayName = json.displayName;
                 this.props.dispatch({
                     type:'orderct/syncGoodsInfo',
                     payload:tempDataSource

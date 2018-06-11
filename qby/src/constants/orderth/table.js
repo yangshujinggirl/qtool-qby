@@ -69,6 +69,12 @@ class OrderthTable extends React.Component {
 		title: '订单金额',
 		dataIndex: 'amountSum'
 	  },{
+      title: '到货数量',
+      dataIndex: 'qtyReceived'
+    },{
+      title: '到货金额',
+      dataIndex: 'moneyReceived'
+    },{
 		title: '订单状态',
 		dataIndex: 'statusStr'
 	  },{
@@ -76,10 +82,6 @@ class OrderthTable extends React.Component {
 		  dataIndex: 'createTime'
 	  }
   	];
-	
-
-
-
     }
     
     //点击表格上的修改按钮操作

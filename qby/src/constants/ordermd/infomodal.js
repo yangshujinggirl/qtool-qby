@@ -39,7 +39,12 @@ class Infomodel extends React.Component {
 
     //数据请求
     getdata=(value)=>{
-        const result=GetServerData('qerp.web.sp.order.save',value);
+        let result;
+        if(value.spOrder.createType = '2'){
+            result=GetServerData('qerp.web.sp.order.gift.save',value);
+        }else{
+            result=GetServerData('qerp.web.sp.order.save',value);
+        }
         result.then((res) => {
             return res;
         }).then((json) => {
