@@ -26,6 +26,7 @@ class AccountIndex extends React.Component{
 						type="primary" 
 						onClick={this.addNewAccount.bind(this)}
 						size='large'
+						className='mt20'
 					>
 						新增账号
 					</Button>
