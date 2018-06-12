@@ -71,7 +71,9 @@ class OrdermdIndex extends React.Component{
 			return currentValue.url=="qerp.web.sp.order.save"
 		})
 		//新增赠品订单
-		const addorder1=true
+		const addorder1=rolelists.find((currentValue,index)=>{
+			return currentValue.url=="qerp.web.sp.order.gift.save"
+		})
 
 		//导出数据
 		const expontdata=rolelists.find((currentValue,index)=>{
