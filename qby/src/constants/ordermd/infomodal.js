@@ -31,9 +31,9 @@ class Infomodel extends React.Component {
     }
 
     handleCancel = (e) => {
-            this.setState({
-                visible: false,
-            });
+        this.setState({
+            visible: false,
+        });
     }
 
 
@@ -71,6 +71,11 @@ class Infomodel extends React.Component {
                     onCancel={this.handleCancel}
                     width={400}
                     closable={false}
+                    footer={[
+                        <Button key="submit" type="primary"  onClick={this.handleOk}>
+                          确定
+                        </Button>,
+                      ]}
                 >
                     <p><span className='ml20 f30' style={{color:'#384162'}}>{this.state.text}</span></p>
                     <p className='f18 mt20 modeltext'>商品数量：{this.state.number}</p>

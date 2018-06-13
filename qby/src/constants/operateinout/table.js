@@ -24,10 +24,10 @@ class OperateinoutTable extends React.Component {
             dataIndex: 'amount'
         },{
             title: '金额变化',
-            dataIndex: 'amount1'
+            dataIndex: 'typeStr1'
         },{
             title: '时间',
-            dataIndex: 'amount2'
+            dataIndex: 'dayTime'
         }
     ];
     }
