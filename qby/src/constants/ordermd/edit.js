@@ -10,7 +10,6 @@ const Option = Select.Option;
 const confirm = Modal.confirm;
 
 class OrdermdEditForm extends React.Component{
-
 	constructor(props) {
 		super(props);
 		this.state = {
