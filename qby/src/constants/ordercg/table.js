@@ -34,11 +34,11 @@ class OrdercgTable extends React.Component {
 			},
 			{
 				title: '到货数量',
-				dataIndex: 'amountSum1'
+				dataIndex: 'qtyReceived'
 			},
 			{
 				title: '到货金额',
-				dataIndex: 'amountSum2'
+				dataIndex: 'moneyReceived'
 			},
 			{
 			title: '订单状态',

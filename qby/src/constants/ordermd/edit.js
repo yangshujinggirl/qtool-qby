@@ -22,15 +22,13 @@ class OrdermdEditForm extends React.Component{
         };
 	}
 
-	
-    
 	//保存
 	handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
         if (!err) {
                 let data = this.state.spShop;
-                data.createType = values.createType;
+                this.props.data.type=='1'?data.createType = values.createType:data.createType = '2';
                 data.recAddress = values.recAddress;
                 data.recName = values.recName;
                 data.recTel = values.recTel;
@@ -75,11 +73,6 @@ class OrdermdEditForm extends React.Component{
                 payload:'201000edit1'
             });
         }
-
-        
-
-
-
 	}
 
 	//刷新账号列表
@@ -166,13 +159,15 @@ class OrdermdEditForm extends React.Component{
     }
 
     Getdetail=(messages)=>{
+        console.log(123)
+        console.log(messages)
         //计算
         var dataSource=messages
         var allnumber=0
         var allpay=0
         for(var i=0;i<dataSource.length;i++){
             allnumber=allnumber+Number(dataSource[i].qty)
-            allpay=allpay+parseFloat(parseFloat(dataSource[i].retailPrice)*Number(dataSource[i].qty))
+            allpay=allpay+parseFloat(parseFloat(dataSource[i].price)*Number(dataSource[i].qty))
         }
         //更新到spShop
         var spShop=this.state.spShop
@@ -283,18 +278,18 @@ class OrdermdEditForm extends React.Component{
                     labelCol={{ span: 3,offset: 1 }}
                     wrapperCol={{ span: 6 }}
                 >
-                    {getFieldDecorator('createType', {
+                    {/* {getFieldDecorator('createType', {
                         rules: [{ required: true, message: '请选择创建类型' }]
                     })(
                         
                         <Select placeholder="请选择创建类型" onChange={this.handleSelectChange.bind(this)}>
                             <Option value='2'>门店赠品</Option>
                         </Select>
-                    )}
+                    )} */}
+                    <label>门店赠品</label>
+
+
                 </FormItem>
-
-
-
 
 
                     }

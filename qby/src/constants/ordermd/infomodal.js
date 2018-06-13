@@ -31,15 +31,20 @@ class Infomodel extends React.Component {
     }
 
     handleCancel = (e) => {
-            this.setState({
-                visible: false,
-            });
+        this.setState({
+            visible: false,
+        });
     }
 
 
     //数据请求
     getdata=(value)=>{
-        const result=GetServerData('qerp.web.sp.order.save',value);
+        let result;
+        if(value.spOrder.createType = '2'){
+            result=GetServerData('qerp.web.sp.order.gift.save',value);
+        }else{
+            result=GetServerData('qerp.web.sp.order.save',value);
+        }
         result.then((res) => {
             return res;
         }).then((json) => {
@@ -66,6 +71,11 @@ class Infomodel extends React.Component {
                     onCancel={this.handleCancel}
                     width={400}
                     closable={false}
+                    footer={[
+                        <Button key="submit" type="primary"  onClick={this.handleOk}>
+                          确定
+                        </Button>,
+                      ]}
                 >
                     <p><span className='ml20 f30' style={{color:'#384162'}}>{this.state.text}</span></p>
                     <p className='f18 mt20 modeltext'>商品数量：{this.state.number}</p>

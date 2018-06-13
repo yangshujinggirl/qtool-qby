@@ -42,17 +42,17 @@ class AccountSearchForm extends React.Component {
                     <div className='serach_form'>
                     <FormItem label='姓名'>
                         {getFieldDecorator('name')(
-                            <Input placeholder="请输入" className='form_input_width' autoComplete="off"/>
+                            <Input placeholder="请输入姓名" className='form_input_width' autoComplete="off"/>
                         )}
                     </FormItem>
                     <FormItem label='手机'>
                         {getFieldDecorator('mobile')(
-                            <Input placeholder="请输入" className='form_input_width' autoComplete="off"/>
+                            <Input placeholder="请输入手机" className='form_input_width' autoComplete="off"/>
                         )}
                     </FormItem>
                     <FormItem label='状态'>
                         {getFieldDecorator('status')(
-                            <Select allowClear={true} placeholder="请选择">
+                            <Select allowClear={true} placeholder="请选择状态">
                                 <Option value='1'>启用</Option>
                                 <Option value='0'>禁用</Option>
                             </Select>

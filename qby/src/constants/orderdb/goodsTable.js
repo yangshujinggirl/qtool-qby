@@ -95,7 +95,7 @@ class GoodsInfoTable extends React.Component {
         }).then((json) => {
             if(json.code=='0'){
                 temDataSource[index].name=json.pdSpu.name;
-                temDataSource[index].displayName=(!json.pdSku?null:(json.pdSku.pdType2Val?json.pdSku.pdType1Val.name+'/'+json.pdSku.pdType2Val.name:json.pdSku.pdType1Val.name));
+                temDataSource[index].displayName = (!json.pdSku?null:(json.pdSku.pdType2Val?json.pdSku.pdType1Val.name+'/'+json.pdSku.pdType2Val.name:json.pdSku.pdType1Val.name));
                 this.syncGoodsInfo(temDataSource);
             }
         })
