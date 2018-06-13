@@ -17,6 +17,8 @@ class MyUpload extends React.Component {
                     json.code = file.response.importDetails[i].pdCode;
                     json.key = i;
                     json.qty = file.response.importDetails[i].qty;
+                    json.name = file.response.importDetails[i].name;
+                    json.displayName = file.response.importDetails[i].displayName;
                     json.codeline = true;
                     json.qtyline = true;
                     goodsInfo.push(json);

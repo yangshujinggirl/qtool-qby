@@ -17,6 +17,9 @@ class MyUploadMd extends React.Component {
                     json.Code = file.response.importDetails[i].pdCode;
                     json.retailPrice = file.response.importDetails[i].price;
                     json.qty = file.response.importDetails[i].qty;
+                    json.price = file.response.importDetails[i].price;
+                    json.name = file.response.importDetails[i].name;
+                    json.displayName = file.response.importDetails[i].displayName;
                     json.key = i;
                     goodsInfo.push(json);
                 }
@@ -32,7 +35,7 @@ class MyUploadMd extends React.Component {
       }
       render() {
         const props = {
-          action: '/erpWebRest/webrest.htm?code=qerp.web.sp.order.import',
+          action: '/erpWebRest/webrest.htm?code=qerp.web.sp.order.import&type=mdorder',
           onChange: this.handleChange,
           name:'mfile'
         };
