@@ -1,4 +1,4 @@
-import { Form, Select, Input, Button, Radio, DatePicker, message,AutoComplete,Table, Upload,Cascader} from 'antd';
+import { Form, Select, Input, Button, Radio, DatePicker, message,AutoComplete,Table, Upload,Cascader,Modal} from 'antd';
 import {GetServerData} from '../../services/services';
 import { connect } from 'dva';
 class MyUploadMd extends React.Component {
@@ -11,6 +11,12 @@ class MyUploadMd extends React.Component {
         fileList = fileList.filter((file) => {
           if (file.response) {
             if(file.response.code=='0'){
+                if(file.response.warningmessage){
+                    Modal.warning({
+                        title: file.response.warningmessage
+                      });
+                }
+                return
                 let goodsInfo = [];
                 for(var i=0;i<file.response.importDetails.length;i++){
                     let json = {};
