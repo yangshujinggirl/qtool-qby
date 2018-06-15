@@ -33,6 +33,11 @@ class OrdermdEditForm extends React.Component{
                 data.recName = values.recName;
                 data.recTel = values.recTel;
                 data.shopName = values.shopName;
+
+                console.log(this.props.data.type)
+                console.log(values.createType)
+                console.log(data)
+
                 this.setState({
                     spShop:data
                 },function(){
@@ -159,8 +164,6 @@ class OrdermdEditForm extends React.Component{
     }
 
     Getdetail=(messages)=>{
-        console.log(123)
-        console.log(messages)
         //计算
         var dataSource=messages
         var allnumber=0
@@ -172,24 +175,26 @@ class OrdermdEditForm extends React.Component{
         //更新到spShop
         var spShop=this.state.spShop
         spShop.qtySum=allnumber
-        spShop.amountSum=allpay.toFixed(2);
+        
+        console.log(this.props.data.type)
+        console.log(allpay)
+
+        if(this.props.data.type=='1'){
+            spShop.amountSum=allpay.toFixed(2);
+        }else{
+            spShop.amountSum=0;
+            allpay = 0;
+        }
         this.setState({
             allnumber:allnumber,
             amountSum:allpay.toFixed(2),
             spShop:spShop,
             dataSource:dataSource,
         },function(){
-            if(this.state.selecttypes){
-                this.props.form.setFieldsValue({
-                    qtySum:this.state.allnumber,
-                    amountSum:this.state.amountSum,
-                });
-            }else{
-                this.props.form.setFieldsValue({
-                    qtySum:this.state.allnumber,
-                    amountSum:0,
-                });
-            }   
+            this.props.form.setFieldsValue({
+                qtySum:this.state.allnumber,
+                amountSum:this.state.amountSum,
+            }); 
         })
     }
 
@@ -278,14 +283,6 @@ class OrdermdEditForm extends React.Component{
                     labelCol={{ span: 3,offset: 1 }}
                     wrapperCol={{ span: 6 }}
                 >
-                    {/* {getFieldDecorator('createType', {
-                        rules: [{ required: true, message: '请选择创建类型' }]
-                    })(
-                        
-                        <Select placeholder="请选择创建类型" onChange={this.handleSelectChange.bind(this)}>
-                            <Option value='2'>门店赠品</Option>
-                        </Select>
-                    )} */}
                     <label>门店赠品</label>
 
 

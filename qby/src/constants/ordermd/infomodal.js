@@ -13,11 +13,8 @@ class Infomodel extends React.Component {
 
     showModal = (data) => {
         let temAmountSum = data.spOrder.amountSum
-        if(data.spOrder.createType==2){
-             temAmountSum ="0.00"
-        }else{
-            temAmountSum = data.spOrder.amountSum
-        }
+
+        console.log(data)
         this.setState({
             visible: true,
             number:data.spOrder.qtySum,
@@ -27,6 +24,8 @@ class Infomodel extends React.Component {
     }
 
     handleOk = (e) => {
+        console.log(this.state.data)
+
         this.getdata(this.state.data)
     }
 
@@ -40,6 +39,9 @@ class Infomodel extends React.Component {
     //数据请求
     getdata=(value)=>{
         let result;
+
+        console.log(value)
+
         if(value.spOrder.createType = '2'){
             result=GetServerData('qerp.web.sp.order.gift.save',value);
         }else{
