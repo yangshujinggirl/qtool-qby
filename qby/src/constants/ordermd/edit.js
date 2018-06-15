@@ -17,37 +17,43 @@ class OrdermdEditForm extends React.Component{
             dataSources:[],
             dataSource:[],
             residences:[],
-            selecttypes:true
+            selecttypes:true,
+            visible:false,
+            num:0,
+            amount:0,
         };
 	}
 
-	//保存
-	handleSubmit = (e) => {
+	 //保存
+	 handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
         if (!err) {
                 let data = this.state.spShop;
-                this.props.data.type=='1'?data.createType = values.createType:data.createType = '2';
-                data.recAddress = values.recAddress;
-                data.recName = values.recName;
-                data.recTel = values.recTel;
-                data.shopName = values.shopName;
-
-                console.log(this.props.data.type)
-                console.log(values.createType)
-                console.log(data)
-
+                let newsporder = {
+                  qtySum:values.qtySum,
+                  amountSum:values.amountSum,
+                  spShopId:data.spShopId,
+                  recProvinceId:values.spAddressId[0],
+                  recCityId:values.spAddressId[1],
+                  recDistrictId:values.spAddressId[2],
+                  recName:values.recName,
+                  recTel:values.recTel,
+                  recAddress:values.recAddress,
+                  createType:this.props.data.type == '1'? values.createType : '2',
+                  shopName:values.shopName,
+                }
                 this.setState({
-                    spShop:data
+                    spShop:values
                 },function(){
-                    if(!this.state.spShop.spShopId){
+                    if(!data.spShopId){
                         message.error('请选择门店',.8)
                     }else{
                         if(Number(this.state.spShop.qtySum)<1){
                             message.error('商品数量不能为0',.8)
                         }else{
                             let value={
-                                spOrder:this.state.spShop,
+                                spOrder:newsporder,
                                 orderCodes:this.state.dataSource
                             }
                             this.showmodel(value)
@@ -58,13 +64,13 @@ class OrdermdEditForm extends React.Component{
         });
     }
 
-    //删除当前tab
-	deleteTab=()=>{
+   //删除当前tab
+	 deleteTab=()=>{
 		const pane = eval(sessionStorage.getItem("pane"));
 		if(pane.length<=1){
 			return
         }
-        
+
         if(this.props.data.type=='1'){
             this.props.dispatch({
                 type:'tab/initDeletestate',
@@ -79,21 +85,27 @@ class OrdermdEditForm extends React.Component{
         }
 	}
 
-	//刷新账号列表
-	refreshList=()=>{
+	  //刷新账号列表
+	  refreshList=()=>{
         let values = this.props.values;
         values.currentPage = "0";
 		this.props.dispatch({
             type:'ordermd/fetch',
             payload:{code:'qerp.web.sp.order.query',values:values}
 		})
-		this.props.dispatch({ type: 'tab/loding', payload:true}) 
+		this.props.dispatch({ type: 'tab/loding', payload:true})
 	}
 
     showmodel=(data)=>{
-        this.refs.models.showModal(data);
+        // this.refs.models.showModal(data);
+      this.setState({
+        visible:true,
+        num:data.spOrder.qtySum,
+        amount:data.spOrder.amountSum,
+        spShop:data.spOrder
+      })
     }
-    
+
     //智能搜索框搜索事件
     handleSearch = (value) => {
         let spShop=this.state.spShop;
@@ -147,7 +159,7 @@ class OrdermdEditForm extends React.Component{
                     recName:json.spShop.shopman,
                 });
             }
-        }) 
+        })
     }
 
     //门店城市
@@ -174,9 +186,6 @@ class OrdermdEditForm extends React.Component{
         //更新到spShop
         var spShop=this.state.spShop
         spShop.qtySum=allnumber
-        
-        console.log(this.props.data.type)
-        console.log(allpay)
 
         if(this.props.data.type=='1'){
             spShop.amountSum=allpay.toFixed(2);
@@ -193,7 +202,7 @@ class OrdermdEditForm extends React.Component{
             this.props.form.setFieldsValue({
                 qtySum:this.state.allnumber,
                 amountSum:this.state.amountSum,
-            }); 
+            });
         })
     }
 
@@ -225,39 +234,65 @@ class OrdermdEditForm extends React.Component{
             spShop.amountSum=allpay.toFixed(2);
             this.setState({
                 spShop:spShop,
-                selecttypes:true
+                selecttypes:false
             },function(){
                 this.props.form.setFieldsValue({
                     qtySum:this.state.allnumber,
                     amountSum:this.state.amountSum,
                 });
             })
-        }  
+        }
     }
 
-	//取消
-	hindCancel=()=>{
+	  //取消
+	  hindCancel=()=>{
 		this.deleteTab()
 		this.refreshList()
     }
-    
+
     // 下载导入模板
     ZaiSpuExcel=()=>{
         window.open('../../static/order.xlsx');
     }
-    
+
+    handleOk=()=>{
+      const value = this.state.spShop
+      let payload = {
+        spOrder:value,
+        orderCodes:this.state.dataSource
+      }
+      let result
+      if(value.createType == '2'){
+        result=GetServerData('qerp.web.sp.order.gift.save',payload);
+      }else{
+        result=GetServerData('qerp.web.sp.order.save',payload);
+      }
+      result.then((res) => {
+        return res;
+      }).then((json) => {
+        if(json.code=='0'){
+          this.setState({
+            visible: false,
+          },function(){
+            message.success('创建成功',.8);
+            this.deleteTab();
+            this.refreshList();
+          });
+        }
+      })
+    }
+
   	render(){
-        const { getFieldDecorator,getFieldProps } = this.props.form;
+      const { getFieldDecorator,getFieldProps } = this.props.form;
      	return(
-             <div>
-                <MyUploadMd/> 
-                <Button type="primary" 
-                        onClick={this.ZaiSpuExcel.bind(this)} 
+        <div>
+                <MyUploadMd/>
+                <Button type="primary"
+                        onClick={this.ZaiSpuExcel.bind(this)}
                         style={{position:'absolute',right:'15px',top:'24px',zIndex:'1000'}}>
                         下载导入模板
                 </Button>
                 <Form className="addUser-form show-table-form">
-                    
                     {
                         this.props.data.type=='1'?
                         <FormItem
@@ -268,7 +303,6 @@ class OrdermdEditForm extends React.Component{
                         {getFieldDecorator('createType', {
                             rules: [{ required: true, message: '请选择创建类型' }]
                         })(
-                            
                             <Select placeholder="请选择创建类型" onChange={this.handleSelectChange.bind(this)}>
                                 <Option value='1'>新店铺货</Option>
                                 <Option value='3'>总部样品</Option>
@@ -283,11 +317,7 @@ class OrdermdEditForm extends React.Component{
                     wrapperCol={{ span: 6 }}
                 >
                     <label>门店赠品</label>
-
-
                 </FormItem>
-
-
                     }
                     <FormItem
                         label="门店名称"
@@ -305,7 +335,7 @@ class OrdermdEditForm extends React.Component{
                             />
                         )}
                     </FormItem>
-                    
+
                     <FormItem
                         label="门店城市"
                         labelCol={{ span: 3,offset: 1 }}
@@ -314,8 +344,8 @@ class OrdermdEditForm extends React.Component{
                         {getFieldDecorator('spAddressId', {
                             rules: [{ type: 'array', required: true, message: '请选择所属城市' }],
                         })(
-                            <Cascader 
-                                placeholder="请选择所属城市" 
+                            <Cascader
+                                placeholder="请选择所属城市"
                                 options={this.state.residences}
                                 onChange={this.cityschange.bind(this)}
                             />
@@ -385,14 +415,14 @@ class OrdermdEditForm extends React.Component{
                         <Button className='mr30' onClick={this.hindCancel.bind(this)}>取消</Button>
                         <Button type="primary" onClick={this.handleSubmit.bind(this)}>保存</Button>
                     </FormItem>
-                    <Infomodel ref='models' deleteTab={this.deleteTab.bind(this)} refreshList={this.refreshList.bind(this)}/> 
+                    <Infomodel ref='models' handleOk = {this.handleOk.bind(this)} visible={this.state.visible}
+                               num = {this.state.num} amount={this.state.amount}
+                               deleteTab={this.deleteTab.bind(this)} refreshList={this.refreshList.bind(this)}/>
                 </Form>
              </div>
-            
       	)
   	}
   	componentDidMount(){
-        console.log(this)
         let result1=GetServerData('qerp.web.bs.region','');
         result1.then((res) => {
             return res;
