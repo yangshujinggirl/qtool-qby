@@ -199,12 +199,6 @@ class GoodsListTable extends React.Component {
             type:'ordermd/mdopdermeth',
             payload:mdopdermeth
         })
-
-
-
-
-
-        
     }
   }
 

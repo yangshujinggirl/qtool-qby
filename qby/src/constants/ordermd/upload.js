@@ -5,18 +5,30 @@ class MyUploadMd extends React.Component {
     state = {
         fileList: []
       }
+  
       handleChange = (info) => {
         let fileList = info.fileList;
         fileList = fileList.slice(-1);
         fileList = fileList.filter((file) => {
           if (file.response) {
             if(file.response.code=='0'){
+                console.log('11111')
+                console.log(file.response)
+                console.log('22222')
                 if(file.response.warningmessage){
+                    let message = file.response.warningmessage.split('\r\n')
+                    let m = []
+                    for(let i=0;i<message.length;i++){
+                      m.push(<p>{message[i]}</p>)
+                    }
                     Modal.warning({
-                        title: file.response.warningmessage
+                        content:(
+                          <div>
+                            {m}
+                          </div>
+                        )
                       });
                 }
-                return
                 let goodsInfo = [];
                 for(var i=0;i<file.response.importDetails.length;i++){
                     let json = {};
