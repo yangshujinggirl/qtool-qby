@@ -21,17 +21,17 @@ class OperateinoutTable extends React.Component {
             dataIndex: 'shopName'
         }, {
             title: '费用类型',
-            dataIndex: 'amount'
+            dataIndex: 'typeStr'
         },{
             title: '金额变化',
-            dataIndex: 'typeStr1'
+            dataIndex: 'amount'
         },{
             title: '时间',
             dataIndex: 'dayTime'
         }
     ];
     }
-    
+
     //点击表格上的修改按钮操作
     lookInfo = (record) =>{
         if(record.type=='11'){
@@ -56,7 +56,7 @@ class OperateinoutTable extends React.Component {
                 payload:paneitem
             })
         }
-        
+
         if(record.type=='25'){
             const paneitem={title:'收银对账',key:'402000edit'+record.spMoneyDetailId+'infomoney',data:{spShopId:record.spShopId,type:record.type,dayTime:record.dayTime,spMoneyDetailId:record.spMoneyDetailId},componkey:'402000infoMoney'}
             this.props.dispatch({
@@ -71,7 +71,7 @@ class OperateinoutTable extends React.Component {
                 payload:paneitem
             })
         }
-        
+
 
     }
 
@@ -83,8 +83,8 @@ class OperateinoutTable extends React.Component {
     pageSizeChange=(current,size)=>{
           this.initList(this.props.values,size,0)
     }
-    
-    //列表数据请求   
+
+    //列表数据请求
     initList=(values,limit,currentPage)=>{
         values.limit=limit;
         values.currentPage=currentPage;
@@ -97,9 +97,9 @@ class OperateinoutTable extends React.Component {
 
     render() {
         return (
-          <EditableTable 
-            dataSource={this.props.tableList} 
-            columns={this.columns} 
+          <EditableTable
+            dataSource={this.props.tableList}
+            columns={this.columns}
             bordered={true}
             footer={true}
             pageChange={this.pageChange.bind(this)}
@@ -114,7 +114,7 @@ class OperateinoutTable extends React.Component {
     //执行初始化数据方法获取list
 		this.initList(this.props.values,this.props.limit,this.props.currentPage);
 	}
-    
+
 }
 
 function mapStateToProps(state) {
@@ -123,6 +123,6 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(OperateinoutTable);
- 
+
 
 

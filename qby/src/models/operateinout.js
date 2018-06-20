@@ -37,46 +37,8 @@ export default {
                 const limit=result.limit;
                 const currentPage=result.currentPage;
                 const total=result.total;
-                for(var i=0;i<tableList.length;i++){
-                    tableList[i].key=i+1;
-                    if(tableList[i].type==21){
-                        if(tableList[i].amount>0){
-                            tableList[i].amount='订单费用：+'+tableList[i].amount
-                        }else{
-                            tableList[i].amount='订单费用：'+tableList[i].amount
-                        }
-                    }
-                    if(tableList[i].type==22){
-                        if(tableList[i].amount>0){
-                            tableList[i].amount='物流费用：+'+tableList[i].amount
-                        }else{
-                            tableList[i].amount='物流费用：'+tableList[i].amount
-                        }
-                    }
-                    if(tableList[i].type==24){
-                        if(tableList[i].amount>0){
-                            tableList[i].amount='取消退款：+'+tableList[i].amount
-                        }else{
-                            tableList[i].amount='取消退款：'+tableList[i].amount
-                        }
-                    }
-                    if(tableList[i].type==25){
-                        if(tableList[i].amount>0){
-                            tableList[i].amount='收银结算：+'+tableList[i].amount
-                        }else{
-                            tableList[i].amount='收银结算：'+tableList[i].amount
-                        }
-                    }
-                    if(tableList[i].type==11){
-                        if(tableList[i].amount>0){
-                            tableList[i].amount='充值金额：+'+tableList[i].amount
-                        }else{
-                            tableList[i].amount='充值金额：'+tableList[i].amount
-                        }
-                    }
-                }
                 yield put({type: 'syncTableList',payload:{tableList,total,limit,currentPage}});
-            } 
+            }
         },
         *infofetch({ payload: {code,values} }, { call, put ,select}) {
             const result=yield call(GetServerData,code,values);
