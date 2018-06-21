@@ -104,7 +104,7 @@ export default {
           let data = result.exchangeNos[0]
           exchangeCardList.push(
             {lable:'订单号 ', text:data.exchangeNo},
-            {lable: values.type == 31 ? `调入门店` : `调出门店`, text:data.inShopName},
+            {lable: values.type == 32 ? `调入门店` : `调出门店`, text:data.inShopName},
             {lable:'创建人', text:data.urUser},
             {lable:'调拨状态', text:data.statusStr},
             {lable:'商品调拨数量', text:data.qtySum},

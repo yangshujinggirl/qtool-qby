@@ -56,11 +56,14 @@ class AdjustLogIndexForm extends React.Component {
     //跳转
     editInfo=(record)=>{
         const adjustId=String(record.adjustId)
-		const paneitem={title:'订单详情',key:'707000edit'+adjustId+'info',data:{id:adjustId,adjustNo:record.adjustNo,qty:record.qty,typeStr:record.typeStr,operater:record.operater,operateTime:record.operateTime,remark:record.remark},componkey:'707000info'}
-       	this.props.dispatch({
-			type:'tab/firstAddTab',
-			payload:paneitem
-		})
+        const paneitem={title:'订单详情',key:'707000edit'+adjustId+'info',data:{
+              id:adjustId,adjustNo:record.adjustNo,qty:record.qty,typeStr:record.typeStr,
+              operater:record.operater,operateTime:record.operateTime,remark:record.remark},componkey:'707000info'
+        }
+        this.props.dispatch({
+          type:'tab/firstAddTab',
+          payload:paneitem
+        })
     }
 
     dateChange = (date, dateString) =>{
@@ -95,15 +98,15 @@ class AdjustLogIndexForm extends React.Component {
             values.adjustTimeET=this.state.adjustTimeET
             values.limit=this.state.limit
             values.currentPage=this.state.currentPage
-            values.spShopId=this.props.spShopId
+            values.shopId=this.props.shopId
             this.props.dispatch({ type: 'tab/loding', payload:true});
-            const result=GetServerData('qerp.web.qpos.pd.adjust.detail',values)
+            const result=GetServerData('qerp.web.pd.adjust.query',values)
             result.then((res) => {
                 return res;
             }).then((json) => {
                 this.props.dispatch({ type: 'tab/loding', payload:false});
                 if(json.code=='0'){
-                    const dataList = json.adjustSpus;
+                    const dataList = json.adjustNos;
                     for(let i=0;i<dataList.length;i++){
                         dataList[i].key = i+1;
                     };
@@ -122,23 +125,19 @@ class AdjustLogIndexForm extends React.Component {
         const { getFieldDecorator } = this.props.form;
         return (
             <div className="daily-bill border-top-style">
-                <div> 
+                <div>
                 {/*搜索部分 */}
                 <Form  className='formbox'>
                     <Row gutter={40} className='formbox_row' style={{marginTop:"20px"}}>
                         <Col span={24} className='formbox_col'>
                             <Row>
                                 <div className='serach_form'>
-                                <FormItem
-                                    label="损益时间"
-                                    >
-                                        <RangePicker 
-                                            format={dateFormat}
-                                            onChange={this.dateChange.bind(this)} />
+                                <FormItem label="损益时间">
+                                  <RangePicker
+                                    format={dateFormat}
+                                    onChange={this.dateChange.bind(this)} />
                                 </FormItem>
-                                <FormItem
-                                    label="损益类型"
-                                    >
+                                <FormItem label="损益类型">
                                     {getFieldDecorator('type')(
                                        <Select allowClear placeholder="请选择损益类型">
                                             <Option value="3">店铺活动赠品</Option>
@@ -149,24 +148,18 @@ class AdjustLogIndexForm extends React.Component {
                                         </Select>
                                     )}
                                 </FormItem>
-                                <FormItem
-                                    label="订单号"
-                                    >
-                                    {getFieldDecorator('name12')(
+                                <FormItem label="订单号">
+                                    {getFieldDecorator('adjustNo')(
                                         <Input placeholder="请输入订单号" autoComplete="off"/>
                                     )}
                                 </FormItem>
-                                <FormItem
-                                    label="商品名称"
-                                    >
+                                <FormItem label="商品名称">
                                     {getFieldDecorator('name')(
                                         <Input placeholder="请输入商品名称" autoComplete="off"/>
                                     )}
                                 </FormItem>
-                                <FormItem
-                                    label="商品条码"
-                                    >
-                                    {getFieldDecorator('name')(
+                                <FormItem label="商品条码">
+                                    {getFieldDecorator('barcode')(
                                         <Input placeholder="请输入商品条码" autoComplete="off"/>
                                     )}
                                 </FormItem>
@@ -179,8 +172,8 @@ class AdjustLogIndexForm extends React.Component {
                     </div>
                 </Form>
                 <div className="mt15">
-                    <EditableTable 
-                        columns={this.columns} 
+                    <EditableTable
+                        columns={this.columns}
                         dataSource={this.state.dataSource}
                         footer={true}
                         pageChange={this.pageChange.bind(this)}

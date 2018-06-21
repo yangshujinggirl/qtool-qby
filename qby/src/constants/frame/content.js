@@ -107,6 +107,9 @@ import AdjustInfo from '../datapos/adjustinfo'
 import InventoryInfo from '../datapos/inventoryinfo'
 import DbInfo from '../datapos/dbinfo'
 
+//Q本营-门店pos
+import QposDbInfo from '../datapos/dbinfo'
+
 
 class Content extends React.Component {
     render() {
@@ -210,6 +213,8 @@ class Content extends React.Component {
                                     case "707000infoinventory": return <InventoryInfo data={this.props.data}/>
                                     case "707000infodb": return <DbInfo data={this.props.data}/>
 
+                                    case "707000infodb1": return <QposDbInfo data={this.props.data}/>
+                                  
                                     case "402000infoExchange" : return <OperateinoutExchangeInfo data={this.props.data}/>
                                     default:  return "我是404";
                                 }

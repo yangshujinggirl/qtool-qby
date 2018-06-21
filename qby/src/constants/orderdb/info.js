@@ -1,4 +1,3 @@
-import {GetServerData} from '../../services/services';
 import { connect } from 'dva';
 import EditableTable from '../../components/table/tablebasic';
 import Cardlist from '../../components/table/cardlist';
@@ -34,8 +33,6 @@ class OrderdbInfo extends React.Component{
 				dataIndex: 'recQty',
 			}
 		];
-
-
         this.column2 = [
 			{
             	title: '操作',
