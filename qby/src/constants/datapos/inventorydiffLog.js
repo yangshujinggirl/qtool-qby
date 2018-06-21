@@ -33,8 +33,8 @@ class InventorydiffLogIndexForm extends React.Component {
         };
         this.columns = [
             {
-                title: '商品损益单号',
-                dataIndex: 'barcode1',
+                title: '商品盘点单号',
+                dataIndex: 'checkNo',
                 render: (text, record) => {
                     return (
                       <TableLink text={text} hindClick={this.editInfo.bind(this,record)} type='1'/>
@@ -43,31 +43,32 @@ class InventorydiffLogIndexForm extends React.Component {
             },
             {
                 title: '盘点sku数量',
-                dataIndex: 'barcode',
+                dataIndex: 'skuSum',
             },
             {
                 title: '盘点商品数量',
-                dataIndex: 'name',
+                dataIndex: 'qty',
             },
             {
                 title: '创建人',
-                dataIndex: 'displayName',
+                dataIndex: 'operater',
             },
             {
                 title: '盘点时间',
-                dataIndex: 'averageRecPrice',
+                dataIndex: 'operateTime',
             }
         ];
     }
 
     editInfo=(record)=>{
-        const checkId=String(record.checkId)
-		const paneitem={title:'订单详情',key:'707000edit'+checkId+'infoinventory',data:{id:checkId,checkNo:record.checkNo,skuSum:record.skuSum,qty:record.qty,operater:record.operater,operateTime:record.operateTime},componkey:'707000infoinventory'}
-       	this.props.dispatch({
-			type:'tab/firstAddTab',
-			payload:paneitem
-		})
+      const paneitem={title:'盘点详情',key:'707000edit'+record.checkId+'infoinventory',data:{
+          id:record.checkId,checkNo:record.checkNo,skuSum:record.skuSum,qty:record.qty,operater:record.operater,operateTime:record.operateTime},componkey:'707000infoinventory'}
+      this.props.dispatch({
+        type:'tab/firstAddTab',
+        payload:paneitem
+      })
     }
+
     dateChange = (date, dateString) =>{
         this.setState({
             checkTimeStart:dateString[0],
@@ -77,7 +78,6 @@ class InventorydiffLogIndexForm extends React.Component {
 
     //表格的方法
     pageChange=(page,pageSize)=>{
-        const self = this;
         this.setState({
             currentPage:page-1,
             limit:pageSize
@@ -86,7 +86,6 @@ class InventorydiffLogIndexForm extends React.Component {
         });
     }
     onShowSizeChange=(current, pageSize)=>{
-        const self = this;
         this.setState({
             limit:pageSize,
             currentPage:0
@@ -99,11 +98,11 @@ class InventorydiffLogIndexForm extends React.Component {
         this.props.form.validateFields((err, values) => {
             values.limit=this.state.limit
             values.currentPage=this.state.currentPage
-            values.spShopId=this.state.spShopId
-            values.checkTimeStart=this.state.checkTimeStart
-            values.checkTimeEnd=this.state.checkTimeEnd
+            values.shopId=this.props.shopId
+            values.checkTimeST=this.state.checkTimeStart
+            values.checkTimeET=this.state.checkTimeEnd
             this.props.dispatch({ type: 'tab/loding', payload:true});
-            const result=GetServerData('qerp.web.qpos.pd.adjust.detail',values)
+            const result=GetServerData('qerp.web.pd.check.query',values)
             result.then((res) => {
                 return res;
             }).then((json) => {
@@ -138,7 +137,7 @@ class InventorydiffLogIndexForm extends React.Component {
                                         label="选择时间"
                                         labelCol={{ span: 5 }}
                                         wrapperCol={{span: 10}}>
-                                            <RangePicker 
+                                            <RangePicker
                                                 format={dateFormat}
                                                 onChange={this.dateChange.bind(this)} />
                                         </FormItem>
@@ -146,15 +145,15 @@ class InventorydiffLogIndexForm extends React.Component {
                                         label="订单号"
                                         labelCol={{ span: 5 }}
                                         wrapperCol={{span: 10}}>
-                                        {getFieldDecorator('name3')(
-                                            <Input placeholder="请输入商品名称" autoComplete="off"/>
+                                        {getFieldDecorator('checkNo')(
+                                            <Input placeholder="请输入订单号" autoComplete="off"/>
                                         )}
                                         </FormItem>
                                         <FormItem
                                         label="商品名称"
                                         labelCol={{ span: 5 }}
                                         wrapperCol={{span: 10}}>
-                                        {getFieldDecorator('name2')(
+                                        {getFieldDecorator('name')(
                                             <Input placeholder="请输入商品名称" autoComplete="off"/>
                                         )}
                                         </FormItem>
@@ -162,8 +161,8 @@ class InventorydiffLogIndexForm extends React.Component {
                                         label="商品条码"
                                         labelCol={{ span: 5 }}
                                         wrapperCol={{span: 10}}>
-                                        {getFieldDecorator('name1')(
-                                            <Input placeholder="请输入商品名称" autoComplete="off"/>
+                                        {getFieldDecorator('barcode')(
+                                            <Input placeholder="请输入商品条码" autoComplete="off"/>
                                         )}
                                         </FormItem>
                                     </div>
@@ -174,10 +173,10 @@ class InventorydiffLogIndexForm extends React.Component {
                             <Button type="primary" htmlType="submit" onClick={this.handleSearch.bind(this)} size='large'>搜索</Button>
                         </div>
                     </Form>
-                    
+
                 </div>
-                <EditableTable 
-                    columns={this.columns} 
+                <EditableTable
+                    columns={this.columns}
                     dataSource={this.state.dataSource}
                     footer={true}
                     pageChange={this.pageChange.bind(this)}
@@ -191,8 +190,8 @@ class InventorydiffLogIndexForm extends React.Component {
         );
     }
 
-    
-   
+
+
     componentDidMount(){
         this.handleSearch();
     }
