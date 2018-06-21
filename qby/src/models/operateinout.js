@@ -12,21 +12,27 @@ export default {
         infoList:[],
         //收银详情
         moneycardlist:[],
-        moneyinfoList:[]
+        moneyinfoList:[],
+        exchangeCardlist:[],
+        exchangeList:[],
+        exchangeLogList:[]
     },
     reducers: {
-		synchronous(state, { payload:values}) {
-			return {...state,values}
-		},
-		syncTableList(state, { payload:{tableList,total,limit,currentPage}}) {
-			return {...state,tableList,total,limit,currentPage}
-        },
-        syncInfoList(state, { payload:{infoList,cardlist}}) {
-			return {...state,infoList,cardlist}
-        },
-        syncMoneyInfoList(state, { payload:{moneyinfoList,moneycardlist}}) {
-			return {...state,moneyinfoList,moneycardlist}
-        }
+      synchronous(state, { payload:values}) {
+        return {...state,values}
+      },
+      syncTableList(state, { payload:{tableList,total,limit,currentPage}}) {
+        return {...state,tableList,total,limit,currentPage}
+      },
+      syncInfoList(state, { payload:{infoList,cardlist}}) {
+			  return {...state,infoList,cardlist}
+      },
+      syncMoneyInfoList(state, { payload:{moneyinfoList,moneycardlist}}) {
+			  return {...state,moneyinfoList,moneycardlist}
+      },
+      updateState(state,{payload}){
+        return {...state,...payload}
+      }
     },
     effects: {
         *fetch({ payload: {code,values} }, { call, put ,select}) {
@@ -86,7 +92,29 @@ export default {
                 const moneycardlist=[]
                 yield put({type:'syncMoneyInfoList',payload:{moneyinfoList,moneycardlist}});
             }
+        },
+      *'exchangeInfofetch'({ payload}, { call, put ,select}) {
+        yield put({type: 'tab/loding',payload:true});
+        let values = payload.values
+        let exchangeCardList = []
+        const result = yield call(GetServerData,'qerp.web.sp.exchange.list',{exchangeNo:values.keywords});
+        const result1 = yield call(GetServerData,"qerp.web.sp.exchange.detail.info",{qposPdExchangeId:values.Id})
+        const result2 = yield call(GetServerData,"qerp.web.sp.exchange.info",{qposPdExchangeId:values.Id})
+        if(result.code  == '0' & result1.code == '0' & result2.code == '0'){
+          let data = result.exchangeNos[0]
+          exchangeCardList.push(
+            {lable:'订单号 ', text:data.exchangeNo},
+            {lable: values.type == 31 ? `调入门店` : `调出门店`, text:data.inShopName},
+            {lable:'创建人', text:data.urUser},
+            {lable:'调拨状态', text:data.statusStr},
+            {lable:'商品调拨数量', text:data.qtySum},
+            {lable:'商品调拨总价', text:data.amountSum},
+            {lable:'创建时间', text:data.createTime},
+          )
+          yield put({type:'updateState',payload:{exchangeCardlist:exchangeCardList,exchangeList:result1.pdInfo,exchangeLogList:result2.logs}})
+          yield put({type: 'tab/loding',payload:false});
         }
+      }
   	},
   	subscriptions: {},
 };

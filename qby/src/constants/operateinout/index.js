@@ -41,26 +41,26 @@ class OperateinoutIndex extends React.Component{
 						});
 					},
 					onCancel() {
-						
+
 					},
 	  			});
 			}
 		})
-	
+
 	}
   	render(){
 		const rolelists=this.props.data.rolelists
 		//导出数据
 		const expontdata=rolelists.find((currentValue,index)=>{
 			return currentValue.url=="qerp.web.sys.doc.task"
-		}) 
+		})
      	return(
         	<div className='content_box'>
                 <OperateinoutSearch/>
 				{
 					expontdata?
-					<Button 
-					type="primary" 
+					<Button
+					type="primary"
 					size='large'
 					className='mt20'
 					onClick={this.exportData.bind(this,20,this.props.values)}
@@ -69,18 +69,17 @@ class OperateinoutIndex extends React.Component{
 				</Button>
 				:null
 				}
-				
+
 				<div className='mt15'><OperateinoutTable/></div>
         	</div>
       	)
 	}
-	  
+
 	componentDidMount(){}
 }
 
 function mapStateToProps(state) {
-	const {values} = state.operateinout
-	return {values};
+	
 }
 
 export default connect(mapStateToProps)(OperateinoutIndex);

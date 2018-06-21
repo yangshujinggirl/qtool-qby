@@ -30,7 +30,7 @@ class OperateinoutSearchForm extends React.Component {
             payload:{code:'qerp.web.sp.money.detail',values:values}
         });
         this.props.dispatch({ type: 'tab/loding', payload:true});
-    }  
+    }
 
     //同步data
     syncState=(values)=>{
@@ -49,7 +49,7 @@ class OperateinoutSearchForm extends React.Component {
             dateEnd:dateString[1]
         })
     }
-    
+
     render() {
         const { getFieldDecorator } = this.props.form;
         return (
@@ -108,8 +108,8 @@ class OperateinoutSearchForm extends React.Component {
     componentDidMount(){}
 }
 function mapStateToProps(state) {
-    const {limit,currentPage} = state.operateinout;
-    return {limit,currentPage};
+    // const {currentPage} = state.operateinout;
+    // return {currentPage};
 }
 
 

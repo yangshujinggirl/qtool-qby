@@ -8,41 +8,41 @@ class OperateinoutExchangeInfo extends React.Component{
         super(props);
         this.column = [{
             title: '商品条码',
-            dataIndex: 'orderNo'
+            dataIndex: 'code'
         }, {
             title: '商品名称',
-            dataIndex: 'orderAmount'
+            dataIndex: 'name'
         },{
             title: '商品规格',
-            dataIndex: 'receivedTypeStr'
+            dataIndex: 'displayName'
         },{
             title: '调拨数量',
-            dataIndex: 'receivedAmount'
+            dataIndex: 'qty'
         },{
             title: '调拨总价',
-            dataIndex: 'amount'
+            dataIndex: 'price'
         }];
         this.column1 = [{
           title: '操作记录',
-          dataIndex: 'orderNo'
+          dataIndex: 'operateName'
         }, {
           title: '操作人',
-          dataIndex: 'orderAmount'
+          dataIndex: 'operateUser'
         },{
           title: '操作时间',
-          dataIndex: 'receivedTypeStr'
+          dataIndex: 'operateTime'
         },{
           title: '备注',
-          dataIndex: 'receivedAmount'
+          dataIndex: 'remark'
         }];
     }
 
 
-	infofetch=(keywords)=>{
+	infofetch=(Id,No,type)=>{
       //获取订单信息列表
 			this.props.dispatch({
 				type:'operateinout/exchangeInfofetch',
-        payload:{code:'qerp.web.pos.money.detail',values:{keywords:keywords}}})
+        payload:{values:{Id:Id,keywords:No,type:type}}})
   }
 
 	render(){
@@ -58,7 +58,7 @@ class OperateinoutExchangeInfo extends React.Component{
         </div>
         <div className='mb10'>
           <EditableTable  columns={this.column1}
-                          dataSource={this.props.exchangeInfoList}
+                          dataSource={this.props.exchangeLogList}
                           title="操作日志"
                           bordered={true}
                           footer={false}/>
@@ -67,13 +67,13 @@ class OperateinoutExchangeInfo extends React.Component{
 		)
 	}
 	componentDidMount(){
-		this.infofetch(this.props.data.keywords)
+		this.infofetch(this.props.data.Id,this.props.data.No,this.props.data.type)
 	}
 }
 
 function mapStateToProps(state) {
-    const {exchangeCardlist,exchangeList,exchangeInfoList} = state.operateinout;
-    return {exchangeCardlist,exchangeList,exchangeInfoList};
+    const {exchangeCardlist,exchangeList,exchangeLogList} = state.operateinout;
+    return {exchangeCardlist,exchangeList,exchangeLogList};
 }
 export default connect(mapStateToProps)(OperateinoutExchangeInfo);
 

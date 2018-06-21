@@ -71,8 +71,20 @@ class OperateinoutTable extends React.Component {
                 payload:paneitem
             })
         }
-
-
+        if(record.type == '31'){
+          const paneitem={title:'调拨详情',key:'402000edit'+ record.outId + 'info25',data:{Id:record.outId,No:record.name,type:31},componkey:'402000infoExchange'}
+          this.props.dispatch({
+            type:'tab/firstAddTab',
+            payload:paneitem
+          })
+        }
+        if(record.type == '32'){
+          const paneitem={title:'调拨详情',key:'402000edit'+ record.outId + 'info26',data:{Id:record.outId,No:record.name,type:32},componkey:'402000infoExchange'}
+          this.props.dispatch({
+            type:'tab/firstAddTab',
+            payload:paneitem
+          })
+        }
     }
 
     //分页方法

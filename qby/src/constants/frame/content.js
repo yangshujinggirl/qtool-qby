@@ -54,6 +54,8 @@ import OperateinoutIndex from '../operateinout/index';
 import OperateinoutInfo from '../operateinout/info';
 import OperateinoutMoneyInfo from '../operateinout/infomoney';
 import OperatememberIndex from '../operatemember/index';
+import OperateinoutExchangeInfo from '../operateinout/infoexchange'
+
 //供应商管理
 import OperatesupplierIndex from '../operatesupplier/index';
 import OperatesupplierEdit from '../operatesupplier/edit';
@@ -106,19 +108,16 @@ import InventoryInfo from '../datapos/inventoryinfo'
 import DbInfo from '../datapos/dbinfo'
 
 
-
-
-
 class Content extends React.Component {
     render() {
-        return (   
+        return (
     		<div className='counter'>
                 <div className='counter_con'>
                     <Spin tip="加载中..." spinning={this.props.loding}>
                         {
                             (() => {
                                 switch (this.props.componkey) {
-                                    
+
 
                                     case "301000":return  <GoodsIndex data={this.props.data}/>;
                                     case "301000edit":return  <GoodEdit data={this.props.data}/>;
@@ -130,21 +129,21 @@ class Content extends React.Component {
                                     case "304000":return  <Specsindex data={this.props.data}/>;
                                     case "305000":return  <GoodtimeIndex data={this.props.data}/>;
                                     case "305000edit":return  <GoodEditForm data={this.props.data}/>;
-                                   
+
                                     case "401000":return  <CzIndex data={this.props.data}/>;
                                     case "401000info":return  <OperateczInfo data={this.props.data}/>;
 
                                     case "402000infoCZ":return  <OperateczInfo data={this.props.data}/>;
                                     case "402000infoOrder":return <OrdermdInfo data={this.props.data}/>;
-                                    
+
                                     case "402500edit":return  <ConsumptionInfo data={this.props.data}/>;
                                     case "403000":return  <OperateIndex data={this.props.data}/>;
                                     case "403000edit":return  <SpEditForms data={this.props.data}/>;
-                                    
+
                                     case "704000":return  <DataorderIndex data={this.props.data}/>;
                                     case "703000edit":return  <DataTable data={this.props.data}/>;
                                     case "702000edit":return  <SpselldataTable data={this.props.data}/>;
-                                   
+
 
                                     case "000001":return  <DownloadIndex data={this.props.data}/>;
 
@@ -156,15 +155,15 @@ class Content extends React.Component {
                                     case "706000":return <DataFinanceIndex data={this.props.data}/>
 
                                     case "703000":return  <DatagoIndex data={this.props.data}/>;
-                                   
+
                                     case "201000":return <OrdermdIndex data={this.props.data}/>;
                                     case "201000info":return <OrdermdInfo data={this.props.data}/>;
                                     case "201000edit":return <OrdermdEdit data={this.props.data}/>;
-                                    
+
                                     case "202000":return <OrdercgIndex data={this.props.data}/>;
                                     case "202000info":return <OrdercgInfo data={this.props.data}/>;
                                     case "202000edit":return <OrdercgEdit data={this.props.data}/>;
-                                    
+
                                     case "203000":return <OrderthIndex data={this.props.data}/>;
                                     case "203000info":return <OrderthInfo data={this.props.data}/>;
                                     case "203000edit":return <OrderthEdit data={this.props.data}/>;
@@ -172,7 +171,7 @@ class Content extends React.Component {
                                     case "204000":return <OrderctIndex data={this.props.data}/>;
                                     case "204000info":return <OrderctInfo data={this.props.data}/>;
                                     case "204000edit":return <OrderctEdit data={this.props.data}/>;
-                                    
+
                                     case '205000':return <OrderposIndex data={this.props.data}/>;
                                     case '205000info':return <OrderposInfo data={this.props.data}/>;
 
@@ -189,7 +188,7 @@ class Content extends React.Component {
                                      case "404000":return <OperatebannerIndex data={this.props.data}/>;
                                      case "404000edit":return <OperatebannerEdit data={this.props.data}/>
                                      case "404000editH5":return <H5_configure data={this.props.data}/>
-                                    
+
                                     case "601000": return <AccountIndex data={this.props.data}/>;
                                     case "601000edit": return <AddNewAccount data={this.props.data}/>;
 
@@ -197,7 +196,7 @@ class Content extends React.Component {
                                     case "406000edit": return <Feedbackedit data={this.props.data}/>;
                                     case "301000editconfig": return <Config data={this.props.data}/>;
 
-                                    
+
                                     case "801000": return <OrderuserIndex data={this.props.data}/>
                                     case "801000info": return <OrderuserInfo data={this.props.data}/>;
                                     case "803000": return <InfouserIndex data={this.props.data}/>
@@ -210,12 +209,8 @@ class Content extends React.Component {
                                     case "707000info": return <AdjustInfo data={this.props.data}/>;
                                     case "707000infoinventory": return <InventoryInfo data={this.props.data}/>
                                     case "707000infodb": return <DbInfo data={this.props.data}/>
-                                    
 
-                                    
-
-                                    
-
+                                    case "402000infoExchange" : return <OperateinoutExchangeInfo data={this.props.data}/>
                                     default:  return "我是404";
                                 }
                             })()
