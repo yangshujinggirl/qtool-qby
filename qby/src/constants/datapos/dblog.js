@@ -134,55 +134,6 @@ class InventorydiffLogIndexForm extends React.Component {
         })
     }
 
-    //导出数据
-    exportDatas = () =>{
-        let data = {
-            spShopId:this.props.shopId,
-            currentPage:0,
-            limit:15,
-            adjustTimeST:this.state.adjustTimeST,
-            exchangeTimeEnd:this.state.exchangeTimeEnd,
-            type:2
-        }
-        this.exportData(86,data)
-    }
-
-    exportData = (type,data) => {
-		const values={
-			type:type,
-			downloadParam:data,
-		}
-		const result=GetServerData('qerp.web.sys.doc.task',values);
-		result.then((res) => {
-			return res;
-		}).then((json) => {
-			if(json.code=='0'){
-				var _dispatch=this.props.dispatch
-				confirm({
-					title: '数据已经进入导出队列',
-					content: '请前往下载中心查看导出进度',
-					cancelText:'稍后去',
-					okText:'去看看',
-					onOk() {
-						const paneitem={title:'下载中心',key:'000001',componkey:'000001',data:null}
-						_dispatch({
-							type:'tab/firstAddTab',
-							payload:paneitem
-						});
-						_dispatch({
-							type:'downlaod/fetch',
-							payload:{code:'qerp.web.sys.doc.list',values:{limit:15,currentPage:0}}
-						});
-					},
-					onCancel() {
-
-					},
-	  			});
-			}
-		})
-
-	}
-
     render() {
         const { getFieldDecorator } = this.props.form;
         return (
@@ -245,7 +196,6 @@ class InventorydiffLogIndexForm extends React.Component {
                             <Button type="primary" htmlType="submit" onClick={this.handleSearch.bind(this)} size='large'>搜索</Button>
                         </div>
                     </Form>
-                    <Button type="primary" size='large' className='mt20' onClick={this.exportDatas.bind(this)}>导出数据</Button>
                 </div>
                 <EditableTable
                     columns={this.columns}
