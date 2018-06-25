@@ -282,6 +282,12 @@ class OrdermdEditForm extends React.Component{
       })
     }
 
+    handleCancel = ()=>{
+      this.setState({
+        visible: false
+      })
+    }
+
   	render(){
       const { getFieldDecorator,getFieldProps } = this.props.form;
      	return(
@@ -416,6 +422,7 @@ class OrdermdEditForm extends React.Component{
                         <Button type="primary" onClick={this.handleSubmit.bind(this)}>保存</Button>
                     </FormItem>
                     <Infomodel ref='models' handleOk = {this.handleOk.bind(this)} visible={this.state.visible}
+                               handleCancel = {this.handleCancel.bind(this)}
                                num = {this.state.num} amount={this.state.amount}
                                deleteTab={this.deleteTab.bind(this)} refreshList={this.refreshList.bind(this)}/>
                 </Form>

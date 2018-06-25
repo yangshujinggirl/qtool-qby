@@ -13,9 +13,9 @@ const Infomodel =({num,amount,visible, handleCancel, handleOk}) => {
         onCancel={handleCancel}
         width={400}
         closable={false}
-        footer={[
-             <Button key="submit" type="primary"  onClick={handleOk}>确定</Button>,
-        ]}
+        // footer={[
+        //      <Button key="submit" type="primary"  onClick={handleOk}>确定</Button>,
+        // ]}
       >
         <div><p className='f18 mt20 modeltext'>商品数量：{num}</p>
         <p className='f18 mb10 modeltext'>订单金额：{amount}</p></div>
