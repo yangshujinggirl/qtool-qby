@@ -38,7 +38,7 @@ class InOutReportForm extends React.Component {
             dataIndex: 'barcode',
         },{
             title: '商品名称',
-            dataIndex: 'name',
+            dataIndex: 'pdSpuName',
         },{
             title: '商品分类',
             dataIndex: 'pdCategory1',
@@ -226,12 +226,12 @@ class InOutReportForm extends React.Component {
 						});
 					},
 					onCancel() {
-						
+
 					},
 	  			});
 			}
 		})
-	
+
 	}
 
     //获取当前时间
@@ -354,7 +354,7 @@ class InOutReportForm extends React.Component {
                                         label="订单时间"
                                         className="monthSelect-input"
                                         >
-                                            <MonthPicker 
+                                            <MonthPicker
                                             allowClear={false}
                                             value={this.state.rpDate?moment(this.state.rpDate, dateFormat):null}
                                             format={dateFormat}
@@ -375,16 +375,16 @@ class InOutReportForm extends React.Component {
                             <Button type="primary" htmlType="submit" onClick={this.handleSubmit.bind(this)} size='large'>搜索</Button>
                         </div>
                     </Form>
-                    {/* <Button 
-						type="primary" 
+                    {/* <Button
+						type="primary"
 						size='large'
 						className='mt20 mb15'
 						onClick={this.exportList.bind(this)}
 					>
 						导出数据
 					</Button> */}
-                    <EditableTable 
-                        columns={this.columns} 
+                    <EditableTable
+                        columns={this.columns}
                         dataSource={this.state.dataSource}
                         footer={true}
                         pageChange={this.pageChange.bind(this)}
@@ -393,7 +393,7 @@ class InOutReportForm extends React.Component {
                         limit={this.state.limit}
                         current={this.state.currentPage+1}
                         bordered={true}
-                        scroll={{ x: '130%' }}   
+                        scroll={{ x: '130%' }}
                         />
                 </div>
             </div>
