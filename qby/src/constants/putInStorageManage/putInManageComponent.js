@@ -15,6 +15,7 @@ class PutInManageComponent extends React.Component{
         }
     }
 
+    
       //获取当前的页码
     getCurrentPage = (currentPage) =>{
         this.setState({
