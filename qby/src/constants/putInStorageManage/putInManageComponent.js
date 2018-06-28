@@ -6,7 +6,6 @@ import StorageManageTable from '../putInStorageManage/storageManageTable';
 import {cloneObj} from '../../utils/commonFc';
 
 class PutInManageComponent extends React.Component{
-
     constructor(props) {
         super(props);
         this.state ={
@@ -15,7 +14,7 @@ class PutInManageComponent extends React.Component{
         }
     }
 
-    
+
       //获取当前的页码
     getCurrentPage = (currentPage) =>{
         this.setState({
