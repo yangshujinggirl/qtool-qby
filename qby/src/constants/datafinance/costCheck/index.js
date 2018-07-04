@@ -53,21 +53,13 @@ class CostCheckIndexForm extends React.Component {
               return (
                 this.state.dataSource.length > 0 ?
                 (
-                  (record.preSellUrl)?
-                  <div onClick = {this.downloadPreSale.bind(this,record)} style={{color: '#35bab0', cursor:'pointer'}}>下载</div>
-                  :<div>{text}</div>
+                  record.url?
+                    <div onClick = {this.expressData.bind(this,"74",record)} style={{color: '#35bab0', cursor:'pointer'}}>导出</div>
+                    :<div>{record.warn}</div>
                 ) : null
               );
             }
-      },{
-        title: '操作',
-        dataIndex: 'preSellwarn2',
-        render: (text, record) => {
-          return (
-            <div onClick = {this.expressData.bind(this,'1',record)} style={{color: '#35bab0', cursor:'pointer'}}>导出</div>
-          );
-        }
-  }];
+      }];
     }
 
     onDownloadCheck = (record) => {
@@ -85,7 +77,7 @@ class CostCheckIndexForm extends React.Component {
     expressData = (type,data) => {
 		const values={
 			type:type,
-			downloadParam:data,
+			downloadParam:{month:data.name},
 		}
 		const result=GetServerData('qerp.web.sys.doc.task',values);
 		result.then((res) => {
@@ -110,12 +102,12 @@ class CostCheckIndexForm extends React.Component {
 						});
 					},
 					onCancel() {
-						
+
 					},
 	  			});
 			}
 		})
-	
+
 	}
 
 
@@ -123,8 +115,8 @@ class CostCheckIndexForm extends React.Component {
         const { getFieldDecorator } = this.props.form;
         return (
             <div>
-                <EditableTable 
-                    columns={this.columns} 
+                <EditableTable
+                    columns={this.columns}
                     dataSource={this.state.dataSource}
                     footer={false}
                     bordered={true}

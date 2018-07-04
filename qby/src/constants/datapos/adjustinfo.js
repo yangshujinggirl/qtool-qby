@@ -1,8 +1,8 @@
 import {GetServerData} from '../../services/services';
 import { connect } from 'dva';
-import EditableTable from '../../components/table/tablebasic';
+// import EditableTable from '../../components/table/tablebasic';
 import Cardlist from '../../components/table/cardlist';
-
+import TableDefault from '../../components/table/table_default';
 
 class AdjustInfo extends React.Component{
 	constructor(props) {
@@ -31,13 +31,16 @@ class AdjustInfo extends React.Component{
     this.state={
       headTit:[],
       details:[],
-      pdSpus:[]
+      pdSpus:[],
+			limit:15,
+			currentPage:0,
+			total:0
     }
     }
 
     //请求信息
     infofetch=(id)=>{
-        const values={adjustId:id}
+        const values={adjustId:id,limit:this.state.limit,currentPage:this.state.currentPage}
         const result=GetServerData('qerp.web.pd.adjust.detail',values);
         result.then((res) => {
            return res;
@@ -62,11 +65,36 @@ class AdjustInfo extends React.Component{
               const pdSpus=json.adjustSpus
               this.setState({
                 pdSpus:pdSpus,
-                headTit:headTit
+                headTit:headTit,
+								limit:json.limit,
+								currentPage:json.currentPage,
+								total:json.total
               })
             }
         })
     }
+		pageChange=(page,pageSize)=>{
+			console.log(page)
+			console.log(pageSize)
+			// this.initList(pageSize,Number(page-1))
+			this.setState({
+				limit:pageSize,
+				currentPage:Number(page-1)
+			},()=>{
+				this.infofetch(this.props.data.id)
+			})
+
+		}
+		//pagesize变化
+		pageSizeChange=(current,size)=>{
+					// this.initList(size,0)
+					this.setState({
+						limit:size,
+						currentPage:Number(current-1)
+					},()=> {
+						this.infofetch(this.props.data.id)
+					})
+		}
 	render(){
 		return(
 			<div>
@@ -74,12 +102,17 @@ class AdjustInfo extends React.Component{
 					<Cardlist cardtitle="商品损益信息" cardlist={this.state.headTit}/>
 				</div>
 				<div className='mb10'>
-					<EditableTable
+					<TableDefault
 						columns={this.column}
 						dataSource={this.state.pdSpus}
-                        title="商品信息"
-                        bordered={true}
-						footer={false}/>
+            title="商品信息"
+            bordered={true}
+						pageChange={this.pageChange.bind(this)}
+						pageSizeChange={this.pageSizeChange.bind(this)}
+						total={Number(this.state.total)}
+						limit={Number(this.state.limit)}
+						current={Number(this.state.currentPage)+1}
+						/>
 				</div>
 			</div>
 		)
@@ -91,4 +124,3 @@ class AdjustInfo extends React.Component{
 
 
 export default connect()(AdjustInfo);
-
