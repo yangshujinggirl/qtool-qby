@@ -110,6 +110,8 @@ import DbInfo from '../datapos/dbinfo'
 //Q本营-门店pos
 import QposDbInfo from '../datapos/dbinfo'
 
+import UserOrder from '../userOrder/index';
+
 
 class Content extends React.Component {
     render() {
@@ -214,8 +216,9 @@ class Content extends React.Component {
                                     case "707000infodb": return <DbInfo data={this.props.data}/>
 
                                     case "707000infodb1": return <QposDbInfo data={this.props.data}/>
-                                  
+
                                     case "402000infoExchange" : return <OperateinoutExchangeInfo data={this.props.data}/>
+                                    case "207000" : return <UserOrder data={this.props.data}/>
                                     default:  return "我是404";
                                 }
                             })()
@@ -236,4 +239,3 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(Content);
-
