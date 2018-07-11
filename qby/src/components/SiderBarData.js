@@ -1197,6 +1197,32 @@ const SiderBarData =  [
       ]
     },
     {
+      "urResourceId": 500000,
+      "name": "合作中心",
+      "code": "400000",
+      "url": "",
+      "remark": null,
+      "status": 1,
+      "statusStr": null,
+      "menu": 1,
+      "menuStr": null,
+      "rank": 40,
+      "children": [
+        {
+          "urResourceId": 501000,
+          "name": "资源管理",
+          "code": "401000",
+          "url": "",
+          "remark": null,
+          "status": 1,
+          "statusStr": null,
+          "menu": 1,
+          "menuStr": null,
+          "rank": null,
+        }
+      ]
+    },
+    {
       "urResourceId": 700000,
       "name": "数据中心",
       "code": "700000",
