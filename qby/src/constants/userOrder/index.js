@@ -5,6 +5,7 @@ import Qtable from '../../components/Qtable/index';
 import Qpagination from '../../components/Qpagination/index';
 import FilterForm from './FilterForm/index'
 import Columns from './columns/index';
+import {getList} from '../../services/orderCenter/userOrders.js';
 
 
 
@@ -15,9 +16,15 @@ class UserOrder extends Component {
   componentWillMount() {
     let params = {"dateStart":"2018-06-10 00:00:00","dateEnd":"2018-07-09 23:59:59","deliveryTimeST":"","deliveryTimeET":"","limit":15,"currentPage":0}
     this.props.dispatch({
-        type:'userorder/fetchList',
+        type:'userorders/fetchList',
         payload:{values:params}
     });
+    // getList(params)
+    // .then(res =>{
+    //   console.log(res)
+    // },error => {
+    //   console.log(error)
+    // })
   }
   //操作
   handleOperateClick(record,type) {
@@ -33,12 +40,12 @@ class UserOrder extends Component {
   //点击分页
   changePage = (currentPage) => {
     this.props.dispatch({
-      type:'userorder/fetchList',
+      type:'userorders/fetchList',
       payload: {values:{currentPage}}
     });
   }
   render() {
-    const { dataList=[] } = this.props.userorder;
+    const { dataList=[] } = this.props.userorders;
     return (
       <div>
         <FilterForm />
@@ -47,7 +54,7 @@ class UserOrder extends Component {
           onOperateClick={this.handleOperateClick.bind(this)}
           columns = {Columns}/>
         <Qpagination
-          data={this.props.userorder}
+          data={this.props.userorders}
           onChange={this.changePage}/>
       </div>
     )
@@ -55,8 +62,8 @@ class UserOrder extends Component {
 }
 
 function mapStateToProps(state) {
-  const { userorder } = state;
-  return {userorder};
+  const { userorders } = state;
+  return {userorders};
 }
 
 export default connect(mapStateToProps)(UserOrder);

@@ -33,8 +33,8 @@ export function post(url, paramsObj) {
         },
         body: obj2params(paramsObj)
     }).then((res) => {
-        if (res.status !== 200) {            
-            return {message:'网络错误'};                   
+        if (res.status !== 200) {
+            return {message:'网络错误'};
          }
 
 
@@ -50,8 +50,8 @@ export function post(url, paramsObj) {
         }
         jsessionid = json.sessionId;
         return json;
-    }).catch(function(err) {      
-        return {message:'网络错误'};      
+    }).catch(function(err) {
+        return {message:'网络错误'};
      });
 
     return result;
@@ -68,8 +68,8 @@ export function post2(url, paramsObj) {
         },
         body: obj2params(paramsObj)
     }).then((res) => {
-        if (res.status !== 200) {            
-            return {message:'网络错误'};                   
+        if (res.status !== 200) {
+            return {message:'网络错误'};
         }
         let json = res.json();
         return json;
@@ -80,8 +80,8 @@ export function post2(url, paramsObj) {
         }
         jsessionid = json.sessionId;
         return json;
-    }).catch(function(err) {      
-        return {message:'网络错误'};      
+    }).catch(function(err) {
+        return {message:'网络错误'};
     });
 
     return result;
