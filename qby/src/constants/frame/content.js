@@ -111,6 +111,8 @@ import DbInfo from '../datapos/dbinfo'
 import QposDbInfo from '../datapos/dbinfo'
 
 import UserOrder from '../userOrder/index';
+// 合作中心
+import MarketResource from '../marketResource/index';
 
 
 class Content extends React.Component {
@@ -183,16 +185,16 @@ class Content extends React.Component {
                                     case "206000":return <OrderdbIndex data={this.props.data}/>;
                                     case "206000info":return <OrderdbInfo data={this.props.data}/>;
                                     case "206000edit":return <OrderdbEdit data={this.props.data}/>;
-                                    //运营管理
+                                // --------------------------- 运营管理 -------------------------------
                                     case "402000":return <OperateinoutIndex data={this.props.data}/>;
                                     case "402000info":return <OperateinoutInfo data={this.props.data}/>;
                                     case "402000infoMoney":return <OperateinoutMoneyInfo data={this.props.data}/>;
-                                     case "402500":return <OperatememberIndex data={this.props.data}/>;
-                                     case "405000":return <OperatesupplierIndex data={this.props.data}/>;
-                                     case "405000edit":return <OperatesupplierEdit data={this.props.data}/>;
-                                     case "404000":return <OperatebannerIndex data={this.props.data}/>;
-                                     case "404000edit":return <OperatebannerEdit data={this.props.data}/>
-                                     case "404000editH5":return <H5_configure data={this.props.data}/>
+                                    case "402500":return <OperatememberIndex data={this.props.data}/>;
+                                    case "405000":return <OperatesupplierIndex data={this.props.data}/>;
+                                    case "405000edit":return <OperatesupplierEdit data={this.props.data}/>;
+                                    case "404000":return <OperatebannerIndex data={this.props.data}/>;
+                                    case "404000edit":return <OperatebannerEdit data={this.props.data}/>
+                                    case "404000editH5":return <H5_configure data={this.props.data}/>
 
                                     case "601000": return <AccountIndex data={this.props.data}/>;
                                     case "601000edit": return <AddNewAccount data={this.props.data}/>;
@@ -219,6 +221,8 @@ class Content extends React.Component {
 
                                     case "402000infoExchange" : return <OperateinoutExchangeInfo data={this.props.data}/>
                                     case "207000" : return <UserOrder data={this.props.data}/>
+                                    // -------------------------------合作中心----------------------------
+                                    case "501000" : return <MarketResource data={this.props.data}/>
                                     default:  return "我是404";
                                 }
                             })()
