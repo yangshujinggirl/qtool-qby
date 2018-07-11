@@ -4,163 +4,120 @@ import './index.css';
 
 import { useRouterHistory } from 'dva/router';
 import { createHashHistory } from 'history';
+//商品中心-------
+import baseGoodsDetail from './models/goodsCenter/baseGoods/baseGoodsDetail.js';//基础商品
+import baseGoodsList from './models/goodsCenter/baseGoods/baseGoodsList.js';//基础商品详情
+//订单中心--用户订单
+import userorders from './models/userorders';
+import account from "./models/account"
+import downlaod from "./models/downlaod"
+import dataposorder from "./models/dataposorder"
+import datasporder from "./models/datasporder"
+import datas from "./models/datas"
+import dataclassdes from "./models/dataclassdes"
+import datagodes from "./models/datagodes"
+import dataspfen from "./models/dataspfen"
+import datasphiscun from "./models/datasphiscun"
+import dataspcun from "./models/dataspcun"
+import dataspsell from "./models/dataspsell"
+import stock from "./models/stock"
+import specs from "./models/specs"
+import brand from "./models/brand"
+import fenlei from "./models/fenlei"
+import warehouse from "./models/warehouse"
+import feedback from "./models/feedback"
+import datacg from "./models/datacg"
+import datawstime from "./models/datawstime"
+import datawshis from "./models/datawshis"
+import datawson from "./models/datawson"
+import dataws from "./models/dataws"
+import operatesp from "./models/operatesp"
+import goodtime from "./models/goodtime"
+import operatecz from "./models/operatecz"
+import recheck from "./models/recheck"
+import adjust from "./models/adjust"
+import jedit from "./models/jedit"
+import postcheck from "./models/postcheck"
+import goods from "./models/goods"
+import orderdb from "./models/orderdb"
+import orderct from "./models/orderct"
+import orderth from "./models/orderth"
+import orderpos from "./models/orderpos"
+import ordercg from "./models/ordercg"
+import ordermd from "./models/ordermd"
+import IndexPage from "./models/IndexPage"
+import tab from "./models/tab"
+import users from "./models/users"
+import operatemember from "./models/operatemember"
+import operateinout from "./models/operateinout"
+import operatesupplier from "./models/operatesupplier"
+import operatebanner from "./models/operatebanner"
+import h5config from "./models/h5config"
+import dataposManage from "./models/dataposManage"
+import onlinegood from "./models/onlinegood"
+
+
 // 1. Initialize
 const app = dva({
     history: useRouterHistory(createHashHistory)({ queryKey: false }),
   });
 
+const models = [
+  baseGoodsDetail,
+  baseGoodsList,
+  userorders,
+  account,
+  downlaod,
+  dataposorder,
+  datasporder,
+  datas,
+  dataclassdes,
+  datagodes,
+  dataspfen,
+  datasphiscun,
+  dataspcun,
+  dataspsell,
+  stock,
+  specs,
+  brand,
+  fenlei,
+  warehouse,
+  feedback,
+  datacg,
+  datawstime,
+  datawshis,
+  datawson,
+  dataws,
+  operatesp,
+  goodtime,
+  operatecz,
+  recheck,
+  adjust,
+  jedit,
+  postcheck,
+  goods,
+  orderdb,
+  orderct,
+  orderth,
+  orderpos,
+  ordercg,
+  ordermd,
+  IndexPage,
+  tab,
+  users,
+  operatemember,
+  operateinout,
+  operatesupplier,
+  operatebanner,
+  h5config,
+  dataposManage,
+  onlinegood,
+]
+
+models.forEach(m => {
+  return app.model(m)
+})
 
-
-
-
-
-app.model(require("./models/account"));
-
-
-
-
-
-
-app.model(require("./models/downlaod"));
-
-
-
-
-
-
-app.model(require("./models/dataposorder"));
-
-
-
-
-
-
-app.model(require("./models/datasporder"));
-
-
-
-
-
-
-app.model(require("./models/datas"));
-
-
-
-
-
-
-app.model(require("./models/dataclassdes"));
-
-
-
-
-
-
-app.model(require("./models/datagodes"));
-
-
-
-
-
-
-app.model(require("./models/dataspfen"));
-
-
-
-
-
-
-app.model(require("./models/datasphiscun"));
-
-
-
-
-
-
-app.model(require("./models/dataspcun"));
-
-
-
-
-
-
-app.model(require("./models/dataspsell"));
-
-
-
-
-
-
-app.model(require("./models/stock"));
-
-app.model(require("./models/specs"));
-
-app.model(require("./models/brand"));
-
-app.model(require("./models/fenlei"));
-
-app.model(require("./models/warehouse"));
-
-app.model(require("./models/feedback"));
-
-app.model(require("./models/datacg"));
-
-app.model(require("./models/datawstime"));
-
-app.model(require("./models/datawshis"));
-
-app.model(require("./models/datawson"));
-
-app.model(require("./models/dataws"));
-
-app.model(require("./models/operatesp"));
-
-app.model(require("./models/goodtime"));
-
-app.model(require("./models/operatecz"));
-
-app.model(require("./models/recheck"));
-
-app.model(require("./models/adjust"));
-
-app.model(require("./models/jedit"));
-
-app.model(require("./models/postcheck"));
-
-app.model(require("./models/goods"));
-
-app.model(require("./models/orderdb"));
-
-app.model(require("./models/orderct"));
-
-app.model(require("./models/orderth"));
-
-app.model(require("./models/orderpos"));
-
-app.model(require("./models/ordercg"));
-
-app.model(require("./models/ordermd"));
-app.model(require("./models/IndexPage"));
-app.model(require("./models/tab"));
-
-app.model(require("./models/users"));
-
-
-
-app.model(require("./models/operatemember"));
-
-app.model(require("./models/operateinout"));
-
-app.model(require("./models/operatesupplier"));
-
-app.model(require("./models/operatebanner"));
-
-app.model(require("./models/h5config"));
-
-app.model(require("./models/dataposManage"));
-
-app.model(require("./models/onlinegood"));
-app.model(require("./models/userorders"));//用户订单
 
 // 2. Plugins
 // app.use({});

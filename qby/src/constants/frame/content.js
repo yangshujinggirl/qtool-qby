@@ -110,7 +110,8 @@ import DbInfo from '../datapos/dbinfo'
 //Q本营-门店pos
 import QposDbInfo from '../datapos/dbinfo'
 
-import UserOrder from '../userOrder/index';
+import UserOrder from '../userOrder/index';//用户订单
+import  BaseGoods from '../goods/baseGoods/index';
 // 合作中心
 import MarketResource from '../marketResource/index';
 
@@ -223,6 +224,7 @@ class Content extends React.Component {
                                     case "207000" : return <UserOrder data={this.props.data}/>
                                     // -------------------------------合作中心----------------------------
                                     case "501000" : return <MarketResource data={this.props.data}/>
+                                    case "306000" : return <BaseGoods data={this.props.data}/>
                                     default:  return "我是404";
                                 }
                             })()
