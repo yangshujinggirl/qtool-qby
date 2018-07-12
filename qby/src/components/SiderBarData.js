@@ -713,6 +713,33 @@ const SiderBarData =  [
               "children": null
             }
           ]
+        },
+        {
+          "urResourceId": 306000,
+          "name": "基础商品",
+          "code": "305000",
+          "url": "",
+          "remark": null,
+          "status": 1,
+          "statusStr": null,
+          "menu": 1,
+          "menuStr": null,
+          "rank": null,
+          "children": [
+            {
+              "urResourceId": 306100,
+              "name": "增改定时",
+              "code": "305100",
+              "url": "qerp.web.pd.task.time.save",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": null
+            }
+          ]
         }
       ]
     },

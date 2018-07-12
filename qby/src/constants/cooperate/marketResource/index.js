@@ -10,12 +10,12 @@ class MarketResource extends Component{
     }
 
     componentWillMount() {
-        this.getList({})
+        this.getList({"dateStart":"2018-06-13 00:00:00","dateEnd":"2018-07-12 23:59:59","deliveryTimeST":"","deliveryTimeET":"","limit":15,"currentPage":0})
     }
     getList(values) {
         this.props.dispatch({
             type:'marketResource/fetchList',
-            payload:values
+            payload:{values:values}
         })
     }
     render(){
@@ -35,4 +35,4 @@ function mapStateToProps(state){
     return {marketResource}
 
 }
-export default connect(mapStateToProps)(MarketResource) 
+export default connect(mapStateToProps)(MarketResource)

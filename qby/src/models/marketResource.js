@@ -8,9 +8,9 @@ export default {
     reducer:{},
     effects:{
         *fetchList({payload:{values} },{call, put}) {
-            const result =  yield call(getListApi,values);
+            const result =  yield call( getListApi,values );
             if(result.code == '0'){
-                debugger
+
             }
         }
     },
