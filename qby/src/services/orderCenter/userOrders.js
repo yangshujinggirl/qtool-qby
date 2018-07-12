@@ -1,6 +1,6 @@
-import Ajax from '../../utils/req.js';
+import ajax from '../../utils/req.js';
 
-const ajax = new Ajax({baseURL:'/erpWebRest'})
+// const ajax = new Ajax({baseURL:'/erpWebRest'})
 
 export function getList(values) {
   values = JSON.stringify(values)
