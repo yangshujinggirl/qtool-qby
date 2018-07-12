@@ -36,6 +36,7 @@ class NormalForm extends Component {
 
   }
   render() {
+    // console.log(this.props)
     const { getFieldDecorator } = this.props.form;
     return(
       <div>
@@ -96,6 +97,38 @@ class NormalForm extends Component {
   }
 }
 
-const FilterForm = Form.create()(NormalForm);
+const FilterForm = Form.create({
+  onFieldsChange(props, changedFields) {
+    props.onChange(changedFields);
+  },
+  mapPropsToFields(props) {
+    return {
+      code: Form.createFormField({
+        ...props.code,
+        value: props.code.value,
+      }),
+      name: Form.createFormField({
+        ...props.name,
+        value: props.name.value,
+      }),
+      brandName: Form.createFormField({
+        ...props.brandName,
+        value: props.brandName.value,
+      }),
+      pdCategory1Name: Form.createFormField({
+        ...props.pdCategory1Name,
+        value: props.pdCategory1Name.value,
+      }),
+      infoStatus: Form.createFormField({
+        ...props.infoStatus,
+        value: props.infoStatus.value,
+      }),
+      source: Form.createFormField({
+        ...props.source,
+        value: props.source.value,
+      }),
+    };
+  }
+})(NormalForm);
 
 export default FilterForm;

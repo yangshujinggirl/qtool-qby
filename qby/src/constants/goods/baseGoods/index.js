@@ -11,6 +11,28 @@ import './index.css';
 class BaseGoods extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      fields: {
+         code: {
+           value: '',
+         },
+         name: {
+           value: '',
+         },
+         brandName: {
+           value: '',
+         },
+         pdCategory1Name: {
+           value: '',
+         },
+         infoStatus: {
+           value: '',
+         },
+         source: {
+           value: '',
+         },
+       },
+    }
   }
   componentWillMount() {
     this.props.dispatch({
@@ -18,11 +40,28 @@ class BaseGoods extends Component {
       payload:{}
     })
   }
+  //双向绑定表单
+  handleFormChange = (changedFields) => {
+    this.setState(({ fields }) => ({
+      fields: { ...fields, ...changedFields },
+    }));
+  }
+  //
+  formData(obj) {
+    console.log(obj)
+  }
   //分页
   changePage = (currentPage) => {
+    const { fields } = this.state;
+    const formData = {};
+    let key;
+    for(key in fields) {
+      formData[key] = fields[key].value;
+    }
+    const paramsObj ={...{currentPage},...formData}
     this.props.dispatch({
       type:'baseGoodsList/fetchList',
-      payload: {currentPage}
+      payload: paramsObj
     });
   }
   //搜索
@@ -34,9 +73,13 @@ class BaseGoods extends Component {
   }
   render() {
     const { dataList=[] } = this.props.baseGoodsList;
+    const {fields} = this.state;
     return (
       <div className="base-goods-components">
-        <FilterForm submit={this.searchData}/>
+        <FilterForm
+          {...fields}
+          submit={this.searchData}
+          onChange={this.handleFormChange}/>
         <div className="add-btn-lists">
           <Button size="large" type="primary">新增线上商品</Button>
           <Button size="large" type="primary">新增线下商品</Button>
