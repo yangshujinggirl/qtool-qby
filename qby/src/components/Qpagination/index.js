@@ -10,8 +10,6 @@ class Qpagination extends Component {
   }
   render() {
     const { total, limit, current } = this.props.data;
-    console.log(total)
-    console.log(typeof total)
     return(
       <Pagination
         showSizeChanger
