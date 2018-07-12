@@ -161,6 +161,7 @@ app.model(require("./models/dataposManage"));
 
 app.model(require("./models/onlinegood"));
 app.model(require("./models/userorders"));//用户订单
+app.model(require("./models/marketResource"));//用户订单
 
 // 2. Plugins
 // app.use({});

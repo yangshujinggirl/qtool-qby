@@ -112,7 +112,7 @@ import QposDbInfo from '../datapos/dbinfo'
 
 import UserOrder from '../userOrder/index';
 // 合作中心
-import MarketResource from '../marketResource/index';
+import MarketResource from '../cooperate/marketResource/index';
 
 
 class Content extends React.Component {
