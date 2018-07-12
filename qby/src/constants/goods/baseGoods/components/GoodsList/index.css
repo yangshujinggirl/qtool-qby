@@ -13,12 +13,12 @@
   align-items: flex-start;
   margin-bottom: 10px;
 }
-.goods-action-top .part-l,
-.goods-action-top .part-r {
-
+.goods-action-top .part-l img{
+  width: 100%;
 }
+
 .goods-action-top .part-l {
-  width: 105px;
+  flex:0 0 105px;
   height: 105px;
   background-color: red;
 }
@@ -38,4 +38,8 @@
  .event-btn {
    border-radius: 3px;
    margin-right: 8px;
+ }
+ .label-icon-list img{
+   width: 16px;
+   margin-right: 4px;
  }

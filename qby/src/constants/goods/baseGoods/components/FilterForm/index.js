@@ -42,50 +42,43 @@ class NormalForm extends Component {
         <Form className="qtools-condition-form">
           <Row wrap>
             <Col span={6}>
-              <FormItem label='门店名称' {...formItemLayout}>
-                 {getFieldDecorator('name')(
-                   <Input placeholder="Username" />
-                 )}
-               </FormItem>
-            </Col>
-            <Col span={6}>
-              <FormItem label='订单号' {...formItemLayout}>
-                 {getFieldDecorator('userName')(
+              <FormItem label='商品编码' {...formItemLayout}>
+                 {getFieldDecorator('code')(
                    <Input placeholder="Username" />
                  )}
                </FormItem>
             </Col>
             <Col span={6}>
               <FormItem label='商品名称' {...formItemLayout}>
-                 {getFieldDecorator('userName')(
+                 {getFieldDecorator('name')(
                    <Input placeholder="Username" />
                  )}
                </FormItem>
             </Col>
             <Col span={6}>
-              <FormItem label='商品编码' {...formItemLayout}>
-                 {getFieldDecorator('userName')(
+              <FormItem label='商品品牌' {...formItemLayout}>
+                 {getFieldDecorator('brandName')(
                    <Input placeholder="Username" />
                  )}
                </FormItem>
             </Col>
             <Col span={6}>
-              <FormItem label='用户电话' {...formItemLayout}>
-                 {getFieldDecorator('userName')(
+              <FormItem label='一级分类' {...formItemLayout}>
+                 {getFieldDecorator('pdCategory1Name')(
                    <Input placeholder="Username" />
                  )}
                </FormItem>
             </Col>
             <Col span={6}>
-              <FormItem label='流程状态' {...formItemLayout}>
-                 {getFieldDecorator('userName')(
+              <FormItem label='是否完整' {...formItemLayout}>
+                 {getFieldDecorator('infoStatus')(
                    <Input placeholder="Username" />
                  )}
                </FormItem>
             </Col>
             <Col span={6}>
-              <FormItem label='订单时间' {...formItemLayout}>
-                 {getFieldDecorator('userName')(
+              <FormItem label='商品归属' {...formItemLayout}>
+                 {getFieldDecorator('source')(
                    <Input placeholder="Username" />
                  )}
                </FormItem>
