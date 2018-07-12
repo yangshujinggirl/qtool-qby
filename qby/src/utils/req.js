@@ -7,9 +7,7 @@ const defaultHeader = {
   // 'Accept': 'application/json, text/plain, */*',
   'Content-Type': 'application/x-www-form-urlencoded'
 };
-
-
-export default function({ baseURL = '', timeout = 600000, headers = defaultHeader}) {
+function request({ baseURL = '', timeout = 600000, headers = defaultHeader}) {
   const axiosinstance  = axios.create({
     baseURL,
     timeout,
@@ -45,3 +43,7 @@ export default function({ baseURL = '', timeout = 600000, headers = defaultHeade
     }));
     return axiosinstance;
 }
+
+
+const ajax = new request({baseURL:'/erpWebRest'});
+export default ajax;

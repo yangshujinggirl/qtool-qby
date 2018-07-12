@@ -1,4 +1,4 @@
-import { getList } from '../../../services/orderCenter/userOrders.js';
+import { getListApi } from '../../../services/goodsCenter/baseGoods.js';
 
 export default {
   namespace:'baseGoodsList',
@@ -14,8 +14,8 @@ export default {
     }
   },
   effects: {
-    *fetchList({ payload: {code='qerp.web.sp.order.query',values} }, { call, put ,select}) {
-      const result=yield call(getList,values);
+    *fetchList({ payload: {values} }, { call, put ,select}) {
+      const result=yield call(getListApi,values);
       if(result.code=='0') {
         const { spOrders, currentPage, limit, total } = result;
         yield put ({
