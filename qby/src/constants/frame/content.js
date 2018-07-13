@@ -110,11 +110,18 @@ import DbInfo from '../datapos/dbinfo'
 //Q本营-门店pos
 import QposDbInfo from '../datapos/dbinfo'
 
+//订单中心
 import UserOrder from '../userOrder/index';//用户订单
-import  BaseGoods from '../goods/baseGoods/index';
+//商品中心
+import  BaseGoods from '../goods/baseGoods/index';//基础商品
+import  AddGoods from '../goods/baseGoods/AddGoods';//基础商品--新增商品
+import  GoodsDetail from '../goods/baseGoods/GoodsDetail';//基础商品--商品详情
+import  LogList from '../goods/baseGoods/LogList';//基础商品--日志
 // 合作中心
 import MarketResource from '../cooperate/marketResource/index';
+//活动中心
 import Cbanner from '../activity/cBanner/index';
+import AddBanner from '../activity/cBanner/addBanner.js';
 
 
 class Content extends React.Component {
@@ -225,9 +232,18 @@ class Content extends React.Component {
                                     case "207000" : return <UserOrder data={this.props.data}/>
                                     // -------------------------------合作中心----------------------------
                                     case "501000" : return <MarketResource data={this.props.data}/>
+
                                     // --------------------------------活动中心----------------------------
-                                    case "101000" : return <Cbanner data={this.props.data}/>
+                                    case "101000" : return <Cbanner data={this.props.data} componkey={this.props.componkey}/>
+                                    case "101000edit" : return <AddBanner data={this.props.data} componkey={this.props.componkey}/>
                                     case "306000" : return <BaseGoods data={this.props.data}/>
+
+                                    // -------------------------------商品中心----基础商品----------------------------
+                                    case "306000" : return <BaseGoods data={this.props.data} componkey={this.props.componkey}/>
+                                    case "306000edit" : return <AddGoods data={this.props.data}/>
+                                    case "306000info" : return <GoodsDetail data={this.props.data}/>
+                                    case "306000editconfig" : return <LogList data={this.props.data}/>
+
                                     default:  return "我是404";
                                 }
                             })()

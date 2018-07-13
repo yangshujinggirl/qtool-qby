@@ -4,11 +4,13 @@ import Qtable from '../../../components/Qtable/index'; //表单
 import Qpagination from '../../../components/Qpagination/index'; //分页
 import Columns from './columns/index'
 import NormalForm from './FilterForm/index'
+import { Button } from 'antd'
 
 class Cbanner extends Component{
   constructor(props){
     super(props);
     this.state = {
+      componkey:this.props.componkey,
       fields: {
         userName: {
           value: '',
@@ -59,7 +61,21 @@ class Cbanner extends Component{
       payload:values
     })
   }
-
+  //新增banner
+  addBanners() {
+    const paneitem={
+      title:'新增banner',
+      key:`${this.state.componkey}edit`,
+      componkey:`${this.state.componkey}edit`,
+      data:{
+        pdSpuId:null,
+      }
+    }
+    this.props.dispatch({
+        type:'tab/firstAddTab',
+        payload:paneitem
+    })
+  }
 
   render(){
     const { dataList = [] } = this.props.cBanner;
@@ -71,6 +87,9 @@ class Cbanner extends Component{
           submit={this.searchData}
           onChange={this.handleFormChange}
         />
+        <div className="add-btn-lists">
+          <Button size="large" type="primary" onClick={()=>this.addBanners()}>新增banner</Button>
+        </div>
         <Qtable
           dataSource = {dataList}
           columns = {Columns}/>
