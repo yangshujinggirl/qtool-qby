@@ -56,7 +56,9 @@ import h5config from "./models/h5config"
 import dataposManage from "./models/dataposManage"
 import onlinegood from "./models/onlinegood"
 //合作中心
-import marketResource from './models/marketResource' //资源管理
+import marketResource from './models/cooperate/marketResource' //资源管理
+//活动中心
+import cBanner from './models/activity/cBanner/cBanner'
 
 
 // 1. Initialize
@@ -115,6 +117,7 @@ const models = [
   dataposManage,
   onlinegood,
   marketResource,
+  cBanner,
 ]
 
 models.forEach(m => {

@@ -1,4 +1,5 @@
 const SiderBarData =  [
+  //订单中心200000
     {
       "urResourceId": 200000,
       "name": "订单中心",
@@ -449,6 +450,7 @@ const SiderBarData =  [
         }
       ]
     },
+  //商品中心300000
     {
       "urResourceId": 300000,
       "name": "商品中心",
@@ -743,6 +745,7 @@ const SiderBarData =  [
         }
       ]
     },
+  //电商中心800000
     {
       "urResourceId": 800000,
       "name": "电商中心",
@@ -968,6 +971,7 @@ const SiderBarData =  [
         }
       ]
     },
+  //运营中心400000
     {
       "urResourceId": 400000,
       "name": "运营中心",
@@ -1223,10 +1227,11 @@ const SiderBarData =  [
         }
       ]
     },
+  //合作中心500000
     {
       "urResourceId": 500000,
       "name": "合作中心",
-      "code": "400000",
+      "code": "500000",
       "url": "",
       "remark": null,
       "status": 1,
@@ -1249,6 +1254,34 @@ const SiderBarData =  [
         }
       ]
     },
+  //活动中心100000
+    {
+      "urResourceId": 100000,
+      "name": "活动中心",
+      "code": "100000",
+      "url": "",
+      "remark": null,
+      "status": 1,
+      "statusStr": null,
+      "menu": 1,
+      "menuStr": null,
+      "rank": 40,
+      "children": [
+        {
+          "urResourceId": 101000,
+          "name": "C端banner",
+          "code": "101000",
+          "url": "",
+          "remark": null,
+          "status": 1,
+          "statusStr": null,
+          "menu": 1,
+          "menuStr": null,
+          "rank": null,
+        }
+      ]
+    },
+//数据中心70000
     {
       "urResourceId": 700000,
       "name": "数据中心",
@@ -1581,6 +1614,7 @@ const SiderBarData =  [
         }
       ]
     },
+//账号中心600000
     {
       "urResourceId": 600000,
       "name": "账号中心",
