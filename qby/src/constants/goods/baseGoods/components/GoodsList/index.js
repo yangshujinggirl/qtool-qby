@@ -43,7 +43,7 @@ const IconList =({data})=>(
 
 class GoodsList extends Component {
   render() {
-    const { list } = this.props;
+    const { list, onOperateClick } = this.props;
     const filePath = JSON.parse(sessionStorage.getItem('fileDomain'));
 
     return (
@@ -53,7 +53,7 @@ class GoodsList extends Component {
             list.length>0 && list.map((el,index) => (
               <Col span={8} key={index}>
                 <div className="goods-item-content">
-                  <div className="goods-action-top">
+                  <div className="goods-action-top" onClick={()=>onOperateClick(el.pdSpuId,'detail')}>
                     <div className="part-l">
                       <img src={`${filePath}${el.mainPicUrl}`}/>
                     </div>
@@ -65,10 +65,10 @@ class GoodsList extends Component {
                     </div>
                   </div>
                   <div className="goods-action-bottom">
-                    <Button size="small" disabled className="event-btn">售卖</Button>
-                    <Button size="small" className="event-btn">停售</Button>
-                    <Button size="small" className="event-btn">编辑</Button>
-                    <Button size="small" className="event-btn">日志</Button>
+                    <Button size="small" disabled className="event-btn" onClick={()=>onOperateClick(el,'sell')}>售卖</Button>
+                    <Button size="small" className="event-btn" onClick={()=>onOperateClick(el,'saleStop')}>停售</Button>
+                    <Button size="small" className="event-btn" onClick={()=>onOperateClick(el,'edit')}>编辑</Button>
+                    <Button size="small" className="event-btn" onClick={()=>onOperateClick(el,'log')}>日志</Button>
                   </div>
                 </div>
               </Col>

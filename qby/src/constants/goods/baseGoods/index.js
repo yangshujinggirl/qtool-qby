@@ -12,6 +12,7 @@ class BaseGoods extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      componkey:this.props.componkey,
       fields: {
          code: {
            value: '',
@@ -46,10 +47,6 @@ class BaseGoods extends Component {
       fields: { ...fields, ...changedFields },
     }));
   }
-  //
-  formData(obj) {
-    console.log(obj)
-  }
   //分页
   changePage = (currentPage) => {
     const { fields } = this.state;
@@ -71,6 +68,94 @@ class BaseGoods extends Component {
       payload: values
     });
   }
+  //新增商品
+  addGoods(source) {
+    const paneitem={
+      title:'新增商品',
+      key:`${this.state.componkey}edit`,
+      componkey:`${this.state.componkey}edit`,
+      data:{
+        pdSpuId:null,
+        source
+      }
+    }
+    this.props.dispatch({
+        type:'tab/firstAddTab',
+        payload:paneitem
+    })
+  }
+  //操作
+  handleOperateClick(record,type) {
+    switch(type) {
+      case "detail":
+        this.getDetail(record)
+        break;
+      case "edit":
+        this.getEdit(record)
+        break;
+      case "log":
+        this.getLog(record)
+        break;
+      case "sell":
+        this.sellAndSaleStop(10,record)
+        break;
+      case "saleStop":
+        this.sellAndSaleStop(20,record)
+        break;
+    }
+  }
+  //售卖，停售
+  sellAndSaleStop(type,id) {
+
+  }
+  //详情
+  getDetail(record) {
+    const paneitem={
+      title:'商品详情',
+      key:`${this.state.componkey}edit${record.pdSpuId}info`,
+      componkey:`${this.state.componkey}info`,
+      data:{
+        pdSpuId:record.pdSpuId,
+        source:record.source
+      }
+    };
+    this.props.dispatch({
+        type:'tab/firstAddTab',
+        payload:paneitem
+    })
+  }
+  //编辑。
+  getEdit(record) {
+    const paneitem={
+      title:'商品编辑',
+      key:`${this.state.componkey}edit${record.pdSpuId}`,
+      componkey:`${this.state.componkey}edit`,
+      data:{
+        pdSpuId:record.pdSpuId,
+        source:record.source
+      }
+    };
+    this.props.dispatch({
+        type:'tab/firstAddTab',
+        payload:paneitem
+    })
+  }
+  //日志
+  getLog(record) {
+    const paneitem={
+      title:'商品日志',
+      key:`306000editconfig${record.pdSpuId}info`,
+      componkey:'306000editconfig',
+      data:{
+        pdSpuId:record.pdSpuId,
+        source:record.source
+      }
+    };
+    this.props.dispatch({
+        type:'tab/firstAddTab',
+        payload:paneitem
+    })
+  }
   render() {
     const { dataList=[] } = this.props.baseGoodsList;
     const {fields} = this.state;
@@ -81,10 +166,10 @@ class BaseGoods extends Component {
           submit={this.searchData}
           onChange={this.handleFormChange}/>
         <div className="add-btn-lists">
-          <Button size="large" type="primary">新增线上商品</Button>
-          <Button size="large" type="primary">新增线下商品</Button>
+          <Button size="large" type="primary" onClick={()=>this.addGoods(1)}>新增线上商品</Button>
+          <Button size="large" type="primary" onClick={()=>this.addGoods(2)}>新增线下商品</Button>
         </div>
-        <GoodsList list={dataList}/>
+        <GoodsList list={dataList} onOperateClick={this.handleOperateClick.bind(this)}/>
         <Qpagination
           data={this.props.baseGoodsList}
           onChange={this.changePage}/>
