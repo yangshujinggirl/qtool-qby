@@ -43,7 +43,7 @@ const IconList =({data})=>(
 
 class GoodsList extends Component {
   render() {
-    const { list, onOperateClick } = this.props;
+    const { list=[], onOperateClick } = this.props;
     const filePath = JSON.parse(sessionStorage.getItem('fileDomain'));
 
     return (

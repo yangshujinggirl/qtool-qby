@@ -77,7 +77,7 @@
 						<SkuPicturesWall url={text} index={index}/>
 					);
 				}
-			}];    
+			}];
 			this.columnsuse = [{
 				title: '商品编码',
 				dataIndex: 'code',
@@ -126,13 +126,13 @@
 						<Input value={text} onChange={this.hindcostPricechange.bind(this,index)}/>
 					);
 				}
-			}];  
+			}];
 
 			this.state = {
 				pdBrandId:this.props.pdBrandId,
 				dataSource:[],
 				issku:false
-			};  
+			};
 		}
 		//商品信息请求
 		spuInfo=()=>{
@@ -230,7 +230,7 @@
 				expdays: null,
 				lotLimitInDay:null,
 			  });
-	
+
 			if(lotStatusstate=='1'){
 				this.props.form.setFieldsValue({
 					lotType:'1'
@@ -254,7 +254,7 @@
 				payload:{pdType1Ids,pdType2Ids,tag1s,tag2s}
 			})
 		}
-	
+
 		handleSelectChange_guige2=(value)=>{
 			const pdType1Ids=this.props.pdType1Id
 			const pdType2Ids=value
@@ -323,6 +323,8 @@
 		//确定
 		handleSubmit = (e) => {
 			this.props.form.validateFields((err, value) => {
+				console.log(value)
+				debugger
 			if (!err) {
 				value.source='0'
 				value.pdBrandId=this.props.pdBrandId
@@ -331,7 +333,7 @@
 				if(this.props.data.pdSpuId){
 					value.pdSpuId=this.props.data.pdSpuId
 				}
-				
+
 				//判断是上传还是非上传表
 				const isskus=this.props.isskus
 				if(isskus){
@@ -355,7 +357,7 @@
 						this.initWarehouseList();
 					}
 				})
-			}	
+			}
 			});
 		}
 		//取消
@@ -377,10 +379,10 @@
 			}
 		}
 
-		
+
 		//搜搜请求数据
 		initWarehouseList=()=>{
-			let values =deepcCloneObj(this.props.values); 
+			let values =deepcCloneObj(this.props.values);
 			values.currentPage="0";
 			values.source="0";
 			this.props.dispatch({
@@ -471,7 +473,7 @@
 						wrapperCol={{ span: 16 }}
 						>
 						{getFieldDecorator('imgs', {
-							
+
 						})(
 							<PicturesWall/>
 						)}
@@ -547,7 +549,7 @@
 								:null
 							}
 						</div>
-						
+
 					</FormItem>
 					<FormItem
 						label="开启批次管理"
@@ -697,7 +699,7 @@
 						wrapperCol={{ span: 10 }}
 					>
 						{getFieldDecorator('ssd', {
-							 
+
 						})(
 							<AddEditableTable data={eval(this.props.pdSpuInfo)}/>
 						)}
@@ -709,19 +711,19 @@
 						<Button onClick={this.Handcancel.bind(this)} style = {{marginRight:'50px'}}>取消</Button>
 						<Button onClick={this.handleSubmit.bind(this)} type="primary">保存</Button>
 					</FormItem>
-					
+
 		</Form>
 		);
 	}
 	componentDidMount(){
-		this.pdTypeslist()	
+		this.pdTypeslist()
 		this.Categorylist()
 		if(this.props.data.pdSpuId){
 			 this.spuInfo()
 		}
 
 	}
-	
+
 
 	}
 

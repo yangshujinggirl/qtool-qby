@@ -8,7 +8,7 @@ const TabPane = Tabs.TabPane;
 
 class Tab extends React.Component {
   	onChange = (activeKey) => {
-		  
+
     	let activeKeys={key:activeKey}
     	this.props.dispatch({
         	type:'tab/firstAddTab',
@@ -37,7 +37,7 @@ class Tab extends React.Component {
         	>
 				{
 					this.props.pane.map(
-						pane => 
+						pane =>
 						<TabPane tab={pane.title} key={pane.key} className='h10'>
 							<Content data={pane.data} componkey={pane.componkey} ref='content'/>
 						</TabPane>
@@ -46,7 +46,7 @@ class Tab extends React.Component {
         </Tabs>
     );
   }
-  
+
 }
 function mapStateToProps(state) {
 	const {pane,activeKey} = state.tab;

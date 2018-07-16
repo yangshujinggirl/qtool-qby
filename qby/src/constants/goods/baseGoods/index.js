@@ -76,7 +76,8 @@ class BaseGoods extends Component {
       componkey:`${this.state.componkey}edit`,
       data:{
         pdSpuId:null,
-        source
+        source,
+        key:`${this.state.componkey}edit`,
       }
     }
     this.props.dispatch({
@@ -132,7 +133,8 @@ class BaseGoods extends Component {
       componkey:`${this.state.componkey}edit`,
       data:{
         pdSpuId:record.pdSpuId,
-        source:record.source
+        source:record.source,
+        key:`${this.state.componkey}edit${record.pdSpuId}`
       }
     };
     this.props.dispatch({
@@ -148,7 +150,8 @@ class BaseGoods extends Component {
       componkey:'306000editconfig',
       data:{
         pdSpuId:record.pdSpuId,
-        source:record.source
+        source:record.source,
+        key:`${this.state.componkey}edit${record.pdSpuId}`
       }
     };
     this.props.dispatch({

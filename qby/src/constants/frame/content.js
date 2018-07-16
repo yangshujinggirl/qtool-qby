@@ -249,7 +249,8 @@ class Content extends React.Component {
 }
 
 function mapStateToProps(state) {
-    const {loding} = state.tab;
+    // const {loding} = state.tab;
+    const loding = state.loading.global && state.loading.effects['tab/loding'];
     return {loding};
 }
 

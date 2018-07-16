@@ -1,12 +1,14 @@
 import dva from 'dva';
+import createLoading from 'dva-loading';
 import 'antd/dist/antd.less';
 import './index.css';
 
 import { useRouterHistory } from 'dva/router';
 import { createHashHistory } from 'history';
 //商品中心-------
-import baseGoodsDetail from './models/goodsCenter/baseGoods/baseGoodsDetail.js';//基础商品
-import baseGoodsList from './models/goodsCenter/baseGoods/baseGoodsList.js';//基础商品详情
+import baseGoodsDetail from './models/goodsCenter/baseGoods/baseGoodsDetail.js';//基础商品详情
+import addGoods from './models/goodsCenter/baseGoods/addGoods.js';//基础商品--新增商品
+import baseGoodsList from './models/goodsCenter/baseGoods/baseGoodsList.js';//基础商品列表
 //订单中心--用户订单
 import userorders from './models/userorders';
 import account from "./models/account"
@@ -63,6 +65,7 @@ const app = dva({
   });
 
 const models = [
+  addGoods,
   baseGoodsDetail,
   baseGoodsList,
   userorders,
@@ -120,7 +123,7 @@ models.forEach(m => {
 
 
 // 2. Plugins
-// app.use({});
+app.use(createLoading());
 
 // 3. Model
 // app.model(require('./models/example'));
