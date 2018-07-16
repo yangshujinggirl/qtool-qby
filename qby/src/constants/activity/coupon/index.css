@@ -1,1 +1,3 @@
-.server .form .submit{float:right}
+.coupon .form .submit{float:right}
+.coupon .form{border-bottom:1px solid #eaeaea}
+.coupon .btn{margin:15px;}

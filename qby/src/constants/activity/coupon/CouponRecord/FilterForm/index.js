@@ -14,7 +14,7 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 const RangePicker = DatePicker.RangePicker
 const formItemLayout = {
-    labelCol: { span:8   },
+    labelCol: { span:6 },
     wrapperCol: { span: 16 },
 };
 const timerLayout = {
@@ -43,47 +43,51 @@ class NormalForm extends Component{
         <Form>
           <Row wrap>
               <Col span={8}>
-                  <FormItem {...formItemLayout} label='优惠券名称'>
+                  <FormItem {...formItemLayout} label='反馈编号'>
                     {getFieldDecorator('feedbackNo')(
-                        <Input placeholder='请输入优惠券名称'/>
+                        <Input placeholder='反馈编号'/>
                       )}
                   </FormItem>
               </Col>
               <Col span={8}>
-                  <FormItem {...formItemLayout} label='优惠券批次号'>
+                  <FormItem {...formItemLayout} label='手机号'>
                     {getFieldDecorator('telephone')(
-                      <Input placeholder='请输入批次号'/>
+                      <Input placeholder='请输入联系人'/>
                     )}
                   </FormItem>
               </Col>
               <Col span={8}>
-                  <FormItem {...formItemLayout} label='创建人'>
-                    {getFieldDecorator('telephone')(
-                      <Input placeholder='请输入创建人'/>
-                    )}
-                  </FormItem>
-              </Col>
-              <Col span={8}>
-                <FormItem {...formItemLayout} label='优惠券场景'>
+                <FormItem {...formItemLayout} label='反馈状态'>
                     {getFieldDecorator('status')(
-                    <Select allowClear={true} placeholder="请选择优惠券场景" className='select'>
+                    <Select allowClear={true} placeholder="请选择订单状态" className='select'>
                         {/* <Option value='10'>待发货</Option> */}
-                        <Option value='1'>新用户注册</Option>
-                        <Option value='2'>注券</Option>
+                        <Option value='1'>待处理</Option>
+                        <Option value='2'>处理中</Option>
+                        <Option value='3'>已处理</Option>
                     </Select>
                     )}
                 </FormItem>
               </Col>
               <Col span={8}>
-                <FormItem {...formItemLayout} label='优惠券状态'>
-                    {getFieldDecorator('status')(
-                    <Select allowClear={true} placeholder="请选择优惠券状态" className='select'>
+                <FormItem {...formItemLayout} label='处理时长'>
+                    {getFieldDecorator('handleTime')(
+                    <Select allowClear={true} placeholder="处理时长" className='select'>
                         {/* <Option value='10'>待发货</Option> */}
-                        <Option value='1'>发放中</Option>
-                        <Option value='2'>发放完</Option>
-                        <Option value='3'>熔断</Option>
+                        <Option value='1'>'0-5h'</Option>
+                        <Option value='2'>'5-24h'</Option>
+                        <Option value='3'>'24h以上'</Option>
                     </Select>
                     )}
+                </FormItem>
+              </Col>
+              <Col span={12}>
+                <FormItem
+                    {...formItemLayout }
+                    label="反馈时长"
+                >
+                  {getFieldDecorator('rangePicker')(
+                    <RangePicker />
+                  )}
                 </FormItem>
               </Col>
             </Row>
@@ -107,7 +111,7 @@ const FilterForm = Form.create({
   }
 })(NormalForm)
 function mapStateToProps(state){
-  const { coupon } = state;
-  return {coupon}
+  const { userFeedBack } = state;
+  return {userFeedBack}
 }
 export default connect(mapStateToProps)(FilterForm)

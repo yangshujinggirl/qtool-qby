@@ -1,22 +1,23 @@
 import React, { Component } from 'react';
+import {Button} from 'antd'
 import {connect} from 'dva'
 import Columns from './columns/index'
 import Qtable from '../../../components/Qtable/index'; //表单
 import Qpagination from '../../../components/Qpagination/index'; //分页
 import FilterForm from './FilterForm/index'
-class UserFeedBack extends Component{
+class Coupon extends Component{
   constructor(props){
     super(props);
-    this.state ={
-      componkey:this.props.componkey,
-      field:{
-        customServiceNo:'',
-        customServiceTheme:'',
-        waiter:'',
-        status:'',
-        handleTime:'',
-      }
-    }
+  }
+  state = {
+    componkey:this.props.componkey,
+    field:{
+      customServiceNo:'',
+      customServiceTheme:'',
+      waiter:'',
+      status:'',
+      handleTime:'',
+    },
   }
 
   //点击搜索
@@ -51,27 +52,74 @@ class UserFeedBack extends Component{
       payload:{}
     })
   }
+  //创建优惠券
+  createCoupon =()=>{
+    console.log(this.state.componkey)
+    const paneitem = {
+      title:'创建优惠券',
+      key:`${this.state.componkey}edit`,
+      componkey:`${this.state.componkey}edit`,
+      data:{
+        pdSpuId:null,
+      },
+    };
+    this.props.dispatch({
+        type:'tab/firstAddTab',
+        payload:paneitem
+    });
+  }
+  //注券
+  addCouponToUser(){
+
+  }
+  //注券记录
+  addCouponToUserRecord =()=> {
+    console.log(this.state.componkey)
+    const paneitem = {
+      title:'创建优惠券',
+      key:`${this.state.componkey}editconfig`,
+      componkey:`${this.state.componkey}editconfig`,
+      data:{
+        pdSpuId:null,
+      },
+    };
+    this.props.dispatch({
+        type:'tab/firstAddTab',
+        payload:paneitem
+    });
+  }
+  //熔断优惠券
+  fuseCoupon(){
+
+  }
+
 
   render(){
-    const {dataList} = this.props.userFeedBack;
+    const {dataList} = this.props.coupon;
     return(
-      <div className='server'>
+      <div className='coupon'>
         <FilterForm
           submit={this.searchData}
           onValuesChange = {this.searchDataChange}
         />
+        <div>
+          <Button onClick={this.createCoupon} className='btn' type='primary'>创建优惠券</Button>
+          <Button onClick={this.addCouponToUser} className='btn' type='primary'>注券</Button>
+          <Button onClick={this.addCouponToUserRecord} className='btn' type='primary'>注券记录</Button>
+          <Button onClick={this.fuseCoupon} className='btn' type='primary'>熔断</Button>
+        </div>
         <Qtable
           dataSource = {dataList}
           columns = {Columns}/>
         <Qpagination
-          data={this.props.userFeedBack}
+          data={this.props.coupon}
           onChange={this.changePage}/>
       </div>
     )
   }
 }
 function mapStateToProps(state){
-  const {userFeedBack} = state;
-  return {userFeedBack};
+  const {coupon} = state;
+  return {coupon};
 }
-export default connect(mapStateToProps)(UserFeedBack);
+export default connect(mapStateToProps)(Coupon);

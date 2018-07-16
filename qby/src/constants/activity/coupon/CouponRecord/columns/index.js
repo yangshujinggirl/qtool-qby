@@ -1,35 +1,32 @@
 // const Columns = [{
-//      title: '优惠券批次号',
-//      dataIndex: 'couponCode',
-//      render: text => <a href="javascript:;">{text}</a>,
+//      title: '反馈编号',
+//      dataIndex: 'feedbackNo',
 //    },{
-//      title: '优惠券名称',
-//      dataIndex: 'couponName'
+//      title: '反馈问题',
+//      dataIndex: 'remark'
 //    }, {
-//      title: '优惠券场景',
-//      dataIndex: 'couponUseScene'
+//      title: '用户手机号',
+//      dataIndex: 'userTel'
 //    },{
-//      title: '优惠券金额',
-//      dataIndex: 'couponMoney'
-//    },{
-//      title: '使用门槛',
-//      dataIndex: 'couponFullAmount'
-//    },{
-//      title: '优惠券总数',
-//      dataIndex: 'couponCount'
-//    },{
-//      title: '已经发放数量',
-//      dataIndex: 'couponGiveCount'
-//    },{
-//      title: '代金券状态',
+//      title: '反馈状态',
 //      dataIndex: 'status'
 //    },{
-//      title: '创建人',
-//      dataIndex: 'creater'
-//    },{
-//      title: '创建时间',
+//      title: '反馈时间',
 //      dataIndex: 'createTime'
-//    }];
+//    },{
+//      title: '处理时长',
+//      dataIndex: 'handleTime'
+//    },{
+//      title: '操作',
+//      dataIndex: '',
+//      render:(text, record)=>{
+//        return(
+//          <div>
+//            <a href="javascript:;" className="theme-color" onClick={record.onOperateClick.bind(this,'detail')}>处理</a>
+//          </div>
+//        )
+//      }
+//  }];
 
 const Columns = [{
      title: '订单号',
