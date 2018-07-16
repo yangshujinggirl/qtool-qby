@@ -1,4 +1,5 @@
 import { getListApi } from '../../../services/activity/cBanner'
+import { addBannerApi } from '../../../services/activity/cBanner'
 export default{
   namespace: 'cBanner',
   state:{
@@ -6,6 +7,12 @@ export default{
     currentPage:0,
     limit:15,
     total:0,
+    formValue:{
+      name:'',
+      status:[],
+      rank:'',
+      img:''
+    },
   },
   reducers:{
     getList(state,{payload:{dataList, currentPage, limit, total} }){
@@ -27,6 +34,9 @@ export default{
            }
          })
        }
+    },
+    *saveBanner({payload:values},{call,put}){
+      const result = yield call(addBannerApi,values);
     }
   },
   subscription:{}

@@ -38,7 +38,6 @@ class Cbanner extends Component{
         fields: { ...fields, ...changedFields },
       })
     )
-    console.log(this.state)
   }
   //点击分页
   changePage =(currentPage)=>{

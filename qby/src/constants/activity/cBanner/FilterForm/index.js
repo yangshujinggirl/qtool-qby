@@ -18,6 +18,7 @@ const formItemLayout = {
 };
 // cBanner 搜索栏
 class NormalForm extends Component{
+  //点击搜索
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {

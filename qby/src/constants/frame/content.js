@@ -119,9 +119,16 @@ import  GoodsDetail from '../goods/baseGoods/GoodsDetail';//基础商品--商品
 import  LogList from '../goods/baseGoods/LogList';//基础商品--日志
 // 合作中心
 import MarketResource from '../cooperate/marketResource/index';
+import AddStaff from '../cooperate/marketResource/addStaff';
 //活动中心
 import Cbanner from '../activity/cBanner/index';
+import Coupon from '../activity/coupon/index';
+import Cpush from '../activity/cPush/index';
+import Bpush from '../activity/bPush/index';
 import AddBanner from '../activity/cBanner/addBanner.js';
+//客服中心
+import UserFeedBack from '../server/userFeedBack/index'; //用户反馈
+import ServerBill from '../server/serverBill/index'; //用户反馈
 
 
 class Content extends React.Component {
@@ -231,11 +238,15 @@ class Content extends React.Component {
                                     case "402000infoExchange" : return <OperateinoutExchangeInfo data={this.props.data}/>
                                     case "207000" : return <UserOrder data={this.props.data}/>
                                     // -------------------------------合作中心----------------------------
-                                    case "501000" : return <MarketResource data={this.props.data}/>
+                                    case "501000" : return <MarketResource data={this.props.data} componkey={this.props.componkey}/>
+                                    case "501000edit" : return <AddStaff data={this.props.data}/>
 
                                     // --------------------------------活动中心----------------------------
                                     case "101000" : return <Cbanner data={this.props.data} componkey={this.props.componkey}/>
-                                    case "101000edit" : return <AddBanner data={this.props.data} componkey={this.props.componkey}/>
+                                    case "101000edit" : return <AddBanner data={this.props.data}/>
+                                    case "102000" : return <Coupon data={this.props.data} componkey={this.props.componkey}/>
+                                    case "103000" : return <Bpush data={this.props.data} componkey={this.props.componkey}/>
+                                    case "104000" : return <Cpush data={this.props.data} componkey={this.props.componkey}/>
                                     case "306000" : return <BaseGoods data={this.props.data}/>
 
                                     // -------------------------------商品中心----基础商品----------------------------
@@ -243,6 +254,11 @@ class Content extends React.Component {
                                     case "306000edit" : return <AddGoods data={this.props.data}/>
                                     case "306000info" : return <GoodsDetail data={this.props.data}/>
                                     case "306000editconfig" : return <LogList data={this.props.data}/>
+                                    //------------------------------客服中心------------------------
+                                    case "10100" : return <UserFeedBack data={this.props.data} componkey={this.props.componkey}/>
+                                    case "10200" : return <ServerBill data={this.props.data} componkey={this.props.componkey}/>
+
+
 
                                     default:  return "我是404";
                                 }

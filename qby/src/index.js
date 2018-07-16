@@ -59,6 +59,9 @@ import onlinegood from "./models/onlinegood"
 import marketResource from './models/cooperate/marketResource' //资源管理
 //活动中心
 import cBanner from './models/activity/cBanner/cBanner'
+//客服中心
+import userFeedBack from './models/server/userFeedBack'
+import serverBill from './models/server/serverBill'
 
 
 // 1. Initialize
@@ -118,6 +121,8 @@ const models = [
   onlinegood,
   marketResource,
   cBanner,
+  userFeedBack,
+  serverBill
 ]
 
 models.forEach(m => {

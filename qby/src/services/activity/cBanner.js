@@ -8,3 +8,11 @@ export function getListApi(values){
       data:values
   })
 }
+//新增banner
+export function addBannerApi(){
+  values = JSON.stringify(values)
+  return ajax.post('',{
+    code:'',
+    data:values
+  })
+}
