@@ -57,6 +57,13 @@ import operatebanner from "./models/operatebanner"
 import h5config from "./models/h5config"
 import dataposManage from "./models/dataposManage"
 import onlinegood from "./models/onlinegood"
+//合作中心
+import marketResource from './models/cooperate/marketResource' //资源管理
+//活动中心
+import cBanner from './models/activity/cBanner/cBanner'
+//客服中心
+import userFeedBack from './models/server/userFeedBack'
+import serverBill from './models/server/serverBill'
 
 
 // 1. Initialize
@@ -115,6 +122,10 @@ const models = [
   h5config,
   dataposManage,
   onlinegood,
+  marketResource,
+  cBanner,
+  userFeedBack,
+  serverBill
 ]
 
 models.forEach(m => {
