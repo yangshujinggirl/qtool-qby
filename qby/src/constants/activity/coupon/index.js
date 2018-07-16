@@ -1,15 +1,18 @@
 import React, { Component } from 'react';
-import {Button} from 'antd'
+import {Button,message} from 'antd'
 import {connect} from 'dva'
 import Columns from './columns/index'
 import Qtable from '../../../components/Qtable/index'; //表单
 import Qpagination from '../../../components/Qpagination/index'; //分页
 import FilterForm from './FilterForm/index'
+import InjectCoupons from './InjectCoupon'
+import { InjectCouponApi } from '../../../services/activity/coupon'
 class Coupon extends Component{
   constructor(props){
     super(props);
   }
   state = {
+    isVisible:false,
     componkey:this.props.componkey,
     field:{
       customServiceNo:'',
@@ -20,19 +23,19 @@ class Coupon extends Component{
     },
   }
 
+
   //点击搜索
   searchData = (values)=> {
     this.props.dispatch({
-      type:'userFeedBack/fetchList',
+      type:'coupon/fetchList',
       payload:values
     })
   }
-
   //点击分页
   changePage =(currentPage)=> {
     const values = {...this.state.field,currentPage}
     this.props.dispatch({
-      type:'userFeedBack/fetchList',
+      type:'coupon/fetchList',
       payload:values
     })
   }
@@ -48,7 +51,7 @@ class Coupon extends Component{
   //初始化数据
   componentWillMount(){
     this.props.dispatch({
-      type:'userFeedBack/fetchList',
+      type:'coupon/fetchList',
       payload:{}
     })
   }
@@ -68,15 +71,11 @@ class Coupon extends Component{
         payload:paneitem
     });
   }
-  //注券
-  addCouponToUser(){
-
-  }
   //注券记录
   addCouponToUserRecord =()=> {
     console.log(this.state.componkey)
     const paneitem = {
-      title:'创建优惠券',
+      title:'注券记录',
       key:`${this.state.componkey}editconfig`,
       componkey:`${this.state.componkey}editconfig`,
       data:{
@@ -93,6 +92,44 @@ class Coupon extends Component{
 
   }
 
+  //注券
+  addCouponToUser =()=> {
+    this.setState({isVisible:true})
+  }
+  //注券点击取消
+  onCancel =()=> {
+    this.setState({isVisible:false})
+  }
+  //注券点击确定
+  onOk =(values)=> {
+    InjectCouponApi(values)
+    .then((res) => {
+      message.success('dfsdf');
+      console.log(res);
+      if(res.code == '0'){
+
+      }else{
+      }
+    },err=>{
+        message.error('失败');
+    });
+    this.setState({isVisible:false});
+  }
+  //操作
+  handleOperateClick(record) {
+    const paneitem = {
+      title:'优惠券详情',
+      key:`${this.state.componkey}info`,
+      componkey:`${this.state.componkey}info`,
+      data:{
+        pdSpuId:record.spOrderId,
+      }
+    }
+    this.props.dispatch({
+      type:'tab/firstAddTab',
+      payload:paneitem
+    })
+  }
 
   render(){
     const {dataList} = this.props.coupon;
@@ -108,7 +145,13 @@ class Coupon extends Component{
           <Button onClick={this.addCouponToUserRecord} className='btn' type='primary'>注券记录</Button>
           <Button onClick={this.fuseCoupon} className='btn' type='primary'>熔断</Button>
         </div>
+        <InjectCoupons
+          visible={this.state.isVisible}
+          onCancel={this.onCancel}
+          onOk={this.onOk}
+        />
         <Qtable
+          onOperateClick = {this.handleOperateClick.bind(this)}
           dataSource = {dataList}
           columns = {Columns}/>
         <Qpagination

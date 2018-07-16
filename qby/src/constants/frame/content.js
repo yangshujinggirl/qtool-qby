@@ -124,6 +124,7 @@ import AddStaff from '../cooperate/marketResource/addStaff';
 import Cbanner from '../activity/cBanner/index';
 import AddBanner from '../activity/cBanner/addBanner';
 import Coupon from '../activity/coupon/index';
+import CouponDetail from '../activity/coupon/CouponDetail';
 import AddCoupon from '../activity/coupon/AddCoupon';
 import CouponRecord from '../activity/coupon/CouponRecord/index';
 import Cpush from '../activity/cPush/index';
@@ -249,6 +250,7 @@ class Content extends React.Component {
                                     case "101000edit" : return <AddBanner data={this.props.data}/> //新增banner
                                     case "102000" : return <Coupon data={this.props.data} componkey={this.props.componkey}/> //优惠券
                                     case "102000edit" : return <AddCoupon data={this.props.data}/> //创建优惠券
+                                    case "102000info" : return <CouponDetail data={this.props.data}/> //优惠券详情
                                     case "102000editconfig" : return <CouponRecord data={this.props.data}/> //注券记录
                                     case "103000" : return <Bpush data={this.props.data} componkey={this.props.componkey}/>
                                     case "104000" : return <Cpush data={this.props.data} componkey={this.props.componkey}/>

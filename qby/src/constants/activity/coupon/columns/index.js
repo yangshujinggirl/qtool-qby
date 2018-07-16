@@ -34,6 +34,13 @@
 const Columns = [{
      title: '订单号',
      dataIndex: 'orderNo',
+     render:(text, record)=>{
+       return(
+         <div>
+           <a href="javascript:;" className="theme-color" onClick={record.onOperateClick.bind(this)}>{text}</a>
+         </div>
+       )
+     }
    },{
      title: '门店名称',
      dataIndex: 'shopName'
@@ -52,14 +59,7 @@ const Columns = [{
    },{
      title: '操作',
      dataIndex: '',
-     render:(text, record)=>{
-       return(
-         <div>
-           <a href="javascript:;" className="theme-color" onClick={record.onOperateClick.bind(this,'detail')}>处理</a>
-           <a href="javascript:;" className="theme-color" onClick={record.onOperateClick.bind(this,'edit')}>编辑</a>
-         </div>
-       )
-     }
+
  }];
 
  export default Columns

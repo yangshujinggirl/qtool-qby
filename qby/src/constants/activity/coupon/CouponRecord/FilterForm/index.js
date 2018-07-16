@@ -14,8 +14,8 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 const RangePicker = DatePicker.RangePicker
 const formItemLayout = {
-    labelCol: { span:6 },
-    wrapperCol: { span: 16 },
+    labelCol: { span:9 },
+    wrapperCol: { span: 14 },
 };
 const timerLayout = {
     labelCol: { span:6 },
@@ -29,8 +29,8 @@ class NormalForm extends Component{
     this.props.form.validateFieldsAndScroll((err, values) => {
       const{rangePicker,..._values} = values;
       if(rangePicker){
-        _values.createTimeST =  new Date( rangePicker[0]).getTime();
-        _values.createTimeET = new Date(rangePicker[1]).getTime();
+        _values.voucherStartDate =  new Date( rangePicker[0]).getTime();
+        _values.voucherEndDate = new Date(rangePicker[1]).getTime();
       }
       this.props.submit && this.props.submit(_values);
     })
@@ -42,40 +42,46 @@ class NormalForm extends Component{
       <div className='form'>
         <Form>
           <Row wrap>
-              <Col span={8}>
-                  <FormItem {...formItemLayout} label='反馈编号'>
-                    {getFieldDecorator('feedbackNo')(
+              <Col span={6}>
+                  <FormItem {...formItemLayout} label='优惠券批次号'>
+                    {getFieldDecorator('couponCode')(
                         <Input placeholder='反馈编号'/>
                       )}
                   </FormItem>
               </Col>
-              <Col span={8}>
-                  <FormItem {...formItemLayout} label='手机号'>
-                    {getFieldDecorator('telephone')(
+              <Col span={6}>
+                  <FormItem {...formItemLayout} label='用户手机'>
+                    {getFieldDecorator('userMobiles')(
                       <Input placeholder='请输入联系人'/>
                     )}
                   </FormItem>
               </Col>
-              <Col span={8}>
-                <FormItem {...formItemLayout} label='反馈状态'>
-                    {getFieldDecorator('status')(
+              <Col span={6}>
+                  <FormItem {...formItemLayout} label='注券人'>
+                    {getFieldDecorator('voucher')(
+                      <Input placeholder='请输入联系人'/>
+                    )}
+                  </FormItem>
+              </Col>
+              <Col span={6}>
+                <FormItem {...formItemLayout} label='优惠券场景'>
+                    {getFieldDecorator('couponUseScene')(
                     <Select allowClear={true} placeholder="请选择订单状态" className='select'>
                         {/* <Option value='10'>待发货</Option> */}
-                        <Option value='1'>待处理</Option>
-                        <Option value='2'>处理中</Option>
-                        <Option value='3'>已处理</Option>
+                        <Option value='1'>新用户注册</Option>
+                        <Option value='2'>注券</Option>
                     </Select>
                     )}
                 </FormItem>
               </Col>
-              <Col span={8}>
-                <FormItem {...formItemLayout} label='处理时长'>
-                    {getFieldDecorator('handleTime')(
+              <Col span={6}>
+                <FormItem {...formItemLayout} label='注券状态'>
+                    {getFieldDecorator('status')(
                     <Select allowClear={true} placeholder="处理时长" className='select'>
                         {/* <Option value='10'>待发货</Option> */}
-                        <Option value='1'>'0-5h'</Option>
-                        <Option value='2'>'5-24h'</Option>
-                        <Option value='3'>'24h以上'</Option>
+                        <Option value='1'>发放中</Option>
+                        <Option value='2'>发放完</Option>
+                        <Option value='3'>熔断</Option>
                     </Select>
                     )}
                 </FormItem>
@@ -83,10 +89,10 @@ class NormalForm extends Component{
               <Col span={12}>
                 <FormItem
                     {...formItemLayout }
-                    label="反馈时长"
+                    label="注券时间"
                 >
                   {getFieldDecorator('rangePicker')(
-                    <RangePicker />
+                    <RangePicker showTime format="YYYY-MM-DD HH:mm:ss"/>
                   )}
                 </FormItem>
               </Col>

@@ -1,31 +1,34 @@
 // const Columns = [{
-//      title: '反馈编号',
-//      dataIndex: 'feedbackNo',
+//      title: '优惠券批次号',
+//      dataIndex: 'couponCode',
 //    },{
-//      title: '反馈问题',
-//      dataIndex: 'remark'
+//      title: '优惠券名称',
+//      dataIndex: 'couponName'
 //    }, {
-//      title: '用户手机号',
-//      dataIndex: 'userTel'
+//      title: '优惠券场景',
+//      dataIndex: 'couponUseScene'
 //    },{
-//      title: '反馈状态',
-//      dataIndex: 'status'
+//      title: '优惠券金额',
+//      dataIndex: 'couponMoney'
 //    },{
-//      title: '反馈时间',
-//      dataIndex: 'createTime'
+//      title: '使用门槛',
+//      dataIndex: 'couponFullAmount'
 //    },{
-//      title: '处理时长',
-//      dataIndex: 'handleTime'
+//      title: '用户手机',
+//      dataIndex: 'userMobile'
 //    },{
-//      title: '操作',
-//      dataIndex: '',
-//      render:(text, record)=>{
-//        return(
-//          <div>
-//            <a href="javascript:;" className="theme-color" onClick={record.onOperateClick.bind(this,'detail')}>处理</a>
-//          </div>
-//        )
-//      }
+//      title: '注券人',
+//      dataIndex: 'voucher'
+//    },{
+//      title: '注券状态',
+//      dataIndex: 'voucherStatus'
+//    },{
+//      title: '失败原因',
+//      dataIndex: 'failReason'
+//    },{
+//      title: '注券时间',
+//      dataIndex: 'voucherTime'
+//    }
 //  }];
 
 const Columns = [{

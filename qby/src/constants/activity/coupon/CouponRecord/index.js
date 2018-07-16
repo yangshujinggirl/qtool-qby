@@ -61,6 +61,7 @@ class UserFeedBack extends Component{
           onValuesChange = {this.searchDataChange}
         />
         <Qtable
+          style={{marginTop:'15px'}}
           dataSource = {dataList}
           columns = {Columns}/>
         <Qpagination
