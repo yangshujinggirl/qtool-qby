@@ -247,7 +247,6 @@ class Content extends React.Component {
                                     case "102000" : return <Coupon data={this.props.data} componkey={this.props.componkey}/>
                                     case "103000" : return <Bpush data={this.props.data} componkey={this.props.componkey}/>
                                     case "104000" : return <Cpush data={this.props.data} componkey={this.props.componkey}/>
-                                    case "306000" : return <BaseGoods data={this.props.data}/>
 
                                     // -------------------------------商品中心----基础商品----------------------------
                                     case "306000" : return <BaseGoods data={this.props.data} componkey={this.props.componkey}/>
