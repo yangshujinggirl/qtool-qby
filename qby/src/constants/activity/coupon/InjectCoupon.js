@@ -13,7 +13,7 @@ class InjectCoupon extends Component{
       }
     })
   }
-
+// 注券
   render(){
     const { getFieldDecorator } = this.props.form;
     return(

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Button,message} from 'antd'
+import {Button,message,Modal} from 'antd'
 import {connect} from 'dva'
 import Columns from './columns/index'
 import Qtable from '../../../components/Qtable/index'; //表单
@@ -7,11 +7,15 @@ import Qpagination from '../../../components/Qpagination/index'; //分页
 import FilterForm from './FilterForm/index'
 import InjectCoupons from './InjectCoupon'
 import { InjectCouponApi } from '../../../services/activity/coupon'
+import { fuseCouponApi } from '../../../services/activity/coupon'
+
+
 class Coupon extends Component{
   constructor(props){
     super(props);
   }
   state = {
+    isFuseVisible:false,//熔断弹窗是否显示
     isVisible:false,
     componkey:this.props.componkey,
     field:{
@@ -22,8 +26,6 @@ class Coupon extends Component{
       handleTime:'',
     },
   }
-
-
   //点击搜索
   searchData = (values)=> {
     this.props.dispatch({
@@ -88,10 +90,26 @@ class Coupon extends Component{
     });
   }
   //熔断优惠券
-  fuseCoupon(){
-
+  fuseCoupon =()=> {
+    this.setState({isFuseVisible:true})
   }
-
+  //确认熔断
+  onfuseOk =()=>{
+    const id=1;
+    fuseCouponApi(id)
+    .then(res=>{
+      if(res.code == '0'){
+        message.success('熔断成功');
+      }
+    },err=>{
+      message.success('熔断失败，代金券已发放完毕');
+    })
+    this.setState({isFuseVisible:false})
+  }
+  //取消熔断
+  onfuseCancel =()=> {
+    this.setState({isFuseVisible:false})
+  }
   //注券
   addCouponToUser =()=> {
     this.setState({isVisible:true})
@@ -145,6 +163,16 @@ class Coupon extends Component{
           <Button onClick={this.addCouponToUserRecord} className='btn' type='primary'>注券记录</Button>
           <Button onClick={this.fuseCoupon} className='btn' type='primary'>熔断</Button>
         </div>
+        <Modal
+            bodyStyle={{'font-size':'24px','text-align':'center','padding':'50px'}}
+            visible= {this.state.isFuseVisible}
+            okText="确认熔断"
+            cancelText='不熔断了'
+            onCancel= {this.onfuseCancel}
+            onOk = {this.onfuseOk}
+          >
+            <p>你正在熔断代金券</p>
+        </Modal>
         <InjectCoupons
           visible={this.state.isVisible}
           onCancel={this.onCancel}
