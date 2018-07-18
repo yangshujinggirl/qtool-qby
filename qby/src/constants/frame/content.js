@@ -129,9 +129,12 @@ import AddCoupon from '../activity/coupon/AddCoupon';
 import CouponRecord from '../activity/coupon/CouponRecord/index';
 import Cpush from '../activity/cPush/index';
 import Bpush from '../activity/bPush/index';
+import BpushDetail from '../activity/bPush/BpushDetail'
+import AddPush from '../activity/bPush/AddPush'
 
 //客服中心
 import UserFeedBack from '../server/userFeedBack/index'; //用户反馈
+import HandleBack from '../server/userFeedBack/HandleBack'
 import ServerBill from '../server/serverBill/index'; //用户反馈
 
 
@@ -253,6 +256,8 @@ class Content extends React.Component {
                                     case "102000info" : return <CouponDetail data={this.props.data}/> //优惠券详情
                                     case "102000editconfig" : return <CouponRecord data={this.props.data}/> //注券记录
                                     case "103000" : return <Bpush data={this.props.data} componkey={this.props.componkey}/>
+                                    case "103000edit" : return <AddPush data={this.props.data}/>
+                                    case "103000info" : return <BpushDetail data={this.props.data}/>
                                     case "104000" : return <Cpush data={this.props.data} componkey={this.props.componkey}/>
                                     case "306000" : return <BaseGoods data={this.props.data}/>
 
@@ -263,6 +268,7 @@ class Content extends React.Component {
                                     case "306000editconfig" : return <LogList data={this.props.data}/>
                                     //------------------------------客服中心------------------------
                                     case "10100" : return <UserFeedBack data={this.props.data} componkey={this.props.componkey}/>
+                                    case "10100edit" : return <HandleBack data={this.props.data} componkey={this.props.componkey}/>
                                     case "10200" : return <ServerBill data={this.props.data} componkey={this.props.componkey}/>
 
 

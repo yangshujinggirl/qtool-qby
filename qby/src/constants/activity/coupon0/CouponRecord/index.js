@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import {connect} from 'dva'
 import Columns from './columns/index'
-import Qtable from '../../../components/Qtable/index'; //表单
-import Qpagination from '../../../components/Qpagination/index'; //分页
+import Qtable from '../../../../components/Qtable/index'; //表单
+import Qpagination from '../../../../components/Qpagination/index'; //分页
 import FilterForm from './FilterForm/index'
 class UserFeedBack extends Component{
   constructor(props){
@@ -51,21 +51,7 @@ class UserFeedBack extends Component{
       payload:{}
     })
   }
-  //点击跳转详情页
-  handleOperateClick(record){
-    const paneitem = {
-      title:'优惠券详情',
-      key:`${this.state.componkey}edit`,
-      componkey:`${this.state.componkey}edit`,
-      data:{
-        pdSpuId:record.spOrderId,
-      }
-    }
-    this.props.dispatch({
-      type:'tab/firstAddTab',
-      payload:paneitem
-    })
-  }
+
   render(){
     const {dataList} = this.props.userFeedBack;
     return(
@@ -75,10 +61,9 @@ class UserFeedBack extends Component{
           onValuesChange = {this.searchDataChange}
         />
         <Qtable
+          style={{marginTop:'15px'}}
           dataSource = {dataList}
-          columns = {Columns}
-          onOperateClick={this.handleOperateClick.bind(this)}
-        />
+          columns = {Columns}/>
         <Qpagination
           data={this.props.userFeedBack}
           onChange={this.changePage}/>

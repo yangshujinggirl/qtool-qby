@@ -1,1 +1,8 @@
 .server .form .submit{float:right}
+.detail{font-size:14px}
+.detail .name{margin-bottom:15px;}
+.detail .title{margin-bottom:20px;font-size:16px;font-weight:600}
+.detail .content{width:100px;}
+.detail .ct{display:inline-block;word-wrap:break-word}
+.detail .left{vertical-align:top}
+.detail .container{border-bottom:1px solid #eaeaea;padding:20px 0}

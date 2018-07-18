@@ -1,6 +1,6 @@
 import ajax from '../../utils/req.js'
 
-//优惠券列表列表
+//优惠券列表
 export function getListApi(values){
   values = JSON.stringify(values)
   return ajax.post('/webrest.htm',{
