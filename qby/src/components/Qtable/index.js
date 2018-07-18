@@ -35,7 +35,7 @@ class QTable extends Component {
         dataSource={dataSource}
         columns = {this.props.columns}
         rowClassName={this.rowClassName}
-        rowSelection={select?this.rowSelection:null}/>
+        rowSelection={select?this.props.rowSelection:null}/>
     )
   }
 }

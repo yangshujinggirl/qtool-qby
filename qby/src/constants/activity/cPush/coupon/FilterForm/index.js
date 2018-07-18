@@ -14,7 +14,7 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 const RangePicker = DatePicker.RangePicker
 const formItemLayout = {
-    labelCol: { span:6 },
+    labelCol: { span:8   },
     wrapperCol: { span: 16 },
 };
 const timerLayout = {
@@ -29,8 +29,8 @@ class NormalForm extends Component{
     this.props.form.validateFieldsAndScroll((err, values) => {
       const{rangePicker,..._values} = values;
       if(rangePicker){
-        _values.startTime =  new Date( rangePicker[0]).getTime();
-        _values.endTime = new Date(rangePicker[1]).getTime();
+        _values.createTimeST =  new Date( rangePicker[0]).getTime();
+        _values.createTimeET = new Date(rangePicker[1]).getTime();
       }
       this.props.submit && this.props.submit(_values);
     })
@@ -43,52 +43,47 @@ class NormalForm extends Component{
         <Form>
           <Row wrap>
               <Col span={8}>
-                  <FormItem {...formItemLayout} label='推送标题'>
-                    {getFieldDecorator('title')(
-                        <Input placeholder='推送标题'/>
+                  <FormItem {...formItemLayout} label='优惠券名称'>
+                    {getFieldDecorator('feedbackNo')(
+                        <Input placeholder='请输入优惠券名称'/>
                       )}
                   </FormItem>
               </Col>
               <Col span={8}>
+                  <FormItem {...formItemLayout} label='优惠券批次号'>
+                    {getFieldDecorator('telephone')(
+                      <Input placeholder='请输入批次号'/>
+                    )}
+                  </FormItem>
+              </Col>
+              <Col span={8}>
                   <FormItem {...formItemLayout} label='创建人'>
-                    {getFieldDecorator('creater')(
+                    {getFieldDecorator('telephone')(
                       <Input placeholder='请输入创建人'/>
                     )}
                   </FormItem>
               </Col>
               <Col span={8}>
-                <FormItem {...formItemLayout} label='推送状态'>
+                <FormItem {...formItemLayout} label='优惠券场景'>
                     {getFieldDecorator('status')(
-                    <Select allowClear={true} placeholder="请选择推送状态" className='select'>
+                    <Select allowClear={true} placeholder="请选择优惠券场景" className='select'>
                         {/* <Option value='10'>待发货</Option> */}
-                        <Option value='1'>待推送</Option>
-                        <Option value='2'>已推送</Option>
-                        <Option value='3'>已撤销</Option>
+                        <Option value='1'>新用户注册</Option>
+                        <Option value='2'>注券</Option>
                     </Select>
                     )}
                 </FormItem>
               </Col>
               <Col span={8}>
-                <FormItem {...formItemLayout} label='推送类型'>
-                    {getFieldDecorator('type')(
-                    <Select allowClear={true} placeholder="请选择推送类型" className='select'>
+                <FormItem {...formItemLayout} label='优惠券状态'>
+                    {getFieldDecorator('status')(
+                    <Select allowClear={true} placeholder="请选择优惠券状态" className='select'>
                         {/* <Option value='10'>待发货</Option> */}
-                        <Option value='1'>banner</Option>
-                        <Option value='2'>商品</Option>
-                        <Option value='3'>url</Option>
-                        <Option value='4'>文本</Option>
+                        <Option value='1'>发放中</Option>
+                        <Option value='2'>发放完</Option>
+                        <Option value='3'>熔断</Option>
                     </Select>
                     )}
-                </FormItem>
-              </Col>
-              <Col span={12}>
-                <FormItem
-                    {...formItemLayout }
-                    label="推送时间"
-                >
-                  {getFieldDecorator('rangePicker')(
-                    <RangePicker showTime format="YYYY-MM-DD HH:mm:ss"/>
-                  )}
                 </FormItem>
               </Col>
             </Row>
@@ -112,7 +107,7 @@ const FilterForm = Form.create({
   }
 })(NormalForm)
 function mapStateToProps(state){
-  const { userFeedBack } = state;
-  return {userFeedBack}
+  const { coupon } = state;
+  return {coupon}
 }
 export default connect(mapStateToProps)(FilterForm)

@@ -25,3 +25,12 @@ export function bPushInfoApi(values){
       data:values
   })
 }
+
+//撤销推送
+export function bPushRevokeApi(values){
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.pd.bPush.revoke',
+      data:values
+  })
+}

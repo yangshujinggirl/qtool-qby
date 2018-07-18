@@ -256,9 +256,9 @@ class Content extends React.Component {
                                     case "102000info" : return <CouponDetail data={this.props.data}/> //优惠券详情
                                     case "102000editconfig" : return <CouponRecord data={this.props.data}/> //注券记录
                                     case "103000" : return <Bpush data={this.props.data} componkey={this.props.componkey}/>
-                                    case "103000edit" : return <AddPush data={this.props.data}/>
+                                    case "103000edit" : return <AddPush data={this.props.data} componkey={this.props.componkey}/>
                                     case "103000info" : return <BpushDetail data={this.props.data}/>
-                                    case "104000" : return <Cpush data={this.props.data} componkey={this.props.componkey}/>
+                                    case "104000" : return <Cpush data={this.props.data}/>
                                     case "306000" : return <BaseGoods data={this.props.data}/>
 
                                     // -------------------------------商品中心----基础商品----------------------------

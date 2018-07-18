@@ -4,7 +4,7 @@
 //      render:(text, record)=>{
 //        return(
 //          <div>
-//            <a href="javascript:;" className="theme-color" onClick={record.onOperateClick.bind(this)}>{text}</a>
+//            <a href="javascript:;" className="theme-color" onClick={record.onOperateClick.bind(this,'detail')}>{text}</a>
 //          </div>
 //        )
 //      }
@@ -29,7 +29,7 @@
 //      render:(text, record)=>{
 //        return(
 //          <div>
-//            <a href="javascript:;" className="theme-color" onClick={record.onOperateClick.bind(this)}>修改</a>
+//            <a href="javascript:;" className="theme-color" onClick={record.onOperateClick.bind(this,'edit')}>修改</a>
 //          </div>
 //        )
 //      }
@@ -41,7 +41,7 @@ const Columns = [{
      render:(text, record) => {
        return(
           <div>
-            <a href="javascript:;" className="theme-color" onClick={record.onOperateClick.bind(this)}>{text}</a>
+            <a href="javascript:;" className="theme-color" onClick={record.onOperateClick.bind(this,'detail')}>{text}</a>
           </div>
        )
      }
@@ -66,8 +66,7 @@ const Columns = [{
      render:(text, record)=>{
        return(
          <div>
-           <a href="javascript:;" className="theme-color" onClick={record.onOperateClick.bind(this,'detail')}>处理</a>
-           <a href="javascript:;" className="theme-color" onClick={record.onOperateClick.bind(this,'edit')}>编辑</a>
+           <a href="javascript:;" className="theme-color" onClick={record.onOperateClick.bind(this,'edit')}>修改</a>
          </div>
        )
      }
