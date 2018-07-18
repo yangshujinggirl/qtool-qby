@@ -40,6 +40,22 @@ export function goodsInfoApi(values) {
       data:values
   })
 }
+//查询规格1
+export function searchValApi(values) {
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.pd.typeval.list',
+      data:values
+  })
+}
+//保存规格1
+export function saveValApi(values) {
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.pd.typeval.save',
+      data:values
+  })
+}
 //保存信息
 export function goodSaveApi(values) {
   values = JSON.stringify(values)
