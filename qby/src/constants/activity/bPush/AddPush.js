@@ -131,8 +131,6 @@ class AddCoupon extends Component {
                 <TextArea placeholder='请输入30字以下推送内容' maxLength='30' rows={6} />
             )}
             </FormItem>
-            <Row>
-                <Col>
             <FormItem
               label="推送类型"
               labelCol={{ span: 3,offset: 1 }}
@@ -186,16 +184,22 @@ class AddCoupon extends Component {
                 </RadioGroup>
               )}
             </FormItem>
-              </Col>
-            </Row>
-            <FormItem>
+            <FormItem
+              label="推送内容"
+              labelCol={{ span: 3,offset: 1 }}
+              wrapperCol={{ span: 8 }}
+            >
               {getFieldDecorator('msgContent', {
                 rules: [{ required: true, message: '请选择推送内容' }]
               })(
                   <TextArea placeholder='请输入30字以下推送内容' maxLength='30' rows={6} />
               )}
             </FormItem>
-            <FormItem>
+            <FormItem
+              label="推送主题"
+              labelCol={{ span: 3,offset: 1 }}
+              wrapperCol={{ span: 8 }}
+            >
               {getFieldDecorator('targetObject',{
                   rules: [{ required: true, message: '请输入推送主题'}],
                   initialValue: ['1'],
@@ -208,7 +212,6 @@ class AddCoupon extends Component {
             		<Button type="primary" onClick={this.handleSubmit}>保存</Button>
           	</FormItem>
         	</Form>
-        	)
       </div>
     )
   }
