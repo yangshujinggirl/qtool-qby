@@ -93,7 +93,7 @@ class NormalForm extends Component{
                     label="开始时间"
                 >
                   {getFieldDecorator('rangePicker')(
-                    <RangePicker />
+                    <RangePicker showTime format="YYYY-MM-DD HH:mm:ss"/>
                   )}
                 </FormItem>
               </Col>

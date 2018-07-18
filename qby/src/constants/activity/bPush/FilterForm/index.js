@@ -29,8 +29,8 @@ class NormalForm extends Component{
     this.props.form.validateFieldsAndScroll((err, values) => {
       const{rangePicker,..._values} = values;
       if(rangePicker){
-        _values.createTimeST =  new Date( rangePicker[0]).getTime();
-        _values.createTimeET = new Date(rangePicker[1]).getTime();
+        _values.startTime =  new Date( rangePicker[0]).getTime();
+        _values.endTime = new Date(rangePicker[1]).getTime();
       }
       this.props.submit && this.props.submit(_values);
     })
@@ -43,39 +43,40 @@ class NormalForm extends Component{
         <Form>
           <Row wrap>
               <Col span={8}>
-                  <FormItem {...formItemLayout} label='反馈编号'>
-                    {getFieldDecorator('feedbackNo')(
-                        <Input placeholder='反馈编号'/>
+                  <FormItem {...formItemLayout} label='推送标题'>
+                    {getFieldDecorator('title')(
+                        <Input placeholder='推送标题'/>
                       )}
                   </FormItem>
               </Col>
               <Col span={8}>
-                  <FormItem {...formItemLayout} label='手机号'>
-                    {getFieldDecorator('telephone')(
-                      <Input placeholder='请输入联系人'/>
+                  <FormItem {...formItemLayout} label='创建人'>
+                    {getFieldDecorator('creater')(
+                      <Input placeholder='请输入创建人'/>
                     )}
                   </FormItem>
               </Col>
               <Col span={8}>
-                <FormItem {...formItemLayout} label='反馈状态'>
+                <FormItem {...formItemLayout} label='推送状态'>
                     {getFieldDecorator('status')(
-                    <Select allowClear={true} placeholder="请选择订单状态" className='select'>
+                    <Select allowClear={true} placeholder="请选择推送状态" className='select'>
                         {/* <Option value='10'>待发货</Option> */}
-                        <Option value='1'>待处理</Option>
-                        <Option value='2'>处理中</Option>
-                        <Option value='3'>已处理</Option>
+                        <Option value='1'>待推送</Option>
+                        <Option value='2'>已推送</Option>
+                        <Option value='3'>已撤销</Option>
                     </Select>
                     )}
                 </FormItem>
               </Col>
               <Col span={8}>
-                <FormItem {...formItemLayout} label='处理时长'>
-                    {getFieldDecorator('handleTime')(
-                    <Select allowClear={true} placeholder="处理时长" className='select'>
+                <FormItem {...formItemLayout} label='推送类型'>
+                    {getFieldDecorator('type')(
+                    <Select allowClear={true} placeholder="请选择推送类型" className='select'>
                         {/* <Option value='10'>待发货</Option> */}
-                        <Option value='1'>'0-5h'</Option>
-                        <Option value='2'>'5-24h'</Option>
-                        <Option value='3'>'24h以上'</Option>
+                        <Option value='1'>banner</Option>
+                        <Option value='2'>商品</Option>
+                        <Option value='3'>url</Option>
+                        <Option value='4'>文本</Option>
                     </Select>
                     )}
                 </FormItem>
@@ -83,10 +84,10 @@ class NormalForm extends Component{
               <Col span={12}>
                 <FormItem
                     {...formItemLayout }
-                    label="反馈时长"
+                    label="推送时间"
                 >
                   {getFieldDecorator('rangePicker')(
-                    <RangePicker />
+                    <RangePicker showTime format="YYYY-MM-DD HH:mm:ss"/>
                   )}
                 </FormItem>
               </Col>

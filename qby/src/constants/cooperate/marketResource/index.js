@@ -65,7 +65,6 @@ class MarketResource extends Component{
     }
     //点击新增人员
     addStaff(){
-      debugger
       const paneitem={
         title:'新增人员',
         key:`${this.state.componkey}edit`,

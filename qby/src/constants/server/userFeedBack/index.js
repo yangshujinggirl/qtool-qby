@@ -51,7 +51,21 @@ class UserFeedBack extends Component{
       payload:{}
     })
   }
-
+  //点击跳转详情页
+  handleOperateClick(record){
+    const paneitem = {
+      title:'优惠券详情',
+      key:`${this.state.componkey}edit`,
+      componkey:`${this.state.componkey}edit`,
+      data:{
+        pdSpuId:record.spOrderId,
+      }
+    }
+    this.props.dispatch({
+      type:'tab/firstAddTab',
+      payload:paneitem
+    })
+  }
   render(){
     const {dataList} = this.props.userFeedBack;
     return(
@@ -62,7 +76,9 @@ class UserFeedBack extends Component{
         />
         <Qtable
           dataSource = {dataList}
-          columns = {Columns}/>
+          columns = {Columns}
+          onOperateClick={this.handleOperateClick.bind(this)}
+        />
         <Qpagination
           data={this.props.userFeedBack}
           onChange={this.changePage}/>

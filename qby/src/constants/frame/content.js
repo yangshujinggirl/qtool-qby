@@ -122,12 +122,19 @@ import MarketResource from '../cooperate/marketResource/index';
 import AddStaff from '../cooperate/marketResource/addStaff';
 //活动中心
 import Cbanner from '../activity/cBanner/index';
+import AddBanner from '../activity/cBanner/addBanner';
 import Coupon from '../activity/coupon/index';
+import CouponDetail from '../activity/coupon/CouponDetail';
+import AddCoupon from '../activity/coupon/AddCoupon';
+import CouponRecord from '../activity/coupon/CouponRecord/index';
 import Cpush from '../activity/cPush/index';
 import Bpush from '../activity/bPush/index';
-import AddBanner from '../activity/cBanner/addBanner.js';
+import BpushDetail from '../activity/bPush/BpushDetail'
+import AddPush from '../activity/bPush/AddPush'
+
 //客服中心
 import UserFeedBack from '../server/userFeedBack/index'; //用户反馈
+import HandleBack from '../server/userFeedBack/HandleBack'
 import ServerBill from '../server/serverBill/index'; //用户反馈
 
 
@@ -242,12 +249,16 @@ class Content extends React.Component {
                                     case "501000edit" : return <AddStaff data={this.props.data}/>
 
                                     // --------------------------------活动中心----------------------------
-                                    case "101000" : return <Cbanner data={this.props.data} componkey={this.props.componkey}/>
-                                    case "101000edit" : return <AddBanner data={this.props.data}/>
-                                    case "102000" : return <Coupon data={this.props.data} componkey={this.props.componkey}/>
+                                    case "101000" : return <Cbanner data={this.props.data} componkey={this.props.componkey}/> //Cbanner
+                                    case "101000edit" : return <AddBanner data={this.props.data}/> //新增banner
+                                    case "102000" : return <Coupon data={this.props.data} componkey={this.props.componkey}/> //优惠券
+                                    case "102000edit" : return <AddCoupon data={this.props.data}/> //创建优惠券
+                                    case "102000info" : return <CouponDetail data={this.props.data}/> //优惠券详情
+                                    case "102000editconfig" : return <CouponRecord data={this.props.data}/> //注券记录
                                     case "103000" : return <Bpush data={this.props.data} componkey={this.props.componkey}/>
-                                    case "104000" : return <Cpush data={this.props.data} componkey={this.props.componkey}/>
-
+                                    case "103000edit" : return <AddPush data={this.props.data} componkey={this.props.componkey}/>
+                                    case "103000info" : return <BpushDetail data={this.props.data}/>
+                                    case "104000" : return <Cpush data={this.props.data}/>
                                     // -------------------------------商品中心----基础商品----------------------------
                                     case "306000" : return <BaseGoods data={this.props.data} componkey={this.props.componkey}/>
                                     case "306000edit" : return <AddGoods data={this.props.data}/>
@@ -255,6 +266,7 @@ class Content extends React.Component {
                                     case "306000editconfig" : return <LogList data={this.props.data}/>
                                     //------------------------------客服中心------------------------
                                     case "10100" : return <UserFeedBack data={this.props.data} componkey={this.props.componkey}/>
+                                    case "10100edit" : return <HandleBack data={this.props.data} componkey={this.props.componkey}/>
                                     case "10200" : return <ServerBill data={this.props.data} componkey={this.props.componkey}/>
 
 

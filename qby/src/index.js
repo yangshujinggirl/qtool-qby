@@ -61,6 +61,8 @@ import onlinegood from "./models/onlinegood"
 import marketResource from './models/cooperate/marketResource' //资源管理
 //活动中心
 import cBanner from './models/activity/cBanner/cBanner'
+import coupon from './models/activity/coupon/coupon'
+import bPush from './models/activity/bPush/bPush'
 //客服中心
 import userFeedBack from './models/server/userFeedBack'
 import serverBill from './models/server/serverBill'
@@ -125,7 +127,9 @@ const models = [
   marketResource,
   cBanner,
   userFeedBack,
-  serverBill
+  serverBill,
+  coupon,
+  bPush
 ]
 
 models.forEach(m => {
