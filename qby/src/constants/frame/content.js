@@ -134,8 +134,9 @@ import AddPush from '../activity/bPush/AddPush'
 
 //客服中心
 import UserFeedBack from '../server/userFeedBack/index'; //用户反馈
-import HandleBack from '../server/userFeedBack/HandleBack'
+import HandleBack from '../server/userFeedBack/HandleBack'//反馈处理
 import ServerBill from '../server/serverBill/index'; //用户反馈
+import HandleBill from '../server/serverBill/HandleBill'; //工单处理
 
 
 class Content extends React.Component {
@@ -270,6 +271,7 @@ class Content extends React.Component {
                                     case "10100" : return <UserFeedBack data={this.props.data} componkey={this.props.componkey}/>
                                     case "10100edit" : return <HandleBack data={this.props.data} componkey={this.props.componkey}/>
                                     case "10200" : return <ServerBill data={this.props.data} componkey={this.props.componkey}/>
+                                    case "10200edit" : return <HandleBill data={this.props.data} componkey={this.props.componkey}/>
 
 
 

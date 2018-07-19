@@ -54,17 +54,17 @@ class UserFeedBack extends Component{
   //点击跳转详情页
   handleOperateClick(record){
     const paneitem = {
-      title:'优惠券详情',
+      title:'用户反馈详情',
       key:`${this.state.componkey}edit`,
       componkey:`${this.state.componkey}edit`,
       data:{
         pdSpuId:record.spOrderId,
       }
-    }
+    };
     this.props.dispatch({
       type:'tab/firstAddTab',
       payload:paneitem
-    })
+    });
   }
   render(){
     const {dataList} = this.props.userFeedBack;

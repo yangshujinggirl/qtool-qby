@@ -27,7 +27,7 @@ class ServerBill extends Component{
   //点击搜索
   searchData = (values)=> {
     this.props.dispatch({
-      type:'userFeedBack/fetchList',
+      type:'serverBill/fetchList',
       payload:values
     })
   }
@@ -36,7 +36,7 @@ class ServerBill extends Component{
   changePage =(currentPage)=> {
     const values = {...this.state.field,currentPage}
     this.props.dispatch({
-      type:'userFeedBack/fetchList',
+      type:'serverBill/fetchList',
       payload:values
     })
   }
@@ -51,6 +51,7 @@ class ServerBill extends Component{
   }
   //初始化数据
   componentWillMount(){
+    console.log()
     this.props.dispatch({
       type:'serverBill/fetchList',
       payload:{}
@@ -63,16 +64,29 @@ class ServerBill extends Component{
   onCancel =()=> {
     this.setState({isVisible:false})
   }
+  //确定
   onOk =(values)=> {
-    // this.setState({isVisible:false});
     addBillApi(values)
-    .then((res) => {
-      if(res.code == '0'){
-        // message.success(res.message);
-      }else{
-        console.log(res.message)
-      }
+    .then(res=> {
+      message.success('成功');
+    },err=>{
+      message.error('失败');
     })
+  }
+  //点击跳转到详情
+  handleOperateClick =(record)=> {
+    const paneitem = {
+      title:'工单处理',
+      key:`${this.props.componkey}edit`,
+      componkey:`${this.props.componkey}edit`,
+      data:{
+        pdSpuId:record.spOrderId
+      }
+    };
+    this.props.dispatch({
+      type:'tab/firstAddTab',
+      payload:paneitem
+    });
   }
   render(){
     const {dataList} = this.props.serverBill;
@@ -95,7 +109,9 @@ class ServerBill extends Component{
         </div>
         <Qtable
           dataSource = {dataList}
-          columns = {Columns}/>
+          columns = {Columns}
+          onOperateClick = {this.handleOperateClick}
+        />
         <Qpagination
           data={this.props.serverBill}
           onChange={this.changePage}/>

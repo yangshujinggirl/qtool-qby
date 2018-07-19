@@ -1,19 +1,19 @@
 import React from 'react';
 import EditableTable from '../../../components/table/tablebasic';
 import { Button, Icon ,Form,Select,Input,Card, message } from 'antd';
-import { getBackDetailApi,feedBackSaveApi } from '../../../services/server/server'
+import { customserviceDetailApi,customserviceSaveApi } from '../../../services/server/server'
 import { connect } from 'dva';
 const FormItem = Form.Item;
 const Option = Select.Option;
 const { TextArea } = Input;
 
-class HandleBack extends React.Component{
+class HandleBill extends React.Component{
 	constructor(props) {
 		super(props);
     this.result={
-      feedbackInfos:{},
-      feedbackContent:{},
-      feedbackLogs:[]
+      customServiceInfos:{},
+      customServiceContent:{},
+      customServiceHandel:[]
     },
 		this.columns = [{
 			title: '反馈状态',
@@ -39,62 +39,51 @@ class HandleBack extends React.Component{
 }
 
 render(){
-  const {feedbackInfos,feedbackContent,feedbackLogs} = this.result;
+  const {customServiceInfos,customServiceContent,customServiceHandel,customServiceLogs} = this.result;
   const { getFieldDecorator } = this.props.form;
 	return(
 			<div>
         <div className='mb10'>
-          <Card title='反馈信息'>
+          <Card title='工单信息'>
             <div className='cardlist'>
-                <div className='cardlist_item'><label>反馈编号：</label><span>{feedbackInfos.feedbackNo}</span></div>
-                <div className='cardlist_item'><label>反馈用户：</label><span>{feedbackInfos.nickName}</span></div>
-                <div className='cardlist_item'><label>用户电话：</label><span>{feedbackInfos.userTel}</span></div>
-                <div className='cardlist_item'><label>反馈状态：</label><span>{feedbackInfos.status}</span></div>
-                <div className='cardlist_item'><label>处理时长：</label><span>{feedbackInfos.handleTime}</span></div>
-                <div className='cardlist_item'><label>反馈时间：</label><span>{feedbackInfos.createTime}</span></div>
+                <div className='cardlist_item'><label>客服单号：</label><span>{customServiceInfos.customServiceNo}</span></div>
+                <div className='cardlist_item'><label>客服状态：</label><span>{customServiceInfos.status}</span></div>
+                <div className='cardlist_item'><label>处理时长：</label><span>{customServiceInfos.handleTime}</span></div>
+                <div className='cardlist_item'><label>开始时间：</label><span>{customServiceInfos.createTime}</span></div>
+                <div className='cardlist_item'><label>部门/用户/门店：</label><span>{customServiceInfos.source}</span></div>
+                <div className='cardlist_item'><label>联系电话：</label><span>{customServiceInfos.waiterTel}</span></div>
             </div>
           </Card>
         </div>
 				<div style={{padding:'10px 0',border:'1px solid #e8e8e8',margin:'10px 0',marginBottom:"10px"}}>
-					<p style={{borderBottom:'1px solid #e8e8e8',padding:'5px 10px 15px'}}>反馈内容</p>
+					<p style={{borderBottom:'1px solid #e8e8e8',padding:'5px 10px 15px'}}>工单内容</p>
 					<Form className='mt20'>
+						<FormItem
+							label="客服主题"
+							labelCol={{ span: 2 }}
+							wrapperCol={{ span: 12 }}
+						>
+							<div>{customServiceContent.customServiceTheme}</div>
+						</FormItem>
 						<FormItem
 							label="反馈内容"
 							labelCol={{ span: 2 }}
 							wrapperCol={{ span: 12 }}
 						>
-							<div>{feedbackContent.remark}</div>
-						</FormItem>
-						<FormItem
-							label="反馈图片"
-							labelCol={{ span: 2 }}
-							wrapperCol={{ span: 12 }}
-						>
-							<div className='clearfix'>
-                {
-                  feedbackLogs && feedbackLogs.remarkUrl
-                  ?
-                    feedbackLogs.remarkUrl.map((item,index) => {
-                      return(
-                        <img key={index} src={item}/>
-                      )
-                    })
-                  :''
-                }
-              </div>
+							<div className='clearfix'>{customServiceContent.content}</div>
 						</FormItem>
   				</Form>
 				</div>
 				<div style={{padding:'10px 0',border:'1px solid #e8e8e8',marginBottom:"10px"}}>
-					<p style={{borderBottom:'1px solid #e8e8e8',padding:'5px 10px 15px'}}>反馈处理</p>
+					<p style={{borderBottom:'1px solid #e8e8e8',padding:'5px 10px 15px'}}>工单处理</p>
 					<Form className='mt20'>
 						<FormItem
-							label="反馈状态"
+							label="客服状态"
 							labelCol={{ span: 2 }}
 							wrapperCol={{ span: 12 }}
 						>
             {getFieldDecorator('status',{
-              initialValue:feedbackInfos.status
+              initialValue:customServiceInfos.status
             })(
               <Select
 								style={{width:'200px'}}
@@ -114,6 +103,15 @@ render(){
               <TextArea rows={4}   placeholder='备注信息，最多200字，方便其他人了解，非必填' maxLength='200'/>
             )}
 						</FormItem>
+						<FormItem
+							label="图片备注"
+							labelCol={{ span: 2 }}
+							wrapperCol={{ span: 12 }}
+						>
+						{getFieldDecorator('remarkPic')(
+							<TextArea rows={4}   placeholder='备注信息，最多200字，方便其他人了解，非必填' maxLength='200'/>
+						)}
+						</FormItem>
   				</Form>
 				</div>
         <div className='mb20'>
@@ -121,7 +119,7 @@ render(){
             columns={this.columns}
             title='处理日志'
             bordered={true}
-            dataSource = { feedbackLogs }
+            dataSource = { customServiceLogs }
           />
         </div>
 					<FormItem style = {{marginBottom:0,textAlign:"center"}}>
@@ -133,7 +131,7 @@ render(){
 	}
 	componentDidMount(){
     const id = this.props.data.pdSpuId;
-    getBackDetailApi(id)
+    customserviceDetailApi(id)
     .then(res=>{
       message.success('成功');
     },err=>{
@@ -150,7 +148,7 @@ render(){
 	//确定
   onOk =()=> {
     this.props.form.validateFieldsAndScroll((err,values) => {
-			const _values = {feedbackId:this.props.data.pdSpuId,...values}
+			const _values = {customServiceId:this.props.data.pdSpuId,...values}
 			if(!err){
 				this.submit(_values);
 			};
@@ -158,7 +156,7 @@ render(){
   }
 	//提交
 	submit =(values)=> {
-		feedBackSaveApi(values)
+		customserviceSaveApi(values)
 		.then(res=>{
 			this.props.dispatch({
 					type:'tab/initDeletestate',
@@ -169,9 +167,9 @@ render(){
 		})
 	}
 }
-const HandleBacks = Form.create()(HandleBack);
+const HandleBills = Form.create()(HandleBill);
 function mapStateToProps(state){
-  const { userFeedBack } = state;
-  return { userFeedBack }
+  const { serverBill } = state;
+  return { serverBill }
 }
-export default connect(mapStateToProps)(HandleBacks);
+export default connect(mapStateToProps)(HandleBills);
