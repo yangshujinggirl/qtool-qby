@@ -260,8 +260,6 @@ class Content extends React.Component {
                                     case "103000edit" : return <AddPush data={this.props.data} componkey={this.props.componkey}/>
                                     case "103000info" : return <BpushDetail data={this.props.data}/>
                                     case "104000" : return <Cpush data={this.props.data}/>
-                                    case "306000" : return <BaseGoods data={this.props.data}/>
-
                                     // -------------------------------商品中心----基础商品----------------------------
                                     case "306000" : return <BaseGoods data={this.props.data} componkey={this.props.componkey}/>
                                     case "306000edit" : return <AddGoods data={this.props.data}/>
@@ -290,7 +288,8 @@ class Content extends React.Component {
 }
 
 function mapStateToProps(state) {
-    const {loding} = state.tab;
+    // const {loding} = state.tab;
+    const loding = state.loading.global && state.loading.effects['tab/loding'];
     return {loding};
 }
 

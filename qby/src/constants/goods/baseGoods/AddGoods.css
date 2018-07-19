@@ -1,0 +1,7 @@
+.add-goods-components .btns-list{
+  text-align: center;
+  padding: 20px 0;
+}
+.add-goods-components .btns-list button {
+  margin-left: 20px;
+}

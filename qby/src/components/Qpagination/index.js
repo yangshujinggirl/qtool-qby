@@ -1,5 +1,6 @@
 import React ,{ Component } from 'react';
 import { Pagination } from 'antd';
+import './index.css';
 
 class Qpagination extends Component {
   onShowSizeChange(current, pageSize) {
@@ -11,12 +12,14 @@ class Qpagination extends Component {
   render() {
     const { total, limit, current } = this.props.data;
     return(
-      <Pagination
-        showSizeChanger
-        total={total}
-        onChange={this.props.onChange}
-        onShowSizeChange={this.onShowSizeChange}
-        hideOnSinglePage={false}/>
+      <div className="common-pagination-components">
+        <Pagination
+          showSizeChanger
+          total={total}
+          onChange={this.props.onChange}
+          onShowSizeChange={this.onShowSizeChange}
+          hideOnSinglePage={false}/>
+      </div>
     )
   }
 }
