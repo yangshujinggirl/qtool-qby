@@ -13,19 +13,27 @@ import { fuseCouponApi } from '../../../services/activity/coupon'
 class Coupon extends Component{
   constructor(props){
     super(props);
+    this.state = {
+      couponId:'',
+      isFuseVisible:false,//熔断弹窗是否显示
+      isVisible:false,
+      componkey:this.props.componkey,
+      field:{
+        customServiceNo:'',
+        customServiceTheme:'',
+        waiter:'',
+        status:'',
+        handleTime:'',
+      },
+    }
+    this.rowSelection = {
+      type:'radio',
+      onChange:(key,selectedRows)=>{
+        this.setState({couponId:selectedRows[0].spOrderId})
+      }
+    }
   }
-  state = {
-    isFuseVisible:false,//熔断弹窗是否显示
-    isVisible:false,
-    componkey:this.props.componkey,
-    field:{
-      customServiceNo:'',
-      customServiceTheme:'',
-      waiter:'',
-      status:'',
-      handleTime:'',
-    },
-  }
+
   //点击搜索
   searchData = (values)=> {
     this.props.dispatch({
@@ -59,7 +67,6 @@ class Coupon extends Component{
   }
   //创建优惠券
   createCoupon =()=>{
-    console.log(this.state.componkey)
     const paneitem = {
       title:'创建优惠券',
       key:`${this.state.componkey}edit`,
@@ -91,18 +98,20 @@ class Coupon extends Component{
   }
   //熔断优惠券
   fuseCoupon =()=> {
-    this.setState({isFuseVisible:true})
+    if(!this.state.couponId){
+      message.warning('请选择要熔断的优惠券')
+    }else{
+      this.setState({isFuseVisible:true})
+    }
   }
   //确认熔断
   onfuseOk =()=>{
-    const id=1;
-    fuseCouponApi(id)
+    const couponId = this.state.couponId;
+    fuseCouponApi(couponId)
     .then(res=>{
-      if(res.code == '0'){
-        message.success('熔断成功');
-      }
+      message.success('熔断成功');
     },err=>{
-      message.success('熔断失败，代金券已发放完毕');
+      message.success('熔断失败');
     })
     this.setState({isFuseVisible:false})
   }
@@ -181,7 +190,10 @@ class Coupon extends Component{
         <Qtable
           onOperateClick = {this.handleOperateClick.bind(this)}
           dataSource = {dataList}
-          columns = {Columns}/>
+          columns = {Columns}
+          select
+          rowSelection = {this.rowSelection}
+        />
         <Qpagination
           data={this.props.coupon}
           onChange={this.changePage}/>
