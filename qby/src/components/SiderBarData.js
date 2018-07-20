@@ -742,7 +742,115 @@ const SiderBarData =  [
               "children": null
             }
           ]
-        }
+        },
+        {
+          "urResourceId": 307000,
+          "name": "B端商品",
+          "code": "307000",
+          "url": "",
+          "remark": null,
+          "status": 1,
+          "statusStr": null,
+          "menu": 1,
+          "menuStr": null,
+          "rank": null,
+          "children": [
+            {
+              "urResourceId": 306100,
+              "name": "增改定时",
+              "code": "305100",
+              "url": "qerp.web.pd.task.time.save",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": null
+            }
+          ]
+        },
+        {
+          "urResourceId": 308000,
+          "name": "C端商品",
+          "code": "308000",
+          "url": "",
+          "remark": null,
+          "status": 1,
+          "statusStr": null,
+          "menu": 1,
+          "menuStr": null,
+          "rank": null,
+          "children": [
+            {
+              "urResourceId": 306100,
+              "name": "增改定时",
+              "code": "305100",
+              "url": "qerp.web.pd.task.time.save",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": null
+            }
+          ]
+        },
+        {
+          "urResourceId": 309000,
+          "name": "内部分类",
+          "code": "309000",
+          "url": "",
+          "remark": null,
+          "status": 1,
+          "statusStr": null,
+          "menu": 1,
+          "menuStr": null,
+          "rank": null,
+          "children": [
+            {
+              "urResourceId": 306100,
+              "name": "增改定时",
+              "code": "305100",
+              "url": "qerp.web.pd.task.time.save",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": null
+            }
+          ]
+        },
+        {
+          "urResourceId": 310000,
+          "name": "国家管理",
+          "code": "310000",
+          "url": "",
+          "remark": null,
+          "status": 1,
+          "statusStr": null,
+          "menu": 1,
+          "menuStr": null,
+          "rank": null,
+          "children": [
+            {
+              "urResourceId": 306100,
+              "name": "增改定时",
+              "code": "305100",
+              "url": "qerp.web.pd.task.time.save",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": null
+            }
+          ]
+        },
       ]
     },
   //电商中心800000

@@ -1,18 +1,10 @@
 import React,{ Component } from 'react';
 import { connect } from 'dva';
 import {
-  Form,
-  Row,
-  Col,
-  Input,
-  Button,
-  Icon,
-  Select ,
-  AutoComplete,
-  Upload,
-  message,
-  Radio,
-  DatePicker
+  Form,Row,Col,
+  Input,Button,Icon,
+  Select ,AutoComplete,Upload,
+  message,Radio,DatePicker
 } from 'antd';
 import moment from 'moment'
 import {
@@ -54,40 +46,16 @@ class AddGoodsForm extends Component {
     super(props);
     this.state = {
       brandDataSource:[],
-      // pdSpu:this.props.addGoods.pdSpu,
-      // fileList:this.props.addGoods.fileList,
       disabledOne:true,
       disabledTwo:true,
-      specOneId:'',
-      specOne:[],//规格1
-      specTwo:[],//规格2
-      goodsSize:[],
+      specOneId:'',//商品规格
     }
   }
   componentWillMount() {
     this.initGoodslabel();
     this.initPage()
   }
-  componentWillReceiveProps(props) {
-    // console.log('componentWillReceiveProps')
-    // console.log(props)
-    // this.setState({
-    //   pdSpu:props.addGoods.pdSpu,
-    //   fileList:props.addGoods.fileList,
-    // })
-  }
-  //取消
-  onCancel(){
-    const { key } = this.props.data;
-    const pane = eval(sessionStorage.getItem("pane"));
-    if(pane.length<=1){
-      return
-    }
-    this.props.dispatch({
-            type:'tab/initDeletestate',
-            payload:key
-      });
-  }
+
   //编辑or新增
   initPage() {
     const { pdSpuId, source } =this.props.data;
@@ -140,6 +108,20 @@ class AddGoodsForm extends Component {
       }
     })
   }
+  //取消
+  onCancel(){
+    const { key } = this.props.data;
+    const pane = eval(sessionStorage.getItem("pane"));
+    if(pane.length<=1){return}
+    this.props.dispatch({
+      type:'addGoods/resetData'
+    })
+    this.props.dispatch({
+            type:'tab/initDeletestate',
+            payload:key
+    });
+
+  }
   //提交
   handleSubmit = (e) => {
     const { pdSpuId, source } =this.props.data;
@@ -186,6 +168,11 @@ class AddGoodsForm extends Component {
     this.setState({
       disabledOne:!option,
       specOneId:option
+    })
+    let emptyArr = [];
+    this.props.dispatch({
+      type:'addGoods/handleSpec',
+      payload:{specOne:emptyArr,specTwo:emptyArr}
     })
   }
   //商品规格2change事件
@@ -273,16 +260,11 @@ class AddGoodsForm extends Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     const {
-      goodsCategory=[],
-      goodsType=[],
+      goodsCategory,
+      goodsType,
       pdSpu,
-      fileList
+      fileList,
     } = this.props.addGoods;
-    // const { pdSpu, fileList } = this.state;
-    // console.log(this.props.addGoods.pdSpu)
-    // console.log(this.state.pdSpu)
-    // console.log(this.props.addGoods.fileList)
-    // console.log(this.state.fileList)
     return(
       <div className="add-goods-components">
         <Form className="qtools-form-components">
@@ -460,14 +442,9 @@ class AddGoodsForm extends Component {
             }
             <Col span={24}>
               <FormItem label='商品信息' {...formItemLayout2}>
-                <div>
-                 {getFieldDecorator('guige2')(
-                   <GoodsInfo
-                     getFieldDecorator={getFieldDecorator}
-                     isHasSize={this.props.addGoods.specOne.length>0?true:false}
-                     datasource={this.props.tags}/>
-                 )}
-                 </div>
+                 <GoodsInfo
+                   getFieldDecorator={getFieldDecorator}
+                   isHasSize={this.props.addGoods.specOne.length>0?true:false}/>
                </FormItem>
             </Col>
             <Col span={24}>

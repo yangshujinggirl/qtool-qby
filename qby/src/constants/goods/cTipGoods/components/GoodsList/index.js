@@ -6,6 +6,7 @@ import {
   Input,
   Button,
   Icon,
+  Checkbox
 } from 'antd';
 
 import './index.css';
@@ -42,19 +43,30 @@ const IconList =({data})=>(
 )
 
 class GoodsList extends Component {
+  onChange(event,el) {
+    event.stopPropagation();
+    this.props.onChange(el)
+  }
+  handleClick(event,record) {
+    event.stopPropagation();
+    this.props.onOperateClick(record,'detail')
+  }
   render() {
-    const { baseGoodsList, onOperateClick } = this.props;
+    const { bTipGoodsList, onOperateClick } = this.props;
     const filePath = JSON.parse(sessionStorage.getItem('fileDomain'));
     return (
       <div className="goods-common-components">
         <Row wrap>
           {
-            baseGoodsList.dataList.length>0 && baseGoodsList.dataList.map((el,index) => (
-              <Col span={8} key={index}>
+            bTipGoodsList.dataList.length>0 && bTipGoodsList.dataList.map((el,index) => (
+              <Col span={6} key={index}>
                 <div className="goods-item-content">
-                  <div className="goods-action-top" onClick={()=>onOperateClick(el,'detail')}>
+                  <div className="goods-action-top" onClick={(event)=>this.handleClick(event,el)}>
                     <div className="part-l">
                       <img src={`${filePath}${el.mainPicUrl}`}/>
+                      <div className="checkbox-wrap">
+                        <Checkbox onChange={(event)=>this.onChange(event,el)} key={el.pdSpuId}/>
+                      </div>
                     </div>
                     <div className="part-r">
                       <p className="goods-name">{el.name}</p>
@@ -79,8 +91,7 @@ class GoodsList extends Component {
   }
 }
 function mapStateToProps(state) {
-  const { baseGoodsList } = state;
-  return { baseGoodsList };
+  const { bTipGoodsList } = state;
+  return { bTipGoodsList };
 }
-
 export default connect(mapStateToProps)(GoodsList);
