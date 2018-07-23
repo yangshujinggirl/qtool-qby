@@ -152,8 +152,8 @@ class Bpush extends Component{
           onValuesChange = {this.searchDataChange}
         />
         <div>
-          <Button onClick={this.addPush} className='btn' type='primary'>新增推送</Button>
-          <Button onClick={this.cancelPush} className='btn' type='primary'>撤销推送</Button>
+          <Button onClick={this.addPush} className='btn' size='large' type='primary'>新增推送</Button>
+          <Button onClick={this.cancelPush} className='btn' size='large' type='primary'>撤销推送</Button>
         </div>
         <Modal
             bodyStyle={{fontSize:'24px','padding':'50px'}}

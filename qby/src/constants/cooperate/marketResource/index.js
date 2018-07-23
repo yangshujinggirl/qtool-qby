@@ -64,7 +64,7 @@ class MarketResource extends Component{
       })
     }
     //点击新增人员
-    addStaff(){
+    addStaff =()=> {
       const paneitem={
         title:'新增人员',
         key:`${this.state.componkey}edit`,
@@ -78,7 +78,22 @@ class MarketResource extends Component{
           payload:paneitem
       })
     }
-
+    //操作
+    handleOperateClick =(record)=> {
+      console.log(this.state.componkey)
+      const paneitem = {
+        title:'修改人员',
+        key:`${this.state.componkey}edit`,
+        componkey:`${this.state.componkey}edit`,
+        data:{
+          pdSpuId:record.spOrderId,
+        }
+      }
+      this.props.dispatch({
+        type:'tab/firstAddTab',
+        payload:paneitem
+      })
+    }
     //市场资源
     render(){
         const {dataList = [] } = this.props.marketResource;
@@ -89,10 +104,14 @@ class MarketResource extends Component{
                   {...fields}
                   submit={this.searchData}
                   onChange={this.handleFormChange}/>
-                <div className='add'><Button onClick={()=>this.addStaff()} type="primary">新增人员</Button></div>
+                <div className='add'>
+                  <Button onClick={this.addStaff} size='large' type="primary">新增人员</Button>
+                </div>
                 <Qtable
-                  dataSource={dataList}
-                  columns = {Columns}/>
+                  dataSource = {dataList}
+                  columns = {Columns}
+                  onOperateClick = {this.handleOperateClick.bind(this)}
+                />
                 <Qpagination
                   data={this.props.marketResource}
                   onChange={this.changePage}/>

@@ -1,6 +1,5 @@
 
 import {getListApi} from '../../services/cooperate/marketResource'
-import {addStaffApi} from '../../services/cooperate/marketResource'
 export default {
     namespace: 'marketResource',
     state:{
@@ -46,12 +45,5 @@ export default {
               });
             };
         },
-        *addStaff({payload:values},{call,put}){
-          debugger
-          const result = yield call(addStaffApi,values)
-          if(result.code == '0'){
-
-          }
-        }
     },
 }

@@ -15,7 +15,7 @@ export default {
     }
   },
   effects: {
-    *fetchList({ payload: {code='qerp.web.sp.order.query',values} }, { call, put ,select}) {
+    *fetchList({ payload: values }, { call, put ,select}) {
       const result=yield call(getList,values);
       if(result.code=='0') {
         const { spOrders, currentPage, limit, total } = result;

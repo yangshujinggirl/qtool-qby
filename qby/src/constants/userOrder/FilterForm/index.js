@@ -9,9 +9,10 @@ import {
   Select ,
   DatePicker
 } from 'antd';
-// import './index.scss'
+import './index.less'
 const FormItem = Form.Item;
-
+const Option =  Select.Option;
+const RangePicker = DatePicker.RangePicker
 const formItemLayout = {
   labelCol: {
     span: 8
@@ -31,10 +32,15 @@ class NormalForm extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
-        this.props.submit && this.props.submit(values)
+      const{rangePicker,..._values} = values;
+      if(rangePicker){
+        _values.startTime =  new Date( rangePicker[0]).getTime();
+        _values.endTime = new Date(rangePicker[1]).getTime();
+      }
+      this.props.submit && this.props.submit(_values);
     });
-
   }
+
   render() {
     const { getFieldDecorator } = this.props.form;
     return(
@@ -43,66 +49,71 @@ class NormalForm extends Component {
           <Row wrap>
             <Col span={6}>
               <FormItem label='门店名称' {...formItemLayout}>
-                 {getFieldDecorator('name')(
-                   <Input placeholder="Username" />
+                 {getFieldDecorator('spShopName')(
+                   <Input placeholder="请输入门店名称" />
                  )}
                </FormItem>
             </Col>
             <Col span={6}>
               <FormItem label='订单号' {...formItemLayout}>
-                 {getFieldDecorator('userName')(
-                   <Input placeholder="Username" />
+                 {getFieldDecorator('orderNo')(
+                   <Input placeholder="亲输入订单号" />
                  )}
                </FormItem>
             </Col>
             <Col span={6}>
               <FormItem label='商品名称' {...formItemLayout}>
-                 {getFieldDecorator('userName')(
-                   <Input placeholder="Username" />
+                 {getFieldDecorator('pdSpuName')(
+                   <Input placeholder="请输入商品名称" />
                  )}
                </FormItem>
             </Col>
             <Col span={6}>
               <FormItem label='商品编码' {...formItemLayout}>
-                 {getFieldDecorator('userName')(
-                   <Input placeholder="Username" />
+                 {getFieldDecorator('code')(
+                   <Input placeholder="请输入商品编码" />
                  )}
                </FormItem>
             </Col>
             <Col span={6}>
               <FormItem label='用户电话' {...formItemLayout}>
-                 {getFieldDecorator('userName')(
-                   <Input placeholder="Username" />
+                 {getFieldDecorator('mobile')(
+                   <Input placeholder="亲输入用户电话" />
                  )}
                </FormItem>
             </Col>
             <Col span={6}>
               <FormItem label='流程状态' {...formItemLayout}>
-                 {getFieldDecorator('userName')(
-                   <Input placeholder="Username" />
+                 {getFieldDecorator('orderStatus')(
+                   <Select allowClear={true} placeholder="请选择">
+                       <Option value='1'>待推送</Option>
+                       <Option value='2'>已推送</Option>
+                       <Option value='3'>已撤销</Option>
+                   </Select>
                  )}
                </FormItem>
             </Col>
             <Col span={6}>
               <FormItem label='订单时间' {...formItemLayout}>
-                 {getFieldDecorator('userName')(
-                   <Input placeholder="Username" />
+                 {getFieldDecorator('rangePicker')(
+                   <RangePicker showTime format="YYYY-MM-DD HH:mm:ss"/>
                  )}
                </FormItem>
             </Col>
-            <Col span={6} offset={2}>
-              <FormItem label='' {...formItemLayout}>
-                 <Button type="primary" htmlType="submit" size='large' onClick={this.handleSubmit.bind(this)}>搜索</Button>
-               </FormItem>
-            </Col>
           </Row>
-
+          <FormItem className='submit'>
+             <Button type="primary" htmlType="submit" size='large' onClick={this.handleSubmit.bind(this)}>搜索</Button>
+           </FormItem>
         </Form>
       </div>
     )
   }
 }
 
-const FilterForm = Form.create()(NormalForm);
+const FilterForm = Form.create({
+  onValuesChange:(props, changedValues, allValues) => {
+    props.onValuesChange(allValues);
+  }
+})(NormalForm);
 
 export default FilterForm;

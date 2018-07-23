@@ -167,10 +167,10 @@ class Coupon extends Component{
           onValuesChange = {this.searchDataChange}
         />
         <div>
-          <Button onClick={this.createCoupon} className='btn' type='primary'>创建优惠券</Button>
-          <Button onClick={this.addCouponToUser} className='btn' type='primary'>注券</Button>
-          <Button onClick={this.addCouponToUserRecord} className='btn' type='primary'>注券记录</Button>
-          <Button onClick={this.fuseCoupon} className='btn' type='primary'>熔断</Button>
+          <Button onClick={this.createCoupon} className='btn' size='large' type='primary'>创建优惠券</Button>
+          <Button onClick={this.addCouponToUser} className='btn' size='large' type='primary'>注券</Button>
+          <Button onClick={this.addCouponToUserRecord} className='btn' size='large' type='primary'>注券记录</Button>
+          <Button onClick={this.fuseCoupon} className='btn' type='primary' size='large'>熔断</Button>
         </div>
         <Modal
             bodyStyle={{'font-size':'24px','text-align':'center','padding':'50px'}}

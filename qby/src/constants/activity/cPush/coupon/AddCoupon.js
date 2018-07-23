@@ -19,7 +19,6 @@ class AddCoupon extends Component {
 		this.props.form.validateFields((err, values) => {
 
       if(!err){
-        debugger
         addCouponApi(values).then(res => {
 
         }).catch()

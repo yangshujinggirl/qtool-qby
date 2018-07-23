@@ -96,8 +96,11 @@ class ServerBill extends Component{
           submit={this.searchData}
           onValuesChange = {this.searchDataChange}
         />
-      <div style={{margin:'15px 0'}}>
-          <Button type='primary'
+      <div>
+          <Button
+            className='btn'
+            type='primary'
+            size='large'
             onClick={()=>this.addBill()}
           >新增工单
           </Button>

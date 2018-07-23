@@ -3,6 +3,7 @@ import { connect } from 'dva';
 import { Form, Input, Button ,message,DatePicker,Checkbox,Select,Cascader,TimePicker,Modal,Radio } from 'antd';
 import moment from 'moment';
 import PicturesWall from './upload';
+import UpLoadImg from '../../components/UploadImg/index'
 const RadioGroup = Radio.Group;
 const CheckboxGroup = Checkbox.Group;
 const FormItem = Form.Item;
@@ -14,29 +15,30 @@ class SpEditForm extends React.Component{
 	constructor(props) {
 		super(props);
 		this.state = {
+			fileList:[],
 			ecName:null,
-            spShopPics:[],
-            initfileList:[],
-            name:null,
-            sname:null,
-            printName:null,
-            no:null,
-            mobile:null,
-            telephone:null,
-            shopman:null,
-            status:[],
-            provinceId:null,
-            cityId:null,
-            districtId:null,
-            address:null,
-            square:null,
-            rental:null,
-            staffCost:null,
-            fromtime:null,
-            endtime:null,
-            startTime:null,
-            wechat:null,
-            remark:null,
+      spShopPics:[],
+      initfileList:[],
+      name:null,
+      sname:null,
+      printName:null,
+      no:null,
+      mobile:null,
+      telephone:null,
+      shopman:null,
+      status:[],
+      provinceId:null,
+      cityId:null,
+      districtId:null,
+      address:null,
+      square:null,
+      rental:null,
+      staffCost:null,
+      fromtime:null,
+      endtime:null,
+      startTime:null,
+      wechat:null,
+      remark:null,
 			shopcity:[],
 			spname:null,
 			spusername:null,
@@ -49,12 +51,17 @@ class SpEditForm extends React.Component{
 			initnonfoodShareRatio:null,
 			openWechat:0,
 			openAlipay:0,
-			onlinetName:null
-
+			onlinetName:null,
+			serverTel:null,
+			bank:null,
+			bankNo:null,
+			bankName:null,
+			openApp:null,
+			bank:null,
+			recAddress:null,
+			url:null
 		}
 	}
-	
-	
 	//删除当前tab
 	deleteTab=()=>{
 		const pane = eval(sessionStorage.getItem("pane"));
@@ -74,7 +81,6 @@ class SpEditForm extends React.Component{
 		}
 		this.refreshList()
 	}
-
 	//刷新列表
 	refreshList=()=>{
 		const values=this.props.values
@@ -82,10 +88,8 @@ class SpEditForm extends React.Component{
             type:'operatesp/fetch',
             payload:{code:'qerp.web.sp.shop.query',values:values}
         });
-		this.props.dispatch({ type: 'tab/loding', payload:true}) 
+		this.props.dispatch({ type: 'tab/loding', payload:true})
 	}
-
-
 	//保存
 	handleSubmit = (e) => {
 		e.preventDefault();
@@ -93,24 +97,24 @@ class SpEditForm extends React.Component{
 		    if (!err) {
 				value.openWechat = String(value.openWechat);
 				value.openAlipay = String(value.openAlipay);
-                value.spShopPics=this.props.spShopPics
-                value.provinceId=value.shop_city[0]
-                value.cityId=value.shop_city[1]
-                value.districtId=value.shop_city[2]
-                value.fromtime=this.state.fromtime
-                value.endtime=this.state.endtime
+        value.spShopPics=this.props.spShopPics
+        value.provinceId=value.shop_city[0]
+        value.cityId=value.shop_city[1]
+        value.districtId=value.shop_city[2]
+        value.fromtime=this.state.fromtime
+        value.endtime=this.state.endtime
 				value.startTime=this.state.startTime
 				value.foodShareRatio=this.state.foodShareRatio
 				value.nonfoodShareRatio=this.state.nonfoodShareRatio
 				if(this.props.data){
 					value.spShopId=this.props.data.spShopId
 				}
-                const values={spShop:value}
-                const result=GetServerData('qerp.web.sp.shop.save',values)
-                result.then((res) => {
-                    return res;
-                }).then((json) => {
-                    if(json.code=='0'){
+        const values={spShop:value}
+        const result=GetServerData('qerp.web.sp.shop.save',values)
+        result.then((res) => {
+            return res;
+        }).then((json) => {
+          if(json.code=='0'){
 						if(this.props.data){
 							message.success('门店修改成功',.8)
 							this.deleteTab()
@@ -123,27 +127,20 @@ class SpEditForm extends React.Component{
 							},function(){
 								this.modelsuccess()
 							})
-
 						}
-
-
-                       
-                    }
-                })
-
-            }
-        });
+          }
+        })
+      }
+    });
 	}
-
 	//取消
 	hindCancel=()=>{
 		this.deleteTab()
-    }
-	
+  }
 	timeChange=(date,dateString)=>{
-        this.setState({
-            startTime:dateString
-        })
+	  this.setState({
+	      startTime:dateString
+	  })
 	}
 	getinfoData=()=>{
 		const values={spShopId:this.props.data.spShopId}
@@ -151,67 +148,74 @@ class SpEditForm extends React.Component{
 		result.then((res) => {
 			return res;
 		}).then((json) => {
-			  	if(json.code=='0'){
-                    const fileDomain=eval(sessionStorage.getItem('fileDomain'));
-                    const spShopPics=[]
-                    const initfileList=[]
-                    const spShopIdPics=json.spShop.spShopIdPics
-                    if(spShopIdPics.length>0){
-                        for(var i=0;i<spShopIdPics.length;i++){
-                            spShopPics.push(spShopIdPics[i].url)
-                            initfileList.push({
-                                uid: spShopIdPics[i].url,
-                                status: 'done',
-                                url:fileDomain+spShopIdPics[i].url,
-                                response:{
-                                    data:[spShopIdPics[i].url]
-                                }
-                            })
-                        }
+	  	if(json.code=='0'){
+        const fileDomain=eval(sessionStorage.getItem('fileDomain'));
+        const spShopPics=[]
+        const initfileList=[]
+        const spShopIdPics=json.spShop.spShopIdPics
+        if(spShopIdPics.length>0){
+            for(var i=0;i<spShopIdPics.length;i++){
+                spShopPics.push(spShopIdPics[i].url)
+                initfileList.push({
+                    uid: spShopIdPics[i].url,
+                    status: 'done',
+                    url:fileDomain+spShopIdPics[i].url,
+                    response:{
+                        data:[spShopIdPics[i].url]
+                    }
+                })
+            }
 					}
-                    this.setState({
-						ecName:json.spShop.ecName,
-						spShopPics:spShopPics,
-						onlinetName:json.spShop.onlinetName,
-                        initfileList:initfileList,
-                        name:json.spShop.name,
-						sname:json.spShop.sname,
-						shopType:json.spShop.shopType==undefined || json.spShop.shopType==null || json.spShop.shopType=='' ?[]:String(json.spShop.shopType),
-                        printName:json.spShop.printName,
-                        no:json.spShop.no,
-                        mobile:json.spShop.mobile,
-                        telephone:json.spShop.telephone,
-                        shopman:json.spShop.shopman,
-                        status:!json.spShop.status&&json.spShop.status!=0?[]:String(json.spShop.status),
-                        provinceId:json.spShop.provinceId,
-                        cityId:json.spShop.cityId,
-                        districtId:json.spShop.districtId,
-                        address:json.spShop.address,
-                        square:json.spShop.square,
-                        rental:json.spShop.rental,
-                        staffCost:json.spShop.staffCost,
-                        fromtime:json.spShop.fromtime,
-                        endtime:json.spShop.endtime,
-                        startTime:json.spShop.startTime,
-                        wechat:json.spShop.wechat,
-                        remark:json.spShop.remark,
-						shopcity:[String(json.spShop.provinceId),String(json.spShop.cityId),String(json.spShop.districtId)],
-						urUserId:json.spShop.urUserId,
-						foodShareRatio:json.spShop.foodShareRatio,
-						nonfoodShareRatio:json.spShop.nonfoodShareRatio,
-						initfoodShareRatio:json.spShop.foodShareRatio,
-						initnonfoodShareRatio:json.spShop.nonfoodShareRatio,
-						openWechat:(!json.spShop.openWechat||json.spShop.openWechat=="0")?0:json.spShop.openWechat,
-						openAlipay:(!json.spShop.openAlipay||json.spShop.openAlipay=="0")?0:json.spShop.openAlipay
-                    },function(){
-                        const spShopPics=this.state.spShopPics
-                        this.props.dispatch({
-                            type:'operatesp/spShopPics',
-                            payload:spShopPics
-                        })
-                    })
+          this.setState({
+							ecName:json.spShop.ecName,
+							spShopPics:spShopPics,
+							onlinetName:json.spShop.onlinetName,
+              initfileList:initfileList,
+              name:json.spShop.name,
+							sname:json.spShop.sname,
+							shopType:json.spShop.shopType==undefined || json.spShop.shopType==null || json.spShop.shopType=='' ?[]:String(json.spShop.shopType),
+              printName:json.spShop.printName,
+              no:json.spShop.no,
+              mobile:json.spShop.mobile,
+              telephone:json.spShop.telephone,
+              shopman:json.spShop.shopman,
+              status:!json.spShop.status&&json.spShop.status!=0?[]:String(json.spShop.status),
+              provinceId:json.spShop.provinceId,
+              cityId:json.spShop.cityId,
+              districtId:json.spShop.districtId,
+              address:json.spShop.address,
+              square:json.spShop.square,
+              rental:json.spShop.rental,
+              staffCost:json.spShop.staffCost,
+              fromtime:json.spShop.fromtime,
+              endtime:json.spShop.endtime,
+              startTime:json.spShop.startTime,
+              wechat:json.spShop.wechat,
+              remark:json.spShop.remark,
+							recAddress:[String(json.spShop.recProvinceId),String(json.spShop.recCityId),String(json.spShop.recDistrictId)],
+							shopcity:[String(json.spShop.provinceId),String(json.spShop.cityId),String(json.spShop.districtId)],
+							urUserId:json.spShop.urUserId,
+							foodShareRatio:json.spShop.foodShareRatio,
+							nonfoodShareRatio:json.spShop.nonfoodShareRatio,
+							initfoodShareRatio:json.spShop.foodShareRatio,
+							initnonfoodShareRatio:json.spShop.nonfoodShareRatio,
+							openWechat:(!json.spShop.openWechat||json.spShop.openWechat=="0")?0:json.spShop.openWechat,
+							openAlipay:(!json.spShop.openAlipay||json.spShop.openAlipay=="0")?0:json.spShop.openAlipay,
+							serverTel:json.spShop.serverTel,
+							bank:json.spShop.bank,
+							bankNo:json.spShop.bankNo,
+							bankName:json.spShop.bankName,
+							openApp:json.spShop.openApp,
+							url:json.spShop.url,
+          },function(){
+              const spShopPics=this.state.spShopPics
+              this.props.dispatch({
+                  type:'operatesp/spShopPics',
+                  payload:spShopPics
+              })
+          })
 				}
-		})	
+		})
 	}
 	handUse=()=>{
 		 const values={urUserId:this.state.urUserId}
@@ -230,14 +234,14 @@ class SpEditForm extends React.Component{
 			}
 		})
     }
-    
+
     fromonChange=(time,Strtime)=>{
         this.setState({ fromtime: Strtime });
     }
     endonChange=(time,Strtime)=>{
         this.setState({ endtime: Strtime });
 	 }
-	 
+
 	 modelsuccess=()=>{
 		const _this=this
 		Modal.success({
@@ -311,7 +315,7 @@ class SpEditForm extends React.Component{
 		}
 	}
 
-  	render(){  
+  	render(){
 		const { getFieldDecorator } = this.props.form;
      	return(
           	<Form className="addUser-form addcg-form operate-shop-form">
@@ -378,7 +382,7 @@ class SpEditForm extends React.Component{
 					})(
 						<Input placeholder='请输入门店编号' autoComplete="off"/>
                     )}
-                    
+
 				</FormItem>
                 <FormItem
 					label="店主手机"
@@ -392,7 +396,7 @@ class SpEditForm extends React.Component{
 						<Input placeholder='请输入店主手机' autoComplete="off"/>
 					)}
 				</FormItem>
-                <FormItem
+        <FormItem
 					label="门店电话"
 					labelCol={{ span: 3,offset: 1 }}
 					wrapperCol={{ span: 6 }}
@@ -402,6 +406,18 @@ class SpEditForm extends React.Component{
 						initialValue:this.state.telephone
 					})(
 						<Input placeholder='请输入门店电话' autoComplete="off"/>
+					)}
+				</FormItem>
+				<FormItem
+					label="客服电话"
+					labelCol={{ span: 3,offset: 1 }}
+					wrapperCol={{ span: 6 }}
+				>
+					{getFieldDecorator('serverTel', {
+						rules: [{ required: true, message: '请输入客服电话'}],
+						initialValue:this.state.telephone
+					})(
+						<Input placeholder='请输入客服电话' autoComplete="off"/>
 					)}
 				</FormItem>
                 <FormItem
@@ -477,7 +493,7 @@ class SpEditForm extends React.Component{
                         <Cascader placeholder="请选择所属城市" options={this.props.bsRegions}/>
                     )}
                 </FormItem>
-                <FormItem
+        <FormItem
 					label="门店地址"
 					labelCol={{ span: 3,offset: 1 }}
 					wrapperCol={{ span: 6 }}
@@ -487,6 +503,66 @@ class SpEditForm extends React.Component{
 						initialValue:this.state.address
 					})(
 						<Input placeholder='请输入门店地址' autoComplete="off"/>
+					)}
+				</FormItem>
+        <FormItem
+            label="收货城区"
+            labelCol={{ span: 3,offset: 1 }}
+	wrapperCol={{ span: 6 }}
+            >
+            {getFieldDecorator('recAddress', {
+                rules: [{ type: 'array', required: true, message: '请选择收货城区' }],
+                initialValue:this.props.data?this.state.recAddress:null
+            })(
+                <Cascader placeholder="请选择所属城市" options={this.props.bsRegions}/>
+            )}
+        </FormItem>
+				<FormItem
+					label="收货地址"
+					labelCol={{ span: 3,offset: 1 }}
+					wrapperCol={{ span: 6 }}
+				>
+					{getFieldDecorator('recCityId', {
+						rules: [{ required: true, message: '请输入收货地址'}],
+						initialValue:this.state.recCityId
+					})(
+						<Input placeholder='请输入收货地址' autoComplete="off"/>
+					)}
+				</FormItem>
+				<FormItem
+					label="开户银行"
+					labelCol={{ span: 3,offset: 1 }}
+					wrapperCol={{ span: 6 }}
+				>
+					{getFieldDecorator('bank', {
+						rules: [{ required: true, message: '请输入开户银行'}],
+						initialValue:this.state.bank
+					})(
+						<Input placeholder='请输入开户银行' autoComplete="off"/>
+					)}
+				</FormItem>
+				<FormItem
+					label="银行卡号"
+					labelCol={{ span: 3,offset: 1 }}
+					wrapperCol={{ span: 6 }}
+				>
+					{getFieldDecorator('bankNo', {
+						rules: [{ required: true, message: '请输入银行卡号'}],
+						initialValue:this.state.bankNo
+					})(
+						<Input placeholder='请输入银行卡号' autoComplete="off"/>
+					)}
+				</FormItem>
+				<FormItem
+					label="开户名"
+					labelCol={{ span: 3,offset: 1 }}
+					wrapperCol={{ span: 6 }}
+				>
+					{getFieldDecorator('bankName', {
+						rules: [{ required: true, message: '请输入开户名'}],
+						initialValue:this.state.bankName
+					})(
+						<Input placeholder='请输入开户名' autoComplete="off"/>
 					)}
 				</FormItem>
                 <FormItem
@@ -554,7 +630,7 @@ class SpEditForm extends React.Component{
 					>
 					{getFieldDecorator('openWechat', {
 						rules: [{ required: true, message: '请选择是否使用微信扫码支付'}],
-						initialValue:Number(this.state.openWechat) 
+						initialValue:Number(this.state.openWechat)
 					})(
 						<RadioGroup>
 							<Radio value={1}>开启</Radio>
@@ -569,7 +645,22 @@ class SpEditForm extends React.Component{
 					>
 					{getFieldDecorator('openAlipay', {
 						rules: [{ required: true, message: '请选择是否使用支付宝扫码'}],
-						initialValue:Number(this.state.openAlipay) 
+						initialValue:Number(this.state.openAlipay)
+					})(
+						<RadioGroup>
+							<Radio value={1}>开启</Radio>
+							<Radio value={0}>关闭</Radio>
+					  	</RadioGroup>
+					)}
+				</FormItem>
+				<FormItem
+					label="C端App"
+					labelCol={{ span: 3,offset: 1 }}
+					wrapperCol={{ span:6 }}
+					>
+					{getFieldDecorator('openApp', {
+						rules: [{ required: true, message: '请选择是否使用C端App'}],
+						initialValue:Number(this.state.openApp)
 					})(
 						<RadioGroup>
 							<Radio value={1}>开启</Radio>
@@ -599,6 +690,23 @@ class SpEditForm extends React.Component{
 						<TextArea rows={4} placeholder='请输入店主备注' autoComplete="off"/>
 					)}
 				</FormItem>
+				<FormItem
+						label="合同信息"
+						labelCol={{ span: 3,offset: 1 }}
+						wrapperCol={{ span: 6 }}
+					>
+						{getFieldDecorator('url', {
+							initialValue:this.state.url
+						})(
+							<UpLoadImg
+								getFieldDecorator={getFieldDecorator}
+								name='imgFile'
+								action = '/erpWebRest/qcamp/upload.htm?type=spu'
+								fileList = {this.state.fileList}
+								maxLength = '1'
+							/>
+						)}
+					</FormItem>
             	<FormItem wrapperCol={{ offset: 4}} style = {{marginBottom:0}}>
               		<Button className='mr30' onClick={this.hindCancel.bind(this)}>取消</Button>
 					  {
@@ -610,18 +718,14 @@ class SpEditForm extends React.Component{
           	</Form>
       	)
   	}
-  	componentDidMount(){
-        this.props.dispatch({
-            type:'operatesp/region',
-            payload:{code:'qerp.web.bs.region',values:{}}
+	componentDidMount(){
+		this.props.dispatch({
+	    type:'operatesp/region',
+	    payload:{code:'qerp.web.bs.region',values:{}}
 		});
 		if(this.props.data){
 			this.getinfoData()
 		}
-	}
-	
-	componentWillMount(){
-		
 	}
 }
 const SpEditForms = Form.create()(SpEditForm);
