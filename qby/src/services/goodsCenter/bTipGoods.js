@@ -24,7 +24,7 @@ export function goodsTypeApi(values) {
       data:values
   })
 }
-//品牌分类
+//商品分类
 export function goodsBrandApi(values) {
   values = JSON.stringify(values)
   return ajax.post('/webrest.htm',{
@@ -60,7 +60,7 @@ export function saveValApi(values) {
 export function goodSaveApi(values) {
   values = JSON.stringify(values)
   return ajax.post('/webrest.htm',{
-      code:'qerp.web.bopd.spu.save',
+      code:'qerp.web.pd.spu.save',
       data:values
   })
 }
@@ -69,6 +69,14 @@ export function getLogListApi(values) {
   values = JSON.stringify(values)
   return ajax.post('/webrest.htm',{
       code:'qerp.web.pd.spulog.list',
+      data:values
+  })
+}
+//日志
+export function handleSellApi(values) {
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.pd.spu.status',
       data:values
   })
 }

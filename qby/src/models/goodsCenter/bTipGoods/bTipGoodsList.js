@@ -2,11 +2,11 @@ import {
   getListApi,
   specificationApi,
   goodsTypeApi
- } from '../../../services/goodsCenter/baseGoods.js';
+} from '../../../services/goodsCenter/bTipGoods.js';
 
 
 export default {
-  namespace:'baseGoodsList',
+  namespace:'bTipGoodsList',
   state: {
     dataList:[],//商品列表
     currentPage:0,
@@ -22,7 +22,7 @@ export default {
     *fetchList({ payload: values }, { call, put ,select}) {
       const result=yield call(getListApi,values);
       if(result.code=='0') {
-        let { pdSpus, currentPage, limit, total } = result;
+        const { pdSpus, currentPage, limit, total } = result;
         yield put ({
           type: 'getList',
           payload:{

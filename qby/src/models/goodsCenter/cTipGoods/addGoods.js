@@ -15,25 +15,14 @@ export default {
     goodsCategory:[],//商品规格
     goodsType:[],//商品类型
     fileList:[],//商品图片
-    pdSpu:{
-      pdSkus:[{//商品信息
-        code:'',
-        barcode:'',
-        salePrice:'',
-        purchasePrice:'',
-        receivePrice:'',
-        deliveryPrice:'',
-        key:'0000'
-      }]
-    },
+    pdSpu:{},
     pdSkus:[{//商品信息
       code:'',
       barcode:'',
       salePrice:'',
       purchasePrice:'',
       receivePrice:'',
-      deliveryPrice:'',
-      key:'0000'
+      deliveryPrice:''
     }],
   },
   reducers: {
@@ -49,26 +38,14 @@ export default {
     },
     //重置store
     resetData(state) {
-      const pdSpu={
-              pdSkus:[{
-                      code:'',
-                      barcode:'',
-                      salePrice:'',
-                      purchasePrice:'',
-                      receivePrice:'',
-                      deliveryPrice:'',
-                      key:'0000'
-                    }]
-            };
-      const fileList=[];
+      const pdSpu={}, fileList=[];
       const pdSkus = [{//商品信息
               code:'',
               barcode:'',
               salePrice:'',
               purchasePrice:'',
               receivePrice:'',
-              deliveryPrice:'',
-              key:'0000'
+              deliveryPrice:''
             }]
       const specOne=[];
       const specTwo=[];

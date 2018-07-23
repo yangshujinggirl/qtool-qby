@@ -118,6 +118,12 @@ import  BaseGoods from '../goods/baseGoods/index';//基础商品
 import  AddGoods from '../goods/baseGoods/AddGoods';//基础商品--新增商品
 import  GoodsDetail from '../goods/baseGoods/GoodsDetail';//基础商品--商品详情
 import  LogList from '../goods/baseGoods/LogList';//基础商品--日志
+import  BtipGoods from '../goods/bTipGoods/index';//B端商品-
+import  BtipAddGoods from '../goods/bTipGoods/AddGoods';//B端商品--新增商品
+import  BtipGoodsDetail from '../goods/bTipGoods/GoodsDetail';//B端商品--商品详情
+import  BtipLogList from '../goods/bTipGoods/LogList';//B端商品--日志
+import InternalSort from '../goods/internalSort/index.js';//内部分类
+import CountryManage from '../goods/countryManage/index.js';//国家管理
 // 合作中心
 import MarketResource from '../cooperate/marketResource/index';
 import AddStaff from '../cooperate/marketResource/AddStaff';
@@ -267,6 +273,12 @@ class Content extends React.Component {
                                     case "306000edit" : return <AddGoods data={this.props.data}/>
                                     case "306000info" : return <GoodsDetail data={this.props.data}/>
                                     case "306000editconfig" : return <LogList data={this.props.data}/>
+                                    case "307000" : return <BtipGoods data={this.props.data} componkey={this.props.componkey}/>
+                                    case "307000edit" : return <BtipAddGoods data={this.props.data} />
+                                    case "307000info" : return <BtipGoodsDetail data={this.props.data} />
+                                    case "307000editconfig" : return <BtipLogList data={this.props.data} />
+                                    case "309000" : return <InternalSort data={this.props.data} componkey={this.props.componkey}/>
+                                    case "310000" : return <CountryManage data={this.props.data} componkey={this.props.componkey}/>
                                     //------------------------------客服中心------------------------
                                     case "10100" : return <UserFeedBack data={this.props.data} componkey={this.props.componkey}/>
                                     case "10100edit" : return <HandleBack data={this.props.data} componkey={this.props.componkey}/>
