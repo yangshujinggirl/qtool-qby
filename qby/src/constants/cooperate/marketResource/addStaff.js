@@ -1,6 +1,9 @@
 import React, { Component} from 'react'
 import { Form, Select, Input, Button, message, Upload, Icon} from 'antd'
 import {connect} from 'dva'
+import { addStafdfApi } from '../../../services/cooperate/marketResource'
+import { resourceDetailApi } from '../../../services/cooperate/marketResource'
+import UpLoadImg from '../../../components/UploadImg/index.js';
 const FormItem = Form.Item;
 const TextArea = Input.TextArea;
 const Option = Select.Option;
@@ -9,31 +12,64 @@ const formItemLayout = {
   wrapperCol: {span:8}
 }
 class AddStaff extends Component{
+  constructor(props){
+    super(props);
+    this.state={
+      fileList:[],
+      addText:['text'],
+      addImg:['img'],
+      date:null
+    }
+  }
   //确认添加
-  save(){
+  save =()=> {
     this.props.form.validateFieldsAndScroll((err,values) => {
-      this.props.dispatch({
-        type:'marketResource/addStaff',
-        payload:values
-      })
+      if(!err){
+        this.submit(values)
+      }
+    })
+  }
+  submit(values){
+    addStaffApi(values)
+    .then(res=>{
+      message.successs('成功')
+    },err=>{
+      message.error('失败')
     })
   }
   //取消
-  cancel(){
-
-  }
-  //添加文本
-  addText(){
-
+  cancel =()=> {
+    console.log(this.props)
+    this.props.dispatch({
+				type:'tab/initDeletestate',
+				payload:this.props.componkey
+		});
   }
   //添加图片
   addImg(){
 
   }
 
-  render(){
+  componentDidMount(){
+    const date = {name:'zhouhongye'}
+    const resourceId = this.props.data.resourceId;
+    resourceDetailApi(resourceId)
+    .then(res => {
+      this.setDate({date:res.date})
+    },err=>{
 
+    })
+  }
+  addText =()=>{
+    let { addText } =this.state;
+    addText.push('tesssxt')
+    this.setState({
+      addText
+    });
+  }
+  render(){
     const { getFieldDecorator } = this.props.form;
+    const listDate = this.state.date;
     return(
       <div>
         <Form>
@@ -44,8 +80,12 @@ class AddStaff extends Component{
             {
               getFieldDecorator('accountUser', {
                 rules: [{ required: true, message: '请输入联系人'}],
+                initialValue:listDate?listDate.accountUser:null
               })(
-                <Input placeholder='请输入16字以下的联系人' maxLength='16' autoComplete="off"/>
+                <Input
+                  placeholder='请输入16字以下的联系人'
+                  maxLength='16'
+                  autoComplete="off"/>
               )
             }
           </FormItem>
@@ -56,6 +96,7 @@ class AddStaff extends Component{
             {
               getFieldDecorator('contactTel', {
                 rules: [{ required: true, message: '请输入联系电话'}],
+                initialValue:listDate?listDate.contactTel:null
               })(
                 <Input placeholder='请输入16字以下的联系电话' maxLength='16' autoComplete="off"/>
               )
@@ -68,12 +109,13 @@ class AddStaff extends Component{
             {
               getFieldDecorator('type', {
                 rules: [{ required: true, message: '请选择资源类型'}],
+                initialValue:listDate?listDate.type:null
               })(
                 <Select placeholder="请选择资源类型">
                   <Option value="0">供应商</Option>
                   <Option value="10">媒体</Option>
                   <Option value="20">品牌商</Option>
-                  <Option value="20">KOl</Option>
+                  <Option value="30">KOl</Option>
                   <Option value="21">其他</Option>
                 </Select>
               )
@@ -85,8 +127,12 @@ class AddStaff extends Component{
           >
             {
               getFieldDecorator('wechat', {
+                initialValue:listDate?listDate.wechat:null
               })(
-                <Input placeholder='请输入32字以下的联系微信' maxLength='32' autoComplete="off"/>
+                <Input
+                  placeholder='请输入32字以下的联系微信'
+                  maxLength='32'
+                  autoComplete="off"/>
               )
             }
           </FormItem>
@@ -96,8 +142,12 @@ class AddStaff extends Component{
           >
             {
               getFieldDecorator('resourceMail', {
+                initialValue:listDate?listDate.resourceMail:null
               })(
-                <Input placeholder='请输入64字以下的联系邮箱' maxLength='64' autoComplete="off"/>
+                <Input
+                  placeholder='请输入64字以下的联系邮箱'
+                  maxLength='64'
+                  autoComplete="off"/>
               )
             }
           </FormItem>
@@ -107,8 +157,12 @@ class AddStaff extends Component{
           >
             {
               getFieldDecorator('companyName', {
+                initialValue:listDate?listDate.companyName:null
               })(
-                <Input placeholder='请输入32字以下的公司名称' maxLength='32' autoComplete="off"/>
+                <Input
+                  placeholder='请输入32字以下的公司名称'
+                  maxLength='32'
+                  autoComplete="off"/>
               )
             }
           </FormItem>
@@ -118,8 +172,12 @@ class AddStaff extends Component{
           >
             {
               getFieldDecorator('sCompanyName', {
+                initialValue:listDate?listDate.sCompanyName:null
               })(
-                <Input placeholder='请输入32字以下的公司简称' maxLength='32' autoComplete="off"/>
+                <Input
+                  placeholder='请输入32字以下的公司简称'
+                  maxLength='32'
+                  autoComplete="off"/>
               )
             }
           </FormItem>
@@ -129,8 +187,12 @@ class AddStaff extends Component{
           >
             {
               getFieldDecorator('department', {
+                initialValue:listDate?listDate.department:null
               })(
-                <Input placeholder='请输入32字以下的所在部门' maxLength='32' autoComplete="off"/>
+                <Input
+                  placeholder='请输入32字以下的所在部门'
+                  maxLength='32'
+                  autoComplete="off"/>
               )
             }
           </FormItem>
@@ -140,8 +202,12 @@ class AddStaff extends Component{
           >
             {
               getFieldDecorator('position', {
+                initialValue:listDate?listDate.position:null
               })(
-                <Input placeholder='请输入32字以下的所在职位' maxLength='32' autoComplete="off"/>
+                <Input
+                  placeholder='请输入32字以下的所在职位'
+                  maxLength='32'
+                  autoComplete="off"/>
               )
             }
           </FormItem>
@@ -151,8 +217,12 @@ class AddStaff extends Component{
           >
             {
               getFieldDecorator('bankName', {
+                initialValue:listDate?listDate.bankName:null
               })(
-                <Input placeholder='请输入32字以下的银行名称' maxLength='32' autoComplete="off"/>
+                <Input
+                  placeholder='请输入32字以下的银行名称'
+                  maxLength='32'
+                  autoComplete="off"/>
               )
             }
           </FormItem>
@@ -162,8 +232,12 @@ class AddStaff extends Component{
           >
             {
               getFieldDecorator('bankNo', {
+                initialValue:listDate?listDate.bankNo:null
               })(
-                <Input placeholder='请输入32字以下的银行卡号' maxLength='32' autoComplete="off"/>
+                <Input
+                  placeholder='请输入32字以下的银行卡号'
+                  maxLength='32'
+                  autoComplete="off"/>
               )
             }
           </FormItem>
@@ -173,8 +247,12 @@ class AddStaff extends Component{
           >
             {
               getFieldDecorator('accountName', {
+                initialValue:listDate?listDate.accountName:null
               })(
-                <Input placeholder='请输入32字以下的开户名' maxLength='32' autoComplete="off"/>
+                <Input
+                  placeholder='请输入32字以下的开户名'
+                  maxLength='32'
+                  autoComplete="off"/>
               )
             }
           </FormItem>
@@ -184,8 +262,12 @@ class AddStaff extends Component{
           >
             {
               getFieldDecorator('children', {
+                initialValue:listDate?listDate.children:null
               })(
-                <TextArea rows={5} placeholder='请输入100字以下的子女情况' autoComplete="off"/>
+                <TextArea
+                  rows={5}
+                  placeholder='请输入100字以下的子女情况'
+                  autoComplete="off"/>
               )
             }
           </FormItem>
@@ -195,8 +277,12 @@ class AddStaff extends Component{
           >
             {
               getFieldDecorator('remark', {
+                initialValue:listDate?listDate.remark:null
               })(
-                <TextArea rows={6} placeholder='请输入200字以下的其他备注' autoComplete="off"/>
+                <TextArea
+                  rows={6}
+                  placeholder='请输入200字以下的其他备注'
+                  autoComplete="off"/>
               )
             }
           </FormItem>
@@ -205,51 +291,46 @@ class AddStaff extends Component{
             label='合作记录'
           >
             {
-              getFieldDecorator('accountName', {
+              getFieldDecorator('detailUrl',{
+                initialValue:listDate?listDate.detailUrl:null
               })(
                 <div>
-                  <Button style={{marginRight:'30px'}}>添加文本</Button>
-                  <Button>添加图片</Button>
+                  <Button
+                    style={{marginRight:'30px'}}
+                    onClick={this.addText}>
+                    添加文本
+                  </Button>
+                  <Button onClick={this.addImg}>添加图片</Button>
                 </div>
               )
             }
           </FormItem>
           <FormItem
-            {...formItemLayout}
-            label='人员描述'
+            wrapperCol={{ offset:6 ,span: 8 }}
           >
-            {
-              getFieldDecorator('accountName', {
-              })(
-                <Input placeholder='请输入人员描述'/>
-              )
-            }
-          </FormItem>
-          <FormItem
-            {...formItemLayout}
-            label='添加图片'
-          >
-            {
-              getFieldDecorator('accountName', {
-              })(
-                <Upload
-                  name="avatar"
-                  className="avatar-uploader"
-                >
-                </Upload>
-              )
-            }
+          {
+            this.state.addText.map((item,index)=>{
+              return(
+                <div>
+                  {getFieldDecorator(`text${index}`)(
+                      <Input style={{width:'80%'}} placeholder='请输入'/>
+                  )}
+                  <a style={{float:'right',color:'#2fcea6'}}>删除</ a>
+                </div>
+                )
+            })
+          }
           </FormItem>
           <FormItem wrapperCol={{ offset: 7}} style={{marginTop:'30px'}}>
-            <Button style={{marginRight:'30px'}}>取消</Button>
-            <Button type="primary" onClick={()=>this.save()}>确定</Button>
+            <Button style={{marginRight:'30px'}} onClick={this.cancel}>取消</Button>
+            <Button type="primary" onClick={this.save}>确定</Button>
           </FormItem>
         </Form>
-
       </div>
     )
   }
 }
+
 const AddStaffs = Form.create()(AddStaff);
 function mapStateToProps(state){
   const { marketResource } = state;

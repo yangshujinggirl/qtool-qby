@@ -31,6 +31,13 @@
 //     {
 //         title:'操作',
 //         dataIndex:'operate'
+          // render:(text, record)=>{
+          //   return(
+          //     <div>
+          //       <a href="javascript:;" className="theme-color" onClick={record.onOperateClick.bind(this)}>修改</a>
+          //     </div>
+          //   )
+          // }
 //     }
 // ]
 
@@ -59,8 +66,7 @@ const Columns = [{
      render:(text, record)=>{
        return(
          <div>
-           <a href="javascript:;" className="theme-color" onClick={record.onOperateClick.bind(this,'detail')}>详情</a>
-           <a href="javascript:;" className="theme-color" onClick={record.onOperateClick.bind(this,'edit')}>编辑</a>
+           <a href="javascript:;" className="theme-color" onClick={record.onOperateClick.bind(this)}>修改</a>
          </div>
        )
      }

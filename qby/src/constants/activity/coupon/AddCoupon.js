@@ -1,6 +1,8 @@
 import React,{ Component } from 'react';
-import { Form, Select, Input, Button , Row, Col,DatePicker,Radio} from 'antd';
+import { Form, Select, Input, Button , message, Row, Col,DatePicker,Radio} from 'antd';
+import { connect } from 'dva'
 import { addCouponApi } from '../../../services/activity/coupon'
+import './index.less'
 const FormItem = Form.Item;
 const Option = Select.Option;
 const TextArea = Input.TextArea;
@@ -11,36 +13,56 @@ class AddCoupon extends Component {
   }
   state={
     dayDisable:true,
-    timeDisable:true,
+    timeDisable:false,
   }
   //保存
   handleSubmit = (e) => {
 		e.preventDefault();
 		this.props.form.validateFields((err, values) => {
-
       if(!err){
-        debugger
-        addCouponApi(values).then(res => {
-
-        }).catch()
+        addCouponApi(values)
+        .then(res => {
+          message.success('请求成功')
+        },err=>{
+          message.error('请求失败')
+        })
       }
-
     });
   }
   //单选框选择
   choice =(e)=> {
     const value = e.target.value;
     if(value==1){
-      this.setState({dayDisable:false,timeDisable:true})
+      this.setState({dayDisable:true,timeDisable:false},()=>{
+        this.props.form.resetFields('couponValidDate')
+      })
+
     }else if(value==2){
-      this.setState({dayDisable:true,timeDisable:false})
+      this.setState({dayDisable:false,timeDisable:true},()=>{
+        this.props.form.resetFields('couponValidDay')
+      })
+
     }
+  }
+  //取消
+  cancel =()=> {
+    this.props.dispatch({
+        type:'tab/initDeletestate',
+        payload:this.props.componkey
+    });
+  }
+  componentDidMount(){
+    console.log(this.props)
   }
   render(){
     const { getFieldDecorator } = this.props.form;
     const { cBanner } =this.props;
+    const { dayDisable } =this.state;
+    const { timeDisable } =this.state;
+    console.log('1:'+this.state.dayDisable)
+    console.log('2:'+this.state.timeDisable)
     return(
-      <div>
+      <div className='addCoupon'>
         	<Form className="addUser-form operatebanner-form">
             <FormItem
               label="代金券名称"
@@ -67,30 +89,42 @@ class AddCoupon extends Component {
               </Select>
             )}
             </FormItem>
-            <FormItem
-              label="券有效期"
-              labelCol={{ span: 3,offset: 1 }}
-              wrapperCol={{ span: 8 }}
-            >
-              {getFieldDecorator('couponValid',{
-                  rules: [{ required: true, message: '请选择券有效期' }],
-              })(
-                <RadioGroup onChange={this.choice}>
-                  <Radio value="1" checked >
-                      {getFieldDecorator('couponValidDay',{
-                      })(
-                        <div style={{display:'inline-block'}}>用户即日起　<Input style={{width:'60%'}} disabled={this.state.dayDisable} />　天</div>
-                      )}
-                  </Radio>
-                   <Radio value="2">
-                       {getFieldDecorator('couponValidDate',{
-                       })(
-                         <div style={{display:'inline-block'}}>特定时间到　<DatePicker style={{width:'60%'}} showTime format="YYYY-MM-DD HH:mm:ss" disabled={this.state.timeDisable}/>　止</div>
-                       )}
-                   </Radio>
-                </RadioGroup>
-              )}
-            </FormItem>
+            <Row>
+              <Col className='radio'>
+                <FormItem
+                  label="券有效期"
+                  labelCol={{ span: 3,offset: 1 }}
+                  wrapperCol={{ span: 8 }}
+                >
+                  {getFieldDecorator('couponValid',{
+                      rules: [{ required: true, message: '请选择券有效期' }],
+                      initialValue:'1',
+                      onChange:this.choice
+                  })(
+                    <RadioGroup >
+                        <Radio value="1">用户领取时间起</Radio>
+                        <Radio value="2">特定时间到</Radio>
+                    </RadioGroup>
+                  )}
+                </FormItem>
+              </Col>
+              <Col className='limitDay'>
+                <FormItem>
+                  {getFieldDecorator('couponValidDay',{
+                    rules: [{required:dayDisable,message: '请输入用户领取时间'}],
+                  })(
+                    <Input disabled = {!dayDisable} />
+                  )}
+                </FormItem>
+                <FormItem>
+                   {getFieldDecorator('couponValidDate',{
+                       rules:[{required:timeDisable,message: '请选择特定时间' }]
+                    })(
+                      <DatePicker showTime format="YYYY-MM-DD HH:mm:ss" disabled = {!timeDisable} />
+                   )}
+                </FormItem>
+              </Col>
+            </Row>
             <FormItem
               label="代金券金额"
               labelCol={{ span: 3,offset: 1 }}
@@ -135,7 +169,7 @@ class AddCoupon extends Component {
             )}
             </FormItem>
           	<FormItem wrapperCol={{ offset: 3}}>
-            		<Button style={{marginRight:'100px'}}>取消</Button>
+            		<Button style={{marginRight:'100px'}} onClick={this.cancel}>取消</Button>
             		<Button type="primary" onClick={this.handleSubmit}>保存</Button>
           	</FormItem>
         	</Form>
@@ -144,7 +178,9 @@ class AddCoupon extends Component {
     )
   }
 }
-const AddcBanner = Form.create()(AddCoupon);
-
-
-export default AddcBanner;
+const AddCoupons = Form.create()(AddCoupon);
+function mapStateToProps(state){
+  const { coupon } = state;
+  return coupon
+}
+export default connect(mapStateToProps)(AddCoupons);

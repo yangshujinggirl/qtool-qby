@@ -11,7 +11,6 @@ class AddBanner extends Component {
   handleSubmit = (e) => {
 		e.preventDefault();
 		this.props.form.validateFields((err, values) => {
-      debugger
         const { cBanner } = this.props;
 		    if (!err) {
           //输入框校验

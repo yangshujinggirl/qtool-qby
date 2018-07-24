@@ -112,6 +112,7 @@ import QposDbInfo from '../datapos/dbinfo'
 
 //订单中心
 import UserOrder from '../userOrder/index';//用户订单
+import UserOrderDetail from '../userOrder/userOrderDetail'
 //商品中心
 import  BaseGoods from '../goods/baseGoods/index';//基础商品
 import  AddGoods from '../goods/baseGoods/AddGoods';//基础商品--新增商品
@@ -125,7 +126,7 @@ import InternalSort from '../goods/internalSort/index.js';//内部分类
 import CountryManage from '../goods/countryManage/index.js';//国家管理
 // 合作中心
 import MarketResource from '../cooperate/marketResource/index';
-import AddStaff from '../cooperate/marketResource/addStaff';
+import AddStaff from '../cooperate/marketResource/AddStaff';
 //活动中心
 import Cbanner from '../activity/cBanner/index';
 import AddBanner from '../activity/cBanner/addBanner';
@@ -250,16 +251,17 @@ class Content extends React.Component {
                                     case "707000infodb1": return <QposDbInfo data={this.props.data}/>
 
                                     case "402000infoExchange" : return <OperateinoutExchangeInfo data={this.props.data}/>
-                                    case "207000" : return <UserOrder data={this.props.data}/>
+                                    case "207000" : return <UserOrder data={this.props.data} componkey={this.props.componkey}/>
+                                    case "207000info" : return <UserOrderDetail data={this.props.data} componkey={this.props.componkey}/>
                                     // -------------------------------合作中心----------------------------
                                     case "501000" : return <MarketResource data={this.props.data} componkey={this.props.componkey}/>
-                                    case "501000edit" : return <AddStaff data={this.props.data}/>
+                                    case "501000edit" : return <AddStaff data={this.props.data} componkey={this.props.componkey}/>
 
                                     // --------------------------------活动中心----------------------------
                                     case "101000" : return <Cbanner data={this.props.data} componkey={this.props.componkey}/> //Cbanner
                                     case "101000edit" : return <AddBanner data={this.props.data}/> //新增banner
                                     case "102000" : return <Coupon data={this.props.data} componkey={this.props.componkey}/> //优惠券
-                                    case "102000edit" : return <AddCoupon data={this.props.data}/> //创建优惠券
+                                    case "102000edit" : return <AddCoupon data={this.props.data} componkey={this.props.componkey}/> //创建优惠券
                                     case "102000info" : return <CouponDetail data={this.props.data}/> //优惠券详情
                                     case "102000editconfig" : return <CouponRecord data={this.props.data}/> //注券记录
                                     case "103000" : return <Bpush data={this.props.data} componkey={this.props.componkey}/>

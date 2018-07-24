@@ -16,3 +16,11 @@ export function addStaffApi(values){
         data:values
     })
 }
+//详情
+export function resourceDetailApi(values){
+    values = JSON.stringify(values)
+    return ajax.post('/webrest.htm',{
+        code:'qerp.web.pd.resource.detail',
+        data:values
+    })
+}

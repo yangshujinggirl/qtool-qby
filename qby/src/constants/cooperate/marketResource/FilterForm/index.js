@@ -61,6 +61,7 @@ class NormalForm extends Component{
                             <FormItem {...formItemLayout}>
                                 <Button
                                   type="primary"
+                                  size='large'
                                   disabled={this.props.marketResource.disabled}
                                   onClick={this.handleSubmit.bind(this)}>
                                     搜索

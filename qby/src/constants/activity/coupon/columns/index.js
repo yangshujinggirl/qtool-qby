@@ -1,7 +1,12 @@
 // const Columns = [{
 //      title: '优惠券批次号',
 //      dataIndex: 'couponCode',
-//      render: text => <a href="javascript:;">{text}</a>,
+//      render:(text, record)=>{
+           // return(
+           //   <div>
+           //     <a href="javascript:;" className="theme-color" onClick={record.onOperateClick.bind(this)}>{text}</a>
+           //   </div>
+           // )}
 //    },{
 //      title: '优惠券名称',
 //      dataIndex: 'couponName'

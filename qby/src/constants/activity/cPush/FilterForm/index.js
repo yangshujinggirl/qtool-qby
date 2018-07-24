@@ -96,6 +96,7 @@ class NormalForm extends Component{
                 <Button
                   className='submit'
                   type="primary"
+                  size='large'
                   onClick={()=>this.handleSubmit()}>
                     搜索
                 </Button>

@@ -2,6 +2,7 @@ import React from 'react';
 import EditableTable from '../../../components/table/tablebasic';
 import { Button, Icon ,Form,Select,Input,Card, message } from 'antd';
 import { customserviceDetailApi,customserviceSaveApi } from '../../../services/server/server'
+import UpLoadImg from '../../../components/UploadImg/index.js';
 import { connect } from 'dva';
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -10,6 +11,9 @@ const { TextArea } = Input;
 class HandleBill extends React.Component{
 	constructor(props) {
 		super(props);
+		this.state={
+			fileList:[]
+		}
     this.result={
       customServiceInfos:{},
       customServiceContent:{},
@@ -37,6 +41,7 @@ class HandleBill extends React.Component{
       key:'5'
 		}];
 }
+
 
 render(){
   const {customServiceInfos,customServiceContent,customServiceHandel,customServiceLogs} = this.result;
@@ -108,9 +113,13 @@ render(){
 							labelCol={{ span: 2 }}
 							wrapperCol={{ span: 12 }}
 						>
-						{getFieldDecorator('remarkPic')(
-							<TextArea rows={4}   placeholder='备注信息，最多200字，方便其他人了解，非必填' maxLength='200'/>
-						)}
+							<UpLoadImg
+								getFieldDecorator={getFieldDecorator}
+								name='imgFile'
+								action = '/erpWebRest/qcamp/upload.htm?type=spu'
+								fileList = {this.state.fileList}
+								maxLength = '5'
+							/>
 						</FormItem>
   				</Form>
 				</div>
@@ -148,6 +157,7 @@ render(){
 	//确定
   onOk =()=> {
     this.props.form.validateFieldsAndScroll((err,values) => {
+			console.log(values);
 			const _values = {customServiceId:this.props.data.pdSpuId,...values}
 			if(!err){
 				this.submit(_values);
