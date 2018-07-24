@@ -126,7 +126,7 @@ import InternalSort from '../goods/internalSort/index.js';//内部分类
 import CountryManage from '../goods/countryManage/index.js';//国家管理
 // 合作中心
 import MarketResource from '../cooperate/marketResource/index';
-import AddStaff from '../cooperate/marketResource/AddStaff';
+import AddStaff from '../cooperate/marketResource/addStaff';
 //活动中心
 import Cbanner from '../activity/cBanner/index';
 import AddBanner from '../activity/cBanner/addBanner';
