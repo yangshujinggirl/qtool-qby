@@ -10,11 +10,14 @@ const RadioGroup = Radio.Group;
 class AddCoupon extends Component {
   constructor(props){
     super(props);
+    this.state={
+      dayDisable:true,
+      timeDisable:false,
+      dayObject:{required:false,message: '请输入用户领取时间'},
+      timeObject:{required:false,message: '请输入用户领取时间'}
+    }
   }
-  state={
-    dayDisable:true,
-    timeDisable:false,
-  }
+
   //保存
   handleSubmit = (e) => {
 		e.preventDefault();
@@ -32,13 +35,20 @@ class AddCoupon extends Component {
   //单选框选择
   choice =(e)=> {
     const value = e.target.value;
+    const{dayObject,timeObject}=this.state
+    const _dayObject={...dayObject}
+    const _timeObject={...timeObject}
     if(value==1){
-      this.setState({dayDisable:true,timeDisable:false},()=>{
+      _dayObject.required=true
+      _timeObject.required=false
+      this.setState({dayDisable:true,timeDisable:false,dayObject:_dayObject,timeObject:_timeObject},()=>{
         this.props.form.resetFields('couponValidDate')
       })
 
     }else if(value==2){
-      this.setState({dayDisable:false,timeDisable:true},()=>{
+      _dayObject.required=false
+      _timeObject.required=true
+      this.setState({dayDisable:false,timeDisable:true,timeObject:_timeObject,dayObject:_dayObject},()=>{
         this.props.form.resetFields('couponValidDay')
       })
 
@@ -56,11 +66,10 @@ class AddCoupon extends Component {
   }
   render(){
     const { getFieldDecorator } = this.props.form;
-    const { cBanner } =this.props;
-    const { dayDisable } =this.state;
-    const { timeDisable } =this.state;
-    console.log('1:'+this.state.dayDisable)
-    console.log('2:'+this.state.timeDisable)
+    const { cBanner } = this.props;
+    const { dayDisable,timeDisable,dayObject,timeObject } = this.state;
+    console.log('1:'+ dayDisable)
+    console.log('2:'+ timeDisable)
     return(
       <div className='addCoupon'>
         	<Form className="addUser-form operatebanner-form">
@@ -98,7 +107,6 @@ class AddCoupon extends Component {
                 >
                   {getFieldDecorator('couponValid',{
                       rules: [{ required: true, message: '请选择券有效期' }],
-                      initialValue:'1',
                       onChange:this.choice
                   })(
                     <RadioGroup >
@@ -111,14 +119,14 @@ class AddCoupon extends Component {
               <Col className='limitDay'>
                 <FormItem>
                   {getFieldDecorator('couponValidDay',{
-                    rules: [{required:dayDisable,message: '请输入用户领取时间'}],
+                    rules: [dayObject],
                   })(
                     <Input disabled = {!dayDisable} />
                   )}
                 </FormItem>
                 <FormItem>
                    {getFieldDecorator('couponValidDate',{
-                       rules:[{required:timeDisable,message: '请选择特定时间' }]
+                       rules:[timeObject]
                     })(
                       <DatePicker showTime format="YYYY-MM-DD HH:mm:ss" disabled = {!timeDisable} />
                    )}

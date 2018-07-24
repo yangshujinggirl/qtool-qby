@@ -100,7 +100,7 @@ class Bpush extends Component{
       key:`${this.state.componkey}edit`,
       componkey:`${this.state.componkey}edit`,
       data:{
-        pdSpuId:null,
+        pdSpuId:record.spOrderId,
       }
     }
     this.props.dispatch({

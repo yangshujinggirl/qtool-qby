@@ -123,7 +123,9 @@ import  BtipAddGoods from '../goods/bTipGoods/AddGoods';//B端商品--新增商�
 import  BtipGoodsDetail from '../goods/bTipGoods/GoodsDetail';//B端商品--商品详情
 import  BtipLogList from '../goods/bTipGoods/LogList';//B端商品--日志
 import InternalSort from '../goods/internalSort/index.js';//内部分类
-import CountryManage from '../goods/countryManage/index.js';//国家管理
+import CountryManage from '../goods/countryManage/index.js';//国家管理d
+import Ctimer from '../goods/cTimer/index.js';//c端定时
+import AddTimer from '../goods/cTimer/AddTimer.js';//c端定时
 // 合作中心
 import MarketResource from '../cooperate/marketResource/index';
 import AddStaff from '../cooperate/marketResource/AddStaff';
@@ -279,6 +281,8 @@ class Content extends React.Component {
                                     case "307000editconfig" : return <BtipLogList data={this.props.data} />
                                     case "309000" : return <InternalSort data={this.props.data} componkey={this.props.componkey}/>
                                     case "310000" : return <CountryManage data={this.props.data} componkey={this.props.componkey}/>
+                                    case "311000" : return <Ctimer data={this.props.data} componkey={this.props.componkey}/>
+                                    case "311000edit" : return <AddTimer data={this.props.data} componkey={this.props.componkey}/>
                                     //------------------------------客服中心------------------------
                                     case "10100" : return <UserFeedBack data={this.props.data} componkey={this.props.componkey}/>
                                     case "10100edit" : return <HandleBack data={this.props.data} componkey={this.props.componkey}/>
