@@ -8,13 +8,6 @@ const FormItem = Form.Item;
 class GoodsDetail extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-			dataSource:[],
-			issku:false,
-			spuIdPics:[],
-			pdSpuInfo:[],
-      pdSkus:[]
-		};
   }
   componentWillMount() {
     const { pdSpuId, source } =this.props.data;
@@ -27,19 +20,8 @@ class GoodsDetail extends Component {
     })
 
   }
-  formatPdSku() {
-    const { pdSpu, fileDomain } = this.props.addGoods;
-    let pdSkus = pdSpu.pdSkus.map((el)=>{
-      el.name = `${el.pdType1Val.name}/${el.pdType2.name}`;
-      el.picUrl = `${el.fileDomain}${el.picUrl}`
-      return {...el,...el.key,...el.name,...el.picUrl}
-    })
-    this.setState({
-      pdSkus
-    })
-  }
   render() {
-    const { pdSpu } = this.props.addGoods;
+    const { pdSpu, pdSkus } = this.props.addGoods;
     return(
       <div>
         <Form>
@@ -115,7 +97,7 @@ class GoodsDetail extends Component {
     				label="商品信息"
     				labelCol={{ span: 8 }}
     				wrapperCol={{ span: 16 }}>
-            <Qtable columns={DetailColumns} dataSource={pdSpu.pdSkus}/>
+            <Qtable columns={DetailColumns} dataSource={pdSkus}/>
     			</FormItem>
     			<FormItem
     				label="商品状态"

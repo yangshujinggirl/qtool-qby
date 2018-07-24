@@ -1,7 +1,9 @@
 
 import { Table, Input, Icon, Button ,Upload, message} from 'antd';
-import UpLoadFile from './UpLoadFile.js';
 import { connect } from 'dva';
+
+import UpLoadFile from './UpLoadFile.js';
+import './index.less';
 
 
 class AddEditableTable extends React.Component {
@@ -9,71 +11,64 @@ class AddEditableTable extends React.Component {
 		super(props);
 		this.state = {
 			dataSource: [],
-			count: 2
+			key:0
 		};
 	}
-	// setValur=(index,e)=>{
-	// 	//更新数据
-	// 	const pdSpuInfo=this.props.pdSpuInfo.splice(0)
-	// 	pdSpuInfo[index].content=e.target.value
-	// 	this.props.dispatch({
-	// 		type:'goods/pdSpuInfo',
-	// 		payload:pdSpuInfo
-	// 	})
-	// }
-
-	// onDelete = (index) => {
-	// 	const pdSpuInfo=this.props.pdSpuInfo.slice(0)
-	// 	pdSpuInfo.splice(index, 1);
-	// 	this.props.dispatch({
-	// 		type:'goods/pdSpuInfo',
-	// 		payload:pdSpuInfo
-	// 	})
-	// }
-	//
 	handleAdd (val){
 		let { dataSource } = this.state;
-		let type = val=='text'?'1':'2'
+		let type = val=='text'?'1':'2';
+		let {key}=this.state;
+		key++;
 		dataSource.push({
 			type,
-			content:''
+			content:'',
+			key
 		})
+		this.setState({
+			dataSource,
+			key
+		})
+	}
+	handDelete(index) {
+		let { dataSource } = this.state;
+		dataSource.splice(index,1);
 		this.setState({
 			dataSource
 		})
 	}
-	normFile(content) {
-		return {type:'1',content}
+	renderForm =(text, record, index)=> {
+		if(record.type == 1) {
+			return <div>
+							{
+								this.props.form.getFieldDecorator(`pdSpuInfo[${index}].content`,{
+									initialValue:'',
+								})(
+									 <Input placeholder="Username"/>
+								)
+							}
+						</div>
+		} else {
+			return <UpLoadFile form={this.props.form} index={index}/>
+		}
+	}
+	renderDelete =(text, record, index)=> {
+		return <p onClick={()=>this.handDelete(index)} className='theme-color delete'>删除</p>
 	}
 	render() {
 		const { dataSource } = this.state;
 		return (
 			<div>
-				<Button style = {{marginLeft:'22px'}} onClick={()=>this.handleAdd('text')}>添加文本</Button>
+				<Button onClick={()=>this.handleAdd('text')}>添加文本</Button>
 				<Button style = {{marginLeft:'15px'}} onClick={()=>this.handleAdd('img')}>添加图片</Button>
-					{
-						this.state.dataSource.map((el,index)=> {
-							return (
-								el.type==1?
-								<div key={index}>
-									{
-										this.props.getFieldDecorator(`pdSpuInfo[${index}]`,{
-                      initialValue:'',
-											getValueFromEvent:this.normFile
-                    })(
-                       <Input placeholder="Username" />
-                    )
-									}
-								</div>
-								:
-								<div key={index}>
-									<UpLoadFile
-										index={index}
-										getFieldDecorator={this.props.getFieldDecorator}/>
-								</div>
-							)
-						})
-					}
+				<Table
+					bordered={false}
+					dataSource={dataSource}
+					showHeader={false}
+					pagination={false}
+					className='adddesc-tables'>
+					<Table.Column title='operation' key={1} render={this.renderForm}/>
+					<Table.Column title='handle' width={100} key={2} render={this.renderDelete}/>
+				</Table>
 			</div>
 		);
 	}

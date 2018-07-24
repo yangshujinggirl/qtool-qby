@@ -10,22 +10,13 @@ export default {
   namespace:'addGoods',
   state: {
     isHasSize:false,
+    categoryLevelOne:[],
     specOne:[],//商品规格1
     specTwo:[],//商品规格2
-    goodsCategory:[],//商品规格
-    goodsType:[],//商品类型
+    goodsCategory:[],//商品规格列表
+    goodsType:[],//商品类型列表
     fileList:[],//商品图片
-    pdSpu:{
-      pdSkus:[{//商品信息
-        code:'',
-        barcode:'',
-        salePrice:'',
-        purchasePrice:'',
-        receivePrice:'',
-        deliveryPrice:'',
-        key:'0000'
-      }]
-    },
+    pdSpu:{},
     pdSkus:[{//商品信息
       code:'',
       barcode:'',
@@ -74,8 +65,8 @@ export default {
       const specTwo=[];
       return {...state,pdSpu, fileList,specOne,specTwo,pdSkus}
     },
-    getGoodsInfo(state, { payload : { pdSpu,fileList } }) {
-      return { ...state, pdSpu, fileList }
+    getGoodsInfo(state, { payload : { pdSpu,fileList, pdSkus } }) {
+      return { ...state, pdSpu, fileList, pdSkus }
     },
     setSpec(state,{ payload: {specOne, specTwo, pdSkus} }) {
       return { ...state, specOne, specTwo, pdSkus}
@@ -103,6 +94,7 @@ export default {
       }
     },
     *fetchGoodsInfo({ payload: values },{ call, put ,select}) {
+      const oldPdSkus = yield select(state => state.addGoods.pdSkus)
       yield put({type:'resetData'})
       const result = yield call(goodsInfoApi,values);
       if(result.code == '0') {
@@ -125,13 +117,15 @@ export default {
             el.picUrl = `${fileDomain}${el.picUrl}`
             return el
           })
+        } else {
+          pdSkus = oldPdSkus;
         }
-        pdSpu = {...pdSpu,...pdSkus}
         yield put({
           type:'getGoodsInfo',
           payload:{
             pdSpu,
             fileList,
+            pdSkus
           }
         })
       }

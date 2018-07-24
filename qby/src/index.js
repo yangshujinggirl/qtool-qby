@@ -11,6 +11,7 @@ import baseGoodsList from './models/goodsCenter/baseGoods/baseGoodsList.js';//�
 import bTipGoodsList from './models/goodsCenter/bTipGoods/bTipGoodsList.js';//B端商品列表
 import bTipAddGoods from './models/goodsCenter/bTipGoods/bTipAddGoods.js';//B端商品列表
 import internalSort from './models/goodsCenter/internalSort.js';//B端商品列表
+import countryManage from './models/goodsCenter/countryManage.js';//国家管理
 //订单中心--用户订单
 import userorders from './models/userorders';
 import account from "./models/account"
@@ -76,6 +77,7 @@ const app = dva({
   });
 
 const models = [
+  countryManage,
   internalSort,
   bTipAddGoods,
   bTipGoodsList,

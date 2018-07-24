@@ -13,7 +13,7 @@ import {
   searchValApi,
   saveValApi
 } from '../../../services/goodsCenter/baseGoods.js';
-import UpLoadFile from './components/UpLoadFile/index.js';
+import UpLoadFile from '../components/UpLoadFile/index.js';
 import GoodsInfo from './components/GoodsInfo/index.js';
 import EditableCell from './components/EditableCell/index.js';
 import Creatlabel from './components/Creatlabel/index.js'
@@ -336,13 +336,13 @@ class AddGoodsForm extends Component {
               <FormItem label='商品图片' {...formItemLayout2}>
                  <UpLoadFile
                    fileList={fileList}
-                   getFieldDecorator={getFieldDecorator}/>
+                   form={this.props.form}/>
                </FormItem>
             </Col>
             <Col span={24}>
               <FormItem label='商品信息' {...formItemLayout2}>
                  <GoodsInfo
-                   getFieldDecorator={getFieldDecorator}
+                   form={this.props.form}
                    isHasSize={this.props.addGoods.specOne.length>0?true:false}/>
                </FormItem>
             </Col>
@@ -442,7 +442,7 @@ class AddGoodsForm extends Component {
             <Col span={24}>
               <FormItem label='商品描述' {...formItemLayout}>
                 <AddGoodsDesc
-                  getFieldDecorator={getFieldDecorator}/>
+                  form={this.props.form}/>
                </FormItem>
             </Col>
             <Col span={24}>
