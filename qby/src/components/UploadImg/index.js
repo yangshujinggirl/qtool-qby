@@ -23,8 +23,10 @@ class UploadImg extends Component{
     });
   }
   //点击变化时候的回调
-  handleChange = ({ fileList }) => {this.setState({ fileList })}
-
+  handleChange = ({ fileList }) => {
+    this.setState({ fileList })
+    this.props.changeImg(fileList)
+  }
   //格式化数据
   normFile = (e) => {
     const {target} = e;
