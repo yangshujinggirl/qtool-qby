@@ -23,7 +23,7 @@ class UploadImg extends Component{
     });
   }
   //点击变化时候的回调
-  handleChange = ({ fileList }) => this.setState({ fileList })
+  handleChange = ({ fileList }) => {this.setState({ fileList })}
 
   //格式化数据
   normFile = (e) => {
@@ -52,22 +52,17 @@ class UploadImg extends Component{
     );
     return (
       <div className="clearfix">
-      {
-        this.props.getFieldDecorator('spuPics',{
-          getValueFromEvent: this.normFile,
-        })(
-         <Upload
-            name={this.props.name}
-           action={this.props.action}
-           listType="picture-card"
-           fileList={fileList}
-           showUploadList={true}
-           onPreview={this.handlePreview}
-           onChange={this.handleChange}
-         >
-           {fileList.length >= this.state.maxLength ? null : uploadButton}
-         </Upload>
-       )}
+      <Upload
+         name={this.props.name}
+         action={this.props.action}
+         listType="picture-card"
+         fileList={fileList}
+         showUploadList={true}
+         onPreview={this.handlePreview}
+         onChange={this.handleChange}
+       >
+         {fileList.length >= this.state.maxLength ? null : uploadButton}
+       </Upload>
        <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
          <img alt="example" style={{ width: '100%' }} src={previewImage} />
        </Modal>

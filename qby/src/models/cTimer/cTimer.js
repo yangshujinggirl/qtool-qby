@@ -1,8 +1,13 @@
-import { getListApi } from '../../services/server/server'
+import { getListApi } from '../../services/cTimer/cTimer'
 
 export default{
-  namespace:'serverBill',
-  state:{},
+  namespace:'cTimer',
+  state:{
+    dataList:null,
+    currentPage:null,
+    limit:null,
+    total:null
+  },
   reducers:{
     getList(state,{payload:{dataList, currentPage, limit, total} }){
       return { ...state, dataList, currentPage, limit, total}
@@ -12,11 +17,11 @@ export default{
     *fetchList({payload:values},{call,put}){
       const result = yield call(getListApi,values);
       if(result.code == '0'){
-        const { spOrders, currentPage, limit, total } = result;
+        const { taskTimes, currentPage, limit, total } = result;
         yield put({
           type:'getList',
           payload:{
-            dataList:spOrders,
+            dataList:taskTimes,
             currentPage,
             limit,
             total,

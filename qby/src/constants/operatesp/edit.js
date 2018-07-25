@@ -59,7 +59,9 @@ class SpEditForm extends React.Component{
 			openApp:null,
 			bank:null,
 			recAddress:null,
-			url:null
+			url:null,
+			lng:null,
+			lat:null
 		}
 	}
 	//删除当前tab
@@ -94,6 +96,7 @@ class SpEditForm extends React.Component{
 	handleSubmit = (e) => {
 		e.preventDefault();
 		this.props.form.validateFields((err, value) => {
+			console.log(this.state.fileList)
 		    if (!err) {
 				value.openWechat = String(value.openWechat);
 				value.openAlipay = String(value.openAlipay);
@@ -101,6 +104,9 @@ class SpEditForm extends React.Component{
         value.provinceId=value.shop_city[0]
         value.cityId=value.shop_city[1]
         value.districtId=value.shop_city[2]
+				value.recProvinceId = value.rec_city[0]
+				value.recCityId = value.rec_city[1]
+				value.recDistrictId = value.rec_city[2]
         value.fromtime=this.state.fromtime
         value.endtime=this.state.endtime
 				value.startTime=this.state.startTime
@@ -109,6 +115,17 @@ class SpEditForm extends React.Component{
 				if(this.props.data){
 					value.spShopId=this.props.data.spShopId
 				}
+
+				const imgArr = this.state.fileList;
+				// console.log(imgArr);
+				// const url = [];
+				// const imgArrs = imgArr.map((item) => {
+				// 	if(item.status == 'done'){
+				// 		url.push(item.response.data[0])
+				// 	}
+				// })
+				// console.log(url)
+
         const values={spShop:value}
         const result=GetServerData('qerp.web.sp.shop.save',values)
         result.then((res) => {
@@ -192,7 +209,7 @@ class SpEditForm extends React.Component{
               startTime:json.spShop.startTime,
               wechat:json.spShop.wechat,
               remark:json.spShop.remark,
-							recAddress:[String(json.spShop.recProvinceId),String(json.spShop.recCityId),String(json.spShop.recDistrictId)],
+							rec_city:[String(json.spShop.recProvinceId),String(json.spShop.recCityId),String(json.spShop.recDistrictId)],
 							shopcity:[String(json.spShop.provinceId),String(json.spShop.cityId),String(json.spShop.districtId)],
 							urUserId:json.spShop.urUserId,
 							foodShareRatio:json.spShop.foodShareRatio,
@@ -207,6 +224,8 @@ class SpEditForm extends React.Component{
 							bankName:json.spShop.bankName,
 							openApp:json.spShop.openApp,
 							url:json.spShop.url,
+							lat:json.spShop.lat,
+							lng:json.spShop.lng,
           },function(){
               const spShopPics=this.state.spShopPics
               this.props.dispatch({
@@ -316,11 +335,10 @@ class SpEditForm extends React.Component{
 	}
 
   	render(){
-		const { getFieldDecorator } = this.props.form;
+			const { getFieldDecorator } = this.props.form;
      	return(
-          	<Form className="addUser-form addcg-form operate-shop-form">
-                <FormItem
-				>
+    	<Form className="addUser-form addcg-form operate-shop-form">
+        <FormItem>
 					<PicturesWall initfileList={this.state.initfileList}/>
 				</FormItem>
 				<FormItem
@@ -505,12 +523,36 @@ class SpEditForm extends React.Component{
 						<Input placeholder='请输入门店地址' autoComplete="off"/>
 					)}
 				</FormItem>
+				<FormItem
+					label="门店经度"
+					labelCol={{ span: 3,offset: 1 }}
+					wrapperCol={{ span: 6 }}
+				>
+					{getFieldDecorator('lng', {
+						rules: [{ required: true, message: '请输入门店经度'}],
+						initialValue:this.state.lng
+					})(
+						<Input placeholder='请输入门店经度' autoComplete="off"/>
+					)}
+				</FormItem>
+				<FormItem
+					label="门店纬度"
+					labelCol={{ span: 3,offset: 1 }}
+					wrapperCol={{ span: 6 }}
+				>
+					{getFieldDecorator('lat', {
+						rules: [{ required: true, message: '请输入门店纬度'}],
+						initialValue:this.state.lat
+					})(
+						<Input placeholder='请输入门店纬度' autoComplete="off"/>
+					)}
+				</FormItem>
         <FormItem
             label="收货城区"
             labelCol={{ span: 3,offset: 1 }}
 	wrapperCol={{ span: 6 }}
             >
-            {getFieldDecorator('recAddress', {
+            {getFieldDecorator('rec_city', {
                 rules: [{ type: 'array', required: true, message: '请选择收货城区' }],
                 initialValue:this.props.data?this.state.recAddress:null
             })(
@@ -522,9 +564,9 @@ class SpEditForm extends React.Component{
 					labelCol={{ span: 3,offset: 1 }}
 					wrapperCol={{ span: 6 }}
 				>
-					{getFieldDecorator('recCityId', {
+					{getFieldDecorator('recAddress', {
 						rules: [{ required: true, message: '请输入收货地址'}],
-						initialValue:this.state.recCityId
+						initialValue:this.state.recAddress
 					})(
 						<Input placeholder='请输入收货地址' autoComplete="off"/>
 					)}
@@ -695,23 +737,18 @@ class SpEditForm extends React.Component{
 						labelCol={{ span: 3,offset: 1 }}
 						wrapperCol={{ span: 6 }}
 					>
-						{getFieldDecorator('url', {
-							initialValue:this.state.url
-						})(
-							<UpLoadImg
-								getFieldDecorator={getFieldDecorator}
-								name='imgFile'
-								action = '/erpWebRest/qcamp/upload.htm?type=spu'
-								fileList = {this.state.fileList}
-								maxLength = '1'
-							/>
-						)}
+						<UpLoadImg
+							name='imgFile'
+							action = '/erpWebRest/qcamp/upload.htm?type=spu'
+							fileList = {this.state.fileList}
+							maxLength = '1'
+							required = {true}
+						/>
 					</FormItem>
             	<FormItem wrapperCol={{ offset: 4}} style = {{marginBottom:0}}>
               		<Button className='mr30' onClick={this.hindCancel.bind(this)}>取消</Button>
 					  {
 						  this.props.data?<Button  type="primary" onClick={this.handUse.bind(this)}>重置密码</Button>:null
-
 					  }
               		<Button  type="primary" onClick={this.handleSubmit.bind(this)} className='ml30'>保存</Button>
             	</FormItem>

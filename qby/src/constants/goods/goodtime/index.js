@@ -15,17 +15,17 @@ class GoodtimeIndex extends React.Component{
   	}
   	render(){
 		const rolelists=this.props.data.rolelists
-		// //增改定时
+		//增改定时
 		const addorder=rolelists.find((currentValue,index)=>{
 			return currentValue.url=="qerp.web.pd.task.time.save"
-		}) 
+		})
      	return(
         	<div className='content_box'>
                 <SearchForms/>
 				{
 					addorder?
-					<Button 
-						type="primary" 
+					<Button
+						type="primary"
 						size='large'
 						className='mt20'
 						onClick={this.addNew}
@@ -34,11 +34,11 @@ class GoodtimeIndex extends React.Component{
 					</Button>
 					:null
 				}
-				
+
              	<div className='mt15'><GoodtimeTable/></div>
         	</div>
       	)
-	}	
+	}
 }
 
 export default connect()(GoodtimeIndex);

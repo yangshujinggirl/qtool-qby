@@ -851,6 +851,18 @@ const SiderBarData =  [
             }
           ]
         },
+        {
+          "urResourceId": 311000,
+          "name": "C端定时",
+          "code": "311000",
+          "url": "",
+          "remark": null,
+          "status": 1,
+          "statusStr": null,
+          "menu": 1,
+          "menuStr": null,
+          "rank": null,
+        }
       ]
     },
   //电商中心800000

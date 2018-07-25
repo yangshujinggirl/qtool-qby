@@ -131,6 +131,8 @@ import  InternalSort from '../goods/internalSort/index.js';//内部分类
 import  CountryManage from '../goods/countryManage/index.js';//国家管理
 //电商中心
 import ProductInfo from '../online/productInfo/index.js';
+import Ctimer from '../goods/cTimer/index.js';//c端定时
+import AddTimer from '../goods/cTimer/AddTimer.js';//c端定时
 // 合作中心
 import MarketResource from '../cooperate/marketResource/index';
 import AddStaff from '../cooperate/marketResource/addStaff';
@@ -291,6 +293,8 @@ class Content extends React.Component {
                                     case "308000edit" : return <CtipAddGoods data={this.props.data} />
                                     case "308000info" : return <CtipGoodsDetail data={this.props.data} />
                                     case "308000editconfig" : return <CtipLogList data={this.props.data} />
+                                    case "311000" : return <Ctimer data={this.props.data} componkey={this.props.componkey}/>
+                                    case "311000edit" : return <AddTimer data={this.props.data} componkey={this.props.componkey}/>
                                     //------------------------------客服中心------------------------
                                     case "10100" : return <UserFeedBack data={this.props.data} componkey={this.props.componkey}/>
                                     case "10100edit" : return <HandleBack data={this.props.data} componkey={this.props.componkey}/>

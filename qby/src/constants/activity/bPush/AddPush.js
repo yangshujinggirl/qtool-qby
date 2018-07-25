@@ -70,6 +70,12 @@ class AddCoupon extends Component {
       this.setState({createTime:false,fixedTime:true})
     }
   }
+  //修改时初始化数据
+  componentDidMount(){
+    const id = this.props.data.pdSpuId
+    
+  }
+
   render(){
     const { getFieldDecorator } = this.props.form;
     const { cBanner } =this.props;

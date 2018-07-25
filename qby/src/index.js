@@ -14,6 +14,7 @@ import bTipAddGoods from './models/goodsCenter/bTipGoods/bTipAddGoods.js';//B端
 import cTipGoodsList from './models/goodsCenter/cTipGoods/cTipGoodsList.js';//c端商品列表
 import cTipAddGoods from './models/goodsCenter/cTipGoods/cTipAddGoods.js';//c端商品列表
 import internalSort from './models/goodsCenter/internalSort.js';//B端商品列表
+import cTimer from './models/cTimer/cTimer.js';//c端定时
 import countryManage from './models/goodsCenter/countryManage.js';//国家管理
 //订单中心--用户订单
 import userorders from './models/userorders';
@@ -140,7 +141,8 @@ const models = [
   userFeedBack,
   serverBill,
   coupon,
-  bPush
+  bPush,
+  cTimer
 ]
 
 models.forEach(m => {
