@@ -12,11 +12,11 @@ export default{
     *fetchList({payload:values},{call,put}){
       const result = yield call(getListApi,values);
       if(result.code == '0'){
-        const { spOrders, currentPage, limit, total } = result;
+        const { taskTimes, currentPage, limit, total } = result;
         yield put({
           type:'getList',
           payload:{
-            dataList:spOrders,
+            dataList:taskTimes,
             currentPage,
             limit,
             total,

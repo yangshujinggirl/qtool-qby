@@ -49,28 +49,26 @@ class cTimer extends Component{
   }
   //新增定时
   addTimer(){
-    console.log(this.props)
     const paneitem = {
       title:'新增定时',
       key:`${this.props.componkey}edit`,
       componkey:`${this.props.componkey}edit`,
-      data:{
-        pdSpuId:null,
-      },
+      data:null
     };
     this.props.dispatch({
         type:'tab/firstAddTab',
         payload:paneitem
     });
   }
+
   //修改
   handleOperateClick =(record)=> {
     const paneitem = {
       title:'修改定时',
-      key:`${this.props.componkey}edit`,
+      key:`${this.props.componkey}edit`+record.pdTaskTimeId,
       componkey:`${this.props.componkey}edit`,
       data:{
-        pdSpuId:record.spOrderId
+        pdTaskTimeId:record.pdTaskTimeId
       }
     };
     this.props.dispatch({

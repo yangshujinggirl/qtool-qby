@@ -43,6 +43,7 @@ class UploadImg extends Component{
   	return formFile;
   }
   render(){
+    console.log(this.props)
     const { previewVisible, previewImage, fileList } = this.state;
     const uploadButton = (
         <div>
@@ -54,10 +55,11 @@ class UploadImg extends Component{
       <div className="clearfix">
       {
         this.props.getFieldDecorator('spuPics',{
+          rules: [{ required: this.props.required, message: '请上传合同信息'}],
           getValueFromEvent: this.normFile,
         })(
          <Upload
-            name={this.props.name}
+           name={this.props.name}
            action={this.props.action}
            listType="picture-card"
            fileList={fileList}

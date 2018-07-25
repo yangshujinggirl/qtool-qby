@@ -1,4 +1,4 @@
-import { getServerListApi } from '../../services/server/server'
+import { getListApi } from '../../services/server/server'
 
 export default{
   namespace:'serverBill',
@@ -10,7 +10,7 @@ export default{
   },
   effects:{
     *fetchList({payload:values},{call,put}){
-      const result = yield call(getServerListApi,values);
+      const result = yield call(getListApi,values);
       if(result.code == '0'){
         const { spOrders, currentPage, limit, total } = result;
         yield put({
