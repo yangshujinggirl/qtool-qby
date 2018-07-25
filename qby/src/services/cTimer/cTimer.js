@@ -12,15 +12,23 @@ export function getListApi(values){
 export function createTimerApi(values){
   values = JSON.stringify(values)
   return ajax.post('/webrest.htm',{
-      code:'qerp.web.pd.task.time.save',
+      code:'qerp.web.pd.ctask.time.save',
       data:values
   })
 }
-//定时修改
+//定时修改初始化
 export function modifyTimerApi(values){
   values = JSON.stringify(values)
   return ajax.post('/webrest.htm',{
-      code:'qerp.web.cpd.task.time.query',
+      code:'qerp.web.pd.ctask.time.info',
+      data:values
+  })
+}
+//定时修改--强制无效
+export function invalidTimerApi(values){
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.pd.ctask.time.status.update',
       data:values
   })
 }

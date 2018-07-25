@@ -13,7 +13,7 @@ import {
   searchValApi,
   saveValApi
 } from '../../../services/goodsCenter/baseGoods.js';
-import UpLoadFile from './components/UpLoadFile/index.js';
+import UpLoadFile from '../components/UpLoadFile/index.js';
 import GoodsInfo from './components/GoodsInfo/index.js';
 import EditableCell from './components/EditableCell/index.js';
 import Creatlabel from './components/Creatlabel/index.js'
@@ -84,9 +84,9 @@ class AddGoodsForm extends Component {
     this.props.dispatch({
       type:'addGoods/fetchCategory',
       payload:{
-				getChildren:false,
-				enabled:true,
-				type:'2'
+        pdCategoryId:null,
+        status:1,
+        level:1
 			}
     })
   }
@@ -127,6 +127,9 @@ class AddGoodsForm extends Component {
     const { pdSpuId, source } =this.props.data;
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
+      let spuPics = values.spuPics;
+      spuPics = spuPics.map(el=>el.url?el.name:el.response.data[0]);
+      values ={...values,spuPics}
       console.log(values)
       if (!err) {
         if(pdSpuId) {
@@ -382,7 +385,7 @@ class AddGoodsForm extends Component {
               <FormItem label='商品图片' {...formItemLayout2}>
                  <UpLoadFile
                    fileList={fileList}
-                   getFieldDecorator={getFieldDecorator}/>
+                   form={this.props.form}/>
                </FormItem>
             </Col>
             <Col span={24}>
@@ -443,7 +446,7 @@ class AddGoodsForm extends Component {
             <Col span={24}>
               <FormItem label='商品信息' {...formItemLayout2}>
                  <GoodsInfo
-                   getFieldDecorator={getFieldDecorator}
+                   form={this.props.form}
                    isHasSize={this.props.addGoods.specOne.length>0?true:false}/>
                </FormItem>
             </Col>

@@ -65,7 +65,7 @@ class cTimer extends Component{
   handleOperateClick =(record)=> {
     const paneitem = {
       title:'修改定时',
-      key:`${this.props.componkey}edit`+record.pdTaskTimeId,
+      key:`${this.props.componkey}edit` + record.pdTaskTimeId,
       componkey:`${this.props.componkey}edit`,
       data:{
         pdTaskTimeId:record.pdTaskTimeId

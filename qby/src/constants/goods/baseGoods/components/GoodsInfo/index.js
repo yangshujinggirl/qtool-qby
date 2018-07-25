@@ -21,11 +21,11 @@ class GoodsInfo extends Component {
     super(props);
   }
   renderCode =(text, record, index)=> {
-    const { pdSpu } = this.props.addGoods;
+    const { pdSkus } = this.props.addGoods;
     return  <div>
               {
-                this.props.getFieldDecorator(`pdSkus[${index}].code`,{
-                  initialValue:pdSpu.pdSkus[index].code
+                this.props.form.getFieldDecorator(`pdSkus[${index}].code`,{
+                  initialValue:pdSkus[index].code
                 })(
                   <Input placeholder="请输入商品编码" />
                 )
@@ -33,21 +33,21 @@ class GoodsInfo extends Component {
             </div>
   }
   renderBarcode =(text, record, index)=> {
-    const { pdSpu } = this.props.addGoods;
+    const { pdSkus } = this.props.addGoods;
     return  <div>
-                 {this.props.getFieldDecorator(`pdSkus[${index}].barcode`,{
-                   initialValue:pdSpu.pdSkus[index].barcode
+                 {this.props.form.getFieldDecorator(`pdSkus[${index}].barcode`,{
+                   initialValue:pdSkus[index].barcode
                  })(
                    <Input placeholder="请输入商品条码" />
                  )}
              </div>
   }
   renderSalePrice =(text, record, index)=> {
-    const { pdSpu } = this.props.addGoods;
+    const { pdSkus } = this.props.addGoods;
     return  <div>
               {
-                 this.props.getFieldDecorator(`pdSkus[${index}].salePrice`,{
-                   initialValue:pdSpu.pdSkus[index].salePrice
+                 this.props.form.getFieldDecorator(`pdSkus[${index}].salePrice`,{
+                   initialValue:pdSkus[index].salePrice
                  })(
                    <Input placeholder="请输入售价" />
                  )
@@ -55,31 +55,31 @@ class GoodsInfo extends Component {
              </div>
   }
   renderPurchasePricee =(text, record, index)=> {
-    const { pdSpu } = this.props.addGoods;
+    const { pdSkus } = this.props.addGoods;
     return  <div>
-               {this.props.getFieldDecorator(`pdSkus[${index}].purchasePrice`,{
-                 initialValue:pdSpu.pdSkus[index].purchasePrice
+               {this.props.form.getFieldDecorator(`pdSkus[${index}].purchasePrice`,{
+                 initialValue:pdSkus[index].purchasePrice
                })(
                  <Input placeholder="请输入采购价格" />
                )}
              </div>
   }
   renderReceivePrice =(text, record, index)=> {
-    const { pdSpu } = this.props.addGoods;
+    const { pdSkus } = this.props.addGoods;
     return  <div>
-               {this.props.getFieldDecorator(`pdSkus[${index}].receivePrice`,{
-                 initialValue:pdSpu.pdSkus[index].receivePrice
+               {this.props.form.getFieldDecorator(`pdSkus[${index}].receivePrice`,{
+                 initialValue:pdSkus[index].receivePrice
                })(
                  <Input placeholder="请输入到货价格" />
                )}
              </div>
   }
   renderDeliveryPrice =(text, record, index)=> {
-    const { pdSpu } = this.props.addGoods;
+    const { pdSkus } = this.props.addGoods;
     return  <div>
                {
-                 this.props.getFieldDecorator(`pdSkus[${index}].deliveryPrice`,{
-                   initialValue:pdSpu.pdSkus[index].deliveryPrice
+                 this.props.form.getFieldDecorator(`pdSkus[${index}].deliveryPrice`,{
+                   initialValue:pdSkus[index].deliveryPrice
                  })(
                    <Input placeholder="请输入出库价格" />
                  )
@@ -87,10 +87,10 @@ class GoodsInfo extends Component {
              </div>
   }
   render() {
-    const { pdSpu } = this.props.addGoods;
+    const { pdSkus } = this.props.addGoods;
     return(
       <div>
-        <Table dataSource={pdSpu.pdSkus} pagination={false} bordered={true}>
+        <Table dataSource={pdSkus} pagination={false} bordered={true}>
           {
             this.props.isHasSize&&
             <Table.Column title="商品规格" dataIndex='name' key ={0}/>

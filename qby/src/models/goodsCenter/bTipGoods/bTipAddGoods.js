@@ -15,7 +15,16 @@ export default {
     goodsCategory:[],//商品规格
     goodsType:[],//商品类型
     fileList:[],//商品图片
-    pdSpu:{},
+    pdSpu:{
+      pdSkus:[{//商品信息
+        code:'',
+        barcode:'',
+        salePrice:'',
+        purchasePrice:'',
+        receivePrice:'',
+        deliveryPrice:''
+      }]
+    },
     pdSkus:[{//商品信息
       code:'',
       barcode:'',

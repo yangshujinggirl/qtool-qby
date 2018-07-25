@@ -1,4 +1,4 @@
-import {modifyTimerApi} from '../../../services/cTimer/cTimer';
+import {modifyTimerApi,invalidTimerApi,createTimerApi} from '../../../services/cTimer/cTimer';
 import { connect } from 'dva';
 import { Form, Input, Button ,message,DatePicker,Checkbox} from 'antd';
 import moment from 'moment';
@@ -32,21 +32,22 @@ class GoodEditForm extends React.Component{
 		}
 	}
 	getinfoData=()=>{
-		const pdTaskTimeId = this.props.data.pdTaskTimeId;
-		modifyTimerApi(pdTaskTimeId).then(res=>{
+		const pdTaskTimeId = String(this.props.data.pdTaskTimeId);
+		modifyTimerApi({pdTaskTimeId:pdTaskTimeId}).then(res=>{
+			console.log(res)
 			if(res.code=='0'){
-				const taskTime=json.taskTime.taskTime
-				const taskName=json.taskTime.taskName
-				const codes=json.codes.join('\r\n')
-				const check1=(json.taskTime.salestatus==1)?true:false
-				const check2=(json.taskTime.salestatus==0)?true:false
-				const check3=(json.taskTime.statusnew==1)?true:false
-				const check4=(json.taskTime.statusnew==0)?true:false
-				const check5=(json.taskTime.statushot==1)?true:false
-				const check6=(json.taskTime.statushot==0)?true:false
-				const salestatus=json.taskTime.salestatus
-				const statusnew=json.taskTime.statusnew
-				const statushot=json.taskTime.statushot
+				const taskTime=res.taskTime.taskTime
+				const taskName=res.taskTime.taskName
+				const codes=res.codes.join('\r\n')
+				const check1=(res.taskTime.salestatus==1)?true:false
+				const check2=(res.taskTime.salestatus==0)?true:false
+				const check3=(res.taskTime.statusnew==1)?true:false
+				const check4=(res.taskTime.statusnew==0)?true:false
+				const check5=(res.taskTime.statushot==1)?true:false
+				const check6=(res.taskTime.statushot==0)?true:false
+				const salestatus=res.taskTime.salestatus
+				const statusnew=res.taskTime.statusnew
+				const statushot=res.taskTime.statushot
 				this.setState({
 					check1:check1,
 					check2:check2,
@@ -63,9 +64,7 @@ class GoodEditForm extends React.Component{
 				})
 			}
 		},err=>{
-			console.log(err)
 		})
-
 	}
 	//删除当前tab
 	deleteTab=()=>{
@@ -76,17 +75,16 @@ class GoodEditForm extends React.Component{
 		if(this.props.data){
 			this.props.dispatch({
 				type:'tab/initDeletestate',
-				payload:'305000edit'+this.props.data.pdTaskTimeId
+				payload:`${this.props.componkey}edit`+this.props.data.pdTaskTimeId
 			  });
 		}else{
 			this.props.dispatch({
 				type:'tab/initDeletestate',
-				payload:'305000edit'
+				payload:`${this.props.componkey}edit`
 			});
 		}
-		this.refreshList()
+		this.refreshList();
 	}
-
 	//刷新列表
 	refreshList=()=>{
 		this.props.dispatch({
@@ -95,7 +93,7 @@ class GoodEditForm extends React.Component{
     })
 		this.props.dispatch({ type: 'tab/loding', payload:true})
 	}
-	kg=(arr)=>{
+	kg = (arr)=>{
     arr!=''
    	return arr
  	}
@@ -119,21 +117,21 @@ class GoodEditForm extends React.Component{
 							taskTime:value,
 							codes:codes
 						}
-						const result=modifyTimerApi('qerp.web.pd.task.time.save',values)
-						result.then((res) => {
-							return res;
-					  	}).then((json) => {
-						  	if(json.code=='0'){
+						createTimerApi(values)
+						.then((res) => {
+					  	if(res.code == '0'){
 								this.deleteTab()
-							   	if(this.props.data){
-								  	message.success('定时修改成功',.8);
-							   	}else{
-								  	message.success('定时设置成功',.8);
-							   	}
-						  	}
+						   	if(this.props.data){
+							  	message.success('定时修改成功',.8);
+						   	}else{
+							  	message.success('定时设置成功',.8);
+						   	};
+					  	};
+				  	},err => {
+
 						})
-				  	}
-        }
+        };
+			};
     });
 	}
 	//取消
@@ -237,15 +235,15 @@ class GoodEditForm extends React.Component{
 	}
 
 	handUse=()=>{
-		const values={pdTaskTimeId:this.props.data.pdTaskTimeId}
-		const result=modifyTimerApi('qerp.web.pd.task.time.status.update',values)
-		result.then((res) => {
-			return res;
-		}).then((json) => {
+		const pdTaskTimeId = this.props.data.pdTaskTimeId;
+		invalidTimerApi(pdTaskTimeId)
+		.then(res => {
 			if(json.code=='0'){
 				this.deleteTab()
 				message.success('强制无效成功',.8);
 			}
+		},err=>{
+
 		})
 	}
   	render(){

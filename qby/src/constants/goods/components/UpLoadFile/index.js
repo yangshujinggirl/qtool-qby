@@ -7,7 +7,9 @@ class UpLoadFile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      fileList:this.props.fileList
+      fileList:this.props.fileList,
+      previewVisible: false,
+      previewImage: '',
     }
   }
   componentWillReceiveProps(props) {
@@ -30,24 +32,21 @@ class UpLoadFile extends Component {
   }
 	handleChange = ({fileList}) => {
     this.setState({
-      fileList
+      fileList:[...fileList]
     })
 	}
-  //格式化数据
+  handleCancel = () => this.setState({ previewVisible: false })
+  handlePreview = (file) => {
+    this.setState({
+      previewImage: file.url || file.thumbUrl,
+      previewVisible: true,
+    });
+  }
   normFile = (e) => {
     if (Array.isArray(e)) {
       return e;
     }
-    let formFile = e && e.fileList.map((el)=> {
-      if(el.status == 'done') {
-        if(el.response) {
-          return el.response.data[0]
-        } else {
-          return el.name
-        }
-      }
-    })
-    return formFile;
+    return e && e.fileList;
   }
   render() {
     const uploadButton = (
@@ -56,34 +55,36 @@ class UpLoadFile extends Component {
          <div className="ant-upload-text">添加图片</div>
        </div>
      );
-   const { fileList } = this.state;
-   return(
-      <div>
-       {
-         this.props.getFieldDecorator('spuPics',{
-           getValueFromEvent: this.normFile,
-           initialValue:fileList
-         })(
-             <Upload
-              name="imgFile"
-              listType="picture-card"
-              className="avatar-uploader"
-              showUploadList={true}
-              fileList={fileList}
-              action="/erpWebRest/qcamp/upload.htm?type=spu"
-              beforeUpload={this.beforeUpload}
-              onPreview={this.handlePreview}
-              onChange={this.handleChange}>
-              {
-                fileList.length >= 1000 ? null : uploadButton
-              }
-            </Upload>
-         )
-       }
-     </div>
-    )
-  }
+     const { previewVisible, previewImage, fileList } = this.state;
+     return(
+        <div>
+         {
+           this.props.form.getFieldDecorator('spuPics',{
+             getValueFromEvent: this.normFile,
+             valuePropName: 'fileList',
+             initialValue:fileList
+           })(
+               <Upload
+                name="imgFile"
+                listType="picture-card"
+                className="avatar-uploader"
+                action="/erpWebRest/qcamp/upload.htm?type=spu"
+                beforeUpload={this.beforeUpload}
+                onPreview={this.handlePreview}
+                onChange={this.handleChange}>
+                {
+                  fileList.length >= 1000 ? null : uploadButton
+                }
+              </Upload>
+           )
+         }
+         <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
+            <img alt="example" style={{ width: '100%' }} src={previewImage} />
+          </Modal>
+       </div>
+      )
+    }
 }
 
 
-export default connect()(UpLoadFile);
+export default UpLoadFile;

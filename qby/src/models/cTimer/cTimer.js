@@ -2,7 +2,12 @@ import { getListApi } from '../../services/cTimer/cTimer'
 
 export default{
   namespace:'cTimer',
-  state:{},
+  state:{
+    dataList:null,
+    currentPage:null,
+    limit:null,
+    total:null
+  },
   reducers:{
     getList(state,{payload:{dataList, currentPage, limit, total} }){
       return { ...state, dataList, currentPage, limit, total}

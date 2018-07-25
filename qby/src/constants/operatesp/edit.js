@@ -96,6 +96,7 @@ class SpEditForm extends React.Component{
 	handleSubmit = (e) => {
 		e.preventDefault();
 		this.props.form.validateFields((err, value) => {
+			console.log(this.state.fileList)
 		    if (!err) {
 				value.openWechat = String(value.openWechat);
 				value.openAlipay = String(value.openAlipay);
@@ -114,6 +115,17 @@ class SpEditForm extends React.Component{
 				if(this.props.data){
 					value.spShopId=this.props.data.spShopId
 				}
+
+				const imgArr = this.state.fileList;
+				// console.log(imgArr);
+				// const url = [];
+				// const imgArrs = imgArr.map((item) => {
+				// 	if(item.status == 'done'){
+				// 		url.push(item.response.data[0])
+				// 	}
+				// })
+				// console.log(url)
+
         const values={spShop:value}
         const result=GetServerData('qerp.web.sp.shop.save',values)
         result.then((res) => {
@@ -725,22 +737,18 @@ class SpEditForm extends React.Component{
 						labelCol={{ span: 3,offset: 1 }}
 						wrapperCol={{ span: 6 }}
 					>
-
-							<UpLoadImg
-								getFieldDecorator={getFieldDecorator}
-								name='imgFile'
-								action = '/erpWebRest/qcamp/upload.htm?type=spu'
-								fileList = {this.state.fileList}
-								maxLength = '1'
-								required = {true}
-							/>
-
+						<UpLoadImg
+							name='imgFile'
+							action = '/erpWebRest/qcamp/upload.htm?type=spu'
+							fileList = {this.state.fileList}
+							maxLength = '1'
+							required = {true}
+						/>
 					</FormItem>
             	<FormItem wrapperCol={{ offset: 4}} style = {{marginBottom:0}}>
               		<Button className='mr30' onClick={this.hindCancel.bind(this)}>取消</Button>
 					  {
 						  this.props.data?<Button  type="primary" onClick={this.handUse.bind(this)}>重置密码</Button>:null
-
 					  }
               		<Button  type="primary" onClick={this.handleSubmit.bind(this)} className='ml30'>保存</Button>
             	</FormItem>

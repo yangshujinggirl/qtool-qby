@@ -7,13 +7,8 @@ class UpLoadFile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      fileList:[]
+      fileList:[],
     }
-  }
-  componentWillReceiveProps(props) {
-    this.setState({
-      fileList:props.fileList,
-    })
   }
   beforeUpload(file){
   	const isJPG = file.type === 'image/jpeg';
@@ -30,49 +25,31 @@ class UpLoadFile extends Component {
   }
 	handleChange = ({fileList}) => {
     this.setState({
-      fileList
+      fileList:[...fileList]
     })
 	}
-  //格式化数据
   normFile = (e) => {
     if (Array.isArray(e)) {
       return e;
     }
-    let formFile = e && e.fileList.map((el)=> {
-      if(el.status == 'done') {
-        if(el.response) {
-          return {
-              content:el.response.data[0],
-              type:'2'
-          }
-        } else {
-          return {
-            content:el.name,
-            type:'2'
-          }
-        }
-      }
-    })
-    return formFile;
+    return e && e.fileList;
   }
   render() {
-
-   const { fileList } = this.state;
+   const { previewVisible, previewImage, fileList } = this.state;
    return(
-      <div>
+      <div style={{'display':'inline-block'}}>
        {
-         this.props.getFieldDecorator(`pdSpuInfo[${this.props.index}]`,{
+         this.props.form.getFieldDecorator(`pdSpuInfo[${this.props.index}].content`,{
            getValueFromEvent: this.normFile,
            initialValue:fileList
          })(
              <Upload
+              className="avatar-uploader"
               name="imgFile"
               listType="picture-card"
               className="avatar-uploader"
-              showUploadList={true}
               action="/erpWebRest/qcamp/upload.htm?type=spu"
               beforeUpload={this.beforeUpload}
-              onPreview={this.handlePreview}
               onChange={this.handleChange}>
               {
                 fileList.length >0 ? null : <Icon type="plus" className="avatar-uploader-trigger" />
@@ -86,4 +63,4 @@ class UpLoadFile extends Component {
 }
 
 
-export default connect()(UpLoadFile);
+export default UpLoadFile;
