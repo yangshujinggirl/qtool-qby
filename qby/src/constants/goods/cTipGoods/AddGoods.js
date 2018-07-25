@@ -6,19 +6,16 @@ import {
   Select ,AutoComplete,Upload,
   message,Radio,DatePicker
 } from 'antd';
-import moment from 'moment'
+import moment from 'moment';
 import {
-  goodsBrandApi,
   goodSaveApi,
-  searchValApi,
   saveValApi
-} from '../../../services/goodsCenter/baseGoods.js';
-import UpLoadFile from './components/UpLoadFile/index.js';
-import GoodsInfo from './components/GoodsInfo/index.js';
-import EditableCell from './components/EditableCell/index.js';
-import Creatlabel from './components/Creatlabel/index.js'
-import AddGoodsDesc from '../components/AddGoodsDesc/index.js'
-import './AddGoods.css';
+} from '../../../services/goodsCenter/cTipGoods.js';
+import AddGoodsDesc from '../components/AddGoodsDesc/index.js';
+
+import Qtable from '../../../components/Qtable';
+import { DetailColumns, DetailSizeColumns} from './columns/detailColumns'
+import './AddGoods.less';
 
 
 const FormItem = Form.Item;
@@ -53,59 +50,15 @@ class AddGoodsForm extends Component {
     }
   }
   componentWillMount() {
-    this.initGoodslabel();
     this.initPage()
   }
-
-  //编辑or新增
   initPage() {
     const { pdSpuId, source } =this.props.data;
-    if(pdSpuId) {
-      this.props.dispatch({
-        type:'addGoods/fetchGoodsInfo',
-        payload:{
-          pdSpuId,
-          source
-        }
-      })
-    } else {
-      this.props.dispatch({
-        type:'addGoods/resetData'
-      })
-    }
-  }
-  //初始化商品规格，分类,品牌
-  initGoodslabel() {
     this.props.dispatch({
-      type:'addGoods/fetchGoodsType',
+      type:'addGoods/fetchGoodsInfo',
       payload:{
-				enabled:true
-			}
-    })
-    this.props.dispatch({
-      type:'addGoods/fetchCategory',
-      payload:{
-				getChildren:false,
-				enabled:true,
-				type:'2'
-			}
-    })
-  }
-  //品牌搜索
-  handleSearch(value) {
-    goodsBrandApi({name:value})
-    .then(res => {
-      if(res.code == '0') {
-        const { brands } = res;
-        let data = brands.map(el=>(
-          {
-            text:el.name,
-            value:el.pdBrandId
-          }
-        ))
-        this.setState({
-          brandDataSource:data
-        })
+        pdSpuId,
+        source
       }
     })
   }
@@ -130,24 +83,16 @@ class AddGoodsForm extends Component {
     this.props.form.validateFieldsAndScroll((err, values) => {
       console.log(values)
       if (!err) {
-        if(pdSpuId) {
-          values = Object.assign(values,{
-            pdSpuId,
-            source
-          })
-        } else {
-          values = Object.assign(values,{ source })
-        }
-        if(source == 1) {
-          this.saveOnLineGoods(values)
-        } else {
-          this.saveOutLineGoods(values)
-        }
+        values = Object.assign(values,{
+          pdSpuId,
+          source
+        })
+        this.saveGoods(values)
       }
     });
   }
   //提交api
-  saveOnLineGoods(values) {
+  saveGoods(values) {
     goodSaveApi(values)
     .then(res=> {
       console.log(res)
@@ -155,139 +100,25 @@ class AddGoodsForm extends Component {
       console.log(error)
     })
   }
-  //提交线下api
-  saveOutLineGoods(values) {
-    goodSaveApi(values)
-    .then(res=> {
-      console.log(res)
-    },error=> {
-      console.log(error)
-    })
-  }
-  //商品规格1change事件
-  handleChangeOne =(option)=> {
-    this.setState({
-      disabledOne:!option,
-      specOneId:option
-    })
-    let emptyArr = [];
-    this.props.dispatch({
-      type:'addGoods/handleSpec',
-      payload:{specOne:emptyArr,specTwo:emptyArr}
-    })
-  }
-  //商品规格2change事件
-  handleChangeTwo =(option)=> {
-    this.setState({
-      disabledTwo:!option
-    })
-  }
-  //删除商品属性
-  deleteGoodsLabel(tags,type) {
-    this.props.dispatch({
-      type:'addGoods/deleteSpec',
-      payload:{
-        payloadVal:tags,
-        type
-      }
-    })
-  }
-  //新建商品属性
-  addGoodsLabel(inputValue,type) {
-    const { specOneId } =this.state;
-    const values={
-			pdTypeId:specOneId,
-      inputValue,
-      type
-		}
-    this.searchVal(values);
-  }
-  //查询Api
-  searchVal(values) {
-    const { pdTypeId,inputValue,type} = values;
-    let params = {
-          pdTypeId,
-    			enabled:true,
-    			firstent:true,
-        }
-    searchValApi(params)
-    .then(res => {
-      const { pdTypeVals } =res;
-      const filterValues = pdTypeVals.filter((el) => {
-        return el.name == inputValue;
-      })
-      let payloadVal = {
-        name:filterValues[0].name,
-        key:filterValues[0].pdTypeValId
-      }
-      if(filterValues.length >0) {
-        this.props.dispatch({
-          type:'addGoods/addSpec',
-          payload:{payloadVal,type}
-        })
-      } else {
-        let paramsTwo={
-              pdTypeVal:{
-                pdTypeId,
-                name:inputValue,
-                status:'1'
-              }
-        }
-        this.goSaveTypeVal(values);
-      }
-    },err => {
-
-    })
-  }
-  //保存value值
-  goSaveTypeVal(values) {
-    const { pdTypeId,inputValue,type} = values;
-    const params={
-              pdTypeVal:{
-                pdTypeId,
-                name:inputValue,
-                status:'1'
-              }
-          }
-    saveValApi(params)
-    .then(res => {
-      this.searchVal(values)
-    }, err=> {
-      console.log(err)
-    })
-  }
-
 
   render() {
     const { getFieldDecorator } = this.props.form;
-    const {
-      goodsCategory,
-      goodsType,
-      pdSpu,
-      fileList,
-    } = this.props.addGoods;
+    const { pdSpu } = this.props.addGoods;
     return(
-      <div className="add-goods-components">
+      <div className="btip-add-goods-components">
         <Form className="qtools-form-components">
           <Row wrap>
             <Col span={24}>
               <FormItem label='商品名称' {...formItemLayout}>
-                 {
-                   getFieldDecorator('name', {
-                     rules: [{ required: true, message: '请输入商品名称'}],
-                     initialValue:pdSpu.name
-                   })(
-                     <Input placeholder="请输入商品名称" disabled/>
-                   )
-                 }
+                 <label>{pdSpu.name}</label>
                </FormItem>
             </Col>
             <Col span={24}>
-              <FormItem label='B端名称' {...formItemLayout}>
+              <FormItem label='C端名称' {...formItemLayout}>
                  {
-                   getFieldDecorator('bname', {
+                   getFieldDecorator('cname', {
                      rules: [{ required: true, message: '请输入商品名称'}],
-                     initialValue:pdSpu.name
+                     initialValue:pdSpu.bname
                    })(
                      <Input placeholder="请输入商品名称"/>
                    )
@@ -296,54 +127,25 @@ class AddGoodsForm extends Component {
             </Col>
             <Col span={24}>
               <FormItem label='一级分类' {...formItemLayout}>
-                 {
-                   getFieldDecorator('pdCategory1Id',{
-                     rules: [{ required: true, message: '请选择商品分类'}],
-                     initialValue:pdSpu.pdCategory1Id
-                   })(
-                    <Select placeholder="请选择商品分类" disabled>
-                      {
-                        goodsCategory.length>0 &&
-                        goodsCategory.map((ele,index) => (
-                          <Option value={ele.pdCategoryId} key={ele.pdCategoryId}>{ele.name}</Option>
-                        ))
-                      }
-                    </Select>
-                   )
-                 }
+                 <label>{pdSpu.pdCategory1Name}</label>
                </FormItem>
             </Col>
             <Col span={24}>
               <FormItem label='二级分类' {...formItemLayout}>
-                 {
-                   getFieldDecorator('pdCategory2Id',{
-                     rules: [{ required: true, message: '请选择商品类型'}],
-                     initialValue:pdSpu.pdCategory2Id
-                   })(
-                     <Select placeholder="请选择商品类型" disabled>
-                       {
-                         goodsType.length>0 &&
-                         goodsType.map((ele,index) => (
-                           <Option value={ele.pdTypeId} key={ele.pdTypeId}>{ele.name}</Option>
-                         ))
-                       }
-                     </Select>
-                   )
-                 }
+                 <label>{pdSpu.pdCategory2Name}</label>
                </FormItem>
             </Col>
             <Col span={24}>
               <FormItem label='商品图片' {...formItemLayout2}>
-                 <UpLoadFile
-                   fileList={fileList}
-                   getFieldDecorator={getFieldDecorator}/>
-               </FormItem>
+                <ul className="img-list-wrap">
+                  <li className="img-item"></li>
+                  <li className="img-item"></li>
+                </ul>
+              </FormItem>
             </Col>
             <Col span={24}>
               <FormItem label='商品信息' {...formItemLayout2}>
-                 <GoodsInfo
-                   getFieldDecorator={getFieldDecorator}
-                   isHasSize={this.props.addGoods.specOne.length>0?true:false}/>
+                 <Qtable columns={DetailColumns} dataSource={pdSpu.pdSkus}/>
                </FormItem>
             </Col>
             <Col span={24}>
@@ -379,8 +181,8 @@ class AddGoodsForm extends Component {
               <FormItem label='直邮商品' {...formItemLayout}>
                  {getFieldDecorator('isDirectExpress')(
                    <RadioGroup>
-       							<Radio value={true}>是</Radio>
-       							<Radio value={false}>否</Radio>
+       							<Radio value={1}>是</Radio>
+       							<Radio value={0}>否</Radio>
        						 </RadioGroup>
                  )}
                </FormItem>
@@ -389,8 +191,8 @@ class AddGoodsForm extends Component {
               <FormItem label='预售商品' {...formItemLayout}>
                  {getFieldDecorator('isPresell')(
                    <RadioGroup>
-       							<Radio value={true}>是</Radio>
-       							<Radio value={false}>否</Radio>
+       							<Radio value={1}>是</Radio>
+       							<Radio value={0}>否</Radio>
        						 </RadioGroup>
                  )}
                </FormItem>
@@ -399,7 +201,7 @@ class AddGoodsForm extends Component {
               <FormItem label='试销天数' {...formItemLayout}>
                  {
                    getFieldDecorator('trialDay',{
-                     initialValue:moment('2015-06-06')
+                     initialValue:pdSpu.trialDay
                    })(
                       <Input placeholder="Username" />
                    )
@@ -410,7 +212,7 @@ class AddGoodsForm extends Component {
               <FormItem label='缺货天数' {...formItemLayout}>
                  {
                    getFieldDecorator('outStockDay',{
-                     initialValue:moment('2015-06-06')
+                     initialValue:pdSpu.outStockDay
                    })(
                       <Input placeholder="Username" />
                    )
@@ -421,7 +223,7 @@ class AddGoodsForm extends Component {
               <FormItem label='缺货率' {...formItemLayout}>
                  {
                    getFieldDecorator('outStockRate',{
-                     initialValue:moment('2015-06-06')
+                     initialValue:pdSpu.outStockRate
                    })(
                       <Input placeholder="Username" />
                    )
@@ -432,7 +234,7 @@ class AddGoodsForm extends Component {
               <FormItem label='目标周转天数' {...formItemLayout}>
                  {
                    getFieldDecorator('targetTurnoverDay',{
-                     initialValue:moment('2015-06-06')
+                     initialValue:pdSpu.targetTurnoverDay
                    })(
                       <Input placeholder="Username" />
                    )
@@ -442,7 +244,7 @@ class AddGoodsForm extends Component {
             <Col span={24}>
               <FormItem label='商品描述' {...formItemLayout}>
                 <AddGoodsDesc
-                  getFieldDecorator={getFieldDecorator}/>
+                  form={this.props.form}/>
                </FormItem>
             </Col>
             <Col span={24}>

@@ -29,18 +29,24 @@ function request({ baseURL = '', timeout = 600000, headers = defaultHeader}) {
   // 请求响应拦截器
   axiosinstance.interceptors.response.use((response) => {
       const { code, message } = response.data;
-      // Utils.handlerSessionTimeout(resultCode);
       // 用户登录超时统一处理
-      if (code !== '0') {
-        return Promise.reject({
-          message: message || '服务器异常',
-          // data: response.data,
-        });
+      if(code=='E_300'){
+         window.location.href= '/';
+         sessionStorage.clear();
       }
+      if(code!='0'){
+          message.error(message,0.8);
+      }
+      // if (code !== '0') {
+      //   return Promise.reject(response.data);
+      //   // return response.data
+      // }
       return response.data;
-    }, error => Promise.reject({
-      message: error.message || '请求失败',
-    }));
+    }, error => {
+      return Promise.reject({
+        message: error.message || '请求失败',
+      })
+    });
     return axiosinstance;
 }
 

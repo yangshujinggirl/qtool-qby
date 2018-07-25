@@ -2,6 +2,7 @@ import dva from 'dva';
 import createLoading from 'dva-loading';
 import 'antd/dist/antd.less';
 import './index.css';
+import './style/baseCommon.less';//公共样式
 
 import { useRouterHistory } from 'dva/router';
 import { createHashHistory } from 'history';
@@ -10,6 +11,8 @@ import addGoods from './models/goodsCenter/baseGoods/addGoods.js';//基础商品
 import baseGoodsList from './models/goodsCenter/baseGoods/baseGoodsList.js';//基础商品列表
 import bTipGoodsList from './models/goodsCenter/bTipGoods/bTipGoodsList.js';//B端商品列表
 import bTipAddGoods from './models/goodsCenter/bTipGoods/bTipAddGoods.js';//B端商品列表
+import cTipGoodsList from './models/goodsCenter/cTipGoods/cTipGoodsList.js';//c端商品列表
+import cTipAddGoods from './models/goodsCenter/cTipGoods/cTipAddGoods.js';//c端商品列表
 import internalSort from './models/goodsCenter/internalSort.js';//B端商品列表
 import countryManage from './models/goodsCenter/countryManage.js';//国家管理
 //订单中心--用户订单
@@ -79,6 +82,8 @@ const app = dva({
 const models = [
   countryManage,
   internalSort,
+  cTipAddGoods,
+  cTipGoodsList,
   bTipAddGoods,
   bTipGoodsList,
   addGoods,

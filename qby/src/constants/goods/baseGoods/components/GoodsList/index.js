@@ -8,7 +8,7 @@ import {
   Icon,
 } from 'antd';
 
-import './index.css';
+import './index.less';
 
 import iconSkuStatus from '../../../../../assets/icon_skuStatus.png';
 import iconInfoStatus from '../../../../../assets/icon_que.png';
@@ -46,35 +46,31 @@ class GoodsList extends Component {
     const { baseGoodsList, onOperateClick } = this.props;
     const filePath = JSON.parse(sessionStorage.getItem('fileDomain'));
     return (
-      <div className="goods-common-components">
-        <Row wrap>
-          {
-            baseGoodsList.dataList.length>0 && baseGoodsList.dataList.map((el,index) => (
-              <Col span={8} key={index}>
-                <div className="goods-item-content">
-                  <div className="goods-action-top" onClick={()=>onOperateClick(el,'detail')}>
-                    <div className="part-l">
-                      <img src={`${filePath}${el.mainPicUrl}`}/>
-                    </div>
-                    <div className="part-r">
-                      <p className="goods-name">{el.name}</p>
-                      <p className="goods-property">库存：{el.inventory}</p>
-                      <p className="goods-property">售价：{el.minPrice}</p>
-                      <IconList data={el}/>
-                    </div>
+      <ul className="common-goods-list">
+        {
+          baseGoodsList.dataList.length>0 && baseGoodsList.dataList.map((el,index) => (
+              <li className="goods-item-content" key={index}>
+                <div className="goods-action-top" onClick={()=>onOperateClick(el,'detail')}>
+                  <div className="part-l">
+                    <img src={`${filePath}${el.mainPicUrl}`}/>
                   </div>
-                  <div className="goods-action-bottom">
-                    <Button size="small" disabled className="event-btn" onClick={()=>onOperateClick(el,'sell')}>售卖</Button>
-                    <Button size="small" className="event-btn" onClick={()=>onOperateClick(el,'saleStop')}>停售</Button>
-                    <Button size="small" className="event-btn" onClick={()=>onOperateClick(el,'edit')}>编辑</Button>
-                    <Button size="small" className="event-btn" onClick={()=>onOperateClick(el,'log')}>日志</Button>
+                  <div className="part-r">
+                    <p className="goods-name">{el.name}</p>
+                    <p className="goods-property">库存：{el.inventory}</p>
+                    <p className="goods-property">售价：{el.minPrice}</p>
+                    <IconList data={el}/>
                   </div>
                 </div>
-              </Col>
-            ))
-          }
-        </Row>
-      </div>
+                <div className="goods-action-bottom">
+                  <Button size="small" disabled className="event-btn" onClick={()=>onOperateClick(el,'sell')}>售卖</Button>
+                  <Button size="small" className="event-btn" onClick={()=>onOperateClick(el,'saleStop')}>停售</Button>
+                  <Button size="small" className="event-btn" onClick={()=>onOperateClick(el,'edit')}>编辑</Button>
+                  <Button size="small" className="event-btn" onClick={()=>onOperateClick(el,'log')}>日志</Button>
+                </div>
+              </li>
+          ))
+        }
+      </ul>
     )
   }
 }

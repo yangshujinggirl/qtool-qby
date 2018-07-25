@@ -7,7 +7,7 @@ import {
 } from '../../../services/goodsCenter/bTipGoods.js';
 
 export default {
-  namespace:'bTipAddGoods',
+  namespace:'productInfo',
   state: {
     isHasSize:false,
     pdSpu:{},

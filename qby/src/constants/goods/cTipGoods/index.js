@@ -5,10 +5,9 @@ import { Button, message } from 'antd'
 import FilterForm from './components/FilterForm/index.js';
 import GoodsList from './components/GoodsList/index.js';
 import Qpagination from '../../../components/Qpagination';
-import { handleSellApi } from '../../../services/goodsCenter/bTipGoods.js';
-import './index.css';
+import { handleSellApi } from '../../../services/goodsCenter/cTipGoods.js';
 
-class BtipGoods extends Component {
+class CtipGoods extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -38,7 +37,7 @@ class BtipGoods extends Component {
   }
   componentWillMount() {
     this.props.dispatch({
-      type:'bTipGoodsList/fetchList',
+      type:'cTipGoodsList/fetchList',
       payload:{}
     })
   }
@@ -203,15 +202,15 @@ class BtipGoods extends Component {
     })
   }
   render() {
-    const { dataList=[] } = this.props.bTipGoodsList;
+    const { dataList } = this.props.cTipGoodsList;
     const {fields} = this.state;
     return (
-      <div className="base-goods-components">
+      <div className="cTip-goods-components qtools-components-pages">
         <FilterForm
           {...fields}
           submit={this.searchData}
           onChange={this.handleFormChange}/>
-        <div className="add-btn-lists">
+        <div className="handel-btn-lists">
           <Button size="large" type="primary" onClick={()=>this.massOperation('sell',10)}>批量售卖</Button>
           <Button size="large" type="primary" onClick={()=>this.massOperation('sell',20)}>批量停售</Button>
           <Button size="large" type="primary" onClick={()=>this.massOperation('new',true)}>批量上新</Button>
@@ -224,15 +223,15 @@ class BtipGoods extends Component {
           onChange={this.onCheckBoxChange.bind(this)}
           onOperateClick={this.handleOperateClick.bind(this)}/>
         <Qpagination
-          data={this.props.bTipGoodsList}
+          data={this.props.cTipGoodsList}
           onChange={this.changePage}/>
       </div>
     )
   }
 }
 function mapStateToProps(state) {
-  const { bTipGoodsList } = state;
-  return {bTipGoodsList};
+  const { cTipGoodsList } = state;
+  return {cTipGoodsList};
 }
 
-export default connect(mapStateToProps)(BtipGoods);
+export default connect(mapStateToProps)(CtipGoods);

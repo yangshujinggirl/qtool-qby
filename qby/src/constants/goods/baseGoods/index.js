@@ -6,7 +6,7 @@ import FilterForm from './components/FilterForm/index.js';
 import GoodsList from './components/GoodsList/index.js';
 import Qpagination from '../../../components/Qpagination';
 
-import './index.css';
+import './index.less';
 
 class BaseGoods extends Component {
   constructor(props) {
@@ -59,6 +59,13 @@ class BaseGoods extends Component {
     this.props.dispatch({
       type:'baseGoodsList/fetchList',
       payload: paramsObj
+    });
+  }
+  //修改pageSize
+  changePageSize =(values)=> {
+    this.props.dispatch({
+      type:'baseGoodsList/fetchList',
+      payload: values
     });
   }
   //搜索
@@ -163,19 +170,28 @@ class BaseGoods extends Component {
     const { dataList=[] } = this.props.baseGoodsList;
     const {fields} = this.state;
     return (
-      <div className="base-goods-components">
+      <div className="base-goods-components qtools-components-pages">
         <FilterForm
           {...fields}
           submit={this.searchData}
           onChange={this.handleFormChange}/>
-        <div className="add-btn-lists">
-          <Button size="large" type="primary" onClick={()=>this.addGoods(1)}>新增线上商品</Button>
-          <Button size="large" type="primary" onClick={()=>this.addGoods(2)}>新增线下商品</Button>
+        <div className="handel-btn-lists">
+          <Button size="large" type="primary" onClick={()=>this.addGoods(0)}>新增线上商品</Button>
+          <Button size="large" type="primary" onClick={()=>this.addGoods(1)}>新增线下商品</Button>
         </div>
-        <GoodsList list={dataList} onOperateClick={this.handleOperateClick.bind(this)}/>
-        <Qpagination
-          data={this.props.baseGoodsList}
-          onChange={this.changePage}/>
+        {
+          dataList.length>0?
+          <GoodsList list={dataList} onOperateClick={this.handleOperateClick.bind(this)}/>
+          :
+          <div>暂无数据</div>
+        }
+        {
+          dataList.length>0&&
+          <Qpagination
+            onShowSizeChange={this.changePageSize}
+            data={this.props.baseGoodsList}
+            onChange={this.changePage}/>
+        }
       </div>
     )
   }
