@@ -1,13 +1,9 @@
 import {
-  getListApi,
-  specificationApi,
-  goodsTypeApi,
-  goodsBrandApi,
   goodsInfoApi
-} from '../../../services/goodsCenter/bTipGoods.js';
+} from '../../../services/goodsCenter/cTipGoods.js';
 
 export default {
-  namespace:'bTipAddGoods',
+  namespace:'cTipAddGoods',
   state: {
     isHasSize:false,
     pdSpu:{},
@@ -15,15 +11,12 @@ export default {
   reducers: {
     //重置store
     resetData(state) {
-      const pdSpu={}, fileList=[];
-      return {...state,pdSpu,}
+      const pdSpu={};
+      return {...state,pdSpu }
     },
-    getGoodsInfo(state, { payload : { pdSpu,fileList, pdSkus } }) {
-      return { ...state, pdSpu, fileList, pdSkus }
+    getGoodsInfo(state, { payload : { pdSpu,fileList } }) {
+      return { ...state, pdSpu, fileList }
     },
-    setSpec(state,{ payload: {specOne, specTwo, pdSkus} }) {
-      return { ...state, specOne, specTwo, pdSkus}
-    }
   },
   effects: {
     *fetchGoodsInfo({ payload: values },{ call, put ,select}) {
@@ -31,10 +24,10 @@ export default {
       yield put({type:'resetData'})
       const result = yield call(goodsInfoApi,values);
       if(result.code == '0') {
-        let { pdSpu, fileDomain } = result;
+        let { iPdSpu, fileDomain } = result;
         let pdSkus = [];
-        if(pdSpu.pdSkus.length>0) {
-          pdSkus = pdSpu.pdSkus.map((el) => {
+        if(iPdSpu.pdSkus.length>0) {
+          pdSkus = iPdSpu.pdSkus.map((el) => {
             let name1 = el.pdType1Val&&el.pdType1Val.name;
             let name2 = el.pdType2Val&&el.pdType2Val.name;
             el.name = el.pdType2Val?`${name1}/${name2}`:`${name1}`;
@@ -45,7 +38,7 @@ export default {
         } else {
           pdSkus = oldPdSkus;
         }
-        pdSpu = {...pdSpu,pdSkus};
+        let pdSpu = {...iPdSpu,pdSkus};
         yield put({
           type:'getGoodsInfo',
           payload:{

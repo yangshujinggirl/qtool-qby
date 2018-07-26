@@ -4,19 +4,20 @@ import ajax from '../../utils/req.js';
 export function getListApi(values) {
   values = JSON.stringify(values)
   return ajax.post('/webrest.htm',{
-      code:'qerp.web.pd.spu.query',
+      code:'qerp.web.basepd.spu.query',
       data:values
   })
 }
-//商品规格
-export function specificationApi(values) {
+
+//商品分类
+export function getCategoryApi(values) {
   values = JSON.stringify(values)
   return ajax.post('/webrest.htm',{
       code:'qerp.web.pd.category.list',
       data:values
   })
 }
-//商品分类
+//商品规格
 export function goodsTypeApi(values) {
   values = JSON.stringify(values)
   return ajax.post('/webrest.htm',{
@@ -24,7 +25,7 @@ export function goodsTypeApi(values) {
       data:values
   })
 }
-//品牌分类
+//品牌
 export function goodsBrandApi(values) {
   values = JSON.stringify(values)
   return ajax.post('/webrest.htm',{
@@ -32,11 +33,19 @@ export function goodsBrandApi(values) {
       data:values
   })
 }
+//国家
+export function getCountryListApi(values) {
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.pd.country.list',
+      data:values
+  })
+}
 //商品信息
 export function goodsInfoApi(values) {
   values = JSON.stringify(values)
   return ajax.post('/webrest.htm',{
-      code:'qerp.web.pd.spu.info',
+      code:'qerp.web.bopd.spu.quey',
       data:values
   })
 }
@@ -56,11 +65,19 @@ export function saveValApi(values) {
       data:values
   })
 }
-//保存信息
+//保存信息线上
 export function goodSaveApi(values) {
   values = JSON.stringify(values)
   return ajax.post('/webrest.htm',{
       code:'qerp.web.bopd.spu.save',
+      data:values
+  })
+}
+//保存信息线下
+export function goodSaveOutLineApi(values) {
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.bupd.spu.save',
       data:values
   })
 }

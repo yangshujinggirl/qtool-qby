@@ -9,23 +9,7 @@ import {
   Select ,
   DatePicker
 } from 'antd';
-// import './index.scss'
 const FormItem = Form.Item;
-
-const formItemLayout = {
-  labelCol: {
-    span: 8
-  },
-  wrapperCol: {
-    span: 16
-  }
-};
-const colspans = {
-  xxs: 24,
-  xs: 12,
-  l: 6,
-  xl: 6
-};
 
 class NormalForm extends Component {
   handleSubmit = (e) => {
@@ -33,66 +17,53 @@ class NormalForm extends Component {
     this.props.form.validateFieldsAndScroll((err, values) => {
         this.props.submit && this.props.submit(values)
     });
-
   }
   render() {
-    // console.log(this.props)
     const { getFieldDecorator } = this.props.form;
     return(
-      <div>
         <Form className="qtools-condition-form">
-          <Row wrap>
-            <Col span={6}>
-              <FormItem label='商品编码' {...formItemLayout}>
+            <div className="search-form-wrap">
+              <FormItem label='商品编码'>
                  {getFieldDecorator('code')(
-                   <Input placeholder="Username" />
+                   <Input placeholder="请输入商品编码" />
                  )}
                </FormItem>
-            </Col>
-            <Col span={6}>
-              <FormItem label='商品名称' {...formItemLayout}>
+              <FormItem label='商品名称'>
                  {getFieldDecorator('name')(
-                   <Input placeholder="Username" />
+                   <Input placeholder="请输入商品名称" />
                  )}
                </FormItem>
-            </Col>
-            <Col span={6}>
-              <FormItem label='商品品牌' {...formItemLayout}>
+              <FormItem label='商品品牌'>
                  {getFieldDecorator('brandName')(
-                   <Input placeholder="Username" />
+                   <Input placeholder="请输入商品品牌" />
                  )}
                </FormItem>
-            </Col>
-            <Col span={6}>
-              <FormItem label='一级分类' {...formItemLayout}>
+              <FormItem label='一级分类'>
                  {getFieldDecorator('pdCategory1Name')(
-                   <Input placeholder="Username" />
+                   <Input placeholder="请输入一级分类" />
                  )}
                </FormItem>
-            </Col>
-            <Col span={6}>
-              <FormItem label='是否完整' {...formItemLayout}>
+              <FormItem label='是否完整'>
                  {getFieldDecorator('infoStatus')(
-                   <Input placeholder="Username" />
+                   <Select placeholder="是否完整">
+                     <Select.Option value={0} key={0}>是</Select.Option>
+                     <Select.Option value={1} key={1}>否</Select.Option>
+                   </Select>
                  )}
                </FormItem>
-            </Col>
-            <Col span={6}>
-              <FormItem label='商品归属' {...formItemLayout}>
+              <FormItem label='商品归属'>
                  {getFieldDecorator('source')(
-                   <Input placeholder="Username" />
+                   <Select placeholder="请输入商品归属">
+                     <Select.Option value={0} key={0}>线上</Select.Option>
+                     <Select.Option value={1} key={1}>线下</Select.Option>
+                   </Select>
                  )}
                </FormItem>
-            </Col>
-            <Col span={6} offset={2}>
-              <FormItem label='' {...formItemLayout}>
+              <div className="search-submit-btn">
                  <Button type="primary" htmlType="submit" size='large' onClick={this.handleSubmit.bind(this)}>搜索</Button>
-               </FormItem>
-            </Col>
-          </Row>
-
+               </div>
+            </div>
         </Form>
-      </div>
     )
   }
 }

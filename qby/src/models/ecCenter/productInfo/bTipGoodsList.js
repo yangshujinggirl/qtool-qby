@@ -1,10 +1,12 @@
 import {
-  getListApi
-} from '../../../services/goodsCenter/cTipGoods.js';
+  getListApi,
+  specificationApi,
+  goodsTypeApi
+} from '../../../services/goodsCenter/bTipGoods.js';
 
 
 export default {
-  namespace:'cTipGoodsList',
+  namespace:'productInfo',
   state: {
     dataList:[],//商品列表
     currentPage:0,
@@ -20,11 +22,11 @@ export default {
     *fetchList({ payload: values }, { call, put ,select}) {
       const result=yield call(getListApi,values);
       if(result.code=='0') {
-        const { iPdSpu, currentPage, limit, total } = result;
+        const { pdSpus, currentPage, limit, total } = result;
         yield put ({
           type: 'getList',
           payload:{
-            dataList:iPdSpu,
+            dataList:pdSpus,
             currentPage,
             limit,
             total

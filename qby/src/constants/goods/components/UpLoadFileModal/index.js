@@ -7,13 +7,9 @@ class UpLoadFile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      fileList:this.props.countryManage.countryDetail.fileList,
+      previewVisible: false,
+      previewImage: '',
     }
-  }
-  componentWillReceiveProps(props) {
-    this.setState({
-      fileList:props.countryManage.countryDetail.fileList,
-    })
   }
   beforeUpload(file){
   	const isJPG = file.type === 'image/jpeg';
@@ -25,19 +21,15 @@ class UpLoadFile extends Component {
     if (!isLt2M) {
     	message.error('图片文件需小于2MB',.8);
     }
-
     return (isJPG || isPNG) && isLt2M;
   }
-	handleChange = ({fileList}) => {
+  handleCancel = () => this.setState({ previewVisible: false })
+  handlePreview = (file) => {
     this.setState({
-      fileList
-    })
-    let countryDetail= {...this.props.countryManage.countryDetail,fileList};
-    this.props.dispatch({
-      type:'countryManage/editCountry',
-      payload:countryDetail
-    })
-	}
+      previewImage: file.url || file.thumbUrl,
+      previewVisible: true,
+    });
+  }
   normFile = (e) => {
     if (Array.isArray(e)) {
       return e;
@@ -51,36 +43,36 @@ class UpLoadFile extends Component {
          <div className="ant-upload-text">添加图片</div>
        </div>
      );
-     const { fileList } = this.state;
+     const { previewVisible, previewImage } = this.state;
+     const { name, fileList } = this.props;
      return(
         <div>
          {
-           this.props.form.getFieldDecorator('url',{
+           this.props.form.getFieldDecorator(this.props.name,{
              getValueFromEvent: this.normFile,
              valuePropName: 'fileList',
-             initialValue:fileList,
-             onChange:this.handleChange
+             initialValue:fileList
            })(
                <Upload
                 name="imgFile"
                 listType="picture-card"
                 className="avatar-uploader"
                 action="/erpWebRest/qcamp/upload.htm?type=spu"
-                beforeUpload={this.beforeUpload}>
+                beforeUpload={this.beforeUpload}
+                onPreview={this.handlePreview}>
                 {
-                  fileList.length >0 ? null : uploadButton
+                  fileList.length >= 1000 ? null : uploadButton
                 }
               </Upload>
            )
          }
+         <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
+            <img alt="example" style={{ width: '100%' }} src={previewImage} />
+          </Modal>
        </div>
       )
     }
 }
 
-function mapStateToProps(state) {
-  const { countryManage } =state;
-  return {countryManage };
-}
 
-export default connect(mapStateToProps)(UpLoadFile);
+export default UpLoadFile;

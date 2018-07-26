@@ -1,6 +1,7 @@
 import { connect } from 'dva';
 import '../../style/content.css';
 import { Spin } from 'antd';
+import SiderDataMap from '../../components/SiderDataMap.js';
 
 import GoodsIndex from '../goods/goodscenter/index';
 import GoodEdit from '../goods/goodscenter/edit';
@@ -122,13 +123,19 @@ import  BtipGoods from '../goods/bTipGoods/index';//B端商品-
 import  BtipAddGoods from '../goods/bTipGoods/AddGoods';//B端商品--新增商品
 import  BtipGoodsDetail from '../goods/bTipGoods/GoodsDetail';//B端商品--商品详情
 import  BtipLogList from '../goods/bTipGoods/LogList';//B端商品--日志
-import InternalSort from '../goods/internalSort/index.js';//内部分类
-import CountryManage from '../goods/countryManage/index.js';//国家管理d
+import  CtipGoods from '../goods/cTipGoods/index';//C端商品-
+import  CtipAddGoods from '../goods/cTipGoods/AddGoods';//C端商品--新增商品
+import  CtipGoodsDetail from '../goods/cTipGoods/GoodsDetail';//C端商品--商品详情
+import  CtipLogList from '../goods/cTipGoods/LogList';//C端商品--日志
+import  InternalSort from '../goods/internalSort/index.js';//内部分类
+import  CountryManage from '../goods/countryManage/index.js';//国家管理
+//电商中心
+import ProductInfo from '../online/productInfo/index.js';
 import Ctimer from '../goods/cTimer/index.js';//c端定时
 import AddTimer from '../goods/cTimer/AddTimer.js';//c端定时
 // 合作中心
 import MarketResource from '../cooperate/marketResource/index';
-import AddStaff from '../cooperate/marketResource/AddStaff';
+import AddStaff from '../cooperate/marketResource/addStaff';
 //活动中心
 import Cbanner from '../activity/cBanner/index';
 import AddBanner from '../activity/cBanner/addBanner';
@@ -241,7 +248,8 @@ class Content extends React.Component {
                                     case "801000info": return <OrderuserInfo data={this.props.data}/>;
                                     case "803000": return <InfouserIndex data={this.props.data}/>
 
-                                    case "802000": return <OnlineGoodsIndex data={this.props.data}/>
+                                    // case "802000": return <OnlineGoodsIndex data={this.props.data}/>
+                                    case "802000": return <ProductInfo data={this.props.data} componkey={this.props.componkey}/>
                                     case "802000edit":return  <OnlineGoodEdit data={this.props.data}/>;
                                     case "802000info":return  <OnlineGoodinfo data={this.props.data}/>;
                                     case "802000editconfig": return <OnlineConfig data={this.props.data}/>;
@@ -271,7 +279,7 @@ class Content extends React.Component {
                                     case "103000info" : return <BpushDetail data={this.props.data}/>
                                     case "104000" : return <Cpush data={this.props.data}/>
                                     // -------------------------------商品中心----基础商品----------------------------
-                                    case "306000" : return <BaseGoods data={this.props.data} componkey={this.props.componkey}/>
+                                    case '306000' : return <BaseGoods data={this.props.data} componkey={this.props.componkey}/>
                                     case "306000edit" : return <AddGoods data={this.props.data}/>
                                     case "306000info" : return <GoodsDetail data={this.props.data}/>
                                     case "306000editconfig" : return <LogList data={this.props.data}/>
@@ -281,6 +289,10 @@ class Content extends React.Component {
                                     case "307000editconfig" : return <BtipLogList data={this.props.data} />
                                     case "309000" : return <InternalSort data={this.props.data} componkey={this.props.componkey}/>
                                     case "310000" : return <CountryManage data={this.props.data} componkey={this.props.componkey}/>
+                                    case "308000" : return <CtipGoods data={this.props.data} componkey={this.props.componkey}/>
+                                    case "308000edit" : return <CtipAddGoods data={this.props.data} />
+                                    case "308000info" : return <CtipGoodsDetail data={this.props.data} />
+                                    case "308000editconfig" : return <CtipLogList data={this.props.data} />
                                     case "311000" : return <Ctimer data={this.props.data} componkey={this.props.componkey}/>
                                     case "311000edit" : return <AddTimer data={this.props.data} componkey={this.props.componkey}/>
                                     //------------------------------客服中心------------------------

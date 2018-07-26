@@ -9,8 +9,6 @@ import {
   Checkbox
 } from 'antd';
 
-import './index.css';
-
 import iconSkuStatus from '../../../../../assets/icon_skuStatus.png';
 import iconInfoStatus from '../../../../../assets/icon_que.png';
 import iconEventHot from '../../../../../assets/icon_hot.png';
@@ -52,46 +50,42 @@ class GoodsList extends Component {
     this.props.onOperateClick(record,'detail')
   }
   render() {
-    const { bTipGoodsList, onOperateClick } = this.props;
+    const { cTipGoodsList, onOperateClick } = this.props;
     const filePath = JSON.parse(sessionStorage.getItem('fileDomain'));
     return (
-      <div className="goods-common-components">
-        <Row wrap>
-          {
-            bTipGoodsList.dataList.length>0 && bTipGoodsList.dataList.map((el,index) => (
-              <Col span={6} key={index}>
-                <div className="goods-item-content">
-                  <div className="goods-action-top" onClick={(event)=>this.handleClick(event,el)}>
-                    <div className="part-l">
-                      <img src={`${filePath}${el.mainPicUrl}`}/>
-                      <div className="checkbox-wrap">
-                        <Checkbox onChange={(event)=>this.onChange(event,el)} key={el.pdSpuId}/>
-                      </div>
-                    </div>
-                    <div className="part-r">
-                      <p className="goods-name">{el.name}</p>
-                      <p className="goods-property">库存：{el.inventory}</p>
-                      <p className="goods-property">售价：{el.minPrice}</p>
-                      <IconList data={el}/>
+      <ul className="common-goods-list">
+        {
+          cTipGoodsList.dataList.length>0 && cTipGoodsList.dataList.map((el,index) => (
+              <li className="goods-item-content" key={index}>
+                <div className="goods-action-top" onClick={(event)=>this.handleClick(event,el)}>
+                  <div className="part-l">
+                    <img src={`${filePath}${el.mainPicUrl}`}/>
+                    <div className="checkbox-wrap">
+                      <Checkbox onChange={(event)=>this.onChange(event,el)} key={el.pdSpuId}/>
                     </div>
                   </div>
-                  <div className="goods-action-bottom">
-                    <Button size="small" disabled className="event-btn" onClick={()=>onOperateClick(el,'sell')}>售卖</Button>
-                    <Button size="small" className="event-btn" onClick={()=>onOperateClick(el,'saleStop')}>停售</Button>
-                    <Button size="small" className="event-btn" onClick={()=>onOperateClick(el,'edit')}>编辑</Button>
-                    <Button size="small" className="event-btn" onClick={()=>onOperateClick(el,'log')}>日志</Button>
+                  <div className="part-r">
+                    <p className="goods-name">{el.name}</p>
+                    <p className="goods-property">库存：{el.inventory}</p>
+                    <p className="goods-property">售价：{el.minPrice}</p>
+                    <IconList data={el}/>
                   </div>
                 </div>
-              </Col>
-            ))
-          }
-        </Row>
-      </div>
+                <div className="goods-action-bottom">
+                  <Button size="small" disabled={el.status == 20?false:true} className="event-btn" onClick={()=>onOperateClick(el,'sell')}>售卖</Button>
+                  <Button size="small" disabled={el.status == 20?true:false} className="event-btn" onClick={()=>onOperateClick(el,'saleStop')}>停售</Button>
+                  <Button size="small" className="event-btn" onClick={()=>onOperateClick(el,'edit')}>编辑</Button>
+                  <Button size="small" className="event-btn" onClick={()=>onOperateClick(el,'log')}>日志</Button>
+                </div>
+              </li>
+          ))
+        }
+      </ul>
     )
   }
 }
 function mapStateToProps(state) {
-  const { bTipGoodsList } = state;
-  return { bTipGoodsList };
+  const { cTipGoodsList } = state;
+  return { cTipGoodsList };
 }
 export default connect(mapStateToProps)(GoodsList);

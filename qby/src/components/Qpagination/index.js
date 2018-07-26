@@ -3,12 +3,15 @@ import { Pagination } from 'antd';
 import './index.css';
 
 class Qpagination extends Component {
-  onShowSizeChange(current, pageSize) {
-    console.log(current, pageSize);
+  onShowSizeChange(currentPage, pageSize) {
+    console.log(currentPage, pageSize);
+    let params = {
+      currentPage,
+      limit:pageSize
+    }
+    this.props.onShowSizeChange&&this.props.onShowSizeChange(params)
   }
-  onChange() {
 
-  }
   render() {
     const { total, limit, current } = this.props.data;
     return(
@@ -16,8 +19,10 @@ class Qpagination extends Component {
         <Pagination
           showSizeChanger
           total={total}
+          pageSize={limit}
+          pageSizeOptions={['15','30','50','100','200','500']}
           onChange={this.props.onChange}
-          onShowSizeChange={this.onShowSizeChange}
+          onShowSizeChange={this.onShowSizeChange.bind(this)}
           hideOnSinglePage={false}/>
       </div>
     )

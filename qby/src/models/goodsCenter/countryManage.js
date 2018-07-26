@@ -1,63 +1,44 @@
 import {
   getListApi,
-  specificationApi,
-  goodsTypeApi
- } from '../../services/goodsCenter/internalSort.js';
+  goodSaveApi
+ } from '../../services/goodsCenter/countryManage.js';
 
 export default {
   namespace:'countryManage',
   state: {
-    dataList:[],//商品列表
+    dataList:[],//列表
     currentPage:0,
     limit:15,
     total:0,
-    goodsCategory:[],//商品规格
-    goodsType:[]//商品类型
+    countryDetail:{},
+    fileDomain:''
   },
   reducers: {
-    getList( state, { payload : {dataList, currentPage, limit, total} }) {
-      return { ...state, dataList, currentPage, limit, total}
+    getList( state, { payload : {dataList, currentPage, limit, total, fileDomain} }) {
+      return { ...state, dataList, currentPage, limit, total, fileDomain}
     },
-    getCategory( state, { payload : goodsCategory }) {
-      return { ...state, goodsCategory}
-    },
-    getType( state, { payload : getType }) {
-      return { ...state, getType}
+    editCountry(state, { payload : countryDetail }) {
+      return {...state, countryDetail }
     },
   },
   effects: {
     *fetchList({ payload: values }, { call, put ,select}) {
       const result=yield call(getListApi,values);
       if(result.code=='0') {
-        const { pdSpus, currentPage, limit, total } = result;
+        let { countrys, currentPage, limit, total, fileDomain } = result;
+        countrys = countrys.map((el) => {
+          el.url = `${fileDomain}${el.url}`;
+          return el;
+        })
         yield put ({
           type: 'getList',
           payload:{
-            dataList:pdSpus,
+            dataList:countrys,
             currentPage,
             limit,
-            total
+            total,
+            fileDomain
           }
-        })
-      }
-    },
-    *fetchCategory({ payload: values },{ call, put ,select}) {
-      const result = yield call(specificationApi,values);
-      if(result.code == '0') {
-        const { pdCategorys } = result;
-        yield put({
-          type:'getCategory',
-          payload:pdCategorys
-        })
-      }
-    },
-    *fetchGoodsType({ payload: values },{ call, put ,select}) {
-      const result = yield call(goodsTypeApi,values);
-      if(result.code == '0') {
-        const { pdTypes } = result;
-        yield put({
-          type:'getType',
-          payload:pdTypes
         })
       }
     },
