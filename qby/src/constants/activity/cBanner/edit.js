@@ -1,6 +1,6 @@
 import React from 'react';
-import {GetServerData} from '../../services/services';
-import {deepcCloneObj} from '../../utils/commonFc';
+import {GetServerData} from '../../../services/services';
+import {deepcCloneObj} from '../../../utils/commonFc';
 import { connect } from 'dva';
 import { Form, Select, Input, Button ,message,Modal, Row, Col,DatePicker,Radio} from 'antd';
 import moment from 'moment';
