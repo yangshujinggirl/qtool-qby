@@ -14,15 +14,15 @@
 
 .menus{
 	padding-top: 40px;
-	height:-moz-calc(100vh - 80px); 
-	height:-webkit-calc(100vh - 80px); 
-	height: calc(100vh - 80px); 
+	height:-moz-calc(100vh - 80px);
+	height:-webkit-calc(100vh - 80px);
+	height: calc(100vh - 80px);
 	overflow-y: auto;
 }
 
-.menus::-webkit-scrollbar  
-{  
-    width: 0px;   
+.menus::-webkit-scrollbar
+{
+    width: 0px;
 }
 
 .ant-menu-vertical .ant-menu-item, .ant-menu-inline .ant-menu-item, .ant-menu-vertical .ant-menu-submenu-title, .ant-menu-inline .ant-menu-submenu-title{
@@ -98,6 +98,27 @@
 	display: inline-block;
 	margin-right: 18px;
 	background:url(../assets/icon_online_hover.png) no-repeat center center;background-size: cover;
+}
+.ant-menu-dark .ant-menu-item:hover .online, .ant-menu-dark .ant-menu-submenu-title:hover .cooperate{
+	width: 24px;
+	height: 24px;
+	display: inline-block;
+	margin-right: 18px;
+	background:url(../assets/icon_cooperate_hover.png) no-repeat center center;background-size: cover;
+}
+.ant-menu-dark .ant-menu-item:hover .online, .ant-menu-dark .ant-menu-submenu-title:hover .activity{
+	width: 24px;
+	height: 24px;
+	display: inline-block;
+	margin-right: 18px;
+	background:url(../assets/icon_activity_hover.png) no-repeat center center;background-size: cover;
+}
+.ant-menu-dark .ant-menu-item:hover .online, .ant-menu-dark .ant-menu-submenu-title:hover .server{
+	width: 24px;
+	height: 24px;
+	display: inline-block;
+	margin-right: 18px;
+	background:url(../assets/icon_server_hover.png) no-repeat center center;background-size: cover;
 }
 
 

@@ -138,7 +138,7 @@ import Ctimer from '../goods/cTimer/index.js';//c端定时
 import AddTimer from '../goods/cTimer/AddTimer.js';//c端定时
 // 合作中心
 import MarketResource from '../cooperate/marketResource/index';
-import AddStaff from '../cooperate/marketResource/addStaff';
+import AddStaff from '../cooperate/marketResource/AddStaff';
 //活动中心
 import Coupon from '../activity/coupon/index';
 import Cbanner from '../activity/cBanner/index'
@@ -267,55 +267,56 @@ class Content extends React.Component {
                                     case "802000": return <ProductInfo data={this.props.data} componkey={this.props.componkey}/>
                                     case "802000edit":return  <EditGoods data={this.props.data}/>;
                                     case "802000info":return  <OnLineGoodsDetail data={this.props.data}/>;
-                                    case "802000editconfig": return <OnLineLogList data={this.props.data}/>;
+                                    case "802000editconfig" : return <OnLineLogList data={this.props.data}/>;
 
-                                    case "707000info": return <AdjustInfo data={this.props.data}/>;
+                                    case "707000info" : return <AdjustInfo data={this.props.data}/>;
                                     case "707000infoinventory": return <InventoryInfo data={this.props.data}/>
                                     case "707000infodb": return <DbInfo data={this.props.data}/>
 
-                                    case "707000infodb1": return <QposDbInfo data={this.props.data}/>
+                                    case "707000infodb1" : return <QposDbInfo data={this.props.data}/>
 
                                     case "402000infoExchange" : return <OperateinoutExchangeInfo data={this.props.data}/>
-                                    case "207000" : return <UserOrder data={this.props.data} componkey={this.props.componkey}/>
-                                    case "207000info" : return <UserOrderDetail data={this.props.data} componkey={this.props.componkey}/>
+                                    // ------------------------------ 用户订单 ------------------------------
+                                    case formDataCode('order70') : return <UserOrder data={this.props.data} componkey={this.props.componkey}/>
+                                    case formDataCode('order70-info') : return <UserOrderDetail data={this.props.data} componkey={this.props.componkey}/>
                                     // -------------------------------合作中心----------------------------
-                                    case "501000" : return <MarketResource data={this.props.data} componkey={this.props.componkey}/>
-                                    case "501000edit" : return <AddStaff data={this.props.data} componkey={this.props.componkey}/>
+                                    case formDataCode('cooperate10') : return <MarketResource data={this.props.data} componkey={this.props.componkey}/> //市场资源
+                                    case formDataCode('cooperate10-edit') : return <AddStaff data={this.props.data} componkey={this.props.componkey}/> //新增人员
 
                                     // --------------------------------活动中心----------------------------
-                                    case "101000" : return <Cbanner data={this.props.data} componkey={this.props.componkey}/> //cBanner
-                                    case "101000edit":return <CoperatebannerEdit data={this.props.data}/>//cBanner新增修改
-                                    case "101000editH5":return <CH5_configure data={this.props.data}/>//cBanner
-                                    case "102000" : return <Coupon data={this.props.data} componkey={this.props.componkey}/> //优惠券
-                                    case "102000edit" : return <AddCoupon data={this.props.data} componkey={this.props.componkey}/> //创建优惠券
-                                    case "102000info" : return <CouponDetail data={this.props.data}/> //优惠券详情
-                                    case "102000editconfig" : return <CouponRecord data={this.props.data}/> //注券记录
-                                    case "103000" : return <Bpush data={this.props.data} componkey={this.props.componkey}/>
-                                    case "103000edit" : return <AddPush data={this.props.data} componkey={this.props.componkey}/>
-                                    case "103000info" : return <BpushDetail data={this.props.data}/>
-                                    case "104000" : return <Cpush data={this.props.data}/>
+                                    case formDataCode('activity02')  : return <Cbanner data={this.props.data} componkey={this.props.componkey}/> //cBanner
+                                    case formDataCode('activity02-edit') : return <CoperatebannerEdit data={this.props.data}/>//cBanner新增修改
+                                    case formDataCode('activity02-editH5') : return <CH5_configure data={this.props.data}/>//cBanner
+                                    case formDataCode('activity03') : return <Coupon data={this.props.data} componkey={this.props.componkey}/> //优惠券
+                                    case formDataCode('activity03-edit') : return <AddCoupon data={this.props.data} componkey={this.props.componkey}/> //创建优惠券
+                                    case formDataCode('activity03-info') : return <CouponDetail data={this.props.data}/> //优惠券详情
+                                    case formDataCode('activity03-editconfig') : return <CouponRecord data={this.props.data}/> //注券记录
+                                    case formDataCode('activity04') : return <Bpush data={this.props.data} componkey={this.props.componkey}/>//B端推送
+                                    case formDataCode('activity04-edit') : return <AddPush data={this.props.data} componkey={this.props.componkey}/>//新增推送
+                                    case formDataCode('activity04-info') : return <BpushDetail data={this.props.data}/>//b端推送详情
+                                    case formDataCode('activity05') : return <Cpush data={this.props.data}/>//c端推送
                                     // -------------------------------商品中心----基础商品----------------------------
                                     case formDataCode('goods10') : return <BaseGoods data={this.props.data} componkey={this.props.componkey}/>
                                     case formDataCode('goods10-edit') : return <AddGoods data={this.props.data}/>
                                     case formDataCode('goods10-info') : return <GoodsDetail data={this.props.data}/>
                                     case formDataCode('goods10-editconfig') : return <LogList data={this.props.data}/>
-                                    case "307000" : return <BtipGoods data={this.props.data} componkey={this.props.componkey}/>
-                                    case "307000edit" : return <BtipAddGoods data={this.props.data} />
-                                    case "307000info" : return <BtipGoodsDetail data={this.props.data} />
-                                    case "307000editconfig" : return <BtipLogList data={this.props.data} />
-                                    case "309000" : return <InternalSort data={this.props.data} componkey={this.props.componkey}/>
-                                    case "310000" : return <CountryManage data={this.props.data} componkey={this.props.componkey}/>
-                                    case "308000" : return <CtipGoods data={this.props.data} componkey={this.props.componkey}/>
-                                    case "308000edit" : return <CtipAddGoods data={this.props.data} />
-                                    case "308000info" : return <CtipGoodsDetail data={this.props.data} />
-                                    case "308000editconfig" : return <CtipLogList data={this.props.data} />
-                                    case "311000" : return <Ctimer data={this.props.data} componkey={this.props.componkey}/>
-                                    case "311000edit" : return <AddTimer data={this.props.data} componkey={this.props.componkey}/>
+                                    case formDataCode('goods70') : return <BtipGoods data={this.props.data} componkey={this.props.componkey}/>
+                                    case formDataCode('goods70-edit') : return <BtipAddGoods data={this.props.data} />
+                                    case formDataCode('goods70-info') : return <BtipGoodsDetail data={this.props.data} />
+                                    case formDataCode('goods70-editconfig') : return <BtipLogList data={this.props.data} />
+                                    case formDataCode('goods90') : return <InternalSort data={this.props.data} componkey={this.props.componkey}/>
+                                    case formDataCode('goods11') : return <CountryManage data={this.props.data} componkey={this.props.componkey}/>//国家管理
+                                    case formDataCode('goods80') : return <CtipGoods data={this.props.data} componkey={this.props.componkey}/>//c端商品
+                                    case formDataCode('goods80-edit') : return <CtipAddGoods data={this.props.data} />
+                                    case formDataCode('goods80-info') : return <CtipGoodsDetail data={this.props.data} />
+                                    case formDataCode('goods80-editconfig') : return <CtipLogList data={this.props.data} />
+                                    case formDataCode('goods12') : return <Ctimer data={this.props.data} componkey={this.props.componkey}/>//c端定时
+                                    case formDataCode('goods12-edit') : return <AddTimer data={this.props.data} componkey={this.props.componkey}/>
                                     //------------------------------客服中心------------------------
-                                    case "10100" : return <UserFeedBack data={this.props.data} componkey={this.props.componkey}/>
-                                    case "10100edit" : return <HandleBack data={this.props.data} componkey={this.props.componkey}/>
-                                    case "10200" : return <ServerBill data={this.props.data} componkey={this.props.componkey}/>
-                                    case "10200edit" : return <HandleBill data={this.props.data} componkey={this.props.componkey}/>
+                                    case formDataCode('server02') : return <UserFeedBack data={this.props.data} componkey={this.props.componkey}/>//用户反馈
+                                    case formDataCode('server02-edit') : return <HandleBack data={this.props.data} componkey={this.props.componkey}/>
+                                    case formDataCode('server03') : return <ServerBill data={this.props.data} componkey={this.props.componkey}/>//客服工单
+                                    case formDataCode('server03-edit') : return <HandleBill data={this.props.data} componkey={this.props.componkey}/>
 
 
 

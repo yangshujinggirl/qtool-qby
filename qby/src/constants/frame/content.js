@@ -137,15 +137,15 @@ import OnLineLogList from '../online/productInfo/OnLineLogList.js';//修改商�
 import Ctimer from '../goods/cTimer/index.js';//c端定时
 import AddTimer from '../goods/cTimer/AddTimer.js';//c端定时
 // 合作中心
-import MarketResource from '../cooperate/marketResource/index';
-import AddStaff from '../cooperate/marketResource/addStaff';
+import MarketResource from '../cooperate/marketResource/index'; //资源管理
+import AddStaff from '../cooperate/marketResource/AddStaff'; //新增人员
 //活动中心
-import Coupon from '../activity/coupon/index';
-import Cbanner from '../activity/cBanner/index'
-import CoperatebannerEdit from '../activity/cBanner/edit';
-import CH5_configure from '../activity/cBanner/editH5';
-import CouponDetail from '../activity/coupon/CouponDetail';
-import AddCoupon from '../activity/coupon/AddCoupon';
+import Coupon from '../activity/coupon/index'; //优惠券
+import Cbanner from '../activity/cBanner/index' //cbanner
+import CoperatebannerEdit from '../activity/cBanner/edit'; //新增或修改banner
+import CH5_configure from '../activity/cBanner/editH5';//配置页面
+import CouponDetail from '../activity/coupon/CouponDetail';//优惠券详情
+import AddCoupon from '../activity/coupon/AddCoupon';//添加优惠券
 import CouponRecord from '../activity/coupon/CouponRecord/index';
 import Cpush from '../activity/cPush/index'; //c端push
 import Bpush from '../activity/bPush/index'; //b端push

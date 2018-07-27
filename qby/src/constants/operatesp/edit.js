@@ -61,7 +61,8 @@ class SpEditForm extends React.Component{
 			recAddress:null,
 			spShopContracts:null,
 			lng:null,
-			lat:null
+			lat:null,
+			rec_city:null
 		}
 	}
 	//删除当前tab
@@ -243,6 +244,8 @@ class SpEditForm extends React.Component{
 							spShopContracts:json.spShop.spShopContracts,
 							lat:json.spShop.lat,
 							lng:json.spShop.lng,
+							recAddress:json.spShop.recAddress
+
           },function(){
               const spShopPics=this.state.spShopPics
               this.props.dispatch({
@@ -573,7 +576,7 @@ class SpEditForm extends React.Component{
             >
             {getFieldDecorator('rec_city', {
                 rules: [{ type: 'array', required: true, message: '请选择收货城区' }],
-                initialValue:this.props.data?this.state.recAddress:null
+                initialValue:this.props.data?this.state.rec_city:null
             })(
                 <Cascader placeholder="请选择所属城市" options={this.props.bsRegions}/>
             )}

@@ -79,7 +79,7 @@ class cTimer extends Component{
   render(){
     const {dataList} = this.props.cTimer;
     return(
-      <div className='server'>
+      <div>
         <FilterForm
           submit={this.searchData}
           onValuesChange = {this.searchDataChange}

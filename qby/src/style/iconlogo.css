@@ -75,14 +75,36 @@
 	text-align:left;
 	margin-left: -37px;
 }
-
-
-
-
-
-
-
-
-
-
-
+.cooperate{
+	width: 24px;
+	height: 24px;
+	display: inline-block;
+	margin-right: 18px;
+	background:url(../assets/icon_cooperate.png) no-repeat center center;background-size: cover;
+	vertical-align: middle;
+	margin-top: -5px;
+	text-align:left;
+	margin-left: -37px;
+}
+.activity{
+	width: 24px;
+	height: 24px;
+	display: inline-block;
+	margin-right: 18px;
+	background:url(../assets/icon_activity.png) no-repeat center center;background-size: cover;
+	vertical-align: middle;
+	margin-top: -5px;
+	text-align:left;
+	margin-left: -37px;
+}
+.server{
+	width: 24px;
+	height: 24px;
+	display: inline-block;
+	margin-right: 18px;
+	background:url(../assets/icon_server.png) no-repeat center center;background-size: cover;
+	vertical-align: middle;
+	margin-top: -5px;
+	text-align:left;
+	margin-left: -37px;
+}
