@@ -6,7 +6,6 @@ class UploadImg extends Component{
   constructor(props){
     super(props);
     this.state = {
-      fileList :this.props.fileList,
       previewVisible: false,
       previewImage: '',
       maxLength:this.props.maxLength
@@ -45,7 +44,8 @@ class UploadImg extends Component{
   	return formFile;
   }
   render(){
-    const { previewVisible, previewImage, fileList } = this.state;
+    const { previewVisible, previewImage } = this.state;
+    const fileList = this.props.fileList;
     const uploadButton = (
         <div>
           <Icon type="plus" />
@@ -54,20 +54,24 @@ class UploadImg extends Component{
     );
     return (
       <div className="clearfix">
-      <Upload
-         name={this.props.name}
-         action={this.props.action}
-         listType="picture-card"
-         fileList={fileList}
-         showUploadList={true}
-         onPreview={this.handlePreview}
-         onChange={this.handleChange}
-       >
-         {fileList.length >= this.state.maxLength ? null : uploadButton}
-       </Upload>
-       <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
-         <img alt="example" style={{ width: '100%' }} src={previewImage} />
-       </Modal>
+        <Upload
+           name = { this.props.name}
+           action = {this.props.action}
+           listType = "picture-card"
+           fileList = {fileList}
+           showUploadList = {true}
+           onPreview = {this.handlePreview}
+           onChange = { this.handleChange}
+         >
+           {fileList.length >= this.state.maxLength ? null : uploadButton}
+         </Upload>
+         <Modal
+           visible={ previewVisible }
+           footer={ null }
+           onCancel={ this.handleCancel }
+         >
+           <img alt="example" style={{ width: '100%' }} src={previewImage} />
+         </Modal>
      </div>
     )
   }

@@ -95,8 +95,6 @@ class SpEditForm extends React.Component{
 	//保存
 	handleSubmit = (e) => {
 		e.preventDefault();
-		console.log()
-
 		this.props.form.validateFields((err, value) => {
 		    if (!err) {
 				value.openWechat = String(value.openWechat);
@@ -162,8 +160,8 @@ class SpEditForm extends React.Component{
 	  })
 	}
 	getinfoData=()=>{
-		const values={spShopId:this.props.data.spShopId}
-		const result=GetServerData('qerp.web.sp.shop.info',values)
+		const values = {spShopId:this.props.data.spShopId}
+		const result = GetServerData('qerp.web.sp.shop.info',values)
 		result.then((res) => {
 			return res;
 		}).then((json) => {
@@ -184,8 +182,25 @@ class SpEditForm extends React.Component{
                     }
                 })
             }
-					}
+					};
+					const spShopContractsImg = []
+					const spShopIdContracts=json.spShop.spShopIdContracts
+	        if(spShopIdContracts.length>0){
+	            for(var i=0;i<spShopIdContracts.length;i++){
+	                // spShopContractsImg.push(spShopIdContracts[i].url)
+	                spShopContractsImg.push({
+											name:spShopIdContracts[i].url,
+	                    uid:spShopIdContracts[i].url,
+	                    status: 'done',
+	                    url:fileDomain+spShopIdContracts[i].url,
+	                    response:{
+	                        data:[spShopIdContracts[i].url]
+	                    }
+	                })
+	            }
+						}
           this.setState({
+							fileList:spShopContractsImg,
 							ecName:json.spShop.ecName,
 							spShopPics:spShopPics,
 							onlinetName:json.spShop.onlinetName,
@@ -745,7 +760,7 @@ class SpEditForm extends React.Component{
 							name='imgFile'
 							action = '/erpWebRest/qcamp/upload.htm?type=spu'
 							fileList = {this.state.fileList}
-							maxLength = '1'
+							maxLength = '10'
 							changeImg = {this.changeImg}
 						/>
 					</FormItem>
@@ -766,7 +781,7 @@ class SpEditForm extends React.Component{
 		});
 		if(this.props.data){
 			this.getinfoData()
-		}
+		};
 	}
 }
 const SpEditForms = Form.create()(SpEditForm);
