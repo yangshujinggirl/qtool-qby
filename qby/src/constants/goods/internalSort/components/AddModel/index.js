@@ -7,6 +7,7 @@ const Option = Select.Option;
 class AddModelForm extends Component {
 	renderForm(form) {
 		const { type } =this.props;
+		const { detailData } =this.props.internalSort;
 		const { getFieldDecorator } =form;
 		switch(type) {
 			case '1':
@@ -16,8 +17,9 @@ class AddModelForm extends Component {
 											labelCol={{ span: 5 }}
 											wrapperCol={{ span: 12 }}>
 											{
-												getFieldDecorator('name', {
+												getFieldDecorator('pdCategory1Name', {
 													rules: [{ required: true, message: '请输入分类名称' }],
+													initialValue:detailData.pdCategory1Name
 												})(
 													<Input/>
 												)
@@ -28,8 +30,9 @@ class AddModelForm extends Component {
 											labelCol={{ span: 5 }}
 											wrapperCol={{ span: 12 }}>
 											{
-												getFieldDecorator('type', {
+												getFieldDecorator('status', {
 													rules: [{ required: true, message: '请选择' }],
+													initialValue:detailData.status
 												})(
 													<Select placeholder="请选择">
 														<Option value='1'>启用</Option>
@@ -47,8 +50,9 @@ class AddModelForm extends Component {
 											labelCol={{ span: 5 }}
 											wrapperCol={{ span: 12 }}>
 											{
-												getFieldDecorator('name', {
+												getFieldDecorator('pdCategory2Name', {
 													rules: [{ required: true, message: '请输入分类名称' }],
+													initialValue:detailData.pdCategory2Name
 												})(
 													<Input/>
 												)
@@ -59,8 +63,9 @@ class AddModelForm extends Component {
 											labelCol={{ span: 5 }}
 											wrapperCol={{ span: 12 }}>
 											{
-												getFieldDecorator('type', {
+												getFieldDecorator('pdCategory1Id', {
 													rules: [{ required: true, message: '请选择' }],
+													initialValue:detailData.pdCategory1Id
 												})(
 													<Select placeholder="请选择">
 														<Option value='1'>启用</Option>
@@ -74,8 +79,9 @@ class AddModelForm extends Component {
 											labelCol={{ span: 5 }}
 											wrapperCol={{ span: 12 }}>
 											{
-												getFieldDecorator('type', {
+												getFieldDecorator('status', {
 													rules: [{ required: true, message: '请选择' }],
+													initialValue:detailData.status
 												})(
 													<Select placeholder="请选择">
 														<Option value='1'>启用</Option>
@@ -95,6 +101,7 @@ class AddModelForm extends Component {
 											{
 												getFieldDecorator('name', {
 													rules: [{ required: true, message: '请输入分类名称' }],
+													initialValue:detailData.pdCategory3Name
 												})(
 													<Input/>
 												)
@@ -105,8 +112,9 @@ class AddModelForm extends Component {
 											labelCol={{ span: 5 }}
 											wrapperCol={{ span: 12 }}>
 											{
-												getFieldDecorator('type', {
+												getFieldDecorator('pdCategory1Id', {
 													rules: [{ required: true, message: '请选择' }],
+													initialValue:detailData.pdCategory1Id
 												})(
 													<Select placeholder="请选择">
 														<Option value='1'>启用</Option>
@@ -120,8 +128,9 @@ class AddModelForm extends Component {
 											labelCol={{ span: 5 }}
 											wrapperCol={{ span: 12 }}>
 											{
-												getFieldDecorator('type', {
+												getFieldDecorator('pdCategory2Id', {
 													rules: [{ required: true, message: '请选择' }],
+													initialValue:detailData.pdCategory2Id
 												})(
 													<Select placeholder="请选择">
 														<Option value='1'>启用</Option>
@@ -135,8 +144,9 @@ class AddModelForm extends Component {
 											labelCol={{ span: 5 }}
 											wrapperCol={{ span: 12 }}>
 											{
-												getFieldDecorator('type', {
+												getFieldDecorator('status', {
 													rules: [{ required: true, message: '请选择' }],
+													initialValue:detailData.status
 												})(
 													<Select placeholder="请选择">
 														<Option value='1'>启用</Option>
@@ -154,8 +164,9 @@ class AddModelForm extends Component {
 										labelCol={{ span: 5 }}
 										wrapperCol={{ span: 12 }}>
 										{
-											getFieldDecorator('name', {
+											getFieldDecorator('pdCategory4Name', {
 												rules: [{ required: true, message: '请输入分类名称' }],
+												initialValue:detailData.pdCategory4Name
 											})(
 												<Input/>
 											)
@@ -166,8 +177,9 @@ class AddModelForm extends Component {
 										labelCol={{ span: 5 }}
 										wrapperCol={{ span: 12 }}>
 										{
-											getFieldDecorator('type', {
+											getFieldDecorator('pdCategory1Id', {
 												rules: [{ required: true, message: '请选择' }],
+												initialValue:detailData.pdCategory1Id
 											})(
 												<Select placeholder="请选择">
 													<Option value='1'>启用</Option>
@@ -181,8 +193,9 @@ class AddModelForm extends Component {
 										labelCol={{ span: 5 }}
 										wrapperCol={{ span: 12 }}>
 										{
-											getFieldDecorator('type', {
+											getFieldDecorator('pdCategory2Id', {
 												rules: [{ required: true, message: '请选择' }],
+												initialValue:detailData.pdCategory2Id
 											})(
 												<Select placeholder="请选择">
 													<Option value='1'>启用</Option>
@@ -196,8 +209,9 @@ class AddModelForm extends Component {
 										labelCol={{ span: 5 }}
 										wrapperCol={{ span: 12 }}>
 										{
-											getFieldDecorator('type', {
+											getFieldDecorator('pdCategory3Id', {
 												rules: [{ required: true, message: '请选择' }],
+												initialValue:detailData.pdCategory3Id
 											})(
 												<Select placeholder="请选择">
 													<Option value='1'>启用</Option>
@@ -211,8 +225,9 @@ class AddModelForm extends Component {
 										labelCol={{ span: 5 }}
 										wrapperCol={{ span: 12 }}>
 										{
-											getFieldDecorator('type', {
+											getFieldDecorator('status', {
 												rules: [{ required: true, message: '请选择' }],
+												initialValue:detailData.status
 											})(
 												<Select placeholder="请选择">
 													<Option value='1'>启用</Option>
@@ -270,6 +285,9 @@ class AddModelForm extends Component {
 	}
 }
 const AddModel = Form.create()(AddModelForm);
+function mapStateToProps(state) {
+	const { internalSort } = state;
+	return { internalSort };
+}
 
-
-export default connect()(AddModel);
+export default connect(mapStateToProps)(AddModel);

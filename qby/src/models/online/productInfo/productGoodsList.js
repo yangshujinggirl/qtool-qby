@@ -2,11 +2,11 @@ import {
   getListApi,
   specificationApi,
   goodsTypeApi
-} from '../../../services/goodsCenter/bTipGoods.js';
+} from '../../../services/online/productInfo.js';
 
 
 export default {
-  namespace:'productInfo',
+  namespace:'productGoodsList',
   state: {
     dataList:[],//商品列表
     currentPage:0,

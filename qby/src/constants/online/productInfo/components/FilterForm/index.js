@@ -35,17 +35,17 @@ class NormalForm extends Component {
                  <Input placeholder="请输入商品名称" />
                )}
              </FormItem>
+            <FormItem label='商品条码'>
+               {getFieldDecorator('bname')(
+                 <Input placeholder="请输入商品名称" />
+               )}
+             </FormItem>
             <FormItem label='商品品牌'>
                {getFieldDecorator('brandName')(
                  <Input placeholder="请输入商品品牌" />
                )}
              </FormItem>
-            <FormItem label='一级分类'>
-               {getFieldDecorator('pdCategory1Name')(
-                 <Input placeholder="请输入一级分类" />
-               )}
-             </FormItem>
-            <FormItem label='售卖状态'>
+            <FormItem label='商品状态'>
                {getFieldDecorator('status')(
                  <Select placeholder="请选择售卖状态">
                    <Option value={20} key={20}>售卖</Option>
@@ -53,35 +53,15 @@ class NormalForm extends Component {
                  </Select>
                )}
              </FormItem>
-            <FormItem label='上新商品'>
-               {getFieldDecorator('isNew')(
-                 <Select allowClear={true} placeholder="请选择是否上新">
-                     <Option value="true" key={true}>是</Option>
-                     <Option value="false" key={false}>否</Option>
-                 </Select>
-               )}
-             </FormItem>
-            <FormItem label='畅销商品'>
-               {getFieldDecorator('isHot')(
-                 <Select allowClear={true} placeholder="请选择是否畅销">
-                     <Option value="true" key={true}>是</Option>
-                     <Option value="false" key={false}>否</Option>
-                 </Select>
-               )}
-             </FormItem>
-            <FormItem label='预售商品'>
-               {getFieldDecorator('isPresell')(
-                 <Select allowClear={true} placeholder="请选择预售商品">
-                     <Option value={1} key={1}>是</Option>
-                     <Option value={0} key={0}>否</Option>
-                 </Select>
-               )}
-             </FormItem>
-            <FormItem label='直邮商品'>
+            <FormItem label='保税仓库'>
                {getFieldDecorator('isDirectExpress')(
-                 <Select allowClear={true} placeholder="请选择直邮商品">
-                     <Option value={1} key={1}>是</Option>
-                     <Option value={0} key={0}>否</Option>
+                 <Select allowClear={true} placeholder="请选择">
+                     <Option value='1'>杭州下沙保税</Option>
+                     <Option value='2'>重庆丰趣保税</Option>
+                     <Option value='3'>香港天弋丽直邮</Option>
+                     <Option value='5'>德国直邮</Option>
+                     <Option value='6'>杭州学月保税</Option>
+                     <Option value='4'>知识付费</Option>
                  </Select>
                )}
              </FormItem>

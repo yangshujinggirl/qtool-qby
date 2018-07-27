@@ -25,7 +25,7 @@ class UpLoadFile extends Component {
   }
 	handleChange = ({fileList}) => {
     this.setState({
-      fileList:[...fileList]
+      fileList
     })
 	}
   normFile = (e) => {
@@ -35,7 +35,8 @@ class UpLoadFile extends Component {
     return e && e.fileList;
   }
   render() {
-   const { previewVisible, previewImage, fileList } = this.state;
+   const { fileList } = this.state;
+   console.log(fileList)
    return(
       <div style={{'display':'inline-block'}}>
        {

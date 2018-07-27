@@ -10,10 +10,15 @@ class AddEditableTable extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			dataSource: [],
+			dataSource: this.props.dataSource,
 			key:0
 		};
 	}
+	// componentWillReceiveProps(props) {
+	// 	this.setState({
+	// 		dataSource:props.dataSource
+	// 	})
+	// }
 	handleAdd (val){
 		let { dataSource } = this.state;
 		let type = val=='text'?'1':'2';
@@ -37,25 +42,30 @@ class AddEditableTable extends React.Component {
 		})
 	}
 	renderForm =(text, record, index)=> {
-		if(record.type == 1) {
+		const { dataSource } =this.state;
+		if(record.type == '1') {
 			return <div>
 							{
 								this.props.form.getFieldDecorator(`pdSpuInfo[${index}].content`,{
-									initialValue:'',
+									initialValue:dataSource[index].content,
 								})(
 									 <Input placeholder="Username"/>
 								)
 							}
 						</div>
 		} else {
-			return <UpLoadFile form={this.props.form} index={index}/>
+			return <UpLoadFile
+							fileList={[record]}
+							form={this.props.form}
+							index={index}/>
 		}
 	}
 	renderDelete =(text, record, index)=> {
 		return <p onClick={()=>this.handDelete(index)} className='theme-color delete'>删除</p>
 	}
 	render() {
-		const { dataSource } = this.state;
+		let { dataSource } = this.state;
+
 		return (
 			<div>
 				<Button onClick={()=>this.handleAdd('text')}>添加文本</Button>
@@ -74,4 +84,4 @@ class AddEditableTable extends React.Component {
 	}
 }
 
-export default connect()(AddEditableTable);
+export default AddEditableTable;
