@@ -87,12 +87,12 @@ class GoodsInfo extends Component {
              </div>
   }
   render() {
-    const { pdSkus } = this.props.addGoods;
+    const { pdSkus,specData } = this.props.addGoods;
     return(
       <div>
         <Table dataSource={pdSkus} pagination={false} bordered={true}>
           {
-            this.props.isHasSize&&
+            specData.specOne.length>0&&
             <Table.Column title="商品规格" dataIndex='name' key ={0}/>
           }
           <Table.Column title="商品编码" key ={1} render={this.renderCode}/>
@@ -102,7 +102,7 @@ class GoodsInfo extends Component {
           <Table.Column title="到货价格" key ={5} render={this.renderReceivePrice}/>
           <Table.Column title="出库价格" key ={6} render={this.renderDeliveryPrice}/>
           {
-            this.props.isHasSize&&
+            specData.specOne.length>0&&
             <Table.Column title="上传图片" key ={7} render={this.renderDeliveryPrice}/>
           }
 

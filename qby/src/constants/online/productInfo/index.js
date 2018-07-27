@@ -145,8 +145,9 @@ class BtipGoods extends Component {
   getLog(record) {
     const paneitem={
       title:'商品日志',
-      key:`306000editconfig${record.pdSpuId}info`,
-      componkey:'306000editconfig',
+      // key:`306000editconfig${record.pdSpuId}info`,
+      key:`${this.state.componkey}editconfig${record.pdSpuId}info`,
+      componkey:`${this.state.componkey}editconfig`,
       data:{
         pdSpuId:record.pdSpuId,
         source:record.source,

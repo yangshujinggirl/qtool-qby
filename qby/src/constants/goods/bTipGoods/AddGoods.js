@@ -55,10 +55,9 @@ class AddGoodsForm extends Component {
   initPage() {
     const { pdSpuId, source } =this.props.data;
     this.props.dispatch({
-      type:'addGoods/fetchGoodsInfo',
+      type:'bTipAddGoods/fetchGoodsInfo',
       payload:{
-        pdSpuId,
-        source
+        spuId:pdSpuId,
       }
     })
   }
@@ -68,7 +67,7 @@ class AddGoodsForm extends Component {
     const pane = eval(sessionStorage.getItem("pane"));
     if(pane.length<=1){return}
     this.props.dispatch({
-      type:'addGoods/resetData'
+      type:'bTipAddGoods/resetData'
     })
     this.props.dispatch({
             type:'tab/initDeletestate',
@@ -107,7 +106,7 @@ class AddGoodsForm extends Component {
   }
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { pdSpu } = this.props.addGoods;
+    const { pdSpu } = this.props.bTipAddGoods;
     return(
       <div className="btip-add-goods-components">
         <Form className="qtools-form-components">
@@ -268,8 +267,8 @@ class AddGoodsForm extends Component {
 }
 
 function mapStateToProps(state) {
-  const { addGoods } = state;
-  return { addGoods }
+  const { bTipAddGoods } = state;
+  return { bTipAddGoods }
 }
 
 const BtipAddGoods = Form.create()(AddGoodsForm);

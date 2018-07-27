@@ -8,12 +8,13 @@ import {
 export default {
   namespace:'addGoods',
   state: {
-    isHasSize:false,
     specData:{
       specOne:[],//商品属性1
       specTwo:[],//商品属性2
-      disabledOne:true,
-      disabledTwo:true,
+    },
+    sizeIdList:{//商品规格id
+      pdSkusSizeOne:null,
+      pdSkusSizeTwo:null
     },
     categoryData:{//商品分类
       categoryLevelOne:[],//商品分类1列表
@@ -24,7 +25,7 @@ export default {
       isLevelThr:true,
       isLevelFour:true,
     },
-    goodsType:[],//商品类型列表
+    goodsType:[],//商品规格列表
     fileList:[],//商品图片
     pdSpu:{},
     pdSkus:[{//商品信息
@@ -41,6 +42,17 @@ export default {
     getCategory( state, { payload : {categoryData}}) {
       return { ...state, categoryData}
     },
+    setTypesId(state, { payload : selectData }) {
+      let sizeIdList = state.sizeIdList
+      let { type, typeId } = selectData;
+      if(type == 'one') {
+        sizeIdList.pdSkusSizeOne = typeId;
+      } else {
+        sizeIdList.pdSkusSizeTwo = typeId;
+      }
+      return {...state,sizeIdList}
+    },
+    //获取规格列表
     getType( state, { payload : goodsType }) {
       return { ...state, goodsType}
     },
@@ -62,23 +74,18 @@ export default {
                     }]
             };
       const fileList=[];
-      // const pdSkus = [{//商品信息
-      //         code:'',
-      //         barcode:'',
-      //         salePrice:'',
-      //         purchasePrice:'',
-      //         receivePrice:'',
-      //         deliveryPrice:'',
-      //         key:'0000'
-      //       }]
       const pdSkus = []
-      const specOne=[];
-      const specTwo=[];
-      return {...state,pdSpu, fileList,specOne,specTwo,pdSkus}
+      const specData={//商品属性
+        specOne:[],
+        specTwo:[],
+      }
+      return {...state,pdSpu, fileList, specData, pdSkus}
     },
-    getGoodsInfo(state, { payload : { pdSpu,fileList, pdSkus, specData } }) {
-      return { ...state, pdSpu, fileList, pdSkus, specData }
+    //商品详情
+    getGoodsInfo(state, { payload : { pdSpu,fileList, pdSkus, specData, sizeIdList } }) {
+      return { ...state, pdSpu, fileList, pdSkus, specData, sizeIdList }
     },
+    //设置属性
     setSpec(state,{ payload: {specData, pdSkus} }) {
       return { ...state, specData, pdSkus}
     }
@@ -97,6 +104,8 @@ export default {
       let isLevelThr;
       let isLevelFour;
       const { level } = values;
+      let fixedParams = {status:1}
+      values = {...values,...fixedParams};
       const result = yield call(getCategoryApi,values);
       //处理分类数据，disabled状态
       if(result.code == '0') {
@@ -170,7 +179,8 @@ export default {
       yield put({type:'resetData'})
       const result = yield call(goodsInfoApi,values);
       if(result.code == '0') {
-        let { pdSpu, fileDomain } = result;
+        let { iPdSpu, fileDomain } = result;
+        let pdSpu = iPdSpu;
         let fileList = [];
         //格式化图片数据
         if(pdSpu.pdSpuPics && pdSpu.pdSpuPics) {
@@ -189,6 +199,7 @@ export default {
         let specTwo=[];
         let oldspecOne=[];
         let oldspecTwo=[];
+        let sizeIdList={};
         if(pdSpu.pdSkus.length>0) {
           pdSkus = pdSpu.pdSkus.map((el,index) => {
             let name1 = el.pdType1Val&&el.pdType1Val.name;
@@ -197,17 +208,17 @@ export default {
             el.key = el.pdSkuId;
             el.picUrl = `${fileDomain}${el.picUrl}`;
             //获取商品规格值
-            pdSpu.pdSkusSizeOne = el.pdType1&&el.pdType1.pdTypeId;
-            pdSpu.pdSkusSizeTwo = el.pdType1&&el.pdType2.pdTypeId;
+            sizeIdList.pdSkusSizeOne = el.pdType1&&el.pdType1.pdTypeId;
+            sizeIdList.pdSkusSizeTwo = el.pdType1&&el.pdType2.pdTypeId;
             //商品属性数据处理
-            if(oldspecOne.indexOf(el.pdType1Val.pdTypeValId)==-1) {
+            if(el.pdType1Val&&(oldspecOne.indexOf(el.pdType1Val.pdTypeValId)==-1)) {
               oldspecOne.push(el.pdType1Val.pdTypeValId);
               specOne.push({
                 key:el.pdType1Val.pdTypeValId,
                 name:el.pdType1Val.name
               })
             }
-            if(oldspecTwo.indexOf(el.pdType2Val.pdTypeValId)==-1) {
+            if(el.pdType2Val&&(oldspecTwo.indexOf(el.pdType2Val.pdTypeValId)==-1)) {
               oldspecTwo.push(el.pdType2Val.pdTypeValId);
               specTwo.push({
                 key:el.pdType2Val.pdTypeValId,
@@ -220,10 +231,12 @@ export default {
         } else {
           pdSkus = oldPdSkus;
         }
+        //商品详情
         yield put({
           type:'getGoodsInfo',
-          payload:{ pdSpu, fileList, pdSkus, specData:{specOne,specTwo}}
+          payload:{ pdSpu, fileList, pdSkus, specData:{specOne,specTwo}, sizeIdList}
         })
+        //初始化分类
         const { pdCategory1, pdCategory2, pdCategory3, pdCategory4 } =pdSpu;
         yield put({
           type:'handelCategory',
@@ -235,19 +248,19 @@ export default {
       if(pdCategory1 !== null) {
         yield put({
           type:'fetchCategory',
-          payload:{ level:2, pdCategoryId: pdCategory1.pdCategoryId }
+          payload:{ level:2, parentId: pdCategory1.pdCategoryId }
         })
       }
       if(pdCategory2 !== null) {
         yield put({
           type:'fetchCategory',
-          payload:{ level:3, pdCategoryId: pdCategory2.pdCategoryId }
+          payload:{ level:3, parentId: pdCategory2.pdCategoryId }
         })
       }
       if(pdCategory3 !== null) {
         yield put({
           type:'fetchCategory',
-          payload:{ level:4, pdCategoryId: pdCategory3.pdCategoryId }
+          payload:{ level:4, parentId: pdCategory3.pdCategoryId }
         })
       }
     },
@@ -292,8 +305,8 @@ export default {
       })
     },
     *addSpec({ payload: {payloadVal, type} },{ call, put ,select}) {
-      const oldSpecOne = yield select(state => state.addGoods.specOne)
-      const oldSpecTwo = yield select(state => state.addGoods.specTwo)
+      const oldSpecOne = yield select(state => state.addGoods.specData.specOne)
+      const oldSpecTwo = yield select(state => state.addGoods.specData.specTwo)
       let specOne;
       let specTwo;
       if(type == 'one') {
@@ -309,8 +322,8 @@ export default {
       })
     },
     *deleteSpec({ payload: {payloadVal, type} },{ call, put ,select}) {
-      const oldSpecOne = yield select(state => state.addGoods.specOne)
-      const oldSpecTwo = yield select(state => state.addGoods.specTwo)
+      const oldSpecOne = yield select(state => state.addGoods.specData.specOne)
+      const oldSpecTwo = yield select(state => state.addGoods.specData.specTwo)
       let specOne = oldSpecOne;
       let specTwo = oldSpecTwo;
       if(type == 'one') {
