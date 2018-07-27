@@ -122,9 +122,9 @@ class SpEditForm extends React.Component{
 					}
 				})
 				value.spShopContracts = spShopContracts;
-				if(JSON.stringify(this.state.fileList) == '[]'){
-					message.warn('请上传合同信息',.8)
-				}else{
+				// if(JSON.stringify(this.state.fileList) == '[]'){
+				// 	message.warn('请上传合同信息',.8)
+				// }else{
 	        const values={spShop:value}
 	        const result=GetServerData('qerp.web.sp.shop.save',values)
 	        result.then((res) => {
@@ -146,7 +146,7 @@ class SpEditForm extends React.Component{
 							}
 	          }
 	        })
-				};
+				// };
       };
     });
 	}
