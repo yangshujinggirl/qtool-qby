@@ -38,7 +38,7 @@ class OperatebannerTable extends React.Component {
     //点击表格上的修改按钮操作
     editInfo = (record) =>{
         const pdBannerId=String(record.pdBannerId);
-        const paneitem={title:'banner修改',key:'404000edit'+pdBannerId,data:{pdBannerId:pdBannerId},componkey:'404000edit'}
+        const paneitem={title:'banner修改',key:'101000edit'+pdBannerId,data:{pdBannerId:pdBannerId},componkey:'101000edit'}
         this.props.dispatch({
             type:'tab/firstAddTab',
             payload:paneitem
@@ -60,7 +60,7 @@ class OperatebannerTable extends React.Component {
         values.currentPage=currentPage;
         this.props.dispatch({
             type:'operatebanner/fetch',
-            payload:{code:'qerp.web.pd.banner.list',values:values}
+            payload:{code:'qerp.web.pd.cbanner.list',values:values}
         });
         this.props.dispatch({ type: 'tab/loding', payload:true});
     }

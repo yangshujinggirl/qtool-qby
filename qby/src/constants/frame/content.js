@@ -139,6 +139,8 @@ import AddStaff from '../cooperate/marketResource/AddStaff';
 //活动中心
 import Coupon from '../activity/coupon/index';
 import Cbanner from '../activity/cBanner/index'
+import CoperatebannerEdit from '../activity/cBanner/edit';
+import CH5_configure from '../activity/cBanner/editH5';
 import CouponDetail from '../activity/coupon/CouponDetail';
 import AddCoupon from '../activity/coupon/AddCoupon';
 import CouponRecord from '../activity/coupon/CouponRecord/index';
@@ -267,7 +269,9 @@ class Content extends React.Component {
                                     case "501000edit" : return <AddStaff data={this.props.data} componkey={this.props.componkey}/>
 
                                     // --------------------------------活动中心----------------------------
-                                    case "101000" : return <Cbanner data={this.props.data} componkey={this.props.componkey}/> //优惠券
+                                    case "101000" : return <Cbanner data={this.props.data} componkey={this.props.componkey}/> //cBanner
+                                    case "101000edit":return <CoperatebannerEdit data={this.props.data}/>//cBanner新增修改
+                                    case "101000editH5":return <CH5_configure data={this.props.data}/>//cBanner
                                     case "102000" : return <Coupon data={this.props.data} componkey={this.props.componkey}/> //优惠券
                                     case "102000edit" : return <AddCoupon data={this.props.data} componkey={this.props.componkey}/> //创建优惠券
                                     case "102000info" : return <CouponDetail data={this.props.data}/> //优惠券详情

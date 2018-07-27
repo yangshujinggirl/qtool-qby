@@ -22,10 +22,10 @@ class OperatebannerSearchForm extends React.Component {
         values.currentPage=currentPage;
         this.props.dispatch({
             type:'operatebanner/fetch',
-            payload:{code:'qerp.web.pd.banner.list',values:values}
+            payload:{code:'qerp.web.pd.cbanner.list',values:values}
         });
         this.props.dispatch({ type: 'tab/loding', payload:true});
-    }  
+    }
 
     //同步data
     syncState=(values)=>{
@@ -34,7 +34,7 @@ class OperatebannerSearchForm extends React.Component {
             payload:values
         });
     }
-    
+
     render() {
         const { getFieldDecorator } = this.props.form;
         return (

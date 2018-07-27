@@ -59,7 +59,7 @@ class SpEditForm extends React.Component{
 			openApp:null,
 			bank:null,
 			recAddress:null,
-			url:null,
+			spShopContracts:null,
 			lng:null,
 			lat:null
 		}
@@ -117,19 +117,18 @@ class SpEditForm extends React.Component{
 					value.spShopId=this.props.data.spShopId
 				}
 				const imgArr = this.state.fileList;
-				const url = [];
+				const spShopContracts = [];
 				const imgArrs = imgArr.map((item) => {
 					if(item.status == 'done'){
-						url.push(item.response.data[0])
+						spShopContracts.push(item.response.data[0])
 					}
 				})
-				value.url = url;
+				value.spShopContracts = spShopContracts;
 				if(JSON.stringify(this.state.fileList) == '[]'){
 					message.warn('请上传合同信息',.8)
 				}else{
 	        const values={spShop:value}
 	        const result=GetServerData('qerp.web.sp.shop.save',values)
-
 	        result.then((res) => {
 	            return res;
 	        }).then((json) => {
@@ -226,7 +225,7 @@ class SpEditForm extends React.Component{
 							bankNo:json.spShop.bankNo,
 							bankName:json.spShop.bankName,
 							openApp:json.spShop.openApp,
-							url:json.spShop.url,
+							spShopContracts:json.spShop.spShopContracts,
 							lat:json.spShop.lat,
 							lng:json.spShop.lng,
           },function(){

@@ -31,12 +31,12 @@ class OperatebannerEditForm extends React.Component{
 		if(this.props.data){
 			this.props.dispatch({
 				type:'tab/initDeletestate',
-				payload:'404000edit'+this.props.data.pdBannerId
+				payload:'101000edit'+this.props.data.pdBannerId
 			  });
 		}else{
 			this.props.dispatch({
 				type:'tab/initDeletestate',
-				payload:'404000edit'
+				payload:'101000edit'
 			});
 		}
 	}
@@ -45,7 +45,7 @@ class OperatebannerEditForm extends React.Component{
 	refreshList=()=>{
 		this.props.dispatch({
             type:'operatebanner/fetch',
-            payload:{code:'qerp.web.pd.banner.list',values:this.props.values}
+            payload:{code:'qerp.web.pd.cbanner.list',values:this.props.values}
 		})
 		this.props.dispatch({ type: 'tab/loding', payload:true})
 	}
@@ -74,8 +74,8 @@ class OperatebannerEditForm extends React.Component{
                 if(this.props.data){
                     data.pdBannerId = this.props.data.pdBannerId;
                 }
-								data.type = 10;
-                const result=GetServerData('qerp.web.pd.banner.save',{"pdBanner":data});
+								data.type = 20;
+                const result=GetServerData('qerp.web.pd.cbanner.save',{"pdBanner":data});
                 result.then((res) => {
                     return res;
                 }).then((json) => {
@@ -111,8 +111,8 @@ class OperatebannerEditForm extends React.Component{
                 if(this.props.data){
                     data.pdBannerId = this.props.data.pdBannerId;
                 }
-								data.type=10;
-                const result=GetServerData('qerp.web.pd.banner.save',{"pdBanner":data});
+								data.type = 20;
+                const result=GetServerData('qerp.web.pd.cbanner.save',{"pdBanner":data});
                 result.then((res) => {
                     return res;
                 }).then((json) => {
@@ -134,14 +134,14 @@ class OperatebannerEditForm extends React.Component{
                         });
                         if(this.props.data){
 							const pdBannerId=String(this.props.data.pdBannerId);
-                            const paneitem={title:'修改H5页面',key:'404000edit'+pdBannerId+'h5',data:{'pdBannerId':pdBannerId,'addNew':0},componkey:'404000editH5'}
+                            const paneitem={title:'修改H5页面',key:'101000edit'+pdBannerId+'h5',data:{'pdBannerId':pdBannerId,'addNew':0},componkey:'101000editH5'}
                             this.props.dispatch({
                                 type:'tab/firstAddTab',
                                 payload:paneitem
                             })
 						}else{
                             const pdBannerId = json.pdBannerId;
-                            const paneitem={title:'新增H5页面',key:'404000edith5',data:{'pdBannerId':pdBannerId,'addNew':1},componkey:'404000editH5'}
+                            const paneitem={title:'新增H5页面',key:'101000edith5',data:{'pdBannerId':pdBannerId,'addNew':1},componkey:'101000editH5'}
                             this.props.dispatch({
                                 type:'tab/firstAddTab',
                                 payload:paneitem
@@ -227,7 +227,7 @@ class OperatebannerEditForm extends React.Component{
   	}
   	componentDidMount(){
     	if(this.props.data){
-			  const payload={code:'qerp.web.pd.banner.info',values:{'pdBannerId':this.props.data.pdBannerId,type:10}}
+			  const payload={code:'qerp.web.pd.cbanner.info',values:{'pdBannerId':this.props.data.pdBannerId,type:20}}
 			  //请求表单信息
 			this.initDateEdit(payload)
 		}
