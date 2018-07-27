@@ -1,7 +1,5 @@
 import {
   getListApi,
-  specificationApi,
-  goodsTypeApi
  } from '../../services/goodsCenter/internalSort.js';
 
 const dataList = [{
@@ -18,57 +16,30 @@ const dataList = [{
 export default {
   namespace:'internalSort',
   state: {
+    categoryLevelOne:[],//商品分类1列表
+    categoryLevelTwo:[],//商品分类2列表
+    categoryLevelThr:[],//商品分类3列表
+    categoryLevelFour:[],//商品分类4列表
     dataList:dataList,//商品列表
+    detailData:{},
     currentPage:0,
     limit:15,
     total:0,
-    goodsCategory:[],//商品规格
-    goodsType:[]//商品类型
   },
   reducers: {
     getList( state, { payload : {dataList, currentPage, limit, total} }) {
       return { ...state, dataList, currentPage, limit, total}
     },
-    getCategory( state, { payload : goodsCategory }) {
-      return { ...state, goodsCategory}
-    },
-    getType( state, { payload : getType }) {
-      return { ...state, getType}
-    },
   },
   effects: {
-    *fetchList({ payload: values }, { call, put ,select}) {
-      const result=yield call(getListApi,values);
-      if(result.code=='0') {
-        const { pdSpus, currentPage, limit, total } = result;
-        yield put ({
-          type: 'getList',
-          payload:{
-            dataList:pdSpus,
-            currentPage,
-            limit,
-            total
-          }
-        })
-      }
-    },
     *fetchCategory({ payload: values },{ call, put ,select}) {
-      const result = yield call(specificationApi,values);
+      const result = yield call(getListApi,values);
       if(result.code == '0') {
-        const { pdCategorys } = result;
+        let  { pdCategory } = result;
+
         yield put({
           type:'getCategory',
-          payload:pdCategorys
-        })
-      }
-    },
-    *fetchGoodsType({ payload: values },{ call, put ,select}) {
-      const result = yield call(goodsTypeApi,values);
-      if(result.code == '0') {
-        const { pdTypes } = result;
-        yield put({
-          type:'getType',
-          payload:pdTypes
+          payload:{dataList: pdCategory}
         })
       }
     },

@@ -1,25 +1,21 @@
 import {
-  getListApi,
-  specificationApi,
-  goodsTypeApi,
-  goodsBrandApi,
   goodsInfoApi
-} from '../../../services/goodsCenter/bTipGoods.js';
+} from '../../../services/online/productInfo.js';
 
 export default {
-  namespace:'productInfo',
+  namespace:'productEditGoods',
   state: {
     isHasSize:false,
-    pdSpu:{},
+    iPdSpu:{},
   },
   reducers: {
     //重置store
     resetData(state) {
-      const pdSpu={}, fileList=[];
-      return {...state,pdSpu,}
+      const iPdSpu={}, fileList=[];
+      return {...state,iPdSpu,}
     },
-    getGoodsInfo(state, { payload : { pdSpu,fileList, pdSkus } }) {
-      return { ...state, pdSpu, fileList, pdSkus }
+    getGoodsInfo(state, { payload : { iPdSpu,fileList, pdSkus } }) {
+      return { ...state, iPdSpu, fileList, pdSkus }
     },
     setSpec(state,{ payload: {specOne, specTwo, pdSkus} }) {
       return { ...state, specOne, specTwo, pdSkus}
@@ -31,10 +27,11 @@ export default {
       yield put({type:'resetData'})
       const result = yield call(goodsInfoApi,values);
       if(result.code == '0') {
-        let { pdSpu, fileDomain } = result;
+        let { iPdSpu, fileDomain } = result;
         let pdSkus = [];
-        if(pdSpu.pdSkus.length>0) {
-          pdSkus = pdSpu.pdSkus.map((el) => {
+        let pdSpuInfo=[];
+        if(iPdSpu.pdSkus.length>0) {
+          pdSkus = iPdSpu.pdSkus.map((el) => {
             let name1 = el.pdType1Val&&el.pdType1Val.name;
             let name2 = el.pdType2Val&&el.pdType2Val.name;
             el.name = el.pdType2Val?`${name1}/${name2}`:`${name1}`;
@@ -45,11 +42,26 @@ export default {
         } else {
           pdSkus = oldPdSkus;
         }
-        pdSpu = {...pdSpu,pdSkus};
+        if(iPdSpu.pdSpuInfo&&iPdSpu.pdSpuInfo!=null) {
+          pdSpuInfo = JSON.parse(iPdSpu.pdSpuInfo);
+          pdSpuInfo = pdSpuInfo.map((el,index) => {
+            if(el.type=='2') {
+              // el.content = `${fileDomain}${el.content}`;
+              let url = `${fileDomain}${el.content}`;
+              el.name = url;
+              el.status = 'done';
+              el.uid = index;
+              el.url = url;
+            }
+              el.key =index;
+            return el;
+          })
+        }
+        iPdSpu = {...iPdSpu,pdSkus,pdSpuInfo};
         yield put({
           type:'getGoodsInfo',
           payload:{
-            pdSpu,
+            iPdSpu,
           }
         })
       }

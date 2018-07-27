@@ -37,7 +37,7 @@ class BtipGoods extends Component {
   }
   componentWillMount() {
     this.props.dispatch({
-      type:'bTipGoodsList/fetchList',
+      type:'productGoodsList/fetchList',
       payload:{}
     })
   }
@@ -72,24 +72,9 @@ class BtipGoods extends Component {
       payload: values
     });
   }
-  //批量操作
-  massOperation(type,val) {
-    const { selecteKeys } =this.state;
-    if(!selecteKeys.length>0) {
-      message.error('请勾选商品',1)
-      return
-    }
-    switch(type) {
-      case 'sell':
-        this.sellAndSaleStop(selecteKeys,val)
-        break;
-      case 'new':
-        this.sellNewGoods(selecteKeys,val)
-        break;
-      case 'hot':
-        this.sellHotGoods(selecteKeys,val)
-        break;
-    }
+  //导出数据
+  exportData() {
+
   }
   //操作
   handleOperateClick(record,type) {
@@ -122,28 +107,6 @@ class BtipGoods extends Component {
       console.log(res)
     })
   }
-  //上新
-  sellNewGoods(ids,val) {
-    const params = {
-      status:val,
-      pdSpuIds:ids
-    }
-    handleSellApi(params)
-    .then(res => {
-      console.log(res)
-    })
-  }
-  //畅销
-  sellHotGoods(ids,val) {
-    const params = {
-      status:val,
-      pdSpuIds:ids
-    }
-    handleSellApi(params)
-    .then(res => {
-      console.log(res)
-    })
-  }
   //详情
   getDetail(record) {
     const paneitem={
@@ -167,7 +130,8 @@ class BtipGoods extends Component {
       key:`${this.state.componkey}edit${record.pdSpuId}`,
       componkey:`${this.state.componkey}edit`,
       data:{
-        pdSpuId:record.pdSpuId,
+        // pdSpuId:record.pdSpuId,
+        pdSpuId:'25878',
         source:record.source,
         key:`${this.state.componkey}edit${record.pdSpuId}`
       }
@@ -202,7 +166,7 @@ class BtipGoods extends Component {
     })
   }
   render() {
-    const { dataList } = this.props.bTipGoodsList;
+    const { dataList } = this.props.productGoodsList;
     const {fields} = this.state;
     return (
       <div className="bTip-goods-components qtools-components-pages">
@@ -211,27 +175,22 @@ class BtipGoods extends Component {
           submit={this.searchData}
           onChange={this.handleFormChange}/>
         <div className="handel-btn-lists">
-          <Button size="large" type="primary" onClick={()=>this.massOperation('sell',10)}>批量售卖</Button>
-          <Button size="large" type="primary" onClick={()=>this.massOperation('sell',20)}>批量停售</Button>
-          <Button size="large" type="primary" onClick={()=>this.massOperation('new',true)}>批量上新</Button>
-          <Button size="large" type="primary" onClick={()=>this.massOperation('new',false)}>批量下新</Button>
-          <Button size="large" type="primary" onClick={()=>this.massOperation('hot',true)}>批量畅销</Button>
-          <Button size="large" type="primary" onClick={()=>this.massOperation('hot',false)}>批量下畅销</Button>
+          <Button size="large" type="primary" onClick={()=>this.exportData()}>导出数据</Button>
         </div>
         <GoodsList
           list={dataList}
           onChange={this.onCheckBoxChange.bind(this)}
           onOperateClick={this.handleOperateClick.bind(this)}/>
         <Qpagination
-          data={this.props.bTipGoodsList}
+          data={this.props.productGoodsList}
           onChange={this.changePage}/>
       </div>
     )
   }
 }
 function mapStateToProps(state) {
-  const { bTipGoodsList } = state;
-  return {bTipGoodsList};
+  const { productGoodsList } = state;
+  return {productGoodsList};
 }
 
 export default connect(mapStateToProps)(BtipGoods);

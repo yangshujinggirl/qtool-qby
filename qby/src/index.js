@@ -16,6 +16,9 @@ import cTipAddGoods from './models/goodsCenter/cTipGoods/cTipAddGoods.js';//c端
 import internalSort from './models/goodsCenter/internalSort.js';//B端商品列表
 import cTimer from './models/cTimer/cTimer.js';//c端定时
 import countryManage from './models/goodsCenter/countryManage.js';//国家管理
+//电商中心
+import productGoodsList from './models/online/productInfo/productGoodsList.js'
+import productEditGoods from './models/online/productInfo/productEditGoods.js'
 //订单中心--用户订单
 import userorders from './models/userorders';
 import account from "./models/account"
@@ -81,6 +84,8 @@ const app = dva({
   });
 
 const models = [
+  productGoodsList,
+  productEditGoods,
   countryManage,
   internalSort,
   cTipAddGoods,

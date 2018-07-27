@@ -50,12 +50,12 @@ class GoodsList extends Component {
     this.props.onOperateClick(record,'detail')
   }
   render() {
-    const { bTipGoodsList, onOperateClick } = this.props;
+    const { productGoodsList, onOperateClick } = this.props;
     const filePath = JSON.parse(sessionStorage.getItem('fileDomain'));
     return (
       <ul className="common-goods-list">
         {
-          bTipGoodsList.dataList.length>0 && bTipGoodsList.dataList.map((el,index) => (
+          productGoodsList.dataList.length>0 && productGoodsList.dataList.map((el,index) => (
               <li className="goods-item-content" key={index}>
                 <div className="goods-action-top" onClick={(event)=>this.handleClick(event,el)}>
                   <div className="part-l">
@@ -85,7 +85,7 @@ class GoodsList extends Component {
   }
 }
 function mapStateToProps(state) {
-  const { bTipGoodsList } = state;
-  return { bTipGoodsList };
+  const { productGoodsList } = state;
+  return { productGoodsList };
 }
 export default connect(mapStateToProps)(GoodsList);

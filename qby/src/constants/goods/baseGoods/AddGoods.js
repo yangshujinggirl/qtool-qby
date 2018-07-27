@@ -17,6 +17,7 @@ import {
 } from '../../../services/goodsCenter/baseGoods.js';
 import UpLoadFileModal from '../components/UpLoadFileModal/index.js';
 import GoodsInfo from './components/GoodsInfo/index.js';
+import OutLineGoodsInfo from './components/OutLineGoodsInfo/index.js';
 import EditableCell from './components/EditableCell/index.js';
 import Creatlabel from './components/Creatlabel/index.js'
 import './AddGoods.less';
@@ -48,11 +49,8 @@ class AddGoodsForm extends Component {
     super(props);
     this.state = {
       brandDataSource:[],
-      disabledOne:true,
       disabledTwo:true,
-      isLevelTwo:true,
-      isLevelThr:true,
-      isLevelFour:true,
+      disabledOne:true,
       specOneId:'',//商品规格
     }
   }
@@ -60,7 +58,6 @@ class AddGoodsForm extends Component {
     this.initGoodslabel();
     this.initPage()
   }
-
   //编辑or新增
   initPage() {
     const { pdSpuId, source } =this.props.data;
@@ -96,28 +93,6 @@ class AddGoodsForm extends Component {
   //分类change事件
   handleChangeLevel(level,selected){
     let { isLevelTwo, isLevelThr, isLevelFour } = this.state;
-    switch(level) {
-      case 1:
-        isLevelTwo = false;
-        isLevelThr = true;
-        isLevelFour = true;
-        break;
-      case 2:
-        isLevelTwo = false;
-        isLevelThr = false;
-        isLevelFour = true;
-        break;
-      case 3:
-        isLevelTwo = false;
-        isLevelThr = false;
-        isLevelFour = false;
-        break;
-    }
-    this.setState({
-      isLevelTwo,
-      isLevelThr,
-      isLevelFour,
-    })
     level++;
     this.props.dispatch({
       type:'addGoods/fetchCategory',
@@ -189,16 +164,13 @@ class AddGoodsForm extends Component {
       if (!err) {
         if(pdSpuId) {
           values = Object.assign(values,{
-            pdSpuId,
-            source
+            pdSpuId
           })
-        } else {
-          values = Object.assign(values,{ source })
         }
         if(source == 0) {
           this.saveOnLineGoods({iPdSpu:values})
         } else {
-          this.saveOutLineGoods({iPdSpu:values})
+          this.saveOutLineGoods({pdSpu:values})
         }
       }
     });
@@ -207,7 +179,10 @@ class AddGoodsForm extends Component {
   saveOnLineGoods(values) {
     goodSaveApi(values)
     .then(res=> {
-      console.log(res)
+      const { code } =res;
+      if(code == '0') {
+        this.onCancel()
+      }
     },error=> {
       console.log(error)
     })
@@ -216,6 +191,10 @@ class AddGoodsForm extends Component {
   saveOutLineGoods(values) {
     goodSaveOutLineApi(values)
     .then(res=> {
+      const { code } =res;
+      if(code == '0') {
+        this.onCancel()
+      }
       console.log(res)
     },error=> {
       console.log(error)
@@ -317,16 +296,15 @@ class AddGoodsForm extends Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     const {
-      categoryLevelOne,
-      categoryLevelTwo,
-      categoryLevelThr,
-      categoryLevelFour,
+      categoryData,
       goodsType,
       pdSpu,
       fileList,
     } = this.props.addGoods;
-    const { isLevelTwo, isLevelThr, isLevelFour } =this.state;
-    console.log(this.props.data)
+    const {
+      disabledOne,
+      disabledTwo
+     } =this.state;
     return(
       <div className="add-goods-components">
         <Form className="qtools-form-components">
@@ -348,13 +326,13 @@ class AddGoodsForm extends Component {
                  {
                    getFieldDecorator('pdCategory1Id',{
                      rules: [{ required: true, message: '请选择商品分类'}],
-                     initialValue:pdSpu.pdCategoryId,
+                     initialValue:pdSpu.pdCategory1&&pdSpu.pdCategory1.pdCategoryId,
                      onChange:(select)=>this.handleChangeLevel(1,select)
                    })(
                     <Select placeholder="请选择商品分类">
                       {
-                        categoryLevelOne.length>0 &&
-                        categoryLevelOne.map((ele,index) => (
+                        categoryData.categoryLevelOne.length>0 &&
+                        categoryData.categoryLevelOne.map((ele,index) => (
                           <Option
                             value={ele.pdCategoryId}
                             key={ele.pdCategoryId}>{ele.name}</Option>
@@ -370,13 +348,15 @@ class AddGoodsForm extends Component {
                  {
                    getFieldDecorator('pdCategory2Id',{
                      rules: [{ required: true, message: '请选择商品类型'}],
-                     initialValue:pdSpu.pdCategory2Id,
+                     initialValue:pdSpu.pdCategory2&&pdSpu.pdCategory2.name,
                      onChange:(select)=>this.handleChangeLevel(2,select)
                    })(
-                     <Select placeholder="请选择商品类型" disabled={isLevelTwo}>
+                     <Select
+                       placeholder="请选择商品类型"
+                       disabled={categoryData.isLevelTwo}>
                        {
-                         categoryLevelTwo.length>0 &&
-                         categoryLevelTwo.map((ele,index) => (
+                         categoryData.categoryLevelTwo.length>0 &&
+                         categoryData.categoryLevelTwo.map((ele,index) => (
                            <Option
                              value={ele.pdCategoryId}
                              key={ele.pdCategoryId}>{ele.name}</Option>
@@ -392,13 +372,18 @@ class AddGoodsForm extends Component {
                  {
                    getFieldDecorator('pdCategory3Id',{
                      rules: [{ required: true, message: '请选择商品类型'}],
+                     initialValue:pdSpu.pdCategory3&&pdSpu.pdCategory3.pdCategoryId,
                      onChange:(select)=>this.handleChangeLevel(3,select)
                    })(
-                     <Select placeholder="请选择商品类型" disabled={isLevelThr}>
+                     <Select
+                       placeholder="请选择商品类型"
+                       disabled={categoryData.isLevelThr}>
                        {
-                         categoryLevelThr.length>0 &&
-                         categoryLevelThr.map((ele,index) => (
-                           <Option value={ele.pdCategoryId} key={ele.pdCategoryId}>{ele.name}</Option>
+                         categoryData.categoryLevelThr.length>0 &&
+                         categoryData.categoryLevelThr.map((ele,index) => (
+                           <Option
+                             value={ele.pdCategoryId}
+                             key={ele.pdCategoryId}>{ele.name}</Option>
                          ))
                        }
                      </Select>
@@ -411,12 +396,17 @@ class AddGoodsForm extends Component {
                  {
                    getFieldDecorator('pdCategory4Id',{
                      rules: [{ required: true, message: '请选择商品类型'}],
+                     initialValue:pdSpu.pdCategory4&&pdSpu.pdCategory4.pdCategoryId,
                    })(
-                     <Select placeholder="请选择商品类型" disabled={isLevelFour}>
+                     <Select
+                       placeholder="请选择商品类型"
+                       disabled={categoryData.isLevelFour}>
                        {
-                         categoryLevelFour.length>0 &&
-                         categoryLevelFour.map((ele,index) => (
-                           <Option value={ele.pdCategoryId} key={ele.pdCategoryId}>{ele.name}</Option>
+                         categoryData.categoryLevelFour.length>0 &&
+                         categoryData.categoryLevelFour.map((ele,index) => (
+                           <Option
+                             value={ele.pdCategoryId}
+                             key={ele.pdCategoryId}>{ele.name}</Option>
                          ))
                        }
                      </Select>
@@ -429,6 +419,7 @@ class AddGoodsForm extends Component {
                  {
                    getFieldDecorator('pdBrandId',{
                      rules: [{ required: true, message: '请选择商品品牌'}],
+                     initialValue:pdSpu.pdBrandId
                    })(
                      <AutoComplete
                       dataSource={this.state.brandDataSource}
@@ -442,6 +433,7 @@ class AddGoodsForm extends Component {
               <FormItem label='国家地区' {...formItemLayout}>
                  {getFieldDecorator('pdCountryId',{
                    rules: [{ required: true, message: '请选择国家地区'}],
+                   initialValue:`${pdSpu.pdCountryId}`
                  })(
                     <AutoComplete
                      dataSource={this.state.countryDataSource}
@@ -461,8 +453,8 @@ class AddGoodsForm extends Component {
             <Col span={24}>
               <FormItem label='商品规格1' {...formItemLayout}>
                  {
-                   getFieldDecorator('guige1',{
-                     initialValue:pdSpu.pdCategory1Id,
+                   getFieldDecorator('pdType1Id',{
+                     initialValue:pdSpu.pdSkusSizeOne,
                      onChange:this.handleChangeOne
                    })(
                     <Select placeholder="请选择商品分类">
@@ -470,29 +462,31 @@ class AddGoodsForm extends Component {
                       {
                         goodsType.length>0 &&
                         goodsType.map((ele,index) => (
-                          <Option value={ele.pdTypeId} key={ele.pdTypeId}>{ele.name}</Option>
+                          <Option
+                            value={ele.pdTypeId}
+                            key={ele.pdTypeId}>{ele.name}</Option>
                         ))
                       }
                     </Select>
                    )
                  }
                  <Creatlabel
-                   disabled={this.state.disabledOne}
+                   disabled={disabledOne}
                    deleteGoodsLabel={this.deleteGoodsLabel.bind(this)}
                    addGoodsLabel={this.addGoodsLabel.bind(this)}
                    level="one"/>
                </FormItem>
             </Col>
             {
-              this.props.addGoods.specOne.length>0&&
+              pdSpu.pdSkusSizeOne&&pdSpu.pdSkusSizeTwo&&
               <Col span={24}>
                 <FormItem label='商品规格2' {...formItemLayout}>
                    {
-                     getFieldDecorator('gui',{
-                       initialValue:pdSpu.pdCategory2Id,
+                     getFieldDecorator('pdType2Id',{
+                       initialValue:pdSpu.pdSkusSizeTwo,
                        onChange:this.handleChangeTwo
                      })(
-                      <Select placeholder="请选择商品分类">
+                      <Select placeholder="商品规格2">
                         <Option value={0} key={0}>无</Option>
                         {
                           goodsType.length>0 &&
@@ -504,7 +498,7 @@ class AddGoodsForm extends Component {
                      )
                    }
                    <Creatlabel
-                     disabled={this.state.disabledTwo}
+                     disabled={disabledTwo}
                      deleteGoodsLabel={this.deleteGoodsLabel.bind(this)}
                      addGoodsLabel={this.addGoodsLabel.bind(this)}
                      level="two"/>
@@ -513,9 +507,17 @@ class AddGoodsForm extends Component {
             }
             <Col span={24}>
               <FormItem label='商品信息' {...formItemLayout2}>
-                 <GoodsInfo
-                   form={this.props.form}
-                   isHasSize={this.props.addGoods.specOne.length>0?true:false}/>
+                {
+                  this.props.data.source==0?
+                  <GoodsInfo
+                    form={this.props.form}
+                    isHasSize={this.props.addGoods.specData.specOne.length>0?true:false}/>
+                    :
+                    <OutLineGoodsInfo
+                      form={this.props.form}
+                      isHasSize={this.props.addGoods.specData.specOne.length>0?true:false}/>
+                }
+
                </FormItem>
             </Col>
             <Col span={24}>
@@ -562,7 +564,14 @@ class AddGoodsForm extends Component {
                      {getFieldDecorator('spuStatus',{
                        rules: [{ required: true, message: '请选择商品状态'}]
                      })(
-                       <Input placeholder="Username" />
+                       <Select placeholder="请选择商品状态">
+                           <Option value={1} key={1}>初始化商品</Option>
+                           <Option value={2} key={2}>新商品</Option>
+                           <Option value={3} key={3}>正常商品</Option>
+                           <Option value={4} key={4}>待淘汰商品</Option>
+                           <Option value={5} key={5}>淘汰商品</Option>
+                           <Option value={6} key={6}>删除商品</Option>
+                       </Select>
                      )}
                    </FormItem>
                 </Col>
@@ -571,7 +580,11 @@ class AddGoodsForm extends Component {
                      {getFieldDecorator('salesAttr',{
                        rules: [{ required: true, message: '请选择销售属性'}]
                      })(
-                       <Input placeholder="Username" />
+                       <Select placeholder="请选择销售属性">
+                           <Option value={1} key={1}>待观察商品</Option>
+                           <Option value={2} key={2}>畅销商品</Option>
+                           <Option value={3} key={3}>滞销商品</Option>
+                       </Select>
                      )}
                    </FormItem>
                 </Col>
@@ -579,8 +592,8 @@ class AddGoodsForm extends Component {
                   <FormItem label='季节商品' {...formItemLayout}>
                      {getFieldDecorator('isSeasonSpu')(
                        <RadioGroup>
-           							<Radio value={true}>是</Radio>
-           							<Radio value={false}>否</Radio>
+           							<Radio value={1} key={1}>是</Radio>
+           							<Radio value={0} key={0}>否</Radio>
            						 </RadioGroup>
                      )}
                    </FormItem>

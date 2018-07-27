@@ -130,7 +130,8 @@ import  CtipLogList from '../goods/cTipGoods/LogList';//C端商品--日志
 import  InternalSort from '../goods/internalSort/index.js';//内部分类
 import  CountryManage from '../goods/countryManage/index.js';//国家管理
 //电商中心
-import ProductInfo from '../online/productInfo/index.js';
+import ProductInfo from '../online/productInfo/index.js';//商品信息
+import EditGoods from '../online/productInfo/EditGoods.js';//修改商品信息
 import Ctimer from '../goods/cTimer/index.js';//c端定时
 import AddTimer from '../goods/cTimer/AddTimer.js';//c端定时
 // 合作中心
@@ -250,7 +251,7 @@ class Content extends React.Component {
 
                                     // case "802000": return <OnlineGoodsIndex data={this.props.data}/>
                                     case "802000": return <ProductInfo data={this.props.data} componkey={this.props.componkey}/>
-                                    case "802000edit":return  <OnlineGoodEdit data={this.props.data}/>;
+                                    case "802000edit":return  <EditGoods data={this.props.data}/>;
                                     case "802000info":return  <OnlineGoodinfo data={this.props.data}/>;
                                     case "802000editconfig": return <OnlineConfig data={this.props.data}/>;
 
@@ -318,8 +319,8 @@ class Content extends React.Component {
 }
 
 function mapStateToProps(state) {
-    // const {loding} = state.tab;
-    const loding = state.loading.global && state.loading.effects['tab/loding'];
+    const {loding} = state.tab;
+    // const loding = state.loading.global && state.loading.effects['tab/loding'];
     return {loding};
 }
 

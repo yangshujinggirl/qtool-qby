@@ -21,6 +21,17 @@ class FirstSort extends Component {
       isEdit:false
     }
   }
+  componentWillMount() {
+    const { type } =this.props;
+    this.props.dispatch({
+      type:'internalSort/fetchCategory',
+      payload:{level:type}
+    })
+  }
+  //搜索
+  searchData(values) {
+    console.log(values)
+  }
   //初始化列头
   getcolumns() {
     let initContent;
@@ -59,10 +70,6 @@ class FirstSort extends Component {
       isEdit:true
     })
   }
-  //搜索
-  searchData(values) {
-    console.log(values)
-  }
   //新增
   addSort() {
     this.setState({
@@ -70,10 +77,11 @@ class FirstSort extends Component {
       isEdit:false
     })
   }
-  //新增
-  onSubmit() {
+  //提交
+  onSubmit(values) {
     console.log(values)
   }
+  //取消
   onCancel() {
     this.setState({
       visible:false
@@ -81,6 +89,8 @@ class FirstSort extends Component {
   }
   render() {
     const { type } =this.props;
+    const { dataList } = this.props.internalSort;
+    const { isEdit, visible } =this.state;
     return(
       <div className="common-sort-components">
         <FilterForm
@@ -90,20 +100,20 @@ class FirstSort extends Component {
           <Button
             type="primary"
             size="large"
-            onClick={()=>this.addSort(this.state.type)}>
+            onClick={()=>this.addSort(type)}>
             { this.getcolumns().text }
           </Button>
         </div>
         <Qtable
           columns={this.getcolumns().columns}
-          dataSource={this.props.internalSort.dataList}
+          dataSource={dataList}
           onOperateClick={this.handleEdit.bind(this)}/>
         <AddModel
           onSubmit={this.onSubmit.bind(this)}
           onCancel={this.onCancel.bind(this)}
           type={type}
-          isEdit={this.state.isEdit}
-          visible={this.state.visible}/>
+          isEdit={isEdit}
+          visible={visible}/>
       </div>
     )
   }

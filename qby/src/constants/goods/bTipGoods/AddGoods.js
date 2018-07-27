@@ -248,6 +248,7 @@ class AddGoodsForm extends Component {
             <Col span={24}>
               <FormItem label='商品描述' {...formItemLayout}>
                 <AddGoodsDesc
+                  dataSource={[]}
                   form={this.props.form}/>
                </FormItem>
             </Col>
