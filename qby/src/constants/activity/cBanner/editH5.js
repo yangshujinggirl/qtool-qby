@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'dva';
 import {GetServerData} from '../../../services/services';
 import {deepcCloneObj} from '../../../utils/commonFc';
-import '../../style/h5_config.css';
+import '../../../style/h5_config.css';
 //引入三部分区域
 import LeftAddType from './left/index';
 import CenterPreview from './center/index';
@@ -24,12 +24,12 @@ class H5_configure extends React.Component{
 		if(!this.props.data.addNew){
 			this.props.dispatch({
 				type:'tab/initDeletestate',
-				payload:'404000edit'+this.props.data.pdBannerId+'h5'
+				payload:'101000edit'+this.props.data.pdBannerId+'h5'
 			  });
 		}else{
 			this.props.dispatch({
 				type:'tab/initDeletestate',
-				payload:'404000edith5'
+				payload:'101000edith5'
 			});
 		}
 	}
@@ -49,7 +49,7 @@ class H5_configure extends React.Component{
 				  }
 				}
 		  	}
-		  	const result=GetServerData('qerp.web.pd.banner.config.save',data);
+		  	const result=GetServerData('qerp.web.pd.cbanner.config.save',data);
 			result.then((res) => {
 				return res;
 			}).then((json) => {
@@ -113,7 +113,7 @@ class H5_configure extends React.Component{
 				let data = {
 					'pdBannerId':this.props.data.pdBannerId
 				}
-				const result=GetServerData('qerp.web.pd.banner.config.info',data);
+				const result=GetServerData('qerp.web.pd.cbanner.config.info',data);
 				result.then((res) => {
 					return res;
 				}).then((json) => {

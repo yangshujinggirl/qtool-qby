@@ -41,7 +41,7 @@ class GoodsEditForm extends React.Component{
                         return false;
                     }else{
                         let data = {"code":values.code};
-                        const result=GetServerData2('qerp.web.pd.banner.config.pdInfo',data);
+                        const result=GetServerData2('qerp.web.pd.cbanner.config.pdInfo',data);
                         result.then((res) => {
                             return res;
                         }).then((json) => {
@@ -52,7 +52,7 @@ class GoodsEditForm extends React.Component{
                                 tempData.pdSpu.name = json.pdSpu.name;
                                 tempData.pdSpu.price = json.pdSpu.price;
                                 let data2={"code":values.rowcode};
-                                const result2=GetServerData2('qerp.web.pd.banner.config.pdInfo',data2);
+                                const result2=GetServerData2('qerp.web.pd.cbanner.config.pdInfo',data2);
                                 result2.then((res) => {
                                     return res;
                                 }).then((json) => {
@@ -83,7 +83,7 @@ class GoodsEditForm extends React.Component{
                         })
                     }
                 }else{
-                    const result=GetServerData('qerp.web.pd.banner.config.pdInfo',values);
+                    const result=GetServerData('qerp.web.pd.cbanner.config.pdInfo',values);
                     result.then((res) => {
                         return res;
                     }).then((json) => {

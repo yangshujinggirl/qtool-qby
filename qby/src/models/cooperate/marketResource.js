@@ -1,5 +1,5 @@
 
-import {getListApi} from '../../services/cooperate/marketResource'
+import { getListApi } from '../../services/cooperate/marketResource'
 export default {
     namespace: 'marketResource',
     state:{
@@ -23,20 +23,13 @@ export default {
     },
     effects:{
         *fetchList({payload:values},{call, put}) {
-            // yield put({
-            //   type:'changeStatus',
-            //   payload:true
-            // })
-            values = Object.assign(
-              {"dateStart":"2018-06-13 00:00:00","dateEnd":"2018-07-12 23:59:59"},
-            values)
             const result =  yield call( getListApi,values );
             if(result.code == '0'){
-              const { spOrders, currentPage, limit, total } = result;
+              const { marketRes, currentPage, limit, total } = result;
               yield put ({
                 type: 'getList',
                 payload:{
-                  dataList:spOrders,
+                  dataList:marketRes,
                   currentPage,
                   limit,
                   total,

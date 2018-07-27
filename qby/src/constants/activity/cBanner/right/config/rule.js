@@ -2,7 +2,7 @@ import { Form, Select, Input, Button,Upload, Icon, message,Radio} from 'antd';
 const FormItem = Form.Item;
 const { TextArea } = Input;
 import { connect } from 'dva';
-import {deepcCloneObj} from '../../../../utils/commonFc';
+import {deepcCloneObj} from '../../../../../utils/commonFc';
 
 class RuleEditForm extends React.Component{
 	constructor(props) {
@@ -10,7 +10,7 @@ class RuleEditForm extends React.Component{
 	    this.state = {
 	    }
 	}
-	
+
 	//显示当时的文本
 	showRuleCurrent = (e) =>{
 		let tempConfigArr = deepcCloneObj(this.props.configArrPre);
@@ -48,7 +48,7 @@ class RuleEditForm extends React.Component{
 				payload:tempConfigArr
 		});
 	}
-    
+
 	render(){
 		const { getFieldDecorator } = this.props.form;
 		return (
@@ -71,7 +71,7 @@ class RuleEditForm extends React.Component{
 	}
 
 	componentDidMount(){
-		
+
 	}
 }
 
@@ -81,10 +81,10 @@ function mapStateToProps(state) {
 }
 
 const RuleEdit = Form.create({
-	mapPropsToFields(props) { 
-		return { 
+	mapPropsToFields(props) {
+		return {
             text: Form.createFormField({value: props.configArrPre[props.currentItem].text?props.configArrPre[props.currentItem].text:''}),
-		}; 
+		};
 	}
 })(RuleEditForm);
 

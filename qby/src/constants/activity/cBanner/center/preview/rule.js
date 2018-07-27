@@ -87,7 +87,7 @@ class ShowRule extends React.Component{
 	              <div className={this.props.index == this.props.currentItem?'preview-rule selected-border':'preview-rule'}>
 	                  <div className='rule-wrapper' onClick={this.editItem.bind(this)}>
 	                    <div className='rule-header'>
-                  				<div style={{width:'98px',height:'39px',margin:'1px auto 0px'}}><img src={require('../../../../assets/rule_title.png')}  style={{width:'100%',height:'100%'}}/></div>
+                  				<div style={{width:'98px',height:'39px',margin:'1px auto 0px'}}><img src={require('../../../../../assets/rule_title.png')}  style={{width:'100%',height:'100%'}}/></div>
 	                    </div>
 	                      <div className='rule-content'>
 	                      	<TextArea rows={4} value={this.props.data.text?this.props.data.text:''} className='textareas' disabled/>

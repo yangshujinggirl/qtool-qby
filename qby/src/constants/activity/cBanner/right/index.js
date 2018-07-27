@@ -1,4 +1,4 @@
-import {GetServerData} from '../../../services/services';
+import {GetServerData} from '../../../../services/services';
 import { Button, Icon } from 'antd';
 import { connect } from 'dva';
 //
@@ -9,7 +9,7 @@ import RuleEdit from './config/rule';
 
 class RightConfig extends React.Component{
 	state = {};
-    
+
   	render(){
      	return(
         	<div className='right-configure'>
@@ -41,10 +41,10 @@ class RightConfig extends React.Component{
                                 )
                             )
                             )
-                        }   
-                        </div>  
+                        }
+                        </div>
                         :
-                        null     
+                        null
                     )
                     :
                     null
@@ -52,7 +52,7 @@ class RightConfig extends React.Component{
             </div>
       	)
 	}
-	  
+
 	componentDidMount(){}
 }
 
