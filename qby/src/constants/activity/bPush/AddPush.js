@@ -60,6 +60,7 @@ class AddCoupon extends Component {
     }else{
       this.setState({  bannerIdNum:false,code:false,H5Url:false,textInfo:true})
     }
+    this.props.form.resetFields(['bannerIdNum','code','H5Url','textInfo'])
   }
   //推送时间变化的时候
   choice =(e)=> {
@@ -73,7 +74,7 @@ class AddCoupon extends Component {
   //修改时初始化数据
   componentDidMount(){
     const id = this.props.data.pdSpuId
-    
+
   }
 
   render(){
