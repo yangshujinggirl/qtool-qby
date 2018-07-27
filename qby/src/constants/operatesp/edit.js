@@ -95,8 +95,9 @@ class SpEditForm extends React.Component{
 	//保存
 	handleSubmit = (e) => {
 		e.preventDefault();
+		console.log()
+
 		this.props.form.validateFields((err, value) => {
-			console.log(this.state.fileList)
 		    if (!err) {
 				value.openWechat = String(value.openWechat);
 				value.openAlipay = String(value.openAlipay);
@@ -115,39 +116,41 @@ class SpEditForm extends React.Component{
 				if(this.props.data){
 					value.spShopId=this.props.data.spShopId
 				}
-
 				const imgArr = this.state.fileList;
-				// console.log(imgArr);
-				// const url = [];
-				// const imgArrs = imgArr.map((item) => {
-				// 	if(item.status == 'done'){
-				// 		url.push(item.response.data[0])
-				// 	}
-				// })
-				// console.log(url)
+				const url = [];
+				const imgArrs = imgArr.map((item) => {
+					if(item.status == 'done'){
+						url.push(item.response.data[0])
+					}
+				})
+				value.url = url;
+				if(JSON.stringify(this.state.fileList) == '[]'){
+					message.warn('请上传合同信息',.8)
+				}else{
+	        const values={spShop:value}
+	        const result=GetServerData('qerp.web.sp.shop.save',values)
 
-        const values={spShop:value}
-        const result=GetServerData('qerp.web.sp.shop.save',values)
-        result.then((res) => {
-            return res;
-        }).then((json) => {
-          if(json.code=='0'){
-						if(this.props.data){
-							message.success('门店修改成功',.8)
-							this.deleteTab()
-						}else{
-							//弹窗
-							this.setState({
-								spname:json.name,
-								spusername:json.username,
-								sppassword:json.password
-							},function(){
-								this.modelsuccess()
-							})
-						}
-          }
-        })
-      }
+	        result.then((res) => {
+	            return res;
+	        }).then((json) => {
+	          if(json.code=='0'){
+							if(this.props.data){
+								message.success('门店修改成功',.8)
+								this.deleteTab()
+							}else{
+								//弹窗
+								this.setState({
+									spname:json.name,
+									spusername:json.username,
+									sppassword:json.password
+								},function(){
+									this.modelsuccess()
+								})
+							}
+	          }
+	        })
+				};
+      };
     });
 	}
 	//取消
@@ -333,7 +336,9 @@ class SpEditForm extends React.Component{
 			})
 		}
 	}
-
+	changeImg =(fileList)=> {
+		this.setState({fileList:fileList})
+	}
   	render(){
 			const { getFieldDecorator } = this.props.form;
      	return(
@@ -742,7 +747,7 @@ class SpEditForm extends React.Component{
 							action = '/erpWebRest/qcamp/upload.htm?type=spu'
 							fileList = {this.state.fileList}
 							maxLength = '1'
-							required = {true}
+							changeImg = {this.changeImg}
 						/>
 					</FormItem>
             	<FormItem wrapperCol={{ offset: 4}} style = {{marginBottom:0}}>

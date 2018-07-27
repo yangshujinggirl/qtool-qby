@@ -8,9 +8,9 @@ export default {
         currentItem:1,
         syncInitFc:{}
 	},
-	  
+
   	reducers: {
-		syncConfigArr(state, { payload:configArr}) {
+		    syncConfigArr(state, { payload:configArr}) {
             return {...state,configArr}
         },
         syncConfigArrPre(state, { payload:configArrPre}) {
@@ -24,7 +24,7 @@ export default {
         }
   	},
   	effects: {
-  		
+
   	},
   	subscriptions: {
 

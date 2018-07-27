@@ -1,19 +1,19 @@
 import { Form, Select, Input, Button,Upload, Icon, message } from 'antd';
-import {deepcCloneObj} from '../../../utils/commonFc';
+import {deepcCloneObj} from '../../../../../utils/commonFc';
 import { connect } from 'dva';
-class Avatar extends React.Component {
+class AvatarImg extends React.Component {
     state = {};
 
     handleChange = (info) => {
         if (info.file.status === 'done') {
             if(info.file.response.code==0){
                 const urldata=info.file.response.data;
-                let tempFormValue = deepcCloneObj(this.props.formValue);
-                tempFormValue.url = urldata[0];
+                let tempConfigArr = deepcCloneObj(this.props.configArrPre);
+                tempConfigArr[this.props.currentItem].text = urldata[0];
                 this.props.dispatch({
-                    type:'operatebanner/syncEditInfo',
-                    payload:tempFormValue
-                })
+                    type:'h5config/syncConfigArrPre',
+                    payload:tempConfigArr
+                });
             }
         }
     }
@@ -35,17 +35,23 @@ class Avatar extends React.Component {
         const fileDomain=eval(sessionStorage.getItem('fileDomain'));
         return (
             <Upload
-                className="avatar-uploader"
+                className="h5-avatar-uploader"
                 name="imgFile"
                 showUploadList={false}
-                action="/erpWebRest/qcamp/upload.htm?type=banner"
+                action="/erpWebRest/qcamp/upload.htm?type=bannerConfig"
                 beforeUpload={this.beforeUpload}
                 onChange={this.handleChange}
             >
             {
-                this.props.formValue.url
-                ?<div className='upimg_box'><img src={fileDomain+this.props.formValue.url} alt="" className="avatar" /></div>
-                :<div className='upimg_box_out'><Icon type="plus" className="avatar-uploader-trigger" /></div>
+                !this.props.data?
+                <Icon type="plus" className="h5-avatar-uploader-trigger" />
+                :
+                <div className='upload-img-wrapper'>
+                    <div className='upload-img-shadow'>
+                        <div>重新上传</div>
+                    </div>
+                    <img src={fileDomain+this.props.data} alt="" className="h5-avatar"/>
+                </div>
             }
             </Upload>
         );
@@ -53,8 +59,8 @@ class Avatar extends React.Component {
 }
 
 function mapStateToProps(state) {
-    const {formValue} = state.operatebanner;
-    return {formValue};
+	const {configArr,configArrPre,currentItem}= state.h5config;
+	return {configArr,configArrPre,currentItem};
 }
 
-export default connect(mapStateToProps)(Avatar);
+export default connect(mapStateToProps)(AvatarImg);

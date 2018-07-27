@@ -28,7 +28,7 @@ class PicturesWall extends React.Component {
             previewVisible: true
         });
     }
-    
+
     handleChange = ({fileList }) =>{
         this.setState({ fileList })
         var res=fileList.every(function(item){
@@ -45,7 +45,7 @@ class PicturesWall extends React.Component {
             })
         }
     }
-    
+
     setinit=(values)=>{
         this.setState({
             fileList:values
@@ -55,8 +55,8 @@ class PicturesWall extends React.Component {
         const { previewVisible, previewImage, fileList } = this.state;
         const uploadButton = (
             <div>
-            <Icon type="plus" />
-            <div className="ant-upload-text">添加图片</div>
+              <Icon type="plus" />
+              <div className="ant-upload-text">添加图片</div>
             </div>
         );
         return (
@@ -75,7 +75,7 @@ class PicturesWall extends React.Component {
                 <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
                     <img alt="example" style={{ width: '100%' }} src={previewImage} />
                 </Modal>
-        </div>   
+        </div>
         )
     }
 
@@ -83,7 +83,7 @@ class PicturesWall extends React.Component {
         this.setinit(nextProps.initfileList)
     }
 
-} 
+}
 
 function mapStateToProps(state) {
     const {spShops,total,limit,currentPage,values} = state.operatesp;

@@ -23,11 +23,11 @@ export default{
     *fetchList({payload:values},{call,put}){
        const result = yield call(getListApi,values);
        if(result.code == '0'){
-         const { spOrders, currentPage, limit, total } = result;
+         const { pdBanners, currentPage, limit, total } = result;
          yield put({
            type:'getList',
            payload:{
-             dataList:spOrders,
+             dataList:pdBanners,
              currentPage,
              limit,
              total,

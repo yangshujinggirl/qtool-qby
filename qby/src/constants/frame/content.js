@@ -136,18 +136,17 @@ import Ctimer from '../goods/cTimer/index.js';//c端定时
 import AddTimer from '../goods/cTimer/AddTimer.js';//c端定时
 // 合作中心
 import MarketResource from '../cooperate/marketResource/index';
-import AddStaff from '../cooperate/marketResource/addStaff';
+import AddStaff from '../cooperate/marketResource/AddStaff';
 //活动中心
-import Cbanner from '../activity/cBanner/index';
-import AddBanner from '../activity/cBanner/addBanner';
 import Coupon from '../activity/coupon/index';
+import Cbanner from '../activity/cBanner/index'
 import CouponDetail from '../activity/coupon/CouponDetail';
 import AddCoupon from '../activity/coupon/AddCoupon';
 import CouponRecord from '../activity/coupon/CouponRecord/index';
-import Cpush from '../activity/cPush/index';
-import Bpush from '../activity/bPush/index';
-import BpushDetail from '../activity/bPush/BpushDetail'
-import AddPush from '../activity/bPush/AddPush'
+import Cpush from '../activity/cPush/index'; //c端push
+import Bpush from '../activity/bPush/index'; //b端push
+import BpushDetail from '../activity/bPush/BpushDetail' //b端详情
+import AddPush from '../activity/bPush/AddPush' //新增push页面
 
 //客服中心
 import UserFeedBack from '../server/userFeedBack/index'; //用户反馈
@@ -269,8 +268,7 @@ class Content extends React.Component {
                                     case "501000edit" : return <AddStaff data={this.props.data} componkey={this.props.componkey}/>
 
                                     // --------------------------------活动中心----------------------------
-                                    case "101000" : return <Cbanner data={this.props.data} componkey={this.props.componkey}/> //Cbanner
-                                    case "101000edit" : return <AddBanner data={this.props.data}/> //新增banner
+                                    case "101000" : return <Cbanner data={this.props.data} componkey={this.props.componkey}/> //优惠券
                                     case "102000" : return <Coupon data={this.props.data} componkey={this.props.componkey}/> //优惠券
                                     case "102000edit" : return <AddCoupon data={this.props.data} componkey={this.props.componkey}/> //创建优惠券
                                     case "102000info" : return <CouponDetail data={this.props.data}/> //优惠券详情

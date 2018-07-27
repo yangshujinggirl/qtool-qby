@@ -1,5 +1,4 @@
 import React from 'react';
-import {GetServerData} from '../../services/services';
 import { Button, Icon } from 'antd';
 import { connect } from 'dva';
 //search
@@ -10,7 +9,6 @@ import "../../style/operate_banner.css";
 
 class OperatebannerIndex extends React.Component{
 	state = {};
-	
 	addNew = () =>{
 		const paneitem={title:'新建banner',key:'404000edit',componkey:'404000edit',data:null}
   		this.props.dispatch({
@@ -22,13 +20,13 @@ class OperatebannerIndex extends React.Component{
             payload:{}
 		})
   	}
-    
+
   	render(){
      	return(
         	<div className='content_box'>
                 <OperatebannerSearch/>
-				<Button 
-					type="primary" 
+				<Button
+					type="primary"
 					size='large'
 					className='mt20'
 					onClick={this.addNew}
@@ -39,7 +37,7 @@ class OperatebannerIndex extends React.Component{
         	</div>
       	)
 	}
-	  
+
 	componentDidMount(){}
 }
 
