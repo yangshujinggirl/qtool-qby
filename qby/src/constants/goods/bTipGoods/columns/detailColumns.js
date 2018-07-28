@@ -1,7 +1,7 @@
 
 const DetailSizeColumns = [{
      title: '商品规格',
-     dataIndex: 'actionTypeStr',
+     dataIndex: 'name',
    },{
      title: '商品编码',
      dataIndex: 'code',

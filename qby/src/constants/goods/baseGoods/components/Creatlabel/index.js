@@ -45,7 +45,12 @@ class Creatlabel extends Component {
 
   render() {
     const { inputVisible, inputValue } = this.state;
-    const tags = this.props.level=='one'?this.props.addGoods.specData.specOne:this.props.addGoods.specData.specTwo;
+    let tags;
+    if(this.props.level=='one') {
+      tags = this.props.addGoods.specData.specOne
+    } else {
+      tags = this.props.addGoods.specData.specTwo
+    }
     return(
       <div>
         {

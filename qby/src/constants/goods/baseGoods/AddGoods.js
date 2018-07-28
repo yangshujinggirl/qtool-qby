@@ -70,7 +70,8 @@ class AddGoodsForm extends Component {
       })
     } else {
       this.props.dispatch({
-        type:'addGoods/resetData'
+        type:'addGoods/resetData',
+        payload:source
       })
     }
   }
@@ -324,6 +325,7 @@ class AddGoodsForm extends Component {
       sizeIdList,
       specData
     } = this.props.addGoods;
+    console.log(this.props.addGoods.pdSkus)
     return(
       <div className="add-goods-components">
         <Form className="qtools-form-components">
@@ -529,14 +531,11 @@ class AddGoodsForm extends Component {
                 {
                   this.props.data.source==0?
                   <GoodsInfo
-                    form={this.props.form}
-                    isHasSize={this.props.addGoods.specData.specOne.length>0?true:false}/>
+                    form={this.props.form}/>
                     :
-                    <OutLineGoodsInfo
-                      form={this.props.form}
-                      isHasSize={this.props.addGoods.specData.specOne.length>0?true:false}/>
+                  <OutLineGoodsInfo
+                    form={this.props.form}/>
                 }
-
                </FormItem>
             </Col>
             <Col span={24}>

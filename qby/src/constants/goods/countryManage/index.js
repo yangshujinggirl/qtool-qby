@@ -1,7 +1,7 @@
 import React , { Component } from 'react';
 import { connect } from 'dva';
 import { Button, Modal, Form, Input, Select, Card, Row, Col } from 'antd';
-import UpLoadFile from '../components/UpLoadFile';
+import UpLoadFile from './UpLoadFile.js';
 import { goodSaveApi } from '../../../services/goodsCenter/countryManage.js';
 
 import './index.less';
@@ -20,13 +20,16 @@ class CountryManageForm extends Component {
   constructor(props) {
     super(props);
     this.state={
-      visible:false
+      visible:false,
+      countryDetail:{
+        fileList:[]
+      }
     }
   }
   componentWillMount() {
     this.props.dispatch({
       type:'countryManage/fetchList',
-      payload:{}
+      payload:{},
     })
   }
   //新增
@@ -37,26 +40,17 @@ class CountryManageForm extends Component {
   }
   //修改
   editCountry(el) {
-    const { fileDomain } =this.props.countryManage;
-    el.fileList = [{
-      url:`${fileDomain}${el.url}`,
-      uid:el.pdCountryId,
-      name: el.url,
-      status: 'done',
-    }]
-    this.props.dispatch({
-      type:'countryManage/editCountry',
-      payload:el
-    })
     this.setState({
-      visible:true
+      visible:true,
+      countryDetail:el
     })
   }
   handleOk() {
     this.props.form.validateFields((err, values) => {
+      console.log(values)
      if (!err) {
        let url = values.url;
-       url = url.map(el=>(el.url));
+       url = url[0].name;
        values = {...values,url};
        this.saveCountry(values);
      }
@@ -78,19 +72,21 @@ class CountryManageForm extends Component {
     })
   }
   handleCancel =()=> {
-    let countryDetail = {fileList:[]};
-    this.props.dispatch({
-      type:'countryManage/editCountry',
-      payload:countryDetail
-    })
     this.setState({
-      visible:false
+      visible:false,
+      countryDetail:{
+        fileList:[]
+      }
     })
+  }
+  upLoadOnChange() {
+
   }
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { dataList, countryDetail, fileDomain } = this.props.countryManage;
-    const { visible } =this.state;
+    const { dataList } = this.props.countryManage;
+    const { visible, countryDetail } =this.state;
+    console.log(countryDetail)
     return(
       <div className="country-manage-components">
         <div className="handle-add-btn-wrp">
@@ -122,6 +118,7 @@ class CountryManageForm extends Component {
               label="国家logo"
               {...formItemLayout}>
               <UpLoadFile
+                fileList={countryDetail.fileList}
                 form={this.props.form}/>
             </FormItem>
             <FormItem
@@ -131,7 +128,7 @@ class CountryManageForm extends Component {
                 rules: [{ required: true, message: 'Please input your Password!' }],
                 initialValue:countryDetail.name
               })(
-                <Input placeholder="Password" />
+                <Input placeholder="请输入国家名称" />
               )}
             </FormItem>
             <FormItem

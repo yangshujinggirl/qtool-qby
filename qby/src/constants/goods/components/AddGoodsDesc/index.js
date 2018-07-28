@@ -14,11 +14,7 @@ class AddEditableTable extends React.Component {
 			key:0
 		};
 	}
-	// componentWillReceiveProps(props) {
-	// 	this.setState({
-	// 		dataSource:props.dataSource
-	// 	})
-	// }
+
 	handleAdd (val){
 		let { dataSource } = this.state;
 		let type = val=='text'?'1':'2';
@@ -54,8 +50,10 @@ class AddEditableTable extends React.Component {
 							}
 						</div>
 		} else {
+			let fileList = [];
+			fileList.push(record.content);
 			return <UpLoadFile
-							fileList={[record]}
+							fileList={record.content==''?[]:fileList}
 							form={this.props.form}
 							index={index}/>
 		}

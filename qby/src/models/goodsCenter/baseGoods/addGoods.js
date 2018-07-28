@@ -61,20 +61,31 @@ export default {
       return { ...state, pdSkus }
     },
     //重置store
-    resetData(state) {
-      const pdSpu={
-              pdSkus:[{
-                      code:'',
-                      barcode:'',
-                      salePrice:'',
-                      purchasePrice:'',
-                      receivePrice:'',
-                      deliveryPrice:'',
-                      key:'0000'
-                    }]
-            };
+    resetData(state,{ payload : source }) {
+      const pdSpu={};
       const fileList=[];
-      const pdSkus = []
+      let pdSkus;
+      if(source == 0) {
+        pdSkus=[{
+                code:'',
+                barcode:'',
+                salePrice:'',
+                purchasePrice:'',
+                receivePrice:'',
+                deliveryPrice:'',
+                key:'0000'
+              }]
+      } else {
+        pdSkus=[{
+                code:'',
+                barcode:'',
+                toBPrice:'',
+                toCPrice:'',
+                costPrice:'',
+                tagPrice:'',
+                key:'0000'
+              }]
+      }
       const specData={//商品属性
         specOne:[],
         specTwo:[],
@@ -265,8 +276,8 @@ export default {
       }
     },
     *handleSpec({ payload: {specOne, specTwo} },{ call, put ,select}) {
-      let oldSpecOne = specOne;
-      let oldSpecTwo = specTwo;
+      // let oldSpecOne = specOne;
+      // let oldSpecTwo = specTwo;
       let pdSkus=[];
       let infoObject = {//商品信息
             code:'',
@@ -277,19 +288,19 @@ export default {
             deliveryPrice:''
           };
 
-      if(oldSpecOne.length >0) {
-        if(oldSpecTwo.length >0) {
-          for(let i=0;i<oldSpecOne.length;i++) {
-            for(let j=0;j<oldSpecTwo.length;j++) {
-              let item = {...oldSpecOne[i],...infoObject}
-              item.name = `${oldSpecOne[i].name}/${oldSpecTwo[j].name}`;
-              item.key = `${oldSpecOne[i].key}${oldSpecTwo[j].key}`;
+      if(specOne.length >0) {
+        if(specTwo.length >0) {
+          for(let i=0;i<specOne.length;i++) {
+            for(let j=0;j<specTwo.length;j++) {
+              let item = {...specOne[i],...infoObject}
+              item.name = `${specOne[i].name}/${specTwo[j].name}`;
+              item.key = `${specOne[i].key}${specTwo[j].key}`;
               pdSkus.push(item);
             }
           }
         }else {
-          for(let i=0;i<oldSpecOne.length;i++) {
-            let item = {...oldSpecOne[i],...infoObject}
+          for(let i=0;i<specOne.length;i++) {
+            let item = {...specOne[i],...infoObject}
             pdSkus.push(item);
           }
         }

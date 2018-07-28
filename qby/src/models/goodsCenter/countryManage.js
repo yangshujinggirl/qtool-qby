@@ -10,15 +10,11 @@ export default {
     currentPage:0,
     limit:15,
     total:0,
-    countryDetail:{},
     fileDomain:''
   },
   reducers: {
-    getList( state, { payload : {dataList, currentPage, limit, total, fileDomain} }) {
-      return { ...state, dataList, currentPage, limit, total, fileDomain}
-    },
-    editCountry(state, { payload : countryDetail }) {
-      return {...state, countryDetail }
+    getList( state, { payload : {dataList, currentPage, limit, total} }) {
+      return { ...state, dataList, currentPage, limit, total}
     },
   },
   effects: {
@@ -27,6 +23,12 @@ export default {
       if(result.code=='0') {
         let { countrys, currentPage, limit, total, fileDomain } = result;
         countrys = countrys.map((el) => {
+          el.fileList = [{
+            uid:el.pdCountryId,
+            url:`${fileDomain}${el.url}`,
+            name: el.url,
+            status: 'done',
+          }]
           el.url = `${fileDomain}${el.url}`;
           return el;
         })
@@ -37,7 +39,6 @@ export default {
             currentPage,
             limit,
             total,
-            fileDomain
           }
         })
       }

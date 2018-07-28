@@ -28,7 +28,6 @@ class GoodsDetail extends Component {
     this.state = {
 			dataSource:[],
 			issku:false,
-			spuIdPics:[],
 			pdSpuInfo:[],
       pdSkus:[]
 		};
@@ -44,17 +43,7 @@ class GoodsDetail extends Component {
     })
 
   }
-  formatPdSku() {
-    const { pdSpu, fileDomain } = this.props.addGoods;
-    let pdSkus = pdSpu.pdSkus.map((el)=>{
-      el.name = `${el.pdType1Val.name}/${el.pdType2.name}`;
-      el.picUrl = `${el.fileDomain}${el.picUrl}`
-      return {...el,...el.key,...el.name,...el.picUrl}
-    })
-    this.setState({
-      pdSkus
-    })
-  }
+
   render() {
     const { pdSpu } = this.props.bTipAddGoods;
     return(
@@ -88,7 +77,9 @@ class GoodsDetail extends Component {
     			</FormItem>
     			<FormItem
     				label="商品信息" {...formItemLayout2}>
-            <Qtable columns={DetailColumns} dataSource={pdSpu.pdSkus}/>
+            <Qtable
+              columns={pdSpu.isSkus?DetailSizeColumns:DetailColumns}
+              dataSource={pdSpu.pdSkus}/>
     			</FormItem>
     			<FormItem
     				label="箱规销售" {...formItemLayout}>
@@ -128,7 +119,21 @@ class GoodsDetail extends Component {
           </FormItem>
           <FormItem
             label="商品描述" {...formItemLayout}>
-            <label>{pdSpu.pdSpuInfo}</label>
+              <ul className="img-list-wrap">
+                {
+                  pdSpu.pdSpuInfo&&pdSpu.pdSpuInfo.length>0&&
+                  pdSpu.pdSpuInfo.map((el,index) => (
+                    <li className="img-item" key={index}>
+                      {
+                        el.type == 1?
+                        <span>{el.content}</span>
+                        :
+                        <img src={el.content} style={{'width':'100px','height':'100px'}}/>
+                      }
+                    </li>
+                  ))
+                }
+              </ul>
           </FormItem>
     		</Form>
       </div>

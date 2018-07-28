@@ -42,12 +42,6 @@ const formItemLayout2 = {
 class AddGoodsForm extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      brandDataSource:[],
-      disabledOne:true,
-      disabledTwo:true,
-      specOneId:'',//商品规格
-    }
   }
   componentWillMount() {
     this.initPage()
@@ -86,24 +80,41 @@ class AddGoodsForm extends Component {
           pdSpuId,
           source
         })
+        values = this.formtParams(values);
         this.saveGoods(values)
       }
     });
+  }
+  //参数格式化
+  formtParams(values) {
+    let pdSpuInfo = values.pdSpuInfo;
+    if(pdSpuInfo) {
+      pdSpuInfo.map((el) => {
+        if(el.content instanceof Array) {
+          if(el.content[0].response) {
+            el.content = el.content[0].response.data[0]
+          } else {
+            el.content = el.content[0].name
+          }
+          el.type = '2'
+        } else {
+          el.type = '1'
+        }
+        return el;
+      })
+    }
+    return values;
   }
   //提交api
   saveGoods(values) {
     goodSaveApi(values)
     .then(res=> {
-      console.log(res)
+      this.onCancel()
     },error=> {
       console.log(error)
     })
   }
-  isDirectExpressEvent(e) {
-    e==true?1:0;
-    console.log(e)
-    return e
-  }
+
   render() {
     const { getFieldDecorator } = this.props.form;
     const { pdSpu } = this.props.bTipAddGoods;
@@ -148,13 +159,16 @@ class AddGoodsForm extends Component {
             </Col>
             <Col span={24}>
               <FormItem label='商品信息' {...formItemLayout2}>
-                 <Qtable columns={DetailColumns} dataSource={pdSpu.pdSkus}/>
+                 <Qtable
+                   columns={pdSpu.isSkus?DetailSizeColumns:DetailColumns}
+                   dataSource={pdSpu.pdSkus}/>
                </FormItem>
             </Col>
             <Col span={24}>
               <FormItem label='箱规销售' {...formItemLayout}>
                  {getFieldDecorator('containerSpec',{
-                   rules: [{ required: true, message: '请选择商品状态'}]
+                   rules: [{ required: true, message: '请选择商品状态'}],
+                   initialValue:pdSpu.containerSpec
                  })(
                    <Input placeholder="Username" />
                  )}
@@ -162,40 +176,48 @@ class AddGoodsForm extends Component {
             </Col>
             <Col span={24}>
               <FormItem label='上新商品' {...formItemLayout}>
-                 {getFieldDecorator('isNew')(
+                 {getFieldDecorator('isNew',{
+                   initialValue:pdSpu.isNew
+                 })(
                    <RadioGroup>
-       							<Radio value={true}>是</Radio>
-       							<Radio value={false}>否</Radio>
+       							<Radio value={true} value={true}>是</Radio>
+       							<Radio value={false} value={false}>否</Radio>
        						 </RadioGroup>
                  )}
                </FormItem>
             </Col>
             <Col span={24}>
               <FormItem label='畅销商品' {...formItemLayout}>
-                 {getFieldDecorator('isHot')(
+                 {getFieldDecorator('isHot', {
+                   initialValue:pdSpu.isNew
+                 })(
                    <RadioGroup>
-       							<Radio value={true}>是</Radio>
-       							<Radio value={false}>否</Radio>
+       							<Radio value={true} value={true}>是</Radio>
+       							<Radio value={false} value={false}>否</Radio>
        						 </RadioGroup>
                  )}
                </FormItem>
             </Col>
             <Col span={24}>
               <FormItem label='直邮商品' {...formItemLayout}>
-                 {getFieldDecorator('isDirectExpress')(
+                 {getFieldDecorator('isDirectExpress',{
+                   initialValue:pdSpu.isDirectExpress
+                 })(
                    <RadioGroup>
-       							<Radio value={1}>是</Radio>
-       							<Radio value={0}>否</Radio>
+       							<Radio value={1} value={1}>是</Radio>
+       							<Radio value={0} value={0}>否</Radio>
        						 </RadioGroup>
                  )}
                </FormItem>
             </Col>
             <Col span={24}>
               <FormItem label='预售商品' {...formItemLayout}>
-                 {getFieldDecorator('isPresell')(
+                 {getFieldDecorator('isPresell',{
+                   initialValue:pdSpu.isPresell
+                 })(
                    <RadioGroup>
-       							<Radio value={1}>是</Radio>
-       							<Radio value={0}>否</Radio>
+       							<Radio value={1} value={1}>是</Radio>
+       							<Radio value={0} value={0}>否</Radio>
        						 </RadioGroup>
                  )}
                </FormItem>
@@ -206,7 +228,7 @@ class AddGoodsForm extends Component {
                    getFieldDecorator('trialDay',{
                      initialValue:pdSpu.trialDay
                    })(
-                      <Input placeholder="Username" />
+                      <Input placeholder="请输入试销天数" />
                    )
                  }
                </FormItem>
@@ -217,7 +239,7 @@ class AddGoodsForm extends Component {
                    getFieldDecorator('outStockDay',{
                      initialValue:pdSpu.outStockDay
                    })(
-                      <Input placeholder="Username" />
+                      <Input placeholder="请输入缺货天数" />
                    )
                  }
                </FormItem>
@@ -228,7 +250,7 @@ class AddGoodsForm extends Component {
                    getFieldDecorator('outStockRate',{
                      initialValue:pdSpu.outStockRate
                    })(
-                      <Input placeholder="Username" />
+                      <Input placeholder="请输入缺货率" />
                    )
                  }
                </FormItem>
@@ -239,16 +261,19 @@ class AddGoodsForm extends Component {
                    getFieldDecorator('targetTurnoverDay',{
                      initialValue:pdSpu.targetTurnoverDay
                    })(
-                      <Input placeholder="Username" />
+                      <Input placeholder="请输入目标周转天数" />
                    )
                  }
                </FormItem>
             </Col>
             <Col span={24}>
               <FormItem label='商品描述' {...formItemLayout}>
-                <AddGoodsDesc
-                  dataSource={[]}
-                  form={this.props.form}/>
+                {
+                  pdSpu.pdSpuInfo&&
+                  <AddGoodsDesc
+                    dataSource={pdSpu.pdSpuInfo}
+                    form={this.props.form}/>
+                }
                </FormItem>
             </Col>
             <Col span={24}>

@@ -7,9 +7,10 @@ class UpLoadFile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      fileList:[],
+      fileList:this.props.fileList
     }
   }
+
   beforeUpload(file){
   	const isJPG = file.type === 'image/jpeg';
   	const isPNG = file.type === 'image/png';
@@ -36,13 +37,13 @@ class UpLoadFile extends Component {
   }
   render() {
    const { fileList } = this.state;
-   console.log(fileList)
    return(
       <div style={{'display':'inline-block'}}>
        {
          this.props.form.getFieldDecorator(`pdSpuInfo[${this.props.index}].content`,{
            getValueFromEvent: this.normFile,
-           initialValue:fileList
+           initialValue:fileList,
+           valuePropName:'fileList',
          })(
              <Upload
               className="avatar-uploader"

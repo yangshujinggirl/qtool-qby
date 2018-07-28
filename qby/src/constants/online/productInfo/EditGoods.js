@@ -41,12 +41,6 @@ const formItemLayout2 = {
 class AddGoodsForm extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      brandDataSource:[],
-      disabledOne:true,
-      disabledTwo:true,
-      specOneId:'',//商品规格
-    }
   }
   componentWillMount() {
     this.initPage()
@@ -70,7 +64,6 @@ class AddGoodsForm extends Component {
             type:'tab/initDeletestate',
             payload:key
     });
-
   }
   //提交
   handleSubmit = (e) => {
@@ -78,21 +71,33 @@ class AddGoodsForm extends Component {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       console.log(values)
-      let pdSpuInfo = values.pdSpuInfo;
-      pdSpuInfo = pdSpuInfo.map((el) =>{
+      if (!err) {
+        values = Object.assign(values,{pdSpuId});
+        values = this.formtParams(values);
+        this.saveGoods(values)
+      }
+    });
+  }
+  //参数格式化
+  formtParams(values) {
+    //处理商品描述参数
+    let pdSpuInfo = values.pdSpuInfo;
+    if(pdSpuInfo) {
+      pdSpuInfo.map((el) => {
         if(el.content instanceof Array) {
-          el.content = el.content.map(el=>el.response.data[0]);
-          el.type ='2'
+          if(el.content[0].response) {
+            el.content = el.content[0].response.data[0]
+          } else {
+            el.content = el.content[0].name
+          }
+          el.type = '2'
         } else {
           el.type = '1'
         }
         return el;
       })
-      if (!err) {
-        values = Object.assign(values,{pdSpuId})
-        this.saveGoods(values)
-      }
-    });
+    }
+    return values;
   }
   //提交api
   saveGoods(values) {
@@ -158,14 +163,19 @@ class AddGoodsForm extends Component {
 
             <Col span={24}>
               <FormItem label='商品信息' {...formItemLayout2}>
-                 <Qtable columns={DetailColumns} dataSource={iPdSpu.pdSkus}/>
+                 <Qtable
+                   columns={iPdSpu.isSkus?DetailSizeColumns:DetailColumns}
+                   dataSource={iPdSpu.pdSkus}/>
                </FormItem>
             </Col>
             <Col span={24}>
               <FormItem label='商品描述' {...formItemLayout}>
-                <AddGoodsDesc
-                  dataSource={iPdSpu.pdSpuInfo}
-                  form={this.props.form}/>
+                  {
+                    iPdSpu.pdSpuInfo&&
+                    <AddGoodsDesc
+                      dataSource={iPdSpu.pdSpuInfo}
+                      form={this.props.form}/>
+                  }
                </FormItem>
             </Col>
             <Col span={24}>

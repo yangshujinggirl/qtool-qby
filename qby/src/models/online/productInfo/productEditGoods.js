@@ -5,21 +5,19 @@ import {
 export default {
   namespace:'productEditGoods',
   state: {
-    isHasSize:false,
-    iPdSpu:{},
+    iPdSpu:{
+      isSkus:false
+    },
   },
   reducers: {
     //重置store
     resetData(state) {
-      const iPdSpu={}, fileList=[];
+      const iPdSpu={isSkus:false}, fileList=[];
       return {...state,iPdSpu,}
     },
-    getGoodsInfo(state, { payload : { iPdSpu,fileList, pdSkus } }) {
-      return { ...state, iPdSpu, fileList, pdSkus }
+    getGoodsInfo(state, { payload : { iPdSpu } }) {
+      return { ...state, iPdSpu }
     },
-    setSpec(state,{ payload: {specOne, specTwo, pdSkus} }) {
-      return { ...state, specOne, specTwo, pdSkus}
-    }
   },
   effects: {
     *fetchGoodsInfo({ payload: values },{ call, put ,select}) {
@@ -29,35 +27,36 @@ export default {
       if(result.code == '0') {
         let { iPdSpu, fileDomain } = result;
         let pdSkus = [];
-        let pdSpuInfo=[];
         if(iPdSpu.pdSkus.length>0) {
           pdSkus = iPdSpu.pdSkus.map((el) => {
             let name1 = el.pdType1Val&&el.pdType1Val.name;
             let name2 = el.pdType2Val&&el.pdType2Val.name;
             el.name = el.pdType2Val?`${name1}/${name2}`:`${name1}`;
             el.key = el.pdSkuId;
-            el.picUrl = `${fileDomain}${el.picUrl}`
+            el.picUrl = `${fileDomain}${el.picUrl}`;
+            iPdSpu.isSkus = el.pdType1Val?true:false;
             return el
           })
         } else {
           pdSkus = oldPdSkus;
         }
-        if(iPdSpu.pdSpuInfo&&iPdSpu.pdSpuInfo!=null) {
-          pdSpuInfo = JSON.parse(iPdSpu.pdSpuInfo);
+        //处理商品描述
+        let pdSpuInfo = iPdSpu.pdSpuInfo?JSON.parse(iPdSpu.pdSpuInfo):[];
+        if(pdSpuInfo.length>0) {
           pdSpuInfo = pdSpuInfo.map((el,index) => {
-            if(el.type=='2') {
-              // el.content = `${fileDomain}${el.content}`;
-              let url = `${fileDomain}${el.content}`;
-              el.name = url;
-              el.status = 'done';
-              el.uid = index;
-              el.url = url;
+            if(el.type == '2') {
+              el.content = {
+                uid:index,
+                name:el.content,
+                url: `${fileDomain}${el.content}`,
+                status:'done',
+              }
             }
-              el.key =index;
+            el.key = index
             return el;
           })
         }
-        iPdSpu = {...iPdSpu,pdSkus,pdSpuInfo};
+        iPdSpu = {...iPdSpu, pdSkus, pdSpuInfo};
         yield put({
           type:'getGoodsInfo',
           payload:{

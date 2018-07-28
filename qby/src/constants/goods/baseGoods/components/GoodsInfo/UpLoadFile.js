@@ -7,13 +7,8 @@ class UpLoadFile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      fileList:this.props.countryManage.countryDetail.fileList,
+      fileList:this.props.fileList,
     }
-  }
-  componentWillReceiveProps(props) {
-    this.setState({
-      fileList:props.countryManage.countryDetail.fileList,
-    })
   }
   beforeUpload(file){
   	const isJPG = file.type === 'image/jpeg';
@@ -31,11 +26,6 @@ class UpLoadFile extends Component {
 	handleChange = ({fileList}) => {
     this.setState({
       fileList
-    })
-    let countryDetail= {...this.props.countryManage.countryDetail,fileList};
-    this.props.dispatch({
-      type:'countryManage/editCountry',
-      payload:countryDetail
     })
 	}
   normFile = (e) => {
@@ -55,11 +45,11 @@ class UpLoadFile extends Component {
      return(
         <div>
          {
-           this.props.form.getFieldDecorator('url',{
+           this.props.form.getFieldDecorator(this.props.name,{
              getValueFromEvent: this.normFile,
              valuePropName: 'fileList',
              initialValue:fileList,
-             onChange:this.handleChange
+             onChange:this.handleChange,
            })(
                <Upload
                 name="imgFile"

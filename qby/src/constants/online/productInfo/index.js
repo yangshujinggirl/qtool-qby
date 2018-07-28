@@ -130,8 +130,8 @@ class BtipGoods extends Component {
       key:`${this.state.componkey}edit${record.pdSpuId}`,
       componkey:`${this.state.componkey}edit`,
       data:{
-        // pdSpuId:record.pdSpuId,
-        pdSpuId:'25878',
+        pdSpuId:record.pdSpuId,
+        // pdSpuId:'25878',
         source:record.source,
         key:`${this.state.componkey}edit${record.pdSpuId}`
       }
@@ -145,7 +145,6 @@ class BtipGoods extends Component {
   getLog(record) {
     const paneitem={
       title:'商品日志',
-      // key:`306000editconfig${record.pdSpuId}info`,
       key:`${this.state.componkey}editconfig${record.pdSpuId}info`,
       componkey:`${this.state.componkey}editconfig`,
       data:{

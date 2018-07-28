@@ -13,6 +13,7 @@ import {
   message,
   Table
 } from 'antd';
+import UpLoadFile from './UpLoadFile.js';
 
 const FormItem = Form.Item;
 
@@ -86,6 +87,12 @@ class GoodsInfo extends Component {
                }
              </div>
   }
+  renderTypes =(text, record, index)=> {
+    const { pdSkus } = this.props.addGoods;
+    return  <div>
+               <UpLoadFile form={this.props.form} fileList={[]} name={`pdSkus[${index}].picUrl`}/>
+             </div>
+  }
   render() {
     const { pdSkus,specData } = this.props.addGoods;
     return(
@@ -93,7 +100,7 @@ class GoodsInfo extends Component {
         <Table dataSource={pdSkus} pagination={false} bordered={true}>
           {
             specData.specOne.length>0&&
-            <Table.Column title="商品规格" dataIndex='name' key ={0}/>
+            <Table.Column title="商品规格" width={180} key ={0} render={this.renderTypes}/>
           }
           <Table.Column title="商品编码" key ={1} render={this.renderCode}/>
           <Table.Column title="商品条码" key ={2} render={this.renderBarcode}/>
@@ -101,11 +108,7 @@ class GoodsInfo extends Component {
           <Table.Column title="采购价格" key ={4} render={this.renderPurchasePricee} />
           <Table.Column title="到货价格" key ={5} render={this.renderReceivePrice}/>
           <Table.Column title="出库价格" key ={6} render={this.renderDeliveryPrice}/>
-          {
-            specData.specOne.length>0&&
-            <Table.Column title="上传图片" key ={7} render={this.renderDeliveryPrice}/>
-          }
-
+          <Table.Column title="上传图片" key ={7} render={this.renderTypes}/>
         </Table>
       </div>
     )

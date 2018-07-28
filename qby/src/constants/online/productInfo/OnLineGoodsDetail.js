@@ -25,20 +25,12 @@ const formItemLayout2 = {
 class GoodsDetail extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-			dataSource:[],
-			issku:false,
-			spuIdPics:[],
-			pdSpuInfo:[],
-      pdSkus:[]
-		};
   }
   componentWillMount() {
     const { pdSpuId, source } =this.props.data;
     this.props.dispatch({
       type:'productEditGoods/fetchGoodsInfo',
-      payload:{
-        spuId:pdSpuId}
+      payload:{spuId:pdSpuId}
     })
 
   }
@@ -80,7 +72,21 @@ class GoodsDetail extends Component {
     			</FormItem>
           <FormItem
             label="商品描述" {...formItemLayout}>
-            <label>{iPdSpu.pdSpuInfo}</label>
+            <ul className="img-list-wrap">
+              {
+                iPdSpu.pdSpuInfo&&iPdSpu.pdSpuInfo.length>0&&
+                iPdSpu.pdSpuInfo.map((el,index) => (
+                  <li className="img-item" key={index}>
+                    {
+                      el.type == 1?
+                      <span>{el.content}</span>
+                      :
+                      <img src={el.content} style={{'width':'100px','height':'100px'}}/>
+                    }
+                  </li>
+                ))
+              }
+            </ul>
           </FormItem>
           <FormItem
             label="商品备注1" {...formItemLayout}>
