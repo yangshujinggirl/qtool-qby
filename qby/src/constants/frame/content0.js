@@ -140,17 +140,19 @@ import AddTimer from '../goods/cTimer/AddTimer.js';//c端定时
 import MarketResource from '../cooperate/marketResource/index';
 import AddStaff from '../cooperate/marketResource/AddStaff';
 //活动中心
-import Coupon from '../activity/coupon/index';
-import Cbanner from '../activity/cBanner/index'
-import CoperatebannerEdit from '../activity/cBanner/edit';
-import CH5_configure from '../activity/cBanner/editH5';
-import CouponDetail from '../activity/coupon/CouponDetail';
-import AddCoupon from '../activity/coupon/AddCoupon';
+import Coupon from '../activity/coupon/index';//优惠券
+import Cbanner from '../activity/cBanner/index'//C端banner
+import CoperatebannerEdit from '../activity/cBanner/edit';//C端banner修改或新增
+import CH5_configure from '../activity/cBanner/editH5';//c端banner配置
+import CouponDetail from '../activity/coupon/CouponDetail';//优惠券详情
+import AddCoupon from '../activity/coupon/AddCoupon';//新增优惠券
 import CouponRecord from '../activity/coupon/CouponRecord/index';
-import Cpush from '../activity/cPush/index'; //c端push
 import Bpush from '../activity/bPush/index'; //b端push
 import BpushDetail from '../activity/bPush/BpushDetail' //b端详情
-import AddPush from '../activity/bPush/AddPush' //新增push页面
+import AddbPush from '../activity/bPush/AddPush' //新增push页面
+import Cpush from '../activity/cPush/index'; //b端push
+import CpushDetail from '../activity/cPush/CpushDetail' //b端详情
+import AddcPush from '../activity/cPush/AddPush' //新增push页面
 
 //客服中心
 import UserFeedBack from '../server/userFeedBack/index'; //用户反馈
@@ -172,7 +174,6 @@ class Content extends React.Component {
           return `${SiderDataMap[paramsArray[0]]}${paramsArray[1]}`;
         }
       }
-      console.log(formDataCode('goods10-edit'))
         return (
     		<div className='counter'>
                 <div className='counter_con'>
@@ -182,8 +183,8 @@ class Content extends React.Component {
                                 switch (this.props.componkey) {
 
 
-                                    case "301000edit":return  <GoodEdit data={this.props.data}/>;
-                                    case "301000info":return  <Goodinfo data={this.props.data}/>;
+                                    // case "301000edit":return  <GoodEdit data={this.props.data}/>;
+                                    // case "301000info":return  <Goodinfo data={this.props.data}/>;
 
                                     case "301700":return  <Stockindex data={this.props.data}/>;
                                     case "302000":return  <Classificationindex data={this.props.data}/>;
@@ -292,9 +293,11 @@ class Content extends React.Component {
                                     case formDataCode('activity03-info') : return <CouponDetail data={this.props.data}/> //优惠券详情
                                     case formDataCode('activity03-editconfig') : return <CouponRecord data={this.props.data}/> //注券记录
                                     case formDataCode('activity04') : return <Bpush data={this.props.data} componkey={this.props.componkey}/>//B端推送
-                                    case formDataCode('activity04-edit') : return <AddPush data={this.props.data} componkey={this.props.componkey}/>//新增推送
+                                    case formDataCode('activity04-edit') : return <AddbPush data={this.props.data} componkey={this.props.componkey}/>//新增推送
                                     case formDataCode('activity04-info') : return <BpushDetail data={this.props.data}/>//b端推送详情
-                                    case formDataCode('activity05') : return <Cpush data={this.props.data}/>//c端推送
+                                    case formDataCode('activity05') : return <Cpush data={this.props.data} componkey={this.props.componkey}/>//c端推送
+                                    case formDataCode('activity05-edit') : return <AddcPush data={this.props.data} componkey={this.props.componkey}/>//C新增推送
+                                    case formDataCode('activity05-info') : return <CpushDetail data={this.props.data}/>//C端推送详情
                                     // -------------------------------商品中心----基础商品----------------------------
                                     case formDataCode('goods10') : return <BaseGoods data={this.props.data} componkey={this.props.componkey}/>
                                     case formDataCode('goods10-edit') : return <AddGoods data={this.props.data}/>

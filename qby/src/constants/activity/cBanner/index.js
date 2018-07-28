@@ -10,7 +10,7 @@ import OperatebannerTable from './table';
 class OperatebannerIndex extends React.Component{
 	state = {};
 	addNew = () =>{
-		const paneitem={title:'新建banner',key:'101000edit',componkey:'101000edit',data:null}
+		const paneitem={title:'新建banner',key:'1002000edit',componkey:'1002000edit',data:null}
   		this.props.dispatch({
 	    	type:'tab/firstAddTab',
 	    	payload:paneitem

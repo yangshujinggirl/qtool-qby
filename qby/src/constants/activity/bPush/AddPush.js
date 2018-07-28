@@ -70,13 +70,12 @@ class AddCoupon extends Component {
     }else if(value==2){
       this.setState({createTime:false,fixedTime:true})
     }
+    this.props.form.resetFields(['createTime','fixedTime'])
   }
   //修改时初始化数据
   componentDidMount(){
     const id = this.props.data.pdSpuId
-
   }
-
   render(){
     const { getFieldDecorator } = this.props.form;
     const { cBanner } =this.props;
@@ -169,21 +168,21 @@ class AddCoupon extends Component {
                   {getFieldDecorator('bannerIdNum',{
                     rules: [{ required: this.state.bannerIdNum, message: '请输入bannerid' }],
                   })(
-                      <Input disabled={!this.state.bannerIdNum}/>
+                      <Input disabled={!this.state.bannerIdNum} autoComplete="off"/>
                   )}
                 </FormItem>
                 <FormItem>
                   {getFieldDecorator('code',{
                     rules: [{ required: this.state.code, message: '请输入商品编码' }],
                   })(
-                      <Input disabled={!this.state.code}/>
+                      <Input disabled={!this.state.code} autoComplete="off"/>
                   )}
                 </FormItem>
                 <FormItem>
                   {getFieldDecorator('H5Url',{
                     rules: [{ required: this.state.H5Url, message: '请输入H5连接URL' }],
                   })(
-                    <Input disabled={!this.state.H5Url}/>
+                    <Input disabled={!this.state.H5Url} autoComplete="off"/>
                   )}
                 </FormItem>
                 <FormItem>

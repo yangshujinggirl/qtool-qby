@@ -13,14 +13,6 @@ import '../index.css'
 const FormItem = Form.Item;
 const Option = Select.Option;
 const RangePicker = DatePicker.RangePicker
-const formItemLayout = {
-    labelCol: { span:8   },
-    wrapperCol: { span: 16 },
-};
-const timerLayout = {
-    labelCol: { span:6 },
-    wrapperCol: { span: 20 },
-};
 
 class NormalForm extends Component{
   //点击搜索
@@ -39,63 +31,52 @@ class NormalForm extends Component{
   render(){
     const { getFieldDecorator }= this.props.form;
     return(
-      <div className='form'>
-        <Form>
-          <Row wrap>
-              <Col span={8}>
-                  <FormItem {...formItemLayout} label='优惠券名称'>
-                    {getFieldDecorator('feedbackNo')(
-                        <Input placeholder='请输入优惠券名称'/>
-                      )}
-                  </FormItem>
-              </Col>
-              <Col span={8}>
-                  <FormItem {...formItemLayout} label='优惠券批次号'>
-                    {getFieldDecorator('telephone')(
-                      <Input placeholder='请输入批次号'/>
-                    )}
-                  </FormItem>
-              </Col>
-              <Col span={8}>
-                  <FormItem {...formItemLayout} label='创建人'>
-                    {getFieldDecorator('telephone')(
-                      <Input placeholder='请输入创建人'/>
-                    )}
-                  </FormItem>
-              </Col>
-              <Col span={8}>
-                <FormItem {...formItemLayout} label='优惠券场景'>
-                    {getFieldDecorator('status')(
-                    <Select allowClear={true} placeholder="请选择优惠券场景" className='select'>
-                        {/* <Option value='10'>待发货</Option> */}
-                        <Option value='1'>新用户注册</Option>
-                        <Option value='2'>注券</Option>
-                    </Select>
-                    )}
-                </FormItem>
-              </Col>
-              <Col span={8}>
-                <FormItem {...formItemLayout} label='优惠券状态'>
-                    {getFieldDecorator('status')(
-                    <Select allowClear={true} placeholder="请选择优惠券状态" className='select'>
-                        {/* <Option value='10'>待发货</Option> */}
-                        <Option value='1'>发放中</Option>
-                        <Option value='2'>发放完</Option>
-                        <Option value='3'>熔断</Option>
-                    </Select>
-                    )}
-                </FormItem>
-              </Col>
-            </Row>
-            <FormItem>
+      <div>
+        <Form className="qtools-condition-form">
+          <div className="search-form-wrap">
+            <FormItem label='优惠券名称'>
+              {getFieldDecorator('feedbackNo')(
+                  <Input placeholder='请输入优惠券名称' autoComplete="off"/>
+                )}
+            </FormItem>
+            <FormItem label='优惠券批次号'>
+              {getFieldDecorator('telephone')(
+                <Input placeholder='请输入批次号' autoComplete="off"/>
+              )}
+            </FormItem>
+            <FormItem label='创建人'>
+              {getFieldDecorator('telephone')(
+                <Input placeholder='请输入创建人' autoComplete="off"/>
+              )}
+            </FormItem>
+            <FormItem label='优惠券场景'>
+                {getFieldDecorator('status')(
+                <Select allowClear={true} placeholder="请选择优惠券场景">
+                    {/* <Option value='10'>待发货</Option> */}
+                    <Option value='1'>新用户注册</Option>
+                    <Option value='2'>注券</Option>
+                </Select>
+                )}
+            </FormItem>
+            <FormItem label='优惠券状态'>
+                {getFieldDecorator('status')(
+                <Select allowClear={true} placeholder="请选择优惠券状态">
+                    {/* <Option value='10'>待发货</Option> */}
+                    <Option value='1'>发放中</Option>
+                    <Option value='2'>发放完</Option>
+                    <Option value='3'>熔断</Option>
+                </Select>
+                )}
+            </FormItem>
+            <div className="search-submit-btn">
                 <Button
-                  className='submit'
                   type="primary"
                   size='large'
                   onClick={()=>this.handleSubmit()}>
                     搜索
                 </Button>
-            </FormItem>
+            </div>
+          </div>
         </Form>
       </div>
     )

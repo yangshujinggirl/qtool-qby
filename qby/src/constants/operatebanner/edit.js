@@ -207,6 +207,13 @@ class OperatebannerEditForm extends React.Component{
                     <Input placeholder = '请输入banner权重' autoComplete="off"/>
                 )}
                 </FormItem>
+								<FormItem
+                    label="展示App"
+                    labelCol={{ span: 3,offset: 1 }}
+                    wrapperCol={{ span: 6 }}
+                >
+                  <Input value='Q掌柜 App' readOnly/>
+                </FormItem>
                 <FormItem
                     label="banner图片"
                     labelCol={{ span: 3,offset: 1 }}

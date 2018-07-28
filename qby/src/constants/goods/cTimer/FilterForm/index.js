@@ -9,18 +9,10 @@ import {
   Select,
   DatePicker
 }from 'antd'
-import '../index.css'
 const FormItem = Form.Item;
 const Option = Select.Option;
 const RangePicker = DatePicker.RangePicker
-const formItemLayout = {
-    labelCol: { span:6 },
-    wrapperCol: { span: 16 },
-};
-const timerLayout = {
-    labelCol: { span:6 },
-    wrapperCol: { span: 20 },
-};
+
 
 class NormalForm extends Component{
   //点击搜索
@@ -39,58 +31,49 @@ class NormalForm extends Component{
   render(){
     const { getFieldDecorator }= this.props.form;
     return(
-      <div className='form'>
-        <Form>
-          <Row wrap>
-              <Col span={6}>
-                  <FormItem {...formItemLayout} label='商品编码'>
-                    {getFieldDecorator('code')(
-                        <Input placeholder='商品编码'/>
-                      )}
-                  </FormItem>
-              </Col>
-              <Col span={6}>
-                  <FormItem {...formItemLayout} label='最后修改人'>
-                    {getFieldDecorator('updateUserName')(
-                      <Input placeholder='请输入最后修改人'/>
-                    )}
-                  </FormItem>
-              </Col>
-              <Col span={6}>
-                <FormItem {...formItemLayout} label='定时操作'>
-                    {getFieldDecorator('opstatus')(
-                    <Select allowClear={true} placeholder="请选择" className='select'>
-                        <Option value='1'>上线</Option>
-                        <Option value='2'>下线</Option>
-                        <Option value='3'>NEW</Option>
-                        <Option value='4'>下NEW</Option>
-                        <Option value='5'>HOT</Option>
-                        <Option value='6'>下HOT</Option>
-                    </Select>
-                    )}
-                </FormItem>
-              </Col>
-              <Col span={6}>
-                <FormItem {...formItemLayout} label='状态'>
-                    {getFieldDecorator('status')(
-                    <Select allowClear={true} placeholder="请选择" className='select'>
-                        <Option value='1'>待执行</Option>
-                        <Option value='2'>已执行</Option>
-                        <Option value='3'>无效</Option>
-                    </Select>
-                    )}
-                </FormItem>
-              </Col>
-            </Row>
-            <FormItem>
+      <div>
+        <Form className="qtools-condition-form">
+          <div className="search-form-wrap">
+            <FormItem  label='商品编码'>
+              {getFieldDecorator('code')(
+                  <Input placeholder='商品编码'/>
+              )}
+            </FormItem>
+            <FormItem label='最后修改人'>
+              {getFieldDecorator('updateUserName')(
+                <Input placeholder='请输入最后修改人'/>
+              )}
+            </FormItem>
+            <FormItem label='定时操作'>
+                {getFieldDecorator('opstatus')(
+                <Select allowClear={true} placeholder="请选择" className='select'>
+                    <Option value='1'>上线</Option>
+                    <Option value='2'>下线</Option>
+                    <Option value='3'>NEW</Option>
+                    <Option value='4'>下NEW</Option>
+                    <Option value='5'>HOT</Option>
+                    <Option value='6'>下HOT</Option>
+                </Select>
+                )}
+            </FormItem>
+            <FormItem label='状态'>
+                {getFieldDecorator('status')(
+                <Select allowClear={true} placeholder="请选择" className='select'>
+                    <Option value='1'>待执行</Option>
+                    <Option value='2'>已执行</Option>
+                    <Option value='3'>无效</Option>
+                </Select>
+                )}
+            </FormItem>
+            <div className="search-submit-btn">
                 <Button
-                  className='submit'
                   type="primary"
                   size='large'
                   onClick={()=>this.handleSubmit()}>
                     搜索
                 </Button>
-            </FormItem>
+            </div>
+          </div>
         </Form>
       </div>
     )

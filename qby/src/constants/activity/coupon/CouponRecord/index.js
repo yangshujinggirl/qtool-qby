@@ -55,15 +55,16 @@ class UserFeedBack extends Component{
   render(){
     const {dataList} = this.props.userFeedBack;
     return(
-      <div className='server'>
+      <div>
         <FilterForm
           submit={this.searchData}
           onValuesChange = {this.searchDataChange}
         />
-        <Qtable
-          style={{marginTop:'15px'}}
-          dataSource = {dataList}
-          columns = {Columns}/>
+      <div style={{marginTop:'15px'}}>
+          <Qtable
+            dataSource = {dataList}
+            columns = {Columns}/>
+        </div>
         <Qpagination
           data={this.props.userFeedBack}
           onChange={this.changePage}/>

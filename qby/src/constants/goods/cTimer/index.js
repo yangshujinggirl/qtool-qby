@@ -79,14 +79,13 @@ class cTimer extends Component{
   render(){
     const {dataList} = this.props.cTimer;
     return(
-      <div>
+      <div className="qtools-components-pages">
         <FilterForm
           submit={this.searchData}
           onValuesChange = {this.searchDataChange}
         />
-      <div>
+      <div className='handel-btn-lists'>
           <Button
-            className='btn'
             type='primary'
             size='large'
             onClick={()=>this.addTimer()}

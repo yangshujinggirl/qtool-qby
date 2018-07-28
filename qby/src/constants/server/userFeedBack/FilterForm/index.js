@@ -13,14 +13,6 @@ import '../index.css'
 const FormItem = Form.Item;
 const Option = Select.Option;
 const RangePicker = DatePicker.RangePicker
-const formItemLayout = {
-    labelCol: { span:6 },
-    wrapperCol: { span: 16 },
-};
-const timerLayout = {
-    labelCol: { span:6 },
-    wrapperCol: { span: 20 },
-};
 
 class NormalForm extends Component{
   //点击搜索
@@ -39,67 +31,55 @@ class NormalForm extends Component{
   render(){
     const { getFieldDecorator }= this.props.form;
     return(
-      <div className='form'>
-        <Form>
-          <Row wrap>
-              <Col span={8}>
-                  <FormItem {...formItemLayout} label='反馈编号'>
-                    {getFieldDecorator('feedbackNo')(
-                        <Input placeholder='反馈编号'/>
-                      )}
-                  </FormItem>
-              </Col>
-              <Col span={8}>
-                  <FormItem {...formItemLayout} label='手机号'>
-                    {getFieldDecorator('telephone')(
-                      <Input placeholder='请输入联系人'/>
-                    )}
-                  </FormItem>
-              </Col>
-              <Col span={8}>
-                <FormItem {...formItemLayout} label='反馈状态'>
-                    {getFieldDecorator('status')(
-                    <Select allowClear={true} placeholder="请选择订单状态" className='select'>
-                        {/* <Option value='10'>待发货</Option> */}
-                        <Option value='1'>待处理</Option>
-                        <Option value='2'>处理中</Option>
-                        <Option value='3'>已处理</Option>
-                    </Select>
-                    )}
-                </FormItem>
-              </Col>
-              <Col span={8}>
-                <FormItem {...formItemLayout} label='处理时长'>
-                    {getFieldDecorator('handleTime')(
-                    <Select allowClear={true} placeholder="处理时长" className='select'>
-                        {/* <Option value='10'>待发货</Option> */}
-                        <Option value='1'>'0-5h'</Option>
-                        <Option value='2'>'5-24h'</Option>
-                        <Option value='3'>'24h以上'</Option>
-                    </Select>
-                    )}
-                </FormItem>
-              </Col>
-              <Col span={12}>
-                <FormItem
-                    {...formItemLayout }
-                    label="反馈时长"
-                >
-                  {getFieldDecorator('rangePicker')(
-                    <RangePicker />
+      <div>
+        <Form className="qtools-condition-form">
+          <div className="search-form-wrap">
+              <FormItem label='反馈编号'>
+                {getFieldDecorator('feedbackNo')(
+                    <Input placeholder='反馈编号' autoComplete="off"/>
                   )}
-                </FormItem>
-              </Col>
-            </Row>
-            <FormItem>
+              </FormItem>
+              <FormItem label='手机号'>
+                {getFieldDecorator('telephone')(
+                  <Input placeholder='请输入联系人' autoComplete="off"/>
+                )}
+              </FormItem>
+            <FormItem label='反馈状态'>
+                {getFieldDecorator('status')(
+                <Select allowClear={true} placeholder="请选择订单状态" className='select'>
+                    {/* <Option value='10'>待发货</Option> */}
+                    <Option value='1'>待处理</Option>
+                    <Option value='2'>处理中</Option>
+                    <Option value='3'>已处理</Option>
+                </Select>
+                )}
+            </FormItem>
+            <FormItem label='处理时长'>
+                {getFieldDecorator('handleTime')(
+                <Select allowClear={true} placeholder="处理时长" className='select'>
+                    {/* <Option value='10'>待发货</Option> */}
+                    <Option value='1'>'0-5h'</Option>
+                    <Option value='2'>'5-24h'</Option>
+                    <Option value='3'>'24h以上'</Option>
+                </Select>
+                )}
+            </FormItem>
+            <FormItem
+              label="反馈时长"
+            >
+              {getFieldDecorator('rangePicker')(
+                <RangePicker />
+              )}
+            </FormItem>
+            <div className="search-submit-btn">
                 <Button
-                  className='submit'
                   type="primary"
                   size='large'
                   onClick={()=>this.handleSubmit()}>
                     搜索
                 </Button>
-            </FormItem>
+            </div>
+          </div>
         </Form>
       </div>
     )

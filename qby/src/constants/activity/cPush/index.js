@@ -7,19 +7,19 @@ import Qpagination from '../../../components/Qpagination/index'; //分页
 import FilterForm from './FilterForm/index'
 import { bPushRevokeApi } from '../../../services/activity/bPush'
 import './index'
-class Bpush extends Component{
+class Cpush extends Component{
   constructor(props){
     super(props);
     this.rowSelection = {
        type:'radio',
        onChange:(selectedRowKeys, selectedRows) =>{
-         this.setState({bPushName:selectedRows[0].spOrderId})
-         this.setState({bPushId:selectedRows[0].spOrderId})
+         this.setState({cPushName:selectedRows[0].spOrderId})
+         this.setState({cPushId:selectedRows[0].spOrderId})
        },
      };
     this.state ={
-      bPushId:'',
-      bPushName:'',
+      cPushId:'',
+      cPushName:'',
       isPushVisible:false,
       componkey:this.props.componkey,
       field:{
@@ -34,7 +34,7 @@ class Bpush extends Component{
   //点击搜索
   searchData = (values)=> {
     this.props.dispatch({
-      type:'bPush/fetchList',
+      type:'cPush/fetchList',
       payload:values
     })
   }
@@ -43,7 +43,7 @@ class Bpush extends Component{
   changePage =(currentPage)=> {
     const values = {...this.state.field,currentPage}
     this.props.dispatch({
-      type:'bPush/fetchList',
+      type:'cPush/fetchList',
       payload:values
     })
   }
@@ -59,19 +59,19 @@ class Bpush extends Component{
   //初始化数据
   componentWillMount(){
     this.props.dispatch({
-      type:'bPush/fetchList',
+      type:'cPush/fetchList',
       payload:{}
     })
   }
   //新增推送
   addPush =()=> {
+    debugger
+    console.log(this.props)
     const paneitem = {
       title:'创建推送',
       key:`${this.state.componkey}edit`,
       componkey:`${this.state.componkey}edit`,
-      data:{
-        pdSpuId:null
-      }
+      data:null
     };
     this.props.dispatch({
       type:'tab/firstAddTab',
@@ -82,7 +82,7 @@ class Bpush extends Component{
   getDetail(record){
     const paneitem = {
       title:'推送详情',
-      key:`${this.state.componkey}info`,
+      key:`${this.state.componkey}info`+record.spOrderId,
       componkey:`${this.state.componkey}info`,
       data:{
         pdSpuId:record.spOrderId,
@@ -121,7 +121,7 @@ class Bpush extends Component{
   }
   //撤销推送
   cancelPush =()=> {
-    if(!this.state.bPushId){
+    if(!this.state.cPushId){
       message.warning('请选择要撤销的推送');
     }else{
       this.setState({isPushVisible:true})
@@ -129,8 +129,8 @@ class Bpush extends Component{
   }
   //确定撤销
   onOk =()=>{
-    const bPushId = this.state.bPushId
-    bPushRevokeApi(bPushId)
+    const cPushId = this.state.cPushId
+    bPushRevokeApi(cPushId)
     .then(res => {
       message.success('撤销成功')
     },err => {
@@ -144,16 +144,16 @@ class Bpush extends Component{
 
 
   render(){
-    const {dataList} = this.props.bPush;
+    const {dataList} = this.props.cPush;
     return(
-      <div className='bPush'>
+      <div className='qtools-components-pages'>
         <FilterForm
           submit={this.searchData}
           onValuesChange = {this.searchDataChange}
         />
-        <div>
-          <Button onClick={this.addPush} className='btn' size='large' type='primary'>新增推送</Button>
-          <Button onClick={this.cancelPush} className='btn' size='large' type='primary'>撤销推送</Button>
+        <div className="handel-btn-lists">
+          <Button onClick={this.addPush} size='large' type='primary'>新增推送</Button>
+          <Button onClick={this.cancelPush} size='large' type='primary'>撤销推送</Button>
         </div>
         <Modal
             bodyStyle={{fontSize:'24px','padding':'50px'}}
@@ -163,7 +163,7 @@ class Bpush extends Component{
             onCancel= {this.onCancel}
             onOk = {this.onOk}
           >
-            <p>你正在撤消标题为{this.state.bPushName}的推送，确认撤消？</p>
+            <p>你正在撤消标题为{this.state.cPushName}的推送，确认撤消？</p>
         </Modal>
         <Qtable
           dataSource = {dataList}
@@ -173,14 +173,14 @@ class Bpush extends Component{
           rowSelection = {this.rowSelection}
         />
         <Qpagination
-          data={this.props.bPush}
+          data={this.props.cPush}
           onChange={this.changePage}/>
       </div>
     )
   }
 }
 function mapStateToProps(state){
-  const {bPush} = state;
-  return {bPush};
+  const {cPush} = state;
+  return {cPush};
 }
-export default connect(mapStateToProps)(Bpush);
+export default connect(mapStateToProps)(Cpush);

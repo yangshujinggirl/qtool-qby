@@ -4,7 +4,6 @@ import Columns from './columns/index';
 import FilterForm from './FilterForm/index'
 import Qtable from '../../../components/Qtable/index'; //表单
 import Qpagination from '../../../components/Qpagination/index'; //分页
-import './index.css'
 import {connect} from 'dva'
 class MarketResource extends Component{
     constructor(props){
@@ -69,9 +68,7 @@ class MarketResource extends Component{
         title:'新增人员',
         key:`${this.state.componkey}edit`,
         componkey:`${this.state.componkey}edit`,
-        data:{
-          pdSpuId:null,
-        }
+        data:null
       }
       this.props.dispatch({
           type:'tab/firstAddTab',
@@ -80,13 +77,12 @@ class MarketResource extends Component{
     }
     //操作
     handleOperateClick =(record)=> {
-      console.log(this.state.componkey)
       const paneitem = {
         title:'修改人员',
-        key:`${this.state.componkey}edit`,
+        key:`${this.state.componkey}edit`+record.marketResId,
         componkey:`${this.state.componkey}edit`,
         data:{
-          pdSpuId:record.spOrderId,
+          marketResId:record.marketResId,
         }
       }
       this.props.dispatch({
@@ -99,12 +95,12 @@ class MarketResource extends Component{
         const {dataList = [] } = this.props.marketResource;
         const { fields } = this.state;
         return (
-            <div className='marketResource'>
+            <div className='qtools-components-pages'>
                 <FilterForm
                   {...fields}
                   submit={this.searchData}
                   onChange={this.handleFormChange}/>
-                <div className='add'>
+                <div className="handel-btn-lists">
                   <Button onClick={this.addStaff} size='large' type="primary">新增人员</Button>
                 </div>
                 <Qtable

@@ -8,13 +8,9 @@ import{
     Button,
     Select
 }from 'antd'
-import '../index.css'
 const FormItem = Form.Item;
 const Option = Select.option;
-const formItemLayout = {
-    labelCol: { span: 6 },
-    wrapperCol: { span: 16 },
-};
+
 //marketResource 搜索栏
 class NormalForm extends Component{
     handleSubmit = (e) => {
@@ -26,49 +22,39 @@ class NormalForm extends Component{
     render(){
       const { getFieldDecorator } = this.props.form;
         return(
-            <div className='form'>
-                <Form>
-                    <Row>
-                        <Col span={6}>
-                            <FormItem {...formItemLayout} label='联系人'>
-                              {getFieldDecorator('userName')(
-                                  <Input placeholder='请输入联系人'/>
-                                )}
-                            </FormItem>
-                        </Col>
-                        <Col span={6}>
-                            <FormItem {...formItemLayout} label='联系电话'>
-                              {getFieldDecorator('name')(
-                                <Input placeholder='请输入联系人'/>
-                              )}
-                            </FormItem>
-                        </Col>
-                        <Col span={6}>
-                            <FormItem {...formItemLayout} label='公司名称'>
-                              {getFieldDecorator('shopName')(
-                                  <Input placeholder='请输入联系人'/>
-                              )}
-                            </FormItem>
-                        </Col>
-                        <Col span={6}>
-                            <FormItem {...formItemLayout} label='资源类型'>
-                              {getFieldDecorator('recTel')(
-                                <Input placeholder='请输入联系人'/>
-                              )}
-                            </FormItem>
-                        </Col>
-                        <Col className='submit'>
-                            <FormItem {...formItemLayout}>
-                                <Button
-                                  type="primary"
-                                  size='large'
-                                  disabled={this.props.marketResource.disabled}
-                                  onClick={this.handleSubmit.bind(this)}>
-                                    搜索
-                                </Button>
-                            </FormItem>
-                        </Col>
-                      </Row>
+            <div>
+                <Form className="qtools-condition-form">
+                  <div className="search-form-wrap">
+                      <FormItem  label='联系人'>
+                        {getFieldDecorator('userName')(
+                            <Input placeholder='请输入联系人' autoComplete="off"/>
+                          )}
+                      </FormItem>
+                      <FormItem label='联系电话'>
+                        {getFieldDecorator('name')(
+                          <Input placeholder='请输入联系电话' autoComplete="off"/>
+                        )}
+                      </FormItem>
+                      <FormItem label='公司名称'>
+                        {getFieldDecorator('shopName')(
+                            <Input placeholder='请输入公司名称' autoComplete="off"/>
+                        )}
+                      </FormItem>
+                      <FormItem label='资源类型'>
+                        {getFieldDecorator('recTel')(
+                          <Input placeholder='请输入资源类型' autoComplete="off"/>
+                        )}
+                      </FormItem>
+                      <div className="search-submit-btn">
+                          <Button
+                            type="primary"
+                            size='large'
+                            disabled={this.props.marketResource.disabled}
+                            onClick={this.handleSubmit.bind(this)}>
+                              搜索
+                          </Button>
+                      </div>
+                    </div>
                 </Form>
             </div>
         )

@@ -13,7 +13,7 @@ const options = [
   { label: '店长', value: '2' },
   { label: '店员', value: '3' },
 ];;
-class AddCoupon extends Component {
+class AddcPush extends Component {
   constructor(props){
     super(props);
     this.state = {
@@ -209,10 +209,10 @@ class AddCoupon extends Component {
     )
   }
 }
-const AddcBanner = Form.create()(AddCoupon);
+const AddcPushs = Form.create()(AddcPush);
 function mapStateToProps(state){
-  const { bPush } = state;
-  return bPush
+  const { cPush } = state;
+  return cPush
 }
 
-export default connect(mapStateToProps)(AddcBanner);
+export default connect(mapStateToProps)(AddcPushs);

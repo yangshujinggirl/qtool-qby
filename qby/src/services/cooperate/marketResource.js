@@ -12,7 +12,7 @@ export function getListApi(values){
 export function addStaffApi(values){
     values = JSON.stringify(values)
     return ajax.post('/webrest.htm',{
-        code:'qerp.web.pd.resource.save',
+        code:'qerp.web.marketrescp.save',
         data:values
     })
 }
@@ -20,7 +20,7 @@ export function addStaffApi(values){
 export function resourceDetailApi(values){
     values = JSON.stringify(values)
     return ajax.post('/webrest.htm',{
-        code:'qerp.web.pd.resource.detail',
+        code:'qerp.web.marketrescp.detail',
         data:values
     })
 }

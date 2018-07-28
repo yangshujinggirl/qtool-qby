@@ -24,12 +24,12 @@ class H5_configure extends React.Component{
 		if(!this.props.data.addNew){
 			this.props.dispatch({
 				type:'tab/initDeletestate',
-				payload:'101000edit'+this.props.data.pdBannerId+'h5'
+				payload:'1002000edit'+this.props.data.pdBannerId+'h5'
 			  });
 		}else{
 			this.props.dispatch({
 				type:'tab/initDeletestate',
-				payload:'101000edith5'
+				payload:'1002000edith5'
 			});
 		}
 	}
