@@ -70,9 +70,9 @@ import onlinegood from "./models/onlinegood"
 //合作中心
 import marketResource from './models/cooperate/marketResource' //资源管理
 //活动中心
-import cBanner from './models/activity/cBanner/cBanner'
-import coupon from './models/activity/coupon/coupon'
-import bPush from './models/activity/bPush/bPush'
+import cBanner from './models/activity/cBanner/cBanner' //c端banner
+import coupon from './models/activity/coupon/coupon' //优惠券
+import bPush from './models/activity/bPush/bPush' //bpush
 //客服中心
 import userFeedBack from './models/server/userFeedBack'
 import serverBill from './models/server/serverBill'

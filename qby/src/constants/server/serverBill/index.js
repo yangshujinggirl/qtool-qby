@@ -91,7 +91,7 @@ class ServerBill extends Component{
   render(){
     const {dataList} = this.props.serverBill;
     return(
-      <div className='server'>
+      <div className='serverBill'>
         <FilterForm
           submit={this.searchData}
           onValuesChange = {this.searchDataChange}

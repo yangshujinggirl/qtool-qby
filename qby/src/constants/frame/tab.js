@@ -1,7 +1,7 @@
 import React from 'react';
 import { Tabs, Button } from 'antd';
 import { connect } from 'dva';
-import Content from '../frame/content';
+import Content from '../frame/content0';
 import '../../style/tab.css';
 
 const TabPane = Tabs.TabPane;

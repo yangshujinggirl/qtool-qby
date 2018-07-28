@@ -69,7 +69,7 @@ class UserFeedBack extends Component{
   render(){
     const {dataList} = this.props.userFeedBack;
     return(
-      <div className='server'>
+      <div className='userFeedBack'>
         <FilterForm
           submit={this.searchData}
           onValuesChange = {this.searchDataChange}

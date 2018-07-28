@@ -11,6 +11,18 @@ class UploadImg extends Component{
       maxLength:this.props.maxLength
     }
   }
+  //上传大小限制
+  beforeUpload =(file)=> {
+    const isJPG = file.type === 'image/jpeg';
+    if (!isJPG) {
+      message.error('You can only upload JPG file!');
+    }
+    const isLt2M = file.size / 1024 / 1024 < 2;
+    if (!isLt2M) {
+      message.error('Image must smaller than 2MB!');
+    }
+    return isJPG && isLt2M;
+  }
 
   //弹出框关闭
   handleCancel = () => this.setState({ previewVisible: false })
@@ -62,6 +74,7 @@ class UploadImg extends Component{
            showUploadList = {true}
            onPreview = {this.handlePreview}
            onChange = { this.handleChange}
+           beforeUpload={this.beforeUpload}
          >
            {fileList.length >= this.state.maxLength ? null : uploadButton}
          </Upload>

@@ -91,7 +91,7 @@ export default {
                 let {menus}=result;
                 let first = menus[0].children[0];
                 const firstItem={title:first.name,key:String(first.urResourceId)};
-                sessionStorage.setItem("firstItem", JSON.stringify(firstItem)); 
+                sessionStorage.setItem("firstItem", JSON.stringify(firstItem));
                 for(var i=0;i<menus.length;i++){
                     if (menus[i].urResourceId == 200000) {
                                 menus[i].type = 'order'
@@ -107,11 +107,17 @@ export default {
                               menus[i].type = 'account'
                            }else if(menus[i].urResourceId == 800000){
                                 menus[i].type = 'online'
+                           }else if(menus[i].urResourceId == 900000){
+                                menus[i].type = 'cooperate'
+                           }else if(menus[i].urResourceId == 1000000){
+                                menus[i].type = 'activity'
+                           }else if(menus[i].urResourceId == 1100000){
+                                menus[i].type = 'server'
                            }
                 }
 
 
-        
+
                 const pannelfirst = {
                                         title:menus[0].children[0].name,
                                         key:String(menus[0].children[0].urResourceId),
@@ -119,10 +125,10 @@ export default {
                                         componkey:String(menus[0].children[0].urResourceId),
                                         openkey:String(menus[0].urResourceId)
                 }
-               
+
                 yield put({type: 'menulist',payload:menus});
                 yield put({type: 'refresh',payload:pannelfirst});
-            } 
+            }
         },
         //删除前初始化state
         *initDeletestate({ payload: targetKey }, { call, put }) {
@@ -146,7 +152,7 @@ export default {
                 if(itemkey!=-1){
                     //二级
                     const arr=pane.filter((pane)=>{
-                        const pankeyindex=pane.key.search('edit') 
+                        const pankeyindex=pane.key.search('edit')
                         return pane.key.substring(0,pankeyindex)!=paneitem.key.substring(0,itemkey)
                     })
                     const parentkey=paneitem.key.substring(0,itemkey)
@@ -159,7 +165,7 @@ export default {
                     arr.splice(index+1,0,paneitem)
                     const NewactiveKey=paneitem.key
                     yield put({type: 'addNewTab',payload:{arr,NewactiveKey}});
-    
+
                 }else{
                     //不是二级
                     pane.push(paneitem)
