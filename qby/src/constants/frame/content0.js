@@ -138,7 +138,7 @@ import Ctimer from '../goods/cTimer/index.js';//c端定时
 import AddTimer from '../goods/cTimer/AddTimer.js';//c端定时
 // 合作中心
 import MarketResource from '../cooperate/marketResource/index';
-import AddStaff from '../cooperate/marketResource/AddStaff';
+import AddStaff from '../cooperate/marketResource/addStaff';
 //活动中心
 import Coupon from '../activity/coupon/index';
 import Cbanner from '../activity/cBanner/index'
@@ -172,7 +172,6 @@ class Content extends React.Component {
           return `${SiderDataMap[paramsArray[0]]}${paramsArray[1]}`;
         }
       }
-      console.log(formDataCode('goods10-edit'))
         return (
     		<div className='counter'>
                 <div className='counter_con'>
@@ -180,10 +179,6 @@ class Content extends React.Component {
                         {
                             (() => {
                                 switch (this.props.componkey) {
-
-
-                                    case "301000edit":return  <GoodEdit data={this.props.data}/>;
-                                    case "301000info":return  <Goodinfo data={this.props.data}/>;
 
                                     case "301700":return  <Stockindex data={this.props.data}/>;
                                     case "302000":return  <Classificationindex data={this.props.data}/>;

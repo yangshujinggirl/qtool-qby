@@ -158,16 +158,14 @@ class AddGoodsForm extends Component {
     const { pdSpuId, source } =this.props.data;
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
-      let spuPics = values.spuPics;
-      spuPics = spuPics.map(el=>el.url?el.name:el.response.data[0]);
-      values ={...values,spuPics}
-      console.log(values)
+      console.log(this.formParams(values))
       if (!err) {
         if(pdSpuId) {
           values = Object.assign(values,{
             pdSpuId
           })
         }
+        values = this.formParams(values);
         if(source == 0) {
           this.saveOnLineGoods({iPdSpu:values})
         } else {
@@ -175,6 +173,32 @@ class AddGoodsForm extends Component {
         }
       }
     });
+  }
+  formParams(values) {
+    //处理商品图片
+    let spuPics = values.spuPics;
+    spuPics = spuPics.map(el=>el.url?el.name:el.response.data[0]);
+    //处理商品信息,如果是skus商品
+    let pdSkus = values.pdSkus;
+    if(pdSkus&&pdSkus.length>0) {
+      let { pdSkus: paramsPdSkus, sizeIdList } =this.props.addGoods;
+      pdSkus.map((el,index) => {
+        if(el.picUrl&&(el.picUrl instanceof Array)) {
+          if(el.picUrl.length>0) {
+            el.picUrl = el.picUrl[0].response.data[0];
+            el.pdType1Id = sizeIdList.pdSkusSizeOne;//规格1id
+            el.pdType2Id = sizeIdList.pdSkusSizeTwo;//规格2id
+            el.pdType1ValId = paramsPdSkus[index].pdType1ValId;//属性1id
+            el.pdType1Va2Id = paramsPdSkus[index].pdType1Va2Id;//属性2id
+          } else {
+            el.picUrl = '';
+          }
+        }
+        return el
+      })
+    }
+    values ={...values,spuPics, pdSkus};
+    return values;
   }
   //提交api
   saveOnLineGoods(values) {
@@ -206,7 +230,7 @@ class AddGoodsForm extends Component {
     this.setState({
       specOneId:option
     })
-    //重置商品规格
+    //重置商品规格,商品属性
     this.props.dispatch({
       type:'addGoods/setTypesId',
       payload:{
@@ -214,14 +238,6 @@ class AddGoodsForm extends Component {
         type
       }
     })
-    if(type=='one') {
-      //一级规格更改时，置空属性，
-      let emptyArr = [];
-      this.props.dispatch({
-        type:'addGoods/handleSpec',
-        payload:{specOne:emptyArr,specTwo:emptyArr}
-      })
-    }
   }
   //删除商品属性
   deleteGoodsLabel(tags,type) {
@@ -255,7 +271,14 @@ class AddGoodsForm extends Component {
     .then(res => {
       const { pdTypeVals } =res;
       if(pdTypeVals.length ==0) {
-        message.error('该规格下不能添加属性');
+        let paramsTwo={
+              pdTypeVal:{
+                pdTypeId,
+                name:inputValue,
+                status:'1'
+              }
+        }
+        this.goSaveTypeVal(values);
         return;
       }
       const filterValues = pdTypeVals.filter((el) => {
@@ -325,7 +348,6 @@ class AddGoodsForm extends Component {
       sizeIdList,
       specData
     } = this.props.addGoods;
-    console.log(this.props.addGoods.pdSkus)
     return(
       <div className="add-goods-components">
         <Form className="qtools-form-components">
@@ -703,7 +725,6 @@ class AddGoodsForm extends Component {
                 </Col>
               </div>
             }
-
             <Col span={24}>
               <FormItem>
                 <div className="btns-list">

@@ -10,11 +10,15 @@ export default {
     currentPage:0,
     limit:15,
     total:0,
-    fileDomain:''
+    fileDomain:'',
+    countryDetail:{fileList:[]}
   },
   reducers: {
     getList( state, { payload : {dataList, currentPage, limit, total} }) {
       return { ...state, dataList, currentPage, limit, total}
+    },
+    setDetail( state, { payload : countryDetail }) {
+      return { ...state, countryDetail}
     },
   },
   effects: {

@@ -24,9 +24,14 @@ class UpLoadFile extends Component {
     return (isJPG || isPNG) && isLt2M;
   }
 	handleChange = ({fileList}) => {
+    console.log(fileList)
     this.setState({
       fileList
     })
+    // this.props.dispatch({
+    //   type:'addGoods/setSkusPicUrl',
+    //   payload:fileList
+    // })
 	}
   normFile = (e) => {
     if (Array.isArray(e)) {
@@ -42,6 +47,7 @@ class UpLoadFile extends Component {
        </div>
      );
      const { fileList } = this.state;
+     console.log(fileList)
      return(
         <div>
          {
@@ -69,8 +75,8 @@ class UpLoadFile extends Component {
 }
 
 function mapStateToProps(state) {
-  const { countryManage } =state;
-  return {countryManage };
+  const { AddGoods } =state;
+  return {AddGoods };
 }
 
 export default connect(mapStateToProps)(UpLoadFile);

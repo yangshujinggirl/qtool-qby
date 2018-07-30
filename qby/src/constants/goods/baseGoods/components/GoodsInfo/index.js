@@ -21,11 +21,24 @@ class GoodsInfo extends Component {
   constructor(props) {
     super(props);
   }
-  renderCode =(text, record, index)=> {
+  renderName =(text, record, index)=> {
     const { pdSkus } = this.props.addGoods;
     return  <div>
               {
-                this.props.form.getFieldDecorator(`pdSkus[${index}].code`,{
+                this.props.form.getFieldDecorator(`pdSkus[${index}].name`,{
+                  initialValue:pdSkus[index].name
+                })(
+                  <Input  disabled/>
+                )
+              }
+            </div>
+  }
+  renderCode =(text, record, index)=> {
+    const { pdSkus,specData } = this.props.addGoods;
+    let name = specData.specOne.length == 0?'code':`pdSkus[${index}].code`;
+    return  <div>
+              {
+                this.props.form.getFieldDecorator(name,{
                   initialValue:pdSkus[index].code
                 })(
                   <Input placeholder="请输入商品编码" />
@@ -34,9 +47,10 @@ class GoodsInfo extends Component {
             </div>
   }
   renderBarcode =(text, record, index)=> {
-    const { pdSkus } = this.props.addGoods;
+    const { pdSkus, specData } = this.props.addGoods;
+    let name = specData.specOne.length == 0?'barcode':`pdSkus[${index}].barcode`;
     return  <div>
-                 {this.props.form.getFieldDecorator(`pdSkus[${index}].barcode`,{
+                 {this.props.form.getFieldDecorator(name,{
                    initialValue:pdSkus[index].barcode
                  })(
                    <Input placeholder="请输入商品条码" />
@@ -44,10 +58,11 @@ class GoodsInfo extends Component {
              </div>
   }
   renderSalePrice =(text, record, index)=> {
-    const { pdSkus } = this.props.addGoods;
+    const { pdSkus, specData } = this.props.addGoods;
+    let name = specData.specOne.length == 0?'salePrice':`pdSkus[${index}].salePrice`;
     return  <div>
               {
-                 this.props.form.getFieldDecorator(`pdSkus[${index}].salePrice`,{
+                 this.props.form.getFieldDecorator(name,{
                    initialValue:pdSkus[index].salePrice
                  })(
                    <Input placeholder="请输入售价" />
@@ -56,9 +71,10 @@ class GoodsInfo extends Component {
              </div>
   }
   renderPurchasePricee =(text, record, index)=> {
-    const { pdSkus } = this.props.addGoods;
+    const { pdSkus, specData } = this.props.addGoods;
+    let name = specData.specOne.length == 0?'purchasePrice':`pdSkus[${index}].purchasePrice`;
     return  <div>
-               {this.props.form.getFieldDecorator(`pdSkus[${index}].purchasePrice`,{
+               {this.props.form.getFieldDecorator(name,{
                  initialValue:pdSkus[index].purchasePrice
                })(
                  <Input placeholder="请输入采购价格" />
@@ -66,9 +82,10 @@ class GoodsInfo extends Component {
              </div>
   }
   renderReceivePrice =(text, record, index)=> {
-    const { pdSkus } = this.props.addGoods;
+    const { pdSkus, specData } = this.props.addGoods;
+    let name = specData.specOne.length == 0?'receivePrice':`pdSkus[${index}].receivePrice`;
     return  <div>
-               {this.props.form.getFieldDecorator(`pdSkus[${index}].receivePrice`,{
+               {this.props.form.getFieldDecorator(name,{
                  initialValue:pdSkus[index].receivePrice
                })(
                  <Input placeholder="请输入到货价格" />
@@ -76,10 +93,11 @@ class GoodsInfo extends Component {
              </div>
   }
   renderDeliveryPrice =(text, record, index)=> {
-    const { pdSkus } = this.props.addGoods;
+    const { pdSkus, specData } = this.props.addGoods;
+    let name = specData.specOne.length == 0?'deliveryPrice':`pdSkus[${index}].deliveryPrice`;
     return  <div>
                {
-                 this.props.form.getFieldDecorator(`pdSkus[${index}].deliveryPrice`,{
+                 this.props.form.getFieldDecorator(name,{
                    initialValue:pdSkus[index].deliveryPrice
                  })(
                    <Input placeholder="请输入出库价格" />
@@ -89,18 +107,24 @@ class GoodsInfo extends Component {
   }
   renderTypes =(text, record, index)=> {
     const { pdSkus } = this.props.addGoods;
-    return  <div>
-               <UpLoadFile form={this.props.form} fileList={[]} name={`pdSkus[${index}].picUrl`}/>
-             </div>
+    let fileList = [];
+    if(pdSkus.fileList) {
+      fileList.push(record.fileList);
+    }
+    return  <UpLoadFile
+             form={this.props.form}
+             fileList={fileList}
+             name={`pdSkus[${index}].picUrl`}/>
   }
   render() {
     const { pdSkus,specData } = this.props.addGoods;
+    console.log(pdSkus)
     return(
       <div>
         <Table dataSource={pdSkus} pagination={false} bordered={true}>
           {
             specData.specOne.length>0&&
-            <Table.Column title="商品规格" width={180} key ={0} render={this.renderTypes}/>
+            <Table.Column title="商品规格" width={120} key ={0} render={this.renderName}/>
           }
           <Table.Column title="商品编码" key ={1} render={this.renderCode}/>
           <Table.Column title="商品条码" key ={2} render={this.renderBarcode}/>
@@ -108,7 +132,11 @@ class GoodsInfo extends Component {
           <Table.Column title="采购价格" key ={4} render={this.renderPurchasePricee} />
           <Table.Column title="到货价格" key ={5} render={this.renderReceivePrice}/>
           <Table.Column title="出库价格" key ={6} render={this.renderDeliveryPrice}/>
-          <Table.Column title="上传图片" key ={7} render={this.renderTypes}/>
+          {
+            specData.specOne.length>0&&
+            <Table.Column title="上传图片" key ={7} render={this.renderTypes}/>
+          }
+
         </Table>
       </div>
     )

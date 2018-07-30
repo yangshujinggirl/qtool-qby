@@ -26,7 +26,7 @@ class CountryManageForm extends Component {
       }
     }
   }
-  componentWillMount() {
+  componentDidMount() {
     this.props.dispatch({
       type:'countryManage/fetchList',
       payload:{},
@@ -80,13 +80,16 @@ class CountryManageForm extends Component {
     })
   }
   upLoadOnChange() {
-
+    let { countryDetail } =this.state;
+    countryDetail.fileList = []
+    this.setState({
+      countryDetail
+    })
   }
   render() {
     const { getFieldDecorator } = this.props.form;
     const { dataList } = this.props.countryManage;
     const { visible, countryDetail } =this.state;
-    console.log(countryDetail)
     return(
       <div className="country-manage-components">
         <div className="handle-add-btn-wrp">
@@ -96,14 +99,14 @@ class CountryManageForm extends Component {
           <Row wrap>
             {
               dataList.length>0&&dataList.map((el,index) => (
-                <Col span={2} key={index} onClick={()=>this.editCountry(el)}>
+                <div key={index} onClick={()=>this.editCountry(el)} className="card-wrap">
                   <Card
                     className='card-item'
                     hoverable
                     cover={<img alt="example" src={el.url} />}>
                     <div className="theme-color country-name">{el.name}</div>
                   </Card>
-                </Col>
+                </div>
               ))
             }
           </Row>
@@ -118,6 +121,7 @@ class CountryManageForm extends Component {
               label="国家logo"
               {...formItemLayout}>
               <UpLoadFile
+                upLoadOnChange = {this.upLoadOnChange.bind(this)}
                 fileList={countryDetail.fileList}
                 form={this.props.form}/>
             </FormItem>

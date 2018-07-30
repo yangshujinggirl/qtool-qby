@@ -11,7 +11,7 @@ class AddEditableTable extends React.Component {
 		super(props);
 		this.state = {
 			dataSource: this.props.dataSource,
-			key:0
+			key:this.props.dataSource.length
 		};
 	}
 
