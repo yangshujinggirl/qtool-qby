@@ -1,0 +1,110 @@
+import { Form, Select, Input, Button, message, Upload, Icon} from 'antd'
+import React, { Component} from 'react'
+const FormItem = Form.Item;
+const formItemLayout = {
+  labelCol: {span:6},
+  wrapperCol: {span:8}
+}
+
+class AddImgText extends Component{
+  constructor(props){
+    super(props);
+  }
+  //输入框发生变化
+  textChange =(e,index)=> {
+    let value = e.target.value;
+    let { DescArr } = this.props;
+    DescArr[index].content = value;
+    this.setState({DescArr});
+  }
+  //删除图片/文本
+  deleteContent =(index)=> {
+    let { DescArr } = this.props;
+    DescArr.splice(index,1);
+    this.props.changeState(DescArr)
+    this.setState({DescArr});
+  }
+  handleChange = ({fileList},index) => {
+    if(fileList[0].response){
+      const imgUrl = fileList[0].response.data[0];
+      let { DescArr } = this.props;
+      DescArr[index].content = imgUrl;
+      this.props.changeState(DescArr)
+      this.setState({DescArr});
+    };
+  }
+
+  render(){
+    const DescArr = this.props.DescArr;
+    const fileDomain=eval(sessionStorage.getItem('fileDomain'));
+    const uploadButton = (
+      <div>
+        <Icon type="plus" />
+        <div className="ant-upload-text">Upload</div>
+      </div>
+    );
+    return(
+      <div>
+      <FormItem
+        {...formItemLayout}
+        label='合作记录'
+      >
+        <div>
+          <Button
+            style={{marginRight:'30px'}}
+            onClick={()=>this.props.addContent('text')}
+          >
+            添加文本
+          </Button>
+          <Button onClick={()=>this.props.addContent('img')}>添加图片</Button>
+        </div>
+      </FormItem>
+      <FormItem
+        wrapperCol={{ offset:6 ,span: 8 }}
+      >
+      {
+        DescArr.length>0?DescArr.map((item,index)=>{
+          if(item.type=='1'){
+            return(
+              <div key={index} className='addForm'>
+                <Input
+                  style={{width:'80%'}}
+                  value={item.content}
+                  placeholder='请输入'
+                  onChange={(e)=>this.textChange(e,index)}
+                />
+                <a
+                  style={{float:'right',color:'#35BAB0'}}
+                  onClick={()=>this.deleteContent(index)}
+                >删除</ a>
+              </div>
+            )
+          }else if(item.type == '2'){
+            return(
+              <div key={index} className='addForm'>
+                <div>
+                  <Upload
+                    name='imgFile'
+                    showUploadList={false}
+                    action="/erpWebRest/qcamp/upload.htm?type=spu"
+                    listType="picture-card"
+                    onChange={(fileList)=>this.handleChange(fileList,index)}
+                  >
+                    {item.content ? <img src={fileDomain + item.content} style={{width:'102px',height:'102px'}} alt="avatar" /> : uploadButton}
+                  </Upload>
+               </div>
+                <a
+                  style={{float:'right',color:'#35BAB0',marginTop:'-80px'}}
+                  onClick={()=>this.deleteContent(index)}
+                >删除
+                </a>
+              </div>
+            )
+          }
+        }):null
+    }
+    </FormItem>
+    </div>
+  )}
+}
+export default AddImgText
