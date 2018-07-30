@@ -19,7 +19,10 @@ const Columns = [{
      render:(text, record)=>{
        return(
          <div>
-           <a href="javascript:;" className="theme-color" onClick={record.onOperateClick.bind(this)}>修改</a>
+         {record.status==1?
+            <a href="javascript:;" className="theme-color" onClick={record.onOperateClick.bind(this)}>修改</a>:null
+         }
+
          </div>
        )
      }

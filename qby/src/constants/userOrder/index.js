@@ -100,18 +100,19 @@ class UserOrder extends Component {
   render() {
     const { dataList=[] } = this.props.userorders;
     return (
-      <div className='userOrder'>
+      <div className='qtools-components-pages'>
         <FilterForm
           submit={this.searchData}
           onValuesChange = {this.searchDataChange}
         />
-        <Button
-          className='output'
-          type='primary'
-          size='large'
-          onClick={this.exportData}
-          >导出数据
-        </Button>
+        <div className="handel-btn-lists">
+          <Button
+            type='primary'
+            size='large'
+            onClick={this.exportData}
+            >导出数据
+          </Button>
+        </div>
         <Qtable
           dataSource={dataList}
           onOperateClick = {this.handleOperateClick.bind(this)}

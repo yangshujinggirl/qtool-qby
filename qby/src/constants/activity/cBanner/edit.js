@@ -36,7 +36,7 @@ class OperatebannerEditForm extends React.Component{
 		}else{
 			this.props.dispatch({
 				type:'tab/initDeletestate',
-				payload:'101000edit'
+				payload:'1002000edit'
 			});
 		}
 	}
@@ -134,14 +134,14 @@ class OperatebannerEditForm extends React.Component{
                         });
                         if(this.props.data){
 							const pdBannerId=String(this.props.data.pdBannerId);
-                            const paneitem={title:'修改H5页面',key:'101000edit'+pdBannerId+'h5',data:{'pdBannerId':pdBannerId,'addNew':0},componkey:'101000editH5'}
+                            const paneitem={title:'修改H5页面',key:'1002000edit'+pdBannerId+'h5',data:{'pdBannerId':pdBannerId,'addNew':0},componkey:'1002000editH5'}
                             this.props.dispatch({
                                 type:'tab/firstAddTab',
                                 payload:paneitem
                             })
 						}else{
                             const pdBannerId = json.pdBannerId;
-                            const paneitem={title:'新增H5页面',key:'101000edith5',data:{'pdBannerId':pdBannerId,'addNew':1},componkey:'101000editH5'}
+                            const paneitem={title:'新增H5页面',key:'1002000edith5',data:{'pdBannerId':pdBannerId,'addNew':1},componkey:'1002000editH5'}
                             this.props.dispatch({
                                 type:'tab/firstAddTab',
                                 payload:paneitem
@@ -206,6 +206,13 @@ class OperatebannerEditForm extends React.Component{
                 })(
                     <Input placeholder = '请输入banner权重' autoComplete="off"/>
                 )}
+                </FormItem>
+								<FormItem
+                    label="展示App"
+                    labelCol={{ span: 3,offset: 1 }}
+                    wrapperCol={{ span: 6 }}
+                >
+                  <Input value='Q掌柜 App' readOnly/>
                 </FormItem>
                 <FormItem
                     label="banner图片"

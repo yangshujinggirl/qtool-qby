@@ -134,7 +134,7 @@ class AddGoodsForm extends Component {
                      rules: [{ required: true, message: '请输入商品名称'}],
                      initialValue:pdSpu.bname
                    })(
-                     <Input placeholder="请输入商品名称"/>
+                     <Input placeholder="请输入B端名称" autoComplete="off"/>
                    )
                  }
                </FormItem>
@@ -170,7 +170,7 @@ class AddGoodsForm extends Component {
                    rules: [{ required: true, message: '请选择商品状态'}],
                    initialValue:pdSpu.containerSpec
                  })(
-                   <Input placeholder="Username" />
+                   <Input placeholder="请输入箱规销售" autoComplete="off"/>
                  )}
                </FormItem>
             </Col>
@@ -228,7 +228,7 @@ class AddGoodsForm extends Component {
                    getFieldDecorator('trialDay',{
                      initialValue:pdSpu.trialDay
                    })(
-                      <Input placeholder="请输入试销天数" />
+                      <Input placeholder="请输入试销天数" autoComplete="off"/>
                    )
                  }
                </FormItem>
@@ -239,7 +239,7 @@ class AddGoodsForm extends Component {
                    getFieldDecorator('outStockDay',{
                      initialValue:pdSpu.outStockDay
                    })(
-                      <Input placeholder="请输入缺货天数" />
+                      <Input placeholder="请输入缺货天数" autoComplete="off"/>
                    )
                  }
                </FormItem>
@@ -250,7 +250,7 @@ class AddGoodsForm extends Component {
                    getFieldDecorator('outStockRate',{
                      initialValue:pdSpu.outStockRate
                    })(
-                      <Input placeholder="请输入缺货率" />
+                      <Input placeholder="请输入缺货率" autoComplete="off"/>
                    )
                  }
                </FormItem>
@@ -261,7 +261,7 @@ class AddGoodsForm extends Component {
                    getFieldDecorator('targetTurnoverDay',{
                      initialValue:pdSpu.targetTurnoverDay
                    })(
-                      <Input placeholder="请输入目标周转天数" />
+                      <Input placeholder="请输入目标周转天数" autoComplete="off"/>
                    )
                  }
                </FormItem>

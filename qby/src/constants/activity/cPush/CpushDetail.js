@@ -1,7 +1,7 @@
 import React,{ Component } from 'react';
 import { bPushInfoApi } from '../../../services/activity/bPush' //请求方法
 import './index.css'
-class CouponDetail extends Component{
+class CpushDetail extends Component{
 
   //拿取数据
   componentWillMount(){
@@ -22,4 +22,4 @@ class CouponDetail extends Component{
     )
   }
 }
-export default CouponDetail
+export default CpushDetail

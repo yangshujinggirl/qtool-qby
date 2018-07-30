@@ -99,7 +99,7 @@ class Coupon extends Component{
   //熔断优惠券
   fuseCoupon =()=> {
     if(!this.state.couponId){
-      message.warning('请选择要熔断的优惠券')
+      message.warning('请选择要熔断的优惠券',.5)
     }else{
       this.setState({isFuseVisible:true})
     }
@@ -109,9 +109,9 @@ class Coupon extends Component{
     const couponId = this.state.couponId;
     fuseCouponApi(couponId)
     .then(res=>{
-      message.success('熔断成功');
+      message.success('熔断成功',.8);
     },err=>{
-      message.success('熔断失败');
+      message.success('熔断失败',.8);
     })
     this.setState({isFuseVisible:false})
   }
@@ -161,16 +161,16 @@ class Coupon extends Component{
   render(){
     const {dataList} = this.props.coupon;
     return(
-      <div className='coupon'>
+      <div className='qtools-components-pages'>
         <FilterForm
           submit={this.searchData}
           onValuesChange = {this.searchDataChange}
         />
-        <div>
-          <Button onClick={this.createCoupon} className='btn' size='large' type='primary'>创建优惠券</Button>
-          <Button onClick={this.addCouponToUser} className='btn' size='large' type='primary'>注券</Button>
-          <Button onClick={this.addCouponToUserRecord} className='btn' size='large' type='primary'>注券记录</Button>
-          <Button onClick={this.fuseCoupon} className='btn' type='primary' size='large'>熔断</Button>
+        <div className="handel-btn-lists">
+          <Button onClick={this.createCoupon}  size='large' type='primary'>创建优惠券</Button>
+          <Button onClick={this.addCouponToUser}  size='large' type='primary'>注券</Button>
+          <Button onClick={this.addCouponToUserRecord}  size='large' type='primary'>注券记录</Button>
+          <Button onClick={this.fuseCoupon} type='primary' size='large'>熔断</Button>
         </div>
         <Modal
             bodyStyle={{'font-size':'24px','text-align':'center','padding':'50px'}}

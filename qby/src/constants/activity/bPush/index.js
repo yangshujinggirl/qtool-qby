@@ -66,7 +66,7 @@ class Bpush extends Component{
   //新增推送
   addPush =()=> {
     const paneitem = {
-      title:'创建推送',
+      title:'新建推送',
       key:`${this.state.componkey}edit`,
       componkey:`${this.state.componkey}edit`,
       data:{
@@ -97,7 +97,7 @@ class Bpush extends Component{
   getEdit(record){
     const paneitem = {
       title:'修改推送',
-      key:`${this.state.componkey}edit`,
+      key:`${this.state.componkey}edit`+record.spOrderId,
       componkey:`${this.state.componkey}edit`,
       data:{
         pdSpuId:record.spOrderId,
@@ -146,14 +146,14 @@ class Bpush extends Component{
   render(){
     const {dataList} = this.props.bPush;
     return(
-      <div className='bPush'>
+      <div className='qtools-components-pages'>
         <FilterForm
           submit={this.searchData}
           onValuesChange = {this.searchDataChange}
         />
-        <div>
-          <Button onClick={this.addPush} className='btn' size='large' type='primary'>新增推送</Button>
-          <Button onClick={this.cancelPush} className='btn' size='large' type='primary'>撤销推送</Button>
+        <div className="handel-btn-lists">
+          <Button onClick={this.addPush} size='large' type='primary'>新增推送</Button>
+          <Button onClick={this.cancelPush} size='large' type='primary'>撤销推送</Button>
         </div>
         <Modal
             bodyStyle={{fontSize:'24px','padding':'50px'}}

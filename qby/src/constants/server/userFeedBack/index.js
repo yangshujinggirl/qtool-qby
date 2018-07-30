@@ -69,16 +69,18 @@ class UserFeedBack extends Component{
   render(){
     const {dataList} = this.props.userFeedBack;
     return(
-      <div className='userFeedBack'>
+      <div className='qtools-components-pages'>
         <FilterForm
           submit={this.searchData}
           onValuesChange = {this.searchDataChange}
         />
-        <Qtable
-          dataSource = {dataList}
-          columns = {Columns}
-          onOperateClick={this.handleOperateClick.bind(this)}
-        />
+        <div className = 'userFeed-table'>
+            <Qtable
+              dataSource = {dataList}
+              columns = {Columns}
+              onOperateClick={this.handleOperateClick.bind(this)}
+            />
+        </div>
         <Qpagination
           data={this.props.userFeedBack}
           onChange={this.changePage}/>

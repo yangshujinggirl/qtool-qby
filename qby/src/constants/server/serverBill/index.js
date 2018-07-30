@@ -91,14 +91,13 @@ class ServerBill extends Component{
   render(){
     const {dataList} = this.props.serverBill;
     return(
-      <div className='serverBill'>
+      <div className='qtools-components-pages'>
         <FilterForm
           submit={this.searchData}
           onValuesChange = {this.searchDataChange}
         />
-      <div>
+      <div className="handel-btn-lists">
           <Button
-            className='btn'
             type='primary'
             size='large'
             onClick={()=>this.addBill()}

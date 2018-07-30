@@ -13,20 +13,6 @@ import './index.less'
 const FormItem = Form.Item;
 const Option =  Select.Option;
 const RangePicker = DatePicker.RangePicker
-const formItemLayout = {
-  labelCol: {
-    span: 8
-  },
-  wrapperCol: {
-    span: 16
-  }
-};
-const colspans = {
-  xxs: 24,
-  xs: 12,
-  l: 6,
-  xl: 6
-};
 
 class NormalForm extends Component {
   handleSubmit = (e) => {
@@ -46,64 +32,50 @@ class NormalForm extends Component {
     return(
       <div>
         <Form className="qtools-condition-form">
-          <Row wrap>
-            <Col span={6}>
-              <FormItem label='门店名称' {...formItemLayout}>
-                 {getFieldDecorator('spShopName')(
-                   <Input placeholder="请输入门店名称" />
-                 )}
-               </FormItem>
-            </Col>
-            <Col span={6}>
-              <FormItem label='订单号' {...formItemLayout}>
-                 {getFieldDecorator('orderNo')(
-                   <Input placeholder="亲输入订单号" />
-                 )}
-               </FormItem>
-            </Col>
-            <Col span={6}>
-              <FormItem label='商品名称' {...formItemLayout}>
-                 {getFieldDecorator('pdSpuName')(
-                   <Input placeholder="请输入商品名称" />
-                 )}
-               </FormItem>
-            </Col>
-            <Col span={6}>
-              <FormItem label='商品编码' {...formItemLayout}>
-                 {getFieldDecorator('code')(
-                   <Input placeholder="请输入商品编码" />
-                 )}
-               </FormItem>
-            </Col>
-            <Col span={6}>
-              <FormItem label='用户电话' {...formItemLayout}>
-                 {getFieldDecorator('mobile')(
-                   <Input placeholder="亲输入用户电话" />
-                 )}
-               </FormItem>
-            </Col>
-            <Col span={6}>
-              <FormItem label='流程状态' {...formItemLayout}>
-                 {getFieldDecorator('orderStatus')(
-                   <Select allowClear={true} placeholder="请选择">
-                       <Option value='1'>待推送</Option>
-                       <Option value='2'>已推送</Option>
-                       <Option value='3'>已撤销</Option>
-                   </Select>
-                 )}
-               </FormItem>
-            </Col>
-            <Col span={6}>
-              <FormItem label='订单时间' {...formItemLayout}>
-                 {getFieldDecorator('rangePicker')(
-                   <RangePicker showTime format="YYYY-MM-DD HH:mm:ss"/>
-                 )}
-               </FormItem>
-            </Col>
-          </Row>
-          <FormItem className='submit'>
-             <Button type="primary" htmlType="submit" size='large' onClick={this.handleSubmit.bind(this)}>搜索</Button>
-           </FormItem>
+          <div className="search-form-wrap">
+            <FormItem label='门店名称'>
+               {getFieldDecorator('spShopName')(
+                 <Input placeholder="请输入门店名称" autoComplete="off"/>
+               )}
+             </FormItem>
+            <FormItem label='订单号'>
+               {getFieldDecorator('orderNo')(
+                 <Input placeholder="亲输入订单号" autoComplete="off"/>
+               )}
+             </FormItem>
+            <FormItem label='商品名称'>
+               {getFieldDecorator('pdSpuName')(
+                 <Input placeholder="请输入商品名称" autoComplete="off"/>
+               )}
+             </FormItem>
+            <FormItem label='商品编码'>
+               {getFieldDecorator('code')(
+                 <Input placeholder="请输入商品编码" autoComplete="off"/>
+               )}
+             </FormItem>
+            <FormItem label='用户电话'>
+               {getFieldDecorator('mobile')(
+                 <Input placeholder="亲输入用户电话" autoComplete="off"/>
+               )}
+             </FormItem>
+            <FormItem label='流程状态'>
+               {getFieldDecorator('orderStatus')(
+                 <Select allowClear={true} placeholder="请选择">
+                     <Option value='1'>待推送</Option>
+                     <Option value='2'>已推送</Option>
+                     <Option value='3'>已撤销</Option>
+                 </Select>
+               )}
+             </FormItem>
+            <FormItem label='订单时间'>
+               {getFieldDecorator('rangePicker')(
+                 <RangePicker showTime format="YYYY-MM-DD HH:mm:ss"/>
+               )}
+             </FormItem>
+             <div className="search-submit-btn">
+               <Button type="primary" htmlType="submit" size='large' onClick={this.handleSubmit.bind(this)}>搜索</Button>
+             </div>
+           </div>
         </Form>
       </div>
     )

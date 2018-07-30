@@ -10,9 +10,14 @@ class AddEditableTable extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			dataSource: this.props.dataSource,
-			key:this.props.dataSource.length
+			key:1,
+			dataSource:this.props.dataSource
 		};
+	}
+	componentWillReceiveProps(props) {
+		this.setState({
+			dataSource:props.dataSource
+		})
 	}
 
 	handleAdd (val){
@@ -20,6 +25,7 @@ class AddEditableTable extends React.Component {
 		let type = val=='text'?'1':'2';
 		let {key}=this.state;
 		key++;
+		console.log(key)
 		dataSource.push({
 			type,
 			content:'',
@@ -32,9 +38,12 @@ class AddEditableTable extends React.Component {
 	}
 	handDelete(index) {
 		let { dataSource } = this.state;
+		let {key}=this.state;
+		key--;
 		dataSource.splice(index,1);
 		this.setState({
-			dataSource
+			dataSource,
+			key
 		})
 	}
 	renderForm =(text, record, index)=> {
@@ -45,7 +54,7 @@ class AddEditableTable extends React.Component {
 								this.props.form.getFieldDecorator(`pdSpuInfo[${index}].content`,{
 									initialValue:dataSource[index].content,
 								})(
-									 <Input placeholder="Username" autoComplete="off"/>
+									 <Input placeholder="Username"/>
 								)
 							}
 						</div>
@@ -63,7 +72,7 @@ class AddEditableTable extends React.Component {
 	}
 	render() {
 		let { dataSource } = this.state;
-
+		console.log(dataSource)
 		return (
 			<div>
 				<Button onClick={()=>this.handleAdd('text')}>添加文本</Button>

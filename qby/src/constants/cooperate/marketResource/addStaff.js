@@ -1,9 +1,9 @@
 import React, { Component} from 'react'
 import { Form, Select, Input, Button, message, Upload, Icon} from 'antd'
 import {connect} from 'dva'
-import { addStafdfApi } from '../../../services/cooperate/marketResource'
-import { resourceDetailApi } from '../../../services/cooperate/marketResource'
+import { resourceDetailApi, addStaffApi  } from '../../../services/cooperate/marketResource'
 import UpLoadImg from '../../../components/UploadImg/index.js';
+import './index.less'
 const FormItem = Form.Item;
 const TextArea = Input.TextArea;
 const Option = Select.Option;
@@ -11,14 +11,14 @@ const formItemLayout = {
   labelCol: {span:6},
   wrapperCol: {span:8}
 }
+
 class AddStaff extends Component{
   constructor(props){
     super(props);
     this.state={
       fileList:[],
-      addText:['text'],
-      addImg:['img'],
-      date:null
+      DescArr:null,
+      fileds:null
     }
   }
   //确认添加
@@ -51,15 +51,24 @@ class AddStaff extends Component{
   }
 
   componentDidMount(){
-    const date = {name:'zhouhongye'}
-    const resourceId = this.props.data.resourceId;
-    resourceDetailApi(resourceId)
-    .then(res => {
-      this.setDate({date:res.date})
-    },err=>{
+    console.log(this.props)
+    if(this.props.data){
+      const marketResId = {marketResId:this.props.data.marketResId};
+      resourceDetailApi(marketResId)
+      .then(res => {
+        if(res.code=='0'){
+          debugger
+          this.setState({
+            fields:res.marketRes,
+            DescArr:JSON.parse(res.marketRes.content)
+          })
+        }
+      },err=>{
 
-    })
+      })
+    }
   }
+  //添加文本
   addText =()=>{
     let { addText } =this.state;
     addText.push('tesssxt')
@@ -67,20 +76,24 @@ class AddStaff extends Component{
       addText
     });
   }
+
   render(){
     const { getFieldDecorator } = this.props.form;
-    const listDate = this.state.date;
+    const listDate = this.state.fields;
+    console.log(listDate)
+    const DescArr = this.state.DescArr;
+    console.log(DescArr)
     return(
-      <div>
+      <div className='addStaff'>
         <Form>
           <FormItem
             {...formItemLayout}
             label='联系人'
           >
             {
-              getFieldDecorator('accountUser', {
+              getFieldDecorator('name', {
                 rules: [{ required: true, message: '请输入联系人'}],
-                initialValue:listDate?listDate.accountUser:null
+                initialValue:listDate?listDate.name:null
               })(
                 <Input
                   placeholder='请输入16字以下的联系人'
@@ -94,9 +107,9 @@ class AddStaff extends Component{
             label='联系电话'
           >
             {
-              getFieldDecorator('contactTel', {
+              getFieldDecorator('mobile', {
                 rules: [{ required: true, message: '请输入联系电话'}],
-                initialValue:listDate?listDate.contactTel:null
+                initialValue:listDate?listDate.mobile:null
               })(
                 <Input placeholder='请输入16字以下的联系电话' maxLength='16' autoComplete="off"/>
               )
@@ -107,9 +120,9 @@ class AddStaff extends Component{
             label='资源类型'
           >
             {
-              getFieldDecorator('type', {
+              getFieldDecorator('marketTypeId', {
                 rules: [{ required: true, message: '请选择资源类型'}],
-                initialValue:listDate?listDate.type:null
+                initialValue:listDate?listDate.marketTypeId:null
               })(
                 <Select placeholder="请选择资源类型">
                   <Option value="0">供应商</Option>
@@ -141,8 +154,8 @@ class AddStaff extends Component{
             label='联系邮箱'
           >
             {
-              getFieldDecorator('resourceMail', {
-                initialValue:listDate?listDate.resourceMail:null
+              getFieldDecorator('email', {
+                initialValue:listDate?listDate.email:null
               })(
                 <Input
                   placeholder='请输入64字以下的联系邮箱'
@@ -156,8 +169,8 @@ class AddStaff extends Component{
             label='公司全称'
           >
             {
-              getFieldDecorator('companyName', {
-                initialValue:listDate?listDate.companyName:null
+              getFieldDecorator('company', {
+                initialValue:listDate?listDate.company:null
               })(
                 <Input
                   placeholder='请输入32字以下的公司名称'
@@ -171,8 +184,8 @@ class AddStaff extends Component{
             label='公司简称'
           >
             {
-              getFieldDecorator('sCompanyName', {
-                initialValue:listDate?listDate.sCompanyName:null
+              getFieldDecorator('companyShort', {
+                initialValue:listDate?listDate.companyShort:null
               })(
                 <Input
                   placeholder='请输入32字以下的公司简称'
@@ -201,8 +214,8 @@ class AddStaff extends Component{
             label='所在职位'
           >
             {
-              getFieldDecorator('position', {
-                initialValue:listDate?listDate.position:null
+              getFieldDecorator('job', {
+                initialValue:listDate?listDate.job:null
               })(
                 <Input
                   placeholder='请输入32字以下的所在职位'
@@ -216,8 +229,8 @@ class AddStaff extends Component{
             label='开户银行'
           >
             {
-              getFieldDecorator('bankName', {
-                initialValue:listDate?listDate.bankName:null
+              getFieldDecorator('bank', {
+                initialValue:listDate?listDate.bank:null
               })(
                 <Input
                   placeholder='请输入32字以下的银行名称'
@@ -246,8 +259,8 @@ class AddStaff extends Component{
             label='开户名'
           >
             {
-              getFieldDecorator('accountName', {
-                initialValue:listDate?listDate.accountName:null
+              getFieldDecorator('bankName', {
+                initialValue:listDate?listDate.bankName:null
               })(
                 <Input
                   placeholder='请输入32字以下的开户名'
@@ -261,8 +274,8 @@ class AddStaff extends Component{
             label='子女情况'
           >
             {
-              getFieldDecorator('children', {
-                initialValue:listDate?listDate.children:null
+              getFieldDecorator('family', {
+                initialValue:listDate?listDate.family:null
               })(
                 <TextArea
                   rows={5}
@@ -309,15 +322,24 @@ class AddStaff extends Component{
             wrapperCol={{ offset:6 ,span: 8 }}
           >
           {
-            this.state.addText.map((item,index)=>{
-              return(
-                <div>
-                  {getFieldDecorator(`text${index}`)(
-                      <Input style={{width:'80%'}} placeholder='请输入'/>
-                  )}
-                  <a style={{float:'right',color:'#2fcea6'}}>删除</ a>
-                </div>
+            DescArr.map((item,index)=>{
+              if(item.type=='1'){
+                return(
+                  <div key={index} className='addForm'>
+                    {getFieldDecorator(`text${index}`)(
+                        <Input style={{width:'80%'}} placeholder='请输入'/>
+                    )}
+                    <a style={{float:'right',color:'#2fcea6'}}>删除</ a>
+                  </div>
                 )
+              }else{
+                return(
+                  <div key={index} className='addForm'>
+                    111
+                    <a style={{float:'right',color:'#2fcea6'}}>删除</ a>
+                  </div>
+                )
+              }
             })
           }
           </FormItem>
