@@ -29,39 +29,37 @@ export default {
     fileList:[],//商品图片
     pdSpu:{},
     pdSkus:[{}],//商品信息数据
+    pdSkusPicUrl:[]//商品信息图片
   },
   reducers: {
     getCategory( state, { payload : {categoryData}}) {
       return { ...state, categoryData}
     },
-    setSkusPicUrl(state, { payload : skusPic}) {
-      let pdSkus = state.pdSkus;
-      pdSkus = pdSkus.map((el)=>{
-        el.fileList = skusPic;
-        return el;
-      })
-      return {...state,pdSkus}
+    //获取规格列表
+    getType( state, { payload : goodsType }) {
+      return { ...state, goodsType}
     },
-    //规格change事件
+    //商品信息图片
+    setSkusPicUrl(state, { payload : pdSkusPicUrl}) {
+      return {...state,pdSkusPicUrl}
+    },
+    //规格change事件,要重置属性列表，数据pdSkus
     setTypesId(state, { payload : selectData }) {
       let sizeIdList = state.sizeIdList;//重置规格
+      let pdSkusPicUrl = state.pdSkusPicUrl;//重置规格
       let specData = state.specData;//重置属性
       let pdSkus = state.pdSkus;//重置数据
       let { type, typeId } = selectData;
       if(type == 'one') {//置空数据，属性1
         sizeIdList.pdSkusSizeOne = typeId;
         specData.specOne = [];
+        pdSkusPicUrl = [];
         pdSkus = [{}];
       } else {
         sizeIdList.pdSkusSizeTwo = typeId;
-        pdSkus = [];
         specData.specTwo = [];
       }
-      return {...state, pdSkus, sizeIdList, specData}
-    },
-    //获取规格列表
-    getType( state, { payload : goodsType }) {
-      return { ...state, goodsType}
+      return {...state, pdSkus, sizeIdList, specData, pdSkusPicUrl}
     },
     //批量设置
     batchSet(state, { payload : pdSkus }) {
@@ -76,7 +74,8 @@ export default {
         specOne:[],
         specTwo:[],
       }
-      return {...state,pdSpu, fileList, specData, pdSkus }
+      const pdSkusPicUrl = [];
+      return {...state, pdSpu, fileList, specData, pdSkus, pdSkusPicUrl }
     },
     //商品详情
     getGoodsInfo(state, { payload : { pdSpu,fileList, pdSkus, specData, sizeIdList } }) {
@@ -93,6 +92,7 @@ export default {
       const levelTwo = yield select(state => state.addGoods.categoryData.categoryLevelTwo);
       const levelThr = yield select(state => state.addGoods.categoryData.categoryLevelThr);
       const levelFour = yield select(state => state.addGoods.categoryData.categoryLevelFour);
+      const pdSpu = yield select(state => state.addGoods.pdSpu);
       let categoryLevelOne=[];
       let categoryLevelTwo=[];
       let categoryLevelThr=[];
@@ -113,7 +113,7 @@ export default {
             categoryLevelTwo = levelTwo;
             categoryLevelThr = levelThr;
             categoryLevelFour = levelFour;
-            isLevelTwo = false;
+            isLevelTwo = true;
             isLevelThr =true;
             isLevelFour =true;
             break;
@@ -226,7 +226,6 @@ export default {
             }
             return el;
           })
-
         } else {
           //初始化spu商品pdSpu数据
           let initPdspuData;
@@ -267,27 +266,21 @@ export default {
       }
     },
     *handelCategory({ payload: { pdCategory1, pdCategory2, pdCategory3, pdCategory4 } },{ call, put ,select}) {
-      if(pdCategory1 !== null) {
         yield put({
           type:'fetchCategory',
           payload:{ level:2, parentId: pdCategory1.pdCategoryId }
         })
-      }
-      if(pdCategory2 !== null) {
         yield put({
           type:'fetchCategory',
           payload:{ level:3, parentId: pdCategory2.pdCategoryId }
         })
-      }
-      if(pdCategory3 !== null) {
         yield put({
           type:'fetchCategory',
           payload:{ level:4, parentId: pdCategory3.pdCategoryId }
         })
-      }
     },
     *handleSpec({ payload: {specOne, specTwo} },{ call, put ,select}) {
-      let oldpdSkus = yield select(state => state.addGoods.pdSkus)
+      let oldpdSkus = yield select(state => state.addGoods.pdSkus);
       console.log(oldpdSkus)
       let newPdSkus=[];
       //处理新增属性数据;

@@ -7,12 +7,13 @@ class UpLoadFile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      fileList:this.props.fileList,
+      loading:false,
+      imageUrl:this.props.countryManage.imgUrl,
     }
   }
   componentWillReceiveProps(props) {
     this.setState({
-      fileList:props.fileList,
+      imageUrl:props.countryManage.imgUrl,
     })
   }
   beforeUpload(file){
@@ -28,10 +29,21 @@ class UpLoadFile extends Component {
 
     return (isJPG || isPNG) && isLt2M;
   }
-	handleChange = ({fileList}) => {
-    this.setState({
-      fileList
-    })
+	handleChange = (info) => {
+    if (info.file.status === 'uploading') {
+      this.setState({ loading: true });
+      return;
+    }
+    if (info.file.status === 'done') {
+      this.setState({
+        imageUrl:info.file.response.data[0],
+        loading:false
+      })
+      this.props.dispatch({
+        type:'countryManage/setImg',
+        payload:info.file.response.data[0]
+      })
+    }
 	}
   normFile = (e) => {
     if (Array.isArray(e)) {
@@ -41,34 +53,29 @@ class UpLoadFile extends Component {
   }
   render() {
     const uploadButton = (
-       <div>
-         <Icon type='plus' />
-         <div className="ant-upload-text">添加图片</div>
-       </div>
-     );
-     const { fileList } = this.state;
+      <div>
+        <Icon type={this.state.loading ? 'loading' : 'plus'} />
+        <div className="ant-upload-text">Upload</div>
+      </div>
+    );
+     let { imageUrl } = this.state;
+     const { fileDomain } =this.props.countryManage;
      return(
-        <div>
-         {
-           this.props.form.getFieldDecorator('url',{
-             getValueFromEvent: this.normFile,
-             valuePropName: 'fileList',
-             initialValue:fileList,
-             onChange:this.handleChange
-           })(
-               <Upload
-                name="imgFile"
-                listType="picture-card"
-                className="avatar-uploader"
-                action="/erpWebRest/qcamp/upload.htm?type=spu"
-                beforeUpload={this.beforeUpload}>
-                {
-                  fileList.length >0 ? null : uploadButton
-                }
-              </Upload>
-           )
-         }
-       </div>
+         <Upload
+          name="imgFile"
+          showUploadList={false}
+          listType="picture-card"
+          className="avatar-uploader"
+          action="/erpWebRest/qcamp/upload.htm?type=spu"
+          onChange={this.handleChange}
+          beforeUpload={this.beforeUpload}>
+          {
+            imageUrl?
+            <img src={`${fileDomain}${imageUrl}`} alt="avatar" style={{'width':'100px','height':'100px'}}/>
+            :
+            uploadButton
+          }
+        </Upload>
       )
     }
 }
@@ -78,4 +85,4 @@ function mapStateToProps(state) {
   return {countryManage };
 }
 
-export default UpLoadFile;
+export default connect(mapStateToProps)(UpLoadFile);

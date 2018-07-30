@@ -2,7 +2,12 @@ import React,{ Component } from 'react';
 import { Input,Form} from 'antd';
 import { connect } from 'dva';
 import Qtable from '../../../components/Qtable';
-import { DetailColumns, DetailSizeColumns} from './columns/detailColumns';
+import {
+  OnLineDetailSizeColumns,
+  OnLineDetailColumns,
+  OutLineDetailColumns,
+  OutLineDetailSizeColumns
+} from './columns/detailColumns';
 import './AddGoods.less';
 const FormItem = Form.Item;
 
@@ -30,7 +35,7 @@ class GoodsDetail extends Component {
   componentWillMount() {
     const { pdSpuId, source } =this.props.data;
     this.props.dispatch({
-      type:'addGoods/fetchGoodsInfo',
+      type:'baseGoodsDetail/fetchGoodsInfo',
       payload:{
         pdSpuId,
         source
@@ -39,7 +44,8 @@ class GoodsDetail extends Component {
 
   }
   render() {
-    const { pdSpu, pdSkus } = this.props.addGoods;
+    const { pdSpu, pdSkus } = this.props.baseGoodsDetail;
+    console.log(this.props.baseGoodsDetail)
     return(
       <div className="basegoods-detail-components">
         <Form>
@@ -49,19 +55,19 @@ class GoodsDetail extends Component {
     			</FormItem>
     			<FormItem
     				label="一级分类" {...formItemLayout}>
-    				<label>{pdSpu.pdCategory1Name}</label>
+    				<label>{pdSpu.pdCategory1&&pdSpu.pdCategory1.name}</label>
     			</FormItem>
     			<FormItem
     				label="二级分类" {...formItemLayout}>
-    				<label>{pdSpu.pdCategory2Name}</label>
+    				<label>{pdSpu.pdCategory2&&pdSpu.pdCategory2.name}</label>
     			</FormItem>
     			<FormItem
     				label="三级分类" {...formItemLayout}>
-    				<label>{pdSpu.pdCategory3Name}</label>
+    				<label>{pdSpu.pdCategory3&&pdSpu.pdCategory3.name}</label>
     			</FormItem>
     			<FormItem
     				label="四级分类" {...formItemLayout}>
-            <label>{pdSpu.pdCategory4Name}</label>
+            <label>{pdSpu.pdCategory4&&pdSpu.pdCategory4.name}</label>
     			</FormItem>
     			<FormItem
     				label="品牌" {...formItemLayout}>
@@ -83,23 +89,20 @@ class GoodsDetail extends Component {
 
     			</FormItem>
     			<FormItem
-    				label="商品规格" {...formItemLayout}>
-            <label>1234567</label>
-    			</FormItem>
-    			<FormItem
-    				label="商品规格" {...formItemLayout}>
-            <label>1234567</label>
-    			</FormItem>
-    			<FormItem
     				label="商品信息" {...formItemLayout2}>
-            <Qtable columns={DetailColumns} dataSource={pdSkus}/>
-    			</FormItem>
-    			<FormItem
-    				label="商品状态" {...formItemLayout}>
-            <label>1234567</label>
+            {
+              this.props.data.source == 1?
+              <Qtable
+                columns={pdSpu.isSkus?OnLineDetailSizeColumns:OnLineDetailColumns}
+                dataSource={pdSkus}/>
+              :
+              <Qtable
+                columns={pdSpu.isSkus?OutLineDetailSizeColumns:OutLineDetailColumns}
+                dataSource={pdSkus}/>
+            }
     			</FormItem>
           {
-            this.props.data.source =='1' ?
+            this.props.data.source ==1 ?
             <div>
               <FormItem
         				label="保税仓库" {...formItemLayout}>
@@ -161,8 +164,8 @@ class GoodsDetail extends Component {
 }
 
 function mapStateToProps(state) {
-  const { addGoods } = state;
-  return { addGoods };
+  const { baseGoodsDetail } = state;
+  return { baseGoodsDetail };
 }
 
 export default connect(mapStateToProps)(GoodsDetail);

@@ -153,8 +153,8 @@ class BaseGoods extends Component {
   getLog(record) {
     const paneitem={
       title:'商品日志',
-      key:`306000editconfig${record.pdSpuId}info`,
-      componkey:'306000editconfig',
+      key:`${this.state.componkey}editconfig${record.pdSpuId}info`,
+      componkey:`${this.state.componkey}editconfig`,
       data:{
         pdSpuId:record.pdSpuId,
         source:record.source,
@@ -176,8 +176,8 @@ class BaseGoods extends Component {
           submit={this.searchData}
           onChange={this.handleFormChange}/>
         <div className="handel-btn-lists">
-          <Button size="large" type="primary" onClick={()=>this.addGoods(0)}>新增线上商品</Button>
-          <Button size="large" type="primary" onClick={()=>this.addGoods(1)}>新增线下商品</Button>
+          <Button size="large" type="primary" onClick={()=>this.addGoods(1)}>新增线上商品</Button>
+          <Button size="large" type="primary" onClick={()=>this.addGoods(0)}>新增线下商品</Button>
         </div>
         {
           dataList.length>0?

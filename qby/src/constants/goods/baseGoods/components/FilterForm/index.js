@@ -25,22 +25,25 @@ class NormalForm extends Component {
             <div className="search-form-wrap">
               <FormItem label='商品编码'>
                  {getFieldDecorator('code')(
-                   <Input placeholder="请输入商品编码" />
+                   <Input placeholder="请输入商品编码" autoComplete="off"/>
                  )}
                </FormItem>
               <FormItem label='商品名称'>
                  {getFieldDecorator('name')(
-                   <Input placeholder="请输入商品名称" />
+                   <Input placeholder="请输入商品名称" autoComplete="off"/>
                  )}
                </FormItem>
               <FormItem label='商品品牌'>
                  {getFieldDecorator('brandName')(
-                   <Input placeholder="请输入商品品牌" />
+                   <Input placeholder="请输入商品品牌" autoComplete="off"/>
                  )}
                </FormItem>
               <FormItem label='一级分类'>
                  {getFieldDecorator('pdCategory1Name')(
-                   <Input placeholder="请输入一级分类" />
+                   <Select placeholder="请选择一级分类" autoComplete="off">
+                     <Select.Option value={0} key={0}>线上</Select.Option>
+                     <Select.Option value={1} key={1}>线下</Select.Option>
+                   </Select>
                  )}
                </FormItem>
               <FormItem label='是否完整'>

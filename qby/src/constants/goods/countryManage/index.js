@@ -21,9 +21,7 @@ class CountryManageForm extends Component {
     super(props);
     this.state={
       visible:false,
-      countryDetail:{
-        fileList:[]
-      }
+      countryDetail:{}
     }
   }
   componentDidMount() {
@@ -37,6 +35,10 @@ class CountryManageForm extends Component {
     this.setState({
       visible:true
     })
+    this.props.dispatch({
+      type:'countryManage/setImg',
+      payload:null
+    })
   }
   //修改
   editCountry(el) {
@@ -44,10 +46,14 @@ class CountryManageForm extends Component {
       visible:true,
       countryDetail:el
     })
+    this.props.dispatch({
+      type:'countryManage/setImg',
+      payload:el.url
+    })
   }
+  //提交
   handleOk() {
     this.props.form.validateFields((err, values) => {
-      console.log(values)
      if (!err) {
        let url = values.url;
        url = url[0].name;
@@ -71,25 +77,25 @@ class CountryManageForm extends Component {
       this.setState({visible:false})
     })
   }
+  //取消
   handleCancel =()=> {
     this.setState({
       visible:false,
-      countryDetail:{
-        fileList:[]
-      }
+      countryDetail:{}
+    })
+    this.props.dispatch({
+      type:'countryManage/setImg',
+      payload:null
     })
   }
-  upLoadOnChange() {
-    let { countryDetail } =this.state;
-    countryDetail.fileList = []
-    this.setState({
-      countryDetail
-    })
+  validateLogo() {
+    const { imgUrl } = this.props.countryManage;
+    return imgUrl?'success':'error'
   }
   render() {
     const { getFieldDecorator } = this.props.form;
     const { dataList } = this.props.countryManage;
-    const { visible, countryDetail } =this.state;
+    const { visible, countryDetail, imageUrl } =this.state;
     return(
       <div className="country-manage-components">
         <div className="handle-add-btn-wrp">
@@ -119,30 +125,28 @@ class CountryManageForm extends Component {
           <Form>
             <FormItem
               label="国家logo"
-              {...formItemLayout}>
-              <UpLoadFile
-                upLoadOnChange = {this.upLoadOnChange.bind(this)}
-                fileList={countryDetail.fileList}
-                form={this.props.form}/>
+              {...formItemLayout}
+              required={true}>
+              <UpLoadFile />
             </FormItem>
             <FormItem
               label="国家名称"
               {...formItemLayout}>
               {getFieldDecorator('name', {
-                rules: [{ required: true, message: 'Please input your Password!' }],
+                rules: [{ required: true, message: '请输入国家名称' }],
                 initialValue:countryDetail.name
               })(
-                <Input placeholder="请输入国家名称" />
+                <Input placeholder="请输入国家名称" autoComplete="off"/>
               )}
             </FormItem>
             <FormItem
               label="国家状态"
               {...formItemLayout}>
               {getFieldDecorator('status', {
-                rules: [{ required: true, message: 'Please input your Password!' }],
+                rules: [{ required: true, message: '请选择状态' }],
                 initialValue:countryDetail.status
               })(
-                <Select placeholder="请选择">
+                <Select placeholder="请选择" autoComplete="off">
                   <Select.Option value={1} key={1}>启用</Select.Option>
                   <Select.Option value={2} value={2}>关闭</Select.Option>
                 </Select>

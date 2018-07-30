@@ -183,7 +183,7 @@ class Content extends React.Component {
                                 switch (this.props.componkey) {
 
                                     case "301700":return  <Stockindex data={this.props.data}/>;
-                                    case "302000":return  <Classificationindex data={this.props.data}/>;
+                                    // case "302000":return  <Classificationindex data={this.props.data}/>;
                                     case "303000":return  <Brandindex data={this.props.data}/>;
                                     case "304000":return  <Specsindex data={this.props.data}/>;
                                     case "305000":return  <GoodtimeIndex data={this.props.data}/>;
@@ -303,7 +303,7 @@ class Content extends React.Component {
                                     case formDataCode('goods70-edit') : return <BtipAddGoods data={this.props.data} />
                                     case formDataCode('goods70-info') : return <BtipGoodsDetail data={this.props.data} />
                                     case formDataCode('goods70-editconfig') : return <BtipLogList data={this.props.data} />
-                                    case formDataCode('goods90') : return <InternalSort data={this.props.data} componkey={this.props.componkey}/>
+                                    case formDataCode('goods20') : return <InternalSort data={this.props.data} componkey={this.props.componkey}/>
                                     case formDataCode('goods11') : return <CountryManage data={this.props.data} componkey={this.props.componkey}/>//国家管理
                                     case formDataCode('goods80') : return <CtipGoods data={this.props.data} componkey={this.props.componkey}/>//c端商品
                                     case formDataCode('goods80-edit') : return <CtipAddGoods data={this.props.data} />
