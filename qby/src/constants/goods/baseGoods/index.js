@@ -35,8 +35,22 @@ class BaseGoods extends Component {
        },
     }
   }
-  componentWillMount() {
-    this.searchData({})
+  componentDidMount() {
+    this.initData()
+  }
+  initData() {
+    this.props.dispatch({
+      type:'baseGoodsList/fetchList',
+      payload: {}
+    });
+    this.props.dispatch({
+      type:'baseGoodsList/fetchCategory',
+      payload: {
+        level:1,
+        parentId:null,
+        status:1
+      }
+    });
   }
   //双向绑定表单
   handleFormChange = (changedFields) => {
@@ -155,12 +169,13 @@ class BaseGoods extends Component {
     })
   }
   render() {
-    const { dataList=[] } = this.props.baseGoodsList;
+    const { dataList=[], categoryList } = this.props.baseGoodsList;
     const {fields} = this.state;
     return (
       <div className="base-goods-components qtools-components-pages">
         <FilterForm
           {...fields}
+          categoryList={categoryList}
           submit={this.searchData}
           onChange={this.handleFormChange}/>
         <div className="handel-btn-lists">

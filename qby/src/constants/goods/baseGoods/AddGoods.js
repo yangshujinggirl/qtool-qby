@@ -204,6 +204,7 @@ class AddGoodsForm extends Component {
     });
   }
   formParams(values) {
+    debugger
     //取出store中id品牌，国家
     values.pdBrandId = this.props.addGoods.autoComplete.pdBrandId;
     values.pdCountryId = this.props.addGoods.autoComplete.pdCountryId;
@@ -218,7 +219,7 @@ class AddGoodsForm extends Component {
         el.pdType1Id = sizeIdList.pdSkusSizeOne;//规格1id
         el.pdType2Id = sizeIdList.pdSkusSizeTwo;//规格2id
         el.pdType1ValId = paramsPdSkus[index].pdType1ValId;//属性1id
-        el.pdType2ValId = paramsPdSkus[index].pdType1Va2Id;//属性2id
+        el.pdType2ValId = paramsPdSkus[index].pdType2ValId;//属性2id
         //格式化商品信息图片
         if(el.picUrl&&(el.picUrl instanceof Array)) {
           if(el.picUrl.length>0) {

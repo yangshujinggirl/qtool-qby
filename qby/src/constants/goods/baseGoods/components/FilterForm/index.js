@@ -20,6 +20,7 @@ class NormalForm extends Component {
   }
   render() {
     const { getFieldDecorator } = this.props.form;
+    const { categoryList } =this.props;
     return(
         <Form className="qtools-condition-form">
           <div className='search-form-outwrap'>
@@ -42,8 +43,13 @@ class NormalForm extends Component {
               <FormItem label='一级分类'>
                  {getFieldDecorator('pdCategory1Name')(
                    <Select placeholder="请选择一级分类" autoComplete="off">
-                     <Select.Option value={0} key={0}>线上</Select.Option>
-                     <Select.Option value={1} key={1}>线下</Select.Option>
+                     {
+                      categoryList.length>0&&categoryList.map((el) => (
+                         <Select.Option
+                           value={el.pdCategoryId}
+                           key={el.pdCategoryId}>{el.name}</Select.Option>
+                       ))
+                     }
                    </Select>
                  )}
                </FormItem>
@@ -68,7 +74,7 @@ class NormalForm extends Component {
           <div className="search-submit-btn">
              <Button
                type="primary"
-               htmlType="submit" 
+               htmlType="submit"
                size='large'
                onClick={this.handleSubmit.bind(this)}>搜索</Button>
          </div>
