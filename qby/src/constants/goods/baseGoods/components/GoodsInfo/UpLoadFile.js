@@ -7,8 +7,13 @@ class UpLoadFile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      fileList:this.props.fileList,
+      fileList:this.props.addGoods.pdSkusPicUrl,
     }
+  }
+  componentWillReceiveProps(props) {
+    this.setState({
+      fileList:props.addGoods.pdSkusPicUrl,
+    })
   }
   beforeUpload(file){
   	const isJPG = file.type === 'image/jpeg';
@@ -28,10 +33,10 @@ class UpLoadFile extends Component {
     this.setState({
       fileList
     })
-    // this.props.dispatch({
-    //   type:'addGoods/setSkusPicUrl',
-    //   payload:fileList
-    // })
+    this.props.dispatch({
+      type:'addGoods/setSkusPicUrl',
+      payload:fileList
+    })
 	}
   normFile = (e) => {
     if (Array.isArray(e)) {
@@ -47,11 +52,12 @@ class UpLoadFile extends Component {
        </div>
      );
      const { fileList } = this.state;
-     console.log(fileList)
+     console.log(this.props.addGoods)
+
      return(
         <div>
          {
-           this.props.form.getFieldDecorator(this.props.name,{
+           this.props.form.getFieldDecorator(`pdSkus[${this.props.index}].picUrl`,{
              getValueFromEvent: this.normFile,
              valuePropName: 'fileList',
              initialValue:fileList,
@@ -75,8 +81,8 @@ class UpLoadFile extends Component {
 }
 
 function mapStateToProps(state) {
-  const { AddGoods } =state;
-  return {AddGoods };
+  const { addGoods } =state;
+  return {addGoods };
 }
 
 export default connect(mapStateToProps)(UpLoadFile);

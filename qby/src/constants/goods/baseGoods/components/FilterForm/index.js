@@ -41,7 +41,10 @@ class NormalForm extends Component {
                </FormItem>
               <FormItem label='一级分类'>
                  {getFieldDecorator('pdCategory1Name')(
-                   <Input placeholder="请选择一级分类" />
+                   <Select placeholder="请选择一级分类" autoComplete="off">
+                     <Select.Option value={0} key={0}>线上</Select.Option>
+                     <Select.Option value={1} key={1}>线下</Select.Option>
+                   </Select>
                  )}
                </FormItem>
               <FormItem label='是否完整'>

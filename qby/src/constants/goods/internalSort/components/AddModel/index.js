@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Modal, Form, Input, Radio,Select } from 'antd';
 import { connect } from 'dva';
+import { StatusOption } from '../../../../../components/FixedDataSource.js';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -21,7 +22,7 @@ class AddModelForm extends Component {
 													rules: [{ required: true, message: '请输入分类名称' }],
 													initialValue:detailData.pdCategory1Name
 												})(
-													<Input/>
+													<Input placeholder="请输入名称" autoComplete="off"/>
 												)
 											}
 										</FormItem>
@@ -34,9 +35,12 @@ class AddModelForm extends Component {
 													rules: [{ required: true, message: '请选择' }],
 													initialValue:detailData.status
 												})(
-													<Select placeholder="请选择">
-														<Option value='1'>启用</Option>
-														<Option value='2'>关闭</Option>
+													<Select placeholder="请选择" autoComplete="off">
+														{
+		                          StatusOption.map((el) => (
+		                            <Select.Option value={el.key} key={el.key}>{el.value}</Select.Option>
+		                          ))
+		                        }
 													</Select>
 												)
 											}
@@ -54,7 +58,7 @@ class AddModelForm extends Component {
 													rules: [{ required: true, message: '请输入分类名称' }],
 													initialValue:detailData.pdCategory2Name
 												})(
-													<Input/>
+													<Input placeholder="请输入名称" autoComplete="off"/>
 												)
 											}
 										</FormItem>
@@ -84,8 +88,11 @@ class AddModelForm extends Component {
 													initialValue:detailData.status
 												})(
 													<Select placeholder="请选择">
-														<Option value='1'>启用</Option>
-														<Option value='2'>关闭</Option>
+														{
+		                          StatusOption.map((el) => (
+		                            <Select.Option value={el.key} key={el.key}>{el.value}</Select.Option>
+		                          ))
+		                        }
 													</Select>
 												)
 											}
@@ -99,11 +106,11 @@ class AddModelForm extends Component {
 											labelCol={{ span: 5 }}
 											wrapperCol={{ span: 12 }}>
 											{
-												getFieldDecorator('name', {
+												getFieldDecorator('pdCategory3Name', {
 													rules: [{ required: true, message: '请输入分类名称' }],
 													initialValue:detailData.pdCategory3Name
 												})(
-													<Input/>
+													<Input placeholder="请输入名称" autoComplete="off"/>
 												)
 											}
 										</FormItem>
@@ -149,8 +156,11 @@ class AddModelForm extends Component {
 													initialValue:detailData.status
 												})(
 													<Select placeholder="请选择">
-														<Option value='1'>启用</Option>
-														<Option value='2'>关闭</Option>
+														{
+		                          StatusOption.map((el) => (
+		                            <Select.Option value={el.key} key={el.key}>{el.value}</Select.Option>
+		                          ))
+		                        }
 													</Select>
 												)
 											}
@@ -168,7 +178,7 @@ class AddModelForm extends Component {
 												rules: [{ required: true, message: '请输入分类名称' }],
 												initialValue:detailData.pdCategory4Name
 											})(
-												<Input/>
+												<Input placeholder="请输入名称" autoComplete="off"/>
 											)
 										}
 									</FormItem>
@@ -230,8 +240,11 @@ class AddModelForm extends Component {
 												initialValue:detailData.status
 											})(
 												<Select placeholder="请选择">
-													<Option value='1'>启用</Option>
-													<Option value='2'>关闭</Option>
+													{
+	                          StatusOption.map((el) => (
+	                            <Select.Option value={el.key} key={el.key}>{el.value}</Select.Option>
+	                          ))
+	                        }
 												</Select>
 											)
 										}
@@ -263,7 +276,15 @@ class AddModelForm extends Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
-				this.props.onSubmit&&this.props.onSubmit(values)
+				let index = Number(this.props.type);
+				let name = values[`pdCategory${index}Name`];
+				let parentId = values[`pdCategory${index-1}Id`];
+				let params = {
+					name,
+					parentId,
+					status:values.status
+				}
+				this.props.onSubmit&&this.props.onSubmit(params)
       }
     });
   }

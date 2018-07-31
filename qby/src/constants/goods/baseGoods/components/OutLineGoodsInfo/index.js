@@ -14,8 +14,20 @@ import {
   Table
 } from 'antd';
 
-const FormItem = Form.Item;
+
 import UpLoadFile from '../GoodsInfo/UpLoadFile.js';
+import EditableCell from '../EditableCell/index.js';
+
+const formItemLayout2 = {
+  labelCol: {
+    span: 6
+  },
+  wrapperCol: {
+    span: 14
+  }
+};
+const FormItem = Form.Item;
+
 class GoodsInfo extends Component {
   constructor(props) {
     super(props);
@@ -27,7 +39,7 @@ class GoodsInfo extends Component {
                 this.props.form.getFieldDecorator(`pdSkus[${index}].name`,{
                   initialValue:pdSkus[index].name
                 })(
-                  <Input disabled/>
+                  <Input disabled className="goods-name"/>
                 )
               }
             </div>
@@ -40,7 +52,7 @@ class GoodsInfo extends Component {
                 this.props.form.getFieldDecorator(name,{
                   initialValue:pdSkus[index].code
                 })(
-                  <Input placeholder="请输入商品编码" />
+                  <Input placeholder="请输入商品编码" autoComplete="off"/>
                 )
               }
             </div>
@@ -52,7 +64,7 @@ class GoodsInfo extends Component {
                  {this.props.form.getFieldDecorator(name,{
                    initialValue:pdSkus[index].barcode
                  })(
-                   <Input placeholder="请输入商品条码" />
+                   <Input placeholder="请输入商品条码" autoComplete="off"/>
                  )}
              </div>
   }
@@ -64,7 +76,7 @@ class GoodsInfo extends Component {
                  this.props.form.getFieldDecorator(name,{
                    initialValue:pdSkus[index].toBPrice
                  })(
-                   <Input placeholder="请输入售价" />
+                   <Input placeholder="请输入售价" autoComplete="off"/>
                  )
               }
              </div>
@@ -76,7 +88,7 @@ class GoodsInfo extends Component {
                {this.props.form.getFieldDecorator(`pdSkus[${index}].toCPrice`,{
                  initialValue:pdSkus[index].toCPrice
                })(
-                 <Input placeholder="请输入零售价" />
+                 <Input placeholder="请输入零售价" autoComplete="off"/>
                )}
              </div>
   }
@@ -87,7 +99,7 @@ class GoodsInfo extends Component {
                {this.props.form.getFieldDecorator(name,{
                  initialValue:pdSkus[index].costPrice
                })(
-                 <Input placeholder="请输入建议零售价" />
+                 <Input placeholder="请输入建议零售价" autoComplete="off"/>
                )}
              </div>
   }
@@ -99,21 +111,28 @@ class GoodsInfo extends Component {
                  this.props.form.getFieldDecorator(`pdSkus[${index}].tagPrice`,{
                    initialValue:pdSkus[index].tagPrice
                  })(
-                   <Input placeholder="请输入进货价" />
+                   <Input placeholder="请输入进货价" autoComplete="off"/>
                  )
                }
              </div>
   }
   renderTypes =(text, record, index)=> {
     const { pdSkus } = this.props.addGoods;
-    return  <div>
-               <UpLoadFile form={this.props.form} fileList={[]} name={`pdSkus[${index}].picUrl`}/>
-             </div>
+    let fileList = [];
+    if(pdSkus.fileList) {
+      fileList.push(record.fileList);
+    }
+    return  <UpLoadFile
+             form={this.props.form}
+             fileList={fileList}
+             index={index}/>
   }
   render() {
     const { pdSkus, specData } = this.props.addGoods;
     return(
-      <div>
+      <div className="pdSkus-goods-info-tabels">
+        <Col span={24}>
+          <FormItem label='商品信息' {...formItemLayout2}>
         <Table dataSource={pdSkus} pagination={false} bordered={true}>
           {
             specData.specOne.length>0&&
@@ -131,6 +150,18 @@ class GoodsInfo extends Component {
           }
 
         </Table>
+      </FormItem>
+    </Col>
+    <Col span={24}>
+      <FormItem label='批量设置' {...formItemLayout2}>
+         <div style={{display:'flex',textAlign:'center'}}>
+            <EditableCell text='售价' title='toBPrice'/>
+            <EditableCell text='零售价' title='toCPrice'/>
+            <EditableCell text='建议零售价' title='costPrice'/>
+            <EditableCell text='进货价' title='tagPrice'/>
+        </div>
+       </FormItem>
+    </Col>
       </div>
     )
   }

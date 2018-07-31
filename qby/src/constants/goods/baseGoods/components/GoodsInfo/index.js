@@ -14,8 +14,19 @@ import {
   Table
 } from 'antd';
 import UpLoadFile from './UpLoadFile.js';
+import EditableCell from '../EditableCell/index.js';
+import './index.less';
 
 const FormItem = Form.Item;
+
+const formItemLayout2 = {
+  labelCol: {
+    span: 6
+  },
+  wrapperCol: {
+    span: 14
+  }
+};
 
 class GoodsInfo extends Component {
   constructor(props) {
@@ -28,7 +39,7 @@ class GoodsInfo extends Component {
                 this.props.form.getFieldDecorator(`pdSkus[${index}].name`,{
                   initialValue:pdSkus[index].name
                 })(
-                  <Input  disabled/>
+                  <Input  disabled className="goods-name"/>
                 )
               }
             </div>
@@ -41,7 +52,7 @@ class GoodsInfo extends Component {
                 this.props.form.getFieldDecorator(name,{
                   initialValue:pdSkus[index].code
                 })(
-                  <Input placeholder="请输入商品编码" />
+                  <Input placeholder="请输入商品编码" autoComplete="off"/>
                 )
               }
             </div>
@@ -53,7 +64,7 @@ class GoodsInfo extends Component {
                  {this.props.form.getFieldDecorator(name,{
                    initialValue:pdSkus[index].barcode
                  })(
-                   <Input placeholder="请输入商品条码" />
+                   <Input placeholder="请输入商品条码" autoComplete="off"/>
                  )}
              </div>
   }
@@ -65,7 +76,7 @@ class GoodsInfo extends Component {
                  this.props.form.getFieldDecorator(name,{
                    initialValue:pdSkus[index].salePrice
                  })(
-                   <Input placeholder="请输入售价" />
+                   <Input placeholder="请输入售价" autoComplete="off"/>
                  )
               }
              </div>
@@ -77,7 +88,7 @@ class GoodsInfo extends Component {
                {this.props.form.getFieldDecorator(name,{
                  initialValue:pdSkus[index].purchasePrice
                })(
-                 <Input placeholder="请输入采购价格" />
+                 <Input placeholder="请输入采购价格" autoComplete="off"/>
                )}
              </div>
   }
@@ -88,7 +99,7 @@ class GoodsInfo extends Component {
                {this.props.form.getFieldDecorator(name,{
                  initialValue:pdSkus[index].receivePrice
                })(
-                 <Input placeholder="请输入到货价格" />
+                 <Input placeholder="请输入到货价格" autoComplete="off"/>
                )}
              </div>
   }
@@ -100,7 +111,7 @@ class GoodsInfo extends Component {
                  this.props.form.getFieldDecorator(name,{
                    initialValue:pdSkus[index].deliveryPrice
                  })(
-                   <Input placeholder="请输入出库价格" />
+                   <Input placeholder="请输入出库价格" autoComplete="off"/>
                  )
                }
              </div>
@@ -114,30 +125,44 @@ class GoodsInfo extends Component {
     return  <UpLoadFile
              form={this.props.form}
              fileList={fileList}
-             name={`pdSkus[${index}].picUrl`}/>
+             index={index}/>
   }
   render() {
     const { pdSkus,specData } = this.props.addGoods;
     console.log(pdSkus)
     return(
-      <div>
-        <Table dataSource={pdSkus} pagination={false} bordered={true}>
-          {
-            specData.specOne.length>0&&
-            <Table.Column title="商品规格" width={120} key ={0} render={this.renderName}/>
-          }
-          <Table.Column title="商品编码" key ={1} render={this.renderCode}/>
-          <Table.Column title="商品条码" key ={2} render={this.renderBarcode}/>
-          <Table.Column title="售价" key ={3} render={this.renderSalePrice}/>
-          <Table.Column title="采购价格" key ={4} render={this.renderPurchasePricee} />
-          <Table.Column title="到货价格" key ={5} render={this.renderReceivePrice}/>
-          <Table.Column title="出库价格" key ={6} render={this.renderDeliveryPrice}/>
-          {
-            specData.specOne.length>0&&
-            <Table.Column title="上传图片" key ={7} render={this.renderTypes}/>
-          }
+      <div className="pdSkus-goods-info-tabels">
+        <Col span={24}>
+          <FormItem label='商品信息' {...formItemLayout2}>
+            <Table dataSource={pdSkus} pagination={false} bordered={true}>
+              {
+                specData.specOne.length>0&&
+                <Table.Column title="商品规格" width={120} key ={0} render={this.renderName}/>
+              }
+              <Table.Column title="商品编码" key ={1} render={this.renderCode}/>
+              <Table.Column title="商品条码" key ={2} render={this.renderBarcode}/>
+              <Table.Column title="售价" key ={3} render={this.renderSalePrice}/>
+              <Table.Column title="采购价格" key ={4} render={this.renderPurchasePricee} />
+              <Table.Column title="到货价格" key ={5} render={this.renderReceivePrice}/>
+              <Table.Column title="出库价格" key ={6} render={this.renderDeliveryPrice}/>
+              {
+                specData.specOne.length>0&&
+                <Table.Column title="上传图片" key ={7} render={this.renderTypes}/>
+              }
 
-        </Table>
+            </Table>
+          </FormItem>
+        </Col>
+        <Col span={24}>
+          <FormItem label='批量设置' {...formItemLayout2}>
+             <div style={{display:'flex',textAlign:'center'}}>
+                <EditableCell text='售价' title='salePrice'/>
+                <EditableCell text='采购价格' title='purchasePrice'/>
+                <EditableCell text='到货价格' title='receivePrice'/>
+                <EditableCell text='出库价格' title='deliveryPrice'/>
+            </div>
+           </FormItem>
+        </Col>
       </div>
     )
   }

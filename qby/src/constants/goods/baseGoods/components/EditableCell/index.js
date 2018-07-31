@@ -1,7 +1,7 @@
 import React , { Component } from 'react';
 import { Table, Input, Icon, Button, Popconfirm } from 'antd';
 import { connect } from 'dva';
-import './index.css';
+import './index.less';
 
 class EditableCell extends Component {
   constructor(props) {

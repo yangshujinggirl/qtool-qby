@@ -1,5 +1,5 @@
 
-const DetailSizeColumns = [{
+const OnLineDetailSizeColumns = [{
      title: '商品规格',
      dataIndex: 'actionTypeStr',
    },{
@@ -21,7 +21,7 @@ const DetailSizeColumns = [{
      title: '出库价',
      dataIndex: 'deliveryPrice'
    }];
-const DetailColumns = [{
+const OnLineDetailColumns = [{
      title: '商品编码',
      dataIndex: 'code',
    },{
@@ -40,5 +40,51 @@ const DetailColumns = [{
      title: '出库价',
      dataIndex: 'deliveryPrice'
    }];
+const OutLineDetailSizeColumns = [{
+     title: '商品规格',
+     dataIndex: 'name',
+   },{
+     title: '商品编码',
+     dataIndex: 'code',
+   },{
+     title: '商品条码',
+     dataIndex: 'barcode'
+   }, {
+     title: '售价',
+     dataIndex: 'toBPrice'
+   },{
+     title: '零售价',
+     dataIndex: 'toCPrice'
+   },{
+     title: '建议零售价',
+     dataIndex: 'costPrice'
+   },{
+     title: '进货价',
+     dataIndex: 'tagPrice'
+   }];
+const OutLineDetailColumns = [{
+     title: '商品编码',
+     dataIndex: 'code',
+   },{
+     title: '商品条码',
+     dataIndex: 'barcode'
+   }, {
+     title: '售价',
+     dataIndex: 'toBPrice'
+   },{
+     title: '零售价',
+     dataIndex: 'toCPrice'
+   },{
+     title: '建议零售价',
+     dataIndex: 'costPrice'
+   },{
+     title: '进货价',
+     dataIndex: 'tagPrice'
+   }];
 
-   export default { DetailSizeColumns, DetailColumns };
+   export default {
+     OnLineDetailSizeColumns,
+     OnLineDetailColumns,
+     OutLineDetailColumns,
+     OutLineDetailSizeColumns
+    };

@@ -62,10 +62,20 @@ class GoodsList extends Component {
                   </div>
                 </div>
                 <div className="goods-action-bottom">
-                  <Button size="small" disabled className="event-btn" onClick={()=>onOperateClick(el,'sell')}>售卖</Button>
-                  <Button size="small" className="event-btn" onClick={()=>onOperateClick(el,'saleStop')}>停售</Button>
-                  <Button size="small" className="event-btn" onClick={()=>onOperateClick(el,'edit')}>编辑</Button>
-                  <Button size="small" className="event-btn" onClick={()=>onOperateClick(el,'log')}>日志</Button>
+                  <Button size="small"
+                    disabled={el.status==20?false:true}
+                    className="event-btn"
+                    onClick={()=>onOperateClick(el,'sell')}>售卖</Button>
+                  <Button size="small"
+                    disabled={el.status==20?true:false}
+                    className="event-btn"
+                    onClick={()=>onOperateClick(el,'saleStop')}>停售</Button>
+                  <Button size="small"
+                    className="event-btn"
+                    onClick={()=>onOperateClick(el,'edit')}>编辑</Button>
+                  <Button size="small"
+                    className="event-btn"
+                    onClick={()=>onOperateClick(el,'log')}>日志</Button>
                 </div>
               </li>
           ))

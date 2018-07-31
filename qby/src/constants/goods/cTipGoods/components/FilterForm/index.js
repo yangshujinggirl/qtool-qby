@@ -28,27 +28,30 @@ class NormalForm extends Component {
           <div className="search-form-wrap">
               <FormItem label='商品编码'>
                  {getFieldDecorator('code')(
-                   <Input placeholder="请输入商品编码" />
+                   <Input placeholder="请输入商品编码" autoComplete="off"/>
                  )}
                </FormItem>
               <FormItem label='商品名称'>
                  {getFieldDecorator('cname')(
-                   <Input placeholder="请输入商品名称" />
+                   <Input placeholder="请输入商品名称" autoComplete="off"/>
                  )}
                </FormItem>
               <FormItem label='商品品牌'>
                  {getFieldDecorator('brandName')(
-                   <Input placeholder="请输入商品品牌" />
+                   <Input placeholder="请输入商品品牌" autoComplete="off"/>
                  )}
                </FormItem>
               <FormItem label='一级分类'>
                  {getFieldDecorator('pdCategory1Name')(
-                   <Input placeholder="请输入一级分类" />
+                   <Select placeholder="请选择一级分类" autoComplete="off">
+                     <Option value={20} key={20}>上线</Option>
+                     <Option value={10} key={10}>下线</Option>
+                   </Select>
                  )}
                </FormItem>
               <FormItem label='上线状态'>
                  {getFieldDecorator('infoStatus')(
-                   <Select placeholder="请选择上线状态">
+                   <Select placeholder="请选择上线状态" autoComplete="off">
                      <Option value={20} key={20}>上线</Option>
                      <Option value={10} key={10}>下线</Option>
                    </Select>
@@ -56,7 +59,7 @@ class NormalForm extends Component {
                </FormItem>
                <FormItem label='NEW商品'>
                   {getFieldDecorator('isNew')(
-                    <Select allowClear={true} placeholder="请选择是否上新">
+                    <Select allowClear={true} placeholder="请选择是否上新" autoComplete="off">
                         <Option value="true" key={true}>是</Option>
                         <Option value="false" key={false}>否</Option>
                     </Select>
@@ -64,7 +67,7 @@ class NormalForm extends Component {
                 </FormItem>
                <FormItem label='HOT商品'>
                   {getFieldDecorator('isHot')(
-                    <Select allowClear={true} placeholder="请选择是否畅销">
+                    <Select allowClear={true} placeholder="请选择是否畅销" autoComplete="off">
                         <Option value="true" key={true}>是</Option>
                         <Option value="false" key={false}>否</Option>
                     </Select>

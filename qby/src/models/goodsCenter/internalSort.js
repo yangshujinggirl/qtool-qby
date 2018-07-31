@@ -43,5 +43,16 @@ export default {
         })
       }
     },
+    *fetchSave({ payload: values },{ call, put ,select}) {
+      const result = yield call(getListApi,values);
+      if(result.code == '0') {
+        let  { pdCategory } = result;
+
+        yield put({
+          type:'getCategory',
+          payload:{dataList: pdCategory}
+        })
+      }
+    },
   }
 }

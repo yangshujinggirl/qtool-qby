@@ -11,6 +11,7 @@ import {
   ThrSortColumns,
   FourSortColumns
 } from '../../columns/index.js';
+import { goodSaveApi } from '../../../../../services/goodsCenter/internalSort';
 import './index.less';
 
 class FirstSort extends Component {
@@ -80,6 +81,18 @@ class FirstSort extends Component {
   //提交
   onSubmit(values) {
     console.log(values)
+    goodSaveApi(values)
+    .then(res => {
+      this.setState({
+        visible:false
+      })
+      this.props.dispatch({
+        type:'internalSort/fetchCategory',
+        payload:{level:1}
+      })
+    },error=> {
+
+    })
   }
   //取消
   onCancel() {

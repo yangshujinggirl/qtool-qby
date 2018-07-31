@@ -166,7 +166,7 @@ class AddGoodsForm extends Component {
           })
         }
         values = this.formParams(values);
-        if(source == 0) {
+        if(source == 1) {
           this.saveOnLineGoods({iPdSpu:values})
         } else {
           this.saveOutLineGoods({pdSpu:values})
@@ -359,7 +359,7 @@ class AddGoodsForm extends Component {
                      rules: [{ required: true, message: '请输入商品名称'}],
                      initialValue:pdSpu.name
                    })(
-                     <Input placeholder="请输入商品名称" />
+                     <Input placeholder="请输入商品名称" autoComplete="off"/>
                    )
                  }
                </FormItem>
@@ -372,7 +372,7 @@ class AddGoodsForm extends Component {
                      initialValue:pdSpu.pdCategory1&&pdSpu.pdCategory1.pdCategoryId,
                      onChange:(select)=>this.handleChangeLevel(1,select)
                    })(
-                    <Select placeholder="请选择商品分类">
+                    <Select placeholder="请选择商品分类" autoComplete="off">
                       {
                         categoryData.categoryLevelOne.length>0 &&
                         categoryData.categoryLevelOne.map((ele,index) => (
@@ -396,7 +396,8 @@ class AddGoodsForm extends Component {
                    })(
                      <Select
                        placeholder="请选择商品类型"
-                       disabled={categoryData.isLevelTwo}>
+                       disabled={categoryData.isLevelTwo}
+                       autoComplete="off">
                        {
                          categoryData.categoryLevelTwo.length>0 &&
                          categoryData.categoryLevelTwo.map((ele,index) => (
@@ -420,7 +421,8 @@ class AddGoodsForm extends Component {
                    })(
                      <Select
                        placeholder="请选择商品类型"
-                       disabled={categoryData.isLevelThr}>
+                       disabled={categoryData.isLevelThr}
+                       autoComplete="off">
                        {
                          categoryData.categoryLevelThr.length>0 &&
                          categoryData.categoryLevelThr.map((ele,index) => (
@@ -443,7 +445,8 @@ class AddGoodsForm extends Component {
                    })(
                      <Select
                        placeholder="请选择商品类型"
-                       disabled={categoryData.isLevelFour}>
+                       disabled={categoryData.isLevelFour}
+                       autoComplete="off">
                        {
                          categoryData.categoryLevelFour.length>0 &&
                          categoryData.categoryLevelFour.map((ele,index) => (
@@ -476,7 +479,7 @@ class AddGoodsForm extends Component {
               <FormItem label='国家地区' {...formItemLayout}>
                  {getFieldDecorator('pdCountryId',{
                    rules: [{ required: true, message: '请选择国家地区'}],
-                   initialValue:`${pdSpu.pdCountryId}`
+                   initialValue:pdSpu.pdCountryId
                  })(
                     <AutoComplete
                      dataSource={this.state.countryDataSource}
@@ -500,7 +503,9 @@ class AddGoodsForm extends Component {
                      initialValue:sizeIdList.pdSkusSizeOne,
                      onChange:(selected)=>this.handleChangeOne('one',selected)
                    })(
-                    <Select placeholder="请选择商品分类">
+                    <Select
+                      placeholder="请选择商品分类"
+                      autoComplete="off">
                       <Option value={0} key={0}>无</Option>
                       {
                         goodsType.length>0 &&
@@ -529,7 +534,7 @@ class AddGoodsForm extends Component {
                        initialValue:sizeIdList.pdSkusSizeTwo,
                        onChange:(selected)=>this.handleChangeOne('two',selected)
                      })(
-                      <Select placeholder="商品规格2">
+                      <Select placeholder="商品规格2" autoComplete="off">
                         <Option value={0} key={0}>无</Option>
                         {
                           goodsType.length>0 &&
@@ -548,30 +553,16 @@ class AddGoodsForm extends Component {
                  </FormItem>
               </Col>
             }
-            <Col span={24}>
-              <FormItem label='商品信息' {...formItemLayout2}>
-                {
-                  this.props.data.source==0?
-                  <GoodsInfo
-                    form={this.props.form}/>
-                    :
-                  <OutLineGoodsInfo
-                    form={this.props.form}/>
-                }
-               </FormItem>
-            </Col>
-            <Col span={24}>
-              <FormItem label='批量设置' {...formItemLayout2}>
-                 <div style={{display:'flex',textAlign:'center'}}>
-   									<EditableCell text='售价' title='salePrice'/>
-   									<EditableCell text='采购价格' title='salePrice'/>
-   									<EditableCell text='到货价格' title='receivePrice'/>
-   									<EditableCell text='出库价格' title='deliveryPrice'/>
-                </div>
-               </FormItem>
-            </Col>
             {
-              this.props.data.source==0?
+              this.props.data.source==1?
+              <GoodsInfo
+                form={this.props.form}/>
+                :
+              <OutLineGoodsInfo
+                form={this.props.form}/>
+            }
+            {
+              this.props.data.source==1?
               <div>
                 <Col span={24}>
                   <FormItem label='保税仓库' {...formItemLayout}>
@@ -579,7 +570,7 @@ class AddGoodsForm extends Component {
                        rules: [{ required: true, message: '请选择保税仓库'}],
                        initialValue:pdSpu.warehouseId
                      })(
-                       <Select allowClear={true} placeholder="请选择">
+                       <Select allowClear={true} placeholder="请选择" autoComplete="off">
                            <Option value='1' key='1'>杭州下沙保税</Option>
                            <Option value='2' key='2'>重庆丰趣保税</Option>
                            <Option value='3' key='3'>香港天弋丽直邮</Option>
@@ -608,7 +599,7 @@ class AddGoodsForm extends Component {
                        rules: [{ required: true, message: '请选择商品状态'}],
                        initialValue:pdSpu.spuStatus
                      })(
-                       <Select placeholder="请选择商品状态">
+                       <Select placeholder="请选择商品状态" autoComplete="off">
                            <Option value={1} key={1}>初始化商品</Option>
                            <Option value={2} key={2}>新商品</Option>
                            <Option value={3} key={3}>正常商品</Option>
@@ -625,7 +616,7 @@ class AddGoodsForm extends Component {
                        rules: [{ required: true, message: '请选择销售属性'}],
                        initialValue:pdSpu.salesAttr
                      })(
-                       <Select placeholder="请选择销售属性">
+                       <Select placeholder="请选择销售属性" autoComplete="off">
                            <Option value={1} key={1}>待观察商品</Option>
                            <Option value={2} key={2}>畅销商品</Option>
                            <Option value={3} key={3}>滞销商品</Option>
@@ -685,7 +676,7 @@ class AddGoodsForm extends Component {
                        initialValue:pdSpu.expdays,
        								 rules: [{pattern:/^[0-9]*$/,message:'天数只能是整数'}],
                      })(
-                       <Input placeholder="Username" />
+                       <Input placeholder="请输入保质期" autoComplete="off"/>
                      )}
                    </FormItem>
                 </Col>
@@ -707,7 +698,7 @@ class AddGoodsForm extends Component {
                        initialValue:pdSpu.lotLimitInDay,
                        rules: [{pattern:/^[0-9]*$/,message:'天数只能是整数'}],
                      })(
-                       <Input placeholder="Username" />
+                       <Input placeholder="请输入天数" autoComplete="off"/>
                      )}
                    </FormItem>
                 </Col>

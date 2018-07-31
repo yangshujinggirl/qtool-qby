@@ -10,6 +10,7 @@ import {
   DatePicker
 } from 'antd';
 const FormItem = Form.Item;
+import { StatusOption } from '../../../../../components/FixedDataSource.js';
 
 const formItemLayout = {
   labelCol: {
@@ -38,104 +39,102 @@ class NormalForm extends Component {
     const { getFieldDecorator } = this.props.form;
     const { type } =this.props;
     return(
-      <div>
         <Form className="qtools-condition-form">
-          <Row wrap>
-            <Col span={6}>
-              <FormItem label='一级名称' {...formItemLayout}>
-                 {getFieldDecorator('name')(
-                   <Input placeholder="Username" />
-                 )}
-               </FormItem>
-            </Col>
+          <div className="search-form-wrap">
+            <FormItem label='一级名称' {...formItemLayout}>
+               {getFieldDecorator('pdCategory1Name')(
+                 <Input placeholder="请输入名称" autoComplete="off"/>
+               )}
+             </FormItem>
             {
               type == '1'&&
-              <Col span={6}>
                 <FormItem label='一级状态' {...formItemLayout}>
-                   {getFieldDecorator('name')(
-                     <Input placeholder="Username" />
+                   {getFieldDecorator('status')(
+                     <Select allowClear={true} placeholder="请选择状态" autoComplete="off">
+                       {
+                         StatusOption.map((el) => (
+                           <Select.Option value={el.key} key={el.key}>{el.value}</Select.Option>
+                         ))
+                       }
+                     </Select>
                    )}
                  </FormItem>
-              </Col>
             }
             {
               type != '1'&&
-              <Col span={6}>
                 <FormItem label='二级名称' {...formItemLayout}>
-                   {getFieldDecorator('name')(
-                     <Input placeholder="Username" />
+                   {getFieldDecorator('pdCategory2Name')(
+                     <Input placeholder="请输入名称" autoComplete="off"/>
                    )}
                  </FormItem>
-              </Col>
             }
             {
               type ==2&&
-              <Col span={6}>
                 <FormItem label='二级状态' {...formItemLayout}>
                    {getFieldDecorator('name')(
-                     <Input placeholder="Username" />
+                     <Select allowClear={true} placeholder="请选择状态" autoComplete="off">
+                       {
+                         StatusOption.map((el) => (
+                           <Select.Option value={el.key} key={el.key}>{el.value}</Select.Option>
+                         ))
+                       }
+                     </Select>
                    )}
                  </FormItem>
-              </Col>
-            }
-            {
-              type ==2&&
-              <Col span={6}>
-                <FormItem label='二级类型' {...formItemLayout}>
-                   {getFieldDecorator('name')(
-                     <Input placeholder="Username" />
-                   )}
-                 </FormItem>
-              </Col>
             }
             {
               type!='1'&&type!='2'&&
-              <Col span={6}>
                 <FormItem label='三级名称' {...formItemLayout}>
-                   {getFieldDecorator('name')(
-                     <Input placeholder="Username" />
+                   {getFieldDecorator('pdCategory3Name')(
+                     <Input placeholder="请输入名称" autoComplete="off"/>
                    )}
                  </FormItem>
-              </Col>
             }
             {
               type=='3'&&
-              <Col span={6}>
                 <FormItem label='三级状态' {...formItemLayout}>
-                   {getFieldDecorator('name')(
-                     <Input placeholder="Username" />
+                   {getFieldDecorator('status')(
+                     <Select allowClear={true} placeholder="请选择状态" autoComplete="off">
+                       {
+                         StatusOption.map((el) => (
+                           <Select.Option value={el.key} key={el.key}>{el.value}</Select.Option>
+                         ))
+                       }
+                     </Select>
                    )}
                  </FormItem>
-              </Col>
             }
             {
               type=='4'&&
-              <Col span={6}>
                 <FormItem label='四级名称' {...formItemLayout}>
-                   {getFieldDecorator('name')(
-                     <Input placeholder="Username" />
+                   {getFieldDecorator('pdCategory4Name')(
+                     <Input placeholder="请输入名称" autoComplete="off"/>
                    )}
                  </FormItem>
-              </Col>
             }
             {
               type == '4'&&
-              <Col span={6}>
                 <FormItem label='四级状态' {...formItemLayout}>
-                   {getFieldDecorator('name')(
-                     <Input placeholder="Username" />
+                   {getFieldDecorator('status')(
+                     <Select allowClear={true} placeholder="请选择状态" autoComplete="off">
+                       {
+                         StatusOption.map((el) => (
+                           <Select.Option value={el.key} key={el.key}>{el.value}</Select.Option>
+                         ))
+                       }
+                     </Select>
                    )}
                  </FormItem>
-              </Col>
             }
-            <Col span={6} offset={2}>
-              <FormItem label='' {...formItemLayout}>
-                 <Button type="primary" htmlType="submit" size='large' onClick={this.handleSubmit.bind(this)}>搜索</Button>
-               </FormItem>
-            </Col>
-          </Row>
+            <div className="search-submit-btn">
+               <Button
+                 type="primary"
+                 htmlType="submit"
+                 size='large'
+                 onClick={this.handleSubmit.bind(this)}>搜索</Button>
+             </div>
+          </div>
         </Form>
-      </div>
     )
   }
 }

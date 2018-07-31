@@ -1,33 +1,85 @@
-import { getList } from '../../../services/orderCenter/userOrders.js';
+import { goodsInfoApi } from '../../../services/goodsCenter/baseGoods';
 
 export default {
   namespace:'baseGoodsDetail',
   state: {
-    dataList:[],
-    currentPage:0,
-    limit:15,
-    total:0
+    pdSpu:{isSkus:false},
+    pdSkus:[],
+    fileList:[]
   },
   reducers: {
-    getList( state, { payload : {dataList, currentPage, limit, total} }) {
-      return { ...state, dataList, currentPage, limit, total}
+    getGoodsInfo( state, { payload : {pdSpu, pdSkus, fileList} }) {
+      return { ...state, pdSpu, pdSkus, fileList}
     }
   },
   effects: {
-    *fetchList({ payload: {code='qerp.web.sp.order.query',values} }, { call, put ,select}) {
-      const result=yield call(getList,values);
-      if(result.code=='0') {
-        const { spOrders, currentPage, limit, total } = result;
-        yield put ({
-          type: 'getList',
-          payload:{
-            dataList:spOrders,
-            currentPage,
-            limit,
-            total
+    *fetchGoodsInfo({ payload: values },{ call, put ,select}) {
+      const { source } =values;
+      const oldPdSkus = yield select(state => state.addGoods.pdSkus)
+      yield put({type:'resetData',payload:source})//重置初始数据
+      const result = yield call(goodsInfoApi,values);
+      if(result.code == '0') {
+        let { iPdSpu, fileDomain } = result;
+        let pdSpu = iPdSpu;
+        let fileList = [];
+        //格式化图片数据
+        if(pdSpu.pdSpuPics && pdSpu.pdSpuPics) {
+           fileList = pdSpu.pdSpuPics.map(el=>(
+            {
+              url:`${fileDomain}${el.picUrl}`,
+              uid:el.pdSpuPicId,
+              name: el.picUrl,
+              status: 'done',
+            }
+          ))
+        }
+        //格式化pdSkus数据,//商品规格，//商品属性
+        let pdSkus = [];
+        //初始化商品信息，有值是pdSkus，没值填充spu值
+        if(pdSpu.pdSkus.length>0) {
+          pdSpu.isSkus = true;
+          pdSkus = pdSpu.pdSkus.map((el,index) => {
+            let name1 = el.pdType1Val&&el.pdType1Val.name;
+            let name2 = el.pdType2Val&&el.pdType2Val.name;
+            el.name = el.pdType2Val?`${name1}/${name2}`:`${name1}`;
+            el.key = el.pdSkuId;
+            el.picUrl = `${fileDomain}${el.picUrl}`;
+            return el;
+          })
+
+        } else {
+          //初始化spu商品pdSpu数据
+          pdSpu.isSkus = false;
+          let initPdspuData;
+          if(source == 0) {
+            initPdspuData = {
+                    code:pdSpu.code,
+                    barcode:pdSpu.barcode,
+                    salePrice:pdSpu.salePrice,
+                    purchasePrice:pdSpu.purchasePrice,
+                    receivePrice:pdSpu.receivePrice,
+                    deliveryPrice:pdSpu.deliveryPrice,
+                    key:pdSpu.barcode
+                  }
+          } else {
+            initPdspuData = {
+                    code:pdSpu.code,
+                    barcode:pdSpu.barcode,
+                    toBPrice:pdSpu.toBPrice,
+                    toCPrice:pdSpu.toCPrice,
+                    costPrice:pdSpu.costPrice,
+                    tagPrice:pdSpu.tagPrice,
+                    key:pdSpu.barcode
+                  }
           }
+          pdSkus.push(initPdspuData);
+        }
+        //商品详情
+        yield put({
+          type:'getGoodsInfo',
+          payload:{ pdSpu, fileList, pdSkus }
         })
       }
-    }
+    },
   }
 }

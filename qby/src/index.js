@@ -8,6 +8,7 @@ import { useRouterHistory } from 'dva/router';
 import { createHashHistory } from 'history';
 //商品中心-------
 import addGoods from './models/goodsCenter/baseGoods/addGoods.js';//基础商品--新增商品
+import baseGoodsDetail from './models/goodsCenter/baseGoods/baseGoodsDetail.js';//基础商品--新增商品
 import baseGoodsList from './models/goodsCenter/baseGoods/baseGoodsList.js';//基础商品列表
 import bTipGoodsList from './models/goodsCenter/bTipGoods/bTipGoodsList.js';//B端商品列表
 import bTipAddGoods from './models/goodsCenter/bTipGoods/bTipAddGoods.js';//B端商品列表
@@ -94,6 +95,7 @@ const models = [
   bTipAddGoods,
   bTipGoodsList,
   addGoods,
+  baseGoodsDetail,
   baseGoodsList,
   userorders,
   account,

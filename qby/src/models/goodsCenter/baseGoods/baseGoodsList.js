@@ -20,7 +20,9 @@ export default {
   },
   effects: {
     *fetchList({ payload: values }, { call, put ,select}) {
+
       const result=yield call(getListApi,values);
+      yield put({type: 'tab/loding',payload:false});
       if(result.code=='0') {
         let { pdSpus, currentPage, limit, total } = result;
         yield put ({
