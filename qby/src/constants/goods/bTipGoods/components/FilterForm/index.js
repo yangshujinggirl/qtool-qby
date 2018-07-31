@@ -28,22 +28,22 @@ class NormalForm extends Component {
             <div className="search-form-wrap">
               <FormItem label='商品编码'>
                  {getFieldDecorator('code')(
-                   <Input placeholder="请输入商品编码" />
+                   <Input placeholder="请输入商品编码" autoComplete="off"/>
                  )}
                </FormItem>
               <FormItem label='商品名称'>
                  {getFieldDecorator('bname')(
-                   <Input placeholder="请输入商品名称" />
+                   <Input placeholder="请输入商品名称" autoComplete="off"/>
                  )}
                </FormItem>
               <FormItem label='商品品牌'>
                  {getFieldDecorator('brandName')(
-                   <Input placeholder="请输入商品品牌" />
+                   <Input placeholder="请输入商品品牌" autoComplete="off"/>
                  )}
                </FormItem>
               <FormItem label='一级分类'>
                  {getFieldDecorator('pdCategory1Name')(
-                   <Input placeholder="请输入一级分类" />
+                   <Input placeholder="请输入一级分类" autoComplete="off"/>
                  )}
                </FormItem>
               <FormItem label='售卖状态'>
@@ -89,7 +89,11 @@ class NormalForm extends Component {
              </div>
           </div>
           <div className="search-submit-btn">
-             <Button type="primary" htmlType="submit" size='large' onClick={this.handleSubmit.bind(this)}>搜索</Button>
+             <Button
+               type="primary"
+               htmlType="submit"
+               size='large'
+               onClick={this.handleSubmit.bind(this)}>搜索</Button>
            </div>
         </Form>
     )
@@ -98,34 +102,6 @@ class NormalForm extends Component {
 const FilterForm = Form.create({
   onFieldsChange(props, changedFields) {
     props.onChange(changedFields);
-  },
-  mapPropsToFields(props) {
-    return {
-      code: Form.createFormField({
-        ...props.code,
-        value: props.code.value,
-      }),
-      name: Form.createFormField({
-        ...props.name,
-        value: props.name.value,
-      }),
-      brandName: Form.createFormField({
-        ...props.brandName,
-        value: props.brandName.value,
-      }),
-      pdCategory1Name: Form.createFormField({
-        ...props.pdCategory1Name,
-        value: props.pdCategory1Name.value,
-      }),
-      infoStatus: Form.createFormField({
-        ...props.infoStatus,
-        value: props.infoStatus.value,
-      }),
-      source: Form.createFormField({
-        ...props.source,
-        value: props.source.value,
-      }),
-    };
   }
 })(NormalForm);
 

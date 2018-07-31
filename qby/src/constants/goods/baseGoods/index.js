@@ -36,10 +36,7 @@ class BaseGoods extends Component {
     }
   }
   componentWillMount() {
-    this.props.dispatch({
-      type:'baseGoodsList/fetchList',
-      payload:{}
-    })
+    this.searchData({})
   }
   //双向绑定表单
   handleFormChange = (changedFields) => {
@@ -105,17 +102,7 @@ class BaseGoods extends Component {
       case "log":
         this.getLog(record)
         break;
-      case "sell":
-        this.sellAndSaleStop(10,record)
-        break;
-      case "saleStop":
-        this.sellAndSaleStop(20,record)
-        break;
     }
-  }
-  //售卖，停售
-  sellAndSaleStop(type,id) {
-
   }
   //详情
   getDetail(record) {
@@ -189,6 +176,7 @@ class BaseGoods extends Component {
         {
           dataList.length>0&&
           <Qpagination
+            sizeOptions="2"
             onShowSizeChange={this.changePageSize}
             data={this.props.baseGoodsList}
             onChange={this.changePage}/>

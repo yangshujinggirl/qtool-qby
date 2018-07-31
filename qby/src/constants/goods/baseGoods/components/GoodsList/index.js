@@ -16,6 +16,7 @@ import iconEventHot from '../../../../../assets/icon_hot.png';
 import iconEventNew from '../../../../../assets/icon_new.png';
 import iconIsDirectExpress from '../../../../../assets/icon_zhi.png';
 import iconIsPresell from '../../../../../assets/icon_yu.png';
+import nogoodsImg from '../../../../../assets/nogoods.png';
 
 //产品属性icon
 const IconList =({data})=>(
@@ -52,7 +53,12 @@ class GoodsList extends Component {
               <li className="goods-item-content" key={index}>
                 <div className="goods-action-top" onClick={()=>onOperateClick(el,'detail')}>
                   <div className="part-l">
-                    <img src={`${filePath}${el.mainPicUrl}`}/>
+                    {
+                      el.mainPicUrl?
+                      <img src={`${filePath}${el.mainPicUrl}`}/>
+                      :
+                      <img src={nogoodsImg}/>
+                    }
                   </div>
                   <div className="part-r">
                     <p className="goods-name">{el.name}</p>
@@ -62,14 +68,6 @@ class GoodsList extends Component {
                   </div>
                 </div>
                 <div className="goods-action-bottom">
-                  <Button size="small"
-                    disabled={el.status==20?false:true}
-                    className="event-btn"
-                    onClick={()=>onOperateClick(el,'sell')}>售卖</Button>
-                  <Button size="small"
-                    disabled={el.status==20?true:false}
-                    className="event-btn"
-                    onClick={()=>onOperateClick(el,'saleStop')}>停售</Button>
                   <Button size="small"
                     className="event-btn"
                     onClick={()=>onOperateClick(el,'edit')}>编辑</Button>

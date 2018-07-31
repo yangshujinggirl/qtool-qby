@@ -66,7 +66,11 @@ class NormalForm extends Component {
              </div>
             </div>
           <div className="search-submit-btn">
-               <Button type="primary" htmlType="submit" size='large' onClick={this.handleSubmit.bind(this)}>搜索</Button>
+             <Button
+               type="primary"
+               htmlType="submit" 
+               size='large'
+               onClick={this.handleSubmit.bind(this)}>搜索</Button>
          </div>
         </Form>
     )
