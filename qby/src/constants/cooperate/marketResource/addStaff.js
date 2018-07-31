@@ -9,8 +9,8 @@ const FormItem = Form.Item;
 const TextArea = Input.TextArea;
 const Option = Select.Option;
 const formItemLayout = {
-  labelCol: {span:6},
-  wrapperCol: {span:8}
+  labelCol: {span:3},
+  wrapperCol: {span:6}
 }
 
 class AddStaff extends Component{
@@ -328,8 +328,8 @@ class AddStaff extends Component{
             addContent = {this.addContent}
             changeState = {this.changeState}
            />
-          <FormItem wrapperCol={{ offset: 7}} style={{marginTop:'30px'}}>
-            <Button style={{marginRight:'30px'}} onClick={this.cancel}>取消</Button>
+         <FormItem wrapperCol={{ offset: 3}} style={{marginTop:'30px'}}>
+            <Button style={{marginRight:'60px'}} onClick={this.cancel}>取消</Button>
             <Button type="primary" onClick={this.save}>确定</Button>
           </FormItem>
         </Form>

@@ -2,8 +2,8 @@ import { Form, Select, Input, Button, message, Upload, Icon} from 'antd'
 import React, { Component} from 'react'
 const FormItem = Form.Item;
 const formItemLayout = {
-  labelCol: {span:6},
-  wrapperCol: {span:8}
+  labelCol: {span:3},
+  wrapperCol: {span:6}
 }
 
 class AddImgText extends Component{
@@ -60,7 +60,7 @@ class AddImgText extends Component{
         </div>
       </FormItem>
       <FormItem
-        wrapperCol={{ offset:6 ,span: 8 }}
+        wrapperCol={{ offset:3 ,span: 6 }}
       >
       {
         DescArr.length>0?DescArr.map((item,index)=>{

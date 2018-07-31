@@ -12,30 +12,47 @@ class HandleBill extends React.Component{
 	constructor(props) {
 		super(props);
 		this.state={
-			fileList:[]
+			fileList:[],
+			feedbackInfos:{},
+      feedbackDetail:{},
+      feedbackLogs:[],
+			handelFeedBack:{}
 		}
-    this.result={
-      customServiceInfos:{},
-      customServiceContent:{},
-      customServiceHandel:[]
-    },
 		this.columns = [{
 			title: '反馈状态',
 			dataIndex: 'statusStr',
-      key:'1'
+      key:'1',
+			render:(text,record)=> <a href="javascript:;">{record.fromStatusStr}-{record.toStatusStr}</a>
 		}, {
 			title: '处理备注',
 			dataIndex: 'remark',
       key:'2'
 		}, {
+			title: '图片备注',
+			dataIndex: 'operator',
+      key:'4',
+			render:(text,record)=>{
+				let imgList;
+				if(record.remarkPic) {
+					imgList = JSON.parse(record.remarkPic);
+					return (
+						<div>
+							{
+								imgList.map((el,index) => (
+									<img src={el.imgPath} key={index} style={{width:'100px',height:'100px'}}/>
+								))
+							}
+						</div>
+					)
+				} else {
+					return null
+				}
+			}
+		},{
 			title: '处理人',
-			dataIndex: 'operator',
+			dataIndex: 'handleUser',
       key:'3'
-		}, {
-			title: '处理时间',
-			dataIndex: 'operator',
-      key:'4'
-		}, {
+		},  {
 			title: '处理时间',
 			dataIndex: 'createTime',
       key:'5'
@@ -44,19 +61,21 @@ class HandleBill extends React.Component{
 
 
 render(){
-  const {customServiceInfos,customServiceContent,customServiceHandel,customServiceLogs} = this.result;
+  const {feedbackInfos,feedbackDetail,handelFeedBack,feedbackLogs} = this.state;
+	feedbackInfos.status = String(feedbackInfos.status);
   const { getFieldDecorator } = this.props.form;
+	console.log(this.state.fileList)
 	return(
 			<div>
         <div className='mb10'>
           <Card title='工单信息'>
             <div className='cardlist'>
-                <div className='cardlist_item'><label>客服单号：</label><span>{customServiceInfos.customServiceNo}</span></div>
-                <div className='cardlist_item'><label>客服状态：</label><span>{customServiceInfos.status}</span></div>
-                <div className='cardlist_item'><label>处理时长：</label><span>{customServiceInfos.handleTime}</span></div>
-                <div className='cardlist_item'><label>开始时间：</label><span>{customServiceInfos.createTime}</span></div>
-                <div className='cardlist_item'><label>部门/用户/门店：</label><span>{customServiceInfos.source}</span></div>
-                <div className='cardlist_item'><label>联系电话：</label><span>{customServiceInfos.waiterTel}</span></div>
+                <div className='cardlist_item'><label>客服单号：</label><span>{feedbackInfos.customServiceNo}</span></div>
+                <div className='cardlist_item'><label>客服状态：</label><span>{feedbackInfos.status}</span></div>
+                <div className='cardlist_item'><label>处理时长：</label><span>{feedbackInfos.handleTime}</span></div>
+                <div className='cardlist_item'><label>开始时间：</label><span>{feedbackInfos.createTime}</span></div>
+                <div className='cardlist_item'><label>部门/用户/门店：</label><span>{feedbackInfos.source}</span></div>
+                <div className='cardlist_item'><label>联系电话：</label><span>{feedbackInfos.waiterTel}</span></div>
             </div>
           </Card>
         </div>
@@ -68,14 +87,14 @@ render(){
 							labelCol={{ span: 2 }}
 							wrapperCol={{ span: 12 }}
 						>
-							<div>{customServiceContent.customServiceTheme}</div>
+							<div>{feedbackDetail.customServiceTheme}</div>
 						</FormItem>
 						<FormItem
 							label="反馈内容"
 							labelCol={{ span: 2 }}
 							wrapperCol={{ span: 12 }}
 						>
-							<div className='clearfix'>{customServiceContent.content}</div>
+							<div className='clearfix'>{feedbackDetail.content}</div>
 						</FormItem>
   				</Form>
 				</div>
@@ -88,7 +107,7 @@ render(){
 							wrapperCol={{ span: 12 }}
 						>
             {getFieldDecorator('status',{
-              initialValue:customServiceInfos.status
+              initialValue:feedbackInfos.status
             })(
               <Select
 								style={{width:'200px'}}
@@ -118,6 +137,7 @@ render(){
 								name='imgFile'
 								action = '/erpWebRest/qcamp/upload.htm?type=spu'
 								fileList = {this.state.fileList}
+								changeImg = {this.changeImg}
 								maxLength = '5'
 							/>
 						</FormItem>
@@ -128,7 +148,7 @@ render(){
             columns={this.columns}
             title='处理日志'
             bordered={true}
-            dataSource = { customServiceLogs }
+            dataSource = { feedbackLogs }
           />
         </div>
 					<FormItem style = {{marginBottom:0,textAlign:"center"}}>
@@ -140,12 +160,39 @@ render(){
 	}
 	componentDidMount(){
     const id = this.props.data.pdSpuId;
-    customserviceDetailApi(id)
+    customserviceDetailApi({customServiceId:id})
     .then(res=>{
-      message.success('成功');
+			if(res.code=='0'){
+				var imgLists = [];
+				var imgList = JSON.parse(res.handelFeedBack.remarkPic);
+				imgList.map((item,index)=>{
+					const obj={uid: -1,name: 'xxx.png',status: 'done',url:''}
+					obj.url = item.imgPath;
+					imgLists.push(obj);
+				});
+				this.setState({
+					feedbackInfos:res.feedbackInfos,
+					feedbackDetail:res.feedbackDetail,
+					handelFeedBack:res.handelFeedBack,
+					feedbackLogs:res.feedbackLogs,
+					fileList:imgLists
+				})
+			};
     },err=>{
       message.error('失败')
     })
+	}
+	//图片处理
+	changeImg =(fileList)=>{
+		var imgLists = [];
+		fileList.map((item,index)=>{
+			if(item.status=='done'){
+				const obj={uid: -1,name: 'xxx.png',status: 'done',url:''}
+				obj.url = item.response.data[0];
+				imgLists.push(obj);
+			}
+		});
+		this.setState({fileList:imgLists})
 	}
 	//取消
 	onCancel =()=>{
@@ -157,8 +204,16 @@ render(){
 	//确定
   onOk =()=> {
     this.props.form.validateFieldsAndScroll((err,values) => {
-			console.log(values);
-			const _values = {customServiceId:this.props.data.pdSpuId,...values}
+			const {fileList} = this.state;
+			var imgList = [];
+			fileList.map((item,index)=>{
+				if(item.status=='done'){
+					let obj = {};
+					obj.imgPath = item.url;
+					imgList.push(obj);
+				}
+			});
+			const _values = {customServiceId:this.props.data.pdSpuId,...values,imgList}
 			if(!err){
 				this.submit(_values);
 			};
@@ -168,6 +223,10 @@ render(){
 	submit =(values)=> {
 		customserviceSaveApi(values)
 		.then(res=>{
+			this.props.dispatch({
+				type:'serverBill/fetchList',
+				payload:{}
+			})
 			this.props.dispatch({
 					type:'tab/initDeletestate',
 					payload:this.props.componkey

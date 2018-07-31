@@ -52,7 +52,6 @@ class ServerBill extends Component{
   }
   //初始化数据
   componentWillMount(){
-    console.log()
     this.props.dispatch({
       type:'serverBill/fetchList',
       payload:{}
@@ -69,9 +68,16 @@ class ServerBill extends Component{
   onOk =(values)=> {
     addBillApi(values)
     .then(res=> {
-      message.success('成功');
+      if(res.code=='0'){
+        this.props.dispatch({
+          type:'serverBill/fetchList',
+          payload:{}
+        })
+        message.success('成功',.8);
+      }
+      this.setState({isVisible:false})
     },err=>{
-      message.error('失败');
+      message.error('失败',.8);
     })
   }
   //点击跳转到详情
@@ -81,7 +87,7 @@ class ServerBill extends Component{
       key:`${this.props.componkey}edit`,
       componkey:`${this.props.componkey}edit`,
       data:{
-        pdSpuId:record.spOrderId
+        pdSpuId:record.customServiceId
       }
     };
     this.props.dispatch({

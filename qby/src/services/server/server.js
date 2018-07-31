@@ -29,7 +29,7 @@ export function feedBackSaveApi(values){
 export function getServerListApi(values){
   values = JSON.stringify(values)
   return ajax.post('/webrest.htm',{
-      code:'qerp.web.sp.order.query',
+      code:'qerp.web.pd.customservice.list',
       data:values
   })
 }

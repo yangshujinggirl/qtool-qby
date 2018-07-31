@@ -10,15 +10,16 @@ const { TextArea } = Input;
 class HandleBack extends React.Component{
 	constructor(props) {
 		super(props);
-    this.result={
-      feedbackInfos:{},
-      feedbackContent:{},
-      feedbackLogs:[]
-    },
+		this.state = {
+			feedbackInfos:{},
+			feedbackDetail:{},
+			feedbackLogs:[]
+		}
 		this.columns = [{
 			title: '反馈状态',
-			dataIndex: 'statusStr',
-      key:'1'
+			dataIndex: 'status',
+      key:'1',
+			render:(text,record)=> <a href="javascript:;">{record.fromStatusStr}-{record.toStatusStr}</a>
 		}, {
 			title: '处理备注',
 			dataIndex: 'remark',
@@ -39,7 +40,8 @@ class HandleBack extends React.Component{
 }
 
 render(){
-  const {feedbackInfos,feedbackContent,feedbackLogs} = this.result;
+  const {feedbackInfos,feedbackDetail,feedbackLogs} = this.state;
+	feedbackInfos.status = String(feedbackInfos.status);
   const { getFieldDecorator } = this.props.form;
 	return(
 			<div>
@@ -63,7 +65,7 @@ render(){
 							labelCol={{ span: 2 }}
 							wrapperCol={{ span: 12 }}
 						>
-							<div>{feedbackContent.remark}</div>
+							<div>{feedbackDetail.remark}</div>
 						</FormItem>
 						<FormItem
 							label="反馈图片"
@@ -72,11 +74,11 @@ render(){
 						>
 							<div className='clearfix'>
                 {
-                  feedbackLogs && feedbackLogs.remarkUrl
+                  feedbackDetail && feedbackDetail.remarkUrl
                   ?
-                    feedbackLogs.remarkUrl.map((item,index) => {
+                    JSON.parse(feedbackDetail.remarkUrl).map((item,index) => {
                       return(
-                        <img key={index} src={item}/>
+                        <img style={{width:'102px',height:'102px'}} key={index} src={item.imgPath}/>
                       )
                     })
                   :''
@@ -133,9 +135,15 @@ render(){
 	}
 	componentDidMount(){
     const id = this.props.data.pdSpuId;
-    getBackDetailApi(id)
+    getBackDetailApi({feedbackId:id})
     .then(res=>{
-      message.success('成功');
+			if(res.code=="0"){
+				this.setState({
+					feedbackDetail:res.feedbackDetail,
+					feedbackInfos:res.feedbackInfos,
+					feedbackLogs:res.feedbackLogs
+				});
+			}
     },err=>{
       message.error('失败')
     })
@@ -158,14 +166,18 @@ render(){
   }
 	//提交
 	submit =(values)=> {
+			debugger
 		feedBackSaveApi(values)
 		.then(res=>{
-			this.props.dispatch({
-					type:'tab/initDeletestate',
-					payload:this.props.componkey
-			});
+			if(res.code=="0"){
+
+				this.props.dispatch({
+						type:'tab/initDeletestate',
+						payload:this.props.componkey
+				});
+			};
 		},err=>{
-			message.error('失败')
+			message.error('处理失败')
 		})
 	}
 }
