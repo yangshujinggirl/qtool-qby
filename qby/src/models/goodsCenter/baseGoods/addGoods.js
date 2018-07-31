@@ -12,6 +12,10 @@ export default {
       specOne:[],//商品属性1
       specTwo:[],//商品属性2
     },
+    autoComplete:{//品牌和国家id
+      pdBrandId:null,
+      pdCountryId:null
+    },
     sizeIdList:{//商品规格id
       pdSkusSizeOne:null,
       pdSkusSizeTwo:null
@@ -38,6 +42,16 @@ export default {
     //获取规格列表
     getType( state, { payload : goodsType }) {
       return { ...state, goodsType}
+    },
+    setAutoCompleteId(state, { payload: values }) {
+      const { type, selectId } = values;
+      let autoComplete = state.autoComplete;
+      if(type == 'brand') {
+        autoComplete.pdBrandId = selectId;
+      } else {
+        autoComplete.pdCountryId = selectId;
+      }
+      return {...state, autoComplete}
     },
     //商品信息图片
     setSkusPicUrl(state, { payload : pdSkusPicUrl}) {
@@ -74,6 +88,10 @@ export default {
         specOne:[],
         specTwo:[],
       }
+      const autoComplete={
+              pdBrandId:null,
+              pdCountryId:null
+            }
       const categoryData = {
         categoryLevelOne:[],//商品分类1列表
         categoryLevelTwo:[],//商品分类2列表
@@ -88,11 +106,11 @@ export default {
         pdSkusSizeTwo:null
       };
       const pdSkusPicUrl = [];
-      return {...state, pdSpu, fileList, specData, pdSkus, pdSkusPicUrl, categoryData, sizeIdList }
+      return {...state, pdSpu, fileList, specData, pdSkus, pdSkusPicUrl, categoryData, sizeIdList, autoComplete }
     },
     //商品详情
-    getGoodsInfo(state, { payload : { pdSpu,fileList, pdSkus, specData, sizeIdList } }) {
-      return { ...state, pdSpu, fileList, pdSkus, specData, sizeIdList }
+    getGoodsInfo(state, { payload : { pdSpu,fileList, pdSkus, specData, sizeIdList, autoComplete } }) {
+      return { ...state, pdSpu, fileList, pdSkus, specData, sizeIdList,autoComplete }
     },
     //设置属性
     setSpec(state,{ payload: {specData, pdSkus} }) {
@@ -205,11 +223,14 @@ export default {
       const { source } =values;
       const oldPdSkus = yield select(state => state.addGoods.pdSkus)
       yield put({type:'resetData',payload:source})//重置初始数据
+
       const result = yield call(goodsInfoApi,values);
       yield put({type: 'tab/loding',payload:false});
       if(result.code == '0') {
         let { iPdSpu, fileDomain } = result;
         let pdSpu = iPdSpu;
+        let pdBrandId =pdSpu.pdBrandId;//存入品牌id
+        let pdCountryId =pdSpu.pdCountryId;//存入国家id
         let fileList = [];
         //格式化图片数据
         if(pdSpu.pdSpuPics && pdSpu.pdSpuPics) {
@@ -283,10 +304,20 @@ export default {
           }
           pdSkus.push(initPdspuData);
         }
+
         //商品详情
         yield put({
           type:'getGoodsInfo',
-          payload:{ pdSpu, fileList, pdSkus, specData:{specOne,specTwo}, sizeIdList}
+          payload:{
+            pdSpu,
+            fileList,
+            pdSkus,
+            specData:{specOne,specTwo},
+            sizeIdList,
+            autoComplete:{
+              pdBrandId,pdCountryId
+            }
+          }
         })
         //初始化分类
         const { pdCategory1Id, pdCategory2Id, pdCategory3Id, pdCategory4Id } =pdSpu;
@@ -298,9 +329,7 @@ export default {
     },
     *handelCategory({ payload: pdSpu},{ call, put ,select}) {
       const categoryLevelOne = yield select(state => state.addGoods.categoryData.categoryLevelOne)
-      const [resultTwo,
-            resultThr,
-            resultFour] = yield [
+      const [resultTwo,resultThr,resultFour] = yield [
               call(getCategoryApi, { level:2, parentId: pdSpu.pdCategory1Id }),
               call(getCategoryApi, { level:3, parentId: pdSpu.pdCategory2Id }),
               call(getCategoryApi, { level:4, parentId: pdSpu.pdCategory3Id })

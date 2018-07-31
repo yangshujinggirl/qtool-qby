@@ -167,7 +167,10 @@ class AddGoodsForm extends Component {
             <Col span={24}>
               <FormItem label='箱规销售' {...formItemLayout}>
                  {getFieldDecorator('containerSpec',{
-                   rules: [{ required: true, message: '请选择商品状态'}],
+                   rules: [
+                     { required: true, message: '请选择商品状态'},
+                     { pattern:/^[0-9]*$/,message:'请输入数字'}
+                   ],
                    initialValue:pdSpu.containerSpec
                  })(
                    <Input placeholder="请输入箱规销售" autoComplete="off"/>
@@ -226,7 +229,8 @@ class AddGoodsForm extends Component {
               <FormItem label='试销天数' {...formItemLayout}>
                  {
                    getFieldDecorator('trialDay',{
-                     initialValue:pdSpu.trialDay
+                     initialValue:pdSpu.trialDay,
+                     rules: [{pattern:/^[0-9]*$/,message:'天数只能是整数'}],
                    })(
                       <Input placeholder="请输入试销天数" autoComplete="off"/>
                    )
@@ -237,7 +241,8 @@ class AddGoodsForm extends Component {
               <FormItem label='缺货天数' {...formItemLayout}>
                  {
                    getFieldDecorator('outStockDay',{
-                     initialValue:pdSpu.outStockDay
+                     initialValue:pdSpu.outStockDay,
+                     rules: [{pattern:/^[0-9]*$/,message:'天数只能是整数'}],
                    })(
                       <Input placeholder="请输入缺货天数" autoComplete="off"/>
                    )
@@ -248,7 +253,8 @@ class AddGoodsForm extends Component {
               <FormItem label='缺货率' {...formItemLayout}>
                  {
                    getFieldDecorator('outStockRate',{
-                     initialValue:pdSpu.outStockRate
+                     initialValue:pdSpu.outStockRate,
+                     rules: [{ pattern:/^[0-9]*$/,message:'请输入数字'}],
                    })(
                       <Input placeholder="请输入缺货率" autoComplete="off"/>
                    )
@@ -259,7 +265,8 @@ class AddGoodsForm extends Component {
               <FormItem label='目标周转天数' {...formItemLayout}>
                  {
                    getFieldDecorator('targetTurnoverDay',{
-                     initialValue:pdSpu.targetTurnoverDay
+                     initialValue:pdSpu.targetTurnoverDay,
+                     rules: [{pattern:/^[0-9]*$/,message:'天数只能是整数'}],
                    })(
                       <Input placeholder="请输入目标周转天数" autoComplete="off"/>
                    )
@@ -282,7 +289,7 @@ class AddGoodsForm extends Component {
                  <Button type="default" onClick={this.onCancel.bind(this)}>取消</Button>
                  <Button type="primary" onClick={this.handleSubmit.bind(this)}>保存</Button>
                 </div>
-               </FormItem>
+              </FormItem>
             </Col>
           </Row>
         </Form>

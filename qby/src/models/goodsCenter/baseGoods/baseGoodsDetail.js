@@ -10,13 +10,19 @@ export default {
   reducers: {
     getGoodsInfo( state, { payload : {pdSpu, pdSkus, fileList} }) {
       return { ...state, pdSpu, pdSkus, fileList}
+    },
+    resetData(state) {
+      const pdSpu = {isSkus:false},
+            pdSkus =[],
+            fileList =[];
+      return {...state, pdSpu, pdSkus, fileList }
     }
   },
   effects: {
     *fetchGoodsInfo({ payload: values },{ call, put ,select}) {
       const { source } =values;
       const oldPdSkus = yield select(state => state.addGoods.pdSkus)
-      yield put({type:'resetData',payload:source})//重置初始数据
+      yield put({type:'resetData'})//重置初始数据
       const result = yield call(goodsInfoApi,values);
       if(result.code == '0') {
         let { iPdSpu, fileDomain } = result;
