@@ -24,7 +24,8 @@ class NormalForm extends Component{
         return(
             <div>
                 <Form className="qtools-condition-form">
-                  <div className="search-form-wrap">
+                  <div className='search-form-outwrap'>
+                    <div className="search-form-wrap">
                       <FormItem  label='联系人'>
                         {getFieldDecorator('userName')(
                             <Input placeholder='请输入联系人' autoComplete="off"/>
@@ -45,16 +46,18 @@ class NormalForm extends Component{
                           <Input placeholder='请输入资源类型' autoComplete="off"/>
                         )}
                       </FormItem>
-                      <div className="search-submit-btn">
-                          <Button
-                            type="primary"
-                            size='large'
-                            disabled={this.props.marketResource.disabled}
-                            onClick={this.handleSubmit.bind(this)}>
-                              搜索
-                          </Button>
-                      </div>
                     </div>
+                  </div>
+                  <div className="search-submit-btn">
+                      <Button
+                        htmlType="submit"
+                        type="primary"
+                        size='large'
+                        disabled={this.props.marketResource.disabled}
+                        onClick={this.handleSubmit.bind(this)}>
+                          搜索
+                      </Button>
+                  </div>
                 </Form>
             </div>
         )

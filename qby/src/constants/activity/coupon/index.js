@@ -42,7 +42,8 @@ class Coupon extends Component{
     })
   }
   //点击分页
-  changePage =(currentPage)=> {
+  changePage =(current)=> {
+    const currentPage = current-1;
     const values = {...this.state.field,currentPage}
     this.props.dispatch({
       type:'coupon/fetchList',

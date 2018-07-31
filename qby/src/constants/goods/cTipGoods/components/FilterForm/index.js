@@ -24,6 +24,7 @@ class NormalForm extends Component {
     const { getFieldDecorator } = this.props.form;
     return(
         <Form className="qtools-condition-form">
+          <div className='search-form-outwrap'>
           <div className="search-form-wrap">
               <FormItem label='商品编码'>
                  {getFieldDecorator('code')(
@@ -72,9 +73,10 @@ class NormalForm extends Component {
                     </Select>
                   )}
                 </FormItem>
-              <div className="search-submit-btn">
-                 <Button type="primary" htmlType="submit" size='large' onClick={this.handleSubmit.bind(this)}>搜索</Button>
-              </div>
+            </div>
+          </div>
+          <div className="search-submit-btn">
+             <Button type="primary" htmlType="submit" size='large' onClick={this.handleSubmit.bind(this)}>搜索</Button>
           </div>
         </Form>
     )
