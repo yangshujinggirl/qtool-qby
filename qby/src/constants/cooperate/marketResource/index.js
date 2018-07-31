@@ -45,6 +45,7 @@ class MarketResource extends Component{
       const currentPage = current-1;
       const { fields } = this.state;
       const formData = {};
+      
       let key;
       for(key in fields) {
         formData[key] = fields[key].value;
