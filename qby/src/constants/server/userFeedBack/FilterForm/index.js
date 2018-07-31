@@ -33,7 +33,8 @@ class NormalForm extends Component{
     return(
       <div>
         <Form className="qtools-condition-form">
-          <div className="search-form-wrap">
+          <div className='search-form-outwrap'>
+            <div className="search-form-wrap">
               <FormItem label='反馈编号'>
                 {getFieldDecorator('feedbackNo')(
                     <Input placeholder='反馈编号' autoComplete="off"/>
@@ -71,14 +72,16 @@ class NormalForm extends Component{
                 <RangePicker />
               )}
             </FormItem>
-            <div className="search-submit-btn">
-                <Button
-                  type="primary"
-                  size='large'
-                  onClick={()=>this.handleSubmit()}>
-                    搜索
-                </Button>
             </div>
+          </div>
+          <div className="search-submit-btn">
+              <Button
+                htmlType="submit"
+                type="primary"
+                size='large'
+                onClick={()=>this.handleSubmit()}>
+                  搜索
+              </Button>
           </div>
         </Form>
       </div>

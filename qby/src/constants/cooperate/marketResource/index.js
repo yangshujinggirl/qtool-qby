@@ -41,7 +41,8 @@ class MarketResource extends Component{
       }));
     }
     //点击分页
-    changePage =(currentPage)=> {
+    changePage =(current)=> {
+      const currentPage = current-1;
       const { fields } = this.state;
       const formData = {};
       let key;

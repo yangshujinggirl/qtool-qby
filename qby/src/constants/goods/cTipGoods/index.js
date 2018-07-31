@@ -48,7 +48,8 @@ class CtipGoods extends Component {
     }));
   }
   //分页
-  changePage = (currentPage) => {
+  changePage = (current) => {
+    const currentPage = current-1;
     //清空勾选
     this.setState({
       selecteKeys:[],

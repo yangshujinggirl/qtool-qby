@@ -7,53 +7,56 @@
   }
 }
 .qtools-condition-form {
+  position:relative;
   padding-left:30px;
   margin:0 -30px 0 -30px;
   border-bottom:1px solid #f4f4f4;
   /* 搜速区 */
   .ant-form-item .ant-form-item-label label{color: #666; }
-  .search-form-wrap {
-    display: flex;
-    flex-wrap: wrap;
-    position: relative;
-    .ant-form-item {
-      margin-right: 15px;
-      .ant-form-item-label label{
-        color: #666;
+  .search-form-outwrap{
+    padding-right:96px;
+    .search-form-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      .ant-form-item {
+        margin-right: 15px;
+        .ant-form-item-label label{
+          color: #666;
+        }
+        .ant-input{
+          width: 180px;
+        }
+        .ant-select-selection--single{
+          width:180px;
+        }
+        .ant-calendar-picker .ant-input{
+          width: 290px;
+        }
+        .noant-calendar-picker .ant-input{
+          width: 180px;
+        }
+        .ant-form-item-control-wrapper{
+          display: inline-block;
+          height: 35px;
+          line-height: 35px;
+          vertical-align: middle;
+        }
+        .ant-form-item-control-wrapper .ant-form-item-control{
+          height: 35px;
+          line-height: 35px;
+          vertical-align: middle;
+        }
       }
-      .ant-input{
-        width: 180px;
-      }
-      .ant-select-selection--single{
-        width:180px;
-      }
-      .ant-calendar-picker .ant-input{
-        width: 290px;
-      }
-      .noant-calendar-picker .ant-input{
-        width: 180px;
-      }
-      .ant-form-item-control-wrapper{
-        display: inline-block;
+      .ant-form-item-label{
+        width: 90px;
         height: 35px;
         line-height: 35px;
-        vertical-align: middle;
-      }
-      .ant-form-item-control-wrapper .ant-form-item-control{
-        height: 35px;
-        line-height: 35px;
-        vertical-align: middle;
       }
     }
-    .ant-form-item-label{
-      width: 90px;
-      height: 35px;
-      line-height: 35px;
-    }
-    .search-submit-btn {
-      position:absolute;
-      right:30px;
-      bottom:20px;
-    }
+  }
+  .search-submit-btn {
+    position:absolute;
+    right:30px;
+    bottom:20px;
   }
 }
