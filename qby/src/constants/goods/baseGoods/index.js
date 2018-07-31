@@ -31,7 +31,7 @@ class BaseGoods extends Component {
          },
          source: {
            value: '',
-         },
+         }
        },
     }
   }

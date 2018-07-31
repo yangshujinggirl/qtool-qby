@@ -65,7 +65,7 @@ class AddEditableTable extends React.Component {
 		let { dataSource } = this.state;
 
 		return (
-			<div>
+			<div className='add-text-img'>
 				<Button onClick={()=>this.handleAdd('text')}>添加文本</Button>
 				<Button style = {{marginLeft:'15px'}} onClick={()=>this.handleAdd('img')}>添加图片</Button>
 				<Table

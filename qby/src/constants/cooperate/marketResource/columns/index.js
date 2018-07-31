@@ -1,29 +1,36 @@
  const Columns = [
     {
+        key:'name',
         title:'联系人',
         dataIndex:'name',
     },
     {
+        key:'mobile',
         title:'联系电话',
         dataIndex:'mobile'
     },
     {
+        key:'company',
         title:'公司名称',
         dataIndex:'company'
     },
     {
+        key:'department',
         title:'部门',
         dataIndex:'department'
     },
     {
+        key:'job',
         title:'职位',
         dataIndex:'job'
     },
     {
+        key:'typeName',
         title:'资源类型',
         dataIndex:'typeName'
     },
     {
+        key:'operate',
         title:'操作',
         dataIndex:'operate',
         render:(text, record) => {

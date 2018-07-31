@@ -2,7 +2,8 @@ import React, { Component} from 'react'
 import { Form, Select, Input, Button, message, Upload, Icon} from 'antd'
 import {connect} from 'dva'
 import { resourceDetailApi, addStaffApi  } from '../../../services/cooperate/marketResource'
-import UpLoadImg from '../../../components/UploadImg/index.js';
+// import UpLoadImg from '../../../components/UploadImg/index.js';
+import AddImgText from '../../../components/AddTextImg/index.js';
 import './index.less'
 const FormItem = Form.Item;
 const TextArea = Input.TextArea;
@@ -16,23 +17,42 @@ class AddStaff extends Component{
   constructor(props){
     super(props);
     this.state={
-      fileList:[],
-      DescArr:null,
-      fileds:null
+      DescArr:[],
+      fields:null,
+      listDate:null
     }
   }
   //确认添加
   save =()=> {
     this.props.form.validateFieldsAndScroll((err,values) => {
+      var marketResCp = [];
+      const { DescArr } = this.state;
+      DescArr.map( (item,index)=> {
+        let obj = {};
+        obj.content = item.type;
+        obj.marketRestCpId = item.content;
+        marketResCp.push(obj);
+      });
+      //判断是修改还是新增
+      var values_
+      if(this.props.data){
+        const marketResId = this.props.data.marketResId
+        values_ = {marketRes:{marketResCp,...values,marketResId:marketResId}}
+      }else{
+        values_ ={marketRes:{marketResCp,...values}}
+      };
+      console.log(values_)
       if(!err){
-        this.submit(values)
-      }
+        this.submit(values_)
+      };
     })
   }
   submit(values){
     addStaffApi(values)
     .then(res=>{
-      message.successs('成功')
+      if(res.code == '0'){
+        message.success('成功');
+      };
     },err=>{
       message.error('失败')
     })
@@ -45,44 +65,48 @@ class AddStaff extends Component{
 				payload:this.props.componkey
 		});
   }
-  //添加图片
-  addImg(){
-
-  }
-
+  //初始化
   componentDidMount(){
-    console.log(this.props)
+    this.setState({DescArr:[]});
     if(this.props.data){
       const marketResId = {marketResId:this.props.data.marketResId};
       resourceDetailApi(marketResId)
       .then(res => {
         if(res.code=='0'){
-          debugger
           this.setState({
-            fields:res.marketRes,
+            listDate:res.marketRes,
             DescArr:JSON.parse(res.marketRes.content)
-          })
-        }
+          });
+        };
       },err=>{
-
       })
     }
   }
-  //添加文本
-  addText =()=>{
-    let { addText } =this.state;
-    addText.push('tesssxt')
-    this.setState({
-      addText
-    });
-  }
 
+  //添加文本/图片
+  addContent =(type)=>{
+    let { DescArr } = this.state;
+    if(type=='text'){
+      DescArr.push({type:1,content:''})
+    }else{
+      DescArr.push({type:2,content:''})
+    }
+    this.setState({DescArr});
+  }
+//图片更改-----》更改state的值
+  changeState =(DescArr)=> {
+    this.setState({DescArr})
+  }
   render(){
+    const fileDomain=eval(sessionStorage.getItem('fileDomain'));
     const { getFieldDecorator } = this.props.form;
-    const listDate = this.state.fields;
-    console.log(listDate)
-    const DescArr = this.state.DescArr;
-    console.log(DescArr)
+    const { listDate, DescArr }= this.state;
+    const uploadButton = (
+      <div>
+        <Icon type="plus" />
+        <div className="ant-upload-text">Upload</div>
+      </div>
+    );
     return(
       <div className='addStaff'>
         <Form>
@@ -299,50 +323,11 @@ class AddStaff extends Component{
               )
             }
           </FormItem>
-          <FormItem
-            {...formItemLayout}
-            label='合作记录'
-          >
-            {
-              getFieldDecorator('detailUrl',{
-                initialValue:listDate?listDate.detailUrl:null
-              })(
-                <div>
-                  <Button
-                    style={{marginRight:'30px'}}
-                    onClick={this.addText}>
-                    添加文本
-                  </Button>
-                  <Button onClick={this.addImg}>添加图片</Button>
-                </div>
-              )
-            }
-          </FormItem>
-          <FormItem
-            wrapperCol={{ offset:6 ,span: 8 }}
-          >
-          {
-            DescArr.map((item,index)=>{
-              if(item.type=='1'){
-                return(
-                  <div key={index} className='addForm'>
-                    {getFieldDecorator(`text${index}`)(
-                        <Input style={{width:'80%'}} placeholder='请输入'/>
-                    )}
-                    <a style={{float:'right',color:'#2fcea6'}}>删除</ a>
-                  </div>
-                )
-              }else{
-                return(
-                  <div key={index} className='addForm'>
-                    111
-                    <a style={{float:'right',color:'#2fcea6'}}>删除</ a>
-                  </div>
-                )
-              }
-            })
-          }
-          </FormItem>
+          <AddImgText
+            DescArr = {DescArr}
+            addContent = {this.addContent}
+            changeState = {this.changeState}
+           />
           <FormItem wrapperCol={{ offset: 7}} style={{marginTop:'30px'}}>
             <Button style={{marginRight:'30px'}} onClick={this.cancel}>取消</Button>
             <Button type="primary" onClick={this.save}>确定</Button>

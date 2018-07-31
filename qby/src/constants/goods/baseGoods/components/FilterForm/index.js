@@ -48,15 +48,16 @@ class NormalForm extends Component {
                </FormItem>
               <FormItem label='是否完整'>
                  {getFieldDecorator('infoStatus')(
-                   <Select placeholder="是否完整">
-                     <Select.Option value={0} key={0}>是</Select.Option>
-                     <Select.Option value={1} key={1}>否</Select.Option>
+                   <Select allowClear placeholder="请选择是否完整">
+                     <Option value={0}>是</Option>
+                     <Option value={1}>否</Option>
                    </Select>
                  )}
                </FormItem>
+
               <FormItem label='商品归属'>
                  {getFieldDecorator('source')(
-                   <Select placeholder="请输入商品归属">
+                   <Select allowClear placeholder="请选择商品归属">
                      <Select.Option value={0} key={0}>线上</Select.Option>
                      <Select.Option value={1} key={1}>线下</Select.Option>
                    </Select>
