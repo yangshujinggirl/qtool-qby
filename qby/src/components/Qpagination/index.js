@@ -5,6 +5,7 @@ import './index.css';
 class Qpagination extends Component {
   onShowSizeChange(currentPage, pageSize) {
     console.log(currentPage, pageSize);
+    currentPage--;
     let params = {
       currentPage,
       limit:pageSize

@@ -43,9 +43,11 @@ function request({ baseURL = '', timeout = 600000, headers = defaultHeader}) {
       // }
       return response.data;
     }, error => {
-      return Promise.reject({
-        message: error.message || '请求失败',
-      })
+      console.log(error)
+      message.error(error,0.8);
+      // return Promise.reject({
+      //   message: error.message || '请求失败',
+      // })
     });
     return axiosinstance;
 }

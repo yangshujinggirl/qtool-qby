@@ -68,15 +68,15 @@ class AddGoodsForm extends Component {
           source
         }
       })
-    } else {
-      this.props.dispatch({
-        type:'addGoods/resetData',
-        payload:source
-      })
     }
   }
   //初始化商品规格，分类,品牌
   initGoodslabel() {
+    const { pdSpuId, source } =this.props.data;
+    this.props.dispatch({
+      type:'addGoods/resetData',
+      payload:source
+    })
     this.props.dispatch({
       type:'addGoods/fetchGoodsType',
       payload:{
@@ -102,6 +102,27 @@ class AddGoodsForm extends Component {
         parentId:selected
       }
     })
+    //请空表单中的value值
+    switch(level) {
+      case 2:
+        this.props.form.setFieldsValue({
+          pdCategory2Id:'',
+          pdCategory3Id:'',
+          pdCategory4Id:''
+        });
+        break;
+      case 3:
+        this.props.form.setFieldsValue({
+          pdCategory3Id:'',
+          pdCategory4Id:''
+        });
+        break;
+      case 4:
+        this.props.form.setFieldsValue({
+          pdCategory4Id:''
+        });
+        break;
+    }
   }
   //品牌搜索
   handleSearch(value) {
@@ -206,7 +227,11 @@ class AddGoodsForm extends Component {
     .then(res=> {
       const { code } =res;
       if(code == '0') {
-        this.onCancel()
+        this.onCancel();
+        this.props.dispatch({
+          type:'baseGoodsList/fetchList',
+          payload:{}
+        })
       }
     },error=> {
       console.log(error)
@@ -369,10 +394,10 @@ class AddGoodsForm extends Component {
                  {
                    getFieldDecorator('pdCategory1Id',{
                      rules: [{ required: true, message: '请选择商品分类'}],
-                     initialValue:pdSpu.pdCategory1&&pdSpu.pdCategory1.pdCategoryId,
+                     initialValue:pdSpu.pdCategory1Id,
                      onChange:(select)=>this.handleChangeLevel(1,select)
                    })(
-                    <Select placeholder="请选择商品分类" autoComplete="off">
+                    <Select placeholder="请选择商品分类">
                       {
                         categoryData.categoryLevelOne.length>0 &&
                         categoryData.categoryLevelOne.map((ele,index) => (
@@ -391,7 +416,7 @@ class AddGoodsForm extends Component {
                  {
                    getFieldDecorator('pdCategory2Id',{
                      rules: [{ required: true, message: '请选择商品类型'}],
-                     initialValue:pdSpu.pdCategory2&&pdSpu.pdCategory2.name,
+                     initialValue:pdSpu.pdCategory2Id,
                      onChange:(select)=>this.handleChangeLevel(2,select)
                    })(
                      <Select
@@ -416,7 +441,7 @@ class AddGoodsForm extends Component {
                  {
                    getFieldDecorator('pdCategory3Id',{
                      rules: [{ required: true, message: '请选择商品类型'}],
-                     initialValue:pdSpu.pdCategory3&&pdSpu.pdCategory3.pdCategoryId,
+                     initialValue:pdSpu.pdCategory3Id,
                      onChange:(select)=>this.handleChangeLevel(3,select)
                    })(
                      <Select
@@ -441,7 +466,7 @@ class AddGoodsForm extends Component {
                  {
                    getFieldDecorator('pdCategory4Id',{
                      rules: [{ required: true, message: '请选择商品类型'}],
-                     initialValue:pdSpu.pdCategory4&&pdSpu.pdCategory4.pdCategoryId,
+                     initialValue:pdSpu.pdCategory4Id,
                    })(
                      <Select
                        placeholder="请选择商品类型"
@@ -571,12 +596,12 @@ class AddGoodsForm extends Component {
                        initialValue:pdSpu.warehouseId
                      })(
                        <Select allowClear={true} placeholder="请选择" autoComplete="off">
-                           <Option value='1' key='1'>杭州下沙保税</Option>
-                           <Option value='2' key='2'>重庆丰趣保税</Option>
-                           <Option value='3' key='3'>香港天弋丽直邮</Option>
-                           <Option value='5' key='5'>德国直邮</Option>
-                           <Option value='6' key='6'>杭州学月保税</Option>
-                           <Option value='4' key='4'>知识付费</Option>
+                           <Option value={1} key={1}>杭州下沙保税</Option>
+                           <Option value={2} key={2}>重庆丰趣保税</Option>
+                           <Option value={3} key={3}>香港天弋丽直邮</Option>
+                           <Option value={5} key={5}>德国直邮</Option>
+                           <Option value={6} key={6}>杭州学月保税</Option>
+                           <Option value={4} key={4}>知识付费</Option>
                        </Select>
                      )}
                    </FormItem>
@@ -586,7 +611,7 @@ class AddGoodsForm extends Component {
                      {getFieldDecorator('shareRatio',{
                        initialValue:pdSpu.shareRatio
                      })(
-                       <Input placeholder="Username" />
+                       <Input placeholder="请输入分成比例" autoComplete="off"/>
                      )}
                    </FormItem>
                 </Col>
@@ -628,7 +653,7 @@ class AddGoodsForm extends Component {
                   <FormItem label='季节商品' {...formItemLayout}>
                      {getFieldDecorator('isSeasonSpu',{
                        rules: [{ required: true, message: '请选择季节商品'}],
-                       initialValue:pdSpu.isSeasonSpu,
+                       initialValue:pdSpu.isSeasonSpu||0,
                        onChange:this.changeSeason
                      })(
                        <RadioGroup>

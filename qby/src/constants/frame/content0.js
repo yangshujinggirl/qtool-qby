@@ -138,7 +138,7 @@ import Ctimer from '../goods/cTimer/index.js';//c端定时
 import AddTimer from '../goods/cTimer/AddTimer.js';//c端定时
 // 合作中心
 import MarketResource from '../cooperate/marketResource/index';
-import AddStaff from '../cooperate/marketResource/AddStaff';
+import AddStaff from '../cooperate/marketResource/addStaff';
 //活动中心
 import Coupon from '../activity/coupon/index';//优惠券
 import Cbanner from '../activity/cBanner/index'//C端banner

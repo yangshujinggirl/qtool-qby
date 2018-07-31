@@ -32,8 +32,8 @@ export default {
     pdSkusPicUrl:[]//商品信息图片
   },
   reducers: {
-    getCategory( state, { payload : {categoryData}}) {
-      return { ...state, categoryData}
+    getCategory( state, { payload : {pdSpu,categoryData}}) {
+      return { ...state, pdSpu, categoryData}
     },
     //获取规格列表
     getType( state, { payload : goodsType }) {
@@ -74,8 +74,21 @@ export default {
         specOne:[],
         specTwo:[],
       }
+      const categoryData = {
+        categoryLevelOne:[],//商品分类1列表
+        categoryLevelTwo:[],//商品分类2列表
+        categoryLevelThr:[],//商品分类3列表
+        categoryLevelFour:[],//商品分类4列表
+        isLevelTwo:true,
+        isLevelThr:true,
+        isLevelFour:true,
+      }
+      const sizeIdList = {//商品规格id
+        pdSkusSizeOne:null,
+        pdSkusSizeTwo:null
+      };
       const pdSkusPicUrl = [];
-      return {...state, pdSpu, fileList, specData, pdSkus, pdSkusPicUrl }
+      return {...state, pdSpu, fileList, specData, pdSkus, pdSkusPicUrl, categoryData, sizeIdList }
     },
     //商品详情
     getGoodsInfo(state, { payload : { pdSpu,fileList, pdSkus, specData, sizeIdList } }) {
@@ -93,6 +106,7 @@ export default {
       const levelThr = yield select(state => state.addGoods.categoryData.categoryLevelThr);
       const levelFour = yield select(state => state.addGoods.categoryData.categoryLevelFour);
       const pdSpu = yield select(state => state.addGoods.pdSpu);
+      const { pdCategory1Id, pdCategory2Id, pdCategory3Id, pdCategory4Id } =pdSpu;
       let categoryLevelOne=[];
       let categoryLevelTwo=[];
       let categoryLevelThr=[];
@@ -100,40 +114,53 @@ export default {
       let isLevelTwo;
       let isLevelThr;
       let isLevelFour;
-      const { level } = values;
-      let fixedParams = {status:1}
+      const { level, parentId } = values;
+      let fixedParams = {status:1};
       values = {...values,...fixedParams};
+      yield put({type: 'tab/loding',payload:true});
       const result = yield call(getCategoryApi,values);
+      yield put({type: 'tab/loding',payload:false});
       //处理分类数据，disabled状态
       if(result.code == '0') {
         let  { pdCategory } = result;
         switch(level) {
           case 1:
             categoryLevelOne = pdCategory;
-            categoryLevelTwo = levelTwo;
-            categoryLevelThr = levelThr;
-            categoryLevelFour = levelFour;
+            categoryLevelTwo = [];
+            categoryLevelThr = [];
+            categoryLevelFour = [];
             isLevelTwo = true;
             isLevelThr =true;
             isLevelFour =true;
+            pdSpu.pdCategory1Id = null;
+            pdSpu.pdCategory2Id = null;
+            pdSpu.pdCategory3Id = null;
+            pdSpu.pdCategory4Id = null;
             break;
           case 2:
             categoryLevelTwo = pdCategory;
             categoryLevelOne = levelOne;
-            categoryLevelThr = levelThr;
-            categoryLevelFour = levelFour;
+            categoryLevelThr = [];
+            categoryLevelFour = [];
             isLevelTwo = false;
-            isLevelThr =false;
+            isLevelThr =true;
             isLevelFour =true;
+            pdSpu.pdCategory1Id = parentId;
+            pdSpu.pdCategory2Id = null;
+            pdSpu.pdCategory3Id = null;
+            pdSpu.pdCategory4Id = null;
             break;
           case 3:
             categoryLevelThr = pdCategory;
             categoryLevelOne = levelOne;
             categoryLevelTwo = levelTwo;
-            categoryLevelFour = levelFour;
+            categoryLevelFour = [];
             isLevelTwo = false;
             isLevelThr =false;
-            isLevelFour =false;
+            isLevelFour =true;
+            pdSpu.pdCategory2Id = parentId;
+            pdSpu.pdCategory3Id = null;
+            pdSpu.pdCategory4Id = null;
             break;
           case 4:
             categoryLevelFour = pdCategory;
@@ -143,11 +170,14 @@ export default {
             isLevelTwo = false;
             isLevelThr =false;
             isLevelFour =false;
+            pdSpu.pdCategory3Id = parentId;
+            pdSpu.pdCategory4Id = null;
             break;
         }
         yield put({
           type:'getCategory',
           payload:{
+            pdSpu,
             categoryData:{
               categoryLevelOne,
               categoryLevelTwo,
@@ -176,6 +206,7 @@ export default {
       const oldPdSkus = yield select(state => state.addGoods.pdSkus)
       yield put({type:'resetData',payload:source})//重置初始数据
       const result = yield call(goodsInfoApi,values);
+      yield put({type: 'tab/loding',payload:false});
       if(result.code == '0') {
         let { iPdSpu, fileDomain } = result;
         let pdSpu = iPdSpu;
@@ -258,30 +289,58 @@ export default {
           payload:{ pdSpu, fileList, pdSkus, specData:{specOne,specTwo}, sizeIdList}
         })
         //初始化分类
-        const { pdCategory1, pdCategory2, pdCategory3, pdCategory4 } =pdSpu;
+        const { pdCategory1Id, pdCategory2Id, pdCategory3Id, pdCategory4Id } =pdSpu;
         yield put({
           type:'handelCategory',
-          payload:{ pdCategory1, pdCategory2, pdCategory3, pdCategory4 }
+          payload:pdSpu
         })
       }
     },
-    *handelCategory({ payload: { pdCategory1, pdCategory2, pdCategory3, pdCategory4 } },{ call, put ,select}) {
-        yield put({
-          type:'fetchCategory',
-          payload:{ level:2, parentId: pdCategory1.pdCategoryId }
-        })
-        yield put({
-          type:'fetchCategory',
-          payload:{ level:3, parentId: pdCategory2.pdCategoryId }
-        })
-        yield put({
-          type:'fetchCategory',
-          payload:{ level:4, parentId: pdCategory3.pdCategoryId }
-        })
+    *handelCategory({ payload: pdSpu},{ call, put ,select}) {
+      const categoryLevelOne = yield select(state => state.addGoods.categoryData.categoryLevelOne)
+      const [resultTwo,
+            resultThr,
+            resultFour] = yield [
+              call(getCategoryApi, { level:2, parentId: pdSpu.pdCategory1Id }),
+              call(getCategoryApi, { level:3, parentId: pdSpu.pdCategory2Id }),
+              call(getCategoryApi, { level:4, parentId: pdSpu.pdCategory3Id })
+            ];
+            let categoryLevelTwo,
+                categoryLevelThr,
+                categoryLevelFour,
+                isLevelTwo,
+                isLevelThr,
+                isLevelFour;
+            if(resultTwo.code == '0') {
+              categoryLevelTwo = resultTwo.pdCategory;
+              isLevelTwo =false;
+            }
+            if(resultThr.code == '0') {
+              categoryLevelThr = resultThr.pdCategory;
+              isLevelThr =false;
+            }
+            if(resultFour.code == '0') {
+              categoryLevelFour = resultFour.pdCategory;
+              isLevelFour =false;
+            }
+            yield put({
+              type:'getCategory',
+              payload:{
+                pdSpu,
+                categoryData:{
+                  categoryLevelOne,
+                  categoryLevelTwo,
+                  categoryLevelThr,
+                  categoryLevelFour,
+                  isLevelTwo,
+                  isLevelThr,
+                  isLevelFour,
+                }
+              }
+            })
     },
     *handleSpec({ payload: {specOne, specTwo} },{ call, put ,select}) {
       let oldpdSkus = yield select(state => state.addGoods.pdSkus);
-      console.log(oldpdSkus)
       let newPdSkus=[];
       //处理新增属性数据;
       if(specOne.length >0) {

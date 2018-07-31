@@ -36,10 +36,7 @@ class BaseGoods extends Component {
     }
   }
   componentWillMount() {
-    this.props.dispatch({
-      type:'baseGoodsList/fetchList',
-      payload:{}
-    })
+    this.searchData({})
   }
   //双向绑定表单
   handleFormChange = (changedFields) => {

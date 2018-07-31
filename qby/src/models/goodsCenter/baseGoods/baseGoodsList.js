@@ -10,7 +10,7 @@ export default {
   state: {
     dataList:[],//商品列表
     currentPage:0,
-    limit:15,
+    limit:16,
     total:0,
   },
   reducers: {
@@ -20,7 +20,9 @@ export default {
   },
   effects: {
     *fetchList({ payload: values }, { call, put ,select}) {
-
+      const fixedLimit = yield select(state => state.baseGoodsList.limit);
+      values ={...values,...{ limit: fixedLimit }}
+      yield put({type: 'tab/loding',payload:true});
       const result=yield call(getListApi,values);
       yield put({type: 'tab/loding',payload:false});
       if(result.code=='0') {
