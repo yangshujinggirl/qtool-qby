@@ -4,17 +4,18 @@ import Columns from './columns/index'
 import Qtable from '../../../components/Qtable/index'; //表单
 import Qpagination from '../../../components/Qpagination/index'; //分页
 import FilterForm from './FilterForm/index'
+import moment from 'moment';
+
 class UserFeedBack extends Component{
   constructor(props){
     super(props);
     this.state ={
       componkey:this.props.componkey,
       field:{
-        customServiceNo:'',
-        customServiceTheme:'',
-        waiter:'',
+        feedbackNo:'',
+        telephone:'',
         status:'',
-        handleTime:'',
+        handleTimeType:'',
       }
     }
   }
@@ -36,12 +37,19 @@ class UserFeedBack extends Component{
       payload:values
     })
   }
+  //pageSize改变时的回调
+  onShowSizeChange =({currentPage,limit})=> {
+    this.props.dispatch({
+      type:'userFeedBack/fetchList',
+      payload:{currentPage,limit}
+    })
+  }
   //搜索框数据发生变化
   searchDataChange =(values)=> {
     const {rangePicker,..._values} = values;
-    if(rangePicker){
-      _values.createTimeST =  rangePicker[0]._d.getTime();
-      _values.createTimeET = rangePicker[1]._d.getTime();
+    if(rangePicker[0]){
+      _values.createTimeST =  moment(new Date(rangePicker[0]._d).getTime()).format('YYYY-MM-DD');
+      _values.createTimeET = moment(new Date(rangePicker[1]._d).getTime()).format('YYYY-MM-DD');
     }
     this.setState({field:_values});
   }
@@ -84,7 +92,9 @@ class UserFeedBack extends Component{
         </div>
         <Qpagination
           data={this.props.userFeedBack}
-          onChange={this.changePage}/>
+          onChange={this.changePage}
+          onShowSizeChange = {this.onShowSizeChange}
+        />
       </div>
     )
   }

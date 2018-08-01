@@ -9,13 +9,18 @@ const Columns = [{
      dataIndex: 'userTel'
    },{
      title: '反馈状态',
-     dataIndex: 'status'
+     dataIndex: 'statusStr'
    },{
      title: '反馈时间',
      dataIndex: 'createTime'
    },{
      title: '处理时长',
-     dataIndex: 'handleTime'
+     dataIndex: 'handleTime',
+     render:(text, record)=>{
+       return(
+         <span>{text}h</span>
+       )
+     }
    },{
      title: '操作',
      dataIndex: '',

@@ -5,11 +5,15 @@ const FormItem = Form.Item;
 const TextArea = Input.TextArea;
 
 class AddBill extends Component{
+  //弹窗消失，清空数据
+  clear =()=>{
+      this.props.form.resetFields(['customServiceTheme','remark','source','waiterTel']);
+  }
   //点击确定
   onOk =()=>{
     this.props.form.validateFieldsAndScroll((err,values)=>{
       if(!err){
-        this.props.onOk && this.props.onOk(values);
+        this.props.onOk && this.props.onOk(values,this.clear);
       }
     })
   }

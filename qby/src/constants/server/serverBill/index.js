@@ -8,10 +8,13 @@ import FilterForm from './FilterForm/index'
 import AddBills from './AddBill'
 import ajax from '../../../utils/req.js'
 import { addBillApi } from '../../../services/server/server'
+import moment from 'moment';
+
 class ServerBill extends Component{
   constructor(props){
     super(props);
     this.state ={
+      loading:true,
       message:'',
       isVisible:false,
       field:{
@@ -19,11 +22,12 @@ class ServerBill extends Component{
         customServiceTheme:'',
         waiter:'',
         status:'',
-        handleTime:'',
+        handleTimeType:'',
+        createTimeST:"",
+        createTimeET:'',
       }
     }
   }
-
   //点击搜索
   searchData = (values)=> {
     this.props.dispatch({
@@ -31,7 +35,6 @@ class ServerBill extends Component{
       payload:values
     })
   }
-
   //点击分页
   changePage =(current)=> {
     const currentPage = current-1;
@@ -44,9 +47,9 @@ class ServerBill extends Component{
   //搜索框数据发生变化
   searchDataChange =(values)=> {
     const {rangePicker,..._values} = values;
-    if(rangePicker){
-      _values.createTimeST =  rangePicker[0]._d.getTime();
-      _values.createTimeET = rangePicker[1]._d.getTime();
+    if(rangePicker[0]){
+      _values.createTimeST =  moment(new Date(rangePicker[0]._d).getTime()).format('YYYY-MM-DD HH:mm:ss');
+      _values.createTimeET = moment(new Date(rangePicker[1]._d).getTime()).format('YYYY-MM-DD HH:mm:ss');
     }
     this.setState({field:_values});
   }
@@ -65,20 +68,23 @@ class ServerBill extends Component{
     this.setState({isVisible:false})
   }
   //确定
-  onOk =(values)=> {
-    addBillApi(values)
-    .then(res=> {
-      if(res.code=='0'){
-        this.props.dispatch({
-          type:'serverBill/fetchList',
-          payload:{}
-        })
-        message.success('成功',.8);
-      }
-      this.setState({isVisible:false})
-    },err=>{
-      message.error('失败',.8);
-    })
+  onOk =(values,resetFiledsFunc)=> {
+      addBillApi(values)
+      .then(res=> {
+        if(res.code=='0'){
+          message.success(res.message,.8);
+          this.props.dispatch({
+            type:'serverBill/fetchList',
+            payload:{}
+          });
+        }
+        this.setState({isVisible:false});
+        resetFiledsFunc();
+
+      },err=>{
+        message.error(err.message,.8);
+        resetFiledsFunc();
+      });
   }
   //点击跳转到详情
   handleOperateClick =(record)=> {
@@ -93,6 +99,13 @@ class ServerBill extends Component{
     this.props.dispatch({
       type:'tab/firstAddTab',
       payload:paneitem
+    });
+  }
+  //pageSize改变时的回调
+  onShowSizeChange =({currentPage,limit})=> {
+    this.props.dispatch({
+      type:'serverBill/fetchList',
+      payload:{currentPage,limit}
     });
   }
   render(){
@@ -123,7 +136,9 @@ class ServerBill extends Component{
         />
         <Qpagination
           data={this.props.serverBill}
-          onChange={this.changePage}/>
+          onChange={this.changePage}
+          onShowSizeChange = {this.onShowSizeChange}
+        />
       </div>
     )
   }

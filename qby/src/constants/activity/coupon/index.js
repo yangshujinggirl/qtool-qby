@@ -48,7 +48,14 @@ class Coupon extends Component{
     this.props.dispatch({
       type:'coupon/fetchList',
       payload:values
-    })
+    });
+  }
+  //pageSize改变时的回调
+  onShowSizeChange =({currentPage,limit})=> {
+    this.props.dispatch({
+      type:'coupon/fetchList',
+      payload:{currentPage,limit}
+    });
   }
   //搜索框数据发生变化
   searchDataChange =(values)=> {
@@ -197,7 +204,9 @@ class Coupon extends Component{
         />
         <Qpagination
           data={this.props.coupon}
-          onChange={this.changePage}/>
+          onChange={this.changePage}
+          onShowSizeChange = {this.onShowSizeChange}
+        />
       </div>
     )
   }

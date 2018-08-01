@@ -66,7 +66,6 @@ render(){
   const {feedbackInfos,feedbackDetail,handelFeedBack,feedbackLogs} = this.state;
 	feedbackInfos.status = String(feedbackInfos.status);
   const { getFieldDecorator } = this.props.form;
-	console.log(this.state.fileList)
 	return(
 			<div>
         <div className='mb10'>
@@ -165,7 +164,6 @@ render(){
     customserviceDetailApi({customServiceId:id})
     .then(res=>{
 			if(res.code=='0'){
-				debugger
 				var imgLists = [];
 				if(res.handelFeedBack && res.handelFeedBack.remarkPic){
 					var imgList = JSON.parse(res.handelFeedBack.remarkPic);
@@ -182,7 +180,12 @@ render(){
 						});
 					});
 				}
-
+				if(res.feedbackLogs){
+					res.feedbackLogs.map((item,index)=>{
+						item.key =  index;
+						return index;
+					});
+				};
 				this.setState({
 					feedbackInfos:res.feedbackInfos,
 					feedbackDetail:res.feedbackDetail,
@@ -209,7 +212,6 @@ render(){
 	//确定
   onOk =()=> {
     this.props.form.validateFieldsAndScroll((err,values) => {
-			debugger
 			const {fileList} = this.state;
 			var imgList = [];
 			fileList.map((item,index)=>{
@@ -227,14 +229,17 @@ render(){
 	submit =(values)=> {
 		customserviceSaveApi(values)
 		.then(res=>{
-			this.props.dispatch({
-				type:'serverBill/fetchList',
-				payload:{}
-			})
-			this.props.dispatch({
-					type:'tab/initDeletestate',
-					payload:this.props.componkey
-			});
+			if(res.code == "0"){
+				message.success(res.message);
+				this.props.dispatch({
+					type:'serverBill/fetchList',
+					payload:{}
+				})
+				this.props.dispatch({
+						type:'tab/initDeletestate',
+						payload:this.props.componkey
+				});
+			}
 		},err=>{
 			message.error('失败')
 		})

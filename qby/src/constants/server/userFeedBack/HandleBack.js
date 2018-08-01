@@ -11,6 +11,7 @@ class HandleBack extends React.Component{
 	constructor(props) {
 		super(props);
 		this.state = {
+			loading:false,
 			feedbackInfos:{},
 			feedbackDetail:{},
 			feedbackLogs:[]
@@ -132,7 +133,7 @@ render(){
         </div>
 					<FormItem style = {{marginBottom:0,textAlign:"center"}}>
 						<Button className='mr30' onClick={this.onCancel} >取消</Button>
-						<Button htmlType="submit" type="primary" onClick={this.onOk}>确定</Button>
+						<Button htmlType="submit" type="primary" onClick={this.onOk} loading={this.state.loading}>确定</Button>
         	</FormItem>
 			</div>
 		)
@@ -142,6 +143,12 @@ render(){
     getBackDetailApi({feedbackId:id})
     .then(res=>{
 			if(res.code=="0"){
+				if(res.feedbackLogs){
+					res.feedbackLogs.map((item,index)=>{
+						item.key =  index;
+						return index;
+					});
+				};
 				this.setState({
 					feedbackDetail:res.feedbackDetail,
 					feedbackInfos:res.feedbackInfos,
@@ -164,25 +171,27 @@ render(){
     this.props.form.validateFieldsAndScroll((err,values) => {
 			const _values = {feedbackId:this.props.data.pdSpuId,...values}
 			if(!err){
+				this.setState({ loading: true });
 				this.submit(_values);
 			};
 		});
   }
 	//提交
 	submit =(values)=> {
-			debugger
 		feedBackSaveApi(values)
 		.then(res=>{
 			if(res.code=="0"){
-
+				message.success(res.message,.8)
 				this.props.dispatch({
 						type:'tab/initDeletestate',
 						payload:this.props.componkey
 				});
 			};
+			this.setState({ loading: false });
 		},err=>{
-			message.error('处理失败')
-		})
+			message.error(err.message,.8);
+			this.setState({ loading: false });
+		});
 	}
 }
 const HandleBacks = Form.create()(HandleBack);
