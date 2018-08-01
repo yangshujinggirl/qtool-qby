@@ -59,7 +59,7 @@ class UserFeedBack extends Component{
       key:`${this.state.componkey}edit`,
       componkey:`${this.state.componkey}edit`,
       data:{
-        pdSpuId:record.spOrderId,
+        pdSpuId:record.feedbackId,
       }
     };
     this.props.dispatch({

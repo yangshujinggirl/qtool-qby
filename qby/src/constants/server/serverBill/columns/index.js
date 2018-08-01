@@ -1,21 +1,21 @@
 const Columns = [{
-     title: '反馈编号',
-     dataIndex: 'feedbackNo',
+     title: '客服单号',
+     dataIndex: 'customServiceNo',
    },{
-     title: '反馈问题',
-     dataIndex: 'remark'
+     title: '客服主题',
+     dataIndex: 'customServiceTheme'
    }, {
-     title: '用户手机号',
-     dataIndex: 'userTel'
+     title: '客服人员',
+     dataIndex: 'waiter'
    },{
-     title: '反馈状态',
-     dataIndex: 'status'
-   },{
-     title: '反馈时间',
-     dataIndex: 'createTime'
+     title: '客服状态',
+     dataIndex: 'statusStr'
    },{
      title: '处理时长',
      dataIndex: 'handleTime'
+   },{
+     title: '开始时间',
+     dataIndex: 'createTime'
    },{
      title: '操作',
      dataIndex: '',

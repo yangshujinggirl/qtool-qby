@@ -26,6 +26,9 @@ export default {
             const result =  yield call( getListApi,values );
             if(result.code == '0'){
               const { marketRes, currentPage, limit, total } = result;
+              for(var i=0;i<marketRes.length;i++){
+                marketRes[i].key = marketRes[i].marketTypeId;
+              };
               yield put ({
                 type: 'getList',
                 payload:{

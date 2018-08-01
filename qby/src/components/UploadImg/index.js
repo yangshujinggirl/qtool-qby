@@ -35,6 +35,7 @@ class UploadImg extends Component{
   }
   //点击变化时候的回调
   handleChange = ({ fileList }) => {
+    debugger
     this.setState({ fileList })
     this.props.changeImg(fileList)
   }

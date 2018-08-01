@@ -34,7 +34,6 @@ class GoodEditForm extends React.Component{
 	getinfoData=()=>{
 		const pdTaskTimeId = String(this.props.data.pdTaskTimeId);
 		modifyTimerApi({pdTaskTimeId:pdTaskTimeId}).then(res=>{
-			console.log(res)
 			if(res.code=='0'){
 				const taskTime=res.taskTime.taskTime
 				const taskName=res.taskTime.taskName

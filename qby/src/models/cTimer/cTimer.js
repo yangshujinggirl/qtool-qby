@@ -18,6 +18,9 @@ export default{
       const result = yield call(getListApi,values);
       if(result.code == '0'){
         const { taskTimes, currentPage, limit, total } = result;
+        for(var i=0;i<taskTimes.length;i++){
+          taskTimes[i].key = taskTimes[i].pdTaskTimeId;
+        };
         yield put({
           type:'getList',
           payload:{

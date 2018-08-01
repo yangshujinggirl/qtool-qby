@@ -9,13 +9,18 @@ export default{
   },
   effects:{
     *fetchList({payload:values},{call,put}){
+      yield put({type: 'tab/loding',payload:true});
       const result = yield call(getListApi,values);
+      yield put({type: 'tab/loding',payload:false});
       if(result.code == '0'){
-        const { spOrders, currentPage, limit, total } = result;
+        const { feedbacks, currentPage, limit, total } = result;
+        for(var i=0;i<feedbacks.length;i++){
+          feedbacks[i].key = feedbacks[i].feedbackId;
+        };
         yield put({
           type:'getList',
           payload:{
-            dataList:spOrders,
+            dataList:feedbacks,
             currentPage,
             limit,
             total,
