@@ -12,7 +12,12 @@ const Columns = [{
      dataIndex: 'statusStr'
    },{
      title: '处理时长',
-     dataIndex: 'handleTime'
+     dataIndex: 'handleTime',
+     render:(text, record)=>{
+       return(
+         <span>{text}h</span>
+       )
+     }
    },{
      title: '开始时间',
      dataIndex: 'createTime'

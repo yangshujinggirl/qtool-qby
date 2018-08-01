@@ -13,6 +13,7 @@ import '../index.css'
 const FormItem = Form.Item;
 const Option = Select.Option;
 const RangePicker = DatePicker.RangePicker
+import moment from 'moment';
 
 class NormalForm extends Component{
   //点击搜索
@@ -21,8 +22,8 @@ class NormalForm extends Component{
     this.props.form.validateFieldsAndScroll((err, values) => {
       const{rangePicker,..._values} = values;
       if(rangePicker){
-        _values.createTimeST =  new Date( rangePicker[0]).getTime();
-        _values.createTimeET = new Date(rangePicker[1]).getTime();
+        _values.createTimeST =  moment(new Date(rangePicker[0]).getTime()).format('YYYY-MM-DD HH:mm:ss');
+        _values.createTimeET =  moment(new Date(rangePicker[1]).getTime()).format('YYYY-MM-DD HH:mm:ss');
       }
       this.props.submit && this.props.submit(_values);
     })
@@ -61,12 +62,12 @@ class NormalForm extends Component{
                   )}
               </FormItem>
               <FormItem  label='处理时长'>
-                  {getFieldDecorator('handleTime')(
+                  {getFieldDecorator('handleTimeType')(
                   <Select allowClear={true} placeholder="处理时长" className='select'>
                       {/* <Option value='10'>待发货</Option> */}
-                      <Option value='1'>0-5h</Option>
-                      <Option value='2'>5-24h</Option>
-                      <Option value='3'>24h以上</Option>
+                      <Option value={1}>0-5h</Option>
+                      <Option value={2}>5-24h</Option>
+                      <Option value={3}>24h以上</Option>
                   </Select>
                   )}
               </FormItem>

@@ -234,10 +234,10 @@ class GoodEditForm extends React.Component{
 	}
 
 	handUse=()=>{
-		const pdTaskTimeId = this.props.data.pdTaskTimeId;
-		invalidTimerApi(pdTaskTimeId)
+		const pdTaskTimeId = String(this.props.data.pdTaskTimeId);
+		invalidTimerApi({pdTaskTimeId})
 		.then(res => {
-			if(json.code=='0'){
+			if(res.code=='0'){
 				this.deleteTab()
 				message.success('强制无效成功',.8);
 			}
@@ -295,10 +295,10 @@ class GoodEditForm extends React.Component{
 						<div>
 							<Checkbox onChange={this.onChange1.bind(this)} checked={this.state.check1}>售卖</Checkbox>
 							<Checkbox onChange={this.onChange2.bind(this)} checked={this.state.check2}>停售</Checkbox>
-							<Checkbox onChange={this.onChange3.bind(this)} checked={this.state.check3}>上新</Checkbox>
-							<Checkbox onChange={this.onChange4.bind(this)} checked={this.state.check4}>下新</Checkbox>
-							<Checkbox onChange={this.onChange5.bind(this)} checked={this.state.check5}>畅销</Checkbox>
-							<Checkbox onChange={this.onChange6.bind(this)} checked={this.state.check6}>下畅销</Checkbox>
+							<Checkbox onChange={this.onChange3.bind(this)} checked={this.state.check3}>上NEW</Checkbox>
+							<Checkbox onChange={this.onChange4.bind(this)} checked={this.state.check4}>下NEW</Checkbox>
+							<Checkbox onChange={this.onChange5.bind(this)} checked={this.state.check5}>上HOT</Checkbox>
+							<Checkbox onChange={this.onChange6.bind(this)} checked={this.state.check6}>下HOT</Checkbox>
 						</div>
 					)}
         		</FormItem>

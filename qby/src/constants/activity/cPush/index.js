@@ -48,6 +48,13 @@ class Cpush extends Component{
       payload:values
     })
   }
+  //pageSize改变时的回调
+  onShowSizeChange =({currentPage,limit})=> {
+    this.props.dispatch({
+      type:'cPush/fetchList',
+      payload:{currentPage,limit}
+    });
+  }
   //搜索框数据发生变化
   searchDataChange =(values)=> {
     const {rangePicker,..._values} = values;
@@ -133,17 +140,15 @@ class Cpush extends Component{
     const cPushId = this.state.cPushId
     bPushRevokeApi(cPushId)
     .then(res => {
-      message.success('撤销成功')
+      message.success('撤销成功');
     },err => {
-      message.error('撤销失败')
-    })
+      message.error('撤销失败');
+    });
   }
   //取消撤销
   onCancel =()=>{
     this.setState({isPushVisible:false})
   }
-
-
   render(){
     const {dataList} = this.props.cPush;
     return(
@@ -175,7 +180,9 @@ class Cpush extends Component{
         />
         <Qpagination
           data={this.props.cPush}
-          onChange={this.changePage}/>
+          onChange={this.changePage}
+          onShowSizeChange = {this.onShowSizeChange}
+        />
       </div>
     )
   }

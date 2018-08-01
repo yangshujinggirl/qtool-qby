@@ -37,12 +37,12 @@ class NormalForm extends Component{
             <div className="search-form-wrap">
               <FormItem  label='商品编码'>
                 {getFieldDecorator('code')(
-                    <Input placeholder='商品编码'/>
+                    <Input placeholder='商品编码' autoComplete='off'/>
                 )}
               </FormItem>
               <FormItem label='最后修改人'>
                 {getFieldDecorator('updateUserName')(
-                  <Input placeholder='请输入最后修改人'/>
+                  <Input placeholder='请输入最后修改人' autoComplete='off'/>
                 )}
               </FormItem>
               <FormItem label='定时操作'>
@@ -70,6 +70,7 @@ class NormalForm extends Component{
           </div>
           <div className="search-submit-btn">
               <Button
+                htmlType="submit"
                 type="primary"
                 size='large'
                 onClick={()=>this.handleSubmit()}>
