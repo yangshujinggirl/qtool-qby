@@ -42,6 +42,7 @@ class HandleBack extends React.Component{
 render(){
   const {feedbackInfos,feedbackDetail,feedbackLogs} = this.state;
 	feedbackInfos.status = String(feedbackInfos.status);
+	const fileDomain = eval(sessionStorage.getItem('fileDomain'));
   const { getFieldDecorator } = this.props.form;
 	return(
 			<div>
@@ -78,7 +79,10 @@ render(){
                   ?
                     JSON.parse(feedbackDetail.remarkUrl).map((item,index) => {
                       return(
-                        <img style={{width:'102px',height:'102px'}} key={index} src={item.imgPath}/>
+                        <img style={{width:'86px',height:'86px'}}
+													key={index}
+													src={fileDomain+item.imgPath}
+												/>
                       )
                     })
                   :''

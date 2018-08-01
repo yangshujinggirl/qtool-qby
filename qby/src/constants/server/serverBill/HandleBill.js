@@ -4,6 +4,7 @@ import { Button, Icon ,Form,Select,Input,Card, message } from 'antd';
 import { customserviceDetailApi,customserviceSaveApi } from '../../../services/server/server'
 import UpLoadImg from '../../../components/UploadImg/index.js';
 import { connect } from 'dva';
+import './index.css'
 const FormItem = Form.Item;
 const Option = Select.Option;
 const { TextArea } = Input;
@@ -35,11 +36,12 @@ class HandleBill extends React.Component{
 				let imgList;
 				if(record.remarkPic) {
 					imgList = JSON.parse(record.remarkPic);
+					const fileDomain = eval(sessionStorage.getItem('fileDomain'));
 					return (
 						<div>
 							{
 								imgList.map((el,index) => (
-									<img src={el.imgPath} key={index} style={{width:'100px',height:'100px'}}/>
+									<img className='remark-img' src={fileDomain+el.imgPath} key={index}/>
 								))
 							}
 						</div>
@@ -143,7 +145,7 @@ render(){
 						</FormItem>
   				</Form>
 				</div>
-        <div className='mb20'>
+        <div className='mb20 server-bill-edit'>
           <EditableTable
             columns={this.columns}
             title='处理日志'
@@ -163,19 +165,30 @@ render(){
     customserviceDetailApi({customServiceId:id})
     .then(res=>{
 			if(res.code=='0'){
+				debugger
 				var imgLists = [];
-				var imgList = JSON.parse(res.handelFeedBack.remarkPic);
-				imgList.map((item,index)=>{
-					const obj={uid: -1,name: 'xxx.png',status: 'done',url:''}
-					obj.url = item.imgPath;
-					imgLists.push(obj);
-				});
+				if(res.handelFeedBack && res.handelFeedBack.remarkPic){
+					var imgList = JSON.parse(res.handelFeedBack.remarkPic);
+					var fileDomain = eval(sessionStorage.getItem('fileDomain'));
+					imgList.map((item,index)=>{
+						imgLists.push({
+							uid: item.imgPath,
+							name: item.imgPath+'.png',
+							status: 'done',
+							url:fileDomain+item.imgPath,
+							response:{
+								data:[item.imgPath]
+							}
+						});
+					});
+				}
+
 				this.setState({
 					feedbackInfos:res.feedbackInfos,
 					feedbackDetail:res.feedbackDetail,
 					handelFeedBack:res.handelFeedBack,
 					feedbackLogs:res.feedbackLogs,
-					fileList:imgLists
+					fileList:imgLists?imgLists:null
 				})
 			};
     },err=>{
@@ -184,15 +197,7 @@ render(){
 	}
 	//图片处理
 	changeImg =(fileList)=>{
-		var imgLists = [];
-		fileList.map((item,index)=>{
-			if(item.status=='done'){
-				const obj={uid: -1,name: 'xxx.png',status: 'done',url:''}
-				obj.url = item.response.data[0];
-				imgLists.push(obj);
-			}
-		});
-		this.setState({fileList:imgLists})
+		this.setState({fileList})
 	}
 	//取消
 	onCancel =()=>{
@@ -204,13 +209,12 @@ render(){
 	//确定
   onOk =()=> {
     this.props.form.validateFieldsAndScroll((err,values) => {
+			debugger
 			const {fileList} = this.state;
 			var imgList = [];
 			fileList.map((item,index)=>{
 				if(item.status=='done'){
-					let obj = {};
-					obj.imgPath = item.url;
-					imgList.push(obj);
+					imgList.push({imgPath:item.response.data[0]});
 				}
 			});
 			const _values = {customServiceId:this.props.data.pdSpuId,...values,imgList}
