@@ -54,26 +54,32 @@ export default {
       return {...state, autoComplete}
     },
     //商品信息图片
-    setSkusPicUrl(state, { payload : pdSkusPicUrl}) {
-      return {...state,pdSkusPicUrl}
+    setSkusPicUrl(state, { payload : currentData }) {
+      let { index, fileList} =currentData;
+      let pdSkus = state.pdSkus;
+      pdSkus[index].fileList = fileList;
+      return {...state,pdSkus}
     },
     //规格change事件,要重置属性列表，数据pdSkus
-    setTypesId(state, { payload : selectData }) {
-      let sizeIdList = state.sizeIdList;//重置规格
-      let pdSkusPicUrl = state.pdSkusPicUrl;//重置规格
-      let specData = state.specData;//重置属性
-      let pdSkus = state.pdSkus;//重置数据
-      let { type, typeId } = selectData;
-      if(type == 'one') {//置空数据，属性1
-        sizeIdList.pdSkusSizeOne = typeId;
-        specData.specOne = [];
-        pdSkusPicUrl = [];
-        pdSkus = [{}];
-      } else {
-        sizeIdList.pdSkusSizeTwo = typeId;
-        specData.specTwo = [];
-      }
-      return {...state, pdSkus, sizeIdList, specData, pdSkusPicUrl}
+    // setTypesId(state, { payload : selectData }) {
+    //   let sizeIdList = state.sizeIdList;//重置规格
+    //   let pdSkusPicUrl = state.pdSkusPicUrl;//重置规格
+    //   let specData = state.specData;//重置属性
+    //   let pdSkus = state.pdSkus;//重置数据
+    //   let { type, typeId } = selectData;
+    //   if(type == 'one') {//置空数据，属性1
+    //     sizeIdList.pdSkusSizeOne = typeId;
+    //     specData.specOne = [];
+    //     pdSkusPicUrl = [];
+    //     pdSkus = [{}];
+    //   } else {
+    //     sizeIdList.pdSkusSizeTwo = typeId;
+    //     specData.specTwo = [];
+    //   }
+    //   return {...state, pdSkus, sizeIdList, specData, pdSkusPicUrl}
+    // },
+    setTypesId(state, { payload : {pdSkus, sizeIdList, pdSkusPicUrl} }) {
+      return {...state, pdSkus, sizeIdList, pdSkusPicUrl }
     },
     //批量设置
     batchSet(state, { payload : pdSkus }) {
@@ -124,7 +130,6 @@ export default {
       const levelThr = yield select(state => state.addGoods.categoryData.categoryLevelThr);
       const levelFour = yield select(state => state.addGoods.categoryData.categoryLevelFour);
       const pdSpu = yield select(state => state.addGoods.pdSpu);
-      const { pdCategory1Id, pdCategory2Id, pdCategory3Id, pdCategory4Id } =pdSpu;
       let categoryLevelOne=[];
       let categoryLevelTwo=[];
       let categoryLevelThr=[];
@@ -233,12 +238,12 @@ export default {
         let pdCountryId =pdSpu.pdCountryId;//存入国家id
         let fileList = [];
         //格式化图片数据
-        if(pdSpu.pdSpuPics && pdSpu.pdSpuPics) {
-           fileList = pdSpu.pdSpuPics.map(el=>(
+        if(pdSpu.spuIdPics && pdSpu.spuIdPics) {
+           fileList = pdSpu.spuIdPics.map(el=>(
             {
-              url:`${fileDomain}${el.picUrl}`,
-              uid:el.pdSpuPicId,
-              name: el.picUrl,
+              url:`${fileDomain}${el.url}`,
+              uid:el.uid,
+              name: el.url,
               status: 'done',
             }
           ))
@@ -255,9 +260,19 @@ export default {
           pdSkus = pdSpu.pdSkus.map((el,index) => {
             let name1 = el.pdType1Val&&el.pdType1Val.name;
             let name2 = el.pdType2Val&&el.pdType2Val.name;
+            let id1 = el.pdType1ValId;
+            let id2 = el.pdType2ValId;
             el.name = el.pdType2Val?`${name1}/${name2}`:`${name1}`;
-            el.key = el.pdSkuId;
-            el.picUrl = `${fileDomain}${el.picUrl}`;
+            el.key = el.pdType2ValId?`${id1}${id2}`:`${id1}`;//
+            // el.picUrl = `${fileDomain}${el.picUrl}`;
+            //商品图片
+            let fileList = [{
+                  name: el.picUrl,
+                  url:`${fileDomain}${el.picUrl}`,
+                  uid:el.key,
+                  status: 'done',
+                }]
+            el.fileList = el.picUrl&&fileList;
             //获取商品规格值
             sizeIdList.pdSkusSizeOne = el.pdType1&&el.pdType1.pdTypeId;
             sizeIdList.pdSkusSizeTwo = el.pdType1&&el.pdType2.pdTypeId;
@@ -280,8 +295,8 @@ export default {
           })
         } else {
           //初始化spu商品pdSpu数据
-          let initPdspuData;
-          if(source == 0) {
+          let initPdspuData;//1是线上，0是线下
+          if(source == 1) {
             initPdspuData = {
                     code:pdSpu.code,
                     barcode:pdSpu.barcode,
@@ -314,13 +329,10 @@ export default {
             pdSkus,
             specData:{specOne,specTwo},
             sizeIdList,
-            autoComplete:{
-              pdBrandId,pdCountryId
-            }
+            autoComplete:{ pdBrandId,pdCountryId }
           }
         })
         //初始化分类
-        const { pdCategory1Id, pdCategory2Id, pdCategory3Id, pdCategory4Id } =pdSpu;
         yield put({
           type:'handelCategory',
           payload:pdSpu
@@ -380,7 +392,7 @@ export default {
               item.name = `${specOne[i].name}/${specTwo[j].name}`;
               item.key = `${specOne[i].key}${specTwo[j].key}`;
               item.pdType1ValId = specOne[i].key;
-              item.pdType1Va2Id = specTwo[j].key;
+              item.pdType2ValId = specTwo[j].key;
               newPdSkus.push(item);
             }
           }
@@ -395,6 +407,7 @@ export default {
       } else {
         newPdSkus.push({})
       }
+      debugger
       //处理编辑数据,新旧数据进行合关去重
       for(let m = 0;m<newPdSkus.length;m++) {
         for(let n = 0; n<oldpdSkus.length; n++) {
@@ -445,6 +458,35 @@ export default {
       yield put({
         type:'handleSpec',
         payload:{specOne, specTwo}
+      })
+    },
+    //规格change事件,要重置属性，规格，数据pdSkus，商品息图片
+    *changeTypesId({ payload: selectData },{ call, put ,select}) {
+      let sizeIdList = yield select(state => state.addGoods.sizeIdList)//重置规格
+      let pdSkusPicUrl = yield select(state => state.addGoods.pdSkusPicUrl)//重置商品息图片
+      let pdSkus = yield select(state => state.addGoods.pdSkus)//重置数据
+      let specData = yield select(state => state.addGoods.specData)//重置属性
+      let specOne,specTwo;
+      let { type, typeId } = selectData;
+      if(type == 'one') {//置空数据，属性1
+        sizeIdList.pdSkusSizeOne = typeId;
+        specOne = [];
+        specTwo = specData.specTwo;
+        pdSkusPicUrl = [];
+        pdSkus = [{}];
+      } else {
+        sizeIdList.pdSkusSizeTwo = typeId;
+        specOne = specData.specOne;
+        specTwo = [];
+      }
+      //重新计算属性
+      yield put({
+        type:'handleSpec',
+        payload:{specOne, specTwo}
+      })
+      yield put({
+        type:'setTypesId',
+        payload:{ pdSkus, sizeIdList, pdSkusPicUrl }
       })
     },
   }

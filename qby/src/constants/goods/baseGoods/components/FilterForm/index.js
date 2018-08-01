@@ -42,7 +42,7 @@ class NormalForm extends Component {
                </FormItem>
               <FormItem label='一级分类'>
                  {getFieldDecorator('pdCategory1Name')(
-                   <Select placeholder="请选择一级分类" autoComplete="off">
+                   <Select placeholder="请选择一级分类" allowClear={true}>
                      {
                       categoryList.length>0&&categoryList.map((el) => (
                          <Select.Option

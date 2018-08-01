@@ -117,7 +117,8 @@ class AddGoodsForm extends Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { pdSpu } = this.props.bTipAddGoods;
+    const { pdSpu, fileList } = this.props.bTipAddGoods;
+
     return(
       <div className="btip-add-goods-components">
         <Form className="qtools-form-components">
@@ -152,8 +153,14 @@ class AddGoodsForm extends Component {
             <Col span={24}>
               <FormItem label='商品图片' {...formItemLayout2}>
                 <ul className="img-list-wrap">
-                  <li className="img-item"></li>
-                  <li className="img-item"></li>
+                  {
+                    fileList.length>0&&
+                    fileList.map((el,index) => (
+                      <li className="img-item" key={index}>
+                        <img src={el.url}/>
+                      </li>
+                    ))
+                  }
                 </ul>
               </FormItem>
             </Col>
@@ -179,8 +186,8 @@ class AddGoodsForm extends Component {
             </Col>
             <Col span={24}>
               <FormItem label='上新商品' {...formItemLayout}>
-                 {getFieldDecorator('isNew',{
-                   initialValue:pdSpu.isNew
+                 {getFieldDecorator('eventNew',{
+                   initialValue:pdSpu.eventNew||false
                  })(
                    <RadioGroup>
        							<Radio value={true} value={true}>是</Radio>
@@ -191,8 +198,8 @@ class AddGoodsForm extends Component {
             </Col>
             <Col span={24}>
               <FormItem label='畅销商品' {...formItemLayout}>
-                 {getFieldDecorator('isHot', {
-                   initialValue:pdSpu.isNew
+                 {getFieldDecorator('eventHot', {
+                   initialValue:pdSpu.eventHot||false
                  })(
                    <RadioGroup>
        							<Radio value={true} value={true}>是</Radio>

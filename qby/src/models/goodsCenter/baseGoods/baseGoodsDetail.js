@@ -28,13 +28,13 @@ export default {
         let { iPdSpu, fileDomain } = result;
         let pdSpu = iPdSpu;
         let fileList = [];
-        //格式化图片数据
-        if(pdSpu.pdSpuPics && pdSpu.pdSpuPics) {
-           fileList = pdSpu.pdSpuPics.map(el=>(
+        //格式化商品图片数据
+        if(pdSpu.spuIdPics && pdSpu.spuIdPics) {
+           fileList = pdSpu.spuIdPics.map(el=>(
             {
-              url:`${fileDomain}${el.picUrl}`,
+              url:`${fileDomain}${el.url}`,
               uid:el.pdSpuPicId,
-              name: el.picUrl,
+              name: el.url,
               status: 'done',
             }
           ))
@@ -49,7 +49,7 @@ export default {
             let name2 = el.pdType2Val&&el.pdType2Val.name;
             el.name = el.pdType2Val?`${name1}/${name2}`:`${name1}`;
             el.key = el.pdSkuId;
-            el.picUrl = `${fileDomain}${el.picUrl}`;
+            el.imgUrl = `${fileDomain}${el.picUrl}`;
             return el;
           })
 

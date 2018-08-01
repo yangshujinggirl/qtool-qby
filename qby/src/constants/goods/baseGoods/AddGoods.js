@@ -187,7 +187,6 @@ class AddGoodsForm extends Component {
     const { pdSpuId, source } =this.props.data;
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
-      console.log(this.formParams(values))
       if (!err) {
         if(pdSpuId) {
           values = Object.assign(values,{
@@ -204,7 +203,6 @@ class AddGoodsForm extends Component {
     });
   }
   formParams(values) {
-    debugger
     //取出store中id品牌，国家
     values.pdBrandId = this.props.addGoods.autoComplete.pdBrandId;
     values.pdCountryId = this.props.addGoods.autoComplete.pdCountryId;
@@ -223,7 +221,7 @@ class AddGoodsForm extends Component {
         //格式化商品信息图片
         if(el.picUrl&&(el.picUrl instanceof Array)) {
           if(el.picUrl.length>0) {
-            el.picUrl = el.picUrl[0].response.data[0];
+            el.picUrl = el.picUrl[0].url?el.picUrl[0].name:el.picUrl[0].response.data[0];
           } else {
             el.picUrl = '';
           }
@@ -265,12 +263,9 @@ class AddGoodsForm extends Component {
   }
   //商品规格change事件
   handleChangeOne(type,option) {
-    this.setState({
-      specOneId:option
-    })
-    //重置商品规格,商品属性
+    //重置商品规格id,商品属性
     this.props.dispatch({
-      type:'addGoods/setTypesId',
+      type:'addGoods/changeTypesId',
       payload:{
         typeId:option,
         type
@@ -289,9 +284,15 @@ class AddGoodsForm extends Component {
   }
   //新建商品属性
   addGoodsLabel(inputValue,type) {
-    const { specOneId } =this.state;
+    const { pdSkusSizeOne, pdSkusSizeTwo } =this.props.addGoods.sizeIdList;
+    let pdTypeId;
+    if(type == 'one') {
+      pdTypeId = pdSkusSizeOne;
+    } else {
+      pdTypeId = pdSkusSizeTwo;
+    }
     const values={
-			pdTypeId:specOneId,
+			pdTypeId,
       inputValue,
       type
 		}
@@ -647,7 +648,7 @@ class AddGoodsForm extends Component {
                 <Col span={24}>
                   <FormItem label='分成比例' {...formItemLayout}>
                      {getFieldDecorator('shareRatio',{
-                       initialValue:pdSpu.shareRatio,
+                       initialValue:Number(pdSpu.shareRatio),
                        rules: [{ pattern:/^[0-9]*$/,message:'请输入数字'}]
                      })(
                        <Input placeholder="请输入分成比例" autoComplete="off"/>

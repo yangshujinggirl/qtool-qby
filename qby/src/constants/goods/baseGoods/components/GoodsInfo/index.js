@@ -117,10 +117,9 @@ class GoodsInfo extends Component {
              </div>
   }
   renderTypes =(text, record, index)=> {
-    const { pdSkus } = this.props.addGoods;
     let fileList = [];
-    if(pdSkus.fileList) {
-      fileList.push(record.fileList);
+    if(record.fileList) {
+      fileList = record.fileList
     }
     return  <UpLoadFile
              form={this.props.form}
