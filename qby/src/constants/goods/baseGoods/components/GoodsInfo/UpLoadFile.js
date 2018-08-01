@@ -7,12 +7,16 @@ class UpLoadFile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      fileList:this.props.addGoods.pdSkusPicUrl,
+      fileList:this.props.fileList,
     }
+  }
+  componentDidMount() {
+    //清空form下的图片缓存
+    this.props.form.resetFields([`pdSkus[${this.props.index}].picUrl`]);
   }
   componentWillReceiveProps(props) {
     this.setState({
-      fileList:props.addGoods.pdSkusPicUrl,
+      fileList:props.fileList,
     })
   }
   beforeUpload(file){
@@ -29,13 +33,15 @@ class UpLoadFile extends Component {
     return (isJPG || isPNG) && isLt2M;
   }
 	handleChange = ({fileList}) => {
-    console.log(fileList)
     this.setState({
       fileList
     })
     this.props.dispatch({
       type:'addGoods/setSkusPicUrl',
-      payload:fileList
+      payload:{
+        index:this.props.index,
+        fileList
+      }
     })
 	}
   normFile = (e) => {
@@ -52,7 +58,6 @@ class UpLoadFile extends Component {
        </div>
      );
      const { fileList } = this.state;
-     console.log(this.props.addGoods)
 
      return(
         <div>

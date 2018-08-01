@@ -45,7 +45,7 @@ class AddEditableTable extends React.Component {
 								this.props.form.getFieldDecorator(`pdSpuInfo[${index}].content`,{
 									initialValue:dataSource[index].content,
 								})(
-									 <Input placeholder="Username" autoComplete="off"/>
+									 <Input placeholder="请输入文本" autoComplete="off"/>
 								)
 							}
 						</div>

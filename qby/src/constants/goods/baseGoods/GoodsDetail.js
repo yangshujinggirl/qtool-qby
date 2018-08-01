@@ -28,7 +28,7 @@ const formItemLayout2 = {
   }
 };
 //线下部分详情
-const OutLinePartDetail =({pdspu})=>(
+const OutLinePartDetail =({pdSpu})=>(
   <div>
     <FormItem
       label="商品状态" {...formItemLayout}>
@@ -88,7 +88,7 @@ const OnLinePartDetail =({pdSpu}) =>(
 
 class GoodsDetail extends Component {
 
-  componenDidMount() {
+  componentDidMount() {
     const { pdSpuId, source } =this.props.data;
     this.props.dispatch({
       type:'baseGoodsDetail/fetchGoodsInfo',
@@ -99,7 +99,8 @@ class GoodsDetail extends Component {
     })
   }
   render() {
-    const { pdSpu, pdSkus } = this.props.baseGoodsDetail;
+    const { pdSpu, pdSkus, fileList } = this.props.baseGoodsDetail;
+    console.log(pdSkus)
     return(
       <div className="basegoods-detail-components">
         <Form>
@@ -119,17 +120,17 @@ class GoodsDetail extends Component {
             <label>{pdSpu.pdCategory4Name}</label>
     			</FormItem>
     			<FormItem label="品牌" {...formItemLayout}>
-            <label>{pdSpu.pdBrandName}</label>
+            <label>{pdSpu.pdBrand&&pdSpu.pdBrand.name}</label>
     			</FormItem>
     			<FormItem label="国家地区" {...formItemLayout}>
-            <label>{pdSpu.pdCountryBrandName}</label>
+            <label>{pdSpu.ipdCountry&&pdSpu.ipdCountry.name}</label>
     			</FormItem>
     			<FormItem label="商品图片" {...formItemLayout}>
               <ul className="img-list-wrap">
                 {
-                  pdSpu.spuPics&&pdSpu.spuPics.length>0&&
-                  pdSpu.spuPics.map((el,index) => (
-                    <li className="img-item">
+                  fileList.length>0&&
+                  fileList.map((el,index) => (
+                    <li className="img-item" key={index}>
                       <img src={el.url}/>
                     </li>
                   ))
