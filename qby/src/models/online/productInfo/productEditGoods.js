@@ -5,6 +5,7 @@ import {
 export default {
   namespace:'productEditGoods',
   state: {
+    fileList:[],
     iPdSpu:{
       isSkus:false
     },
@@ -15,8 +16,8 @@ export default {
       const iPdSpu={isSkus:false}, fileList=[];
       return {...state,iPdSpu,}
     },
-    getGoodsInfo(state, { payload : { iPdSpu } }) {
-      return { ...state, iPdSpu }
+    getGoodsInfo(state, { payload : { iPdSpu, fileList } }) {
+      return { ...state, iPdSpu, fileList }
     },
   },
   effects: {
@@ -27,18 +28,40 @@ export default {
       if(result.code == '0') {
         let { iPdSpu, fileDomain } = result;
         let pdSkus = [];
+        let fileList = [];
+        //格式化商品图片数据
+        if(iPdSpu.spuIdPics && iPdSpu.spuIdPics) {
+           fileList = iPdSpu.spuIdPics.map(el=>(
+            {
+              url:`${fileDomain}${el.url}`,
+              uid:el.pdSpuPicId,
+              name: el.url,
+              status: 'done',
+            }
+          ))
+        }
+        //处理商品信息
         if(iPdSpu.pdSkus.length>0) {
           pdSkus = iPdSpu.pdSkus.map((el) => {
             let name1 = el.pdType1Val&&el.pdType1Val.name;
             let name2 = el.pdType2Val&&el.pdType2Val.name;
             el.name = el.pdType2Val?`${name1}/${name2}`:`${name1}`;
             el.key = el.pdSkuId;
-            el.picUrl = `${fileDomain}${el.picUrl}`;
+            el.imgUrl = `${fileDomain}${el.picUrl}`;
             iPdSpu.isSkus = el.pdType1Val?true:false;
             return el
           })
         } else {
-          pdSkus = oldPdSkus;
+          let initPdspuData = {
+                  code:iPdSpu.code,
+                  barcode:iPdSpu.barcode,
+                  salePrice:iPdSpu.salePrice,
+                  purchasePrice:iPdSpu.purchasePrice,
+                  receivePrice:iPdSpu.receivePrice,
+                  deliveryPrice:iPdSpu.deliveryPrice,
+                  key:iPdSpu.barcode
+                }
+          pdSkus.push(initPdspuData);
         }
         //处理商品描述
         let pdSpuInfo = iPdSpu.pdSpuInfo?JSON.parse(iPdSpu.pdSpuInfo):[];
@@ -60,7 +83,7 @@ export default {
         yield put({
           type:'getGoodsInfo',
           payload:{
-            iPdSpu,
+            iPdSpu,fileList
           }
         })
       }

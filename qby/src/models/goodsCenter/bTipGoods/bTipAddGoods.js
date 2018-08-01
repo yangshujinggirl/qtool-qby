@@ -24,7 +24,6 @@ export default {
     getGoodsInfo(state, { payload : { pdSpu, fileList } }) {
       return { ...state, pdSpu, fileList }
     },
-
   },
   effects: {
     *fetchGoodsInfo({ payload: values },{ call, put ,select}) {

@@ -23,7 +23,7 @@ const RadioGroup = Radio.Group;
 
 const formItemLayout = {
   labelCol: {
-    span: 6
+    span: 8
   },
   wrapperCol: {
     span: 6
@@ -31,10 +31,18 @@ const formItemLayout = {
 };
 const formItemLayout2 = {
   labelCol: {
-    span: 6
+    span: 4
   },
   wrapperCol: {
-    span: 14
+    span: 16
+  }
+};
+const formItemLayout3 = {
+  labelCol: {
+    span: 8
+  },
+  wrapperCol: {
+    span: 16
   }
 };
 
@@ -114,7 +122,7 @@ class AddGoodsForm extends Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { iPdSpu } = this.props.productEditGoods;
+    const { iPdSpu, fileList } = this.props.productEditGoods;
     return(
       <div className="btip-add-goods-components">
         <Form className="qtools-form-components">
@@ -131,19 +139,19 @@ class AddGoodsForm extends Component {
                      rules: [{ required: true, message: '请输入商品名称'}],
                      initialValue:iPdSpu.oname
                    })(
-                     <Input placeholder="请输入商品名称"/>
+                     <Input placeholder="请输入商品名称" autoComplete="off"/>
                    )
                  }
                </FormItem>
             </Col>
             <Col span={24}>
-              <FormItem label='商品图片' {...formItemLayout2}>
+              <FormItem label='商品图片' {...formItemLayout3}>
                 <ul className="img-list-wrap">
                   {
-                    iPdSpu.spuPics&&iPdSpu.spuPics.length>0&&
-                    iPdSpu.spuPics.map((el,index) => (
-                      <li className="img-item">
-                        <img src=""/>
+                    fileList.length>0&&
+                    fileList.map((el,index) => (
+                      <li className="img-item" key={index}>
+                        <img src={el.url}/>
                       </li>
                     ))
                   }
@@ -160,7 +168,6 @@ class AddGoodsForm extends Component {
                  <label>{iPdSpu.pdCategory2Name}</label>
                </FormItem>
             </Col>
-
             <Col span={24}>
               <FormItem label='商品信息' {...formItemLayout2}>
                  <Qtable
@@ -170,12 +177,12 @@ class AddGoodsForm extends Component {
             </Col>
             <Col span={24}>
               <FormItem label='商品描述' {...formItemLayout}>
-                  {
-                    iPdSpu.pdSpuInfo&&
-                    <AddGoodsDesc
-                      dataSource={iPdSpu.pdSpuInfo}
-                      form={this.props.form}/>
-                  }
+                {
+                  iPdSpu.pdSpuInfo&&
+                  <AddGoodsDesc
+                    dataSource={iPdSpu.pdSpuInfo}
+                    form={this.props.form}/>
+                }
                </FormItem>
             </Col>
             <Col span={24}>
@@ -184,7 +191,7 @@ class AddGoodsForm extends Component {
                    getFieldDecorator('remark1', {
                      initialValue:iPdSpu.remark1
                    })(
-                     <Input placeholder="请输入商品备注"/>
+                     <Input placeholder="请输入商品备注" autoComplete="off"/>
                    )
                  }
                </FormItem>
@@ -195,7 +202,7 @@ class AddGoodsForm extends Component {
                    getFieldDecorator('remark2', {
                      initialValue:iPdSpu.remark2
                    })(
-                     <Input placeholder="请输入商品备注"/>
+                     <Input placeholder="请输入商品备注" autoComplete="off"/>
                    )
                  }
                </FormItem>
@@ -206,7 +213,7 @@ class AddGoodsForm extends Component {
                    getFieldDecorator('remark3', {
                      initialValue:iPdSpu.remark3
                    })(
-                     <Input placeholder="请输入商品备注"/>
+                     <Input placeholder="请输入商品备注" autoComplete="off"/>
                    )
                  }
                </FormItem>
@@ -214,8 +221,12 @@ class AddGoodsForm extends Component {
             <Col span={24}>
               <FormItem>
                 <div className="btns-list">
-                 <Button type="default" onClick={this.onCancel.bind(this)}>取消</Button>
-                 <Button type="primary" onClick={this.handleSubmit.bind(this)}>保存</Button>
+                 <Button
+                   type="default"
+                   onClick={this.onCancel.bind(this)}>取消</Button>
+                 <Button
+                   type="primary"
+                   onClick={this.handleSubmit.bind(this)}>保存</Button>
                 </div>
                </FormItem>
             </Col>

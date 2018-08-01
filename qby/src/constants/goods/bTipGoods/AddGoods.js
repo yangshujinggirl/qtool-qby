@@ -24,7 +24,7 @@ const RadioGroup = Radio.Group;
 
 const formItemLayout = {
   labelCol: {
-    span: 6
+    span: 8
   },
   wrapperCol: {
     span: 6
@@ -32,10 +32,18 @@ const formItemLayout = {
 };
 const formItemLayout2 = {
   labelCol: {
-    span: 6
+    span: 4
   },
   wrapperCol: {
-    span: 14
+    span: 16
+  }
+};
+const formItemLayout3 = {
+  labelCol: {
+    span: 8
+  },
+  wrapperCol: {
+    span: 16
   }
 };
 
@@ -67,7 +75,6 @@ class AddGoodsForm extends Component {
             type:'tab/initDeletestate',
             payload:key
     });
-
   }
   //提交
   handleSubmit = (e) => {
@@ -109,6 +116,14 @@ class AddGoodsForm extends Component {
   saveGoods(values) {
     goodSaveApi(values)
     .then(res=> {
+      const { code } =res;
+      if(code == '0') {
+        this.onCancel();
+        this.props.dispatch({
+          type:'bTipGoodsList/fetchList',
+          payload:{}
+        })
+      }
       this.onCancel()
     },error=> {
       console.log(error)
@@ -151,7 +166,7 @@ class AddGoodsForm extends Component {
                </FormItem>
             </Col>
             <Col span={24}>
-              <FormItem label='商品图片' {...formItemLayout2}>
+              <FormItem label='商品图片' {...formItemLayout3}>
                 <ul className="img-list-wrap">
                   {
                     fileList.length>0&&

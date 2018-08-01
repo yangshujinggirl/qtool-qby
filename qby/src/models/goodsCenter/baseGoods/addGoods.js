@@ -33,7 +33,11 @@ export default {
     fileList:[],//商品图片
     pdSpu:{},
     pdSkus:[{}],//商品信息数据
-    pdSkusPicUrl:[]//商品信息图片
+    pdSkusPicUrl:[],//商品信息图片
+    linkageLabel:{
+      isTimeRequired:false,
+      isLotRequired:false,
+    }
   },
   reducers: {
     getCategory( state, { payload : {pdSpu,categoryData}}) {
@@ -42,6 +46,17 @@ export default {
     //获取规格列表
     getType( state, { payload : goodsType }) {
       return { ...state, goodsType}
+    },
+    //获取规格列表
+    setLinkageLabel( state, { payload : label }) {
+      const { type, value } =label
+      let linkageLabel = state.linkageLabel;
+      if(type == 'season') {
+        linkageLabel.isTimeRequired = value;
+      } else {
+        linkageLabel.isLotRequired = value;
+      }
+      return { ...state, linkageLabel}
     },
     setAutoCompleteId(state, { payload: values }) {
       const { type, selectId } = values;
@@ -60,24 +75,6 @@ export default {
       pdSkus[index].fileList = fileList;
       return {...state,pdSkus}
     },
-    //规格change事件,要重置属性列表，数据pdSkus
-    // setTypesId(state, { payload : selectData }) {
-    //   let sizeIdList = state.sizeIdList;//重置规格
-    //   let pdSkusPicUrl = state.pdSkusPicUrl;//重置规格
-    //   let specData = state.specData;//重置属性
-    //   let pdSkus = state.pdSkus;//重置数据
-    //   let { type, typeId } = selectData;
-    //   if(type == 'one') {//置空数据，属性1
-    //     sizeIdList.pdSkusSizeOne = typeId;
-    //     specData.specOne = [];
-    //     pdSkusPicUrl = [];
-    //     pdSkus = [{}];
-    //   } else {
-    //     sizeIdList.pdSkusSizeTwo = typeId;
-    //     specData.specTwo = [];
-    //   }
-    //   return {...state, pdSkus, sizeIdList, specData, pdSkusPicUrl}
-    // },
     setTypesId(state, { payload : {pdSkus, sizeIdList, pdSkusPicUrl} }) {
       return {...state, pdSkus, sizeIdList, pdSkusPicUrl }
     },
@@ -98,6 +95,10 @@ export default {
               pdBrandId:null,
               pdCountryId:null
             }
+      const  linkageLabel={
+              isTimeRequired:false,
+              isLotRequired:false,
+            }
       const categoryData = {
         categoryLevelOne:[],//商品分类1列表
         categoryLevelTwo:[],//商品分类2列表
@@ -112,11 +113,22 @@ export default {
         pdSkusSizeTwo:null
       };
       const pdSkusPicUrl = [];
-      return {...state, pdSpu, fileList, specData, pdSkus, pdSkusPicUrl, categoryData, sizeIdList, autoComplete }
+      return {
+        ...state,
+        pdSpu,
+        fileList,
+        specData,
+        pdSkus,
+        pdSkusPicUrl,
+        categoryData,
+        sizeIdList,
+        autoComplete,
+        linkageLabel
+       }
     },
     //商品详情
-    getGoodsInfo(state, { payload : { pdSpu,fileList, pdSkus, specData, sizeIdList, autoComplete } }) {
-      return { ...state, pdSpu, fileList, pdSkus, specData, sizeIdList,autoComplete }
+    getGoodsInfo(state, { payload : { pdSpu,fileList, pdSkus, specData, sizeIdList, autoComplete, linkageLabel } }) {
+      return { ...state, pdSpu, fileList, pdSkus, specData, sizeIdList,autoComplete, linkageLabel }
     },
     //设置属性
     setSpec(state,{ payload: {specData, pdSkus} }) {
@@ -227,7 +239,9 @@ export default {
     *fetchGoodsInfo({ payload: values },{ call, put ,select}) {
       const { source } =values;
       const oldPdSkus = yield select(state => state.addGoods.pdSkus)
+      const linkageLabel = yield select(state => state.addGoods.linkageLabel)
       yield put({type:'resetData',payload:source})//重置初始数据
+      yield put({type: 'tab/loding',payload:true});
 
       const result = yield call(goodsInfoApi,values);
       yield put({type: 'tab/loding',payload:false});
@@ -255,6 +269,8 @@ export default {
         let oldspecOne=[];
         let oldspecTwo=[];
         let sizeIdList={};
+        linkageLabel.isTimeRequired = !!pdSpu.isSeasonSpu;
+        linkageLabel.isLotRequired = !!pdSpu.lotStatus;
         //初始化商品信息，有值是pdSkus，没值填充spu值
         if(pdSpu.pdSkus.length>0) {
           pdSkus = pdSpu.pdSkus.map((el,index) => {
@@ -329,7 +345,8 @@ export default {
             pdSkus,
             specData:{specOne,specTwo},
             sizeIdList,
-            autoComplete:{ pdBrandId,pdCountryId }
+            autoComplete:{ pdBrandId,pdCountryId },
+            linkageLabel
           }
         })
         //初始化分类
@@ -405,7 +422,8 @@ export default {
           }
         }
       } else {
-        newPdSkus.push({})
+        newPdSkus.push({});
+        specTwo=[]
       }
       debugger
       //处理编辑数据,新旧数据进行合关去重

@@ -21,10 +21,10 @@ const FormItem = Form.Item;
 
 const formItemLayout2 = {
   labelCol: {
-    span: 6
+    span: 4
   },
   wrapperCol: {
-    span: 14
+    span: 20
   }
 };
 
@@ -135,7 +135,7 @@ class GoodsInfo extends Component {
             <Table dataSource={pdSkus} pagination={false} bordered={true}>
               {
                 specData.specOne.length>0&&
-                <Table.Column title="商品规格" width={120} key ={0} render={this.renderName}/>
+                <Table.Column title="商品规格" width='10%' key ={0} render={this.renderName}/>
               }
               <Table.Column title="商品编码" key ={1} render={this.renderCode}/>
               <Table.Column title="商品条码" key ={2} render={this.renderBarcode}/>

@@ -20,10 +20,10 @@ import EditableCell from '../EditableCell/index.js';
 
 const formItemLayout2 = {
   labelCol: {
-    span: 6
+    span: 4
   },
   wrapperCol: {
-    span: 14
+    span: 20
   }
 };
 const FormItem = Form.Item;
@@ -52,7 +52,9 @@ class GoodsInfo extends Component {
                 this.props.form.getFieldDecorator(name,{
                   initialValue:pdSkus[index].code
                 })(
-                  <Input placeholder="请输入商品编码" autoComplete="off"/>
+                  <Input
+                    placeholder="请输入商品编码" 
+                    autoComplete="off"/>
                 )
               }
             </div>
@@ -117,10 +119,9 @@ class GoodsInfo extends Component {
              </div>
   }
   renderTypes =(text, record, index)=> {
-    const { pdSkus } = this.props.addGoods;
     let fileList = [];
-    if(pdSkus.fileList) {
-      fileList.push(record.fileList);
+    if(record.fileList) {
+      fileList = record.fileList
     }
     return  <UpLoadFile
              form={this.props.form}

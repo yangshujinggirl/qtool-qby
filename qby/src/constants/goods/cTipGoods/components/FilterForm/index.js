@@ -22,6 +22,7 @@ class NormalForm extends Component {
   }
   render() {
     const { getFieldDecorator } = this.props.form;
+    const { categoryList } =this.props;
     return(
         <Form className="qtools-condition-form">
           <div className='search-form-outwrap'>
@@ -43,9 +44,14 @@ class NormalForm extends Component {
                </FormItem>
               <FormItem label='一级分类'>
                  {getFieldDecorator('pdCategory1Name')(
-                   <Select placeholder="请选择一级分类" autoComplete="off">
-                     <Option value={20} key={20}>上线</Option>
-                     <Option value={10} key={10}>下线</Option>
+                   <Select placeholder="请选择一级分类" allowClear={true}>
+                     {
+                      categoryList.length>0&&categoryList.map((el) => (
+                         <Select.Option
+                           value={el.pdCategoryId}
+                           key={el.pdCategoryId}>{el.name}</Select.Option>
+                       ))
+                     }
                    </Select>
                  )}
                </FormItem>

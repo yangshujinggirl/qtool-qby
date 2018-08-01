@@ -27,8 +27,8 @@ const DetailSizeColumns = [{
        return <div>
                 {
                   record.picUrl !=''?
-                  <div className="img-wrap" style={{'width':'105px','height':'105px'}}>
-                    <img src={record.imgUrl} style={{'width':'100%'}}/>
+                  <div className="table-img-wrap">
+                    <img src={record.imgUrl}/>
                   </div>
                  :
                  null
@@ -46,14 +46,14 @@ const DetailColumns = [{
      title: '售价',
      dataIndex: 'toBPrice'
    },{
-     title: '采购价',
-     dataIndex: 'purchasePrice'
+     title: '零售价',
+     dataIndex: 'toCPrice'
    },{
-     title: '到货价',
-     dataIndex: 'receivePrice'
+     title: '建议零售价',
+     dataIndex: 'costPrice'
    },{
-     title: '出库价',
-     dataIndex: 'deliveryPrice'
+     title: '进货价',
+     dataIndex: 'tagPrice'
    }];
 
    export default { DetailSizeColumns, DetailColumns };

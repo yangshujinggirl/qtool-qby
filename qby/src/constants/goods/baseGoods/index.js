@@ -59,8 +59,8 @@ class BaseGoods extends Component {
     }));
   }
   //分页
-  changePage = (current) => {
-    const currentPage = current-1;
+  changePage = (currentPage) => {
+    currentPage--;
     const { fields } = this.state;
     const formData = {};
     let key;

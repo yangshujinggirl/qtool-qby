@@ -15,7 +15,6 @@ import AddGoodsDesc from '../components/AddGoodsDesc/index.js';
 
 import Qtable from '../../../components/Qtable';
 import { DetailColumns, DetailSizeColumns} from './columns/detailColumns'
-import './AddGoods.less';
 
 
 const FormItem = Form.Item;
@@ -24,7 +23,7 @@ const RadioGroup = Radio.Group;
 
 const formItemLayout = {
   labelCol: {
-    span: 6
+    span: 8
   },
   wrapperCol: {
     span: 6
@@ -32,10 +31,18 @@ const formItemLayout = {
 };
 const formItemLayout2 = {
   labelCol: {
-    span: 6
+    span: 4
   },
   wrapperCol: {
-    span: 14
+    span: 16
+  }
+};
+const formItemLayout3 = {
+  labelCol: {
+    span: 8
+  },
+  wrapperCol: {
+    span: 16
   }
 };
 
@@ -67,7 +74,6 @@ class AddGoodsForm extends Component {
             type:'tab/initDeletestate',
             payload:key
     });
-
   }
   //提交
   handleSubmit = (e) => {
@@ -108,7 +114,14 @@ class AddGoodsForm extends Component {
   saveGoods(values) {
     goodSaveApi(values)
     .then(res=> {
-      console.log(res)
+      const { code } =res;
+      if(code == '0') {
+        this.onCancel();
+        this.props.dispatch({
+          type:'cTipGoodsList/fetchList',
+          payload:{}
+        })
+      }
     },error=> {
       console.log(error)
     })
@@ -116,7 +129,7 @@ class AddGoodsForm extends Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { pdSpu } = this.props.cTipAddGoods;
+    const { pdSpu, fileList } = this.props.cTipAddGoods;
     return(
       <div className="btip-add-goods-components">
         <Form className="qtools-form-components">
@@ -133,16 +146,22 @@ class AddGoodsForm extends Component {
                      rules: [{ required: true, message: '请输入商品名称'}],
                      initialValue:pdSpu.cname
                    })(
-                     <Input placeholder="请输入商品名称"/>
+                     <Input placeholder="请输入C端名称" autoComplete="off"/>
                    )
                  }
                </FormItem>
             </Col>
             <Col span={24}>
-              <FormItem label='商品图片' {...formItemLayout2}>
+              <FormItem label='商品图片' {...formItemLayout}>
                 <ul className="img-list-wrap">
-                  <li className="img-item"></li>
-                  <li className="img-item"></li>
+                  {
+                    fileList.length>0&&
+                    fileList.map((el,index) => (
+                      <li className="img-item" key={index}>
+                        <img src={el.url}/>
+                      </li>
+                    ))
+                  }
                 </ul>
               </FormItem>
             </Col>
@@ -165,8 +184,8 @@ class AddGoodsForm extends Component {
             </Col>
             <Col span={24}>
               <FormItem label='NEW商品' {...formItemLayout}>
-                 {getFieldDecorator('isNew',{
-                   initialValue:pdSpu.isNew
+                 {getFieldDecorator('eventNew',{
+                   initialValue:pdSpu.eventNew||false
                  })(
                    <RadioGroup>
        							<Radio value={true} value={true}>是</Radio>
@@ -177,8 +196,8 @@ class AddGoodsForm extends Component {
             </Col>
             <Col span={24}>
               <FormItem label='HOT商品' {...formItemLayout}>
-                 {getFieldDecorator('isHot',{
-                   initialValue:pdSpu.isHot
+                 {getFieldDecorator('eventHot',{
+                   initialValue:pdSpu.eventHot||false
                  })(
                    <RadioGroup>
        							<Radio value={true} value={true}>是</Radio>

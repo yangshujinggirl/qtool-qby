@@ -36,10 +36,21 @@ class BtipGoods extends Component {
     }
   }
   componentWillMount() {
+    this.initData()
+  }
+  initData() {
     this.props.dispatch({
       type:'bTipGoodsList/fetchList',
       payload:{}
     })
+    this.props.dispatch({
+      type:'bTipGoodsList/fetchCategory',
+      payload: {
+        level:1,
+        parentId:null,
+        status:1
+      }
+    });
   }
   //双向绑定表单
   handleFormChange = (changedFields) => {
@@ -48,8 +59,8 @@ class BtipGoods extends Component {
     }));
   }
   //分页
-  changePage = (current) => {
-    const currentPage = current-1;
+  changePage = (currentPage) => {
+    currentPage--;
     //清空勾选
     this.setState({
       selecteKeys:[],
@@ -64,6 +75,13 @@ class BtipGoods extends Component {
     this.props.dispatch({
       type:'bTipGoodsList/fetchList',
       payload: paramsObj
+    });
+  }
+  //修改pageSize
+  changePageSize =(values)=> {
+    this.props.dispatch({
+      type:'bTipGoodsList/fetchList',
+      payload: values
     });
   }
   //搜索
@@ -183,7 +201,7 @@ class BtipGoods extends Component {
     const paneitem={
       title:'商品日志',
       key:`${this.state.componkey}editconfig${record.pdSpuId}info`,
-      componkey:'306000editconfig',
+      componkey:`${this.state.componkey}editconfig`,
       data:{
         pdSpuId:record.pdSpuId,
         source:record.source,
@@ -195,7 +213,7 @@ class BtipGoods extends Component {
         payload:paneitem
     })
   }
-
+  //多选
   onCheckBoxChange(record) {
     const selecteKeys = [...this.state.selecteKeys,record.pdSpuId];
     this.setState({
@@ -203,12 +221,13 @@ class BtipGoods extends Component {
     })
   }
   render() {
-    const { dataList } = this.props.bTipGoodsList;
+    const { dataList, categoryList } = this.props.bTipGoodsList;
     const {fields} = this.state;
     return (
       <div className="bTip-goods-components qtools-components-pages">
         <FilterForm
           {...fields}
+          categoryList={categoryList}
           submit={this.searchData}
           onChange={this.handleFormChange}/>
         <div className="handel-btn-lists">
@@ -224,6 +243,8 @@ class BtipGoods extends Component {
           onChange={this.onCheckBoxChange.bind(this)}
           onOperateClick={this.handleOperateClick.bind(this)}/>
         <Qpagination
+          sizeOptions="2"
+          onShowSizeChange={this.changePageSize}
           data={this.props.bTipGoodsList}
           onChange={this.changePage}/>
       </div>

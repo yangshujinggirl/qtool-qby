@@ -1,7 +1,7 @@
 
 const DetailSizeColumns = [{
      title: '商品规格',
-     dataIndex: 'actionTypeStr',
+     dataIndex: 'name',
    },{
      title: '商品编码',
      dataIndex: 'code',
@@ -20,6 +20,21 @@ const DetailSizeColumns = [{
    },{
      title: '出库价',
      dataIndex: 'deliveryPrice'
+   },{
+     title: 'SKU图片',
+     dataIndex: 'picUrl',
+     render:(text, record, index)=> {
+       return <div>
+                {
+                  record.picUrl !=''?
+                  <div className="img-wrap">
+                    <img src={record.imgUrl}/>
+                  </div>
+                 :
+                 null
+               }
+             </div>
+     }
    }];
 const DetailColumns = [{
      title: '商品编码',

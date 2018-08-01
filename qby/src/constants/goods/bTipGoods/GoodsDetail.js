@@ -16,21 +16,15 @@ const formItemLayout = {
 };
 const formItemLayout2 = {
   labelCol: {
-    span: 6
+    span: 4
   },
   wrapperCol: {
-    span: 12
+    span: 16
   }
 };
 class GoodsDetail extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-			dataSource:[],
-			issku:false,
-			pdSpuInfo:[],
-      pdSkus:[]
-		};
   }
   componentWillMount() {
     const { pdSpuId, source } =this.props.data;
@@ -45,9 +39,10 @@ class GoodsDetail extends Component {
   }
 
   render() {
-    const { pdSpu } = this.props.bTipAddGoods;
+    const { pdSpu, fileList } = this.props.bTipAddGoods;
+    console.log(pdSpu.pdSpuInfo)
     return(
-      <div>
+      <div className="btip-add-goods-components">
         <Form>
     			<FormItem
     				label="商品名称" {...formItemLayout}>
@@ -67,13 +62,16 @@ class GoodsDetail extends Component {
     			</FormItem>
     			<FormItem
     				label="商品图片" {...formItemLayout}>
-            {
-              pdSpu.spuPics&&pdSpu.spuPics.length>0&&
-              <ul className="img-list-wrap">
-                <li className="img-item"></li>
-                <li className="img-item"></li>
-              </ul>
-            }
+            <ul className="img-list-wrap">
+              {
+                fileList.length>0&&
+                fileList.map((el,index) => (
+                  <li className="img-item" key={index}>
+                    <img src={el.url}/>
+                  </li>
+                ))
+              }
+            </ul>
     			</FormItem>
     			<FormItem
     				label="商品信息" {...formItemLayout2}>
@@ -119,16 +117,16 @@ class GoodsDetail extends Component {
           </FormItem>
           <FormItem
             label="商品描述" {...formItemLayout}>
-              <ul className="img-list-wrap">
+              <ul className="goods-desc-wrap">
                 {
                   pdSpu.pdSpuInfo&&pdSpu.pdSpuInfo.length>0&&
                   pdSpu.pdSpuInfo.map((el,index) => (
-                    <li className="img-item" key={index}>
+                    <li key={index}>
                       {
-                        el.type == 1?
+                        el.type == '1'?
                         <span>{el.content}</span>
                         :
-                        <img src={el.content} style={{'width':'100px','height':'100px'}}/>
+                        <img src={el.content.url} style={{'width':'100px','height':'100px'}}/>
                       }
                     </li>
                   ))

@@ -49,6 +49,7 @@ class BtipGoods extends Component {
   }
   //分页
   changePage = (currentPage) => {
+    currentPage--;
     //清空勾选
     this.setState({
       selecteKeys:[],
@@ -65,10 +66,17 @@ class BtipGoods extends Component {
       payload: paramsObj
     });
   }
+  //修改pageSize
+  changePageSize =(values)=> {
+    this.props.dispatch({
+      type:'productGoodsList/fetchList',
+      payload: values
+    });
+  }
   //搜索
   searchData =(values)=> {
     this.props.dispatch({
-      type:'bTipGoodsList/fetchList',
+      type:'productGoodsList/fetchList',
       payload: values
     });
   }
@@ -131,7 +139,6 @@ class BtipGoods extends Component {
       componkey:`${this.state.componkey}edit`,
       data:{
         pdSpuId:record.pdSpuId,
-        // pdSpuId:'25878',
         source:record.source,
         key:`${this.state.componkey}edit${record.pdSpuId}`
       }
@@ -159,12 +166,6 @@ class BtipGoods extends Component {
     })
   }
 
-  onCheckBoxChange(record) {
-    const selecteKeys = [...this.state.selecteKeys,record.pdSpuId];
-    this.setState({
-      selecteKeys
-    })
-  }
   render() {
     const { dataList } = this.props.productGoodsList;
     const {fields} = this.state;
@@ -179,9 +180,10 @@ class BtipGoods extends Component {
         </div>
         <GoodsList
           list={dataList}
-          onChange={this.onCheckBoxChange.bind(this)}
           onOperateClick={this.handleOperateClick.bind(this)}/>
         <Qpagination
+          sizeOptions="2"
+          onShowSizeChange={this.changePageSize}
           data={this.props.productGoodsList}
           onChange={this.changePage}/>
       </div>

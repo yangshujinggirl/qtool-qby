@@ -5,6 +5,7 @@ import {
 export default {
   namespace:'cTipAddGoods',
   state: {
+    fileList:[],
     pdSpu:{
       isHasSize:false,
     },
@@ -13,20 +14,35 @@ export default {
     //重置store
     resetData(state) {
       const pdSpu={ isSkus: false };
-      return {...state,pdSpu }
+      const fileList=[];
+      return {...state, pdSpu, fileList }
     },
-    getGoodsInfo(state, { payload : { pdSpu } }) {
-      return { ...state, pdSpu }
+    getGoodsInfo(state, { payload : { pdSpu, fileList } }) {
+      return { ...state, pdSpu, fileList }
     },
   },
   effects: {
     *fetchGoodsInfo({ payload: values },{ call, put ,select}) {
       const oldPdSkus = yield select(state => state.addGoods.pdSkus)
       yield put({type:'resetData'})
+      yield put({type: 'tab/loding',payload:true});
       const result = yield call(goodsInfoApi,values);
+      yield put({type: 'tab/loding',payload:false});
       if(result.code == '0') {
         let { iPdSpu, fileDomain } = result;
         let pdSkus = [];
+        let fileList = [];
+        //格式化商品图片数据
+        if(iPdSpu.spuIdPics && iPdSpu.spuIdPics) {
+           fileList = iPdSpu.spuIdPics.map(el=>(
+            {
+              url:`${fileDomain}${el.url}`,
+              uid:el.pdSpuPicId,
+              name: el.url,
+              status: 'done',
+            }
+          ))
+        }
         //处理商品信息
         if(iPdSpu.pdSkus.length>0) {
           pdSkus = iPdSpu.pdSkus.map((el) => {
@@ -34,12 +50,21 @@ export default {
             let name2 = el.pdType2Val&&el.pdType2Val.name;
             el.name = el.pdType2Val?`${name1}/${name2}`:`${name1}`;
             el.key = el.pdSkuId;
-            el.picUrl = `${fileDomain}${el.picUrl}`;
+            el.imgUrl = `${fileDomain}${el.picUrl}`;
             iPdSpu.isSkus = el.pdType1Val?true:false;
             return el
           })
         } else {
-          pdSkus = oldPdSkus;
+          let initPdspuData = {
+                  code:iPdSpu.code,
+                  barcode:iPdSpu.barcode,
+                  toBPrice:iPdSpu.toBPrice,
+                  toCPrice:iPdSpu.toCPrice,
+                  costPrice:iPdSpu.costPrice,
+                  tagPrice:iPdSpu.tagPrice,
+                  key:iPdSpu.barcode
+                }
+          pdSkus.push(initPdspuData);
         }
         //处理商品描述
         let pdSpuInfo = iPdSpu.pdSpuInfo?JSON.parse(iPdSpu.pdSpuInfo):[];
@@ -61,7 +86,7 @@ export default {
         yield put({
           type:'getGoodsInfo',
           payload:{
-            pdSpu,
+            pdSpu,fileList
           }
         })
       }

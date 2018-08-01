@@ -51,9 +51,11 @@ class AddEditableTable extends React.Component {
 						</div>
 		} else {
 			let fileList = [];
-			fileList.push(record.content);
+			if(record.content!=='') {
+				fileList.push(record.content);
+			}
 			return <UpLoadFile
-							fileList={record.content==''?[]:fileList}
+							fileList={fileList}
 							form={this.props.form}
 							index={index}/>
 		}

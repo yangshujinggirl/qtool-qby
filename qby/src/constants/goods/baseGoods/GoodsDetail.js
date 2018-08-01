@@ -13,7 +13,7 @@ const FormItem = Form.Item;
 
 const formItemLayout = {
   labelCol: {
-    span: 6
+    span: 8
   },
   wrapperCol: {
     span: 6
@@ -21,10 +21,18 @@ const formItemLayout = {
 };
 const formItemLayout2 = {
   labelCol: {
-    span: 6
+    span: 4
   },
   wrapperCol: {
-    span: 14
+    span: 16
+  }
+};
+const formItemLayout3 = {
+  labelCol: {
+    span: 8
+  },
+  wrapperCol: {
+    span: 16
   }
 };
 //线下部分详情
@@ -32,15 +40,15 @@ const OutLinePartDetail =({pdSpu})=>(
   <div>
     <FormItem
       label="商品状态" {...formItemLayout}>
-      <label>{pdSpu.spuStatus}</label>
+      <label>{pdSpu.spuStatusStr}</label>
     </FormItem>
     <FormItem
       label="销售属性" {...formItemLayout}>
-      <label>{pdSpu.salesAttr}</label>
+      <label>{pdSpu.salesAttrStr}</label>
     </FormItem>
     <FormItem
       label="季节商品" {...formItemLayout}>
-      <label>{pdSpu.isSeasonSpu}</label>
+      <label>{pdSpu.isSeasonSpuStr}</label>
     </FormItem>
     <FormItem
       label="上市开始时间" {...formItemLayout}>
@@ -52,7 +60,7 @@ const OutLinePartDetail =({pdSpu})=>(
     </FormItem>
     <FormItem
       label="批次管理" {...formItemLayout}>
-      <label>{pdSpu.lotStatus}</label>
+      <label>{pdSpu.lotStatusStr}</label>
     </FormItem>
     <FormItem
       label="保质期" {...formItemLayout}>
@@ -60,7 +68,7 @@ const OutLinePartDetail =({pdSpu})=>(
     </FormItem>
     <FormItem
       label="保质依据" {...formItemLayout}>
-      <label>{pdSpu.lotType}</label>
+      <label>{pdSpu.lotType?'否':'是'}</label>
     </FormItem>
     <FormItem
       label="禁止入库" {...formItemLayout}>
@@ -81,7 +89,7 @@ const OnLinePartDetail =({pdSpu}) =>(
     </FormItem>
     <FormItem
       label="分成比例" {...formItemLayout}>
-      <label>{pdSpu.shareRatio}</label>
+      <label>{`${pdSpu.shareRatio}%`}</label>
     </FormItem>
   </div>
 )
@@ -125,7 +133,7 @@ class GoodsDetail extends Component {
     			<FormItem label="国家地区" {...formItemLayout}>
             <label>{pdSpu.ipdCountry&&pdSpu.ipdCountry.name}</label>
     			</FormItem>
-    			<FormItem label="商品图片" {...formItemLayout}>
+    			<FormItem label="商品图片" {...formItemLayout3}>
               <ul className="img-list-wrap">
                 {
                   fileList.length>0&&
