@@ -12,32 +12,16 @@ import './index.less';
 
 import iconSkuStatus from '../../../../../assets/icon_skuStatus.png';
 import iconInfoStatus from '../../../../../assets/icon_que.png';
-import iconEventHot from '../../../../../assets/icon_hot.png';
-import iconEventNew from '../../../../../assets/icon_new.png';
-import iconIsDirectExpress from '../../../../../assets/icon_zhi.png';
-import iconIsPresell from '../../../../../assets/icon_yu.png';
 import nogoodsImg from '../../../../../assets/nogoods.png';
 
 //产品属性icon
 const IconList =({data})=>(
   <div className="label-icon-list">
     {
-      data.skuStatus &&<img src={iconSkuStatus} />
+      !!data.skuStatus &&<img src={iconSkuStatus} />//多
     }
     {
-      data.infoStatus &&<img src={iconInfoStatus} />
-    }
-    {
-      data.eventHot &&<img src={iconEventHot} />
-    }
-    {
-      data.eventNew &&<img src={iconEventNew} />
-    }
-    {
-      data.isDirectExpress &&<img src={iconIsDirectExpress} />
-    }
-    {
-      data.isPresell &&<img src={iconIsPresell} />
+      !data.infoStatus &&<img src={iconInfoStatus} />//缺
     }
   </div>
 )
@@ -51,7 +35,7 @@ class GoodsList extends Component {
         {
           baseGoodsList.dataList.length>0 && baseGoodsList.dataList.map((el,index) => (
               <li className="goods-item-content" key={index}>
-                <div className="goods-action-top" onClick={()=>onOperateClick(el,'detail')}>
+                <div className="goods-action-top">
                   <div className="part-l">
                     {
                       el.mainPicUrl?
@@ -61,9 +45,7 @@ class GoodsList extends Component {
                     }
                   </div>
                   <div className="part-r">
-                    <p className="goods-name">{el.name}</p>
-                    <p className="goods-property">库存：{el.inventory}</p>
-                    <p className="goods-property">售价：{el.minPrice}</p>
+                    <p className="goods-name" onClick={()=>onOperateClick(el,'detail')}>{el.name}</p>
                     <IconList data={el}/>
                   </div>
                 </div>

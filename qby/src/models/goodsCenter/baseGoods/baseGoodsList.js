@@ -1,13 +1,13 @@
 import {
   getListApi,
-  specificationApi,
-  goodsTypeApi
+  getCategoryApi
  } from '../../../services/goodsCenter/baseGoods.js';
 
 
 export default {
   namespace:'baseGoodsList',
   state: {
+    categoryList:[],
     dataList:[],//商品列表
     currentPage:0,
     limit:16,
@@ -16,6 +16,9 @@ export default {
   reducers: {
     getList( state, { payload : {dataList, currentPage, limit, total} }) {
       return { ...state, dataList, currentPage, limit, total}
+    },
+    getCategoryList( state, { payload : {categoryList} }) {
+      return { ...state, categoryList}
     },
   },
   effects: {
@@ -38,6 +41,18 @@ export default {
             limit,
             total
           }
+        })
+      }
+    },
+    *fetchCategory({ payload: values },{ call, put ,select}) {
+      const result = yield call(getCategoryApi,values);
+      yield put({type: 'tab/loding',payload:false});
+      //处理分类数据，disabled状态
+      if(result.code == '0') {
+        let  { pdCategory } = result;
+        yield put({
+          type:'getCategoryList',
+          payload:{ categoryList: pdCategory}
         })
       }
     },
