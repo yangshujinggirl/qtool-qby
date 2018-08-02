@@ -1,6 +1,6 @@
 import React,{ Component } from 'react';
 import { connect } from 'dva';
-import { Modal, Button } from 'antd'
+import { Modal, Button, Form, message } from 'antd'
 
 import Qtable from '../../../../../components/Qtable';
 import AddModel from '../AddModel/index.js'
@@ -14,7 +14,7 @@ import {
 import { goodSaveApi } from '../../../../../services/goodsCenter/internalSort';
 import './index.less';
 
-class FirstSort extends Component {
+class FirstSortForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -80,22 +80,26 @@ class FirstSort extends Component {
   }
   //提交
   onSubmit(values) {
-    console.log(values)
     goodSaveApi(values)
     .then(res => {
-      this.setState({
-        visible:false
-      })
-      this.props.dispatch({
-        type:'internalSort/fetchCategory',
-        payload:{level:1}
-      })
+      const { code, message } =res;
+      if( code == '0') {
+        message.success('新建成功');
+        this.props.dispatch({
+          type:'internalSort/fetchCategory',
+          payload:{level:1}
+        })
+        this.onCancel();
+      } else {
+        this.onCancel()
+      }
     },error=> {
 
     })
   }
   //取消
   onCancel() {
+    this.props.form.resetFields();
     this.setState({
       visible:false
     })
@@ -107,6 +111,7 @@ class FirstSort extends Component {
     return(
       <div className="common-sort-components">
         <FilterForm
+          form={this.props.form}
           submit={this.searchData}
           type={type}/>
         <div className="handle-btn-wrap">
@@ -122,6 +127,7 @@ class FirstSort extends Component {
           dataSource={dataList}
           onOperateClick={this.handleEdit.bind(this)}/>
         <AddModel
+          form={this.props.form}
           onSubmit={this.onSubmit.bind(this)}
           onCancel={this.onCancel.bind(this)}
           type={type}
@@ -131,6 +137,7 @@ class FirstSort extends Component {
     )
   }
 }
+const FirstSort = Form.create()(FirstSortForm);
 function mapStateToProps(state) {
   const { internalSort } =state;
   return{ internalSort }

@@ -3,6 +3,7 @@ import { Input,Form} from 'antd';
 import { connect } from 'dva';
 import Qtable from '../../../components/Qtable';
 import { DetailColumns, DetailSizeColumns} from './columns/detailColumns';
+import Imgmodel from '../../../components/model/modelimg';
 import './AddGoods.less'
 const FormItem = Form.Item;
 
@@ -26,7 +27,7 @@ class GoodsDetail extends Component {
   constructor(props) {
     super(props)
   }
-  componentWillMount() {
+  componentDidMount() {
     const { pdSpuId, source } =this.props.data;
     this.props.dispatch({
       type:'bTipAddGoods/fetchGoodsInfo',
@@ -40,7 +41,6 @@ class GoodsDetail extends Component {
 
   render() {
     const { pdSpu, fileList } = this.props.bTipAddGoods;
-    console.log(pdSpu.pdSpuInfo)
     return(
       <div className="btip-add-goods-components">
         <Form>
@@ -67,7 +67,7 @@ class GoodsDetail extends Component {
                 fileList.length>0&&
                 fileList.map((el,index) => (
                   <li className="img-item" key={index}>
-                    <img src={el.url}/>
+                    <Imgmodel picUrl={el.name}/>
                   </li>
                 ))
               }
@@ -85,35 +85,35 @@ class GoodsDetail extends Component {
     			</FormItem>
           <FormItem
             label="上新商品" {...formItemLayout}>
-            <label>{pdSpu.isNew}</label>
+            <label>{pdSpu.eventNew?'是':'否'}</label>
           </FormItem>
           <FormItem
             label="畅销商品" {...formItemLayout}>
-            <label>{pdSpu.isHot}</label>
+            <label>{pdSpu.eventHot?'是':'否'}</label>
           </FormItem>
           <FormItem
             label="直邮商品" {...formItemLayout}>
-            <label>{pdSpu.isDirectExpress}</label>
+            <label>{pdSpu.isDirectExpress?'是':'否'}</label>
           </FormItem>
           <FormItem
             label="预售商品" {...formItemLayout}>
-            <label>{pdSpu.isPresell}</label>
+            <label>{pdSpu.isPresell?'是':'否'}</label>
           </FormItem>
           <FormItem
             label="试销天数" {...formItemLayout}>
-            <label>{pdSpu.trialDay}</label>
+            <label>{pdSpu.trialDay}天</label>
           </FormItem>
           <FormItem
             label="缺货天数" {...formItemLayout}>
-            <label>{pdSpu.outStockDay}</label>
+            <label>{pdSpu.outStockDay}天</label>
           </FormItem>
           <FormItem
             label="缺货率" {...formItemLayout}>
-            <label>{pdSpu.outStockRate}</label>
+            <label>{pdSpu.outStockRate&&`${pdSpu.outStockRate}%`}</label>
           </FormItem>
           <FormItem
             label="目标周转天数" {...formItemLayout}>
-            <label>{pdSpu.targetTurnoverDay}</label>
+            <label>{pdSpu.targetTurnoverDay}天</label>
           </FormItem>
           <FormItem
             label="商品描述" {...formItemLayout}>
@@ -121,7 +121,7 @@ class GoodsDetail extends Component {
                 {
                   pdSpu.pdSpuInfo&&pdSpu.pdSpuInfo.length>0&&
                   pdSpu.pdSpuInfo.map((el,index) => (
-                    <li key={index}>
+                    <li key={index} className="desc-item">
                       {
                         el.type == '1'?
                         <span>{el.content}</span>

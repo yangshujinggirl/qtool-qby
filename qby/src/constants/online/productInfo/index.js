@@ -17,19 +17,16 @@ class BtipGoods extends Component {
          code: {
            value: '',
          },
-         name: {
+         oname: {
            value: '',
          },
          brandName: {
            value: '',
          },
-         pdCategory1Name: {
+         status: {
            value: '',
          },
-         infoStatus: {
-           value: '',
-         },
-         source: {
+         warehouseId: {
            value: '',
          },
        },

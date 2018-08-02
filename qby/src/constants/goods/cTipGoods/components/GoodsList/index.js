@@ -10,11 +10,6 @@ import {
 } from 'antd';
 
 import iconSkuStatus from '../../../../../assets/icon_skuStatus.png';
-import iconInfoStatus from '../../../../../assets/icon_que.png';
-import iconEventHot from '../../../../../assets/icon_hot.png';
-import iconEventNew from '../../../../../assets/icon_new.png';
-import iconIsDirectExpress from '../../../../../assets/icon_zhi.png';
-import iconIsPresell from '../../../../../assets/icon_yu.png';
 import nogoodsImg from '../../../../../assets/nogoods.png';
 
 //产品属性icon
@@ -22,21 +17,6 @@ const IconList =({data})=>(
   <div className="label-icon-list">
     {
       !!data.skuStatus &&<img src={iconSkuStatus} />
-    }
-    {
-      !data.infoStatus &&<img src={iconInfoStatus} />
-    }
-    {
-      !!data.eventHot &&<img src={iconEventHot} />
-    }
-    {
-      !!data.eventNew &&<img src={iconEventNew} />
-    }
-    {
-      !!data.isDirectExpress &&<img src={iconIsDirectExpress} />
-    }
-    {
-      !!data.isPresell &&<img src={iconIsPresell} />
     }
   </div>
 )
@@ -58,7 +38,7 @@ class GoodsList extends Component {
         {
           cTipGoodsList.dataList.length>0 && cTipGoodsList.dataList.map((el,index) => (
               <li className="goods-item-content" key={index}>
-                <div className="goods-action-top" onClick={(event)=>this.handleClick(event,el)}>
+                <div className="goods-action-top">
                   <div className="part-l">
                     {
                       el.mainPicUrl?
@@ -67,11 +47,18 @@ class GoodsList extends Component {
                       <img src={nogoodsImg}/>
                     }
                     <div className="checkbox-wrap">
-                      <Checkbox onChange={(event)=>this.onChange(event,el)} key={el.pdSpuId}/>
+                      <Checkbox
+                        checked={el.checked}
+                        onChange={(event)=>this.onChange(event,el)}
+                        key={el.pdSpuId}/>
                     </div>
                   </div>
                   <div className="part-r">
-                    <p className="goods-name">{el.name}</p>
+                    <p
+                      className="goods-name"
+                      onClick={(event)=>this.handleClick(event,el)}>
+                      {el.name}
+                    </p>
                     <p className="goods-property">售价：{el.minPrice}</p>
                     <IconList data={el}/>
                   </div>

@@ -75,8 +75,8 @@ export default {
       pdSkus[index].fileList = fileList;
       return {...state,pdSkus}
     },
-    setTypesId(state, { payload : {pdSkus, sizeIdList, pdSkusPicUrl} }) {
-      return {...state, pdSkus, sizeIdList, pdSkusPicUrl }
+    setTypesId(state, { payload : {pdSkus, sizeIdList} }) {
+      return {...state, pdSkus, sizeIdList }
     },
     //批量设置
     batchSet(state, { payload : pdSkus }) {
@@ -112,14 +112,14 @@ export default {
         pdSkusSizeOne:null,
         pdSkusSizeTwo:null
       };
-      const pdSkusPicUrl = [];
+      // const pdSkusPicUrl = [];
       return {
         ...state,
         pdSpu,
         fileList,
         specData,
         pdSkus,
-        pdSkusPicUrl,
+        // pdSkusPicUrl,
         categoryData,
         sizeIdList,
         autoComplete,
@@ -425,7 +425,6 @@ export default {
         newPdSkus.push({});
         specTwo=[]
       }
-      debugger
       //处理编辑数据,新旧数据进行合关去重
       for(let m = 0;m<newPdSkus.length;m++) {
         for(let n = 0; n<oldpdSkus.length; n++) {
@@ -467,10 +466,10 @@ export default {
       let specOne = oldSpecOne;
       let specTwo = oldSpecTwo;
       if(type == 'one') {
-        let index = oldSpecOne.indexOf(payloadVal)
+        let index = oldSpecOne.findIndex(el =>el.key == payloadVal.key);
         specOne.splice(index,1);
       } else {
-        let index = oldSpecOne.indexOf(payloadVal)
+        let index = oldSpecTwo.findIndex(el =>el.key == payloadVal.key);
         specTwo.splice(index,1);
       }
       yield put({
@@ -481,7 +480,7 @@ export default {
     //规格change事件,要重置属性，规格，数据pdSkus，商品息图片
     *changeTypesId({ payload: selectData },{ call, put ,select}) {
       let sizeIdList = yield select(state => state.addGoods.sizeIdList)//重置规格
-      let pdSkusPicUrl = yield select(state => state.addGoods.pdSkusPicUrl)//重置商品息图片
+      // let pdSkusPicUrl = yield select(state => state.addGoods.pdSkusPicUrl)//重置商品息图片
       let pdSkus = yield select(state => state.addGoods.pdSkus)//重置数据
       let specData = yield select(state => state.addGoods.specData)//重置属性
       let specOne,specTwo;
@@ -490,7 +489,7 @@ export default {
         sizeIdList.pdSkusSizeOne = typeId;
         specOne = [];
         specTwo = specData.specTwo;
-        pdSkusPicUrl = [];
+        // pdSkusPicUrl = [];
         pdSkus = [{}];
       } else {
         sizeIdList.pdSkusSizeTwo = typeId;
@@ -504,7 +503,7 @@ export default {
       })
       yield put({
         type:'setTypesId',
-        payload:{ pdSkus, sizeIdList, pdSkusPicUrl }
+        payload:{ pdSkus, sizeIdList }
       })
     },
   }

@@ -22,6 +22,16 @@ export default {
     getCategoryList( state, { payload : {categoryList} }) {
       return { ...state, categoryList}
     },
+    setCheckBox( state, { payload: pdSpuId } ) {
+      let dataList = state.dataList;
+      dataList.map((el) => {
+        if(el.pdSpuId == pdSpuId) {
+          el.checked = true;
+        }
+        return el;
+      })
+      return { ...state, dataList}
+    },
   },
   effects: {
     *fetchList({ payload: values }, { call, put ,select}) {
@@ -38,6 +48,10 @@ export default {
 
       if(result.code=='0') {
         const { iPdSpu, currentPage, limit, total } = result;
+        iPdSpu.map((el) => {
+          el.checked = false;
+          return el;
+        })
         yield put ({
           type: 'getList',
           payload:{

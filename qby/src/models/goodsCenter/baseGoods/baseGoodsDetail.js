@@ -23,7 +23,9 @@ export default {
       const { source } =values;
       const oldPdSkus = yield select(state => state.addGoods.pdSkus)
       yield put({type:'resetData'})//重置初始数据
+      yield put({type: 'tab/loding',payload:true});
       const result = yield call(goodsInfoApi,values);
+      yield put({type: 'tab/loding',payload:false});
       if(result.code == '0') {
         let { iPdSpu, fileDomain } = result;
         let pdSpu = iPdSpu;

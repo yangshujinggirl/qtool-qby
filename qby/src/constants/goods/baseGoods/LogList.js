@@ -13,9 +13,7 @@ class LogList extends Component {
   }
   componentWillMount() {
     this.getLogList({
-      mbPdSpuLog:{
         pdSpuId:this.props.data.pdSpuId
-      }
     })
   }
   getLogList(values) {
