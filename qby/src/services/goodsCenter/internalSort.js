@@ -4,16 +4,7 @@ import ajax from '../../utils/req.js';
 export function getListApi(values) {
   values = JSON.stringify(values)
   return ajax.post('/webrest.htm',{
-      code:'qerp.web.pd.category.list',
-      data:values
-  })
-}
-
-//分类信息
-export function goodsInfoApi(values) {
-  values = JSON.stringify(values)
-  return ajax.post('/webrest.htm',{
-      code:'qerp.web.pd.spu.info',
+      code:'qerp.web.pd.firstCategory.list',
       data:values
   })
 }
@@ -22,7 +13,7 @@ export function goodsInfoApi(values) {
 export function goodSaveApi(values) {
   values = JSON.stringify(values)
   return ajax.post('/webrest.htm',{
-      code:'qerp.web.pd.spu.save',
+      code:'qerp.web.pd.categorylevel.save',
       data:values
   })
 }

@@ -57,32 +57,36 @@ class NormalForm extends Component {
                </FormItem>
               <FormItem label='上线状态'>
                  {getFieldDecorator('infoStatus')(
-                   <Select placeholder="请选择上线状态" autoComplete="off">
+                   <Select allowClear={true} placeholder="请选择上线状态" autoComplete="off">
                      <Option value={20} key={20}>上线</Option>
                      <Option value={10} key={10}>下线</Option>
                    </Select>
                  )}
                </FormItem>
                <FormItem label='NEW商品'>
-                  {getFieldDecorator('isNew')(
+                  {getFieldDecorator('eventNew')(
                     <Select allowClear={true} placeholder="请选择是否上新" autoComplete="off">
-                        <Option value="true" key={true}>是</Option>
-                        <Option value="false" key={false}>否</Option>
+                        <Option value={true} key={true}>是</Option>
+                        <Option value={false} key={false}>否</Option>
                     </Select>
                   )}
                 </FormItem>
                <FormItem label='HOT商品'>
-                  {getFieldDecorator('isHot')(
+                  {getFieldDecorator('eventHot')(
                     <Select allowClear={true} placeholder="请选择是否畅销" autoComplete="off">
-                        <Option value="true" key={true}>是</Option>
-                        <Option value="false" key={false}>否</Option>
+                        <Option value={true} key={true}>是</Option>
+                        <Option value={false} key={false}>否</Option>
                     </Select>
                   )}
                 </FormItem>
             </div>
           </div>
           <div className="search-submit-btn">
-             <Button type="primary" htmlType="submit" size='large' onClick={this.handleSubmit.bind(this)}>搜索</Button>
+             <Button
+               type="primary"
+               htmlType="submit"
+               size='large'
+               onClick={this.handleSubmit.bind(this)}>搜索</Button>
           </div>
         </Form>
     )
@@ -92,34 +96,6 @@ const FilterForm = Form.create({
   onFieldsChange(props, changedFields) {
     props.onChange(changedFields);
   },
-  mapPropsToFields(props) {
-    return {
-      code: Form.createFormField({
-        ...props.code,
-        value: props.code.value,
-      }),
-      name: Form.createFormField({
-        ...props.name,
-        value: props.name.value,
-      }),
-      brandName: Form.createFormField({
-        ...props.brandName,
-        value: props.brandName.value,
-      }),
-      pdCategory1Name: Form.createFormField({
-        ...props.pdCategory1Name,
-        value: props.pdCategory1Name.value,
-      }),
-      infoStatus: Form.createFormField({
-        ...props.infoStatus,
-        value: props.infoStatus.value,
-      }),
-      source: Form.createFormField({
-        ...props.source,
-        value: props.source.value,
-      }),
-    };
-  }
 })(NormalForm);
 
 export default FilterForm;

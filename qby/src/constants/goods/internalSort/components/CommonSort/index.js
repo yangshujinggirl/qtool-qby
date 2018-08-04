@@ -1,8 +1,9 @@
 import React,{ Component } from 'react';
 import { connect } from 'dva';
-import { Modal, Button } from 'antd'
+import { Modal, Button, Form, message } from 'antd'
 
 import Qtable from '../../../../../components/Qtable';
+import Qpagination from '../../../../../components/Qpagination';
 import AddModel from '../AddModel/index.js'
 import FilterForm from '../FilterForm/index.js';
 import {
@@ -14,7 +15,7 @@ import {
 import { goodSaveApi } from '../../../../../services/goodsCenter/internalSort';
 import './index.less';
 
-class FirstSort extends Component {
+class FirstSortForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -23,20 +24,31 @@ class FirstSort extends Component {
     }
   }
   componentWillMount() {
-    const { type } =this.props;
-    this.props.dispatch({
-      type:'internalSort/fetchCategory',
-      payload:{level:type}
-    })
+    this.initPage()
   }
-  //搜索
-  searchData(values) {
-    console.log(values)
+  initPage() {
+    this.props.form.resetFields();
+    const { level } =this.props;
+    this.props.dispatch({
+      type:'internalSort/fetchList',
+      payload:{
+        level,
+      }
+    })
+    if(this.props.level != '1') {
+      this.props.dispatch({
+        type:'internalSort/handleChange',
+        payload:{
+          level:'1',
+          parentId:null
+        }
+      })
+    }
   }
   //初始化列头
   getcolumns() {
     let initContent;
-    switch(this.props.type) {
+    switch(this.props.level) {
       case '1':
         initContent = {
           columns:FirstSortColumns,
@@ -64,8 +76,67 @@ class FirstSort extends Component {
     }
     return initContent;
   }
+  //分页
+  changePage = (currentPage) => {
+    currentPage--;
+    const paramsObj = {
+      currentPage,
+      level:this.props.level
+    }
+    this.props.dispatch({
+      type:'internalSort/fetchList',
+      payload: paramsObj
+    });
+  }
+  //修改pageSize
+  changePageSize =(values)=> {
+    values = {...values,...{ level: this.props.level}}
+    this.props.dispatch({
+      type:'internalSort/fetchList',
+      payload: values
+    });
+  }
+  //搜索
+  searchData =(values)=> {
+    this.props.dispatch({
+      type:'internalSort/fetchList',
+      payload: values
+    });
+  }
+  //select change
+  handelChange(level,selected) {
+    this.props.dispatch({
+      type:'internalSort/handleChange',
+      payload:{
+        level,
+        parentId:selected
+      }
+    });
+    //请空表单中的value值
+    switch(level) {
+      case '2':
+        this.props.form.setFieldsValue({
+          pdCategoryId2:'',
+          pdCategoryId3:'',
+        });
+        break;
+      case '3':
+        this.props.form.setFieldsValue({
+          pdCategoryId3:'',
+        });
+        break;
+    }
+  }
   //修改
-  handleEdit() {
+  editSort(record) {
+    //分类详情
+    this.props.dispatch({
+      type:'internalSort/fetchSortInfo',
+      payload:{
+        level:this.props.level,
+        pdCategoryId:record.pdCategoryId
+      }
+    })
     this.setState({
       visible:true,
       isEdit:true
@@ -80,57 +151,76 @@ class FirstSort extends Component {
   }
   //提交
   onSubmit(values) {
-    console.log(values)
-    goodSaveApi(values)
+    goodSaveApi({pdCategory:values})
     .then(res => {
-      this.setState({
-        visible:false
-      })
-      this.props.dispatch({
-        type:'internalSort/fetchCategory',
-        payload:{level:1}
-      })
+      const { code, message } =res;
+      if( code == '0') {
+        message.success('新建成功');
+        this.props.dispatch({
+          type:'internalSort/fetchList',
+          payload:{level:1}
+        })
+        this.onCancel();
+      } else {
+        this.onCancel()
+      }
     },error=> {
 
     })
   }
   //取消
   onCancel() {
+    this.props.form.resetFields();
     this.setState({
       visible:false
     })
+    this.props.dispatch({
+      type:'internalSort/resetData'
+    })
   }
   render() {
-    const { type } =this.props;
+    const { level } =this.props;
     const { dataList } = this.props.internalSort;
     const { isEdit, visible } =this.state;
     return(
       <div className="common-sort-components">
         <FilterForm
+          form={this.props.form}
           submit={this.searchData}
-          type={type}/>
+          level={level}/>
         <div className="handle-btn-wrap">
           <Button
             type="primary"
             size="large"
-            onClick={()=>this.addSort(type)}>
+            onClick={()=>this.addSort(level)}>
             { this.getcolumns().text }
           </Button>
         </div>
         <Qtable
           columns={this.getcolumns().columns}
           dataSource={dataList}
-          onOperateClick={this.handleEdit.bind(this)}/>
+          onOperateClick={this.editSort.bind(this)}/>
+          {
+            dataList.length>0&&
+            <Qpagination
+              sizeOptions="2"
+              onShowSizeChange={this.changePageSize}
+              data={this.props.internalSort}
+              onChange={this.changePage}/>
+          }
         <AddModel
+          onChange={this.handelChange.bind(this)}
+          form={this.props.form}
           onSubmit={this.onSubmit.bind(this)}
           onCancel={this.onCancel.bind(this)}
-          type={type}
+          level={level}
           isEdit={isEdit}
           visible={visible}/>
       </div>
     )
   }
 }
+const FirstSort = Form.create()(FirstSortForm);
 function mapStateToProps(state) {
   const { internalSort } =state;
   return{ internalSort }

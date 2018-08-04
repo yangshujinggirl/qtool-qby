@@ -1,6 +1,6 @@
 import React , { Component } from 'react';
 import { connect } from 'dva';
-import { Button, Modal, Form, Input, Select, Card, Row, Col } from 'antd';
+import { Button, Modal, Form, Input, Select, Card, Row, Col, message } from 'antd';
 import UpLoadFile from './UpLoadFile.js';
 import { goodSaveApi } from '../../../services/goodsCenter/countryManage.js';
 
@@ -21,6 +21,7 @@ class CountryManageForm extends Component {
     super(props);
     this.state={
       visible:false,
+      selectedId:'',
       countryDetail:{}
     }
   }
@@ -32,23 +33,37 @@ class CountryManageForm extends Component {
   }
   //新增
   addCountry() {
+    this.props.form.resetFields();
     this.setState({
-      visible:true
-    })
-    this.props.dispatch({
-      type:'countryManage/setImg',
-      payload:null
+      visible:true,
+      selectedId:''
     })
   }
   //修改
   editCountry(el) {
     this.setState({
       visible:true,
-      countryDetail:el
+      countryDetail:{
+        name:el.name,
+        status:el.status
+      },
+      selectedId:el.pdCountryId
     })
     this.props.dispatch({
-      type:'countryManage/setImg',
-      payload:el.url
+      type:'countryManage/setFileList',
+      payload:el.fileList
+    })
+  }
+  //取消
+  handleCancel =()=> {
+    this.props.form.resetFields();
+    this.setState({
+      visible:false,
+      countryDetail:{}
+    })
+    this.props.dispatch({
+      type:'countryManage/setFileList',
+      payload:[]
     })
   }
   //提交
@@ -56,13 +71,25 @@ class CountryManageForm extends Component {
     this.props.form.validateFields((err, values) => {
      if (!err) {
        let url = values.url;
-       url = url[0].name;
+       if(url[0].url) {
+         url = url[0].name;
+       } else {
+         url = url[0].response.data[0]
+       }
        values = {...values,url};
+
        this.saveCountry(values);
      }
    });
   }
   saveCountry(values) {
+    let message = '';
+    if(this.state.selectedId!== '') {
+      values = {...values,...{pdCountryId:this.state.selectedId}};
+      message='修改成功'
+    } else {
+      message='新增成功'
+    }
     goodSaveApi(values)
     .then(res => {
       const { code } =res;
@@ -71,31 +98,19 @@ class CountryManageForm extends Component {
           type:'countryManage/fetchList',
           payload:{}
         })
+        message.success(message)
+        this.setState({visible:false})
+      } else {
         this.setState({visible:false})
       }
     },(error)=>{
       this.setState({visible:false})
     })
   }
-  //取消
-  handleCancel =()=> {
-    this.setState({
-      visible:false,
-      countryDetail:{}
-    })
-    this.props.dispatch({
-      type:'countryManage/setImg',
-      payload:null
-    })
-  }
-  validateLogo() {
-    const { imgUrl } = this.props.countryManage;
-    return imgUrl?'success':'error'
-  }
   render() {
     const { getFieldDecorator } = this.props.form;
     const { dataList } = this.props.countryManage;
-    const { visible, countryDetail, imageUrl } =this.state;
+    const { visible, countryDetail } =this.state;
     return(
       <div className="country-manage-components">
         <div className="handle-add-btn-wrp">
@@ -123,12 +138,7 @@ class CountryManageForm extends Component {
           onOk={()=>this.handleOk()}
           onCancel={()=>this.handleCancel()}>
           <Form>
-            <FormItem
-              label="国家logo"
-              {...formItemLayout}
-              required={true}>
-              <UpLoadFile />
-            </FormItem>
+            <UpLoadFile form={this.props.form}/>
             <FormItem
               label="国家名称"
               {...formItemLayout}>

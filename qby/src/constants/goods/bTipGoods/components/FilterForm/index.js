@@ -47,9 +47,9 @@ class NormalForm extends Component {
                    <Select placeholder="请选择一级分类" allowClear={true}>
                      {
                       categoryList.length>0&&categoryList.map((el) => (
-                         <Select.Option
+                         <Option
                            value={el.pdCategoryId}
-                           key={el.pdCategoryId}>{el.name}</Select.Option>
+                           key={el.pdCategoryId}>{el.name}</Option>
                        ))
                      }
                    </Select>
@@ -57,25 +57,25 @@ class NormalForm extends Component {
                </FormItem>
               <FormItem label='售卖状态'>
                  {getFieldDecorator('status')(
-                   <Select placeholder="请选择售卖状态">
+                   <Select placeholder="请选择售卖状态" allowClear={true}>
                      <Option value={20} key={20}>售卖</Option>
                      <Option value={10} key={10}>停售</Option>
                    </Select>
                  )}
                </FormItem>
               <FormItem label='上新商品'>
-                 {getFieldDecorator('isNew')(
+                 {getFieldDecorator('eventNew')(
                    <Select allowClear={true} placeholder="请选择是否上新">
-                       <Option value="true" key={true}>是</Option>
-                       <Option value="false" key={false}>否</Option>
+                       <Option value={true} key={true}>是</Option>
+                       <Option value={false} key={false}>否</Option>
                    </Select>
                  )}
                </FormItem>
               <FormItem label='畅销商品'>
-                 {getFieldDecorator('isHot')(
+                 {getFieldDecorator('eventHot')(
                    <Select allowClear={true} placeholder="请选择是否畅销">
-                       <Option value="true" key={true}>是</Option>
-                       <Option value="false" key={false}>否</Option>
+                       <Option value={true} key={true}>是</Option>
+                       <Option value={false} key={false}>否</Option>
                    </Select>
                  )}
                </FormItem>

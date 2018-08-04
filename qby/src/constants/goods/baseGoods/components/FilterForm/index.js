@@ -56,28 +56,28 @@ class NormalForm extends Component {
               <FormItem label='是否完整'>
                  {getFieldDecorator('infoStatus')(
                    <Select allowClear={true} placeholder="请选择是否完整">
-                     <Option value='0'>是</Option>
-                     <Option value='1'>否</Option>
+                     <Option value={1} key={1}>是</Option>
+                     <Option value={0} value={0}>否</Option>
                    </Select>
                  )}
                </FormItem>
               <FormItem label='商品归属'>
                  {getFieldDecorator('source')(
                    <Select allowClear={true} placeholder="请选择商品归属">
-                     <Option value='0'>线上</Option>
-                     <Option value='1'>线下</Option>
+                     <Option value={1} key={1}>线上</Option>
+                     <Option value={0} value={0}>线下</Option>
                    </Select>
                  )}
                </FormItem>
              </div>
-            </div>
+          </div>
           <div className="search-submit-btn">
              <Button
                type="primary"
                htmlType="submit"
                size='large'
                onClick={this.handleSubmit.bind(this)}>搜索</Button>
-         </div>
+          </div>
         </Form>
     )
   }

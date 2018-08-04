@@ -32,7 +32,7 @@ class Creatlabel extends Component {
       judgeTags = [...judgeTags, inputValue];
       this.props.addGoodsLabel(inputValue,this.props.level);
     } else {
-      message.error('此属性已存在');
+      message.error('此属性已存在',3);
       return
     }
     this.setState({

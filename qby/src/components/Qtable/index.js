@@ -12,6 +12,9 @@ class QTable extends Component {
   }
   //绑定方法
   processData(data) {
+    if(!this.props.onOperateClick) {
+      return data;
+    }
     data && data.map((item, i) => {
         item.onOperateClick = (type) => { this.props.onOperateClick(item, type) };
     })

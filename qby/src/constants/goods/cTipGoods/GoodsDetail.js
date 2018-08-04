@@ -3,6 +3,7 @@ import { Input,Form} from 'antd';
 import { connect } from 'dva';
 import Qtable from '../../../components/Qtable';
 import { DetailColumns, DetailSizeColumns} from './columns/detailColumns';
+import Imgmodel from '../../../components/model/modelimg';
 import AddGoodsDesc from '../components/AddGoodsDesc/index.js';
 const FormItem = Form.Item;
 
@@ -63,7 +64,7 @@ class GoodsDetail extends Component {
                 fileList.length>0&&
                 fileList.map((el,index) => (
                   <li className="img-item" key={index}>
-                    <img src={el.url}/>
+                    <Imgmodel picUrl={el.name}/>
                   </li>
                 ))
               }
@@ -81,22 +82,22 @@ class GoodsDetail extends Component {
               dataSource={pdSpu.pdSkus}/>
     			</FormItem>
           <FormItem label="NEW商品" {...formItemLayout}>
-            <label>{pdSpu.isNew}</label>
+            <label>{pdSpu.eventNew?'是':'否'}</label>
           </FormItem>
           <FormItem label="HOT商品" {...formItemLayout}>
-            <label>{pdSpu.isHot}</label>
+            <label>{pdSpu.eventHot?'是':'否'}</label>
           </FormItem>
           <FormItem label="商品描述" {...formItemLayout}>
             <ul className="goods-desc-wrap">
               {
                 pdSpu.pdSpuInfo&&pdSpu.pdSpuInfo.length>0&&
                 pdSpu.pdSpuInfo.map((el,index) => (
-                  <li className="img-item" key={index}>
+                  <li className="desc-item" key={index}>
                     {
                       el.type == '1'?
                       <span>{el.content}</span>
                       :
-                      <img src={el.content.url} style={{'width':'100px','height':'100px'}}/>
+                      <Imgmodel picUrl={el.content.name}/>
                     }
                   </li>
                 ))

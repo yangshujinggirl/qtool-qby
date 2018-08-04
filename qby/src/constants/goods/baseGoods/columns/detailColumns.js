@@ -1,3 +1,4 @@
+import Imgmodel from '../../../../components/model/modelimg';
 
 const OnLineDetailSizeColumns = [{
      title: '商品规格',
@@ -24,11 +25,12 @@ const OnLineDetailSizeColumns = [{
      title: 'SKU图片',
      dataIndex: 'picUrl',
      render:(text, record, index)=> {
+       console.log(record)
        return <div>
                 {
                   record.picUrl !=''?
                   <div className="img-wrap">
-                    <img src={record.imgUrl}/>
+                    <Imgmodel picUrl={record.picUrl}/>
                   </div>
                  :
                  null
@@ -84,7 +86,7 @@ const OutLineDetailSizeColumns = [{
                 {
                   record.picUrl !=''?
                   <div className="img-wrap">
-                    <img src={record.imgUrl}/>
+                    <Imgmodel picUrl={record.picUrl}/>
                   </div>
                  :
                  null

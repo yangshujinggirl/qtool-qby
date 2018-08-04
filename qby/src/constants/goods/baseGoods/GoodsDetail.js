@@ -8,6 +8,7 @@ import {
   OutLineDetailColumns,
   OutLineDetailSizeColumns
 } from './columns/detailColumns';
+import Imgmodel from '../../../components/model/modelimg';
 import './AddGoods.less';
 const FormItem = Form.Item;
 
@@ -50,33 +51,43 @@ const OutLinePartDetail =({pdSpu})=>(
       label="季节商品" {...formItemLayout}>
       <label>{pdSpu.isSeasonSpuStr}</label>
     </FormItem>
-    <FormItem
-      label="上市开始时间" {...formItemLayout}>
-      <label>{pdSpu.listTimeStart}</label>
-    </FormItem>
-    <FormItem
-      label="上市结束时间" {...formItemLayout}>
-      <label>{pdSpu.listTimeEnd}</label>
-    </FormItem>
+    {
+      pdSpu.isSeason&&
+      <div>
+        <FormItem
+          label="上市开始时间" {...formItemLayout}>
+          <label>{pdSpu.listTimeStart}</label>
+        </FormItem>
+        <FormItem
+          label="上市结束时间" {...formItemLayout}>
+          <label>{pdSpu.listTimeEnd}</label>
+        </FormItem>
+      </div>
+    }
     <FormItem
       label="批次管理" {...formItemLayout}>
-      <label>{pdSpu.lotStatusStr}</label>
+      <label>{pdSpu.lotStatus?'开启':'关闭'}</label>
     </FormItem>
-    <FormItem
-      label="保质期" {...formItemLayout}>
-      <label>{pdSpu.expdays}</label>
-    </FormItem>
-    <FormItem
-      label="保质依据" {...formItemLayout}>
-      <label>{pdSpu.lotType?'否':'是'}</label>
-    </FormItem>
-    <FormItem
-      label="禁止入库" {...formItemLayout}>
-      <label>{pdSpu.lotLimitInDay}</label>
-    </FormItem>
+    {
+      pdSpu.lotStatus&&
+      <div>
+        <FormItem
+          label="保质期" {...formItemLayout}>
+          <label>{pdSpu.expdays}天</label>
+        </FormItem>
+        <FormItem
+          label="保质依据" {...formItemLayout}>
+          <label>{pdSpu.lotTypeStr}</label>
+        </FormItem>
+        <FormItem
+          label="禁止入库" {...formItemLayout}>
+          <label>{pdSpu.lotLimitInDay}天</label>
+        </FormItem>
+      </div>
+    }
     <FormItem
       label="分成类别" {...formItemLayout}>
-      <label>{pdSpu.shareType}</label>
+      <label>{pdSpu.shareTypeStr}</label>
     </FormItem>
   </div>
 )
@@ -85,7 +96,7 @@ const OnLinePartDetail =({pdSpu}) =>(
   <div>
     <FormItem
       label="保税仓库" {...formItemLayout}>
-      <label>{pdSpu.warehouseId}</label>
+      <label>{pdSpu.warehouseStr}</label>
     </FormItem>
     <FormItem
       label="分成比例" {...formItemLayout}>
@@ -139,7 +150,7 @@ class GoodsDetail extends Component {
                   fileList.length>0&&
                   fileList.map((el,index) => (
                     <li className="img-item" key={index}>
-                      <img src={el.url}/>
+                      <Imgmodel picUrl={el.name}/>
                     </li>
                   ))
                 }

@@ -1,11 +1,21 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Button, message } from 'antd'
+import { Button, message, Modal } from 'antd'
 
 import FilterForm from './components/FilterForm/index.js';
 import GoodsList from './components/GoodsList/index.js';
 import Qpagination from '../../../components/Qpagination';
 import { handleSellApi } from '../../../services/goodsCenter/bTipGoods.js';
+import { exportDataApi } from '../../../services/online/productInfo.js';
+
+const SuccessTips = {
+  t1: '售卖成功',
+  t2: '停售成功',
+  t3: '上新成功',//上新
+  t4: '下新成功',//下新
+  t5: '畅销',//畅销
+  t6: '下畅销',//下畅销
+}
 
 class BtipGoods extends Component {
   constructor(props) {
@@ -13,33 +23,40 @@ class BtipGoods extends Component {
     this.state = {
       componkey:this.props.componkey,
       selecteKeys:[],
+      tips:'',
       fields: {
          code: {
            value: '',
          },
-         name: {
+         oname: {
            value: '',
          },
          brandName: {
            value: '',
          },
-         pdCategory1Name: {
+         status: {
            value: '',
          },
-         infoStatus: {
-           value: '',
-         },
-         source: {
+         warehouseId: {
            value: '',
          },
        },
     }
   }
   componentWillMount() {
+    this.initPage()
+  }
+  initPage() {
+    const { rolelists=[] } =this.props.data;
     this.props.dispatch({
       type:'productGoodsList/fetchList',
       payload:{}
     })
+    //权限
+    this.props.dispatch({
+      type:'productGoodsList/setAuthority',
+      payload: rolelists
+    });
   }
   //双向绑定表单
   handleFormChange = (changedFields) => {
@@ -62,7 +79,7 @@ class BtipGoods extends Component {
     }
     const paramsObj ={...{currentPage},...formData}
     this.props.dispatch({
-      type:'bTipGoodsList/fetchList',
+      type:'productGoodsList/fetchList',
       payload: paramsObj
     });
   }
@@ -81,7 +98,42 @@ class BtipGoods extends Component {
     });
   }
   //导出数据
-  exportData() {
+  exportData () {
+    const { limit, currentPage } = this.props.productGoodsList;
+    let params={
+      type:32,
+      downloadParam:{
+        limit,
+        currentPage
+      },
+    }
+    exportDataApi(params)
+    .then((res) => {
+      const { code } =res;
+      if(code == '0') {
+        var _dispatch=this.props.dispatch
+        Modal.confirm({
+          title: '数据已经进入导出队列',
+          content: '请前往下载中心查看导出进度',
+          cancelText:'稍后去',
+          okText:'去看看',
+          onOk() {
+            const paneitem={title:'下载中心',key:'000001',componkey:'000001',data:null}
+            _dispatch({
+              type:'tab/firstAddTab',
+              payload:paneitem
+            });
+            _dispatch({
+              type:'downlaod/fetch',
+              payload:{code:'qerp.web.sys.doc.list',values:{limit:16,currentPage:0}}
+            });
+          },
+          onCancel() {
+
+          },
+        });
+      }
+    })
 
   }
   //操作
@@ -97,12 +149,25 @@ class BtipGoods extends Component {
         this.getLog(record)
         break;
       case "sell":
+        this.setState({tips:'t1'})
         this.sellAndSaleStop([record.pdSpuId],10)
         break;
       case "saleStop":
+        this.setState({tips:'t2'})
         this.sellAndSaleStop([record.pdSpuId],20)
         break;
     }
+  }
+  //请求成功后统一处理
+  successHandel() {
+    message.success(SuccessTips[this.state.tips])
+    //在当前页刷新
+    this.props.dispatch({
+      type:'productGoodsList/fetchList',
+      payload:{
+        currentPage:this.props.productGoodsList.currentPage
+      }
+    })
   }
   //售卖，停售
   sellAndSaleStop(ids,val) {
@@ -112,7 +177,10 @@ class BtipGoods extends Component {
     }
     handleSellApi(params)
     .then(res => {
-      console.log(res)
+      const { code } =res;
+      if(code == '0') {
+        this.successHandel()
+      }
     })
   }
   //详情
@@ -167,7 +235,7 @@ class BtipGoods extends Component {
   }
 
   render() {
-    const { dataList } = this.props.productGoodsList;
+    const { dataList, authorityList } = this.props.productGoodsList;
     const {fields} = this.state;
     return (
       <div className="bTip-goods-components qtools-components-pages">
@@ -176,7 +244,10 @@ class BtipGoods extends Component {
           submit={this.searchData}
           onChange={this.handleFormChange}/>
         <div className="handel-btn-lists">
-          <Button size="large" type="primary" onClick={()=>this.exportData()}>导出数据</Button>
+          {
+            authorityList.authorityExport&&
+            <Button size="large" type="primary" onClick={()=>this.exportData()}>导出数据</Button>
+          }
         </div>
         <GoodsList
           list={dataList}

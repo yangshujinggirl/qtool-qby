@@ -64,9 +64,6 @@ class AddGoodsForm extends Component {
     super(props);
     this.state = {
       brandDataSource:[],
-      specOneId:'',//商品规格
-      isTimeRequired:!!props.addGoods.pdSpu.isSeasonSpu,//日期是否校验
-      isLotRequired:!!props.addGoods.pdSpu.lotStatus//批次管理是否校验
     }
   }
 
@@ -252,6 +249,7 @@ class AddGoodsForm extends Component {
     .then(res=> {
       const { code } =res;
       if(code == '0') {
+        message.success('新建成功');
         this.onCancel();
         this.props.dispatch({
           type:'baseGoodsList/fetchList',
@@ -268,9 +266,13 @@ class AddGoodsForm extends Component {
     .then(res=> {
       const { code } =res;
       if(code == '0') {
-        this.onCancel()
+        message.success('新建成功');
+        this.onCancel();
+        this.props.dispatch({
+          type:'baseGoodsList/fetchList',
+          payload:{}
+        })
       }
-      console.log(res)
     },error=> {
       console.log(error)
     })
@@ -379,16 +381,6 @@ class AddGoodsForm extends Component {
   //季节商品change事件
   changeSeason =(e)=> {
     const value = e.target.value;
-    // if(value) {
-    //   this.setState({
-    //     isTimeRequired:true
-    //   })
-    // } else {
-    //   this.setState({
-    //     isTimeRequired:false
-    //   })
-    // }
-    // isTimeRequired
     this.props.dispatch({
       type:'addGoods/setLinkageLabel',
       payload:{
@@ -401,7 +393,6 @@ class AddGoodsForm extends Component {
   //批次管理change事件
   changeLotStatus =(e)=> {
     const value = e.target.value;
-
     this.props.dispatch({
       type:'addGoods/setLinkageLabel',
       payload:{
@@ -671,7 +662,7 @@ class AddGoodsForm extends Component {
                   <FormItem label='分成比例' {...formItemLayout}>
                      {getFieldDecorator('shareRatio',{
                        initialValue:pdSpu.shareRatio&&Number(pdSpu.shareRatio)||'',
-                       rules: [{ pattern:/^[0-9]*$/,message:'请输入数字'}]
+                       rules: [{ pattern:/^[0-9]+([.]{1}[0-9]+){0,1}$/,message:'请输入数字'}]
                      })(
                        <Input placeholder="请输入分成比例" autoComplete="off"/>
                      )}
@@ -776,7 +767,7 @@ class AddGoodsForm extends Component {
                      })(
                        <Input
                          placeholder="请输入保质期"
-                         disabled={!isLotRequired}
+                         disabled={!linkageLabel.isLotRequired}
                          autoComplete="off"/>
                      )}
                    </FormItem>

@@ -37,11 +37,11 @@ class Treerole extends React.Component {
 						postcheckedKeys.push(e.checkedNodes[i].props.code)
 					}
 				}
-				
+
 			}
 		}
 		console.log(postcheckedKeys)
-		this.setState({ 
+		this.setState({
 			checkedKeys:checkedKeys,
 			postcheckedKeys:postcheckedKeys
 		},function(){
@@ -71,7 +71,7 @@ class Treerole extends React.Component {
 
 
 	//数据循环处理
-	
+
 	renderRoleData = (data) => {
 		for(var i=0;i<data.length;i++){
 			data[i].title=data[i].name
@@ -101,6 +101,7 @@ class Treerole extends React.Component {
 	}
 
 	render() {
+    console.log(this.state.treeData)
 		return (
 			<Tree
 				checkable
@@ -119,7 +120,7 @@ class Treerole extends React.Component {
 	componentDidMount(){
 		this.getRoleDate()
 	}
-	
+
 
 
 

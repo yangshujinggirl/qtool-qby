@@ -9,6 +9,7 @@ import {
   Select ,
   DatePicker
 } from 'antd';
+import { WarehouseOption } from '../../../../../components/FixedDataSource';
 const FormItem = Form.Item;
 const Option = Select.Option;
 
@@ -28,22 +29,22 @@ class NormalForm extends Component {
             <div className="search-form-wrap">
               <FormItem label='商品编码'>
                  {getFieldDecorator('code')(
-                   <Input placeholder="请输入商品编码" />
+                   <Input placeholder="请输入商品编码" autoComplete="off"/>
                  )}
                </FormItem>
               <FormItem label='商品名称'>
-                 {getFieldDecorator('bname')(
-                   <Input placeholder="请输入商品名称" />
+                 {getFieldDecorator('oname')(
+                   <Input placeholder="请输入商品名称" autoComplete="off"/>
                  )}
                </FormItem>
               <FormItem label='商品条码'>
                  {getFieldDecorator('bname')(
-                   <Input placeholder="请输入商品名称" />
+                   <Input placeholder="请输入商品名称" autoComplete="off"/>
                  )}
                </FormItem>
               <FormItem label='商品品牌'>
                  {getFieldDecorator('brandName')(
-                   <Input placeholder="请输入商品品牌" />
+                   <Input placeholder="请输入商品品牌" autoComplete="off"/>
                  )}
                </FormItem>
               <FormItem label='商品状态'>
@@ -55,14 +56,13 @@ class NormalForm extends Component {
                  )}
                </FormItem>
               <FormItem label='保税仓库'>
-                 {getFieldDecorator('isDirectExpress')(
-                   <Select allowClear={true} placeholder="请选择">
-                       <Option value='1'>杭州下沙保税</Option>
-                       <Option value='2'>重庆丰趣保税</Option>
-                       <Option value='3'>香港天弋丽直邮</Option>
-                       <Option value='5'>德国直邮</Option>
-                       <Option value='6'>杭州学月保税</Option>
-                       <Option value='4'>知识付费</Option>
+                 {getFieldDecorator('warehouseId')(
+                   <Select placeholder="请选择" allowClear={false}>
+                     {
+                       WarehouseOption.map((el) => (
+                         <Option value={el.key} key={el.key}>{el.value}</Option>
+                       ))
+                     }
                    </Select>
                  )}
                </FormItem>
@@ -79,34 +79,6 @@ const FilterForm = Form.create({
   onFieldsChange(props, changedFields) {
     props.onChange(changedFields);
   },
-  mapPropsToFields(props) {
-    return {
-      code: Form.createFormField({
-        ...props.code,
-        value: props.code.value,
-      }),
-      name: Form.createFormField({
-        ...props.name,
-        value: props.name.value,
-      }),
-      brandName: Form.createFormField({
-        ...props.brandName,
-        value: props.brandName.value,
-      }),
-      pdCategory1Name: Form.createFormField({
-        ...props.pdCategory1Name,
-        value: props.pdCategory1Name.value,
-      }),
-      infoStatus: Form.createFormField({
-        ...props.infoStatus,
-        value: props.infoStatus.value,
-      }),
-      source: Form.createFormField({
-        ...props.source,
-        value: props.source.value,
-      }),
-    };
-  }
 })(NormalForm);
 
 export default FilterForm;

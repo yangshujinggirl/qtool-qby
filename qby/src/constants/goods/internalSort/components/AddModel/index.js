@@ -7,10 +7,17 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 class AddModelForm extends Component {
 	renderForm(form) {
-		const { type } =this.props;
-		const { detailData } =this.props.internalSort;
+		const { level } =this.props;
+		const { categoryInfo } =this.props.internalSort;
+		const {
+			categoryLevelOne,
+			categoryLevelTwo,
+			categoryLevelThr,
+			isLevelTwo,
+      isLevelThr,
+		} =this.props.internalSort.categoryList;
 		const { getFieldDecorator } =form;
-		switch(type) {
+		switch(level) {
 			case '1':
 				return <div>
 										<FormItem
@@ -18,9 +25,9 @@ class AddModelForm extends Component {
 											labelCol={{ span: 5 }}
 											wrapperCol={{ span: 12 }}>
 											{
-												getFieldDecorator('pdCategory1Name', {
+												getFieldDecorator('name1', {
 													rules: [{ required: true, message: '请输入分类名称' }],
-													initialValue:detailData.pdCategory1Name
+													initialValue:categoryInfo.name
 												})(
 													<Input placeholder="请输入名称" autoComplete="off"/>
 												)
@@ -31,14 +38,18 @@ class AddModelForm extends Component {
 											labelCol={{ span: 5 }}
 											wrapperCol={{ span: 12 }}>
 											{
-												getFieldDecorator('status', {
-													rules: [{ required: true, message: '请选择' }],
-													initialValue:detailData.status
+												getFieldDecorator('statusModel', {
+													rules: [{ required: true, message: '请选择状态' }],
+													initialValue:categoryInfo.status,
 												})(
 													<Select placeholder="请选择" autoComplete="off">
 														{
 		                          StatusOption.map((el) => (
-		                            <Select.Option value={el.key} key={el.key}>{el.value}</Select.Option>
+		                            <Select.Option
+																	value={el.key}
+																	key={el.key}>
+																	{el.value}
+																</Select.Option>
 		                          ))
 		                        }
 													</Select>
@@ -54,9 +65,9 @@ class AddModelForm extends Component {
 											labelCol={{ span: 5 }}
 											wrapperCol={{ span: 12 }}>
 											{
-												getFieldDecorator('pdCategory2Name', {
+												getFieldDecorator('name2', {
 													rules: [{ required: true, message: '请输入分类名称' }],
-													initialValue:detailData.pdCategory2Name
+													initialValue:categoryInfo.name
 												})(
 													<Input placeholder="请输入名称" autoComplete="off"/>
 												)
@@ -67,13 +78,21 @@ class AddModelForm extends Component {
 											labelCol={{ span: 5 }}
 											wrapperCol={{ span: 12 }}>
 											{
-												getFieldDecorator('pdCategory1Id', {
+												getFieldDecorator('pdCategoryId1', {
 													rules: [{ required: true, message: '请选择' }],
-													initialValue:detailData.pdCategory1Id
+													initialValue:categoryInfo.pdCategoryId1,
+													onChange:(selected)=>this.props.onChange('2',selected)
 												})(
-													<Select placeholder="请选择">
-														<Option value='1'>启用</Option>
-														<Option value='2'>关闭</Option>
+													<Select placeholder="请选择" autoComplete="off">
+														{
+		                          categoryLevelOne.length>0&&categoryLevelOne.map((el) => (
+		                            <Select.Option
+																	value={el.pdCategoryId}
+																	key={el.pdCategoryId}>
+																	{el.name}
+																</Select.Option>
+		                          ))
+		                        }
 													</Select>
 												)
 											}
@@ -83,14 +102,18 @@ class AddModelForm extends Component {
 											labelCol={{ span: 5 }}
 											wrapperCol={{ span: 12 }}>
 											{
-												getFieldDecorator('status', {
+												getFieldDecorator('statusModal', {
 													rules: [{ required: true, message: '请选择' }],
-													initialValue:detailData.status
+													initialValue:categoryInfo.status
 												})(
 													<Select placeholder="请选择">
 														{
 		                          StatusOption.map((el) => (
-		                            <Select.Option value={el.key} key={el.key}>{el.value}</Select.Option>
+		                            <Select.Option
+																	value={el.key}
+																	key={el.key}>
+																	{el.value}
+																</Select.Option>
 		                          ))
 		                        }
 													</Select>
@@ -106,9 +129,9 @@ class AddModelForm extends Component {
 											labelCol={{ span: 5 }}
 											wrapperCol={{ span: 12 }}>
 											{
-												getFieldDecorator('pdCategory3Name', {
+												getFieldDecorator('name3', {
 													rules: [{ required: true, message: '请输入分类名称' }],
-													initialValue:detailData.pdCategory3Name
+													initialValue:categoryInfo.name,
 												})(
 													<Input placeholder="请输入名称" autoComplete="off"/>
 												)
@@ -119,13 +142,21 @@ class AddModelForm extends Component {
 											labelCol={{ span: 5 }}
 											wrapperCol={{ span: 12 }}>
 											{
-												getFieldDecorator('pdCategory1Id', {
+												getFieldDecorator('pdCategoryId1', {
 													rules: [{ required: true, message: '请选择' }],
-													initialValue:detailData.pdCategory1Id
+													initialValue:categoryInfo.pdCategoryId1,
+													onChange:(selected)=>this.props.onChange(2,selected)
 												})(
-													<Select placeholder="请选择">
-														<Option value='1'>启用</Option>
-														<Option value='2'>关闭</Option>
+													<Select placeholder="请选择" autoComplete="off">
+														{
+		                          categoryLevelOne.length>0&&categoryLevelOne.map((el) => (
+		                            <Select.Option
+																	value={el.key}
+																	key={el.key}>
+																	{el.name}
+																</Select.Option>
+		                          ))
+		                        }
 													</Select>
 												)
 											}
@@ -135,13 +166,21 @@ class AddModelForm extends Component {
 											labelCol={{ span: 5 }}
 											wrapperCol={{ span: 12 }}>
 											{
-												getFieldDecorator('pdCategory2Id', {
+												getFieldDecorator('pdCategoryId2', {
 													rules: [{ required: true, message: '请选择' }],
-													initialValue:detailData.pdCategory2Id
+													initialValue:categoryInfo.pdCategoryId2,
+													onChange:(selected)=>this.props.onChange(3,selected)
 												})(
-													<Select placeholder="请选择">
-														<Option value='1'>启用</Option>
-														<Option value='2'>关闭</Option>
+													<Select placeholder="请选择" autoComplete="off">
+														{
+		                          categoryLevelTwo.length>0&&categoryLevelTwo.map((el) => (
+		                            <Select.Option
+																	value={el.key}
+																	key={el.key}>
+																	{el.name}
+																</Select.Option>
+		                          ))
+		                        }
 													</Select>
 												)
 											}
@@ -151,9 +190,9 @@ class AddModelForm extends Component {
 											labelCol={{ span: 5 }}
 											wrapperCol={{ span: 12 }}>
 											{
-												getFieldDecorator('status', {
+												getFieldDecorator('statusModal', {
 													rules: [{ required: true, message: '请选择' }],
-													initialValue:detailData.status
+													initialValue:categoryInfo.status
 												})(
 													<Select placeholder="请选择">
 														{
@@ -174,9 +213,9 @@ class AddModelForm extends Component {
 										labelCol={{ span: 5 }}
 										wrapperCol={{ span: 12 }}>
 										{
-											getFieldDecorator('pdCategory4Name', {
+											getFieldDecorator('name4', {
 												rules: [{ required: true, message: '请输入分类名称' }],
-												initialValue:detailData.pdCategory4Name
+												initialValue:categoryInfo.name
 											})(
 												<Input placeholder="请输入名称" autoComplete="off"/>
 											)
@@ -187,13 +226,21 @@ class AddModelForm extends Component {
 										labelCol={{ span: 5 }}
 										wrapperCol={{ span: 12 }}>
 										{
-											getFieldDecorator('pdCategory1Id', {
+											getFieldDecorator('pdCategoryId1', {
 												rules: [{ required: true, message: '请选择' }],
-												initialValue:detailData.pdCategory1Id
+												initialValue:categoryInfo.pdCategoryId1,
+												onChange:(selected)=>this.props.onChange('2',selected)
 											})(
-												<Select placeholder="请选择">
-													<Option value='1'>启用</Option>
-													<Option value='2'>关闭</Option>
+												<Select placeholder="请选择" autoComplete="off">
+													{
+														categoryLevelOne.length>0&&categoryLevelOne.map((el) => (
+															<Select.Option
+																value={el.pdCategoryId}
+																key={el.pdCategoryId}>
+																{el.name}
+															</Select.Option>
+														))
+													}
 												</Select>
 											)
 										}
@@ -203,13 +250,21 @@ class AddModelForm extends Component {
 										labelCol={{ span: 5 }}
 										wrapperCol={{ span: 12 }}>
 										{
-											getFieldDecorator('pdCategory2Id', {
+											getFieldDecorator('pdCategoryId2', {
 												rules: [{ required: true, message: '请选择' }],
-												initialValue:detailData.pdCategory2Id
+												initialValue:categoryInfo.pdCategoryId2,
+												onChange:(selected)=>this.props.onChange('3',selected)
 											})(
-												<Select placeholder="请选择">
-													<Option value='1'>启用</Option>
-													<Option value='2'>关闭</Option>
+												<Select placeholder="请选择" autoComplete="off" disabled={isLevelTwo}>
+													{
+														categoryLevelTwo.length>0&&categoryLevelTwo.map((el) => (
+															<Select.Option
+																value={el.pdCategoryId}
+																key={el.pdCategoryId}>
+																{el.name}
+															</Select.Option>
+														))
+													}
 												</Select>
 											)
 										}
@@ -219,13 +274,21 @@ class AddModelForm extends Component {
 										labelCol={{ span: 5 }}
 										wrapperCol={{ span: 12 }}>
 										{
-											getFieldDecorator('pdCategory3Id', {
+											getFieldDecorator('pdCategoryId3', {
 												rules: [{ required: true, message: '请选择' }],
-												initialValue:detailData.pdCategory3Id
+												initialValue:categoryInfo.pdCategoryId3,
+												onChange:(selected)=>this.props.onChange('4',selected)
 											})(
-												<Select placeholder="请选择">
-													<Option value='1'>启用</Option>
-													<Option value='2'>关闭</Option>
+												<Select placeholder="请选择" autoComplete="off" disabled={isLevelThr}>
+													{
+														categoryLevelThr.length>0&&categoryLevelThr.map((el) => (
+															<Select.Option
+																value={el.pdCategoryId}
+																key={el.pdCategoryId}>
+																{el.name}
+															</Select.Option>
+														))
+													}
 												</Select>
 											)
 										}
@@ -235,9 +298,9 @@ class AddModelForm extends Component {
 										labelCol={{ span: 5 }}
 										wrapperCol={{ span: 12 }}>
 										{
-											getFieldDecorator('status', {
+											getFieldDecorator('statusModal', {
 												rules: [{ required: true, message: '请选择' }],
-												initialValue:detailData.status
+												initialValue:categoryInfo.status
 											})(
 												<Select placeholder="请选择">
 													{
@@ -255,7 +318,7 @@ class AddModelForm extends Component {
 	}
 	getTitle() {
     let title;
-    switch(this.props.type) {
+    switch(this.props.level) {
       case '1':
         title = '新增一级分类';
         break;
@@ -274,15 +337,16 @@ class AddModelForm extends Component {
 	handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
+			console.log(values)
       if (!err) {
-        console.log('Received values of form: ', values);
-				let index = Number(this.props.type);
-				let name = values[`pdCategory${index}Name`];
-				let parentId = values[`pdCategory${index-1}Id`];
+				let index = Number(this.props.level);
+				let name = values[`name${index}`];
+				let parentId = values[`pdCategoryId${index-1}`];
 				let params = {
+					level:this.props.level,
 					name,
-					parentId,
-					status:values.status
+					parentId:parentId?parentId:null,
+					status:values.statusModal
 				}
 				this.props.onSubmit&&this.props.onSubmit(params)
       }

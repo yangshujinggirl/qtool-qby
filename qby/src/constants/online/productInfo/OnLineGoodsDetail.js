@@ -3,6 +3,7 @@ import { Input,Form} from 'antd';
 import { connect } from 'dva';
 import Qtable from '../../../components/Qtable';
 import { DetailColumns, DetailSizeColumns} from './columns/detailColumns';
+import Imgmodel from '../../../components/model/modelimg';
 import './AddGoods.less'
 const FormItem = Form.Item;
 
@@ -45,6 +46,7 @@ class GoodsDetail extends Component {
 
   render() {
     const { iPdSpu, fileList } = this.props.productEditGoods;
+    console.log(fileList)
     return(
       <div className="btip-add-goods-components">
         <Form>
@@ -60,7 +62,7 @@ class GoodsDetail extends Component {
                 fileList.length>0&&
                 fileList.map((el,index) => (
                   <li className="img-item" key={index}>
-                    <img src={el.url}/>
+                    <Imgmodel picUrl={el.name}/>
                   </li>
                 ))
               }
@@ -80,7 +82,7 @@ class GoodsDetail extends Component {
               {
                 iPdSpu.pdSpuInfo&&iPdSpu.pdSpuInfo.length>0&&
                 iPdSpu.pdSpuInfo.map((el,index) => (
-                  <li className="img-item" key={index}>
+                  <li className="desc-item" key={index}>
                     {
                       el.type == 1?
                       <span>{el.content}</span>

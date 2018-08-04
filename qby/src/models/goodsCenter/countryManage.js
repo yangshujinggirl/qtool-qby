@@ -10,15 +10,14 @@ export default {
     currentPage:0,
     limit:15,
     total:0,
-    fileDomain:'',
-    imgUrl:true,
+    fileList:[]
   },
   reducers: {
     getList( state, { payload : {dataList, currentPage, limit, total, fileDomain} }) {
       return { ...state, dataList, currentPage, limit, total, fileDomain}
     },
-    setImg( state, { payload : imgUrl }) {
-      return { ...state, imgUrl}
+    setFileList( state, { payload : fileList }) {
+      return { ...state, fileList}
     },
   },
   effects: {
@@ -26,6 +25,15 @@ export default {
       const result=yield call(getListApi,values);
       if(result.code=='0') {
         let { countrys, currentPage, limit, total, fileDomain } = result;
+        countrys.map((el) => {
+          el.fileList = [{
+            uid:el.pdCountryId,
+            name:el.url,
+            url:`${fileDomain}${el.url}`,
+            status:'done'
+          }];
+          el.url = `${fileDomain}${el.url}`;
+        })
         yield put ({
           type: 'getList',
           payload:{
