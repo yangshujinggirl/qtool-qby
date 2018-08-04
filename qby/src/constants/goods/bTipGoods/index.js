@@ -17,7 +17,7 @@ const WarnMessage = {
 }
 const SuccessTips = {
   t1: '售卖成功',
-  t2: '售售成功',
+  t2: '停售成功',
   t3: '上新成功',//上新
   t4: '下新成功',//下新
   t5: '畅销',//畅销
@@ -64,9 +64,11 @@ class BtipGoods extends Component {
     }
   }
   componentWillMount() {
-    this.initData()
+    this.initData();
   }
+
   initData() {
+    const { rolelists=[] } =this.props.data;
     this.props.dispatch({
       type:'bTipGoodsList/fetchList',
       payload:{}
@@ -78,6 +80,11 @@ class BtipGoods extends Component {
         parentId:null,
         status:1
       }
+    });
+    //权限
+    this.props.dispatch({
+      type:'bTipGoodsList/setAuthority',
+      payload: rolelists
     });
   }
   //双向绑定表单
@@ -182,18 +189,27 @@ class BtipGoods extends Component {
         this.getLog(record)
         break;
       case "sell":
+        this.setState({
+          handleContent:{tips:'t1'}
+        })
         this.sellAndSaleStop([record.pdSpuId],10)
         break;
       case "saleStop":
+        this.setState({
+          handleContent:{tips:'t2'}
+        })
         this.sellAndSaleStop([record.pdSpuId],20)
         break;
     }
   }
   //请求成功后统一处理
   successHandel() {
+    //在当前页刷新
     this.props.dispatch({
       type:'bTipGoodsList/fetchList',
-      payload:{}
+      payload:{
+        currentPage:this.props.bTipGoodsList.currentPage
+      }
     })
     this.setState({
       visible:false,
@@ -314,8 +330,12 @@ class BtipGoods extends Component {
   }
 
   render() {
-    const { dataList, categoryList } = this.props.bTipGoodsList;
-    const {fields, handleContent, visible} = this.state;
+    const { dataList, categoryList, authorityList } = this.props.bTipGoodsList;
+    const {
+      fields,
+      handleContent,
+      visible,
+    } = this.state;
     return (
       <div className="bTip-goods-components qtools-components-pages">
         <FilterForm
@@ -324,12 +344,27 @@ class BtipGoods extends Component {
           submit={this.searchData}
           onChange={this.handleFormChange}/>
         <div className="handel-btn-lists">
-          <Button size="large" type="primary" onClick={()=>this.massOperation('sell',10)}>批量售卖</Button>
-          <Button size="large" type="primary" onClick={()=>this.massOperation('sell',20)}>批量停售</Button>
-          <Button size="large" type="primary" onClick={()=>this.massOperation('new',true)}>批量上新</Button>
-          <Button size="large" type="primary" onClick={()=>this.massOperation('new',false)}>批量下新</Button>
-          <Button size="large" type="primary" onClick={()=>this.massOperation('hot',true)}>批量畅销</Button>
-          <Button size="large" type="primary" onClick={()=>this.massOperation('hot',false)}>批量下畅销</Button>
+          {
+            authorityList.authoritySale&&
+            <span>
+              <Button size="large" type="primary" onClick={()=>this.massOperation('sell',10)}>批量售卖</Button>
+              <Button size="large" type="primary" onClick={()=>this.massOperation('sell',20)}>批量停售</Button>
+            </span>
+          }
+          {
+            authorityList.authorityNew&&
+            <span>
+              <Button size="large" type="primary" onClick={()=>this.massOperation('new',true)}>批量上新</Button>
+              <Button size="large" type="primary" onClick={()=>this.massOperation('new',false)}>批量下新</Button>
+            </span>
+          }
+          {
+            authorityList.authorityHot&&
+            <span>
+              <Button size="large" type="primary" onClick={()=>this.massOperation('hot',true)}>批量畅销</Button>
+              <Button size="large" type="primary" onClick={()=>this.massOperation('hot',false)}>批量下畅销</Button>
+            </span>
+          }
         </div>
         <GoodsList
           list={dataList}

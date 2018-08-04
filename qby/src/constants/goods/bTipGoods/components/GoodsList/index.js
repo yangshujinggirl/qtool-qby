@@ -40,11 +40,12 @@ class GoodsList extends Component {
   }
   render() {
     const { bTipGoodsList, onOperateClick } = this.props;
+    const { dataList, authorityList } = this.props.bTipGoodsList;
     const filePath = JSON.parse(sessionStorage.getItem('fileDomain'));
     return (
       <ul className="common-goods-list">
         {
-          bTipGoodsList.dataList.length>0 && bTipGoodsList.dataList.map((el,index) => (
+          dataList.length>0 && dataList.map((el,index) => (
               <li className="goods-item-content" key={index}>
                 <div className="goods-action-top">
                   <div className="part-l">
@@ -56,7 +57,7 @@ class GoodsList extends Component {
                     }
                     <div className="checkbox-wrap">
                       <Checkbox
-                        checked={el.checked} 
+                        checked={el.checked}
                         onChange={(event)=>this.onChange(event,el)}
                         key={el.pdSpuId}/>
                     </div>
@@ -71,18 +72,26 @@ class GoodsList extends Component {
                   </div>
                 </div>
                 <div className="goods-action-bottom">
-                  <Button
-                    size="small"
-                    disabled={el.status == 20?false:true} className="event-btn"
-                    onClick={()=>onOperateClick(el,'sell')}>售卖</Button>
-                  <Button
-                    size="small"
-                    disabled={el.status == 20?true:false}
-                    className="event-btn"
-                    onClick={()=>onOperateClick(el,'saleStop')}>停售</Button>
-                  <Button size="small"
-                    className="event-btn"
-                    onClick={()=>onOperateClick(el,'edit')}>编辑</Button>
+                  {
+                    authorityList.authoritySale&&
+                    <span>
+                      <Button
+                        size="small"
+                        disabled={el.status == 20?false:true} className="event-btn"
+                        onClick={()=>onOperateClick(el,'sell')}>售卖</Button>
+                      <Button
+                        size="small"
+                        disabled={el.status == 20?true:false}
+                        className="event-btn"
+                        onClick={()=>onOperateClick(el,'saleStop')}>停售</Button>
+                    </span>
+                  }
+                  {
+                    authorityList.authorityNew&&
+                    <Button size="small"
+                      className="event-btn"
+                      onClick={()=>onOperateClick(el,'edit')}>编辑</Button>
+                  }
                   <Button size="small"
                     className="event-btn"
                     onClick={()=>onOperateClick(el,'log')}>日志</Button>

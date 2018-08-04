@@ -97,7 +97,7 @@ class GoodsDetail extends Component {
                       el.type == '1'?
                       <span>{el.content}</span>
                       :
-                      <img src={el.content.url} style={{'width':'100px','height':'100px'}}/>
+                      <Imgmodel picUrl={el.content.name}/>
                     }
                   </li>
                 ))

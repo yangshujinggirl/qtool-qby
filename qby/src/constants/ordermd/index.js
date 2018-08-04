@@ -39,12 +39,12 @@ class OrdermdIndex extends React.Component{
 						});
 					},
 					onCancel() {
-						
+
 					},
 	  			});
 			}
 		})
-	
+
 	}
 
 	//新增订单
@@ -63,7 +63,7 @@ class OrdermdIndex extends React.Component{
 	    	payload:paneitem
 		});
 	}
-	  
+
   	render(){
 		const rolelists=this.props.data.rolelists
 		//新增订单
@@ -88,8 +88,8 @@ class OrdermdIndex extends React.Component{
                 <OrdermdSearch/>
 					{
 						addorder?
-						<Button 
-							type="primary" 
+						<Button
+							type="primary"
 							size='large'
 							className='mt20 mr10'
 							onClick={this.addNew.bind(this)}
@@ -100,8 +100,8 @@ class OrdermdIndex extends React.Component{
 					}
 					{
 						addorder1?
-						<Button 
-							type="primary" 
+						<Button
+							type="primary"
 							size='large'
 							className='mt20 mr10'
 							onClick={this.addNew1.bind(this)}
@@ -113,8 +113,8 @@ class OrdermdIndex extends React.Component{
 
 					{
 						expontdata?
-						<Button 
-							type="primary" 
+						<Button
+							type="primary"
 							size='large'
 							className='mt20 mr10'
 							onClick={this.exportData.bind(this,10,this.props.values)}
@@ -127,8 +127,8 @@ class OrdermdIndex extends React.Component{
         	</div>
       	)
 	}
-	  
-	
+
+
 }
 
 function mapStateToProps(state) {

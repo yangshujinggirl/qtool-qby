@@ -33,7 +33,6 @@ export default {
     fileList:[],//商品图片
     pdSpu:{},
     pdSkus:[{}],//商品信息数据
-    pdSkusPicUrl:[],//商品信息图片
     linkageLabel:{
       isTimeRequired:false,
       isLotRequired:false,
@@ -112,14 +111,12 @@ export default {
         pdSkusSizeOne:null,
         pdSkusSizeTwo:null
       };
-      // const pdSkusPicUrl = [];
       return {
         ...state,
         pdSpu,
         fileList,
         specData,
         pdSkus,
-        // pdSkusPicUrl,
         categoryData,
         sizeIdList,
         autoComplete,
@@ -279,7 +276,7 @@ export default {
             let id1 = el.pdType1ValId;
             let id2 = el.pdType2ValId;
             el.name = el.pdType2Val?`${name1}/${name2}`:`${name1}`;
-            el.key = el.pdType2ValId?`${id1}${id2}`:`${id1}`;//
+            el.key = el.pdType2ValId?`${id1}_${id2}`:`${id1}`;//
             // el.picUrl = `${fileDomain}${el.picUrl}`;
             //商品图片
             let fileList = [{
@@ -407,7 +404,7 @@ export default {
             for(let j=0;j<specTwo.length;j++) {
               let item = {...specOne[i]}
               item.name = `${specOne[i].name}/${specTwo[j].name}`;
-              item.key = `${specOne[i].key}${specTwo[j].key}`;
+              item.key = `${specOne[i].key}_${specTwo[j].key}`;
               item.pdType1ValId = specOne[i].key;
               item.pdType2ValId = specTwo[j].key;
               newPdSkus.push(item);
@@ -480,7 +477,6 @@ export default {
     //规格change事件,要重置属性，规格，数据pdSkus，商品息图片
     *changeTypesId({ payload: selectData },{ call, put ,select}) {
       let sizeIdList = yield select(state => state.addGoods.sizeIdList)//重置规格
-      // let pdSkusPicUrl = yield select(state => state.addGoods.pdSkusPicUrl)//重置商品息图片
       let pdSkus = yield select(state => state.addGoods.pdSkus)//重置数据
       let specData = yield select(state => state.addGoods.specData)//重置属性
       let specOne,specTwo;
@@ -489,7 +485,6 @@ export default {
         sizeIdList.pdSkusSizeOne = typeId;
         specOne = [];
         specTwo = specData.specTwo;
-        // pdSkusPicUrl = [];
         pdSkus = [{}];
       } else {
         sizeIdList.pdSkusSizeTwo = typeId;

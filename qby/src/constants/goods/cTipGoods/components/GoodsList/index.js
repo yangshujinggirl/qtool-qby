@@ -31,12 +31,13 @@ class GoodsList extends Component {
     this.props.onOperateClick(record,'detail')
   }
   render() {
-    const { cTipGoodsList, onOperateClick } = this.props;
+    const { onOperateClick } = this.props;
+    const { dataList, authorityList } = this.props.cTipGoodsList;
     const filePath = JSON.parse(sessionStorage.getItem('fileDomain'));
     return (
       <ul className="common-goods-list">
         {
-          cTipGoodsList.dataList.length>0 && cTipGoodsList.dataList.map((el,index) => (
+          dataList.length>0 && dataList.map((el,index) => (
               <li className="goods-item-content" key={index}>
                 <div className="goods-action-top">
                   <div className="part-l">
@@ -64,20 +65,28 @@ class GoodsList extends Component {
                   </div>
                 </div>
                 <div className="goods-action-bottom">
-                  <Button
-                    size="small"
-                    disabled={el.status == 20?false:true}
-                    className="event-btn"
-                    onClick={()=>onOperateClick(el,'sell')}>上线</Button>
-                  <Button
-                    size="small"
-                    disabled={el.status == 20?true:false}
-                    className="event-btn"
-                    onClick={()=>onOperateClick(el,'saleStop')}>下线</Button>
-                  <Button
-                    size="small"
-                    className="event-btn"
-                    onClick={()=>onOperateClick(el,'edit')}>编辑</Button>
+                  {
+                    authorityList.authoritySale&&
+                    <span>
+                      <Button
+                        size="small"
+                        disabled={el.status == 20?false:true}
+                        className="event-btn"
+                        onClick={()=>onOperateClick(el,'sell')}>上线</Button>
+                      <Button
+                        size="small"
+                        disabled={el.status == 20?true:false}
+                        className="event-btn"
+                        onClick={()=>onOperateClick(el,'saleStop')}>下线</Button>
+                    </span>
+                  }
+                  {
+                    authorityList.authorityEdit&&
+                    <Button
+                      size="small"
+                      className="event-btn"
+                      onClick={()=>onOperateClick(el,'edit')}>编辑</Button>
+                  }
                   <Button
                     size="small"
                     className="event-btn"

@@ -50,9 +50,12 @@ class GoodsList extends Component {
                   </div>
                 </div>
                 <div className="goods-action-bottom">
-                  <Button size="small"
-                    className="event-btn"
-                    onClick={()=>onOperateClick(el,'edit')}>编辑</Button>
+                  {
+                    // this.props.authorityEdit&&
+                    <Button size="small"
+                      className="event-btn"
+                      onClick={()=>onOperateClick(el,'edit')}>编辑</Button>
+                  }
                   <Button size="small"
                     className="event-btn"
                     onClick={()=>onOperateClick(el,'log')}>日志</Button>

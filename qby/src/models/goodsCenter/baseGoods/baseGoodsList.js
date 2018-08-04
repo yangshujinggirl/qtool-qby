@@ -12,8 +12,26 @@ export default {
     currentPage:0,
     limit:16,
     total:0,
+    authorityList:{
+      authorityOnline:false,
+      authorityOutLine:false,
+    }
   },
   reducers: {
+    setAuthority(state, { payload : authorityData }) {
+      let authorityList={};
+      authorityData.map((el) => {
+        switch(el.urResourceId){
+          case 301200:
+            authorityList.authorityOnline=true;
+            break;
+          case 301300:
+            authorityList.authorityOutLine = true;
+            break;
+        }
+      })
+      return { ...state, authorityList }
+    },
     getList( state, { payload : {dataList, currentPage, limit, total} }) {
       return { ...state, dataList, currentPage, limit, total}
     },

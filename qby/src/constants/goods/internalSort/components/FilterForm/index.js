@@ -27,7 +27,7 @@ const colspans = {
   xl: 6
 };
 
-class FilterForm extends Component {
+class NormalForm extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
@@ -37,7 +37,7 @@ class FilterForm extends Component {
   }
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { type } =this.props;
+    const { level } =this.props;
     return(
         <Form className="qtools-condition-form">
           <div className="search-form-outwrap">
@@ -48,7 +48,7 @@ class FilterForm extends Component {
                  )}
                </FormItem>
               {
-                type == '1'&&
+                level == '1'&&
                   <FormItem label='一级状态' {...formItemLayout}>
                      {getFieldDecorator('status')(
                        <Select allowClear={true} placeholder="请选择状态" autoComplete="off">
@@ -62,7 +62,7 @@ class FilterForm extends Component {
                    </FormItem>
               }
               {
-                type != '1'&&
+                level != '1'&&
                   <FormItem label='二级名称' {...formItemLayout}>
                      {getFieldDecorator('pdCategory2Name')(
                        <Input placeholder="请输入名称" autoComplete="off"/>
@@ -70,7 +70,7 @@ class FilterForm extends Component {
                    </FormItem>
               }
               {
-                type ==2&&
+                level ==2&&
                   <FormItem label='二级状态' {...formItemLayout}>
                      {getFieldDecorator('name')(
                        <Select allowClear={true} placeholder="请选择状态" autoComplete="off">
@@ -84,7 +84,7 @@ class FilterForm extends Component {
                    </FormItem>
               }
               {
-                type!='1'&&type!='2'&&
+                level!='1'&&level!='2'&&
                   <FormItem label='三级名称' {...formItemLayout}>
                      {getFieldDecorator('pdCategory3Name')(
                        <Input placeholder="请输入名称" autoComplete="off"/>
@@ -92,7 +92,7 @@ class FilterForm extends Component {
                    </FormItem>
               }
               {
-                type=='3'&&
+                level=='3'&&
                   <FormItem label='三级状态' {...formItemLayout}>
                      {getFieldDecorator('status')(
                        <Select allowClear={true} placeholder="请选择状态" autoComplete="off">
@@ -106,7 +106,7 @@ class FilterForm extends Component {
                    </FormItem>
               }
               {
-                type=='4'&&
+                level=='4'&&
                   <FormItem label='四级名称' {...formItemLayout}>
                      {getFieldDecorator('pdCategory4Name')(
                        <Input placeholder="请输入名称" autoComplete="off"/>
@@ -114,7 +114,7 @@ class FilterForm extends Component {
                    </FormItem>
               }
               {
-                type == '4'&&
+                level == '4'&&
                   <FormItem label='四级状态' {...formItemLayout}>
                      {getFieldDecorator('status')(
                        <Select allowClear={true} placeholder="请选择状态" autoComplete="off">
@@ -140,5 +140,5 @@ class FilterForm extends Component {
     )
   }
 }
-
+const FilterForm = Form.create()(NormalForm);
 export default FilterForm;

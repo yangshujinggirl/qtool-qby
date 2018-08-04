@@ -27,15 +27,15 @@ class Qpagination extends Component {
   }
 
   render() {
-    const { total, limit, currentPage } = this.props.data;
-    const current = currentPage+1;
+    let { total, limit, currentPage } = this.props.data;
+    currentPage++;
     return(
       <div className="common-pagination-components">
         <Pagination
           showSizeChanger
           total={total}
           pageSize={limit}
-          current={current}
+          current={currentPage}
           pageSizeOptions={this.initPageSize()}
           onChange={this.props.onChange}
           onShowSizeChange={this.onShowSizeChange.bind(this)}

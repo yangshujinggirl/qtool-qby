@@ -16,8 +16,8 @@ const WarnMessage = {
   t6: '商品状态将变为上新状态，Q掌柜将会对外售卖，确认吗',//下畅销
 }
 const SuccessTips = {
-  t1: '售卖成功',
-  t2: '售售成功',
+  t1: '上线成功',
+  t2: '下线成功',
   t3: '上新成功',//上新
   t4: '下新成功',//下新
   t5: '畅销',//畅销
@@ -58,9 +58,11 @@ class CtipGoods extends Component {
     }
   }
   componentWillMount() {
-    this.initData()
+    this.initData();
   }
+
   initData() {
+    const { rolelists=[] } =this.props.data;
     this.props.dispatch({
       type:'cTipGoodsList/fetchList',
       payload:{}
@@ -72,6 +74,11 @@ class CtipGoods extends Component {
         parentId:null,
         status:1
       }
+    });
+    //权限
+    this.props.dispatch({
+      type:'cTipGoodsList/setAuthority',
+      payload: rolelists
     });
   }
   //双向绑定表单
@@ -163,7 +170,7 @@ class CtipGoods extends Component {
       visible:true
     })
   }
-  //操作
+  //单个操作
   handleOperateClick(record,type) {
     switch(type) {
       case "detail":
@@ -176,18 +183,27 @@ class CtipGoods extends Component {
         this.getLog(record)
         break;
       case "sell":
+        this.setState({
+          handleContent:{tips:'t1'}
+        })
         this.sellAndSaleStop([record.pdSpuId],10)
         break;
       case "saleStop":
+        this.setState({
+          handleContent:{tips:'t2'}
+        })
         this.sellAndSaleStop([record.pdSpuId],20)
         break;
     }
   }
   //请求成功后统一处理
   successHandel() {
+    //在当前页刷新
     this.props.dispatch({
       type:'cTipGoodsList/fetchList',
-      payload:{}
+      payload:{
+        currentPage:this.props.cTipGoodsList.currentPage
+      }
     })
     this.setState({
       visible:false,
@@ -197,7 +213,7 @@ class CtipGoods extends Component {
   //售卖，停售
   sellAndSaleStop(ids,val) {
     const params = {
-      status:val,
+      cStatus:val,
       pdSpuIds:ids
     }
     handleSellApi(params)
@@ -215,7 +231,7 @@ class CtipGoods extends Component {
   sellNewGoods(ids,val) {
     const params = {
       isNew:val,
-      pdSpuIds:ids
+      spuIds:ids
     }
     handleSellApi(params)
     .then(res => {
@@ -232,7 +248,7 @@ class CtipGoods extends Component {
   sellHotGoods(ids,val) {
     const params = {
       isHot:val,
-      pdSpuIds:ids
+      spuIds:ids
     }
     handleSellApi(params)
     .then(res => {
@@ -307,8 +323,12 @@ class CtipGoods extends Component {
     })
   }
   render() {
-    const { dataList, categoryList } = this.props.cTipGoodsList;
-    const {fields, handleContent, visible} = this.state;
+    const { dataList, categoryList, authorityList } = this.props.cTipGoodsList;
+    const {
+      fields,
+      handleContent,
+      visible,
+    } = this.state;
     return (
       <div className="cTip-goods-components qtools-components-pages">
         <FilterForm
@@ -317,12 +337,27 @@ class CtipGoods extends Component {
           submit={this.searchData}
           onChange={this.handleFormChange}/>
         <div className="handel-btn-lists">
-          <Button size="large" type="primary" onClick={()=>this.massOperation('sell',10)}>批量售卖</Button>
-          <Button size="large" type="primary" onClick={()=>this.massOperation('sell',20)}>批量停售</Button>
-          <Button size="large" type="primary" onClick={()=>this.massOperation('new',true)}>批量上新</Button>
-          <Button size="large" type="primary" onClick={()=>this.massOperation('new',false)}>批量下新</Button>
-          <Button size="large" type="primary" onClick={()=>this.massOperation('hot',true)}>批量畅销</Button>
-          <Button size="large" type="primary" onClick={()=>this.massOperation('hot',false)}>批量下畅销</Button>
+          {
+            authorityList.authoritySale&&
+            <span>
+              <Button size="large" type="primary" onClick={()=>this.massOperation('sell',10)}>批量售卖</Button>
+              <Button size="large" type="primary" onClick={()=>this.massOperation('sell',20)}>批量停售</Button>
+            </span>
+          }
+          {
+            authorityList.authorityNew&&
+            <span>
+              <Button size="large" type="primary" onClick={()=>this.massOperation('new',true)}>批量上新</Button>
+              <Button size="large" type="primary" onClick={()=>this.massOperation('new',false)}>批量下新</Button>
+            </span>
+          }
+          {
+            authorityList.authorityHot&&
+            <span>
+              <Button size="large" type="primary" onClick={()=>this.massOperation('hot',true)}>批量畅销</Button>
+              <Button size="large" type="primary" onClick={()=>this.massOperation('hot',false)}>批量下畅销</Button>
+            </span>
+          }
         </div>
         <GoodsList
           list={dataList}

@@ -51,12 +51,13 @@ class GoodsList extends Component {
     this.props.onOperateClick(record,'detail')
   }
   render() {
-    const { productGoodsList, onOperateClick } = this.props;
+    const { onOperateClick } = this.props;
+    const { authorityList, dataList } = this.props.productGoodsList;
     const filePath = JSON.parse(sessionStorage.getItem('fileDomain'));
     return (
       <ul className="common-goods-list">
         {
-          productGoodsList.dataList.length>0 && productGoodsList.dataList.map((el,index) => (
+          dataList.length>0 && dataList.map((el,index) => (
               <li className="goods-item-content" key={index}>
                 <div className="goods-action-top" onClick={(event)=>this.handleClick(event,el)}>
                   <div className="part-l">
@@ -74,20 +75,28 @@ class GoodsList extends Component {
                   </div>
                 </div>
                 <div className="goods-action-bottom">
-                  <Button
-                    size="small"
-                    disabled={el.status == 20?false:true}
-                    className="event-btn"
-                    onClick={()=>onOperateClick(el,'sell')}>售卖</Button>
-                  <Button
-                    size="small"
-                    disabled={el.status == 20?true:false}
-                    className="event-btn"
-                    onClick={()=>onOperateClick(el,'saleStop')}>停售</Button>
-                  <Button
-                    size="small"
-                    className="event-btn"
-                    onClick={()=>onOperateClick(el,'edit')}>编辑</Button>
+                  {
+                    authorityList.authoritySale&&
+                    <span>
+                      <Button
+                        size="small"
+                        disabled={el.status == 20?false:true}
+                        className="event-btn"
+                        onClick={()=>onOperateClick(el,'sell')}>售卖</Button>
+                      <Button
+                        size="small"
+                        disabled={el.status == 20?true:false}
+                        className="event-btn"
+                        onClick={()=>onOperateClick(el,'saleStop')}>停售</Button>
+                    </span>
+                  }
+                  {
+                    authorityList.authorityEdit&&
+                    <Button
+                      size="small"
+                      className="event-btn"
+                      onClick={()=>onOperateClick(el,'edit')}>编辑</Button>
+                  }
                   <Button
                     size="small"
                     className="event-btn"

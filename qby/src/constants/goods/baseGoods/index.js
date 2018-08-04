@@ -36,9 +36,10 @@ class BaseGoods extends Component {
     }
   }
   componentDidMount() {
-    this.initData()
+    this.initData();
   }
   initData() {
+    const { rolelists=[] } =this.props.data;
     this.props.dispatch({
       type:'baseGoodsList/fetchList',
       payload: {}
@@ -50,6 +51,11 @@ class BaseGoods extends Component {
         parentId:null,
         status:1
       }
+    });
+    //权限
+    this.props.dispatch({
+      type:'baseGoodsList/setAuthority',
+      payload: rolelists
     });
   }
   //双向绑定表单
@@ -168,8 +174,9 @@ class BaseGoods extends Component {
         payload:paneitem
     })
   }
+
   render() {
-    const { dataList=[], categoryList } = this.props.baseGoodsList;
+    const { dataList=[], categoryList, authorityList } = this.props.baseGoodsList;
     const {fields} = this.state;
     return (
       <div className="base-goods-components qtools-components-pages">
@@ -179,8 +186,20 @@ class BaseGoods extends Component {
           submit={this.searchData}
           onChange={this.handleFormChange}/>
         <div className="handel-btn-lists">
-          <Button size="large" type="primary" onClick={()=>this.addGoods(1)}>新增线上商品</Button>
-          <Button size="large" type="primary" onClick={()=>this.addGoods(0)}>新增线下商品</Button>
+          {
+            authorityList.authorityOnline&&
+            <Button
+              size="large"
+              type="primary"
+              onClick={()=>this.addGoods(1)}>新增线上商品</Button>
+          }
+          {
+            authorityList.authorityOutLine&&
+            <Button
+              size="large" 
+              type="primary"
+              onClick={()=>this.addGoods(0)}>新增线下商品</Button>
+          }
         </div>
         {
           dataList.length>0?
