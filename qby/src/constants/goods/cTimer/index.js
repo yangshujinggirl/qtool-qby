@@ -78,6 +78,12 @@ class cTimer extends Component{
     });
   }
   render(){
+    //增改权限
+    const rolelists = this.props.data.rolelists
+    const addTimer =rolelists.find((currentValue,index)=>{
+			return currentValue.url=="qerp.web.pd.task.time.save"
+		})
+    //增改权限
     const {dataList} = this.props.cTimer;
     return(
       <div className="qtools-components-pages">
@@ -86,12 +92,17 @@ class cTimer extends Component{
           onValuesChange = {this.searchDataChange}
         />
       <div className='handel-btn-lists'>
-          <Button
-            type='primary'
-            size='large'
-            onClick={()=>this.addTimer()}
-          >新增定时
-          </Button>
+        {
+          addTimer?
+            <Button
+              type='primary'
+              size='large'
+              onClick={()=>this.addTimer()}
+            >新增定时
+            </Button>
+          :null
+        }
+
         </div>
         <Qtable
           dataSource = {dataList}

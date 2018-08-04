@@ -138,7 +138,7 @@ import Ctimer from '../goods/cTimer/index.js';//c端定时
 import AddTimer from '../goods/cTimer/AddTimer.js';//c端定时
 // 合作中心
 import MarketResource from '../cooperate/marketResource/index';
-import AddStaff from '../cooperate/marketResource/addStaff';
+import AddStaff from '../cooperate/marketResource/AddStaff';
 //活动中心
 import Coupon from '../activity/coupon/index';//优惠券
 import Cbanner from '../activity/cBanner/index'//C端banner
@@ -286,8 +286,8 @@ class Content extends React.Component {
                                     case formDataCode('activity02-editH5') : return <CH5_configure data={this.props.data}/>//cBanner
                                     case formDataCode('activity03') : return <Coupon data={this.props.data} componkey={this.props.componkey}/> //优惠券
                                     case formDataCode('activity03-edit') : return <AddCoupon data={this.props.data} componkey={this.props.componkey}/> //创建优惠券
-                                    case formDataCode('activity03-info') : return <CouponDetail data={this.props.data}/> //优惠券详情
-                                    case formDataCode('activity03-editconfig') : return <CouponRecord data={this.props.data}/> //注券记录
+                                    case formDataCode('activity03-info') : return <CouponDetail data={this.props.data} componkey={this.props.componkey}/> //优惠券详情
+                                    case formDataCode('activity03-editconfig') : return <CouponRecord data={this.props.data} componkey={this.props.componkey}/> //注券记录
                                     case formDataCode('activity04') : return <Bpush data={this.props.data} componkey={this.props.componkey}/>//B端推送
                                     case formDataCode('activity04-edit') : return <AddbPush data={this.props.data} componkey={this.props.componkey}/>//新增推送
                                     case formDataCode('activity04-info') : return <BpushDetail data={this.props.data}/>//b端推送详情

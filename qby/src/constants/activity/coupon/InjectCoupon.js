@@ -5,11 +5,15 @@ const Option = Select.Option;
 const TextArea = Input.TextArea;
 
 class InjectCoupon extends Component{
+  //弹窗消失，清空数据
+  clear =()=>{
+      this.props.form.resetFields(['couponCode','userMobiles','resonance']);
+  }
   //点击确定
   onOk =()=>{
     this.props.form.validateFieldsAndScroll((err,values)=>{
       if(!err){
-        this.props.onOk && this.props.onOk(values);
+        this.props.onOk && this.props.onOk(values,this.clear);
       }
     })
   }
@@ -42,7 +46,7 @@ class InjectCoupon extends Component{
                 labelCol={{ span: 5 }}
                 wrapperCol={{ span: 12 }}
             >
-                {getFieldDecorator('userMobile', {
+                {getFieldDecorator('userMobiles', {
                     rules: [{ required: true, message: '请输入用户手机号' }],
                 })(
                     <TextArea  rows={5} placeholder='最多支持10行' maxLength='200' autoComplete="off"/>

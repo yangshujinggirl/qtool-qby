@@ -6,6 +6,7 @@ import Qtable from '../../components/Qtable/index';
 import Qpagination from '../../components/Qpagination/index';
 import FilterForm from './FilterForm/index'
 import Columns from './columns/index';
+import moment from 'moment';
 
 class UserOrder extends Component {
   constructor(props) {
@@ -15,6 +16,7 @@ class UserOrder extends Component {
         spShopName:'',
         orderNo:'',
         pdSpuName:'',
+        code:'',
         mobile:'',
         orderStatus:'',
         startTime:'',
@@ -23,7 +25,7 @@ class UserOrder extends Component {
     }
   }
   componentWillMount() {
-    let params = {"dateStart":"2018-06-10 00:00:00","dateEnd":"2018-07-09 23:59:59","deliveryTimeST":"","deliveryTimeET":"","limit":15,"currentPage":0}
+    let params = {"startTime":"2018-06-10 00:00:00","endTime":"2018-07-09 23:59:59","limit":15,"currentPage":0}
     this.props.dispatch({
         type:'userorders/fetchList',
         payload:{values:params}
@@ -36,7 +38,7 @@ class UserOrder extends Component {
       key:`${this.props.componkey}info`,
       componkey:`${this.props.componkey}info`,
       data:{
-        pdSpuId:record.spOrderId,
+        pdSpuId:record.orderId,
       }
     }
     this.props.dispatch({
@@ -53,12 +55,19 @@ class UserOrder extends Component {
       payload: values
     });
   }
+  //pageSize改变时的回调
+  onShowSizeChange =({currentPage,limit})=> {
+    this.props.dispatch({
+      type:'userorders/fetchList',
+      payload:{currentPage,limit}
+    });
+  }
   //搜索框数据发生变化
   searchDataChange =(values)=> {
     const {rangePicker,..._values} = values;
-    if(rangePicker){
-      _values.startTime =  rangePicker[0]._d.getTime();
-      _values.endTime = rangePicker[1]._d.getTime();
+    if(rangePicker&&rangePicker[0]){
+      _values.startTime =  moment(new Date(rangePicker[0]._d).getTime()).format('YYYY-MM-DD HH:mm:ss');
+      _values.endTime = moment(new Date(rangePicker[1]._d).getTime()).format('YYYY-MM-DD HH:mm:ss');
     }
     this.setState({field:_values});
   }
@@ -120,7 +129,9 @@ class UserOrder extends Component {
           columns = {Columns}/>
         <Qpagination
           data={this.props.userorders}
-          onChange={this.changePage}/>
+          onChange={this.changePage}
+          onShowSizeChange = {this.onShowSizeChange}
+        />
       </div>
     )
   }

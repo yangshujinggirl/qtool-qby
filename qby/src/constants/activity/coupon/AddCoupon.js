@@ -11,10 +11,8 @@ class AddCoupon extends Component {
   constructor(props){
     super(props);
     this.state={
-      dayDisable:true,
-      timeDisable:false,
-      dayObject:{required:false,message: '请输入用户领取时间'},
-      timeObject:{required:false,message: '请输入用户领取时间'}
+      couponValidDay:true,
+      couponValidDate:false,
     }
   }
 
@@ -25,7 +23,17 @@ class AddCoupon extends Component {
       if(!err){
         addCouponApi(values)
         .then(res => {
-          message.success('请求成功')
+          if(res.code=='0'){
+            this.props.dispatch({
+    					type:'coupon/fetchList',
+    					payload:{}
+    				})
+    				this.props.dispatch({
+    						type:'tab/initDeletestate',
+    						payload:this.props.componkey
+    				});
+            message.success('创建成功');
+          }
         },err=>{
           message.error('请求失败')
         })
@@ -35,24 +43,12 @@ class AddCoupon extends Component {
   //单选框选择
   choice =(e)=> {
     const value = e.target.value;
-    const{dayObject,timeObject}=this.state
-    const _dayObject={...dayObject}
-    const _timeObject={...timeObject}
     if(value==1){
-      _dayObject.required=true
-      _timeObject.required=false
-      this.setState({dayDisable:true,timeDisable:false,dayObject:_dayObject,timeObject:_timeObject},()=>{
-        this.props.form.resetFields('couponValidDate')
-      })
-
+      this.setState({couponValidDay:true,couponValidDate:false})
     }else if(value==2){
-      _dayObject.required=false
-      _timeObject.required=true
-      this.setState({dayDisable:false,timeDisable:true,timeObject:_timeObject,dayObject:_dayObject},()=>{
-        this.props.form.resetFields('couponValidDay')
-      })
-
-    }
+      this.setState({couponValidDay:false,couponValidDate:true})
+    };
+    this.props.form.resetFields(['couponValidDay','couponValidDate']);
   }
   //取消
   cancel =()=> {
@@ -61,15 +57,10 @@ class AddCoupon extends Component {
         payload:this.props.componkey
     });
   }
-  componentDidMount(){
-    console.log(this.props)
-  }
   render(){
     const { getFieldDecorator } = this.props.form;
     const { cBanner } = this.props;
-    const { dayDisable,timeDisable,dayObject,timeObject } = this.state;
-    console.log('1:'+ dayDisable)
-    console.log('2:'+ timeDisable)
+    const { couponValidDay,couponValidDate} = this.state;
     return(
       <div className='addCoupon'>
         	<Form className="addUser-form operatebanner-form">
@@ -119,16 +110,16 @@ class AddCoupon extends Component {
               <Col className='limitDay'>
                 <FormItem>
                   {getFieldDecorator('couponValidDay',{
-                    rules: [dayObject],
+                    rules: [{ required:couponValidDay, message: '请填写用户领取时间' }],
                   })(
-                    <Input disabled = {!dayDisable} />
+                    <Input disabled = {!couponValidDay} />
                   )}
                 </FormItem>
                 <FormItem>
                    {getFieldDecorator('couponValidDate',{
-                       rules:[timeObject]
+                       rules: [{ required:couponValidDate , message: '请填写特定时间' }],
                     })(
-                      <DatePicker showTime format="YYYY-MM-DD HH:mm:ss" disabled = {!timeDisable} />
+                      <DatePicker showTime format="YYYY-MM-DD HH:mm:ss" disabled = {!couponValidDate} />
                    )}
                 </FormItem>
               </Col>

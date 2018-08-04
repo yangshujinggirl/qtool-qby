@@ -11,18 +11,10 @@ class MarketResource extends Component{
         this.state = {
           componkey:this.props.componkey,
           fields: {
-             userName: {
-               value: '',
-             },
-             name: {
-               value: '',
-             },
-             shopName: {
-               value: '',
-             },
-             recTel: {
-               value: '',
-             },
+             userName:"",
+             name:"",
+             shopName:"",
+             recTel:"",
            },
         }
     }
@@ -43,14 +35,7 @@ class MarketResource extends Component{
     //点击分页
     changePage =(current)=> {
       const currentPage = current-1;
-      const { fields } = this.state;
-      const formData = {};
-      
-      let key;
-      for(key in fields) {
-        formData[key] = fields[key].value;
-      }
-      const paramsObj ={...{currentPage},...formData}
+      const values = {...this.state.fields,currentPage}
       this.props.dispatch({
           type:'marketResource/fetchList',
           payload:paramsObj

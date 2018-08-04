@@ -29,7 +29,7 @@ class Coupon extends Component{
     this.rowSelection = {
       type:'radio',
       onChange:(key,selectedRows)=>{
-        this.setState({couponId:selectedRows[0].spOrderId})
+        this.setState({couponId:selectedRows[0].couponId})
       }
     }
   }
@@ -90,7 +90,6 @@ class Coupon extends Component{
   }
   //注券记录
   addCouponToUserRecord =()=> {
-    console.log(this.state.componkey)
     const paneitem = {
       title:'注券记录',
       key:`${this.state.componkey}editconfig`,
@@ -115,13 +114,16 @@ class Coupon extends Component{
   //确认熔断
   onfuseOk =()=>{
     const couponId = this.state.couponId;
-    fuseCouponApi(couponId)
+    fuseCouponApi({couponId:couponId})
     .then(res=>{
-      message.success('熔断成功',.8);
+      if(res.code=="0"){
+        message.success(res.message,.8);
+        this.setState({isFuseVisible:false})
+      }
     },err=>{
       message.success('熔断失败',.8);
     })
-    this.setState({isFuseVisible:false})
+
   }
   //取消熔断
   onfuseCancel =()=> {
@@ -136,19 +138,19 @@ class Coupon extends Component{
     this.setState({isVisible:false})
   }
   //注券点击确定
-  onOk =(values)=> {
+  onOk =(values,resetFiledsFunc)=> {
     InjectCouponApi(values)
     .then((res) => {
-      message.success('dfsdf');
-      console.log(res);
       if(res.code == '0'){
-
-      }else{
+        this.setState({isVisible:false});
+        message.success('注券成功');
+        resetFiledsFunc();
       }
     },err=>{
         message.error('失败');
+        resetFiledsFunc();
     });
-    this.setState({isVisible:false});
+
   }
   //操作
   handleOperateClick(record) {
@@ -181,7 +183,7 @@ class Coupon extends Component{
           <Button onClick={this.fuseCoupon} type='primary' size='large'>熔断</Button>
         </div>
         <Modal
-            bodyStyle={{'font-size':'24px','text-align':'center','padding':'50px'}}
+            bodyStyle={{'fontSize':'24px','textAlign':'center','padding':'50px'}}
             visible= {this.state.isFuseVisible}
             okText="确认熔断"
             cancelText='不熔断了'

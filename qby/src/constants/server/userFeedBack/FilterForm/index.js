@@ -21,7 +21,7 @@ class NormalForm extends Component{
     // e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       const{rangePicker,..._values} = values;
-      if(rangePicker){
+      if(rangePicker&&rangePicker[0]){
         _values.createTimeST =  moment(new Date(rangePicker[0]._d).getTime()).format('YYYY-MM-DD');
         _values.createTimeET = moment(new Date(rangePicker[1]._d).getTime()).format('YYYY-MM-DD');
       }

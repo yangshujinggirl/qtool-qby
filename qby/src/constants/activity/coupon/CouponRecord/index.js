@@ -4,7 +4,7 @@ import Columns from './columns/index'
 import Qtable from '../../../../components/Qtable/index'; //表单
 import Qpagination from '../../../../components/Qpagination/index'; //分页
 import FilterForm from './FilterForm/index'
-class UserFeedBack extends Component{
+class CouponRecord extends Component{
   constructor(props){
     super(props);
     this.state ={
@@ -47,13 +47,14 @@ class UserFeedBack extends Component{
   //初始化数据
   componentWillMount(){
     this.props.dispatch({
-      type:'userFeedBack/fetchList',
+      type:'coupon/fetchAddCouponList',
       payload:{}
     })
   }
-
   render(){
-    const {dataList} = this.props.userFeedBack;
+    console.log(this.props)
+    const { dataList } = this.props.coupon;
+    console.log(dataList)
     return(
       <div>
         <FilterForm
@@ -73,7 +74,7 @@ class UserFeedBack extends Component{
   }
 }
 function mapStateToProps(state){
-  const {userFeedBack} = state;
-  return {userFeedBack};
+  const {coupon} = state;
+  return {coupon};
 }
-export default connect(mapStateToProps)(UserFeedBack);
+export default connect(mapStateToProps)(CouponRecord);
