@@ -12,7 +12,7 @@ const Columns = [{
      dataIndex: 'couponName'
    }, {
      title: '优惠券场景',
-     dataIndex: 'couponUseScene'
+     dataIndex: 'couponUseSceneStr'
    },{
      title: '优惠券金额',
      dataIndex: 'couponMoney'
@@ -27,7 +27,7 @@ const Columns = [{
      dataIndex: 'couponGiveCount'
    },{
      title: '优惠券状态',
-     dataIndex: 'voucherStatusStr'
+     dataIndex: 'statusStr'
    },{
      title: '创建人',
      dataIndex: 'creater'

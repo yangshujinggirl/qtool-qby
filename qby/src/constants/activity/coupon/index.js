@@ -19,17 +19,21 @@ class Coupon extends Component{
       isVisible:false,
       componkey:this.props.componkey,
       field:{
-        customServiceNo:'',
-        customServiceTheme:'',
-        waiter:'',
+        couponName:'',
+        couponCode:'',
+        creater:'',
+        couponUseScene:'',
         status:'',
-        handleTime:'',
+        createTimeST:'',
+        createTimeET:'',
       },
     }
     this.rowSelection = {
       type:'radio',
-      onChange:(key,selectedRows)=>{
+      onChange:(selectedRowKeys,selectedRows)=>{
         this.setState({couponId:selectedRows[0].couponId})
+        console.log(selectedRowKeys)
+        console.log(selectedRows)
       }
     }
   }
@@ -117,13 +121,17 @@ class Coupon extends Component{
     fuseCouponApi({couponId:couponId})
     .then(res=>{
       if(res.code=="0"){
-        message.success(res.message,.8);
+        this.props.dispatch({
+          type:'coupon/fetchList',
+          payload:{}
+        })
+        this.setState({couponId:null})
         this.setState({isFuseVisible:false})
+        message.success(res.message,.8);
       }
     },err=>{
       message.success('熔断失败',.8);
     })
-
   }
   //取消熔断
   onfuseCancel =()=> {

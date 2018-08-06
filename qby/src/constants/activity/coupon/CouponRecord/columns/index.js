@@ -23,11 +23,8 @@ const Columns = [{
      title: '注券状态',
      dataIndex: 'voucherStatusStr'
    },{
-     title: '失败原因',
-     dataIndex: 'failReason'
-   },{
      title: '注券时间',
-     dataIndex: 'voucherTime'
+     dataIndex: 'createTime'
    }
  ];
  export default Columns

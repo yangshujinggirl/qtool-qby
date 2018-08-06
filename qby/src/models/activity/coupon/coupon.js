@@ -38,8 +38,10 @@ export default{
       const result = yield call(InjectRecordApi,values);
       yield put({type: 'tab/loding',payload:false});
       if(result.code == '0'){
-        debugger
         const { iPdCoupon, currentPage, limit, total } = result;
+        for(var i=0;i<iPdCoupon.length;i++){
+          iPdCoupon[i].key = iPdCoupon[i].couponId;
+        };
         yield put({
           type:'getInjectList',
           payload:{

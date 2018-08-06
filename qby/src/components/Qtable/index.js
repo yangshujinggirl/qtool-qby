@@ -7,7 +7,9 @@ class QTable extends Component {
     super(props);
      this.rowSelection = {
       type:'radio',
-      onChange:(selectedRowKeys, selectedRows) =>{},
+      onChange:(selectedRowKeys, selectedRows) =>{
+        console.log(selectedRowKeys)
+      },
     }
   }
   //绑定方法
