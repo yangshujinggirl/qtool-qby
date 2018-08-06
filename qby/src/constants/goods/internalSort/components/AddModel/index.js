@@ -38,7 +38,7 @@ class AddModelForm extends Component {
 											labelCol={{ span: 5 }}
 											wrapperCol={{ span: 12 }}>
 											{
-												getFieldDecorator('statusModel', {
+												getFieldDecorator('statusModal', {
 													rules: [{ required: true, message: '请选择状态' }],
 													initialValue:categoryInfo.status,
 												})(
@@ -337,7 +337,6 @@ class AddModelForm extends Component {
 	handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
-			console.log(values)
       if (!err) {
 				let index = Number(this.props.level);
 				let name = values[`name${index}`];
@@ -352,15 +351,19 @@ class AddModelForm extends Component {
       }
     });
   }
+	onCancel() {
+		this.props.form.resetFields();
+		this.props.onCancel&&this.props.onCancel()
+	}
 	render(){
 		const { visible, onCancel, onSubmit } = this.props;
-		const { form } = this.props;
+		const form = this.props.form;
 		return (
 			<Modal
 				visible={visible}
 				title={this.getTitle()}
 				okText="确定"
-				onCancel={onCancel}
+				onCancel={this.onCancel.bind(this)}
 				onOk={this.handleSubmit}>
 				<Form >
 					{this.renderForm(form)}

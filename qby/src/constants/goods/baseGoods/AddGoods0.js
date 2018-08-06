@@ -64,6 +64,11 @@ class AddGoodsForm extends Component {
     super(props);
     this.state = {
       brandDataSource:[],
+      fields: {
+        pdSkus: {
+          value: '',
+        },
+      }
     }
   }
 
@@ -427,6 +432,9 @@ class AddGoodsForm extends Component {
       }
     })
   }
+
+
+
   render() {
     const { getFieldDecorator } = this.props.form;
     const {
@@ -845,10 +853,55 @@ class AddGoodsForm extends Component {
   }
 }
 
+
+
+
 function mapStateToProps(state) {
   const { addGoods } = state;
   return { addGoods }
 }
 
-const AddGoods = Form.create()(AddGoodsForm);
-export default connect(mapStateToProps)(AddGoods);
+let AddGoods = Form.create({
+  onFieldsChange(props, changedFields) {
+    props.onChange(changedFields);
+  },
+  // mapPropsToFields(props) {
+  //   return {
+  //     pdSkus: Form.createFormField({
+  //       ...props.pdSkus,
+  //       value: props.pdSkus[0].value,
+  //     }),
+  //   }
+  // }
+})(AddGoodsForm);
+
+AddGoods = connect(mapStateToProps)(AddGoods);
+class AddGoodsIndex extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      fields: {
+        pdSkus: {
+          value: [],
+        },
+      }
+    }
+
+  }
+  handleFormChange = (changedFields) => {
+    this.setState(({ fields }) => ({
+      fields: { ...fields, ...changedFields },
+    }));
+  }
+  render() {
+    const fields = this.state.fields
+    return(
+      <AddGoods
+        {...fields}
+        {...this.props}
+        onChange={this.handleFormChange}/>
+    )
+  }
+}
+
+export default AddGoodsIndex;

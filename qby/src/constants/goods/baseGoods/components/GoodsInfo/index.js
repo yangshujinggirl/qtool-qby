@@ -39,7 +39,7 @@ class GoodsInfo extends Component {
                 this.props.form.getFieldDecorator(`pdSkus[${index}].name`,{
                   initialValue:pdSkus[index].name
                 })(
-                  <Input  disabled className="goods-name"/>
+                  <Input  disabled className="goods-name" key={index}/>
                 )
               }
             </div>
@@ -133,20 +133,24 @@ class GoodsInfo extends Component {
       <div className="pdSkus-goods-info-tabels">
         <Col span={24}>
           <FormItem label='商品信息' {...formItemLayout2}>
-            <Table dataSource={pdSkus} pagination={false} bordered={true}>
+            <Table
+              dataSource={pdSkus}
+              rowKey={(record) =>record.key}
+              pagination={false}
+              bordered={true}>
               {
                 specData.specOne.length>0&&
                 <Table.Column title="商品规格" width='10%' key ={0} render={this.renderName}/>
               }
-              <Table.Column title="商品编码" key ={1} render={this.renderCode}/>
-              <Table.Column title="商品条码" key ={2} render={this.renderBarcode}/>
-              <Table.Column title="售价" key ={3} render={this.renderSalePrice}/>
-              <Table.Column title="采购价格" key ={4} render={this.renderPurchasePricee} />
-              <Table.Column title="到货价格" key ={5} render={this.renderReceivePrice}/>
-              <Table.Column title="出库价格" key ={6} render={this.renderDeliveryPrice}/>
+                <Table.Column title="商品编码" key ='name' render={this.renderCode}/>
+                <Table.Column title="商品条码" key ='code' render={this.renderBarcode}/>
+                <Table.Column title="售价" key ='salePrice' render={this.renderSalePrice}/>
+                <Table.Column title="采购价格" key ='purchasePrice' render={this.renderPurchasePricee} />
+                <Table.Column title="到货价格" key ='receivePrice' render={this.renderReceivePrice}/>
+                <Table.Column title="出库价格" key ='deliveryPrice' render={this.renderDeliveryPrice}/>
               {
                 specData.specOne.length>0&&
-                <Table.Column title="上传图片" key ={7} render={this.renderTypes}/>
+                <Table.Column title="上传图片" key ='picUrl' render={this.renderTypes}/>
               }
 
             </Table>
