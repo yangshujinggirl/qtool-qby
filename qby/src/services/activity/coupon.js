@@ -40,3 +40,11 @@ export function fuseCouponApi(values){
       data:values
   })
 }
+//注券记录
+export function InjectRecordApi(values){
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.pd.couponRecond.query',
+      data:values
+  })
+}

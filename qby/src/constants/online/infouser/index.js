@@ -47,7 +47,7 @@ class InfouserIndex extends React.Component{
 			}
 		})
     }
-    
+
     //table搜索
     hindSearch=(values)=>{
         values.limit=this.state.limit
@@ -67,7 +67,7 @@ class InfouserIndex extends React.Component{
                     limit:json.limit
                 })
             }
-        }) 
+        })
     }
     //获得分页最新的limit和currentPage
     getPageSize=(limit,currentPage)=>{
@@ -81,7 +81,6 @@ class InfouserIndex extends React.Component{
 
   	render(){
         const rolelists=this.props.data.rolelists
-        console.log(rolelists)
 		//导出数据
 		const expontdata=rolelists.find((currentValue,index)=>{
 			return currentValue.url=="qerp.web.sys.doc.task"
@@ -91,8 +90,8 @@ class InfouserIndex extends React.Component{
                 <SearchForm  hindFormSearch={this.hindSearch.bind(this)}/>
                 {
                     expontdata?
-                    <Button 
-                    type="primary" 
+                    <Button
+                    type="primary"
                     size='large'
                     className='mt20'
                     onClick={this.exportData.bind(this,90,this.state.searchvalue)}
@@ -102,10 +101,10 @@ class InfouserIndex extends React.Component{
                 :null
                 }
                 <div className='mt15'>
-                    <SearchTable 
+                    <SearchTable
                         getPageSizeDate={this.getPageSize.bind(this)}
-                        total={this.state.total} 
-                        limit={this.state.limit} 
+                        total={this.state.total}
+                        limit={this.state.limit}
                         currentPage={this.state.currentPage}
                         datasouce={this.state.datasouce}
                         />

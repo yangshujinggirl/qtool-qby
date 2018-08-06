@@ -1,5 +1,5 @@
 import { GetServerData } from '../services/services';
-import { getList } from '../services/orderCenter/userOrders.js';
+import { getListApi } from '../services/orderCenter/userOrders.js';
 
 export default {
   namespace:'userorders',
@@ -16,13 +16,18 @@ export default {
   },
   effects: {
     *fetchList({ payload: values }, { call, put ,select}) {
-      const result=yield call(getList,values);
+      yield put({type: 'tab/loding',payload:true});
+      const result=yield call(getListApi,values);
+      yield put({type: 'tab/loding',payload:false});
       if(result.code=='0') {
-        const { spOrders, currentPage, limit, total } = result;
+        const { orders, currentPage, limit, total } = result;
+        for(var i=0;i<orders.length;i++){
+          orders[i].key = orders[i].orderId;
+        };
         yield put ({
           type: 'getList',
           payload:{
-            dataList:spOrders,
+            dataList:orders,
             currentPage,
             limit,
             total

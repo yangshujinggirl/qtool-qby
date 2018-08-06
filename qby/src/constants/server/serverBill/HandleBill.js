@@ -1,6 +1,6 @@
 import React from 'react';
 import EditableTable from '../../../components/table/tablebasic';
-import { Button, Icon ,Form,Select,Input,Card, message } from 'antd';
+import { Button, Icon ,Form,Select,Input,Card, message, Modal } from 'antd';
 import { customserviceDetailApi,customserviceSaveApi } from '../../../services/server/server'
 import UpLoadImg from '../../../components/UploadImg/index.js';
 import { connect } from 'dva';
@@ -13,11 +13,14 @@ class HandleBill extends React.Component{
 	constructor(props) {
 		super(props);
 		this.state={
+			visible:false,
+			imgIndex:0,
 			fileList:[],
 			feedbackInfos:{},
       feedbackDetail:{},
       feedbackLogs:[],
-			handelFeedBack:{}
+			handelFeedBack:{},
+			imgList:[],
 		}
 		this.columns = [{
 			title: '反馈状态',
@@ -41,7 +44,7 @@ class HandleBill extends React.Component{
 						<div>
 							{
 								imgList.map((el,index) => (
-									<img className='remark-img' src={fileDomain+el.imgPath} key={index}/>
+									<img className='remark-img' onClick={()=>this.largeImg(index,imgList)} src={fileDomain+el.imgPath} key={index}/>
 								))
 							}
 						</div>
@@ -61,11 +64,17 @@ class HandleBill extends React.Component{
 		}];
 }
 
-
+largeImg(index,imgList){
+	this.setState({visible:true,imgIndex:index,imgList})
+}
+visible =()=>{
+	this.setState({visible:false})
+}
 render(){
   const {feedbackInfos,feedbackDetail,handelFeedBack,feedbackLogs} = this.state;
 	feedbackInfos.status = String(feedbackInfos.status);
   const { getFieldDecorator } = this.props.form;
+	const fileDomain = eval(sessionStorage.getItem('fileDomain'));
 	return(
 			<div>
         <div className='mb10'>
@@ -152,34 +161,30 @@ render(){
             dataSource = { feedbackLogs }
           />
         </div>
-					<FormItem style = {{marginBottom:0,textAlign:"center"}}>
+				<FormItem style = {{marginBottom:0,textAlign:"center"}}>
 						<Button className='mr30' onClick={this.onCancel} >取消</Button>
 						<Button htmlType="submit" type="primary" onClick={this.onOk}>确定</Button>
         	</FormItem>
+				<Modal
+					visible={this.state.visible}
+					footer={null}
+					closable = { true }
+					onOk={this.visible}
+          onCancel={this.visible}
+				>
+					{
+						this.state.imgList[0]?<img src={fileDomain+((this.state.imgList[this.state.imgIndex]).imgPath)}/>:null
+					}
+				</Modal>
 			</div>
 		)
 	}
 	componentDidMount(){
+		this.setState({fileList:[]});
     const id = this.props.data.pdSpuId;
     customserviceDetailApi({customServiceId:id})
     .then(res=>{
 			if(res.code=='0'){
-				var imgLists = [];
-				if(res.handelFeedBack && res.handelFeedBack.remarkPic){
-					var imgList = JSON.parse(res.handelFeedBack.remarkPic);
-					var fileDomain = eval(sessionStorage.getItem('fileDomain'));
-					imgList.map((item,index)=>{
-						imgLists.push({
-							uid: item.imgPath,
-							name: item.imgPath+'.png',
-							status: 'done',
-							url:fileDomain+item.imgPath,
-							response:{
-								data:[item.imgPath]
-							}
-						});
-					});
-				}
 				if(res.feedbackLogs){
 					res.feedbackLogs.map((item,index)=>{
 						item.key =  index;
@@ -191,7 +196,6 @@ render(){
 					feedbackDetail:res.feedbackDetail,
 					handelFeedBack:res.handelFeedBack,
 					feedbackLogs:res.feedbackLogs,
-					fileList:imgLists?imgLists:null
 				})
 			};
     },err=>{

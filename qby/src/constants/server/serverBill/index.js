@@ -47,7 +47,7 @@ class ServerBill extends Component{
   //搜索框数据发生变化
   searchDataChange =(values)=> {
     const {rangePicker,..._values} = values;
-    if(rangePicker[0]){
+    if(rangePicker&&rangePicker[0]){
       _values.createTimeST =  moment(new Date(rangePicker[0]._d).getTime()).format('YYYY-MM-DD HH:mm:ss');
       _values.createTimeET = moment(new Date(rangePicker[1]._d).getTime()).format('YYYY-MM-DD HH:mm:ss');
     }
@@ -80,7 +80,6 @@ class ServerBill extends Component{
         }
         this.setState({isVisible:false});
         resetFiledsFunc();
-
       },err=>{
         message.error(err.message,.8);
         resetFiledsFunc();

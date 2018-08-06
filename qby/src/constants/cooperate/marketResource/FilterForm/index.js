@@ -70,29 +70,9 @@ class NormalForm extends Component{
   }
 
   const FilterForm = Form.create({
-    onFieldsChange(props, changedFields) {
-      props.onChange(changedFields);
-    },
-    mapPropsToFields(props){
-        return {
-          userName: Form.createFormField({
-            ...props.userName,
-            value: props.userName.value,
-          }),
-          name: Form.createFormField({
-            ...props.name,
-            value: props.name.value,
-          }),
-          shopName: Form.createFormField({
-            ...props.shopName,
-            value: props.shopName.value,
-          }),
-          pdCategory1Name: Form.createFormField({
-            ...props.recTel,
-            value: props.recTel.value,
-          })
-        };
-      }
-  })(NormalForm);
+    onValuesChange:(props, changedValues, allValues) => {
+      props.onValuesChange(allValues);
+    }
+  })(NormalForm)
 
 export default connect(mapStateToProps)(FilterForm)

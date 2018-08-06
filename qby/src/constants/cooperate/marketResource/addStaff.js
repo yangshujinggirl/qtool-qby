@@ -52,6 +52,14 @@ class AddStaff extends Component{
     .then(res=>{
       if(res.code == '0'){
         message.success('成功');
+        this.props.dispatch({
+            type:'marketResource/fetchList',
+            payload:{}
+        });
+        this.props.dispatch({
+						type:'tab/initDeletestate',
+						payload:this.props.componkey
+				});
       };
     },err=>{
       message.error('失败')
@@ -101,6 +109,20 @@ class AddStaff extends Component{
     const fileDomain=eval(sessionStorage.getItem('fileDomain'));
     const { getFieldDecorator } = this.props.form;
     const { listDate, DescArr }= this.state;
+    for(var key in listDate){
+      if(listDate['marketTypeId']==1){
+        listDate['marketTypeStr'] = '供应商'
+      }else if(listDate['marketTypeId']==2){
+        listDate['marketTypeStr'] = '媒体'
+      }else if(listDate['marketTypeId']==3){
+        listDate['marketTypeStr'] = '品牌商'
+      }else if(listDate['marketTypeId']==4){
+        listDate['marketTypeStr'] = 'KOI'
+      }else if(listDate['marketTypeId']==5){
+        listDate['marketTypeStr'] = '其他'
+      }
+    }
+    console.log(listDate)
     const uploadButton = (
       <div>
         <Icon type="plus" />
@@ -146,14 +168,14 @@ class AddStaff extends Component{
             {
               getFieldDecorator('marketTypeId', {
                 rules: [{ required: true, message: '请选择资源类型'}],
-                initialValue:listDate?listDate.marketTypeId:null
+                initialValue:listDate?listDate.marketTypeStr:null
               })(
                 <Select placeholder="请选择资源类型">
-                  <Option value="0">供应商</Option>
-                  <Option value="10">媒体</Option>
-                  <Option value="20">品牌商</Option>
-                  <Option value="30">KOl</Option>
-                  <Option value="21">其他</Option>
+                  <Option value="1">供应商</Option>
+                  <Option value="2">媒体</Option>
+                  <Option value="3">品牌商</Option>
+                  <Option value="4">KOl</Option>
+                  <Option value="5">其他</Option>
                 </Select>
               )
             }

@@ -10,11 +10,11 @@ const { TextArea } = Input;
 class userOrderDetail extends React.Component{
 	constructor(props) {
 		super(props);
-    this.result={
-      orderInfos:{},
-      userInfos:{},
+    this.state={
+      orderInfo:{},
+      userInfo:{},
 			goodsInfos:[],
-      shopInfos:{},
+      shopInfo:{},
 			logInfos:[]
     },
 		this.columns1 = [{
@@ -41,11 +41,11 @@ class userOrderDetail extends React.Component{
 
 		this.columns2 = [{
 			title: '操作',
-			dataIndex: 'statusStr',
+			dataIndex: 'action',
 			key:'1'
 		}, {
 			title: '操作时间',
-			dataIndex: 'operateName',
+			dataIndex: 'createTime',
 			key:'2'
 		}, {
 			title: '操作人',
@@ -60,36 +60,51 @@ class userOrderDetail extends React.Component{
 //初始化
 componentDidMount(){
 	const id = this.props.data.pdSpuId;
-	console.log(id)
-	getInfoApi(id).then(res => {
-		message.success('成功');
+	getInfoApi({orderId:id}).then(res => {
+		if(res.code=='0'){
+			this.setState({
+				orderInfo:res.response.orderInfo,
+	      userInfo:res.response.userInfo,
+				goodsInfos:res.response.goodsInfos,
+	      shopInfo:res.response.shopInfo,
+				logInfos:res.response.logInfos
+			})
+		}
 	},err => {
-		message.error('失败')
+		message.error(err.message)
 	})
 }
 render(){
-  const {orderInfos,userInfos,goodsInfos,shopInfos,logInfos} = this.result;
+  const {orderInfo,userInfo,goodsInfos,shopInfo,logInfos} = this.state;
+	logInfos.map((item,index)=>{
+		item.key = index;
+		return item;
+	});
+	goodsInfos.map((item,index)=>{
+		item.key = index;
+		return item;
+	});
 	return(
 			<div>
         <div className='mb10'>
           <Card title='订单详情'>
             <div className='cardlist'>
-                <div className='cardlist_item'><label>订单号：</label><span>{orderInfos.orderNo}</span></div>
-                <div className='cardlist_item'><label>下单时间：</label><span>{orderInfos.createTime}</span></div>
-                <div className='cardlist_item'><label>流程状态：</label><span>{orderInfos.orderStatus}</span></div>
-                <div className='cardlist_item'><label>订单金额：</label><span>{orderInfos.amountSum}</span></div>
-                <div className='cardlist_item'><label>优惠券：</label><span>{orderInfos.coupon}</span></div>
-                <div className='cardlist_item'><label>订单序号：</label><span>{orderInfos.orderNum}</span></div>
+                <div className='cardlist_item'><label>订单号：</label><span>{orderInfo.orderNo}</span></div>
+                <div className='cardlist_item'><label>下单时间：</label><span>{orderInfo.createTime}</span></div>
+                <div className='cardlist_item'><label>流程状态：</label><span>{orderInfo.orderStatus}</span></div>
+                <div className='cardlist_item'><label>订单金额：</label><span>{orderInfo.amountSum}</span></div>
+                <div className='cardlist_item'><label>优惠券：</label><span>{orderInfo.coupon}</span></div>
+                <div className='cardlist_item'><label>订单序号：</label><span>{orderInfo.orderNum}</span></div>
             </div>
           </Card>
         </div>
 				<div className='mb10'>
           <Card title='用户信息'>
             <div className='cardlist'>
-                <div className='cardlist_item'><label>昵称：</label><span>{userInfos.nickname}</span></div>
-                <div className='cardlist_item'><label>注册手机：</label><span>{userInfos.mobile}</span></div>
-                <div className='cardlist_item'><label>下单次数：</label><span>{userInfos.userSumCounts}</span></div>
-                <div className='cardlist_item'><label>本店下单次数：</label><span>{userInfos.spSumCounts}</span></div>
+                <div className='cardlist_item'><label>昵称：</label><span>{userInfo.nickname}</span></div>
+                <div className='cardlist_item'><label>注册手机：</label><span>{userInfo.mobile}</span></div>
+                <div className='cardlist_item'><label>下单次数：</label><span>{userInfo.userSumCounts}</span></div>
+                <div className='cardlist_item'><label>本店下单次数：</label><span>{userInfo.spSumCounts}</span></div>
             </div>
           </Card>
         </div>
@@ -104,10 +119,10 @@ render(){
 				<div className='mb10'>
           <Card title='门店信息'>
             <div className='cardlist'>
-                <div className='cardlist_item'><label>门店名称：</label><span>{shopInfos.spShopName}</span></div>
-                <div className='cardlist_item'><label>店主姓名：</label><span>{shopInfos.shopman}</span></div>
-                <div className='cardlist_item'><label>店主电话：</label><span>{shopInfos.telephone}</span></div>
-                <div className='cardlist_item'><label>门店电话：</label><span>{shopInfos.mobile}</span></div>
+                <div className='cardlist_item'><label>门店名称：</label><span>{shopInfo.spShopName}</span></div>
+                <div className='cardlist_item'><label>店主姓名：</label><span>{shopInfo.shopman}</span></div>
+                <div className='cardlist_item'><label>店主电话：</label><span>{shopInfo.telephone}</span></div>
+                <div className='cardlist_item'><label>门店电话：</label><span>{shopInfo.mobile}</span></div>
             </div>
           </Card>
         </div>

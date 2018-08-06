@@ -21,7 +21,7 @@ class NormalForm extends Component{
     // e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       const{rangePicker,..._values} = values;
-      if(rangePicker){
+      if(rangePicker&&rangePicker[0]){
         _values.createTimeST =  moment(new Date(rangePicker[0]).getTime()).format('YYYY-MM-DD HH:mm:ss');
         _values.createTimeET =  moment(new Date(rangePicker[1]).getTime()).format('YYYY-MM-DD HH:mm:ss');
       }
@@ -55,9 +55,9 @@ class NormalForm extends Component{
                   {getFieldDecorator('status')(
                   <Select allowClear={true} placeholder="请选择订单状态" className='select'>
                       {/* <Option value='10'>待发货</Option> */}
-                      <Option value='1'>待处理</Option>
-                      <Option value='2'>处理中</Option>
-                      <Option value='3'>已处理</Option>
+                      <Option value={10}>待处理</Option>
+                      <Option value={20}>处理中</Option>
+                      <Option value={30}>已处理</Option>
                   </Select>
                   )}
               </FormItem>

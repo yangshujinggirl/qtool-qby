@@ -13,15 +13,16 @@ import './index.less'
 const FormItem = Form.Item;
 const Option =  Select.Option;
 const RangePicker = DatePicker.RangePicker
+import moment from 'moment';
 
 class NormalForm extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       const{rangePicker,..._values} = values;
-      if(rangePicker){
-        _values.startTime =  new Date( rangePicker[0]).getTime();
-        _values.endTime = new Date(rangePicker[1]).getTime();
+      if(rangePicker&&rangePicker[0]){
+        _values.startTime =   moment(new Date(rangePicker[0]).getTime()).format('YYYY-MM-DD HH:mm:ss');
+        _values.endTime =  moment(new Date(rangePicker[1]).getTime()).format('YYYY-MM-DD HH:mm:ss');
       }
       this.props.submit && this.props.submit(_values);
     });
