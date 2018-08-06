@@ -159,7 +159,7 @@ class Coupon extends Component{
       key:`${this.state.componkey}info`,
       componkey:`${this.state.componkey}info`,
       data:{
-        pdSpuId:record.spOrderId,
+        pdSpuId:record.couponId,
       }
     }
     this.props.dispatch({

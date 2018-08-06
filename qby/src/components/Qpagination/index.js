@@ -27,6 +27,7 @@ class Qpagination extends Component {
   }
 
   render() {
+    console.log(this.props)
     let { total, limit, currentPage } = this.props.data;
     currentPage++;
     return(

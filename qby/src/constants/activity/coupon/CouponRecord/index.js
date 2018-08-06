@@ -10,11 +10,13 @@ class CouponRecord extends Component{
     this.state ={
       componkey:this.props.componkey,
       field:{
-        customServiceNo:'',
-        customServiceTheme:'',
-        waiter:'',
+        couponCode:'',
+        userMobiles:'',
+        voucher:'',
+        couponUseScene:'',
         status:'',
-        handleTime:'',
+        voucherStartDate:'',
+        voucherEndDate:''
       }
     }
   }
@@ -31,7 +33,7 @@ class CouponRecord extends Component{
   changePage =(currentPage)=> {
     const values = {...this.state.field,currentPage}
     this.props.dispatch({
-      type:'userFeedBack/fetchList',
+      type:'userFeedBack/fetchAddCouponList',
       payload:values
     })
   }
@@ -54,7 +56,6 @@ class CouponRecord extends Component{
   render(){
     console.log(this.props)
     const { dataList } = this.props.coupon;
-    console.log(dataList)
     return(
       <div>
         <FilterForm
@@ -67,7 +68,7 @@ class CouponRecord extends Component{
             columns = {Columns}/>
         </div>
         <Qpagination
-          data={this.props.userFeedBack}
+          data={this.props.coupon}
           onChange={this.changePage}/>
       </div>
     )

@@ -72,7 +72,7 @@ export default {
                     }
                 }
                 yield put({type: 'syncTableList',payload:{tableList,total,limit,currentPage}});
-            } 
+            }
         },
         //
         *infofetch({ payload: {code,values} }, { call, put ,select}) {
@@ -94,14 +94,14 @@ export default {
                     const limit1=50
                     const currentPage1=0
                     const total1=0
-                    yield put({type: 'syncDetailList',payload:{detailsList,limit1,currentPage1,total1}}); 
+                    yield put({type: 'syncDetailList',payload:{detailsList,limit1,currentPage1,total1}});
                 }
             },
             *infofetchTwo({ payload: {code,values} }, { call, put ,select}) {
 				const result=yield call(GetServerData,code,values);
 				yield put({type: 'tab/loding',payload:false});
 				if(result.code=='0'){
-                    const cardtitle='入库单信息'
+                    const cardtitle='入库信息'
                     let cardlist = [];
                     cardlist = [
                         {lable:'订单号', text:result.spOrder.orderNo},
@@ -117,10 +117,10 @@ export default {
                     ];
                     if(result.wsOrderNos.length){
                         let wsOrderNos = result.wsOrderNos;
-                        cardlist.push({lable:'对应配货单', text:wsOrderNos.join(' ')});  
+                        cardlist.push({lable:'对应配货单', text:wsOrderNos.join(' ')});
                     }
                     if(result.spOrder.status == 30){
-                        cardlist.push({lable:'取消原因', text:result.spOrder.cancelReason});  
+                        cardlist.push({lable:'取消原因', text:result.spOrder.cancelReason});
                     };
                     let isCancel = result.spOrder.isCancel;
                     let expressList = result.expressInfos;

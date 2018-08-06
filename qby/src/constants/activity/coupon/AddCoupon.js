@@ -28,7 +28,7 @@ class AddCoupon extends Component {
     					type:'coupon/fetchList',
     					payload:{}
     				})
-    				this.props.dispatch({
+            this.props.dispatch({
     						type:'tab/initDeletestate',
     						payload:this.props.componkey
     				});
@@ -172,7 +172,6 @@ class AddCoupon extends Component {
             		<Button type="primary" onClick={this.handleSubmit}>保存</Button>
           	</FormItem>
         	</Form>
-        	)
       </div>
     )
   }

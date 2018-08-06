@@ -53,7 +53,6 @@ class NormalForm extends Component{
               <FormItem label='优惠券场景'>
                   {getFieldDecorator('couponUseScene')(
                   <Select allowClear={true} placeholder="请选择订单状态" className='select'>
-                      {/* <Option value='10'>待发货</Option> */}
                       <Option value='1'>新用户注册</Option>
                       <Option value='2'>注券</Option>
                   </Select>
@@ -90,14 +89,13 @@ class NormalForm extends Component{
     )
   }
 }
-
 const FilterForm = Form.create({
   onValuesChange:(props, changedValues, allValues) => {
     props.onValuesChange(allValues);
   }
 })(NormalForm)
 function mapStateToProps(state){
-  const { userFeedBack } = state;
-  return {userFeedBack}
+  const { coupon } = state;
+  return {coupon}
 }
 export default connect(mapStateToProps)(FilterForm)
