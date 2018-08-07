@@ -12,7 +12,7 @@ export function getListApi(values){
 export function addStaffApi(values){
     values = JSON.stringify(values)
     return ajax.post('/webrest.htm',{
-        code:'qerp.web.marketrescp.query',
+        code:'qerp.web.marketrescp.save',
         data:values
     })
 }

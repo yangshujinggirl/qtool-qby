@@ -4,17 +4,20 @@ import Columns from './columns/index'
 import Qtable from '../../../../components/Qtable/index'; //表单
 import Qpagination from '../../../../components/Qpagination/index'; //分页
 import FilterForm from './FilterForm/index'
+import moment from 'moment';
 class CouponRecord extends Component{
   constructor(props){
     super(props);
     this.state ={
       componkey:this.props.componkey,
       field:{
-        customServiceNo:'',
-        customServiceTheme:'',
-        waiter:'',
+        couponCode:'',
+        userMobiles:'',
+        voucher:'',
+        couponUseScene:'',
         status:'',
-        handleTime:'',
+        voucherTimeStart:'',
+        voucherTimeEnd:''
       }
     }
   }
@@ -22,7 +25,7 @@ class CouponRecord extends Component{
   //点击搜索
   searchData = (values)=> {
     this.props.dispatch({
-      type:'userFeedBack/fetchList',
+      type:'coupon/fetchAddCouponList',
       payload:values
     })
   }
@@ -31,16 +34,23 @@ class CouponRecord extends Component{
   changePage =(currentPage)=> {
     const values = {...this.state.field,currentPage}
     this.props.dispatch({
-      type:'userFeedBack/fetchList',
+      type:'coupon/fetchAddCouponList',
       payload:values
     })
+  }
+  //pageSize改变时的回调
+  onShowSizeChange =({currentPage,limit})=> {
+    this.props.dispatch({
+      type:'coupon/fetchList',
+      payload:{currentPage,limit}
+    });
   }
   //搜索框数据发生变化
   searchDataChange =(values)=> {
     const {rangePicker,..._values} = values;
-    if(rangePicker){
-      _values.createTimeST =  rangePicker[0]._d.getTime();
-      _values.createTimeET = rangePicker[1]._d.getTime();
+    if(rangePicker&&rangePicker[0]){
+      _values.voucherTimeStart =  moment(new Date(rangePicker[0]._d).getTime()).format('YYYY-MM-DD HH:mm:ss');
+      _values.voucherTimeEnd = moment(new Date(rangePicker[1]._d).getTime()).format('YYYY-MM-DD HH:mm:ss');
     }
     this.setState({field:_values});
   }
@@ -52,9 +62,7 @@ class CouponRecord extends Component{
     })
   }
   render(){
-    console.log(this.props)
     const { dataList } = this.props.coupon;
-    console.log(dataList)
     return(
       <div>
         <FilterForm
@@ -67,8 +75,10 @@ class CouponRecord extends Component{
             columns = {Columns}/>
         </div>
         <Qpagination
-          data={this.props.userFeedBack}
-          onChange={this.changePage}/>
+          data={this.props.coupon}
+          onChange={this.changePage}
+          onShowSizeChange = {this.onShowSizeChange}
+        />
       </div>
     )
   }

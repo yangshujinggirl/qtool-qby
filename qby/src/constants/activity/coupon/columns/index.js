@@ -12,7 +12,7 @@ const Columns = [{
      dataIndex: 'couponName'
    }, {
      title: '优惠券场景',
-     dataIndex: 'couponUseScene'
+     dataIndex: 'couponUseSceneStr'
    },{
      title: '优惠券金额',
      dataIndex: 'couponMoney'
@@ -26,8 +26,8 @@ const Columns = [{
      title: '已经发放数量',
      dataIndex: 'couponGiveCount'
    },{
-     title: '代金券状态',
-     dataIndex: 'status'
+     title: '优惠券状态',
+     dataIndex: 'statusStr'
    },{
      title: '创建人',
      dataIndex: 'creater'
@@ -36,35 +36,4 @@ const Columns = [{
      dataIndex: 'createTime'
    }];
 
-// const Columns = [{
-//      title: '订单号',
-//      dataIndex: 'orderNo',
-//      render:(text, record)=>{
-//        return(
-//          <div>
-//            <a href="javascript:;" className="theme-color" onClick={record.onOperateClick.bind(this)}>{text}</a>
-//          </div>
-//        )
-//      }
-//    },{
-//      title: '门店名称',
-//      dataIndex: 'shopName'
-//    }, {
-//      title: '订单类型',
-//      dataIndex: 'qtySum'
-//    },{
-//      title: '用户类型',
-//      dataIndex: 'amountSum'
-//    },{
-//      title: '结算金额',
-//      dataIndex: 'statusStr'
-//    },{
-//      title: '流程状态',
-//      dataIndex: 'sourceName'
-//    },{
-//      title: '操作',
-//      dataIndex: '',
-//
-//  }];
-//
  export default Columns

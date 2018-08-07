@@ -41,7 +41,6 @@ class AddStaff extends Component{
       }else{
         values_ ={marketRes:{marketResCp,...values}}
       };
-      console.log(values_)
       if(!err){
         this.submit(values_)
       };
@@ -67,7 +66,6 @@ class AddStaff extends Component{
   }
   //取消
   cancel =()=> {
-    console.log(this.props)
     this.props.dispatch({
 				type:'tab/initDeletestate',
 				payload:this.props.componkey
@@ -109,20 +107,21 @@ class AddStaff extends Component{
     const fileDomain=eval(sessionStorage.getItem('fileDomain'));
     const { getFieldDecorator } = this.props.form;
     const { listDate, DescArr }= this.state;
-    for(var key in listDate){
-      if(listDate['marketTypeId']==1){
-        listDate['marketTypeStr'] = '供应商'
-      }else if(listDate['marketTypeId']==2){
-        listDate['marketTypeStr'] = '媒体'
-      }else if(listDate['marketTypeId']==3){
-        listDate['marketTypeStr'] = '品牌商'
-      }else if(listDate['marketTypeId']==4){
-        listDate['marketTypeStr'] = 'KOI'
-      }else if(listDate['marketTypeId']==5){
-        listDate['marketTypeStr'] = '其他'
+    if(listDate){
+      for(var key in listDate){
+        if(listDate['marketTypeId']==1){
+          listDate['marketTypeStr'] = '供应商'
+        }else if(listDate['marketTypeId']==2){
+          listDate['marketTypeStr'] = '媒体'
+        }else if(listDate['marketTypeId']==3){
+          listDate['marketTypeStr'] = '品牌商'
+        }else if(listDate['marketTypeId']==4){
+          listDate['marketTypeStr'] = 'KOI'
+        }else if(listDate['marketTypeId']==5){
+          listDate['marketTypeStr'] = '其他'
+        }
       }
     }
-    console.log(listDate)
     const uploadButton = (
       <div>
         <Icon type="plus" />
@@ -177,8 +176,7 @@ class AddStaff extends Component{
                   <Option value="4">KOl</Option>
                   <Option value="5">其他</Option>
                 </Select>
-              )
-            }
+              )}
           </FormItem>
           <FormItem
             {...formItemLayout}
@@ -363,7 +361,7 @@ class AddStaff extends Component{
 const AddStaffs = Form.create()(AddStaff);
 function mapStateToProps(state){
   const { marketResource } = state;
-  return {marketResource}
+  return { marketResource }
 }
 
 export default connect(mapStateToProps)(AddStaffs)

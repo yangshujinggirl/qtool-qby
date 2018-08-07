@@ -19,16 +19,15 @@ class UserOrder extends Component {
         code:'',
         mobile:'',
         orderStatus:'',
-        startTime:'',
-        endTime:'',
+        dateTimeST:'',
+        dateTimeET:'',
       },
     }
   }
   componentWillMount() {
-    let params = {"startTime":"2018-06-10 00:00:00","endTime":"2018-07-09 23:59:59","limit":15,"currentPage":0}
     this.props.dispatch({
         type:'userorders/fetchList',
-        payload:{values:params}
+        payload:{}
     });
   }
   //操作
@@ -47,9 +46,9 @@ class UserOrder extends Component {
     })
   }
   //点击分页
-  changePage = (current) => {
+  changePage = (current,limit) => {
     const currentPage = current-1;
-    const values = {...this.state.field,currentPage}
+    const values = {...this.state.field,currentPage,limit}
     this.props.dispatch({
       type:'userorders/fetchList',
       payload: values
@@ -66,8 +65,8 @@ class UserOrder extends Component {
   searchDataChange =(values)=> {
     const {rangePicker,..._values} = values;
     if(rangePicker&&rangePicker[0]){
-      _values.startTime =  moment(new Date(rangePicker[0]._d).getTime()).format('YYYY-MM-DD HH:mm:ss');
-      _values.endTime = moment(new Date(rangePicker[1]._d).getTime()).format('YYYY-MM-DD HH:mm:ss');
+      _values.dateTimeST =  moment(new Date(rangePicker[0]._d).getTime()).format('YYYY-MM-DD HH:mm:ss');
+      _values.dateTimeET = moment(new Date(rangePicker[1]._d).getTime()).format('YYYY-MM-DD HH:mm:ss');
     }
     this.setState({field:_values});
   }
@@ -81,7 +80,6 @@ class UserOrder extends Component {
   //导出数据
   exportData =()=> {
     const values ={type:19,...this.state.field}
-    console.log(values)
     exportDataApi(values)
     .then(res => {
       if(res.code == '0'){
@@ -108,6 +106,10 @@ class UserOrder extends Component {
     })
   }
   render() {
+    //导出数据按钮是否显示
+		const exportUserorderData=this.props.data.rolelists.find((currentValue,index)=>{
+			return currentValue.url=="qerp.web.sys.doc.task"
+		})
     const { dataList=[] } = this.props.userorders;
     return (
       <div className='qtools-components-pages'>
@@ -116,12 +118,18 @@ class UserOrder extends Component {
           onValuesChange = {this.searchDataChange}
         />
         <div className="handel-btn-lists">
-          <Button
-            type='primary'
-            size='large'
-            onClick={this.exportData}
-            >导出数据
-          </Button>
+        {
+          exportUserorderData
+          ?
+            <Button
+              type='primary'
+              size='large'
+              onClick={this.exportData}
+              >导出数据
+            </Button>
+          : null
+        }
+
         </div>
         <Qtable
           dataSource={dataList}

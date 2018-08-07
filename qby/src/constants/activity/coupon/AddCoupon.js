@@ -2,7 +2,7 @@ import React,{ Component } from 'react';
 import { Form, Select, Input, Button , message, Row, Col,DatePicker,Radio} from 'antd';
 import { connect } from 'dva'
 import { addCouponApi } from '../../../services/activity/coupon'
-import './index.less'
+import './index.css'
 const FormItem = Form.Item;
 const Option = Select.Option;
 const TextArea = Input.TextArea;
@@ -28,7 +28,7 @@ class AddCoupon extends Component {
     					type:'coupon/fetchList',
     					payload:{}
     				})
-    				this.props.dispatch({
+            this.props.dispatch({
     						type:'tab/initDeletestate',
     						payload:this.props.componkey
     				});
@@ -172,7 +172,6 @@ class AddCoupon extends Component {
             		<Button type="primary" onClick={this.handleSubmit}>保存</Button>
           	</FormItem>
         	</Form>
-        	)
       </div>
     )
   }

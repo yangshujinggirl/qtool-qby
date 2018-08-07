@@ -63,11 +63,11 @@ componentDidMount(){
 	getInfoApi({orderId:id}).then(res => {
 		if(res.code=='0'){
 			this.setState({
-				orderInfo:res.response.orderInfo,
-	      userInfo:res.response.userInfo,
-				goodsInfos:res.response.goodsInfos,
-	      shopInfo:res.response.shopInfo,
-				logInfos:res.response.logInfos
+				orderInfo:res.orderInfo,
+	      userInfo:res.userInfo,
+				goodsInfos:res.goodsInfos,
+	      shopInfo:res.shopInfo,
+				logInfos:res.logInfos
 			})
 		}
 	},err => {

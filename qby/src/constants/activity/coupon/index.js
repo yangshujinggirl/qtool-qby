@@ -19,17 +19,23 @@ class Coupon extends Component{
       isVisible:false,
       componkey:this.props.componkey,
       field:{
-        customServiceNo:'',
-        customServiceTheme:'',
-        waiter:'',
+        couponName:'',
+        couponCode:'',
+        creater:'',
+        couponUseScene:'',
         status:'',
-        handleTime:'',
+        createTimeST:'',
+        createTimeET:'',
       },
     }
     this.rowSelection = {
+      selectedRowKeys:[],
       type:'radio',
-      onChange:(key,selectedRows)=>{
-        this.setState({couponId:selectedRows[0].couponId})
+      onChange:(selectedRowKeys,selectedRows)=>{
+        this.rowSelection.selectedRowKeys = selectedRowKeys;
+        if(selectedRows[0]){
+          this.setState({couponId:selectedRows[0].couponId})
+        }
       }
     }
   }
@@ -40,6 +46,7 @@ class Coupon extends Component{
       type:'coupon/fetchList',
       payload:values
     })
+    this.rowSelection.onChange([],[]);//取消选中
   }
   //点击分页
   changePage =(current)=> {
@@ -49,6 +56,7 @@ class Coupon extends Component{
       type:'coupon/fetchList',
       payload:values
     });
+    this.rowSelection.onChange([],[]);//取消选中
   }
   //pageSize改变时的回调
   onShowSizeChange =({currentPage,limit})=> {
@@ -56,6 +64,7 @@ class Coupon extends Component{
       type:'coupon/fetchList',
       payload:{currentPage,limit}
     });
+    this.rowSelection.onChange([],[]);//取消选中
   }
   //搜索框数据发生变化
   searchDataChange =(values)=> {
@@ -108,22 +117,35 @@ class Coupon extends Component{
     if(!this.state.couponId){
       message.warning('请选择要熔断的优惠券',.5)
     }else{
-      this.setState({isFuseVisible:true})
-    }
+      const {dataList} = this.props.coupon;
+      const hadFuse = dataList.filter((item,index)=>{
+        return item.couponId == this.state.couponId
+      });
+      if(hadFuse[0].status == 3){
+        message.warning('该优惠券已经熔断',.8)
+      }else{
+        this.setState({isFuseVisible:true})
+      };
+    };
   }
   //确认熔断
   onfuseOk =()=>{
     const couponId = this.state.couponId;
     fuseCouponApi({couponId:couponId})
-    .then(res=>{
-      if(res.code=="0"){
-        message.success(res.message,.8);
-        this.setState({isFuseVisible:false})
-      }
-    },err=>{
-      message.success('熔断失败',.8);
-    })
-
+      .then(res=>{
+        if(res.code=="0"){
+          this.props.dispatch({
+            type:'coupon/fetchList',
+            payload:{}
+          })
+          this.rowSelection.onChange([],[]);//取消选中
+          this.setState({couponId:null});
+          this.setState({isFuseVisible:false})
+          message.success(res.message,.8);
+        }
+      },err=>{
+        message.success('熔断失败',.8);
+      })
   }
   //取消熔断
   onfuseCancel =()=> {
@@ -159,7 +181,7 @@ class Coupon extends Component{
       key:`${this.state.componkey}info`,
       componkey:`${this.state.componkey}info`,
       data:{
-        pdSpuId:record.spOrderId,
+        pdSpuId:record.couponId,
       }
     }
     this.props.dispatch({

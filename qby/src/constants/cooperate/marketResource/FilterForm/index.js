@@ -64,15 +64,14 @@ class NormalForm extends Component{
     }
 }
 
-  function mapStateToProps(state){
-    const { marketResource } = state;
-    return { marketResource }
+const FilterForm = Form.create({
+  onValuesChange:(props, changedValues, allValues) => {
+    props.onValuesChange(allValues);
   }
+})(NormalForm)
 
-  const FilterForm = Form.create({
-    onValuesChange:(props, changedValues, allValues) => {
-      props.onValuesChange(allValues);
-    }
-  })(NormalForm)
-
+function mapStateToProps(state){
+  const { marketResource } = state;
+  return { marketResource }
+}
 export default connect(mapStateToProps)(FilterForm)

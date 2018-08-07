@@ -36,22 +36,22 @@ class NormalForm extends Component{
           <div className='search-form-outwrap'>
             <div className="search-form-wrap">
               <FormItem label='优惠券名称'>
-                {getFieldDecorator('feedbackNo')(
+                {getFieldDecorator('couponName')(
                     <Input placeholder='请输入优惠券名称' autoComplete="off"/>
                   )}
               </FormItem>
               <FormItem label='优惠券批次号'>
-                {getFieldDecorator('telephone')(
+                {getFieldDecorator('couponCode')(
                   <Input placeholder='请输入批次号' autoComplete="off"/>
                 )}
               </FormItem>
               <FormItem label='创建人'>
-                {getFieldDecorator('telephone')(
+                {getFieldDecorator('creater')(
                   <Input placeholder='请输入创建人' autoComplete="off"/>
                 )}
               </FormItem>
               <FormItem label='优惠券场景'>
-                  {getFieldDecorator('status')(
+                  {getFieldDecorator('couponUseScene')(
                   <Select allowClear={true} placeholder="请选择优惠券场景">
                       {/* <Option value='10'>待发货</Option> */}
                       <Option value='1'>新用户注册</Option>
