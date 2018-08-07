@@ -34,6 +34,9 @@ class FirstSort extends Component {
         level,
       }
     })
+    this.props.dispatch({
+      type:'internalSort/resetData',
+    })
     //level！=1时统一请求1级列表
     if(this.props.level != '1') {
       this.props.dispatch({
@@ -78,6 +81,7 @@ class FirstSort extends Component {
   }
   //分页
   changePage = (currentPage) => {
+    debugger
     currentPage--;
     const paramsObj = {
       currentPage,
@@ -90,6 +94,7 @@ class FirstSort extends Component {
   }
   //修改pageSize
   changePageSize =(values)=> {
+    debugger
     values = {...values,...{ level: this.props.level}}
     this.props.dispatch({
       type:'internalSort/fetchList',
