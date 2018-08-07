@@ -64,12 +64,18 @@ class AddGoodsForm extends Component {
     super(props);
     this.state = {
       brandDataSource:[],
+      forms:this.props.form
     }
   }
 
   componentWillMount() {
     this.initGoodslabel();
     this.initPage()
+  }
+  componentDidMount() {
+    this.setState({
+      forms:this.props.form
+    })
   }
   //编辑or新增
   initPage() {
@@ -193,6 +199,7 @@ class AddGoodsForm extends Component {
     const { pdSpuId, source } =this.props.data;
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
+      console.log(this.formParams(values))
       if (!err) {
         if(pdSpuId) {
           values = Object.assign(values,{
@@ -290,6 +297,30 @@ class AddGoodsForm extends Component {
   }
   //删除商品属性
   deleteGoodsLabel(tags,type) {
+    let forms = this.state.forms;
+    //删除时要清掉form中的历史值，重置pdSkus
+    let currentDelete = [];//当半被删项
+    if(type == 'one') {
+      this.props.addGoods.pdSkus.map((el,index) => {
+        if(el.pdType1ValId == tags.key) {
+          currentDelete.push(index)
+        }
+      })
+    } else {
+      this.props.addGoods.pdSkus.map((el,index) => {
+        if(el.pdType2ValId == tags.key) {
+          currentDelete.push(index)
+        }
+      })
+    }
+    currentDelete.map((el,index) => {
+      let pdSkus = forms.getFieldsValue(['pdSkus']);
+      pdSkus.pdSkus.splice(el,1);
+        forms.setFieldsValue({
+          pdSkus:pdSkus.pdSkus
+        });
+    })
+
     this.props.dispatch({
       type:'addGoods/deleteSpec',
       payload:{

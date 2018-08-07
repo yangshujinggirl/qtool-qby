@@ -15,7 +15,7 @@ import {
 import { goodSaveApi } from '../../../../../services/goodsCenter/internalSort';
 import './index.less';
 
-class FirstSortForm extends Component {
+class FirstSort extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -27,7 +27,6 @@ class FirstSortForm extends Component {
     this.initPage()
   }
   initPage() {
-    this.props.form.resetFields();
     const { level } =this.props;
     this.props.dispatch({
       type:'internalSort/fetchList',
@@ -35,6 +34,7 @@ class FirstSortForm extends Component {
         level,
       }
     })
+    //level！=1时统一请求1级列表
     if(this.props.level != '1') {
       this.props.dispatch({
         type:'internalSort/handleChange',
@@ -98,6 +98,7 @@ class FirstSortForm extends Component {
   }
   //搜索
   searchData =(values)=> {
+    values = {...values,...{level:this.props.level}}
     this.props.dispatch({
       type:'internalSort/fetchList',
       payload: values
@@ -158,7 +159,9 @@ class FirstSortForm extends Component {
         message.success('新建成功');
         this.props.dispatch({
           type:'internalSort/fetchList',
-          payload:{level:1}
+          payload:{
+            level:this.props.level
+          }
         })
         this.onCancel();
       } else {
@@ -170,7 +173,6 @@ class FirstSortForm extends Component {
   }
   //取消
   onCancel() {
-    this.props.form.resetFields();
     this.setState({
       visible:false
     })
@@ -185,7 +187,6 @@ class FirstSortForm extends Component {
     return(
       <div className="common-sort-components">
         <FilterForm
-          form={this.props.form}
           submit={this.searchData}
           level={level}/>
         <div className="handle-btn-wrap">
@@ -203,14 +204,12 @@ class FirstSortForm extends Component {
           {
             dataList.length>0&&
             <Qpagination
-              sizeOptions="2"
               onShowSizeChange={this.changePageSize}
               data={this.props.internalSort}
               onChange={this.changePage}/>
           }
         <AddModel
           onChange={this.handelChange.bind(this)}
-          form={this.props.form}
           onSubmit={this.onSubmit.bind(this)}
           onCancel={this.onCancel.bind(this)}
           level={level}
@@ -220,7 +219,6 @@ class FirstSortForm extends Component {
     )
   }
 }
-const FirstSort = Form.create()(FirstSortForm);
 function mapStateToProps(state) {
   const { internalSort } =state;
   return{ internalSort }

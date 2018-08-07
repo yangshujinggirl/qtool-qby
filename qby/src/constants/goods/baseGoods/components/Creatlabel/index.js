@@ -28,6 +28,12 @@ class Creatlabel extends Component {
   handleInputConfirm = (e) => {
     const { inputValue } = this.state;
     let { judgeTags } = this.state;
+    if(inputValue == '') {
+      this.setState({
+        inputVisible:false
+      })
+      return
+    }
     if (inputValue && judgeTags.indexOf(inputValue) === -1) {
       judgeTags = [...judgeTags, inputValue];
       this.props.addGoodsLabel(inputValue,this.props.level);
