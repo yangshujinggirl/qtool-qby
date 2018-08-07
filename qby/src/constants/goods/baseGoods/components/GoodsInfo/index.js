@@ -128,7 +128,6 @@ class GoodsInfo extends Component {
   }
   render() {
     const { pdSkus,specData } = this.props.addGoods;
-    console.log(pdSkus)
     return(
       <div className="pdSkus-goods-info-tabels">
         <Col span={24}>

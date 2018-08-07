@@ -204,7 +204,6 @@ class FirstSort extends Component {
           {
             dataList.length>0&&
             <Qpagination
-              sizeOptions="2"
               onShowSizeChange={this.changePageSize}
               data={this.props.internalSort}
               onChange={this.changePage}/>

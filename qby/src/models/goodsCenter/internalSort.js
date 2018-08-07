@@ -37,11 +37,17 @@ export default {
         isLevelTwo:true,
         isLevelThr:true,
       }
-      return { ...state, categoryInfo, categoryList }
+      const currentPage=0,
+            limit=15,
+            total=0;
+      return { ...state, categoryInfo, categoryList, currentPage, limit, total }
     }
   },
   effects: {
     *fetchList({ payload: values },{ call, put ,select}) {
+      yield put({
+        type:'resetData'
+      })
       const fixedLimit = yield select(state => state.internalSort.limit);
       //默认分页是16
       if(!values.limit) {
