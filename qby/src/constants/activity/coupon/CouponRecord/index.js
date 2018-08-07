@@ -63,7 +63,6 @@ class CouponRecord extends Component{
   }
   render(){
     const { dataList } = this.props.coupon;
-    console.log(dataList)
     return(
       <div>
         <FilterForm

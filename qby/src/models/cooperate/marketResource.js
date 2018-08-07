@@ -23,11 +23,13 @@ export default {
     },
     effects:{
         *fetchList({payload:values},{call, put}) {
+            yield put({type: 'tab/loding',payload:true});
             const result =  yield call( getListApi,values );
+            yield put({type: 'tab/loding',payload:false});
             if(result.code == '0'){
               const { marketRes, currentPage, limit, total } = result;
               for(var i=0;i<marketRes.length;i++){
-                marketRes[i].key = marketRes[i].marketTypeId;
+                marketRes[i].key = marketRes[i].marketResId;
               };
               yield put ({
                 type: 'getList',

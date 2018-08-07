@@ -79,7 +79,7 @@ class MarketResource extends Component{
     }
     //市场资源
     render(){
-        const {dataList = [] } = this.props.marketResource;
+        const { dataList } = this.props.marketResource;
         const { fields } = this.state;
         return (
             <div className='qtools-components-pages'>

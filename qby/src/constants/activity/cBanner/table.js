@@ -38,7 +38,6 @@ class OperatebannerTable extends React.Component {
     //点击表格上的修改按钮操作
     editInfo = (record) =>{
         const pdBannerId=String(record.pdBannerId);
-				console.log(this.props)
         const paneitem={title:'banner修改',key:'1002000edit'+pdBannerId,data:{pdBannerId:pdBannerId},componkey:'1002000edit'}
         this.props.dispatch({
             type:'tab/firstAddTab',
