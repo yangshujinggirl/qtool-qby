@@ -45,9 +45,6 @@ export default {
   },
   effects: {
     *fetchList({ payload: values },{ call, put ,select}) {
-      yield put({
-        type:'resetData'
-      })
       const fixedLimit = yield select(state => state.internalSort.limit);
       //默认分页是16
       if(!values.limit) {

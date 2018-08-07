@@ -197,9 +197,11 @@ class Config extends React.Component{
           pdSpuId:String(this.props.data.pdSpuId),
           limit:this.state.limit
       };
+        this.props.dispatch({type: 'tab/loding',payload:true})
         //请求日志
         getLogListApi(values)
         .then((json) => {
+          this.props.dispatch({type: 'tab/loding',payload:false})
           if(json.code=='0'){
               const data=json.loge
               //数据加定操作
