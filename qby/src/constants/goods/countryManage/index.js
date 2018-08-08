@@ -21,7 +21,7 @@ class CountryManageForm extends Component {
     super(props);
     this.state={
       visible:false,
-      selectedId:'',
+      pdCountryId:'',
       countryDetail:{}
     }
   }
@@ -36,18 +36,18 @@ class CountryManageForm extends Component {
     this.props.form.resetFields();
     this.setState({
       visible:true,
-      selectedId:''
+      pdCountryId:''
     })
   }
   //修改
   editCountry(el) {
     this.setState({
-      visible:true,
       countryDetail:{
         name:el.name,
         status:el.status
       },
-      selectedId:el.pdCountryId
+      pdCountryId:el.pdCountryId,
+      visible:true,
     })
     this.props.dispatch({
       type:'countryManage/setFileList',
@@ -56,6 +56,7 @@ class CountryManageForm extends Component {
   }
   //取消
   handleCancel =()=> {
+    //重置表单
     this.props.form.resetFields();
     this.setState({
       visible:false,
@@ -84,8 +85,8 @@ class CountryManageForm extends Component {
   }
   saveCountry(values) {
     let message = '';
-    if(this.state.selectedId!== '') {
-      values = {...values,...{pdCountryId:this.state.selectedId}};
+    if(this.state.pdCountryId!== '') {
+      values = {...values,...{pdCountryId:this.state.pdCountryId}};
       message='修改成功'
     } else {
       message='新增成功'
@@ -99,18 +100,19 @@ class CountryManageForm extends Component {
           payload:{}
         })
         message.success(message)
-        this.setState({visible:false})
+        this.handleCancel()
       } else {
-        this.setState({visible:false})
+        this.handleCancel()
       }
     },(error)=>{
-      this.setState({visible:false})
+      this.handleCancel()
     })
   }
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { dataList } = this.props.countryManage;
-    const { visible, countryDetail } =this.state;
+    const { data } = this.props.countryManage;
+    const { visible, countryDetail, pdCountryId } =this.state;
+    let title = pdCountryId?'修改国家':'新增国家';
     return(
       <div className="country-manage-components">
         <div className="handle-add-btn-wrp">
@@ -119,7 +121,7 @@ class CountryManageForm extends Component {
         <div className="country-list">
           <Row wrap>
             {
-              dataList.length>0&&dataList.map((el,index) => (
+              data.dataList.length>0&&data.dataList.map((el,index) => (
                 <div key={index} onClick={()=>this.editCountry(el)} className="card-wrap">
                   <Card
                     className='card-item'
@@ -133,7 +135,7 @@ class CountryManageForm extends Component {
           </Row>
         </div>
         <Modal
-          title="Basic Modal"
+          title={title}
           visible={visible}
           onOk={()=>this.handleOk()}
           onCancel={()=>this.handleCancel()}>

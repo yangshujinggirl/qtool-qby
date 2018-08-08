@@ -220,7 +220,6 @@ class AddGoodsForm extends Component {
     values.pdBrandId = this.props.addGoods.autoComplete.pdBrandId;
     values.pdCountryId = this.props.addGoods.autoComplete.pdCountryId;
     //处理商品图片
-    debugger
     let spuPics = values.spuPics;
     spuPics = spuPics.map(el=>el.url?el.name:el.response.data[0]);
     //处理商品信息,如果是skus商品
@@ -246,6 +245,11 @@ class AddGoodsForm extends Component {
         }
         return el
       })
+    }
+    //处理时间
+    if(values.listTimeEnd&&values.listTimeStart) {
+      values.listTimeStart = moment(values.listTimeStart).format('YYYY-MM-DD')
+      values.listTimeEnd = moment(values.listTimeEnd).format('YYYY-MM-DD')
     }
     values ={...values,spuPics, pdSkus};
     return values;
@@ -755,7 +759,7 @@ class AddGoodsForm extends Component {
                   <FormItem label='上市时间' {...formItemLayout}>
                      {getFieldDecorator('listTimeStart',{
                        rules: [{ required: linkageLabel.isTimeRequired, message: '请选择上市时间'}],
-                       initialValue:pdSpu.listTimeStart?moment(pdSpu.listTimeStart):null
+                       initialValue:pdSpu.listTimeStart?moment(pdSpu.listTimeStart,'YYYY-MM-DD'):null
                      })(
                        <DatePicker disabled={!linkageLabel.isTimeRequired}/>
                      )}
@@ -765,7 +769,7 @@ class AddGoodsForm extends Component {
                   <FormItem label='下市时间' {...formItemLayout}>
                      {getFieldDecorator('listTimeEnd',{
                        rules: [{ required: linkageLabel.isTimeRequired, message: '请选择下市时间'}],
-                       initialValue:pdSpu.listTimeEnd?moment(pdSpu.listTimeEnd):null
+                       initialValue:pdSpu.listTimeEnd?moment(pdSpu.listTimeEnd,'YYYY-MM-DD'):null
                      })(
                        <DatePicker disabled={!linkageLabel.isTimeRequired}/>
                      )}

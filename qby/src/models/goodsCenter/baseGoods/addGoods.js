@@ -293,7 +293,7 @@ export default {
             el.fileList = el.picUrl&&fileList;
             //获取商品规格值
             sizeIdList.pdSkusSizeOne = el.pdType1&&el.pdType1.pdTypeId;
-            sizeIdList.pdSkusSizeTwo = el.pdType1&&el.pdType2.pdTypeId;
+            sizeIdList.pdSkusSizeTwo = el.pdType2&&el.pdType2.pdTypeId;
             //商品属性数据处理
             if(el.pdType1Val&&(oldspecOne.indexOf(el.pdType1Val.pdTypeValId)==-1)) {
               oldspecOne.push(el.pdType1Val.pdTypeValId);

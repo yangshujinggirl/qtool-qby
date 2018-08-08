@@ -15,15 +15,21 @@ export default {
       isLevelTwo:true,
       isLevelThr:true,
     },//
-    dataList:[],
     categoryInfo:{},
-    currentPage:0,
-    limit:15,
-    total:0,
+    data:{
+      dataList:[],
+      currentPage:0,
+      limit:15,
+      total:0,
+    },
+    visible:false
   },
   reducers: {
-    getList( state, { payload : { dataList, currentPage, limit, total} }) {
-      return { ...state, dataList, currentPage, limit, total}
+    setVisible(state, { payload : visible }) {
+      return {...state,visible}
+    },
+    getList( state, { payload : {data} }) {
+      return { ...state, data}
     },
     getCategoryInfo(state, { payload : { categoryInfo, categoryList } }) {
       return { ...state, categoryInfo, categoryList }
@@ -37,10 +43,19 @@ export default {
         isLevelTwo:true,
         isLevelThr:true,
       }
-      const currentPage=0,
-            limit=15,
-            total=0;
-      return { ...state, categoryInfo, categoryList, currentPage, limit, total }
+      const data ={
+              dataList:[],
+              currentPage:0,
+              limit:15,
+              total:0,
+            }
+      const visible = false ;
+      return { ...state, categoryInfo, categoryList, data, visible }
+    },
+    resetSorftInfoData(state) {
+      const categoryInfo = {};
+      const visible = false;
+      return { ...state, categoryInfo, visible }
     }
   },
   effects: {
@@ -61,10 +76,12 @@ export default {
         yield put({
           type:'getList',
           payload:{
-            currentPage,
-            limit,
-            total,
-            dataList:pdCategorys,
+            data:{
+              currentPage,
+              limit,
+              total,
+              dataList:pdCategorys,
+            }
           }
         })
       }
@@ -139,6 +156,7 @@ export default {
       yield put({type: 'tab/loding',payload:true});
       const result = yield call(getListApi,values);
       yield put({type: 'tab/loding',payload:false});
+
       if(result.code == '0') {
         let  { pdCategorys } = result;
         pdCategorys = pdCategorys&&pdCategorys.length>0&&pdCategorys[0];
@@ -147,17 +165,35 @@ export default {
           pdCategoryId2,
           pdCategoryId3,
          } = pdCategorys;
-        if( level == '3') {
-          const resultTwo = yield call(getCategoryApi, { level:2, parentId: pdCategoryId2 });
-          if(resultTwo.code == '0') {
-            categoryLevelTwo = resultTwo.pdCategory;
+        if(level == '2') {
+          const resultOne = yield call(getCategoryApi, { level:'1', parentId: null });
+          if(resultOne.code == '0') {
+            categoryLevelOne = resultOne.pdCategory;
             isLevelTwo=false;
           }
-        } else if(level == '4') {
-          const [resultTwo,resultThr] = yield [
-                  call(getCategoryApi, { level:2, parentId: pdCategoryId1 }),
-                  call(getCategoryApi, { level:3, parentId: pdCategoryId2 }),
+        }else if( level == '3') {
+          const [resultOne,resultTwo] = yield [
+                  call(getCategoryApi, { level:'1', parentId: null }),
+                  call(getCategoryApi, { level:'2', parentId: pdCategoryId1 }),
                 ];
+          // const resultTwo = yield call(getCategoryApi, { level:2, parentId: pdCategoryId2 });
+          if(resultOne.code == '0') {
+            categoryLevelOne = resultOne.pdCategory;
+            isLevelTwo=false;
+          }
+          if(resultTwo.code == '0') {
+            categoryLevelTwo = resultTwo.pdCategory;
+          }
+        } else if(level == '4') {
+          const [resultOne,resultTwo,resultThr] = yield [
+                  call(getCategoryApi, { level:'1', parentId: null }),
+                  call(getCategoryApi, { level:'2', parentId: pdCategoryId1 }),
+                  call(getCategoryApi, { level:'3', parentId: pdCategoryId2 }),
+                ];
+          if(resultOne.code == '0') {
+            categoryLevelOne = resultOne.pdCategory;
+            isLevelTwo=false;
+          }
           if(resultTwo.code == '0') {
             categoryLevelTwo = resultTwo.pdCategory;
             isLevelTwo=false;
@@ -180,16 +216,7 @@ export default {
             }
           }
         })
-      }
-    },
-    *fetchSave({ payload: values },{ call, put ,select}) {
-      const result = yield call(getListApi,values);
-      if(result.code == '0') {
-        let  { pdCategory } = result;
-        yield put({
-          type:'getCategory',
-          payload:{dataList: pdCategory}
-        })
+        yield put({type: 'setVisible',payload:true});
       }
     },
   }
