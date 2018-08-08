@@ -85,7 +85,7 @@ class AddCoupon extends Component {
             })(
               <Select placeholder="请选择banner状态">
                   <Option value="1">新用户专享券</Option>
-                  <Option value="0">注券</Option>
+                  <Option value="2">注券</Option>
               </Select>
             )}
             </FormItem>

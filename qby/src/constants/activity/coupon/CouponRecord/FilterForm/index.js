@@ -42,7 +42,7 @@ class NormalForm extends Component{
                     )}
                 </FormItem>
                 <FormItem label='用户手机'>
-                  {getFieldDecorator('userMobiles')(
+                  {getFieldDecorator('userMobile')(
                     <Input placeholder='请输入联系人' autoComplete="off"/>
                   )}
                 </FormItem>
@@ -62,8 +62,8 @@ class NormalForm extends Component{
               <FormItem  label='注券状态'>
                   {getFieldDecorator('voucherStatus')(
                   <Select allowClear={true} placeholder="注券状态" className='select'>
-                      <Option value='0'>成功</Option>
-                      <Option value='1'>失败</Option>
+                      <Option value={0}>成功</Option>
+                      <Option value={1}>失败</Option>
                   </Select>
                   )}
               </FormItem>
