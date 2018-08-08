@@ -174,7 +174,7 @@ class Config extends React.Component{
           },
           {
             title: '操作人',
-            dataIndex: 'operater',
+            dataIndex: 'urUserName',
           }],
         dataSource : [],
         configdataslast : [],
@@ -203,7 +203,7 @@ class Config extends React.Component{
         .then((json) => {
           this.props.dispatch({type: 'tab/loding',payload:false})
           if(json.code=='0'){
-              const data=json.loge
+              const data=json.log
               //数据加定操作
               for(var i=0;i<data.length;i++){
                   if(data[i].type=='30'){
