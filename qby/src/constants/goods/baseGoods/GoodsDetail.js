@@ -100,7 +100,7 @@ const OnLinePartDetail =({pdSpu}) =>(
     </FormItem>
     <FormItem
       label="分成比例" {...formItemLayout}>
-      <label>{`${pdSpu.shareRatio}%`}</label>
+      <label>{pdSpu.shareRatio&&`${pdSpu.shareRatio}%`}</label>
     </FormItem>
   </div>
 )
