@@ -6,18 +6,20 @@ import {
 export default {
   namespace:'countryManage',
   state: {
-    dataList:[],//列表
-    currentPage:0,
-    limit:15,
-    total:0,
-    fileList:[]
+    data: {
+      dataList:[],//列表
+      currentPage:0,
+      limit:15,
+      total:0,
+    },
+    fileList:[],
   },
   reducers: {
-    getList( state, { payload : {dataList, currentPage, limit, total, fileDomain} }) {
-      return { ...state, dataList, currentPage, limit, total, fileDomain}
+    getList( state, { payload : {data} }) {
+      return { ...state, data}
     },
     setFileList( state, { payload : fileList }) {
-      return { ...state, fileList}
+      return { ...state, fileList }
     },
   },
   effects: {
@@ -37,11 +39,13 @@ export default {
         yield put ({
           type: 'getList',
           payload:{
-            dataList:countrys,
-            currentPage,
-            limit,
-            total,
-            fileDomain
+            data:{
+              dataList:countrys,
+              currentPage,
+              limit,
+              total,
+              fileDomain
+            }
           }
         })
       }

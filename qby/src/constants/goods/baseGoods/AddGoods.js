@@ -64,18 +64,13 @@ class AddGoodsForm extends Component {
     super(props);
     this.state = {
       brandDataSource:[],
-      forms:this.props.form
+      loading:false
     }
   }
 
   componentWillMount() {
     this.initGoodslabel();
     this.initPage()
-  }
-  componentDidMount() {
-    this.setState({
-      forms:this.props.form
-    })
   }
   //编辑or新增
   initPage() {
@@ -220,7 +215,6 @@ class AddGoodsForm extends Component {
     values.pdBrandId = this.props.addGoods.autoComplete.pdBrandId;
     values.pdCountryId = this.props.addGoods.autoComplete.pdCountryId;
     //处理商品图片
-    debugger
     let spuPics = values.spuPics;
     spuPics = spuPics.map(el=>el.url?el.name:el.response.data[0]);
     //处理商品信息,如果是skus商品
@@ -247,11 +241,19 @@ class AddGoodsForm extends Component {
         return el
       })
     }
+    //处理时间
+    if(values.listTimeEnd&&values.listTimeStart) {
+      values.listTimeStart = moment(values.listTimeStart).format('YYYY-MM-DD')
+      values.listTimeEnd = moment(values.listTimeEnd).format('YYYY-MM-DD')
+    }
     values ={...values,spuPics, pdSkus};
     return values;
   }
   //提交api
   saveOnLineGoods(values) {
+    this.setState({
+      loading:true
+    })
     goodSaveApi(values)
     .then(res=> {
       const { code } =res;
@@ -263,12 +265,18 @@ class AddGoodsForm extends Component {
           payload:{}
         })
       }
+      this.setState({
+        loading:false
+      })
     },error=> {
       console.log(error)
     })
   }
   //提交线下api
   saveOutLineGoods(values) {
+    this.setState({
+      loading:true
+    })
     goodSaveOutLineApi(values)
     .then(res=> {
       const { code } =res;
@@ -280,6 +288,9 @@ class AddGoodsForm extends Component {
           payload:{}
         })
       }
+      this.setState({
+        loading:false
+      })
     },error=> {
       console.log(error)
     })
@@ -297,7 +308,7 @@ class AddGoodsForm extends Component {
   }
   //删除商品属性
   deleteGoodsLabel(tags,type) {
-    let forms = this.state.forms;
+    let forms = this.props.form;
     //删除时要清掉form中的历史值，重置pdSkus
     let currentDelete = [];//当半被删项
     if(type == 'one') {
@@ -454,7 +465,8 @@ class AddGoodsForm extends Component {
       specData,
       linkageLabel
     } = this.props.addGoods;
-    const { isLotRequired, isTimeRequired } =this.state;
+    const { loading } =this.state;
+    console.log(loading)
     return(
       <div className="add-goods-components">
         <Form className="qtools-form-components">
@@ -755,7 +767,7 @@ class AddGoodsForm extends Component {
                   <FormItem label='上市时间' {...formItemLayout}>
                      {getFieldDecorator('listTimeStart',{
                        rules: [{ required: linkageLabel.isTimeRequired, message: '请选择上市时间'}],
-                       initialValue:pdSpu.listTimeStart?moment(pdSpu.listTimeStart):null
+                       initialValue:pdSpu.listTimeStart?moment(pdSpu.listTimeStart,'YYYY-MM-DD'):null
                      })(
                        <DatePicker disabled={!linkageLabel.isTimeRequired}/>
                      )}
@@ -765,7 +777,7 @@ class AddGoodsForm extends Component {
                   <FormItem label='下市时间' {...formItemLayout}>
                      {getFieldDecorator('listTimeEnd',{
                        rules: [{ required: linkageLabel.isTimeRequired, message: '请选择下市时间'}],
-                       initialValue:pdSpu.listTimeEnd?moment(pdSpu.listTimeEnd):null
+                       initialValue:pdSpu.listTimeEnd?moment(pdSpu.listTimeEnd,'YYYY-MM-DD'):null
                      })(
                        <DatePicker disabled={!linkageLabel.isTimeRequired}/>
                      )}
@@ -849,7 +861,10 @@ class AddGoodsForm extends Component {
               <FormItem>
                 <div className="btns-list">
                  <Button type="default" onClick={this.onCancel.bind(this)}>取消</Button>
-                 <Button type="primary" onClick={this.handleSubmit.bind(this)}>保存</Button>
+                 <Button
+                   loading={loading}
+                   type="primary"
+                   onClick={this.handleSubmit.bind(this)}>保存</Button>
                 </div>
                </FormItem>
             </Col>

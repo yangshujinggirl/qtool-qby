@@ -1,14 +1,41 @@
 import React, { Component } from 'react';
-import { Button, Modal, Form, Input, Radio,Select } from 'antd';
+import { Button, Modal, Form, Input, Radio,Select, message } from 'antd';
 import { connect } from 'dva';
 import { StatusOption } from '../../../../../components/FixedDataSource.js';
+import { goodSaveApi } from '../../../../../services/goodsCenter/internalSort';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
 class AddModelForm extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			handleName:''
+		}
+	}
+
+	componentWillReceiveProps(props) {
+		if(props.pdCategoryId != this.props.pdCategoryId) {
+			this.initModal(props)
+		}
+	}
+	initModal(props) {
+		let handleName = '';
+		//修改 or 新增
+		if(props.pdCategoryId!='') {
+			handleName = '修改';
+		} else {
+			handleName = '新增'
+		}
+		this.setState({
+			handleName
+		})
+	}
+	//表单渲染
 	renderForm(form) {
 		const { level } =this.props;
 		const { categoryInfo } =this.props.internalSort;
+		console.log()
 		const {
 			categoryLevelOne,
 			categoryLevelTwo,
@@ -81,7 +108,6 @@ class AddModelForm extends Component {
 												getFieldDecorator('pdCategoryId1', {
 													rules: [{ required: true, message: '请选择' }],
 													initialValue:categoryInfo.pdCategoryId1,
-													onChange:(selected)=>this.props.onChange('2',selected)
 												})(
 													<Select placeholder="请选择" autoComplete="off">
 														{
@@ -145,14 +171,14 @@ class AddModelForm extends Component {
 												getFieldDecorator('pdCategoryId1', {
 													rules: [{ required: true, message: '请选择' }],
 													initialValue:categoryInfo.pdCategoryId1,
-													onChange:(selected)=>this.props.onChange(2,selected)
+													onChange:(selected)=>this.props.onChange('2',selected)
 												})(
 													<Select placeholder="请选择" autoComplete="off">
 														{
 		                          categoryLevelOne.length>0&&categoryLevelOne.map((el) => (
 		                            <Select.Option
-																	value={el.key}
-																	key={el.key}>
+																	value={el.pdCategoryId}
+																	key={el.pdCategoryId}>
 																	{el.name}
 																</Select.Option>
 		                          ))
@@ -169,14 +195,13 @@ class AddModelForm extends Component {
 												getFieldDecorator('pdCategoryId2', {
 													rules: [{ required: true, message: '请选择' }],
 													initialValue:categoryInfo.pdCategoryId2,
-													onChange:(selected)=>this.props.onChange(3,selected)
 												})(
-													<Select placeholder="请选择" autoComplete="off">
+													<Select placeholder="请选择" autoComplete="off" disabled={isLevelTwo}>
 														{
 		                          categoryLevelTwo.length>0&&categoryLevelTwo.map((el) => (
 		                            <Select.Option
-																	value={el.key}
-																	key={el.key}>
+																	value={el.pdCategoryId}
+																	key={el.pdCategoryId}>
 																	{el.name}
 																</Select.Option>
 		                          ))
@@ -277,7 +302,6 @@ class AddModelForm extends Component {
 											getFieldDecorator('pdCategoryId3', {
 												rules: [{ required: true, message: '请选择' }],
 												initialValue:categoryInfo.pdCategoryId3,
-												onChange:(selected)=>this.props.onChange('4',selected)
 											})(
 												<Select placeholder="请选择" autoComplete="off" disabled={isLevelThr}>
 													{
@@ -316,24 +340,30 @@ class AddModelForm extends Component {
 				break;
 		}
 	}
+	//标题渲染
 	getTitle() {
+		const { level, pdCategoryId } =this.props;
+		const { handleName } =this.state;
     let title;
+
     switch(this.props.level) {
       case '1':
-        title = '新增一级分类';
+        title = '一级分类';
         break;
       case '2':
-        title = '新增二级分类';
+        title = '二级分类';
         break;
       case '3':
-        title = '新增三级分类';
+        title = '三级分类';
         break;
       case '4':
-        title = '新增四级分类';
+        title = '四级分类';
         break;
     }
+		title = `${handleName}${title}`
     return title;
   }
+	//提交
 	handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
@@ -347,16 +377,36 @@ class AddModelForm extends Component {
 					parentId:parentId?parentId:null,
 					status:values.statusModal
 				}
-				this.props.onSubmit&&this.props.onSubmit(params)
+				this.onSubmit(params)
       }
     });
   }
+	//提交Api
+  onSubmit(values,func) {
+    goodSaveApi({pdCategory:values})
+    .then(res => {
+      const { code, message } =res;
+      if( code == '0') {
+        message.success(`${this.state.handleName}成功`);
+        this.props.dispatch({
+          type:'internalSort/fetchList',
+          payload:{
+            level:this.props.level
+          }
+        })
+        this.onCancel();
+      } 
+    },error=> {
+
+    })
+  }
+	//取消
 	onCancel() {
 		this.props.form.resetFields();
 		this.props.onCancel&&this.props.onCancel()
 	}
 	render(){
-		const { visible, onCancel, onSubmit } = this.props;
+		const { visible, onCancel } = this.props;
 		const form = this.props.form;
 		return (
 			<Modal

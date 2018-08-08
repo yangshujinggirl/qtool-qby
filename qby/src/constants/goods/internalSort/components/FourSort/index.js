@@ -19,15 +19,19 @@ class FirstSort extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      pdCategoryId:''
+      visible:false,
+      isEdit:false
     }
   }
   componentDidMount() {
+    console.log('componenDidMount')
     this.initPage()
+  }
+  componentWillReceiveProps(props) {
+    console.log(props)
   }
   initPage() {
     const { level } =this.props;
-    //初始化时清空所有历史数据
     this.props.dispatch({
       type:'internalSort/resetData',
     })
@@ -37,6 +41,16 @@ class FirstSort extends Component {
         level,
       }
     })
+    //level！=1时统一请求1级列表
+    if(this.props.level != '1') {
+      this.props.dispatch({
+        type:'internalSort/handleChange',
+        payload:{
+          level:'1',
+          parentId:null
+        }
+      })
+    }
   }
   //初始化列头
   getcolumns() {
@@ -97,7 +111,7 @@ class FirstSort extends Component {
       payload: values
     });
   }
-  //select change事件
+  //select change
   handelChange(level,selected) {
     this.props.dispatch({
       type:'internalSort/handleChange',
@@ -106,9 +120,24 @@ class FirstSort extends Component {
         parentId:selected
       }
     });
+    //请空表单中的value值
+    switch(level) {
+      case '2':
+        this.props.form.setFieldsValue({
+          pdCategoryId2:'',
+          pdCategoryId3:'',
+        });
+        break;
+      case '3':
+        this.props.form.setFieldsValue({
+          pdCategoryId3:'',
+        });
+        break;
+    }
   }
   //修改
   editSort(record) {
+    //分类详情
     this.props.dispatch({
       type:'internalSort/fetchSortInfo',
       payload:{
@@ -118,41 +147,50 @@ class FirstSort extends Component {
     })
     this.setState({
       visible:true,
-      pdCategoryId:record.pdCategoryId
+      isEdit:true
     })
   }
   //新增
   addSort() {
-    //新增时请求1级分类列表
-    if(this.props.level != '1') {
-      this.props.dispatch({
-        type:'internalSort/handleChange',
-        payload:{
-          level:'1',
-          parentId:null
-        }
-      })
-    }
-    this.props.dispatch({
-      type:'internalSort/setVisible',
-      payload:true
+    this.setState({
+      visible:true,
+      isEdit:false
     })
   }
+  //提交
+  onSubmit(values) {
+    goodSaveApi({pdCategory:values})
+    .then(res => {
+      const { code, message } =res;
+      if( code == '0') {
+        message.success('新建成功');
+        this.props.dispatch({
+          type:'internalSort/fetchList',
+          payload:{
+            level:this.props.level
+          }
+        })
+        this.onCancel();
+      } else {
+        this.onCancel()
+      }
+    },error=> {
 
-  //取消关闭
+    })
+  }
+  //取消
   onCancel() {
     this.setState({
-      pdCategoryId:'',
+      visible:false
     })
-    //清空历史详情数据
     this.props.dispatch({
-      type:'internalSort/resetSorftInfoData'
+      type:'internalSort/resetData'
     })
   }
   render() {
     const { level } =this.props;
-    const { data, visible } = this.props.internalSort;
-    const { pdCategoryId } =this.state;
+    const { dataList } = this.props.internalSort;
+    const { isEdit, visible } =this.state;
     return(
       <div className="common-sort-components">
         <FilterForm
@@ -168,20 +206,21 @@ class FirstSort extends Component {
         </div>
         <Qtable
           columns={this.getcolumns().columns}
-          dataSource={data.dataList}
+          dataSource={dataList}
           onOperateClick={this.editSort.bind(this)}/>
           {
-            data.dataList.length>0&&
+            dataList.length>0&&
             <Qpagination
               onShowSizeChange={this.changePageSize}
-              data={data}
+              data={this.props.internalSort}
               onChange={this.changePage}/>
           }
         <AddModel
           onChange={this.handelChange.bind(this)}
+          onSubmit={this.onSubmit.bind(this)}
           onCancel={this.onCancel.bind(this)}
           level={level}
-          pdCategoryId={pdCategoryId}
+          isEdit={isEdit}
           visible={visible}/>
       </div>
     )
