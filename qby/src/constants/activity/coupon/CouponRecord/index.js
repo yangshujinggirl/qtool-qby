@@ -29,7 +29,7 @@ class CouponRecord extends Component{
       payload:values
     })
   }
-
+  
   //点击分页
   changePage =(currentPage)=> {
     const values = {...this.state.field,currentPage}
