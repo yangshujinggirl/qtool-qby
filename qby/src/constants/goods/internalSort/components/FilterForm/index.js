@@ -72,7 +72,7 @@ class NormalForm extends Component {
               {
                 level ==2&&
                   <FormItem label='二级状态' {...formItemLayout}>
-                     {getFieldDecorator('name')(
+                     {getFieldDecorator('status')(
                        <Select allowClear={true} placeholder="请选择状态" autoComplete="off">
                          {
                            StatusOption.map((el) => (

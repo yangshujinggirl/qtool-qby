@@ -465,7 +465,6 @@ class AddGoodsForm extends Component {
       linkageLabel
     } = this.props.addGoods;
     const { loading } =this.state;
-    console.log(this.props.addGoods.pdSkus)
     return(
       <div className="add-goods-components">
         <Form className="qtools-form-components">

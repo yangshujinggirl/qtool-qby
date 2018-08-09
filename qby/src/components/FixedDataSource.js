@@ -3,7 +3,7 @@ const StatusOption = [{
           value:'启用'
         },
         {
-          key:2,
+          key:0,
           value:'关闭'
       }]
 const NumberOption = [{
