@@ -43,7 +43,7 @@ class NormalForm extends Component {
           <div className="search-form-outwrap">
             <div className="search-form-wrap">
               <FormItem label='一级名称' {...formItemLayout}>
-                 {getFieldDecorator('pdCategory1Name')(
+                 {getFieldDecorator('pdCategory1')(
                    <Input placeholder="请输入名称" autoComplete="off"/>
                  )}
                </FormItem>
@@ -64,7 +64,7 @@ class NormalForm extends Component {
               {
                 level != '1'&&
                   <FormItem label='二级名称' {...formItemLayout}>
-                     {getFieldDecorator('pdCategory2Name')(
+                     {getFieldDecorator('pdCategory2')(
                        <Input placeholder="请输入名称" autoComplete="off"/>
                      )}
                    </FormItem>
@@ -86,7 +86,7 @@ class NormalForm extends Component {
               {
                 level!='1'&&level!='2'&&
                   <FormItem label='三级名称' {...formItemLayout}>
-                     {getFieldDecorator('pdCategory3Name')(
+                     {getFieldDecorator('pdCategory3')(
                        <Input placeholder="请输入名称" autoComplete="off"/>
                      )}
                    </FormItem>
@@ -108,7 +108,7 @@ class NormalForm extends Component {
               {
                 level=='4'&&
                   <FormItem label='四级名称' {...formItemLayout}>
-                     {getFieldDecorator('pdCategory4Name')(
+                     {getFieldDecorator('pdCategory4')(
                        <Input placeholder="请输入名称" autoComplete="off"/>
                      )}
                    </FormItem>
