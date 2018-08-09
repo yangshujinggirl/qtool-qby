@@ -116,7 +116,7 @@ class CtipGoods extends Component {
   //搜索
   searchData =(values)=> {
     this.props.dispatch({
-      type:'bTipGoodsList/fetchList',
+      type:'cTipGoodsList/fetchList',
       payload: values
     });
   }

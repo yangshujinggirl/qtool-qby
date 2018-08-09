@@ -160,7 +160,7 @@ class CountryManageForm extends Component {
               })(
                 <Select placeholder="请选择" autoComplete="off">
                   <Select.Option value={1} key={1}>启用</Select.Option>
-                  <Select.Option value={2} value={2}>关闭</Select.Option>
+                  <Select.Option value={0} value={0}>关闭</Select.Option>
                 </Select>
               )}
             </FormItem>
