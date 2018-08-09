@@ -19,7 +19,8 @@ class AddStaff extends Component{
     this.state={
       DescArr:[],
       fields:null,
-      listDate:null
+      listDate:null,
+      loading:false,
     }
   }
   //确认添加
@@ -42,6 +43,9 @@ class AddStaff extends Component{
         values_ ={marketRes:{marketResCp,...values}}
       };
       if(!err){
+        this.setState({
+          loading:true
+        })
         this.submit(values_)
       };
     })
@@ -50,6 +54,9 @@ class AddStaff extends Component{
     addStaffApi(values)
     .then(res=>{
       if(res.code == '0'){
+        this.setState({
+          loading:false
+        });
         message.success('成功');
         this.props.dispatch({
             type:'marketResource/fetchList',
@@ -59,10 +66,12 @@ class AddStaff extends Component{
 						type:'tab/initDeletestate',
 						payload:this.props.componkey
 				});
-      };
-    },err=>{
-      message.error('失败')
-    })
+      }else{
+        this.setState({
+          loading:false
+        })
+      }
+    });
   }
   //取消
   cancel =()=> {
@@ -104,6 +113,7 @@ class AddStaff extends Component{
     this.setState({DescArr})
   }
   render(){
+    console.log(this.state.loading)
     const fileDomain=eval(sessionStorage.getItem('fileDomain'));
     const { getFieldDecorator } = this.props.form;
     const { listDate, DescArr }= this.state;
@@ -167,14 +177,13 @@ class AddStaff extends Component{
             {
               getFieldDecorator('marketTypeId', {
                 rules: [{ required: true, message: '请选择资源类型'}],
-                initialValue:listDate?listDate.marketTypeStr:null
+                initialValue:listDate?listDate.marketTypeStr:[]
               })(
                 <Select placeholder="请选择资源类型">
                   <Option value="1">供应商</Option>
                   <Option value="2">媒体</Option>
                   <Option value="3">品牌商</Option>
-                  <Option value="4">KOl</Option>
-                  <Option value="5">其他</Option>
+                  <Option value="4">其他</Option>
                 </Select>
               )}
           </FormItem>
@@ -350,7 +359,7 @@ class AddStaff extends Component{
            />
          <FormItem wrapperCol={{ offset: 3}} style={{marginTop:'30px'}}>
             <Button style={{marginRight:'60px'}} onClick={this.cancel}>取消</Button>
-            <Button type="primary" onClick={this.save}>确定</Button>
+            <Button type="primary" onClick={this.save} loading={this.state.loading}>确定</Button>
           </FormItem>
         </Form>
       </div>

@@ -10,6 +10,18 @@ class AddImgText extends Component{
   constructor(props){
     super(props);
   }
+  beforeUpload = (file) =>{
+    const isJPG = file.type === 'image/jpeg';
+    const isPNG = file.type === 'image/png';
+      if (!isJPG && !isPNG) {
+          message.error('仅支持jpg/jpeg/png格式',.8);
+      }
+      const isLt2M = file.size / 1024 / 1024 < 2;
+      if (!isLt2M) {
+          message.error('图片文件需小于2MB',.8);
+      }
+    return (isJPG || isPNG) && isLt2M;
+  }
   //输入框发生变化
   textChange =(e,index)=> {
     let value = e.target.value;
@@ -88,6 +100,7 @@ class AddImgText extends Component{
                     showUploadList={false}
                     action="/erpWebRest/qcamp/upload.htm?type=spu"
                     listType="picture-card"
+                    beforeUpload={this.beforeUpload}
                     onChange={(fileList)=>this.handleChange(fileList,index)}
                   >
                     {item.content ? <img src={fileDomain + item.content} style={{width:'102px',height:'102px'}} alt="avatar" /> : uploadButton}

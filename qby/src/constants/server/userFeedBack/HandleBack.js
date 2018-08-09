@@ -186,6 +186,10 @@ render(){
 						type:'tab/initDeletestate',
 						payload:this.props.componkey
 				});
+				this.props.dispatch({
+		      type:'userFeedBack/fetchList',
+		      payload:{}
+		    })
 			};
 			this.setState({ loading: false });
 		},err=>{

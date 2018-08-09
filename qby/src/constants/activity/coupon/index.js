@@ -31,7 +31,7 @@ class Coupon extends Component{
     this.rowSelection = {
       selectedRowKeys:[],
       type:'radio',
-      onChange:(selectedRowKeys,selectedRows)=>{
+      onChange:(selectedRowKeys,selectedRows) => {
         this.rowSelection.selectedRowKeys = selectedRowKeys;
         if(selectedRows[0]){
           this.setState({couponId:selectedRows[0].couponId})
@@ -117,12 +117,14 @@ class Coupon extends Component{
     if(!this.state.couponId){
       message.warning('请选择要熔断的优惠券',.5)
     }else{
-      const {dataList} = this.props.coupon;
+      const {dataList} = this.props.coupon.data1;
       const hadFuse = dataList.filter((item,index)=>{
         return item.couponId == this.state.couponId
       });
       if(hadFuse[0].status == 3){
         message.warning('该优惠券已经熔断',.8)
+        console.log(this.rowSelection.onChange)
+        this.rowSelection.onChange([],[]);//取消选中
       }else{
         this.setState({isFuseVisible:true})
       };
@@ -143,21 +145,21 @@ class Coupon extends Component{
           this.setState({isFuseVisible:false})
           message.success(res.message,.8);
         }
-      },err=>{
-        message.success('熔断失败',.8);
       })
   }
   //取消熔断
   onfuseCancel =()=> {
     this.setState({isFuseVisible:false})
+    this.rowSelection.onChange([],[]);//取消选中
   }
   //注券
   addCouponToUser =()=> {
     this.setState({isVisible:true})
   }
   //注券点击取消
-  onCancel =()=> {
+  onCancel =(resetFiledsFunc)=> {
     this.setState({isVisible:false})
+    resetFiledsFunc()
   }
   //注券点击确定
   onOk =(values,resetFiledsFunc)=> {
@@ -165,14 +167,13 @@ class Coupon extends Component{
     .then((res) => {
       if(res.code == '0'){
         this.setState({isVisible:false});
-        message.success('注券成功');
-        resetFiledsFunc();
-      }
+        message.success(res.message);
+        resetFiledsFunc();//清除数据
+      };
     },err=>{
-        message.error('失败');
-        resetFiledsFunc();
+        message.error(err.message);
+        resetFiledsFunc();//清除数据
     });
-
   }
   //操作
   handleOperateClick(record) {
@@ -191,7 +192,7 @@ class Coupon extends Component{
   }
 
   render(){
-    const {dataList} = this.props.coupon;
+    const {dataList} = this.props.coupon.data1;
     return(
       <div className='qtools-components-pages'>
         <FilterForm
@@ -227,7 +228,7 @@ class Coupon extends Component{
           rowSelection = {this.rowSelection}
         />
         <Qpagination
-          data={this.props.coupon}
+          data={this.props.coupon.data1}
           onChange={this.changePage}
           onShowSizeChange = {this.onShowSizeChange}
         />

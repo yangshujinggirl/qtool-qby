@@ -57,12 +57,12 @@ class NormalForm extends Component {
                </FormItem>
               <FormItem label='用户电话'>
                  {getFieldDecorator('mobile')(
-                   <Input placeholder="亲输入用户电话" autoComplete="off"/>
+                   <Input placeholder="请输入用户电话" autoComplete="off"/>
                  )}
                </FormItem>
               <FormItem label='流程状态'>
                  {getFieldDecorator('orderStatus')(
-                   <Select allowClear={true} placeholder="请选择">
+                   <Select allowClear={true} placeholder="请选择流程状态">
                        <Option value='1'>待推送</Option>
                        <Option value='2'>已推送</Option>
                        <Option value='3'>已撤销</Option>

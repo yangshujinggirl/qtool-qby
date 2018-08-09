@@ -25,9 +25,9 @@
         dataIndex:'job'
     },
     {
-        key:'typeName',
+        key:'marketTypeStr',
         title:'资源类型',
-        dataIndex:'typeName'
+        dataIndex:'marketTypeStr'
     },
     {
         key:'operate',

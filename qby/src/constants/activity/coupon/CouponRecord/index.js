@@ -29,9 +29,10 @@ class CouponRecord extends Component{
       payload:values
     })
   }
-  
+
   //点击分页
-  changePage =(currentPage)=> {
+  changePage =(current)=> {
+    const currentPage = current-1;
     const values = {...this.state.field,currentPage}
     this.props.dispatch({
       type:'coupon/fetchAddCouponList',
@@ -62,7 +63,7 @@ class CouponRecord extends Component{
     })
   }
   render(){
-    const { dataList } = this.props.coupon;
+    const { dataList } = this.props.coupon.data2;
     return(
       <div>
         <FilterForm
@@ -75,7 +76,7 @@ class CouponRecord extends Component{
             columns = {Columns}/>
         </div>
         <Qpagination
-          data={this.props.coupon}
+          data={this.props.coupon.data2}
           onChange={this.changePage}
           onShowSizeChange = {this.onShowSizeChange}
         />
