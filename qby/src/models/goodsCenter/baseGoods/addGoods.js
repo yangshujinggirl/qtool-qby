@@ -274,7 +274,7 @@ export default {
         linkageLabel.isTimeRequired = !!pdSpu.isSeasonSpu;
         linkageLabel.isLotRequired = !!pdSpu.lotStatus;
         //初始化商品信息，有值是pdSkus，没值填充spu值
-        if(pdSpu.pdSkus.length>0) {
+        if(pdSpu.pdSkus&&pdSpu.pdSkus.length>0) {
           pdSkus = pdSpu.pdSkus.map((el,index) => {
             let name1 = el.pdType1Val&&el.pdType1Val.name;
             let name2 = el.pdType2Val&&el.pdType2Val.name;
@@ -486,13 +486,13 @@ export default {
       let specData = yield select(state => state.addGoods.specData)//重置属性
       let specOne,specTwo;
       let { type, typeId } = selectData;
-      if(type == 'one') {//置空数据，属性1
-        sizeIdList.pdSkusSizeOne = typeId;
+      if(type == 'one') {//置空数据，属性1,规格为0时置成null
+        sizeIdList.pdSkusSizeOne = typeId?typeId:null;
         specOne = [];
         specTwo = specData.specTwo;
         pdSkus = [{}];
       } else {
-        sizeIdList.pdSkusSizeTwo = typeId;
+        sizeIdList.pdSkusSizeTwo = typeId?typeId:null;
         specOne = specData.specOne;
         specTwo = [];
       }

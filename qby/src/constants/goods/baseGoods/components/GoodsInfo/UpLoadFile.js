@@ -11,9 +11,8 @@ class UpLoadFile extends Component {
     }
   }
   componentDidMount() {
-    //清空form下的图片缓存
+    //新增时，重置数据
     this.props.form.resetFields([`pdSkus[${this.props.index}]`]);
-    console.log(this.props.index)
   }
   componentWillReceiveProps(props) {
     this.setState({

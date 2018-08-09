@@ -52,6 +52,8 @@ class ClerkSaleForm extends React.Component {
                             支付宝转账&nbsp;<Icon type="exclamation-circle-o" /></Tooltip>;
         this.alipayAmounts = <Tooltip placement="top" title='支付宝扫码消费+支付宝扫码充值'>
                             支付宝扫码&nbsp;<Icon type="exclamation-circle-o" /></Tooltip>;
+        this.appPayAmounts = <Tooltip placement="top" title='APP支付'>
+                            APP支付&nbsp;<Icon type="exclamation-circle-o" /></Tooltip>;
         this.cashAmount = <Tooltip placement="top" title='现金消费+现金充值-现金退款'>
                             现金&nbsp;<Icon type="exclamation-circle-o" /></Tooltip>;
         this.unionpayAmount = <Tooltip placement="top" title='银联消费+银联充值-银联退款'>
@@ -82,6 +84,9 @@ class ClerkSaleForm extends React.Component {
         },{
             title: this.alipayAmounts,
             dataIndex: 'scanAlipayAmount'
+        },{
+            title: this.appPayAmounts,
+            dataIndex: 'appPay'
         },{
             title: this.unionpayAmount,
             dataIndex: 'unionpayAmount'
@@ -184,7 +189,7 @@ class ClerkSaleForm extends React.Component {
                                     <div className='serach_form'>
                                         <FormItem
                                             label="选择时间">
-                                            <RangePicker 
+                                            <RangePicker
                                                 defaultValue={[moment(a,dateFormat),moment(a, dateFormat)]}
                                                 format="YYYY-MM-DD"
                                                 allowClear={false}
@@ -216,9 +221,9 @@ class ClerkSaleForm extends React.Component {
                         </div>
                         <div className="table-wrapper">
                             <p style={{padding:"20px 0px",fontSize:"14px",color:" #384162"}}>详细数据</p>
-                            <EditableTable 
-                                columns={this.columns} 
-                                dataSource={this.state.setsouce}  
+                            <EditableTable
+                                columns={this.columns}
+                                dataSource={this.state.setsouce}
                                 footer={false}
                                 bordered={true}/>
                         </div>

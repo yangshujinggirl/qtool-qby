@@ -51,6 +51,9 @@ class DailyBillForm extends React.Component {
             title: '支付宝(扫码）',
             dataIndex: 'scanAlipayAmount',
         },{
+            title: 'APP支付',
+            dataIndex: 'appPay',
+        },{
             title: '现金',
             dataIndex: 'cashAmount',
         },{
@@ -165,12 +168,12 @@ class DailyBillForm extends React.Component {
 						});
 					},
 					onCancel() {
-						
+
 					},
 	  			});
 			}
 		})
-	
+
 	}
 
 
@@ -254,9 +257,9 @@ class DailyBillForm extends React.Component {
                                 <div className='serach_form'>
                                     <FormItem
                                     label="订单时间">
-                                        <RangePicker 
+                                        <RangePicker
                                             // disabledDate={this.setDisabledDate.bind(this)}
-                                            // ranges={{ range: moment["2017-09-01","2017-10-01"] }}     
+                                            // ranges={{ range: moment["2017-09-01","2017-10-01"] }}
                                             allowClear={false}
                                             value={this.state.startDate?[moment(this.state.startDate, dateFormat), moment(this.state.endDate, dateFormat)]:null}
                                             format={dateFormat}
@@ -280,8 +283,8 @@ class DailyBillForm extends React.Component {
                     <Button type="primary" htmlType="submit" onClick={this.handleSubmit.bind(this)} size='large'>搜索</Button>
                 </div>
                 </Form>
-                <Button 
-						type="primary" 
+                <Button
+						type="primary"
 						size='large'
 						className='mt20'
 						onClick={this.exportDatas.bind(this)}
@@ -289,8 +292,8 @@ class DailyBillForm extends React.Component {
 						导出数据
 				</Button>
                 <div className="mt15">
-                    <EditableTable 
-                        columns={this.columns} 
+                    <EditableTable
+                        columns={this.columns}
                         dataSource={this.state.dataSource}
                         footer={true}
                         pageChange={this.pageChange.bind(this)}
@@ -329,8 +332,8 @@ class DailyBillForm extends React.Component {
                     currentPage:Number(json.currentPage),
                     limit:Number(json.limit)
                 })
-            }else{  
-                message.error(json.message,.8); 
+            }else{
+                message.error(json.message,.8);
             }
         })
     }

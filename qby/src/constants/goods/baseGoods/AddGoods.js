@@ -210,14 +210,11 @@ class AddGoodsForm extends Component {
           })
         }
         values = this.formParams(values);
-        if(source == 1) {
-          this.saveOnLineGoods({iPdSpu:values})
-        } else {
-          this.saveOutLineGoods({pdSpu:values})
-        }
+        this.saveOnLineGoods({iPdSpu:values},source)
       }
     });
   }
+  //格式化数据
   formParams(values) {
     //取出store中id品牌，国家
     values.pdBrandId = this.props.addGoods.autoComplete.pdBrandId;
@@ -258,43 +255,25 @@ class AddGoodsForm extends Component {
     return values;
   }
   //提交api
-  saveOnLineGoods(values) {
+  saveOnLineGoods(values,source) {
     let tips = this.state.isEdit?'修改成功':'新建成功';
     this.setState({
       loading:true
     })
-    goodSaveApi(values)
+    let saveApi;
+    if(source == 1) {//线上
+      saveApi = goodSaveApi;
+    } else {//线下
+      saveApi = goodSaveOutLineApi;
+    }
+    saveApi(values)
     .then(res=> {
       const { code } =res;
       if(code == '0') {
-        message.success(tips);
-        this.onCancel();
-        this.props.dispatch({
-          type:'baseGoodsList/fetchList',
-          payload:{}
-        })
-      }
-      this.setState({
-        loading:false
-      })
-    },error=> {
-      console.log(error)
-    })
-  }
-  //提交线下api
-  saveOutLineGoods(values) {
-    let tips = this.state.isEdit?'修改成功':'新建成功'
-    this.setState({
-      loading:true
-    })
-    goodSaveOutLineApi(values)
-    .then(res=> {
-      const { code } =res;
-      if(code == '0') {
-        message.success(tips);
         this.setState({
           loading:false
         })
+        message.success(tips);
         this.onCancel();
         this.props.dispatch({
           type:'baseGoodsList/fetchList',
@@ -313,6 +292,11 @@ class AddGoodsForm extends Component {
   //商品规格change事件
   handleChangeOne(type,option) {
     //重置商品规格id,商品属性
+    if(option==0&&type=='one') {
+      this.props.form.setFieldsValue({
+        pdSkus:undefined
+      })
+    }
     this.props.dispatch({
       type:'addGoods/changeTypesId',
       payload:{
@@ -481,6 +465,7 @@ class AddGoodsForm extends Component {
       linkageLabel
     } = this.props.addGoods;
     const { loading } =this.state;
+    console.log(this.props.addGoods.pdSkus)
     return(
       <div className="add-goods-components">
         <Form className="qtools-form-components">

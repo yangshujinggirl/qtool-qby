@@ -139,10 +139,10 @@ class GoodsInfo extends Component {
               bordered={true}>
               {
                 specData.specOne.length>0&&
-                <Table.Column title="商品规格" width='10%' key ={0} render={this.renderName}/>
+                <Table.Column title="商品规格" width='10%' key ='name' render={this.renderName}/>
               }
-                <Table.Column title="商品编码" key ='name' render={this.renderCode}/>
-                <Table.Column title="商品条码" key ='code' render={this.renderBarcode}/>
+                <Table.Column title="商品编码" key ='code' render={this.renderCode}/>
+                <Table.Column title="商品条码" key ='barcode' render={this.renderBarcode}/>
                 <Table.Column title="售价" key ='salePrice' render={this.renderSalePrice}/>
                 <Table.Column title="采购价格" key ='purchasePrice' render={this.renderPurchasePricee} />
                 <Table.Column title="到货价格" key ='receivePrice' render={this.renderReceivePrice}/>
