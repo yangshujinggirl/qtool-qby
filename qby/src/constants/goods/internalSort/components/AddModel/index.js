@@ -35,7 +35,6 @@ class AddModelForm extends Component {
 	renderForm(form) {
 		const { level } =this.props;
 		const { categoryInfo } =this.props.internalSort;
-		console.log()
 		const {
 			categoryLevelOne,
 			categoryLevelTwo,
@@ -367,15 +366,19 @@ class AddModelForm extends Component {
 	handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
+			const { pdCategoryId, level } =this.props;
       if (!err) {
-				let index = Number(this.props.level);
+				let index = Number(level);
 				let name = values[`name${index}`];
 				let parentId = values[`pdCategoryId${index-1}`];
 				let params = {
-					level:this.props.level,
+					level:level,
 					name,
 					parentId:parentId?parentId:null,
 					status:values.statusModal
+				}
+				if(pdCategoryId!='') {
+					params = {...params,pdCategoryId}
 				}
 				this.onSubmit(params)
       }
@@ -395,7 +398,7 @@ class AddModelForm extends Component {
           }
         })
         this.onCancel();
-      } 
+      }
     },error=> {
 
     })
