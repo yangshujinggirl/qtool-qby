@@ -31,7 +31,6 @@ class CtipGoods extends Component {
       componkey:this.props.componkey,
       visible:false,
       handleContent:{},
-      selecteKeys:[],
       fields: {
          code: {
            value: '',
@@ -90,10 +89,6 @@ class CtipGoods extends Component {
   //分页
   changePage = (currentPage) => {
     currentPage--;
-    //清空勾选
-    this.setState({
-      selecteKeys:[],
-    })
     const { fields } = this.state;
     const formData = {};
     let key;
@@ -128,7 +123,8 @@ class CtipGoods extends Component {
   }
   //Modal确定
   onOkModal() {
-    const { type, status, selecteKeys } =this.state.handleContent;
+    const { type, status } =this.state.handleContent;
+    const { selecteKeys } =this.props.cTipGoodsList;
     switch(type) {
       case 'sell':
         this.sellAndSaleStop(selecteKeys,status)
@@ -143,7 +139,7 @@ class CtipGoods extends Component {
   }
   //批量操作
   massOperation(type,val) {
-    const { selecteKeys } =this.state;
+    const { selecteKeys } =this.props.cTipGoodsList;
     if(!selecteKeys.length>0) {
       message.error('请勾选商品',1)
       return
@@ -162,7 +158,6 @@ class CtipGoods extends Component {
     }
     this.setState({
       handleContent:{
-        selecteKeys,
         status:val,
         type,
         tips
@@ -207,7 +202,6 @@ class CtipGoods extends Component {
     })
     this.setState({
       visible:false,
-      selecteKeys:[]
     })
   }
   //售卖，停售
@@ -316,10 +310,6 @@ class CtipGoods extends Component {
     this.props.dispatch({
       type:'cTipGoodsList/setCheckBox',
       payload:record.pdSpuId
-    })
-    const selecteKeys = [...this.state.selecteKeys,record.pdSpuId];
-    this.setState({
-      selecteKeys
     })
   }
   render() {

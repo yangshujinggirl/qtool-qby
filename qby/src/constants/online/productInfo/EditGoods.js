@@ -49,6 +49,9 @@ const formItemLayout3 = {
 class AddGoodsForm extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      loading:false,
+    }
   }
   componentWillMount() {
     this.initPage()
@@ -109,11 +112,25 @@ class AddGoodsForm extends Component {
   }
   //提交api
   saveGoods(values) {
+    this.setState({
+      loading:true
+    })
     goodSaveApi(values)
     .then(res=> {
       const { code } =res;
       if(code == '0') {
+        this.setState({
+          loading:false
+        })
         this.onCancel();
+        this.props.dispatch({
+          type:'productGoodsList/fetchList',
+          payload:{}
+        })
+      } else {
+        this.setState({
+          loading:false
+        })
       }
     },error=> {
       console.log(error)
@@ -123,6 +140,7 @@ class AddGoodsForm extends Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     const { iPdSpu, fileList } = this.props.productEditGoods;
+    const { loading } =this.state;
     return(
       <div className="btip-add-goods-components">
         <Form className="qtools-form-components">
@@ -225,6 +243,7 @@ class AddGoodsForm extends Component {
                    type="default"
                    onClick={this.onCancel.bind(this)}>取消</Button>
                  <Button
+                   loading={loading}
                    type="primary"
                    onClick={this.handleSubmit.bind(this)}>保存</Button>
                 </div>

@@ -1,3 +1,4 @@
+import Imgmodel from '../../../../components/model/modelimg';
 
 const DetailSizeColumns = [{
      title: '商品规格',
@@ -27,8 +28,8 @@ const DetailSizeColumns = [{
        return <div>
                 {
                   record.picUrl !=''?
-                  <div className="img-wrap">
-                    <img src={record.imgUrl}/>
+                  <div className="table-img-wrap">
+                    <Imgmodel picUrl={record.picUrl}/>
                   </div>
                  :
                  null

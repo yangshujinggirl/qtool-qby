@@ -64,7 +64,8 @@ class AddGoodsForm extends Component {
     super(props);
     this.state = {
       brandDataSource:[],
-      loading:false
+      loading:false,
+      isEdit:false
     }
   }
 
@@ -82,6 +83,13 @@ class AddGoodsForm extends Component {
           pdSpuId,
           source
         }
+      })
+      this.setState({
+        isEdit:true
+      })
+    } else {
+      this.setState({
+        isEdit:false
       })
     }
   }
@@ -251,6 +259,7 @@ class AddGoodsForm extends Component {
   }
   //提交api
   saveOnLineGoods(values) {
+    let tips = this.state.isEdit?'修改成功':'新建成功';
     this.setState({
       loading:true
     })
@@ -258,7 +267,7 @@ class AddGoodsForm extends Component {
     .then(res=> {
       const { code } =res;
       if(code == '0') {
-        message.success('新建成功');
+        message.success(tips);
         this.onCancel();
         this.props.dispatch({
           type:'baseGoodsList/fetchList',
@@ -274,6 +283,7 @@ class AddGoodsForm extends Component {
   }
   //提交线下api
   saveOutLineGoods(values) {
+    let tips = this.state.isEdit?'修改成功':'新建成功'
     this.setState({
       loading:true
     })
@@ -281,16 +291,21 @@ class AddGoodsForm extends Component {
     .then(res=> {
       const { code } =res;
       if(code == '0') {
-        message.success('新建成功');
+        message.success(tips);
+        this.setState({
+          loading:false
+        })
         this.onCancel();
         this.props.dispatch({
           type:'baseGoodsList/fetchList',
           payload:{}
         })
+      } else {
+        this.setState({
+          loading:false
+        })
       }
-      this.setState({
-        loading:false
-      })
+
     },error=> {
       console.log(error)
     })
@@ -466,7 +481,6 @@ class AddGoodsForm extends Component {
       linkageLabel
     } = this.props.addGoods;
     const { loading } =this.state;
-    console.log(loading)
     return(
       <div className="add-goods-components">
         <Form className="qtools-form-components">
@@ -831,7 +845,7 @@ class AddGoodsForm extends Component {
                   <FormItem label='禁止入库' {...formItemLayout}>
                      {getFieldDecorator('lotLimitInDay',{
                        rules: [
-                         {required:isLotRequired,message:'请输入天数'},
+                         {required:linkageLabel.isLotRequired,message:'请输入天数'},
                          {pattern:/^[0-9]*$/,message:'天数只能是整数'}
                        ],
                        initialValue:pdSpu.lotLimitInDay,

@@ -19,7 +19,8 @@ export default {
       authoritySale:false,
       authorityNew:false,
       authorityHot:false
-    }
+    },
+    selecteKeys:[]
   },
   reducers: {
     setAuthority(state, { payload : authorityData }) {
@@ -50,13 +51,18 @@ export default {
     },
     setCheckBox( state, { payload: pdSpuId } ) {
       let dataList = state.dataList;
+      let selecteKeys = [];
       dataList.map((el) => {
         if(el.pdSpuId == pdSpuId) {
-          el.checked = true;
+          el.checked = !el.checked;
+        }
+        if(el.checked) {
+          selecteKeys.push(el.pdSpuId);
         }
         return el;
       })
-      return { ...state, dataList}
+
+      return { ...state, dataList, selecteKeys}
     },
   },
   effects: {

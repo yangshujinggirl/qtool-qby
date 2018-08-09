@@ -69,13 +69,15 @@ class GoodsDetail extends Component {
             </ul>
     			</FormItem>
     			<FormItem label="一级分类" {...formItemLayout}>
-    				<label>{iPdSpu.pdCategory1&&iPdSpu.pdCategory1.name}</label>
+    				<label>{iPdSpu.pdCategory1Name}</label>
     			</FormItem>
     			<FormItem label="二级分类" {...formItemLayout}>
-    				<label>{iPdSpu.pdCategory2&&iPdSpu.pdCategory2.name}</label>
+    				<label>{iPdSpu.pdCategory2Name}</label>
     			</FormItem>
     			<FormItem label="商品信息" {...formItemLayout2}>
-            <Qtable columns={DetailColumns} dataSource={iPdSpu.pdSkus}/>
+            <Qtable
+              columns={iPdSpu.isSkus?DetailSizeColumns:DetailColumns}
+              dataSource={iPdSpu.pdSkus}/>
     			</FormItem>
           <FormItem label="商品描述" {...formItemLayout}>
             <ul className="goods-desc-wrap">

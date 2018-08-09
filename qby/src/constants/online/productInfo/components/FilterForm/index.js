@@ -50,8 +50,8 @@ class NormalForm extends Component {
               <FormItem label='商品状态'>
                  {getFieldDecorator('status')(
                    <Select placeholder="请选择售卖状态">
-                     <Option value={20} key={20}>售卖</Option>
-                     <Option value={10} key={10}>停售</Option>
+                     <Option value={20} key={20}>停售</Option>
+                     <Option value={10} key={10}>售卖</Option>
                    </Select>
                  )}
                </FormItem>
