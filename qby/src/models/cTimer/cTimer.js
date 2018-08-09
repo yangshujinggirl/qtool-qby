@@ -20,9 +20,10 @@ export default{
       yield put({type: 'tab/loding',payload:false});
       if(result.code == '0'){
         const { taskTimes, currentPage, limit, total } = result;
-        for(var i=0;i<taskTimes.length;i++){
-          taskTimes[i].key = taskTimes[i].pdTaskTimeId;
-        };
+        taskTimes.map((item,index)=>{
+          item.key = index;
+          return item;
+        });
         yield put({
           type:'getList',
           payload:{

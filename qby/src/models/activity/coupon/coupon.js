@@ -1,13 +1,16 @@
 import { getListApi,InjectRecordApi } from '../../../services/activity/coupon'
 export default{
   namespace:'coupon',
-  state:{},
+  state:{
+    data1:{},
+    data2:{}
+  },
   reducers:{
-    getList(state,{payload:{dataList, currentPage, limit, total} }){
-      return { ...state, dataList, currentPage, limit, total}
+    getList(state,{payload:{data1} }){
+      return { ...state, data1}
     },
-    getInjectList(state,{payload:{dataList, currentPage, limit, total} }){
-      return { ...state, dataList, currentPage, limit, total}
+    getInjectList(state,{payload:{data2} }){
+      return { ...state, data2}
     }
   },
   effects:{
@@ -18,16 +21,19 @@ export default{
       yield put({type: 'tab/loding',payload:false});
       if(result.code == '0'){
         const { iPdCoupon, currentPage, limit, total } = result;
-        for(var i=0;i<iPdCoupon.length;i++){
-          iPdCoupon[i].key = iPdCoupon[i].couponId;
-        };
+        iPdCoupon.map((item,index)=>{
+          item.key = index;
+          return item;
+        })
         yield put({
           type:'getList',
           payload:{
-            dataList:iPdCoupon,
-            currentPage,
-            limit,
-            total,
+            data1:{
+              dataList:iPdCoupon,
+              currentPage,
+              limit,
+              total,
+            }
           }
         });
       };
@@ -39,16 +45,19 @@ export default{
       yield put({type: 'tab/loding',payload:false});
       if(result.code == '0'){
         const { iPdCoupon, currentPage, limit, total } = result;
-        for(var i=0;i<iPdCoupon.length;i++){
-          iPdCoupon[i].key = iPdCoupon[i].couponId;
-        };
+        iPdCoupon.map((item,index)=>{
+          item.key = index;
+          return item;
+        });
         yield put({
           type:'getInjectList',
           payload:{
-            dataList:iPdCoupon,
-            currentPage,
-            limit,
-            total,
+            data2:{
+              dataList:iPdCoupon,
+              currentPage,
+              limit,
+              total,
+            },
           }
         });
       };

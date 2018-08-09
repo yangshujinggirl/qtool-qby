@@ -9,7 +9,7 @@ import{
     Select
 }from 'antd'
 const FormItem = Form.Item;
-const Option = Select.option;
+const Option = Select.Option;
 
 //marketResource 搜索栏
 class NormalForm extends Component{
@@ -27,23 +27,28 @@ class NormalForm extends Component{
                   <div className='search-form-outwrap'>
                     <div className="search-form-wrap">
                       <FormItem  label='联系人'>
-                        {getFieldDecorator('userName')(
+                        {getFieldDecorator('name')(
                             <Input placeholder='请输入联系人' autoComplete="off"/>
                           )}
                       </FormItem>
                       <FormItem label='联系电话'>
-                        {getFieldDecorator('name')(
+                        {getFieldDecorator('mobile')(
                           <Input placeholder='请输入联系电话' autoComplete="off"/>
                         )}
                       </FormItem>
                       <FormItem label='公司名称'>
-                        {getFieldDecorator('shopName')(
+                        {getFieldDecorator('companyName')(
                             <Input placeholder='请输入公司名称' autoComplete="off"/>
                         )}
                       </FormItem>
                       <FormItem label='资源类型'>
-                        {getFieldDecorator('recTel')(
-                          <Input placeholder='请输入资源类型' autoComplete="off"/>
+                        {getFieldDecorator('marketTypeId')(
+                            <Select allowClear={true} placeholder="请选择资源类型">
+                              <Option value="1">供应商</Option>
+                              <Option value="2">媒体</Option>
+                              <Option value="3">品牌商</Option>
+                              <Option value="4">其他</Option>
+                            </Select>
                         )}
                       </FormItem>
                     </div>

@@ -28,9 +28,10 @@ export default {
             yield put({type: 'tab/loding',payload:false});
             if(result.code == '0'){
               const { marketRes, currentPage, limit, total } = result;
-              for(var i=0;i<marketRes.length;i++){
-                marketRes[i].key = marketRes[i].marketResId;
-              };
+              marketRes.map((item,index)=>{
+                item.key = index;
+                return item;
+              });
               yield put ({
                 type: 'getList',
                 payload:{

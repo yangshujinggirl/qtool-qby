@@ -38,7 +38,7 @@ class MarketResource extends Component{
       const values = {...this.state.fields,currentPage}
       this.props.dispatch({
           type:'marketResource/fetchList',
-          payload:paramsObj
+          payload:values
       })
     }
 
@@ -86,7 +86,8 @@ class MarketResource extends Component{
                 <FilterForm
                   {...fields}
                   submit={this.searchData}
-                  onChange={this.handleFormChange}/>
+                  onValuesChange={this.handleFormChange}
+                />
                 <div className="handel-btn-lists">
                   <Button onClick={this.addStaff} size='large' type="primary">新增人员</Button>
                 </div>

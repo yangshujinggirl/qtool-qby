@@ -32,7 +32,7 @@ class AddCoupon extends Component {
     						type:'tab/initDeletestate',
     						payload:this.props.componkey
     				});
-            message.success('创建成功');
+            message.success(res.message,.8);
           }
         },err=>{
           message.error('请求失败')
@@ -152,9 +152,9 @@ class AddCoupon extends Component {
               wrapperCol={{ span: 6 }}
             >
             {getFieldDecorator('couponCount', {
-              rules: [{required: true, message: '请输入代金券金额'},{pattern:/^10000$|^(\d|[1-9]\d)$/,message: '0-10000之间的正整数'}],
+              rules: [{required: true, message: '请输入代金券'},{pattern:/^(?:[0-9]{0,4}|10000)$/,message: '0-10000之间的正整数'}],
             })(
-              <div><Input placeholder='请输入小于10000的正整数' style={{width:'80%'}}/>　张</div>
+              <div><Input placeholder='请输入0-10000的正整数' style={{width:'80%'}}/>　张</div>
             )}
             </FormItem>
             <FormItem

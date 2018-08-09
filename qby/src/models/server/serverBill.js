@@ -15,9 +15,10 @@ export default{
       yield put({type: 'tab/loding',payload:false});
       if(result.code == '0'){
         const { feedbacks, currentPage, limit, total } = result;
-        for(var i=0;i<feedbacks.length;i++){
-          feedbacks[i].key = feedbacks[i].customServiceId;
-        };
+        feedbacks.map((item,index)=>{
+          item.key = index;
+          return item;
+        });
         yield put({
           type:'getList',
           payload:{

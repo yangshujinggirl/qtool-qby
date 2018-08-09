@@ -9,27 +9,34 @@ class InjectCoupon extends Component{
   clear =()=>{
       this.props.form.resetFields(['couponCode','userMobiles','resonance']);
   }
+  onCancel =()=> {
+    this.props.onCancel(this.clear)
+  }
   //点击确定
   onOk =()=>{
     this.props.form.validateFieldsAndScroll((err,values)=>{
-      console.log(values)
       const {userMobiles} = values;
       let mobileArr = [];
-      if(userMobiles.indexOf("\n")){
-        mobileArr = userMobiles.split('\n')
-      };
       let isTrue = false;
-      mobileArr.map((item,index)=>{
-        if(item.length>11){
+      if(userMobiles.indexOf("\n")!=-1){
+        mobileArr = userMobiles.split('\n');
+        mobileArr.map((item,index)=>{
+          if(item.length>11){
+            isTrue = true;
+          };
+          return item;
+        });
+      }else{
+        if(userMobiles.length>11){
           isTrue = true;
-        }
-      });
+        };
+      };
       if(isTrue){
-        message.error('一行只能输入一个手机号码')
+        message.error('一行只能输入一个手机号码',.8)
       }else{
         if(!err){
           this.props.onOk && this.props.onOk(values,this.clear);
-        }
+        };
       };
     })
   }
@@ -42,7 +49,7 @@ class InjectCoupon extends Component{
           visible= {this.props.visible}
           title='注券'
           okText="确定"
-          onCancel= {this.props.onCancel}
+          onCancel= {this.onCancel}
           onOk = {this.onOk}
         >
           <Form>
