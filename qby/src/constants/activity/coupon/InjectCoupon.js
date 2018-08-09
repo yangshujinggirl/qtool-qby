@@ -12,9 +12,25 @@ class InjectCoupon extends Component{
   //点击确定
   onOk =()=>{
     this.props.form.validateFieldsAndScroll((err,values)=>{
-      if(!err){
-        this.props.onOk && this.props.onOk(values,this.clear);
-      }
+      console.log(values)
+      const {userMobiles} = values;
+      let mobileArr = [];
+      if(userMobiles.indexOf("\n")){
+        mobileArr = userMobiles.split('\n')
+      };
+      let isTrue = false;
+      mobileArr.map((item,index)=>{
+        if(item.length>11){
+          isTrue = true;
+        }
+      });
+      if(isTrue){
+        message.error('一行只能输入一个手机号码')
+      }else{
+        if(!err){
+          this.props.onOk && this.props.onOk(values,this.clear);
+        }
+      };
     })
   }
 // 注券
