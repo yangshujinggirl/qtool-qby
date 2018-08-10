@@ -26,14 +26,29 @@ class AddStaff extends Component{
   //确认添加
   save =()=> {
     this.props.form.validateFieldsAndScroll((err,values) => {
-      var marketResCp = [];
+      if(values.marketTypeId=='供应商'){
+        values.marketTypeId = 1
+      }else if(values.marketTypeId=='媒体'){
+        values.marketTypeId = 2
+      }else if(values.marketTypeId=='品牌商'){
+        values.marketTypeId = 3
+      }else if(values.marketTypeId=='其他'){
+        values.marketTypeId = 4
+      }
       const { DescArr } = this.state;
+      let marketResCp;
+      marketResCp = [];
       DescArr.map( (item,index)=> {
         let obj = {};
-        obj.content = item.type;
-        obj.marketRestCpId = item.content;
-        marketResCp.push(obj);
+        if(!item.content){
+          marketResCp = [];
+        }else{
+          obj.type = item.type;
+          obj.content = item.content;
+          marketResCp.push(obj);
+        }
       });
+
       //判断是修改还是新增
       var values_
       if(this.props.data){
@@ -62,10 +77,18 @@ class AddStaff extends Component{
             type:'marketResource/fetchList',
             payload:{}
         });
-        this.props.dispatch({
-						type:'tab/initDeletestate',
-						payload:this.props.componkey
-				});
+        if(this.props.data){
+          this.props.dispatch({
+              type:'tab/initDeletestate',
+              payload:this.props.componkey+this.props.data.marketResId
+          });
+        }else{
+          this.props.dispatch({
+              type:'tab/initDeletestate',
+              payload:this.props.componkey
+          });
+        }
+
       }else{
         this.setState({
           loading:false
@@ -97,7 +120,6 @@ class AddStaff extends Component{
       })
     }
   }
-
   //添加文本/图片
   addContent =(type)=>{
     let { DescArr } = this.state;
@@ -113,7 +135,6 @@ class AddStaff extends Component{
     this.setState({DescArr})
   }
   render(){
-    console.log(this.state.loading)
     const fileDomain=eval(sessionStorage.getItem('fileDomain'));
     const { getFieldDecorator } = this.props.form;
     const { listDate, DescArr }= this.state;
@@ -180,10 +201,10 @@ class AddStaff extends Component{
                 initialValue:listDate?listDate.marketTypeStr:[]
               })(
                 <Select placeholder="请选择资源类型">
-                  <Option value="1">供应商</Option>
-                  <Option value="2">媒体</Option>
-                  <Option value="3">品牌商</Option>
-                  <Option value="4">其他</Option>
+                  <Option value={1}>供应商</Option>
+                  <Option value={2}>媒体</Option>
+                  <Option value={3}>品牌商</Option>
+                  <Option value={4}>其他</Option>
                 </Select>
               )}
           </FormItem>

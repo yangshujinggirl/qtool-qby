@@ -112,7 +112,7 @@ class AddCoupon extends Component {
                   {getFieldDecorator('couponValidDay',{
                     rules: [{ required:couponValidDay, message: '请填写用户领取时间' }],
                   })(
-                    <Input disabled = {!couponValidDay} />
+                    <div><Input style={{width:'90%'}} disabled = {!couponValidDay} /> 天</div>
                   )}
                 </FormItem>
                 <FormItem>
