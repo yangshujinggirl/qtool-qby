@@ -38,12 +38,12 @@ class NormalForm extends Component {
                  )}
                </FormItem>
               <FormItem label='商品条码'>
-                 {getFieldDecorator('bname')(
+                 {getFieldDecorator('barCode')(
                    <Input placeholder="请输入商品名称" autoComplete="off"/>
                  )}
                </FormItem>
               <FormItem label='商品品牌'>
-                 {getFieldDecorator('brandName')(
+                 {getFieldDecorator('pdBrandName')(
                    <Input placeholder="请输入商品品牌" autoComplete="off"/>
                  )}
                </FormItem>

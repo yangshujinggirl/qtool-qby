@@ -36,12 +36,12 @@ class NormalForm extends Component {
                  )}
                </FormItem>
               <FormItem label='商品品牌'>
-                 {getFieldDecorator('brandName')(
+                 {getFieldDecorator('pdBrandName')(
                    <Input placeholder="请输入商品品牌" autoComplete="off"/>
                  )}
                </FormItem>
               <FormItem label='一级分类'>
-                 {getFieldDecorator('pdCategory1Name')(
+                 {getFieldDecorator('pdCategory1Id')(
                    <Select placeholder="请选择一级分类" allowClear={true}>
                      {
                       categoryList.length>0&&categoryList.map((el) => (
