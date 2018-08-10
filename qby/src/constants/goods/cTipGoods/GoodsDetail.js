@@ -56,7 +56,7 @@ class GoodsDetail extends Component {
             <label>{pdSpu.name}</label>
     			</FormItem>
     			<FormItem label="C端名称" {...formItemLayout}>
-            <label>{pdSpu.name}</label>
+            <label>{pdSpu.cname}</label>
     			</FormItem>
           <FormItem label="商品图片" {...formItemLayout3}>
             <ul className="img-list-wrap">

@@ -50,7 +50,7 @@ class GoodsDetail extends Component {
     			</FormItem>
     			<FormItem
     				label="B端名称" {...formItemLayout}>
-            <label>{pdSpu.name}</label>
+            <label>{pdSpu.bname}</label>
     			</FormItem>
     			<FormItem
     				label="一级分类" {...formItemLayout}>

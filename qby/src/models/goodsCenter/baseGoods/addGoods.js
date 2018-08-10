@@ -32,7 +32,7 @@ export default {
     goodsType:[],//商品规格列表
     fileList:[],//商品图片
     pdSpu:{},
-    pdSkus:[{}],//商品信息数据
+    pdSkus:[{key:'00'}],//商品信息数据
     linkageLabel:{
       isTimeRequired:false,
       isLotRequired:false,
@@ -90,7 +90,7 @@ export default {
     resetData(state,{ payload : source }) {
       const pdSpu={};
       const fileList=[];
-      let pdSkus=[{}];//初始化spu数据
+      let pdSkus=[{key:'00'}];//初始化spu数据
       const specData={//商品属性
         specOne:[],
         specTwo:[],
@@ -402,12 +402,13 @@ export default {
     *handleSpec({ payload: {specOne, specTwo} },{ call, put ,select}) {
       let oldpdSkus = yield select(state => state.addGoods.pdSkus);
       let newPdSkus=[];
+      let fixedRow = { key: '00'};
       //处理新增属性数据;
       if(specOne.length >0) {
         if(specTwo.length >0) {
           for(let i=0;i<specOne.length;i++) {
             for(let j=0;j<specTwo.length;j++) {
-              let item = {...specOne[i]}
+              let item = {...specOne[i],...fixedRow}
               item.name = `${specOne[i].name}/${specTwo[j].name}`;
               item.key = `${specOne[i].key}_${specTwo[j].key}`;
               item.pdType1ValId = specOne[i].key;
@@ -417,14 +418,15 @@ export default {
           }
         }else {
           for(let i=0;i<specOne.length;i++) {
-            let item = {...specOne[i]};
+            let item = {...specOne[i],...fixedRow};
             item.pdType1ValId = specOne[i].key;
+            item.key = specOne[i].key;
             item.pdType1Va2Id = null;
             newPdSkus.push(item);
           }
         }
       } else {
-        newPdSkus.push({});
+        newPdSkus.push(fixedRow);
         specTwo=[]
       }
       //处理编辑数据,新旧数据进行合关去重
