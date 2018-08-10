@@ -9,6 +9,9 @@ class AddBill extends Component{
   clear =()=>{
       this.props.form.resetFields(['customServiceTheme','remark','source','waiterTel']);
   }
+  onCancel =()=> {
+    this.props.onCancel(this.clear)
+  }
   //点击确定
   onOk =()=>{
     this.props.form.validateFieldsAndScroll((err,values)=>{
@@ -26,7 +29,7 @@ class AddBill extends Component{
           visible= {this.props.visible}
           title='新增工单'
           okText="确定"
-          onCancel= {this.props.onCancel}
+          onCancel= {this.onCancel}
           onOk = {this.onOk}
         >
           <Form>

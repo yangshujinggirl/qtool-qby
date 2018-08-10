@@ -64,8 +64,9 @@ class ServerBill extends Component{
   addBill(){
     this.setState({isVisible:true})
   }
-  onCancel =()=> {
-    this.setState({isVisible:false})
+  onCancel =(resetFiledsFunc)=> {
+    this.setState({isVisible:false});
+    resetFiledsFunc();
   }
   //确定
   onOk =(values,resetFiledsFunc)=> {

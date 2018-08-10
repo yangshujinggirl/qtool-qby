@@ -27,26 +27,30 @@ class Coupon extends Component{
         createTimeST:'',
         createTimeET:'',
       },
-    }
-    this.rowSelection = {
-      selectedRowKeys:[],
-      type:'radio',
-      onChange:(selectedRowKeys,selectedRows) => {
-        this.rowSelection.selectedRowKeys = selectedRowKeys;
-        if(selectedRows[0]){
-          this.setState({couponId:selectedRows[0].couponId})
-        }
-      }
+      rowSelection : {
+        selectedRowKeys:[],
+        type:'radio',
+        onChange:this.onChange
+      },
     }
   }
 
+  onChange =(selectedRowKeys,selectedRows)=> {
+    const {rowSelection}=this.state
+    this.setState({
+      rowSelection:Object.assign({},rowSelection,{selectedRowKeys})
+    })
+    if(selectedRows[0]){
+      this.setState({couponId:selectedRows[0].couponId})
+    }
+  }
   //点击搜索
   searchData = (values)=> {
     this.props.dispatch({
       type:'coupon/fetchList',
       payload:values
     })
-    this.rowSelection.onChange([],[]);//取消选中
+    this.state.rowSelection.onChange([],[]);//取消选中
   }
   //点击分页
   changePage =(current)=> {
@@ -56,7 +60,7 @@ class Coupon extends Component{
       type:'coupon/fetchList',
       payload:values
     });
-    this.rowSelection.onChange([],[]);//取消选中
+    this.state.rowSelection.onChange([],[]);//取消选中
   }
   //pageSize改变时的回调
   onShowSizeChange =({currentPage,limit})=> {
@@ -64,7 +68,7 @@ class Coupon extends Component{
       type:'coupon/fetchList',
       payload:{currentPage,limit}
     });
-    this.rowSelection.onChange([],[]);//取消选中
+    this.state.rowSelection.onChange([],[]);//取消选中
   }
   //搜索框数据发生变化
   searchDataChange =(values)=> {
@@ -123,8 +127,7 @@ class Coupon extends Component{
       });
       if(hadFuse[0].status == 3){
         message.warning('该优惠券已经熔断',.8)
-        console.log(this.rowSelection.onChange)
-        this.rowSelection.onChange([],[]);//取消选中
+        this.state.rowSelection.onChange([],[]);//取消选中
       }else{
         this.setState({isFuseVisible:true})
       };
@@ -140,7 +143,7 @@ class Coupon extends Component{
             type:'coupon/fetchList',
             payload:{}
           })
-          this.rowSelection.onChange([],[]);//取消选中
+          this.state.rowSelection.onChange([],[]);//取消选中
           this.setState({couponId:null});
           this.setState({isFuseVisible:false})
           message.success(res.message,.8);
@@ -150,7 +153,7 @@ class Coupon extends Component{
   //取消熔断
   onfuseCancel =()=> {
     this.setState({isFuseVisible:false})
-    this.rowSelection.onChange([],[]);//取消选中
+    this.state.rowSelection.onChange([],[]);//取消选中
   }
   //注券
   addCouponToUser =()=> {
@@ -225,7 +228,7 @@ class Coupon extends Component{
           dataSource = {dataList}
           columns = {Columns}
           select
-          rowSelection = {this.rowSelection}
+          rowSelection = {this.state.rowSelection}
         />
         <Qpagination
           data={this.props.coupon.data1}
