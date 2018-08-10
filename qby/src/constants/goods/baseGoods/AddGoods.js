@@ -700,12 +700,12 @@ class AddGoodsForm extends Component {
                    </FormItem>
                 </Col>
                 <Col span={24}>
-                  <FormItem label='分成比例' {...formItemLayout}>
+                  <FormItem label='分成比例' {...formItemLayout} className="addonAfter-inputs-common">
                      {getFieldDecorator('shareRatio',{
                        initialValue:pdSpu.shareRatio&&Number(pdSpu.shareRatio)||'',
                        rules: [{ pattern:/^[0-9]+([.]{1}[0-9]+){0,1}$/,message:'请输入数字'}]
                      })(
-                       <Input placeholder="请输入分成比例" autoComplete="off"/>
+                       <Input placeholder="请输入分成比例" autoComplete="off" addonAfter="%"/>
                      )}
                    </FormItem>
                 </Col>

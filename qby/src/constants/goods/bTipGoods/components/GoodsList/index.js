@@ -65,9 +65,9 @@ class GoodsList extends Component {
                   <div className="part-r">
                     <p
                       className="goods-name"
-                      onClick={(event)=>this.handleClick(event,el)}>{el.name}</p>
-                    <p className="goods-property">库存：{el.inventory}</p>
-                    <p className="goods-property">零售价：{el.minPrice}</p>
+                      onClick={(event)=>this.handleClick(event,el)}>{el.bname?el.bname:el.name}</p>
+                    <p className="goods-property">库存：{el.qtyErp}</p>
+                    <p className="goods-property">售价：{el.toBPrice}</p>
                     <IconList data={el}/>
                   </div>
                 </div>

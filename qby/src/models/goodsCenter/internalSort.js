@@ -93,9 +93,8 @@ export default {
       let isLevelTwo = yield select(state => state.internalSort.categoryList.isLevelTwo);
       let isLevelThr = yield select(state => state.internalSort.categoryList.isLevelThr);
       let categoryInfo = yield select(state => state.internalSort.categoryInfo);
-
       const { level, parentId } = values;
-      let fixedParams = {status:1};
+      values = {...values,...{status:1}};
       yield put({type: 'tab/loding',payload:true});
       const result = yield call(getCategoryApi,values);
       yield put({type: 'tab/loding',payload:false});
@@ -166,17 +165,16 @@ export default {
           pdCategoryId3,
          } = pdCategorys;
         if(level == '2') {
-          const resultOne = yield call(getCategoryApi, { level:'1', parentId: null });
+          const resultOne = yield call(getCategoryApi, { level:'1', parentId: null, status:1 });
           if(resultOne.code == '0') {
             categoryLevelOne = resultOne.pdCategory;
             isLevelTwo=false;
           }
         }else if( level == '3') {
           const [resultOne,resultTwo] = yield [
-                  call(getCategoryApi, { level:'1', parentId: null }),
-                  call(getCategoryApi, { level:'2', parentId: pdCategoryId1 }),
+                  call(getCategoryApi, { level:'1', parentId: null, status:1 }),
+                  call(getCategoryApi, { level:'2', parentId: pdCategoryId1, status:1 }),
                 ];
-          // const resultTwo = yield call(getCategoryApi, { level:2, parentId: pdCategoryId2 });
           if(resultOne.code == '0') {
             categoryLevelOne = resultOne.pdCategory;
             isLevelTwo=false;
@@ -186,9 +184,9 @@ export default {
           }
         } else if(level == '4') {
           const [resultOne,resultTwo,resultThr] = yield [
-                  call(getCategoryApi, { level:'1', parentId: null }),
-                  call(getCategoryApi, { level:'2', parentId: pdCategoryId1 }),
-                  call(getCategoryApi, { level:'3', parentId: pdCategoryId2 }),
+                  call(getCategoryApi, { level:'1', parentId: null, status:1 }),
+                  call(getCategoryApi, { level:'2', parentId: pdCategoryId1, status:1 }),
+                  call(getCategoryApi, { level:'3', parentId: pdCategoryId2, status:1 }),
                 ];
           if(resultOne.code == '0') {
             categoryLevelOne = resultOne.pdCategory;

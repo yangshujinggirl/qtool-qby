@@ -69,7 +69,7 @@ class GoodsList extends Component {
                     }
                   </div>
                   <div className="part-r">
-                    <p className="goods-name">{el.name}</p>
+                    <p className="goods-name">{el.oname?el.oname:el.name}</p>
                     <p className="goods-property">售价：{el.minPrice}</p>
                     <IconList data={el}/>
                   </div>
