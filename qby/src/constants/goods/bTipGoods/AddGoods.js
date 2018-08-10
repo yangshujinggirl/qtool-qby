@@ -261,49 +261,64 @@ class AddGoodsForm extends Component {
                </FormItem>
             </Col>
             <Col span={24}>
-              <FormItem label='试销天数' {...formItemLayout}>
+              <FormItem
+                label='试销天数'
+                {...formItemLayout}
+                className="addonAfter-inputs-common">
                  {
                    getFieldDecorator('trialDay',{
                      initialValue:pdSpu.trialDay,
                      rules: [{pattern:/^[0-9]*$/,message:'天数只能是整数'}],
                    })(
-                      <Input placeholder="请输入试销天数" autoComplete="off"/>
+                      <Input
+                        placeholder="请输入试销天数"
+                        autoComplete="off"
+                        addonAfter="天"/>
                    )
                  }
                </FormItem>
             </Col>
             <Col span={24}>
-              <FormItem label='缺货天数' {...formItemLayout}>
+              <FormItem label='缺货天数' {...formItemLayout} className="addonAfter-inputs-common">
                  {
                    getFieldDecorator('outStockDay',{
                      initialValue:pdSpu.outStockDay,
                      rules: [{pattern:/^[0-9]*$/,message:'天数只能是整数'}],
                    })(
-                      <Input placeholder="请输入缺货天数" autoComplete="off"/>
+                      <Input
+                        placeholder="请输入缺货天数"
+                        autoComplete="off"
+                        addonAfter="天"/>
                    )
                  }
                </FormItem>
             </Col>
             <Col span={24}>
-              <FormItem label='缺货率' {...formItemLayout}>
+              <FormItem label='缺货率' {...formItemLayout} className="addonAfter-inputs-common">
                  {
                    getFieldDecorator('outStockRate',{
                      initialValue:pdSpu.outStockRate,
                      rules: [{ pattern:/^[0-9]*$/,message:'请输入数字'}],
                    })(
-                      <Input placeholder="请输入缺货率" autoComplete="off"/>
+                      <Input
+                        placeholder="请输入缺货率"
+                        autoComplete="off"
+                        addonAfter="%"/>
                    )
                  }
                </FormItem>
             </Col>
             <Col span={24}>
-              <FormItem label='目标周转天数' {...formItemLayout}>
+              <FormItem label='目标周转天数' {...formItemLayout} className="addonAfter-inputs-common">
                  {
                    getFieldDecorator('targetTurnoverDay',{
                      initialValue:pdSpu.targetTurnoverDay,
                      rules: [{pattern:/^[0-9]*$/,message:'天数只能是整数'}],
                    })(
-                      <Input placeholder="请输入目标周转天数" autoComplete="off"/>
+                      <Input
+                        placeholder="请输入目标周转天数"
+                        autoComplete="off"
+                        addonAfter="天"/>
                    )
                  }
                </FormItem>
