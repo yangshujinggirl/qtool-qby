@@ -63,6 +63,7 @@ export default {
       }
     },
     *fetchCategory({ payload: values },{ call, put ,select}) {
+      values = {...values,...{ status:1 }};
       const result = yield call(getCategoryApi,values);
       yield put({type: 'tab/loding',payload:false});
       //处理分类数据，disabled状态

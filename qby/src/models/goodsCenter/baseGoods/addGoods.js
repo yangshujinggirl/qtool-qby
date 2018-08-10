@@ -361,9 +361,9 @@ export default {
     *handelCategory({ payload: pdSpu},{ call, put ,select}) {
       const categoryLevelOne = yield select(state => state.addGoods.categoryData.categoryLevelOne)
       const [resultTwo,resultThr,resultFour] = yield [
-              call(getCategoryApi, { level:2, parentId: pdSpu.pdCategory1Id }),
-              call(getCategoryApi, { level:3, parentId: pdSpu.pdCategory2Id }),
-              call(getCategoryApi, { level:4, parentId: pdSpu.pdCategory3Id })
+              call(getCategoryApi, { level:2, parentId: pdSpu.pdCategory1Id, status:1 }),
+              call(getCategoryApi, { level:3, parentId: pdSpu.pdCategory2Id, status:1 }),
+              call(getCategoryApi, { level:4, parentId: pdSpu.pdCategory3Id, status:1 })
             ];
             let categoryLevelTwo,
                 categoryLevelThr,

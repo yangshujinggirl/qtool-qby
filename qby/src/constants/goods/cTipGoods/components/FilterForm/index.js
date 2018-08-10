@@ -64,7 +64,7 @@ class NormalForm extends Component {
                  )}
                </FormItem>
                <FormItem label='NEW商品'>
-                  {getFieldDecorator('eventNew')(
+                  {getFieldDecorator('isNew')(
                     <Select allowClear={true} placeholder="请选择是否上新" autoComplete="off">
                         <Option value={1} key={1}>是</Option>
                         <Option value={0} key={0}>否</Option>
@@ -72,7 +72,7 @@ class NormalForm extends Component {
                   )}
                 </FormItem>
                <FormItem label='HOT商品'>
-                  {getFieldDecorator('eventHot')(
+                  {getFieldDecorator('isHot')(
                     <Select allowClear={true} placeholder="请选择是否畅销" autoComplete="off">
                         <Option value={1} key={1}>是</Option>
                         <Option value={0} key={0}>否</Option>
