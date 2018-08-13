@@ -353,17 +353,20 @@ class CtipGoods extends Component {
           list={dataList}
           onChange={this.onCheckBoxChange.bind(this)}
           onOperateClick={this.handleOperateClick.bind(this)}/>
-        <Qpagination
-          sizeOptions="2"
-          onShowSizeChange={this.changePageSize}
-          data={this.props.cTipGoodsList}
-          onChange={this.changePage}/>
-          <Modal
-  					title='批量操作'
-  					visible={visible}
-  					onOk={this.onOkModal.bind(this)}
-  					onCancel={this.onCancelModal.bind(this)}>
-            {WarnMessage[handleContent.tips]}
+        {
+          dataList.length>0&&
+          <Qpagination
+            sizeOptions="2"
+            onShowSizeChange={this.changePageSize}
+            data={this.props.cTipGoodsList}
+            onChange={this.changePage}/>
+        }
+        <Modal
+					title='批量操作'
+					visible={visible}
+					onOk={this.onOkModal.bind(this)}
+					onCancel={this.onCancelModal.bind(this)}>
+          {WarnMessage[handleContent.tips]}
   				</Modal>
       </div>
     )

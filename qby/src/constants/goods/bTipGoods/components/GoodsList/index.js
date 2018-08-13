@@ -38,6 +38,12 @@ class GoodsList extends Component {
     event.stopPropagation();
     this.props.onOperateClick(record,'detail')
   }
+  getMinPrice(data) {
+    data.map((el) => (
+      el.toBPrice!=null
+    ))
+    console.log(data)
+  }
   render() {
     const { bTipGoodsList, onOperateClick } = this.props;
     const { dataList, authorityList } = this.props.bTipGoodsList;

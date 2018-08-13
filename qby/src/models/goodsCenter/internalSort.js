@@ -22,9 +22,23 @@ export default {
       limit:15,
       total:0,
     },
-    visible:false
+    visible:false,
+    authorityList:{
+      authorityEdit:false,
+    },
   },
   reducers: {
+    setAuthority(state, { payload : authorityData }) {
+      let authorityList={};
+      authorityData.map((el) => {
+        switch(el.urResourceId){
+          case 302200:
+            authorityList.authorityEdit=true;
+            break;
+        }
+      })
+      return { ...state, authorityList }
+    },
     setVisible(state, { payload : visible }) {
       return {...state,visible}
     },
@@ -61,6 +75,7 @@ export default {
   effects: {
     *fetchList({ payload: values },{ call, put ,select}) {
       const fixedLimit = yield select(state => state.internalSort.data.limit);
+      const authorityEdit = yield select(state => state.internalSort.authorityList.authorityEdit);
       //默认分页是16
       if(!values.limit) {
         values = {...values,...{ limit: fixedLimit}}
@@ -72,7 +87,11 @@ export default {
       //处理分类数据，disabled状态
       if(result.code == '0') {
         let  { pdCategorys, currentPage, limit, total } = result;
-        pdCategorys&&pdCategorys.map((el) => el.key = el.pdCategoryId)
+        pdCategorys = pdCategorys&&pdCategorys.map((el) => {
+          el.key = el.pdCategoryId;
+          el.authorityEdit = authorityEdit;
+          return el;
+        })
         yield put({
           type:'getList',
           payload:{

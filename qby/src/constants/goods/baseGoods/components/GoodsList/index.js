@@ -51,7 +51,7 @@ class GoodsList extends Component {
                 </div>
                 <div className="goods-action-bottom">
                   {
-                    // this.props.authorityEdit&&
+                    this.props.authorityEdit&&
                     <Button size="small"
                       className="event-btn"
                       onClick={()=>onOperateClick(el,'edit')}>编辑</Button>

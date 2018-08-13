@@ -196,17 +196,14 @@ class BaseGoods extends Component {
           {
             authorityList.authorityOutLine&&
             <Button
-              size="large" 
+              size="large"
               type="primary"
               onClick={()=>this.addGoods(0)}>新增线下商品</Button>
           }
         </div>
-        {
-          dataList.length>0?
-          <GoodsList list={dataList} onOperateClick={this.handleOperateClick.bind(this)}/>
-          :
-          <div>暂无数据</div>
-        }
+        <GoodsList
+          list={dataList}
+          onOperateClick={this.handleOperateClick.bind(this)}/>
         {
           dataList.length>0&&
           <Qpagination

@@ -49,7 +49,7 @@ class CountryManageForm extends Component {
   }
   //修改
   editCountry(el) {
-    if(!this.props.authorityList.authorityEdit) {
+    if(!this.props.countryManage.authorityList.authorityEdit) {
       return;
     }
     this.setState({
@@ -141,7 +141,7 @@ class CountryManageForm extends Component {
               data.dataList.length>0&&data.dataList.map((el,index) => (
                 <div key={index} onClick={()=>this.editCountry(el)} className="card-wrap">
                   <Card
-                    className='card-item'
+                    className={`${authorityList.authorityEdit?'card-item':'card-item disabled'}`}
                     hoverable
                     cover={<img alt="example" src={el.url} />}>
                     <div className="theme-color country-name">{el.name}</div>

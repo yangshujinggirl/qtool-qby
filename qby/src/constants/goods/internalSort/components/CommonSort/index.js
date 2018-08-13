@@ -30,6 +30,12 @@ class FirstSort extends Component {
   }
   initPage() {
     const { level } =this.props;
+    const { rolelists=[] } =this.props;
+    //权限
+    this.props.dispatch({
+      type:'internalSort/setAuthority',
+      payload: rolelists
+    });
     //初始化时清空所有历史数据
     this.props.dispatch({
       type:'internalSort/resetData',
@@ -220,7 +226,7 @@ class FirstSort extends Component {
   }
   render() {
     const { level } =this.props;
-    const { data, visible } = this.props.internalSort;
+    const { data, visible, authorityList } = this.props.internalSort;
     const { pdCategoryId, fields, initContent } =this.state;
     return(
       <div className="common-sort-components">
@@ -230,24 +236,27 @@ class FirstSort extends Component {
           submit={this.searchData}
           level={level}/>
         <div className="handle-btn-wrap">
-          <Button
-            type="primary"
-            size="large"
-            onClick={()=>this.addSort(level)}>
-            { initContent.text }
-          </Button>
+          {
+            authorityList.authorityEdit&&
+            <Button
+              type="primary"
+              size="large"
+              onClick={()=>this.addSort(level)}>
+              { initContent.text }
+            </Button>
+          }
         </div>
         <Qtable
           columns={initContent.columns}
           dataSource={data.dataList}
           onOperateClick={this.editSort.bind(this)}/>
-          {
-            data.dataList.length>0&&
-            <Qpagination
-              onShowSizeChange={this.changePageSize}
-              data={data}
-              onChange={this.changePage}/>
-          }
+        {
+          data.dataList.length>0&&
+          <Qpagination
+            onShowSizeChange={this.changePageSize}
+            data={data}
+            onChange={this.changePage}/>
+        }
         <AddModel
           onChange={this.handelChange.bind(this)}
           onCancel={this.onCancel.bind(this)}
