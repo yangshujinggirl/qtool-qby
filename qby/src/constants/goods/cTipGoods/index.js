@@ -330,8 +330,8 @@ class CtipGoods extends Component {
           {
             authorityList.authoritySale&&
             <span>
-              <Button size="large" type="primary" onClick={()=>this.massOperation('sell',10)}>批量售卖</Button>
-              <Button size="large" type="primary" onClick={()=>this.massOperation('sell',20)}>批量停售</Button>
+              <Button size="large" type="primary" onClick={()=>this.massOperation('sell',10)}>批量上线</Button>
+              <Button size="large" type="primary" onClick={()=>this.massOperation('sell',20)}>批量下线</Button>
             </span>
           }
           {

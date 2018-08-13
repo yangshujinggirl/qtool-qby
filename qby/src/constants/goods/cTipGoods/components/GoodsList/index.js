@@ -30,6 +30,26 @@ class GoodsList extends Component {
     event.stopPropagation();
     this.props.onOperateClick(record,'detail')
   }
+  getMinPrice(el) {
+    let pdSkus = el.pdSkus;
+    let priceArr = [];
+    if( pdSkus && pdSkus.length>0) {
+      pdSkus.map((el) => {
+        if(el.toBPrice!=null) {
+          el.toCPrice = el.toCPrice*1;
+          priceArr.push(el.toCPrice)
+        }
+        return el;
+      })
+      priceArr.sort((a,b)=> {
+        return a-b;
+      })
+      let minPrice = priceArr[0];
+      return minPrice;
+    } else {
+      return el.toCPrice;
+    }
+  }
   render() {
     const { onOperateClick } = this.props;
     const { dataList, authorityList } = this.props.cTipGoodsList;
@@ -60,7 +80,7 @@ class GoodsList extends Component {
                       onClick={(event)=>this.handleClick(event,el)}>
                       {el.cname?el.cname:el.name}
                     </p>
-                    <p className="goods-property">零售价：{el.toCPrice}</p>
+                    <p className="goods-property">零售价：{this.getMinPrice(el)}</p>
                     <IconList data={el}/>
                   </div>
                 </div>

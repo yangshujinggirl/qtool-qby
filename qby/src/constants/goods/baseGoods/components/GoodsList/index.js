@@ -27,9 +27,30 @@ const IconList =({data})=>(
 )
 
 class GoodsList extends Component {
+  renderBtn =(el)=> {
+    const { authorityList } =this.props.baseGoodsList;
+    if(el.source==1) {
+      if(authorityList.authorityOnline) {
+        return <Button size="small"
+                      className="event-btn"
+                      onClick={()=>onOperateClick(el,'edit')}>编辑</Button>
+      } else {
+        return ''
+      }
+    } else {
+      if(authorityList.authorityOutLine) {
+        return <Button size="small"
+                      className="event-btn"
+                      onClick={()=>onOperateClick(el,'edit')}>编辑</Button>
+      } else {
+        return ''
+      }
+    }
+  }
   render() {
     const { baseGoodsList, onOperateClick } = this.props;
     const filePath = JSON.parse(sessionStorage.getItem('fileDomain'));
+
     return (
       <ul className="common-goods-list">
         {
@@ -51,10 +72,7 @@ class GoodsList extends Component {
                 </div>
                 <div className="goods-action-bottom">
                   {
-                    this.props.authorityEdit&&
-                    <Button size="small"
-                      className="event-btn"
-                      onClick={()=>onOperateClick(el,'edit')}>编辑</Button>
+                    this.renderBtn(el)
                   }
                   <Button size="small"
                     className="event-btn"
