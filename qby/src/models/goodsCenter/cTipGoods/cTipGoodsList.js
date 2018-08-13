@@ -67,7 +67,7 @@ export default {
   },
   effects: {
     *fetchList({ payload: values }, { call, put ,select}) {
-      const fixedLimit = yield select(state => state.baseGoodsList.limit);
+      const fixedLimit = yield select(state => state.cTipGoodsList.limit);
       //默认分页是16
       if(!values.limit) {
         values = {...values,...{ limit: fixedLimit}}
