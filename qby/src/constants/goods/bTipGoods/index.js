@@ -361,11 +361,14 @@ class BtipGoods extends Component {
           list={dataList}
           onChange={this.onCheckBoxChange.bind(this)}
           onOperateClick={this.handleOperateClick.bind(this)}/>
-        <Qpagination
-          sizeOptions="2"
-          onShowSizeChange={this.changePageSize}
-          data={this.props.bTipGoodsList}
-          onChange={this.changePage}/>
+        {
+          dataList.length>0&&
+          <Qpagination
+            sizeOptions="2"
+            onShowSizeChange={this.changePageSize}
+            data={this.props.bTipGoodsList}
+            onChange={this.changePage}/>
+        }
         <Modal
 					title='批量操作'
 					visible={visible}

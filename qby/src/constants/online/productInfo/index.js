@@ -252,11 +252,14 @@ class BtipGoods extends Component {
         <GoodsList
           list={dataList}
           onOperateClick={this.handleOperateClick.bind(this)}/>
-        <Qpagination
-          sizeOptions="2"
-          onShowSizeChange={this.changePageSize}
-          data={this.props.productGoodsList}
-          onChange={this.changePage}/>
+        {
+          dataList.length>0&&
+          <Qpagination
+            sizeOptions="2"
+            onShowSizeChange={this.changePageSize}
+            data={this.props.productGoodsList}
+            onChange={this.changePage}/>
+        }
       </div>
     )
   }

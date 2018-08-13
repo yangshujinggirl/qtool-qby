@@ -19,14 +19,23 @@ class FirstSort extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      pdCategoryId:''
+      pdCategoryId:'',
+      initContent:{},
+      fields: {},
     }
   }
   componentDidMount() {
-    this.initPage()
+    this.initPage();
+    this.initFields()
   }
   initPage() {
     const { level } =this.props;
+    const { rolelists=[] } =this.props;
+    //权限
+    this.props.dispatch({
+      type:'internalSort/setAuthority',
+      payload: rolelists
+    });
     //初始化时清空所有历史数据
     this.props.dispatch({
       type:'internalSort/resetData',
@@ -38,44 +47,110 @@ class FirstSort extends Component {
       }
     })
   }
-  //初始化列头
-  getcolumns() {
-    let initContent;
+  initFields() {
+    let initContent={};
+    let fields={};
     switch(this.props.level) {
       case '1':
         initContent = {
           columns:FirstSortColumns,
           text:'新建一级分类'
+        };
+        fields = {
+          pdCategory1:{
+            value:''
+          },
+          status:{
+            value:''
+          },
         }
         break;
       case '2':
         initContent = {
           columns:SecondSortColumns,
           text:'新建二级分类'
+        };
+        fields = {
+          pdCategory1:{
+            value:''
+          },
+          pdCategory2:{
+            value:''
+          },
+          status:{
+            value:''
+          },
         }
         break;
       case '3':
         initContent = {
           columns:ThrSortColumns,
           text:'新建三级分类'
+        };
+        fields = {
+          pdCategory1:{
+            value:''
+          },
+          pdCategory2:{
+            value:''
+          },
+          pdCategory3:{
+            value:''
+          },
+          status:{
+            value:''
+          },
         }
         break;
       case '4':
         initContent = {
           columns:FourSortColumns,
           text:'新建四级分类'
+        };
+        fields = {
+          pdCategory1:{
+            value:''
+          },
+          pdCategory2:{
+            value:''
+          },
+          pdCategory3:{
+            value:''
+          },
+          pdCategory4:{
+            value:''
+          },
+          status:{
+            value:''
+          },
         }
         break;
     }
-    return initContent;
+    this.setState({
+      initContent,
+      fields
+    })
+  }
+  //双向绑定表单
+  handleFormChange = (changedFields) => {
+    this.setState(({ fields }) => ({
+      fields: { ...fields, ...changedFields },
+    }));
   }
   //分页
   changePage = (currentPage) => {
     currentPage--;
-    const paramsObj = {
+    let paramsObj = {
       currentPage,
       level:this.props.level
     }
+    const { fields } = this.state;
+    const formData = {};
+    let key;
+    for(key in fields) {
+      formData[key] = fields[key].value;
+    }
+    paramsObj ={...paramsObj,...formData}
     this.props.dispatch({
       type:'internalSort/fetchList',
       payload: paramsObj
@@ -151,32 +226,37 @@ class FirstSort extends Component {
   }
   render() {
     const { level } =this.props;
-    const { data, visible } = this.props.internalSort;
-    const { pdCategoryId } =this.state;
+    const { data, visible, authorityList } = this.props.internalSort;
+    const { pdCategoryId, fields, initContent } =this.state;
     return(
       <div className="common-sort-components">
         <FilterForm
+          {...fields}
+          onChange={this.handleFormChange}
           submit={this.searchData}
           level={level}/>
         <div className="handle-btn-wrap">
-          <Button
-            type="primary"
-            size="large"
-            onClick={()=>this.addSort(level)}>
-            { this.getcolumns().text }
-          </Button>
+          {
+            authorityList.authorityEdit&&
+            <Button
+              type="primary"
+              size="large"
+              onClick={()=>this.addSort(level)}>
+              { initContent.text }
+            </Button>
+          }
         </div>
         <Qtable
-          columns={this.getcolumns().columns}
+          columns={initContent.columns}
           dataSource={data.dataList}
           onOperateClick={this.editSort.bind(this)}/>
-          {
-            data.dataList.length>0&&
-            <Qpagination
-              onShowSizeChange={this.changePageSize}
-              data={data}
-              onChange={this.changePage}/>
-          }
+        {
+          data.dataList.length>0&&
+          <Qpagination
+            onShowSizeChange={this.changePageSize}
+            data={data}
+            onChange={this.changePage}/>
+        }
         <AddModel
           onChange={this.handelChange.bind(this)}
           onCancel={this.onCancel.bind(this)}

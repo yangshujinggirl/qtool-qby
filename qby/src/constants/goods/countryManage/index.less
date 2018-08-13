@@ -9,10 +9,16 @@
       display: inline-block;
       margin-right: 16px;
     }
+
     .card-item {
       width: 105px;
       height: 105px;
       margin-bottom: 50px;
+      &.disabled {
+        .ant-card-cover {
+          cursor: not-allowed; 
+        }
+      }
       .ant-card-cover {
         height: 100%;
       }

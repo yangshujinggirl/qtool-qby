@@ -53,7 +53,7 @@ class GoodsInfo extends Component {
                   initialValue:pdSkus[index].code
                 })(
                   <Input
-                    placeholder="请输入商品编码" 
+                    placeholder="请输入商品编码"
                     autoComplete="off"/>
                 )
               }
@@ -87,7 +87,7 @@ class GoodsInfo extends Component {
     const { pdSkus, specData } = this.props.addGoods;
     let name = specData.specOne.length == 0?'toCPrice':`pdSkus[${index}].toCPrice`;
     return  <div>
-               {this.props.form.getFieldDecorator(`pdSkus[${index}].toCPrice`,{
+               {this.props.form.getFieldDecorator(name,{
                  initialValue:pdSkus[index].toCPrice
                })(
                  <Input placeholder="请输入零售价" autoComplete="off"/>
@@ -110,7 +110,7 @@ class GoodsInfo extends Component {
     let name = specData.specOne.length == 0?'tagPrice':`pdSkus[${index}].tagPrice`;
     return  <div>
                {
-                 this.props.form.getFieldDecorator(`pdSkus[${index}].tagPrice`,{
+                 this.props.form.getFieldDecorator(name,{
                    initialValue:pdSkus[index].tagPrice
                  })(
                    <Input placeholder="请输入进货价" autoComplete="off"/>
@@ -134,7 +134,11 @@ class GoodsInfo extends Component {
       <div className="pdSkus-goods-info-tabels">
         <Col span={24}>
           <FormItem label='商品信息' {...formItemLayout2}>
-        <Table dataSource={pdSkus} pagination={false} bordered={true}>
+        <Table
+          dataSource={pdSkus}
+          rowKey={(record) =>record.key}
+          pagination={false}
+          bordered={true}>
           {
             specData.specOne.length>0&&
             <Table.Column title="商品规格" width={120} key ={0} render={this.renderName}/>

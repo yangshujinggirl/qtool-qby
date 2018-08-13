@@ -200,7 +200,7 @@ class AddGoodsForm extends Component {
             <Col span={24}>
               <FormItem label='NEW商品' {...formItemLayout}>
                  {getFieldDecorator('isNew',{
-                   initialValue:pdSpu.eventNewc||false
+                   initialValue:pdSpu.eventNewc||0
                  })(
                    <RadioGroup>
        							<Radio value={1} value={1}>是</Radio>
@@ -212,7 +212,7 @@ class AddGoodsForm extends Component {
             <Col span={24}>
               <FormItem label='HOT商品' {...formItemLayout}>
                  {getFieldDecorator('isHot',{
-                   initialValue:pdSpu.eventHotc||false
+                   initialValue:pdSpu.eventHotc||0
                  })(
                    <RadioGroup>
        							<Radio value={1} value={1}>是</Radio>

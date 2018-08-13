@@ -13,8 +13,22 @@ export default {
       total:0,
     },
     fileList:[],
+    authorityList:{
+      authorityEdit:false,
+    }
   },
   reducers: {
+    setAuthority(state, { payload : authorityData }) {
+      let authorityList={};
+      authorityData.map((el) => {
+        switch(el.urResourceId){
+          case 311200:
+            authorityList.authorityEdit=true;
+            break;
+        }
+      })
+      return { ...state, authorityList }
+    },
     getList( state, { payload : {data} }) {
       return { ...state, data}
     },

@@ -26,9 +26,17 @@ class CountryManageForm extends Component {
     }
   }
   componentDidMount() {
+    this.initPage()
+  }
+  initPage() {
+    const { rolelists=[] } =this.props.data;
     this.props.dispatch({
       type:'countryManage/fetchList',
       payload:{},
+    })
+    this.props.dispatch({
+      type:'countryManage/setAuthority',
+      payload:rolelists,
     })
   }
   //新增
@@ -41,6 +49,9 @@ class CountryManageForm extends Component {
   }
   //修改
   editCountry(el) {
+    if(!this.props.countryManage.authorityList.authorityEdit) {
+      return;
+    }
     this.setState({
       countryDetail:{
         name:el.name,
@@ -110,21 +121,27 @@ class CountryManageForm extends Component {
   }
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { data } = this.props.countryManage;
+    const { data, authorityList } = this.props.countryManage;
     const { visible, countryDetail, pdCountryId } =this.state;
     let title = pdCountryId?'修改国家':'新增国家';
     return(
       <div className="country-manage-components">
-        <div className="handle-add-btn-wrp">
-          <Button type="primary" onClick={()=>this.addCountry()}>新增国家</Button>
-        </div>
+        {
+          authorityList.authorityEdit&&
+          <div className="handle-add-btn-wrp">
+            <Button
+              size="large"
+              type="primary"
+              onClick={()=>this.addCountry()}>新增国家</Button>
+          </div>
+        }
         <div className="country-list">
           <Row wrap>
             {
               data.dataList.length>0&&data.dataList.map((el,index) => (
                 <div key={index} onClick={()=>this.editCountry(el)} className="card-wrap">
                   <Card
-                    className='card-item'
+                    className={`${authorityList.authorityEdit?'card-item':'card-item disabled'}`}
                     hoverable
                     cover={<img alt="example" src={el.url} />}>
                     <div className="theme-color country-name">{el.name}</div>

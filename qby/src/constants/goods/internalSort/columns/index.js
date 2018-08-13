@@ -10,6 +10,9 @@ const FirstSortColumns = [{
      title: '操作',
      dataIndex: 'receivePrice',
      render:(text,record,index)=>{
+       if(!record.authorityEdit) {
+         return;
+       }
        return <p
          className="theme-color pointer"
          onClick={()=>record.onOperateClick()}>修改</p>
@@ -28,6 +31,9 @@ const SecondSortColumns = [{
      title: '操作',
      dataIndex: 'receivePrice',
      render:(text,record,index)=>{
+       if(!record.authorityEdit) {
+         return;
+       }
        return <p
                className="theme-color pointer"
                onClick={()=>record.onOperateClick()}>修改</p>
@@ -49,6 +55,9 @@ const ThrSortColumns = [{
      title: '操作',
      dataIndex: 'receivePrice',
      render:(text,record,index)=>{
+       if(!record.authorityEdit) {
+         return;
+       }
        return <p
          className="theme-color pointer"
          onClick={()=>record.onOperateClick()}>修改</p>
@@ -73,6 +82,9 @@ const FourSortColumns = [{
      title: '操作',
      dataIndex: 'receivePrice',
      render:(text,record,index)=>{
+       if(!record.authorityEdit) {
+         return;
+       }
        return <p
          className="theme-color pointer"
          onClick={()=>record.onOperateClick()}>修改</p>
