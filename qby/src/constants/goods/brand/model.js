@@ -18,7 +18,7 @@ const CollectionCreateForm = Form.create()(
                 onOk={onCreate}
             >
                 <Form>
-                    <FormItem 
+                    <FormItem
                         label="品牌图片"
                         labelCol={{ span: 5 }}
                         wrapperCol={{ span: 12 }}
@@ -29,18 +29,18 @@ const CollectionCreateForm = Form.create()(
                     )}
                     </FormItem>
 
-                <FormItem 
+                <FormItem
                     label="品牌名称"
                     labelCol={{ span: 5 }}
                     wrapperCol={{ span: 12 }}
                 >
                     {getFieldDecorator('name', {
-                        rules: [{ required: true, message: '请输入属性名称' }],
+                        rules: [{ required: true, message: '请输入品牌名称' }],
                     })(
                         <Input/>
                     )}
                 </FormItem>
-                <FormItem 
+                <FormItem
                     label="品牌状态"
                     labelCol={{ span: 5 }}
                     wrapperCol={{ span: 12 }}
@@ -105,7 +105,7 @@ class CollectionsPage extends React.Component {
         })
 
 
-        
+
         });
     }
     saveFormRef = (form) => {
@@ -130,7 +130,7 @@ class CollectionsPage extends React.Component {
     const fileDomain=eval(sessionStorage.getItem('fileDomain'));
     return (
       <div style={{display:'inline-block'}}>
-          { 
+          {
               this.props.type=='1'
               ?
               <div onClick={this.showModal} style={{color:'#35bab0',width:'122px',height:'82px'}} className='pointer'>
@@ -140,7 +140,7 @@ class CollectionsPage extends React.Component {
               <Button type={this.props.statetype} size='large' onClick={this.showModal}>{this.props.text}</Button>
 
           }
-        
+
         <CollectionCreateForm
             ref={this.saveFormRef}
             visible={this.state.visible}
@@ -164,4 +164,3 @@ function mapStateToProps(state) {
 
 
 export default connect(mapStateToProps)(CollectionsPage);
-

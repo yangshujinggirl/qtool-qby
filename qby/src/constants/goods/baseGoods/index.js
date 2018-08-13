@@ -196,7 +196,7 @@ class BaseGoods extends Component {
           {
             authorityList.authorityOutLine&&
             <Button
-              size="large" 
+              size="large"
               type="primary"
               onClick={()=>this.addGoods(0)}>新增线下商品</Button>
           }

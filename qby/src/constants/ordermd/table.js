@@ -5,7 +5,7 @@ import TableLink from '../../components/table/tablelink';
 
 class OrdermdTable extends React.Component {
 	constructor(props) {
-        super(props);
+      super(props);
      this.columns = [{
           title: '订单号',
           dataIndex: 'orderNo',
@@ -32,7 +32,7 @@ class OrdermdTable extends React.Component {
         },{
           title: '订单类型',
           dataIndex: 'typeStr'
-        },,{
+        },{
           title: '是否预售',
           dataIndex: 'preSellStatusStr'
         },{
@@ -43,7 +43,7 @@ class OrdermdTable extends React.Component {
           dataIndex: 'createTime'
         }];
     }
-    
+
     //点击表格上的修改按钮操作
     editInfo = (record) =>{
        	const spOrderId=String(record.spOrderId)
@@ -57,7 +57,7 @@ class OrdermdTable extends React.Component {
 			payload:{}
 		})
 
-		   
+
     }
 
     //分页方法
@@ -68,8 +68,8 @@ class OrdermdTable extends React.Component {
     pageSizeChange=(current,size)=>{
           this.initList(this.props.values,size,0)
     }
-    
-    //列表数据请求   
+
+    //列表数据请求
     initList=(values,limit,currentPage)=>{
         values.limit=limit;
         values.currentPage=currentPage;
@@ -82,9 +82,9 @@ class OrdermdTable extends React.Component {
 
     render() {
         return (
-          	<EditableTable 
-				dataSource={this.props.tableList} 
-				columns={this.columns} 
+          	<EditableTable
+				dataSource={this.props.tableList}
+				columns={this.columns}
 				footer={true}
 				pageChange={this.pageChange.bind(this)}
 				pageSizeChange={this.pageSizeChange.bind(this)}
@@ -95,8 +95,8 @@ class OrdermdTable extends React.Component {
             />
         );
 	}
-	
-    
+
+
 }
 
 function mapStateToProps(state) {
@@ -105,6 +105,3 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(OrdermdTable);
- 
-
-
