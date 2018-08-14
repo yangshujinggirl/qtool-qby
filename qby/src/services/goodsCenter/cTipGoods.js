@@ -34,11 +34,27 @@ export function getLogListApi(values) {
       data:values
   })
 }
-//操作
+//操作上线
 export function handleSellApi(values) {
   values = JSON.stringify(values)
   return ajax.post('/webrest.htm',{
-      code:'qerp.web.pd.spu.status',
+      code:'qerp.web.pd.cspu.status',
+      data:values
+  })
+}
+//操作上新
+export function handleNewApi(values) {
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.pd.spu.statusnew',
+      data:values
+  })
+}
+//操作上热
+export function handleHotApi(values) {
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.pd.spu.statushot',
       data:values
   })
 }
