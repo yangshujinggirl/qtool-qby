@@ -24,7 +24,9 @@ export default {
             key: 0,
             pdCode:null,
             qty: null,
-            price:null
+            price:null,
+            pdName:null,
+            pdSkuType:null
         }],
         nothasFacepay:true,
         taxRateDisabled:true
@@ -89,7 +91,7 @@ export default {
                     tableList[i].key=tableList[i].wsAsnId;
                 }
                 yield put({type: 'syncTableList',payload:{tableList,total,limit,currentPage}});
-            } 
+            }
         },
         *infofetch({ payload: {code,values} }, { call, put ,select}) {
             const result=yield call(GetServerData,code,values);
@@ -130,7 +132,7 @@ export default {
                 const details=[]
                 const logs=[]
                 yield put({type: 'syncInfolist',payload:{headTitle,headTit,details,logs}});
-            } 
+            }
         },
         *editfetch({ payload: {code,values} }, { call, put }) {
 			const result=yield call(GetServerData,code,values);
@@ -167,13 +169,15 @@ export default {
                         key:i+1+'s',
                         price:goodsInfoList[i].price,
                         qty:goodsInfoList[i].qty,
-                        pdCode:goodsInfoList[i].pdCode
+                        pdCode:goodsInfoList[i].pdCode,
+                        pdName:goodsInfoList[i].pdName,
+                        pdSkuType:goodsInfoList[i].pdSkuType
                     }
                     goodsInfo.push(json);
                 }
                   yield put({type: 'syncEditInfo',payload:editInfo});
                   yield put({type: 'syncGoodsInfo',payload:goodsInfo});
-			} 
+			}
 		},
   	},
   	subscriptions: {},

@@ -51,7 +51,7 @@ class OrdercgEditForm extends React.Component{
             type:'ordercg/fetch',
             payload:{code:'qerp.web.ws.asn.query',values:this.props.values}
 		})
-		this.props.dispatch({ type: 'tab/loding', payload:true}) 
+		this.props.dispatch({ type: 'tab/loding', payload:true})
 	}
 
 
@@ -62,7 +62,7 @@ class OrdercgEditForm extends React.Component{
             payload:{}
 		})
     }
-    
+
 	//保存
 	handleSubmit = (e) => {
 		e.preventDefault();
@@ -108,7 +108,7 @@ class OrdercgEditForm extends React.Component{
     searchSupplier = (value) =>{
 		let tempFormvalue = deepcCloneObj(this.props.editInfo);
 		tempFormvalue.pdSupplierId = null;
-	
+
 			this.props.dispatch({
 				type:'ordercg/syncEditInfo',
 				payload:tempFormvalue
@@ -132,8 +132,8 @@ class OrdercgEditForm extends React.Component{
                 });
             }
         })
-    } 
-    
+    }
+
     //选择供应商
     selectSupplier= (value) =>{
 		let tempFormvalue =deepcCloneObj(this.props.editInfo);
@@ -143,12 +143,12 @@ class OrdercgEditForm extends React.Component{
 			payload:tempFormvalue
 		})
 	}
-	
+
 	//选择预计送达时间
 	chooseArriveTime = (date, dateString) =>{
 		let tempFormvalue =deepcCloneObj(this.props.editInfo);
 		tempFormvalue.expectedTime = dateString;
-	
+
 			this.props.dispatch({
 				type:'ordercg/syncEditInfo',
 				payload:tempFormvalue
@@ -252,7 +252,7 @@ class OrdercgEditForm extends React.Component{
 					wrapperCol={{ span: 16 }}
 				>
 					{getFieldDecorator('details')(
-                        <GoodsInfoTable/>
+              <GoodsInfoTable/>
 					)}
 				</FormItem>
 				<FormItem
@@ -260,8 +260,8 @@ class OrdercgEditForm extends React.Component{
 					labelCol={{ span: 3,offset: 1 }}
 					wrapperCol={{ span: 6 }}
 				>
-					<DatePicker placeholder='请选择送达时间' 
-								value={this.props.editInfo.expectedTime?moment(this.props.editInfo.expectedTime, 'YYYY-MM-DD'):null} 
+					<DatePicker placeholder='请选择送达时间'
+								value={this.props.editInfo.expectedTime?moment(this.props.editInfo.expectedTime, 'YYYY-MM-DD'):null}
 								onChange={this.chooseArriveTime.bind(this)}/>
 				</FormItem>
 				<FormItem
@@ -358,9 +358,9 @@ class OrdercgEditForm extends React.Component{
 			this.initDateEdit(payload);
 		};
 	  }
-	  
+
 	  componentWillReceiveProps(){
-		
+
 	  }
 }
 function mapStateToProps(state) {

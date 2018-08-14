@@ -11,6 +11,7 @@ class GoodEditForm extends React.Component{
 	constructor(props) {
 		super(props);
 		this.state = {
+			loading:false,
 			codes:[],
 			check1:null,
 			check2:null,
@@ -74,12 +75,12 @@ class GoodEditForm extends React.Component{
 		if(this.props.data){
 			this.props.dispatch({
 				type:'tab/initDeletestate',
-				payload:`${this.props.componkey}edit`+this.props.data.pdTaskTimeId
+				payload:`${this.props.componkey}`+this.props.data.pdTaskTimeId
 			  });
 		}else{
 			this.props.dispatch({
 				type:'tab/initDeletestate',
-				payload:`${this.props.componkey}edit`
+				payload:`${this.props.componkey}`
 			});
 		}
 		this.refreshList();
@@ -116,6 +117,7 @@ class GoodEditForm extends React.Component{
 							taskTime:value,
 							codes:codes
 						}
+						this.setState({loading:true})
 						createTimerApi(values)
 						.then((res) => {
 					  	if(res.code == '0'){
@@ -125,10 +127,11 @@ class GoodEditForm extends React.Component{
 						   	}else{
 							  	message.success('定时设置成功',.8);
 						   	};
-					  	};
-				  	},err => {
-
-						})
+								this.setState({loading:false})
+					  	}else{
+								this.setState({loading:false})
+							}
+				  	})
         };
 			};
     });
@@ -307,7 +310,7 @@ class GoodEditForm extends React.Component{
 					  {
 						  this.props.data?<Button htmlType="submit" type="primary" onClick={this.handUse}>强制无效</Button>:null
 					  }
-              	<Button type="primary" onClick={this.handleSubmit} style={{marginLeft:'30px'}}>保存</Button>
+              	<Button type="primary" onClick={this.handleSubmit} loading={this.state.loading} style={{marginLeft:'30px'}}>保存</Button>
             	</FormItem>
           	</Form>
       	)

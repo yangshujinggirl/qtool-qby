@@ -14,6 +14,7 @@ class OrderctEditForm extends React.Component{
 	constructor(props) {
 		super(props);
 		this.state = {
+						loading:false,
             dataSource:[],
             residences:[],
             //请求的仓库列表信息
@@ -40,7 +41,7 @@ class OrderctEditForm extends React.Component{
             type:'orderct/fetch',
             payload:{code:'qerp.web.sp.ctorder.query',values:this.props.values}
 		})
-		this.props.dispatch({ type: 'tab/loding', payload:true}) 
+		this.props.dispatch({ type: 'tab/loding', payload:true})
 	}
 
 
@@ -77,7 +78,7 @@ class OrderctEditForm extends React.Component{
                         valuess.push({
                             text:suppliers[i].name,
                             value:suppliers[i].pdSupplierId
-                        }) 
+                        })
                     }
                     this.setState({
                         dataSource: valuess
@@ -91,6 +92,7 @@ class OrderctEditForm extends React.Component{
 		e.preventDefault();
 		this.props.form.validateFields((err, values) => {
 		    if (!err) {
+								this.setState({loading:true});
                 let data = values;
                 data.details = this.props.goodsInfo;
                 data.supplierId = this.props.formValue.supplierId;
@@ -102,14 +104,18 @@ class OrderctEditForm extends React.Component{
                     return res;
                 }).then((json) => {
                     if(json.code=='0'){
-						message.success('采退单创建成功',.8);
-						this.deleteTab();
-						this.refreshList();
-					    this.initState();
-                    }
+											message.success('采退单创建成功',.8);
+											this.deleteTab();
+											this.refreshList();
+									    this.initState();
+											this.setState({loading:false});
+                    }else{
+											this.setState({loading:false});
+										}
                 })
             }else{
                 return false;
+								this.setState({loading:false});
             }
         });
 	}
@@ -132,7 +138,7 @@ class OrderctEditForm extends React.Component{
 			})
 		})
     }
-    
+
     RadioChangeTaxRate=(e)=>{
         if(e.target.value=='1'){
             this.setState({
@@ -285,8 +291,8 @@ class OrderctEditForm extends React.Component{
 					{getFieldDecorator('recCity', {
 						rules: [{ type: 'array', required: true, message: '请选择收货省市区' }],
 					})(
-						<Cascader 
-                            placeholder="请选择所属城市" 
+						<Cascader
+                            placeholder="请选择所属城市"
                             options={this.state.residences}
                         />
 					)}
@@ -314,7 +320,7 @@ class OrderctEditForm extends React.Component{
 				</FormItem>
             	<FormItem wrapperCol={{ offset: 4}} style = {{marginBottom:0}}>
               		<Button className='mr30' onClick={this.hindCancel.bind(this)}>取消</Button>
-              		<Button  type="primary" onClick={this.handleSubmit.bind(this)}>保存</Button>
+              		<Button  type="primary" loading={this.state.loading}  onClick={this.handleSubmit.bind(this)}>保存</Button>
             	</FormItem>
           	</Form>
       	)
@@ -322,7 +328,7 @@ class OrderctEditForm extends React.Component{
   	componentDidMount(){
     	//请求仓库列表信息
         this.warehouseList();
-        
+
         let result1=GetServerData('qerp.web.bs.region','');
         result1.then((res) => {
             return res;

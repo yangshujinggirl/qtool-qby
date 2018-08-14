@@ -47,17 +47,16 @@ class OrdermdTable extends React.Component {
     //点击表格上的修改按钮操作
     editInfo = (record) =>{
        	const spOrderId=String(record.spOrderId)
-		const paneitem={title:'订单详情',key:'201000edit'+spOrderId+'info',data:{spOrderId:spOrderId,cancelorders:this.props.cancelorderobj},componkey:'201000info'}
+				const paneitem={title:'订单详情',key:'201000edit'+spOrderId+'info',data:{spOrderId:spOrderId,cancelorders:this.props.cancelorderobj},componkey:'201000info'}
        	this.props.dispatch({
-			type:'tab/firstAddTab',
-			payload:paneitem
-		})
-		this.props.dispatch({
-			type:'ordermd/initsyncDetailList',
-			payload:{}
-		})
-
-
+					type:'tab/firstAddTab',
+					payload:paneitem
+				})
+				// 不知道干嘛的，先注释，因为导致二次点击，数据消失
+				// this.props.dispatch({
+				// 	type:'ordermd/initsyncDetailList',
+				// 	payload:{}
+				// })
     }
 
     //分页方法

@@ -18,9 +18,9 @@ class GoodEditForm extends React.Component{
 			check4:null,
 			check5:null,
 			check6:null,
-			salestatus:0,
-			statusnew:0,
-			statushot:0,
+			salestatus:null,
+			statusnew:null,
+			statushot:null,
 			taskTime:[],
 			taskName:null
 		}
@@ -30,7 +30,7 @@ class GoodEditForm extends React.Component{
 			this.getinfoData()
 		}
 	}
-	
+
 	//删除当前tab
 	deleteTab=()=>{
 		const pane = eval(sessionStorage.getItem("pane"));
@@ -58,12 +58,12 @@ class GoodEditForm extends React.Component{
             type:'goodtime/fetch',
             payload:{code:'qerp.web.pd.task.time.query',values:values}
         });
-		this.props.dispatch({ type: 'tab/loding', payload:true}) 
+		this.props.dispatch({ type: 'tab/loding', payload:true})
 	}
 
 	kg=(arr)=>{
         arr!=''
-         return arr 
+         return arr
      }
 
 	//保存
@@ -121,7 +121,7 @@ class GoodEditForm extends React.Component{
 				check2:!e.target.checked,
 				salestatus:e.target.checked?1:0
 			})
-		} 
+		}
 	}
 	onChange2=(e)=>{
 		if(this.state.check2==true && e.target.checked==false){
@@ -136,7 +136,7 @@ class GoodEditForm extends React.Component{
 				check2:e.target.checked,
 				salestatus:e.target.checked?0:1
 			})
-		} 
+		}
 	}
 	onChange3=(e)=>{
 		if(this.state.check3==true && e.target.checked==false){
@@ -229,7 +229,7 @@ class GoodEditForm extends React.Component{
 						check4:check4,
 						check5:check5,
 						check6:check6,
-						taskTime:taskTime, 
+						taskTime:taskTime,
 						salestatus:salestatus,//是否在售
 						statusnew:statusnew,//是否上架
 						statushot:statushot,//是否畅销
@@ -237,7 +237,7 @@ class GoodEditForm extends React.Component{
 						taskName:taskName
 					})
 				}
-		})	
+		})
 	}
 	handUse=()=>{
 		const values={pdTaskTimeId:this.props.data.pdTaskTimeId}
@@ -251,7 +251,7 @@ class GoodEditForm extends React.Component{
 			}
 		})
 	}
-  	render(){  
+  	render(){
 		const { getFieldDecorator } = this.props.form;
      	return(
           	<Form className="addUser-form addcg-form">
@@ -319,7 +319,7 @@ class GoodEditForm extends React.Component{
           	</Form>
       	)
   	}
-  	
+
 }
 function mapStateToProps(state) {
 	const {values} = state.goodtime;

@@ -46,7 +46,7 @@ class OperatesupplierEditForm extends React.Component{
             type:'operatesupplier/fetch',
             payload:{code:'qerp.web.pd.supplier.query',values:this.props.values}
 		})
-		this.props.dispatch({ type: 'tab/loding', payload:true}) 
+		this.props.dispatch({ type: 'tab/loding', payload:true})
 	}
 
 
@@ -112,7 +112,7 @@ class OperatesupplierEditForm extends React.Component{
 						rules: [{ required: true, message: '请填写供应商名称'}],
 						initialValue:this.props.formValue.name
 					})(
-						<Input placeholder="请填写供应商名称" autoComplete="off"/>
+						<Input placeholder="请填写供应商名称" maxLength='32' autoComplete="off"/>
 					)}
 				</FormItem>
                 <FormItem

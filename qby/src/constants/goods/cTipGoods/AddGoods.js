@@ -83,7 +83,6 @@ class AddGoodsForm extends Component {
     const { pdSpuId, source } =this.props.data;
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
-      console.log(values)
       if (!err) {
         values = Object.assign(values,{
           pdSpuId
@@ -161,7 +160,7 @@ class AddGoodsForm extends Component {
                      rules: [{ required: true, message: '请输入商品名称'}],
                      initialValue:pdSpu.cname
                    })(
-                     <Input placeholder="请输入C端名称" autoComplete="off"/>
+                     <Input placeholder="请输入C端名称" maxLength="32" autoComplete="off"/>
                    )
                  }
                </FormItem>
@@ -224,7 +223,7 @@ class AddGoodsForm extends Component {
             <Col span={24}>
               <FormItem label='商品描述' {...formItemLayout}>
                 {
-                  pdSpu.pdSpuInfo&&
+                  pdSpu.pdSpuInfo &&
                   <AddGoodsDesc
                     dataSource={pdSpu.pdSpuInfo}
                     form={this.props.form}/>

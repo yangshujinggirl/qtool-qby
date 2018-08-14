@@ -85,69 +85,81 @@ class EditableCell extends React.Component {
         const fileDomain=eval(sessionStorage.getItem('fileDomain'));
         const { value, editable } = this.state;
         return (
-        <div className="editable-cell">
-        {
-        this.props.operadatatype=='1'?
-        <span>{this.props.data}</span>
-        :
-        this.props.data.map((item,index)=>{
-          return (
-              <span key={index}>
-                  {
-                      item.name=='%s'?
-                      (
-                          (item.type=='2' && item.indexs=='3')?<span onClick={this.handleChange1.bind(this,item.replacevalue)} style={{color:'#35bab0',cursor:'pointer'}}>图片链接</span>
-                          :(item.type=='2' && item.indexs=='1'?item.replacevalue:(
-                              item.type=='3'?(item.indexs=='2'?<span onClick={this.handleChange2.bind(this,item)} style={{color:'#35bab0',cursor:'pointer'}}>修改前商品描述</span>:(item.indexs=='3'?<span onClick={this.handleChange3.bind(this,item)} style={{color:'#35bab0',cursor:'pointer'}}>修改后商品描述</span>:'')):((item.type=='4' && item.indexs=='1')?<span onClick={this.handleChange4.bind(this,item.replacevalue)} style={{color:'#35bab0',cursor:'pointer'}}>商品描述</span>:'')
-                          ))
-
-
-
-                      ):item.replacevalue
-
-                  }
-              </span>
-            )
-          })
-        }
-
-                <Modal
-                  className='model-log'
-                  title={this.state.title}
-                  visible={this.state.visible}
-                  onOk={this.handleOk}
-                  onCancel={this.handleCancel}
-                  footer={null}>
-                  {
-                    this.state.type=='1'?
+          <div className="editable-cell">
+            {
+              this.props.operadatatype=='1'
+              ?
+                <span>{this.props.data}</span>
+              :
+              this.props.data.map((item,index)=>{
+                return (
+                    <span key={index}>
+                        {
+                          item.name=='%s'
+                          ?(
+                            (item.type=='2' && item.indexs=='3')
+                            ?<span onClick={this.handleChange1.bind(this,item.replacevalue)} style={{color:'#35bab0',cursor:'pointer'}}>图片链接</span>
+                            :(item.type=='2' && item.indexs=='1'
+                              ?item.replacevalue
+                              :(item.type=='3'
+                                  ?(item.indexs=='2'
+                                    ?<span onClick={this.handleChange2.bind(this,item)} style={{color:'#35bab0',cursor:'pointer'}}>修改前商品描述</span>
+                                    :(item.indexs=='3'
+                                      ?<span onClick={this.handleChange3.bind(this,item)} style={{color:'#35bab0',cursor:'pointer'}}>修改后商品描述</span>
+                                      :''))
+                                  :((item.type=='4' && item.indexs=='1')
+                                    ?<span onClick={this.handleChange4.bind(this,item.replacevalue)} style={{color:'#35bab0',cursor:'pointer'}}>商品描述</span>
+                                    :'')
+                                )
+                              )
+                            )
+                          :item.replacevalue
+                        }
+                    </span>
+                  )
+                })
+              }
+              <Modal
+                className='model-log'
+                title={this.state.title}
+                visible={this.state.visible}
+                onOk={this.handleOk}
+                onCancel={this.handleCancel}
+                footer={null}>
+                {
+                  this.state.type=='1'
+                  ?
                     <div><img src={fileDomain+this.state.picUrl} className='w100 h100'/></div>
-                    :
-                    (
-                      this.state.type=='2'?
+                  :
+                  (
+                    this.state.type=='2'
+                    ?
                       <div>
-                          {
-                              this.state.infodata.map((item,index)=>{
-                                  return (
-                                  <div key={index}>
-                                    {
-                                      item.type=='1'?
-                                      <div style={{textAlign:'center'}}>{item.content}</div>
-                                      :
-                                      <div style={{width:"100px",height:'100px',margin:'0 auto'}}>
-                                        <img src={fileDomain+item.content} className='w100 h100'/>
-                                      </div>
-                                    }
-                                  </div>)
-                              })
-                          }
-                      </div>
-                      :null
-                    )
-                  }
-                </Modal>
+                        {
+                          this.state.infodata.map((item,index)=>{
+                            return (
+                              <div key={index}>
+                                {
+                                  item.type=='1'
+                                  ?
+                                    <div style={{textAlign:'center'}}>{item.content}</div>
+                                  :
+                                    <div style={{width:"100px",height:'100px',margin:'0 auto'}}>
+                                      <img src={fileDomain+item.content} className='w100 h100'/>
+                                    </div>
+                                }
+                              </div>
+                            )
+                          })
+                        }
+                    </div>
+                    :null
+                  )
+                }
+            </Modal>
         </div>
-        );
-    }
+      );
+  }
 }
 
 class Config extends React.Component{
@@ -209,7 +221,7 @@ class Config extends React.Component{
               //数据加定操作
               for(var i=0;i<data.length;i++){
                   if(data[i].type=='30'){
-                      data[i].operater=data[i].operater+'【定】'
+                      data[i].urUserName=data[i].urUserName+'【定】'
                   }
                   //区别纯字符串，图片，商品描述
                   // operadatatype:1 //纯字符串
@@ -228,7 +240,7 @@ class Config extends React.Component{
                       break;
                     case 'XZMSLR':
                     case 'SCMSLR':
-                      data[i].operadatatype = '2';
+                      data[i].operadatatype = '4';
                       break;
                     case 'XGMSLR':
                       data[i].operadatatype = '3';

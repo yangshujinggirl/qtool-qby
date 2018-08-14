@@ -194,7 +194,7 @@ class Config extends React.Component{
             //数据加定操作
             for(var i=0;i<data.length;i++){
                 if(data[i].type=='30'){
-                    data[i].operater=data[i].operater+'【定】'
+                    data[i].urUserName=data[i].urUserName+'【定】'
                 }
                 //区别纯字符串，图片，商品描述
                 // operadatatype:1 //纯字符串
@@ -213,7 +213,7 @@ class Config extends React.Component{
                     break;
                   case 'XZMSLR':
                   case 'SCMSLR':
-                    data[i].operadatatype = '2';
+                    data[i].operadatatype = '4';
                     break;
                   case 'XGMSLR':
                     data[i].operadatatype = '3';
