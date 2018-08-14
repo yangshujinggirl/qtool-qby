@@ -5,7 +5,11 @@ import { Button, message, Modal } from 'antd'
 import FilterForm from './components/FilterForm/index.js';
 import GoodsList from './components/GoodsList/index.js';
 import Qpagination from '../../../components/Qpagination';
-import { handleSellApi } from '../../../services/goodsCenter/cTipGoods.js';
+import {
+  handleSellApi,
+  handleNewApi,
+  handleHotApi
+} from '../../../services/goodsCenter/cTipGoods.js';
 
 const WarnMessage = {
   t1: '商品状态将变为上架状态，Q掌柜将会对外售卖，确认吗',
@@ -20,8 +24,8 @@ const SuccessTips = {
   t2: '下线成功',
   t3: '上新成功',//上新
   t4: '下新成功',//下新
-  t5: '畅销',//畅销
-  t6: '下畅销',//下畅销
+  t5: '畅销成功',//畅销
+  t6: '下畅销成功',//下畅销
 }
 
 class CtipGoods extends Component {
@@ -227,7 +231,7 @@ class CtipGoods extends Component {
       isNew:val,
       spuIds:ids
     }
-    handleSellApi(params)
+    handleNewApi(params)
     .then(res => {
       const { code } =res;
       if(code == '0') {
@@ -244,7 +248,7 @@ class CtipGoods extends Component {
       isHot:val,
       spuIds:ids
     }
-    handleSellApi(params)
+    handleHotApi(params)
     .then(res => {
       const { code } =res;
       if(code == '0') {
