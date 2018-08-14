@@ -11,7 +11,7 @@ const DetailSizeColumns = [{
      dataIndex: 'barcode'
    }, {
      title: '售价',
-     dataIndex: 'toBPrice'
+     dataIndex: 'salePrice'
    },{
      title: '采购价',
      dataIndex: 'purchasePrice'
@@ -45,7 +45,7 @@ const DetailColumns = [{
      dataIndex: 'barcode'
    }, {
      title: '售价',
-     dataIndex: 'toBPrice'
+     dataIndex: 'salePrice'
    },{
      title: '采购价',
      dataIndex: 'purchasePrice'

@@ -96,10 +96,10 @@ class GoodsInfo extends Component {
   }
   renderReceivePrice =(text, record, index)=> {
     const { pdSkus, specData } = this.props.addGoods;
-    let name = specData.specOne.length == 0?'costPrice':`pdSkus[${index}].costPrice`;
+    let name = specData.specOne.length == 0?'tagPrice':`pdSkus[${index}].tagPrice`;
     return  <div>
                {this.props.form.getFieldDecorator(name,{
-                 initialValue:pdSkus[index].costPrice
+                 initialValue:pdSkus[index].tagPrice
                })(
                  <Input placeholder="请输入建议零售价" autoComplete="off"/>
                )}
@@ -107,11 +107,11 @@ class GoodsInfo extends Component {
   }
   renderDeliveryPrice =(text, record, index)=> {
     const { pdSkus, specData } = this.props.addGoods;
-    let name = specData.specOne.length == 0?'tagPrice':`pdSkus[${index}].tagPrice`;
+    let name = specData.specOne.length == 0?'costPrice':`pdSkus[${index}].costPrice`;
     return  <div>
                {
                  this.props.form.getFieldDecorator(name,{
-                   initialValue:pdSkus[index].tagPrice
+                   initialValue:pdSkus[index].costPrice
                  })(
                    <Input placeholder="请输入进货价" autoComplete="off"/>
                  )
