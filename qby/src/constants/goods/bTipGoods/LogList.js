@@ -180,7 +180,9 @@ class Config extends React.Component{
     showConfig=(value)=>{
       let values = {
           pdSpuId:String(this.props.data.pdSpuId),
-          limit:this.state.limit
+          limit:this.state.limit,
+          channel:2,
+          currentPage:this.state.currentPage
       };
       this.props.dispatch({type: 'tab/loding',payload:true})
       //请求日志

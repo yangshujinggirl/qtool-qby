@@ -209,6 +209,7 @@ class Config extends React.Component{
             },
             currentPage:this.state.currentPage,
             limit:this.state.limit
+            
         };
         //请求日志
         let result=GetServerData('qerp.web.pd.spulog.list',values);
