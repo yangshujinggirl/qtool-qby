@@ -46,7 +46,7 @@ export function handleSellApi(values) {
 export function handleNewApi(values) {
   values = JSON.stringify(values)
   return ajax.post('/webrest.htm',{
-      code:'qerp.web.pd.spu.statusnew',
+      code:'qerp.web.pd.cspu.statusnew',
       data:values
   })
 }
@@ -54,7 +54,7 @@ export function handleNewApi(values) {
 export function handleHotApi(values) {
   values = JSON.stringify(values)
   return ajax.post('/webrest.htm',{
-      code:'qerp.web.pd.spu.statushot',
+      code:'qerp.web.pd.cspu.statushot',
       data:values
   })
 }

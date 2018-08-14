@@ -208,10 +208,10 @@ class CtipGoods extends Component {
       visible:false,
     })
   }
-  //售卖，停售
+  //上线下线
   sellAndSaleStop(ids,val) {
     const params = {
-      cStatus:val,
+      cstatus:val,
       pdSpuIds:ids
     }
     handleSellApi(params)
@@ -229,7 +229,7 @@ class CtipGoods extends Component {
   sellNewGoods(ids,val) {
     const params = {
       isNew:val,
-      spuIds:ids
+      pdSpuIds:ids
     }
     handleNewApi(params)
     .then(res => {
@@ -246,7 +246,7 @@ class CtipGoods extends Component {
   sellHotGoods(ids,val) {
     const params = {
       isHot:val,
-      spuIds:ids
+      pdSpuIds:ids
     }
     handleHotApi(params)
     .then(res => {
