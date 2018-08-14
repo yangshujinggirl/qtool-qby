@@ -52,7 +52,7 @@ const OutLinePartDetail =({pdSpu})=>(
       <label>{pdSpu.isSeasonSpuStr}</label>
     </FormItem>
     {
-      pdSpu.isSeason&&
+      !!pdSpu.isSeason&&
       <div>
         <FormItem
           label="上市开始时间" {...formItemLayout}>
@@ -69,7 +69,7 @@ const OutLinePartDetail =({pdSpu})=>(
       <label>{pdSpu.lotStatus?'开启':'关闭'}</label>
     </FormItem>
     {
-      pdSpu.lotStatus&&
+      !!pdSpu.lotStatus&&
       <div>
         <FormItem
           label="保质期" {...formItemLayout}>
