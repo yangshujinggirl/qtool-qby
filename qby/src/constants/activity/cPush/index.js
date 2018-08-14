@@ -150,6 +150,15 @@ class Cpush extends Component{
     this.setState({isPushVisible:false})
   }
   render(){
+    const rolelists=this.props.data.rolelists
+    //新增推送
+    const addPush=rolelists.find((currentValue,index)=>{
+      return currentValue.url=="qerp.web.pd.cpush.save"
+    })
+    //撤销推送
+    const revokePush=rolelists.find((currentValue,index)=>{
+      return currentValue.url=="qerp.web.pd.cpush.revoke"
+    })
     const {dataList} = this.props.cPush;
     return(
       <div className='qtools-components-pages'>
@@ -158,8 +167,16 @@ class Cpush extends Component{
           onValuesChange = {this.searchDataChange}
         />
         <div className="handel-btn-lists">
-          <Button onClick={this.addPush} size='large' type='primary'>新增推送</Button>
-          <Button onClick={this.cancelPush} size='large' type='primary'>撤销推送</Button>
+          {
+            addPush?
+            <Button onClick={this.addPush} size='large' type='primary'>新增推送</Button>
+            :null
+          }
+          {
+            revokePush?
+            <Button onClick={this.cancelPush} size='large' type='primary'>撤销推送</Button>
+            :null
+          }
         </div>
         <Modal
             bodyStyle={{fontSize:'24px','padding':'50px'}}

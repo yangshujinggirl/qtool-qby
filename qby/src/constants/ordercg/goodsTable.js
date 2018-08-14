@@ -21,10 +21,10 @@ class GoodsInfoTable extends React.Component {
             width:'150px',
             render: (text, record, index) => {
                 return (
-                    <Input 
-                        value={this.props.goodsInfo[index].pdCode} 
-                        placeholder="请输入商品编码" 
-                        onChange={this.handleChangeCode.bind(this, index)} 
+                    <Input
+                        value={this.props.goodsInfo[index].pdCode}
+                        placeholder="请输入商品编码"
+                        onChange={this.handleChangeCode.bind(this, index)}
                         onBlur={this.onBluepdCode.bind(this,index)}/>
                 )
             }
@@ -34,9 +34,9 @@ class GoodsInfoTable extends React.Component {
             width:'100px',
             render: (text, record, index) => {
                 return (
-                    <Input 
-                        value={this.props.goodsInfo[index].qty} 
-                        placeholder="采购数量" 
+                    <Input
+                        value={this.props.goodsInfo[index].qty}
+                        placeholder="采购数量"
                         onChange={this.handleChangeQty.bind(this, index)}
                         />
                 )
@@ -47,9 +47,9 @@ class GoodsInfoTable extends React.Component {
             width:'100px',
             render: (text, record, index) => {
                 return (
-                    <Input 
-                        value={this.props.goodsInfo[index].price} 
-                        placeholder="采购价格" 
+                    <Input
+                        value={this.props.goodsInfo[index].price}
+                        placeholder="采购价格"
                         onChange={this.handleChangePrice.bind(this, index)}
                         />
                 );
@@ -60,7 +60,7 @@ class GoodsInfoTable extends React.Component {
             width:"100px",
             render: (text, record, index) => {
                 return (
-                    <p style={{textAlign:'center'}}>{this.props.goodsInfo[index].name}</p>
+                    <p style={{textAlign:'center'}}>{this.props.goodsInfo[index].pdName}</p>
                 );
             }
           },
@@ -70,7 +70,7 @@ class GoodsInfoTable extends React.Component {
             width:"100px",
             render: (text, record, index) => {
                 return (
-                    <p style={{textAlign:'center'}}>{this.props.goodsInfo[index].displayName}</p>
+                    <p style={{textAlign:'center'}}>{this.props.goodsInfo[index].pdSkuType}</p>
                 );
             }
           },
@@ -81,8 +81,8 @@ class GoodsInfoTable extends React.Component {
             render: (text, record, index) => {
                 return (
                     this.props.goodsInfo.length > 1?
-                    <div 
-                        style={{color: '#35bab0', cursor:'pointer'}} 
+                    <div
+                        style={{color: '#35bab0', cursor:'pointer'}}
                         onClick={this.onDelete.bind(this,index)}>删除</div>
                         :null
                 );
@@ -104,7 +104,7 @@ class GoodsInfoTable extends React.Component {
         this.setState({
             rowCount: this.state.rowCount + 1
         },function(){
-            
+
             this.props.dispatch({
                 type:'ordercg/syncGoodsInfo',
                 payload:dataList
@@ -167,6 +167,7 @@ class GoodsInfoTable extends React.Component {
     }
 
     render() {
+      console.log(this.props.goodsInfo)
         return (
           <div style={{marginTop:'0px'}}>
             <Table dataSource={this.props.goodsInfo} style = {{padding:0}} columns={this.columns} pagination={false} showHeader={true} bordered={false} className='OrderCenterEidt'/>

@@ -7,14 +7,16 @@ import Qpagination from '../../../components/Qpagination/index'; //分页
 import FilterForm from './FilterForm/index'
 import { bPushRevokeApi } from '../../../services/activity/bPush'
 import './index'
+import moment from 'moment';
+
 class Bpush extends Component{
   constructor(props){
     super(props);
     this.rowSelection = {
        type:'radio',
        onChange:(selectedRowKeys, selectedRows) =>{
-         this.setState({bPushName:selectedRows[0].spOrderId})
-         this.setState({bPushId:selectedRows[0].spOrderId})
+         this.setState({bPushName:selectedRows[0].bPushId})
+         this.setState({bPushId:selectedRows[0].bPushId})
        },
      };
     this.state ={
@@ -27,6 +29,8 @@ class Bpush extends Component{
         creater:'',
         status:'',
         type:'',
+        startTime:'',
+        endTime:'',
       }
     }
   }
@@ -58,9 +62,9 @@ class Bpush extends Component{
   //搜索框数据发生变化
   searchDataChange =(values)=> {
     const {rangePicker,..._values} = values;
-    if(rangePicker){
-      _values.createTimeST =  rangePicker[0]._d.getTime();
-      _values.createTimeET = rangePicker[1]._d.getTime();
+    if(rangePicker&&rangePicker[0]){
+      _values.startTime =  moment(new Date(rangePicker[0]._d).getTime()).format('YYYY-MM-DD HH:mm:ss');;
+      _values.endTime = moment(new Date(rangePicker[1]._d).getTime()).format('YYYY-MM-DD HH:mm:ss');;
     }
     this.setState({field:_values});
   }
@@ -93,7 +97,7 @@ class Bpush extends Component{
       key:`${this.state.componkey}info`,
       componkey:`${this.state.componkey}info`,
       data:{
-        pdSpuId:record.spOrderId,
+        pdSpuId:record.bPushId,
       }
     }
     this.props.dispatch({
@@ -105,10 +109,10 @@ class Bpush extends Component{
   getEdit(record){
     const paneitem = {
       title:'修改推送',
-      key:`${this.state.componkey}edit`+record.spOrderId,
+      key:`${this.state.componkey}edit`+record.bPushId,
       componkey:`${this.state.componkey}edit`,
       data:{
-        pdSpuId:record.spOrderId,
+        pdSpuId:record.bPushId,
       }
     }
     this.props.dispatch({
@@ -150,8 +154,16 @@ class Bpush extends Component{
     this.setState({isPushVisible:false})
   }
 
-
   render(){
+    const rolelists=this.props.data.rolelists
+    //新增推送
+    const addPush=rolelists.find((currentValue,index)=>{
+			return currentValue.url=="qerp.web.pd.bPush.save"
+		})
+    //撤销推送
+    const revokePush=rolelists.find((currentValue,index)=>{
+			return currentValue.url=="qerp.web.pd.bPush.revoke"
+		})
     const {dataList} = this.props.bPush;
     return(
       <div className='qtools-components-pages'>
@@ -160,8 +172,16 @@ class Bpush extends Component{
           onValuesChange = {this.searchDataChange}
         />
         <div className="handel-btn-lists">
-          <Button onClick={this.addPush} size='large' type='primary'>新增推送</Button>
-          <Button onClick={this.cancelPush} size='large' type='primary'>撤销推送</Button>
+          {
+            addPush?
+            <Button onClick={this.addPush} size='large' type='primary'>新增推送</Button>
+            :null
+          }
+          {
+            revokePush?
+            <Button onClick={this.cancelPush} size='large' type='primary'>撤销推送</Button>
+            :null
+          }
         </div>
         <Modal
             bodyStyle={{fontSize:'24px','padding':'50px'}}

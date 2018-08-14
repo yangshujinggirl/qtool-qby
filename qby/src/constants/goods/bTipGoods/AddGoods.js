@@ -163,7 +163,7 @@ class AddGoodsForm extends Component {
                      rules: [{ required: true, message: '请输入商品名称'}],
                      initialValue:pdSpu.bname
                    })(
-                     <Input placeholder="请输入B端名称" autoComplete="off"/>
+                     <Input placeholder="请输入B端名称" maxLength="32" autoComplete="off"/>
                    )
                  }
                </FormItem>

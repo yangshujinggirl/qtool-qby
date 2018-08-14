@@ -11,14 +11,14 @@ export default{
     *fetchList({payload:values},{call,put}){
       const result =  yield call(getListApi,values);
       if(result.code == '0'){
-        const { spOrders, currentPage, limit, total } = result;
-        // for(var i=0;i<marketRes.length;i++){
-        //   marketRes[i].key = marketRes[i].marketTypeId;
-        // };
+        const { bPushs, currentPage, limit, total } = result;
+        for(var i=0;i<bPushs.length;i++){
+          bPushs[i].key = bPushs[i].bPushId;
+        };
         yield put({
           type:'getList',
           payload:{
-            dataList:spOrders,
+            dataList:bPushs,
             currentPage,
             limit,
             total,

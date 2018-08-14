@@ -14,8 +14,8 @@ class GoodsInfoTable extends React.Component {
             dataIndex: 'pdCode',
             render: (text, record, index) => {
                 return (
-                    <Input value={this.props.goodsInfo[index].pdCode} placeholder="请输入商品编码" 
-                    onChange={this.handleChangeCode.bind(this, index)} 
+                    <Input value={this.props.goodsInfo[index].pdCode} placeholder="请输入商品编码"
+                    onChange={this.handleChangeCode.bind(this, index)}
                     onBlur={this.onBluepdCode.bind(this,index)}/>
                 )
             }
@@ -24,7 +24,7 @@ class GoodsInfoTable extends React.Component {
             dataIndex: 'qty',
             render: (text, record, index) => {
                 return (
-                    <Input value={this.props.goodsInfo[index].qty} placeholder="采退数量" 
+                    <Input value={this.props.goodsInfo[index].qty} placeholder="采退数量"
                     onChange={this.handleChangeQty.bind(this, index)}/>
                 )
             }
@@ -33,7 +33,7 @@ class GoodsInfoTable extends React.Component {
 			dataIndex: 'price',
 			render: (text, record, index) => {
 				return (
-                    <Input value={this.props.goodsInfo[index].price} placeholder="采退价格" 
+                    <Input value={this.props.goodsInfo[index].price} placeholder="采退价格"
                     onChange={this.handleChangePrice.bind(this, index)}/>
 				);
 			}
