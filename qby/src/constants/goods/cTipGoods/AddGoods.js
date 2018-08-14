@@ -125,6 +125,7 @@ class AddGoodsForm extends Component {
         this.setState({
           loading:false
         })
+        message.success('修改成功');
         this.onCancel();
         this.props.dispatch({
           type:'cTipGoodsList/fetchList',
@@ -135,7 +136,6 @@ class AddGoodsForm extends Component {
           loading:false
         })
       }
-
     },error=> {
       console.log(error)
     })

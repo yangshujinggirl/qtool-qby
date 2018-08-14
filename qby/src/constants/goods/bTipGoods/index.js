@@ -345,15 +345,15 @@ class BtipGoods extends Component {
           {
             authorityList.authorityNew&&
             <span>
-              <Button size="large" type="primary" onClick={()=>this.massOperation('new',true)}>批量上新</Button>
-              <Button size="large" type="primary" onClick={()=>this.massOperation('new',false)}>批量下新</Button>
+              <Button size="large" type="primary" onClick={()=>this.massOperation('new',1)}>批量上新</Button>
+              <Button size="large" type="primary" onClick={()=>this.massOperation('new',0)}>批量下新</Button>
             </span>
           }
           {
             authorityList.authorityHot&&
             <span>
-              <Button size="large" type="primary" onClick={()=>this.massOperation('hot',true)}>批量畅销</Button>
-              <Button size="large" type="primary" onClick={()=>this.massOperation('hot',false)}>批量下畅销</Button>
+              <Button size="large" type="primary" onClick={()=>this.massOperation('hot',1)}>批量畅销</Button>
+              <Button size="large" type="primary" onClick={()=>this.massOperation('hot',0)}>批量下畅销</Button>
             </span>
           }
         </div>

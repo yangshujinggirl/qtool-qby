@@ -29,6 +29,7 @@ const IconList =({data})=>(
 class GoodsList extends Component {
   renderBtn =(el)=> {
     const { authorityList } =this.props.baseGoodsList;
+    const { onOperateClick } = this.props;
     if(el.source==1) {
       if(authorityList.authorityOnline) {
         return <Button size="small"
