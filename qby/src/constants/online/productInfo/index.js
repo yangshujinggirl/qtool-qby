@@ -31,7 +31,10 @@ class BtipGoods extends Component {
          oname: {
            value: '',
          },
-         brandName: {
+         barCode: {
+           value: '',
+         },
+         pdBrandName: {
            value: '',
          },
          status: {

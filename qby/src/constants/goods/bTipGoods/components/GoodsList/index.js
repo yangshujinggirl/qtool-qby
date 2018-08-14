@@ -38,11 +38,25 @@ class GoodsList extends Component {
     event.stopPropagation();
     this.props.onOperateClick(record,'detail')
   }
-  getMinPrice(data) {
-    data.map((el) => (
-      el.toBPrice!=null
-    ))
-    console.log(data)
+  getMinPrice(el) {
+    let pdSkus = el.pdSkus;
+    let priceArr = [];
+    if( pdSkus && pdSkus.length>0) {
+      pdSkus.map((el) => {
+        if(el.toBPrice!=null) {
+          el.toBPrice = el.toBPrice*1;
+          priceArr.push(el.toBPrice)
+        }
+        return el;
+      })
+      priceArr.sort((a,b)=> {
+        return a-b;
+      })
+      let minPrice = priceArr[0];
+      return minPrice;
+    } else {
+      return el.toBPrice;
+    }
   }
   render() {
     const { bTipGoodsList, onOperateClick } = this.props;
@@ -73,7 +87,7 @@ class GoodsList extends Component {
                       className="goods-name"
                       onClick={(event)=>this.handleClick(event,el)}>{el.bname?el.bname:el.name}</p>
                     <p className="goods-property">库存：{el.qtyErp}</p>
-                    <p className="goods-property">售价：{el.toBPrice}</p>
+                    <p className="goods-property">售价：{this.getMinPrice(el)}</p>
                     <IconList data={el}/>
                   </div>
                 </div>

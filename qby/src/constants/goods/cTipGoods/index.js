@@ -38,19 +38,19 @@ class CtipGoods extends Component {
          cname: {
            value: '',
          },
-         brandName: {
+         pdBrandName: {
            value: '',
          },
-         pdCategory1Name: {
+         pdCategory1Id: {
            value: '',
          },
-         infoStatus: {
+         cstatus: {
            value: '',
          },
-         eventNew: {
+         isNew: {
            value: '',
          },
-         eventHot: {
+         isHot: {
            value: '',
          },
        },

@@ -38,19 +38,19 @@ class BtipGoods extends Component {
          bname: {
            value: '',
          },
-         brandName: {
+         pdBrandName: {
            value: '',
          },
-         pdCategory1Name: {
+         pdCategory1Id: {
            value: '',
          },
          status: {
            value: '',
          },
-         eventNew: {
+         isNew: {
            value: '',
          },
-         eventHot: {
+         isHot: {
            value: '',
          },
          isPresell: {

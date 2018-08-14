@@ -58,8 +58,8 @@ class NormalForm extends Component {
               <FormItem label='上线状态'>
                  {getFieldDecorator('cstatus')(
                    <Select allowClear={true} placeholder="请选择上线状态" autoComplete="off">
-                     <Option value={20} key={20}>上线</Option>
-                     <Option value={10} key={10}>下线</Option>
+                     <Option value={20} key={20}>下线</Option>
+                     <Option value={10} key={10}>上线</Option>
                    </Select>
                  )}
                </FormItem>

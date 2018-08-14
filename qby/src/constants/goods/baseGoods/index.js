@@ -20,10 +20,10 @@ class BaseGoods extends Component {
          name: {
            value: '',
          },
-         brandName: {
+         pdBrandName: {
            value: '',
          },
-         pdCategory1Name: {
+         pdCategory1Id: {
            value: '',
          },
          infoStatus: {

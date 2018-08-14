@@ -12,7 +12,7 @@ export default {
     categoryList:[],
     dataList:[],//商品列表
     currentPage:0,
-    limit:15,
+    limit:16,
     total:0,
     authorityList:{
       authorityEdit:false,
