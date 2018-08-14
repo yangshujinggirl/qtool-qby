@@ -74,10 +74,10 @@ const OutLineDetailSizeColumns = [{
      dataIndex: 'toCPrice'
    },{
      title: '建议零售价',
-     dataIndex: 'costPrice'
+     dataIndex: 'tagPrice'
    },{
      title: '进货价',
-     dataIndex: 'tagPrice'
+     dataIndex: 'costPrice'
    },{
      title: 'SKU图片',
      dataIndex: 'picUrl',
@@ -109,10 +109,10 @@ const OutLineDetailColumns = [{
      dataIndex: 'toCPrice'
    },{
      title: '建议零售价',
-     dataIndex: 'costPrice'
+     dataIndex: 'tagPrice'
    },{
      title: '进货价',
-     dataIndex: 'tagPrice'
+     dataIndex: 'costPrice'
    }];
 
    export default {
