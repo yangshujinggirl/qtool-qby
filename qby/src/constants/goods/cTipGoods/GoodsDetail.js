@@ -82,10 +82,10 @@ class GoodsDetail extends Component {
               dataSource={pdSpu.pdSkus}/>
     			</FormItem>
           <FormItem label="NEW商品" {...formItemLayout}>
-            <label>{pdSpu.eventNew?'是':'否'}</label>
+            <label>{pdSpu.eventNewc?'是':'否'}</label>
           </FormItem>
           <FormItem label="HOT商品" {...formItemLayout}>
-            <label>{pdSpu.eventHot?'是':'否'}</label>
+            <label>{pdSpu.eventHotc?'是':'否'}</label>
           </FormItem>
           <FormItem label="商品描述" {...formItemLayout}>
             <ul className="goods-desc-wrap">

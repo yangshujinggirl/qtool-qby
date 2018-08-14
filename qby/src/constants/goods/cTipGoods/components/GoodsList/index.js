@@ -90,12 +90,12 @@ class GoodsList extends Component {
                     <span>
                       <Button
                         size="small"
-                        disabled={el.status == 20?false:true}
+                        disabled={el.cstatus == 20?false:true}
                         className="event-btn"
                         onClick={()=>onOperateClick(el,'sell')}>上线</Button>
                       <Button
                         size="small"
-                        disabled={el.status == 20?true:false}
+                        disabled={el.cstatus == 20?true:false}
                         className="event-btn"
                         onClick={()=>onOperateClick(el,'saleStop')}>下线</Button>
                     </span>
