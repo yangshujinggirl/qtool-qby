@@ -128,7 +128,7 @@ class AddGoodsForm extends Component {
         this.onCancel();
         this.props.dispatch({
           type:'cTipGoodsList/fetchList',
-          payload:{}
+          payload:{...this.props.data.listParams}
         })
       } else {
         this.setState({

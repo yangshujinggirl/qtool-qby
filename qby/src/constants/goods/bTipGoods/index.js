@@ -13,11 +13,11 @@ import {
 
 const WarnMessage = {
   t1: '商品状态将变为上架状态，Q掌柜将会对外售卖，确认吗',
-  t2: '商品状态将变为下架状态，Q掌柜将会对外售卖，确认吗',
+  t2: '商品状态将变为下架状态，Q掌柜将无法对外售卖，确认吗',
   t3: '商品将会在Q掌柜首页每日上新栏目展示售卖，确认吗',//上新
-  t4: '商品将会停止在Q掌柜首页畅销尖货栏目展示售卖，在其他栏目继续展示售卖，确认吗',//下新
+  t4: '商品将会停止在Q掌柜首页每日上新栏目展示售卖，确认吗',//下新
   t5: '商品将会在Q掌柜首页畅销尖货栏目展示售卖，确认吗？',//畅销
-  t6: '商品状态将变为上新状态，Q掌柜将会对外售卖，确认吗',//下畅销
+  t6: '商品将会停止在Q掌柜首页畅销尖货栏目展示售卖，确认吗',//下畅销
 }
 const SuccessTips = {
   t1: '售卖成功',
@@ -36,33 +36,15 @@ class BtipGoods extends Component {
       visible:false,
       handleContent:{},
       fields: {
-         code: {
-           value: '',
-         },
-         bname: {
-           value: '',
-         },
-         pdBrandName: {
-           value: '',
-         },
-         pdCategory1Id: {
-           value: '',
-         },
-         status: {
-           value: '',
-         },
-         isNew: {
-           value: '',
-         },
-         isHot: {
-           value: '',
-         },
-         isPresell: {
-           value: '',
-         },
-         isDirectExpress: {
-           value: '',
-         },
+         code:'',
+         bname:'' ,
+         pdBrandName: '',
+         pdCategory1Id:'',
+         status:'',
+         isNew: '',
+         isHot:'',
+         isPresell:'' ,
+         isDirectExpress:'',
        },
     }
   }
@@ -101,12 +83,7 @@ class BtipGoods extends Component {
     currentPage--;
     //清空勾选
     const { fields } = this.state;
-    const formData = {};
-    let key;
-    for(key in fields) {
-      formData[key] = fields[key].value;
-    }
-    const paramsObj ={...{currentPage},...formData}
+    const paramsObj ={...{currentPage},...fields}
     this.props.dispatch({
       type:'bTipGoodsList/fetchList',
       payload: paramsObj
@@ -284,14 +261,21 @@ class BtipGoods extends Component {
   }
   //编辑。
   getEdit(record) {
+    const { limit, currentPage } = this.props.bTipGoodsList;
+    const { componkey } = this.state;
     const paneitem={
       title:'商品编辑',
-      key:`${this.state.componkey}edit${record.pdSpuId}`,
-      componkey:`${this.state.componkey}edit`,
+      key:`${componkey}edit${record.pdSpuId}`,
+      componkey:`${componkey}edit`,
       data:{
+        listParams:{
+          ...this.state.fields,
+          limit,
+          currentPage
+        },
         pdSpuId:record.pdSpuId,
         source:record.source,
-        key:`${this.state.componkey}edit${record.pdSpuId}`
+        key:`${componkey}edit${record.pdSpuId}`,
       }
     };
     this.props.dispatch({
@@ -337,7 +321,7 @@ class BtipGoods extends Component {
           {...fields}
           categoryList={categoryList}
           submit={this.searchData}
-          onChange={this.handleFormChange}/>
+          onValuesChange={this.handleFormChange}/>
         <div className="handel-btn-lists">
           {
             authorityList.authoritySale&&

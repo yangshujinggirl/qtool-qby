@@ -98,7 +98,7 @@ class AddImgText extends Component{
                   <Upload
                     name='imgFile'
                     showUploadList={false}
-                    action="/erpWebRest/qcamp/upload.htm?type=spu"
+                    action="/erpWebRest/qcamp/upload.htm?type=spuDetail"
                     listType="picture-card"
                     beforeUpload={this.beforeUpload}
                     onChange={(fileList)=>this.handleChange(fileList,index)}

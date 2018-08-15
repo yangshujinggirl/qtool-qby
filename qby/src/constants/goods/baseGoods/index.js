@@ -14,24 +14,12 @@ class BaseGoods extends Component {
     this.state = {
       componkey:this.props.componkey,
       fields: {
-         code: {
-           value: '',
-         },
-         name: {
-           value: '',
-         },
-         pdBrandName: {
-           value: '',
-         },
-         pdCategory1Id: {
-           value: '',
-         },
-         infoStatus: {
-           value: '',
-         },
-         source: {
-           value: '',
-         }
+         code:'',
+         name:'',
+         pdBrandName:'',
+         pdCategory1Id:'',
+         infoStatus:'',
+         source:''
        },
     }
   }
@@ -68,12 +56,7 @@ class BaseGoods extends Component {
   changePage = (currentPage) => {
     currentPage--;
     const { fields } = this.state;
-    const formData = {};
-    let key;
-    for(key in fields) {
-      formData[key] = fields[key].value;
-    }
-    const paramsObj ={...{currentPage},...formData}
+    const paramsObj ={...{currentPage},...fields}
     this.props.dispatch({
       type:'baseGoodsList/fetchList',
       payload: paramsObj
@@ -142,14 +125,21 @@ class BaseGoods extends Component {
   }
   //编辑。
   getEdit(record) {
+    const { limit, currentPage } = this.props.baseGoodsList;
+    const { componkey } = this.state;
     const paneitem={
       title:'商品编辑',
-      key:`${this.state.componkey}edit${record.pdSpuId}`,
-      componkey:`${this.state.componkey}edit`,
+      key:`${componkey}edit${record.pdSpuId}`,
+      componkey:`${componkey}edit`,
       data:{
+        listParams:{
+          ...this.state.fields,
+          limit,
+          currentPage
+        },
         pdSpuId:record.pdSpuId,
         source:record.source,
-        key:`${this.state.componkey}edit${record.pdSpuId}`
+        key:`${componkey}edit${record.pdSpuId}`
       }
     };
     this.props.dispatch({
@@ -184,7 +174,7 @@ class BaseGoods extends Component {
           {...fields}
           categoryList={categoryList}
           submit={this.searchData}
-          onChange={this.handleFormChange}/>
+          onValuesChange={this.handleFormChange}/>
         <div className="handel-btn-lists">
           {
             authorityList.authorityOnline&&

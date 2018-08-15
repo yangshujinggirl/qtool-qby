@@ -15,12 +15,27 @@ class OrdercgEditForm extends React.Component{
 		super(props);
 		this.state = {
 			supplierList:[],
-			warehouses:[]
-        }
+			warehouses:[],
+			isEdit:false
+    }
 	}
-
+	componentDidMount(){
+		//请求仓库列表信息
+		this.warehouseList();
+		this.initPage();
+	}
+	initPage (){
+		if(this.props.data.wsAsnId){
+			const payload={code:'qerp.web.ws.asn.detail',values:{'wsAsnId':this.props.data.wsAsnId}}
+			//请求信息
+			this.initDateEdit(payload);
+			this.setState({
+				isEdit:true
+			})
+		};
+	}
 	//修改数据初始化页面
-  	initDateEdit = (value) =>{
+	initDateEdit = (value) =>{
 		  //请求用户信息
   		this.props.dispatch({type:'ordercg/editfetch',payload:value})
     	this.props.dispatch({ type: 'tab/loding', payload:true})
@@ -67,7 +82,7 @@ class OrdercgEditForm extends React.Component{
 	handleSubmit = (e) => {
 		e.preventDefault();
 		this.props.form.validateFields((err, values) => {
-            if (!err) {
+      if (!err) {
 				let data = this.props.editInfo;
 				data.shippingFee = values.shippingFee;
 				data.taxRate = values.taxRate instanceof Array?"":values.taxRate;
@@ -79,22 +94,26 @@ class OrdercgEditForm extends React.Component{
 				if(this.props.data){
 					data.wsAsnId = this.props.data.wsAsnId;
 				}
-                const result=GetServerData('qerp.web.ws.asn.save',data);
-                result.then((res) => {
-                    return res;
-                }).then((json) => {
-                    if(json.code=='0'){
-						if(this.props.data){
-							message.success('采购单修改成功',.8);
-						}else{
-							message.success('采购单创建成功',.8);
-						}
-						this.deleteTab();
-						this.refreshList();
-						this.initState();
-                    }
-                })
-            }
+				if(data.pdSupplierId){
+					const result=GetServerData('qerp.web.ws.asn.save',data);
+	        result.then((res) => {
+	            return res;
+	        }).then((json) => {
+	            if(json.code=='0'){
+								if(this.props.data){
+									message.success('采购单修改成功',.8);
+								}else{
+									message.success('采购单创建成功',.8);
+								};
+								this.deleteTab();
+								this.refreshList();
+								this.initState();
+            	};
+	        });
+				}else{
+					message.error('请选择正确的供应商名称')
+				}
+      };
 		});
 	}
 
@@ -238,12 +257,12 @@ class OrdercgEditForm extends React.Component{
 						rules: [{ required: true, message: '请输入账号名称'},{pattern:/^.{1,30}$/,message:'请输入1-30字账号名称'}],
 						initialValue:this.props.editInfo.name
 					})(
-                        <AutoComplete
-                            dataSource={this.state.supplierList}
-                            onSelect={this.selectSupplier}
-                            onSearch={this.searchSupplier}
-                            placeholder='请选择供应商名称'
-                        />
+            <AutoComplete
+                dataSource={this.state.supplierList}
+                onSelect={this.selectSupplier}
+                onSearch={this.searchSupplier}
+                placeholder='请选择供应商名称'
+            />
 					)}
 				</FormItem>
                 <FormItem
@@ -252,7 +271,7 @@ class OrdercgEditForm extends React.Component{
 					wrapperCol={{ span: 16 }}
 				>
 					{getFieldDecorator('details')(
-              <GoodsInfoTable/>
+							<GoodsInfoTable isEdit={this.state.isEdit?1:0}/>
 					)}
 				</FormItem>
 				<FormItem
@@ -349,15 +368,6 @@ class OrdercgEditForm extends React.Component{
           	</Form>
       	)
   	}
-  	componentDidMount(){
-		//请求仓库列表信息
-		this.warehouseList();
-    	if(this.props.data){
-			const payload={code:'qerp.web.ws.asn.detail',values:{'wsAsnId':this.props.data.wsAsnId}}
-			//请求信息
-			this.initDateEdit(payload);
-		};
-	  }
 
 	  componentWillReceiveProps(){
 

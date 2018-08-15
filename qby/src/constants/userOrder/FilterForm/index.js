@@ -42,7 +42,7 @@ class NormalForm extends Component {
                </FormItem>
               <FormItem label='订单号'>
                  {getFieldDecorator('orderNo')(
-                   <Input placeholder="亲输入订单号" autoComplete="off"/>
+                   <Input placeholder="请输入订单号" autoComplete="off"/>
                  )}
                </FormItem>
               <FormItem label='商品名称'>

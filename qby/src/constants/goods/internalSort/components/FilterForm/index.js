@@ -141,8 +141,8 @@ class NormalForm extends Component {
   }
 }
 const FilterForm = Form.create({
-  onFieldsChange(props, changedFields) {
-    props.onChange(changedFields);
+  onValuesChange:(props, changedValues, allValues) => {
+    props.onValuesChange(allValues);
   }
 })(NormalForm);
 export default FilterForm;

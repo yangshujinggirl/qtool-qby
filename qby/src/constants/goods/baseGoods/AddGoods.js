@@ -276,7 +276,7 @@ class AddGoodsForm extends Component {
         this.onCancel();
         this.props.dispatch({
           type:'baseGoodsList/fetchList',
-          payload:{}
+          payload:{...this.props.data.listParams}
         })
       } else {
         this.setState({

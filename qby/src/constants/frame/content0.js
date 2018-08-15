@@ -159,6 +159,8 @@ import UserFeedBack from '../server/userFeedBack/index'; //用户反馈
 import HandleBack from '../server/userFeedBack/HandleBack'//反馈处理
 import ServerBill from '../server/serverBill/index'; //用户反馈
 import HandleBill from '../server/serverBill/HandleBill'; //工单处理
+//app数据
+import AppData from '../dataapp/index'
 
 
 class Content extends React.Component {
@@ -271,6 +273,8 @@ class Content extends React.Component {
                                     case "707000infodb": return <DbInfo data={this.props.data}/>
 
                                     case "707000infodb1" : return <QposDbInfo data={this.props.data}/>
+                                    case "708000" : return <AppData data={this.props.data}/>
+
 
                                     case "402000infoExchange" : return <OperateinoutExchangeInfo data={this.props.data}/>
                                     // ------------------------------ 用户订单 ------------------------------

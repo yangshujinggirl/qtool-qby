@@ -25,24 +25,12 @@ class BtipGoods extends Component {
       selecteKeys:[],
       tips:'',
       fields: {
-         code: {
-           value: '',
-         },
-         oname: {
-           value: '',
-         },
-         barCode: {
-           value: '',
-         },
-         pdBrandName: {
-           value: '',
-         },
-         status: {
-           value: '',
-         },
-         warehouseId: {
-           value: '',
-         },
+         code:'',
+         oname:'',
+         barCode:'',
+         pdBrandName:'',
+         status:'',
+         warehouseId:'',
        },
     }
   }
@@ -75,12 +63,7 @@ class BtipGoods extends Component {
       selecteKeys:[],
     })
     const { fields } = this.state;
-    const formData = {};
-    let key;
-    for(key in fields) {
-      formData[key] = fields[key].value;
-    }
-    const paramsObj ={...{currentPage},...formData}
+    const paramsObj ={...{currentPage},...fields}
     this.props.dispatch({
       type:'productGoodsList/fetchList',
       payload: paramsObj
@@ -204,14 +187,21 @@ class BtipGoods extends Component {
   }
   //编辑。
   getEdit(record) {
+    const { limit, currentPage } = this.props.productGoodsList;
+    const { componkey } = this.state;
     const paneitem={
       title:'商品编辑',
-      key:`${this.state.componkey}edit${record.pdSpuId}`,
-      componkey:`${this.state.componkey}edit`,
+      key:`${componkey}edit${record.pdSpuId}`,
+      componkey:`${componkey}edit`,
       data:{
+        listParams:{
+          ...this.state.fields,
+          limit,
+          currentPage
+        },
         pdSpuId:record.pdSpuId,
         source:record.source,
-        key:`${this.state.componkey}edit${record.pdSpuId}`
+        key:`${componkey}edit${record.pdSpuId}`
       }
     };
     this.props.dispatch({
@@ -245,7 +235,7 @@ class BtipGoods extends Component {
         <FilterForm
           {...fields}
           submit={this.searchData}
-          onChange={this.handleFormChange}/>
+          onValuesChange={this.handleFormChange}/>
         <div className="handel-btn-lists">
           {
             authorityList.authorityExport&&

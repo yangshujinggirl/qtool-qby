@@ -75,7 +75,7 @@ class AddStaff extends Component{
         message.success('成功');
         this.props.dispatch({
             type:'marketResource/fetchList',
-            payload:{}
+            payload:{...this.props.data.listParams}
         });
         if(this.props.data){
           this.props.dispatch({
@@ -105,6 +105,7 @@ class AddStaff extends Component{
   }
   //初始化
   componentDidMount(){
+      console.log(this.props)
     this.setState({DescArr:[]});
     if(this.props.data){
       const marketResId = {marketResId:this.props.data.marketResId};

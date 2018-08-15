@@ -60,7 +60,11 @@ class GoodsInfoTable extends React.Component {
             width:"100px",
             render: (text, record, index) => {
                 return (
+                  this.props.isEdit
+                  ?
                     <p style={{textAlign:'center'}}>{this.props.goodsInfo[index].pdName}</p>
+                  :
+                    <p style={{textAlign:'center'}}>{this.props.goodsInfo[index].name}</p>
                 );
             }
           },
@@ -70,7 +74,12 @@ class GoodsInfoTable extends React.Component {
             width:"100px",
             render: (text, record, index) => {
                 return (
+                  this.props.isEdit
+                  ?
                     <p style={{textAlign:'center'}}>{this.props.goodsInfo[index].pdSkuType}</p>
+                  :
+                    <p style={{textAlign:'center'}}>{this.props.goodsInfo[index].displayName}</p>
+
                 );
             }
           },
@@ -167,7 +176,6 @@ class GoodsInfoTable extends React.Component {
     }
 
     render() {
-      console.log(this.props.goodsInfo)
         return (
           <div style={{marginTop:'0px'}}>
             <Table dataSource={this.props.goodsInfo} style = {{padding:0}} columns={this.columns} pagination={false} showHeader={true} bordered={false} className='OrderCenterEidt'/>

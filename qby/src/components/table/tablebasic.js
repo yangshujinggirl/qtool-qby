@@ -11,17 +11,17 @@ class Paginations extends React.Component {
     }
     render() {
         return (
-            <Pagination 
-                showSizeChanger 
-                onShowSizeChange={this.onShowSizeChange}  
-                onChange={this.onChange} 
-                total={this.props.total} 
+            <Pagination
+                showSizeChanger
+                onShowSizeChange={this.onShowSizeChange}
+                onChange={this.onChange}
+                total={this.props.total}
                 current={this.props.current}
                 pageSizeOptions={['15','30','50','100','200','500']}
                 pageSize={this.props.pageSize}
                 className='tc pagination'/>
-                
-                
+
+
         );
     }
 }
@@ -47,20 +47,20 @@ class EditableTable extends React.Component {
         return (
             <Table
                 loading={this.props.loading}
-                bordered 
-                dataSource={this.props.dataSource} 
-                columns={this.props.columns} 
+                bordered
+                dataSource={this.props.dataSource}
+                columns={this.props.columns}
                 footer={
                     this.props.footer?
-                    () => <Paginations pageChange={this.props.pageChange} 
-                                pageSizeChange={this.props.pageSizeChange} 
+                    () => <Paginations pageChange={this.props.pageChange}
+                                pageSizeChange={this.props.pageSizeChange}
                                 total={Number(this.props.total)}
                                 current={Number(this.props.current)}
                                 pageSize={Number(this.props.limit)}
                                 />
                     :null
                                 
-                } 
+                }
                 showHeader={this.props.showHeader}
                 bordered={this.props.bordered}
                 pagination={false}
@@ -74,5 +74,3 @@ class EditableTable extends React.Component {
 }
 
 export default EditableTable
-
-

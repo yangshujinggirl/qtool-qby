@@ -64,12 +64,19 @@ class MarketResource extends Component{
     }
     //操作
     handleOperateClick =(record)=> {
+      const { limit, currentPage } = this.props.marketResource;
+      const { componkey } = this.state;
       const paneitem = {
         title:'修改人员',
-        key:`${this.state.componkey}edit`+record.marketResId,
-        componkey:`${this.state.componkey}edit`,
+        key:`${componkey}edit`+record.marketResId,
+        componkey:`${componkey}edit`,
         data:{
           marketResId:record.marketResId,
+          listParams:{
+            ...this.state.fields,
+            limit,
+            currentPage
+          }
         }
       }
       this.props.dispatch({

@@ -80,6 +80,8 @@ import cPush from './models/activity/cPush/cPush' //bpush
 import userFeedBack from './models/server/userFeedBack'
 import serverBill from './models/server/serverBill'
 
+//app数据
+import appBase from './models/appData/appBase'
 
 // 1. Initialize
 const app = dva({
@@ -153,7 +155,8 @@ const models = [
   coupon,
   bPush,
   cPush,
-  cTimer
+  cTimer,
+  appBase
 ]
 
 models.forEach(m => {

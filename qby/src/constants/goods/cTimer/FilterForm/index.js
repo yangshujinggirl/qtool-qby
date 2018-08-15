@@ -37,7 +37,7 @@ class NormalForm extends Component{
             <div className="search-form-wrap">
               <FormItem  label='商品编码'>
                 {getFieldDecorator('code')(
-                    <Input placeholder='商品编码' autoComplete='off'/>
+                    <Input placeholder='请输入商品编码' autoComplete='off'/>
                 )}
               </FormItem>
               <FormItem label='最后修改人'>
@@ -47,7 +47,7 @@ class NormalForm extends Component{
               </FormItem>
               <FormItem label='定时操作'>
                   {getFieldDecorator('opstatus')(
-                  <Select allowClear={true} placeholder="请选择" className='select'>
+                  <Select allowClear={true} placeholder="请选择定时操作" className='select'>
                       <Option value='1'>上线</Option>
                       <Option value='2'>下线</Option>
                       <Option value='3'>NEW</Option>
@@ -59,7 +59,7 @@ class NormalForm extends Component{
               </FormItem>
               <FormItem label='状态'>
                   {getFieldDecorator('status')(
-                  <Select allowClear={true} placeholder="请选择" className='select'>
+                  <Select allowClear={true} placeholder="请选择状态" className='select'>
                       <Option value='1'>待执行</Option>
                       <Option value='2'>已执行</Option>
                       <Option value='3'>无效</Option>

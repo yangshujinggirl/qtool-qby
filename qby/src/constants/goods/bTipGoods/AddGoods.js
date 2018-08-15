@@ -84,7 +84,6 @@ class AddGoodsForm extends Component {
     const { pdSpuId, source } =this.props.data;
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
-      console.log(values)
       if (!err) {
         values = Object.assign(values,{
           pdSpuId,
@@ -131,7 +130,7 @@ class AddGoodsForm extends Component {
         this.onCancel();
         this.props.dispatch({
           type:'bTipGoodsList/fetchList',
-          payload:{}
+          payload:{...this.props.data.listParams}
         })
       } else {
         this.setState({

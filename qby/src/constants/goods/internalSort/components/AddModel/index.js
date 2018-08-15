@@ -391,11 +391,20 @@ class AddModelForm extends Component {
       const { code, message } =res;
       if( code == '0') {
         message.success(`${this.state.handleName}成功`);
-        this.props.dispatch({
-          type:'internalSort/fetchList',
-          payload:{
+				let payload;
+				if(values.pdCategoryId!=''){
+					payload = {
+						level:this.props.level
+					}
+				} else {
+					payload = {
+						...this.props.listParams,
             level:this.props.level
           }
+				}
+        this.props.dispatch({
+          type:'internalSort/fetchList',
+          payload
         })
         this.onCancel();
       }

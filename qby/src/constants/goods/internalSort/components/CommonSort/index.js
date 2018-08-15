@@ -57,12 +57,8 @@ class FirstSort extends Component {
           text:'新建一级分类'
         };
         fields = {
-          pdCategory1:{
-            value:''
-          },
-          status:{
-            value:''
-          },
+          pdCategory1:"",
+          status:"",
         }
         break;
       case '2':
@@ -71,15 +67,9 @@ class FirstSort extends Component {
           text:'新建二级分类'
         };
         fields = {
-          pdCategory1:{
-            value:''
-          },
-          pdCategory2:{
-            value:''
-          },
-          status:{
-            value:''
-          },
+          pdCategory1:'',
+          pdCategory2:'',
+          status:'',
         }
         break;
       case '3':
@@ -88,18 +78,10 @@ class FirstSort extends Component {
           text:'新建三级分类'
         };
         fields = {
-          pdCategory1:{
-            value:''
-          },
-          pdCategory2:{
-            value:''
-          },
-          pdCategory3:{
-            value:''
-          },
-          status:{
-            value:''
-          },
+          pdCategory1:'',
+          pdCategory2:'',
+          pdCategory3:'',
+          status:'',
         }
         break;
       case '4':
@@ -108,21 +90,11 @@ class FirstSort extends Component {
           text:'新建四级分类'
         };
         fields = {
-          pdCategory1:{
-            value:''
-          },
-          pdCategory2:{
-            value:''
-          },
-          pdCategory3:{
-            value:''
-          },
-          pdCategory4:{
-            value:''
-          },
-          status:{
-            value:''
-          },
+          pdCategory1:'',
+          pdCategory2:'',
+          pdCategory3:'',
+          pdCategory4:'',
+          status:'',
         }
         break;
     }
@@ -145,12 +117,7 @@ class FirstSort extends Component {
       level:this.props.level
     }
     const { fields } = this.state;
-    const formData = {};
-    let key;
-    for(key in fields) {
-      formData[key] = fields[key].value;
-    }
-    paramsObj ={...paramsObj,...formData}
+    paramsObj ={...paramsObj,...fields}
     this.props.dispatch({
       type:'internalSort/fetchList',
       payload: paramsObj
@@ -232,7 +199,7 @@ class FirstSort extends Component {
       <div className="common-sort-components">
         <FilterForm
           {...fields}
-          onChange={this.handleFormChange}
+          onValuesChange={this.handleFormChange}
           submit={this.searchData}
           level={level}/>
         <div className="handle-btn-wrap">
@@ -261,6 +228,7 @@ class FirstSort extends Component {
           onChange={this.handelChange.bind(this)}
           onCancel={this.onCancel.bind(this)}
           level={level}
+          listParams={fields}
           pdCategoryId={pdCategoryId}
           visible={visible}/>
       </div>

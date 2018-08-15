@@ -26,7 +26,10 @@ export default {
             qty: null,
             price:null,
             pdName:null,
-            pdSkuType:null
+            pdSkuType:null,
+            name:null,
+            dispalyName:null
+
         }],
         nothasFacepay:true,
         taxRateDisabled:true
@@ -171,7 +174,9 @@ export default {
                         qty:goodsInfoList[i].qty,
                         pdCode:goodsInfoList[i].pdCode,
                         pdName:goodsInfoList[i].pdName,
-                        pdSkuType:goodsInfoList[i].pdSkuType
+                        pdSkuType:goodsInfoList[i].pdSkuType,
+                        name:goodsInfoList[i].name,
+                        dispalyName:goodsInfoList[i].dispalyName,
                     }
                     goodsInfo.push(json);
                 }
