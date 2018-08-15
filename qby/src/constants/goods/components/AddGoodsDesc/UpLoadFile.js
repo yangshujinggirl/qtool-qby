@@ -50,7 +50,7 @@ class UpLoadFile extends Component {
               name="imgFile"
               listType="picture-card"
               className="avatar-uploader"
-              action="/erpWebRest/qcamp/upload.htm?type=spu"
+              action="/erpWebRest/qcamp/upload.htm?type=spuDetail"
               beforeUpload={this.beforeUpload}
               onChange={this.handleChange}>
               {
