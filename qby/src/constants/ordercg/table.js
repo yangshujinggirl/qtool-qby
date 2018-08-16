@@ -23,7 +23,7 @@ class OrdercgTable extends React.Component {
 			{
 				title: '供应商名称',
 				dataIndex: 'name'
-			}, 
+			},
 			{
 				title: '商品数量',
 				dataIndex: 'qtySum'
@@ -64,7 +64,7 @@ class OrdercgTable extends React.Component {
 				}
 			}
 		];
-		
+
 		this.columnsrole = [
 			{
 				title: '采购单号',
@@ -78,7 +78,7 @@ class OrdercgTable extends React.Component {
 			{
 				title: '供应商名称',
 				dataIndex: 'name'
-			}, 
+			},
 			{
 				title: '商品数量',
 				dataIndex: 'qtySum'
@@ -110,7 +110,7 @@ class OrdercgTable extends React.Component {
 		];
 
     }
-    
+
     //点击表格上的修改按钮操作
     lookInfo = (record) =>{
        const wsAsnId=String(record.wsAsnId);
@@ -149,7 +149,7 @@ class OrdercgTable extends React.Component {
         })
 
 
-    
+
     }
 
     //分页方法
@@ -160,8 +160,8 @@ class OrdercgTable extends React.Component {
     pageSizeChange=(current,size)=>{
           this.initList(this.props.values,size,0)
     }
-    
-    //列表数据请求   
+
+    //列表数据请求
     initList=(values,limit,currentPage)=>{
        values.type = "10";
         values.limit=limit;
@@ -180,12 +180,12 @@ class OrdercgTable extends React.Component {
         	payload:{selectedRowKeys,selectedRows}
       	})
   	}
-  
+
     render() {
         return (
-            <EditableTable 
-              dataSource={this.props.tableList} 
-              columns={this.props.addorderobj?this.columns:this.columnsrole} 
+            <EditableTable
+              dataSource={this.props.tableList}
+              columns={this.props.addorderobj?this.columns:this.columnsrole}
               footer={true}
               pageChange={this.pageChange.bind(this)}
               pageSizeChange={this.pageSizeChange.bind(this)}
@@ -204,7 +204,7 @@ class OrdercgTable extends React.Component {
     //执行初始化数据方法获取list
 		this.initList(this.props.values,this.props.limit,this.props.currentPage);
 	}
-    
+
 }
 
 function mapStateToProps(state) {
@@ -213,6 +213,3 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(OrdercgTable);
- 
-
-

@@ -13,9 +13,6 @@ const DetailSizeColumns = [{
      title: '售价',
      dataIndex: 'salePrice'
    },{
-     title: '采购价',
-     dataIndex: 'purchasePrice'
-   },{
      title: '到货价',
      dataIndex: 'receivePrice'
    },{
@@ -46,9 +43,6 @@ const DetailColumns = [{
    }, {
      title: '售价',
      dataIndex: 'salePrice'
-   },{
-     title: '采购价',
-     dataIndex: 'purchasePrice'
    },{
      title: '到货价',
      dataIndex: 'receivePrice'

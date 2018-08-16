@@ -9,6 +9,9 @@ class OperatebannerTable extends React.Component {
         this.columns = [{
                 title: 'banner名称',
                 dataIndex: 'name'
+          },{
+                title: 'banner id',
+                dataIndex: 'pdBannerId'
           }, {
                 title: '状态',
                 dataIndex: 'statusStr'

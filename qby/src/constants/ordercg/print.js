@@ -12,7 +12,7 @@ var CreatedOKLodop7766=null;
 function error() {
 	Modal.error({
 	  title: '打印设置',
-	  content: <font color='#FF00FF'>CLodop云打印服务(localhost本地)未安装启动!点击这里<a href='/sources/printResource/CLodop_Setup_for_Win32NT.exe' target='_self'>执行安装</a>,安装后请刷新页面。</font>,
+	  content: <font color='#FF00FF'>CLodop云打印服务(localhost本地)未安装启动!点击这里<a href='/static/printResource/CLodop_Setup_for_Win32NT.exe' target='_self'>执行安装</a>,安装后请刷新页面。</font>,
 	});
   }
 
@@ -23,7 +23,7 @@ function needCLodop(){
 	if (ua.match(/iPhone|iPod/i) != null) return true;
 	if (ua.match(/Android/i) != null) return true;
 	if (ua.match(/Edge\D?\d+/i) != null) return true;
-	
+
 	var verTrident=ua.match(/Trident\D?\d+/i);
 	var verIE=ua.match(/MSIE\D?\d+/i);
 	var verOPR=ua.match(/OPR\D?\d+/i);
@@ -70,28 +70,27 @@ if (needCLodop()) {
     var strHtm64_Update="<br><font color='#FF00FF'>打印控件需要升级!点击这里<a href='/static/printResource/install_lodop64.exe' target='_self'>执行升级</a>,升级后请重新进入。</font>";
     var strHtmFireFox="<br><br><font color='#FF00FF'>（注意：如曾安装过Lodop旧版附件npActiveXPLugin,请在【工具】->【附加组件】->【扩展】中先卸它）</font>";
     var strHtmChrome="<br><br><font color='#FF00FF'>(如果此前正常，仅因浏览器升级或重安装而出问题，需重新执行以上安装）</font>";
-    var strCLodopInstall="<font color='#FF00FF'>CLodop云打印服务(localhost本地)未安装启动!点击这里<a href='/sources/printResource/CLodop_Setup_for_Win32NT.exe' target='_self'>执行安装</a>,安装后请刷新页面。</font>"
+    var strCLodopInstall="<font color='#FF00FF'>CLodop云打印服务(localhost本地)未安装启动!点击这里<a href='/static/printResource/CLodop_Setup_for_Win32NT.exe' target='_self'>执行安装</a>,安装后请刷新页面。</font>"
     var strCLodopUpdate="<br><font color='#FF00FF'>CLodop云打印服务需升级!点击这里<a href='/static/CLodop_Setup_for_Win32NT.exe' target='_self'>执行升级</a>,升级后请刷新页面。</font>";
     var LODOP;
     try{
         var isIE = (navigator.userAgent.indexOf('MSIE')>=0) || (navigator.userAgent.indexOf('Trident')>=0);
         if (needCLodop()) {
-            try{ LODOP=getCLodop();} catch(err) {}
-	    if (!LODOP && document.readyState!=='complete') {alert('C-Lodop没准备好，请稍后再试！'); return;};
-            if (!LODOP) {
-		 if (isIE) document.write(strCLodopInstall); else
-		 		 error()
-		 	//  alert('打印控件未安装，请先下载打印机控件')
-                 return;
-            } else {
-
-	         if (CLODOP.CVERSION<'2.1.3.0') {
-			if (isIE) document.write(strCLodopUpdate); else
-			 alert('CLodop云打印服务需升级!')
-		 }
-		 if (oEMBED && oEMBED.parentNode) oEMBED.parentNode.removeChild(oEMBED);
-		 if (oOBJECT && oOBJECT.parentNode) oOBJECT.parentNode.removeChild(oOBJECT);
-	    }
+          try{ LODOP=getCLodop();} catch(err) {}
+			    if (!LODOP && document.readyState!=='complete') {alert('C-Lodop没准备好，请稍后再试！'); return;};
+          if (!LODOP) {
+				 		if (isIE) document.write(strCLodopInstall); else
+				 		 error()
+				 	//  alert('打印控件未安装，请先下载打印机控件')
+             return;
+          } else {
+	         	if (CLODOP.CVERSION<'2.1.3.0') {
+						 	if (isIE) document.write(strCLodopUpdate); else
+						 	alert('CLodop云打印服务需升级!');
+		 				};
+						 	if (oEMBED && oEMBED.parentNode) oEMBED.parentNode.removeChild(oEMBED);
+						 	if (oOBJECT && oOBJECT.parentNode) oOBJECT.parentNode.removeChild(oOBJECT);
+			    };
         } else {
             var is64IE  = isIE && (navigator.userAgent.indexOf('x64')>=0);
             //=====如果页面有Lodop就直接使用，没有则新建:==========
@@ -124,7 +123,7 @@ if (needCLodop()) {
             	if (is64IE) document.write(strHtm64_Update); else
             	if (isIE) document.write(strHtmUpdate); else
             	document.documentElement.innerHTML=strHtmUpdate+document.documentElement.innerHTML;
-	    }
+	    			}
             return LODOP;
         }
         //===如下空白位置适合调用统一功能(如注册语句、语言选择等):===
@@ -132,7 +131,7 @@ if (needCLodop()) {
         //===========================================================
         return LODOP;
     } catch(err) {alert('getLodop出错:'+err);
-}
+	}
 }
 
 function PrintOneURL(url,orderno){
@@ -140,13 +139,15 @@ function PrintOneURL(url,orderno){
 			orderno = "";
 		}
 		LODOP=getLodop();
-		LODOP.PRINT_INIT('printJob'+new Date());
-		LODOP.ADD_PRINT_URL('1cm','1cm','90%','90%',url);
-		var	pageData = orderno+"　<span tdata='pageNO'>第##页</span>/<span tdata='pageCount'>共##页</span>"
-		LODOP.ADD_PRINT_HTM('0.5cm',450,300,100,pageData);
-		LODOP.SET_PRINT_STYLEA(0,"ItemType",1);
-		LODOP.SET_PRINT_STYLEA(0,"Horient",1);	
-		LODOP.PRINT();
+		if(LODOP){
+			LODOP.PRINT_INIT('printJob'+new Date());
+			LODOP.ADD_PRINT_URL('1cm','1cm','90%','90%',url);
+			var	pageData = orderno+"　<span tdata='pageNO'>第##页</span>/<span tdata='pageCount'>共##页</span>"
+			LODOP.ADD_PRINT_HTM('0.5cm',450,300,100,pageData);
+			LODOP.SET_PRINT_STYLEA(0,"ItemType",1);
+			LODOP.SET_PRINT_STYLEA(0,"Horient",1);
+			LODOP.PRINT();
+		}
 	}
 
 
@@ -156,6 +157,6 @@ export function GetLodop(id,type,orderno) {
 	Url='http://'+Url+'/erpWebRest/print.htm;jsessionid='+jsessionid+'?type='+type+'&id='+id
 	console.log(Url)
 	console.log(orderno)
+	debugger
 	PrintOneURL(Url,orderno)
 }
-

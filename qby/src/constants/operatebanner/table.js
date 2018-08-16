@@ -9,10 +9,13 @@ class OperatebannerTable extends React.Component {
         this.columns = [{
                 title: 'banner名称',
                 dataIndex: 'name'
-          }, {
+          },{
+	                title: 'banner id',
+	                dataIndex: 'pdBannerId'
+        	},{
                 title: '状态',
                 dataIndex: 'statusStr'
-          }, 
+          },
           {
                 title: '创建人',
                 dataIndex: 'urUserName'
@@ -34,7 +37,7 @@ class OperatebannerTable extends React.Component {
                 }
           }];
     }
-    
+
     //点击表格上的修改按钮操作
     editInfo = (record) =>{
         const pdBannerId=String(record.pdBannerId);
@@ -53,8 +56,8 @@ class OperatebannerTable extends React.Component {
     pageSizeChange=(current,size)=>{
           this.initList(this.props.values,size,0)
     }
-    
-    //列表数据请求   
+
+    //列表数据请求
     initList=(values,limit,currentPage)=>{
         values.limit=limit;
         values.currentPage=currentPage;
@@ -67,9 +70,9 @@ class OperatebannerTable extends React.Component {
 
     render() {
         return (
-          <EditableTable 
-            dataSource={this.props.tableList} 
-            columns={this.columns} 
+          <EditableTable
+            dataSource={this.props.tableList}
+            columns={this.columns}
             bordered={true}
             footer={true}
             pageChange={this.pageChange.bind(this)}
@@ -84,7 +87,7 @@ class OperatebannerTable extends React.Component {
         //执行初始化数据方法获取list
 		this.initList(this.props.values,this.props.limit,this.props.currentPage);
 	}
-    
+
 }
 
 function mapStateToProps(state) {

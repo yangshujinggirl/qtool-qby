@@ -19,9 +19,6 @@ const DetailSizeColumns = [{
      title: '建议零售价',
      dataIndex: 'tagPrice'
    },{
-     title: '进货价',
-     dataIndex: 'costPrice'
-   },{
      title: 'SKU图片',
      dataIndex: 'picUrl',
      render:(text, record, index)=> {
@@ -52,9 +49,6 @@ const DetailColumns = [{
    },{
      title: '建议零售价',
      dataIndex: 'tagPrice'
-   },{
-     title: '进货价',
-     dataIndex: 'costPrice'
    }];
 
    export default { DetailSizeColumns, DetailColumns };

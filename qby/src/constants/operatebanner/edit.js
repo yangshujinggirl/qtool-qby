@@ -212,7 +212,7 @@ class OperatebannerEditForm extends React.Component{
                     labelCol={{ span: 3,offset: 1 }}
                     wrapperCol={{ span: 6 }}
                 >
-                  <Input value='Q掌柜 App' readOnly/>
+                  <div>Qtools App</div>
                 </FormItem>
                 <FormItem
                     label="banner图片"

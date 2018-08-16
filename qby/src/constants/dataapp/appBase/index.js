@@ -2,48 +2,73 @@ import React,{Component} from 'react'
 import {Icon,Card,Modal} from 'antd'
 import Cards from '../../../components/card/baseCard'
 import DataTable from '../../../components/table/datatable'
-
+import {getAppBaseApi} from '../../../services/dataapp/appBase'
 class AppBase extends Component{
   constructor(props){
     super(props)
 
     this.state={
-      data1:[
-        {title:'注册总用户数',value:22},
-        {title:'今日注册用户数',value:22},
-        {title:'总流水',value:22},
-        {title:'今日流水',value:22},
-      ],
-      data2:[
-        {title:'下单总用户数',value:22},
-        {title:'今日下单用户数',value:22},
-        {title:'总下单订单数',value:22},
-        {title:'今日下单订单数',value:22},
-        {title:'总完成订单数',value:22},
-        {title:'今日完成订单数',value:22},
-      ],
+      dataSource:[],
+      data1:[],
+      data2:[],
     }
-
     this.columns = [{
         title: '订单状态',
-        dataIndex: 'index'
+        dataIndex: 'orderstatusStr'
       },{
         title: '订单数',
-        dataIndex: 'code'
+        dataIndex: 'sumOrders'
       },{
         title: '订单总金额',
-        dataIndex: 'barcode'
+        dataIndex: 'orderAmount'
     }]
-
-    this.dataSource = [
-      {
-        index:1,
-        code:1,
-        barcode:1
-      }
-    ]
-
   }
+  componentWillMount(){
+    getAppBaseApi().then(res=>{
+      if(res.code =='0'){
+        this.initData(res);
+      }
+    })
+  }
+  //初始化数据
+  initData(res){
+    let dataSource = res.iRpQtoolsAppData.qtOrders;
+    let {
+      userTotal,
+      userTodayTotal,
+      sumTurnover,
+      currentTurnover,
+      sumUserCosumes,
+      currentUsercosumes,
+      totalOrders,
+      currentOrders,
+      totalFinishedOrders,
+      currentFinishedOrders
+    } = res.iRpQtoolsAppData;
+    let data1 = [
+      {title:'注册总用户数',value:userTotal},
+      {title:'今日注册用户数',value:userTodayTotal},
+      {title:'总流水',value:sumTurnover},
+      {title:'今日流水',value:currentTurnover},
+    ];
+    let data2 = [
+      {title:'下单总用户数',value:sumUserCosumes},
+      {title:'今日下单用户数',value:currentUsercosumes},
+      {title:'总下单订单数',value:totalOrders},
+      {title:'今日下单订单数',value:currentOrders},
+      {title:'总完成订单数',value:totalFinishedOrders},
+      {title:'今日完成订单数',value:currentFinishedOrders},
+    ];
+    dataSource.map((item,index)=>{
+      item.key = index;
+    });
+    this.setState({
+      data1,
+      data2,
+      dataSource
+    });
+  }
+
   desinfo=()=>{
 		Modal.info({
 			title: 'App数据更新：显示查询时刻数据',
@@ -65,23 +90,23 @@ class AppBase extends Component{
 		});
 	};
   render(){
+    const { data1, data2, dataSource } = this.state;
     return(
       <div>
         <div className='clearfix mb10'>
-          <p className='fl'>数据更新于: 2018</p>
           <p className='fr pointer'>数据定义说明
             <Icon type="question-circle-o" onClick={this.desinfo} style={{color:"#ED6531",marginLeft:"4px"}}/>
           </p>
         </div>
-        <Cards data={this.state.data1}/>
+        <Cards data={data1}/>
         <div className="mt10">
-          <Cards data={this.state.data2}/>
+          <Cards data={data2}/>
         </div>
         <div className='mt10'>
 					<p style={{marginBottom:"10px",marginTop:"20px"}}>当前各订单状态数据</p>
 					<DataTable
-            columns = { this.columns }
-            dataSource = { this.dataSource }
+            columns={ this.columns }
+            dataSource={ dataSource }
           />
 				</div>
       </div>

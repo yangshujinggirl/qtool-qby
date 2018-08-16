@@ -12,15 +12,21 @@ const Columns = [{
    },{
      title: '门店名称',
      dataIndex: 'spShopName'
+   },{
+     title: '用户昵称',
+     dataIndex: 'nickName'
    }, {
-     title: '订单类型',
-     dataIndex: 'typeStr'
+     title: '用户电话',
+     dataIndex: 'mobilePhone'
    },{
-     title: '用户类型',
-     dataIndex: 'statusStr'
+     title: '商品数量',
+     dataIndex: 'qtySum'
    },{
-     title: '结算金额',
+     title: '订单金额',
      dataIndex: 'amountSum'
+   },{
+     title: '用户支付金额',
+     dataIndex: 'payAmount'
    },{
      title: '流程状态',
      dataIndex: 'orderStatusStr'
