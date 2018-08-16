@@ -22,7 +22,8 @@ class CountryManageForm extends Component {
     this.state={
       visible:false,
       pdCountryId:'',
-      countryDetail:{}
+      countryDetail:{},
+      errorText:''
     }
   }
   componentDidMount() {
@@ -55,14 +56,14 @@ class CountryManageForm extends Component {
     this.setState({
       countryDetail:{
         name:el.name,
-        status:el.status
+        status:el.status,
       },
       pdCountryId:el.pdCountryId,
       visible:true,
     })
     this.props.dispatch({
       type:'countryManage/setFileList',
-      payload:el.fileList
+      payload:el.url
     })
   }
   //取消
@@ -75,21 +76,29 @@ class CountryManageForm extends Component {
     })
     this.props.dispatch({
       type:'countryManage/setFileList',
-      payload:[]
+      payload:null
     })
+  }
+  validateLogo(imageUrl) {
+    let errorText;
+    let status;
+    if(!imageUrl) {
+      errorText='请上传国家Logo';
+      status = false;
+    } else {
+      errorText='';
+      status = true;
+    }
+    this.setState({
+      errorText
+    })
+    return status;
   }
   //提交
   handleOk() {
     this.props.form.validateFields((err, values) => {
-     if (!err) {
-       let url = values.url;
-       if(url[0].url) {
-         url = url[0].name;
-       } else {
-         url = url[0].response.data[0]
-       }
-       values = {...values,url};
-
+     if (!err&&this.validateLogo(this.props.countryManage.imageUrl)) {
+       values = {...values, ...{ url:this.props.countryManage.imageUrl }};
        this.saveCountry(values);
      }
    });
@@ -121,8 +130,9 @@ class CountryManageForm extends Component {
   }
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { data, authorityList } = this.props.countryManage;
-    const { visible, countryDetail, pdCountryId } =this.state;
+    const { data, authorityList, fileDomain } = this.props.countryManage;
+    const { visible, countryDetail, pdCountryId, errorText } =this.state;
+    console.log(errorText)
     let title = pdCountryId?'修改国家':'新增国家';
     return(
       <div className="country-manage-components">
@@ -143,7 +153,7 @@ class CountryManageForm extends Component {
                   <Card
                     className={`${authorityList.authorityEdit?'card-item':'card-item disabled'}`}
                     hoverable
-                    cover={<img alt="example" src={el.url} />}>
+                    cover={<img alt="example" src={`${fileDomain}${el.url}`} />}>
                     <div className="theme-color country-name">{el.name}</div>
                   </Card>
                 </div>
@@ -152,12 +162,18 @@ class CountryManageForm extends Component {
           </Row>
         </div>
         <Modal
+          className='country-modal-content'
           title={title}
           visible={visible}
           onOk={()=>this.handleOk()}
           onCancel={()=>this.handleCancel()}>
           <Form>
-            <UpLoadFile form={this.props.form}/>
+            <FormItem
+              label="国家图片" {...formItemLayout}
+              required={true}>
+              <UpLoadFile validateLogo={this.validateLogo.bind(this)}/>
+              <div className="ant-form-explain-error">{errorText}</div>
+            </FormItem>
             <FormItem
               label="国家名称"
               {...formItemLayout}>

@@ -9,9 +9,11 @@ export default {
   namespace:'productGoodsList',
   state: {
     dataList:[],//商品列表
-    currentPage:0,
-    limit:16,
-    total:0,
+    dataPag:{
+      currentPage:0,
+      limit:16,
+      total:0,
+    },
     authorityList:{
       authorityEdit:false,
       authorityExport:false,
@@ -19,8 +21,8 @@ export default {
     }
   },
   reducers: {
-    getList( state, { payload : {dataList, currentPage, limit, total} }) {
-      return { ...state, dataList, currentPage, limit, total}
+    getList( state, { payload : { dataList, dataPag } }) {
+      return { ...state, dataList, dataPag }
     },
     setAuthority(state, { payload : authorityData }) {
       let authorityList={};
@@ -39,10 +41,25 @@ export default {
       })
       return { ...state, authorityList }
     },
+    reSetData(state) {
+      const dataList=[],//商品列表
+            dataPag={
+              currentPage:0,
+              limit:16,
+              total:0,
+            },
+            authorityList={
+              authorityEdit:false,
+              authorityExport:false,
+              authoritySale:false,
+            },
+            selecteKeys=[];
+      return { ...state, dataList, dataPag, authorityList}
+    }
   },
   effects: {
     *fetchList({ payload: values }, { call, put ,select}) {
-      const fixedLimit = yield select(state => state.productGoodsList.limit);
+      const fixedLimit = yield select(state => state.productGoodsList.dataPag.limit);
       //默认分页是16
       if(!values.limit) {
         values = {...values,...{ limit: fixedLimit}}
@@ -59,9 +76,11 @@ export default {
           type: 'getList',
           payload:{
             dataList:pdSpus,
-            currentPage,
-            limit,
-            total
+            dataPag:{
+              currentPage,
+              limit,
+              total
+            }
           }
         })
       }

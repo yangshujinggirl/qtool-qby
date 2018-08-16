@@ -1,27 +1,17 @@
 import React ,{ Component } from 'react';
 import { connect } from 'dva';
-import { Form, Upload,Icon, Modal, Button } from 'antd';
-
-const FormItem = Form.Item;
-const formItemLayout = {
-      labelCol: {
-        span: 5
-      },
-      wrapperCol: {
-        span: 12
-      },
-  };
+import { Form, Upload,Icon, Modal, Button, message } from 'antd';
 
 class UpLoadFile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      fileList:this.props.countryManage.fileList,
+      imageUrl:this.props.countryManage.imageUrl
     }
   }
   componentWillReceiveProps(props) {
     this.setState({
-      fileList:props.countryManage.fileList,
+      imageUrl:props.countryManage.imageUrl
     })
   }
   beforeUpload(file){
@@ -37,52 +27,44 @@ class UpLoadFile extends Component {
 
     return (isJPG || isPNG) && isLt2M;
   }
-	handleChange = ({fileList}) => {
-    this.setState({
-      fileList
-    })
-    this.props.dispatch({
-      type:'countryManage/setFileList',
-      payload:fileList
-    })
-	}
-  normFile = (e) => {
-    if (Array.isArray(e)) {
-      return e;
+  handleChange = (info) => {
+    if (info.file.status === 'uploading') {
+      this.setState({ loading: true });
+      return;
     }
-    return e && e.fileList;
+    if (info.file.status === 'done') {
+      let imageUrl = info.fileList[0].response.data[0];
+      this.setState({
+        imageUrl,
+        loading: false,
+      })
+      this.props.dispatch({
+        type:'countryManage/setFileList',
+        payload:imageUrl
+      })
+      this.props.validateLogo(imageUrl)
+    }
   }
   render() {
     const uploadButton = (
-       <div>
-         <Icon type='plus' />
-         <div className="ant-upload-text">添加图片</div>
-       </div>
+          <div>
+           <Icon type={this.state.loading ? 'loading' : 'plus'} />
+           <div className="ant-upload-text">上传Logo</div>
+         </div>
      );
-     const { fileList } = this.state;
+     let { imageUrl } = this.state;
+     const { fileDomain } =this.props.countryManage;
      return(
-       <FormItem label="国家图片" {...formItemLayout}>
-         {
-           this.props.form.getFieldDecorator('url',{
-             rules:[{required:true,message:'请上传图片'}],
-             getValueFromEvent: this.normFile,
-             valuePropName: 'fileList',
-             initialValue:fileList,
-             onChange:this.handleChange,
-           })(
-               <Upload
-                name="imgFile"
-                listType="picture-card"
-                className="avatar-uploader"
-                action="/erpWebRest/qcamp/upload.htm?type=spu"
-                beforeUpload={this.beforeUpload}>
-                {
-                  fileList.length >0 ? null : uploadButton
-                }
-              </Upload>
-           )
-         }
-       </FormItem>
+         <Upload
+           name="imgFile"
+           listType="picture-card"
+           className="avatar-image-uploader"
+           showUploadList={false}
+           action="/erpWebRest/qcamp/upload.htm?type=spu"
+           beforeUpload={this.beforeUpload}
+           onChange={this.handleChange}>
+           {imageUrl ? <img src={`${fileDomain}${imageUrl}`} alt="avatar" className="img-size"/> : uploadButton}
+         </Upload>
       )
     }
 }
