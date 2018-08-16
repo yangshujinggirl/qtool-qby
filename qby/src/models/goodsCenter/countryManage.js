@@ -12,7 +12,8 @@ export default {
       limit:15,
       total:0,
     },
-    fileList:[],
+    imageUrl:null,
+    fileDomain:'',
     authorityList:{
       authorityEdit:false,
     }
@@ -29,11 +30,11 @@ export default {
       })
       return { ...state, authorityList }
     },
-    getList( state, { payload : {data} }) {
-      return { ...state, data}
+    getList( state, { payload : {data, fileDomain} }) {
+      return { ...state, data, fileDomain}
     },
-    setFileList( state, { payload : fileList }) {
-      return { ...state, fileList }
+    setFileList( state, { payload : imageUrl }) {
+      return { ...state, imageUrl }
     },
   },
   effects: {
@@ -41,15 +42,7 @@ export default {
       const result=yield call(getListApi,values);
       if(result.code=='0') {
         let { countrys, currentPage, limit, total, fileDomain } = result;
-        countrys.map((el) => {
-          el.fileList = [{
-            uid:el.pdCountryId,
-            name:el.url,
-            url:`${fileDomain}${el.url}`,
-            status:'done'
-          }];
-          el.url = `${fileDomain}${el.url}`;
-        })
+
         yield put ({
           type: 'getList',
           payload:{
@@ -58,8 +51,8 @@ export default {
               currentPage,
               limit,
               total,
-              fileDomain
-            }
+            },
+            fileDomain
           }
         })
       }
