@@ -39,6 +39,10 @@ class BtipGoods extends Component {
   }
   initPage() {
     const { rolelists=[] } =this.props.data;
+    //初始化时reSetData
+    this.props.dispatch({
+      type:'productGoodsList/reSetData',
+    })
     this.props.dispatch({
       type:'productGoodsList/fetchList',
       payload:{}
@@ -228,7 +232,7 @@ class BtipGoods extends Component {
   }
 
   render() {
-    const { dataList, authorityList } = this.props.productGoodsList;
+    const { dataList, authorityList, dataPag } = this.props.productGoodsList;
     const {fields} = this.state;
     return (
       <div className="bTip-goods-components qtools-components-pages">
@@ -250,7 +254,7 @@ class BtipGoods extends Component {
           <Qpagination
             sizeOptions="2"
             onShowSizeChange={this.changePageSize}
-            data={this.props.productGoodsList}
+            data={dataPag}
             onChange={this.changePage}/>
         }
       </div>

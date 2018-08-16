@@ -52,6 +52,10 @@ class CtipGoods extends Component {
 
   initData() {
     const { rolelists=[] } =this.props.data;
+    //初始化时reSetData
+    this.props.dispatch({
+      type:'cTipGoodsList/reSetData',
+    })
     this.props.dispatch({
       type:'cTipGoodsList/fetchList',
       payload:{}
@@ -305,7 +309,7 @@ class CtipGoods extends Component {
     })
   }
   render() {
-    const { dataList, categoryList, authorityList } = this.props.cTipGoodsList;
+    const { dataList, categoryList, authorityList, dataPag } = this.props.cTipGoodsList;
     const {
       fields,
       handleContent,
@@ -350,7 +354,7 @@ class CtipGoods extends Component {
           <Qpagination
             sizeOptions="2"
             onShowSizeChange={this.changePageSize}
-            data={this.props.cTipGoodsList}
+            data={dataPag}
             onChange={this.changePage}/>
         }
         <Modal

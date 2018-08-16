@@ -55,6 +55,9 @@ class BtipGoods extends Component {
   initData() {
     const { rolelists=[] } =this.props.data;
     this.props.dispatch({
+      type:'bTipGoodsList/reSetData',
+    })
+    this.props.dispatch({
       type:'bTipGoodsList/fetchList',
       payload:{}
     })
@@ -309,7 +312,7 @@ class BtipGoods extends Component {
   }
 
   render() {
-    const { dataList, categoryList, authorityList } = this.props.bTipGoodsList;
+    const { dataList, categoryList, authorityList, dataPag } = this.props.bTipGoodsList;
     const {
       fields,
       handleContent,
@@ -354,7 +357,7 @@ class BtipGoods extends Component {
           <Qpagination
             sizeOptions="2"
             onShowSizeChange={this.changePageSize}
-            data={this.props.bTipGoodsList}
+            data={dataPag}
             onChange={this.changePage}/>
         }
         <Modal

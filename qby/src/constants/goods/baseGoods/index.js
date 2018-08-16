@@ -28,6 +28,11 @@ class BaseGoods extends Component {
   }
   initData() {
     const { rolelists=[] } =this.props.data;
+    //初始化时reSetData
+    this.props.dispatch({
+      type:'baseGoodsList/reSetData',
+    });
+    //请求数据
     this.props.dispatch({
       type:'baseGoodsList/fetchList',
       payload: {}
@@ -166,7 +171,7 @@ class BaseGoods extends Component {
   }
 
   render() {
-    const { dataList=[], categoryList, authorityList } = this.props.baseGoodsList;
+    const { dataList=[], categoryList, authorityList, dataPag } = this.props.baseGoodsList;
     const {fields} = this.state;
     return (
       <div className="base-goods-components qtools-components-pages">
@@ -199,7 +204,7 @@ class BaseGoods extends Component {
           <Qpagination
             sizeOptions="2"
             onShowSizeChange={this.changePageSize}
-            data={this.props.baseGoodsList}
+            data={dataPag}
             onChange={this.changePage}/>
         }
       </div>

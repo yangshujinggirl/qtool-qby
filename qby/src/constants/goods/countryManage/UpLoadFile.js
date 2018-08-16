@@ -61,7 +61,7 @@ class UpLoadFile extends Component {
      );
      const { fileList } = this.state;
      return(
-       <FormItem label="国家名称" {...formItemLayout}>
+       <FormItem label="国家图片" {...formItemLayout}>
          {
            this.props.form.getFieldDecorator('url',{
              rules:[{required:true,message:'请上传图片'}],
