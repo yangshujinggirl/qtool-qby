@@ -7,16 +7,11 @@ import Qpagination from '../../../components/Qpagination/index'; //分页
 import FilterForm from './FilterForm/index'
 import { bPushRevokeApi } from '../../../services/activity/bPush'
 import './index'
+import moment from 'moment';
+
 class Cpush extends Component{
   constructor(props){
     super(props);
-    this.rowSelection = {
-       type:'radio',
-       onChange:(selectedRowKeys, selectedRows) =>{
-         this.setState({cPushName:selectedRows[0].spOrderId})
-         this.setState({cPushId:selectedRows[0].spOrderId})
-       },
-     };
     this.state ={
       cPushId:'',
       cPushName:'',
@@ -27,10 +22,27 @@ class Cpush extends Component{
         creater:'',
         status:'',
         type:'',
-      }
+      },
+      rowSelection:{
+         type:'radio',
+         selectedRowKeys:[],
+         onChange:this.onChange
+     }
     }
   }
-
+  //tabel---radio按钮变化
+  onChange =(selectedRowKeys,selectedRows)=> {
+    const {rowSelection}=this.state;
+    this.setState({
+      rowSelection:Object.assign({},rowSelection,{selectedRowKeys})
+    });
+    if(selectedRows[0]){
+      this.setState({
+        cPushName:selectedRows[0].spOrderId,
+        cPushId:selectedRows[0].spOrderId,
+      });
+    };
+  }
   //点击搜索
   searchData = (values)=> {
     this.props.dispatch({
@@ -59,8 +71,8 @@ class Cpush extends Component{
   searchDataChange =(values)=> {
     const {rangePicker,..._values} = values;
     if(rangePicker){
-      _values.createTimeST =  rangePicker[0]._d.getTime();
-      _values.createTimeET = rangePicker[1]._d.getTime();
+      _values.createTimeST =  moment(rangePicker[0]).format('YYYY-MM-DD HH:mm:ss');
+      _values.createTimeET = moment(rangePicker[1]).format('YYYY-MM-DD HH:mm:ss');
     }
     this.setState({field:_values});
   }
@@ -69,12 +81,10 @@ class Cpush extends Component{
     this.props.dispatch({
       type:'cPush/fetchList',
       payload:{}
-    })
+    });
   }
   //新增推送
   addPush =()=> {
-    debugger
-    console.log(this.props)
     const paneitem = {
       title:'创建推送',
       key:`${this.state.componkey}edit`,
@@ -140,13 +150,20 @@ class Cpush extends Component{
     const cPushId = this.state.cPushId
     bPushRevokeApi(cPushId)
     .then(res => {
-      message.success('撤销成功');
-    },err => {
-      message.error('撤销失败');
+      if(res.code == '0'){
+        this.props.dispatch({ //刷新列表
+          type:'tab/firstAddTab',
+          payload:paneitem
+        });
+        this.state.rowSelection.onChange([],[]); //取消选中
+        message.success(res.message);
+        this.setState({isPushVisible:false})
+      }
     });
   }
   //取消撤销
   onCancel =()=>{
+    this.state.rowSelection.onChange([],[]);//取消选中
     this.setState({isPushVisible:false})
   }
   render(){
@@ -160,6 +177,7 @@ class Cpush extends Component{
       return currentValue.url=="qerp.web.pd.cpush.revoke"
     })
     const {dataList} = this.props.cPush;
+    const { isPushVisible, cPushName, rowSelection } = this.state;
     return(
       <div className='qtools-components-pages'>
         <FilterForm
@@ -180,20 +198,20 @@ class Cpush extends Component{
         </div>
         <Modal
             bodyStyle={{fontSize:'24px','padding':'50px'}}
-            visible= {this.state.isPushVisible}
+            visible= {isPushVisible}
             cancelText="不撤销了"
             okText='确定撤销'
             onCancel= {this.onCancel}
             onOk = {this.onOk}
           >
-            <p>你正在撤消标题为{this.state.cPushName}的推送，确认撤消？</p>
+            <p>你正在撤消标题为{cPushName}的推送，确认撤消？</p>
         </Modal>
         <Qtable
           dataSource = {dataList}
           columns = {Columns}
           onOperateClick = {this.handleOperateClick.bind(this)}
           select
-          rowSelection = {this.rowSelection}
+          rowSelection = {rowSelection}
         />
         <Qpagination
           data={this.props.cPush}

@@ -10,6 +10,7 @@ import {
   DatePicker
 }from 'antd'
 import '../index.css'
+import moment from 'moment';
 const FormItem = Form.Item;
 const Option = Select.Option;
 const RangePicker = DatePicker.RangePicker
@@ -21,8 +22,8 @@ class NormalForm extends Component{
     this.props.form.validateFieldsAndScroll((err, values) => {
       const{rangePicker,..._values} = values;
       if(rangePicker){
-        _values.startTime =  new Date( rangePicker[0]).getTime();
-        _values.endTime = new Date(rangePicker[1]).getTime();
+        _values.startTime =  moment(rangePicker[0]).format('YYYY-MM-DD HH:mm:ss');
+        _values.endTime = moment(rangePicker[1]).format('YYYY-MM-DD HH:mm:ss');
       }
       this.props.submit && this.props.submit(_values);
     })

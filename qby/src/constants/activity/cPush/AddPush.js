@@ -3,6 +3,7 @@ import { Form, Select, Input, Button , message, Row, Col, DatePicker, Radio, Che
 import { createBpushApi } from '../../../services/activity/bPush'
 import { connect } from 'dva'
 import './index'
+import moment from 'moment';
 const FormItem = Form.Item;
 const Option = Select.Option;
 const TextArea = Input.TextArea;
@@ -12,7 +13,8 @@ const options = [
   { label: '店主', value: '1' },
   { label: '店长', value: '2' },
   { label: '店员', value: '3' },
-];;
+];
+
 class AddcPush extends Component {
   constructor(props){
     super(props);
@@ -31,12 +33,23 @@ class AddcPush extends Component {
   handleSubmit = (e) => {
 		e.preventDefault();
 		this.props.form.validateFields((err, values) => {
+      //时间格式化
+      if(values.fixedTime){
+        values.fixedTime = moment(values.fixedTime).format('YYYY-MM-DD HH:mm:ss');
+      }
       if(!err){
         createBpushApi(values)
         .then(res => {
-
-        },err => {
-          console.log(err)
+          if(res.code == '0'){
+            this.props.dispath({
+              type:'tab/initDeletestate',
+              payload:this.props.componkey
+            });
+            this.props.dispath({
+              type:'cPush/fetchList',
+              payload:values
+            });
+          }
         });
       };
     });
