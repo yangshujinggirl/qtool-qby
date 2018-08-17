@@ -318,6 +318,7 @@ class BtipGoods extends Component {
       handleContent,
       visible,
     } = this.state;
+    console.log(this.props.bTipGoodsList)
     return (
       <div className="bTip-goods-components qtools-components-pages">
         <FilterForm

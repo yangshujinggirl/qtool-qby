@@ -71,12 +71,12 @@ class OrdercgIndex extends React.Component{
 						});
 					},
 					onCancel() {
-						
+
 					},
 	  			});
 			}
 		})
-	
+
 	}
 	//清除选中
 	clearChooseInfo=()=>{
@@ -87,7 +87,7 @@ class OrdercgIndex extends React.Component{
 			payload:{selectedRowKeys,selectedRows}
 		})
   	}
-	  
+
 	  //打印采购单
 	printCgorder = () => {
 		if (this.props.selectedRows.length < 1) {
@@ -168,7 +168,7 @@ class OrdercgIndex extends React.Component{
 
 
 
-		
+
 
   	render(){
 		const rolelists=this.props.data.rolelists
@@ -197,8 +197,8 @@ class OrdercgIndex extends React.Component{
                 <OrdercgSearch/>
 					{
 						overorder?
-						<Button 
-							type="primary" 
+						<Button
+							type="primary"
 							size='large'
 							className='mt20 mr10'
 							onClick={this.mandatoryOrder.bind(this)}
@@ -209,8 +209,8 @@ class OrdercgIndex extends React.Component{
 					}
 					{
 						payorder?
-						<Button 
-						type="primary" 
+						<Button
+						type="primary"
 						size='large'
 						className='mt20 mr10'
 						onClick={this.alpayamount.bind(this)}
@@ -222,8 +222,8 @@ class OrdercgIndex extends React.Component{
 
 					{
 						payorder?
-						<Button 
-						type="primary" 
+						<Button
+						type="primary"
 						size='large'
 						className='mt20 mr10'
 						onClick={this.wlpayamount.bind(this)}
@@ -235,8 +235,8 @@ class OrdercgIndex extends React.Component{
 
 					{
 						addorder?
-						<Button 
-						type="primary" 
+						<Button
+						type="primary"
 						size='large'
 						className='mt20 mr10'
 						onClick={this.addNew.bind(this)}
@@ -247,8 +247,8 @@ class OrdercgIndex extends React.Component{
 					}
 					{
 						printorder?
-						<Button 
-						type="primary" 
+						<Button
+						type="primary"
 						size='large'
 						className='mt20 mr10'
 						onClick={this.printCgorder}
@@ -259,8 +259,8 @@ class OrdercgIndex extends React.Component{
 					}
 					{
 						expontdata?
-						<Button 
-						type="primary" 
+						<Button
+						type="primary"
 						size='large'
 						className='mt20 mr10'
 						onClick={this.exportData.bind(this,15,this.props.values)}
@@ -273,8 +273,8 @@ class OrdercgIndex extends React.Component{
         	</div>
       	)
 	}
-	  
-	
+
+
 }
 
 function mapStateToProps(state) {

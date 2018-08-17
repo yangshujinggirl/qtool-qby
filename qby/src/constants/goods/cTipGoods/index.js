@@ -315,6 +315,7 @@ class CtipGoods extends Component {
       handleContent,
       visible,
     } = this.state;
+    console.log(this.props.cTipGoodsList)
     return (
       <div className="cTip-goods-components qtools-components-pages">
         <FilterForm

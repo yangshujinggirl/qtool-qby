@@ -65,25 +65,33 @@ class AddCoupon extends Component {
       <div className='addCoupon'>
         	<Form className="addUser-form operatebanner-form">
             <FormItem
-              label="代金券名称"
+              label="优惠券名称"
               labelCol={{ span: 3,offset: 1 }}
-              wrapperCol={{ span: 6 }}
+              wrapperCol={{ span: 14 }}
             >
               {getFieldDecorator('couponName', {
-                  rules: [{ required: true, message: '请输入代金券名称'}],
+                  rules: [{ required: true, message: '请输入优惠券名称'}],
                 })(
-                  <Input placeholder="请输入10字以内代金券名称" maxLength='10' autoComplete="off"/>
+                  <div>
+                    <Input
+                      placeholder="请输入10字以内优惠券名称"
+                      style={{width:'280px'}}
+                      maxLength='10'
+                      autoComplete="off"
+                    />　
+                    <span className='tips'>该名称将在前端给用户展示，请谨慎填写</span>
+                  </div>
               )}
             </FormItem>
             <FormItem
-              label="代金券场景"
+              label="优惠券场景"
               labelCol={{ span: 3,offset: 1 }}
-              wrapperCol={{ span: 6 }}
+              wrapperCol={{ span: 14 }}
             >
             {getFieldDecorator('couponUseScene', {
-              rules: [{ required: true, message: '请选择代金券场景' }],
+              rules: [{ required: true, message: '请选择优惠券场景' }],
             })(
-              <Select placeholder="请选择banner状态">
+              <Select placeholder="请选择banner状态" style={{width:'280px'}}>
                   <Option value="1">新用户专享券</Option>
                   <Option value="2">注券</Option>
               </Select>
@@ -112,62 +120,77 @@ class AddCoupon extends Component {
                   {getFieldDecorator('couponValidDay',{
                     rules: [{ required:couponValidDay, message: '请填写用户领取时间' }],
                   })(
-                    <div><Input style={{width:'90%'}} disabled = {!couponValidDay} /> 天</div>
+                    <div>
+                      <Input style={{width:'140px'}} disabled = {!couponValidDay} />　天
+                      <span className='tips'>0代表领取当天</span>
+                    </div>
                   )}
+
                 </FormItem>
                 <FormItem>
                    {getFieldDecorator('couponValidDate',{
                        rules: [{ required:couponValidDate , message: '请填写特定时间' }],
                     })(
-                      <DatePicker showTime format="YYYY-MM-DD HH:mm:ss" disabled = {!couponValidDate} />
+                      <div>
+                        <DatePicker
+                          style={{width:'140px'}}
+                          showTime
+                          format="YYYY-MM-DD HH:mm:ss"
+                          disabled = {!couponValidDate} />　止
+                        <span className='tips'>当天24:00:00截止</span>
+                      </div>
                    )}
                 </FormItem>
               </Col>
             </Row>
             <FormItem
-              label="代金券金额"
+              label="优惠券金额"
               labelCol={{ span: 3,offset: 1 }}
-              wrapperCol={{ span: 6 }}
+              wrapperCol={{ span: 14 }}
             >
             {getFieldDecorator('couponMoney', {
-              rules: [{required: true, message: '请输入代金券金额'},{pattern:/^(([1-9][0-9]*)|(([0]\.\d{0,2}|[1-9][0-9]*\.\d{0,2})))$/,message: '请输入最多2位小数正数'}],
+              rules: [
+                {required: true, message: '请输入优惠券金额'},
+                {pattern:/^(([1-9][0-9]*)|(([0]\.\d{0,2}|[1-9][0-9]*\.\d{0,2})))$/,
+                message: '请输入最多2位小数正数'}
+              ],
             })(
-              <div><Input style={{width:'80%'}} placeholder = '请输入代金券金额'/>　元</div>
+              <div><Input style={{width:'255px'}} placeholder = '请输入优惠券金额'/>　元</div>
             )}
             </FormItem>
             <FormItem
               label='使用门槛'
               labelCol={{ span: 3,offset: 1 }}
-              wrapperCol={{ span: 6 }}
+              wrapperCol={{ span: 14 }}
             >
               {getFieldDecorator('couponFullAmount', {
-                rules: [{required: true, message: '请输入代金券金额'},{pattern:/^[^[+]{0,1}(\d+)$/,message: '请输入正整数'}],
+                rules: [{required: true, message: '请输入优惠券金额'},{pattern:/^[^[+]{0,1}(\d+)$/,message: '请输入正整数'}],
               })(
-                <div><span>满　</span><Input style={{width:'50%'}} />　元可用</div>
+                <div><span>满　</span><Input style={{width:'205px'}} />　元可用</div>
               )}
             </FormItem>
             <FormItem
-              label='代金券数'
+              label='优惠券数'
               labelCol={{ span: 3,offset: 1 }}
-              wrapperCol={{ span: 6 }}
+              wrapperCol={{ span: 14 }}
             >
             {getFieldDecorator('couponCount', {
-              rules: [{required: true, message: '请输入代金券'},{pattern:/^(?:[0-9]{0,4}|10000)$/,message: '0-10000之间的正整数'}],
+              rules: [{required: true, message: '请输入优惠券'},{pattern:/^(?:[0-9]{0,4}|10000)$/,message: '0-10000之间的正整数'}],
             })(
-              <div><Input placeholder='请输入0-10000的正整数' style={{width:'80%'}}/>　张</div>
+              <div><Input placeholder='请输入0-10000的正整数' style={{width:'255px'}}/>　张</div>
             )}
             </FormItem>
             <FormItem
-              label='代金券备注'
+              label='优惠券备注'
               labelCol={{ span: 3,offset: 1 }}
-              wrapperCol={{ span: 6 }}
+              wrapperCol={{ span: 14 }}
             >
             {getFieldDecorator('couponRemark', {
             })(
-                <TextArea placeholder='请输入300字以下代金券备注' maxLength='300' rows={6} />
+                <TextArea style={{width:'255px'}} placeholder='请输入300字以下优惠券备注' maxLength='300' rows={6} />
             )}
             </FormItem>
-          	<FormItem wrapperCol={{ offset: 3}}>
+          	<FormItem style={{marginLeft:'140px'}}>
             		<Button style={{marginRight:'100px'}} onClick={this.cancel}>取消</Button>
             		<Button type="primary" onClick={this.handleSubmit}>保存</Button>
           	</FormItem>

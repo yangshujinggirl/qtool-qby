@@ -7,6 +7,8 @@ class UpLoadFile extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      previewVisible: false,
+      previewImage: '',
       fileList:this.props.fileList,
     }
   }
@@ -18,6 +20,13 @@ class UpLoadFile extends Component {
     this.setState({
       fileList:props.fileList,
     })
+  }
+  handleCancel = () => this.setState({ previewVisible: false })
+  handlePreview = (file) => {
+    this.setState({
+      previewImage: file.url || file.thumbUrl,
+      previewVisible: true,
+    });
   }
   beforeUpload(file){
   	const isJPG = file.type === 'image/jpeg';
@@ -57,10 +66,10 @@ class UpLoadFile extends Component {
          <div className="ant-upload-text">添加图片</div>
        </div>
      );
-     const { fileList } = this.state;
+     const { fileList, previewVisible, previewImage } = this.state;
 
      return(
-        <div>
+        <div style={{textAlign:'left'}}>
          {
            this.props.form.getFieldDecorator(`pdSkus[${this.props.index}].picUrl`,{
              getValueFromEvent: this.normFile,
@@ -73,13 +82,18 @@ class UpLoadFile extends Component {
                 listType="picture-card"
                 className="avatar-uploader"
                 action="/erpWebRest/qcamp/upload.htm?type=spu"
+                onPreview={this.handlePreview}
                 beforeUpload={this.beforeUpload}>
                 {
                   fileList.length >0 ? null : uploadButton
                 }
               </Upload>
+
            )
          }
+         <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
+           <img alt="example" style={{ width: '100%' }} src={previewImage} />
+         </Modal>
        </div>
       )
     }
