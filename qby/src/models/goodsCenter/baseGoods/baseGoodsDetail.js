@@ -59,7 +59,7 @@ export default {
           //初始化spu商品pdSpu数据
           pdSpu.isSkus = false;
           let initPdspuData;
-          if(source == 0) {
+          if(source == 1) {
             initPdspuData = {
                     code:pdSpu.code,
                     barcode:pdSpu.barcode,
