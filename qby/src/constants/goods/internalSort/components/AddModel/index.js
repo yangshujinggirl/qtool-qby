@@ -394,11 +394,11 @@ class AddModelForm extends Component {
 				let payload;
 				if(values.pdCategoryId!=''){
 					payload = {
+						...this.props.listParams,
 						level:this.props.level
 					}
 				} else {
 					payload = {
-						...this.props.listParams,
             level:this.props.level
           }
 				}

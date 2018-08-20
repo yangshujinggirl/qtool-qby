@@ -25,7 +25,6 @@ const OnLineDetailSizeColumns = [{
      title: 'SKU图片',
      dataIndex: 'picUrl',
      render:(text, record, index)=> {
-       console.log(record)
        return <div>
                 {
                   record.picUrl !=''?

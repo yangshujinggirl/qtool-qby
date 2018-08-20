@@ -119,7 +119,6 @@ class GoodsDetail extends Component {
   }
   render() {
     const { pdSpu, pdSkus, fileList } = this.props.baseGoodsDetail;
-    console.log(pdSkus)
     return(
       <div className="basegoods-detail-components">
         <Form>

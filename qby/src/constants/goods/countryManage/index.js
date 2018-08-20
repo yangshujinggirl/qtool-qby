@@ -132,7 +132,6 @@ class CountryManageForm extends Component {
     const { getFieldDecorator } = this.props.form;
     const { data, authorityList, fileDomain } = this.props.countryManage;
     const { visible, countryDetail, pdCountryId, errorText } =this.state;
-    console.log(errorText)
     let title = pdCountryId?'修改国家':'新增国家';
     return(
       <div className="country-manage-components">
