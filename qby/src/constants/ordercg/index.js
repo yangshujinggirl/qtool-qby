@@ -24,7 +24,7 @@ class OrdercgIndex extends React.Component{
 	}
 	//新建采购单
 	addNew = () =>{
-		const paneitem={title:'新建采购单',key:'202000edit',componkey:'202000edit',data:null}
+		const paneitem={title:'新建采购单',key:'202000edit',componkey:'202000edit',data:{}}
   		this.props.dispatch({
 	    	type:'tab/firstAddTab',
 	    	payload:paneitem
