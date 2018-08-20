@@ -32,7 +32,7 @@ export default {
 
         }],
         nothasFacepay:true,
-        taxRateDisabled:true
+        taxRateDisabled:false
     },
     reducers: {
 		synchronous(state, { payload:values}) {

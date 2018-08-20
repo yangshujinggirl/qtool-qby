@@ -246,6 +246,7 @@ class OrdercgEditForm extends React.Component{
 
   	render(){
 		const { getFieldDecorator } = this.props.form;
+		console.log(this.props)
      	return(
           	<Form className="addUser-form addcg-form">
 				<FormItem
