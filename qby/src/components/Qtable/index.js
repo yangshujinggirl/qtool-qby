@@ -33,7 +33,6 @@ class QTable extends Component {
   render() {
     const dataSource = this.processData(this.props.dataSource);
     const { select, columns, } = this.props;
-    console.log(this.props.rowSelection)
     return(
       <Table
         loading={this.props.loading}

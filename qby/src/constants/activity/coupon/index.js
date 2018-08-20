@@ -28,15 +28,24 @@ class Coupon extends Component{
         createTimeET:'',
       },
       rowSelection : {
-        selectedRowKeys:[],
+        selectedRowKeys:this.props.coupon.selectedRowKeys,
         type:'radio',
         onChange:this.onChange
       },
     }
   }
+  componentWillReceiveProps(props) {
+    this.setState({
+      rowSelection : {
+        selectedRowKeys:props.coupon.selectedRowKeys,
+        type:'radio',
+        onChange:this.onChange
+      }
+    })
+  }
 
   onChange =(selectedRowKeys,selectedRows)=> {
-    const {rowSelection}=this.state
+    const {rowSelection}=this.state;
     this.setState({
       rowSelection:Object.assign({},rowSelection,{selectedRowKeys})
     })
@@ -50,7 +59,6 @@ class Coupon extends Component{
       type:'coupon/fetchList',
       payload:values
     })
-    this.state.rowSelection.onChange([],[]);//取消选中
   }
   //点击分页
   changePage =(current)=> {
@@ -60,7 +68,6 @@ class Coupon extends Component{
       type:'coupon/fetchList',
       payload:values
     });
-    this.state.rowSelection.onChange([],[]);//取消选中
   }
   //pageSize改变时的回调
   onShowSizeChange =({currentPage,limit})=> {
@@ -68,7 +75,6 @@ class Coupon extends Component{
       type:'coupon/fetchList',
       payload:{currentPage,limit}
     });
-    this.state.rowSelection.onChange([],[]);//取消选中
   }
   //搜索框数据发生变化
   searchDataChange =(values)=> {
@@ -143,7 +149,7 @@ class Coupon extends Component{
             type:'coupon/fetchList',
             payload:{}
           })
-          this.state.rowSelection.onChange([],[]);//取消选中
+          // this.state.rowSelection.onChange([],[]);//取消选中
           this.setState({couponId:null});
           this.setState({isFuseVisible:false})
           message.success(res.message,.8);

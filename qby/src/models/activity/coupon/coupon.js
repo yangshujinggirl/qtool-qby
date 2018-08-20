@@ -3,7 +3,8 @@ export default{
   namespace:'coupon',
   state:{
     data1:{},
-    data2:{}
+    data2:{},
+    selectedRowKeys:[],
   },
   reducers:{
     getList(state,{payload:{data1} }){
@@ -11,6 +12,9 @@ export default{
     },
     getInjectList(state,{payload:{data2} }){
       return { ...state, data2}
+    },
+    clearSelect(state,{payload:{selectedRowKeys}}){
+      return { ...state,selectedRowKeys}
     }
   },
   effects:{
@@ -36,6 +40,13 @@ export default{
             }
           }
         });
+        yield put({
+          type:'clearSelect',
+          payload:{
+            selectedRowKeys:[]
+          }
+        })
+
       };
     },
     //注券记录list
