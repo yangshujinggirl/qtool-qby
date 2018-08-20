@@ -59,7 +59,6 @@ class EditableCell extends React.Component {
     }
 
     handleChange4=(data)=>{
-        console.log(data)
         this.setState({
             title:'商品描述',
             type:'2',
@@ -69,7 +68,6 @@ class EditableCell extends React.Component {
     }
 
     handleOk = (e) => {
-        console.log(e);
         this.setState({
           visible: false,
         });

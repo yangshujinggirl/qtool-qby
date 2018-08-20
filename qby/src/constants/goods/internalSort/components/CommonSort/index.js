@@ -195,6 +195,7 @@ class FirstSort extends Component {
     const { level } =this.props;
     const { data, visible, authorityList } = this.props.internalSort;
     const { pdCategoryId, fields, initContent } =this.state;
+    const listParams = { ...fields, ...{limit: data.limit}, ...{currentPage: data.currentPage}};
     return(
       <div className="common-sort-components">
         <FilterForm
@@ -228,7 +229,7 @@ class FirstSort extends Component {
           onChange={this.handelChange.bind(this)}
           onCancel={this.onCancel.bind(this)}
           level={level}
-          listParams={fields}
+          listParams={listParams}
           pdCategoryId={pdCategoryId}
           visible={visible}/>
       </div>
