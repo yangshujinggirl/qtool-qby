@@ -8,6 +8,7 @@ import GoodsInfoTable from './goodsTable';
 const FormItem = Form.Item;
 const Option = Select.Option;
 const RadioGroup = Radio.Group;
+const TextArea = Input.TextArea;
 
 class OrdercgEditForm extends React.Component{
 
@@ -63,8 +64,8 @@ class OrdercgEditForm extends React.Component{
 	//刷新列表
 	refreshList=()=>{
 		this.props.dispatch({
-            type:'ordercg/fetch',
-            payload:{code:'qerp.web.ws.asn.query',values:this.props.values}
+      type:'ordercg/fetch',
+      payload:{code:'qerp.web.ws.asn.query',values:this.props.values}
 		})
 		this.props.dispatch({ type: 'tab/loding', payload:true})
 	}
@@ -73,10 +74,10 @@ class OrdercgEditForm extends React.Component{
 	//初始化state
 	initState=()=>{
 		this.props.dispatch({
-            type:'ordercg/initState',
-            payload:{}
+      type:'ordercg/initState',
+      payload:{}
 		})
-    }
+  }
 
 	//保存
 	handleSubmit = (e) => {
@@ -121,40 +122,39 @@ class OrdercgEditForm extends React.Component{
 	hindCancel=()=>{
 		this.deleteTab()
 		this.refreshList()
-    }
+  }
 
     //搜索供应商
-    searchSupplier = (value) =>{
+  searchSupplier = (value) =>{
 		let tempFormvalue = deepcCloneObj(this.props.editInfo);
 		tempFormvalue.pdSupplierId = null;
+		this.props.dispatch({
+			type:'ordercg/syncEditInfo',
+			payload:tempFormvalue
+		})
+    let values={name:value};
+    const result=GetServerData('qerp.web.pd.supplier.list',values);
+    result.then((res) => {
+      return res;
+    }).then((json) => {
+      if(json.code=='0'){
+        const suppliers=json.suppliers;
+        var supplierList=[];
+        for(var i=0;i<suppliers.length;i++){
+          supplierList.push({
+              text:suppliers[i].name,
+              value:suppliers[i].pdSupplierId
+          })
+        }
+        this.setState({
+            supplierList: supplierList
+        });
+      };
+    });
+  }
 
-			this.props.dispatch({
-				type:'ordercg/syncEditInfo',
-				payload:tempFormvalue
-			})
-        let values={name:value};
-        const result=GetServerData('qerp.web.pd.supplier.list',values);
-        result.then((res) => {
-            return res;
-        }).then((json) => {
-            if(json.code=='0'){
-                const suppliers=json.suppliers;
-                var supplierList=[];
-                for(var i=0;i<suppliers.length;i++){
-                    supplierList.push({
-                        text:suppliers[i].name,
-                        value:suppliers[i].pdSupplierId
-                    })
-                }
-                this.setState({
-                    supplierList: supplierList
-                });
-            }
-        })
-    }
-
-    //选择供应商
-    selectSupplier= (value) =>{
+  //选择供应商
+  selectSupplier= (value) =>{
 		let tempFormvalue =deepcCloneObj(this.props.editInfo);
 		tempFormvalue.pdSupplierId = value;
 		this.props.dispatch({
@@ -167,11 +167,10 @@ class OrdercgEditForm extends React.Component{
 	chooseArriveTime = (date, dateString) =>{
 		let tempFormvalue =deepcCloneObj(this.props.editInfo);
 		tempFormvalue.expectedTime = dateString;
-
-			this.props.dispatch({
-				type:'ordercg/syncEditInfo',
-				payload:tempFormvalue
-			})
+		this.props.dispatch({
+			type:'ordercg/syncEditInfo',
+			payload:tempFormvalue
+		})
 	}
 
 	//收货仓库列表
@@ -245,140 +244,154 @@ class OrdercgEditForm extends React.Component{
 		 }
 	}
 
-  	render(){
+	render(){
 		const { getFieldDecorator } = this.props.form;
 		console.log(this.props)
      	return(
-          	<Form className="addUser-form addcg-form">
-				<FormItem
-					label="供应商名称"
-					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}
-				>
-					{getFieldDecorator('supplier', {
-						rules: [{ required: true, message: '请输入账号名称'},{pattern:/^.{1,30}$/,message:'请输入1-30字账号名称'}],
-						initialValue:this.props.editInfo.name
-					})(
-            <AutoComplete
-                dataSource={this.state.supplierList}
-                onSelect={this.selectSupplier}
-                onSearch={this.searchSupplier}
-                placeholder='请选择供应商名称'
-            />
-					)}
-				</FormItem>
-                <FormItem
-					label="商品信息"
-					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 16 }}
-				>
+    		<Form className="addUser-form addcg-form">
+					<FormItem
+						label="供应商名称"
+						labelCol={{ span: 3,offset: 1 }}
+						wrapperCol={{ span: 6 }}
+					>
+						{getFieldDecorator('supplier', {
+							rules: [{ required: true, message: '请输入账号名称'},{pattern:/^.{1,30}$/,message:'请输入1-30字账号名称'}],
+							initialValue:this.props.editInfo.name
+						})(
+	            <AutoComplete
+	                dataSource={this.state.supplierList}
+	                onSelect={this.selectSupplier}
+	                onSearch={this.searchSupplier}
+	                placeholder='请选择供应商名称'
+	            />
+						)}
+					</FormItem>
+					<FormItem
+						label="单据类型"
+						labelCol={{ span: 3,offset: 1 }}
+						wrapperCol={{ span: 6 }}
+					>
+						{getFieldDecorator('vouchersType', {
+							rules: [{ required: true, message: '请选择单据类型'}],
+							initialValue:this.props.editInfo.vouchersType
+						})(
+							<Select allowClear={true} placeholder="请选择单据类型">
+									<Option value={10}>新品首单</Option>
+									<Option value={20}>正常品单</Option>
+									<Option value={30}>缺货压货单</Option>
+									<Option value={40}>已付款</Option>
+							</Select>
+						)}
+					</FormItem>
+          <FormItem
+						label="商品信息"
+						labelCol={{ span: 3,offset: 1 }}
+						wrapperCol={{ span: 16 }}
+					>
 					{getFieldDecorator('details')(
 							<GoodsInfoTable isEdit={this.state.isEdit?1:0}/>
 					)}
-				</FormItem>
-				<FormItem
-					label="预计到达时间"
-					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}
-				>
-					<DatePicker placeholder='请选择送达时间'
-								value={this.props.editInfo.expectedTime?moment(this.props.editInfo.expectedTime, 'YYYY-MM-DD'):null}
-								onChange={this.chooseArriveTime.bind(this)}/>
-				</FormItem>
-				<FormItem
-              		label="收货仓库"
-              		labelCol={{ span: 3,offset: 1 }}
-              		wrapperCol={{ span: 6 }}
-            	>
-					{getFieldDecorator('wsWarehouseId', {
-						rules: [{ required: true, message: '请选择收货仓库' }],
-						initialValue:this.props.editInfo.wsWarehouseId
-					})(
-						<Select placeholder="请选择收货仓库">
-							{
-								this.state.warehouses.map((item,index)=>{
-									return (<Option value={String(item.wsWarehouseId)} key={index}>{item.name}</Option>)
-								})
-							}
-						</Select>
-              		)}
-            	</FormItem>
-				<FormItem
-					label="物流费用"
-					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}
-				>
-					{getFieldDecorator('shippingFeeType', {
-						rules: [{ required: true, message: '请选择物流费用' }],
-						initialValue:String(this.props.editInfo.shippingFeeType)
-					})(
-						<RadioGroup onChange={this.RadioChange.bind(this)}>
-							<Radio value="10">包邮</Radio>
-							<Radio value="20">到付</Radio>
-						</RadioGroup>
-					)}
-				</FormItem>
-				<FormItem
-					label="到付金额"
-					labelCol={{ span: 3,offset: 1}}
-					wrapperCol={{ span: 6 }}
-				>
-					{getFieldDecorator('shippingFee', {
-						initialValue:this.props.editInfo.shippingFee
-					})(
-						<Input placeholder="请输入到付金额" disabled={this.props.nothasFacepay}  autoComplete="off"/>
-					)}
-				</FormItem>
-				<FormItem
-					label="是否含税"
-					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}
-				>
-					{getFieldDecorator('taxRateType', {
-						rules: [{ required: true, message: '请选择是否含税' }],
-						initialValue:String(this.props.editInfo.taxRateType)
-					})(
-						<RadioGroup onChange={this.RadioChangeTaxRate.bind(this)}>
-							<Radio value="1">是</Radio>
-							<Radio value="0">否</Radio>
-						</RadioGroup>
-					)}
-				</FormItem>
-				<FormItem
-					label="含税税率"
-					labelCol={{ span: 3,offset: 1}}
-					wrapperCol={{ span: 6 }}
-				>
-					{getFieldDecorator('taxRate', {
-						initialValue:this.props.editInfo.taxRate
-					})(
-						<Select  placeholder="请选择含税税率" disabled={this.props.taxRateDisabled}>
-							<Option value='0'>0%</Option>
-							<Option value='3'>3%</Option>
-							<Option value='6'>6%</Option>
-							<Option value='10'>10%</Option>
-							<Option value='11'>11%</Option>
-							<Option value='16'>16%</Option>
-							<Option value='17'>17%</Option>
-						</Select>
-					)}
-				</FormItem>
-            	<FormItem wrapperCol={{ offset: 4}} style = {{marginBottom:0}}>
-              		<Button className='mr30' onClick={this.hindCancel.bind(this)}>取消</Button>
-              		<Button  type="primary" onClick={this.handleSubmit.bind(this)}>保存</Button>
-            	</FormItem>
-          	</Form>
-      	)
+					</FormItem>
+					<FormItem
+						label="预计到达时间"
+						labelCol={{ span: 3,offset: 1 }}
+						wrapperCol={{ span: 6 }}
+					>
+						<DatePicker placeholder='请选择送达时间'
+							value={this.props.editInfo.expectedTime?moment(this.props.editInfo.expectedTime, 'YYYY-MM-DD'):null}
+							onChange={this.chooseArriveTime.bind(this)}/>
+					</FormItem>
+					<FormItem
+	              		label="收货仓库"
+	              		labelCol={{ span: 3,offset: 1 }}
+	              		wrapperCol={{ span: 6 }}
+	            	>
+						{getFieldDecorator('wsWarehouseId', {
+							rules: [{ required: true, message: '请选择收货仓库' }],
+							initialValue:this.props.editInfo.wsWarehouseId
+						})(
+							<Select placeholder="请选择收货仓库">
+								{
+									this.state.warehouses.map((item,index)=>{
+										return (<Option value={String(item.wsWarehouseId)} key={index}>{item.name}</Option>)
+									})
+								}
+							</Select>
+	              		)}
+        	</FormItem>
+					<FormItem
+						label="物流费用"
+						labelCol={{ span: 3,offset: 1 }}
+						wrapperCol={{ span: 6 }}
+					>
+						{getFieldDecorator('shippingFeeType', {
+							rules: [{ required: true, message: '请选择物流费用' }],
+							initialValue:String(this.props.editInfo.shippingFeeType)
+						})(
+							<RadioGroup onChange={this.RadioChange.bind(this)}>
+								<Radio value="10">包邮</Radio>
+								<Radio value="20">到付</Radio>
+							</RadioGroup>
+						)}
+					</FormItem>
+					<FormItem
+						label="到付金额"
+						labelCol={{ span: 3,offset: 1}}
+						wrapperCol={{ span: 6 }}
+					>
+						{getFieldDecorator('shippingFee', {
+							initialValue:this.props.editInfo.shippingFee
+						})(
+							<Input placeholder="请输入到付金额" disabled={this.props.nothasFacepay}  autoComplete="off"/>
+						)}
+					</FormItem>
+					<FormItem
+						label="账期类型"
+						labelCol={{ span: 3,offset: 1 }}
+						wrapperCol={{ span: 6 }}
+					>
+						{getFieldDecorator('taxRateType', {
+							rules: [{ required: true, message: '请输入账期类型' }],
+							initialValue:String(this.props.editInfo.paymentType)
+						})(
+							<Input placeholder="请输入到付金额" disabled={this.props.nothasFacepay}  autoComplete="off"/>
+						)}
+					</FormItem>
+					<FormItem
+						label="含税税率"
+						labelCol={{ span: 3,offset: 1 }}
+						wrapperCol={{ span: 6 }}
+					>
+						{getFieldDecorator('taxRateType', {
+							rules: [{ required: true, message: '请选择是否含税' }],
+							initialValue:String(this.props.editInfo.taxRateType)
+						})(
+							<Input placeholder="请输入到付金额" disabled={this.props.nothasFacepay}  autoComplete="off"/>
+						)}
+					</FormItem>
+					<FormItem
+						label="订单备注"
+						labelCol={{ span: 3,offset: 1}}
+						wrapperCol={{ span: 6 }}
+					>
+						{getFieldDecorator('taxRate', {
+							initialValue:this.props.editInfo.taxRate
+						})(
+							<TextArea placeholder='请输入订单备注，100字符以内' maxLength='100'/>
+						)}
+					</FormItem>
+        	<FormItem wrapperCol={{ offset: 4}} style = {{marginBottom:0}}>
+          		<Button className='mr30' onClick={this.hindCancel.bind(this)}>取消</Button>
+          		<Button  type="primary" onClick={this.handleSubmit.bind(this)}>保存</Button>
+        	</FormItem>
+      	</Form>
+    	)
   	}
-
-	  componentWillReceiveProps(){
-
-	  }
 }
+
 function mapStateToProps(state) {
 	const {goodsInfo,values,editInfo,nothasFacepay,taxRateDisabled} = state.ordercg;
     return {goodsInfo,values,editInfo,nothasFacepay,taxRateDisabled};
 }
-
 const OrdercgEdit = Form.create()(OrdercgEditForm);
 export default connect(mapStateToProps)(OrdercgEdit);

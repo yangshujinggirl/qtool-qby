@@ -55,8 +55,8 @@ class OperateinoutIndex extends React.Component{
 			return currentValue.url=="qerp.web.sys.doc.task"
 		})
      	return(
-        	<div className='content_box'>
-                <OperateinoutSearch/>
+      	<div className='content_box'>
+            <OperateinoutSearch/>
 				{
 					expontdata?
 					<Button
@@ -79,7 +79,7 @@ class OperateinoutIndex extends React.Component{
 }
 
 function mapStateToProps(state) {
-	
+
 }
 
 export default connect(mapStateToProps)(OperateinoutIndex);

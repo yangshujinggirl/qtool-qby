@@ -8,6 +8,7 @@ import MyUploadMd from './upload';
 const FormItem = Form.Item;
 const Option = Select.Option;
 const confirm = Modal.confirm;
+const TextArea = Input.TextArea;
 
 class OrdermdEditForm extends React.Component{
 	constructor(props) {
@@ -415,6 +416,15 @@ class OrdermdEditForm extends React.Component{
                     >
                         {getFieldDecorator('amountSum')(
                             <Input disabled/>
+                        )}
+                    </FormItem>
+										<FormItem
+                        label="备注"
+                        labelCol={{ span: 3,offset: 1 }}
+                        wrapperCol={{ span: 6 }}
+                    >
+                        {getFieldDecorator('remark')(
+                            <TextArea placeholder='请输入备注，50字以内' maxLength='50'/>
                         )}
                     </FormItem>
                     <FormItem wrapperCol={{ offset: 4}} style = {{marginBottom:0}}>

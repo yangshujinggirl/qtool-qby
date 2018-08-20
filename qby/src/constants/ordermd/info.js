@@ -38,6 +38,9 @@ class OrdermdInfo extends React.Component{
 					}, {
 						title: '快递费用',
 						dataIndex: 'expressFee',
+					},{
+						title: '备注',
+						dataIndex: 'remark',
 					}];
 
 					this.column3 = [{
@@ -55,20 +58,20 @@ class OrdermdInfo extends React.Component{
 					}];
     }
 
-    
+
 	infofetch=(spOrderId)=>{
       //获取订单信息列表
 		this.props.dispatch({
 			type:'ordermd/infofetch',
 			payload:{code:'qerp.web.sp.order.detail.page',values:{spOrderId:spOrderId,limit:"50",currentPage:"0"}}
-		}) 
+		})
 		//获取物流和订单日志列表
 		this.props.dispatch({
 			type:'ordermd/infofetchTwo',
 			payload:{code:'qerp.web.sp.order.detail',values:{spOrderId:spOrderId}}
-		}) 
+		})
 	}
-		
+
 		//分页方法
     pageChange=(page,pageSize)=>{
 			this.initList(pageSize,Number(page-1))
@@ -78,7 +81,7 @@ class OrdermdInfo extends React.Component{
 					this.initList(size,0)
 		}
 
-		//列表数据请求   
+		//列表数据请求
     initList=(limit,currentPage)=>{
 			let values={spOrderId:this.props.data.spOrderId};
 			values.limit=limit;
@@ -89,13 +92,13 @@ class OrdermdInfo extends React.Component{
 			});
 			this.props.dispatch({ type: 'tab/loding', payload:true});
 	}
-    
+
 	render(){
 		return(
 			<div>
 				{
 					this.props.data.cancelorders?(
-						!this.props.isCancel 
+						!this.props.isCancel
 						? null
 						:<div style={{textAlign:'right',marginRight:"15px",marginBottom:'15px'}}>
 							<CollectionsPage spOrderId={this.props.data.spOrderId}/>
@@ -104,9 +107,9 @@ class OrdermdInfo extends React.Component{
         		}
 				<div className='mb10'><Cardlist cardtitle={this.props.cardtitle} cardlist={this.props.cardlist}/></div>
 				<div className='mb10'>
-					<TableNormal 
-							columns={this.column1} 
-							dataSource={this.props.detailsList} 
+					<TableNormal
+							columns={this.column1}
+							dataSource={this.props.detailsList}
 							title={this.props.detailstitle}
 							footer={this.props.total1>50?true:false}
 							pageChange={this.pageChange.bind(this)}
@@ -118,15 +121,15 @@ class OrdermdInfo extends React.Component{
 						/>
 				</div>
 				<div className='mb10'>
-					<EditableTable columns={this.column2} 
-												 dataSource={this.props.expressList} 
+					<EditableTable columns={this.column2}
+												 dataSource={this.props.expressList}
 												 title="物流信息"
 												 bordered={true}
 												footer={false}/>
 				</div>
 				<div className='mb10'>
-					<EditableTable columns={this.column3} 
-												 dataSource={this.props.orderLogList} 
+					<EditableTable columns={this.column3}
+												 dataSource={this.props.orderLogList}
 												 title="订单日志"
 												 bordered={true}
 												footer={false}/>
@@ -144,4 +147,3 @@ function mapStateToProps(state) {
 		return {detailsList,detailstitle,cardtitle,cardlist,expressList,orderLogList,limit1,currentPage1,total1,isCancel};
 }
 export default connect(mapStateToProps)(OrdermdInfo);
-

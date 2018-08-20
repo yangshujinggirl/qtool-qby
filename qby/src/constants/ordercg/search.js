@@ -32,7 +32,7 @@ class OrdercgSearchForm extends React.Component {
             payload:{code:'qerp.web.ws.asn.query',values:values}
         });
         this.props.dispatch({ type: 'tab/loding', payload:true});
-    }  
+    }
 
     //同步data
     syncState=(values)=>{
@@ -52,7 +52,7 @@ class OrdercgSearchForm extends React.Component {
             createTimeET:dateString[1]
         })
     }
-    
+
     render() {
         const { getFieldDecorator } = this.props.form;
         return (
@@ -99,6 +99,24 @@ class OrdercgSearchForm extends React.Component {
                                     )}
                                 </FormItem>
                                 {/* 添加下单时间 */}
+
+                                <FormItem label='发票状态'>
+                                    {getFieldDecorator('invoiceStatus')(
+                                    <Select allowClear={true} placeholder="请选择发票状态">
+                                        <Option value={10}>未开</Option>
+                                        <Option value={20}>进行中</Option>
+                                        <Option value={30}>已完成</Option>
+                                    </Select>
+                                    )}
+                                </FormItem>
+                                <FormItem label='是否结案'>
+                                    {getFieldDecorator('caseStatus')(
+                                    <Select allowClear={true} placeholder="请选择是否结案">
+                                        <Option value={1}>是</Option>
+                                        <Option value={0}>否</Option>
+                                    </Select>
+                                    )}
+                                </FormItem>
                                 <FormItem label='下单时间'>
                                     {
                                         <RangePicker
@@ -107,7 +125,7 @@ class OrdercgSearchForm extends React.Component {
                                             onChange={this.hindDateChange.bind(this)}
                                         />
                                     }
-                                </FormItem> 
+                                </FormItem>
                             </div>
                         </Row>
                     </Col>

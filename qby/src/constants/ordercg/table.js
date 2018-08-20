@@ -53,7 +53,15 @@ class OrdercgTable extends React.Component {
 			dataIndex: 'payStatusStr',
 			},
 			{
-				title: '操作',
+			title: '发票状态',
+			dataIndex: 'invoiceStatusStr',
+			},
+			{
+			title: '结案状态',
+			dataIndex: 'caseStatusStr',
+			},
+			{
+				title: '操作1',
 				dataIndex: 'opation',
 				render: (text, record) => {
 				return(
@@ -61,6 +69,22 @@ class OrdercgTable extends React.Component {
 						<TableLink text='修改' hindClick={this.editInfo.bind(this,record)} type="1"/>
 						:null
 				);
+				}
+			},
+			{
+				title: '操作2',
+				dataIndex: 'opation2',
+				render: (text, record) => {
+					return(
+						record.status == 30 && record.invoiceStatus!=30?
+							<a
+								href="javascript:;"
+								onClick={ this.props.onOperateClick.bind(this,record) }
+								style={{color:'#35bab0'}}>
+								发票管理
+							</a>
+							:null
+					);
 				}
 			}
 		];
@@ -122,6 +146,7 @@ class OrdercgTable extends React.Component {
     }
     //修改采购单
     editInfo = (record) =>{
+			console.log(record)
       const wsAsnId=String(record.wsAsnId);
        const paneitem={title:'修改采购单',key:'202000edit'+wsAsnId,data:{wsAsnId:wsAsnId},componkey:'202000edit'}
        this.props.dispatch({
@@ -129,7 +154,7 @@ class OrdercgTable extends React.Component {
          payload:paneitem
        })
     }
-
+	
     //改变付款状态
     changePayStatus = (record) =>{
 		let values = {};

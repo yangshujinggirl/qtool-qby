@@ -45,6 +45,4 @@ class QTable extends Component {
     )
   }
 }
-
-
 export default QTable;

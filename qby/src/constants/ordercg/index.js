@@ -7,10 +7,22 @@ import OrdercgSearch from './search';
 import OrdercgTable from './table';
 import Appmodelone from '../ordermd/modal';
 import {GetLodop} from './print';
+import BillModal from './components/billModal'
+import { getBillInfoApi,saveBillInfoApi } from '../../services/ordercg/index'
 
 const confirm = Modal.confirm;
 class OrdercgIndex extends React.Component{
-	state = {};
+	state = {
+		visible:false,
+		billInfo:{
+			asnNo:111,
+			amountSum:111,
+			dataSource:[
+				{invoiceNo:'111',invoiceAmount:'111'},
+				{invoiceNo:'222',invoiceAmount:'222'}
+			]
+		}
+	};
 	//table搜索
 	initList=(values,limit,currentPage)=>{
 		values.type = "10";
@@ -70,9 +82,6 @@ class OrdercgIndex extends React.Component{
 							payload:{code:'qerp.web.sys.doc.list',values:{limit:15,currentPage:0}}
 						});
 					},
-					onCancel() {
-
-					},
 	  			});
 			}
 		})
@@ -86,9 +95,8 @@ class OrdercgIndex extends React.Component{
 			type:'ordercg/select',
 			payload:{selectedRowKeys,selectedRows}
 		})
-  	}
-
-	  //打印采购单
+	}
+	//打印采购单
 	printCgorder = () => {
 		if (this.props.selectedRows.length < 1) {
 		  message.error('请选择采购单',.8)
@@ -166,11 +174,39 @@ class OrdercgIndex extends React.Component{
 		})
 	}
 
-
-
-
-
-  	render(){
+	//发票管理
+	handleOperateClick =(record)=> {
+		// getBillInfoApi({wsAsnId:record.wsAsnId})
+		// .then(res => {
+		// 	if(res.code == '0'){
+		// 		const {asnNo,amountSum,dataSource} = this.state.billInfo;
+		// 		this.setState({
+		// 			asnNo:res.asnNo,
+		// 			amountSum:res.amountSum,
+		// 			invoices:res.invoices,
+		// 			visible:true
+		// 		});
+		// 	}
+		// })
+		this.setState({
+			visible:true
+		});
+	}
+	//发票管理 取消
+	onCancel =()=> {
+		this.setState({visible:false})
+	}
+	//发票管理 确认
+	onOk =(values)=> {
+		saveBillInfoApi(values)
+		.then(res => {
+			if(res.code == "0"){
+				message.success(res.message)
+				this.setState({visible:false})
+			}
+		})
+	}
+	render(){
 		const rolelists=this.props.data.rolelists
 		// //新增采购单
 		const addorder=rolelists.find((currentValue,index)=>{
@@ -192,47 +228,22 @@ class OrdercgIndex extends React.Component{
 		const overorder=rolelists.find((currentValue,index)=>{
 			return currentValue.url=="qerp.web.ws.asn.finish"
 		})
-     	return(
-        	<div className='content_box'>
-                <OrdercgSearch/>
+		const {visible,billInfo} = this.state
+   	return(
+    	<div className='content_box'>
+          <OrdercgSearch/>
 					{
 						overorder?
-						<Button
-							type="primary"
-							size='large'
-							className='mt20 mr10'
-							onClick={this.mandatoryOrder.bind(this)}
-					>
-						强制完成
-					</Button>
-					:null
+							<Button
+								type="primary"
+								size='large'
+								className='mt20 mr10'
+								onClick={this.mandatoryOrder.bind(this)}
+							>
+							强制完成
+							</Button>
+						:null
 					}
-					{
-						payorder?
-						<Button
-						type="primary"
-						size='large'
-						className='mt20 mr10'
-						onClick={this.alpayamount.bind(this)}
-					>
-						已付款
-					</Button>
-					:null
-					}
-
-					{
-						payorder?
-						<Button
-						type="primary"
-						size='large'
-						className='mt20 mr10'
-						onClick={this.wlpayamount.bind(this)}
-					>
-						待付款
-					</Button>
-					:null
-					}
-
 					{
 						addorder?
 						<Button
@@ -242,7 +253,7 @@ class OrdercgIndex extends React.Component{
 						onClick={this.addNew.bind(this)}
 					>
 						新建采购单
-					</Button>
+						</Button>
 					:null
 					}
 					{
@@ -259,22 +270,30 @@ class OrdercgIndex extends React.Component{
 					}
 					{
 						expontdata?
-						<Button
-						type="primary"
-						size='large'
-						className='mt20 mr10'
-						onClick={this.exportData.bind(this,15,this.props.values)}
-					>
-						导出数据
-					</Button>
-					:null
+							<Button
+								type="primary"
+								size='large'
+								className='mt20 mr10'
+								onClick={this.exportData.bind(this,15,this.props.values)}
+							>
+								导出数据
+							</Button>
+						:null
 					}
-             		<div className='mt15'><OrdercgTable addorderobj={addorder}/></div>
-        	</div>
-      	)
+       		<div className='mt15'>
+						<OrdercgTable
+							addorderobj={addorder}
+							onOperateClick={this.handleOperateClick}
+						/>
+					</div>
+					<BillModal
+						billInfo={billInfo}
+						visible={visible}
+						onOk={this.onOk}
+					/>
+    	</div>
+  	)
 	}
-
-
 }
 
 function mapStateToProps(state) {
