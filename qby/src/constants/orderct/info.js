@@ -38,35 +38,55 @@ class OrderctInfo extends React.Component{
             }, {
             title: '操作人',
             dataIndex: 'operateUser'
-            }];
+        }];
+				this.column2 = [{
+            title: '快递单号',
+            dataIndex: 'expressCode'
+            }, {
+            title: '快递公司',
+            dataIndex: 'expressCompany'
+            }, {
+            title: '快递费用',
+            dataIndex: 'expressFee'
+						}, {
+						title: '备注',
+						dataIndex: 'remark'
+					}];
     }
 
-    
+
 	infofetch=(spCtorderId)=>{
       //获取订单信息列表
 			this.props.dispatch({
 				type:'orderct/infofetch',
 				payload:{code:'qerp.web.sp.ctorder.info',values:{spCtorderId:spCtorderId}}
-            }) 
+            })
     }
-    
+
 	render(){
 		return(
 			<div>
 				<div className='mb10'><Cardlist cardtitle="采退单信息" cardlist={this.props.headTit}/></div>
 				<div className='mb10'>
-					<EditableTable columns={this.column1} 
-                         dataSource={this.props.details} 
-                         bordered={true}
-												 title="采退商品"
-												footer={false}/>
+					<EditableTable columns={this.column1}
+           dataSource={this.props.details}
+           bordered={true}
+					 title="采退商品"
+					footer={false}/>
 				</div>
 				<div className='mb10'>
-					<EditableTable columns={this.column2} 
-                         dataSource={this.props.orderLogs} 
-                         bordered={true}
-												 title="采购单日志"
-												footer={false}/>
+					<EditableTable columns={this.column3}
+           dataSource={this.props.expresslnfos}
+           bordered={true}
+					 title="采退商品"
+					footer={false}/>
+				</div>
+				<div className='mb10'>
+					<EditableTable columns={this.column2}
+           dataSource={this.props.orderLogs}
+           bordered={true}
+					 title="采购单日志"
+					footer={false}/>
 				</div>
 			</div>
 		)
@@ -81,4 +101,3 @@ function mapStateToProps(state) {
 		return {headTit,details,orderLogs};
 }
 export default connect(mapStateToProps)(OrderctInfo);
-

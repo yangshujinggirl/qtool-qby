@@ -9,57 +9,83 @@ class OrdercgInfo extends React.Component{
         super(props);
         this.column1 = [
 			{
-            	title: '商品名称',
-            	dataIndex: 'pdName'
-			}, 
-			{
-            	title: '规格',
-            	dataIndex: 'pdSkuType'
-			}, 
-			{
-            	title: '商品编码',
-            	dataIndex: 'pdCode'
+        	title: '商品名称',
+        	dataIndex: 'pdName'
 			},
 			{
-            	title: '采购数量',
-            	dataIndex: 'qty'
+        	title: '规格',
+        	dataIndex: 'pdSkuType'
 			},
 			{
-            	title: '已收数量',
-            	dataIndex: 'qtyReceived'
-		  	},
-			{
-				title: '单价',
-				dataIndex: 'price'
+        	title: '商品编码',
+        	dataIndex: 'pdCode'
 			},
 			{
-				title: '总价',
-				dataIndex: 'amount'
+        	title: '创建时间',
+        	dataIndex: 'createTime'
+			},
+			{
+        	title: '采购数量',
+        	dataIndex: 'qty'
+			},
+			{
+        	title: '已收数量',
+        	dataIndex: 'qtyReceived'
+	  	},
+			{
+					title: '单价',
+					dataIndex: 'price'
+			},
+			{
+					title: '总价',
+					dataIndex: 'amount'
 			}
 		];
-        this.column2 = [
+    this.column2 = [
 			{
-            	title: '操作',
-            	dataIndex: 'operateName'
-			}, 
+        	title: '操作',
+        	dataIndex: 'operateName'
+			},
 			{
-            	title: '操作时间',
-            	dataIndex: 'operateTime'
-			}, 
+        	title: '操作时间',
+        	dataIndex: 'operateTime'
+			},
 			{
-            	title: '操作人',
-            	dataIndex: 'operateUser'
+        	title: '操作人',
+        	dataIndex: 'operateUser'
+			},
+			{
+        	title: '备注',
+        	dataIndex: 'remark'
 			}
 		];
-    }
+		this.column3 = [
+			{
+        	title: '发票号',
+        	dataIndex: 'invoiceCode'
+			},
+			{
+        	title: '发票金额',
+        	dataIndex: 'invoiceAmount'
+			},
+			{
+        	title: '添加人',
+        	dataIndex: 'userName'
+			},
+			{
+        	title: '添加时间',
+        	dataIndex: 'createTime'
+			}
+		];
+  }
 
     //获取订单信息列表
 	infofetch=(wsAsnId)=>{
 		this.props.dispatch({
 			type:'ordercg/infofetch',
 			payload:{code:'qerp.web.ws.asn.detail',values:{wsAsnId:wsAsnId}}
-		}) 
-    }
+		})
+  }
 	render(){
 		return(
 			<div>
@@ -67,18 +93,26 @@ class OrdercgInfo extends React.Component{
 					<Cardlist cardtitle={this.props.headTitle} cardlist={this.props.headTit}/>
 				</div>
 				<div className='mb10'>
-					<EditableTable 
-						columns={this.column1} 
-						dataSource={this.props.details} 
-                        title="采购商品"
-                        bordered={true}
+					<EditableTable
+						columns={this.column1}
+						dataSource={this.props.details}
+            title="采购商品"
+            bordered={true}
 						footer={false}
 					/>
 				</div>
 				<div className='mb10'>
-					<EditableTable 
-						columns={this.column2} 
-						dataSource={this.props.logs} 
+					<EditableTable
+						columns={this.column3}
+						dataSource={this.props.invoices}
+                        title="发票信息"
+                        bordered={true}
+						footer={false}/>
+				</div>
+				<div className='mb10'>
+					<EditableTable
+						columns={this.column2}
+						dataSource={this.props.logs}
                         title="采购单日志"
                         bordered={true}
 						footer={false}/>
@@ -96,4 +130,3 @@ function mapStateToProps(state) {
 	return {headTitle,headTit,details,logs};
 }
 export default connect(mapStateToProps)(OrdercgInfo);
-

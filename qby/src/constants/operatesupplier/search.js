@@ -25,7 +25,7 @@ class OperatesupplierSearchForm extends React.Component {
             payload:{code:'qerp.web.pd.supplier.query',values:values}
         });
         this.props.dispatch({ type: 'tab/loding', payload:true});
-    }  
+    }
 
     //同步data
     syncState=(values)=>{
@@ -34,7 +34,7 @@ class OperatesupplierSearchForm extends React.Component {
             payload:values
         });
     }
-    
+
     render() {
         const { getFieldDecorator } = this.props.form;
         return (
@@ -54,6 +54,15 @@ class OperatesupplierSearchForm extends React.Component {
                                         <Option value='10'>合作中</Option>
                                         <Option value='20'>待合作</Option>
                                         <Option value='21'>停止合作</Option>
+                                    </Select>
+                                    )}
+                                </FormItem>
+                                <FormItem label='账期类型'>
+                                    {getFieldDecorator('type')(
+                                    <Select allowClear={true} placeholder="请选择合作状态">
+                                        <Option value={10}>货到付款</Option>
+                                        <Option value={20}>票到付款</Option>
+                                        <Option value={30}>现结</Option>
                                     </Select>
                                     )}
                                 </FormItem>

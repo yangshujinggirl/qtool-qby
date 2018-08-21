@@ -60,26 +60,19 @@ class OperateinoutIndex extends React.Component{
 				{
 					expontdata?
 					<Button
-					type="primary"
-					size='large'
-					className='mt20'
-					onClick={this.exportData.bind(this,20,this.props.values)}
-					>
-						导出数据
-				</Button>
+  					type="primary"
+  					size='large'
+  					className='mt20'
+  					onClick={this.exportData.bind(this,20,this.props.values)}
+  					>
+  						导出数据
+		      </Button>
 				:null
 				}
-
 				<div className='mt15'><OperateinoutTable/></div>
-        	</div>
-      	)
+    	</div>
+  	)
 	}
-
-	componentDidMount(){}
 }
 
-function mapStateToProps(state) {
-
-}
-
-export default connect(mapStateToProps)(OperateinoutIndex);
+export default (OperateinoutIndex);

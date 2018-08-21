@@ -8,19 +8,24 @@ import OrdercgTable from './table';
 import Appmodelone from '../ordermd/modal';
 import {GetLodop} from './print';
 import BillModal from './components/billModal'
-import { getBillInfoApi,saveBillInfoApi } from '../../services/ordercg/index'
+import ForceModal from './components/forceModal'
+import { getBillInfoApi, saveBillInfoApi, forceSaveApi } from '../../services/ordercg/index'
 
 const confirm = Modal.confirm;
 class OrdercgIndex extends React.Component{
 	state = {
 		visible:false,
+		forceVisible:false,
 		billInfo:{
-			asnNo:111,
-			amountSum:111,
-			dataSource:[
-				{invoiceNo:'111',invoiceAmount:'111'},
-				{invoiceNo:'222',invoiceAmount:'222'}
-			]
+			asnNo:null,
+			amountSum:null,
+			dataSource:[]
+		},
+		forceInfo:{
+			asnNo:'',
+			qtySum:'',
+			qtyReceived:'',
+			wsAsnId:''
 		}
 	};
 	//table搜索
@@ -113,22 +118,21 @@ class OrdercgIndex extends React.Component{
 		if (this.props.selectedRows.length < 1) {
 			message.error('请选择采购单',.8)
 			return;
-		}
-		if ((this.props.selectedRows[0].status!= 10) && (this.props.selectedRows[0].status!=20)) {
+		}else if ((this.props.selectedRows[0].status!= 10) && (this.props.selectedRows[0].status!=20)) {
 			message.error('此状态下的订单不能强制完成',.8)
 			return;
-		}
-		const values={wsAsnId:this.props.selectedRows[0].wsAsnId}
-		const result=GetServerData('qerp.web.sp.ws.asn.finish',values);
-		result.then((res) => {
-			return res;
-		}).then((json) => {
-			if(json.code=='0'){
-				message.success('强制完成成功',.8)
-				this.initList(this.props.values,this.props.limit,this.props.currentPage)
-				this.clearChooseInfo()
+		}else{
+				const forceInfo = {
+					asnNo:this.props.selectedRows[0].asnNo,
+					qtySum: this.props.selectedRows[0].qtySum,
+					qtyReceived:this.props.selectedRows[0].qtyReceived,
+					wsAsnId:this.props.selectedRows[0].wsAsnId,
+				}
+				this.setState({
+					forceInfo,
+					forceVisible:true
+				});
 			}
-		})
 	}
 	//已付款
 	alpayamount=()=>{
@@ -176,18 +180,19 @@ class OrdercgIndex extends React.Component{
 
 	//发票管理
 	handleOperateClick =(record)=> {
-		// getBillInfoApi({wsAsnId:record.wsAsnId})
-		// .then(res => {
-		// 	if(res.code == '0'){
-		// 		const {asnNo,amountSum,dataSource} = this.state.billInfo;
-		// 		this.setState({
-		// 			asnNo:res.asnNo,
-		// 			amountSum:res.amountSum,
-		// 			invoices:res.invoices,
-		// 			visible:true
-		// 		});
-		// 	}
-		// })
+		getBillInfoApi({wsAsnId:record.wsAsnId})
+		.then(res => {
+			if(res.code == '0'){
+				const billInfo = {
+					asnNo:res.asnNo,
+					amountSum:res.amountSum,
+					dataSource:res.invoices,
+				};
+				this.setState({
+					billInfo
+				});
+			}
+		})
 		this.setState({
 			visible:true
 		});
@@ -203,6 +208,23 @@ class OrdercgIndex extends React.Component{
 			if(res.code == "0"){
 				message.success(res.message)
 				this.setState({visible:false})
+			}
+		})
+	}
+	//强制完成 取消
+	onforceCancel =()=> {
+		this.setState({forceVisible:false})
+		this.clearChooseInfo()
+	}
+	//强制完成 确认
+	onforceOk =(values)=> {
+		forceSaveApi(values)
+		.then(res => {
+			if(res.code == "0"){
+				message.success(res.message)
+				this.initList(this.props.values,this.props.limit,this.props.currentPage)
+				this.clearChooseInfo()
+				this.setState({forceVisible:false})
 			}
 		})
 	}
@@ -228,7 +250,7 @@ class OrdercgIndex extends React.Component{
 		const overorder=rolelists.find((currentValue,index)=>{
 			return currentValue.url=="qerp.web.ws.asn.finish"
 		})
-		const {visible,billInfo} = this.state
+		const {visible,billInfo,forceVisible,forceInfo} = this.state;
    	return(
     	<div className='content_box'>
           <OrdercgSearch/>
@@ -290,6 +312,13 @@ class OrdercgIndex extends React.Component{
 						billInfo={billInfo}
 						visible={visible}
 						onOk={this.onOk}
+						onCancel={this.onCancel}
+					/>
+					<ForceModal
+						forceInfo={forceInfo}
+						visible={forceVisible}
+						onOk={this.onforceOk}
+						onCancel={this.onforceCancel}
 					/>
     	</div>
   	)

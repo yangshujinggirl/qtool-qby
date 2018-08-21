@@ -4,14 +4,19 @@ import {deepcCloneObj} from '../../utils/commonFc';
 import { connect } from 'dva';
 import { Form, Select, Input, Button ,message,Modal, Row, Col,DatePicker,Radio} from 'antd';
 import moment from 'moment';
+import './index.less'
+
 const FormItem = Form.Item;
 const Option = Select.Option;
+const RadioGroup = Radio.Group;
 
 class OperatesupplierEditForm extends React.Component{
-
 	constructor(props) {
 		super(props);
-		this.state = {}
+		this.state = {
+			bill:false,
+			good:false,
+		}
 	}
 
 	//请求页面初始化数据
@@ -97,63 +102,76 @@ class OperatesupplierEditForm extends React.Component{
 	hindCancel=()=>{
 		this.deleteTab()
 		this.refreshList()
-    }
+  }
 
-  	render(){
+	//账期类型变化的时候
+	typeChange =(e)=> {
+		const value = e.target.value;;
+		if(value == 30){
+			this.setState({ bill:false,good:false })
+		}else if(value == 20){
+			this.setState({ bill:true,good:false })
+		}else{
+			this.setState({ bill:false,good:true })
+		}
+	}
+
+	render(){
 		const { getFieldDecorator } = this.props.form;
-     	return(
+		const radioStyle = {
+      display: 'block',
+      height: '30px',
+      lineHeight: '30px',
+    };
+   	return(
+			<div className='supplierEdit'>
           	<Form className="addUser-form addcg-form">
                 <FormItem
-					label="供应商名称"
-					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}
-				>
-					{getFieldDecorator('name', {
-						rules: [{ required: true, message: '请填写供应商名称'}],
-						initialValue:this.props.formValue.name
-					})(
-						<Input placeholder="请填写供应商名称" maxLength='32' autoComplete="off"/>
-					)}
-				</FormItem>
+									label="供应商名称"
+									labelCol={{ span: 3,offset: 1 }}
+									wrapperCol={{ span: 6 }}>
+									{getFieldDecorator('name', {
+										rules: [{ required: true, message: '请填写供应商名称'}],
+										initialValue:this.props.formValue.name
+									})(
+										<Input placeholder="请填写供应商名称" maxLength='32' autoComplete="off"/>
+									)}
+								</FormItem>
+				                <FormItem
+									label="供应商简称"
+									labelCol={{ span: 3,offset: 1 }}
+									wrapperCol={{ span: 6 }}>
+									{getFieldDecorator('shortName', {
+				                        rules: [{ required: true, message: '请填写供应商简称' }],
+										initialValue:this.props.formValue.shortName
+									})(
+										<Input placeholder = "请填写供应商简称" autoComplete="off"/>
+									)}
+								</FormItem>
+				                <FormItem
+									label="联系人"
+									labelCol={{ span: 3,offset: 1 }}
+									wrapperCol={{ span: 6 }}>
+									{getFieldDecorator('contactName', {
+										initialValue:this.props.formValue.contactName
+									})(
+										<Input placeholder = "请填写联系人" autoComplete="off"/>
+									)}
+								</FormItem>
                 <FormItem
-					label="供应商简称"
-					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}
-				>
-					{getFieldDecorator('shortName', {
-                        rules: [{ required: true, message: '请填写供应商简称' }],
-						initialValue:this.props.formValue.shortName
-					})(
-						<Input placeholder = "请填写供应商简称" autoComplete="off"/>
-					)}
-				</FormItem>
-                <FormItem
-					label="联系人"
-					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}
-				>
-					{getFieldDecorator('contactName', {
-						initialValue:this.props.formValue.contactName
-					})(
-						<Input placeholder = "请填写联系人" autoComplete="off"/>
-					)}
-				</FormItem>
-                <FormItem
-					label="联系电话"
-					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}
-				>
-					{getFieldDecorator('contactTel', {
-						initialValue:this.props.formValue.contactTel
-					})(
-						<Input placeholder = "请填写联系电话" autoComplete="off"/>
-					)}
-				</FormItem>
+									label="联系电话"
+									labelCol={{ span: 3,offset: 1 }}
+									wrapperCol={{ span: 6 }}>
+									{getFieldDecorator('contactTel', {
+										initialValue:this.props.formValue.contactTel
+									})(
+										<Input placeholder = "请填写联系电话" autoComplete="off"/>
+									)}
+								</FormItem>
                 <FormItem
                     label="开户银行"
                     labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}
-                >
+										wrapperCol={{ span: 6 }}>
                     {getFieldDecorator('bankName', {
                         rules: [{ required: true, message: '请填写开户银行' }],
                         initialValue:this.props.formValue.bankName
@@ -164,8 +182,7 @@ class OperatesupplierEditForm extends React.Component{
                 <FormItem
                     label="银行卡号"
                     labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}
-                >
+										wrapperCol={{ span: 6 }}>
                     {getFieldDecorator('bankNo', {
                         rules: [{ required: true, message: '请填写银行卡号' },{ pattern: /^[0-9]*$/, message: '银行卡号只能是数字' }],
                         initialValue:this.props.formValue.bankNo
@@ -176,8 +193,7 @@ class OperatesupplierEditForm extends React.Component{
                 <FormItem
                     label="开户名"
                     labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}
-                >
+										wrapperCol={{ span: 6 }}>
                     {getFieldDecorator('accountName', {
                         rules: [{ required: true, message: '请填写开户名' }],
                         initialValue:this.props.formValue.accountName
@@ -185,11 +201,48 @@ class OperatesupplierEditForm extends React.Component{
                         <Input placeholder = "请填写开户名" autoComplete="off"/>
                     )}
                 </FormItem>
+								<Row>
+		              <Col span={5}>
+		                <FormItem
+		                  label="账期类型"
+		                  labelCol={{ span: 3,offset: 1 }}
+		                  wrapperCol={{ span: 8 }}
+		                >
+		                  {getFieldDecorator('type',{
+													initialValue:this.props.formValue.type,
+		                      rules: [{ required: true, message: '请选择账期类型' }],
+		                  })(
+		                    <RadioGroup  onChange={this.typeChange}>
+		                      <Radio style={radioStyle} value={30}>现结</Radio>
+		                      <Radio style={radioStyle} value={10}>货到</Radio>
+		                      <Radio style={radioStyle} value={20}>票到</Radio>
+		                    </RadioGroup>
+		                  )}
+		                </FormItem>
+		            </Col>
+		            <Col span={6} className='pay'>
+		                <FormItem>
+		                  {getFieldDecorator('dayPay',{
+												initialValue:this.props.formValue.dayPay,
+		                    rules: [{ required: this.state.good , message: '请填写付款截至天数' }],
+		                  })(
+		                      <div><Input className='daypay' disabled={!this.state.good}/>　个自然日付款</div>
+		                  )}
+		                </FormItem>
+		                <FormItem>
+		                  {getFieldDecorator('dayPay',{
+												initialValue:this.props.formValue.dayPay,
+		                    rules: [{ required: this.state.bill, message: '请填写付款截至天数' }],
+		                  })(
+		                      <div><Input className='daypay' disabled={!this.state.bill}/>　个自然日付款</div>
+		                  )}
+		                </FormItem>
+		              </Col>
+		            </Row>
                 <FormItem
                     label="含税税率"
                     labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}
-                >
+										wrapperCol={{ span: 6 }}>
                     {getFieldDecorator('taxRate', {
                         rules: [{ required: true, message: '请选择含税税率' }],
                         initialValue:this.props.formValue.taxRate
@@ -199,9 +252,9 @@ class OperatesupplierEditForm extends React.Component{
                             <Option value='0'>0%</Option>
                             <Option value='3'>3%</Option>
                             <Option value='6'>6%</Option>
-							<Option value='10'>10%</Option>
+														<Option value='10'>10%</Option>
                             <Option value='11'>11%</Option>
-							<Option value='16'>16%</Option>
+														<Option value='16'>16%</Option>
                             <Option value='17'>17%</Option>
                         </Select>
                     )}
@@ -209,8 +262,7 @@ class OperatesupplierEditForm extends React.Component{
                 <FormItem
                     label="合作状态"
                     labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}
-                >
+										wrapperCol={{ span: 6 }}>
                     {getFieldDecorator('status', {
                         rules: [{ required: true, message: '请选择合作状态' }],
                         initialValue:this.props.formValue.status
@@ -225,19 +277,23 @@ class OperatesupplierEditForm extends React.Component{
                 <FormItem
                     label="供应商备注"
                     labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}
-                >
+										wrapperCol={{ span: 6 }}>
                     {getFieldDecorator('remark', {
                         initialValue:this.props.formValue.remark
                     })(
-                        <Input type="textarea" rows={4} placeholder="请填写供应商备注" autoComplete="off"/>
+                        <Input type="textarea"
+													rows={4}
+													placeholder="请输入供应商备注，50字符以内"
+													maxLength='50'
+													autoComplete="off"/>
                     )}
                 </FormItem>
-            	<FormItem wrapperCol={{ offset: 4}} style = {{marginBottom:0}}>
-              		<Button className='mr30' onClick={this.hindCancel.bind(this)}>取消</Button>
-              		<Button type="primary" onClick={this.handleSubmit.bind(this)}>保存</Button>
-            	</FormItem>
+	            	<FormItem wrapperCol={{ offset: 4}} style = {{marginBottom:0}}>
+	              		<Button className='mr30' onClick={this.hindCancel.bind(this)}>取消</Button>
+	              		<Button type="primary" onClick={this.handleSubmit.bind(this)}>保存</Button>
+	            	</FormItem>
           	</Form>
+					</div>
       	)
   	}
   	componentDidMount(){

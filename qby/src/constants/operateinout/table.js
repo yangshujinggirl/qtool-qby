@@ -108,9 +108,16 @@ class OperateinoutTable extends React.Component {
     }
 
     render() {
+				const tableList = this.props.tableList;
+				tableList.map((item,index)=>{
+					if(item.type==35){
+						item.amount = '+'+item.amount;
+					}
+					return item;
+				})
         return (
           <EditableTable
-            dataSource={this.props.tableList}
+            dataSource={tableList}
             columns={this.columns}
             bordered={true}
             footer={true}
@@ -135,6 +142,3 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(OperateinoutTable);
-
-
-

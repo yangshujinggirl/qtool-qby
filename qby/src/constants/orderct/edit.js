@@ -173,155 +173,144 @@ class OrderctEditForm extends React.Component{
                     {getFieldDecorator('supplier', {
                         rules: [{ required: true, message: '请选择供应商名称'}],
                     })(
-                        <AutoComplete
-                            dataSource={this.state.dataSource}
-                            onSelect={this.onSelect}
-                            onSearch={this.handleSearch}
-                            placeholder='请选择供应商名称'
-                        />
+                      <AutoComplete
+                          dataSource={this.state.dataSource}
+                          onSelect={this.onSelect}
+                          onSearch={this.handleSearch}
+                          placeholder='请选择供应商名称'
+                      />
                     )}
                 </FormItem>
                 <FormItem
-					label="采购订单"
-					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}
-				>
-					{getFieldDecorator('wsAsnNo', {
-						rules: [{ required: true, message: '请输入采购订单'}],
-					})(
-						<Input placeholder="请输入采购订单" autoComplete="off"/>
-					)}
-				</FormItem>
+									label="采购订单"
+									labelCol={{ span: 3,offset: 1 }}
+									wrapperCol={{ span: 6 }}>
+									{getFieldDecorator('wsAsnNo', {
+										rules: [{ required: true, message: '请输入采购订单'}],
+									})(
+										<Input placeholder="请输入采购订单" autoComplete="off"/>
+									)}
+								</FormItem>
                 <FormItem
-					label="商品信息"
-					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 16 }}
-				>
-					{getFieldDecorator('details')(
-                        <GoodsInfoTable/>
-					)}
-				</FormItem>
+									label="商品信息"
+									labelCol={{ span: 3,offset: 1 }}
+									wrapperCol={{ span: 16 }}>
+									{getFieldDecorator('details')(
+                    <GoodsInfoTable/>
+									)}
+								</FormItem>
                 <FormItem
-					label="退货原因"
-					labelCol={{ span: 3,offset: 1}}
-					wrapperCol={{ span: 6 }}
-				>
-					{getFieldDecorator('reason', {
-						rules: [{ required: true, message: '请输入退货原因' }],
-					})(
-						<Input placeholder="请输入退货原因" autoComplete="off"/>
-					)}
-				</FormItem>
+									label="退货原因"
+									labelCol={{ span: 3,offset: 1}}
+									wrapperCol={{ span: 6 }}>
+									{getFieldDecorator('reason', {
+										rules: [{ required: true, message: '请输入退货原因' }],
+									})(
+										<Input placeholder="请输入退货原因" autoComplete="off"/>
+									)}
+								</FormItem>
                 <FormItem
               		label="出货仓库"
               		labelCol={{ span: 3,offset: 1 }}
-              		wrapperCol={{ span: 6 }}
-            	>
-					{getFieldDecorator('wsWarehouseId', {
-						rules: [{ required: true, message: '请选择出货仓库' }]
-					})(
-						<Select placeholder="请选择出货仓库">
-							{
-								this.state.warehouses.map((item,index)=>{
-									return (<Option value={String(item.wsWarehouseId)} key={index}>{item.name}</Option>)
-								})
-							}
-						</Select>
+              		wrapperCol={{ span: 6 }}>
+									{getFieldDecorator('wsWarehouseId', {
+										rules: [{ required: true, message: '请选择出货仓库' }]
+									})(
+										<Select placeholder="请选择出货仓库">
+											{
+												this.state.warehouses.map((item,index)=>{
+													return (<Option value={String(item.wsWarehouseId)} key={index}>{item.name}</Option>)
+												})
+											}
+										</Select>
               		)}
-            	</FormItem>
+            		</FormItem>
                 <FormItem
-					label="是否含税"
-					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}
-				>
-					{getFieldDecorator('taxRateType', {
-						rules: [{ required: true, message: '请选择是否含税' }],
-					})(
-						<RadioGroup onChange={this.RadioChangeTaxRate.bind(this)}>
-							<Radio value="1">是</Radio>
-							<Radio value="0">否</Radio>
-						</RadioGroup>
-					)}
-				</FormItem>
-				<FormItem
-					label="含税税率"
-					labelCol={{ span: 3,offset: 1}}
-					wrapperCol={{ span: 6 }}
-				>
-					{getFieldDecorator('taxRate', {
-					})(
-						<Select  placeholder="请选择含税税率" disabled={this.state.taxRateDisabled}>
-							<Option value='0'>0%</Option>
-							<Option value='3'>3%</Option>
-							<Option value='6'>6%</Option>
-							<Option value='10'>10%</Option>
-							<Option value='11'>11%</Option>
-							<Option value='16'>16%</Option>
-							<Option value='17'>17%</Option>
-						</Select>
-					)}
-				</FormItem>
+									label="是否含税"
+									labelCol={{ span: 3,offset: 1 }}
+									wrapperCol={{ span: 6 }}>
+									{getFieldDecorator('taxRateType', {
+										rules: [{ required: true, message: '请选择是否含税' }],
+									})(
+										<RadioGroup onChange={this.RadioChangeTaxRate.bind(this)}>
+											<Radio value="1">是</Radio>
+											<Radio value="0">否</Radio>
+										</RadioGroup>
+									)}
+								</FormItem>
+								<FormItem
+									label="含税税率"
+									labelCol={{ span: 3,offset: 1}}
+									wrapperCol={{ span: 6 }}>
+									{getFieldDecorator('taxRate', {
+									})(
+										<Select  placeholder="请选择含税税率" disabled={this.state.taxRateDisabled}>
+											<Option value='0'>0%</Option>
+											<Option value='3'>3%</Option>
+											<Option value='6'>6%</Option>
+											<Option value='10'>10%</Option>
+											<Option value='11'>11%</Option>
+											<Option value='16'>16%</Option>
+											<Option value='17'>17%</Option>
+										</Select>
+									)}
+								</FormItem>
                 <FormItem
-					label="收货人"
-					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}
-				>
-					{getFieldDecorator('recName', {
-						rules: [{ required: true, message: '请输入收货人' }]
-					})(
-						<Input placeholder="请输入收货人" autoComplete="off"/>
-					)}
-				</FormItem>
+									label="收货人"
+									labelCol={{ span: 3,offset: 1 }}
+									wrapperCol={{ span: 6 }}>
+									{getFieldDecorator('recName', {
+										rules: [{ required: true, message: '请输入收货人' }]
+									})(
+										<Input placeholder="请输入收货人" autoComplete="off"/>
+									)}
+								</FormItem>
                 <FormItem
-					label="收货电话"
-					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}
-				>
-					{getFieldDecorator('recTelephone', {
-						rules: [{ required: true, message: '请输入收货电话' }]
-					})(
-						<Input placeholder="请输入收货电话" autoComplete="off"/>
-					)}
-				</FormItem>
+									label="收货电话"
+									labelCol={{ span: 3,offset: 1 }}
+									wrapperCol={{ span: 6 }}>
+									{getFieldDecorator('recTelephone', {
+										rules: [{ required: true, message: '请输入收货电话' }]
+									})(
+										<Input placeholder="请输入收货电话" autoComplete="off"/>
+									)}
+								</FormItem>
                 <FormItem
-					label="收货省市区"
-					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}
-				>
-					{getFieldDecorator('recCity', {
-						rules: [{ type: 'array', required: true, message: '请选择收货省市区' }],
-					})(
-						<Cascader
-                            placeholder="请选择所属城市"
-                            options={this.state.residences}
-                        />
-					)}
-				</FormItem>
+									label="收货省市区"
+									labelCol={{ span: 3,offset: 1 }}
+									wrapperCol={{ span: 6 }}>
+									{getFieldDecorator('recCity', {
+										rules: [{ type: 'array', required: true, message: '请选择收货省市区' }],
+									})(
+										<Cascader
+                        placeholder="请选择所属城市"
+                        options={this.state.residences}
+                    />
+									)}
+								</FormItem>
                 <FormItem
-					label="详细地址"
-					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}
-				>
-					{getFieldDecorator('recAddress', {
-						rules: [{ required: true, message: '请输入收货详细地址' }],
-					})(
-						<Input placeholder="请输入收货详细地址" autoComplete="off"/>
-					)}
-				</FormItem>
+									label="详细地址"
+									labelCol={{ span: 3,offset: 1 }}
+									wrapperCol={{ span: 6 }}>
+									{getFieldDecorator('recAddress', {
+										rules: [{ required: true, message: '请输入收货详细地址' }],
+									})(
+										<Input placeholder="请输入收货详细地址" autoComplete="off"/>
+									)}
+								</FormItem>
                 <FormItem
-					label="订单备注"
-					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}
-				>
-					{getFieldDecorator('remark', {
-					})(
-						<Input type="textarea" rows={4} placeholder="请输入订单备注" autoComplete="off"/>
-					)}
-				</FormItem>
-            	<FormItem wrapperCol={{ offset: 4}} style = {{marginBottom:0}}>
-              		<Button className='mr30' onClick={this.hindCancel.bind(this)}>取消</Button>
-              		<Button  type="primary" loading={this.state.loading}  onClick={this.handleSubmit.bind(this)}>保存</Button>
-            	</FormItem>
+										label="订单备注"
+										labelCol={{ span: 3,offset: 1 }}
+										wrapperCol={{ span: 6 }}>
+										{getFieldDecorator('remark', {
+										})(
+											<Input type="textarea" rows={4} placeholder="请输入订单备注" autoComplete="off"/>
+										)}
+								</FormItem>
+	            	<FormItem wrapperCol={{ offset: 4}} style = {{marginBottom:0}}>
+	              		<Button className='mr30' onClick={this.hindCancel.bind(this)}>取消</Button>
+	              		<Button  type="primary" loading={this.state.loading}  onClick={this.handleSubmit.bind(this)}>保存</Button>
+	            	</FormItem>
           	</Form>
       	)
   	}

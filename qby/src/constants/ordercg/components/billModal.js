@@ -8,9 +8,9 @@ class BillModal extends Component{
   constructor(props){
     super(props)
     this.state={
-      asnNo:this.props.billInfo.asnNo,
-      amountSum:this.props.billInfo.amountSum,
-      dataSource:this.props.billInfo.dataSource
+      asnNo:null,
+      amountSum:null,
+      dataSource:[]
     };
     const that = this
     this.columns = [{
@@ -83,17 +83,26 @@ class BillModal extends Component{
       const values_ = {asnNo,amountSum,invoices}
       this.props.onOk(values_);
     });
+  };
+  componentWillMount(){
+    console.log(this.props.billInfo)
+    this.setState({
+      asnNo:this.props.billInfo.asnNo,
+      amountSum:this.props.billInfo.amountSum,
+      dataSource:this.props.billInfo.dataSource
+    });
   }
-
   render(){
     const { getFieldDecorator }= this.props.form;
-    const { asnNo, amountSum, dataSource } = this.state;
+    const { asnNo, amountSum, dataSource } = this.props.billInfo;
+    console.log(this.state)
     return(
       <div className='billmanage'>
         <Modal
           title="发票管理"
           visible={this.props.visible}
           onOk={this.onOk}
+          onCancel={this.props.onCancel}
         >
           <Form>
             <FormItem

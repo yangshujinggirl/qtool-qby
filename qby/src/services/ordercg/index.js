@@ -17,3 +17,12 @@ export function saveBillInfoApi(values){
       data:values
   })
 }
+
+//强制完成 保存
+export function forceSaveApi(values){
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.sp.ws.asn.finish',
+      data:values
+  })
+}

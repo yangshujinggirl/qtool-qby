@@ -10,6 +10,7 @@ export default {
         headTit:[],
         details:[],
         orderLogs:[],
+        expresslnfos:[],
         formValue:{
             pdSupplierId:null,
         },
@@ -27,13 +28,13 @@ export default {
 		syncTableList(state, { payload:{tableList,total,limit,currentPage}}) {
 			return {...state,tableList,total,limit,currentPage}
         },
-        syncInfolist(state, { payload:{headTit,details,orderLogs}}) {
-			return {...state,headTit,details,orderLogs}
+        syncInfolist(state, { payload:{headTit,details,orderLogs,expresslnfos}}) {
+			return {...state,headTit,details,orderLogs,expresslnfos}
         },
         syncEditInfo(state, { payload:formValue}) {
 			return {...state,formValue}
         },
-        
+
         syncGoodsInfo(state, { payload:goodsInfo}) {
 			return {...state,goodsInfo}
         },
@@ -51,7 +52,7 @@ export default {
                     tableList[i].key=tableList[i].spOrderId;
                 }
                 yield put({type: 'syncTableList',payload:{tableList,total,limit,currentPage}});
-            } 
+            }
         },
         *infofetch({ payload: {code,values} }, { call, put ,select}) {
             const result=yield call(GetServerData,code,values);
@@ -61,6 +62,7 @@ export default {
                 var spCtorder = result.spCtorder;
                 var details = spCtorder.details
                 var orderLogs= spCtorder.orderLogs
+                var expresslnfos= spCtorder.expresslnfos
                 for (var i = 0; i < details.length; i++) {
                     details[i].key = i;
                 }
@@ -88,12 +90,13 @@ export default {
                                 {lable:'退货原因',text:spCtorder.returnReason},
                                 {lable:'退货备注',text:spCtorder.remark}
                    );
-                 yield put({type: 'syncInfolist',payload:{headTit,details,orderLogs}});
+                 yield put({type: 'syncInfolist',payload:{headTit,details,orderLogs,expresslnfos}});
             }else{
                 const headTit=[]
                 const details=[]
                 const orderLogs=[]
-                yield put({type: 'syncInfolist',payload:{headTit,details,orderLogs}});
+                const expresslnfos=[]
+                yield put({type: 'syncInfolist',payload:{headTit,details,orderLogs,expresslnfos}});
             }
         },
   	},

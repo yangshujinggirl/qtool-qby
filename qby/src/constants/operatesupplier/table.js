@@ -15,6 +15,9 @@ class OperatesupplierTable extends React.Component {
             },{
                 title: '合作状态',
                 dataIndex: 'statusStr'
+            },{
+                title: '账期类型',
+                dataIndex: 'typeStr'
             }, {
                 title: '操作',
                 dataIndex: 'opation',
@@ -35,7 +38,7 @@ class OperatesupplierTable extends React.Component {
             dataIndex: 'statusStr'
         }];
     }
-    
+
     //点击表格上的修改按钮操作
     editInfo = (record) =>{
         const pdSupplierId=String(record.pdSupplierId);
@@ -54,8 +57,8 @@ class OperatesupplierTable extends React.Component {
     pageSizeChange=(current,size)=>{
           this.initList(this.props.values,size,0)
     }
-    
-    //列表数据请求   
+
+    //列表数据请求
     initList=(values,limit,currentPage)=>{
         values.limit=limit;
         values.currentPage=currentPage;
@@ -67,25 +70,35 @@ class OperatesupplierTable extends React.Component {
     }
 
     render() {
-        return (
-          <EditableTable 
-            dataSource={this.props.tableList} 
-            columns={this.props.addorderobj?this.columns:this.columnsrole} 
-            bordered={true}
-            footer={true}
-            pageChange={this.pageChange.bind(this)}
-            pageSizeChange={this.pageSizeChange.bind(this)}
-            total={this.props.total}
-            limit={this.props.limit}
-            current={Number(this.props.currentPage)+1}
-            />
-        );
+			const tableList = this.props.tableList;
+			tableList.map((item,index)=>{
+				if(item.type==10){
+					item.typeStr='货到'+item.typeStr+'天';
+				};
+				if(item.type==20){
+					item.typeStr='票到'+item.typeStr+'天';
+				};
+				return item;
+			})
+      return (
+        <EditableTable
+          dataSource={tableList}
+          columns={this.props.addorderobj?this.columns:this.columnsrole}
+          bordered={true}
+          footer={true}
+          pageChange={this.pageChange.bind(this)}
+          pageSizeChange={this.pageSizeChange.bind(this)}
+          total={this.props.total}
+          limit={this.props.limit}
+          current={Number(this.props.currentPage)+1}
+          />
+      );
 	}
 	componentDidMount(){
         //执行初始化数据方法获取list
 		this.initList(this.props.values,this.props.limit,this.props.currentPage);
 	}
-    
+
 }
 
 function mapStateToProps(state) {

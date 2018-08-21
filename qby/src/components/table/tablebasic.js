@@ -20,8 +20,6 @@ class Paginations extends React.Component {
                 pageSizeOptions={['15','30','50','100','200','500']}
                 pageSize={this.props.pageSize}
                 className='tc pagination'/>
-
-
         );
     }
 }
@@ -59,7 +57,7 @@ class EditableTable extends React.Component {
                                 pageSize={Number(this.props.limit)}
                                 />
                     :null
-                                
+
                 }
                 showHeader={this.props.showHeader}
                 bordered={this.props.bordered}

@@ -154,7 +154,7 @@ class OrdercgTable extends React.Component {
          payload:paneitem
        })
     }
-	
+
     //改变付款状态
     changePayStatus = (record) =>{
 		let values = {};
@@ -200,6 +200,7 @@ class OrdercgTable extends React.Component {
 
     //列表数据选择
 	selectChange=(selectedRowKeys,selectedRows)=>{
+		console.log(selectedRows)
       	this.props.dispatch({
         	type:'ordercg/select',
         	payload:{selectedRowKeys,selectedRows}

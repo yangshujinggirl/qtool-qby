@@ -14,21 +14,22 @@ class OrdermdEditForm extends React.Component{
 	constructor(props) {
 		super(props);
 		this.state = {
-            spShop:{},
-            dataSources:[],
-            dataSource:[],
-            residences:[],
-            selecttypes:true,
-            visible:false,
-            num:0,
-            amount:0,
-        };
+      spShop:{},
+      dataSources:[],
+      dataSource:[],
+      residences:[],
+      selecttypes:true,
+      visible:false,
+      num:0,
+      amount:0,
+    };
 	}
 
 	 //保存
 	 handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
+					console.log(values)
         if (!err) {
                 let data = this.state.spShop;
                 let newsporder = {
@@ -282,7 +283,6 @@ class OrdermdEditForm extends React.Component{
         }
       })
     }
-
     handleCancel = ()=>{
       this.setState({
         visible: false
@@ -290,6 +290,7 @@ class OrdermdEditForm extends React.Component{
     }
 
   	render(){
+			console.log(this.state.spShop)
       const { getFieldDecorator,getFieldProps } = this.props.form;
      	return(
         <div>
@@ -432,9 +433,9 @@ class OrdermdEditForm extends React.Component{
                         <Button type="primary" onClick={this.handleSubmit.bind(this)}>保存</Button>
                     </FormItem>
                     <Infomodel ref='models' handleOk = {this.handleOk.bind(this)} visible={this.state.visible}
-                               handleCancel = {this.handleCancel.bind(this)}
-                               num = {this.state.num} amount={this.state.amount}
-                               deleteTab={this.deleteTab.bind(this)} refreshList={this.refreshList.bind(this)}/>
+                     handleCancel = {this.handleCancel.bind(this)}
+                     num = {this.state.num} amount={this.state.amount}
+                     deleteTab={this.deleteTab.bind(this)} refreshList={this.refreshList.bind(this)}/>
                 </Form>
              </div>
       	)
