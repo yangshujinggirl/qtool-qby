@@ -107,7 +107,7 @@ const ProcesasStatusOption = [{
           value:'门店已拒单'
         },
         {
-          key:50,
+          key:20,
           value:'用户已取消'
         },
         {
