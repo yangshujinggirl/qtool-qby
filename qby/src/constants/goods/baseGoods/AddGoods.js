@@ -452,6 +452,14 @@ class AddGoodsForm extends Component {
       }
     })
   }
+  //
+  validatorShareRatio(rule, value, callback) {
+    if(value>100) {
+      callback('分成比例不能大于100');
+    } else {
+      callback();
+    }
+  }
   render() {
     const { getFieldDecorator } = this.props.form;
     const {
@@ -702,7 +710,10 @@ class AddGoodsForm extends Component {
                   <FormItem label='分成比例' {...formItemLayout} className="addonAfter-inputs-common">
                      {getFieldDecorator('shareRatio',{
                        initialValue:pdSpu.shareRatio&&Number(pdSpu.shareRatio)||'',
-                       rules: [{ pattern:/^[0-9]+([.]{1}[0-9]+){0,1}$/,message:'请输入数字'}]
+                       rules: [
+                         { pattern:/^[0-9]+([.]{1}[0-9]+){0,1}$/,message:'请输入数字'},
+                         { validator:this.validatorShareRatio }
+                       ]
                      })(
                        <Input placeholder="请输入分成比例" autoComplete="off" addonAfter="%"/>
                      )}

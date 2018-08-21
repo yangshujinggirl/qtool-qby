@@ -25,7 +25,7 @@ const formItemLayout2 = {
     span: 4
   },
   wrapperCol: {
-    span: 16
+    span: 18
   }
 };
 const formItemLayout3 = {

@@ -9,7 +9,7 @@ const FormItem = Form.Item;
 
 const formItemLayout = {
   labelCol: {
-    span: 6
+    span: 8
   },
   wrapperCol: {
     span: 6
@@ -18,6 +18,14 @@ const formItemLayout = {
 const formItemLayout2 = {
   labelCol: {
     span: 4
+  },
+  wrapperCol: {
+    span: 18
+  }
+};
+const formItemLayout3 = {
+  labelCol: {
+    span: 8
   },
   wrapperCol: {
     span: 16
@@ -61,7 +69,7 @@ class GoodsDetail extends Component {
     				<label>{pdSpu.pdCategory2Name}</label>
     			</FormItem>
     			<FormItem
-    				label="商品图片" {...formItemLayout}>
+    				label="商品图片" {...formItemLayout3}>
             <ul className="img-list-wrap">
               {
                 fileList.length>0&&
