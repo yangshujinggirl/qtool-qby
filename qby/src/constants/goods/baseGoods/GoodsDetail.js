@@ -120,7 +120,7 @@ class GoodsDetail extends Component {
   render() {
     const { pdSpu, pdSkus, fileList } = this.props.baseGoodsDetail;
     return(
-      <div className="basegoods-detail-components">
+      <div className="btip-add-goods-components">
         <Form>
     			<FormItem label="商品名称" {...formItemLayout}>
             <label>{pdSpu.name}</label>

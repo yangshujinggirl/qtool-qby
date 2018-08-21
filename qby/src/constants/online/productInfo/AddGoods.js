@@ -11,6 +11,7 @@ import {
   goodSaveApi,
 } from '../../../services/online/productInfo.js';
 import AddGoodsDesc from '../../goods/components/AddGoodsDesc/index.js';
+import Imgmodel from '../../../components/model/modelimg';
 
 import Qtable from '../../../components/Qtable';
 import { DetailColumns, DetailSizeColumns} from './columns/detailColumns'
@@ -169,7 +170,7 @@ class AddGoodsForm extends Component {
                     fileList.length>0&&
                     fileList.map((el,index) => (
                       <li className="img-item" key={index}>
-                        <img src={el.url}/>
+                        <Imgmodel picUrl={el.name}/>
                       </li>
                     ))
                   }

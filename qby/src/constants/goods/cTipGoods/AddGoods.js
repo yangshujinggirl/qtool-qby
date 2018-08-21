@@ -12,6 +12,7 @@ import {
   saveValApi
 } from '../../../services/goodsCenter/cTipGoods.js';
 import AddGoodsDesc from '../components/AddGoodsDesc/index.js';
+import Imgmodel from '../../../components/model/modelimg';
 
 import Qtable from '../../../components/Qtable';
 import { DetailColumns, DetailSizeColumns} from './columns/detailColumns'
@@ -166,13 +167,13 @@ class AddGoodsForm extends Component {
                </FormItem>
             </Col>
             <Col span={24}>
-              <FormItem label='商品图片' {...formItemLayout}>
+              <FormItem label='商品图片' {...formItemLayout3}>
                 <ul className="img-list-wrap">
                   {
                     fileList.length>0&&
                     fileList.map((el,index) => (
                       <li className="img-item" key={index}>
-                        <img src={el.url}/>
+                        <Imgmodel picUrl={el.name}/>
                       </li>
                     ))
                   }

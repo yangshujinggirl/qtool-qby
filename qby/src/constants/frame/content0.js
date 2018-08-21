@@ -131,9 +131,9 @@ import  InternalSort from '../goods/internalSort/index.js';//内部分类
 import  CountryManage from '../goods/countryManage/index.js';//国家管理
 //电商中心
 import ProductInfo from '../online/productInfo/index.js';//商品信息
-import EditGoods from '../online/productInfo/EditGoods.js';//修改商品信息
-import OnLineGoodsDetail from '../online/productInfo/OnLineGoodsDetail.js';//修改商品信息
-import OnLineLogList from '../online/productInfo/OnLineLogList.js';//修改商品信息
+import EditGoods from '../online/productInfo/AddGoods.js';//修改商品信息
+import OnLineGoodsDetail from '../online/productInfo/GoodsDetail.js';//修改商品信息
+import OnLineLogList from '../online/productInfo/LogList.js';//修改商品信息
 import Ctimer from '../goods/cTimer/index.js';//c端定时
 import AddTimer from '../goods/cTimer/AddTimer.js';//c端定时
 // 合作中心
