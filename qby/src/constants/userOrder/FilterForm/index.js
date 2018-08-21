@@ -9,20 +9,23 @@ import {
   Select ,
   DatePicker
 } from 'antd';
+import moment from 'moment';
+import { ProcesasStatusOption } from '../../../components/FixedDataSource.js'
 import './index.less'
+
+
 const FormItem = Form.Item;
 const Option =  Select.Option;
 const RangePicker = DatePicker.RangePicker
-import moment from 'moment';
 
 class NormalForm extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
-      const{rangePicker,..._values} = values;
+      const { rangePicker, ..._values } = values;
       if(rangePicker&&rangePicker[0]){
-        _values.dateTimeST =   moment(new Date(rangePicker[0]).getTime()).format('YYYY-MM-DD HH:mm:ss');
-        _values.dateTimeET =  moment(new Date(rangePicker[1]).getTime()).format('YYYY-MM-DD HH:mm:ss');
+        _values.dateTimeST =  moment(rangePicker[0]).format('YYYY-MM-DD HH:mm:ss');
+        _values.dateTimeET =  moment(rangePicker[1]).format('YYYY-MM-DD HH:mm:ss');
       }
       this.props.submit && this.props.submit(_values);
     });
@@ -63,9 +66,11 @@ class NormalForm extends Component {
               <FormItem label='流程状态'>
                  {getFieldDecorator('orderStatus')(
                    <Select allowClear={true} placeholder="请选择流程状态">
-                       <Option value='1'>待推送</Option>
-                       <Option value='2'>已推送</Option>
-                       <Option value='3'>已撤销</Option>
+                     {
+                       ProcesasStatusOption.map((el) => (
+                         <Option value={el.key} key={el.key}>{el.value}</Option>
+                       ))
+                     }
                    </Select>
                  )}
                </FormItem>
@@ -73,7 +78,7 @@ class NormalForm extends Component {
                  {getFieldDecorator('rangePicker')(
                    <RangePicker showTime format="YYYY-MM-DD HH:mm:ss"/>
                  )}
-               </FormItem>
+              </FormItem>
              </div>
            </div>
            <div className="search-submit-btn">
