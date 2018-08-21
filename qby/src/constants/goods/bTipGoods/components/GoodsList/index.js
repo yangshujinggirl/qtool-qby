@@ -38,25 +38,36 @@ class GoodsList extends Component {
     event.stopPropagation();
     this.props.onOperateClick(record,'detail')
   }
-  getMinPrice(el) {
-    let pdSkus = el.pdSkus;
+  getMinPrice(record) {
+    let pdSkus = record.pdSkus;
     let priceArr = [];
     if( pdSkus && pdSkus.length>0) {
       pdSkus.map((el) => {
         if(el.toBPrice!=null) {
-          el.toBPrice = el.toBPrice*1;
-          priceArr.push(el.toBPrice)
+          let itemPrice = {
+            toBPrice:el.toBPrice,
+            sortPrice:Number(el.toBPrice)
+          }
+          priceArr.push(itemPrice)
         }
         return el;
       })
-      priceArr.sort((a,b)=> {
-        return a-b;
-      })
-      let minPrice = priceArr[0];
-      return minPrice;
+      return this.sortPrice(priceArr);
     } else {
-      return el.toBPrice;
+      return record.toBPrice;
     }
+  }
+  sortPrice(priceArr) {
+    let minPrice;
+    if(priceArr.length>0) {
+      priceArr.sort((a,b)=> {
+        return a.sortPrice-b.sortPrice;
+      })
+      minPrice = priceArr[0].toBPrice;
+    } else {
+      minPrice =  '';
+    }
+    return minPrice;
   }
   render() {
     const { bTipGoodsList, onOperateClick } = this.props;
