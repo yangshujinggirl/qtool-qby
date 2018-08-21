@@ -10,7 +10,6 @@ import {
   Select,
   DatePicker
 }from 'antd'
-import '../index.css'
 const FormItem = Form.Item;
 const Option = Select.Option;
 const RangePicker = DatePicker.RangePicker
