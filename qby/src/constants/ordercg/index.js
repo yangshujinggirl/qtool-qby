@@ -184,18 +184,17 @@ class OrdercgIndex extends React.Component{
 		.then(res => {
 			if(res.code == '0'){
 				const billInfo = {
+					wsAsnId:record.wsAsnId,
 					asnNo:res.asnNo,
 					amountSum:res.amountSum,
 					dataSource:res.invoices,
 				};
 				this.setState({
-					billInfo
+					billInfo,
+					visible:true
 				});
-			}
+			};
 		})
-		this.setState({
-			visible:true
-		});
 	}
 	//发票管理 取消
 	onCancel =()=> {
@@ -206,8 +205,9 @@ class OrdercgIndex extends React.Component{
 		saveBillInfoApi(values)
 		.then(res => {
 			if(res.code == "0"){
-				message.success(res.message)
-				this.setState({visible:false})
+				message.success('发票管理成功')
+				this.setState({visible:false});
+				this.clearChooseInfo();
 			}
 		})
 	}
@@ -251,6 +251,7 @@ class OrdercgIndex extends React.Component{
 			return currentValue.url=="qerp.web.ws.asn.finish"
 		})
 		const {visible,billInfo,forceVisible,forceInfo} = this.state;
+		console.log(billInfo)
    	return(
     	<div className='content_box'>
           <OrdercgSearch/>

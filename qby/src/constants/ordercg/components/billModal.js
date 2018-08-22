@@ -9,19 +9,20 @@ class BillModal extends Component{
     super(props)
     this.state={
       asnNo:null,
+      wsAsnId:null,
       amountSum:null,
       dataSource:[]
     };
     const that = this
     this.columns = [{
         title: '发票号',
-        dataIndex: 'invoiceNo',
+        dataIndex: 'invoiceCode',
         render(text,record,index){
           return(
             <div>
               {
-  				      that.props.form.getFieldDecorator(`record[${index}].invoiceNo`,{
-      						initialValue:record.invoiceNo,
+  				      that.props.form.getFieldDecorator(`record[${index}].invoiceCode`,{
+      						initialValue:record.invoiceCode,
       					})(
       						 <Input placeholder="请输入发票号" autoComplete="off"/>
       					)
@@ -79,23 +80,33 @@ class BillModal extends Component{
   onOk =()=> {
     this.props.form.validateFieldsAndScroll((err,values)=>{
       const invoices = values.record;
-      const { asnNo,amountSum } = this.state
-      const values_ = {asnNo,amountSum,invoices}
+      const { asnNo,amountSum,wsAsnId} = this.state
+      const values_ = {asnNo,amountSum,wsAsnId,invoices}
       this.props.onOk(values_);
     });
   };
-  componentWillMount(){
-    console.log(this.props.billInfo)
+  componentWillReceiveProps(props){
+    console.log(this.props)
+    const { amountSum,asnNo,dataSource,wsAsnId } = this.props.billInfo;
     this.setState({
-      asnNo:this.props.billInfo.asnNo,
-      amountSum:this.props.billInfo.amountSum,
-      dataSource:this.props.billInfo.dataSource
-    });
+      amountSum,
+      asnNo,
+      dataSource,
+      wsAsnId
+    })
+  }
+  componentWillMount(){
+    console.log(this.props)
+    const { amountSum,asnNo,dataSource } = this.props.billInfo;
+    this.setState({
+      amountSum,
+      asnNo,
+      dataSource
+    })
   }
   render(){
     const { getFieldDecorator }= this.props.form;
-    const { asnNo, amountSum, dataSource } = this.props.billInfo;
-    console.log(this.state)
+    const { asnNo, amountSum, dataSource } = this.state;
     return(
       <div className='billmanage'>
         <Modal
