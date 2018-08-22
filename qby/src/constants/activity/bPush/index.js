@@ -5,22 +5,16 @@ import Columns from './columns/index'
 import Qtable from '../../../components/Qtable/index'; //表单
 import Qpagination from '../../../components/Qpagination/index'; //分页
 import FilterForm from './FilterForm/index'
-import { bPushRevokeApi } from '../../../services/activity/bPush'
+import { createBpushApi } from '../../../services/activity/bPush'
 import './index'
 import moment from 'moment';
 
 class Bpush extends Component{
   constructor(props){
     super(props);
-    this.rowSelection = {
-       type:'radio',
-       onChange:(selectedRowKeys, selectedRows) =>{
-         this.setState({bPushName:selectedRows[0].bPushId})
-         this.setState({bPushId:selectedRows[0].bPushId})
-       },
-     };
+
     this.state ={
-      bPushId:'',
+      bsPushId:'',
       bPushName:'',
       isPushVisible:false,
       componkey:this.props.componkey,
@@ -28,19 +22,35 @@ class Bpush extends Component{
         title:'',
         creater:'',
         status:'',
-        type:'',
-        startTime:'',
-        endTime:'',
-      }
+        alertType:'',
+        pushTimeST:'',
+        pushTimeET:'',
+      },
+      rowSelection:{
+         type:'radio',
+         selectedRowKeys:this.props.bPush.selectedRowKeys,
+         onChange:this.onChange
+       }
     }
   }
-
+  onChange =(selectedRowKeys, selectedRows) =>{
+    // 消除选中状态
+    const {rowSelection}=this.state;
+    this.setState({
+      rowSelection:Object.assign({},rowSelection,{selectedRowKeys})
+    });
+    // 消除选中状态
+    if(selectedRows[0]){
+      this.setState({title:selectedRows[0].title})
+      this.setState({bsPushId:selectedRows[0].bsPushId})
+    }
+  }
   //点击搜索
   searchData = (values)=> {
     this.props.dispatch({
       type:'bPush/fetchList',
       payload:values
-    })
+    });
   }
 
   //点击分页
@@ -63,8 +73,8 @@ class Bpush extends Component{
   searchDataChange =(values)=> {
     const {rangePicker,..._values} = values;
     if(rangePicker&&rangePicker[0]){
-      _values.startTime =  moment(new Date(rangePicker[0]._d).getTime()).format('YYYY-MM-DD HH:mm:ss');;
-      _values.endTime = moment(new Date(rangePicker[1]._d).getTime()).format('YYYY-MM-DD HH:mm:ss');;
+      _values.startTime =  moment(rangePicker).format('YYYY-MM-DD HH:mm:ss');;
+      _values.endTime = moment(rangePicker[1]).format('YYYY-MM-DD HH:mm:ss');;
     }
     this.setState({field:_values});
   }
@@ -81,9 +91,6 @@ class Bpush extends Component{
       title:'新建推送',
       key:`${this.state.componkey}edit`,
       componkey:`${this.state.componkey}edit`,
-      data:{
-        pdSpuId:null
-      }
     };
     this.props.dispatch({
       type:'tab/firstAddTab',
@@ -97,7 +104,12 @@ class Bpush extends Component{
       key:`${this.state.componkey}info`,
       componkey:`${this.state.componkey}info`,
       data:{
-        pdSpuId:record.bPushId,
+        bsPushId:record.bsPushId,
+        title:record.title,
+        pushTime:record.pushTime,
+        msgContent:record.msgContent,
+        alertTypeStr:record.alertTypeStr,
+        pushPerson:record.pushPerson,
       }
     }
     this.props.dispatch({
@@ -107,12 +119,14 @@ class Bpush extends Component{
   }
   //修改推送
   getEdit(record){
+    console.log(this.state.componkey)
     const paneitem = {
       title:'修改推送',
-      key:`${this.state.componkey}edit`+record.bPushId,
+      key:`${this.state.componkey}edit`+record.bsPushId,
       componkey:`${this.state.componkey}edit`,
       data:{
-        pdSpuId:record.bPushId,
+        bsPushId:record.bsPushId,
+        status:record.status
       }
     }
     this.props.dispatch({
@@ -133,7 +147,7 @@ class Bpush extends Component{
   }
   //撤销推送
   cancelPush =()=> {
-    if(!this.state.bPushId){
+    if(!this.state.bsPushId){
       message.warning('请选择要撤销的推送');
     }else{
       this.setState({isPushVisible:true})
@@ -141,17 +155,18 @@ class Bpush extends Component{
   }
   //确定撤销
   onOk =()=>{
-    const bPushId = this.state.bPushId
-    bPushRevokeApi(bPushId)
+    const bsPushId = this.state.bsPushId
+    createBpushApi({bsPushId:bsPushId})
     .then(res => {
-      message.success('撤销成功')
-    },err => {
-      message.error('撤销失败')
+      if(res.code=='0'){
+        message.success(res.message)
+      }
     })
   }
   //取消撤销
   onCancel =()=>{
-    this.setState({isPushVisible:false})
+    this.setState({isPushVisible:false});
+    this.onChange([],[])
   }
 
   render(){
@@ -174,12 +189,22 @@ class Bpush extends Component{
         <div className="handel-btn-lists">
           {
             addPush?
-            <Button onClick={this.addPush} size='large' type='primary'>新增推送</Button>
+              <Button
+                onClick={this.addPush}
+                size='large'
+                type='primary'>
+                新增推送
+              </Button>
             :null
           }
           {
             revokePush?
-            <Button onClick={this.cancelPush} size='large' type='primary'>撤销推送</Button>
+              <Button
+                onClick={this.cancelPush}
+                size='large'
+                type='primary'>
+                撤销推送
+              </Button>
             :null
           }
         </div>
@@ -191,14 +216,14 @@ class Bpush extends Component{
             onCancel= {this.onCancel}
             onOk = {this.onOk}
           >
-            <p>你正在撤消标题为{this.state.bPushName}的推送，确认撤消？</p>
+            <p>你正在撤消标题为{this.state.title}的推送，确认撤消？</p>
         </Modal>
         <Qtable
           dataSource = {dataList}
           columns = {Columns}
           onOperateClick = {this.handleOperateClick.bind(this)}
           select
-          rowSelection = {this.rowSelection}
+          rowSelection = {this.state.rowSelection}
         />
         <Qpagination
           data={this.props.bPush}
@@ -206,7 +231,7 @@ class Bpush extends Component{
           onShowSizeChange = {this.onShowSizeChange}
         />
       </div>
-    )
+    );
   }
 }
 function mapStateToProps(state){

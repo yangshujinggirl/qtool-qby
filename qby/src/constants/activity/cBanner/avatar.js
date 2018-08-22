@@ -11,7 +11,7 @@ class Avatar extends React.Component {
                 let tempFormValue = deepcCloneObj(this.props.formValue);
                 tempFormValue.url = urldata[0];
                 this.props.dispatch({
-                    type:'operatebanner/syncEditInfo',
+                    type:'cBanner/syncEditInfo',
                     payload:tempFormValue
                 })
             }
@@ -53,7 +53,7 @@ class Avatar extends React.Component {
 }
 
 function mapStateToProps(state) {
-    const {formValue} = state.operatebanner;
+    const {formValue} = state.cBanner;
     return {formValue};
 }
 

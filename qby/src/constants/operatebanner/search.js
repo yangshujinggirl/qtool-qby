@@ -18,6 +18,7 @@ class OperatebannerSearchForm extends React.Component {
 
   //搜索请求数据
   initList=(values,limit,currentPage)=>{
+        values.type = 10;
         values.limit=limit;
         values.currentPage=currentPage;
         this.props.dispatch({
@@ -25,7 +26,7 @@ class OperatebannerSearchForm extends React.Component {
             payload:{code:'qerp.web.pd.banner.list',values:values}
         });
         this.props.dispatch({ type: 'tab/loding', payload:true});
-    }  
+    }
 
     //同步data
     syncState=(values)=>{
@@ -34,7 +35,7 @@ class OperatebannerSearchForm extends React.Component {
             payload:values
         });
     }
-    
+
     render() {
         const { getFieldDecorator } = this.props.form;
         return (

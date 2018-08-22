@@ -3,6 +3,7 @@ import { Form, Select, Input, Button , message, Row, Col, DatePicker, Radio, Che
 import { createBpushApi } from '../../../services/activity/bPush'
 import { connect } from 'dva'
 import './index'
+import moment from 'moment'
 const FormItem = Form.Item;
 const Option = Select.Option;
 const TextArea = Input.TextArea;
@@ -18,67 +19,102 @@ class AddCoupon extends Component {
     super(props);
     this.state = {
       componkey:this.props.componkey,
-      createTime:true,
-      fixedTime:false,
-      bannerIdNum:true,
+      createTime:false,
+      pushTime:false,
+      bannerIdNum:false,
       code:false,
       H5Url:false,
       textInfo:false
     }
   }
-
+  //修改时初始化数据
+  componentDidMount(){
+    if(this.props.data){
+      const id = this.props.data.bsPushId;
+    }
+  }
+  initDeletestate(){
+    this.props.dispath({
+      type:'tab/initDeletestate',
+      payload:this.props.componkey
+    });
+  }
   //保存
   handleSubmit = (e) => {
 		e.preventDefault();
 		this.props.form.validateFields((err, values) => {
+      this.formatValue(values);
       if(!err){
         createBpushApi(values)
         .then(res => {
-
-        },err => {
-          console.log(err)
-        });
+          if(res.code=='0'){
+            message.success(res.message);
+            this.initDeletestate();
+            this.props.dispath({
+              type:'cPush/fetchList',
+              payload:values
+            });
+          };
+        })
       };
     });
   }
+  formatValue(values){
+    let obj = Object.assign({},values.bannerIdNum,values.code,values.H5Url,values.textInfo)
+    for(var key in obj){
+      if(obj[key]){
+          values.alertTypeContent = obj[key];
+      };
+    };
+    values.pushPerson = values.pushPerson.join('-');
+    values.pushTime = moment(values.pushTime).format('YYYY-MM-DD HH:mm:ss');
+    if(this.props.data){ //带入不同的推送状态
+      values.status = this.props.data.status;
+      values.bsPushId = this.props.data.bsPushId;
+    }else{
+      values.status = 10;
+    };
+  }
   //取消
   cancel =()=> {
-    this.props.dispatch({
-        type:'tab/initDeletestate',
-        payload:this.state.componkey
-    });
+    if(this.props.data){
+      const componkey = this.props.componkey+this.props.data.bsPushId;
+      this.props.dispatch({
+          type:'tab/initDeletestate',
+          payload:componkey
+      });
+    }else{
+      this.initDeletestate();
+    };
   }
   //推送类型变化的时候
   typeChange =(e)=> {
-    const value = e.target.value;;
-    if(value == 1){
+    const value = e.target.value;
+    if(value == 10){
       this.setState({  bannerIdNum:true,code:false,H5Url:false,textInfo:false})
-    }else if(value == 2){
+    }else if(value == 20){
       this.setState({  bannerIdNum:false,code:true,H5Url:false,textInfo:false})
-    }else if(value == 3){
+    }else if(value == 30){
       this.setState({  bannerIdNum:false,code:false,H5Url:true,textInfo:false})
     }else{
       this.setState({  bannerIdNum:false,code:false,H5Url:false,textInfo:true})
-    }
+    };
     this.props.form.resetFields(['bannerIdNum','code','H5Url','textInfo'])
   }
   //推送时间变化的时候
   choice =(e)=> {
     const value = e.target.value;
-    if(value==1){
-      this.setState({createTime:true,fixedTime:false})
-    }else if(value==2){
-      this.setState({createTime:false,fixedTime:true})
-    }
-    this.props.form.resetFields(['createTime','fixedTime'])
+    if(value == 1){
+      this.setState({createTime:true,pushTime:false})
+    }else if(value == 0){
+      this.setState({createTime:false,pushTime:true})
+    };
+    this.props.form.resetFields(['createTime','pushTime'])
   }
-  //修改时初始化数据
-  componentDidMount(){
-    const id = this.props.data.pdSpuId
-  }
+
   render(){
     const { getFieldDecorator } = this.props.form;
-    const { cBanner } =this.props;
+    const { cBanner } = this.props;
     const radioStyle = {
       display: 'block',
       height: '30px',
@@ -92,7 +128,7 @@ class AddCoupon extends Component {
               labelCol={{ span: 3,offset: 1 }}
               wrapperCol={{ span: 9 }}
             >
-              {getFieldDecorator('pushTheme', {
+              {getFieldDecorator('title', {
                   rules: [{ required: true, message: '请输入推送主题'}],
                 })(
                   <Input placeholder="请输入10字以内推送主题" maxLength='10' autoComplete="off"/>
@@ -105,13 +141,12 @@ class AddCoupon extends Component {
                   labelCol={{ span: 3,offset: 1 }}
                   wrapperCol={{ span:6}}
                 >
-                {getFieldDecorator('pushType', {
+                {getFieldDecorator('pushNow', {
                   rules: [{ required: true, message: '请选择推送时间' }],
-                  initialValue: "1",
                 })(
                   <RadioGroup onChange={this.choice}>
                     <Radio value="1">立即推送</Radio>
-                    <Radio value="2">定时推送</Radio>
+                    <Radio value="0">定时推送</Radio>
                   </RadioGroup>
                 )}
                 </FormItem>
@@ -124,10 +159,10 @@ class AddCoupon extends Component {
                   )}
                 </FormItem>
                 <FormItem>
-                  {getFieldDecorator('fixedTime',{
-                    rules: [{ required: this.state.fixedTime, message: '请输入定时推送时间'}],
+                  {getFieldDecorator('pushTime',{
+                    rules: [{ required: this.state.pushTime, message: '请输入定时推送时间'}],
                   })(
-                      <DatePicker  showTime format="YYYY-MM-DD HH:mm:ss" disabled={!this.state.fixedTime}/>
+                      <DatePicker  showTime format="YYYY-MM-DD HH:mm:ss" disabled={!this.state.pushTime}/>
                   )}
                 </FormItem>
               </Col>
@@ -150,15 +185,14 @@ class AddCoupon extends Component {
                   labelCol={{ span: 3,offset: 1 }}
                   wrapperCol={{ span: 8 }}
                 >
-                  {getFieldDecorator('type',{
-                      initialValue: "1",
+                  {getFieldDecorator('alertType',{
                       rules: [{ required: true, message: '请选择推送类型' }],
                   })(
                     <RadioGroup  onChange={this.typeChange}>
-                      <Radio style={radioStyle} value="1">banner id</Radio>
-                      <Radio style={radioStyle} value="2">商品编码</Radio>
-                      <Radio style={radioStyle} value="3">H5连接URL</Radio>
-                      <Radio style={radioStyle} value="4">文本信息</Radio>
+                      <Radio style={radioStyle} value={10}>banner id</Radio>
+                      <Radio style={radioStyle} value={20}>商品编码</Radio>
+                      <Radio style={radioStyle} value={30}>H5连接URL</Radio>
+                      <Radio style={radioStyle} value={40}>文本信息</Radio>
                     </RadioGroup>
                   )}
                 </FormItem>
@@ -199,9 +233,8 @@ class AddCoupon extends Component {
               labelCol={{ span: 3,offset: 1 }}
               wrapperCol={{ span: 9 }}
             >
-              {getFieldDecorator('targetObject',{
-                  rules: [{ required: true, message: '请输入推送主题'}],
-                  initialValue: ['1'],
+              {getFieldDecorator('pushPerson',{
+                  rules: [{ required: true, message: '请输入推送人群'}],
               })(
                 <CheckboxGroup options={options} />
               )}

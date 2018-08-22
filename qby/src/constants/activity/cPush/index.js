@@ -5,7 +5,7 @@ import Columns from './columns/index'
 import Qtable from '../../../components/Qtable/index'; //表单
 import Qpagination from '../../../components/Qpagination/index'; //分页
 import FilterForm from './FilterForm/index'
-import { bPushRevokeApi } from '../../../services/activity/bPush'
+import { createBpushApi } from '../../../services/activity/bPush'
 import './index'
 import moment from 'moment';
 
@@ -21,7 +21,9 @@ class Cpush extends Component{
         title:'',
         creater:'',
         status:'',
-        type:'',
+        alertType:'',
+        pushTimeST:'',
+        pushTimeET:'',
       },
       rowSelection:{
          type:'radio',
@@ -38,8 +40,8 @@ class Cpush extends Component{
     });
     if(selectedRows[0]){
       this.setState({
-        cPushName:selectedRows[0].spOrderId,
-        cPushId:selectedRows[0].spOrderId,
+        cPushName:selectedRows[0].title,
+        cPushId:selectedRows[0].bsPushId,
       });
     };
   }
@@ -50,7 +52,6 @@ class Cpush extends Component{
       payload:values
     })
   }
-
   //点击分页
   changePage =(current)=> {
     const currentPage = current-1;
@@ -71,8 +72,8 @@ class Cpush extends Component{
   searchDataChange =(values)=> {
     const {rangePicker,..._values} = values;
     if(rangePicker){
-      _values.createTimeST =  moment(rangePicker[0]).format('YYYY-MM-DD HH:mm:ss');
-      _values.createTimeET = moment(rangePicker[1]).format('YYYY-MM-DD HH:mm:ss');
+      _values.pushTimeST =  moment(rangePicker[0]).format('YYYY-MM-DD HH:mm:ss');
+      _values.pushTimeET = moment(rangePicker[1]).format('YYYY-MM-DD HH:mm:ss');
     }
     this.setState({field:_values});
   }
@@ -80,7 +81,7 @@ class Cpush extends Component{
   componentWillMount(){
     this.props.dispatch({
       type:'cPush/fetchList',
-      payload:{}
+      payload:{pushType:20}
     });
   }
   //新增推送
@@ -89,7 +90,6 @@ class Cpush extends Component{
       title:'创建推送',
       key:`${this.state.componkey}edit`,
       componkey:`${this.state.componkey}edit`,
-      data:null
     };
     this.props.dispatch({
       type:'tab/firstAddTab',
@@ -100,10 +100,10 @@ class Cpush extends Component{
   getDetail(record){
     const paneitem = {
       title:'推送详情',
-      key:`${this.state.componkey}info`+record.spOrderId,
+      key:`${this.state.componkey}info`+record.bsPushId,
       componkey:`${this.state.componkey}info`,
       data:{
-        pdSpuId:record.spOrderId,
+        pdSpuId:record.bsPushId,
       }
     }
     this.props.dispatch({
@@ -117,9 +117,6 @@ class Cpush extends Component{
       title:'修改推送',
       key:`${this.state.componkey}edit`,
       componkey:`${this.state.componkey}edit`,
-      data:{
-        pdSpuId:null,
-      }
     }
     this.props.dispatch({
       type:'tab/firstAddTab',
@@ -148,7 +145,7 @@ class Cpush extends Component{
   //确定撤销
   onOk =()=>{
     const cPushId = this.state.cPushId
-    bPushRevokeApi(cPushId)
+    createBpushApi(cPushId)
     .then(res => {
       if(res.code == '0'){
         this.props.dispatch({ //刷新列表

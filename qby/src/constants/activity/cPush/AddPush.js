@@ -21,22 +21,25 @@ class AddcPush extends Component {
     this.state = {
       componkey:this.props.componkey,
       createTime:true,
-      fixedTime:false,
+      pushTime:false,
       bannerIdNum:true,
       code:false,
       H5Url:false,
       textInfo:false
     }
   }
-
+  //修改时初始化数据
+  componentDidMount(){
+    if(this.props.data){
+      const id = this.props.data.bsPushId;
+      createBpushApi
+    }
+  }
   //保存
   handleSubmit = (e) => {
 		e.preventDefault();
 		this.props.form.validateFields((err, values) => {
-      //时间格式化
-      if(values.fixedTime){
-        values.fixedTime = moment(values.fixedTime).format('YYYY-MM-DD HH:mm:ss');
-      }
+      this.formatValue(values);
       if(!err){
         createBpushApi(values)
         .then(res => {
@@ -49,10 +52,26 @@ class AddcPush extends Component {
               type:'cPush/fetchList',
               payload:values
             });
-          }
+          };
         });
       };
     });
+  }
+  formatValue(values){
+    let obj = Object.assign({},values.bannerIdNum,values.code,values.H5Url,values.textInfo)
+    for(var key in obj){
+      if(obj[key]){
+          values.alertTypeContent = obj[key];
+      };
+    };
+    values.pushPerson = values.pushPerson.join('-');
+    values.pushTime = moment(values.pushTime).format('YYYY-MM-DD HH:mm:ss');
+    if(this.props.data){ //带入不同的推送状态
+      values.status = this.props.data.status;
+      values.bsPushId = this.props.data.bsPushId;
+    }else{
+      values.status = 10;
+    };
   }
   //取消
   cancel =()=> {
@@ -74,13 +93,14 @@ class AddcPush extends Component {
       this.setState({  bannerIdNum:false,code:false,H5Url:false,textInfo:true})
     }
   }
+
   //推送时间变化的时候
   choice =(e)=> {
     const value = e.target.value;
     if(value==1){
-      this.setState({createTime:true,fixedTime:false})
+      this.setState({createTime:true,pushTime:false})
     }else if(value==2){
-      this.setState({createTime:false,fixedTime:true})
+      this.setState({createTime:false,pushTime:true})
     }
   }
   render(){
@@ -112,13 +132,13 @@ class AddcPush extends Component {
                   labelCol={{ span: 3,offset: 1 }}
                   wrapperCol={{ span:6}}
                 >
-                {getFieldDecorator('pushType', {
+                {getFieldDecorator('pushNow', {
                   rules: [{ required: true, message: '请选择推送时间' }],
                   initialValue: "1",
                 })(
                   <RadioGroup onChange={this.choice}>
                     <Radio value="1">立即推送</Radio>
-                    <Radio value="2">定时推送</Radio>
+                    <Radio value="0">定时推送</Radio>
                   </RadioGroup>
                 )}
                 </FormItem>
@@ -131,10 +151,10 @@ class AddcPush extends Component {
                   )}
                 </FormItem>
                 <FormItem>
-                  {getFieldDecorator('fixedTime',{
-                    rules: [{ required: this.state.fixedTime, message: '请输入定时推送时间'}],
+                  {getFieldDecorator('pushTime',{
+                    rules: [{ required: this.state.pushTime, message: '请输入定时推送时间'}],
                   })(
-                      <DatePicker  showTime format="YYYY-MM-DD HH:mm:ss" disabled={!this.state.fixedTime}/>
+                      <DatePicker  showTime format="YYYY-MM-DD HH:mm:ss" disabled={!this.state.pushTime}/>
                   )}
                 </FormItem>
               </Col>
@@ -157,15 +177,15 @@ class AddcPush extends Component {
                   labelCol={{ span: 3,offset: 1 }}
                   wrapperCol={{ span: 8 }}
                 >
-                  {getFieldDecorator('type',{
+                  {getFieldDecorator('alertType',{
                       initialValue: "1",
                       rules: [{ required: true, message: '请选择推送类型' }],
                   })(
                     <RadioGroup  onChange={this.typeChange}>
-                      <Radio style={radioStyle} value="1">banner id</Radio>
-                      <Radio style={radioStyle} value="2">商品编码</Radio>
-                      <Radio style={radioStyle} value="3">H5连接URL</Radio>
-                      <Radio style={radioStyle} value="4">文本信息</Radio>
+                      <Radio style={radioStyle} value={10}>banner id</Radio>
+                      <Radio style={radioStyle} value={20}>商品编码</Radio>
+                      <Radio style={radioStyle} value={30}>H5连接URL</Radio>
+                      <Radio style={radioStyle} value={40}>文本信息</Radio>
                     </RadioGroup>
                   )}
                 </FormItem>
@@ -206,9 +226,8 @@ class AddcPush extends Component {
               labelCol={{ span: 3,offset: 1 }}
               wrapperCol={{ span: 9 }}
             >
-              {getFieldDecorator('targetObject',{
-                  rules: [{ required: true, message: '请输入推送主题'}],
-                  initialValue: ['1'],
+              {getFieldDecorator('pushPerson',{
+                  rules: [{ required: true, message: '请输入推送人群'}],
               })(
                 <CheckboxGroup options={options} />
               )}
