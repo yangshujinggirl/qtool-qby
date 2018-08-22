@@ -12,8 +12,7 @@ import moment from 'moment';
 class Bpush extends Component{
   constructor(props){
     super(props);
-
-    this.state ={
+    this.state = {
       bsPushId:'',
       bPushName:'',
       isPushVisible:false,
@@ -41,9 +40,12 @@ class Bpush extends Component{
     });
     // 消除选中状态
     if(selectedRows[0]){
-      this.setState({title:selectedRows[0].title})
-      this.setState({bsPushId:selectedRows[0].bsPushId})
-    }
+      this.setState({
+        title:selectedRows[0].title,
+        bsPushId:selectedRows[0].bsPushId,
+        selectedRows:selectedRows[0]
+      });
+    };
   }
   //点击搜索
   searchData = (values)=> {
@@ -119,14 +121,19 @@ class Bpush extends Component{
   }
   //修改推送
   getEdit(record){
-    console.log(this.state.componkey)
+    const { limit, currentPage } = this.props.bPush;
     const paneitem = {
       title:'修改推送',
       key:`${this.state.componkey}edit`+record.bsPushId,
       componkey:`${this.state.componkey}edit`,
       data:{
         bsPushId:record.bsPushId,
-        status:record.status
+        status:record.status,
+        listParams:{
+          ...this.state.fields,
+          limit,
+          currentPage
+        }
       }
     }
     this.props.dispatch({
@@ -155,12 +162,33 @@ class Bpush extends Component{
   }
   //确定撤销
   onOk =()=>{
-    const bsPushId = this.state.bsPushId
-    createBpushApi({bsPushId:bsPushId})
+    const {
+      title,
+      pushTime,
+      msgContent,
+      alertTypeStr,
+      pushPerson,
+      bsPushId,
+      pushNow,
+      alertType,
+      alertTypeContent} = this.state.selectedRows;
+    const values = {
+      title,
+      pushTime,
+      pushNow,
+      msgContent,
+      alertTypeStr,
+      alertType,
+      pushPerson,
+      bsPushId,
+      status:30,
+      alertTypeContent
+    };
+    createBpushApi(values)
     .then(res => {
       if(res.code=='0'){
         message.success(res.message)
-      }
+      };
     })
   }
   //取消撤销

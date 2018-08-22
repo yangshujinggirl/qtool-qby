@@ -149,7 +149,6 @@ class Coupon extends Component{
             type:'coupon/fetchList',
             payload:{}
           })
-          // this.state.rowSelection.onChange([],[]);//取消选中
           this.setState({couponId:null});
           this.setState({isFuseVisible:false})
           message.success(res.message,.8);

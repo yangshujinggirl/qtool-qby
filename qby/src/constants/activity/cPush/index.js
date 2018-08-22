@@ -42,6 +42,7 @@ class Cpush extends Component{
       this.setState({
         cPushName:selectedRows[0].title,
         cPushId:selectedRows[0].bsPushId,
+        selectedRows:selectedRows[0]
       });
     };
   }
@@ -144,8 +145,29 @@ class Cpush extends Component{
   }
   //确定撤销
   onOk =()=>{
-    const cPushId = this.state.cPushId
-    createBpushApi(cPushId)
+    const {
+      title,
+      pushTime,
+      msgContent,
+      alertTypeStr,
+      pushPerson,
+      bsPushId,
+      pushNow,
+      alertType,
+      alertTypeContent} = this.state.selectedRows;
+    const values = {
+      title,
+      pushTime,
+      pushNow,
+      msgContent,
+      alertTypeStr,
+      alertType,
+      pushPerson,
+      bsPushId,
+      status:30,
+      alertTypeContent
+    }
+    createBpushApi(values)
     .then(res => {
       if(res.code == '0'){
         this.props.dispatch({ //刷新列表

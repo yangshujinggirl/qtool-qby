@@ -20,3 +20,11 @@ export function createBpushApi(values){
       data:values
   })
 }
+//c端推送创建推送--保存
+export function cpushInfoApi(values){
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.pd.push.detail',
+      data:values
+  })
+}

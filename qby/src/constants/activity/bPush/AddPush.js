@@ -1,6 +1,6 @@
 import React,{ Component } from 'react';
 import { Form, Select, Input, Button , message, Row, Col, DatePicker, Radio, Checkbox } from 'antd';
-import { createBpushApi } from '../../../services/activity/bPush'
+import { createBpushApi,bpushInfoApi } from '../../../services/activity/bPush'
 import { connect } from 'dva'
 import './index'
 import moment from 'moment'
@@ -14,7 +14,7 @@ const options = [
   { label: '店长', value: '2' },
   { label: '店员', value: '3' },
 ];;
-class AddCoupon extends Component {
+class Bpush extends Component {
   constructor(props){
     super(props);
     this.state = {
@@ -24,17 +24,39 @@ class AddCoupon extends Component {
       bannerIdNum:false,
       code:false,
       H5Url:false,
-      textInfo:false
+      textInfo:false,
+      info:{}
     }
   }
   //修改时初始化数据
   componentDidMount(){
     if(this.props.data){
       const id = this.props.data.bsPushId;
-    }
+      bpushInfoApi({bsPushId:id})
+      .then(res => {
+        if(res.code == '0'){
+          const info = res.bsPush;
+          info.bannerIdNum = null;
+          info.code = null;
+          info.H5Url = null;
+          info.textInfo = null;
+          info.pushTime = null;
+          if(info.alertType == 10){
+            info.bannerIdNum = info.alertTypeContent;
+          }else if(info.alertType == 20){
+            info.code = info.alertTypeContent;
+          }else if(info.alertType == 30){
+            info.H5Url = info.alertTypeContent;
+          }else if(info.alertType == 40){
+            info.textInfo = info.alertTypeContent;
+          };
+          this.setState({info});
+        };
+      })
+    };
   }
-  initDeletestate(){
-    this.props.dispath({
+  initDeletestate =()=> {
+    this.props.dispatch({
       type:'tab/initDeletestate',
       payload:this.props.componkey
     });
@@ -45,20 +67,31 @@ class AddCoupon extends Component {
 		this.props.form.validateFields((err, values) => {
       this.formatValue(values);
       if(!err){
-        createBpushApi(values)
-        .then(res => {
-          if(res.code=='0'){
-            message.success(res.message);
-            this.initDeletestate();
-            this.props.dispath({
-              type:'cPush/fetchList',
-              payload:values
-            });
-          };
-        })
+        this.submit(values); //请求
       };
     });
   }
+  submit(values){
+    createBpushApi(values)
+    .then(res => {
+      if(res.code=='0'){
+        message.success(res.message);
+        this.initDeletestate();
+        if(this.props.data){ //如果是修改才到列表历史页
+          this.props.dispatch({
+            type:'bPush/fetchList',
+            payload:{...this.props.data.listParams}
+          });
+        }else{
+          this.props.dispatch({
+            type:'bPush/fetchList',
+            payload:{}
+          });
+        }
+      };
+    })
+  }
+  //请求数据格式化
   formatValue(values){
     let obj = Object.assign({},values.bannerIdNum,values.code,values.H5Url,values.textInfo)
     for(var key in obj){
@@ -114,12 +147,25 @@ class AddCoupon extends Component {
 
   render(){
     const { getFieldDecorator } = this.props.form;
-    const { cBanner } = this.props;
     const radioStyle = {
       display: 'block',
       height: '30px',
       lineHeight: '30px',
     };
+    const isChange = Boolean(this.props.data);
+    const {
+      title,
+      pushNow,
+      pushTime,
+      msgContent,
+      alertType,
+      bannerIdNum,
+      code,
+      H5Url,
+      textInfo,
+      pushPerson,
+    } = this.state.info;
+    console.log(this.state.info)
     return(
       <div className='addpush'>
         	<Form className="addUser-form operatebanner-form">
@@ -130,6 +176,7 @@ class AddCoupon extends Component {
             >
               {getFieldDecorator('title', {
                   rules: [{ required: true, message: '请输入推送主题'}],
+                  initialValue:isChange?title:null
                 })(
                   <Input placeholder="请输入10字以内推送主题" maxLength='10' autoComplete="off"/>
               )}
@@ -143,10 +190,11 @@ class AddCoupon extends Component {
                 >
                 {getFieldDecorator('pushNow', {
                   rules: [{ required: true, message: '请选择推送时间' }],
+                  initialValue:isChange?pushNow:null
                 })(
                   <RadioGroup onChange={this.choice}>
-                    <Radio value="1">立即推送</Radio>
-                    <Radio value="0">定时推送</Radio>
+                    <Radio value={1}>立即推送</Radio>
+                    <Radio value={0}>定时推送</Radio>
                   </RadioGroup>
                 )}
                 </FormItem>
@@ -161,6 +209,7 @@ class AddCoupon extends Component {
                 <FormItem>
                   {getFieldDecorator('pushTime',{
                     rules: [{ required: this.state.pushTime, message: '请输入定时推送时间'}],
+                    initialValue:isChange?moment(pushTime, 'YYYY-MM-DD HH:mm:ss'):null
                   })(
                       <DatePicker  showTime format="YYYY-MM-DD HH:mm:ss" disabled={!this.state.pushTime}/>
                   )}
@@ -173,7 +222,8 @@ class AddCoupon extends Component {
               wrapperCol={{ span: 9 }}
             >
             {getFieldDecorator('msgContent', {
-              rules: [{ required: true, message: '请选择推送内容' }]
+              rules: [{ required: true, message: '请选择推送内容' }],
+              initialValue:isChange?msgContent:null
             })(
                 <TextArea placeholder='请输入30字以下推送内容' maxLength='30' rows={6} />
             )}
@@ -187,6 +237,7 @@ class AddCoupon extends Component {
                 >
                   {getFieldDecorator('alertType',{
                       rules: [{ required: true, message: '请选择推送类型' }],
+                      initialValue:isChange?alertType:null
                   })(
                     <RadioGroup  onChange={this.typeChange}>
                       <Radio style={radioStyle} value={10}>banner id</Radio>
@@ -201,6 +252,7 @@ class AddCoupon extends Component {
                 <FormItem>
                   {getFieldDecorator('bannerIdNum',{
                     rules: [{ required: this.state.bannerIdNum, message: '请输入bannerid' }],
+                    initialValue:isChange?bannerIdNum:null
                   })(
                       <Input disabled={!this.state.bannerIdNum} autoComplete="off"/>
                   )}
@@ -208,6 +260,7 @@ class AddCoupon extends Component {
                 <FormItem>
                   {getFieldDecorator('code',{
                     rules: [{ required: this.state.code, message: '请输入商品编码' }],
+                    initialValue:isChange?code:null
                   })(
                       <Input disabled={!this.state.code} autoComplete="off"/>
                   )}
@@ -215,6 +268,7 @@ class AddCoupon extends Component {
                 <FormItem>
                   {getFieldDecorator('H5Url',{
                     rules: [{ required: this.state.H5Url, message: '请输入H5连接URL' }],
+                    initialValue:isChange?H5Url:null
                   })(
                     <Input disabled={!this.state.H5Url} autoComplete="off"/>
                   )}
@@ -222,6 +276,7 @@ class AddCoupon extends Component {
                 <FormItem>
                   {getFieldDecorator('textInfo',{
                     rules: [{ required:this.state.textInfo, message: '请输入文本信息' }],
+                    initialValue:isChange?textInfo:null
                   })(
                     <TextArea disabled={!this.state.textInfo} placeholder='请输入30字以下推送内容' maxLength='30' rows={6} />
                   )}
@@ -235,6 +290,7 @@ class AddCoupon extends Component {
             >
               {getFieldDecorator('pushPerson',{
                   rules: [{ required: true, message: '请输入推送人群'}],
+                  initialValue:isChange?pushPerson:null
               })(
                 <CheckboxGroup options={options} />
               )}
@@ -248,10 +304,10 @@ class AddCoupon extends Component {
     )
   }
 }
-const AddcBanner = Form.create()(AddCoupon);
+const Bpushs = Form.create()(Bpush);
 function mapStateToProps(state){
   const { bPush } = state;
   return bPush
 }
 
-export default connect(mapStateToProps)(AddcBanner);
+export default connect(mapStateToProps)(Bpushs);

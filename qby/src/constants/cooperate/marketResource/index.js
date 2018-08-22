@@ -62,7 +62,7 @@ class MarketResource extends Component{
           payload:paneitem
       })
     }
-    //操作
+    //修改
     handleOperateClick =(record)=> {
       const { limit, currentPage } = this.props.marketResource;
       const { componkey } = this.state;
