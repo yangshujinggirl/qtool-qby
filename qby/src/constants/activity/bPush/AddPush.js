@@ -36,11 +36,6 @@ class Bpush extends Component {
       .then(res => {
         if(res.code == '0'){
           const info = res.bsPush;
-          info.bannerIdNum = null;
-          info.code = null;
-          info.H5Url = null;
-          info.textInfo = null;
-          info.pushTime = null;
           if(info.alertType == 10){
             info.bannerIdNum = info.alertTypeContent;
           }else if(info.alertType == 20){
@@ -50,15 +45,45 @@ class Bpush extends Component {
           }else if(info.alertType == 40){
             info.textInfo = info.alertTypeContent;
           };
+          info.pushPerson = info.pushPerson.split('-');
+          this.isPushTime(info.pushNow)
+          this.isPushType(info.alertType);
           this.setState({info});
         };
       })
+    };
+  }
+  //判断推送时间哪个---disable
+  isPushTime =(value)=> {
+    if(value== 1){
+      this.setState({createTime:true,pushTime:false})
+    }else if(value == 0){
+      this.setState({createTime:false,pushTime:true})
+    };
+  }
+  //判断推送类型哪个---disable
+  isPushType =(value)=> {
+    if(value == 10){
+      this.setState({  bannerIdNum:true,code:false,H5Url:false,textInfo:false})
+    }else if(value == 20){
+      this.setState({  bannerIdNum:false,code:true,H5Url:false,textInfo:false})
+    }else if(value == 30){
+      this.setState({  bannerIdNum:false,code:false,H5Url:true,textInfo:false})
+    }else{
+      this.setState({  bannerIdNum:false,code:false,H5Url:false,textInfo:true})
     };
   }
   initDeletestate =()=> {
     this.props.dispatch({
       type:'tab/initDeletestate',
       payload:this.props.componkey
+    });
+  }
+  initChangeDeletestate(){
+    const componkey = this.props.componkey+this.props.data.bsPushId;
+    this.props.dispatch({
+        type:'tab/initDeletestate',
+        payload:componkey
     });
   }
   //保存
@@ -76,13 +101,14 @@ class Bpush extends Component {
     .then(res => {
       if(res.code=='0'){
         message.success(res.message);
-        this.initDeletestate();
         if(this.props.data){ //如果是修改才到列表历史页
+          this.initChangeDeletestate();
           this.props.dispatch({
             type:'bPush/fetchList',
             payload:{...this.props.data.listParams}
           });
         }else{
+          this.initDeletestate();
           this.props.dispatch({
             type:'bPush/fetchList',
             payload:{}
@@ -99,13 +125,17 @@ class Bpush extends Component {
           values.alertTypeContent = obj[key];
       };
     };
-    values.pushPerson = values.pushPerson.join('-');
-    values.pushTime = moment(values.pushTime).format('YYYY-MM-DD HH:mm:ss');
+    if(values.pushPerson.length>1){
+      values.pushPerson = values.pushPerson.join('-');
+    };
     if(this.props.data){ //带入不同的推送状态
       values.status = this.props.data.status;
       values.bsPushId = this.props.data.bsPushId;
     }else{
       values.status = 10;
+    };
+    if(values.pushTime){
+      values.pushTime = moment(values.pushTime).format('YYYY-MM-DD HH:mm:ss')
     };
   }
   //取消
@@ -123,25 +153,13 @@ class Bpush extends Component {
   //推送类型变化的时候
   typeChange =(e)=> {
     const value = e.target.value;
-    if(value == 10){
-      this.setState({  bannerIdNum:true,code:false,H5Url:false,textInfo:false})
-    }else if(value == 20){
-      this.setState({  bannerIdNum:false,code:true,H5Url:false,textInfo:false})
-    }else if(value == 30){
-      this.setState({  bannerIdNum:false,code:false,H5Url:true,textInfo:false})
-    }else{
-      this.setState({  bannerIdNum:false,code:false,H5Url:false,textInfo:true})
-    };
+    this.isPushType(value);
     this.props.form.resetFields(['bannerIdNum','code','H5Url','textInfo'])
   }
   //推送时间变化的时候
   choice =(e)=> {
     const value = e.target.value;
-    if(value == 1){
-      this.setState({createTime:true,pushTime:false})
-    }else if(value == 0){
-      this.setState({createTime:false,pushTime:true})
-    };
+    this.isPushTime(value)
     this.props.form.resetFields(['createTime','pushTime'])
   }
 
@@ -165,7 +183,7 @@ class Bpush extends Component {
       textInfo,
       pushPerson,
     } = this.state.info;
-    console.log(this.state.info)
+    console.log(pushPerson)
     return(
       <div className='addpush'>
         	<Form className="addUser-form operatebanner-form">
@@ -209,7 +227,7 @@ class Bpush extends Component {
                 <FormItem>
                   {getFieldDecorator('pushTime',{
                     rules: [{ required: this.state.pushTime, message: '请输入定时推送时间'}],
-                    initialValue:isChange?moment(pushTime, 'YYYY-MM-DD HH:mm:ss'):null
+                    initialValue:isChange&&this.state.info.pushTime?moment(pushTime, 'YYYY-MM-DD HH:mm:ss'):null
                   })(
                       <DatePicker  showTime format="YYYY-MM-DD HH:mm:ss" disabled={!this.state.pushTime}/>
                   )}

@@ -1,9 +1,9 @@
 import React,{ Component } from 'react';
 import { Form, Select, Input, Button , message, Row, Col, DatePicker, Radio, Checkbox } from 'antd';
-import { createBpushApi,cpushInfoApi } from '../../../services/activity/cPush'
+import { createcPushApi,cPushInfoApi } from '../../../services/activity/cPush'
 import { connect } from 'dva'
 import './index'
-import moment from 'moment';
+import moment from 'moment'
 const FormItem = Form.Item;
 const Option = Select.Option;
 const TextArea = Input.TextArea;
@@ -13,47 +13,78 @@ const options = [
   { label: '店主', value: '1' },
   { label: '店长', value: '2' },
   { label: '店员', value: '3' },
-];
-
-class AddcPush extends Component {
+];;
+class Cpush extends Component {
   constructor(props){
     super(props);
     this.state = {
       componkey:this.props.componkey,
-      createTime:true,
+      createTime:false,
       pushTime:false,
-      bannerIdNum:true,
+      bannerIdNum:false,
       code:false,
       H5Url:false,
       textInfo:false,
-
+      info:{}
     }
   }
   //修改时初始化数据
   componentDidMount(){
     if(this.props.data){
       const id = this.props.data.bsPushId;
-      cpushInfoApi({bsPushId:id})
+      cPushInfoApi({bsPushId:id})
       .then(res => {
         if(res.code == '0'){
-          const info = res;
-          info.bannerIdNum = '';
-          info.code = '';
-          info.H5Url = '';
-          info.extInfo = '';
-          if(info.alertType = 10){
-            info.bannerIdNum = res.alertTypeContent;
-          }else if(info.alertType = 20){
-            info.code = res.alertTypeContent;
-          }else if(info.alertType = 30){
-            info.H5Url = res.alertTypeContent;
-          }else if(info.alertType = 40){
-            info.extInfo = res.alertTypeContent;
-          }
+          const info = res.bsPush;
+          if(info.alertType == 10){
+            info.bannerIdNum = info.alertTypeContent;
+          }else if(info.alertType == 20){
+            info.code = info.alertTypeContent;
+          }else if(info.alertType == 30){
+            info.H5Url = info.alertTypeContent;
+          }else if(info.alertType == 40){
+            info.textInfo = info.alertTypeContent;
+          };
+          info.pushPerson = info.pushPerson.split('-');
+          this.isPushTime(info.pushNow)
+          this.isPushType(info.alertType);
+          this.setState({info});
         };
-        this.state({info});
       })
-    }
+    };
+  }
+  //判断推送时间哪个---disable
+  isPushTime =(value)=> {
+    if(value== 1){
+      this.setState({createTime:true,pushTime:false})
+    }else if(value == 0){
+      this.setState({createTime:false,pushTime:true})
+    };
+  }
+  //判断推送类型哪个---disable
+  isPushType =(value)=> {
+    if(value == 10){
+      this.setState({  bannerIdNum:true,code:false,H5Url:false,textInfo:false})
+    }else if(value == 20){
+      this.setState({  bannerIdNum:false,code:true,H5Url:false,textInfo:false})
+    }else if(value == 30){
+      this.setState({  bannerIdNum:false,code:false,H5Url:true,textInfo:false})
+    }else{
+      this.setState({  bannerIdNum:false,code:false,H5Url:false,textInfo:true})
+    };
+  }
+  initDeletestate =()=> {
+    this.props.dispatch({
+      type:'tab/initDeletestate',
+      payload:this.props.componkey
+    });
+  }
+  initChangeDeletestate(){
+    const componkey = this.props.componkey+this.props.data.bsPushId;
+    this.props.dispatch({
+        type:'tab/initDeletestate',
+        payload:componkey
+    });
   }
   //保存
   handleSubmit = (e) => {
@@ -66,17 +97,18 @@ class AddcPush extends Component {
     });
   }
   submit(values){
-    createBpushApi(values)
+    createcPushApi(values)
     .then(res => {
       if(res.code=='0'){
         message.success(res.message);
-        this.initDeletestate();
         if(this.props.data){ //如果是修改才到列表历史页
+          this.initChangeDeletestate();
           this.props.dispatch({
             type:'cPush/fetchList',
             payload:{...this.props.data.listParams}
           });
         }else{
+          this.initDeletestate();
           this.props.dispatch({
             type:'cPush/fetchList',
             payload:{}
@@ -93,47 +125,44 @@ class AddcPush extends Component {
           values.alertTypeContent = obj[key];
       };
     };
-    values.pushPerson = values.pushPerson.join('-');
-    values.pushTime = moment(values.pushTime).format('YYYY-MM-DD HH:mm:ss');
+    if(values.pushPerson.length>1){
+      values.pushPerson = values.pushPerson.join('-');
+    };
     if(this.props.data){ //带入不同的推送状态
       values.status = this.props.data.status;
       values.bsPushId = this.props.data.bsPushId;
     }else{
       values.status = 10;
     };
+    if(values.pushTime){
+      values.pushTime = moment(values.pushTime).format('YYYY-MM-DD HH:mm:ss')
+    };
   }
   //取消
   cancel =()=> {
-    this.props.dispatch({
-        type:'tab/initDeletestate',
-        payload:this.state.componkey
-    });
+    if(this.props.data){
+      const componkey = this.props.componkey+this.props.data.bsPushId;
+      this.props.dispatch({
+          type:'tab/initDeletestate',
+          payload:componkey
+      });
+    }else{
+      this.initDeletestate();
+    };
   }
   //推送类型变化的时候
   typeChange =(e)=> {
     const value = e.target.value;
-    if(value == 1){
-      this.setState({  bannerIdNum:true,code:false,H5Url:false,textInfo:false})
-    }else if(value == 2){
-      this.setState({  bannerIdNum:false,code:true,H5Url:false,textInfo:false})
-    }else if(value == 3){
-      this.setState({  bannerIdNum:false,code:false,H5Url:true,textInfo:false})
-    }else{
-      this.setState({  bannerIdNum:false,code:false,H5Url:false,textInfo:true})
-    }
+    this.isPushType(value);
     this.props.form.resetFields(['bannerIdNum','code','H5Url','textInfo'])
   }
-
   //推送时间变化的时候
   choice =(e)=> {
     const value = e.target.value;
-    if(value==1){
-      this.setState({createTime:true,pushTime:false})
-    }else if(value==2){
-      this.setState({createTime:false,pushTime:true})
-    }
+    this.isPushTime(value)
     this.props.form.resetFields(['createTime','pushTime'])
   }
+
   render(){
     const { getFieldDecorator } = this.props.form;
     const radioStyle = {
@@ -141,7 +170,7 @@ class AddcPush extends Component {
       height: '30px',
       lineHeight: '30px',
     };
-    const isChange = Boolean(this.props.data)
+    const isChange = Boolean(this.props.data);
     const {
       title,
       pushNow,
@@ -154,6 +183,7 @@ class AddcPush extends Component {
       textInfo,
       pushPerson,
     } = this.state.info;
+    console.log(pushPerson)
     return(
       <div className='addpush'>
         	<Form className="addUser-form operatebanner-form">
@@ -178,11 +208,11 @@ class AddcPush extends Component {
                 >
                 {getFieldDecorator('pushNow', {
                   rules: [{ required: true, message: '请选择推送时间' }],
-                    initialValue:isChange?pushNow:null
+                  initialValue:isChange?pushNow:null
                 })(
                   <RadioGroup onChange={this.choice}>
-                    <Radio value="1">立即推送</Radio>
-                    <Radio value="0">定时推送</Radio>
+                    <Radio value={1}>立即推送</Radio>
+                    <Radio value={0}>定时推送</Radio>
                   </RadioGroup>
                 )}
                 </FormItem>
@@ -197,7 +227,7 @@ class AddcPush extends Component {
                 <FormItem>
                   {getFieldDecorator('pushTime',{
                     rules: [{ required: this.state.pushTime, message: '请输入定时推送时间'}],
-                    initialValue:isChange?moment(pushTime, 'YYYY-MM-DD HH:mm:ss'):null
+                    initialValue:isChange&&this.state.info.pushTime?moment(pushTime, 'YYYY-MM-DD HH:mm:ss'):null
                   })(
                       <DatePicker  showTime format="YYYY-MM-DD HH:mm:ss" disabled={!this.state.pushTime}/>
                   )}
@@ -224,8 +254,8 @@ class AddcPush extends Component {
                   wrapperCol={{ span: 8 }}
                 >
                   {getFieldDecorator('alertType',{
-                      initialValue:isChange?alertType:null,
                       rules: [{ required: true, message: '请选择推送类型' }],
+                      initialValue:isChange?alertType:null
                   })(
                     <RadioGroup  onChange={this.typeChange}>
                       <Radio style={radioStyle} value={10}>banner id</Radio>
@@ -242,7 +272,7 @@ class AddcPush extends Component {
                     rules: [{ required: this.state.bannerIdNum, message: '请输入bannerid' }],
                     initialValue:isChange?bannerIdNum:null
                   })(
-                      <Input disabled={!this.state.bannerIdNum}/>
+                      <Input disabled={!this.state.bannerIdNum} autoComplete="off"/>
                   )}
                 </FormItem>
                 <FormItem>
@@ -250,7 +280,7 @@ class AddcPush extends Component {
                     rules: [{ required: this.state.code, message: '请输入商品编码' }],
                     initialValue:isChange?code:null
                   })(
-                      <Input disabled={!this.state.code}/>
+                      <Input disabled={!this.state.code} autoComplete="off"/>
                   )}
                 </FormItem>
                 <FormItem>
@@ -258,7 +288,7 @@ class AddcPush extends Component {
                     rules: [{ required: this.state.H5Url, message: '请输入H5连接URL' }],
                     initialValue:isChange?H5Url:null
                   })(
-                    <Input disabled={!this.state.H5Url}/>
+                    <Input disabled={!this.state.H5Url} autoComplete="off"/>
                   )}
                 </FormItem>
                 <FormItem>
@@ -292,10 +322,10 @@ class AddcPush extends Component {
     )
   }
 }
-const AddcPushs = Form.create()(AddcPush);
+const Cpushs = Form.create()(Cpush);
 function mapStateToProps(state){
   const { cPush } = state;
   return cPush
 }
 
-export default connect(mapStateToProps)(AddcPushs);
+export default connect(mapStateToProps)(Cpushs);

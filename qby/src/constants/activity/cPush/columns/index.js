@@ -29,7 +29,11 @@ const Columns = [{
      render:(text, record)=>{
        return(
          <div>
-           <a href="javascript:;" className="theme-color" onClick={record.onOperateClick.bind(this,'edit')}>修改</a>
+         <a href="javascript:;"
+           className="theme-color"
+           onClick={record.onOperateClick.bind(this,'edit')}>
+           {record.status==10?'修改':null}
+         </a>
          </div>
        )
      }
