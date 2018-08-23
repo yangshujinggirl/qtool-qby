@@ -33,7 +33,6 @@ class Cpush extends Component {
   //修改时初始化数据
   componentDidMount(){
     if(this.props.data){
-
       const id = this.props.data.bsPushId;
       cpushInfoApi({bsPushId:id})
       .then(res => {
@@ -75,13 +74,9 @@ class Cpush extends Component {
     }else if(values == 1){
       this.setState({allUser:false,specialUser:true})
     };
-    if(this.props.data){
-      this.props.form.setFields({
-        pushPerson:{ value:null },
-      });
-    }else{
-      this.props.form.resetFields(['pushPerson']);
-    };
+    this.props.form.setFields({
+      pushPerson:{ value:null },
+    });
   }
   //判断推送类型哪个---disable
   isPushType =(values)=> {
@@ -131,7 +126,7 @@ class Cpush extends Component {
       }
     });
   }
-  formatMobiles =(userMobiles,values,err)=> {
+  formatMobiles =(userMobiles,values,err)=> { //保存--推送人群格式化
     let mobileArr = [];
     let isTrue = false;
     if(userMobiles.indexOf("\n")!=-1){
@@ -176,11 +171,11 @@ class Cpush extends Component {
     const { bannerIdNum,code,H5Url,textInfo } = values;
     let obj = Object.assign({},{bannerIdNum,code,H5Url,textInfo})
     for(var key in obj){
-      if(obj[key]){
+      if(obj[key]){ //推送内容格式化
           values.alertTypeContent = obj[key];
       };
     };
-    if(values.formatValue == 0){
+    if(values.pushPersonType == 0){
       values.pushPerson = 0
     }
     if(this.props.data){ //带入不同的推送状态
