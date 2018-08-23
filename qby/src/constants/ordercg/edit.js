@@ -340,20 +340,38 @@ class OrdercgEditForm extends React.Component{
 								<Input placeholder="请输入到付金额" disabled={this.props.nothasFacepay}  autoComplete="off"/>
 							)}
 						</FormItem>
-						<FormItem
-							label="账期类型"
-							labelCol={{ span: 3,offset: 1 }}
-							wrapperCol={{ span: 6 }}
-						>
-							{getFieldDecorator('paymentType', {
-								rules: [{ required: true, message: '请输入账期类型' }],
-								initialValue:isChange
-								?String(this.props.editInfo.paymentTypeStr)
-								:	selectedSuppler[0].type
-							})(
-								<Input disabled  placeholder='请输入账期类型' autoComplete="off"/>
-							)}
-						</FormItem>
+						{ this.props.data
+							?
+								<FormItem
+									label="账期类型"
+									labelCol={{ span: 3,offset: 1 }}
+									wrapperCol={{ span: 12 }}
+								>货到　{getFieldDecorator('paymentType', {
+										rules: [{ required: true, message: '请输入账期类型' }],
+										initialValue:isChange
+										?String(this.props.editInfo.paymentTypeStr)
+										:	selectedSuppler[0].type
+									})(
+										<Input disabled style={{width:'10%'}} autoComplete="off"/>
+									)}
+								　个自然日付款
+								</FormItem>
+							:
+								<FormItem
+									label="账期类型"
+									labelCol={{ span: 3,offset: 1 }}
+									wrapperCol={{ span: 6 }}
+								>
+									{getFieldDecorator('paymentType', {
+										rules: [{ required: true, message: '请输入账期类型' }],
+										initialValue:isChange
+										?String(this.props.editInfo.paymentTypeStr)
+										:	selectedSuppler[0].type
+									})(
+										<Input disabled  placeholder='请输入账期类型' autoComplete="off"/>
+									)}
+								</FormItem>
+						}
 						<FormItem
 							label="含税税率"
 							labelCol={{ span: 3,offset: 1 }}

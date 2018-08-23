@@ -11,7 +11,7 @@ class BillModal extends Component{
       asnNo:null,
       wsAsnId:null,
       amountSum:null,
-      _sourceData:[]
+      billInfo:[]
     };
     const that = this
     this.columns = [{
@@ -60,30 +60,23 @@ class BillModal extends Component{
   }
 
   handleAdd =()=> {
-		let { _sourceData } = this.state;
-		_sourceData.push({
-			invoiceNo:'',
+		let { dataSource } = this.props.billInfo;
+		dataSource.push({
+			invoiceCode:'',
 			invoiceAmount:'',
 		})
-		this.setState({
-			_sourceData,
-		})
+		this.props.handleAdd(dataSource)
 	}
   handDelete(index) {
-    const {_sourceData} = this.state;
     const {dataSource}=this.props.billInfo;
-    const sourceData=_sourceData.concat(dataSource)
-    sourceData.splice(index,1);
-
-    this.setState({
-      _sourceData:[]
-    });
+    dataSource.splice(index,1);
+    this.props.handDelete(dataSource)
 	}
   //点击确定
   onOk =()=> {
     this.props.form.validateFieldsAndScroll((err,values)=>{
       const invoices = values.record;
-      const { asnNo,amountSum,wsAsnId} = this.state
+      const { asnNo,amountSum,wsAsnId} = this.props.billInfo;
       const values_ = {asnNo,amountSum,wsAsnId,invoices}
       this.props.onOk(values_);
     });
@@ -92,14 +85,15 @@ class BillModal extends Component{
 
   render(){
     const { getFieldDecorator }= this.props.form;
-    const { asnNo, amountSum,dataSource } = this.props.billInfo;
+    const { asnNo, amountSum, dataSource } = this.props.billInfo;
     return(
-      <div className='billmanage'>
+      <div>
         <Modal
           title="发票管理"
           visible={this.props.visible}
           onOk={this.onOk}
           onCancel={this.props.onCancel}
+          wrapClassName="billmodal"
         >
           <Form>
             <FormItem

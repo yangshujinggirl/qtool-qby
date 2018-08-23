@@ -190,8 +190,7 @@ class OrdercgIndex extends React.Component{
 					wsAsnId:record.wsAsnId,
 					asnNo:res.asnNo,
 					amountSum:res.amountSum,
-					dataSource:[{invoiceNo:'1',
-					invoiceAmount:'1'}],
+					dataSource:res.invoices
 				};
 				this.setState({
 					billInfo,
@@ -232,6 +231,20 @@ class OrdercgIndex extends React.Component{
 			}
 		})
 	}
+	//发票删除
+	handDelete =(dataSource)=> {
+		const billInfo = this.state.billInfo;
+		this.setState({
+			billInfo:{dataSource,...billInfo,}
+		});
+	}
+	//发票添加
+	handleAdd =(dataSource)=> {
+		const billInfo = this.state.billInfo;
+		this.setState({
+			billInfo:{dataSource,...billInfo,}
+		});
+	}
 	render(){
 		const rolelists=this.props.data.rolelists
 		// //新增采购单
@@ -255,7 +268,6 @@ class OrdercgIndex extends React.Component{
 			return currentValue.url=="qerp.web.ws.asn.finish"
 		})
 		const {visible,billInfo,forceVisible,forceInfo} = this.state;
-		console.log(billInfo)
    	return(
     	<div className='content_box'>
           <OrdercgSearch/>
@@ -318,6 +330,8 @@ class OrdercgIndex extends React.Component{
 						visible={visible}
 						onOk={this.onOk}
 						onCancel={this.onCancel}
+						handDelete={this.handDelete}
+						handleAdd={this.handleAdd}
 					/>
 					<ForceModal
 						forceInfo={forceInfo}
