@@ -13,21 +13,24 @@ import { getBillInfoApi, saveBillInfoApi, forceSaveApi } from '../../services/or
 
 const confirm = Modal.confirm;
 class OrdercgIndex extends React.Component{
-	state = {
-		visible:false,
-		forceVisible:false,
-		billInfo:{
-			asnNo:null,
-			amountSum:null,
-			dataSource:[]
-		},
-		forceInfo:{
-			asnNo:'',
-			qtySum:'',
-			qtyReceived:'',
-			wsAsnId:''
-		}
-	};
+	constructor(){
+		super()
+		this.state = {
+			visible:false,
+			forceVisible:false,
+			billInfo:{
+				asnNo:null,
+				amountSum:null,
+				dataSource:[]
+			},
+			forceInfo:{
+				asnNo:'',
+				qtySum:'',
+				qtyReceived:'',
+				wsAsnId:''
+			}
+		};
+	}
 	//table搜索
 	initList=(values,limit,currentPage)=>{
 		values.type = "10";
@@ -187,7 +190,8 @@ class OrdercgIndex extends React.Component{
 					wsAsnId:record.wsAsnId,
 					asnNo:res.asnNo,
 					amountSum:res.amountSum,
-					dataSource:res.invoices,
+					dataSource:[{invoiceNo:'1',
+					invoiceAmount:'1'}],
 				};
 				this.setState({
 					billInfo,

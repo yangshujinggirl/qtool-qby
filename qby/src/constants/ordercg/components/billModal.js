@@ -11,7 +11,7 @@ class BillModal extends Component{
       asnNo:null,
       wsAsnId:null,
       amountSum:null,
-      dataSource:[]
+      _sourceData:[]
     };
     const that = this
     this.columns = [{
@@ -60,20 +60,23 @@ class BillModal extends Component{
   }
 
   handleAdd =()=> {
-		let { dataSource } = this.state;
-		dataSource.push({
+		let { _sourceData } = this.state;
+		_sourceData.push({
 			invoiceNo:'',
 			invoiceAmount:'',
 		})
 		this.setState({
-			dataSource,
+			_sourceData,
 		})
 	}
   handDelete(index) {
-    const dataSource = this.state.dataSource;
-    dataSource.splice(index,1);
+    const {_sourceData} = this.state;
+    const {dataSource}=this.props.billInfo;
+    const sourceData=_sourceData.concat(dataSource)
+    sourceData.splice(index,1);
+
     this.setState({
-      dataSource:dataSource
+      _sourceData:[]
     });
 	}
   //点击确定
@@ -85,28 +88,11 @@ class BillModal extends Component{
       this.props.onOk(values_);
     });
   };
-  componentWillReceiveProps(props){
-    console.log(this.props)
-    const { amountSum,asnNo,dataSource,wsAsnId } = this.props.billInfo;
-    this.setState({
-      amountSum,
-      asnNo,
-      dataSource,
-      wsAsnId
-    })
-  }
-  componentWillMount(){
-    console.log(this.props)
-    const { amountSum,asnNo,dataSource } = this.props.billInfo;
-    this.setState({
-      amountSum,
-      asnNo,
-      dataSource
-    })
-  }
+
+
   render(){
     const { getFieldDecorator }= this.props.form;
-    const { asnNo, amountSum, dataSource } = this.state;
+    const { asnNo, amountSum,dataSource } = this.props.billInfo;
     return(
       <div className='billmanage'>
         <Modal
