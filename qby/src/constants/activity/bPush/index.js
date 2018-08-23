@@ -56,9 +56,9 @@ class Bpush extends Component{
   }
 
   //点击分页
-  changePage =(current)=> {
+  changePage =(current,limit)=> {
     const currentPage = current-1;
-    const values = {...this.state.field,currentPage}
+    const values = {...this.state.field,currentPage,limit}
     this.props.dispatch({
       type:'bPush/fetchList',
       payload:values
@@ -66,6 +66,7 @@ class Bpush extends Component{
   }
   //pageSize改变时的回调
   onShowSizeChange =({currentPage,limit})=> {
+    console.log(limit);
     this.props.dispatch({
       type:'bPush/fetchList',
       payload:{currentPage,limit}

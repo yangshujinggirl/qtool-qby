@@ -62,16 +62,16 @@ class Bpush extends Component {
     };
   }
   //判断推送类型哪个---disable
-  isPushType =(value)=> {
-    if(value == 10){
-      this.setState({  bannerIdNum:true,code:false,H5Url:false,textInfo:false})
-    }else if(value == 20){
-      this.setState({  bannerIdNum:false,code:true,H5Url:false,textInfo:false})
-    }else if(value == 30){
-      this.setState({  bannerIdNum:false,code:false,H5Url:true,textInfo:false})
-    }else{
-      this.setState({  bannerIdNum:false,code:false,H5Url:false,textInfo:true})
-    };
+  isPushType =(values)=> {
+      if(values == 10){
+        this.setState({  bannerIdNum:true,code:false,H5Url:false,textInfo:false})
+      }else if(values == 20){
+        this.setState({  bannerIdNum:false,code:true,H5Url:false,textInfo:false})
+      }else if(values == 30){
+        this.setState({  bannerIdNum:false,code:false,H5Url:true,textInfo:false})
+      }else{
+        this.setState({  bannerIdNum:false,code:false,H5Url:false,textInfo:true})
+      };
   }
   initDeletestate =()=> {
     this.props.dispatch({
@@ -127,7 +127,9 @@ class Bpush extends Component {
     };
     if(values.pushPerson.length>1){
       values.pushPerson = values.pushPerson.join('-');
-    };
+    }else{
+      values.pushPerson = values.pushPerson[0];
+    }
     if(this.props.data){ //带入不同的推送状态
       values.status = this.props.data.status;
       values.bsPushId = this.props.data.bsPushId;
@@ -154,13 +156,28 @@ class Bpush extends Component {
   typeChange =(e)=> {
     const value = e.target.value;
     this.isPushType(value);
-    this.props.form.resetFields(['bannerIdNum','code','H5Url','textInfo'])
+    if(this.props.data){
+      this.props.form.setFields({
+        bannerIdNum:{value:null},
+        code:{value: null},
+        H5Url:{value:null},
+        textInfo:{value:null},
+      });
+    }else{
+      this.props.form.resetFields(['bannerIdNum','code','H5Url','textInfo']);
+    }
   }
   //推送时间变化的时候
   choice =(e)=> {
-    const value = e.target.value;
-    this.isPushTime(value)
-    this.props.form.resetFields(['createTime','pushTime'])
+    const values = e.target.value;
+    this.isPushTime(values)
+    if(this.props.data){
+      this.props.form.setFields({
+        pushTime:{value:null}
+      });
+    }else{
+      this.props.form.resetFields(['createTime','pushTime'])
+    };
   }
 
   render(){

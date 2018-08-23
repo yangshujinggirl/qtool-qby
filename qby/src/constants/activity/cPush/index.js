@@ -56,9 +56,9 @@ class cPush extends Component{
   }
 
   //点击分页
-  changePage =(current)=> {
+  changePage =(current,limit)=> {
     const currentPage = current-1;
-    const values = {...this.state.field,currentPage}
+    const values = {...this.state.field,currentPage,limit}
     this.props.dispatch({
       type:'cPush/fetchList',
       payload:values
@@ -201,11 +201,11 @@ class cPush extends Component{
     const rolelists=this.props.data.rolelists
     //新增推送
     const addPush=rolelists.find((currentValue,index)=>{
-			return currentValue.url=="qerp.web.pd.cPush.save"
+			return currentValue.url=="qerp.web.pd.cpush.save"
 		})
     //撤销推送
     const revokePush=rolelists.find((currentValue,index)=>{
-			return currentValue.url=="qerp.web.pd.cPush.revoke"
+			return currentValue.url=="qerp.web.pd.cpush.revoke"
 		})
     const {dataList} = this.props.cPush;
     return(

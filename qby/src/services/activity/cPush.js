@@ -11,10 +11,10 @@ export function getListApi(values){
 }
 
 //c端推送创建推送--保存
-export function createBpushApi(values){
+export function createcPushApi(values){
   values.pushType = 20;
+  values = {bsPush:values}
   values = JSON.stringify(values)
-  console.log(values)
   return ajax.post('/webrest.htm',{
       code:'qerp.web.pd.push.save',
       data:values

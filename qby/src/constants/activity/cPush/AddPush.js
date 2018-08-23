@@ -62,12 +62,12 @@ class Cpush extends Component {
     };
   }
   //判断推送类型哪个---disable
-  isPushType =(value)=> {
-    if(value == 10){
+  isPushType =(values)=> {
+    if(values == 10){
       this.setState({  bannerIdNum:true,code:false,H5Url:false,textInfo:false})
-    }else if(value == 20){
+    }else if(values == 20){
       this.setState({  bannerIdNum:false,code:true,H5Url:false,textInfo:false})
-    }else if(value == 30){
+    }else if(values == 30){
       this.setState({  bannerIdNum:false,code:false,H5Url:true,textInfo:false})
     }else{
       this.setState({  bannerIdNum:false,code:false,H5Url:false,textInfo:true})
@@ -113,13 +113,14 @@ class Cpush extends Component {
             type:'cPush/fetchList',
             payload:{}
           });
-        }
+        };
       };
     })
   }
   //请求数据格式化
   formatValue(values){
     let obj = Object.assign({},values.bannerIdNum,values.code,values.H5Url,values.textInfo)
+    debugger
     for(var key in obj){
       if(obj[key]){
           values.alertTypeContent = obj[key];
@@ -127,7 +128,9 @@ class Cpush extends Component {
     };
     if(values.pushPerson.length>1){
       values.pushPerson = values.pushPerson.join('-');
-    };
+    }else{
+      values.pushPerson = values.pushPerson[0];
+    }
     if(this.props.data){ //带入不同的推送状态
       values.status = this.props.data.status;
       values.bsPushId = this.props.data.bsPushId;
@@ -154,13 +157,40 @@ class Cpush extends Component {
   typeChange =(e)=> {
     const value = e.target.value;
     this.isPushType(value);
-    this.props.form.resetFields(['bannerIdNum','code','H5Url','textInfo'])
+    if(this.props.data){
+      this.props.form.setFields({
+        bannerIdNum:{value:null},
+        code:{value: null},
+        H5Url:{value:null},
+        textInfo:{value:null},
+      });
+    }else{
+      this.props.form.resetFields(['bannerIdNum','code','H5Url','textInfo']);
+    }
   }
   //推送时间变化的时候
   choice =(e)=> {
-    const value = e.target.value;
-    this.isPushTime(value)
-    this.props.form.resetFields(['createTime','pushTime'])
+    const values = e.target.value;
+    this.isPushTime(values)
+    if(this.props.data){
+      this.props.form.setFields({ //设置都为null
+        pushTime:{value:null}
+      });
+    }else{
+      this.props.form.resetFields(['createTime','pushTime'])
+    };
+  }
+
+  Userchoice =(e)=> {
+    const values = e.target.value;
+    this.isPushTime(values)
+    if(this.props.data){
+      this.props.form.setFields({ //设置都为null
+        pushTime:{value:null}
+      });
+    }else{
+      this.props.form.resetFields(['createTime','pushTime'])
+    };
   }
 
   render(){
@@ -183,7 +213,6 @@ class Cpush extends Component {
       textInfo,
       pushPerson,
     } = this.state.info;
-    console.log(pushPerson)
     return(
       <div className='addpush'>
         	<Form className="addUser-form operatebanner-form">
@@ -301,18 +330,41 @@ class Cpush extends Component {
                 </FormItem>
               </Col>
             </Row>
-            <FormItem
-              label="推送人群"
-              labelCol={{ span: 3,offset: 1 }}
-              wrapperCol={{ span: 9 }}
-            >
-              {getFieldDecorator('pushPerson',{
-                  rules: [{ required: true, message: '请输入推送人群'}],
-                  initialValue:isChange?pushPerson:null
-              })(
-                <CheckboxGroup options={options} />
-              )}
-            </FormItem>
+            <Row>
+              <Col span={6}>
+                <FormItem
+                  label="推送人群"
+                  labelCol={{ span: 3,offset: 1 }}
+                  wrapperCol={{ span:6}}
+                >
+                {getFieldDecorator('pushPerson', {
+                  rules: [{ required: true, message: '请选择推送人群' }],
+                  initialValue:isChange?pushNow:null
+                })(
+                  <RadioGroup onChange={this.Userchoice}>
+                    <Radio value={0}>全部用户</Radio>
+                    <Radio value={1}>特定用户</Radio>
+                  </RadioGroup>
+                )}
+                </FormItem>
+              </Col>
+              <Col span={6}>
+                <FormItem>
+                  {getFieldDecorator('allUser',{
+                  })(
+                    <div style={{height:'32px'}}></div>
+                  )}
+                </FormItem>
+                <FormItem>
+                  {getFieldDecorator('specialUser',{
+                    rules: [{ required: this.state.specialUser, message: '请输入特定用户'}],
+                    initialValue:isChange&&this.state.info.pushTime?moment(pushTime, 'YYYY-MM-DD HH:mm:ss'):null
+                  })(
+                      <TextArea placeholder='少于1000行'/>
+                  )}
+                </FormItem>
+              </Col>
+            </Row>
           	<FormItem wrapperCol={{ offset: 3}}>
             		<Button style={{marginRight:'100px'}} onClick={this.cancel}>取消</Button>
             		<Button type="primary" onClick={this.handleSubmit}>保存</Button>

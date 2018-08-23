@@ -13,7 +13,9 @@ export default{
   },
   effects:{
     *fetchList({payload:values},{call,put}){
+      yield put({type: 'tab/loding',payload:true});
       const result =  yield call(getListApi,values);
+      yield put({type: 'tab/loding',payload:false});
       if(result.code == '0'){
         const { bsPush, currentPage, limit, total } = result;
         bsPush.map((item,index) => {
