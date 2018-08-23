@@ -25,12 +25,22 @@ class Bpush extends Component{
         pushTimeST:'',
         pushTimeET:'',
       },
+      selectedRows:[],
       rowSelection:{
          type:'radio',
          selectedRowKeys:this.props.bPush.selectedRowKeys,
          onChange:this.onChange
        }
     }
+  }
+  componentWillReceiveProps(props) {
+    this.setState({
+      rowSelection : {
+        selectedRowKeys:props.bPush.selectedRowKeys,
+        type:'radio',
+        onChange:this.onChange
+      }
+    });
   }
   onChange =(selectedRowKeys, selectedRows) =>{
     // 消除选中状态
@@ -66,7 +76,6 @@ class Bpush extends Component{
   }
   //pageSize改变时的回调
   onShowSizeChange =({currentPage,limit})=> {
-    console.log(limit);
     this.props.dispatch({
       type:'bPush/fetchList',
       payload:{currentPage,limit}
@@ -112,7 +121,7 @@ class Bpush extends Component{
         pushTime:record.pushTime,
         msgContent:record.msgContent,
         alertTypeStr:record.alertTypeStr,
-        pushPerson:record.pushPerson,
+        pushMan:record.pushMan,
       }
     }
     this.props.dispatch({
@@ -156,10 +165,15 @@ class Bpush extends Component{
   //撤销推送
   cancelPush =()=> {
     if(!this.state.bsPushId){
-      message.warning('请选择要撤销的推送');
+      message.warning('请选择要撤销的推送',.8);
     }else{
-      this.setState({isPushVisible:true})
-    }
+      if(this.state.selectedRows.status == 10){
+        this.setState({isPushVisible:true})
+      }else{
+        message.warning('只有待推送状态才可撤销');
+        this.onChange([],[])
+      };
+    };
   }
   //确定撤销
   onOk =()=>{
@@ -187,17 +201,29 @@ class Bpush extends Component{
     };
     createBpushApi(values)
     .then(res => {
+      const { limit, currentPage } = this.props.bPush;
       if(res.code=='0'){
-        message.success(res.message)
-      };
+        message.success(res.message);
+        this.props.dispatch({
+          type:'bPush/fetchList',
+          payload:{
+            ...this.state.fields,
+            limit,
+            currentPage
+          }
+        });
+        this.setState({isPushVisible:false})
+      }else{
+        this.setState({isPushVisible:false});
+        this.onChange([],[]);
+      }
     })
   }
   //取消撤销
   onCancel =()=>{
     this.setState({isPushVisible:false});
-    this.onChange([],[])
+    this.onChange([],[]);
   }
-
   render(){
     const rolelists=this.props.data.rolelists
     //新增推送

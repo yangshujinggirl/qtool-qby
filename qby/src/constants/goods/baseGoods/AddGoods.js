@@ -285,7 +285,6 @@ class AddGoodsForm extends Component {
       }
 
     },error=> {
-      console.log(error)
     })
   }
   //商品规格change事件

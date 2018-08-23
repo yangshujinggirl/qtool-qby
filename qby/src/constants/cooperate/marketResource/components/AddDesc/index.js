@@ -25,7 +25,6 @@ class AddEditableTable extends React.Component {
 		let type = val=='text'?'1':'2';
 		let {key}=this.state;
 		key++;
-		console.log(key)
 		dataSource.push({
 			type,
 			content:'',
@@ -72,7 +71,6 @@ class AddEditableTable extends React.Component {
 	}
 	render() {
 		let { dataSource } = this.state;
-		console.log(dataSource)
 		return (
 			<div>
 				<Button onClick={()=>this.handleAdd('text')}>添加文本</Button>

@@ -44,12 +44,8 @@ class MdCostIndexForm extends React.Component {
 
     //下载
     download = (text) =>{
-        // console.log(text)
-        // this.exportData(70,text)
         window.open(text)
     }
-
-    
 
     dateChange = (date, dateString) =>{
         this.setState({
@@ -57,7 +53,7 @@ class MdCostIndexForm extends React.Component {
         })
     }
 
-    
+
     pageChange=(page,pageSize)=>{
         this.setState({
             currentPage:page-1
@@ -148,19 +144,19 @@ class MdCostIndexForm extends React.Component {
                                             onSearch={this.handleSearchs}
                                             placeholder='请选择门店名称'
                                             filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
-                                        />    
+                                        />
                                         )}
                                     </FormItem>
                                     <FormItem
                                         label="选择时间"
                                         labelCol={{ span: 5 }}
                                         wrapperCol={{span: 10}}>
-                                        <MonthPicker  
+                                        <MonthPicker
                                             defaultValue={moment(data, 'YYYY-MM')}
                                             className='noant-calendar-picker'
                                             format={dateFormat}
                                             onChange={this.dateChange.bind(this)} allowClear={false}/>
-                                            
+
                                     </FormItem>
                                 </div>
                         </Row>
@@ -172,8 +168,8 @@ class MdCostIndexForm extends React.Component {
                 </Form>
                 {/*搜索部分 */}
                 <div className='mt30'>
-                    <EditableTable 
-                        columns={this.columns} 
+                    <EditableTable
+                        columns={this.columns}
                         dataSource={this.state.dataSource}
                         footer={true}
                         pageChange={this.pageChange.bind(this)}
@@ -218,7 +214,6 @@ class MdCostIndexForm extends React.Component {
         // var d = new Date()
         // const data=String(d.getFullYear())+'-'+String((d.getMonth()+1))
         const data=timeyesterdaymoute().t1
-        console.log(data)
         this.setState({
             month:data,
         },function(){

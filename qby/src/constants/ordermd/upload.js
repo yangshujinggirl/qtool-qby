@@ -5,16 +5,13 @@ class MyUploadMd extends React.Component {
     state = {
         fileList: []
       }
-  
+
       handleChange = (info) => {
         let fileList = info.fileList;
         fileList = fileList.slice(-1);
         fileList = fileList.filter((file) => {
           if (file.response) {
             if(file.response.code=='0'){
-                console.log('11111')
-                console.log(file.response)
-                console.log('22222')
                 if(file.response.warningmessage){
                     let message = file.response.warningmessage.split('\r\n')
                     let m = []

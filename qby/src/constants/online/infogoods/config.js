@@ -6,20 +6,20 @@ import EditableTable from '../../../components/table/tablemodel';
 import './config.css';
 
 
-String.prototype.format = function() {  
-    if(arguments.length == 0) return this;  
-    var param = arguments[0];  
-    var s = this;  
-    if(typeof(param) == 'object') {  
-     for(var key in param)  
-          s = s.replace(new RegExp("\\{" + key + "\\}", "g"), param[key]);  
-         return s;  
-    } else {  
+String.prototype.format = function() {
+    if(arguments.length == 0) return this;
+    var param = arguments[0];
+    var s = this;
+    if(typeof(param) == 'object') {
+     for(var key in param)
+          s = s.replace(new RegExp("\\{" + key + "\\}", "g"), param[key]);
+         return s;
+    } else {
        for(var i = 0; i < arguments.length; i++){
-             s = s.replace(new RegExp("%s"), arguments[i]); 
-       }  
-          return s;  
-    }  
+             s = s.replace(new RegExp("%s"), arguments[i]);
+       }
+          return s;
+    }
 }
 
 
@@ -34,7 +34,6 @@ class EditableCell extends React.Component {
     }
 
     handleChange1=(url)=>{
-        console.log(url)
         this.setState({
             visible:true,
             picUrl:url,
@@ -43,9 +42,6 @@ class EditableCell extends React.Component {
     }
 
     handleChange2=(data)=>{
-        console.log(data)
-        console.log(data.replacevalue)
-        console.log(eval('('+data.replacevalue+')'))
         this.setState({
             title:'修改前商品描述',
             type:'2',
@@ -54,8 +50,6 @@ class EditableCell extends React.Component {
         })
     }
     handleChange3=(data)=>{
-        console.log(data)
-
         this.setState({
             title:'修改后商品描述',
             type:'2',
@@ -65,7 +59,6 @@ class EditableCell extends React.Component {
     }
 
     handleChange4=(data)=>{
-        console.log(data)
         this.setState({
             title:'商品描述',
             type:'2',
@@ -75,19 +68,17 @@ class EditableCell extends React.Component {
     }
 
     handleOk = (e) => {
-        console.log(e);
         this.setState({
           visible: false,
         });
       }
       handleCancel = (e) => {
-        console.log(e);
         this.setState({
           visible: false,
         });
       }
 
-   
+
     render() {
         const fileDomain=eval(sessionStorage.getItem('fileDomain'));
         const { value, editable } = this.state;
@@ -105,9 +96,9 @@ class EditableCell extends React.Component {
                                     :(item.type=='2' && item.indexs=='1'?item.replacevalue:(
                                         item.type=='3'?(item.indexs=='2'?<span onClick={this.handleChange2.bind(this,item)} style={{color:'#35bab0',cursor:'pointer'}}>修改前商品描述</span>:(item.indexs=='3'?<span onClick={this.handleChange3.bind(this,item)} style={{color:'#35bab0',cursor:'pointer'}}>修改后商品描述</span>:'')):((item.type=='4' && item.indexs=='1')?<span onClick={this.handleChange4.bind(this,item.replacevalue)} style={{color:'#35bab0',cursor:'pointer'}}>商品描述</span>:'')
                                     ))
-                                    
-                                    
-                                    
+
+
+
                                 ):item.replacevalue
 
                             }
@@ -123,7 +114,7 @@ class EditableCell extends React.Component {
                     onOk={this.handleOk}
                     onCancel={this.handleCancel}
                     footer={null}
-                    >   
+                    >
                         {
                             this.state.type=='1'?<div><img src={fileDomain+this.state.picUrl} className='w100 h100'/></div>:(
                                 this.state.type=='2'?
@@ -138,17 +129,17 @@ class EditableCell extends React.Component {
                                     }
                                 </div>
                                 :null
-    
-    
+
+
                             )
                         }
-                        
+
                 </Modal>
 
 
         </div>
         );
-    }	
+    }
 }
 
 
@@ -170,7 +161,7 @@ class Config extends React.Component{
             columns : [
                 {
                     title: '操作类型',
-                    dataIndex: 'actionTypeStr',  
+                    dataIndex: 'actionTypeStr',
                     width:'10%'
                 },
                 {
@@ -182,11 +173,11 @@ class Config extends React.Component{
                             operadatatype={record.operadatatype}
                             data={text}
 							/>
-					), 
+					),
                 },
                 {
                     title: '操作时间',
-                    dataIndex: 'createTime',   
+                    dataIndex: 'createTime',
                     width:'10%'
                 },
                 {
@@ -203,7 +194,7 @@ class Config extends React.Component{
         }
     }
 
-    
+
 
 
     showConfig=(value)=>{
@@ -242,7 +233,6 @@ class Config extends React.Component{
                         data[i].operadatatype='3'
                     }
                 }
-                console.log(data)
                 //操作描述操作
                 for(var i=0;i<data.length;i++){
                     const addContent=(!data[i].addContent)?'':data[i].addContent
@@ -252,8 +242,8 @@ class Config extends React.Component{
                         data[i].des=data[i].operationTypeStr.format(addContent,beforeContent,afterContent)
                     }else{
                         //以%s为标准把模板分割为数组
-                        var reg = new RegExp("%s", "g"); 
-                        var fuindex=0 
+                        var reg = new RegExp("%s", "g");
+                        var fuindex=0
                         data[i].dess=data[i].operationTypeStr.replace(reg, "&a&%s&a&")
                         data[i].dess=data[i].dess.split("&a&")
                         data[i].des=[]
@@ -278,7 +268,6 @@ class Config extends React.Component{
                         }
                     }
                 }
-                console.log(data)
                 //最终数据setstate
                 this.setState({
                     dataSource:data,
@@ -289,12 +278,10 @@ class Config extends React.Component{
         }
     })
 }
-    
+
 
     //分页方法
     pageChange=(page,pageSize)=>{
-        console.log(page)
-        console.log(pageSize)
         this.setState({
             limit:pageSize,
             currentPage:Number(page)-1
@@ -304,8 +291,6 @@ class Config extends React.Component{
     }
     //pagesize变化
     pageSizeChange=(current,size)=>{
-        console.log(current)
-        console.log(size)
         this.setState({
             limit:size,
             currentPage:Number(current)-1
@@ -313,8 +298,8 @@ class Config extends React.Component{
              this.showConfig()
          })
     }
-    
-  
+
+
 
     componentWillMount(){
         this.showConfig();
@@ -328,7 +313,7 @@ class Config extends React.Component{
 
     render(){
         return(
-            <EditableTable 
+            <EditableTable
 				columns={this.state.columns}
                 dataSource={this.state.dataSource}
 				pageChange={this.pageChange.bind(this)}
@@ -336,9 +321,9 @@ class Config extends React.Component{
 				total={this.state.total}
 				limit={Number(this.state.limit)}
                 current={Number(this.state.currentPage)+1}
-              
+
 			/>
-            
+
         )
     }
 }

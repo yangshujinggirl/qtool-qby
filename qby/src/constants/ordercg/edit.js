@@ -190,7 +190,6 @@ class OrdercgEditForm extends React.Component{
 	RadioChange = (e) =>{
 		//10包邮 20到付
 		let formvalueTemp =deepcCloneObj(this.props.editInfo);
-		debugger
 		if(e.target.value == '20'){
 			this.props.dispatch({
 				type:'ordercg/syncNothasFacepay',
@@ -247,7 +246,6 @@ class OrdercgEditForm extends React.Component{
 
   	render(){
 		const { getFieldDecorator } = this.props.form;
-		console.log(this.props)
      	return(
           	<Form className="addUser-form addcg-form">
 				<FormItem

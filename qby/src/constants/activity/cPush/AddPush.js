@@ -1,6 +1,6 @@
 import React,{ Component } from 'react';
 import { Form, Select, Input, Button , message, Row, Col, DatePicker, Radio, Checkbox } from 'antd';
-import { createcPushApi,cPushInfoApi } from '../../../services/activity/cPush'
+import { createcPushApi,cpushInfoApi } from '../../../services/activity/cPush'
 import { connect } from 'dva'
 import './index'
 import moment from 'moment'
@@ -25,27 +25,33 @@ class Cpush extends Component {
       code:false,
       H5Url:false,
       textInfo:false,
+      allUser:false,
+      specialUser:false,
       info:{}
     }
   }
   //修改时初始化数据
   componentDidMount(){
     if(this.props.data){
+
       const id = this.props.data.bsPushId;
-      cPushInfoApi({bsPushId:id})
+      cpushInfoApi({bsPushId:id})
       .then(res => {
         if(res.code == '0'){
           const info = res.bsPush;
-          if(info.alertType == 10){
-            info.bannerIdNum = info.alertTypeContent;
-          }else if(info.alertType == 20){
-            info.code = info.alertTypeContent;
-          }else if(info.alertType == 30){
-            info.H5Url = info.alertTypeContent;
-          }else if(info.alertType == 40){
-            info.textInfo = info.alertTypeContent;
-          };
-          info.pushPerson = info.pushPerson.split('-');
+          if(info.alertType == 10) info.bannerIdNum = info.alertTypeContent;
+          if(info.alertType == 20) info.code = info.alertTypeContent;
+          if(info.alertType == 30) info.H5Url = info.alertTypeContent;
+          if(info.alertType == 40) info.textInfo = info.alertTypeContent;
+          if(info.pushPerson == 0){
+            info.pushPerson = null;
+            info.pushPersonType = 0;
+            this.setState({allUser:true,specialUser:false})
+          }else{
+            info.pushPersonType = 1;
+            info.pushPerson = (info.pushPerson).replace(/-/g,'\n');
+            this.setState({allUser:false,specialUser:true})
+          }
           this.isPushTime(info.pushNow)
           this.isPushType(info.alertType);
           this.setState({info});
@@ -59,6 +65,22 @@ class Cpush extends Component {
       this.setState({createTime:true,pushTime:false})
     }else if(value == 0){
       this.setState({createTime:false,pushTime:true})
+    };
+  }
+  //判断推送时间哪个---disable
+  isPushPerson =(e)=> {
+    const values = e.target.value;
+    if(values == 0){
+      this.setState({allUser:true,specialUser:false})
+    }else if(values == 1){
+      this.setState({allUser:false,specialUser:true})
+    };
+    if(this.props.data){
+      this.props.form.setFields({
+        pushPerson:{ value:null },
+      });
+    }else{
+      this.props.form.resetFields(['pushPerson']);
     };
   }
   //判断推送类型哪个---disable
@@ -90,11 +112,42 @@ class Cpush extends Component {
   handleSubmit = (e) => {
 		e.preventDefault();
 		this.props.form.validateFields((err, values) => {
+      if(values.pushPersonType!=1){
+        values.pushPerson= 0
+      }
       this.formatValue(values);
-      if(!err){
-        this.submit(values); //请求
-      };
+      if(values.pushPerson!=0){
+        const userMobiles = values.pushPerson;
+        const isMobileFalse = this.formatMobiles(userMobiles);
+        if(isMobileFalse){
+          message.error('一行只能输入一个手机号码',.8)
+        }else{
+          if(!err){
+            this.submit(values);
+          };
+        };
+      }else{
+        this.submit(values);
+      }
     });
+  }
+  formatMobiles =(userMobiles,values,err)=> {
+    let mobileArr = [];
+    let isTrue = false;
+    if(userMobiles.indexOf("\n")!=-1){
+      mobileArr = userMobiles.split('\n');
+      mobileArr.map((item,index)=>{
+        if(item.length>11){
+          isTrue = true;
+        };
+        return item;
+      });
+    }else{
+      if(userMobiles.length>11){
+        isTrue = true;
+      };
+    };
+    return isTrue;
   }
   submit(values){
     createcPushApi(values)
@@ -117,19 +170,18 @@ class Cpush extends Component {
       };
     })
   }
+  //保存
   //请求数据格式化
   formatValue(values){
-    let obj = Object.assign({},values.bannerIdNum,values.code,values.H5Url,values.textInfo)
-    debugger
+    const { bannerIdNum,code,H5Url,textInfo } = values;
+    let obj = Object.assign({},{bannerIdNum,code,H5Url,textInfo})
     for(var key in obj){
       if(obj[key]){
           values.alertTypeContent = obj[key];
       };
     };
-    if(values.pushPerson.length>1){
-      values.pushPerson = values.pushPerson.join('-');
-    }else{
-      values.pushPerson = values.pushPerson[0];
+    if(values.formatValue == 0){
+      values.pushPerson = 0
     }
     if(this.props.data){ //带入不同的推送状态
       values.status = this.props.data.status;
@@ -157,31 +209,15 @@ class Cpush extends Component {
   typeChange =(e)=> {
     const value = e.target.value;
     this.isPushType(value);
-    if(this.props.data){
-      this.props.form.setFields({
-        bannerIdNum:{value:null},
-        code:{value: null},
-        H5Url:{value:null},
-        textInfo:{value:null},
-      });
-    }else{
-      this.props.form.resetFields(['bannerIdNum','code','H5Url','textInfo']);
-    }
+    this.props.form.setFields({ //全部置为null
+      bannerIdNum:{value:null},
+      code:{value: null},
+      H5Url:{value:null},
+      textInfo:{value:null},
+    });
   }
   //推送时间变化的时候
   choice =(e)=> {
-    const values = e.target.value;
-    this.isPushTime(values)
-    if(this.props.data){
-      this.props.form.setFields({ //设置都为null
-        pushTime:{value:null}
-      });
-    }else{
-      this.props.form.resetFields(['createTime','pushTime'])
-    };
-  }
-
-  Userchoice =(e)=> {
     const values = e.target.value;
     this.isPushTime(values)
     if(this.props.data){
@@ -212,6 +248,7 @@ class Cpush extends Component {
       H5Url,
       textInfo,
       pushPerson,
+      pushPersonType
     } = this.state.info;
     return(
       <div className='addpush'>
@@ -258,7 +295,10 @@ class Cpush extends Component {
                     rules: [{ required: this.state.pushTime, message: '请输入定时推送时间'}],
                     initialValue:isChange&&this.state.info.pushTime?moment(pushTime, 'YYYY-MM-DD HH:mm:ss'):null
                   })(
-                      <DatePicker  showTime format="YYYY-MM-DD HH:mm:ss" disabled={!this.state.pushTime}/>
+                      <DatePicker
+                        showTime
+                        format="YYYY-MM-DD HH:mm:ss"
+                        disabled={!this.state.pushTime}/>
                   )}
                 </FormItem>
               </Col>
@@ -337,11 +377,11 @@ class Cpush extends Component {
                   labelCol={{ span: 3,offset: 1 }}
                   wrapperCol={{ span:6}}
                 >
-                {getFieldDecorator('pushPerson', {
+                {getFieldDecorator('pushPersonType', {
                   rules: [{ required: true, message: '请选择推送人群' }],
-                  initialValue:isChange?pushNow:null
+                  initialValue:isChange?pushPersonType:null
                 })(
-                  <RadioGroup onChange={this.Userchoice}>
+                  <RadioGroup onChange={this.isPushPerson}>
                     <Radio value={0}>全部用户</Radio>
                     <Radio value={1}>特定用户</Radio>
                   </RadioGroup>
@@ -356,11 +396,11 @@ class Cpush extends Component {
                   )}
                 </FormItem>
                 <FormItem>
-                  {getFieldDecorator('specialUser',{
+                  {getFieldDecorator('pushPerson',{
                     rules: [{ required: this.state.specialUser, message: '请输入特定用户'}],
-                    initialValue:isChange&&this.state.info.pushTime?moment(pushTime, 'YYYY-MM-DD HH:mm:ss'):null
+                    initialValue:isChange?pushPerson:null
                   })(
-                      <TextArea placeholder='少于1000行'/>
+                      <TextArea placeholder='少于1000行' disabled={!this.state.specialUser} rows={6}/>
                   )}
                 </FormItem>
               </Col>

@@ -17,7 +17,7 @@ const Columns = [{
      dataIndex: 'alertTypeStr'
    }, {
      title: '推送人群',
-     dataIndex: 'pushPerson'
+     dataIndex: 'pushMan'
    },{
      title: '创建人',
      dataIndex: 'creater'

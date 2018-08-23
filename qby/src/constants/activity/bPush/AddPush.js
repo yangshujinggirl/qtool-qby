@@ -36,15 +36,10 @@ class Bpush extends Component {
       .then(res => {
         if(res.code == '0'){
           const info = res.bsPush;
-          if(info.alertType == 10){
-            info.bannerIdNum = info.alertTypeContent;
-          }else if(info.alertType == 20){
-            info.code = info.alertTypeContent;
-          }else if(info.alertType == 30){
-            info.H5Url = info.alertTypeContent;
-          }else if(info.alertType == 40){
-            info.textInfo = info.alertTypeContent;
-          };
+          if(info.alertType == 10) info.bannerIdNum = info.alertTypeContent;
+          if(info.alertType == 20) info.code = info.alertTypeContent;
+          if(info.alertType == 30) info.H5Url = info.alertTypeContent;
+          if(info.alertType == 40) info.textInfo = info.alertTypeContent;
           info.pushPerson = info.pushPerson.split('-');
           this.isPushTime(info.pushNow)
           this.isPushType(info.alertType);
@@ -73,12 +68,14 @@ class Bpush extends Component {
         this.setState({  bannerIdNum:false,code:false,H5Url:false,textInfo:true})
       };
   }
+  //tab___切换
   initDeletestate =()=> {
     this.props.dispatch({
       type:'tab/initDeletestate',
       payload:this.props.componkey
     });
   }
+  //tab__不同的切换
   initChangeDeletestate(){
     const componkey = this.props.componkey+this.props.data.bsPushId;
     this.props.dispatch({
@@ -113,30 +110,31 @@ class Bpush extends Component {
             type:'bPush/fetchList',
             payload:{}
           });
-        }
+        };
       };
     })
   }
   //请求数据格式化
   formatValue(values){
-    let obj = Object.assign({},values.bannerIdNum,values.code,values.H5Url,values.textInfo)
-    for(var key in obj){
+    const { bannerIdNum,code,H5Url,textInfo } = values;
+    let obj = Object.assign({},{bannerIdNum,code,H5Url,textInfo})
+    for(var key in obj){ //修改---推送内容初始化
       if(obj[key]){
           values.alertTypeContent = obj[key];
       };
     };
-    if(values.pushPerson.length>1){
+    if(values.pushPerson.length>1){ //修改 ---推送人群初始化
       values.pushPerson = values.pushPerson.join('-');
     }else{
       values.pushPerson = values.pushPerson[0];
-    }
-    if(this.props.data){ //带入不同的推送状态
+    };
+    if(this.props.data){ //需要带入不同的推送状态
       values.status = this.props.data.status;
       values.bsPushId = this.props.data.bsPushId;
     }else{
       values.status = 10;
     };
-    if(values.pushTime){
+    if(values.pushTime){ //修改---时间初始化
       values.pushTime = moment(values.pushTime).format('YYYY-MM-DD HH:mm:ss')
     };
   }
@@ -156,28 +154,20 @@ class Bpush extends Component {
   typeChange =(e)=> {
     const value = e.target.value;
     this.isPushType(value);
-    if(this.props.data){
-      this.props.form.setFields({
+      this.props.form.setFields({ //不用resetFields --- resetFields置为 initalValue和修改初始值冲突
         bannerIdNum:{value:null},
         code:{value: null},
         H5Url:{value:null},
         textInfo:{value:null},
       });
-    }else{
-      this.props.form.resetFields(['bannerIdNum','code','H5Url','textInfo']);
-    }
   }
   //推送时间变化的时候
   choice =(e)=> {
     const values = e.target.value;
     this.isPushTime(values)
-    if(this.props.data){
       this.props.form.setFields({
         pushTime:{value:null}
       });
-    }else{
-      this.props.form.resetFields(['createTime','pushTime'])
-    };
   }
 
   render(){
@@ -200,7 +190,6 @@ class Bpush extends Component {
       textInfo,
       pushPerson,
     } = this.state.info;
-    console.log(pushPerson)
     return(
       <div className='addpush'>
         	<Form className="addUser-form operatebanner-form">
@@ -244,7 +233,8 @@ class Bpush extends Component {
                 <FormItem>
                   {getFieldDecorator('pushTime',{
                     rules: [{ required: this.state.pushTime, message: '请输入定时推送时间'}],
-                    initialValue:isChange&&this.state.info.pushTime?moment(pushTime, 'YYYY-MM-DD HH:mm:ss'):null
+                    initialValue:isChange&&this.state.info.pushTime?
+                      moment(pushTime, 'YYYY-MM-DD HH:mm:ss'):null
                   })(
                       <DatePicker  showTime format="YYYY-MM-DD HH:mm:ss" disabled={!this.state.pushTime}/>
                   )}

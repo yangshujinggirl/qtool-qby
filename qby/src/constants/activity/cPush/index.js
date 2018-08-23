@@ -32,6 +32,15 @@ class cPush extends Component{
        }
     }
   }
+  componentWillReceiveProps(props) {
+    this.setState({
+      rowSelection : {
+        selectedRowKeys:props.cPush.selectedRowKeys,
+        type:'radio',
+        onChange:this.onChange
+      },
+    });
+  }
   onChange =(selectedRowKeys, selectedRows) =>{
     // 消除选中状态
     const {rowSelection}=this.state;
@@ -111,7 +120,7 @@ class cPush extends Component{
         pushTime:record.pushTime,
         msgContent:record.msgContent,
         alertTypeStr:record.alertTypeStr,
-        pushPerson:record.pushPerson,
+        pushMan:record.pushMan,
       }
     }
     this.props.dispatch({
@@ -155,10 +164,15 @@ class cPush extends Component{
   //撤销推送
   cancelPush =()=> {
     if(!this.state.bsPushId){
-      message.warning('请选择要撤销的推送');
+      message.warning('请选择要撤销的推送',.8);
     }else{
-      this.setState({isPushVisible:true})
-    }
+      if(this.state.selectedRows.status == 10){
+        this.setState({isPushVisible:true})
+      }else{
+        message.warning('只有待推送状态才可撤销');
+        this.onChange([],[])
+      };
+    };
   }
   //确定撤销
   onOk =()=>{
@@ -186,9 +200,22 @@ class cPush extends Component{
     };
     createcPushApi(values)
     .then(res => {
+      const { limit, currentPage } = this.props.cPush;
       if(res.code=='0'){
-        message.success(res.message)
-      };
+        message.success(res.message);
+        this.props.dispatch({
+          type:'cPush/fetchList',
+          payload:{
+            ...this.state.fields,
+            limit,
+            currentPage
+          }
+        });
+        this.setState({isPushVisible:false})
+      }else{
+        this.setState({isPushVisible:false});
+        this.onChange([],[]);
+      }
     })
   }
   //取消撤销
