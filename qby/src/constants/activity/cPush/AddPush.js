@@ -32,6 +32,7 @@ class Cpush extends Component {
   }
   //修改时初始化数据
   componentDidMount(){
+
     if(this.props.data){
       const id = this.props.data.bsPushId;
       cpushInfoApi({bsPushId:id})
