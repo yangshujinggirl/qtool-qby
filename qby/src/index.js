@@ -83,6 +83,8 @@ import serverBill from './models/server/serverBill'
 //app数据
 import appBase from './models/appData/appBase'
 
+//供应商收支
+import supplyinout from './models/operate/supplyinout'
 // 1. Initialize
 const app = dva({
     history: useRouterHistory(createHashHistory)({ queryKey: false }),
@@ -156,7 +158,8 @@ const models = [
   bPush,
   cPush,
   cTimer,
-  appBase
+  appBase,
+  supplyinout
 ]
 
 models.forEach(m => {

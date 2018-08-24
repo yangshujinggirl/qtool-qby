@@ -88,7 +88,6 @@ class OrdercgEditForm extends React.Component{
 	handleSubmit = (e) => {
 		e.preventDefault();
 		this.props.form.validateFields((err, values) => {
-				console.log(values)
       if (!err) {
 				let data = this.props.editInfo;
 				data.shippingFee = values.shippingFee;
@@ -99,10 +98,14 @@ class OrdercgEditForm extends React.Component{
 				data.vouchersType = values.vouchersType;
 				data.details = this.props.goodsInfo;
 				data.type = values.type;
-				if(this.props.data){
+				if(this.props.data&&this.props.data.wsAsnId){
 					data.wsAsnId = this.props.data.wsAsnId;
 				};
-				console.log(data)
+				if(JSON.stringify(this.props.data)=='{}'){
+					if(values.paymentType == '货到付款')values.paymentType=10;
+					if(values.paymentType == '票到付款')values.paymentType=20;
+					if(values.paymentType == '现结')values.paymentType=30;
+				}
 				if(data.pdSupplierId){
 					const result=GetServerData('qerp.web.ws.asn.save',data);
 	        result.then((res) => {
@@ -167,8 +170,9 @@ class OrdercgEditForm extends React.Component{
 		const arr = this.state.suppliers.filter(item => item.pdSupplierId==value);
 		if(arr[0].taxRate == 0){
 			arr[0].taxRate = '不含税';
-		};
-		console.log(arr)
+		}else{
+			arr[0].taxRate = arr[0].taxRate + '%'
+		}
 		this.setState({selectedSuppler:arr})
 		let tempFormvalue = deepcCloneObj(this.props.editInfo);
 		tempFormvalue.pdSupplierId = value;
@@ -342,17 +346,15 @@ class OrdercgEditForm extends React.Component{
 								<Input placeholder="请输入到付金额" disabled={this.props.nothasFacepay}  autoComplete="off"/>
 							)}
 						</FormItem>
-						{ JSON.stringify(this.props.data) != "{}" //代表是新增不是修改
+						{ isChange //代表是新增不是修改
 							?
 								<FormItem
 									label="账期类型"
 									labelCol={{ span: 3,offset: 1 }}
 									wrapperCol={{ span: 12 }}
-								>货到　{getFieldDecorator('paymentType', {
+								>货到　{getFieldDecorator('dayPay', {
 										rules: [{ required: true, message: '请输入账期类型' }],
-										initialValue:isChange
-										?String(this.props.editInfo.dayPay)
-										:	selectedSuppler[0].dayPay
+										initialValue:String(this.props.editInfo.dayPay)
 									})(
 										<Input disabled style={{width:'10%'}} autoComplete="off"/>
 									)}
@@ -366,9 +368,7 @@ class OrdercgEditForm extends React.Component{
 								>
 									{getFieldDecorator('paymentType', {
 										rules: [{ required: true, message: '请输入账期类型' }],
-										initialValue:isChange
-										?String(this.props.editInfo.paymentTypeStr)
-										:	selectedSuppler[0].type
+										initialValue:selectedSuppler[0].typeStr
 									})(
 										<Input disabled  placeholder='请输入账期类型' autoComplete="off"/>
 									)}
@@ -380,12 +380,12 @@ class OrdercgEditForm extends React.Component{
 							wrapperCol={{ span: 6 }}
 						>
 							{getFieldDecorator('taxRateType', {
-								rules: [{ required: true, message: '请选择是否含税' }],
+								rules: [{ required: true, message: '请输入是否含税' }],
 								initialValue:isChange
-								?	String(this.props.editInfo.taxRate+'%')
+								?	String(this.props.editInfo.taxRate)
 								:	selectedSuppler[0].taxRate
 							})(
-								<Input  disabled placeholder='请输入账期类型' autoComplete="off"/>
+								<Input  disabled placeholder='请输入含税税率' autoComplete="off"/>
 							)}
 						</FormItem>
 						<FormItem

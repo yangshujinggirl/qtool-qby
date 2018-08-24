@@ -162,6 +162,9 @@ import HandleBill from '../server/serverBill/HandleBill'; //工单处理
 //app数据
 import AppData from '../dataapp/index'
 
+//运营中心
+import Supplyinout from '../operate/supplyinout'
+
 
 class Content extends React.Component {
 
@@ -200,6 +203,8 @@ class Content extends React.Component {
                                     case "402500edit":return  <ConsumptionInfo data={this.props.data}/>;
                                     case "403000":return  <OperateIndex data={this.props.data}/>;
                                     case "403000edit":return  <SpEditForms data={this.props.data}/>;
+
+                                    case "407000":return <Supplyinout data={this.props.data}/>;
 
                                     case "704000":return  <DataorderIndex data={this.props.data}/>;
                                     case "703000edit":return  <DataTable data={this.props.data}/>;

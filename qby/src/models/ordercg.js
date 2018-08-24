@@ -168,7 +168,7 @@ export default {
               if(info.taxRate == null ||info.taxRate == undefined){
                   editInfo.taxRate = [];
               }else{
-                  editInfo.taxRate = String(info.taxRate);
+                  editInfo.taxRate = String(info.taxRate)+'%';
               }
               const goodsInfoList =  result.details;
               let goodsInfo = [];
