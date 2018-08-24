@@ -414,7 +414,6 @@ class AddGoodsForm extends Component {
     .then(res => {
       this.searchVal(values)
     }, err=> {
-      console.log(err)
     })
   }
   //季节商品change事件
