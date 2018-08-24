@@ -1,4 +1,4 @@
-import {GetServerData} from '../services/services';
+ import {GetServerData} from '../services/services';
 export default {
     namespace: 'ordercg',
     state: {
@@ -164,6 +164,7 @@ export default {
               editInfo.wsWarehouseId = String(info.wsWarehouseId);
               editInfo.paymentTypeStr = info.paymentTypeStr;
               editInfo.remark = info.remark;
+              editInfo.dayPay = info.dayPay;
               if(info.taxRate == null ||info.taxRate == undefined){
                   editInfo.taxRate = [];
               }else{

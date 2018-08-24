@@ -44,7 +44,7 @@ class OrdercgEditForm extends React.Component{
 	initDateEdit = (value) =>{
 		  //请求用户信息
   		this.props.dispatch({type:'ordercg/editfetch',payload:value})
-    	this.props.dispatch({ type: 'tab/loding', payload:true})
+    	this.props.dispatch({ type: 'tab/loding', payload:true});
 	}
 
 	//删除当前tab
@@ -167,7 +167,8 @@ class OrdercgEditForm extends React.Component{
 		const arr = this.state.suppliers.filter(item => item.pdSupplierId==value);
 		if(arr[0].taxRate == 0){
 			arr[0].taxRate = '不含税';
-		}
+		};
+		console.log(arr)
 		this.setState({selectedSuppler:arr})
 		let tempFormvalue = deepcCloneObj(this.props.editInfo);
 		tempFormvalue.pdSupplierId = value;
@@ -231,6 +232,7 @@ class OrdercgEditForm extends React.Component{
 
 
 	render(){
+		console.log(this.props)
 		const { getFieldDecorator } = this.props.form;
 		const { selectedSuppler } = this.state;
 		const isChange = Boolean(this.props.data&&this.props.data.wsAsnId) //是否为修改
@@ -340,7 +342,7 @@ class OrdercgEditForm extends React.Component{
 								<Input placeholder="请输入到付金额" disabled={this.props.nothasFacepay}  autoComplete="off"/>
 							)}
 						</FormItem>
-						{ this.props.data
+						{ JSON.stringify(this.props.data) != "{}" //代表是新增不是修改
 							?
 								<FormItem
 									label="账期类型"
@@ -349,8 +351,8 @@ class OrdercgEditForm extends React.Component{
 								>货到　{getFieldDecorator('paymentType', {
 										rules: [{ required: true, message: '请输入账期类型' }],
 										initialValue:isChange
-										?String(this.props.editInfo.paymentTypeStr)
-										:	selectedSuppler[0].type
+										?String(this.props.editInfo.dayPay)
+										:	selectedSuppler[0].dayPay
 									})(
 										<Input disabled style={{width:'10%'}} autoComplete="off"/>
 									)}
