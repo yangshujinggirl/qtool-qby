@@ -1,10 +1,15 @@
 import { getListApi } from '../../../services/operate/supplyinout'
 export default{
   namespace:'supplyinout',
-  state:{},
+  state:{
+    selectedRowKeys:[],
+  },
   reducers:{
     getList(state,{payload:{dataList, currentPage, limit, total}}){
       return { ...state, dataList, currentPage, limit, total}
+    },
+    clearSelect(state,{payload:{selectedRowKeys}}){
+      return { ...state,selectedRowKeys}
     }
   },
   effects:{
@@ -15,7 +20,7 @@ export default{
         pdSettles.map((item,index)=>{
           item.key = index;
           return item;
-        })
+        });
         yield put({
           type:'getList',
           payload:{
@@ -23,6 +28,12 @@ export default{
             currentPage,
             limit,
             total,
+          }
+        });
+        yield put({
+          type:'clearSelect',
+          payload:{
+            selectedRowKeys:[]
           }
         })
       }

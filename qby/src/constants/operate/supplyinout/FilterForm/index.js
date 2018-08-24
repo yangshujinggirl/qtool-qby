@@ -73,8 +73,8 @@ class NormalForm extends Component{
                 <FormItem label='收支筛选'>
                     {getFieldDecorator('payType')(
                     <Select allowClear={true} placeholder="请选择收支筛选" className='select'>
-                        <Option value={0}>应收</Option>
-                        <Option value={1}>应付</Option>
+                        <Option value={10}>应收</Option>
+                        <Option value={20}>应付</Option>
                     </Select>
                     )}
                 </FormItem>

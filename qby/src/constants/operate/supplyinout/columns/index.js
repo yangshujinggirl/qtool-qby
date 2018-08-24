@@ -29,5 +29,15 @@ const Columns = [{
    },{
      title: '应收/应付金额',
      dataIndex: 'amountSum',
+     render:(text,record)=>{
+       return(
+         <p>
+           {record.payType==10
+             ? '-' + text
+             : '+' + text
+           }
+         </p>
+       )
+     }
  }];
 export default Columns
