@@ -171,6 +171,7 @@ render(){
 					closable = { true }
 					onOk={this.visible}
           onCancel={this.visible}
+					wrapClassName='billModal'
 				>
 					{
 						this.state.imgList[0]?<img src={fileDomain+((this.state.imgList[this.state.imgIndex]).imgPath)}/>:null
