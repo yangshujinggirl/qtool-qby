@@ -177,6 +177,10 @@ class Coupon extends Component{
         this.setState({isVisible:false});
         message.success(res.message);
         resetFiledsFunc();//清除数据
+        this.props.dispatch({ //刷新列表
+          type:'coupon/fetchList',
+          payload:{}
+        });
       };
     },err=>{
         message.error(err.message);
