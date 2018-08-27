@@ -79,7 +79,7 @@ class OperateinoutIndex extends React.Component{
 }
 
 function mapStateToProps(state) {
-	
+	return state;
 }
 
 export default connect(mapStateToProps)(OperateinoutIndex);

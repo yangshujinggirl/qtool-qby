@@ -107,10 +107,6 @@ const ProcesasStatusOption = [{
           value:'门店已拒单'
         },
         {
-          key:20,
-          value:'用户已取消'
-        },
-        {
           key:55,
           value:'超时未接单'
         },
@@ -121,6 +117,18 @@ const ProcesasStatusOption = [{
         {
           key:70,
           value:'用户已提货'
+        },
+        {
+          key:20,
+          value:'用户支付前取消'
+        },
+        {
+          key:30,
+          value:'用户超时未支付'
+        },
+        {
+          key:50,
+          value:'用户支付后取消'
         },
       ]
 

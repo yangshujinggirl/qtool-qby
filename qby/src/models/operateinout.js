@@ -39,10 +39,11 @@ export default {
             const result=yield call(GetServerData,code,values);
             yield put({type: 'tab/loding',payload:false});
             if(result.code=='0'){
-                const tableList = result.spMoneyDetails;
+                let tableList = result.spMoneyDetails;
                 const limit=result.limit;
                 const currentPage=result.currentPage;
                 const total=result.total;
+                tableList.map((el) => el.key = el.outId)
                 yield put({type: 'syncTableList',payload:{tableList,total,limit,currentPage}});
             }
         },
