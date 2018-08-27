@@ -133,7 +133,7 @@ render(){
 							labelCol={{ span: 2 }}
 							wrapperCol={{ span: 12 }}
 						>
-            {getFieldDecorator('remark')(
+            {getFieldDecorator('remarks')(
               <TextArea rows={4}   placeholder='备注信息，最多200字，方便其他人了解，非必填' maxLength='200'/>
             )}
 						</FormItem>
@@ -171,6 +171,7 @@ render(){
 					closable = { true }
 					onOk={this.visible}
           onCancel={this.visible}
+					wrapClassName='billModal'
 				>
 					{
 						this.state.imgList[0]?<img src={fileDomain+((this.state.imgList[this.state.imgIndex]).imgPath)}/>:null

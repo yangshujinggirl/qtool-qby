@@ -155,8 +155,5 @@ export function GetLodop(id,type,orderno) {
 	var Url=window.location.host
 	const jsessionid = getJsessionId();
 	Url='http://'+Url+'/erpWebRest/print.htm;jsessionid='+jsessionid+'?type='+type+'&id='+id
-	console.log(Url)
-	console.log(orderno)
-	debugger
 	PrintOneURL(Url,orderno)
 }

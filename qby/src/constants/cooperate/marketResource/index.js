@@ -32,10 +32,17 @@ class MarketResource extends Component{
         fields: { ...fields, ...changedFields },
       }));
     }
+    //pageSize改变时的回调
+    onShowSizeChange =({currentPage,limit})=> {
+      this.props.dispatch({
+        type:'marketResource/fetchList',
+        payload:{currentPage,limit}
+      });
+    }
     //点击分页
-    changePage =(current)=> {
+    changePage =(current,limit)=> {
       const currentPage = current-1;
-      const values = {...this.state.fields,currentPage}
+      const values = {...this.state.fields,currentPage,limit}
       this.props.dispatch({
           type:'marketResource/fetchList',
           payload:values
@@ -62,7 +69,7 @@ class MarketResource extends Component{
           payload:paneitem
       })
     }
-    //操作
+    //修改
     handleOperateClick =(record)=> {
       const { limit, currentPage } = this.props.marketResource;
       const { componkey } = this.state;
@@ -105,7 +112,9 @@ class MarketResource extends Component{
                 />
                 <Qpagination
                   data={this.props.marketResource}
-                  onChange={this.changePage}/>
+                  onChange={this.changePage}
+                  onShowSizeChange = {this.onShowSizeChange}
+                />
             </div>
         )
     }

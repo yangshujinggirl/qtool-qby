@@ -285,7 +285,6 @@ class AddGoodsForm extends Component {
       }
 
     },error=> {
-      console.log(error)
     })
   }
   //商品规格change事件
@@ -415,7 +414,6 @@ class AddGoodsForm extends Component {
     .then(res => {
       this.searchVal(values)
     }, err=> {
-      console.log(err)
     })
   }
   //季节商品change事件

@@ -16,7 +16,7 @@ class OperatebannerIndex extends React.Component{
 	    	payload:paneitem
 		});
 		this.props.dispatch({
-        type:'operatebanner/initState',
+        type:'cBanner/initState',
         payload:{}
 		})
 	}

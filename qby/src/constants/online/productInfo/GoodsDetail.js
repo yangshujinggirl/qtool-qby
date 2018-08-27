@@ -46,7 +46,6 @@ class GoodsDetail extends Component {
 
   render() {
     const { iPdSpu, fileList } = this.props.productEditGoods;
-    console.log(fileList)
     return(
       <div className="btip-add-goods-components">
         <Form>
