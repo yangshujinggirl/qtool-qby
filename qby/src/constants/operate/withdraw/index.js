@@ -107,6 +107,43 @@ class Withdraw extends Component{
           onChange={this.changePage}
           onShowSizeChange = {this.onShowSizeChange}
         />
+        <Modal
+          visible={this.state.visible}
+          closable = { true }
+          onOk={this.onOk}
+          onCancel={this.onCancel}
+          wrapClassName='billModal'
+        >
+          <Form>
+            <FormItem
+              label="提现门店"
+              labelCol={{ span: 6 }}
+              wrapperCol={{ span: 12 }}
+            >
+              <span>{expireDate}</span>
+            </FormItem>
+            <FormItem
+              label="提现金额"
+              labelCol={{ span: 6 }}
+              wrapperCol={{ span: 12 }}
+            >
+              <span>{expireDate}</span>
+            </FormItem>
+            <FormItem
+              label='不通过理由'
+              labelCol={{ span: 6 }}
+              wrapperCol={{ span: 12 }}
+            >
+              {getFieldDecorator('status')(
+                <Select allowClear={true} placeholder="请选择审核状态" className='select'>
+                    <Option value={0}>待审核 </Option>
+                    <Option value={1}>审核通过 </Option>
+                    <Option value={2}>审核不通过</Option>
+                </Select>
+              )}
+            </FormItem>
+          </Form>
+        </Modal>
       </div>
     )
   }

@@ -56,7 +56,7 @@ class Supplyinout extends Component{
   //点击搜索
   searchData = (values)=> {
     this.props.dispatch({
-      type:'bPush/fetchList',
+      type:'supplyinout/fetchList',
       payload:values
     })
   }

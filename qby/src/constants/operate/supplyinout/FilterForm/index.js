@@ -17,13 +17,12 @@ const RangePicker = DatePicker.RangePicker
 class NormalForm extends Component{
   //点击搜索
   handleSubmit = (e) => {
-    // e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       const{rangePicker,..._values} = values;
       if(rangePicker&&rangePicker[0]){
         _values.startTime =  moment(rangePicker[0]).format('YYYY-MM-DD HH:mm:ss');
         _values.endTime = moment(rangePicker[1]).format('YYYY-MM-DD HH:mm:ss');
-      }
+      };
       this.props.submit && this.props.submit(_values);
     })
   }
