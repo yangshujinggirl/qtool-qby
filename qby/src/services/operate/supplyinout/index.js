@@ -16,3 +16,19 @@ export function changeStatusApi(values){
       data:values
   })
 }
+//结算明细
+export function billDetailsApi(values){
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.pd.settle.detail',
+      data:values
+  })
+}
+//修改结算日期
+export function changeAccountApi(values){
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.pd.settle.update',
+      data:values
+  })
+}

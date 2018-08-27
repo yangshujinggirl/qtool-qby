@@ -4,13 +4,30 @@ const Columns = [{
      render:(text, record)=>{
        return(
          <div>
-           <a href="javascript:;" className="theme-color" onClick={record.onOperateClick.bind(this,'detail')}>{text}</a>
+           <a
+             href="javascript:;"
+             className="theme-color"
+             onClick={record.onOperateClick.bind(this,'billdetail')}>
+             {text}
+           </a>
          </div>
        )
      }
    },{
      title: '关联订单',
-     dataIndex: 'type'
+     dataIndex: 'type',
+     render:(text, record)=>{
+       return(
+         <div>
+           <a
+            href="javascript:;"
+            className="theme-color"
+            onClick={record.onOperateClick.bind(this,'orderDetail')}>
+            {text}
+            </a>
+         </div>
+       )
+     }
    }, {
      title: '类型',
      dataIndex: 'typeStr'

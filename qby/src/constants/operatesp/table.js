@@ -27,6 +27,9 @@ class SpTable extends React.Component {
 			title: '账户余额',
 			dataIndex: 'amount'
         },{
+			title: '门店积分',
+			dataIndex: 'fixtureMoney'
+        },{
 			title: '操作',
 			dataIndex: 'opation',
 			render: (text, record) => {
@@ -59,7 +62,7 @@ class SpTable extends React.Component {
 			dataIndex: 'amount'
         }]
 	}
-	
+
 	//点击表格上的修改按钮操作
 	editInfo = (record) =>{
 		const spShopId=String(record.spShopId);
@@ -78,8 +81,8 @@ class SpTable extends React.Component {
 	pageSizeChange=(current,size)=>{
 		this.initList(this.props.values,size,0)
 	}
-	
-	//列表数据请求   
+
+	//列表数据请求
 	initList=(values,limit,currentPage)=>{
 		values.limit=limit;
 		values.currentPage=currentPage;
@@ -92,10 +95,10 @@ class SpTable extends React.Component {
 
 	render() {
 		return (
-			<EditableTable 
+			<EditableTable
 				bordered={true}
-				dataSource={this.props.spShops} 
-				columns={this.props.addorderobj?this.columns:this.columnsrole} 
+				dataSource={this.props.spShops}
+				columns={this.props.addorderobj?this.columns:this.columnsrole}
 				footer={true}
 				pageChange={this.pageChange.bind(this)}
 				pageSizeChange={this.pageSizeChange.bind(this)}
@@ -113,6 +116,3 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(SpTable);
-
-
-

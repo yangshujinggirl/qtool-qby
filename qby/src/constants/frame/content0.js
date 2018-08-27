@@ -163,7 +163,11 @@ import HandleBill from '../server/serverBill/HandleBill'; //工单处理
 import AppData from '../dataapp/index'
 
 //运营中心
-import Supplyinout from '../operate/supplyinout'
+import Supplyinout from '../operate/supplyinout/index' //供应商收支
+import BillDetails from '../operate/supplyinout/BillDetails' //结算单明细
+import Withdraw from '../operate/withdraw/index' //提现
+import WithdrawDetails from '../operate/withdraw/WithdrawDetails' //提现
+
 
 
 class Content extends React.Component {
@@ -204,7 +208,11 @@ class Content extends React.Component {
                                     case "403000":return  <OperateIndex data={this.props.data}/>;
                                     case "403000edit":return  <SpEditForms data={this.props.data}/>;
 
-                                    case "407000":return <Supplyinout data={this.props.data}/>;
+                                    case "407000":return <Supplyinout data={this.props.data} componkey={this.props.componkey}/>; //供应商收支列表
+                                    case "407000edit":return <BillDetails data={this.props.data} componkey={this.props.componkey}/>; //结算单明细
+
+                                    case "408000":return <Withdraw data={this.props.data} componkey={this.props.componkey}/>; //提现管理
+                                    case "408000info":return <WithdrawDetails data={this.props.data} componkey={this.props.componkey}/>; //提现管理
 
                                     case "704000":return  <DataorderIndex data={this.props.data}/>;
                                     case "703000edit":return  <DataTable data={this.props.data}/>;

@@ -61,9 +61,9 @@ class Supplyinout extends Component{
     })
   }
   //点击分页
-  changePage =(current)=> {
+  changePage =(current,limit)=> {
     const currentPage = current-1;
-    const values = {...this.state.field,currentPage}
+    const values = {...this.state.field,currentPage,limit}
     this.props.dispatch({
       type:'bPush/fetchList',
       payload:values
@@ -77,31 +77,41 @@ class Supplyinout extends Component{
     });
   }
   onChange =(selectedRowKeys, selectedRows)=> {
-    console.log(selectedRowKeys)
-    console.log(selectedRows)
+    const {rowSelection} = this.state
     this.setState({
+      rowSelection:Object.assign({},rowSelection,{selectedRowKeys}),
       selectedRows:selectedRows[0],
+    })
+  }
+  componentWillReceiveProps(props){
+    this.setState({
+      rowSelection:{
+         type:'radio',
+         selectedRowKeys:this.props.supplyinout.selectedRowKeys,
+         onChange:this.onChange
+       },
     })
   }
   //处理表格的点击事件
   handleOperateClick(record,type){
     switch(type) {
-      case "detail":
-        this.getDetail(record)
+      case "billdetail":
+        this.getbillDetail(record)
         break;
-      case "edit":
-        this.getEdit(record)
+      case "orderDetail":
+        this.getorderDetail(record)
         break;
     }
   }
-  //点击跳转详情页
-  getDetail(record){
+  //点击跳转结算单明细页
+  getbillDetail(record){
     const paneitem = {
-      title:'推送详情',
-      key:`${this.state.componkey}info`,
-      componkey:`${this.state.componkey}info`,
+      title:'结算单明细',
+      key:`${this.props.componkey}edit`,
+      componkey:`${this.props.componkey}edit`,
       data:{
-        pdSpuId:record.bPushId,
+        pdSettlementId:record.pdSettlementId,
+        status:record.status
       }
     }
     this.props.dispatch({
@@ -109,25 +119,57 @@ class Supplyinout extends Component{
       payload:paneitem
     })
   }
+  //点击跳转订单详情页
+  getorderDetail(record){
+    const spOrderId=String(record.pdSettlementId)
+    const paneitem = {
+      title:'订单详情',
+      key:'201000edit'+spOrderId+'info',
+      data:{
+        spOrderId:spOrderId,
+      },
+      componkey:'201000info'
+    };
+    this.props.dispatch({
+      type:'tab/firstAddTab',
+      payload:paneitem
+    })
+  }
   //改变结算的状态
-  changeCountStatus(status){ //status结算的状态，type:已结/待结
-    if(this.state.selectedRows){
-      const {pdSettlementId} = this.state.selectedRows;
-      changeStatusApi({pdSettlementId,status:status})
-      .then(res => {
-        if(res.code == '0'){
-          message.success(res.message);
-          this.initData();
+  changeCountStatus(type,status){ //status结算的状态，type:已结/待结
+    if(this.state.selectedRows){ //如果已经选中
+      if(type == 'hadCount'){ //点击已结算,如果是已结算再改变return
+        if(this.state.selectedRows.status == 1){
+          message.warning('已经是已结算状态，无需更改',.8);
+          this.onChange([],[])
+        }else{
+          this.changeStatusApi(status); //发送请求
         };
-      })
+      }else{ //已经是待结算状态无需更改
+        if(this.state.selectedRows.status == 0){
+          message.warning('已经是待结算状态，无需更改',.8);
+          this.onChange([],[])
+        }else{
+          this.changeStatusApi(status); //发送请求
+        };
+      };
     }else{
       message.warning('请选择要改变状态的选项');
-    }
+    };
   }
-
-
-
+  //状态更改的请求
+  changeStatusApi =(status)=> {
+    const {pdSettlementId} = this.state.selectedRows;
+    changeStatusApi({pdSettlementId,status:status})
+    .then(res => {
+      if(res.code == '0'){
+        message.success(res.message);
+        this.initData();
+      };
+    })
+  }
   render(){
+    console.log(this.state.rowSelection)
     const rolelists=this.props.data.rolelists
     //新增推送
     const addPush=rolelists.find((currentValue,index)=>{
@@ -148,13 +190,13 @@ class Supplyinout extends Component{
             <Button
               size='large'
               type='primary'
-              onClick={()=>this.changeCountStatus(1)}>
+              onClick={()=>this.changeCountStatus('hadCount',1)}>
               已结算
             </Button>
             <Button
               size='large'
               type='primary'
-              onClick={()=>this.changeCountStatus(0)}>
+              onClick={()=>this.changeCountStatus('onCount',0)}>
               待结算
             </Button>
             <Button size='large' type='primary'>导出数据</Button>

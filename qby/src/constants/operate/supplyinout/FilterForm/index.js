@@ -9,7 +9,6 @@ import {
   Select,
   DatePicker
 }from 'antd'
-import '../index.css'
 import moment from 'moment';
 const FormItem = Form.Item;
 const Option = Select.Option;
