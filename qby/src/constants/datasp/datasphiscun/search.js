@@ -29,7 +29,7 @@ class StockSearchForm extends React.Component {
             payload:{code:'qerp.web.qpos.pd.historyInv.query',values:values}
         });
         this.props.dispatch({ type: 'tab/loding', payload:true});
-    }  
+    }
 
     //同步data
     syncState=(values)=>{
@@ -40,10 +40,7 @@ class StockSearchForm extends React.Component {
     }
 
     categorylist=()=>{
-        let values={
-            getChildren:false,
-            enabled:true
-        }
+        let values = {"level":1,"parentId":null,"status":1}
         const result=GetServerData('qerp.web.pd.category.list',values)
         result.then((res) => {
             return res;
@@ -53,7 +50,7 @@ class StockSearchForm extends React.Component {
                this.setState({
                     pdCategorys:pdCategorys
                })
-               
+
             }
         })
     }
@@ -138,21 +135,21 @@ class StockSearchForm extends React.Component {
                             {
                                 this.state.pdCategorys.map((item,index)=>{
                                     return (<Option value={String(item.pdCategoryId)} key={index}>{item.name}</Option>)
-       
+
                                 })
                             }
                             </Select>
                         )}
                     </FormItem>
-                    <FormItem 
+                    <FormItem
                         label='选择时间'
                     >
                         {getFieldDecorator('dates',{
                              initialValue:moment(this.state.date, dateFormat)
-                            
+
                         })(
                             <DatePicker format={dateFormat} allowClear={false} className='noant-calendar-picker' onChange={this.timeChange.bind(this)}/>
-                        
+
                         )}
                     </FormItem>
 
@@ -178,10 +175,10 @@ class StockSearchForm extends React.Component {
         this.handleSearch()
     })
     this.categorylist()
-   
+
 
 }
-  
+
 }
 function mapStateToProps(state) {
     const {limit,currentPage} = state.datasphiscun;
