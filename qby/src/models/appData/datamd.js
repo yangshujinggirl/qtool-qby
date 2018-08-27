@@ -1,6 +1,6 @@
-import { getListApi } from '../../../services/activity/bPush'
+mport { getListApi } from '../../../services/activity/bPush'
 export default{
-  namespace:'bPush',
+  namespace:'datamd',
   state:{},
   reducers:{
     getList(state,{payload:{dataList, currentPage, limit, total}}){
@@ -25,6 +25,7 @@ export default{
           }
         })
       }
-    },
+
+    }
   }
 }

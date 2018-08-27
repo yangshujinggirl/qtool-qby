@@ -87,6 +87,9 @@ import appBase from './models/appData/appBase'
 import supplyinout from './models/operate/supplyinout'
 //提现管理
 import withdraw from './models/operate/withdraw'
+//B端问答
+import bAnswer from './models/operate/bAnswer'
+
 // 1. Initialize
 const app = dva({
     history: useRouterHistory(createHashHistory)({ queryKey: false }),
@@ -162,7 +165,8 @@ const models = [
   cTimer,
   appBase,
   supplyinout,
-  withdraw
+  withdraw,
+  bAnswer,
 ]
 
 models.forEach(m => {

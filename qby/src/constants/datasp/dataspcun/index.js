@@ -9,6 +9,22 @@ const confirm = Modal.confirm;
 
 class DataspcunIndex extends React.Component{
 	state = {};
+	handleOperateClick =(record)=> {
+		console.log(this.props)
+		const paneitem = {
+			title:'库存分布',
+			key:`${this.props.componkey}distribute`,
+			componkey:`${this.props.componkey}distribute`,
+			data:{
+				pdSpuId:record.pdSpuId,
+				pdSkuId:record.pdSkuId,
+			}
+		};
+		this.props.dispatch({
+			type:'tab/firstAddTab',
+			payload:paneitem
+		})
+	}
 	//导出数据
 	exportData = (type,data) => {
 		const values={
@@ -37,36 +53,33 @@ class DataspcunIndex extends React.Component{
 							payload:{code:'qerp.web.sys.doc.list',values:{limit:15,currentPage:0}}
 						});
 					},
-					onCancel() {
-						
-					},
-	  			});
+  			});
 			}
 		})
-	
 	}
 
   	render(){
+			console.log(this.props)
      	return(
         	<div>
-                <DataspcunSearch/>
-                    <Button 
-						type="primary" 
-						size='large'
-						className='mt15'
-						onClick={this.exportData.bind(this,54,this.props.values)}
-					>
-                        导出数据
-					</Button>
-             		<div className='mt20'><DataspcunTable/></div>
+            <DataspcunSearch/>
+          	<Button
+							type="primary"
+							size='large'
+							className='mt15'
+							onClick={this.exportData.bind(this,54,this.props.dataspcun.values)}
+							>
+                导出数据
+							</Button>
+           		<div className='mt20'><DataspcunTable operateClick={this.handleOperateClick}/></div>
         	</div>
       	)
   	}
 }
 
 function mapStateToProps(state) {
-	const {values} = state.dataspcun;
-    return {values};
+	const {dataspcun} = state;
+    return {dataspcun};
 }
 
 export default connect(mapStateToProps)(DataspcunIndex);

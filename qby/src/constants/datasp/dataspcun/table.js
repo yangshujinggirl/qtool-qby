@@ -13,7 +13,7 @@ class DataspcunTable extends React.Component {
 			{
             	title: '商品编码',
             	dataIndex: 'code'
-			}, 
+			},
 			{
             	title: '商品条码',
             	dataIndex: 'barcode'
@@ -57,10 +57,25 @@ class DataspcunTable extends React.Component {
 			{
 				title: '价格',
 				dataIndex: 'toBPrice'
-			}
-		];   
-    }
-	
+			},
+			{
+				title: '库存分布',
+				dataIndex: 'name',
+				render:(text,record)=>{
+					return(
+						<a
+							className="theme-color"
+							href='javascript:;'
+						 	onClick={this.operateClick.bind(this,record)}>
+						 查看</a>
+					)
+				}
+			},
+		];
+  }
+	operateClick =(record)=> {
+		this.props.operateClick(record)
+	}
 	//分页方法
 	pageChange=(page,pageSize)=>{
         this.initstockList(this.props.values,pageSize,Number(page-1))
@@ -69,39 +84,39 @@ class DataspcunTable extends React.Component {
 	pageSizeChange=(current,size)=>{
         this.initstockList(this.props.values,size,0)
 	}
-    
-    //列表数据请求   
-    initstockList=(values,limit,currentPage)=>{
-        values.limit=limit;
-        values.currentPage=currentPage;
-        this.props.dispatch({
-            type:'dataspcun/fetch',
-            payload:{code:'qerp.web.qpos.pd.inv.query',values:values}
-        });
-        this.props.dispatch({ type: 'tab/loding', payload:true});
-    }
 
-    render() {
-        return (
-			<EditableTable
-				dataSource={this.props.pdInvVos} 
-				columns={this.columns} 
-				pageChange={this.pageChange.bind(this)}
-				pageSizeChange={this.pageSizeChange.bind(this)}
-				total={this.props.total}
-				limit={this.props.limit}
-				current={Number(this.props.currentPage)+1}
-				scroll={{ x: '160%'}}
-				/>
-        );
+  //列表数据请求
+  initstockList=(values,limit,currentPage)=>{
+      values.limit=limit;
+      values.currentPage=currentPage;
+      this.props.dispatch({
+          type:'dataspcun/fetch',
+          payload:{code:'qerp.web.qpos.pd.inv.query',values:values}
+      });
+      this.props.dispatch({ type: 'tab/loding', payload:true});
+  }
+
+  render() {
+      return (
+				<EditableTable
+					dataSource={this.props.pdInvVos}
+					columns={this.columns}
+					pageChange={this.pageChange.bind(this)}
+					pageSizeChange={this.pageSizeChange.bind(this)}
+					total={this.props.total}
+					limit={this.props.limit}
+					current={Number(this.props.currentPage)+1}
+					scroll={{ x: '160%'}}
+			/>
+    );
 	}
-	
-    
+
+
 }
 
 function mapStateToProps(state) {
-    const {pdInvVos,limit,currentPage,total,values} = state.dataspcun;
-    return {pdInvVos,limit,currentPage,total,values};
+    const {pdInvVos,limit,currentPage,total,values,componkey} = state.dataspcun;
+    return {pdInvVos,limit,currentPage,total,values,componkey};
 }
 
 export default connect(mapStateToProps)(DataspcunTable);

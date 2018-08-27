@@ -21,9 +21,10 @@ class DataspIndex extends React.Component{
         })
     }
   	render(){
-        const rolelists=this.props.data.rolelists
+			console.log(this.props)
+      const rolelists=this.props.data.rolelists
 		//销售数据
-		const selldatarole=rolelists.find((currentValue,index)=>{
+			const selldatarole=rolelists.find((currentValue,index)=>{
 			return currentValue.url=="qerp.web.rp.shop.sale.data.query"
         })
         //门店库存
@@ -37,35 +38,35 @@ class DataspIndex extends React.Component{
         //联营分成
         const liandatarole=rolelists.find((currentValue,index)=>{
 			return currentValue.url=="qerp.web.rp.shop.Joint.division.page"
-        })       
+        })
      	return(
         	<div className='content_box stock-tabs'>
                 <Tabs defaultActiveKey="1" onTabClick={this.tabChange.bind(this)}>
                     {
                         selldatarole?
                         <TabPane tab="销售数据" key="1">
-                            {this.state.key == '1' && <DataspsellIndex/>} 
+                            {this.state.key == '1' && <DataspsellIndex/>}
                         </TabPane>
                         :null
                     }
                     {
                         spcundatarole?
                         <TabPane tab="门店库存" key="2">
-                            {this.state.key == '2' && <DataspcunIndex/>} 
+                            {this.state.key == '2' && <DataspcunIndex componkey={this.props.componkey}/>}
                         </TabPane>
                         :null
                     }
                     {
                         hiscunrole?
                         <TabPane tab="历史库存" key="3">
-                            {this.state.key == '3' && <DatasphiscunIndex/>} 
+                            {this.state.key == '3' && <DatasphiscunIndex/>}
                         </TabPane>
                         :null
                     }
                     {
                         liandatarole?
                         <TabPane tab="联营分成" key="4">
-                            {this.state.key == '4' && <DataspfenIndex/>} 
+                            {this.state.key == '4' && <DataspfenIndex/>}
                         </TabPane>
                         :null
                     }

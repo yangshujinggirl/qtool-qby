@@ -1,6 +1,6 @@
-import { getListApi } from '../../../services/activity/bPush'
+import { getListApi } from '../../../services/dataCenter/datamd/dataDistribute'
 export default{
-  namespace:'bPush',
+  namespace:'dataDistribute',
   state:{},
   reducers:{
     getList(state,{payload:{dataList, currentPage, limit, total}}){
@@ -11,20 +11,22 @@ export default{
     *fetchList({payload:values},{call,put}){
       const result =  yield call(getListApi,values);
       if(result.code == '0'){
-        const { bPushs, currentPage, limit, total } = result;
-        for(var i=0;i<bPushs.length;i++){
-          bPushs[i].key = bPushs[i].bPushId;
-        };
+        const { shopInvs, currentPage, limit, total } = result;
+        shopInvs.map((item,index)=>{
+          item.key = index;
+          return item;
+        });
         yield put({
           type:'getList',
           payload:{
-            dataList:bPushs,
+            dataList:shopInvs,
             currentPage,
             limit,
             total,
           }
         })
       }
-    },
+
+    }
   }
 }

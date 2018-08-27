@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import { Button, Modal, message } from 'antd'
+import { Button, Modal, message,Form,Select } from 'antd'
 import { connect } from 'dva'
 import Columns from './columns/index'
 import Qtable from '../../../components/Qtable/index'; //表单
 import Qpagination from '../../../components/Qpagination/index'; //分页
 import FilterForm from './FilterForm/index'
 import moment from 'moment';
+const FormItem = Form.Item;
+const Option = Select.Option;
 
 class Withdraw extends Component{
   constructor(props){
@@ -89,8 +91,30 @@ class Withdraw extends Component{
       payload:paneitem
     });
   }
+  getEdit =(record)=> {
+      this.setState({
+        visible:true,
+        shopName:record.shopName,
+        amount:record.amount
+      })
+  }
+  onCancel =()=> {
+    this.setState({
+      visible:false
+    });
+    this.props.form.resetFields(['status']);
+  }
+  onOk =()=> {
+    this.props.form.validateFieldsAndScroll((err,values) => {
+      if(!err){
+
+      }
+    })
+  }
   render(){
     const {dataList} = this.props.withdraw;
+    const { getFieldDecorator }= this.props.form;
+    const { shopName,amount} = this.state
     return(
       <div className='qtools-components-pages'>
         <FilterForm
@@ -120,21 +144,23 @@ class Withdraw extends Component{
               labelCol={{ span: 6 }}
               wrapperCol={{ span: 12 }}
             >
-              <span>{expireDate}</span>
+              <span>{shopName}</span>
             </FormItem>
             <FormItem
               label="提现金额"
               labelCol={{ span: 6 }}
               wrapperCol={{ span: 12 }}
             >
-              <span>{expireDate}</span>
+              <span>{amount}</span>
             </FormItem>
             <FormItem
               label='不通过理由'
               labelCol={{ span: 6 }}
               wrapperCol={{ span: 12 }}
             >
-              {getFieldDecorator('status')(
+              {getFieldDecorator('status',{
+                rules:[{required:true,message:'请输入不通过理由'}]
+              })(
                 <Select allowClear={true} placeholder="请选择审核状态" className='select'>
                     <Option value={0}>待审核 </Option>
                     <Option value={1}>审核通过 </Option>
@@ -148,8 +174,9 @@ class Withdraw extends Component{
     )
   }
 }
+const Withdraws = Form.create({})(Withdraw)
 function mapStateToProps(state){
   const {withdraw} = state;
   return {withdraw};
 }
-export default connect(mapStateToProps)(Withdraw);
+export default connect(mapStateToProps)(Withdraws);

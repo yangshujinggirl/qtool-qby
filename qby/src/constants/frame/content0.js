@@ -166,7 +166,11 @@ import AppData from '../dataapp/index'
 import Supplyinout from '../operate/supplyinout/index' //供应商收支
 import BillDetails from '../operate/supplyinout/BillDetails' //结算单明细
 import Withdraw from '../operate/withdraw/index' //提现
-import WithdrawDetails from '../operate/withdraw/WithdrawDetails' //提现
+import WithdrawDetails from '../operate/withdraw/WithdrawDetails' //提现详情
+import Banswer from '../operate/bAnswer/index' //b端问答
+import Addanswer from '../operate/bAnswer/addAnswer' //b端问答
+//门店数据
+import DataDistribute from '../datasp/dataspcun/dataDistribution/index'
 
 
 
@@ -212,18 +216,22 @@ class Content extends React.Component {
                                     case "407000edit":return <BillDetails data={this.props.data} componkey={this.props.componkey}/>; //结算单明细
 
                                     case "408000":return <Withdraw data={this.props.data} componkey={this.props.componkey}/>; //提现管理
-                                    case "408000info":return <WithdrawDetails data={this.props.data} componkey={this.props.componkey}/>; //提现管理
+                                    case "408000info":return <WithdrawDetails data={this.props.data} componkey={this.props.componkey}/>; //提现详情
+
+                                    case "409000":return <Banswer data={this.props.data} componkey={this.props.componkey}/>; //B端问答
+                                    case "409000edit":return <Addanswer data={this.props.data} componkey={this.props.componkey}/>; //B端问答
 
                                     case "704000":return  <DataorderIndex data={this.props.data}/>;
                                     case "703000edit":return  <DataTable data={this.props.data}/>;
-                                    case "702000edit":return  <SpselldataTable data={this.props.data}/>;
+                                    case "702000edit":return  <SpselldataTable data={this.props.data} />;
+                                    case "702000distribute":return  <DataDistribute data={this.props.data} componkey={this.props.componkey}/>;
 
 
                                     case "000001":return  <DownloadIndex data={this.props.data}/>;
 
                                     case "705000":return  <DatawsIndex data={this.props.data}/>;
                                     case "701000":return  <DatacgIndex data={this.props.data}/>;
-                                    case "702000":return  <DataspIndex data={this.props.data}/>;
+                                    case "702000":return  <DataspIndex data={this.props.data} componkey={this.props.componkey}/>;
                                     case "707000":return  <DataposIndex data={this.props.data}/>;
                                     case "703006info":return <ReceiptDetails data={this.props.data}/>
                                     case "706000":return <DataFinanceIndex data={this.props.data}/>
