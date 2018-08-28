@@ -88,9 +88,15 @@ class Bpush extends Component {
 		e.preventDefault();
 		this.props.form.validateFields((err, values) => {
       this.formatValue(values);
-      if(!err){
-        this.submit(values); //请求
-      };
+      const time = new Date(values.pushTime).getTime();
+      const currentTime = new Date().getTime();
+      if(time < currentTime){
+        message.warning('请选择当前时间之后的时间')
+      }else{
+        if(!err){
+          this.submit(values); //请求
+        };
+      }
     });
   }
   submit(values){

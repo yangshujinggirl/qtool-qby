@@ -112,19 +112,25 @@ class Cpush extends Component {
         values.pushPerson= 0
       }
       this.formatValue(values);
-      if(values.pushPerson!=0){
-        const userMobiles = values.pushPerson;
-        const isMobileFalse = this.formatMobiles(userMobiles);
-        if(isMobileFalse){
-          message.error('一行只能输入一个手机号码',.8)
-        }else{
-          if(!err){
-            this.submit(values);
-          };
-        };
+      const time = new Date(values.pushTime).getTime();
+      const currentTime = new Date().getTime();
+      if(time < currentTime){
+        message.warning('请选择当前时间之后的时间');
       }else{
-        this.submit(values);
-      }
+        if(values.pushPerson!=0){
+          const userMobiles = values.pushPerson;
+          const isMobileFalse = this.formatMobiles(userMobiles);
+          if(isMobileFalse){
+            message.error('一行只能输入一个手机号码',.8)
+          }else{
+            if(!err){
+              this.submit(values);
+            };
+          };
+        }else{
+          this.submit(values);
+        };
+      };
     });
   }
   formatMobiles =(userMobiles,values,err)=> { //保存--推送人群格式化
@@ -364,7 +370,7 @@ class Cpush extends Component {
                     <TextArea
                       disabled={!this.state.textInfo}
                       placeholder='请输入300字以下推送内容'
-                      maxLength='300' 
+                      maxLength='300'
                       rows={6} />
                   )}
                 </FormItem>
