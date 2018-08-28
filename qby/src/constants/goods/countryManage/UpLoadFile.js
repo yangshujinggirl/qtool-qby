@@ -24,7 +24,6 @@ class UpLoadFile extends Component {
     if (!isLt2M) {
     	message.error('图片文件需小于2MB',.8);
     }
-
     return (isJPG || isPNG) && isLt2M;
   }
   handleChange = (info) => {
@@ -33,9 +32,8 @@ class UpLoadFile extends Component {
       return;
     }
     if (info.file.status === 'done') {
-      let imageUrl = info.fileList[0].response.data[0];
+      let imageUrl = info.file.response.data[0];
       this.setState({
-        imageUrl,
         loading: false,
       })
       this.props.dispatch({
