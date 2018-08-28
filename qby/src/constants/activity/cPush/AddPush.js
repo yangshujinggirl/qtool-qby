@@ -308,7 +308,7 @@ class Cpush extends Component {
               rules: [{ required: true, message: '请选择推送内容' }],
               initialValue:isChange?msgContent:null
             })(
-                <TextArea placeholder='请输入30字以下推送内容' maxLength='30' rows={6} />
+                <TextArea className='ant-textarea' placeholder='请输入30字以下推送内容' maxLength='30' rows={6} />
             )}
             </FormItem>
             <Row>
@@ -361,7 +361,11 @@ class Cpush extends Component {
                     rules: [{ required:this.state.textInfo, message: '请输入文本信息' }],
                     initialValue:isChange?textInfo:null
                   })(
-                    <TextArea disabled={!this.state.textInfo} placeholder='请输入300字以下推送内容' maxLength='300' rows={6} />
+                    <TextArea
+                      disabled={!this.state.textInfo}
+                      placeholder='请输入300字以下推送内容'
+                      maxLength='300' 
+                      rows={6} />
                   )}
                 </FormItem>
               </Col>
@@ -396,7 +400,11 @@ class Cpush extends Component {
                     rules: [{ required: this.state.specialUser, message: '请输入特定用户'}],
                     initialValue:isChange?pushPerson:null
                   })(
-                      <TextArea placeholder='少于1000行' disabled={!this.state.specialUser} rows={6}/>
+                      <TextArea
+                        className='ant-textarea'
+                        placeholder='少于1000行'
+                        disabled={!this.state.specialUser}
+                        rows={6}/>
                   )}
                 </FormItem>
               </Col>
