@@ -191,12 +191,12 @@ class BtipGoods extends Component {
         currentPage:this.props.bTipGoodsList.currentPage
       }
     })
-    this.setState({
-      visible:false,
-    })
   }
   //售卖，停售
   sellAndSaleStop(ids,val) {
+    this.setState({
+      loading:true
+    })
     const params = {
       status:val,
       pdSpuIds:ids
@@ -205,15 +205,20 @@ class BtipGoods extends Component {
     .then(res => {
       const { code } =res;
       if(code == '0') {
-        message.success(SuccessTips[this.state.handleContent.tips])
+        message.success(SuccessTips[this.state.handleContent.tips],1)
         this.successHandel()
-      } else {
-        this.setState({visible:false})
       }
+      this.setState({
+        loading:false,
+        visible:false
+      })
     })
   }
   //上新
   sellNewGoods(ids,val) {
+    this.setState({
+      loading:true,
+    })
     const params = {
       isNew:val,
       pdSpuIds:ids
@@ -222,15 +227,20 @@ class BtipGoods extends Component {
     .then(res => {
       const { code } =res;
       if(code == '0') {
-        message.success(SuccessTips[this.state.handleContent.tips])
+        message.success(SuccessTips[this.state.handleContent.tips],1)
         this.successHandel()
-      } else {
-        this.setState({visible:false})
       }
+      this.setState({
+        loading:false,
+        visible:false
+      })
     })
   }
   //畅销
   sellHotGoods(ids,val) {
+    this.setState({
+      loading:true,
+    })
     const params = {
       isHot:val,
       pdSpuIds:ids
@@ -239,11 +249,13 @@ class BtipGoods extends Component {
     .then(res => {
       const { code } =res;
       if(code == '0') {
-        message.success(SuccessTips[this.state.handleContent.tips])
+        message.success(SuccessTips[this.state.handleContent.tips],1)
         this.successHandel()
-      } else {
-        this.setState({visible:false})
       }
+      this.setState({
+        loading:false,
+        visible:false
+      })
     })
   }
   //详情
@@ -317,6 +329,7 @@ class BtipGoods extends Component {
       fields,
       handleContent,
       visible,
+      loading
     } = this.state;
     return (
       <div className="bTip-goods-components qtools-components-pages">
@@ -360,12 +373,29 @@ class BtipGoods extends Component {
             data={dataPag}
             onChange={this.changePage}/>
         }
-        <Modal
+        {/* <Modal
 					title='批量操作'
 					visible={visible}
 					onOk={this.onOkModal.bind(this)}
 					onCancel={this.onCancelModal.bind(this)}>
           {WarnMessage[handleContent.tips]}
+				</Modal> */}
+        <Modal
+          className="goods-handle-modal-wrap"
+					title='批量操作'
+					visible={visible}
+          footer={null}
+					onCancel={this.onCancelModal.bind(this)}>
+          <div className="handle-modal-content">
+            {WarnMessage[handleContent.tips]}
+          </div>
+          <div className="handle-modal-footer">
+            <Button onClick={this.onCancelModal.bind(this)}>取消</Button>
+            <Button
+              type='primary'
+              loading={loading}
+              onClick={this.onOkModal.bind(this)}>确认</Button>
+          </div>
 				</Modal>
       </div>
     )

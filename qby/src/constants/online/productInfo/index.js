@@ -5,8 +5,7 @@ import { Button, message, Modal } from 'antd'
 import FilterForm from './components/FilterForm/index.js';
 import GoodsList from './components/GoodsList/index.js';
 import Qpagination from '../../../components/Qpagination';
-import { handleSellApi } from '../../../services/goodsCenter/bTipGoods.js';
-import { exportDataApi } from '../../../services/online/productInfo.js';
+import { exportDataApi, handleSellApi } from '../../../services/online/productInfo.js';
 
 const SuccessTips = {
   t1: '售卖成功',
@@ -150,7 +149,7 @@ class BtipGoods extends Component {
   }
   //请求成功后统一处理
   successHandel() {
-    message.success(SuccessTips[this.state.tips])
+    message.success(SuccessTips[this.state.tips],1)
     //在当前页刷新
     this.props.dispatch({
       type:'productGoodsList/fetchList',

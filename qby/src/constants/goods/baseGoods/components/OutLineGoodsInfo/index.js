@@ -162,8 +162,8 @@ class GoodsInfo extends Component {
          <div style={{display:'flex',textAlign:'center'}}>
             <EditableCell text='售价' title='toBPrice'/>
             <EditableCell text='零售价' title='toCPrice'/>
-            <EditableCell text='建议零售价' title='costPrice'/>
-            <EditableCell text='进货价' title='tagPrice'/>
+            <EditableCell text='建议零售价' title='tagPrice'/>
+            <EditableCell text='进货价' title='costPrice'/>
         </div>
        </FormItem>
     </Col>

@@ -276,7 +276,7 @@ class AddGoodsForm extends Component {
         this.setState({
           loading:false
         })
-        message.success(tips);
+        message.success(tips,1);
         this.onCancel();
         this.props.dispatch({
           type:'baseGoodsList/fetchList',
