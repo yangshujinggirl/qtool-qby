@@ -112,19 +112,25 @@ class Cpush extends Component {
         values.pushPerson= 0
       }
       this.formatValue(values);
-      if(values.pushPerson!=0){
-        const userMobiles = values.pushPerson;
-        const isMobileFalse = this.formatMobiles(userMobiles);
-        if(isMobileFalse){
-          message.error('一行只能输入一个手机号码',.8)
-        }else{
-          if(!err){
-            this.submit(values);
-          };
-        };
+      const time = new Date(values.pushTime).getTime();
+      const currentTime = new Date().getTime();
+      if(time < currentTime){
+        message.warning('请选择当前时间之后的时间');
       }else{
-        this.submit(values);
-      }
+        if(values.pushPerson!=0){
+          const userMobiles = values.pushPerson;
+          const isMobileFalse = this.formatMobiles(userMobiles);
+          if(isMobileFalse){
+            message.error('一行只能输入一个手机号码',.8)
+          }else{
+            if(!err){
+              this.submit(values);
+            };
+          };
+        }else{
+          this.submit(values);
+        };
+      };
     });
   }
   formatMobiles =(userMobiles,values,err)=> { //保存--推送人群格式化
@@ -308,7 +314,7 @@ class Cpush extends Component {
               rules: [{ required: true, message: '请选择推送内容' }],
               initialValue:isChange?msgContent:null
             })(
-                <TextArea placeholder='请输入30字以下推送内容' maxLength='30' rows={6} />
+                <TextArea className='ant-textarea' placeholder='请输入30字以下推送内容' maxLength='30' rows={6} />
             )}
             </FormItem>
             <Row>
@@ -361,7 +367,11 @@ class Cpush extends Component {
                     rules: [{ required:this.state.textInfo, message: '请输入文本信息' }],
                     initialValue:isChange?textInfo:null
                   })(
-                    <TextArea disabled={!this.state.textInfo} placeholder='请输入300字以下推送内容' maxLength='300' rows={6} />
+                    <TextArea
+                      disabled={!this.state.textInfo}
+                      placeholder='请输入300字以下推送内容'
+                      maxLength='300'
+                      rows={6} />
                   )}
                 </FormItem>
               </Col>
@@ -396,7 +406,11 @@ class Cpush extends Component {
                     rules: [{ required: this.state.specialUser, message: '请输入特定用户'}],
                     initialValue:isChange?pushPerson:null
                   })(
-                      <TextArea placeholder='少于1000行' disabled={!this.state.specialUser} rows={6}/>
+                      <TextArea
+                        className='ant-textarea'
+                        placeholder='少于1000行'
+                        disabled={!this.state.specialUser}
+                        rows={6}/>
                   )}
                 </FormItem>
               </Col>

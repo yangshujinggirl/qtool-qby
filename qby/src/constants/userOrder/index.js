@@ -1,12 +1,13 @@
 import React,{ Component } from 'react';
 import { connect } from 'dva';
-import { Button, message} from 'antd'
+import { Button, message, Modal} from 'antd'
 import { exportDataApi } from '../../services/orderCenter/userOrders'
 import Qtable from '../../components/Qtable/index';
 import Qpagination from '../../components/Qpagination/index';
 import FilterForm from './FilterForm/index'
 import Columns from './columns/index';
 import moment from 'moment';
+const confirm = Modal.confirm;
 
 class UserOrder extends Component {
   constructor(props) {
@@ -79,7 +80,7 @@ class UserOrder extends Component {
   }
   //导出数据
   exportData =()=> {
-    const values ={type:19,...this.state.field}
+    const values ={type:12,...this.state.field}
     exportDataApi(values)
     .then(res => {
       if(res.code == '0'){
@@ -88,7 +89,7 @@ class UserOrder extends Component {
 					content: '请前往下载中心查看导出进度',
 					cancelText:'稍后去',
 					okText:'去看看',
-					onOk() {
+					onOk:()=> {
 						const paneitem={title:'下载中心',key:'000001',componkey:'000001',data:null}
 						this.props.dispatch({
 							type:'tab/firstAddTab',

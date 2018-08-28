@@ -88,9 +88,15 @@ class Bpush extends Component {
 		e.preventDefault();
 		this.props.form.validateFields((err, values) => {
       this.formatValue(values);
-      if(!err){
-        this.submit(values); //请求
-      };
+      const time = new Date(values.pushTime).getTime();
+      const currentTime = new Date().getTime();
+      if(time < currentTime){
+        message.warning('请选择当前时间之后的时间')
+      }else{
+        if(!err){
+          this.submit(values); //请求
+        };
+      }
     });
   }
   submit(values){
@@ -250,7 +256,7 @@ class Bpush extends Component {
               rules: [{ required: true, message: '请选择推送内容' }],
               initialValue:isChange?msgContent:null
             })(
-                <TextArea placeholder='请输入30字以下推送内容' maxLength='30' rows={6} />
+                <TextArea className='ant-textarea' placeholder='请输入30字以下推送内容' maxLength='30' rows={6} />
             )}
             </FormItem>
             <Row>
@@ -303,7 +309,13 @@ class Bpush extends Component {
                     rules: [{ required:this.state.textInfo, message: '请输入文本信息' }],
                     initialValue:isChange?textInfo:null
                   })(
-                    <TextArea disabled={!this.state.textInfo} placeholder='请输入300字以下推送内容' maxLength='300' rows={6} />
+                    <TextArea
+                      className='ant-textarea'
+                      disabled={!this.state.textInfo}
+                      placeholder='请输入300字以下推送内容'
+                      maxLength='300'
+                      rows={6}
+                    />
                   )}
                 </FormItem>
               </Col>

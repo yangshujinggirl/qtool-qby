@@ -59,7 +59,7 @@ class NormalForm extends Component {
                  )}
                </FormItem>
               <FormItem label='用户电话'>
-                 {getFieldDecorator('mobile')(
+                 {getFieldDecorator('mobilePhone')(
                    <Input placeholder="请输入用户电话" autoComplete="off"/>
                  )}
                </FormItem>
