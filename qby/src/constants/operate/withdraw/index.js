@@ -5,6 +5,7 @@ import Columns from './columns/index'
 import Qtable from '../../../components/Qtable/index'; //表单
 import Qpagination from '../../../components/Qpagination/index'; //分页
 import FilterForm from './FilterForm/index'
+import { checkApi } from '../../../services/operate/withdraw'
 import moment from 'moment';
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -13,6 +14,10 @@ class Withdraw extends Component{
   constructor(props){
     super(props);
     this.state ={
+      checkStatus:false,
+      shopName:'',
+      amount:'',
+      spCarryCashId:'',
       field:{
         shopName:'',
         status:'',
@@ -95,23 +100,63 @@ class Withdraw extends Component{
       this.setState({
         visible:true,
         shopName:record.shopName,
-        amount:record.amount
+        amount:record.amount,
+        spCarryCashId:record.spCarryCashId
       })
+  }
+  notCheck =()=> {
+    this.setState({
+      checkStatus:false
+    },()=>{
+      this.props.form.validateFieldsAndScroll((err,values) => {
+        if(!err){ //审核通过1 不通过0
+          values.status = 0;
+          values.spCarryCashId = this.state.spCarryCashId;
+          checkApi({spCarryCashs:values})
+          .then(res => {
+            if(res.code == "0"){
+              this.setState({
+                visible:false,
+              });
+              this.initData();
+            }
+          })
+        };
+          this.props.form.resetFields(['remark']);
+      });
+    });
+  }
+  check =()=> {
+    this.setState({
+      checkStatus:true
+    },()=>{
+      this.props.form.validateFieldsAndScroll((err,values) => {
+        if(!err){ //审核通过1 不通过0
+          values.status = 1;
+          values.spCarryCashId = this.state.spCarryCashId;
+          checkApi({spCarryCashs:values})
+          .then(res => {
+            if(res.code == "0"){
+              this.setState({
+                visible:false,
+              });
+              this.initData();
+            }
+          })
+        };
+          this.props.form.resetFields(['remark']);
+
+      });
+    });
   }
   onCancel =()=> {
     this.setState({
       visible:false
     });
-    this.props.form.resetFields(['status']);
-  }
-  onOk =()=> {
-    this.props.form.validateFieldsAndScroll((err,values) => {
-      if(!err){
-
-      }
-    })
+    this.props.form.resetFields(['remark']);
   }
   render(){
+    console.log(this.state.checkStatus)
     const {dataList} = this.props.withdraw;
     const { getFieldDecorator }= this.props.form;
     const { shopName,amount} = this.state
@@ -134,9 +179,9 @@ class Withdraw extends Component{
         <Modal
           visible={this.state.visible}
           closable = { true }
-          onOk={this.onOk}
           onCancel={this.onCancel}
-          wrapClassName='billModal'
+          wrapClassName='withdraw'
+          footer={null}
         >
           <Form>
             <FormItem
@@ -158,8 +203,8 @@ class Withdraw extends Component{
               labelCol={{ span: 6 }}
               wrapperCol={{ span: 12 }}
             >
-              {getFieldDecorator('status',{
-                rules:[{required:true,message:'请输入不通过理由'}]
+              {getFieldDecorator('remark',{
+                rules:[{required:this.state.checkStatus,message:'请输入不通过理由'}]
               })(
                 <Select allowClear={true} placeholder="请选择审核状态" className='select'>
                     <Option value={0}>待审核 </Option>
@@ -169,6 +214,10 @@ class Withdraw extends Component{
               )}
             </FormItem>
           </Form>
+          <div className='btnbox'>
+            <Button size='large' onClick={this.notCheck} className='check'>审核不通过</Button>
+            <Button type="primary" onClick={this.check} size='large'>审核通过</Button>
+          </div>
         </Modal>
       </div>
     )

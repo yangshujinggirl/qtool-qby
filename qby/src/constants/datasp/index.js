@@ -21,24 +21,23 @@ class DataspIndex extends React.Component{
         })
     }
   	render(){
-			console.log(this.props)
       const rolelists=this.props.data.rolelists
-		//销售数据
+			//销售数据
 			const selldatarole=rolelists.find((currentValue,index)=>{
-			return currentValue.url=="qerp.web.rp.shop.sale.data.query"
-        })
-        //门店库存
-        const spcundatarole=rolelists.find((currentValue,index)=>{
-			return currentValue.url=="qerp.web.qpos.pd.inv.query"
-        })
-        //历史库存
-        const hiscunrole=rolelists.find((currentValue,index)=>{
-			return currentValue.url=="qerp.web.qpos.pd.historyInv.query"
-        })
-        //联营分成
-        const liandatarole=rolelists.find((currentValue,index)=>{
-			return currentValue.url=="qerp.web.rp.shop.Joint.division.page"
-        })
+				return currentValue.url=="qerp.web.rp.shop.sale.data.query"
+      })
+      //门店库存
+      const spcundatarole=rolelists.find((currentValue,index)=>{
+				return currentValue.url=="qerp.web.qpos.pd.inv.query"
+      })
+      //历史库存
+      const hiscunrole=rolelists.find((currentValue,index)=>{
+				return currentValue.url=="qerp.web.qpos.pd.historyInv.query"
+      })
+      //联营分成
+      const liandatarole=rolelists.find((currentValue,index)=>{
+				return currentValue.url=="qerp.web.rp.shop.Joint.division.page"
+      })
      	return(
         	<div className='content_box stock-tabs'>
                 <Tabs defaultActiveKey="1" onTabClick={this.tabChange.bind(this)}>
@@ -107,16 +106,14 @@ class DataspIndex extends React.Component{
                             key:3
                         })
                     }else{
-                        if(liandatarole){
-                            this.setState({
-                                key:4
-                            })
-                        }
+                      	if(liandatarole){
+                          this.setState({
+                              key:4
+                        })
+                      }
                     }
                 }
             }
-
-
         }
 }
 

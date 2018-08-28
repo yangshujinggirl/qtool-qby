@@ -4,24 +4,24 @@ import EditableTable from '../../../components/table/tablemodel';
 
 class DataspcunTable extends React.Component {
 	constructor(props) {
-        super(props);
+    super(props);
 		this.columns = [
 			{
-            	title: '序号',
-            	dataIndex: 'index'
+      	title: '序号',
+      	dataIndex: 'index'
 			},
 			{
-            	title: '商品编码',
-            	dataIndex: 'code'
+      	title: '商品编码',
+      	dataIndex: 'code'
 			},
 			{
-            	title: '商品条码',
-            	dataIndex: 'barcode'
-		  	},
-		  	{
+      	title: '商品条码',
+      	dataIndex: 'barcode'
+	  	},
+	  	{
 				title: '商品名称',
 				dataIndex: 'pdSpuName'
-		  	},
+	  	},
 			{
 				title: '商品分类',
 				dataIndex: 'pdCategoryName'
@@ -78,11 +78,11 @@ class DataspcunTable extends React.Component {
 	}
 	//分页方法
 	pageChange=(page,pageSize)=>{
-        this.initstockList(this.props.values,pageSize,Number(page-1))
+    this.initstockList(this.props.values,pageSize,Number(page-1))
 	}
 	//pagesize变化
 	pageSizeChange=(current,size)=>{
-        this.initstockList(this.props.values,size,0)
+    this.initstockList(this.props.values,size,0)
 	}
 
   //列表数据请求
@@ -110,8 +110,6 @@ class DataspcunTable extends React.Component {
 			/>
     );
 	}
-
-
 }
 
 function mapStateToProps(state) {

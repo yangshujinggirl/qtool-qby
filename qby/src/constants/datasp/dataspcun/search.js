@@ -9,63 +9,62 @@ class StockSearchForm extends React.Component {
     pdCategorys:[],
     spShopId:null
   };
-
+  //数据初始化
+  componentDidMount(){
+    this.categorylist()
+    this.handleSearch()
+  }
   //点击搜索按钮获取搜索表单数据
   handleSearch = (e) => {
     this.props.form.validateFields((err, values) => {
-        values.spShopId=this.state.spShopId
-        this.initStockList(values,this.props.limit,0);
-        this.syncState(values);
+      values.spShopId = this.state.spShopId
+      this.initStockList(values,this.props.limit,0);
+      this.syncState(values);
     });
   }
   //搜索请求数据
   initStockList=(values,limit,currentPage)=>{
-        values.limit=limit;
-        values.currentPage=currentPage;
-        this.props.dispatch({
-            type:'dataspcun/fetch',
-            payload:{code:'qerp.web.qpos.pd.inv.query',values:values}
-        });
-        this.props.dispatch({ type: 'tab/loding', payload:true});
-    }  
+      values.limit=limit;
+      values.currentPage=currentPage;
+      this.props.dispatch({
+          type:'dataspcun/fetch',
+          payload:{code:'qerp.web.qpos.pd.inv.query',values:values}
+      });
+      this.props.dispatch({ type: 'tab/loding', payload:true});
+    }
 
     //同步data
     syncState=(values)=>{
-        this.props.dispatch({
-            type:'dataspcun/synchronous',
-            payload:values
-        });
+      this.props.dispatch({
+          type:'dataspcun/synchronous',
+          payload:values
+      });
     }
-
+    //拿到搜索框商品分类的数据
     categorylist=()=>{
-        let values={
-            getChildren:false,
-            enabled:true
-        }
-        const result=GetServerData('qerp.web.pd.category.list',values)
-        result.then((res) => {
-            return res;
-        }).then((json) => {
-            if(json.code=='0'){
-               const pdCategorys=json.pdCategorys
-               this.setState({
-                    pdCategorys:pdCategorys
-               })
-               
-            }
-        })
-
-
-
+      let values={
+        getChildren:false,
+        enabled:true
+      }
+      const result=GetServerData('qerp.web.pd.category.list',values)
+      result.then((res) => {
+        return res;
+      }).then((json) => {
+        if(json.code=='0'){
+           const pdCategorys = json.pdCategorys;
+           this.setState({
+              pdCategorys:pdCategorys
+           });
+        };
+      })
     }
-
     //智能搜索
     handleSearchs=(value)=>{
         this.setState({
             spShopId:null
         })
         let values={name:value}
-        const result=GetServerData('qerp.web.sp.shop.list',values)
+        const result = GetServerData('qerp.web.sp.shop.list',values)
             result.then((res) => {
             return res;
         }).then((json) => {
@@ -84,18 +83,15 @@ class StockSearchForm extends React.Component {
             }
         })
     }
-
     //智能选择
     onSelect=(value)=>{
-        this.setState({
-            spShopId:value
-        })
+      this.setState({
+          spShopId:value
+      });
     }
-
-
   render() {
-      const { getFieldDecorator } = this.props.form;
-      const adminType=eval(sessionStorage.getItem('adminType'));
+    const { getFieldDecorator } = this.props.form;
+    const adminType=eval(sessionStorage.getItem('adminType'));
     return (
       <Form className='formbox'>
         <Row gutter={40} className='formbox_row'>
@@ -130,14 +126,13 @@ class StockSearchForm extends React.Component {
                     </FormItem>
                     <FormItem label='商品分类'>
                         {getFieldDecorator('pdCategoryId')(
-                           <Select  placeholder="请选择商品分类" allowClear={true}>
+                          <Select  placeholder="请选择商品分类" allowClear={true}>
                             {
-                                this.state.pdCategorys.map((item,index)=>{
-                                    return (<Option value={String(item.pdCategoryId)} key={index}>{item.name}</Option>)
-       
-                                })
+                              this.state.pdCategorys.map((item,index)=>{
+                                return (<Option value={String(item.pdCategoryId)} key={index}>{item.name}</Option>)
+                              })
                             }
-                            </Select>
+                          </Select>
                         )}
                     </FormItem>
 
@@ -153,17 +148,12 @@ class StockSearchForm extends React.Component {
     );
   }
 
-  componentDidMount(){
-      this.categorylist()
-    this.handleSearch()
 
 }
-  
-}
+
 function mapStateToProps(state) {
     const {limit,currentPage} = state.dataspcun;
     return {limit,currentPage};
 }
-
 const DataspcunSearch = Form.create()(StockSearchForm);
 export default connect(mapStateToProps)(DataspcunSearch);

@@ -31,7 +31,7 @@ class BillModal extends Component{
           )
         }
       },{
-        title: 'invoiceAmount',
+        title: '发票金额',
         dataIndex: 'invoiceAmount',
         render(text,record,index){
           return(
@@ -40,7 +40,7 @@ class BillModal extends Component{
       					that.props.form.getFieldDecorator(`record[${index}].invoiceAmount`,{
       						initialValue:record.invoiceAmount,
       					})(
-      						 <Input placeholder="请输入发票号" autoComplete="off"/>
+      						 <Input placeholder="请输入发票金额" autoComplete="off"/>
       					)
       				}
             </div>

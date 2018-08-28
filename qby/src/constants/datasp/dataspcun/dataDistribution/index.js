@@ -45,14 +45,15 @@ class DataDistribute extends Component{
   }
   //初始化数据
   componentWillMount(){
+    debugger
     this.props.dispatch({
       type:'dataDistribute/fetchList',
       payload:{}
     })
   }
   render(){
-    console.log(this.props)
     const {dataList} = this.props.dataspcun.distributeData;
+    console.log(dataList)
     return(
       <div className='qtools-components-pages'>
         <FilterForm
@@ -60,7 +61,7 @@ class DataDistribute extends Component{
           onValuesChange = {this.searchDataChange}
         />
         <div className="handel-btn-lists">
-            <Button ize='large' type='primary'>导出数据</Button>
+            <Button size='large' type='primary'>导出数据</Button>
         </div>
         <Qtable
           dataSource = {dataList}
