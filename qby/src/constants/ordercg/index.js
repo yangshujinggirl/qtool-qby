@@ -211,6 +211,10 @@ class OrdercgIndex extends React.Component{
 				message.success('发票管理成功')
 				this.setState({visible:false});
 				this.clearChooseInfo();
+				this.props.dispatch({
+            type:'ordercg/fetch',
+            payload:{code:'qerp.web.ws.asn.query',values:{}}
+        });
 			}
 		})
 	}

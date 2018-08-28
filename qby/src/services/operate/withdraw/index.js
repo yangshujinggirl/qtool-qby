@@ -16,3 +16,11 @@ export function getDetailApi(values){
       data:values
   })
 }
+//审核
+export function checkApi(values){
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.sp.carry.cash.save',
+      data:values
+  })
+}

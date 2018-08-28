@@ -10,7 +10,6 @@ const confirm = Modal.confirm;
 class DataspcunIndex extends React.Component{
 	state = {};
 	handleOperateClick =(record)=> {
-		console.log(this.props)
 		const paneitem = {
 			title:'库存分布',
 			key:`${this.props.componkey}distribute`,
@@ -58,23 +57,24 @@ class DataspcunIndex extends React.Component{
 		})
 	}
 
-  	render(){
-			console.log(this.props)
-     	return(
-        	<div>
-            <DataspcunSearch/>
-          	<Button
-							type="primary"
-							size='large'
-							className='mt15'
-							onClick={this.exportData.bind(this,54,this.props.dataspcun.values)}
-							>
-                导出数据
-							</Button>
-           		<div className='mt20'><DataspcunTable operateClick={this.handleOperateClick}/></div>
-        	</div>
-      	)
-  	}
+	render(){
+   	return(
+    	<div>
+        <DataspcunSearch/>
+      	<Button
+					type="primary"
+					size='large'
+					className='mt15'
+					onClick={this.exportData.bind(this,54,this.props.dataspcun.values)}
+					>
+            导出数据
+					</Button>
+       		<div className='mt20'>
+						<DataspcunTable operateClick={this.handleOperateClick}/>
+					</div>
+    	</div>
+  	)
+	}
 }
 
 function mapStateToProps(state) {

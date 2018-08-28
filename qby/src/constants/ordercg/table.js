@@ -172,9 +172,6 @@ class OrdercgTable extends React.Component {
               this.initList(this.props.values,this.props.limit,this.props.currentPage)
             }
         })
-
-
-
     }
 
     //分页方法
@@ -188,7 +185,7 @@ class OrdercgTable extends React.Component {
 
     //列表数据请求
     initList=(values,limit,currentPage)=>{
-       values.type = "10";
+       	values.type = "10";
         values.limit=limit;
         values.currentPage=currentPage;
         this.props.dispatch({
