@@ -39,28 +39,27 @@ class DatasphiscunIndex extends React.Component{
 						});
 					},
 					onCancel() {
-						
+
 					},
 	  			});
 			}
 		})
-	
+
 	}
 
   	render(){
 		const adminType=eval(sessionStorage.getItem('adminType'));
      	return(
         	<div>
-                <DatasphiscunSearch/>
-                    <Button 
-						type="primary" 
-						size='large'
-						className='mt15'
-						onClick={this.exportData.bind(this,55,this.props.values)}
-					>
-                        导出数据
-					</Button>
-             		<div className='mt20'><DataspcunhisTable/></div>
+            <DatasphiscunSearch/>
+						<Button
+							type="primary"
+							size='large'
+							className='mt15'
+							onClick={this.exportData.bind(this,55,this.props.values)}>
+							导出数据
+						</Button>
+         		<div className='mt20'><DataspcunhisTable/></div>
         	</div>
       	)
   	}

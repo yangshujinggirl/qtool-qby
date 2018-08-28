@@ -46,7 +46,7 @@ class StockSearchForm extends React.Component {
             return res;
         }).then((json) => {
             if(json.code=='0'){
-               const pdCategorys=json.pdCategorys
+               const pdCategorys=json.pdCategory
                this.setState({
                     pdCategorys:pdCategorys
                })
@@ -96,7 +96,6 @@ class StockSearchForm extends React.Component {
 
   render() {
       const { getFieldDecorator } = this.props.form;
-      const adminType=eval(sessionStorage.getItem('adminType'));
     return (
       <Form className='formbox'>
         <Row gutter={40} className='formbox_row'>
@@ -134,7 +133,7 @@ class StockSearchForm extends React.Component {
                            <Select  placeholder="请选择商品分类" allowClear={true}>
                             {
                                 this.state.pdCategorys.map((item,index)=>{
-                                    return (<Option value={String(item.pdCategoryId)} key={index}>{item.name}</Option>)
+                                    return (<Select.Option value={String(item.pdCategoryId)} key={index}>{item.name}</Select.Option>)
 
                                 })
                             }
@@ -144,11 +143,15 @@ class StockSearchForm extends React.Component {
                     <FormItem
                         label='选择时间'
                     >
-                        {getFieldDecorator('dates',{
+                        {getFieldDecorator('date',{
                              initialValue:moment(this.state.date, dateFormat)
 
                         })(
-                            <DatePicker format={dateFormat} allowClear={false} className='noant-calendar-picker' onChange={this.timeChange.bind(this)}/>
+                            <DatePicker
+                              format={dateFormat}
+                              allowClear={false}
+                              className='noant-calendar-picker'
+                              onChange={this.timeChange.bind(this)}/>
 
                         )}
                     </FormItem>
