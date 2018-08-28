@@ -82,15 +82,13 @@ class Banswer extends Component{
     })
   }
   render(){
-      console.log(this.props)
     const { dataList } = this.props.bAnswer;
 
     return(
       <div className='qtools-components-pages'>
         <FilterForm
           submit={this.searchData}
-          onValuesChange = {this.searchDataChange}
-        />
+          onValuesChange = {this.searchDataChange}/>
         <div className="handel-btn-lists">
             <Button
               size='large'
@@ -102,13 +100,14 @@ class Banswer extends Component{
         <Qtable
           dataSource = {dataList}
           columns = {Columns}
-          onOperateClick = {this.handleOperateClick.bind(this)}
-        />
-        <Qpagination
-          data={this.props.bAnswer}
-          onChange={this.changePage}
-          onShowSizeChange = {this.onShowSizeChange}
-        />
+          onOperateClick = {this.handleOperateClick.bind(this)}/>
+        {
+          dataList.length>0&&
+          <Qpagination
+            data={this.props.bAnswer}
+            onChange={this.changePage}
+            onShowSizeChange = {this.onShowSizeChange}/>
+        }
       </div>
     )
   }
