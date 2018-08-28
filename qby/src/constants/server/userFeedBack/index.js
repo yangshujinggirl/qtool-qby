@@ -91,12 +91,12 @@ class UserFeedBack extends Component{
             />
         </div>
         {
-          dataList.length>0?
+          dataList.length>0 &&
           <Qpagination
             data={this.props.userFeedBack}
             onChange={this.changePage}
             onShowSizeChange = {this.onShowSizeChange}
-          />:null
+          />
       }
       </div>
     )

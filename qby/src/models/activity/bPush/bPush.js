@@ -2,7 +2,9 @@ import { getListApi } from '../../../services/activity/bPush'
 export default{
   namespace:'bPush',
   selectedRowKeys:[],
-  state:{},
+  state:{
+    dataList:[]
+  },
   reducers:{
     getList(state,{payload:{dataList, currentPage, limit, total}}){
       return { ...state, dataList, currentPage, limit, total}

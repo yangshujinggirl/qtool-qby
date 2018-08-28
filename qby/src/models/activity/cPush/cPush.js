@@ -2,7 +2,9 @@ import { getListApi } from '../../../services/activity/cPush'
 export default{
   namespace:'cPush',
   selectedRowKeys:[],
-  state:{},
+  state:{
+    dataList:[]
+  },
   reducers:{
     getList(state,{payload:{dataList, currentPage, limit, total}}){
       return { ...state, dataList, currentPage, limit, total}
