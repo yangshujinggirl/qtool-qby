@@ -175,9 +175,6 @@ import DataDistribute from '../datasp/dataspcun/dataDistribution/index'
 
 
 class Content extends React.Component {
-
-
-
     render() {
       let formDataCode =(values)=> {
         if(values.indexOf('-') == -1) {
