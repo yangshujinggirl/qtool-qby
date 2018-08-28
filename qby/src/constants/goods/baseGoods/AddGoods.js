@@ -149,6 +149,7 @@ class AddGoodsForm extends Component {
   }
   //品牌搜索
   handleSearch(value) {
+    this.props.dispatch({ type: 'tab/loding', payload:true});
     goodsBrandApi({name:value})
     .then(res => {
       if(res.code == '0') {
@@ -159,6 +160,7 @@ class AddGoodsForm extends Component {
             value:el.pdBrandId
           }
         ))
+        this.props.dispatch({ type: 'tab/loding', payload:false});
         this.setState({
           brandDataSource:data
         })
@@ -167,7 +169,8 @@ class AddGoodsForm extends Component {
   }
   //国家搜索
   handleSearchCountry(value) {
-    getCountryListApi({name:value})
+    this.props.dispatch({ type: 'tab/loding', payload:true});
+    getCountryListApi({name:value,status:1})
     .then(res => {
       if(res.code == '0') {
         const { countrys } = res;
@@ -177,6 +180,7 @@ class AddGoodsForm extends Component {
             value:el.pdCountryId
           }
         ))
+        this.props.dispatch({ type: 'tab/loding', payload:false});
         this.setState({
           countryDataSource:data
         })
@@ -355,6 +359,7 @@ class AddGoodsForm extends Component {
   }
   //查询Api
   searchVal(values) {
+    this.props.dispatch({ type: 'tab/loding', payload:true});
     const { pdTypeId,inputValue,type} = values;
     let params = {
           pdTypeId,
@@ -364,17 +369,12 @@ class AddGoodsForm extends Component {
     searchValApi(params)
     .then(res => {
       const { pdTypeVals } =res;
+      //查询属性列表是否为空
       if(pdTypeVals.length ==0) {
-        let paramsTwo={
-              pdTypeVal:{
-                pdTypeId,
-                name:inputValue,
-                status:'1'
-              }
-        }
         this.goSaveTypeVal(values);
         return;
       }
+      //查询是否存在属性
       const filterValues = pdTypeVals.filter((el) => {
         return el.name == inputValue;
       })
@@ -388,15 +388,9 @@ class AddGoodsForm extends Component {
           payload:{payloadVal,type}
         })
       } else {
-        let paramsTwo={
-              pdTypeVal:{
-                pdTypeId,
-                name:inputValue,
-                status:'1'
-              }
-        }
         this.goSaveTypeVal(values);
       }
+      this.props.dispatch({ type: 'tab/loding', payload:false});
     },err => {
     })
   }
@@ -450,7 +444,7 @@ class AddGoodsForm extends Component {
       }
     })
   }
-  //
+  //比例自定义校验
   validatorShareRatio(rule, value, callback) {
     if(value>100) {
       callback('分成比例不能大于100');
