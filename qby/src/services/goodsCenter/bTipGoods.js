@@ -38,7 +38,7 @@ export function getLogListApi(values) {
 export function handleSellApi(values) {
   values = JSON.stringify(values)
   return ajax.post('/webrest.htm',{
-      code:'qerp.web.ec.pd.spu.status',
+      code:'qerp.web.pd.spu.status',
       data:values
   })
 }
