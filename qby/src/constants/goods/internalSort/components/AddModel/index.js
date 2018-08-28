@@ -393,7 +393,7 @@ class AddModelForm extends Component {
     .then(res => {
       const { code, message } =res;
       if( code == '0') {
-        message.success(`${this.state.handleName}成功`);
+        message.success(`${this.state.handleName}成功`,1);
 				let payload;
 				if(values.pdCategoryId!=''){
 					payload = {

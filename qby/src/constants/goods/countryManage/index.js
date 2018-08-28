@@ -21,8 +21,6 @@ class CountryManageForm extends Component {
     super(props);
     this.state={
       visible:false,
-      pdCountryId:'',
-      countryDetail:{},
       errorText:''
     }
   }
@@ -45,7 +43,6 @@ class CountryManageForm extends Component {
     this.props.form.resetFields();
     this.setState({
       visible:true,
-      pdCountryId:''
     })
   }
   //修改
@@ -53,34 +50,32 @@ class CountryManageForm extends Component {
     if(!this.props.countryManage.authorityList.authorityEdit) {
       return;
     }
-    this.setState({
-      countryDetail:{
-        name:el.name,
-        status:el.status,
-      },
-      pdCountryId:el.pdCountryId,
-      visible:true,
-    })
+    this.setState({ visible:true });
+    let countryDetail = {
+          name:el.name,
+          status:el.status,
+          imageUrl:el.url,
+          pdCountryId:el.pdCountryId,
+        };
     this.props.dispatch({
-      type:'countryManage/setFileList',
-      payload:el.url
+      type:'countryManage/setDetail',
+      payload:countryDetail
     })
   }
   //取消
   handleCancel =()=> {
     //重置表单
-    this.props.form.resetFields();
     this.setState({
       visible:false,
       loading:false,
-      countryDetail:{}
+      errorText:'',
     })
+    this.props.form.resetFields();
     this.props.dispatch({
-      type:'countryManage/setFileList',
-      payload:null
+      type:'countryManage/resetData',
     })
   }
-  //logo必填
+  //logo自定义校验
   validateLogo(imageUrl) {
     let errorText;
     let status;
@@ -98,21 +93,23 @@ class CountryManageForm extends Component {
   }
   //提交
   handleOk() {
+    let { countryDetail } = this.props.countryManage;
     this.props.form.validateFields((err, values) => {
-     if (this.validateLogo(this.props.countryManage.imageUrl)&&!err) {
-       values = {...values, ...{ url:this.props.countryManage.imageUrl }};
+     if (this.validateLogo(countryDetail.imageUrl)&&!err) {
+       values = {...values, ...{ url:countryDetail.imageUrl }};
        this.saveCountry(values);
      }
    });
   }
   //提交Api
   saveCountry(values) {
+    const { countryDetail } =  this.props.countryManage;
     this.setState({
       loading:true
     })
     let message = '';
-    if(this.state.pdCountryId!== '') {
-      values = {...values,...{pdCountryId:this.state.pdCountryId}};
+    if(countryDetail.pdCountryId!== '') {
+      values = {...values,...{ pdCountryId: countryDetail.pdCountryId }};
       message='修改成功'
     } else {
       message='新增成功'
@@ -125,7 +122,7 @@ class CountryManageForm extends Component {
           type:'countryManage/fetchList',
           payload:{}
         })
-        message.success(message)
+        message.success(message,1)
       }
       this.handleCancel()
     },(error)=>{
@@ -134,9 +131,9 @@ class CountryManageForm extends Component {
   }
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { data, authorityList, fileDomain } = this.props.countryManage;
-    const { visible, countryDetail, pdCountryId, errorText, loading } =this.state;
-    let title = pdCountryId?'修改国家':'新增国家';
+    const { data, authorityList, countryDetail } = this.props.countryManage;
+    const { visible, errorText, loading } =this.state;
+    let title = countryDetail.pdCountryId?'修改国家':'新增国家';
     return(
       <div className="country-manage-components">
         {
@@ -156,7 +153,7 @@ class CountryManageForm extends Component {
                   <Card
                     className={`${authorityList.authorityEdit?'card-item':'card-item disabled'}`}
                     hoverable
-                    cover={<img alt="example" src={`${fileDomain}${el.url}`} />}>
+                    cover={<img alt="example" src={el.picUrl} />}>
                     <div className="theme-color country-name">{el.name}</div>
                   </Card>
                 </div>

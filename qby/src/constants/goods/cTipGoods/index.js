@@ -203,7 +203,7 @@ class CtipGoods extends Component {
     .then(res => {
       const { code } =res;
       if(code == '0') {
-        message.success(SuccessTips[this.state.handleContent.tips])
+        message.success(SuccessTips[this.state.handleContent.tips],1)
         this.successHandel()
       }
       this.setState({
@@ -225,7 +225,7 @@ class CtipGoods extends Component {
     .then(res => {
       const { code } =res;
       if(code == '0') {
-        message.success(SuccessTips[this.state.handleContent.tips])
+        message.success(SuccessTips[this.state.handleContent.tips],1)
         this.successHandel()
       }
       this.setState({
@@ -247,7 +247,7 @@ class CtipGoods extends Component {
     .then(res => {
       const { code } =res;
       if(code == '0') {
-        message.success(SuccessTips[this.state.handleContent.tips])
+        message.success(SuccessTips[this.state.handleContent.tips],1)
         this.successHandel()
       } else {
         this.setState({visible:false})

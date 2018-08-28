@@ -149,7 +149,7 @@ class BtipGoods extends Component {
   }
   //请求成功后统一处理
   successHandel() {
-    message.success(SuccessTips[this.state.tips])
+    message.success(SuccessTips[this.state.tips],1)
     //在当前页刷新
     this.props.dispatch({
       type:'productGoodsList/fetchList',

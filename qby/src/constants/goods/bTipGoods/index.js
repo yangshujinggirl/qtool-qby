@@ -205,7 +205,7 @@ class BtipGoods extends Component {
     .then(res => {
       const { code } =res;
       if(code == '0') {
-        message.success(SuccessTips[this.state.handleContent.tips])
+        message.success(SuccessTips[this.state.handleContent.tips],1)
         this.successHandel()
       }
       this.setState({
@@ -227,7 +227,7 @@ class BtipGoods extends Component {
     .then(res => {
       const { code } =res;
       if(code == '0') {
-        message.success(SuccessTips[this.state.handleContent.tips])
+        message.success(SuccessTips[this.state.handleContent.tips],1)
         this.successHandel()
       }
       this.setState({
@@ -249,7 +249,7 @@ class BtipGoods extends Component {
     .then(res => {
       const { code } =res;
       if(code == '0') {
-        message.success(SuccessTips[this.state.handleContent.tips])
+        message.success(SuccessTips[this.state.handleContent.tips],1)
         this.successHandel()
       }
       this.setState({
