@@ -66,7 +66,7 @@ class NormalForm extends Component{
                 )}
             </FormItem>
             <FormItem
-              label="反馈时长"
+              label="反馈时间"
             >
               {getFieldDecorator('rangePicker')(
                 <RangePicker />

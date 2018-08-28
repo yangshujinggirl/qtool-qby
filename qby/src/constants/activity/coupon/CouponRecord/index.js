@@ -70,16 +70,19 @@ class CouponRecord extends Component{
           submit={this.searchData}
           onValuesChange = {this.searchDataChange}
         />
-      <div style={{marginTop:'15px'}}>
+        <div style={{marginTop:'15px'}}>
           <Qtable
             dataSource = {dataList}
             columns = {Columns}/>
         </div>
-        <Qpagination
-          data={this.props.coupon.data2}
-          onChange={this.changePage}
-          onShowSizeChange = {this.onShowSizeChange}
-        />
+        {
+          dataList.length>0?
+          <Qpagination
+            data={this.props.coupon.data2}
+            onChange={this.changePage}
+            onShowSizeChange = {this.onShowSizeChange}
+          />:null
+      }
       </div>
     )
   }

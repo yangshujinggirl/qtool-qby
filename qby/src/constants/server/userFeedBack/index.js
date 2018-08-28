@@ -78,7 +78,7 @@ class UserFeedBack extends Component{
   render(){
     const {dataList} = this.props.userFeedBack;
     return(
-      <div className='qtools-components-pages'>
+      <div className='qtools-components-pages userfeedback'>
         <FilterForm
           submit={this.searchData}
           onValuesChange = {this.searchDataChange}
@@ -90,11 +90,14 @@ class UserFeedBack extends Component{
               onOperateClick={this.handleOperateClick.bind(this)}
             />
         </div>
-        <Qpagination
-          data={this.props.userFeedBack}
-          onChange={this.changePage}
-          onShowSizeChange = {this.onShowSizeChange}
-        />
+        {
+          dataList.length>0?
+          <Qpagination
+            data={this.props.userFeedBack}
+            onChange={this.changePage}
+            onShowSizeChange = {this.onShowSizeChange}
+          />:null
+      }
       </div>
     )
   }

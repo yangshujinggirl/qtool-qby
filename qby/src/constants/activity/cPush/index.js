@@ -280,11 +280,14 @@ class cPush extends Component{
           select
           rowSelection = {this.state.rowSelection}
         />
-        <Qpagination
-          data={this.props.cPush}
-          onChange={this.changePage}
-          onShowSizeChange = {this.onShowSizeChange}
-        />
+        {
+          dataList.length>0?
+          <Qpagination
+            data={this.props.cPush}
+            onChange={this.changePage}
+            onShowSizeChange = {this.onShowSizeChange}
+          />:null
+        }
       </div>
     );
   }
