@@ -386,6 +386,9 @@ class AddModelForm extends Component {
   }
 	//提交Api
   onSubmit(values,func) {
+		this.setState({
+			loading:true
+		})
     goodSaveApi({pdCategory:values})
     .then(res => {
       const { code, message } =res;
@@ -402,6 +405,9 @@ class AddModelForm extends Component {
             level:this.props.level
           }
 				}
+				this.setState({
+					loading:false
+				})
         this.props.dispatch({
           type:'internalSort/fetchList',
           payload
@@ -422,14 +428,23 @@ class AddModelForm extends Component {
 		const form = this.props.form;
 		return (
 			<Modal
+				className="goods-handle-modal-wrap"
 				visible={visible}
 				title={this.getTitle()}
-				okText="确定"
 				onCancel={this.onCancel.bind(this)}
-				onOk={this.handleSubmit}>
-				<Form >
-					{this.renderForm(form)}
-				</Form>
+				footer={null}>
+				<div className="handle-modal-content">
+					<Form >
+						{this.renderForm(form)}
+					</Form>
+				</div>
+				<div className="handle-modal-footer">
+					<Button onClick={this.onCancel.bind(this)}>取消</Button>
+					<Button
+						type='primary'
+						loading={this.state.loading}
+						onClick={this.handleSubmit.bind(this)}>确认</Button>
+				</div>
 			</Modal>
 		);
 	}

@@ -189,12 +189,12 @@ class CtipGoods extends Component {
         currentPage:this.props.cTipGoodsList.currentPage
       }
     })
-    this.setState({
-      visible:false,
-    })
   }
   //上线下线
   sellAndSaleStop(ids,val) {
+    this.setState({
+      loading:true,
+    })
     const params = {
       cstatus:val,
       pdSpuIds:ids
@@ -205,13 +205,18 @@ class CtipGoods extends Component {
       if(code == '0') {
         message.success(SuccessTips[this.state.handleContent.tips])
         this.successHandel()
-      } else {
-        this.setState({visible:false})
       }
+      this.setState({
+        loading:true,
+        visible:false
+      })
     })
   }
   //上新
   sellNewGoods(ids,val) {
+    this.setState({
+      loading:true,
+    })
     const params = {
       isNew:val,
       pdSpuIds:ids
@@ -222,13 +227,18 @@ class CtipGoods extends Component {
       if(code == '0') {
         message.success(SuccessTips[this.state.handleContent.tips])
         this.successHandel()
-      } else {
-        this.setState({visible:false})
       }
+      this.setState({
+        loading:true,
+        visible:false
+      })
     })
   }
   //畅销
   sellHotGoods(ids,val) {
+    this.setState({
+      loading:true,
+    })
     const params = {
       isHot:val,
       pdSpuIds:ids
@@ -242,6 +252,10 @@ class CtipGoods extends Component {
       } else {
         this.setState({visible:false})
       }
+      this.setState({
+        loading:false,
+        visible:false
+      })
     })
   }
   //详情
@@ -314,6 +328,7 @@ class CtipGoods extends Component {
       fields,
       handleContent,
       visible,
+      loading
     } = this.state;
     return (
       <div className="cTip-goods-components qtools-components-pages">
@@ -358,12 +373,21 @@ class CtipGoods extends Component {
             onChange={this.changePage}/>
         }
         <Modal
+          className="goods-handle-modal-wrap"
 					title='批量操作'
 					visible={visible}
-					onOk={this.onOkModal.bind(this)}
-					onCancel={this.onCancelModal.bind(this)}>
-          {WarnMessage[handleContent.tips]}
-  				</Modal>
+          footer={null}>
+          <div className="handle-modal-content">
+            {WarnMessage[handleContent.tips]}
+          </div>
+          <div className="handle-modal-footer">
+            <Button onClick={this.onCancelModal.bind(this)}>取消</Button>
+            <Button
+              type='primary'
+              loading={loading}
+              onClick={this.onOkModal.bind(this)}>确认</Button>
+          </div>
+				</Modal>
       </div>
     )
   }

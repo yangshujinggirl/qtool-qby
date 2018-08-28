@@ -72,6 +72,7 @@ class CountryManageForm extends Component {
     this.props.form.resetFields();
     this.setState({
       visible:false,
+      loading:false,
       countryDetail:{}
     })
     this.props.dispatch({
@@ -79,6 +80,7 @@ class CountryManageForm extends Component {
       payload:null
     })
   }
+  //logo必填
   validateLogo(imageUrl) {
     let errorText;
     let status;
@@ -97,13 +99,17 @@ class CountryManageForm extends Component {
   //提交
   handleOk() {
     this.props.form.validateFields((err, values) => {
-     if (!err&&this.validateLogo(this.props.countryManage.imageUrl)) {
+     if (this.validateLogo(this.props.countryManage.imageUrl)&&!err) {
        values = {...values, ...{ url:this.props.countryManage.imageUrl }};
        this.saveCountry(values);
      }
    });
   }
+  //提交Api
   saveCountry(values) {
+    this.setState({
+      loading:true
+    })
     let message = '';
     if(this.state.pdCountryId!== '') {
       values = {...values,...{pdCountryId:this.state.pdCountryId}};
@@ -120,10 +126,8 @@ class CountryManageForm extends Component {
           payload:{}
         })
         message.success(message)
-        this.handleCancel()
-      } else {
-        this.handleCancel()
       }
+      this.handleCancel()
     },(error)=>{
       this.handleCancel()
     })
@@ -131,7 +135,7 @@ class CountryManageForm extends Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     const { data, authorityList, fileDomain } = this.props.countryManage;
-    const { visible, countryDetail, pdCountryId, errorText } =this.state;
+    const { visible, countryDetail, pdCountryId, errorText, loading } =this.state;
     let title = pdCountryId?'修改国家':'新增国家';
     return(
       <div className="country-manage-components">
@@ -161,42 +165,51 @@ class CountryManageForm extends Component {
           </Row>
         </div>
         <Modal
-          className='country-modal-content'
+          className='country-modal-content goods-handle-modal-wrap'
           title={title}
           visible={visible}
-          onOk={()=>this.handleOk()}
+          footer={null}
           onCancel={()=>this.handleCancel()}>
-          <Form>
-            <FormItem
-              label="国家图片" {...formItemLayout}
-              required={true}>
-              <UpLoadFile validateLogo={this.validateLogo.bind(this)}/>
-              <div className="ant-form-explain-error">{errorText}</div>
-            </FormItem>
-            <FormItem
-              label="国家名称"
-              {...formItemLayout}>
-              {getFieldDecorator('name', {
-                rules: [{ required: true, message: '请输入国家名称' }],
-                initialValue:countryDetail.name
-              })(
-                <Input placeholder="请输入国家名称" autoComplete="off"/>
-              )}
-            </FormItem>
-            <FormItem
-              label="国家状态"
-              {...formItemLayout}>
-              {getFieldDecorator('status', {
-                rules: [{ required: true, message: '请选择状态' }],
-                initialValue:countryDetail.status
-              })(
-                <Select placeholder="请选择" autoComplete="off">
-                  <Select.Option value={1} key={1}>启用</Select.Option>
-                  <Select.Option value={0} value={0}>关闭</Select.Option>
-                </Select>
-              )}
-            </FormItem>
-          </Form>
+          <div className="handle-modal-content">
+            <Form>
+              <FormItem
+                label="国家图片" {...formItemLayout}
+                required={true}>
+                <UpLoadFile validateLogo={this.validateLogo.bind(this)}/>
+                <div className="ant-form-explain-error">{errorText}</div>
+              </FormItem>
+              <FormItem
+                label="国家名称"
+                {...formItemLayout}>
+                {getFieldDecorator('name', {
+                  rules: [{ required: true, message: '请输入国家名称' }],
+                  initialValue:countryDetail.name
+                })(
+                  <Input placeholder="请输入国家名称" autoComplete="off"/>
+                )}
+              </FormItem>
+              <FormItem
+                label="国家状态"
+                {...formItemLayout}>
+                {getFieldDecorator('status', {
+                  rules: [{ required: true, message: '请选择状态' }],
+                  initialValue:countryDetail.status
+                })(
+                  <Select placeholder="请选择" autoComplete="off">
+                    <Select.Option value={1} key={1}>启用</Select.Option>
+                    <Select.Option value={0} value={0}>关闭</Select.Option>
+                  </Select>
+                )}
+              </FormItem>
+            </Form>
+          </div>
+          <div className="handle-modal-footer">
+            <Button onClick={this.handleCancel.bind(this)}>取消</Button>
+            <Button
+              type='primary'
+              loading={loading}
+              onClick={this.handleOk.bind(this)}>确认</Button>
+          </div>
         </Modal>
       </div>
     )
