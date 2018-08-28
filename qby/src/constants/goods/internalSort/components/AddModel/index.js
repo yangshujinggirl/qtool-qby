@@ -405,15 +405,15 @@ class AddModelForm extends Component {
             level:this.props.level
           }
 				}
-				this.setState({
-					loading:false
-				})
         this.props.dispatch({
           type:'internalSort/fetchList',
           payload
         })
         this.onCancel();
       }
+			this.setState({
+				loading:false
+			})
     },error=> {
 
     })
