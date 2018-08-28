@@ -110,11 +110,14 @@ class MarketResource extends Component{
                   columns = {Columns}
                   onOperateClick = {this.handleOperateClick.bind(this)}
                 />
-                <Qpagination
-                  data={this.props.marketResource}
-                  onChange={this.changePage}
-                  onShowSizeChange = {this.onShowSizeChange}
-                />
+                {
+                  dataList.length>0?
+                  <Qpagination
+                    data={this.props.marketResource}
+                    onChange={this.changePage}
+                    onShowSizeChange = {this.onShowSizeChange}
+                  />:null
+              }
             </div>
         )
     }

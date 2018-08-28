@@ -135,11 +135,14 @@ class UserOrder extends Component {
           dataSource={dataList}
           onOperateClick = {this.handleOperateClick.bind(this)}
           columns = {Columns}/>
-        <Qpagination
-          data={this.props.userorders}
-          onChange={this.changePage}
-          onShowSizeChange = {this.onShowSizeChange}
-        />
+        {
+            dataList.length>0?
+            <Qpagination
+              data={this.props.userorders}
+              onChange={this.changePage}
+              onShowSizeChange = {this.onShowSizeChange}
+            />:null
+        }
       </div>
     )
   }

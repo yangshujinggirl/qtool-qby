@@ -134,11 +134,14 @@ class ServerBill extends Component{
           columns = {Columns}
           onOperateClick = {this.handleOperateClick}
         />
-        <Qpagination
-          data={this.props.serverBill}
-          onChange={this.changePage}
-          onShowSizeChange = {this.onShowSizeChange}
-        />
+        {
+          dataList.length>0?
+          <Qpagination
+            data={this.props.serverBill}
+            onChange={this.changePage}
+            onShowSizeChange = {this.onShowSizeChange}
+          />:null
+      }
       </div>
     )
   }

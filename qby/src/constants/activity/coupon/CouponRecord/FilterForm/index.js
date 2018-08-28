@@ -59,14 +59,6 @@ class NormalForm extends Component{
                   </Select>
                   )}
               </FormItem>
-              <FormItem  label='注券状态'>
-                  {getFieldDecorator('voucherStatus')(
-                  <Select allowClear={true} placeholder="注券状态" className='select'>
-                      <Option value={0}>成功</Option>
-                      <Option value={1}>失败</Option>
-                  </Select>
-                  )}
-              </FormItem>
               <FormItem
                   label="注券时间"
               >

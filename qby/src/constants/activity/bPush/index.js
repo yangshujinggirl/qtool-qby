@@ -280,11 +280,15 @@ class Bpush extends Component{
           select
           rowSelection = {this.state.rowSelection}
         />
-        <Qpagination
-          data={this.props.bPush}
-          onChange={this.changePage}
-          onShowSizeChange = {this.onShowSizeChange}
-        />
+        {
+          dataList.length>0?
+          <Qpagination
+            data={this.props.bPush}
+            onChange={this.changePage}
+            onShowSizeChange = {this.onShowSizeChange}
+          />:null
+        }
+
       </div>
     );
   }
