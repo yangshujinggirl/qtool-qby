@@ -27,7 +27,7 @@ class StockSearchForm extends React.Component {
             payload:{code:'qerp.web.qpos.pd.inv.query',values:values}
         });
         this.props.dispatch({ type: 'tab/loding', payload:true});
-    }  
+    }
 
     //同步data
     syncState=(values)=>{
@@ -38,20 +38,17 @@ class StockSearchForm extends React.Component {
     }
 
     categorylist=()=>{
-        let values={
-            getChildren:false,
-            enabled:true
-        }
+        let values = {"level":1,"parentId":null,"status":1}
         const result=GetServerData('qerp.web.pd.category.list',values)
         result.then((res) => {
             return res;
         }).then((json) => {
             if(json.code=='0'){
-               const pdCategorys=json.pdCategorys
+               const pdCategorys=json.pdCategory
                this.setState({
                     pdCategorys:pdCategorys
                })
-               
+
             }
         })
 
@@ -134,7 +131,7 @@ class StockSearchForm extends React.Component {
                             {
                                 this.state.pdCategorys.map((item,index)=>{
                                     return (<Option value={String(item.pdCategoryId)} key={index}>{item.name}</Option>)
-       
+
                                 })
                             }
                             </Select>
@@ -158,7 +155,7 @@ class StockSearchForm extends React.Component {
     this.handleSearch()
 
 }
-  
+
 }
 function mapStateToProps(state) {
     const {limit,currentPage} = state.dataspcun;

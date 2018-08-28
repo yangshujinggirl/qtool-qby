@@ -49,9 +49,9 @@ class NormalForm extends Component{
                 {getFieldDecorator('status')(
                 <Select allowClear={true} placeholder="请选择反馈状态" className='select'>
                     {/* <Option value='10'>待发货</Option> */}
-                    <Option value='1'>待处理</Option>
-                    <Option value='2'>处理中</Option>
-                    <Option value='3'>已处理</Option>
+                    <Option value='10'>待处理</Option>
+                    <Option value='20'>处理中</Option>
+                    <Option value='30'>已处理</Option>
                 </Select>
                 )}
             </FormItem>

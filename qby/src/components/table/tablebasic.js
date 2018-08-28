@@ -49,6 +49,7 @@ class EditableTable extends React.Component {
                 loading={this.props.loading}
                 bordered
                 dataSource={this.props.dataSource}
+                rowKey={(record) =>record.key}
                 columns={this.props.columns}
                 footer={
                     this.props.footer?
@@ -59,7 +60,7 @@ class EditableTable extends React.Component {
                                 pageSize={Number(this.props.limit)}
                                 />
                     :null
-                                
+
                 }
                 showHeader={this.props.showHeader}
                 bordered={this.props.bordered}
