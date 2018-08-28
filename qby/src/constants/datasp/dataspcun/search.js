@@ -90,6 +90,7 @@ class StockSearchForm extends React.Component {
       });
     }
   render() {
+    console.log(this.props)
     const { getFieldDecorator } = this.props.form;
     const adminType=eval(sessionStorage.getItem('adminType'));
     return (

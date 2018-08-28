@@ -184,22 +184,23 @@ class SpEditForm extends React.Component{
                 })
             }
 					};
-					const spShopContractsImg = []
-					const spShopIdContracts=json.spShop.spShopIdContracts
-	        if(spShopIdContracts.length>0){
+					const spShopContractsImg = [];
+					const spShopIdContracts=json.spShop.spShopIdContracts;
+					if(spShopIdContracts){
+		        if(spShopIdContracts.length>0){
 	            for(var i=0;i<spShopIdContracts.length;i++){
-	                // spShopContractsImg.push(spShopIdContracts[i].url)
-	                spShopContractsImg.push({
-											name:spShopIdContracts[i].url,
-	                    uid:spShopIdContracts[i].url,
-	                    status: 'done',
-	                    url:fileDomain+spShopIdContracts[i].url,
-	                    response:{
-	                        data:[spShopIdContracts[i].url]
-	                    }
-	                })
-	            }
-						}
+                spShopContractsImg.push({
+										name:spShopIdContracts[i].url,
+                    uid:spShopIdContracts[i].url,
+                    status: 'done',
+                    url:fileDomain+spShopIdContracts[i].url,
+                    response:{
+                        data:[spShopIdContracts[i].url]
+                    }
+                })
+	            };
+						};
+					};
           this.setState({
 							fileList:spShopContractsImg,
 							ecName:json.spShop.ecName,
@@ -244,8 +245,8 @@ class SpEditForm extends React.Component{
 							spShopContracts:json.spShop.spShopContracts,
 							lat:json.spShop.lat,
 							lng:json.spShop.lng,
-							recAddress:json.spShop.recAddress
-
+							recAddress:json.spShop.recAddress,
+							getinfoData:json.spShop.fixtureMoney
           },function(){
               const spShopPics=this.state.spShopPics
               this.props.dispatch({
@@ -640,7 +641,19 @@ class SpEditForm extends React.Component{
 						<Input placeholder='请输入门店面积' autoComplete="off"/>
 					)}
 				</FormItem>
-                <FormItem
+        <FormItem
+					label="装修费用"
+					labelCol={{ span: 3,offset: 1 }}
+					wrapperCol={{ span: 6 }}
+				>
+					{getFieldDecorator('fixtureMoney', {
+						initialValue:this.state.fixtureMoney,
+						rules:[{pattern:/^\d+(\.\d{0,2})?$/,message:'只能输入两位小数的数字'}]
+					})(
+						<Input placeholder='请输入装修费用' autoComplete="off"/>
+					)}
+				</FormItem>
+        <FormItem
 					label="门店租金"
 					labelCol={{ span: 3,offset: 1 }}
 					wrapperCol={{ span: 6 }}

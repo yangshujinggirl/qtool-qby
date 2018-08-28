@@ -1,6 +1,6 @@
 const Columns = [{
      title: '结算单号',
-     dataIndex: 'outNo',
+     dataIndex: 'settlementNo',
      render:(text, record)=>{
        return(
          <div>
@@ -15,7 +15,7 @@ const Columns = [{
      }
    },{
      title: '关联订单',
-     dataIndex: 'type',
+     dataIndex: 'outNo',
      render:(text, record)=>{
        return(
          <div>

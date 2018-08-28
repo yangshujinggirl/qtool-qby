@@ -7,13 +7,23 @@ export default {
     currentPage:0,
   	values:{},
   	pdInvVos:[],
-    distributeData:{},
-    componkey:null
+    distributeData:{
+      dataList:[],
+      currentPage:0,
+      limit:15,
+      total:null
+    },
+    componkey:null,
+    pdSkuId:null,
+    pdSpuId:null
   },
   reducers: {
   synchronous(state, { payload:values}) {
 		return {...state,values}
 	},
+  initId(state,{payload:{pdSkuId,pdSpuId}}){
+    return { ...state, pdSkuId, pdSpuId}
+  },
 	fetchlist(state, { payload:{pdInvVos,limit,currentPage,total}}) {
 		return {...state,pdInvVos,limit,currentPage,total}
 	},
@@ -25,13 +35,13 @@ export default {
   }
   },
   effects: {
-    *fetch({ payload: {code,values} }, { call, put ,select}) {
+    *fetch({ payload: {code,values} }, { call, put}) {
 			const result=yield call(GetServerData,code,values);
 			yield put({type: 'tab/loding',payload:false});
 			if(result.code=='0'){
         const pdInvVos=(!result.pdInvVos)?[]:result.pdInvVos
 				const limit=result.limit;
-        		const currentPage=result.currentPage;
+    		const currentPage=result.currentPage;
 				const total=result.total;
 				for(var i=0;i<pdInvVos.length;i++){
 					pdInvVos[i].index=i+1
@@ -39,13 +49,16 @@ export default {
 				yield put({type: 'fetchlist',payload:{pdInvVos,limit,currentPage,total}});
 			}
 		},
-    *fetchList({payload:values},{call,put}){
-      const result =  yield call(getListApi,values);
+    *fetchList({payload:values},{call,put,select}){
+      const pdSpuId = yield select(state => state.dataspcun.pdSpuId);
+      const pdSkuId = yield select(state => state.dataspcun.pdSkuId);
+      const values_ = {pdSpuId,pdSkuId,...values}
+      const result =  yield call(getListApi,values_);
       if(result.code == '0'){
         const { shopInvs, currentPage, limit, total } = result;
-        for(var i=0;i<shopInvs.length;i++){
-          shopInvs[i].key = shopInvs[i].bPushId;
-        };
+        shopInvs.map((item,index) => {
+          item.key = index+1;
+        })
         yield put({
           type:'getList',
           payload:{

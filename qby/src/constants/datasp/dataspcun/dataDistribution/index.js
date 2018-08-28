@@ -19,7 +19,7 @@ class DataDistribute extends Component{
   //点击搜索
   searchData = (values)=> {
     this.props.dispatch({
-      type:'dataDistribute/fetchList',
+      type:'dataspcun/fetchList',
       payload:values
     })
   }
@@ -28,14 +28,14 @@ class DataDistribute extends Component{
     const currentPage = current-1;
     const values = {...this.state.field,currentPage}
     this.props.dispatch({
-      type:'dataDistribute/fetchList',
+      type:'dataspcun/fetchList',
       payload:values
     });
   }
   //pageSize改变时的回调
   onShowSizeChange =({currentPage,limit})=> {
     this.props.dispatch({
-      type:'dataDistribute/fetchList',
+      type:'dataspcun/fetchList',
       payload:{currentPage,limit}
     });
   }
@@ -45,13 +45,18 @@ class DataDistribute extends Component{
   }
   //初始化数据
   componentWillMount(){
-    debugger
+    const {pdSkuId,pdSpuId} = this.props.data;
     this.props.dispatch({
-      type:'dataDistribute/fetchList',
-      payload:{}
+      type:'dataspcun/initId',
+      payload:{pdSkuId,pdSpuId}
+    })
+    this.props.dispatch({
+      type:'dataspcun/fetchList',
+      payload:{pdSkuId,pdSpuId}
     })
   }
   render(){
+    console.log(this.props)
     const {dataList} = this.props.dataspcun.distributeData;
     console.log(dataList)
     return(
@@ -68,7 +73,7 @@ class DataDistribute extends Component{
           columns = {Columns}
         />
         <Qpagination
-          data={this.props.dataspcun}
+          data={this.props.dataspcun.distributeData}
           onChange={this.changePage}
           onShowSizeChange = {this.onShowSizeChange}
         />
