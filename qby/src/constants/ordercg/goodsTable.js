@@ -153,7 +153,7 @@ class GoodsInfoTable extends React.Component {
           tempDataSource[index].price = json.pdSpu.costPrice;
           tempDataSource[index].name=json.pdSpu.name;
           tempDataSource[index].displayName=json.displayName;
-          tempDataSource[index].createTime=json.createTime;
+          tempDataSource[index].createTime=json.pdSpu.createTime;
           this.props.dispatch({
               type:'ordercg/syncGoodsInfo',
               payload:tempDataSource

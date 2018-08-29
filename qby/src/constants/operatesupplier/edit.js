@@ -18,12 +18,34 @@ class OperatesupplierEditForm extends React.Component{
 			good:false,
 		}
 	}
-
+	componentDidMount(){
+		this.props.formValue.billDay = null;
+		this.props.formValue.goodDay = null;
+		if(this.props.data){
+			const payload={code:'qerp.web.pd.supplier.info',values:{'pdSupplierId':this.props.data.pdSupplierId}}
+			//请求表单信息
+			this.initDateEdit(payload)
+		};
+	}
 	//请求页面初始化数据
-  	initDateEdit = (value) =>{
-		  //请求用户信息
-  		this.props.dispatch({type:'operatesupplier/editfetch',payload:value})
-    	this.props.dispatch({ type: 'tab/loding', payload:true})
+	initDateEdit = (value) =>{
+	  //请求用户信息
+		this.props.dispatch({type:'operatesupplier/editfetch',payload:value})
+		this.props.dispatch({ type: 'tab/loding', payload:true});
+		if(this.props.formValue.billDay){
+			this.setState({ bill:true,good:false })
+		};
+		if(this.props.formValue.goodDay){
+			this.setState({ bill:false,good:true })
+		};
+	}
+	componentWillReceiveProps(props){
+		if(props.formValue.billDay){
+			this.setState({ bill:true,good:false })
+		};
+		if(props.formValue.goodDay){
+			this.setState({ bill:false,good:true })
+		};
 	}
 
 	//删除当前tab
@@ -53,49 +75,50 @@ class OperatesupplierEditForm extends React.Component{
 		})
 		this.props.dispatch({ type: 'tab/loding', payload:true})
 	}
-
-
 	//初始化state
 	initState=()=>{
 		this.props.dispatch({
-            type:'operatesupplier/initState',
-            payload:{}
+      type:'operatesupplier/initState',
+      payload:{}
 		})
-    }
+  }
 
 	//保存
 	handleSubmit = (e) => {
 		e.preventDefault();
 		this.props.form.validateFields((err, values) => {
-		    if (!err) {
-                let data = values;
-                if(values.taxRate == '-1'){
-                    data.taxRate == null;
-                }
-                if(this.props.data){
-                    data.pdSupplierId = this.props.data.pdSupplierId;
-                }
-                const result=GetServerData('qerp.web.pd.supplier.save',data);
-                result.then((res) => {
-                    return res;
-                }).then((json) => {
-                    if(json.code=='0'){
+	    if (!err) {
+        let data = values;
+        if(values.taxRate == '-1'){
+            data.taxRate == null;
+        };
+        if(this.props.data){
+          data.pdSupplierId = this.props.data.pdSupplierId;
+        };
+				if(values.goodDay||values.billDay){
+					values.dayPay = values.goodDay||values.billDay;
+				}
+        const result=GetServerData('qerp.web.pd.supplier.save',data);
+        result.then((res) => {
+            return res;
+        }).then((json) => {
+          if(json.code=='0'){
 						if(this.props.data){
 							message.success('修改成功',.8);
 						}else{
 							message.success('新建成功',.8);
-						}
+						};
 						this.deleteTab();
 						this.refreshList();
 						this.initState();
-                    }else{
+          }else{
 						message.error(json.message,.8);
-					}
-                })
-            }else{
-                return false;
-            }
-        });
+					};
+	      })
+	    }else{
+	        return false;
+	    };
+		});
 	}
 
 	//取消
@@ -107,16 +130,22 @@ class OperatesupplierEditForm extends React.Component{
 	//账期类型变化的时候
 	typeChange =(e)=> {
 		const value = e.target.value;;
-		if(value == 30){
-			this.setState({ bill:false,good:false })
+		if(value == 10){
+			this.setState({ bill:false,good:true })
 		}else if(value == 20){
 			this.setState({ bill:true,good:false })
 		}else{
-			this.setState({ bill:false,good:true })
-		}
+			this.setState({ bill:false,good:false })
+		};
+	  this.props.form.setFields({
+			goodDay:{value:null},
+			billDay:{value:null}
+		});
 	}
 
 	render(){
+		console.log(this.state.good)
+		console.log(this.state.bill)
 		const { getFieldDecorator } = this.props.form;
 		const radioStyle = {
       display: 'block',
@@ -202,17 +231,17 @@ class OperatesupplierEditForm extends React.Component{
                     )}
                 </FormItem>
 								<Row>
-		              <Col span={5}>
+		              <Col span={6}>
 		                <FormItem
 		                  label="账期类型"
 		                  labelCol={{ span: 3,offset: 1 }}
-		                  wrapperCol={{ span: 8 }}
+		                  wrapperCol={{ span: 11 }}
 		                >
 		                  {getFieldDecorator('type',{
 													initialValue:this.props.formValue.type,
 		                      rules: [{ required: true, message: '请选择账期类型' }],
 		                  })(
-		                    <RadioGroup  onChange={this.typeChange}>
+		                    <RadioGroup  onChange={this.typeChange} className='radio'>
 		                      <Radio style={radioStyle} value={30}>现结</Radio>
 		                      <Radio style={radioStyle} value={10}>货到</Radio>
 		                      <Radio style={radioStyle} value={20}>票到</Radio>
@@ -222,20 +251,20 @@ class OperatesupplierEditForm extends React.Component{
 		            </Col>
 		            <Col span={6} className='pay'>
 		                <FormItem>
-		                  {getFieldDecorator('dayPay',{
-												initialValue:this.props.formValue.dayPay,
+		                  {getFieldDecorator('goodDay',{
+												initialValue:this.props.formValue.goodDay,
 		                    rules: [{ required: this.state.good , message: '请填写付款截至天数' }],
 		                  })(
-		                      <div><Input className='daypay' disabled={!this.state.good}/>　个自然日付款</div>
-		                  )}
+		                      <Input className='daypay' disabled={!this.state.good}/>
+		                  )}　个自然日付款
 		                </FormItem>
 		                <FormItem>
-		                  {getFieldDecorator('dayPay',{
-												initialValue:this.props.formValue.dayPay,
+		                  {getFieldDecorator('billDay',{
 		                    rules: [{ required: this.state.bill, message: '请填写付款截至天数' }],
+												initialValue:this.props.formValue.billDay,
 		                  })(
-		                      <div><Input className='daypay' disabled={!this.state.bill}/>　个自然日付款</div>
-		                  )}
+		                      <Input className='daypay' disabled={!this.state.bill}/>
+		                  )}　个自然日付款
 		                </FormItem>
 		              </Col>
 		            </Row>
@@ -296,13 +325,7 @@ class OperatesupplierEditForm extends React.Component{
 					</div>
       	)
   	}
-  	componentDidMount(){
-    	if(this.props.data){
-			  const payload={code:'qerp.web.pd.supplier.info',values:{'pdSupplierId':this.props.data.pdSupplierId}}
-			  //请求表单信息
-			this.initDateEdit(payload)
-		}
-  	}
+
 }
 function mapStateToProps(state) {
     const {values,formValue} = state.operatesupplier;

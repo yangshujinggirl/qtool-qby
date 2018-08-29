@@ -38,6 +38,10 @@ class OperatesupplierTable extends React.Component {
             dataIndex: 'statusStr'
         }];
     }
+		componentDidMount(){
+		        //执行初始化数据方法获取list
+				this.initList(this.props.values,this.props.limit,this.props.currentPage);
+			}
 
     //点击表格上的修改按钮操作
     editInfo = (record) =>{
@@ -73,13 +77,13 @@ class OperatesupplierTable extends React.Component {
 			const tableList = this.props.tableList;
 			tableList.map((item,index)=>{
 				if(item.type==10){
-					item.typeStr='货到'+item.typeStr+'天';
+					item.typeStr='货到'+item.dayPay+'天';
 				};
 				if(item.type==20){
-					item.typeStr='票到'+item.typeStr+'天';
+					item.typeStr='票到'+item.dayPay+'天';
 				};
 				return item;
-			})
+			});
       return (
         <EditableTable
           dataSource={tableList}
@@ -91,16 +95,11 @@ class OperatesupplierTable extends React.Component {
           total={this.props.total}
           limit={this.props.limit}
           current={Number(this.props.currentPage)+1}
-          />
+        />
       );
-	}
-	componentDidMount(){
-        //执行初始化数据方法获取list
-		this.initList(this.props.values,this.props.limit,this.props.currentPage);
 	}
 
 }
-
 function mapStateToProps(state) {
     const {tableList,total,limit,currentPage,values} = state.operatesupplier;
     return {tableList,total,limit,currentPage,values};

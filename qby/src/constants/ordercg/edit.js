@@ -98,6 +98,7 @@ class OrdercgEditForm extends React.Component{
 				data.paymentType = 10;
 				data.vouchersType = values.vouchersType;
 				data.details = this.props.goodsInfo;
+				data.remark = values.remark;
 				data.type = 10;
 				if(this.props.data&&this.props.data.wsAsnId){
 					data.wsAsnId = this.props.data.wsAsnId;

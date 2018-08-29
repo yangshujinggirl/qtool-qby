@@ -9,6 +9,7 @@ const CheckboxGroup = Checkbox.Group;
 const FormItem = Form.Item;
 const { TextArea } = Input;
 const Option = Select.Option;
+import './index.less'
 
 
 class SpEditForm extends React.Component{
@@ -361,6 +362,7 @@ class SpEditForm extends React.Component{
 			const { getFieldDecorator } = this.props.form;
      	return(
     	<Form className="addUser-form addcg-form operate-shop-form">
+			<div className='title'>基本信息</div>
         <FormItem>
 					<PicturesWall initfileList={this.state.initfileList}/>
 				</FormItem>
@@ -473,67 +475,20 @@ class SpEditForm extends React.Component{
 						<Input placeholder='请输入门店店主' autoComplete="off"/>
 					)}
 				</FormItem>
-                <FormItem
-					label="门店状态"
-					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}
-				>
-					{getFieldDecorator('status', {
-						rules: [{ required: true, message: '请选择门店状态'}],
-						initialValue:this.state.status
-					})(
-						<Select placeholder="请选择门店状态">
-                        <Option value="0">待开业</Option>
-                        <Option value="10">开业中</Option>
-                        <Option value="20">关业中</Option>
-                      </Select>
-					)}
-				</FormItem>
-				<FormItem
-					label="门店类型"
-					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}
-				>
-					{getFieldDecorator('shopType', {
-						rules: [{ required: true, message: '请选择门店类型'}],
-						initialValue:this.state.shopType,
-						onChange:this.selectChange
-					})(
-						<Select placeholder="请选择门店类型">
-							<Option value="1">直营</Option>
-							<Option value="2">联营</Option>
-							<Option value="3">加盟</Option>
-                      </Select>
-					)}
-				</FormItem>
-				<FormItem
-					label="分成比例"
-					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}
-				>
-					<div className='felxboxs'>
-						<div style={{width:'45%'}}>
-							<p className='tc'>食品尿不湿类</p>
-							<Input suffix='%' disabled={this.state.shopType=='2'?false:true} value={this.state.foodShareRatio} onChange={this.hindChange1.bind(this)} onBlur={this.hindBlue1.bind(this)}/>
-						</div>
-						<div style={{width:'45%'}}>
-							<p className='tc'>非食品尿不湿类</p>
-							<Input suffix='%' disabled={this.state.shopType=='2'?false:true} value={this.state.nonfoodShareRatio} onChange={this.hindChange2.bind(this)} onBlur={this.hindBlue2.bind(this)}/>
-						</div>
-					</div>
-				</FormItem>
-                <FormItem
-                    label="所属城市"
-                    labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}
-                    >
-                    {getFieldDecorator('shop_city', {
-                        rules: [{ type: 'array', required: true, message: '请选择所属城市' }],
-                        initialValue:this.props.data?this.state.shopcity:null
-                    })(
-                        <Cascader placeholder="请选择所属城市" options={this.props.bsRegions}/>
-                    )}
-                </FormItem>
+
+				<div className='title'>地址信息</div>
+        <FormItem
+            label="所属城市"
+            labelCol={{ span: 3,offset: 1 }}
+	wrapperCol={{ span: 6 }}
+            >
+            {getFieldDecorator('shop_city', {
+                rules: [{ type: 'array', required: true, message: '请选择所属城市' }],
+                initialValue:this.props.data?this.state.shopcity:null
+            })(
+                <Cascader placeholder="请选择所属城市" options={this.props.bsRegions}/>
+            )}
+        </FormItem>
         <FormItem
 					label="门店地址"
 					labelCol={{ span: 3,offset: 1 }}
@@ -630,7 +585,8 @@ class SpEditForm extends React.Component{
 						<Input placeholder='请输入开户名' autoComplete="off"/>
 					)}
 				</FormItem>
-                <FormItem
+				<div className='title'>店铺信息</div>
+        <FormItem
 					label="门店面积"
 					labelCol={{ span: 3,offset: 1 }}
 					wrapperCol={{ span: 6 }}
@@ -699,6 +655,56 @@ class SpEditForm extends React.Component{
 					})(
 					<DatePicker  format="YYYY-MM-DD" showTime onChange={this.timeChange.bind(this)}/>
 					)}
+				</FormItem>
+				<div className='title'>合作经营</div>
+								<FormItem
+					label="门店状态"
+					labelCol={{ span: 3,offset: 1 }}
+					wrapperCol={{ span: 6 }}
+				>
+					{getFieldDecorator('status', {
+						rules: [{ required: true, message: '请选择门店状态'}],
+						initialValue:this.state.status
+					})(
+						<Select placeholder="请选择门店状态">
+												<Option value="0">待开业</Option>
+												<Option value="10">开业中</Option>
+												<Option value="20">关业中</Option>
+											</Select>
+					)}
+				</FormItem>
+				<FormItem
+					label="门店类型"
+					labelCol={{ span: 3,offset: 1 }}
+					wrapperCol={{ span: 6 }}
+				>
+					{getFieldDecorator('shopType', {
+						rules: [{ required: true, message: '请选择门店类型'}],
+						initialValue:this.state.shopType,
+						onChange:this.selectChange
+					})(
+						<Select placeholder="请选择门店类型">
+							<Option value="1">直营</Option>
+							<Option value="2">联营</Option>
+							<Option value="3">加盟</Option>
+											</Select>
+					)}
+				</FormItem>
+				<FormItem
+					label="分成比例"
+					labelCol={{ span: 3,offset: 1 }}
+					wrapperCol={{ span: 6 }}
+				>
+					<div className='felxboxs'>
+						<div style={{width:'45%'}}>
+							<p className='tc'>食品尿不湿类</p>
+							<Input suffix='%' disabled={this.state.shopType=='2'?false:true} value={this.state.foodShareRatio} onChange={this.hindChange1.bind(this)} onBlur={this.hindBlue1.bind(this)}/>
+						</div>
+						<div style={{width:'45%'}}>
+							<p className='tc'>非食品尿不湿类</p>
+							<Input suffix='%' disabled={this.state.shopType=='2'?false:true} value={this.state.nonfoodShareRatio} onChange={this.hindChange2.bind(this)} onBlur={this.hindBlue2.bind(this)}/>
+						</div>
+					</div>
 				</FormItem>
 				<FormItem
 					label="微信支付扫码"
