@@ -80,7 +80,7 @@ class UserOrder extends Component {
   }
   //导出数据
   exportData =()=> {
-    const values ={type:12,...this.state.field}
+    const values ={type:12,downloadParam:{...this.state.field}}
     exportDataApi(values)
     .then(res => {
       if(res.code == '0'){
