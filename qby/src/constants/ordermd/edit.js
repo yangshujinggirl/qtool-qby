@@ -44,6 +44,7 @@ class OrdermdEditForm extends React.Component{
                   recAddress:values.recAddress,
                   createType:this.props.data.type == '1'? values.createType : '2',
                   shopName:values.shopName,
+									remark:values.remark
                 }
                 this.setState({
                     spShop:values
