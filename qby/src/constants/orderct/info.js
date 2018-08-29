@@ -39,7 +39,7 @@ class OrderctInfo extends React.Component{
             title: '操作人',
             dataIndex: 'operateUser'
         }];
-				this.column2 = [{
+				this.column3 = [{
             title: '快递单号',
             dataIndex: 'expressCode'
             }, {
@@ -53,17 +53,16 @@ class OrderctInfo extends React.Component{
 						dataIndex: 'remark'
 					}];
     }
-
-
 	infofetch=(spCtorderId)=>{
-      //获取订单信息列表
-			this.props.dispatch({
-				type:'orderct/infofetch',
-				payload:{code:'qerp.web.sp.ctorder.info',values:{spCtorderId:spCtorderId}}
-            })
-    }
+    //获取订单信息列表
+		this.props.dispatch({
+			type:'orderct/infofetch',
+			payload:{code:'qerp.web.sp.ctorder.info',values:{spCtorderId:spCtorderId}}
+    });
+  }
 
 	render(){
+		console.log(this.props)
 		return(
 			<div>
 				<div className='mb10'><Cardlist cardtitle="采退单信息" cardlist={this.props.headTit}/></div>
@@ -75,10 +74,10 @@ class OrderctInfo extends React.Component{
 					footer={false}/>
 				</div>
 				<div className='mb10'>
-					<EditableTable columns={this.column3}
-           dataSource={this.props.expresslnfos}
+					<EditableTable columns={ this.column3 }
+           dataSource={ this.props.expresslnfos }
            bordered={true}
-					 title="采退商品"
+					 title="物流信息"
 					footer={false}/>
 				</div>
 				<div className='mb10'>
@@ -97,7 +96,7 @@ class OrderctInfo extends React.Component{
 }
 
 function mapStateToProps(state) {
-    const {headTit,details,orderLogs} = state.orderct;
-		return {headTit,details,orderLogs};
+    const {headTit,details,orderLogs,expresslnfos} = state.orderct;
+		return {headTit,details,orderLogs,expresslnfos};
 }
 export default connect(mapStateToProps)(OrderctInfo);
