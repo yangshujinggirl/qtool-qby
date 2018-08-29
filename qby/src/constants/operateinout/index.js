@@ -13,10 +13,10 @@ const confirm = Modal.confirm;
 class OperateinoutIndex extends React.Component{
     state = {};
     //导出数据
-	exportData = (type,data) => {
+	exportData = () => {
 		const values={
-			type:type,
-			downloadParam:data,
+			type:20,
+			downloadParam:this.props.operateinout.values,
 		}
 		const result=GetServerData('qerp.web.sys.doc.task',values);
 		result.then((res) => {
@@ -49,29 +49,29 @@ class OperateinoutIndex extends React.Component{
 
 	}
   	render(){
-		const rolelists=this.props.data.rolelists
-		//导出数据
-		const expontdata=rolelists.find((currentValue,index)=>{
-			return currentValue.url=="qerp.web.sys.doc.task"
-		})
+  		const rolelists=this.props.data.rolelists
+  		//导出数据
+  		const expontdata=rolelists.find((currentValue,index)=>{
+  			return currentValue.url=="qerp.web.sys.doc.task"
+  		})
+      console.log(this.props.operateinout.values)
      	return(
         	<div className='content_box'>
-                <OperateinoutSearch/>
-				{
-					expontdata?
-					<Button
-					type="primary"
-					size='large'
-					className='mt20'
-					onClick={this.exportData.bind(this,20,this.props.values)}
-					>
-						导出数据
-				</Button>
-				:null
-				}
+            <OperateinoutSearch/>
+            {
+              expontdata?
+              <Button
+                type="primary"
+                size='large'
+                className='mt20'
+                onClick={this.exportData.bind(this)}>
+                导出数据
+              </Button>
+              :null
+            }
 
-				<div className='mt15'><OperateinoutTable/></div>
-        	</div>
+            <div className='mt15'><OperateinoutTable/></div>
+          </div>
       	)
 	}
 

@@ -88,12 +88,14 @@ class BtipGoods extends Component {
   }
   //导出数据
   exportData () {
-    const { limit, currentPage } = this.props.productGoodsList;
+    const { dataPag } = this.props.productGoodsList;
+    const { fields } = this.state;
     let params={
       type:32,
       downloadParam:{
-        limit,
-        currentPage
+        ...fields,
+        limit:dataPag.limit,
+        currentPage:dataPag.currentPage
       },
     }
     exportDataApi(params)
