@@ -197,7 +197,7 @@ class Supplyinout extends Component{
 		})
     const {dataList} = this.props.supplyinout;
     return(
-      <div className='qtools-components-pages'>
+      <div className='qtools-components-pages supplyinout'>
         <FilterForm
           submit={this.searchData}
           onValuesChange = {this.searchDataChange}
@@ -218,6 +218,7 @@ class Supplyinout extends Component{
             <Button size='large' type='primary'>导出数据</Button>
             <Button size='large' type='primary'>导出请款表</Button>
         </div>
+        <div className='total-account'>共 {this.props.supplyinout.total} 条收支未结算</div>
         <Qtable
           dataSource = {dataList}
           columns = {Columns}
