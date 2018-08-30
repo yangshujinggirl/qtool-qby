@@ -134,7 +134,7 @@ class BtipGoods extends Component {
     if(!selecteKeys.length>0) {
       message.error('请勾选商品',1)
       return
-    }
+    };
     let tips;
     switch(type) {
       case 'sell':
@@ -188,7 +188,7 @@ class BtipGoods extends Component {
     this.props.dispatch({
       type:'bTipGoodsList/fetchList',
       payload:{
-        currentPage:this.props.bTipGoodsList.currentPage
+        currentPage:this.props.bTipGoodsList.dataPag.currentPage
       }
     })
   }
