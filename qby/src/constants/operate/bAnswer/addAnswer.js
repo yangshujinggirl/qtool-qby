@@ -21,28 +21,7 @@ class Addanswer extends Component {
 
   //保存
   handleSubmit = (e) => {
-		e.preventDefault();
-		this.props.form.validateFields((err, values) => {
-      //时间格式化
-      if(values.fixedTime){
-        values.fixedTime = moment(values.fixedTime).format('YYYY-MM-DD HH:mm:ss');
-      }
-      if(!err){
-        createBpushApi(values)
-        .then(res => {
-          if(res.code == '0'){
-            this.props.dispath({
-              type:'tab/initDeletestate',
-              payload:this.props.componkey
-            });
-            this.props.dispath({
-              type:'cPush/fetchList',
-              payload:values
-            });
-          }
-        });
-      };
-    });
+
   }
 
   render(){
@@ -53,8 +32,7 @@ class Addanswer extends Component {
             <FormItem
               label="问题类型"
               labelCol={{ span: 3,offset: 1 }}
-              wrapperCol={{ span: 9 }}
-            >
+              wrapperCol={{ span: 9 }}>
               {getFieldDecorator('pushTheme', {
                   rules: [{ required: true, message: '请输入问题类型'}],
                 })(
