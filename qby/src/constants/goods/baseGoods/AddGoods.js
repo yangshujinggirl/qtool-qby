@@ -123,8 +123,6 @@ class AddGoodsForm extends Component {
     fileList.splice(currentIndex,1);
     fileList.splice(hoverIndex,0,currentData);
     this.goSetFileList(fileList);
-    //重置表单数据
-    this.props.form.setFieldsValue('spuPics',fileList)
   }
   //上传文件change
   goSetFileList =(fileList)=> {
@@ -525,7 +523,6 @@ class AddGoodsForm extends Component {
       linkageLabel,
     } = this.props.addGoods;
     const { loading } =this.state;
-    console.log(fileList)
     return(
       <div className="add-goods-components" >
         <Form className="qtools-form-components">

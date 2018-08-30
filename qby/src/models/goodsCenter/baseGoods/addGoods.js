@@ -40,7 +40,6 @@ export default {
   },
   reducers: {
     setFileList(state, { payload: fileList }) {
-      // fileList = [...state.fileList, ...fileList];
       return { ...state, fileList };
     },
     getCategory( state, { payload : {pdSpu,categoryData}}) {

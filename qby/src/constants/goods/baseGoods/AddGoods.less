@@ -11,17 +11,19 @@
     .arrow-left-btn, .arrow-right-btn{
       width: 20px;
       height: 20px;
-      background:red;
       position: absolute;
-      left: 0;
       top:50%;
       transform: translateY(-50%);
       cursor: pointer;
       z-index: 2;
     }
+    .arrow-left-btn {
+      left:-8px;
+      background:url('../../../static/goods/arrow-left.png') no-repeat center;
+    }
     .arrow-right-btn {
-      right: 0;
-      left: auto;
+      background:url('../../../static/goods/arrow-right.png') no-repeat center;
+      right: -8px;
     }
   }
 }
