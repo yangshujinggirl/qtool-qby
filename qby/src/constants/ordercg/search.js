@@ -103,7 +103,7 @@ class OrdercgSearchForm extends React.Component {
                                 <FormItem label='发票状态'>
                                     {getFieldDecorator('invoiceStatus')(
                                     <Select allowClear={true} placeholder="请选择发票状态">
-                                        <Option value={10}>未开</Option>
+                                        <Option value={10}>未开始</Option>
                                         <Option value={20}>进行中</Option>
                                         <Option value={30}>已完成</Option>
                                     </Select>

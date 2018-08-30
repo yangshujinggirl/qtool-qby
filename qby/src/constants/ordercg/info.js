@@ -78,7 +78,9 @@ class OrdercgInfo extends React.Component{
 			}
 		];
   }
-
+	componentDidMount(){
+		this.infofetch(this.props.data.wsAsnId)
+	}
     //获取订单信息列表
 	infofetch=(wsAsnId)=>{
 		this.props.dispatch({
@@ -87,6 +89,7 @@ class OrdercgInfo extends React.Component{
 		})
   }
 	render(){
+		console.log(this.props)
 		return(
 			<div>
 				<div className='mb10'>
@@ -105,28 +108,26 @@ class OrdercgInfo extends React.Component{
 					<EditableTable
 						columns={this.column3}
 						dataSource={this.props.invoices}
-                        title="发票信息"
-                        bordered={true}
+            title="发票信息"
+            bordered={true}
 						footer={false}/>
 				</div>
 				<div className='mb10'>
 					<EditableTable
 						columns={this.column2}
 						dataSource={this.props.logs}
-                        title="采购单日志"
-                        bordered={true}
+            title="采购单日志"
+            bordered={true}
 						footer={false}/>
 				</div>
 			</div>
 		)
 	}
-	componentDidMount(){
-		this.infofetch(this.props.data.wsAsnId)
-	}
+
 }
 
 function mapStateToProps(state) {
-    const {headTitle,headTit,details,logs} = state.ordercg;
-	return {headTitle,headTit,details,logs};
+    const {headTitle,headTit,details,logs,invoices} = state.ordercg;
+	return {headTitle,headTit,details,logs,invoices};
 }
 export default connect(mapStateToProps)(OrdercgInfo);

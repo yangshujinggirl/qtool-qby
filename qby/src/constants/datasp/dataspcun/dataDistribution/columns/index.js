@@ -1,6 +1,6 @@
 const Columns = [{
      title: '序号',
-     dataIndex: 'index'
+     dataIndex: 'key'
    },{
      title: '门店名称',
      dataIndex: 'shopName',

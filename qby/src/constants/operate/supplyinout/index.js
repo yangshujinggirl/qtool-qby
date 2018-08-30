@@ -122,18 +122,34 @@ class Supplyinout extends Component{
   //点击跳转订单详情页
   getorderDetail(record){
     const spOrderId=String(record.pdSettlementId)
-    const paneitem = {
-      title:'订单详情',
-      key:'201000edit'+spOrderId+'info',
-      data:{
-        spOrderId:spOrderId,
-      },
-      componkey:'201000info'
-    };
-    this.props.dispatch({
-      type:'tab/firstAddTab',
-      payload:paneitem
-    })
+    if(String(record.type).slice(0,1) == 2){ //type以2开头采购
+      const paneitem = {
+        title:'采购单详情',
+        key:`${this.props.componkey}edit`+spOrderId,
+        data:{
+          wsAsnId:spOrderId,
+        },
+        componkey:'202000info'
+      };
+      this.props.dispatch({
+        type:'tab/firstAddTab',
+        payload:paneitem
+      })
+    }else{ //以1开头采退
+      const paneitem = {
+        title:'采退单详情',
+        key:`${this.props.componkey}edit`+spOrderId,
+        data:{
+          spCtorderId:spOrderId,
+        },
+        componkey:'204000info'
+      };
+      this.props.dispatch({
+        type:'tab/firstAddTab',
+        payload:paneitem
+      })
+    }
+
   }
   //改变结算的状态
   changeCountStatus(type,status){ //status结算的状态，type:已结/待结
@@ -181,7 +197,7 @@ class Supplyinout extends Component{
 		})
     const {dataList} = this.props.supplyinout;
     return(
-      <div className='qtools-components-pages'>
+      <div className='qtools-components-pages supplyinout'>
         <FilterForm
           submit={this.searchData}
           onValuesChange = {this.searchDataChange}
@@ -202,6 +218,7 @@ class Supplyinout extends Component{
             <Button size='large' type='primary'>导出数据</Button>
             <Button size='large' type='primary'>导出请款表</Button>
         </div>
+        <div className='total-account'>共 {this.props.supplyinout.total} 条收支未结算</div>
         <Qtable
           dataSource = {dataList}
           columns = {Columns}

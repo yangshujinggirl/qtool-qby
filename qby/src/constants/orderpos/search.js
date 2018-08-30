@@ -34,7 +34,7 @@ class OrderposSearchForm extends React.Component {
             payload:{code:'qerp.web.qpos.st.order.query',values:values}
         });
         this.props.dispatch({ type: 'tab/loding', payload:true});
-    }  
+    }
 
     //同步data
     syncState=(values)=>{
@@ -45,7 +45,7 @@ class OrderposSearchForm extends React.Component {
             payload:values
         });
     }
-    
+
     //时间搜索部分
     hindDateChange=(dates,dateString)=>{
         this.setState({
@@ -97,6 +97,14 @@ class OrderposSearchForm extends React.Component {
                                         <Option value='10'>待付款</Option>
                                         <Option value='20'>已完成</Option>
                                         <Option value='30'>已失效</Option>
+                                    </Select>
+                                    )}
+                                </FormItem>
+                                <FormItem label='消费门店类型'>
+                                    {getFieldDecorator('status')(
+                                    <Select allowClear={true} placeholder="请选择订单状态">
+                                        <Option value='10'>本店</Option>
+                                        <Option value='20'>异店</Option>
                                     </Select>
                                     )}
                                 </FormItem>

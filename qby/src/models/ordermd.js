@@ -114,6 +114,7 @@ export default {
                         {lable:'订单总价', text:result.spOrder.amountSum},
                         {lable:'创建原因', text:result.spOrder.createTypeStr},
                         {lable:'预售订单', text:result.spOrder.preSellStatusStr},
+                        {lable:'备注', text:result.spOrder.remark},
                     ];
                     if(result.wsOrderNos.length){
                         let wsOrderNos = result.wsOrderNos;

@@ -323,8 +323,6 @@
 		//确定
 		handleSubmit = (e) => {
 			this.props.form.validateFields((err, value) => {
-				console.log(value)
-				debugger
 			if (!err) {
 				value.source='0'
 				value.pdBrandId=this.props.pdBrandId

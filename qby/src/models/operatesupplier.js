@@ -17,7 +17,9 @@ export default {
             accountName:'',
             taxRate:'',
             status:'',
-            remark:''
+            remark:'',
+            billDay:null,
+            goodDay:null
         },
     },
     reducers: {
@@ -59,13 +61,20 @@ export default {
                     tableList[i].key=tableList[i].pdSupplierId;
                 }
                 yield put({type: 'syncTableList',payload:{tableList,total,limit,currentPage}});
-            } 
+            }
         },
         *editfetch({ payload: {code,values} }, { call, put }) {
-			const result=yield call(GetServerData,code,values);
-			yield put({type: 'tab/loding',payload:false});
-			if(result.code=='0'){
+    			const result=yield call(GetServerData,code,values);
+    			yield put({type: 'tab/loding',payload:false});
+    			if(result.code=='0'){
                 let formValue = {};
+                if(result.pdSupplier.type == 20){
+                  formValue.billDay = result.pdSupplier.dayPay;
+                };
+                if(result.pdSupplier.type == 10){
+                  formValue.goodDay = result.pdSupplier.dayPay;
+                };
+                formValue.type = result.pdSupplier.type;
                 formValue.name = result.pdSupplier.name;
                 formValue.shortName = result.pdSupplier.shortName;
                 formValue.contactName = result.pdSupplier.contactName;
@@ -75,9 +84,9 @@ export default {
                 formValue.accountName = result.pdSupplier.accountName;
                 formValue.taxRate = result.pdSupplier.taxRate||result.pdSupplier.taxRate==0?String(result.pdSupplier.taxRate):'';
                 formValue.status = String(result.pdSupplier.status);
-                formValue.remark = result.pdSupplier.remark;		
+                formValue.remark = result.pdSupplier.remark;
                 yield put({type: 'syncEditInfo',payload:formValue});
-			} 
+	           }
 		},
   	},
   	subscriptions: {},

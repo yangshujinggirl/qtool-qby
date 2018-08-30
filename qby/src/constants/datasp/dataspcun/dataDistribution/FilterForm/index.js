@@ -12,7 +12,6 @@ const Option = Select.Option;
 class NormalForm extends Component{
   //点击搜索
   handleSubmit = (e) => {
-    e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       this.props.submit && this.props.submit(values);
     })

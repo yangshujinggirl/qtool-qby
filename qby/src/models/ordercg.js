@@ -13,6 +13,7 @@ export default {
         headTit:[],
         details:[],
         logs:[],
+        invoices:[],
         editInfo:{
           shippingFeeType:10,
           shippingFee:null,
@@ -42,8 +43,8 @@ export default {
       select(state, { payload:{selectedRowKeys,selectedRows}}) {
         return {...state,selectedRowKeys,selectedRows}
       },
-      syncInfolist(state, { payload:{headTitle,headTit,details,logs}}) {
-        return {...state,headTitle,headTit,details,logs}
+      syncInfolist(state, { payload:{headTitle,headTit,details,logs,invoices}}) {
+        return {...state,headTitle,headTit,details,logs,invoices}
       },
       syncEditInfo(state, { payload:editInfo}) {
 	      return {...state,editInfo}
@@ -100,12 +101,17 @@ export default {
                 let asn=result.asn;
                 let details = result.details;
                 let logs = result.logs;
+                let invoices = result.invoices;
                 for(let i=0;i<logs.length;i++){
                     logs[i].key = i;
                 };
                 for (var i = 0; i < details.length; i++) {
                   details[i].key = details[i].wsAsnDetailId;
                 };
+                invoices.map((item,index) => {
+                  item.key = index;
+                  return item;
+                })
                 const headTitle = "采购单信息";
                 let headTit = [
                   {lable:'采购单号',text:asn.asnNo},
@@ -114,7 +120,6 @@ export default {
                   {lable:'供应商名称',text:asn.name},
                   {lable:'预计到达时间',text:asn.expectedTime},
                   {lable:'单据类型',text:asn.vouchersTypeStr},
-                  {lable:'账期类型',text:asn.paymentTypeStr},
                   {lable:'发票状态',text:asn.invoiceStatusStr},
                   {lable:'是否已结案',text:asn.caseStatusStr},
                 ];
@@ -129,14 +134,23 @@ export default {
                 }else{
                   headTit.push({lable:'是否含税',text:'否'});
                 };
+                if(asn.paymentType ==10){
+                  asn.paymentTypeStr = '货到'+asn.dayPay+'天'
+                }else if(asn.paymentType ==20){
+                  asn.paymentTypeStr = '票到'+asn.dayPay+'天'
+                }else{
+                  asn.paymentTypeStr = '现结'
+                };
+                headTit.push({lable:'账期类型',text:asn.paymentTypeStr});
                 headTit.push({lable:'采购总金额',text:asn.amountSum + '元'});
-                 yield put({type: 'syncInfolist',payload:{headTitle,headTit,details,logs}});
+                yield put({type: 'syncInfolist',payload:{headTitle,headTit,details,logs,invoices}});
             }else{
                 const headTitle=''
                 const headTit=[];
                 const details=[];
                 const logs=[];
-                yield put({type: 'syncInfolist',payload:{headTitle,headTit,details,logs}});
+                const invoices=[];
+                yield put({type: 'syncInfolist',payload:{headTitle,headTit,details,logs,invoices}});
             };
         },
         *editfetch({ payload: {code,values} }, { call, put }) {

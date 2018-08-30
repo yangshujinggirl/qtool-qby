@@ -106,11 +106,11 @@ class Withdraw extends Component{
   }
   notCheck =()=> {
     this.setState({
-      checkStatus:false
+      checkStatus:true
     },()=>{
       this.props.form.validateFieldsAndScroll((err,values) => {
-        if(!err){ //审核通过1 不通过0
-          values.status = 0;
+        if(!err){ //审核通过1 审核不通过2
+          values.status = 2;
           values.spCarryCashId = this.state.spCarryCashId;
           checkApi({spCarryCashs:values})
           .then(res => {
@@ -119,19 +119,19 @@ class Withdraw extends Component{
                 visible:false,
               });
               this.initData();
-            }
+            };
           })
         };
-          this.props.form.resetFields(['remark']);
+        this.props.form.resetFields(['remark']);
       });
     });
   }
   check =()=> {
     this.setState({
-      checkStatus:true
+      checkStatus:false
     },()=>{
       this.props.form.validateFieldsAndScroll((err,values) => {
-        if(!err){ //审核通过1 不通过0
+        if(!err){ //审核通过1 审核不通过2
           values.status = 1;
           values.spCarryCashId = this.state.spCarryCashId;
           checkApi({spCarryCashs:values})
@@ -223,7 +223,7 @@ class Withdraw extends Component{
     )
   }
 }
-const Withdraws = Form.create({})(Withdraw)
+const Withdraws = Form.create()(Withdraw)
 function mapStateToProps(state){
   const {withdraw} = state;
   return {withdraw};

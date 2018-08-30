@@ -93,11 +93,13 @@ class OrdercgEditForm extends React.Component{
 				data.shippingFee = values.shippingFee;
 				data.wsWarehouseId = values.wsWarehouseId;
 				data.shippingFeeType = values.shippingFeeType;
-				data.taxRateType = values.taxRateType;
+				values.taxRate = values.taxRate.replace('%','');
+				data.taxRate = values.taxRate;
 				data.paymentType = 10;
 				data.vouchersType = values.vouchersType;
 				data.details = this.props.goodsInfo;
-				data.type = values.type;
+				data.remark = values.remark;
+				data.type = 10;
 				if(this.props.data&&this.props.data.wsAsnId){
 					data.wsAsnId = this.props.data.wsAsnId;
 				};
@@ -379,7 +381,7 @@ class OrdercgEditForm extends React.Component{
 							labelCol={{ span: 3,offset: 1 }}
 							wrapperCol={{ span: 6 }}
 						>
-							{getFieldDecorator('taxRateType', {
+							{getFieldDecorator('taxRate', {
 								rules: [{ required: true, message: '请输入是否含税' }],
 								initialValue:isChange
 								?	String(this.props.editInfo.taxRate)
