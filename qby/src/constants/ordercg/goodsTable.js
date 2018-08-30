@@ -112,7 +112,26 @@ class GoodsInfoTable extends React.Component {
           }
         ];
     }
-
+    componentDidMount(){
+        const mdopdermeth={
+            funct:this.settable
+        }
+        this.props.dispatch({
+            type:'ordercg/mdopdermeth',
+            payload:mdopdermeth
+        })
+    }
+    settable=(value)=>{
+      value.key = this.state.rowCount+1;
+      this.setState({
+        rowCount: this.state.rowCount + 1
+      },function(){
+        this.props.dispatch({
+            type:'ordercg/syncGoodsInfo',
+            payload:value
+        });
+      });
+    }
     addGoods = () =>{
       let dataList = deepcCloneObj(this.props.goodsInfo);
       const newData = {

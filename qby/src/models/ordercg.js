@@ -31,7 +31,8 @@ export default {
           createTime:null
         }],
         nothasFacepay:true,
-        taxRateDisabled:false
+        taxRateDisabled:false,
+        mdopdermeth:{},
     },
     reducers: {
   		synchronous(state, { payload:values}) {
@@ -57,6 +58,9 @@ export default {
       },
       syncTaxRateDisabled(state, { payload:taxRateDisabled}) {
 	      return {...state,taxRateDisabled}
+      },
+      mdopdermeth(state, { payload:mdopdermeth}) {
+        return {...state,mdopdermeth}
       },
       initState(state, { payload: value}) {
   			const editInfo={

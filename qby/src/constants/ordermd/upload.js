@@ -2,22 +2,19 @@ import { Form, Select, Input, Button, Radio, DatePicker, message,AutoComplete,Ta
 import {GetServerData} from '../../services/services';
 import { connect } from 'dva';
 class MyUploadMd extends React.Component {
-    state = {
+      state = {
         fileList: []
       }
-  
+
       handleChange = (info) => {
         let fileList = info.fileList;
         fileList = fileList.slice(-1);
         fileList = fileList.filter((file) => {
           if (file.response) {
             if(file.response.code=='0'){
-                console.log('11111')
-                console.log(file.response)
-                console.log('22222')
                 if(file.response.warningmessage){
                     let message = file.response.warningmessage.split('\r\n')
-                    let m = []
+                    let m = [];
                     for(let i=0;i<message.length;i++){
                       m.push(<p>{message[i]}</p>)
                     }
@@ -28,7 +25,7 @@ class MyUploadMd extends React.Component {
                           </div>
                         )
                       });
-                }
+                };
                 let goodsInfo = [];
                 for(var i=0;i<file.response.importDetails.length;i++){
                     let json = {};
@@ -40,11 +37,11 @@ class MyUploadMd extends React.Component {
                     json.displayName = file.response.importDetails[i].displayName;
                     json.key = i;
                     goodsInfo.push(json);
-                }
+                };
                 this.props.mdopdermeth.funct(goodsInfo)
             }else{
                 message.error(file.response.message,.8);
-            }
+            };
             return file.response.status === 'success';
           }
           return true;

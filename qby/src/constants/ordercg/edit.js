@@ -236,9 +236,7 @@ class OrdercgEditForm extends React.Component{
 			window.open('../../static/order.xlsx');
 	}
 
-
 	render(){
-		console.log(this.props)
 		const { getFieldDecorator } = this.props.form;
 		const { selectedSuppler } = this.state;
 		const isChange = Boolean(this.props.data&&this.props.data.wsAsnId) //是否为修改
@@ -246,9 +244,9 @@ class OrdercgEditForm extends React.Component{
 				<div>
 					<MyUploadMd/>
 					<Button type="primary"
-									onClick={this.ZaiSpuExcel.bind(this)}
-									style={{position:'absolute',right:'15px',top:'24px',zIndex:'1000'}}>
-									下载导入模板
+						onClick={this.ZaiSpuExcel.bind(this)}
+						style={{position:'absolute',right:'15px',top:'24px',zIndex:'1000'}}>
+						下载导入模板
 					</Button>
 	    		<Form className="addUser-form addcg-form">
 						<FormItem
