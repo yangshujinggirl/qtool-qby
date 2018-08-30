@@ -81,7 +81,7 @@ render(){
           <Card title='工单信息'>
             <div className='cardlist'>
                 <div className='cardlist_item'><label>客服单号：</label><span>{feedbackInfos.customServiceNo}</span></div>
-                <div className='cardlist_item'><label>客服状态：</label><span>{feedbackInfos.status}</span></div>
+                <div className='cardlist_item'><label>客服状态：</label><span>{feedbackInfos.statusStr}</span></div>
                 <div className='cardlist_item'><label>处理时长：</label><span>{feedbackInfos.handleTime}</span></div>
                 <div className='cardlist_item'><label>开始时间：</label><span>{feedbackInfos.createTime}</span></div>
                 <div className='cardlist_item'><label>部门/用户/门店：</label><span>{feedbackInfos.source}</span></div>

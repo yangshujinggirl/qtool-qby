@@ -186,7 +186,7 @@ class CtipGoods extends Component {
     this.props.dispatch({
       type:'cTipGoodsList/fetchList',
       payload:{
-        currentPage:this.props.cTipGoodsList.currentPage
+        currentPage:this.props.cTipGoodsList.dataPag.currentPage
       }
     })
   }

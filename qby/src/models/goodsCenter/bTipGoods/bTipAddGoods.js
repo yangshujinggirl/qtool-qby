@@ -55,7 +55,7 @@ export default {
             el.key = el.pdSkuId;
             el.imgUrl = `${fileDomain}${el.picUrl}`;
             pdSpu.isSkus = el.pdType1Val?true:false;
-            return el
+            return el;
           })
         } else {
           let initPdspuData = {
@@ -65,7 +65,8 @@ export default {
                   toCPrice:pdSpu.toCPrice,
                   costPrice:pdSpu.costPrice,
                   tagPrice:pdSpu.tagPrice,
-                  key:pdSpu.barcode
+                  key:pdSpu.barcode,
+                  qty:pdSpu.qty,
                 }
           pdSkus.push(initPdspuData);
         }

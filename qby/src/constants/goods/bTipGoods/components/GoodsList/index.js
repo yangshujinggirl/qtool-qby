@@ -13,6 +13,7 @@ import iconSkuStatus from '../../../../../assets/icon_skuStatus.png';
 import iconIsDirectExpress from '../../../../../assets/icon_zhi.png';
 import iconIsPresell from '../../../../../assets/icon_yu.png';
 import nogoodsImg from '../../../../../assets/nogoods.png';
+import '../../index.less'
 
 //产品属性icon
 const IconList =({data})=>(
@@ -102,7 +103,7 @@ class GoodsList extends Component {
                     <IconList data={el}/>
                   </div>
                 </div>
-                <div className="goods-action-bottom">
+                <div className="goods-action-bottom bTipGoodsList">
                   {
                     authorityList.authoritySale&&
                     <span>

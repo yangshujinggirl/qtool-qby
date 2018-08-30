@@ -32,13 +32,13 @@ class Cpush extends Component {
   }
   //修改时初始化数据
   componentDidMount(){
-
     if(this.props.data){
       const id = this.props.data.bsPushId;
       cpushInfoApi({bsPushId:id})
       .then(res => {
         if(res.code == '0'){
           const info = res.bsPush;
+          if(info.pushNow == 1) info.pushTime = null;
           if(info.alertType == 10) info.bannerIdNum = info.alertTypeContent;
           if(info.alertType == 20) info.code = info.alertTypeContent;
           if(info.alertType == 30) info.H5Url = info.alertTypeContent;
@@ -112,10 +112,12 @@ class Cpush extends Component {
         values.pushPerson= 0
       }
       this.formatValue(values);
-      const time = new Date(values.pushTime).getTime();
-      const currentTime = new Date().getTime();
-      if(time < currentTime){
-        message.warning('请选择当前时间之后的时间');
+      if(values.pushNow == 0){
+        const time = new Date(values.pushTime).getTime();
+        const currentTime = new Date().getTime();
+        if(time < currentTime){
+          message.warning('请选择当前时间之后的时间');
+        }
       }else{
         if(values.pushPerson!=0){
           const userMobiles = values.pushPerson;
@@ -130,7 +132,8 @@ class Cpush extends Component {
         }else{
           this.submit(values);
         };
-      };
+      }
+
     });
   }
   formatMobiles =(userMobiles,values,err)=> { //保存--推送人群格式化
