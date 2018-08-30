@@ -39,10 +39,9 @@ export default {
     }
   },
   reducers: {
-    save_fields(state, { payload : {currentField ,index}}) {
-      let pdSkus = state.pdSkus;
-      pdSkus[index] = {...pdSkus[index],...currentField};
-      return {...state, pdSkus}
+    setFileList(state, { payload: fileList }) {
+      // fileList = [...state.fileList, ...fileList];
+      return { ...state, fileList };
     },
     getCategory( state, { payload : {pdSpu,categoryData}}) {
       return { ...state, pdSpu, categoryData}

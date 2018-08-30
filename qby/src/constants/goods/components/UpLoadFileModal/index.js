@@ -36,6 +36,12 @@ class UpLoadFile extends Component {
     }
     return e && e.fileList;
   }
+  onChange =(info)=>{
+    debugger
+    if(info.file.status == 'done') {
+      this.props.onChange&&this.props.onChange(info.fileList)
+    }
+  }
   render() {
     const uploadButton = (
        <div>
@@ -46,12 +52,13 @@ class UpLoadFile extends Component {
      const { previewVisible, previewImage } = this.state;
      const { name, fileList } = this.props;
      return(
-        <div>
+        <div id='drag-upload'>
          {
            this.props.form.getFieldDecorator(this.props.name,{
              getValueFromEvent: this.normFile,
              valuePropName: 'fileList',
-             initialValue:fileList
+             initialValue:fileList,
+             onChange:this.onChange
            })(
                <Upload
                 name="imgFile"

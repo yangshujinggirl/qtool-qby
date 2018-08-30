@@ -6,6 +6,24 @@
         margin-left: 20px;
     }
   }
+  .ant-upload-list-item-done {
+    position: relative;
+    .arrow-left-btn, .arrow-right-btn{
+      width: 20px;
+      height: 20px;
+      background:red;
+      position: absolute;
+      left: 0;
+      top:50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      z-index: 2;
+    }
+    .arrow-right-btn {
+      right: 0;
+      left: auto;
+    }
+  }
 }
 //详情
 .basegoods-detail-components {
