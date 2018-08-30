@@ -4,7 +4,7 @@ import { connect } from 'dva'
 import Columns from './columns/index'
 import Qtable from '../../../components/Qtable/index'; //表单
 import Qpagination from '../../../components/Qpagination/index'; //分页
-import FilterForm from './FilterForm/index'
+import FilterForm from './components/FilterForm/index'
 import moment from 'moment';
 
 class Banswer extends Component{
