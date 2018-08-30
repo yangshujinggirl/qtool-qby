@@ -20,7 +20,7 @@ const DetailSizeColumns = [{
      dataIndex: 'tagPrice'
    },{
      title: '在售库存',
-     dataIndex: 'qty'
+     dataIndex: 'inventory'
    },{
      title: 'SKU图片',
      dataIndex: 'picUrl',
