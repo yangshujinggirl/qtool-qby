@@ -207,7 +207,7 @@ class CtipGoods extends Component {
         this.successHandel()
       }
       this.setState({
-        loading:true,
+        loading:false,
         visible:false
       })
     })
@@ -229,7 +229,7 @@ class CtipGoods extends Component {
         this.successHandel()
       }
       this.setState({
-        loading:true,
+        loading:false,
         visible:false
       })
     })

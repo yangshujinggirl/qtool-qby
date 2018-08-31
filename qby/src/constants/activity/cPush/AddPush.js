@@ -108,32 +108,43 @@ class Cpush extends Component {
   handleSubmit = (e) => {
 		e.preventDefault();
 		this.props.form.validateFields((err, values) => {
-      if(values.pushPersonType!=1){
-        values.pushPerson= 0
-      }
-      this.formatValue(values);
-      if(values.pushNow == 0){
-        const time = new Date(values.pushTime).getTime();
-        const currentTime = new Date().getTime();
-        if(time < currentTime){
-          message.warning('请选择当前时间之后的时间');
-        }
-      }else{
-        if(values.pushPerson!=0){
-          const userMobiles = values.pushPerson;
-          const isMobileFalse = this.formatMobiles(userMobiles);
-          if(isMobileFalse){
-            message.error('一行只能输入一个手机号码',.8)
+      if(!err){
+        if(values.pushPersonType!=1){
+          values.pushPerson= 0
+        };
+        this.formatValue(values);
+        if(values.pushNow == 0){ //推送时间定时推送
+          const time = new Date(values.pushTime).getTime();
+          const currentTime = new Date().getTime();
+          if(time < currentTime){
+            message.warning('请选择当前时间之后的时间');
           }else{
-            if(!err){
+            if(values.pushPerson!=0){  //选择人群为部分人群
+              const userMobiles = values.pushPerson;
+              const isMobileFalse = this.formatMobiles(userMobiles);
+              if(isMobileFalse){ //电话号码格式输入错误
+                message.error('一行只能输入一个手机号码',.8)
+              }else{
+                this.submit(values);
+              };
+            }else{
               this.submit(values);
             };
           };
-        }else{
-          this.submit(values);
+        }else{ //推送时间为立即推送
+          if(values.pushPerson!=0){  //选择人群为部分人群
+            const userMobiles = values.pushPerson;
+            const isMobileFalse = this.formatMobiles(userMobiles);
+            if(isMobileFalse){ //电话号码格式输入错误
+              message.error('一行只能输入一个手机号码',.8)
+            }else{
+              this.submit(values);
+            };
+          }else{
+            this.submit(values);
+          };
         };
-      }
-
+      };
     });
   }
   formatMobiles =(userMobiles,values,err)=> { //保存--推送人群格式化
