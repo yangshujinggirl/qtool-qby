@@ -215,16 +215,24 @@ class Supplyinout extends Component{
     })
   }
   render(){
-    console.log(this.state.rowSelection)
-    const rolelists=this.props.data.rolelists
-    //新增推送
-    const addPush=rolelists.find((currentValue,index)=>{
+    const rolelists = this.props.data.rolelists;
+    //已结算
+    const hadClose = rolelists.find((currentValue,index)=>{
 			return currentValue.url=="qerp.web.pd.bPush.save"
 		})
-    //撤销推送
-    const revokePush=rolelists.find((currentValue,index)=>{
+    //待结算
+    const noClose = rolelists.find((currentValue,index)=>{
 			return currentValue.url=="qerp.web.pd.bPush.revoke"
 		})
+    //导出数据
+    const exportData = rolelists.find((currentValue,index)=>{
+			return currentValue.url=="qerp.web.pd.bPush.revoke"
+		})
+    //导出请款表
+    const exportList = rolelists.find((currentValue,index)=>{
+			return currentValue.url=="qerp.web.pd.bPush.revoke"
+		})
+
     const {dataList} = this.props.supplyinout;
     return(
       <div className='qtools-components-pages supplyinout'>

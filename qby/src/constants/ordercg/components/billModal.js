@@ -48,7 +48,7 @@ class BillModal extends Component{
         }
       },
       {
-        title: 'delete',
+        title: '',
         dataIndex: 'delete',
         render(text,record,index){
           return(
@@ -115,15 +115,17 @@ class BillModal extends Component{
                 labelCol={{ span: 5 }}
                 wrapperCol={{ span: 18 }}
             >
-              <Table
-                bordered={false}
-                showHeader={false}
-                pagination={false}
-                dataSource={dataSource}
-                columns={this.columns}
-                getFieldDecorator={getFieldDecorator}
-              >
-              </Table>
+              {
+                dataSource.length>0 &&
+                <Table
+                  bordered={false}
+                  pagination={false}
+                  dataSource={dataSource}
+                  columns={this.columns}
+                  getFieldDecorator={getFieldDecorator}
+                >
+                </Table>
+              }
               <Button onClick={this.handleAdd} type="primary">+发票</Button>
             </FormItem>
           </Form>

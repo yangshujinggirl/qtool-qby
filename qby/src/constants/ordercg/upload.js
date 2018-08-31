@@ -27,12 +27,12 @@ class MyUploadMd extends React.Component {
                       });
                 }
                 let goodsInfo = [];
-                for(var i=0;i<file.response.importDetails.length;i++){
+                for(var i=0;i<file.response.pdSpuAsnLists.length;i++){
                     let json = {};
-                    json.pdCode = file.response.importDetails[i].pdCode;
-                    json.price = file.response.importDetails[i].price;
-                    json.qty = file.response.importDetails[i].qty;
-                    json.name = file.response.importDetails[i].name;
+                    json.pdCode = file.response.pdSpuAsnLists[i].pdCode;
+                    json.price = file.response.pdSpuAsnLists[i].price;
+                    json.qty = file.response.pdSpuAsnLists[i].qty;
+                    json.name = file.response.pdSpuAsnLists[i].name;
                     json.key = i;
                     goodsInfo.push(json);
                 }

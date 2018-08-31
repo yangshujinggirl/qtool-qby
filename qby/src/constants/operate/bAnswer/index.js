@@ -58,21 +58,24 @@ class Banswer extends Component{
     });
   }
 
-
   //处理表格的点击事件
-  handleOperateClick(record,type){
-    switch(type) {
-      case "billdetail":
-        this.getbillDetail(record)
-        break;
-      case "orderDetail":
-        this.getorderDetail(record)
-        break;
-    };
+  handleOperateClick(record){
+    const paneitem = {
+      title:'修改B端问答',
+      key:`${this.props.componkey}edit`+record.pdAnswerId,
+      componkey:`${this.props.componkey}edit`,
+      data:{
+        pdAnswerId:record.pdAnswerId
+      }
+    }
+    this.props.dispatch({
+      type:'tab/firstAddTab',
+      payload:paneitem
+    })
   }
   addAnswer =()=> {
     const paneitem = {
-      title:'新增问答',
+      title:'新增B端问答',
       key:`${this.props.componkey}edit`,
       componkey:`${this.props.componkey}edit`,
     }

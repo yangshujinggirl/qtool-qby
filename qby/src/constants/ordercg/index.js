@@ -44,14 +44,14 @@ class OrdercgIndex extends React.Component{
 	}
 	//新建采购单
 	addNew = () =>{
-		const paneitem={title:'新建采购单',key:'202000edit',componkey:'202000edit',data:{}}
-  		this.props.dispatch({
-	    	type:'tab/firstAddTab',
-	    	payload:paneitem
+		const paneitem={title:'新建采购单',key:'202000edit',componkey:'202000edit'}
+		this.props.dispatch({
+    	type:'tab/firstAddTab',
+    	payload:paneitem
 		});
 		this.props.dispatch({
-            type:'ordercg/initState',
-            payload:{}
+      type:'ordercg/initState',
+      payload:{}
 		});
 		this.props.dispatch({
 			type:'ordercg/syncTaxRateDisabled',
@@ -134,6 +134,7 @@ class OrdercgIndex extends React.Component{
 					forceInfo,
 					forceVisible:true
 				});
+				this.props.form.resetFields([''])
 			}
 	}
 	//已付款
@@ -212,7 +213,10 @@ class OrdercgIndex extends React.Component{
 				this.clearChooseInfo();
 				this.props.dispatch({
             type:'ordercg/fetch',
-            payload:{code:'qerp.web.ws.asn.query',values:{}}
+            payload:{
+							code:'qerp.web.ws.asn.query',
+							values:{...this.props.values}
+						}
         });
 			}
 		})
@@ -223,7 +227,7 @@ class OrdercgIndex extends React.Component{
 		this.clearChooseInfo()
 	}
 	//强制完成 确认
-	onforceOk =(values)=> {
+	onforceOk =(values,clearForm)=> {
 		forceSaveApi(values)
 		.then(res => {
 			if(res.code == "0"){
@@ -231,7 +235,8 @@ class OrdercgIndex extends React.Component{
 				this.initList(this.props.values,this.props.limit,this.props.currentPage)
 				this.clearChooseInfo()
 				this.setState({forceVisible:false})
-			}
+			};
+			clearForm();
 		})
 	}
 	//发票删除
@@ -249,6 +254,7 @@ class OrdercgIndex extends React.Component{
 		});
 	}
 	render(){
+		console.log(this.props)
 		const rolelists=this.props.data.rolelists
 		//新增采购单
 		const addorder=rolelists.find((currentValue,index)=>{

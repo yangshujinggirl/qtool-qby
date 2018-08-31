@@ -49,11 +49,12 @@ class OrdercgEditForm extends React.Component{
 
 	//删除当前tab
 	deleteTab=()=>{
+		debugger
 		const pane = eval(sessionStorage.getItem("pane"));
 		if(pane.length<=1){
 			return
 		}
-		if(this.props.data){
+		if(JSON.stringify(this.props.data)!='{}'){
 			this.props.dispatch({
 				type:'tab/initDeletestate',
 				payload:'202000edit'+this.props.data.wsAsnId
@@ -62,7 +63,7 @@ class OrdercgEditForm extends React.Component{
 			this.props.dispatch({
 				type:'tab/initDeletestate',
 				payload:'202000edit'
-			  });
+		  });
 		}
 	}
 
