@@ -5,6 +5,8 @@ import Columns from './columns/index'
 import Qtable from '../../../../components/Qtable/index'; //表单
 import Qpagination from '../../../../components/Qpagination/index'; //分页
 import FilterForm from './FilterForm/index'
+import { exportDataApi } from '../../../../services/orderCenter/userOrders'
+import './index.less'
 
 class DataDistribute extends Component{
   constructor(props){
@@ -15,6 +17,18 @@ class DataDistribute extends Component{
         type:'',
       }
     }
+  }
+  //初始化数据
+  componentWillMount(){
+    const {pdSkuId,pdSpuId} = this.props.data;
+    this.props.dispatch({
+      type:'dataspcun/initId',
+      payload:{pdSkuId,pdSpuId}
+    })
+    this.props.dispatch({
+      type:'dataspcun/fetchList',
+      payload:{pdSkuId,pdSpuId}
+    })
   }
   //点击搜索
   searchData = (values)=> {
@@ -43,31 +57,52 @@ class DataDistribute extends Component{
   searchDataChange =(values)=> {
     this.setState({field:values});
   }
-  //初始化数据
-  componentWillMount(){
-    const {pdSkuId,pdSpuId} = this.props.data;
-    this.props.dispatch({
-      type:'dataspcun/initId',
-      payload:{pdSkuId,pdSpuId}
-    })
-    this.props.dispatch({
-      type:'dataspcun/fetchList',
-      payload:{pdSkuId,pdSpuId}
+
+  //导出数据
+  exportData =()=> {
+    const values ={...this.state.field,type:22}
+    exportDataApi(values)
+    .then(res => {
+      if(res.code == '0'){
+        confirm({
+          title: '数据已经进入导出队列',
+          content: '请前往下载中心查看导出进度',
+          cancelText:'稍后去',
+          okText:'去看看',
+          onOk() {
+            const paneitem={title:'下载中心',key:'000001',componkey:'000001',data:null}
+            this.props.dispatch({
+              type:'tab/firstAddTab',
+              payload:paneitem
+            });
+            this.props.dispatch({
+              type:'downlaod/fetch',
+              payload:{code:'qerp.web.sys.doc.list',values:{limit:15,currentPage:0}}
+            });
+          },
+        });
+      }
+    },err => {
+      message.error('导出数据失败')
     })
   }
   render(){
-    console.log(this.props)
     const {dataList} = this.props.dataspcun.distributeData;
-    console.log(dataList)
+    const {total} = this.props.dataspcun.distributeData;
     return(
-      <div className='qtools-components-pages'>
+      <div className='qtools-components-pages inventory'>
         <FilterForm
           submit={this.searchData}
           onValuesChange = {this.searchDataChange}
         />
         <div className="handel-btn-lists">
-            <Button size='large' type='primary'>导出数据</Button>
+            <Button
+              size='large'
+              type='primary'
+              onClick={this.exportData}
+              >导出数据</Button>
         </div>
+        <div className='total'>共有 { total } 家门店有此商品</div>
         <Qtable
           dataSource = {dataList}
           columns = {Columns}

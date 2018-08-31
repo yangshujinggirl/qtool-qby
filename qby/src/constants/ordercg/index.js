@@ -91,9 +91,8 @@ class OrdercgIndex extends React.Component{
 						});
 					},
 	  			});
-			}
+				}
 		})
-
 	}
 	//清除选中
 	clearChooseInfo=()=>{
@@ -251,7 +250,7 @@ class OrdercgIndex extends React.Component{
 	}
 	render(){
 		const rolelists=this.props.data.rolelists
-		// //新增采购单
+		//新增采购单
 		const addorder=rolelists.find((currentValue,index)=>{
 			return currentValue.url=="qerp.web.ws.asn.save"
 		})

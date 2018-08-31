@@ -7,6 +7,8 @@ import Qpagination from '../../../components/Qpagination/index'; //分页
 import FilterForm from './FilterForm/index'
 import moment from 'moment';
 import { changeStatusApi } from '../../../services/operate/supplyinout'
+import { exportDataApi } from '../../../services/orderCenter/userOrders'
+const confirm = Modal.confirm;
 
 class Supplyinout extends Component{
   constructor(props){
@@ -52,6 +54,34 @@ class Supplyinout extends Component{
       _values.endTime = moment(new Date(rangePicker[1]._d).getTime()).format('YYYY-MM-DD HH:mm:ss');;
     }
     this.setState({field:_values});
+  }
+  //导出数据
+  exportData =(type)=> {
+    const values ={type:type,downloadParam:this.state.field}
+    exportDataApi(values)
+    .then(res => {
+      if(res.code == '0'){
+        confirm({
+          title: '数据已经进入导出队列',
+          content: '请前往下载中心查看导出进度',
+          cancelText:'稍后去',
+          okText:'去看看',
+          onOk:()=> {
+            const paneitem={title:'下载中心',key:'000001',componkey:'000001',data:null}
+            this.props.dispatch({
+              type:'tab/firstAddTab',
+              payload:paneitem
+            });
+            this.props.dispatch({
+              type:'downlaod/fetch',
+              payload:{code:'qerp.web.sys.doc.list',values:{limit:15,currentPage:0}}
+            });
+          },
+        });
+      }
+    },err => {
+      message.error('导出数据失败')
+    })
   }
   //点击搜索
   searchData = (values)=> {
@@ -215,10 +245,22 @@ class Supplyinout extends Component{
               onClick={()=>this.changeCountStatus('onCount',0)}>
               待结算
             </Button>
-            <Button size='large' type='primary'>导出数据</Button>
-            <Button size='large' type='primary'>导出请款表</Button>
+            <Button
+              size='large'
+              onClick={()=>{this.exportData(22)}}
+              type='primary'>
+              导出数据
+            </Button>
+            <Button
+              size='large'
+              onClick={()=>{this.exportData(23)}}
+              type='primary'>
+              导出请款表
+            </Button>
         </div>
-        <div className='total-account'>共 {this.props.supplyinout.total} 条收支未结算</div>
+        <div className='total-account'>
+          共 {this.props.supplyinout.totalStatusNo} 条收支未结算
+        </div>
         <Qtable
           dataSource = {dataList}
           columns = {Columns}
