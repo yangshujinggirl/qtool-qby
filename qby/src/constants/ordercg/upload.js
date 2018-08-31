@@ -12,9 +12,6 @@ class MyUploadMd extends React.Component {
         fileList = fileList.filter((file) => {
           if (file.response) {
             if(file.response.code=='0'){
-                console.log('11111')
-                console.log(file.response)
-                console.log('22222')
                 if(file.response.warningmessage){
                     let message = file.response.warningmessage.split('\r\n')
                     let m = []
@@ -30,14 +27,12 @@ class MyUploadMd extends React.Component {
                       });
                 }
                 let goodsInfo = [];
-                for(var i=0;i<file.response.importDetails.length;i++){
+                for(var i=0;i<file.response.pdSpuAsnLists.length;i++){
                     let json = {};
-                    json.Code = file.response.importDetails[i].pdCode;
-                    json.retailPrice = file.response.importDetails[i].price;
-                    json.qty = file.response.importDetails[i].qty;
-                    json.price = file.response.importDetails[i].price;
-                    json.name = file.response.importDetails[i].name;
-                    json.displayName = file.response.importDetails[i].displayName;
+                    json.pdCode = file.response.pdSpuAsnLists[i].pdCode;
+                    json.price = file.response.pdSpuAsnLists[i].price;
+                    json.qty = file.response.pdSpuAsnLists[i].qty;
+                    json.name = file.response.pdSpuAsnLists[i].name;
                     json.key = i;
                     goodsInfo.push(json);
                 }
@@ -53,7 +48,7 @@ class MyUploadMd extends React.Component {
       }
       render() {
         const props = {
-          action: '/erpWebRest/webrest.htm?code=qerp.web.sp.order.import&type=mdorder',
+          action: '/erpWebRest/webrest.htm?code=qerp.web.pd.spu.import',
           onChange: this.handleChange,
           name:'mfile'
         };
@@ -68,7 +63,7 @@ class MyUploadMd extends React.Component {
 }
 
 function mapStateToProps(state) {
-    const {goodsInfo,mdopdermeth}  = state.ordermd;
+    const {goodsInfo,mdopdermeth}  = state.ordercg;
     return {goodsInfo,mdopdermeth};
 }
 

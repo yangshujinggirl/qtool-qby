@@ -14,10 +14,10 @@ class GoodsListTable extends React.Component {
         dataIndex: 'Code',
         render: (text, record, index) => {
             return (
-                <Input 
-                    value={this.state.dataSource[index].Code} 
-                    placeholder="请输入商品编码" 
-                    onChange={this.handleChangeCode.bind(this, index)} 
+                <Input
+                    value={this.state.dataSource[index].Code}
+                    placeholder="请输入商品编码"
+                    onChange={this.handleChangeCode.bind(this, index)}
                     onBlur={this.onBluepdCode.bind(this,index)}
                     />
             );
@@ -28,10 +28,10 @@ class GoodsListTable extends React.Component {
         width:"100px",
         render: (text, record, index) => {
             return (
-                    <Input 
-                        value={this.state.dataSource[index].qty} 
-                        placeholder="预订数量" 
-                        onChange={this.handleChangeQty.bind(this, index)} 
+                    <Input
+                        value={this.state.dataSource[index].qty}
+                        placeholder="预订数量"
+                        onChange={this.handleChangeQty.bind(this, index)}
                         onBlur={this.onBluepdqty.bind(this,index)}/>
             );
         }
@@ -79,7 +79,7 @@ class GoodsListTable extends React.Component {
           );
         }
       }];
-  
+
       this.state = {
         dataSource: [{
           key: 0,
@@ -90,7 +90,23 @@ class GoodsListTable extends React.Component {
         count: 2
       };
     }
-    
+    componentDidMount(){
+        const mdopdermeth={
+            funct:this.settable
+        }
+        this.props.dispatch({
+            type:'ordermd/mdopdermeth',
+            payload:mdopdermeth
+        })
+    }
+    settable=(value)=>{
+        this.setState({
+            dataSource:value
+        },function(){
+            const Getdetail=this.props.Getdetail;
+            Getdetail(this.state.dataSource)
+        });
+    }
     onDelete = (index) => {
       let dataSource = [...this.state.dataSource];
       dataSource.splice(index, 1);
@@ -101,7 +117,7 @@ class GoodsListTable extends React.Component {
           Getdetail(this.state.dataSource)
         });
     }
-  
+
     handleAdd = () => {
       const { count, dataSource } = this.state;
       const newData = {
@@ -117,7 +133,7 @@ class GoodsListTable extends React.Component {
         count: count + 1
       });
     }
-  
+
     handleChangeCode=(index, e)=>{
         let temDataSource = this.state.dataSource;
         temDataSource[index].Code = e.target.value;
@@ -125,7 +141,7 @@ class GoodsListTable extends React.Component {
             dataSource:temDataSource
         })
     }
-  
+
     onBluepdCode=(index)=>{
         let temDataSource = this.state.dataSource;
         let code = temDataSource[index].Code;
@@ -155,7 +171,7 @@ class GoodsListTable extends React.Component {
        const Getdetail=this.props.Getdetail
         Getdetail(this.state.dataSource)
     }
-  
+
     handleChangeQty=(index, e)=>{
         const pays=/^[0-9]*$/
         const changevalue=e.target.value
@@ -169,42 +185,34 @@ class GoodsListTable extends React.Component {
         }
     }
 
-    settable=(value)=>{
-        this.setState({
-            dataSource:value
-        },function(){
-            const Getdetail=this.props.Getdetail;
-            Getdetail(this.state.dataSource)
-        });
-    }
 
-  
+
+
     render() {
         const { dataSource } = this.state;
         const columns = this.columns;
         return (
             <div style={{marginTop:'0px'}}>
-            <Table dataSource={dataSource} style = {{padding:0}} columns={columns} pagination={false} showHeader={true} bordered={false} 
-            className='OrderCenterEidt' ref="dfafalk"/>
+            <Table
+              dataSource={dataSource}
+              style = {{padding:0}}
+              columns={columns}
+              pagination={false}
+              showHeader={true}
+              bordered={false}
+              className='OrderCenterEidt'
+              ref="dfafalk"/>
             <Button style={{margin:'15px 10px 0 7px', width:'100px'}} onClick={this.handleAdd}>+商品</Button>
             </div>
         );
     }
 
-    componentDidMount(){
-        const mdopdermeth={
-            funct:this.settable
-        }
-        this.props.dispatch({
-            type:'ordermd/mdopdermeth',
-            payload:mdopdermeth
-        })
-    }
+
   }
 
 function mapStateToProps(state) {
     const {goodsInfo}  = state.ordermd;
     return {goodsInfo};
-}   
+}
 
 export default connect(mapStateToProps)(GoodsListTable);

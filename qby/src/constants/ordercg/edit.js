@@ -49,11 +49,12 @@ class OrdercgEditForm extends React.Component{
 
 	//删除当前tab
 	deleteTab=()=>{
+		debugger
 		const pane = eval(sessionStorage.getItem("pane"));
 		if(pane.length<=1){
 			return
 		}
-		if(this.props.data){
+		if(JSON.stringify(this.props.data)!='{}'){
 			this.props.dispatch({
 				type:'tab/initDeletestate',
 				payload:'202000edit'+this.props.data.wsAsnId
@@ -62,7 +63,7 @@ class OrdercgEditForm extends React.Component{
 			this.props.dispatch({
 				type:'tab/initDeletestate',
 				payload:'202000edit'
-			  });
+		  });
 		}
 	}
 
@@ -236,9 +237,7 @@ class OrdercgEditForm extends React.Component{
 			window.open('../../static/order.xlsx');
 	}
 
-
 	render(){
-		console.log(this.props)
 		const { getFieldDecorator } = this.props.form;
 		const { selectedSuppler } = this.state;
 		const isChange = Boolean(this.props.data&&this.props.data.wsAsnId) //是否为修改
@@ -246,9 +245,9 @@ class OrdercgEditForm extends React.Component{
 				<div>
 					<MyUploadMd/>
 					<Button type="primary"
-									onClick={this.ZaiSpuExcel.bind(this)}
-									style={{position:'absolute',right:'15px',top:'24px',zIndex:'1000'}}>
-									下载导入模板
+						onClick={this.ZaiSpuExcel.bind(this)}
+						style={{position:'absolute',right:'15px',top:'24px',zIndex:'1000'}}>
+						下载导入模板
 					</Button>
 	    		<Form className="addUser-form addcg-form">
 						<FormItem

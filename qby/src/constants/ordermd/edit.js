@@ -1,7 +1,7 @@
 import React from 'react';
 import {GetServerData} from '../../services/services';
 import { connect } from 'dva';
-import { Form, Select, Input, Button ,message,Modal, Row, Col,AutoComplete,Cascader } from 'antd';
+import { Form, Select, Input, Button ,message,Modal, Row, Col,AutoComplete,Cascader,Upload } from 'antd';
 import GoodsListTable from './goodslist';
 import Infomodel from './infomodal';
 import MyUploadMd from './upload';
@@ -29,7 +29,6 @@ class OrdermdEditForm extends React.Component{
 	 handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
-					console.log(values)
         if (!err) {
                 let data = this.state.spShop;
                 let newsporder = {
@@ -289,7 +288,6 @@ class OrdermdEditForm extends React.Component{
         visible: false
       })
     }
-
   	render(){
       const { getFieldDecorator,getFieldProps } = this.props.form;
      	return(

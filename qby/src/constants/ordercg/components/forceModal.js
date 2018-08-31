@@ -9,12 +9,15 @@ class ForceModal extends Component{
   constructor(props){
     super(props)
   }
+  clearForm =()=> {
+    this.props.form.resetFields(['remark'])
+  }
   //点击确定
   onOk =()=> {
     this.props.form.validateFieldsAndScroll((err,values)=>{
       const { wsAsnId }= this.props.forceInfo;
       values.wsAsnId = wsAsnId;
-      this.props.onOk(values);
+      this.props.onOk(values,this.clearForm);
     });
   }
 

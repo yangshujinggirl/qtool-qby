@@ -163,8 +163,8 @@ render(){
         </div>
 				<FormItem style = {{marginBottom:0,textAlign:"center"}}>
 						<Button className='mr30' onClick={this.onCancel} >取消</Button>
-						<Button htmlType="submit" type="primary" onClick={this.onOk}>确定</Button>
-        	</FormItem>
+						<Button type="primary" onClick={this.onOk}>确定</Button>
+      	</FormItem>
 				<Modal
 					visible={this.state.visible}
 					footer={null}

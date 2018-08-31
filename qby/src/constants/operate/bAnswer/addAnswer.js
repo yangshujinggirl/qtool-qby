@@ -1,52 +1,70 @@
 import React,{ Component } from 'react';
 import { Form, Select, Input, Button , message} from 'antd';
-import { createBpushApi } from '../../../services/activity/bPush'
-import { connect } from 'dva';
-import EditAction from './components/EditAction/index.js';
-
+import { connect } from 'dva'
 import moment from 'moment';
+import EditAction from './components/EditAction/index.js';
+import { getDetailApi } from '../../../services/operate/bAnswer';
+
 const FormItem = Form.Item;
 const Option = Select.Option;
+import './index.less'
 
 class Addanswer extends Component {
   constructor(props){
     super(props);
     this.state = {
       componkey:this.props.componkey,
+      type:null,
+      status:null,
+      title:null,
+      pdAnswerConfig:{},
     }
   }
-  componentWillMount() {
-    this.initPage()
+  componentDidMount(){
+    if(this.props.data){
+      this.initData();
+    };
   }
-  //编辑or新增
-  initPage() {
-    const { pdAnswerId } =this.props.data;
-    if(pdAnswerId) {
-      this.props.dispatch({
-        type:'bAddAnswer/fetchInfo',
-        payload:{
-          pdAnswerId,
-        }
-      })
-    }
+  initData =()=> {
+    const { pdAnswerId } = this.props.data;
+    getDetailApi({pdAnswerId})
+    .then(res => {
+      const { code, iPdAnswer } = res;
+      if(res.code == '0'){
+        this.setState({
+          type:iPdAnswer.typeStr,
+          status:iPdAnswer.statusStr,
+          title:iPdAnswer.title,
+          pdAnswerConfig:iPdAnswer.pdAnswerConfig,
+        });
+      };
+    })
   }
-
   //保存
   handleSubmit = (e) => {
+    this.props.form.validateFieldsAndScroll((err,values)=>{
 
+    })
   }
 
   render(){
+    const {
+      type,
+      status,
+      title,
+      pdAnswerConfig
+    } = this.state
     const { getFieldDecorator } = this.props.form;
     return(
-      <div>
+      <div className="addAnswer">
         	<Form className="addUser-form operatebanner-form">
             <FormItem
               label="问题类型"
               labelCol={{ span: 3,offset: 1 }}
               wrapperCol={{ span: 9 }}>
-              {getFieldDecorator('pushTheme', {
+              {getFieldDecorator('type', {
                   rules: [{ required: true, message: '请输入问题类型'}],
+                  initialValue:type
                 })(
                   <Select allowClear={true} placeholder="请选择问题类型" className='select'>
                       <Option value={10}>运营问题 </Option>
@@ -62,8 +80,9 @@ class Addanswer extends Component {
               label="问题状态"
               labelCol={{ span: 3,offset: 1 }}
               wrapperCol={{ span: 9 }}>
-              {getFieldDecorator('pushTheme', {
+              {getFieldDecorator('status', {
                   rules: [{ required: true, message: '请输入问题状态'}],
+                  initialValue:status
                 })(
                   <Select allowClear={true} placeholder="请选择问题状态" className='select'>
                       <Option value={1}>上线</Option>
@@ -77,6 +96,7 @@ class Addanswer extends Component {
               wrapperCol={{ span: 9 }}>
               {getFieldDecorator('pushTheme', {
                   rules: [{ required: true, message: '请输入标题'}],
+                  initialValue:title
                 })(
                   <Input placeholder="请输入30字以内标题" maxLength='30' autoComplete="off"/>
               )}
@@ -85,6 +105,10 @@ class Addanswer extends Component {
               dataSource={[]}
               form={this.props.form}/>
         	</Form>
+          <div className='ok_btn'>
+            <Button className='cancel' onClick={this.cancel}>取消</Button>
+            <Button type="primary" onClick={this.handleSubmit}>确定</Button>
+          </div>
       </div>
     )
   }
