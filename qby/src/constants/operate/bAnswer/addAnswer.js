@@ -39,7 +39,7 @@ class Addanswer extends Component {
   //保存
   handleSubmit = (e) => {
     this.props.form.validateFieldsAndScroll((err,values)=>{
-      
+
     })
   }
   formValue =()=> {

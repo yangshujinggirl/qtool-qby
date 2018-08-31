@@ -7,6 +7,7 @@ import Qpagination from '../../../../components/Qpagination/index'; //分页
 import FilterForm from './FilterForm/index'
 import { exportDataApi } from '../../../../services/orderCenter/userOrders'
 import './index.less'
+const confirm = Modal.confirm;
 
 class DataDistribute extends Component{
   constructor(props){
@@ -60,7 +61,7 @@ class DataDistribute extends Component{
 
   //导出数据
   exportData =()=> {
-    const values ={...this.state.field,type:22}
+    const values ={type:77,downloadParam:{...this.state.field}}
     exportDataApi(values)
     .then(res => {
       if(res.code == '0'){
