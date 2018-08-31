@@ -89,6 +89,7 @@ import supplyinout from './models/operate/supplyinout'
 import withdraw from './models/operate/withdraw'
 //B端问答
 import bAnswer from './models/operate/bAnswer'
+import bAddAnswer from './models/operate/bAnswer/bAddAnswer'
 
 // 1. Initialize
 const app = dva({
@@ -167,6 +168,7 @@ const models = [
   supplyinout,
   withdraw,
   bAnswer,
+  bAddAnswer
 ]
 
 models.forEach(m => {

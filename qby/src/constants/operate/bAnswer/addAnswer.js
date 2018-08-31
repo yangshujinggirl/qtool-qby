@@ -1,8 +1,10 @@
 import React,{ Component } from 'react';
 import { Form, Select, Input, Button , message} from 'antd';
-import { getDetailApi } from '../../../services/operate/bAnswer'
 import { connect } from 'dva'
 import moment from 'moment';
+import EditAction from './components/EditAction/index.js';
+import { getDetailApi } from '../../../services/operate/bAnswer';
+
 const FormItem = Form.Item;
 const Option = Select.Option;
 import './index.less'
@@ -11,13 +13,14 @@ class Addanswer extends Component {
   constructor(props){
     super(props);
     this.state = {
+      componkey:this.props.componkey,
       type:null,
       status:null,
       title:null,
       pdAnswerConfig:{},
     }
   }
-  componentWillMount(){
+  componentDidMount(){
     if(this.props.data){
       this.initData();
     };
@@ -26,12 +29,13 @@ class Addanswer extends Component {
     const { pdAnswerId } = this.props.data;
     getDetailApi({pdAnswerId})
     .then(res => {
+      const { code, iPdAnswer } = res;
       if(res.code == '0'){
         this.setState({
-          type:res.iPdAnswer.typeStr,
-          status:res.iPdAnswer.statusStr,
-          title:res.iPdAnswer.title,
-          pdAnswerConfig:res.iPdAnswer.pdAnswerConfig,
+          type:iPdAnswer.typeStr,
+          status:iPdAnswer.statusStr,
+          title:iPdAnswer.title,
+          pdAnswerConfig:iPdAnswer.pdAnswerConfig,
         });
       };
     })
@@ -42,9 +46,7 @@ class Addanswer extends Component {
 
     })
   }
-  formValue =()=> {
 
-  }
   render(){
     const {
       type,
@@ -77,8 +79,7 @@ class Addanswer extends Component {
             <FormItem
               label="问题状态"
               labelCol={{ span: 3,offset: 1 }}
-              wrapperCol={{ span: 9 }}
-            >
+              wrapperCol={{ span: 9 }}>
               {getFieldDecorator('status', {
                   rules: [{ required: true, message: '请输入问题状态'}],
                   initialValue:status
@@ -92,8 +93,7 @@ class Addanswer extends Component {
             <FormItem
               label="标题"
               labelCol={{ span: 3,offset: 1 }}
-              wrapperCol={{ span: 9 }}
-            >
+              wrapperCol={{ span: 9 }}>
               {getFieldDecorator('pushTheme', {
                   rules: [{ required: true, message: '请输入标题'}],
                   initialValue:title
@@ -101,6 +101,9 @@ class Addanswer extends Component {
                   <Input placeholder="请输入30字以内标题" maxLength='30' autoComplete="off"/>
               )}
             </FormItem>
+            <EditAction
+              dataSource={[]}
+              form={this.props.form}/>
         	</Form>
           <div className='ok_btn'>
             <Button className='cancel' onClick={this.cancel}>取消</Button>
@@ -112,8 +115,8 @@ class Addanswer extends Component {
 }
 const Addanswers = Form.create()(Addanswer);
 function mapStateToProps(state){
-  const { bAnswer } = state;
-  return bAnswer
+  const { bAddAnswer } = state;
+  return bAddAnswer
 }
 
 export default connect(mapStateToProps)(Addanswers);
