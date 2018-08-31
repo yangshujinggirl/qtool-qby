@@ -188,6 +188,8 @@ class BtipGoods extends Component {
     this.props.dispatch({
       type:'bTipGoodsList/fetchList',
       payload:{
+        ...this.state.fields,
+        limit:this.props.bTipGoodsList.dataPag.limit,
         currentPage:this.props.bTipGoodsList.dataPag.currentPage
       }
     })
