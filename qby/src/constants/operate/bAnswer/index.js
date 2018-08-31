@@ -81,6 +81,28 @@ class Banswer extends Component{
       payload:paneitem
     })
   }
+  //编辑。
+  getEdit(record) {
+    const { limit, currentPage } = this.props.bAnswer;
+    const { componkey } = this.state;
+    const paneitem={
+      title:'问答编辑',
+      key:`${componkey}edit${record.pdAnswerId}`,
+      componkey:`${componkey}edit`,
+      data:{
+        listParams:{
+          ...this.state.fields,
+          limit,
+          currentPage
+        },
+        pdAnswerId:record.pdAnswerId,
+      }
+    };
+    this.props.dispatch({
+        type:'tab/firstAddTab',
+        payload:paneitem
+    })
+  }
   render(){
     const { dataList } = this.props.bAnswer;
 

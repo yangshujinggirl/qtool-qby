@@ -1,21 +1,33 @@
 import React,{ Component } from 'react';
 import { Form, Select, Input, Button , message} from 'antd';
 import { createBpushApi } from '../../../services/activity/bPush'
-import { connect } from 'dva'
+import { connect } from 'dva';
+import EditAction from './components/EditAction/index.js';
+
 import moment from 'moment';
 const FormItem = Form.Item;
-const Option = Select.Option;;
+const Option = Select.Option;
+
 class Addanswer extends Component {
   constructor(props){
     super(props);
     this.state = {
       componkey:this.props.componkey,
-      createTime:true,
-      fixedTime:false,
-      bannerIdNum:true,
-      code:false,
-      H5Url:false,
-      textInfo:false
+    }
+  }
+  componentWillMount() {
+    this.initPage()
+  }
+  //编辑or新增
+  initPage() {
+    const { pdAnswerId } =this.props.data;
+    if(pdAnswerId) {
+      this.props.dispatch({
+        type:'bAddAnswer/fetchInfo',
+        payload:{
+          pdAnswerId,
+        }
+      })
     }
   }
 
@@ -49,8 +61,7 @@ class Addanswer extends Component {
             <FormItem
               label="问题状态"
               labelCol={{ span: 3,offset: 1 }}
-              wrapperCol={{ span: 9 }}
-            >
+              wrapperCol={{ span: 9 }}>
               {getFieldDecorator('pushTheme', {
                   rules: [{ required: true, message: '请输入问题状态'}],
                 })(
@@ -63,14 +74,16 @@ class Addanswer extends Component {
             <FormItem
               label="标题"
               labelCol={{ span: 3,offset: 1 }}
-              wrapperCol={{ span: 9 }}
-            >
+              wrapperCol={{ span: 9 }}>
               {getFieldDecorator('pushTheme', {
                   rules: [{ required: true, message: '请输入标题'}],
                 })(
                   <Input placeholder="请输入30字以内标题" maxLength='30' autoComplete="off"/>
               )}
             </FormItem>
+            <EditAction
+              dataSource={[]}
+              form={this.props.form}/>
         	</Form>
       </div>
     )
@@ -78,8 +91,8 @@ class Addanswer extends Component {
 }
 const Addanswers = Form.create()(Addanswer);
 function mapStateToProps(state){
-  const { bAnswer } = state;
-  return bAnswer
+  const { bAddAnswer } = state;
+  return bAddAnswer
 }
 
 export default connect(mapStateToProps)(Addanswers);
