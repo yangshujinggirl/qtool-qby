@@ -70,7 +70,7 @@ class DataDistribute extends Component{
           content: '请前往下载中心查看导出进度',
           cancelText:'稍后去',
           okText:'去看看',
-          onOk() {
+          onOk:()=> {
             const paneitem={title:'下载中心',key:'000001',componkey:'000001',data:null}
             this.props.dispatch({
               type:'tab/firstAddTab',
