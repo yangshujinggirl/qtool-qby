@@ -18,10 +18,11 @@ class NormalForm extends Component{
   //点击搜索
   handleSubmit = (e) => {
     this.props.form.validateFieldsAndScroll((err, values) => {
+      console.log(values)
       const{rangePicker,..._values} = values;
       if(rangePicker&&rangePicker[0]){
-        _values.startTime =  moment(rangePicker[0]).format('YYYY-MM-DD HH:mm:ss');
-        _values.endTime = moment(rangePicker[1]).format('YYYY-MM-DD HH:mm:ss');
+        _values.dateStart =  moment(rangePicker[0]).format('YYYY-MM-DD');
+        _values.dateEnd = moment(rangePicker[1]).format('YYYY-MM-DD');
       };
       this.props.submit && this.props.submit(_values);
     })
@@ -80,7 +81,7 @@ class NormalForm extends Component{
                     label="结算到期日"
                 >
                   {getFieldDecorator('rangePicker')(
-                    <RangePicker showTime format="YYYY-MM-DD HH:mm:ss"/>
+                    <RangePicker showTime format="YYYY-MM-DD"/>
                   )}
                 </FormItem>
             </div>

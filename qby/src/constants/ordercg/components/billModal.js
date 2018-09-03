@@ -19,15 +19,18 @@ class BillModal extends Component{
         dataIndex: 'invoiceCode',
         render(text,record,index){
           return(
-            <div>
+            <FormItem>
               {
   				      that.props.form.getFieldDecorator(`record[${index}].invoiceCode`,{
+                  rules:[
+                    {required:true,message:'请输入发票号'},
+                  ],
       						initialValue:record.invoiceCode,
       					})(
       						 <Input placeholder="请输入发票号" autoComplete="off"/>
       					)
       				}
-            </div>
+            </FormItem>
           )
         }
       },{
@@ -35,15 +38,19 @@ class BillModal extends Component{
         dataIndex: 'invoiceAmount',
         render(text,record,index){
           return(
-            <div>
+            <FormItem>
               {
       					that.props.form.getFieldDecorator(`record[${index}].invoiceAmount`,{
+                  rules:[
+                    {required:true,message:'请输入发票金额'},
+                    {pattern:/^\d+(\.\d{0,2})?$/,message:'尽包含两位小数'},
+                  ],
       						initialValue:record.invoiceAmount,
       					})(
       						 <Input placeholder="请输入发票金额" autoComplete="off"/>
       					)
       				}
-            </div>
+            </FormItem>
           )
         }
       },
@@ -52,7 +59,12 @@ class BillModal extends Component{
         dataIndex: 'delete',
         render(text,record,index){
           return(
-            <a href='javascript:;' onClick={()=>that.handDelete(index)} className="theme-color delete">删除</a>
+            <a
+              href='javascript:;'
+              onClick={()=>that.handDelete(index)}
+              className="theme-color delete">
+              删除
+            </a>
           )
         }
       },
@@ -62,8 +74,8 @@ class BillModal extends Component{
   handleAdd =()=> {
 		let { dataSource } = this.props.billInfo;
 		dataSource.push({
-			invoiceCode:'',
-			invoiceAmount:'',
+			invoiceCode:null,
+			invoiceAmount:null,
 		})
 		this.props.handleAdd(dataSource)
 	}
@@ -72,17 +84,42 @@ class BillModal extends Component{
     dataSource.splice(index,1);
     this.props.handDelete(dataSource)
 	}
+  clearForm =()=> {
+    this.props.form.resetFields(['record']);
+  }
   //点击确定
   onOk =()=> {
     this.props.form.validateFieldsAndScroll((err,values)=>{
-      const invoices = values.record;
-      const { asnNo,amountSum,wsAsnId} = this.props.billInfo;
-      const values_ = {asnNo,amountSum,wsAsnId,invoices}
-      this.props.onOk(values_);
+      if(!err){
+        let hash = {};
+        let index = 0;
+        let { record } = values;
+        record.map((item)=> {
+          if(hash[item.invoiceCode]){
+            index++;
+          }else{
+            hash[item.invoiceCode] = 1;
+          };
+        });
+        if(index){ //有重复发票
+          message.warning('不可输入重复的发票号');
+        }else{
+          let total=0;
+          record.map((item)=> {
+            total+=Number(item.invoiceAmount);
+          });
+          const invoices = values.record;
+          const { asnNo,amountSum,wsAsnId} = this.props.billInfo;
+          const values_ = {asnNo,amountSum,wsAsnId,invoices}
+          if(total < Number(amountSum) || total == Number(amountSum) ){
+            this.props.onOk(values_,total);
+          }else{
+            message.error('发票总金额不可超过到货总金额',.8);
+          }
+        };
+      };
     });
   };
-
-
   render(){
     const { getFieldDecorator }= this.props.form;
     const { asnNo, amountSum, dataSource } = this.props.billInfo;

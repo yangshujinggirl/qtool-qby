@@ -126,6 +126,7 @@ export default {
                   {lable:'单据类型',text:asn.vouchersTypeStr},
                   {lable:'发票状态',text:asn.invoiceStatusStr},
                   {lable:'是否已结案',text:asn.caseStatusStr},
+                  {lable:'备注',text:asn.remark},
                 ];
                 if (asn.shippingFeeType == 20) {
                   headTit.push({lable:'物流费用',text:'到付'},{lable:'到付金额',text:asn.shippingFee});
