@@ -76,7 +76,7 @@ class AddanswerForm extends Component {
   //保存
   handleSubmit = (e) => {
     this.props.form.validateFieldsAndScroll((err,values)=>{
-      console.log(this.formtParams(values))
+      // console.log(this.formtParams(values))
       // console.log(values)
       if(err) {
         return;
@@ -104,10 +104,11 @@ class AddanswerForm extends Component {
       })
     }
 
-    let pdAnswerConfig={};
+    let pdAnswerConfig = {
+          content:answerContent
+        };
     if(this.props.data.pdAnswerId) {
       pdAnswerConfig.pdAnswerConfigId = this.state.pdAnswerConfigId;
-      pdAnswerConfig.content = answerContent;
       newValues.pdAnswerId = this.props.data.pdAnswerId;
     }
     newValues = { ...newValues,pdAnswerConfig};
