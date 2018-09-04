@@ -145,10 +145,11 @@ class AddanswerForm extends Component {
           payload:{...this.props.data.listParams}
         });
         this.onCancel()
+      } else {
+        this.setState({
+          loading:false
+        })
       }
-      this.setState({
-        loading:false
-      })
     })
   }
   //取消
