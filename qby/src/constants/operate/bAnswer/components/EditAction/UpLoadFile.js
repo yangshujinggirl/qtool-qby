@@ -12,7 +12,11 @@ class UpLoadFile extends Component {
       fileList:this.props.fileList
     }
   }
-
+  componentWillReceiveProps(props) {
+		this.setState({
+			fileList: props.fileList,
+		})
+	}
   beforeUpload(file){
   	const isJPG = file.type === 'image/jpeg';
   	const isPNG = file.type === 'image/png';

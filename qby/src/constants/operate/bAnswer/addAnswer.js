@@ -1,5 +1,5 @@
 import React,{ Component } from 'react';
-import { Form, Select, Input, Button , message} from 'antd';
+import { Form, Select, Input, Button, message, Row, Col} from 'antd';
 import { connect } from 'dva'
 import moment from 'moment';
 import EditAction from './components/EditAction/index.js';
@@ -164,72 +164,83 @@ class AddanswerForm extends Component {
       loading
     } = this.state
     const { getFieldDecorator } = this.props.form;
-    console.log(answerContent)
     return(
       <div className="addAnswer-pages">
+          <Row>
         	<Form className="addUser-form operatebanner-form">
-            <FormItem
-              label="问题类型"
-              labelCol={{ span: 3,offset: 1 }}
-              wrapperCol={{ span: 9 }}>
-              {getFieldDecorator('type', {
-                  rules: [{ required: true, message: '请输入问题类型'}],
-                  initialValue:type
-                })(
-                  <Select allowClear={true} placeholder="请选择问题类型" className='select'>
-                      <Option value={10} key={10}>运营问题 </Option>
-                      <Option value={20} key={20}>商品问题</Option>
-                      <Option value={30} key={30}>设计问题</Option>
-                      <Option value={40} key={40}>招商问题 </Option>
-                      <Option value={50} key={50}>系统问题 </Option>
-                      <Option value={60} key={60}>其他 </Option>
-                  </Select>
-              )}
-            </FormItem>
-            <FormItem
-              label="问题状态"
-              labelCol={{ span: 3,offset: 1 }}
-              wrapperCol={{ span: 9 }}>
-              {getFieldDecorator('status', {
-                  rules: [{ required: true, message: '请输入问题状态'}],
-                  initialValue:status
-                })(
-                  <Select allowClear={true} placeholder="请选择问题状态" className='select'>
-                      <Option value={1}>上线</Option>
-                      <Option value={0}>下线</Option>
-                  </Select>
-              )}
-            </FormItem>
-            <FormItem
-              label="标题"
-              labelCol={{ span: 3,offset: 1 }}
-              wrapperCol={{ span: 9 }}>
-              {getFieldDecorator('title', {
-                  rules: [{ required: true, message: '请输入标题'}],
-                  initialValue:title,
-                  onChange:this.changeTitle
-                })(
-                  <Input
-                    placeholder="请输入30字以内标题"
-                    maxLength='30'
-                    autoComplete="off"/>
-              )}
-            </FormItem>
-            {
-              answerContent &&
-              <EditAction
-                title={title}
-                dataSource={answerContent}
-                form={this.props.form}/>
-            }
+              <Col span={24}>
+                <FormItem
+                  label="问题类型"
+                  labelCol={{ span: 3,offset: 1 }}
+                  wrapperCol={{ span: 9 }}>
+                  {getFieldDecorator('type', {
+                      rules: [{ required: true, message: '请输入问题类型'}],
+                      initialValue:type
+                    })(
+                      <Select allowClear={true} placeholder="请选择问题类型" className='select'>
+                          <Option value={10} key={10}>运营问题 </Option>
+                          <Option value={20} key={20}>商品问题</Option>
+                          <Option value={30} key={30}>设计问题</Option>
+                          <Option value={40} key={40}>招商问题 </Option>
+                          <Option value={50} key={50}>系统问题 </Option>
+                          <Option value={60} key={60}>其他 </Option>
+                      </Select>
+                  )}
+                </FormItem>
+              </Col>
+              <Col span={24}>
+                <FormItem
+                  label="问题状态"
+                  labelCol={{ span: 3,offset: 1 }}
+                  wrapperCol={{ span: 9 }}>
+                  {getFieldDecorator('status', {
+                      rules: [{ required: true, message: '请输入问题状态'}],
+                      initialValue:status
+                    })(
+                      <Select allowClear={true} placeholder="请选择问题状态" className='select'>
+                          <Option value={1}>上线</Option>
+                          <Option value={0}>下线</Option>
+                      </Select>
+                  )}
+                </FormItem>
+              </Col>
+              <Col span={24}>
+                <FormItem
+                  label="标题"
+                  labelCol={{ span: 3,offset: 1 }}
+                  wrapperCol={{ span: 9 }}>
+                  {getFieldDecorator('title', {
+                      rules: [{ required: true, message: '请输入标题'}],
+                      initialValue:title,
+                      onChange:this.changeTitle
+                    })(
+                      <Input
+                        placeholder="请输入30字以内标题"
+                        maxLength='30'
+                        autoComplete="off"/>
+                  )}
+                </FormItem>
+              </Col>
+              <Col span={24}>
+                {
+                  answerContent &&
+                  <EditAction
+                    title={title}
+                    dataSource={answerContent}
+                    form={this.props.form}/>
+                }
+              </Col>
+              <Col span={8} offset={4}>
+                    <div className='btns-list'>
+                      <Button className='cancel' onClick={this.onCancel.bind(this)}>取消</Button>
+                      <Button
+                        loading={loading}
+                        type="primary"
+                        onClick={this.handleSubmit}>确定</Button>
+                    </div>
+              </Col>
         	</Form>
-          <div className='btns-list'>
-            <Button className='cancel' onClick={this.onCancel.bind(this)}>取消</Button>
-            <Button
-              loading={loading}
-              type="primary"
-              onClick={this.handleSubmit}>确定</Button>
-          </div>
+          </Row>
       </div>
     )
   }
