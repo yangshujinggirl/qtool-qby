@@ -184,6 +184,7 @@ export default {
               editInfo.paymentTypeStr = info.paymentTypeStr;
               editInfo.remark = info.remark;
               editInfo.dayPay = info.dayPay;
+              editInfo.vouchersType = info.vouchersType;
               if(info.taxRate == null ||info.taxRate == undefined){
                   editInfo.taxRate = [];
               }else{

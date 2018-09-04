@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Modal, message,Form,Select } from 'antd'
+import { Button, Modal, message,Form,Select,Input } from 'antd'
 import { connect } from 'dva'
 import Columns from './columns/index'
 import Qtable from '../../../components/Qtable/index'; //表单
@@ -75,17 +75,17 @@ class Withdraw extends Component{
   handleOperateClick(record,type){
     switch(type) {
       case "detail":
-        this.getDetail(record)
+        this.getDetail(record);
         break;
       case "edit":
-        this.getEdit(record)
+        this.getEdit(record);
         break;
     }
   }
   getDetail =(record)=> {
     const paneitem = {
       title:'提现详情',
-      key:`${this.props.componkey}info`,
+      key:`${this.props.componkey}edit${record.spCarryCashId}info`,
       componkey:`${this.props.componkey}info`,
       data:{
         spCarryCashId:record.spCarryCashId,
@@ -107,7 +107,7 @@ class Withdraw extends Component{
   notCheck =()=> {
     this.setState({
       checkStatus:true
-    },()=>{
+    },function(){
       this.props.form.validateFieldsAndScroll((err,values) => {
         if(!err){ //审核通过1 审核不通过2
           values.status = 2;
@@ -121,8 +121,8 @@ class Withdraw extends Component{
               this.initData();
             };
           })
+          this.props.form.resetFields(['remark']);
         };
-        this.props.form.resetFields(['remark']);
       });
     });
   }
@@ -142,10 +142,9 @@ class Withdraw extends Component{
               });
               this.initData();
             }
-          })
-        };
+          });
           this.props.form.resetFields(['remark']);
-
+        };
       });
     });
   }
@@ -156,10 +155,9 @@ class Withdraw extends Component{
     this.props.form.resetFields(['remark']);
   }
   render(){
-    console.log(this.state.checkStatus)
     const {dataList} = this.props.withdraw;
     const { getFieldDecorator }= this.props.form;
-    const { shopName,amount} = this.state
+    const { shopName,amount,checkStatus} = this.state
     return(
       <div className='qtools-components-pages'>
         <FilterForm
@@ -204,13 +202,9 @@ class Withdraw extends Component{
               wrapperCol={{ span: 12 }}
             >
               {getFieldDecorator('remark',{
-                rules:[{required:this.state.checkStatus,message:'请输入不通过理由'}]
+                rules:[{required:checkStatus,message:'请输入不通过理由'}]
               })(
-                <Select allowClear={true} placeholder="请选择审核状态" className='select'>
-                    <Option value={0}>待审核 </Option>
-                    <Option value={1}>审核通过 </Option>
-                    <Option value={2}>审核不通过</Option>
-                </Select>
+                <Input placeholder='请输入不通过的理由' maxLength='50' autoComplete="off"/>
               )}
             </FormItem>
           </Form>

@@ -26,10 +26,7 @@ class SpTable extends React.Component {
         },{
 			title: '账户余额',
 			dataIndex: 'amount'
-        },{
-			title: '门店积分',
-			dataIndex: 'fixtureMoney'
-        },{
+		},{
 			title: '操作',
 			dataIndex: 'opation',
 			render: (text, record) => {

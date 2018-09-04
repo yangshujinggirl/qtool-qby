@@ -66,12 +66,21 @@ class SpEditForm extends React.Component{
 			rec_city:null
 		}
 	}
+	componentDidMount(){
+		this.props.dispatch({
+			type:'operatesp/region',
+			payload:{code:'qerp.web.bs.region',values:{}}
+		});
+		if(this.props.data){
+			this.getinfoData()
+		};
+	}
 	//删除当前tab
 	deleteTab=()=>{
 		const pane = eval(sessionStorage.getItem("pane"));
 		if(pane.length<=1){
 			return
-		}
+		};
 		if(this.props.data){
 			this.props.dispatch({
 				type:'tab/initDeletestate',
@@ -81,24 +90,24 @@ class SpEditForm extends React.Component{
 			this.props.dispatch({
 				type:'tab/initDeletestate',
 				payload:'403000edit'
-			  });
-		}
+		  });
+		};
 		this.refreshList()
 	}
 	//刷新列表
 	refreshList=()=>{
 		const values=this.props.values
 		this.props.dispatch({
-            type:'operatesp/fetch',
-            payload:{code:'qerp.web.sp.shop.query',values:values}
-        });
+	    type:'operatesp/fetch',
+	    payload:{code:'qerp.web.sp.shop.query',values:values}
+    });
 		this.props.dispatch({ type: 'tab/loding', payload:true})
 	}
 	//保存
 	handleSubmit = (e) => {
 		e.preventDefault();
 		this.props.form.validateFields((err, value) => {
-		    if (!err) {
+	    if (!err) {
 				value.openWechat = String(value.openWechat);
 				value.openAlipay = String(value.openAlipay);
         value.spShopPics=this.props.spShopPics
@@ -378,7 +387,7 @@ class SpEditForm extends React.Component{
 						<Input placeholder='请输入门店名称' autoComplete="off"/>
 					)}
 				</FormItem>
-                <FormItem
+        <FormItem
 					label="门店简称"
 					labelCol={{ span: 3,offset: 1 }}
 					wrapperCol={{ span: 6 }}
@@ -390,11 +399,10 @@ class SpEditForm extends React.Component{
 						<Input placeholder='请输入门店简称' autoComplete="off"/>
 					)}
 				</FormItem>
-                <FormItem
+        <FormItem
 					label="打印名称"
 					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}
-				>
+					wrapperCol={{ span: 6 }}>
 					{getFieldDecorator('printName', {
 						rules: [{ required: true, message: '请输入打印名称'}],
 						initialValue:this.state.printName
@@ -405,8 +413,7 @@ class SpEditForm extends React.Component{
 				<FormItem
 					label="电商名称"
 					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}
-				>
+					wrapperCol={{ span: 6 }}>
 					{getFieldDecorator('ecName', {
 						rules: [{ required: true, message: '请输入电商名称'}],
 						initialValue:this.state.ecName
@@ -414,24 +421,32 @@ class SpEditForm extends React.Component{
 						<Input placeholder='请输入电商名称' autoComplete="off"/>
 					)}
 				</FormItem>
-                <FormItem
+        <FormItem
 					label="门店编号"
 					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}
-				>
+					wrapperCol={{ span: 6 }}>
 					{getFieldDecorator('no', {
 						rules: [{ required: true, message: '请输入门店编号'}],
 						initialValue:this.state.no
 					})(
 						<Input placeholder='请输入门店编号' autoComplete="off"/>
-                    )}
-
+          )}
 				</FormItem>
-                <FormItem
+				<FormItem
+					label="门店店主"
+					labelCol={{ span: 3,offset: 1 }}
+					wrapperCol={{ span: 6 }}>
+					{getFieldDecorator('shopman', {
+						rules: [{ required: true, message: '请输入门店店主'}],
+						initialValue:this.state.shopman
+					})(
+						<Input placeholder='请输入门店店主' autoComplete="off"/>
+					)}
+				</FormItem>
+        <FormItem
 					label="店主手机"
 					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}
-				>
+					wrapperCol={{ span: 6 }}>
 					{getFieldDecorator('mobile', {
 						rules: [{ required: true, message: '请输入店主手机'}],
 						initialValue:this.state.mobile
@@ -442,8 +457,7 @@ class SpEditForm extends React.Component{
         <FormItem
 					label="门店电话"
 					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}
-				>
+					wrapperCol={{ span: 6 }}>
 					{getFieldDecorator('telephone', {
 						rules: [{ required: true, message: '请输入门店电话'}],
 						initialValue:this.state.telephone
@@ -454,8 +468,7 @@ class SpEditForm extends React.Component{
 				<FormItem
 					label="客服电话"
 					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}
-				>
+					wrapperCol={{ span: 6 }}>
 					{getFieldDecorator('serverTel', {
 						rules: [{ required: true, message: '请输入客服电话'}],
 						initialValue:this.state.telephone
@@ -463,97 +476,10 @@ class SpEditForm extends React.Component{
 						<Input placeholder='请输入客服电话' autoComplete="off"/>
 					)}
 				</FormItem>
-                <FormItem
-					label="门店店主"
-					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}
-				>
-					{getFieldDecorator('shopman', {
-						rules: [{ required: true, message: '请输入门店店主'}],
-						initialValue:this.state.shopman
-					})(
-						<Input placeholder='请输入门店店主' autoComplete="off"/>
-					)}
-				</FormItem>
-
-				<div className='title'>地址信息</div>
-        <FormItem
-            label="所属城市"
-            labelCol={{ span: 3,offset: 1 }}
-	wrapperCol={{ span: 6 }}
-            >
-            {getFieldDecorator('shop_city', {
-                rules: [{ type: 'array', required: true, message: '请选择所属城市' }],
-                initialValue:this.props.data?this.state.shopcity:null
-            })(
-                <Cascader placeholder="请选择所属城市" options={this.props.bsRegions}/>
-            )}
-        </FormItem>
-        <FormItem
-					label="门店地址"
-					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}
-				>
-					{getFieldDecorator('address', {
-						rules: [{ required: true, message: '请输入门店地址'}],
-						initialValue:this.state.address
-					})(
-						<Input placeholder='请输入门店地址' autoComplete="off"/>
-					)}
-				</FormItem>
-				<FormItem
-					label="门店经度"
-					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}
-				>
-					{getFieldDecorator('lng', {
-						rules: [{ required: true, message: '请输入门店经度'}],
-						initialValue:this.state.lng
-					})(
-						<Input placeholder='请输入门店经度' autoComplete="off"/>
-					)}
-				</FormItem>
-				<FormItem
-					label="门店纬度"
-					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}
-				>
-					{getFieldDecorator('lat', {
-						rules: [{ required: true, message: '请输入门店纬度'}],
-						initialValue:this.state.lat
-					})(
-						<Input placeholder='请输入门店纬度' autoComplete="off"/>
-					)}
-				</FormItem>
-        <FormItem
-            label="收货城区"
-            labelCol={{ span: 3,offset: 1 }}
-	wrapperCol={{ span: 6 }}
-            >
-            {getFieldDecorator('rec_city', {
-                rules: [{ type: 'array', required: true, message: '请选择收货城区' }],
-                initialValue:this.props.data?this.state.rec_city:null
-            })(
-                <Cascader placeholder="请选择所属城市" options={this.props.bsRegions}/>
-            )}
-        </FormItem>
-				<FormItem
-					label="收货地址"
-					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}
-				>
-					{getFieldDecorator('recAddress', {
-						rules: [{ required: true, message: '请输入收货地址'}],
-						initialValue:this.state.recAddress
-					})(
-						<Input placeholder='请输入收货地址' autoComplete="off"/>
-					)}
-				</FormItem>
 				<FormItem
 					label="开户银行"
 					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}
-				>
+					wrapperCol={{ span: 6 }}>
 					{getFieldDecorator('bank', {
 						rules: [{ required: true, message: '请输入开户银行'}],
 						initialValue:this.state.bank
@@ -564,8 +490,7 @@ class SpEditForm extends React.Component{
 				<FormItem
 					label="银行卡号"
 					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}
-				>
+					wrapperCol={{ span: 6 }}>
 					{getFieldDecorator('bankNo', {
 						rules: [{ required: true, message: '请输入银行卡号'}],
 						initialValue:this.state.bankNo
@@ -576,8 +501,7 @@ class SpEditForm extends React.Component{
 				<FormItem
 					label="开户名"
 					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}
-				>
+					wrapperCol={{ span: 6 }}>
 					{getFieldDecorator('bankName', {
 						rules: [{ required: true, message: '请输入开户名'}],
 						initialValue:this.state.bankName
@@ -585,12 +509,78 @@ class SpEditForm extends React.Component{
 						<Input placeholder='请输入开户名' autoComplete="off"/>
 					)}
 				</FormItem>
-				<div className='title'>店铺信息</div>
+			<div className='title'>地址信息</div>
+      	<FormItem
+          label="所属城市"
+          labelCol={{ span: 3,offset: 1 }}
+					wrapperCol={{ span: 6 }}>
+            {getFieldDecorator('shop_city', {
+                rules: [{ type: 'array', required: true, message: '请选择所属城市' }],
+                initialValue:this.props.data?this.state.shopcity:null
+            })(
+                <Cascader placeholder="请选择所属城市" options={this.props.bsRegions}/>
+            )}
+        </FormItem>
+        <FormItem
+					label="门店地址"
+					labelCol={{ span: 3,offset: 1 }}
+					wrapperCol={{ span: 6 }}>
+					{getFieldDecorator('address', {
+						rules: [{ required: true, message: '请输入门店地址'}],
+						initialValue:this.state.address
+					})(
+						<Input placeholder='请输入门店地址' autoComplete="off"/>
+					)}
+				</FormItem>
+				<FormItem
+					label="门店经度"
+					labelCol={{ span: 3,offset: 1 }}
+					wrapperCol={{ span: 6 }}>
+					{getFieldDecorator('lng', {
+						rules: [{ required: true, message: '请输入门店经度'}],
+						initialValue:this.state.lng
+					})(
+						<Input placeholder='请输入门店经度' autoComplete="off"/>
+					)}
+				</FormItem>
+				<FormItem
+					label="门店纬度"
+					labelCol={{ span: 3,offset: 1 }}
+					wrapperCol={{ span: 6 }}>
+					{getFieldDecorator('lat', {
+						rules: [{ required: true, message: '请输入门店纬度'}],
+						initialValue:this.state.lat
+					})(
+						<Input placeholder='请输入门店纬度' autoComplete="off"/>
+					)}
+				</FormItem>
+        <FormItem
+          label="收货城区"
+          labelCol={{ span: 3,offset: 1 }}
+					wrapperCol={{ span: 6 }}>
+            {getFieldDecorator('rec_city', {
+                rules: [{ type: 'array', required: true, message: '请选择收货城区' }],
+                initialValue:this.props.data?this.state.rec_city:null
+            })(
+                <Cascader placeholder="请选择所属城市" options={this.props.bsRegions}/>
+            )}
+        </FormItem>
+				<FormItem
+					label="收货地址"
+					labelCol={{ span: 3,offset: 1 }}
+					wrapperCol={{ span: 6 }}>
+					{getFieldDecorator('recAddress', {
+						rules: [{ required: true, message: '请输入收货地址'}],
+						initialValue:this.state.recAddress
+					})(
+						<Input placeholder='请输入收货地址' autoComplete="off"/>
+					)}
+				</FormItem>
+			<div className='title'>店铺信息</div>
         <FormItem
 					label="门店面积"
 					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}
-				>
+					wrapperCol={{ span: 6 }}>
 					{getFieldDecorator('square', {
 						initialValue:this.state.square
 					})(
@@ -600,8 +590,7 @@ class SpEditForm extends React.Component{
         <FormItem
 					label="装修费用"
 					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}
-				>
+					wrapperCol={{ span: 6 }}>
 					{getFieldDecorator('fixtureMoney', {
 						initialValue:this.state.fixtureMoney,
 						rules:[{pattern:/^\d+(\.\d{0,2})?$/,message:'只能输入两位小数的数字'}]
@@ -612,72 +601,86 @@ class SpEditForm extends React.Component{
         <FormItem
 					label="门店租金"
 					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}
-				>
+					wrapperCol={{ span: 6 }}>
 					{getFieldDecorator('rental', {
 						initialValue:this.state.rental
 					})(
 						<Input placeholder='请输入门店租金' autoComplete="off"/>
 					)}
 				</FormItem>
-                <FormItem
+        <FormItem
 					label="人事费用"
 					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}
-				>
+					wrapperCol={{ span: 6 }}>
 					{getFieldDecorator('staffCost', {
 						initialValue:this.state.staffCost
 					})(
 						<Input placeholder='请输入人事费用' autoComplete="off"/>
 					)}
 				</FormItem>
-                <FormItem
+				<FormItem
+					label="店主微信"
+					labelCol={{ span: 3,offset: 1 }}
+					wrapperCol={{ span: 6 }}>
+					{getFieldDecorator('wechat', {
+						initialValue:this.state.wechat
+					})(
+						<Input placeholder='请输入店主微信' autoComplete="off"/>
+					)}
+				</FormItem>
+        <FormItem
 					label="营业时间"
 					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}
-            >
-              {getFieldDecorator('businessTime', {
-              })(
-                <div>
-                    <TimePicker  onChange={this.fromonChange.bind(this)}  value={(this.state.fromtime!=null && this.state.fromtime!=undefined && this.state.fromtime!='' && this.state.fromtime!=[])?moment(String(this.state.fromtime),'HH:mm'):null} style={{width:'45%'}} format="HH:mm"/>
-                    <span style={{display:'inline-block',width:'10%',textAlign:'center'}}>至</span>
-                    <TimePicker  onChange={this.endonChange.bind(this)}  value={(this.state.endtime!=null && this.state.endtime!=undefined && this.state.endtime!='' && this.state.endtime!=[])?moment(this.state.endtime,'HH:mm'):null} style={{width:'45%'}} format="HH:mm"/>
-                </div>
-              )}
-            </FormItem>
-                <FormItem
+					wrapperCol={{ span: 6 }}>
+          {getFieldDecorator('businessTime', {
+          })(
+            <div>
+                <TimePicker  onChange={this.fromonChange.bind(this)}  value={(this.state.fromtime!=null && this.state.fromtime!=undefined && this.state.fromtime!='' && this.state.fromtime!=[])?moment(String(this.state.fromtime),'HH:mm'):null} style={{width:'45%'}} format="HH:mm"/>
+                <span style={{display:'inline-block',width:'10%',textAlign:'center'}}>至</span>
+                <TimePicker  onChange={this.endonChange.bind(this)}  value={(this.state.endtime!=null && this.state.endtime!=undefined && this.state.endtime!='' && this.state.endtime!=[])?moment(this.state.endtime,'HH:mm'):null} style={{width:'45%'}} format="HH:mm"/>
+            </div>
+          )}
+        </FormItem>
+        <FormItem
 					label="开业时间"
 					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span:6 }}
-					>
+					wrapperCol={{ span:6 }}>
 					{getFieldDecorator('openTime', {
 						initialValue:(this.props.data && this.state.startTime!=null && this.state.startTime!=undefined  && this.state.startTime!='' && this.state.startTime!=[])?moment(this.state.startTime):null
 					})(
 					<DatePicker  format="YYYY-MM-DD" showTime onChange={this.timeChange.bind(this)}/>
 					)}
 				</FormItem>
+				<FormItem
+					label="店主备注"
+					labelCol={{ span: 3,offset: 1 }}
+					wrapperCol={{ span: 6 }}>
+					{getFieldDecorator('remark', {
+						initialValue:this.state.remark
+					})(
+						<TextArea rows={4} placeholder='请输入店主备注' autoComplete="off"/>
+					)}
+				</FormItem>
 				<div className='title'>合作经营</div>
-								<FormItem
+				<FormItem
 					label="门店状态"
 					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}
-				>
+					wrapperCol={{ span: 6 }}>
 					{getFieldDecorator('status', {
 						rules: [{ required: true, message: '请选择门店状态'}],
 						initialValue:this.state.status
 					})(
 						<Select placeholder="请选择门店状态">
-												<Option value="0">待开业</Option>
-												<Option value="10">开业中</Option>
-												<Option value="20">关业中</Option>
-											</Select>
+							<Option value="0">待开业</Option>
+							<Option value="10">开业中</Option>
+							<Option value="20">关业中</Option>
+						</Select>
 					)}
 				</FormItem>
 				<FormItem
 					label="门店类型"
 					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}
-				>
+					wrapperCol={{ span: 6 }}>
 					{getFieldDecorator('shopType', {
 						rules: [{ required: true, message: '请选择门店类型'}],
 						initialValue:this.state.shopType,
@@ -687,14 +690,13 @@ class SpEditForm extends React.Component{
 							<Option value="1">直营</Option>
 							<Option value="2">联营</Option>
 							<Option value="3">加盟</Option>
-											</Select>
+						</Select>
 					)}
 				</FormItem>
 				<FormItem
 					label="分成比例"
 					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}
-				>
+					wrapperCol={{ span: 6 }}>
 					<div className='felxboxs'>
 						<div style={{width:'45%'}}>
 							<p className='tc'>食品尿不湿类</p>
@@ -709,8 +711,7 @@ class SpEditForm extends React.Component{
 				<FormItem
 					label="微信支付扫码"
 					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span:6 }}
-					>
+					wrapperCol={{ span:6 }}>
 					{getFieldDecorator('openWechat', {
 						rules: [{ required: true, message: '请选择是否使用微信扫码支付'}],
 						initialValue:Number(this.state.openWechat)
@@ -718,14 +719,13 @@ class SpEditForm extends React.Component{
 						<RadioGroup>
 							<Radio value={1}>开启</Radio>
 							<Radio value={0}>关闭</Radio>
-					  	</RadioGroup>
+				  	</RadioGroup>
 					)}
 				</FormItem>
 				<FormItem
 					label="支付宝扫码"
 					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span:6 }}
-					>
+					wrapperCol={{ span:6 }}>
 					{getFieldDecorator('openAlipay', {
 						rules: [{ required: true, message: '请选择是否使用支付宝扫码'}],
 						initialValue:Number(this.state.openAlipay)
@@ -733,14 +733,13 @@ class SpEditForm extends React.Component{
 						<RadioGroup>
 							<Radio value={1}>开启</Radio>
 							<Radio value={0}>关闭</Radio>
-					  	</RadioGroup>
+				  	</RadioGroup>
 					)}
 				</FormItem>
 				<FormItem
 					label="C端App"
 					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span:6 }}
-					>
+					wrapperCol={{ span:6 }}>
 					{getFieldDecorator('openApp', {
 						rules: [{ required: true, message: '请选择是否使用C端App'}],
 						initialValue:Number(this.state.openApp)
@@ -748,29 +747,7 @@ class SpEditForm extends React.Component{
 						<RadioGroup>
 							<Radio value={1}>开启</Radio>
 							<Radio value={0}>关闭</Radio>
-					  	</RadioGroup>
-					)}
-				</FormItem>
-                <FormItem
-					label="店主微信"
-					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}
-				>
-					{getFieldDecorator('wechat', {
-						initialValue:this.state.wechat
-					})(
-						<Input placeholder='请输入店主微信' autoComplete="off"/>
-					)}
-				</FormItem>
-                <FormItem
-					label="店主备注"
-					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}
-				>
-					{getFieldDecorator('remark', {
-						initialValue:this.state.remark
-					})(
-						<TextArea rows={4} placeholder='请输入店主备注' autoComplete="off"/>
+				  	</RadioGroup>
 					)}
 				</FormItem>
 				<FormItem
@@ -785,25 +762,16 @@ class SpEditForm extends React.Component{
 							maxLength = '10'
 							changeImg = {this.changeImg}
 						/>
-					</FormItem>
-            	<FormItem wrapperCol={{ offset: 4}} style = {{marginBottom:0}}>
-              		<Button className='mr30' onClick={this.hindCancel.bind(this)}>取消</Button>
-					  {
-						  this.props.data?<Button  type="primary" onClick={this.handUse.bind(this)}>重置密码</Button>:null
-					  }
-              		<Button  type="primary" onClick={this.handleSubmit.bind(this)} className='ml30'>保存</Button>
-            	</FormItem>
-          	</Form>
-      	)
-  	}
-	componentDidMount(){
-		this.props.dispatch({
-	    type:'operatesp/region',
-	    payload:{code:'qerp.web.bs.region',values:{}}
-		});
-		if(this.props.data){
-			this.getinfoData()
-		};
+				</FormItem>
+      	<FormItem wrapperCol={{ offset: 4}} style = {{marginBottom:0}}>
+      		<Button className='mr30' onClick={this.hindCancel.bind(this)}>取消</Button>
+				  {
+					  this.props.data?<Button  type="primary" onClick={this.handUse.bind(this)}>重置密码</Button>:null
+				  }
+      		<Button  type="primary" onClick={this.handleSubmit.bind(this)} className='ml30'>保存</Button>
+      	</FormItem>
+    	</Form>
+  	)
 	}
 }
 const SpEditForms = Form.create()(SpEditForm);
@@ -811,6 +779,4 @@ function mapStateToProps(state) {
     const {values,spShopPics,bsRegions} = state.operatesp;
     return {values,spShopPics,bsRegions};
 }
-
-
 export default connect(mapStateToProps)(SpEditForms);

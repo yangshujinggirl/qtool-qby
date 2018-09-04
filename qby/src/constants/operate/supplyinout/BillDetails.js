@@ -53,11 +53,7 @@ initData =()=> {
 }
 //点击修改结算到期日
 changeStatus =()=> {
-	if(this.props.data.status){
-		this.setState({visible:true})
-	}else{
-		message.warning('未结算订单不可修改',.8)
-	};
+	this.setState({visible:true})
 }
 //确定
 onOk =()=> {
@@ -101,11 +97,18 @@ render(){
 	return(
 			<div className='bill_detail'>
         <div className='mb10 change_day'>
-				 	<Button
-						size='large'
-						onClick={this.changeStatus}
-						type='primary'>修改结算到期日
-					</Button>
+					{
+						this.props.data.status == 0
+						?
+							<Button
+								size='large'
+								onClick={this.changeStatus}
+								type='primary'>修改结算到期日
+							</Button>
+						:	null
+
+					}
+
         </div>
         <div className='mb10'>
           <Card title='工单信息'>

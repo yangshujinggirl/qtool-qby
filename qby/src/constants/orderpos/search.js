@@ -100,14 +100,6 @@ class OrderposSearchForm extends React.Component {
                                     </Select>
                                     )}
                                 </FormItem>
-                                <FormItem label='消费门店类型'>
-                                    {getFieldDecorator('status')(
-                                    <Select allowClear={true} placeholder="请选择订单状态">
-                                        <Option value='10'>本店</Option>
-                                        <Option value='20'>异店</Option>
-                                    </Select>
-                                    )}
-                                </FormItem>
                                 <FormItem label='订单时间'>
                                         {
                                             <RangePicker
