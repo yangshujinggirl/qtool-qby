@@ -210,7 +210,7 @@ class AddanswerForm extends Component {
               )}
             </FormItem>
             {
-              content&&
+              content &&
               <EditAction
                 title={title}
                 dataSource={content}

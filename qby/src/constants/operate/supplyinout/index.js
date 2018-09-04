@@ -151,7 +151,7 @@ class Supplyinout extends Component{
   }
   //点击跳转订单详情页
   getorderDetail(record){
-    const spOrderId=String(record.pdSettlementId)
+    const spOrderId=String(record.outId)
     if(String(record.type).slice(0,1) == 2){ //type以2开头采购
       const paneitem = {
         title:'采购单详情',
@@ -232,9 +232,7 @@ class Supplyinout extends Component{
     const exportList = rolelists.find((currentValue,index)=>{
 			return currentValue.url=="qerp.web.pd.bPush.revoke"
 		})
-
     const {dataList} = this.props.supplyinout;
-    console.log(this.props.supplyinout)
     return(
       <div className='qtools-components-pages supplyinout'>
         <FilterForm

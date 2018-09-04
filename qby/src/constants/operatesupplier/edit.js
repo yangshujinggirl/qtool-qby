@@ -144,13 +144,12 @@ class OperatesupplierEditForm extends React.Component{
 	}
 
 	render(){
-		console.log(this.state.good)
-		console.log(this.state.bill)
 		const { getFieldDecorator } = this.props.form;
 		const radioStyle = {
       display: 'block',
       height: '30px',
       lineHeight: '30px',
+			marginBottom:'10px'
     };
    	return(
 			<div className='supplierEdit'>
@@ -231,11 +230,11 @@ class OperatesupplierEditForm extends React.Component{
                     )}
                 </FormItem>
 								<Row>
-		              <Col span={6}>
+		              <Col span={8}>
 		                <FormItem
 		                  label="账期类型"
 		                  labelCol={{ span: 3,offset: 1 }}
-		                  wrapperCol={{ span: 11 }}
+		                  wrapperCol={{ span: 12 }}
 		                >
 		                  {getFieldDecorator('type',{
 													initialValue:this.props.formValue.type,

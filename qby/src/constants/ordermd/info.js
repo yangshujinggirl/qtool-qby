@@ -47,7 +47,7 @@ class OrdermdInfo extends React.Component{
 						title: '操作',
 						dataIndex: 'operateName'
 					}, {
-						title: '操作时间',
+						title: '下单时间',
 						dataIndex: 'operateTime',
 					}, {
 						title: '操作人',

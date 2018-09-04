@@ -35,7 +35,8 @@ class WithdrawDetail extends React.Component{
         key:'4'
   		}];
 }
-componentDidMount(){
+componentWillMount(){
+	console.log(this.props.data)
 	this.initData()
 }
 initData =()=> {
