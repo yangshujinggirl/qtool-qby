@@ -39,7 +39,7 @@ class EditAction extends React.Component {
 	//删除
 	handDelete(index) {
 		let { dataSource } = this.state;
-		let formValue = this.props.form.getFieldValue('pdAnswerConfig');
+		let formValue = this.props.form.getFieldValue('answerContent');
 		dataSource.splice(index,1);
 		formValue.content.splice(index,1);
 		this.props.form.setFieldsValue({
@@ -62,20 +62,20 @@ class EditAction extends React.Component {
     if(hoverIndex<0 || hoverIndex > (dataSource.length-1)) {
       return;
     }
-		let formValue = this.props.form.getFieldValue('pdAnswerConfig');
+		let formValue = this.props.form.getFieldValue('answerContent');
     const currentData = dataSource[currentIndex];
-    const currentValue = formValue.content[currentIndex];
+    const currentValue = formValue[currentIndex];
 		//数据源
     dataSource.splice(currentIndex,1);
     dataSource.splice(hoverIndex,0,currentData);
+		dataSource.map((el,index) =>el.key =index)
 		//表单源
-    formValue.content.splice(currentIndex,1);
-    formValue.content.splice(hoverIndex,0,currentValue);
+    formValue.splice(currentIndex,1);
+    formValue.splice(hoverIndex,0,currentValue);
 		this.props.form.setFieldsValue({
-			pdAnswerConfig:formValue
+			answerContent:formValue
 		})
 		this.setState({dataSource});
-		console.log(this.props.form.getFieldValue('pdAnswerConfig'))
   }
 	//更改表单内容
 	setValusInForm =(currentIndex,value)=> {
@@ -99,11 +99,13 @@ class EditAction extends React.Component {
 		if(record.type == '1') {
 			return <div className="content-action">
 							{
-								this.props.form.getFieldDecorator(`pdAnswerConfig.content[${index}].content`,{
+								this.props.form.getFieldDecorator(`answerContent[${index}].content`,{
 									initialValue:record.content,
+									getValueFromEvent:null,
 									onChange:(e)=>this.setValusInForm(index,e)
 								})(
 									 <Input.TextArea
+										 key={index}
 										 className="text-input"
 										 placeholder="请输入文本"
 										 autoComplete="off"/>
