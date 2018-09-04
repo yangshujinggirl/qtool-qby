@@ -11,6 +11,7 @@ class Banswer extends Component{
   constructor(props){
     super(props);
     this.state ={
+      componkey:this.props.componkey,
       field:{
         title:'',
         userName:'',
@@ -57,14 +58,20 @@ class Banswer extends Component{
       payload:{currentPage,limit}
     });
   }
-
   //处理表格的点击事件
   handleOperateClick(record){
+    const { limit, currentPage } = this.props.bAnswer;
+    const { componkey } = this.state;
     const paneitem = {
       title:'修改B端问答',
-      key:`${this.props.componkey}edit`+record.pdAnswerId,
-      componkey:`${this.props.componkey}edit`,
+      key:`${componkey}edit`+record.pdAnswerId,
+      componkey:`${componkey}edit`,
       data:{
+        listParams:{
+          ...this.state.fields,
+          limit,
+          currentPage
+        },
         pdAnswerId:record.pdAnswerId
       }
     }
@@ -78,34 +85,14 @@ class Banswer extends Component{
       title:'新增B端问答',
       key:`${this.props.componkey}edit`,
       componkey:`${this.props.componkey}edit`,
+      data:{}
     }
     this.props.dispatch({
       type:'tab/firstAddTab',
       payload:paneitem
     })
   }
-  //编辑。
-  getEdit(record) {
-    const { limit, currentPage } = this.props.bAnswer;
-    const { componkey } = this.state;
-    const paneitem={
-      title:'问答编辑',
-      key:`${componkey}edit${record.pdAnswerId}`,
-      componkey:`${componkey}edit`,
-      data:{
-        listParams:{
-          ...this.state.fields,
-          limit,
-          currentPage
-        },
-        pdAnswerId:record.pdAnswerId,
-      }
-    };
-    this.props.dispatch({
-        type:'tab/firstAddTab',
-        payload:paneitem
-    })
-  }
+
   render(){
     const { dataList } = this.props.bAnswer;
 
@@ -115,12 +102,12 @@ class Banswer extends Component{
           submit={this.searchData}
           onValuesChange = {this.searchDataChange}/>
         <div className="handel-btn-lists">
-            <Button
-              size='large'
-              type='primary'
-              onClick={this.addAnswer}>
-              新增问答
-            </Button>
+          <Button
+            size='large'
+            type='primary'
+            onClick={this.addAnswer}>
+            新增问答
+          </Button>
         </div>
         <Qtable
           dataSource = {dataList}

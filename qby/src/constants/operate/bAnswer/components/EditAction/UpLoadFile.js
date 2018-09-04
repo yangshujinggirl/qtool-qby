@@ -28,6 +28,7 @@ class UpLoadFile extends Component {
     this.setState({
       fileList
     })
+    this.props.onChange&&this.props.onChange(fileList)
 	}
   normFile = (e) => {
     if (Array.isArray(e)) {
@@ -40,7 +41,7 @@ class UpLoadFile extends Component {
    return(
       <div className="upload-wrap">
        {
-         this.props.form.getFieldDecorator(`pdAnswerConfig[${this.props.index}].content`,{
+         this.props.form.getFieldDecorator(`pdAnswerConfig.content[${this.props.index}].content`,{
            getValueFromEvent: this.normFile,
            initialValue:fileList,
            valuePropName:'fileList',
@@ -51,7 +52,7 @@ class UpLoadFile extends Component {
               name="imgFile"
               listType="picture-card"
               className="avatar-uploader"
-              action="/erpWebRest/qcamp/upload.htm?type=spuDetail"
+              action="/erpWebRest/qcamp/upload.htm?type=banner"
               beforeUpload={this.beforeUpload}
               onChange={this.handleChange}>
               {

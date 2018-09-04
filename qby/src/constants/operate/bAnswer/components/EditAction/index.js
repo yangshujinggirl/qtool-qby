@@ -14,6 +14,12 @@ class EditAction extends React.Component {
 			key:this.props.dataSource.length
 		};
 	}
+	componentWillReceiveProps(props) {
+		this.setState({
+			dataSource: props.dataSource,
+			key:props.dataSource.length
+		})
+	}
 	//新增功能组件
 	handleAdd (val){
 		let { dataSource } = this.state;
@@ -30,13 +36,21 @@ class EditAction extends React.Component {
 			key
 		})
 	}
+	//删除
 	handDelete(index) {
 		let { dataSource } = this.state;
+		let formValue = this.props.form.getFieldValue('pdAnswerConfig');
 		dataSource.splice(index,1);
+		formValue.content.splice(index,1);
+		this.props.form.setFieldsValue({
+			pdAnswerConfig:formValue
+		})
 		this.setState({
-			dataSource
+			dataSource,
+			key:dataSource.length
 		})
 	}
+	//上下移动
 	handelMove(type, currentIndex) {
 		let hoverIndex = currentIndex;
 		if(type == 'up') {
@@ -48,19 +62,46 @@ class EditAction extends React.Component {
     if(hoverIndex<0 || hoverIndex > (dataSource.length-1)) {
       return;
     }
+		let formValue = this.props.form.getFieldValue('pdAnswerConfig');
     const currentData = dataSource[currentIndex];
-    const hoverData = dataSource[hoverIndex];
+    const currentValue = formValue.content[currentIndex];
+		//数据源
     dataSource.splice(currentIndex,1);
     dataSource.splice(hoverIndex,0,currentData);
-		this.setState({dataSource})
+		//表单源
+    formValue.content.splice(currentIndex,1);
+    formValue.content.splice(hoverIndex,0,currentValue);
+		this.props.form.setFieldsValue({
+			pdAnswerConfig:formValue
+		})
+		this.setState({dataSource});
+		console.log(this.props.form.getFieldValue('pdAnswerConfig'))
   }
-	renderForm =(record, index)=> {
-		const { dataSource } =this.state;
+	//更改表单内容
+	setValusInForm =(currentIndex,value)=> {
+		let { dataSource } = this.state;
+		if(value instanceof Array == false ) {
+			value.persist();
+    	value = value.nativeEvent.target.value;
+		}
+		dataSource.map((el,index) => {
+			if(currentIndex == index) {
+				el.content = value
+			}
+			return el;
+		})
+		this.setState({
+			dataSource
+		})
+	}
+
+	renderForm =(record,index)=> {
 		if(record.type == '1') {
 			return <div className="content-action">
 							{
-								this.props.form.getFieldDecorator(`pdSpuInfo[${index}].content`,{
-									initialValue:dataSource[index].content,
+								this.props.form.getFieldDecorator(`pdAnswerConfig.content[${index}].content`,{
+									initialValue:record.content,
+									onChange:(e)=>this.setValusInForm(index,e)
 								})(
 									 <Input.TextArea
 										 className="text-input"
@@ -72,22 +113,20 @@ class EditAction extends React.Component {
 		} else {
 			let fileList = [];
 			if(record.content!=='') {
-				fileList.push(record.content);
+				fileList=record.content;
 			}
 			return <div className="content-action">
 								<UpLoadFile
 									fileList={fileList}
 									form={this.props.form}
+									onChange={(file)=>this.setValusInForm(index,file)}
 									index={index}/>
 							</div>
 		}
 	}
-	renderDelete =(text, record, index)=> {
-		return <p onClick={()=>this.handDelete(index)} className='theme-color delete'>删除</p>
-	}
 	render() {
 		let { dataSource } = this.state;
-
+		const { title } =this.props;
 		return (
 			<div className='edit-action-components'>
 				<div className="feature-action-wrap">
@@ -104,7 +143,7 @@ class EditAction extends React.Component {
 				<div className="preview-action-wrap">
 					<p className="action-title">预览区</p>
 					<div className="main-content">
-						<p className="preview-title">标题</p>
+						<p className="preview-title">{title}</p>
 						{
 							dataSource.length>0&&
 							dataSource.map((el, index)=>(
@@ -120,16 +159,6 @@ class EditAction extends React.Component {
 								</div>
 							))
 						}
-
-						{/* <Table
-							bordered={false}
-							dataSource={dataSource}
-							showHeader={false}
-							pagination={false}
-							className='adddesc-tables'>
-							<Table.Column title='operation' key={1} render={this.renderForm}/>
-							<Table.Column title='handle' width={100} key={2} render={this.renderDelete}/>
-						</Table> */}
 					</div>
 				</div>
 			</div>
