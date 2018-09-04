@@ -48,29 +48,49 @@ class UpLoadFile extends Component {
   render() {
    const { fileList, previewVisible, previewImage } = this.state;
    return(
+    //   <div className="upload-wrap">
+    //    {
+    //      this.props.form.getFieldDecorator(`answerContent[${this.props.index}].content`,{
+    //        getValueFromEvent: this.normFile,
+    //        initialValue:fileList,
+    //        valuePropName:'fileList',
+    //      })(
+    //          <Upload
+    //            style={{'width':'100%'}}
+    //           className="avatar-uploader"
+    //           name="imgFile"
+    //           listType="picture-card"
+    //           className="avatar-uploader"
+    //           action="/erpWebRest/qcamp/upload.htm?type=banner"
+    //           beforeUpload={this.beforeUpload}
+    //           onPreview={this.handlePreview}
+    //           onChange={this.handleChange}>
+    //           {
+    //             fileList.length >0 ? null : <Icon type="plus" className="avatar-uploader-trigger" />
+    //           }
+    //         </Upload>
+    //      )
+    //    }
+    //    <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
+    //      <img alt="example" style={{ width: '100%' }} src={previewImage} />
+    //    </Modal>
+    //  </div>
       <div className="upload-wrap">
-       {
-         this.props.form.getFieldDecorator(`answerContent[${this.props.index}].content`,{
-           getValueFromEvent: this.normFile,
-           initialValue:fileList,
-           valuePropName:'fileList',
-         })(
-             <Upload
-               style={{'width':'100%'}}
-              className="avatar-uploader"
-              name="imgFile"
-              listType="picture-card"
-              className="avatar-uploader"
-              action="/erpWebRest/qcamp/upload.htm?type=banner"
-              beforeUpload={this.beforeUpload}
-              onPreview={this.handlePreview}
-              onChange={this.handleChange}>
-              {
-                fileList.length >0 ? null : <Icon type="plus" className="avatar-uploader-trigger" />
-              }
-            </Upload>
-         )
-       }
+        <Upload
+         style={{'width':'100%'}}
+         className="avatar-uploader"
+         name="imgFile"
+         fileList={fileList}
+         listType="picture-card"
+         className="avatar-uploader"
+         action="/erpWebRest/qcamp/upload.htm?type=banner"
+         beforeUpload={this.beforeUpload}
+         onPreview={this.handlePreview}
+         onChange={this.handleChange}>
+         {
+           fileList.length >0 ? null : <Icon type="plus" className="avatar-uploader-trigger" />
+         }
+       </Upload>
        <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
          <img alt="example" style={{ width: '100%' }} src={previewImage} />
        </Modal>

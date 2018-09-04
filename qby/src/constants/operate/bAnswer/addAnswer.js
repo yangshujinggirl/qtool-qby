@@ -16,7 +16,7 @@ class AddanswerForm extends Component {
       type:'',
       status:'',
       title:'',
-      content:[],
+      answerContent:[],
       loading:false,
     }
   }
@@ -60,7 +60,7 @@ class AddanswerForm extends Component {
         type:iPdAnswer.type,
         status:iPdAnswer.status,
         title:iPdAnswer.title,
-        content,
+        answerContent:content,
         pdAnswerConfigId:iPdAnswer.pdAnswerConfig.pdAnswerConfigId
       });
     })
@@ -85,32 +85,37 @@ class AddanswerForm extends Component {
   }
   //参数格式化
   formtParams(values) {
-    let { answerContent,...newValues} = values;
-    if(answerContent) {
+    let answerContent = this.state.answerContent;
+    let valueContent = [];
+    if(valueContent) {
       answerContent.map((el) => {
+        let type,content;
         if(el.content instanceof Array) {
           if(el.content[0].response) {
-            el.content = el.content[0].response.data[0]
+            content = el.content[0].response.data[0]
           } else {
-            el.content = el.content[0].name
+            content = el.content[0].name
           }
-          el.type = '2'
+          type = '2'
         } else {
-          el.type = '1'
+          type = '1'
         }
+        valueContent.push({
+          type,
+          content
+        })
         return el;
       })
     }
-
     let pdAnswerConfig = {
-          content:answerContent
+          content:valueContent
         };
     if(this.props.data.pdAnswerId) {
       pdAnswerConfig.pdAnswerConfigId = this.state.pdAnswerConfigId;
-      newValues.pdAnswerId = this.props.data.pdAnswerId;
+      values.pdAnswerId = this.props.data.pdAnswerId;
     }
-    newValues = { ...newValues,pdAnswerConfig};
-    return newValues;
+    values = { ...values,pdAnswerConfig};
+    return values;
   }
   //提交API
   goSave(values) {
@@ -155,10 +160,11 @@ class AddanswerForm extends Component {
       type,
       status,
       title,
-      content,
+      answerContent,
       loading
     } = this.state
     const { getFieldDecorator } = this.props.form;
+    console.log(answerContent)
     return(
       <div className="addAnswer-pages">
         	<Form className="addUser-form operatebanner-form">
@@ -210,10 +216,10 @@ class AddanswerForm extends Component {
               )}
             </FormItem>
             {
-              content &&
+              answerContent &&
               <EditAction
                 title={title}
-                dataSource={content}
+                dataSource={answerContent}
                 form={this.props.form}/>
             }
         	</Form>
