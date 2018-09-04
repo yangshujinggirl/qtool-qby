@@ -76,6 +76,7 @@ class AddanswerForm extends Component {
   //保存
   handleSubmit = (e) => {
     this.props.form.validateFieldsAndScroll((err,values)=>{
+      console.log(this.formtParams(values))
       if(err) {
         return;
       }
@@ -98,6 +99,7 @@ class AddanswerForm extends Component {
           }
           type = '2'
         } else {
+          content = el.content;
           type = '1'
         }
         valueContent.push({
@@ -155,6 +157,11 @@ class AddanswerForm extends Component {
       payload:key
     });
   }
+  // setDataSource =(dataSource)=> {
+  //   this.setState({
+  //     dataSource
+  //   })
+  // }
   render(){
     const {
       type,
@@ -164,6 +171,7 @@ class AddanswerForm extends Component {
       loading
     } = this.state
     const { getFieldDecorator } = this.props.form;
+    console.log(answerContent)
     return(
       <div className="addAnswer-pages">
           <Row>
