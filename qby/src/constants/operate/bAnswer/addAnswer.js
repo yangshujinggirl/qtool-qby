@@ -76,8 +76,6 @@ class AddanswerForm extends Component {
   //保存
   handleSubmit = (e) => {
     this.props.form.validateFieldsAndScroll((err,values)=>{
-      // console.log(this.formtParams(values))
-      // console.log(values)
       if(err) {
         return;
       }
