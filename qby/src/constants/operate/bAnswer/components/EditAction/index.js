@@ -41,9 +41,9 @@ class EditAction extends React.Component {
 		let { dataSource } = this.state;
 		let formValue = this.props.form.getFieldValue('answerContent');
 		dataSource.splice(index,1);
-		formValue.content.splice(index,1);
+		formValue.splice(index,1);
 		this.props.form.setFieldsValue({
-			pdAnswerConfig:formValue
+			answerContent:formValue
 		})
 		this.setState({
 			dataSource,
