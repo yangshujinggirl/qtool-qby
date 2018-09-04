@@ -47,12 +47,12 @@ class AddanswerForm extends Component {
         if(el.type == '1') {
           return el;
         }
-        el.content = [{
+        el.content =el.content.length>0? [{
           uid:index,
           name:el.content,
           url: `${fileDomain}${el.content}`,
           status:'done'
-        }]
+        }]:[]
         return el;
       })
       this.props.dispatch({type: 'tab/loding',payload:false});
@@ -88,24 +88,28 @@ class AddanswerForm extends Component {
   formtParams(values) {
     let answerContent = this.state.answerContent;
     let valueContent = [];
-    if(valueContent) {
+    if(answerContent) {
       answerContent.map((el) => {
-        let type,content;
+        if(el.content.length>0) {
+          valueContent.push({
+            type:el.type,
+            content:el.content
+          })
+        }
+        return el;
+      })
+      valueContent.map((el) => {
         if(el.content instanceof Array) {
           if(el.content[0].response) {
-            content = el.content[0].response.data[0]
+            el.content = el.content[0].response.data[0]
           } else {
-            content = el.content[0].name
+            el.content = el.content[0].name
           }
-          type = '2'
+          el.type = '2';
         } else {
-          content = el.content;
-          type = '1'
+          el.content = el.content;
+          el.type = '1'
         }
-        valueContent.push({
-          type,
-          content
-        })
         return el;
       })
     }
@@ -157,11 +161,6 @@ class AddanswerForm extends Component {
       payload:key
     });
   }
-  // setDataSource =(dataSource)=> {
-  //   this.setState({
-  //     dataSource
-  //   })
-  // }
   render(){
     const {
       type,

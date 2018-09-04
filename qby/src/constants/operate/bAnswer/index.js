@@ -72,6 +72,7 @@ class Banswer extends Component{
           limit,
           currentPage
         },
+        key:`${componkey}edit`+record.pdAnswerId,
         pdAnswerId:record.pdAnswerId
       }
     }
@@ -85,7 +86,9 @@ class Banswer extends Component{
       title:'新增B端问答',
       key:`${this.props.componkey}edit`,
       componkey:`${this.props.componkey}edit`,
-      data:{}
+      data:{
+        key:`${this.props.componkey}edit`,
+      }
     }
     this.props.dispatch({
       type:'tab/firstAddTab',
