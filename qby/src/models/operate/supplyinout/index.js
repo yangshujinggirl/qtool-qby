@@ -5,8 +5,8 @@ export default{
     selectedRowKeys:[],
   },
   reducers:{
-    getList(state,{payload:{dataList, currentPage, limit, total}}){
-      return { ...state, dataList, currentPage, limit, total}
+    getList(state,{payload:{dataList, currentPage, limit, total, totalStatusNo}}){
+      return { ...state, dataList, currentPage, limit, total, totalStatusNo}
     },
     clearSelect(state,{payload:{selectedRowKeys}}){
       return { ...state,selectedRowKeys}
@@ -16,7 +16,7 @@ export default{
     *fetchList({payload:values},{call,put}){
       const result =  yield call(getListApi,values);
       if(result.code == '0'){
-        const { pdSettles, currentPage, limit, total } = result;
+        const { pdSettles, currentPage, limit, total, totalStatusNo} = result;
         pdSettles.map((item,index)=>{
           item.key = index;
           return item;
@@ -28,6 +28,7 @@ export default{
             currentPage,
             limit,
             total,
+            totalStatusNo,
           }
         });
         yield put({

@@ -247,7 +247,7 @@ class SpEditForm extends React.Component{
 							lat:json.spShop.lat,
 							lng:json.spShop.lng,
 							recAddress:json.spShop.recAddress,
-							getinfoData:json.spShop.fixtureMoney
+							fixtureMoney:json.spShop.fixtureMoney
           },function(){
               const spShopPics=this.state.spShopPics
               this.props.dispatch({

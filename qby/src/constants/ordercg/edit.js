@@ -31,7 +31,7 @@ class OrdercgEditForm extends React.Component{
 		this.initPage();
 	}
 	initPage (){
-		if(this.props.data.wsAsnId){
+		if(this.props.data){
 			const payload={code:'qerp.web.ws.asn.detail',values:{'wsAsnId':this.props.data.wsAsnId}}
 			//请求信息
 			this.initDateEdit(payload);
@@ -49,12 +49,11 @@ class OrdercgEditForm extends React.Component{
 
 	//删除当前tab
 	deleteTab=()=>{
-		debugger
 		const pane = eval(sessionStorage.getItem("pane"));
 		if(pane.length<=1){
 			return
 		}
-		if(JSON.stringify(this.props.data)!='{}'){
+		if(this.props.data){
 			this.props.dispatch({
 				type:'tab/initDeletestate',
 				payload:'202000edit'+this.props.data.wsAsnId

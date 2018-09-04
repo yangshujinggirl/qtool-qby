@@ -25,8 +25,8 @@ class Supplyinout extends Component{
         status:'',
         userName:'',
         payType:'',
-        startTime:'',
-        endTime:''
+        dateStart:'',
+        dateEnd:''
       },
       rowSelection:{
          type:'radio',
@@ -50,8 +50,8 @@ class Supplyinout extends Component{
   searchDataChange =(values)=> {
     const {rangePicker,..._values} = values;
     if(rangePicker&&rangePicker[0]){
-      _values.startTime =  moment(new Date(rangePicker[0]._d).getTime()).format('YYYY-MM-DD HH:mm:ss');;
-      _values.endTime = moment(new Date(rangePicker[1]._d).getTime()).format('YYYY-MM-DD HH:mm:ss');;
+      _values.dateStart =  moment(new Date(rangePicker[0]._d).getTime()).format('YYYY-MM-DD');;
+      _values.dateEnd = moment(new Date(rangePicker[1]._d).getTime()).format('YYYY-MM-DD');;
     }
     this.setState({field:_values});
   }
@@ -234,6 +234,7 @@ class Supplyinout extends Component{
 		})
 
     const {dataList} = this.props.supplyinout;
+    console.log(this.props.supplyinout)
     return(
       <div className='qtools-components-pages supplyinout'>
         <FilterForm

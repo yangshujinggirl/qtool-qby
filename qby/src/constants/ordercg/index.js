@@ -186,6 +186,11 @@ class OrdercgIndex extends React.Component{
 		getBillInfoApi({wsAsnId:record.wsAsnId})
 		.then(res => {
 			if(res.code == '0'){
+				if(res.invoices[0]){ //初始化一个空的值
+					res.invoices = res.invoices ;
+				}else{
+					res.invoices = [{invoiceCode:null,invoiceAmount:null}]
+				};
 				const billInfo = {
 					wsAsnId:record.wsAsnId,
 					asnNo:res.asnNo,
@@ -203,12 +208,25 @@ class OrdercgIndex extends React.Component{
 	onCancel =()=> {
 		this.setState({visible:false})
 	}
+
 	//发票管理 确认
-	onOk =(values)=> {
+	onOk =(values,total)=> {
 		saveBillInfoApi(values)
 		.then(res => {
 			if(res.code == "0"){
-				message.success('发票管理成功')
+				if(total<values.amountSum){
+					message.success(
+						(
+							<div>
+									<p>保存成功</p>
+									<p>到货金额：{values.amountSum}</p>
+									<p>发票金额：{total}</p>
+							</div>
+						)
+					)
+				}else{
+					message.success('当前采购单发票已全部完成')
+				};
 				this.setState({visible:false});
 				this.clearChooseInfo();
 				this.props.dispatch({
@@ -250,11 +268,10 @@ class OrdercgIndex extends React.Component{
 	handleAdd =(dataSource)=> {
 		const billInfo = this.state.billInfo;
 		this.setState({
-			billInfo:{dataSource,...billInfo,}
+			billInfo:{dataSource,...billInfo}
 		});
 	}
 	render(){
-		console.log(this.props)
 		const rolelists=this.props.data.rolelists
 		//新增采购单
 		const addorder=rolelists.find((currentValue,index)=>{
