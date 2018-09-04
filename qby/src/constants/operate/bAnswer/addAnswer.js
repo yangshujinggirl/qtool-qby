@@ -76,7 +76,8 @@ class AddanswerForm extends Component {
   //保存
   handleSubmit = (e) => {
     this.props.form.validateFieldsAndScroll((err,values)=>{
-      console.log(values)
+      // console.log(this.formtParams(values))
+      // console.log(values)
       if(err) {
         return;
       }
@@ -86,9 +87,9 @@ class AddanswerForm extends Component {
   }
   //参数格式化
   formtParams(values) {
-    let pdAnswerConfig = values.pdAnswerConfig;
-    if(pdAnswerConfig.content) {
-      pdAnswerConfig.content.map((el) => {
+    let { answerContent,...newValues} = values;
+    if(answerContent) {
+      answerContent.map((el) => {
         if(el.content instanceof Array) {
           if(el.content[0].response) {
             el.content = el.content[0].response.data[0]
@@ -102,12 +103,16 @@ class AddanswerForm extends Component {
         return el;
       })
     }
+
+    let pdAnswerConfig = {
+          content:answerContent
+        };
     if(this.props.data.pdAnswerId) {
       pdAnswerConfig.pdAnswerConfigId = this.state.pdAnswerConfigId;
-      values.pdAnswerId = this.props.data.pdAnswerId;
+      newValues.pdAnswerId = this.props.data.pdAnswerId;
     }
-    values.pdAnswerConfig = pdAnswerConfig;
-    return values;
+    newValues = { ...newValues,pdAnswerConfig};
+    return newValues;
   }
   //提交API
   goSave(values) {

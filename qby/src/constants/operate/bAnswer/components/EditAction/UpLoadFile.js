@@ -41,7 +41,7 @@ class UpLoadFile extends Component {
    return(
       <div className="upload-wrap">
        {
-         this.props.form.getFieldDecorator(`pdAnswerConfig.content[${this.props.index}].content`,{
+         this.props.form.getFieldDecorator(`answerContent[${this.props.index}].content`,{
            getValueFromEvent: this.normFile,
            initialValue:fileList,
            valuePropName:'fileList',
