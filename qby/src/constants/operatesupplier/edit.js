@@ -16,6 +16,7 @@ class OperatesupplierEditForm extends React.Component{
 		this.state = {
 			bill:false,
 			good:false,
+			isAct:true, //只执行一次的标志
 		}
 	}
 	componentDidMount(){
@@ -40,12 +41,15 @@ class OperatesupplierEditForm extends React.Component{
 		};
 	}
 	componentWillReceiveProps(props){
-		if(props.formValue.billDay){
-			this.setState({ bill:true,good:false })
-		};
-		if(props.formValue.goodDay){
-			this.setState({ bill:false,good:true })
-		};
+		if(this.state.isAct){
+			if(props.formValue.billDay){
+				this.setState({ bill:true,good:false })
+			};
+			if(props.formValue.goodDay){
+				this.setState({ bill:false,good:true })
+			};
+		}
+		this.setState({isAct:false})
 	}
 
 	//删除当前tab
@@ -129,7 +133,8 @@ class OperatesupplierEditForm extends React.Component{
 
 	//账期类型变化的时候
 	typeChange =(e)=> {
-		const value = e.target.value;;
+
+		const {value} = e.target;
 		if(value == 10){
 			this.setState({ bill:false,good:true })
 		}else if(value == 20){
@@ -137,7 +142,7 @@ class OperatesupplierEditForm extends React.Component{
 		}else{
 			this.setState({ bill:false,good:false })
 		};
-	  this.props.form.setFields({
+		this.props.form.setFields({
 			goodDay:{value:null},
 			billDay:{value:null}
 		});
@@ -240,7 +245,7 @@ class OperatesupplierEditForm extends React.Component{
 													initialValue:this.props.formValue.type,
 		                      rules: [{ required: true, message: '请选择账期类型' }],
 		                  })(
-		                    <RadioGroup  onChange={this.typeChange} className='radio'>
+		                    <RadioGroup className='radio' onChange={this.typeChange}>
 		                      <Radio style={radioStyle} value={30}>现结</Radio>
 		                      <Radio style={radioStyle} value={10}>货到</Radio>
 		                      <Radio style={radioStyle} value={20}>票到</Radio>
@@ -252,17 +257,23 @@ class OperatesupplierEditForm extends React.Component{
 		                <FormItem>
 		                  {getFieldDecorator('goodDay',{
 												initialValue:this.props.formValue.goodDay,
-		                    rules: [{ required: this.state.good , message: '请填写付款截至天数' }],
+		                    rules: [
+													{ required: this.state.good , message: '请填写付款截至天数' },
+													{pattern:/^[0-9]*$/,message: '只能输入数字'}
+												],
 		                  })(
-		                      <Input className='daypay' disabled={!this.state.good}/>
+		                      <Input className='daypay' disabled={!this.state.good} autoComplete="off"/>
 		                  )}　个自然日付款
 		                </FormItem>
 		                <FormItem>
 		                  {getFieldDecorator('billDay',{
-		                    rules: [{ required: this.state.bill, message: '请填写付款截至天数' }],
+		                    rules: [
+													{ required: this.state.bill, message: '请填写付款截至天数' },
+													{pattern:/^[0-9]*$/,message: '只能输入数字'}
+												],
 												initialValue:this.props.formValue.billDay,
 		                  })(
-		                      <Input className='daypay' disabled={!this.state.bill}/>
+		                      <Input className='daypay' disabled={!this.state.bill} autoComplete="off"/>
 		                  )}　个自然日付款
 		                </FormItem>
 		              </Col>

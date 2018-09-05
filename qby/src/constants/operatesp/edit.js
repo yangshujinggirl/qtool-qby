@@ -448,7 +448,10 @@ class SpEditForm extends React.Component{
 					labelCol={{ span: 3,offset: 1 }}
 					wrapperCol={{ span: 6 }}>
 					{getFieldDecorator('mobile', {
-						rules: [{ required: true, message: '请输入店主手机'}],
+						rules: [
+							{ required: true, message: '请输入店主手机'},
+							{pattern:/^[0-9]*$/,message: '只能输入数字'}
+					],
 						initialValue:this.state.mobile
 					})(
 						<Input placeholder='请输入店主手机' autoComplete="off"/>
@@ -603,7 +606,8 @@ class SpEditForm extends React.Component{
 					labelCol={{ span: 3,offset: 1 }}
 					wrapperCol={{ span: 6 }}>
 					{getFieldDecorator('rental', {
-						initialValue:this.state.rental
+						initialValue:this.state.rental,
+						rules:[{pattern:/^\d+(\.\d{0,2})?$/,message:'只能输入两位小数的数字'}]
 					})(
 						<Input placeholder='请输入门店租金' autoComplete="off"/>
 					)}
@@ -613,7 +617,8 @@ class SpEditForm extends React.Component{
 					labelCol={{ span: 3,offset: 1 }}
 					wrapperCol={{ span: 6 }}>
 					{getFieldDecorator('staffCost', {
-						initialValue:this.state.staffCost
+						initialValue:this.state.staffCost,
+						rules:[{pattern:/^\d+(\.\d{0,2})?$/,message:'只能输入两位小数的数字'}]
 					})(
 						<Input placeholder='请输入人事费用' autoComplete="off"/>
 					)}
