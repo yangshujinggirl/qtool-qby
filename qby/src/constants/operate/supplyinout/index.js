@@ -95,14 +95,14 @@ class Supplyinout extends Component{
     const currentPage = current-1;
     const values = {...this.state.field,currentPage,limit}
     this.props.dispatch({
-      type:'bPush/fetchList',
+      type:'supplyinout/fetchList',
       payload:values
     });
   }
   //pageSize改变时的回调
   onShowSizeChange =({currentPage,limit})=> {
     this.props.dispatch({
-      type:'bPush/fetchList',
+      type:'supplyinout/fetchList',
       payload:{currentPage,limit}
     });
   }
@@ -209,7 +209,7 @@ class Supplyinout extends Component{
     changeStatusApi({pdSettlementId,status:status})
     .then(res => {
       if(res.code == '0'){
-        message.success(res.message);
+        message.success('状态更改成功',.8);
         this.initData();
       };
     })

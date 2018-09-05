@@ -103,7 +103,8 @@ class OrdercgEditForm extends React.Component{
 				if(this.props.data&&this.props.data.wsAsnId){
 					data.wsAsnId = this.props.data.wsAsnId;
 				};
-				if(JSON.stringify(this.props.data)=='{}'){
+				debugger
+				if(!this.props.data){
 					if(values.paymentType == '货到付款')values.paymentType=10;
 					if(values.paymentType == '票到付款')values.paymentType=20;
 					if(values.paymentType == '现结')values.paymentType=30;
@@ -239,7 +240,6 @@ class OrdercgEditForm extends React.Component{
 	render(){
 		const { getFieldDecorator } = this.props.form;
 		const { selectedSuppler } = this.state;
-		console.log(this.props.editInfo)
 		const isChange = Boolean(this.props.data&&this.props.data.wsAsnId) //是否为修改
      	return(
 				<div>

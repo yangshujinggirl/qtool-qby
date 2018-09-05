@@ -192,12 +192,12 @@ class AddanswerForm extends Component {
                     initialValue:type
                   })(
                     <Select allowClear={true} placeholder="请选择问题类型" className='select'>
-                        <Option value={10} key={10}>运营问题 </Option>
-                        <Option value={20} key={20}>商品问题</Option>
-                        <Option value={30} key={30}>设计问题</Option>
-                        <Option value={40} key={40}>招商问题 </Option>
-                        <Option value={50} key={50}>系统问题 </Option>
-                        <Option value={60} key={60}>其他 </Option>
+                        <Option value={20} key={10}>运营问题 </Option>
+                        <Option value={30} key={20}>商品问题</Option>
+                        <Option value={40} key={30}>设计问题</Option>
+                        <Option value={50} key={40}>招商问题 </Option>
+                        <Option value={60} key={50}>系统问题 </Option>
+                        <Option value={70} key={60}>其他 </Option>
                     </Select>
                 )}
               </FormItem>

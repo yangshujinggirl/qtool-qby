@@ -54,7 +54,6 @@ class OperateinoutIndex extends React.Component{
   		const expontdata=rolelists.find((currentValue,index)=>{
   			return currentValue.url=="qerp.web.sys.doc.task"
   		})
-      console.log(this.props.operateinout.values)
      	return(
       	<div className='content_box'>
             <OperateinoutSearch/>

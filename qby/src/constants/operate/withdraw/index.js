@@ -164,11 +164,13 @@ class Withdraw extends Component{
           submit={this.searchData}
           onValuesChange = {this.searchDataChange}
         />
-        <Qtable
-          dataSource = {dataList}
-          columns = {Columns}
-          onOperateClick = {this.handleOperateClick.bind(this)}
-        />
+        <div className="mt15">
+          <Qtable
+            dataSource = {dataList}
+            columns = {Columns}
+            onOperateClick = {this.handleOperateClick.bind(this)}
+          />
+        </div>
         <Qpagination
           data={this.props.withdraw}
           onChange={this.changePage}
