@@ -13,6 +13,7 @@ import iconSkuStatus from '../../../../../assets/icon_skuStatus.png';
 import iconIsDirectExpress from '../../../../../assets/icon_zhi.png';
 import iconIsPresell from '../../../../../assets/icon_yu.png';
 import nogoodsImg from '../../../../../assets/nogoods.png';
+import '../../index.less'
 
 //产品属性icon
 const IconList =({data})=>(
@@ -38,25 +39,36 @@ class GoodsList extends Component {
     event.stopPropagation();
     this.props.onOperateClick(record,'detail')
   }
-  getMinPrice(el) {
-    let pdSkus = el.pdSkus;
+  getMinPrice(record) {
+    let pdSkus = record.pdSkus;
     let priceArr = [];
     if( pdSkus && pdSkus.length>0) {
       pdSkus.map((el) => {
         if(el.toBPrice!=null) {
-          el.toBPrice = el.toBPrice*1;
-          priceArr.push(el.toBPrice)
+          let itemPrice = {
+            toBPrice:el.toBPrice,
+            sortPrice:Number(el.toBPrice)
+          }
+          priceArr.push(itemPrice)
         }
         return el;
       })
-      priceArr.sort((a,b)=> {
-        return a-b;
-      })
-      let minPrice = priceArr[0];
-      return minPrice;
+      return this.sortPrice(priceArr);
     } else {
-      return el.toBPrice;
+      return record.toBPrice;
     }
+  }
+  sortPrice(priceArr) {
+    let minPrice;
+    if(priceArr.length>0) {
+      priceArr.sort((a,b)=> {
+        return a.sortPrice-b.sortPrice;
+      })
+      minPrice = priceArr[0].toBPrice;
+    } else {
+      minPrice =  '';
+    }
+    return minPrice;
   }
   render() {
     const { bTipGoodsList, onOperateClick } = this.props;
@@ -86,12 +98,12 @@ class GoodsList extends Component {
                     <p
                       className="goods-name"
                       onClick={(event)=>this.handleClick(event,el)}>{el.bname?el.bname:el.name}</p>
-                    <p className="goods-property">库存：{el.qtyErp}</p>
+                    <p className="goods-property">库存：{el.qty}</p>
                     <p className="goods-property">售价：{this.getMinPrice(el)}</p>
                     <IconList data={el}/>
                   </div>
                 </div>
-                <div className="goods-action-bottom">
+                <div className="goods-action-bottom bTipGoodsList">
                   {
                     authorityList.authoritySale&&
                     <span>

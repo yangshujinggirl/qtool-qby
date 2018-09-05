@@ -60,7 +60,6 @@ class AddCoupon extends Component {
   render(){
     const { getFieldDecorator } = this.props.form;
     const { cBanner } = this.props;
-    const { couponValidDay,couponValidDate} = this.state;
     return(
       <div className='addCoupon'>
         	<Form className="addUser-form operatebanner-form">
@@ -106,11 +105,11 @@ class AddCoupon extends Component {
                 >
                   {getFieldDecorator('couponValid',{
                       rules: [{ required: true, message: '请选择券有效期' }],
-                      onChange:this.choice
+
                   })(
-                    <RadioGroup >
-                        <Radio value="1">用户领取时间起</Radio>
-                        <Radio value="2">特定时间到</Radio>
+                    <RadioGroup onChange = {this.choice}>
+                        <Radio value={1}>用户领取时间起</Radio>
+                        <Radio value={2}>特定时间到</Radio>
                     </RadioGroup>
                   )}
                 </FormItem>
@@ -118,28 +117,27 @@ class AddCoupon extends Component {
               <Col className='limitDay'>
                 <FormItem>
                   {getFieldDecorator('couponValidDay',{
-                    rules: [{ required:couponValidDay, message: '请填写用户领取时间' }],
+                    rules: [{ required:this.state.couponValidDay, message: '请填写用户领取时间' }],
                   })(
                     <div>
-                      <Input style={{width:'140px'}} disabled = {!couponValidDay} />　天
+                      <Input style={{width:'140px'}} disabled = {!this.state.couponValidDay} />　天
                       <span className='tips'>0代表领取当天</span>
                     </div>
                   )}
 
                 </FormItem>
                 <FormItem>
+
                    {getFieldDecorator('couponValidDate',{
-                       rules: [{ required:couponValidDate , message: '请填写特定时间' }],
+                       rules: [{ required:this.state.couponValidDate , message: '请填写特定时间' }],
                     })(
-                      <div>
                         <DatePicker
                           style={{width:'140px'}}
                           showTime
                           format="YYYY-MM-DD HH:mm:ss"
-                          disabled = {!couponValidDate} />　止
-                        <span className='tips'>当天24:00:00截止</span>
-                      </div>
+                          disabled = {!this.state.couponValidDate} />
                    )}
+                   　止 <span className='tips'>当天24:00:00截止</span>
                 </FormItem>
               </Col>
             </Row>

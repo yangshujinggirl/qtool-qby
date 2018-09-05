@@ -13,7 +13,7 @@ class InjectCoupon extends Component{
     this.props.onCancel(this.clear)
   }
   //点击确定
-  onOk =()=>{
+  onOk =()=> {
     this.props.form.validateFieldsAndScroll((err,values)=>{
       const {userMobiles} = values;
       let mobileArr = [];

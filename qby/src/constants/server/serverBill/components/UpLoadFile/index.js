@@ -35,7 +35,6 @@ class UpLoadFile extends Component {
 	}
   //格式化数据
   normFile = (e) => {
-    console.log(e);
     if (Array.isArray(e)) {
       return e;
     }

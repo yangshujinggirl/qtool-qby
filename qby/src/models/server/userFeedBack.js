@@ -1,7 +1,9 @@
 import { getListApi } from '../../services/server/server'
 export default{
   namespace:'userFeedBack',
-  state:{},
+  state:{
+    dataList:[]
+  },
   reducers:{
     getList(state,{payload:{dataList, currentPage, limit, total} }){
       return { ...state, dataList, currentPage, limit, total}

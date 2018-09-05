@@ -23,6 +23,22 @@ class AddStaff extends Component{
       loading:false,
     }
   }
+  //初始化
+  componentDidMount(){
+    this.setState({DescArr:[]});
+    if(this.props.data){
+      const marketResId = {marketResId:this.props.data.marketResId};
+      resourceDetailApi(marketResId)
+      .then(res => {
+        if(res.code=='0'){
+          this.setState({
+            listDate:res.marketRes,
+            DescArr:JSON.parse(res.marketRes.content)
+          });
+        };
+      })
+    };
+  }
   //确认添加
   save =()=> {
     this.props.form.validateFieldsAndScroll((err,values) => {
@@ -88,7 +104,6 @@ class AddStaff extends Component{
               payload:this.props.componkey
           });
         }
-
       }else{
         this.setState({
           loading:false
@@ -103,24 +118,7 @@ class AddStaff extends Component{
 				payload:this.props.componkey
 		});
   }
-  //初始化
-  componentDidMount(){
-      console.log(this.props)
-    this.setState({DescArr:[]});
-    if(this.props.data){
-      const marketResId = {marketResId:this.props.data.marketResId};
-      resourceDetailApi(marketResId)
-      .then(res => {
-        if(res.code=='0'){
-          this.setState({
-            listDate:res.marketRes,
-            DescArr:JSON.parse(res.marketRes.content)
-          });
-        };
-      },err=>{
-      })
-    }
-  }
+
   //添加文本/图片
   addContent =(type)=>{
     let { DescArr } = this.state;

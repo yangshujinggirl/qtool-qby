@@ -59,7 +59,6 @@ class Coupon extends Component{
   }
   //创建优惠券
   createCoupon =()=>{
-    console.log(this.state.componkey)
     const paneitem = {
       title:'创建优惠券',
       key:`${this.state.componkey}edit`,
@@ -75,7 +74,6 @@ class Coupon extends Component{
   }
   //注券记录
   addCouponToUserRecord =()=> {
-    console.log(this.state.componkey)
     const paneitem = {
       title:'注券记录',
       key:`${this.state.componkey}editconfig`,
@@ -122,11 +120,8 @@ class Coupon extends Component{
   onOk =(values)=> {
     InjectCouponApi(values)
     .then((res) => {
-      message.success('dfsdf');
-      console.log(res);
       if(res.code == '0'){
-
-      }else{
+        res.message(res.message)
       }
     },err=>{
         message.error('失败');

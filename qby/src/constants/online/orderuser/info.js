@@ -17,7 +17,15 @@ class Tabletitle extends React.Component {
 				<div className='clearfix' style={{height:'32px',lineHeight:"32px"}}>
 					<div className='fl'>子单{this.props.listindex}信息</div>
 					{
-						(this.props.postgood && this.props.isdelivery)?<div className='fr'><Shipeditmodel modeltit={'子单'+this.props.listindex+'信息'} ecOrderId={this.props.ecOrderId} ecSuborderNo={this.props.ecSuborderNo} infofetch={this.props.infofetch} ecSuborderId={this.props.ecSuborderId}/></div>:null
+						(this.props.postgood && this.props.isdelivery)?
+						<div className='fr'>
+						<Shipeditmodel
+							modeltit={'子单'+this.props.listindex+'信息'}
+							ecOrderId={this.props.ecOrderId}
+							ecSuborderNo={this.props.ecSuborderNo} 
+							infofetch={this.props.infofetch}
+							ecSuborderId={this.props.ecSuborderId}/>
+						</div>:null
 					}
 				</div>
 				<div className='clearfix'>
@@ -51,11 +59,11 @@ class OrderuserInfo extends React.Component{
 			{
             	title: '商品名称',
             	dataIndex: 'name'
-			}, 
+			},
 			{
             	title: '规格',
             	dataIndex: 'displayName'
-			}, 
+			},
 			{
             	title: '商品编码',
             	dataIndex: 'skuCode'
@@ -81,11 +89,11 @@ class OrderuserInfo extends React.Component{
 			{
             	title: '子单号',
             	dataIndex: 'ecSuborderNo'
-			}, 
+			},
 			{
             	title: '保税仓库',
             	dataIndex: 'warehouseStr'
-			}, 
+			},
 			{
             	title: '物流公司',
             	dataIndex: 'name'
@@ -103,11 +111,11 @@ class OrderuserInfo extends React.Component{
 			{
             	title: '操作',
             	dataIndex: 'action'
-			}, 
+			},
 			{
             	title: '操作时间',
             	dataIndex: 'createTime'
-			}, 
+			},
 			{
             	title: '操作人',
             	dataIndex: 'user'
@@ -118,7 +126,7 @@ class OrderuserInfo extends React.Component{
             }
 		];
 	}
-	
+
 
 
 
@@ -135,7 +143,7 @@ class OrderuserInfo extends React.Component{
         }).then((json) => {
 			this.props.dispatch({ type: 'tab/loding', payload:false});
             if(json.code=='0'){
-				const orderInfos=json.orderInfo				
+				const orderInfos=json.orderInfo
 				const orderinfo=[
 					{lable:'订单号',text:orderInfos.orderNo},
 					{lable:'有赞订单',text:orderInfos.outNo},
@@ -182,7 +190,7 @@ class OrderuserInfo extends React.Component{
 					recAddress:null
 			   	})
 			}
-        }) 
+        })
     }
 	render(){
 		return(
@@ -191,11 +199,11 @@ class OrderuserInfo extends React.Component{
 					<Cardlist cardtitle='订单信息' cardlist={this.state.orderinfo}/>
 				</div>
                 <div className='mb10 list-cad'>
-					<Cardlists cardtitle='收货信息' 
-						cardlist={this.state.receiptinfo} 
-						canedit={this.state.canedit} 
-						ecOrderId={this.props.data.id} 
-						recProvince={this.state.recProvince} 
+					<Cardlists cardtitle='收货信息'
+						cardlist={this.state.receiptinfo}
+						canedit={this.state.canedit}
+						ecOrderId={this.props.data.id}
+						recProvince={this.state.recProvince}
 						recCity={this.state.recCity}
 						recDistrict={this.state.recDistrict}
 						recAddress={this.state.recAddress}
@@ -204,9 +212,9 @@ class OrderuserInfo extends React.Component{
 					/>
 				</div>
 				<div className='mb10'>
-					<EditableTable 
-						columns={this.column1} 
-						dataSource={this.state.goodinfo} 
+					<EditableTable
+						columns={this.column1}
+						dataSource={this.state.goodinfo}
                         title='商品信息'
                         bordered={true}
 						footer={false}
@@ -218,12 +226,12 @@ class OrderuserInfo extends React.Component{
 					this.state.subOrderInfos.map((item,index)=>{
 						return (
 							<div className='mb10' key={index}>
-								<EditableTable 
-									columns={this.column1} 
-									dataSource={item.subOrderinfo} 
-									title={<Tabletitle 
-											listindex={index+1} 
-											isdelivery={item.isDelivery} 
+								<EditableTable
+									columns={this.column1}
+									dataSource={item.subOrderinfo}
+									title={<Tabletitle
+											listindex={index+1}
+											isdelivery={item.isDelivery}
 											ecSuborderNo={item.ecSuborderNo}
 											warehouseStr={item.warehouseStr}
 											statusStr={item.statusStr}
@@ -241,17 +249,17 @@ class OrderuserInfo extends React.Component{
 					:null
                 }
 				<div className='mb10'>
-					<EditableTable 
-						columns={this.column2} 
-						dataSource={this.state.logisticsInfos} 
+					<EditableTable
+						columns={this.column2}
+						dataSource={this.state.logisticsInfos}
                         title="物流信息"
                         bordered={true}
 						footer={false}/>
 				</div>
                 <div className='mb10'>
-					<EditableTable 
-						columns={this.column3} 
-						dataSource={this.state.logs} 
+					<EditableTable
+						columns={this.column3}
+						dataSource={this.state.logs}
                         title="订单日志"
                         bordered={true}
 						footer={false}/>
@@ -269,4 +277,3 @@ function mapStateToProps(state) {
 	return {headTitle,headTit,details,logs};
 }
 export default connect(mapStateToProps)(OrderuserInfo);
-

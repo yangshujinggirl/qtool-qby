@@ -47,6 +47,7 @@ class EditableTable extends React.Component {
                 loading={this.props.loading}
                 bordered
                 dataSource={this.props.dataSource}
+                rowKey={(record) =>record.key}
                 columns={this.props.columns}
                 footer={
                     this.props.footer?

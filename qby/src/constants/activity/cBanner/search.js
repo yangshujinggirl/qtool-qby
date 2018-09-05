@@ -18,10 +18,11 @@ class OperatebannerSearchForm extends React.Component {
 
   //搜索请求数据
   initList=(values,limit,currentPage)=>{
+        values.type = 20;
         values.limit=limit;
         values.currentPage=currentPage;
         this.props.dispatch({
-            type:'operatebanner/fetch',
+            type:'cBanner/fetch',
             payload:{code:'qerp.web.pd.cbanner.list',values:values}
         });
         this.props.dispatch({ type: 'tab/loding', payload:true});
@@ -30,7 +31,7 @@ class OperatebannerSearchForm extends React.Component {
     //同步data
     syncState=(values)=>{
         this.props.dispatch({
-            type:'operatebanner/synchronous',
+            type:'cBanner/synchronous',
             payload:values
         });
     }
@@ -76,7 +77,7 @@ class OperatebannerSearchForm extends React.Component {
 }
 
 function mapStateToProps(state) {
-    const {limit,currentPage} = state.operatebanner;
+    const {limit,currentPage} = state.cBanner;
     return {limit,currentPage};
 }
 

@@ -42,3 +42,12 @@ export function exportDataApi(values) {
       data:values
   })
 }
+
+//批量操作
+export function handleSellApi(values) {
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.ec.pd.spu.status',
+      data:values
+  })
+}

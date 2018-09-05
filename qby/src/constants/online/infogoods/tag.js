@@ -23,7 +23,7 @@ showInput = () => {
 	this.setState({ inputVisible: true }, () => this.input.focus());
 }
 handleInputChange = (e) => {
-	const str=e.target.value.replace(/\s+/g,"");  
+	const str=e.target.value.replace(/\s+/g,"");
 	this.setState({ inputValue: str });
 }
 
@@ -32,7 +32,6 @@ handleInputConfirm = (e) => {
 	//对inoutvalue进行判断，判断是否已经存在相同的名字，如果存在，则获取id，如果不存在，则新建一个，再拉取id
 	const inputValue=e.target.value
 	const pdTypesId=this.props.pdTypesId
-	console.log(pdTypesId)
 	if(pdTypesId=='00'){
 		message.error('请确保选择了规格',.8);
 		return
@@ -112,7 +111,7 @@ handleInputConfirm = (e) => {
 							//不存在
 							this.newTypevallist(inputValue,id)
 						})
-						
+
 
 					}
 
@@ -138,7 +137,7 @@ handleInputConfirm = (e) => {
 		})
 	}
 
-	
+
 
 
 
@@ -162,7 +161,7 @@ hindok=()=>{
 
 
 	})
-	
+
 
 
 

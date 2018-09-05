@@ -6,12 +6,12 @@ class UpLoadFile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      imageUrl:this.props.countryManage.imageUrl
+      imageUrl:this.props.countryManage.countryDetail.imageUrl
     }
   }
   componentWillReceiveProps(props) {
     this.setState({
-      imageUrl:props.countryManage.imageUrl
+      imageUrl:props.countryManage.countryDetail.imageUrl
     })
   }
   beforeUpload(file){
@@ -24,7 +24,6 @@ class UpLoadFile extends Component {
     if (!isLt2M) {
     	message.error('图片文件需小于2MB',.8);
     }
-
     return (isJPG || isPNG) && isLt2M;
   }
   handleChange = (info) => {
@@ -33,14 +32,15 @@ class UpLoadFile extends Component {
       return;
     }
     if (info.file.status === 'done') {
-      let imageUrl = info.fileList[0].response.data[0];
+      let imageUrl = info.file.response.data[0];
       this.setState({
-        imageUrl,
         loading: false,
       })
+      let { countryDetail } = this.props.countryManage;
+      countryDetail.imageUrl = imageUrl;
       this.props.dispatch({
-        type:'countryManage/setFileList',
-        payload:imageUrl
+        type:'countryManage/setDetail',
+        payload:countryDetail
       })
       this.props.validateLogo(imageUrl)
     }

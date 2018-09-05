@@ -2,8 +2,12 @@ import { getListApi,InjectRecordApi } from '../../../services/activity/coupon'
 export default{
   namespace:'coupon',
   state:{
-    data1:{},
-    data2:{},
+    data1:{
+      dataList:[]
+    },
+    data2:{
+      dataList:[]
+    },
     selectedRowKeys:[],
   },
   reducers:{
@@ -46,7 +50,6 @@ export default{
             selectedRowKeys:[]
           }
         })
-
       };
     },
     //注券记录list

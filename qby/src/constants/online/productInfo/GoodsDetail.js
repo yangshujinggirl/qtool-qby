@@ -20,7 +20,7 @@ const formItemLayout2 = {
     span: 4
   },
   wrapperCol: {
-    span: 16
+    span: 18
   }
 };
 const formItemLayout3 = {
@@ -46,7 +46,6 @@ class GoodsDetail extends Component {
 
   render() {
     const { iPdSpu, fileList } = this.props.productEditGoods;
-    console.log(fileList)
     return(
       <div className="btip-add-goods-components">
         <Form>

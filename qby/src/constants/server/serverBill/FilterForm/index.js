@@ -38,7 +38,7 @@ class NormalForm extends Component{
             <div className="search-form-wrap">
               <FormItem  label='客服单号'>
                 {getFieldDecorator('customServiceNo')(
-                    <Input placeholder='客服单号' autoComplete="off"/>
+                    <Input placeholder='请输入客服单号' autoComplete="off"/>
                   )}
               </FormItem>
               <FormItem  label='客服主题'>
@@ -53,7 +53,7 @@ class NormalForm extends Component{
               </FormItem>
               <FormItem  label='客服状态'>
                   {getFieldDecorator('status')(
-                  <Select allowClear={true} placeholder="请选择订单状态" className='select'>
+                  <Select allowClear={true} placeholder="请选择客服状态" className='select'>
                       {/* <Option value='10'>待发货</Option> */}
                       <Option value={10}>待处理</Option>
                       <Option value={20}>处理中</Option>
@@ -63,7 +63,7 @@ class NormalForm extends Component{
               </FormItem>
               <FormItem  label='处理时长'>
                   {getFieldDecorator('handleTimeType')(
-                  <Select allowClear={true} placeholder="处理时长" className='select'>
+                  <Select allowClear={true} placeholder="请选择处理时长" className='select'>
                       {/* <Option value='10'>待发货</Option> */}
                       <Option value={1}>0-5h</Option>
                       <Option value={2}>5-24h</Option>

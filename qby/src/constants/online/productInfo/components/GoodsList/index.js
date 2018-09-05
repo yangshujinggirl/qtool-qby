@@ -50,6 +50,37 @@ class GoodsList extends Component {
     event.stopPropagation();
     this.props.onOperateClick(record,'detail')
   }
+  getMinPrice(record) {
+    let pdSkus = record.pdSkus;
+    let priceArr = [];
+    if( pdSkus && pdSkus.length>0) {
+      pdSkus.map((el) => {
+        if(el.salePrice!=null) {
+          let itemPrice = {
+            salePrice:el.salePrice,
+            sortPrice:Number(el.salePrice)
+          }
+          priceArr.push(itemPrice)
+        }
+        return el;
+      })
+      return this.sortPrice(priceArr);
+    } else {
+      return record.salePrice;
+    }
+  }
+  sortPrice(priceArr) {
+    let minPrice;
+    if(priceArr.length>0) {
+      priceArr.sort((a,b)=> {
+        return a.sortPrice-b.sortPrice;
+      })
+      minPrice = priceArr[0].salePrice;
+    } else {
+      minPrice = '';
+    }
+    return minPrice;
+  }
   render() {
     const { onOperateClick } = this.props;
     const { authorityList, dataList } = this.props.productGoodsList;
@@ -70,7 +101,7 @@ class GoodsList extends Component {
                   </div>
                   <div className="part-r">
                     <p className="goods-name">{el.oname?el.oname:el.name}</p>
-                    <p className="goods-property">售价：{el.minPrice}</p>
+                    <p className="goods-property">售价：{this.getMinPrice(el)}</p>
                     <IconList data={el}/>
                   </div>
                 </div>

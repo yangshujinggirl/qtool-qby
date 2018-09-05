@@ -18,7 +18,7 @@ class OperatebannerEditForm extends React.Component{
 	//请求页面初始化数据
   	initDateEdit = (value) =>{
 		  //请求用户信息
-  		this.props.dispatch({type:'operatebanner/editfetch',payload:value})
+  		this.props.dispatch({type:'cBanner/editfetch',payload:value})
     	this.props.dispatch({ type: 'tab/loding', payload:true})
 	}
 
@@ -31,7 +31,7 @@ class OperatebannerEditForm extends React.Component{
 		if(this.props.data){
 			this.props.dispatch({
 				type:'tab/initDeletestate',
-				payload:'101000edit'+this.props.data.pdBannerId
+				payload:'1002000edit'+this.props.data.pdBannerId
 			  });
 		}else{
 			this.props.dispatch({
@@ -44,7 +44,7 @@ class OperatebannerEditForm extends React.Component{
 	//刷新列表
 	refreshList=()=>{
 		this.props.dispatch({
-            type:'operatebanner/fetch',
+            type:'cBanner/fetch',
             payload:{code:'qerp.web.pd.cbanner.list',values:this.props.values}
 		})
 		this.props.dispatch({ type: 'tab/loding', payload:true})
@@ -54,7 +54,7 @@ class OperatebannerEditForm extends React.Component{
 	//初始化state
 	initState=()=>{
 		this.props.dispatch({
-      type:'operatebanner/initState',
+      type:'cBanner/initState',
       payload:{}
 		})
   }
@@ -241,7 +241,7 @@ class OperatebannerEditForm extends React.Component{
   	}
 }
 function mapStateToProps(state) {
-    const {values,formValue} = state.operatebanner;
+    const {values,formValue} = state.cBanner;
     const {configArr,currentItem}= state.h5config;
     return {values,formValue,configArr,currentItem};
 }

@@ -12,6 +12,7 @@ import {
   saveValApi
 } from '../../../services/goodsCenter/bTipGoods.js';
 import AddGoodsDesc from '../components/AddGoodsDesc/index.js';
+import Imgmodel from '../../../components/model/modelimg';
 
 import Qtable from '../../../components/Qtable';
 import { DetailColumns, DetailSizeColumns} from './columns/detailColumns'
@@ -35,7 +36,7 @@ const formItemLayout2 = {
     span: 4
   },
   wrapperCol: {
-    span: 16
+    span: 18
   }
 };
 const formItemLayout3 = {
@@ -184,7 +185,7 @@ class AddGoodsForm extends Component {
                     fileList.length>0&&
                     fileList.map((el,index) => (
                       <li className="img-item" key={index}>
-                        <img src={el.url}/>
+                        <Imgmodel picUrl={el.name}/>
                       </li>
                     ))
                   }

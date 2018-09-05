@@ -10,7 +10,6 @@ import {
   Select,
   DatePicker
 }from 'antd'
-import '../index.css'
 const FormItem = Form.Item;
 const Option = Select.Option;
 const RangePicker = DatePicker.RangePicker
@@ -38,27 +37,27 @@ class NormalForm extends Component{
             <div className="search-form-wrap">
               <FormItem label='反馈编号'>
                 {getFieldDecorator('feedbackNo')(
-                    <Input placeholder='反馈编号' autoComplete="off"/>
+                    <Input placeholder='请输入反馈编号' autoComplete="off"/>
                   )}
               </FormItem>
               <FormItem label='手机号'>
                 {getFieldDecorator('telephone')(
-                  <Input placeholder='请输入联系人' autoComplete="off"/>
+                  <Input placeholder='请输入手机号' autoComplete="off"/>
                 )}
               </FormItem>
             <FormItem label='反馈状态'>
                 {getFieldDecorator('status')(
-                <Select allowClear={true} placeholder="请选择订单状态" className='select'>
+                <Select allowClear={true} placeholder="请选择反馈状态" className='select'>
                     {/* <Option value='10'>待发货</Option> */}
-                    <Option value='1'>待处理</Option>
-                    <Option value='2'>处理中</Option>
-                    <Option value='3'>已处理</Option>
+                    <Option value='10'>待处理</Option>
+                    <Option value='20'>处理中</Option>
+                    <Option value='30'>已处理</Option>
                 </Select>
                 )}
             </FormItem>
             <FormItem label='处理时长'>
                 {getFieldDecorator('handleTimeType')(
-                <Select allowClear={true} placeholder="处理时长" className='select'>
+                <Select allowClear={true} placeholder="请选择处理时长" className='select'>
                     {/* <Option value='10'>待发货</Option> */}
                     <Option value='1'>0-5h</Option>
                     <Option value='2'>5-24h</Option>
@@ -67,7 +66,7 @@ class NormalForm extends Component{
                 )}
             </FormItem>
             <FormItem
-              label="反馈时长"
+              label="反馈时间"
             >
               {getFieldDecorator('rangePicker')(
                 <RangePicker />

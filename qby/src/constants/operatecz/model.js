@@ -8,7 +8,6 @@ const CollectionCreateForm = Form.create()(
     (props) => {
         const { visible, onCancel, onCreate, form,title,url,repeatNos,hingonCancel} = props;
         const { getFieldDecorator } = form;
-        console.log(repeatNos)
         return (
             <Modal
                 visible={visible}
@@ -21,18 +20,18 @@ const CollectionCreateForm = Form.create()(
 
             >
                 <Form>
-                    <FormItem 
+                    <FormItem
                         label="充值门店"
                         labelCol={{ span: 5 }}
                         wrapperCol={{ span: 12 }}
                         className='parentinput'
                     >
                         {getFieldDecorator('shopName', {
-                        })( 
+                        })(
                             <Input disabled/>
                         )}
                     </FormItem>
-                    <FormItem 
+                    <FormItem
                         label="充值金额"
                         labelCol={{ span: 5 }}
                         wrapperCol={{ span: 12 }}
@@ -43,7 +42,7 @@ const CollectionCreateForm = Form.create()(
                             <Input disabled/>
                         )}
                     </FormItem>
-                    <FormItem 
+                    <FormItem
                         label="充值凭证"
                         labelCol={{ span: 5 }}
                         wrapperCol={{ span: 12 }}
@@ -70,7 +69,7 @@ const CollectionCreateForm = Form.create()(
                             </FormItem>
                         ):''
                     }
-                    <FormItem 
+                    <FormItem
                         label="不通过理由"
                         labelCol={{ span: 5 }}
                         wrapperCol={{ span: 12 }}
@@ -106,14 +105,13 @@ class CollectionsPage extends React.Component {
             result.then((res) => {
                 return res;
             }).then((json) => {
-                console.log(json)
                 if(json.code=='0'){
                     this.setValues()
                     this.setState({
                         repeatNos:json.repeatNos
                     })
                 }
-            }) 
+            })
         });
     }
     onCancel=()=>{
@@ -135,7 +133,7 @@ class CollectionsPage extends React.Component {
                     this.setState({ visible: false },function(){
                         this.refresh()
                     });
-                    
+
                 }
             })
         });
@@ -175,7 +173,7 @@ class CollectionsPage extends React.Component {
     render() {
         return (
             <div style={{display:'inline-block'}}>
-                { 
+                {
                     this.props.type=='1'
                     ?
                     <div onClick={this.props.types=='1'?this.showModal:null} className={this.props.types=='1'?'theme-color pointer':null}>
@@ -184,7 +182,7 @@ class CollectionsPage extends React.Component {
                     :
                     <Button type={this.props.statetype} onClick={this.showModal}>{this.props.text}</Button>
                 }
-        
+
                     <CollectionCreateForm
                         ref={this.saveFormRef}
                         visible={this.state.visible}
@@ -209,4 +207,3 @@ function mapStateToProps(state) {
 
 
 export default connect(mapStateToProps)(CollectionsPage);
-

@@ -92,8 +92,8 @@ render(){
                 <div className='cardlist_item'><label>订单号：</label><span>{orderInfo.orderNo}</span></div>
                 <div className='cardlist_item'><label>下单时间：</label><span>{orderInfo.createTime}</span></div>
                 <div className='cardlist_item'><label>流程状态：</label><span>{orderInfo.orderStatusStr}</span></div>
-                <div className='cardlist_item'><label>订单金额：</label><span>{orderInfo.amountSum}</span></div>
-                <div className='cardlist_item'><label>优惠券：</label><span>{orderInfo.coupon}</span></div>
+                <div className='cardlist_item'><label>订单金额：</label><span>{orderInfo.amountSum}</span>元</div>
+                <div className='cardlist_item'><label>优惠券：</label><span>{orderInfo.deductionAmount}</span>元</div>
                 <div className='cardlist_item'><label>订单序号：</label><span>{orderInfo.orderNum}</span></div>
             </div>
           </Card>

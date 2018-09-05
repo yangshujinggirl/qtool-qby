@@ -68,11 +68,70 @@ class AddGoodsForm extends Component {
       isEdit:false
     }
   }
-
-  componentWillMount() {
+  componentDidMount() {
     this.initGoodslabel();
-    this.initPage()
+    this.initPage();
   }
+  componentDidUpdate(props) {
+    this.creatArrow();
+  }
+  creatArrow() {
+    let arrItem = document.getElementsByClassName('ant-upload-list-item-done');
+    if(arrItem&&arrItem.length>0) {
+      for(var i=0; i<arrItem.length; i++) {
+        let itemElement = arrItem[i];
+        let oldArrowL = itemElement.getElementsByClassName('arrow-left-btn');
+        let oldArrowR = itemElement.getElementsByClassName('arrow-right-btn');
+        if(oldArrowL.length>0) {//存在按钮时先删除
+          itemElement.removeChild(oldArrowL[0]);
+          itemElement.removeChild(oldArrowR[0]);
+        }
+        let arrLeft = document.createElement('span');
+        let arrRight = document.createElement('span');
+        arrLeft.className="arrow-left-btn";
+        arrRight.className="arrow-right-btn";
+        arrLeft.setAttribute('data-index',i);
+        arrRight.setAttribute('data-index',i);
+        itemElement.appendChild(arrLeft);
+        itemElement.appendChild(arrRight);
+      }
+    }
+  }
+  moveItem(e) {
+    e.persist();
+    const currentEle = e.nativeEvent.target;
+    const currentIndex = currentEle.getAttribute('data-index');
+    let hoverIndex = currentIndex;
+    //箭头外的不触发事件
+    if(currentEle.className != 'arrow-left-btn' && currentEle.className != 'arrow-right-btn') {
+      return;
+    }
+    if(currentEle.className == 'arrow-left-btn') {
+      hoverIndex--
+    } else {
+      hoverIndex++
+    }
+    this.handelPicList(currentIndex, hoverIndex);
+  }
+  handelPicList(currentIndex, hoverIndex) {
+    let { fileList } = this.props.addGoods;
+    if(hoverIndex<0 || hoverIndex > (fileList.length-1)) {
+      return;
+    }
+    const currentData = fileList[currentIndex];
+    const hoverData = fileList[hoverIndex];
+    fileList.splice(currentIndex,1);
+    fileList.splice(hoverIndex,0,currentData);
+    this.goSetFileList(fileList);
+  }
+  //上传文件change
+  goSetFileList =(fileList)=> {
+    this.props.dispatch({
+      type:'addGoods/setFileList',
+      payload:fileList
+    })
+  }
+
   //编辑or新增
   initPage() {
     const { pdSpuId, source } =this.props.data;
@@ -149,6 +208,7 @@ class AddGoodsForm extends Component {
   }
   //品牌搜索
   handleSearch(value) {
+    this.props.dispatch({ type: 'tab/loding', payload:true});
     goodsBrandApi({name:value})
     .then(res => {
       if(res.code == '0') {
@@ -159,6 +219,7 @@ class AddGoodsForm extends Component {
             value:el.pdBrandId
           }
         ))
+        this.props.dispatch({ type: 'tab/loding', payload:false});
         this.setState({
           brandDataSource:data
         })
@@ -167,7 +228,8 @@ class AddGoodsForm extends Component {
   }
   //国家搜索
   handleSearchCountry(value) {
-    getCountryListApi({name:value})
+    this.props.dispatch({ type: 'tab/loding', payload:true});
+    getCountryListApi({name:value,status:1})
     .then(res => {
       if(res.code == '0') {
         const { countrys } = res;
@@ -177,6 +239,7 @@ class AddGoodsForm extends Component {
             value:el.pdCountryId
           }
         ))
+        this.props.dispatch({ type: 'tab/loding', payload:false});
         this.setState({
           countryDataSource:data
         })
@@ -272,7 +335,7 @@ class AddGoodsForm extends Component {
         this.setState({
           loading:false
         })
-        message.success(tips);
+        message.success(tips,1);
         this.onCancel();
         this.props.dispatch({
           type:'baseGoodsList/fetchList',
@@ -285,7 +348,6 @@ class AddGoodsForm extends Component {
       }
 
     },error=> {
-      console.log(error)
     })
   }
   //商品规格change事件
@@ -356,6 +418,7 @@ class AddGoodsForm extends Component {
   }
   //查询Api
   searchVal(values) {
+    this.props.dispatch({ type: 'tab/loding', payload:true});
     const { pdTypeId,inputValue,type} = values;
     let params = {
           pdTypeId,
@@ -365,17 +428,12 @@ class AddGoodsForm extends Component {
     searchValApi(params)
     .then(res => {
       const { pdTypeVals } =res;
+      //查询属性列表是否为空
       if(pdTypeVals.length ==0) {
-        let paramsTwo={
-              pdTypeVal:{
-                pdTypeId,
-                name:inputValue,
-                status:'1'
-              }
-        }
         this.goSaveTypeVal(values);
         return;
       }
+      //查询是否存在属性
       const filterValues = pdTypeVals.filter((el) => {
         return el.name == inputValue;
       })
@@ -389,15 +447,9 @@ class AddGoodsForm extends Component {
           payload:{payloadVal,type}
         })
       } else {
-        let paramsTwo={
-              pdTypeVal:{
-                pdTypeId,
-                name:inputValue,
-                status:'1'
-              }
-        }
         this.goSaveTypeVal(values);
       }
+      this.props.dispatch({ type: 'tab/loding', payload:false});
     },err => {
     })
   }
@@ -415,7 +467,6 @@ class AddGoodsForm extends Component {
     .then(res => {
       this.searchVal(values)
     }, err=> {
-      console.log(err)
     })
   }
   //季节商品change事件
@@ -452,6 +503,14 @@ class AddGoodsForm extends Component {
       }
     })
   }
+  //比例自定义校验
+  validatorShareRatio(rule, value, callback) {
+    if(value>100) {
+      callback('分成比例不能大于100');
+    } else {
+      callback();
+    }
+  }
   render() {
     const { getFieldDecorator } = this.props.form;
     const {
@@ -461,11 +520,11 @@ class AddGoodsForm extends Component {
       fileList,
       sizeIdList,
       specData,
-      linkageLabel
+      linkageLabel,
     } = this.props.addGoods;
     const { loading } =this.state;
     return(
-      <div className="add-goods-components">
+      <div className="add-goods-components" >
         <Form className="qtools-form-components">
           <Row wrap>
             <Col span={24}>
@@ -606,9 +665,10 @@ class AddGoodsForm extends Component {
                  )}
                </FormItem>
             </Col>
-            <Col span={24}>
+            <Col span={24} onClickCapture={(e)=>this.moveItem(e)}>
               <FormItem label='商品图片' {...formItemLayout3}>
                  <UpLoadFileModal
+                   onChange={this.goSetFileList}
                    name="spuPics"
                    fileList={fileList}
                    form={this.props.form}/>
@@ -702,7 +762,10 @@ class AddGoodsForm extends Component {
                   <FormItem label='分成比例' {...formItemLayout} className="addonAfter-inputs-common">
                      {getFieldDecorator('shareRatio',{
                        initialValue:pdSpu.shareRatio&&Number(pdSpu.shareRatio)||'',
-                       rules: [{ pattern:/^[0-9]+([.]{1}[0-9]+){0,1}$/,message:'请输入数字'}]
+                       rules: [
+                         { pattern:/^[0-9]+([.]{1}[0-9]+){0,1}$/,message:'请输入数字'},
+                         { validator:this.validatorShareRatio }
+                       ]
                      })(
                        <Input placeholder="请输入分成比例" autoComplete="off" addonAfter="%"/>
                      )}

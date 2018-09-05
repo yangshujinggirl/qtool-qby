@@ -30,25 +30,36 @@ class GoodsList extends Component {
     event.stopPropagation();
     this.props.onOperateClick(record,'detail')
   }
-  getMinPrice(el) {
-    let pdSkus = el.pdSkus;
+  getMinPrice(record) {
+    let pdSkus = record.pdSkus;
     let priceArr = [];
     if( pdSkus && pdSkus.length>0) {
       pdSkus.map((el) => {
-        if(el.toBPrice!=null) {
-          el.toCPrice = el.toCPrice*1;
-          priceArr.push(el.toCPrice)
+        if(el.toCPrice!=null) {
+          let itemPrice = {
+            toCPrice:el.toCPrice,
+            sortPrice:Number(el.toCPrice)
+          }
+          priceArr.push(itemPrice)
         }
         return el;
       })
-      priceArr.sort((a,b)=> {
-        return a-b;
-      })
-      let minPrice = priceArr[0];
-      return minPrice;
+      return this.sortPrice(priceArr);
     } else {
-      return el.toCPrice;
+      return record.toCPrice;
     }
+  }
+  sortPrice(priceArr) {
+    let minPrice;
+    if(priceArr.length>0) {
+      priceArr.sort((a,b)=> {
+        return a.sortPrice-b.sortPrice;
+      })
+      minPrice = priceArr[0].toCPrice;
+    } else {
+      minPrice = '';
+    }
+    return minPrice;
   }
   render() {
     const { onOperateClick } = this.props;

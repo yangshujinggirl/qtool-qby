@@ -5,9 +5,6 @@ import Columns from './columns/index'
 import Qtable from '../../../../components/Qtable/index'; //表单
 import Qpagination from '../../../../components/Qpagination/index'; //分页
 import FilterForm from './FilterForm/index'
-import { exportDataApi } from '../../../../services/orderCenter/userOrders'
-import './index.less'
-const confirm = Modal.confirm;
 
 class DataDistribute extends Component{
   constructor(props){
@@ -35,8 +32,7 @@ class DataDistribute extends Component{
   searchData = (values)=> {
     this.props.dispatch({
       type:'dataspcun/fetchList',
-      payload:values
-    })
+      payload:values})
   }
   //点击分页
   changePage =(current)=> {
@@ -47,6 +43,7 @@ class DataDistribute extends Component{
       payload:values
     });
   }
+
   //pageSize改变时的回调
   onShowSizeChange =({currentPage,limit})=> {
     this.props.dispatch({
@@ -58,6 +55,7 @@ class DataDistribute extends Component{
   searchDataChange =(values)=> {
     this.setState({field:values});
   }
+
 
   //导出数据
   exportData =()=> {
