@@ -10,19 +10,17 @@ class EditAction extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			dataSource: this.props.dataSource,
 			key:this.props.dataSource.length
 		};
 	}
 	componentWillReceiveProps(props) {
 		this.setState({
-			dataSource: props.dataSource,
 			key:props.dataSource.length
 		})
 	}
 	//新增功能组件
 	handleAdd (val){
-		let { dataSource } = this.state;
+		let { dataSource } = this.props;
 		let type = val=='text'?'1':'2';
 		let {key}=this.state;
 		key++;
@@ -32,18 +30,18 @@ class EditAction extends React.Component {
 			key
 		})
 		this.setState({
-			dataSource,
 			key
 		})
+		this.props.setDataSource(dataSource);
 	}
 	//删除
 	handDelete(index) {
-		let { dataSource } = this.state;
+		let { dataSource } = this.props;
 		dataSource.splice(index,1);
 		this.setState({
-			dataSource,
 			key:dataSource.length
 		})
+		this.props.setDataSource(dataSource);
 	}
 	//上下移动
 	handelMove(type, currentIndex) {
@@ -53,7 +51,7 @@ class EditAction extends React.Component {
     } else {
       hoverIndex++
     }
-    let { dataSource } = this.state;
+    let { dataSource } = this.props;
     if(hoverIndex<0 || hoverIndex > (dataSource.length-1)) {
       return;
     }
@@ -62,11 +60,11 @@ class EditAction extends React.Component {
     dataSource.splice(currentIndex,1);
     dataSource.splice(hoverIndex,0,currentData);
 		dataSource.map((el,index) =>el.key =index)
-		this.setState({dataSource});
+		this.props.setDataSource(dataSource);
   }
 	//更改表单内容
 	setValusInForm =(currentIndex,value)=> {
-		let { dataSource } = this.state;
+		let { dataSource } = this.props;
 		if(value instanceof Array == false ) {
 			value.persist();
     	value = value.nativeEvent.target.value;
@@ -77,9 +75,7 @@ class EditAction extends React.Component {
 			}
 			return el;
 		})
-		this.setState({
-			dataSource
-		})
+		this.props.setDataSource(dataSource);
 	}
 
 	renderForm =(record,index)=> {
@@ -106,7 +102,7 @@ class EditAction extends React.Component {
 		}
 	}
 	render() {
-		let { dataSource } = this.state;
+		let { dataSource } = this.props;
 		const { title } =this.props;
 		return (
 			<div className='edit-action-components'>
