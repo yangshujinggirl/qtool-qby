@@ -18,15 +18,19 @@ class EditableCell extends Component {
     this.setState({
       editable: false
     },()=>{
-        let { pdSkus }=this.props.addGoods;
-        for(var i=0;i<pdSkus.length;i++){
-            pdSkus[i][this.props.title]=this.state.value
-        }
-        this.props.dispatch({
-  				type:'addGoods/batchSet',
-  				payload:pdSkus
-  			})
+        this.setPdSkusData()
     });
+  }
+  setPdSkusData() {
+    let { pdSkus }=this.props.addGoods;
+    for(var i=0;i<pdSkus.length;i++){
+        pdSkus[i][this.props.title]=this.state.value
+    }
+    this.props.dispatch({
+      type:'addGoods/batchSet',
+      payload:pdSkus
+    })
+    this.setState({value:''})
   }
   edit = () => {
     this.setState({ editable: true });
@@ -42,6 +46,7 @@ class EditableCell extends Component {
                       value={this.state.value}
                       onChange={this.handleChange.bind(this)}
                       onPressEnter={this.check}
+                      onBlur={this.onChangeBlur}
                   />
                   <Icon
                       type="check"

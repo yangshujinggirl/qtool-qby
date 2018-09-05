@@ -4,27 +4,27 @@ import EditableTable from '../../components/table/tablebasic';
 import TableLink from '../../components/table/tablelink';
 
 class SpselldataTable extends React.Component {
-	constructor(props) {
+		constructor(props) {
         super(props);
         this.columns1 = [{
-          title: '排名',
-          dataIndex: 'rank'
-        }, {
-          title: '门店名称',
-          dataIndex: 'name'
-        },{
-          title: '订货商品数量',
-          dataIndex: 'qbyQty'
-        },{
-          title: '订货金额',
-          dataIndex: 'qbyAmount'
-        },{
-            title: '销售商品数量',
-            dataIndex: 'posQty'
-        },{
-            title: '销售金额',
-            dataIndex: 'posAmount'
-        }];
+	          title: '排名',
+	          dataIndex: 'rank'
+	        }, {
+	          title: '门店名称',
+	          dataIndex: 'name'
+	        },{
+	          title: '订货商品数量',
+	          dataIndex: 'qbyQty'
+	        },{
+	          title: '订货金额',
+	          dataIndex: 'qbyAmount'
+	        },{
+	            title: '销售商品数量',
+	            dataIndex: 'posQty'
+	        },{
+	            title: '销售金额',
+	            dataIndex: 'posAmount'
+	        }];
 
         this.columns2 = [{
             title: '序号',
@@ -60,21 +60,7 @@ class SpselldataTable extends React.Component {
             dataIndex: 'noOrder'
           }];
     }
-
-   
-    
-    render() {
-        return (
-          <EditableTable 
-            dataSource={this.props.tabledatasouce} 
-            columns={this.props.data.id=='1'?this.columns1:(this.props.data.id=='4'?this.columns3:this.columns2)} 
-            footer={false}
-            bordered={true}
-            select={false}
-            />
-        );
-    }
-    componentDidMount(){
+		componentDidMount(){
         const values={}
         if(this.props.data.id=='1'){
             this.props.dispatch({
@@ -101,6 +87,17 @@ class SpselldataTable extends React.Component {
             })
         }
     }
+    render() {
+        return (
+          <EditableTable
+            dataSource={this.props.tabledatasouce}
+            columns={this.props.data.id=='1'?this.columns1:(this.props.data.id=='4'?this.columns3:this.columns2)}
+            footer={false}
+            bordered={true}
+            select={false}/>
+        );
+    }
+
 
 }
 
@@ -110,6 +107,3 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(SpselldataTable);
- 
-
-

@@ -34,7 +34,6 @@ class EditableCell extends React.Component {
     }
 
     handleChange1=(url)=>{
-        console.log(url)
         this.setState({
             visible:true,
             picUrl:url,
@@ -43,9 +42,6 @@ class EditableCell extends React.Component {
     }
 
     handleChange2=(data)=>{
-        console.log(data)
-        console.log(data.replacevalue)
-        console.log(eval('('+data.replacevalue+')'))
         this.setState({
             title:'修改前商品描述',
             type:'2',
@@ -54,8 +50,6 @@ class EditableCell extends React.Component {
         })
     }
     handleChange3=(data)=>{
-        console.log(data)
-
         this.setState({
             title:'修改后商品描述',
             type:'2',
@@ -65,7 +59,6 @@ class EditableCell extends React.Component {
     }
 
     handleChange4=(data)=>{
-        console.log(data)
         this.setState({
             title:'商品描述',
             type:'2',
@@ -75,13 +68,11 @@ class EditableCell extends React.Component {
     }
 
     handleOk = (e) => {
-        console.log(e);
         this.setState({
           visible: false,
         });
       }
       handleCancel = (e) => {
-        console.log(e);
         this.setState({
           visible: false,
         });
@@ -209,7 +200,7 @@ class Config extends React.Component{
             },
             currentPage:this.state.currentPage,
             limit:this.state.limit
-            
+
         };
         //请求日志
         let result=GetServerData('qerp.web.pd.spulog.list',values);
@@ -239,7 +230,6 @@ class Config extends React.Component{
                         data[i].operadatatype='3'
                     }
                 }
-                console.log(data)
                 //操作描述操作
                 for(var i=0;i<data.length;i++){
                     const addContent=(!data[i].addContent)?'':data[i].addContent
@@ -275,7 +265,6 @@ class Config extends React.Component{
                         }
                     }
                 }
-                console.log(data)
                 //最终数据setstate
                 this.setState({
                     dataSource:data,
@@ -290,8 +279,6 @@ class Config extends React.Component{
 
     //分页方法
     pageChange=(page,pageSize)=>{
-        console.log(page)
-        console.log(pageSize)
         this.setState({
             limit:pageSize,
             currentPage:Number(page)-1
@@ -301,8 +288,6 @@ class Config extends React.Component{
     }
     //pagesize变化
     pageSizeChange=(current,size)=>{
-        console.log(current)
-        console.log(size)
         this.setState({
             limit:size,
             currentPage:Number(current)-1
@@ -324,7 +309,6 @@ class Config extends React.Component{
     }
 
     render(){
-      console.log(this.state.dataSource)
         return(
             <EditableTable
 				columns={this.state.columns}

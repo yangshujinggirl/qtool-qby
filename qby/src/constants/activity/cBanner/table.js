@@ -3,7 +3,7 @@ import { connect } from 'dva';
 import EditableTable from '../../../components/table/tablebasic';
 import TableLink from '../../../components/table/tablelink';
 
-class OperatebannerTable extends React.Component {
+class operatebannerTable extends React.Component {
 	constructor(props) {
         super(props);
         this.columns = [{
@@ -59,10 +59,11 @@ class OperatebannerTable extends React.Component {
 
     //列表数据请求
     initList=(values,limit,currentPage)=>{
+				values.type = 20;
         values.limit=limit;
         values.currentPage=currentPage;
         this.props.dispatch({
-            type:'operatebanner/fetch',
+            type:'cBanner/fetch',
             payload:{code:'qerp.web.pd.cbanner.list',values:values}
         });
         this.props.dispatch({ type: 'tab/loding', payload:true});
@@ -91,8 +92,8 @@ class OperatebannerTable extends React.Component {
 }
 
 function mapStateToProps(state) {
-    const {tableList,total,limit,currentPage,values} = state.operatebanner;
+    const {tableList,total,limit,currentPage,values} = state.cBanner;
     return {tableList,total,limit,currentPage,values};
 }
 
-export default connect(mapStateToProps)(OperatebannerTable);
+export default connect(mapStateToProps)(operatebannerTable);

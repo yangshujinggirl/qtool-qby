@@ -74,8 +74,6 @@ class AdjustInfo extends React.Component{
         })
     }
 		pageChange=(page,pageSize)=>{
-			console.log(page)
-			console.log(pageSize)
 			// this.initList(pageSize,Number(page-1))
 			this.setState({
 				limit:pageSize,

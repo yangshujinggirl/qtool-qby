@@ -42,21 +42,18 @@ class StockSearchForm extends React.Component {
     }
     //拿到搜索框商品分类的数据
     categorylist=()=>{
-      let values={
-        getChildren:false,
-        enabled:true
-      }
-      const result=GetServerData('qerp.web.pd.category.list',values)
-      result.then((res) => {
-        return res;
-      }).then((json) => {
-        if(json.code=='0'){
-           const pdCategorys = json.pdCategorys;
-           this.setState({
-              pdCategorys:pdCategorys
-           });
-        };
-      })
+        let values = {"level":1,"parentId":null,"status":1}
+        const result=GetServerData('qerp.web.pd.category.list',values)
+        result.then((res) => {
+            return res;
+        }).then((json) => {
+            if(json.code=='0'){
+               const pdCategorys=json.pdCategory
+               this.setState({
+                    pdCategorys:pdCategorys
+               })
+            }
+        })
     }
     //智能搜索
     handleSearchs=(value)=>{
@@ -89,67 +86,64 @@ class StockSearchForm extends React.Component {
           spShopId:value
       });
     }
-  render() {
-    console.log(this.props)
-    const { getFieldDecorator } = this.props.form;
-    const adminType=eval(sessionStorage.getItem('adminType'));
-    return (
-      <Form className='formbox'>
-        <Row gutter={40} className='formbox_row'>
-            <Col span={24} className='formbox_col'>
-                <Row>
-                <div className='serach_form'>
-                    <FormItem label='门店名称'>
-                        {getFieldDecorator('bspname')(
-                        <AutoComplete
-                            dataSource={this.state.dataSource}
-                            onSelect={this.onSelect}
-                            onSearch={this.handleSearchs}
-                            placeholder='请选择门店名称'
-                            filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
-                        />
-                        )}
-                    </FormItem>
-                    <FormItem label='商品名称'>
-                        {getFieldDecorator('pdSpuName')(
-                        <Input placeholder="请输入商品名称" autoComplete="off"/>
-                        )}
-                    </FormItem>
-                    <FormItem label='商品条码'>
-                        {getFieldDecorator('barcode')(
-                        <Input placeholder="请输入商品条码" autoComplete="off"/>
-                        )}
-                    </FormItem>
-                    <FormItem label='商品编码'>
-                        {getFieldDecorator('code')(
-                        <Input placeholder="请输入商品编码" autoComplete="off"/>
-                        )}
-                    </FormItem>
-                    <FormItem label='商品分类'>
-                        {getFieldDecorator('pdCategoryId')(
-                          <Select  placeholder="请选择商品分类" allowClear={true}>
-                            {
-                              this.state.pdCategorys.map((item,index)=>{
-                                return (<Option value={String(item.pdCategoryId)} key={index}>{item.name}</Option>)
-                              })
-                            }
-                          </Select>
-                        )}
-                    </FormItem>
+    render() {
+        const { getFieldDecorator } = this.props.form;
+        const adminType=eval(sessionStorage.getItem('adminType'));
+        return (
+        <Form className='formbox'>
+            <Row gutter={40} className='formbox_row'>
+                <Col span={24} className='formbox_col'>
+                    <Row>
+                    <div className='serach_form'>
+                        <FormItem label='门店名称'>
+                            {getFieldDecorator('bspname')(
+                            <AutoComplete
+                                dataSource={this.state.dataSource}
+                                onSelect={this.onSelect}
+                                onSearch={this.handleSearchs}
+                                placeholder='请选择门店名称'
+                                filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
+                            />
+                            )}
+                        </FormItem>
+                        <FormItem label='商品名称'>
+                            {getFieldDecorator('pdSpuName')(
+                            <Input placeholder="请输入商品名称" autoComplete="off"/>
+                            )}
+                        </FormItem>
+                        <FormItem label='商品条码'>
+                            {getFieldDecorator('barcode')(
+                            <Input placeholder="请输入商品条码" autoComplete="off"/>
+                            )}
+                        </FormItem>
+                        <FormItem label='商品编码'>
+                            {getFieldDecorator('code')(
+                            <Input placeholder="请输入商品编码" autoComplete="off"/>
+                            )}
+                        </FormItem>
+                        <FormItem label='商品分类'>
+                            {getFieldDecorator('pdCategoryId')(
+                            <Select  placeholder="请选择商品分类" allowClear={true}>
+                                {
+                                this.state.pdCategorys.map((item,index)=>{
+                                    return (<Option value={String(item.pdCategoryId)} key={index}>{item.name}</Option>)
+                                })
+                                }
+                            </Select>
+                            )}
+                        </FormItem>
 
 
-                    </div>
-                </Row>
-            </Col>
-        </Row>
-        <div style={{'position':'absolute','right':'0','bottom':'24px'}}>
-            <Button type="primary" htmlType="submit" onClick={this.handleSearch.bind(this)} size='large'>搜索</Button>
-        </div>
-      </Form>
-    );
-  }
-
-
+                        </div>
+                    </Row>
+                </Col>
+            </Row>
+            <div style={{'position':'absolute','right':'0','bottom':'24px'}}>
+                <Button type="primary" htmlType="submit" onClick={this.handleSearch.bind(this)} size='large'>搜索</Button>
+            </div>
+        </Form>
+        );
+    }
 }
 
 function mapStateToProps(state) {

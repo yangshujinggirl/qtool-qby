@@ -36,9 +36,9 @@ class ServerBill extends Component{
     })
   }
   //点击分页
-  changePage =(current)=> {
+  changePage =(current,limit)=> {
     const currentPage = current-1;
-    const values = {...this.state.field,currentPage}
+    const values = {...this.state.field,currentPage,limit}
     this.props.dispatch({
       type:'serverBill/fetchList',
       payload:values
@@ -134,11 +134,13 @@ class ServerBill extends Component{
           columns = {Columns}
           onOperateClick = {this.handleOperateClick}
         />
-        <Qpagination
-          data={this.props.serverBill}
-          onChange={this.changePage}
-          onShowSizeChange = {this.onShowSizeChange}
-        />
+        {
+          dataList.length>0&&
+          <Qpagination
+            data={this.props.serverBill}
+            onChange={this.changePage}
+            onShowSizeChange = {this.onShowSizeChange}/>
+        }
       </div>
     )
   }

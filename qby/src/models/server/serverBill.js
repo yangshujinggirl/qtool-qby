@@ -2,7 +2,9 @@ import { getServerListApi } from '../../services/server/server'
 
 export default{
   namespace:'serverBill',
-  state:{},
+  state:{
+    dataList:[]
+  },
   reducers:{
     getList(state,{payload:{dataList, currentPage, limit, total} }){
       return { ...state, dataList, currentPage, limit, total}

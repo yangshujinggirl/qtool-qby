@@ -111,7 +111,7 @@ class OperateinoutSearchForm extends React.Component {
 }
 function mapStateToProps(state) {
     // const {currentPage} = state.operateinout;
-    // return {currentPage};
+    return state;
 }
 
 

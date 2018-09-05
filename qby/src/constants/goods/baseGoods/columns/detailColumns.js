@@ -28,7 +28,7 @@ const OnLineDetailSizeColumns = [{
        return <div>
                 {
                   record.picUrl !=''?
-                  <div className="img-wrap">
+                  <div className="table-img-wrap">
                     <Imgmodel picUrl={record.picUrl}/>
                   </div>
                  :
@@ -84,7 +84,7 @@ const OutLineDetailSizeColumns = [{
        return <div>
                 {
                   record.picUrl !=''?
-                  <div className="img-wrap">
+                  <div className="table-img-wrap">
                     <Imgmodel picUrl={record.picUrl}/>
                   </div>
                  :

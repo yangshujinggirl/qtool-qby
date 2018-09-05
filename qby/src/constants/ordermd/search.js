@@ -16,7 +16,7 @@ class OrdermdSearchForm extends React.Component {
             deliveryTimeET:''
       };
     }
-  
+
   //点击搜索按钮获取搜索表单数据
   handleSearch = (e) => {
     this.props.form.validateFields((err, values) => {
@@ -39,7 +39,7 @@ class OrdermdSearchForm extends React.Component {
             payload:{code:'qerp.web.sp.order.query',values:values}
         });
         this.props.dispatch({ type: 'tab/loding', payload:true});
-    }  
+    }
 
     //同步data
     syncState=(values)=>{
@@ -47,13 +47,13 @@ class OrdermdSearchForm extends React.Component {
         values.dateEnd=this.state.dateEnd;
         values.deliveryTimeST=this.state.deliveryTimeST;
         values.deliveryTimeET=this.state.deliveryTimeET;
-        
+
         this.props.dispatch({
             type:'ordermd/synchronous',
             payload:values
         });
     }
-    
+
     //时间搜索部分
     hindDateChange=(type,dates,dateString)=>{
         if(type ==1){

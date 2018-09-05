@@ -53,10 +53,9 @@ class CgArrivalIndexForm extends React.Component {
             this.handleSubmit()
         })
     }
-    
+
     onShowSizeChange=(current, pageSize)=>{
-        console.log(current)
-        console.log(pageSize)
+
         this.setState({
             currentPage:Number(current)-1,
             limit:pageSize
@@ -92,12 +91,12 @@ class CgArrivalIndexForm extends React.Component {
 						});
 					},
 					onCancel() {
-						
+
 					},
 	  			});
 			}
 		})
-	
+
 	}
 
      //获取数据
@@ -154,7 +153,7 @@ class CgArrivalIndexForm extends React.Component {
                                         label="收货时间"
                                         labelCol={{ span: 5 }}
                                         wrapperCol={{span: 10}}>
-                                        <RangePicker  
+                                        <RangePicker
                                             value={this.state.createTimeST?[moment(this.state.createTimeST, dateFormat),moment(this.state.createTimeET, dateFormat)]:null}
                                             format={dateFormat}
                                             onChange={this.dateChange.bind(this)} />
@@ -167,8 +166,8 @@ class CgArrivalIndexForm extends React.Component {
                     <Button type="primary"  onClick={this.handleSubmit.bind(this)} size='large'>搜索</Button>
                 </div>
                 </Form>
-                <Button 
-                    type="primary" 
+                <Button
+                    type="primary"
                     size='large'
                     className='mt20'
                     onClick={this.exportData.bind(this,75,this.state.searchvalue)}
@@ -176,8 +175,8 @@ class CgArrivalIndexForm extends React.Component {
                         导出数据
                 </Button>
                 <div className='mt15'>
-                    <EditableTable 
-                        columns={this.columns} 
+                    <EditableTable
+                        columns={this.columns}
                         dataSource={this.state.dataSource}
                         footer={true}
                         pageChange={this.pageChange.bind(this)}

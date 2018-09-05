@@ -13,10 +13,10 @@ const confirm = Modal.confirm;
 class OperateinoutIndex extends React.Component{
     state = {};
     //导出数据
-	exportData = (type,data) => {
+	exportData = () => {
 		const values={
-			type:type,
-			downloadParam:data,
+			type:20,
+			downloadParam:this.props.operateinout.values,
 		}
 		const result=GetServerData('qerp.web.sys.doc.task',values);
 		result.then((res) => {
@@ -49,11 +49,12 @@ class OperateinoutIndex extends React.Component{
 
 	}
   	render(){
-		const rolelists=this.props.data.rolelists
-		//导出数据
-		const expontdata=rolelists.find((currentValue,index)=>{
-			return currentValue.url=="qerp.web.sys.doc.task"
-		})
+  		const rolelists=this.props.data.rolelists
+  		//导出数据
+  		const expontdata=rolelists.find((currentValue,index)=>{
+  			return currentValue.url=="qerp.web.sys.doc.task"
+  		})
+      console.log(this.props.operateinout.values)
      	return(
       	<div className='content_box'>
             <OperateinoutSearch/>

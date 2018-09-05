@@ -22,8 +22,8 @@ class NormalForm extends Component{
     this.props.form.validateFieldsAndScroll((err, values) => {
       const{rangePicker,..._values} = values;
       if(rangePicker){
-        _values.startTime =  moment(rangePicker[0]).format('YYYY-MM-DD HH:mm:ss');
-        _values.endTime = moment(rangePicker[1]).format('YYYY-MM-DD HH:mm:ss');
+        _values.pushTimeST =  moment(rangePicker[0]).format('YYYY-MM-DD HH:mm:ss');
+        _values.pushTimeET = moment(rangePicker[1]).format('YYYY-MM-DD HH:mm:ss');
       }
       this.props.submit && this.props.submit(_values);
     })
@@ -49,21 +49,19 @@ class NormalForm extends Component{
               <FormItem label='推送状态'>
                   {getFieldDecorator('status')(
                   <Select allowClear={true} placeholder="请选择推送状态" className='select'>
-                      {/* <Option value='10'>待发货</Option> */}
-                      <Option value='1'>待推送</Option>
-                      <Option value='2'>已推送</Option>
-                      <Option value='3'>已撤销</Option>
+                    <Option value={10}>待推送</Option>
+                    <Option value={20}>已推送</Option>
+                    <Option value={30}>已撤销</Option>
                   </Select>
                   )}
               </FormItem>
               <FormItem label='推送类型'>
-                  {getFieldDecorator('type')(
+                  {getFieldDecorator('alertType')(
                   <Select allowClear={true} placeholder="请选择推送类型" className='select'>
-                      {/* <Option value='10'>待发货</Option> */}
-                      <Option value='1'>banner</Option>
-                      <Option value='2'>商品</Option>
-                      <Option value='3'>url</Option>
-                      <Option value='4'>文本</Option>
+                    <Option value={10}>banner</Option>
+                    <Option value={20}>商品</Option>
+                    <Option value={30}>url</Option>
+                    <Option value={40}>文本</Option>
                   </Select>
                   )}
               </FormItem>

@@ -25,7 +25,7 @@ const formItemLayout2 = {
     span: 4
   },
   wrapperCol: {
-    span: 16
+    span: 18
   }
 };
 const formItemLayout3 = {
@@ -120,7 +120,7 @@ class GoodsDetail extends Component {
   render() {
     const { pdSpu, pdSkus, fileList } = this.props.baseGoodsDetail;
     return(
-      <div className="basegoods-detail-components">
+      <div className="btip-add-goods-components">
         <Form>
     			<FormItem label="商品名称" {...formItemLayout}>
             <label>{pdSpu.name}</label>

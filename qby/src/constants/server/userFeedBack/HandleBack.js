@@ -3,6 +3,9 @@ import EditableTable from '../../../components/table/tablebasic';
 import { Button, Icon ,Form,Select,Input,Card, message } from 'antd';
 import { getBackDetailApi,feedBackSaveApi } from '../../../services/server/server'
 import { connect } from 'dva';
+import Imgmodel from '../../../components/model/modelimg';
+import './index.less'
+
 const FormItem = Form.Item;
 const Option = Select.Option;
 const { TextArea } = Input;
@@ -46,7 +49,7 @@ render(){
 	const fileDomain = eval(sessionStorage.getItem('fileDomain'));
   const { getFieldDecorator } = this.props.form;
 	return(
-			<div>
+			<div className="user-feedBack-pages">
         <div className='mb10'>
           <Card title='反馈信息'>
             <div className='cardlist'>
@@ -74,21 +77,20 @@ render(){
 							labelCol={{ span: 2 }}
 							wrapperCol={{ span: 12 }}
 						>
-							<div className='clearfix'>
+							<ul className='img-list-wrap'>
                 {
                   feedbackDetail && feedbackDetail.remarkUrl
                   ?
                     JSON.parse(feedbackDetail.remarkUrl).map((item,index) => {
                       return(
-                        <img style={{width:'86px',height:'86px'}}
-													key={index}
-													src={fileDomain+item.imgPath}
-												/>
+												<li className="img-item" key={index}>
+													<Imgmodel picUrl={item.imgPath}/>
+												</li>
                       )
                     })
                   :''
                 }
-              </div>
+              </ul>
 						</FormItem>
   				</Form>
 				</div>

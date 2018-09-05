@@ -59,6 +59,7 @@ class OperatebannerTable extends React.Component {
 
     //列表数据请求
     initList=(values,limit,currentPage)=>{
+				values.type = 10;
         values.limit=limit;
         values.currentPage=currentPage;
         this.props.dispatch({

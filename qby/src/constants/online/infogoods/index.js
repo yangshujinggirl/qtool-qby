@@ -27,7 +27,7 @@
 						this.pinNew(this.state.type)
 					}
 					if(this.state.type=='50' || this.state.type=='60'){
-						this.pinHot(this.state.type)	
+						this.pinHot(this.state.type)
 					}
 		}
 		handleCancel = (e) => {
@@ -131,11 +131,11 @@
 			this.props.dispatch({
 					type:'tab/firstAddTab',
 					payload:paneitem
-			})	
+			})
 			this.props.dispatch({
 				type:'onlinegood/initgoodedit',
 				payload:{}
-			})	
+			})
 		}
 
 		exportData = (type,data) => {
@@ -166,16 +166,15 @@
 							});
 						},
 						onCancel() {
-							
+
 						},
 					  });
 				}
 			})
-		
+
 		}
 		render(){
 			const rolelists=this.props.data.rolelists
-			console.log(rolelists)
 			//增改商品
 			const addorder=rolelists.find((currentValue,index)=>{
 				return currentValue.url=="qerp.web.ec.pd.spu.save"
@@ -188,7 +187,7 @@
 			const newopen=rolelists.find((currentValue,index)=>{
 				return currentValue.url=="qerp.web.pd.spu.status"
 			})
-	
+
 			return(
 				<div>
 					<Goodssearchform/>

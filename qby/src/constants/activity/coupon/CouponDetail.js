@@ -21,23 +21,31 @@ class CouponDetail extends Component{
   }
 
   render(){
-    const { couponInfo }= this.state
+    const { couponName,
+      couponUseSceneStr,
+      couponValidDay,
+      couponValidDate,
+      couponMoney,
+      couponFullAmount,
+      couponCount,
+      couponRemark
+     }= this.state.couponInfo
     return(
       <div className='couponDetail'>
-        <p className='tail'>代金券名称：　　{couponInfo.couponName}</p>
-        <p className='tail'>代金券场景：　　{couponInfo.couponUseScene}</p>
+        <p className='tail'>优惠券名称：　{couponName}</p>
+        <p className='tail'>优惠券场景：　{couponUseSceneStr}</p>
         <p className='tail'>券有效期：　　{
-            couponInfo.couponValidDay
+            couponValidDay
             ?
-            <span><input type='radio' checked/> 用户领取时间起　　{couponInfo.couponValidDay}天</span>
+            <span>用户领取时间起　{couponValidDay}　天</span>
             :
-            <span><input type='radio' checked/> 特定时间到　　{couponInfo.couponValidDate}天</span>
+            <span>特定时间到　{couponValidDate}　止</span>
           }
         </p>
-        <p className='tail'>代金券金额：　　{couponInfo.couponMoney}元</p>
-        <p className='tail'>使用门槛：　　满　{couponInfo.couponFullAmount}　可用</p>
-        <p className='tail'>代金券数：　　{couponInfo.couponCount}　张</p>
-        <p className='tail'>代金券备注：　　{couponInfo.couponRemark}</p>
+        <p className='tail'>优惠券金额：　{couponMoney}元</p>
+        <p className='tail'>使用门槛：　　满　{couponFullAmount}　可用</p>
+        <p className='tail'>优惠券数：　　{couponCount}　张</p>
+        <p className='tail'>优惠券备注：　{couponRemark}</p>
       </div>
     )
   }

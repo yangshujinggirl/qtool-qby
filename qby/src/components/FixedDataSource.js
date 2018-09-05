@@ -93,6 +93,44 @@ const SalePropertyOption = [{
           key:3,
           value:'滞销商品'
         }]
+//流程状态-----用户订单
+const ProcesasStatusOption = [{
+          key:10,
+          value:'待用户支付'
+        },
+        {
+          key:40,
+          value:'待门店接单'
+        },
+        {
+          key:60,
+          value:'门店已拒单'
+        },
+        {
+          key:55,
+          value:'超时未接单'
+        },
+        {
+          key:45,
+          value:'门店已接单'
+        },
+        {
+          key:70,
+          value:'用户已提货'
+        },
+        {
+          key:20,
+          value:'用户支付前取消'
+        },
+        {
+          key:30,
+          value:'用户超时未支付'
+        },
+        {
+          key:50,
+          value:'用户支付后取消'
+        },
+      ]
 
 
 export default {
@@ -102,5 +140,6 @@ export default {
   WarehouseOption,
   GoosStatusOption,
   SalePropertyOption,
-  LotStatusOption
+  LotStatusOption,
+  ProcesasStatusOption
 }

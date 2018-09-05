@@ -29,7 +29,7 @@ class StockSearchForm extends React.Component {
             payload:{code:'qerp.web.qpos.pd.historyInv.query',values:values}
         });
         this.props.dispatch({ type: 'tab/loding', payload:true});
-    }  
+    }
 
     //同步data
     syncState=(values)=>{
@@ -40,20 +40,17 @@ class StockSearchForm extends React.Component {
     }
 
     categorylist=()=>{
-        let values={
-            getChildren:false,
-            enabled:true
-        }
+        let values = {"level":1,"parentId":null,"status":1}
         const result=GetServerData('qerp.web.pd.category.list',values)
         result.then((res) => {
             return res;
         }).then((json) => {
             if(json.code=='0'){
-               const pdCategorys=json.pdCategorys
+               const pdCategorys=json.pdCategory
                this.setState({
                     pdCategorys:pdCategorys
                })
-               
+
             }
         })
     }
@@ -99,7 +96,6 @@ class StockSearchForm extends React.Component {
 
   render() {
       const { getFieldDecorator } = this.props.form;
-      const adminType=eval(sessionStorage.getItem('adminType'));
     return (
       <Form className='formbox'>
         <Row gutter={40} className='formbox_row'>
@@ -137,22 +133,26 @@ class StockSearchForm extends React.Component {
                            <Select  placeholder="请选择商品分类" allowClear={true}>
                             {
                                 this.state.pdCategorys.map((item,index)=>{
-                                    return (<Option value={String(item.pdCategoryId)} key={index}>{item.name}</Option>)
-       
+                                    return (<Select.Option value={String(item.pdCategoryId)} key={index}>{item.name}</Select.Option>)
+
                                 })
                             }
                             </Select>
                         )}
                     </FormItem>
-                    <FormItem 
+                    <FormItem
                         label='选择时间'
                     >
-                        {getFieldDecorator('dates',{
+                        {getFieldDecorator('date',{
                              initialValue:moment(this.state.date, dateFormat)
-                            
+
                         })(
-                            <DatePicker format={dateFormat} allowClear={false} className='noant-calendar-picker' onChange={this.timeChange.bind(this)}/>
-                        
+                            <DatePicker
+                              format={dateFormat}
+                              allowClear={false}
+                              className='noant-calendar-picker'
+                              onChange={this.timeChange.bind(this)}/>
+
                         )}
                     </FormItem>
 
@@ -178,10 +178,10 @@ class StockSearchForm extends React.Component {
         this.handleSearch()
     })
     this.categorylist()
-   
+
 
 }
-  
+
 }
 function mapStateToProps(state) {
     const {limit,currentPage} = state.datasphiscun;

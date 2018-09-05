@@ -12,7 +12,12 @@ export default {
       limit:15,
       total:0,
     },
-    imageUrl:null,
+    countryDetail:{
+      name:'',
+      status:'',
+      imageUrl:null,
+      pdCountryId:''
+    },
     fileDomain:'',
     authorityList:{
       authorityEdit:false,
@@ -33,16 +38,26 @@ export default {
     getList( state, { payload : {data, fileDomain} }) {
       return { ...state, data, fileDomain}
     },
-    setFileList( state, { payload : imageUrl }) {
-      return { ...state, imageUrl }
+    setDetail( state, { payload : countryDetail }) {
+      return { ...state, countryDetail }
     },
+    resetData( state ) {
+      let countryDetail = {
+            name:'',
+            status:'',
+            imageUrl:null,
+            pdCountryId:''
+          }
+      return { ...state, countryDetail }
+      return { ...state, countryDetail }
+    }
   },
   effects: {
     *fetchList({ payload: values }, { call, put ,select}) {
       const result=yield call(getListApi,values);
       if(result.code=='0') {
         let { countrys, currentPage, limit, total, fileDomain } = result;
-
+        countrys.map((el) => el.picUrl = `${fileDomain}${el.url}`)
         yield put ({
           type: 'getList',
           payload:{

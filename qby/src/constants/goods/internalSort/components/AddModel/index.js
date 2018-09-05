@@ -386,11 +386,14 @@ class AddModelForm extends Component {
   }
 	//提交Api
   onSubmit(values,func) {
+		this.setState({
+			loading:true
+		})
     goodSaveApi({pdCategory:values})
     .then(res => {
       const { code, message } =res;
       if( code == '0') {
-        message.success(`${this.state.handleName}成功`);
+        message.success(`${this.state.handleName}成功`,1);
 				let payload;
 				if(values.pdCategoryId!=''){
 					payload = {
@@ -408,6 +411,9 @@ class AddModelForm extends Component {
         })
         this.onCancel();
       }
+			this.setState({
+				loading:false
+			})
     },error=> {
 
     })
@@ -422,14 +428,23 @@ class AddModelForm extends Component {
 		const form = this.props.form;
 		return (
 			<Modal
+				className="goods-handle-modal-wrap"
 				visible={visible}
 				title={this.getTitle()}
-				okText="确定"
 				onCancel={this.onCancel.bind(this)}
-				onOk={this.handleSubmit}>
-				<Form >
-					{this.renderForm(form)}
-				</Form>
+				footer={null}>
+				<div className="handle-modal-content">
+					<Form >
+						{this.renderForm(form)}
+					</Form>
+				</div>
+				<div className="handle-modal-footer">
+					<Button onClick={this.onCancel.bind(this)}>取消</Button>
+					<Button
+						type='primary'
+						loading={this.state.loading}
+						onClick={this.handleSubmit.bind(this)}>确认</Button>
+				</div>
 			</Modal>
 		);
 	}

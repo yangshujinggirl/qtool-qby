@@ -3,7 +3,14 @@ const Columns = [{
      dataIndex: 'feedbackNo',
    },{
      title: '反馈问题',
-     dataIndex: 'remark'
+     dataIndex: 'remark',
+     render:(text,record)=>{
+       return(
+          text.length>15
+          ?<p>{text.slice(0,15)+'...'}</p>
+          :<p>{text}</p>
+       )
+     }
    }, {
      title: '用户手机号',
      dataIndex: 'userTel'
