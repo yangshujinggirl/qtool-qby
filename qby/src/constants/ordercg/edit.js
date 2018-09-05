@@ -353,22 +353,28 @@ class OrdercgEditForm extends React.Component{
 									label="账期类型"
 									labelCol={{ span: 3,offset: 1 }}
 									wrapperCol={{ span: 12 }}
-								>{this.props.editInfo.dayPay =='现结' ?
+								>{this.props.editInfo.dayPay =='现结' 
+									?
 									<div>
-									{getFieldDecorator('dayPay', {
-										rules: [{ required: true, message: '请输入账期类型' }],
-										initialValue:String(this.props.editInfo.dayPay)
-									})(
-										<Input disabled style={{width:'20%'}} autoComplete="off"/>
-									)}
+										{getFieldDecorator('dayPay', {
+											rules: [{ required: true, message: '请输入账期类型' }],
+											initialValue:String(this.props.editInfo.dayPay)
+										})(
+											<Input disabled style={{width:'20%'}} autoComplete="off"/>
+										)}
 									</div>
-									:<div> {this.props.editInfo.paymentType == 10 ?'货':'票'}到　{getFieldDecorator('dayPay', {
-										rules: [{ required: true, message: '请输入账期类型' }],
-										initialValue:String(this.props.editInfo.dayPay)
-									})(
-										<Input disabled style={{width:'10%'}} autoComplete="off"/>
-									)}
-								　个自然日付款</div>}
+									:
+									<div>
+										{this.props.editInfo.paymentType == 10 ?'货':'票'}到　
+										{getFieldDecorator('dayPay', {
+											rules: [{ required: true, message: '请输入账期类型' }],
+											initialValue:String(this.props.editInfo.dayPay)
+										})(
+											<Input disabled style={{width:'10%'}} autoComplete="off"/>
+										)}
+									　个自然日付款
+									</div>
+								}
 								</FormItem>
 							: //新增
 								<FormItem
