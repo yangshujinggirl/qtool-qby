@@ -238,7 +238,6 @@ class OrdercgEditForm extends React.Component{
 	}
 
 	render(){
-		console.log(this.props.editInfo.paymentType)
 		const { getFieldDecorator } = this.props.form;
 		const { selectedSuppler } = this.state;
 		const isChange = Boolean(this.props.data&&this.props.data.wsAsnId) //是否为修改
