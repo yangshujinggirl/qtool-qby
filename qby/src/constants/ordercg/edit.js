@@ -105,9 +105,9 @@ class OrdercgEditForm extends React.Component{
 				};
 				debugger
 				if(!this.props.data){
-					if(values.paymentType == '货到付款')values.paymentType=10;
-					if(values.paymentType == '票到付款')values.paymentType=20;
-					if(values.paymentType == '现结')values.paymentType=30;
+					if(values.paymentType == '货到付款')data.paymentType=10;
+					if(values.paymentType == '票到付款')data.paymentType=20;
+					if(values.paymentType == '现结')data.paymentType=30;
 				}
 				if(data.pdSupplierId){
 					const result=GetServerData('qerp.web.ws.asn.save',data);
@@ -238,6 +238,7 @@ class OrdercgEditForm extends React.Component{
 	}
 
 	render(){
+		console.log(this.props.editInfo.paymentType)
 		const { getFieldDecorator } = this.props.form;
 		const { selectedSuppler } = this.state;
 		const isChange = Boolean(this.props.data&&this.props.data.wsAsnId) //是否为修改
@@ -347,21 +348,30 @@ class OrdercgEditForm extends React.Component{
 								<Input placeholder="请输入到付金额" disabled={this.props.nothasFacepay}  autoComplete="off"/>
 							)}
 						</FormItem>
-						{ isChange //代表是新增不是修改
+						{ isChange //修改
 							?
 								<FormItem
 									label="账期类型"
 									labelCol={{ span: 3,offset: 1 }}
 									wrapperCol={{ span: 12 }}
-								>货到　{getFieldDecorator('dayPay', {
+								>{this.props.editInfo.dayPay =='现结' ?
+									<div>
+									{getFieldDecorator('dayPay', {
+										rules: [{ required: true, message: '请输入账期类型' }],
+										initialValue:String(this.props.editInfo.dayPay)
+									})(
+										<Input disabled style={{width:'20%'}} autoComplete="off"/>
+									)}
+									</div>
+									:<div> {this.props.editInfo.paymentType == 10 ?'货':'票'}到　{getFieldDecorator('dayPay', {
 										rules: [{ required: true, message: '请输入账期类型' }],
 										initialValue:String(this.props.editInfo.dayPay)
 									})(
 										<Input disabled style={{width:'10%'}} autoComplete="off"/>
 									)}
-								　个自然日付款
+								　个自然日付款</div>}
 								</FormItem>
-							:
+							: //新增
 								<FormItem
 									label="账期类型"
 									labelCol={{ span: 3,offset: 1 }}
