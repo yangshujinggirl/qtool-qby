@@ -37,7 +37,6 @@ class UpLoadFile extends Component {
     return e && e.fileList;
   }
   onChange =(info)=>{
-    debugger
     if(info.file.status == 'done') {
       this.props.onChange&&this.props.onChange(info.fileList)
     }

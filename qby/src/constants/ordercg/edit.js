@@ -100,10 +100,10 @@ class OrdercgEditForm extends React.Component{
 				data.details = this.props.goodsInfo;
 				data.remark = values.remark;
 				data.type = 10;
+				data.dayPay = this.state.selectedSuppler[0].dayPay;
 				if(this.props.data&&this.props.data.wsAsnId){
 					data.wsAsnId = this.props.data.wsAsnId;
 				};
-				debugger
 				if(!this.props.data){
 					if(values.paymentType == '货到付款')data.paymentType=10;
 					if(values.paymentType == '票到付款')data.paymentType=20;
@@ -353,7 +353,7 @@ class OrdercgEditForm extends React.Component{
 									label="账期类型"
 									labelCol={{ span: 3,offset: 1 }}
 									wrapperCol={{ span: 12 }}
-								>{this.props.editInfo.dayPay =='现结' 
+								>{this.props.editInfo.dayPay =='现结'
 									?
 									<div>
 										{getFieldDecorator('dayPay', {
