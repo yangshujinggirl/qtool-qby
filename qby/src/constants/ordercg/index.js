@@ -205,12 +205,13 @@ class OrdercgIndex extends React.Component{
 		})
 	}
 	//发票管理 取消
-	onCancel =()=> {
-		this.setState({visible:false})
+	onCancel =(clearForm)=> {
+		this.setState({visible:false});
+		clearForm();
 	}
 
 	//发票管理 确认
-	onOk =(values,total)=> {
+	onOk =(values,total,clearForm)=> {
 		saveBillInfoApi(values)
 		.then(res => {
 			if(res.code == "0"){
@@ -227,7 +228,9 @@ class OrdercgIndex extends React.Component{
 				}else{
 					message.success('当前采购单发票已全部完成')
 				};
-				this.setState({visible:false});
+				this.setState(
+					{visible:false},
+				);
 				this.clearChooseInfo();
 				this.props.dispatch({
             type:'ordercg/fetch',
@@ -236,7 +239,8 @@ class OrdercgIndex extends React.Component{
 							values:{...this.props.values}
 						}
         });
-			}
+			};
+			clearForm();
 		})
 	}
 	//强制完成 取消
@@ -249,7 +253,7 @@ class OrdercgIndex extends React.Component{
 		forceSaveApi(values)
 		.then(res => {
 			if(res.code == "0"){
-				message.success(res.message)
+				message.success('强制完成成功',.8);
 				this.initList(this.props.values,this.props.limit,this.props.currentPage)
 				this.clearChooseInfo()
 				this.setState({forceVisible:false})

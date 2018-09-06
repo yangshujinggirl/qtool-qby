@@ -87,6 +87,9 @@ class BillModal extends Component{
   clearForm =()=> {
     this.props.form.resetFields(['record']);
   }
+  onCancel =()=> {
+    this.props.onCancel(this.clearForm);
+  }
   //点击确定
   onOk =()=> {
     this.props.form.validateFieldsAndScroll((err,values)=>{
@@ -112,7 +115,7 @@ class BillModal extends Component{
           const { asnNo,amountSum,wsAsnId} = this.props.billInfo;
           const values_ = {asnNo,amountSum,wsAsnId,invoices}
           if(total < Number(amountSum) || total == Number(amountSum) ){
-            this.props.onOk(values_,total);
+            this.props.onOk(values_,total,this.clearForm);
           }else{
             message.error('发票总金额不可超过到货总金额',.8);
           }
@@ -121,7 +124,7 @@ class BillModal extends Component{
     });
   };
   render(){
-    const { getFieldDecorator }= this.props.form;
+    const { getFieldDecorator } = this.props.form;
     const { asnNo, amountSum, dataSource } = this.props.billInfo;
     return(
       <div>
@@ -129,7 +132,7 @@ class BillModal extends Component{
           title="发票管理"
           visible={this.props.visible}
           onOk={this.onOk}
-          onCancel={this.props.onCancel}
+          onCancel={this.onCancel}
           wrapClassName="billmodal"
         >
           <Form>
