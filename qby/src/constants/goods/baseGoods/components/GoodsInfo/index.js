@@ -84,13 +84,14 @@ class GoodsInfo extends Component {
   renderPurchasePricee =(text, record, index)=> {
     const { pdSkus, specData } = this.props.addGoods;
     let name = specData.specOne.length == 0?'purchasePrice':`pdSkus[${index}].purchasePrice`;
-    return  <div>
+    return  <FormItem className='purchasePrice-input'>
                {this.props.form.getFieldDecorator(name,{
+                 rules:[{pattern:/^\d+(\.\d{0,4})?$/,message:'仅限四位小数'}],
                  initialValue:pdSkus[index].purchasePrice
                })(
                  <Input placeholder="请输入采购价格" autoComplete="off"/>
                )}
-             </div>
+             </FormItem>
   }
   renderReceivePrice =(text, record, index)=> {
     const { pdSkus, specData } = this.props.addGoods;

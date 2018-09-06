@@ -74,5 +74,8 @@ class OperateinoutIndex extends React.Component{
   	)
 	}
 }
-
-export default (OperateinoutIndex);
+function mapStateToProps(state) {
+    const {operateinout} = state;
+    return {operateinout};
+}
+export default connect(mapStateToProps)(OperateinoutIndex);
