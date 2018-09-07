@@ -24,6 +24,7 @@ class BillModal extends Component{
   				      that.props.form.getFieldDecorator(`record[${index}].invoiceCode`,{
                   rules:[
                     {required:true,message:'请输入发票号'},
+                    {pattern:/^[^ ]+$/,message:'不能包含空格'},
                   ],
       						initialValue:record.invoiceCode,
       					})(
