@@ -33,6 +33,8 @@ class MyUploadMd extends React.Component {
                     json.price = file.response.pdSpuAsnLists[i].price;
                     json.qty = file.response.pdSpuAsnLists[i].qty;
                     json.name = file.response.pdSpuAsnLists[i].name;
+                    json.createTime = file.response.pdSpuAsnLists[i].createTime;
+                    json.displayName = file.response.pdSpuAsnLists[i].displayName;
                     json.key = i;
                     goodsInfo.push(json);
                 }
