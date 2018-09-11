@@ -95,7 +95,7 @@ class OrdercgEditForm extends React.Component{
 				data.shippingFeeType = values.shippingFeeType;
 				values.taxRate = values.taxRate.replace('%','');
 				data.taxRate = values.taxRate;
-				data.paymentType = 10;
+				// data.paymentType = 10;
 				data.vouchersType = values.vouchersType;
 				data.details = this.props.goodsInfo;
 				data.remark = values.remark;
