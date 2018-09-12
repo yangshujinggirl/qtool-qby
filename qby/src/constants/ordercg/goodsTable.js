@@ -65,7 +65,13 @@ class GoodsInfoTable extends React.Component {
             return (
               this.props.isEdit
               ?
-                <p style={{textAlign:'center'}}>{this.props.goodsInfo[index].pdName}</p>
+                (
+                  this.props.goodsInfo[0].isImport
+                  ?
+                    <p style={{textAlign:'center'}}>{this.props.goodsInfo[index].name}</p>
+                  :
+                  <p style={{textAlign:'center'}}>{this.props.goodsInfo[index].pdName}</p>
+                )
               :
                 <p style={{textAlign:'center'}}>{this.props.goodsInfo[index].name}</p>
             );
@@ -79,7 +85,11 @@ class GoodsInfoTable extends React.Component {
               return (
                 this.props.isEdit
                 ?
-                  <p style={{textAlign:'center'}}>{this.props.goodsInfo[index].pdSkuType}</p>
+                  (
+                    this.props.goodsInfo[0].isImport
+                    ? <p style={{textAlign:'center'}}>{this.props.goodsInfo[index].displayName}</p>
+                    : <p style={{textAlign:'center'}}>{this.props.goodsInfo[index].pdSkuType}</p>
+                  )
                 :
                   <p style={{textAlign:'center'}}>{this.props.goodsInfo[index].displayName}</p>
 
@@ -113,6 +123,7 @@ class GoodsInfoTable extends React.Component {
         ];
     }
     componentDidMount(){
+
         const mdopdermeth={
             funct:this.settable
         }
@@ -203,6 +214,7 @@ class GoodsInfoTable extends React.Component {
     }
 
     render() {
+      console.log(this.props.goodsInfo[0].isImport)
       return (
         <div style={{marginTop:'0px'}}>
           <Table dataSource={this.props.goodsInfo} style = {{padding:0}} columns={this.columns} pagination={false} showHeader={true} bordered={false} className='OrderCenterEidt'/>

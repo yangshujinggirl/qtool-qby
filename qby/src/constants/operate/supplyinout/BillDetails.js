@@ -84,6 +84,7 @@ onCancel =()=> {
 render(){
 	console.log(this.props);
   const {
+		payType,
     settlementNo,
     outNo,
     typeStr,
@@ -126,7 +127,7 @@ render(){
                 <div className='cardlist_item'><label>供应商名称：</label><span>{name}</span></div>
                 <div className='cardlist_item'><label>关联业务人员：</label><span>{userName}</span></div>
                 <div className='cardlist_item'>
-									{ this.props.data == 10
+									{ payType == 10
 										? <span><label>应收金额：</label><span>-{amountSum}</span></span>
 										:<span><label>应付金额：</label><span>+{amountSum}</span></span>
 									}
