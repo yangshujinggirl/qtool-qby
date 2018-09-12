@@ -218,7 +218,7 @@ class Supplyinout extends Component{
     const rolelists = this.props.data.rolelists;
     //已结算
     const hadClose = rolelists.find((currentValue,index)=>{
-			return currentValue.url=="qerp.web.pd.settle.update0"
+			return currentValue.url=="qerp.web.pd.settle.update1"
 		})
     //待结算
     const noClose = rolelists.find((currentValue,index)=>{
