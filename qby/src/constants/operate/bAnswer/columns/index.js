@@ -5,7 +5,7 @@ const Columns = [{
        return(
          text.length>15
          ?
-          <p>{text.slice(0,15)}</p>
+          <p>{text.slice(0,15)+'...'}</p>
          :
           <p>{text}</p>
        )
