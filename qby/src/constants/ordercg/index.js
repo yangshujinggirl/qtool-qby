@@ -276,7 +276,7 @@ class OrdercgIndex extends React.Component{
 		});
 	}
 	render(){
-		const rolelists=this.props.data.rolelists
+		const rolelists=this.props.data.rolelists;
 		//新增采购单
 		const addorder=rolelists.find((currentValue,index)=>{
 			return currentValue.url=="qerp.web.ws.asn.save"
@@ -351,6 +351,7 @@ class OrdercgIndex extends React.Component{
 					}
        		<div className='mt15'>
 						<OrdercgTable
+							rolelists={rolelists}
 							addorderobj={addorder}
 							onOperateClick={this.handleOperateClick}
 						/>

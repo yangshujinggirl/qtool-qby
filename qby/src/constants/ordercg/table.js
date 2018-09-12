@@ -75,8 +75,13 @@ class OrdercgTable extends React.Component {
 				title: '操作2',
 				dataIndex: 'opation2',
 				render: (text, record) => {
+					const rolelists=this.props.rolelists;
+					//发票管理
+					const addorder = rolelists.find((currentValue,index)=>{
+						return currentValue.url == "qerp.web.ws.invoice.save"
+					});
 					return(
-						record.status == 30 && record.invoiceStatus!=30?
+						record.status == 30 && record.invoiceStatus!=30 && addorder?
 							<a
 								href="javascript:;"
 								onClick={ this.props.onOperateClick.bind(this,record) }
@@ -134,7 +139,10 @@ class OrdercgTable extends React.Component {
 		];
 
     }
-
+		componentDidMount(){
+			//执行初始化数据方法获取list
+			this.initList(this.props.values,this.props.limit,this.props.currentPage);
+		}
     //点击表格上的修改按钮操作
     lookInfo = (record) =>{
        const wsAsnId=String(record.wsAsnId);
@@ -146,7 +154,6 @@ class OrdercgTable extends React.Component {
     }
     //修改采购单
     editInfo = (record) =>{
-			console.log(record)
       const wsAsnId=String(record.wsAsnId);
        const paneitem={title:'修改采购单',key:'202000edit'+wsAsnId,data:{wsAsnId:wsAsnId},componkey:'202000edit'}
        this.props.dispatch({
@@ -197,7 +204,6 @@ class OrdercgTable extends React.Component {
 
     //列表数据选择
 	selectChange=(selectedRowKeys,selectedRows)=>{
-		console.log(selectedRows)
       	this.props.dispatch({
         	type:'ordercg/select',
         	payload:{selectedRowKeys,selectedRows}
@@ -223,10 +229,7 @@ class OrdercgTable extends React.Component {
               />
         );
 	}
-	componentDidMount(){
-    //执行初始化数据方法获取list
-		this.initList(this.props.values,this.props.limit,this.props.currentPage);
-	}
+
 
 }
 

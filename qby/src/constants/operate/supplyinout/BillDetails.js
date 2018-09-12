@@ -82,6 +82,7 @@ onCancel =()=> {
 }
 
 render(){
+	console.log(this.props);
   const {
     settlementNo,
     outNo,
@@ -94,11 +95,16 @@ render(){
   } = this.state.pdSettles;
   const logs = this.state.logs;
 	const { getFieldDecorator }= this.props.form;
+	const rolelists = this.props.data.rolelists;
+	//修改结算到期日
+	const accountChange = rolelists.find((currentValue,index)=>{
+		return currentValue.url=="qerp.web.pd.settle.update"
+	})
 	return(
 			<div className='bill_detail'>
         <div className='mb10 change_day'>
 					{
-						this.props.data.status == 0
+						this.props.data.status == 0 && accountChange
 						?
 							<Button
 								size='large'
@@ -106,7 +112,6 @@ render(){
 								type='primary'>修改结算到期日
 							</Button>
 						:	null
-
 					}
 
         </div>

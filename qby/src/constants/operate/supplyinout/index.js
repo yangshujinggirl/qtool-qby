@@ -135,13 +135,15 @@ class Supplyinout extends Component{
   }
   //点击跳转结算单明细页
   getbillDetail(record){
+    const rolelists = this.props.data.rolelists;
     const paneitem = {
       title:'结算单明细',
       key:`${this.props.componkey}edit`,
       componkey:`${this.props.componkey}edit`,
       data:{
         pdSettlementId:record.pdSettlementId,
-        status:record.status
+        status:record.status,
+        rolelists:rolelists
       }
     }
     this.props.dispatch({
