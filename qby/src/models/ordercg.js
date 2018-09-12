@@ -192,8 +192,10 @@ export default {
               editInfo.vouchersType = info.vouchersType;
               if(info.taxRate == null ||info.taxRate == undefined){
                   editInfo.taxRate = [];
+              }else if(info.taxRate==-1){
+                editInfo.taxRate = '不含税';
               }else{
-                  editInfo.taxRate = String(info.taxRate)+'%';
+                editInfo.taxRate = String(info.taxRate)+'%';
               }
               const goodsInfoList =  result.details;
               let goodsInfo = [];

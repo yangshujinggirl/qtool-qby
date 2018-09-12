@@ -93,9 +93,12 @@ class OrdercgEditForm extends React.Component{
 				data.shippingFee = values.shippingFee;
 				data.wsWarehouseId = values.wsWarehouseId;
 				data.shippingFeeType = values.shippingFeeType;
-				values.taxRate = values.taxRate.replace('%','');
-				data.taxRate = values.taxRate;
-				// data.paymentType = 10;
+				if(values.taxRate == '不含税'){
+					data.taxRate = -1;
+					data.taxRateType = 0;
+				}else{
+					data.taxRate = values.taxRate.replace('%','');
+				}
 				data.vouchersType = values.vouchersType;
 				data.details = this.props.goodsInfo;
 				data.remark = values.remark;
@@ -171,7 +174,7 @@ class OrdercgEditForm extends React.Component{
   //选择供应商
   selectSupplier =(value)=> {
 		const arr = this.state.suppliers.filter(item => item.pdSupplierId==value);
-		if(arr[0].taxRate == 0){
+		if(arr[0].taxRate == -1){
 			arr[0].taxRate = '不含税';
 		}else{
 			arr[0].taxRate = arr[0].taxRate + '%'
@@ -241,6 +244,7 @@ class OrdercgEditForm extends React.Component{
 		const { getFieldDecorator } = this.props.form;
 		const { selectedSuppler } = this.state;
 		const isChange = Boolean(this.props.data&&this.props.data.wsAsnId) //是否为修改
+		console.log(this.props)
      	return(
 				<div>
 					<MyUploadMd/>
@@ -353,7 +357,7 @@ class OrdercgEditForm extends React.Component{
 									label="账期类型"
 									labelCol={{ span: 3,offset: 1 }}
 									wrapperCol={{ span: 12 }}
-								>{this.props.editInfo.dayPay =='现结'
+								>{this.props.editInfo.paymentType =='30'
 									?
 									<div>
 										{getFieldDecorator('dayPay', {

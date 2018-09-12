@@ -65,7 +65,7 @@ class OrdercgTable extends React.Component {
 				dataIndex: 'opation',
 				render: (text, record) => {
 				return(
-					record.status == 10?
+					record.status != 30 && record.payStatus != 20 ?
 						<TableLink text='修改' hindClick={this.editInfo.bind(this,record)} type="1"/>
 						:null
 				);
