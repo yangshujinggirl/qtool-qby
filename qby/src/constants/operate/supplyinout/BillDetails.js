@@ -92,7 +92,8 @@ render(){
     expireDate,
     name,
     userName,
-    amountSum
+    amountSum,
+		createTime
   } = this.state.pdSettles;
   const logs = this.state.logs;
 	const { getFieldDecorator }= this.props.form;
@@ -121,6 +122,7 @@ render(){
             <div className='cardlist'>
                 <div className='cardlist_item'><label>结算单号：</label><span>{settlementNo}</span></div>
                 <div className='cardlist_item'><label>关联订单：</label><span>{outNo}</span></div>
+                <div className='cardlist_item'><label>结算单生成时间：</label><span>{createTime}</span></div>
                 <div className='cardlist_item'><label>类型：</label><span>{typeStr}</span></div>
                 <div className='cardlist_item'><label>是否已结算：</label><span>{statusStr}</span></div>
                 <div className='cardlist_item'><label>结算到期日：</label><span>{expireDate}</span></div>
