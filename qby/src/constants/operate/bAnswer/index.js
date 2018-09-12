@@ -98,19 +98,29 @@ class Banswer extends Component{
 
   render(){
     const { dataList } = this.props.bAnswer;
-
+    const rolelists=this.props.data.rolelists
+    //新增问答
+		const addanswer=rolelists.find((currentValue,index)=>{
+			return currentValue.url=="qerp.web.pd.answer.save"
+		})
     return(
       <div className='qtools-components-pages'>
         <FilterForm
           submit={this.searchData}
           onValuesChange = {this.searchDataChange}/>
         <div className="handel-btn-lists">
-          <Button
-            size='large'
-            type='primary'
-            onClick={this.addAnswer}>
-            新增问答
-          </Button>
+          {
+            addanswer
+            ?
+              <Button
+                size='large'
+                type='primary'
+                onClick={this.addAnswer}>
+                新增问答
+              </Button>
+            :null
+          }
+
         </div>
         <Qtable
           dataSource = {dataList}

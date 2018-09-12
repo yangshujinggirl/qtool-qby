@@ -218,19 +218,19 @@ class Supplyinout extends Component{
     const rolelists = this.props.data.rolelists;
     //已结算
     const hadClose = rolelists.find((currentValue,index)=>{
-			return currentValue.url=="qerp.web.pd.bPush.save"
+			return currentValue.url=="qerp.web.pd.settle.update0"
 		})
     //待结算
     const noClose = rolelists.find((currentValue,index)=>{
-			return currentValue.url=="qerp.web.pd.bPush.revoke"
+			return currentValue.url=="qerp.web.pd.settle.update1"
 		})
     //导出数据
     const exportData = rolelists.find((currentValue,index)=>{
-			return currentValue.url=="qerp.web.pd.bPush.revoke"
+			return currentValue.url=="qerp.web.pd.settle.export"
 		})
     //导出请款表
     const exportList = rolelists.find((currentValue,index)=>{
-			return currentValue.url=="qerp.web.pd.bPush.revoke"
+			return currentValue.url=="qerp.web.pd.settle.funds.export"
 		})
     const {dataList} = this.props.supplyinout;
     return(
@@ -240,30 +240,53 @@ class Supplyinout extends Component{
           onValuesChange = {this.searchDataChange}
         />
         <div className="handel-btn-lists">
-            <Button
-              size='large'
-              type='primary'
-              onClick={()=>this.changeCountStatus('hadCount',1)}>
-              已结算
-            </Button>
-            <Button
-              size='large'
-              type='primary'
-              onClick={()=>this.changeCountStatus('onCount',0)}>
-              待结算
-            </Button>
-            <Button
-              size='large'
-              onClick={()=>{this.exportData(22)}}
-              type='primary'>
-              导出数据
-            </Button>
-            <Button
-              size='large'
-              onClick={()=>{this.exportData(23)}}
-              type='primary'>
-              导出请款表
-            </Button>
+          {
+            hadClose
+            ?
+              <Button
+                size='large'
+                type='primary'
+                onClick={()=>this.changeCountStatus('hadCount',1)}>
+                已结算
+              </Button>
+            : null
+          }
+          {
+            noClose
+            ?
+              <Button
+                size='large'
+                type='primary'
+                onClick={()=>this.changeCountStatus('onCount',0)}>
+                待结算
+              </Button>
+            : null
+          }
+
+
+            {
+              exportData
+              ?
+                <Button
+                  size='large'
+                  onClick={()=>{this.exportData(22)}}
+                  type='primary'>
+                  导出数据
+                </Button>
+              : null
+
+            }
+            {
+              exportList
+              ?
+                <Button
+                  size='large'
+                  onClick={()=>{this.exportData(23)}}
+                  type='primary'>
+                  导出请款表
+                </Button>
+              : null
+            }
         </div>
         <div className='total-account'>
           共 {this.props.supplyinout.totalStatusNo} 条收支未结算
