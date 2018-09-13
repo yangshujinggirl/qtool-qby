@@ -64,11 +64,16 @@ class OrdercgTable extends React.Component {
 				title: '操作1',
 				dataIndex: 'opation',
 				render: (text, record) => {
+					const rolelists=this.props.rolelists;
+					//发票管理
+					const addordercg = rolelists.find((currentValue,index)=>{
+						return currentValue.url == "qerp.web.ws.asn.save"
+					});
 				return(
-					record.status != 30 && record.payStatus != 20 ?
+					record.status != 30 && record.payStatus != 20 && addordercg ?
 						<TableLink text='修改' hindClick={this.editInfo.bind(this,record)} type="1"/>
 						:null
-				);
+					);
 				}
 			},
 			{
