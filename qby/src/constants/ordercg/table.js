@@ -80,7 +80,6 @@ class OrdercgTable extends React.Component {
 					const addorder = rolelists.find((currentValue,index)=>{
 						return currentValue.url == "qerp.web.ws.invoice.save"
 					});
-					console.log(addorder)
 					return(
 						record.status == 30 && record.invoiceStatus!=30 && addorder?
 							<a
@@ -95,49 +94,49 @@ class OrdercgTable extends React.Component {
 			}
 		];
 
-		this.columnsrole = [
-			{
-				title: '采购单号',
-				dataIndex: 'asnNo',
-				render: (text, record) => {
-				return (
-						<TableLink text={text} hindClick={this.lookInfo.bind(this,record)} type='1'/>
-				);
-				}
-			},
-			{
-				title: '供应商名称',
-				dataIndex: 'name'
-			},
-			{
-				title: '商品数量',
-				dataIndex: 'qtySum'
-			},
-			{
-				title: '订单金额',
-				dataIndex: 'amountSum'
-			},
-			{
-				title: '到货数量',
-				dataIndex: 'qtyReceived'
-			},
-			{
-				title: '到货金额',
-				dataIndex: 'moneyReceived'
-			},
-			{
-				title: '订单状态',
-				dataIndex: 'statusStr'
-			},
-			{
-			title: '预计送达时间',
-			dataIndex: 'expectedTime'
-			},
-			{
-				title: '付款状态',
-				dataIndex: 'payStatusStr'
-			}
-		];
+		// this.columnsrole = [
+		// 	{
+		// 		title: '采购单号',
+		// 		dataIndex: 'asnNo',
+		// 		render: (text, record) => {
+		// 		return (
+		// 				<TableLink text={text} hindClick={this.lookInfo.bind(this,record)} type='1'/>
+		// 		);
+		// 		}
+		// 	},
+		// 	{
+		// 		title: '供应商名称',
+		// 		dataIndex: 'name'
+		// 	},
+		// 	{
+		// 		title: '商品数量',
+		// 		dataIndex: 'qtySum'
+		// 	},
+		// 	{
+		// 		title: '订单金额',
+		// 		dataIndex: 'amountSum'
+		// 	},
+		// 	{
+		// 		title: '到货数量',
+		// 		dataIndex: 'qtyReceived'
+		// 	},
+		// 	{
+		// 		title: '到货金额',
+		// 		dataIndex: 'moneyReceived'
+		// 	},
+		// 	{
+		// 		title: '订单状态',
+		// 		dataIndex: 'statusStr'
+		// 	},
+		// 	{
+		// 	title: '预计送达时间',
+		// 	dataIndex: 'expectedTime'
+		// 	},
+		// 	{
+		// 		title: '付款状态',
+		// 		dataIndex: 'payStatusStr'
+		// 	}
+		// ];
 
     }
 		componentDidMount(){
@@ -212,10 +211,11 @@ class OrdercgTable extends React.Component {
   	}
 
     render() {
+
         return (
             <EditableTable
               dataSource={this.props.tableList}
-              columns={this.props.addorderobj?this.columns:this.columnsrole}
+              columns={this.columns}
               footer={true}
               pageChange={this.pageChange.bind(this)}
               pageSizeChange={this.pageSizeChange.bind(this)}
