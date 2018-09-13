@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Modal, message } from 'antd'
 import { connect } from 'dva'
-import Columns from './columns/index'
+import { Columns,Columns2 } from './columns/index'
 import Qtable from '../../../components/Qtable/index'; //表单
 import Qpagination from '../../../components/Qpagination/index'; //分页
 import FilterForm from './components/FilterForm/index'
@@ -124,7 +124,7 @@ class Banswer extends Component{
         </div>
         <Qtable
           dataSource = {dataList}
-          columns = {Columns}
+          columns = {addanswer?Columns:Columns2}
           onOperateClick = {this.handleOperateClick.bind(this)}/>
         {
           dataList.length>0&&
