@@ -177,7 +177,11 @@ class OrdercgEditForm extends React.Component{
 		if(arr[0].taxRate == -1){
 			arr[0].taxRate = '不含税';
 		}else{
-			arr[0].taxRate = arr[0].taxRate + '%'
+			if(String(arr[0].taxRate).indexOf('%') != -1){
+				arr[0].taxRate == arr[0].taxRate;
+			}else{
+				arr[0].taxRate = arr[0].taxRate + '%'
+			}
 		}
 		this.setState({selectedSuppler:arr})
 		let tempFormvalue = deepcCloneObj(this.props.editInfo);
@@ -244,7 +248,6 @@ class OrdercgEditForm extends React.Component{
 		const { getFieldDecorator } = this.props.form;
 		const { selectedSuppler } = this.state;
 		const isChange = Boolean(this.props.data&&this.props.data.wsAsnId) //是否为修改
-		console.log(this.props)
      	return(
 				<div>
 					<MyUploadMd/>

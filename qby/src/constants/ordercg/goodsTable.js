@@ -214,7 +214,6 @@ class GoodsInfoTable extends React.Component {
     }
 
     render() {
-      console.log(this.props.goodsInfo[0].isImport)
       return (
         <div style={{marginTop:'0px'}}>
           <Table dataSource={this.props.goodsInfo} style = {{padding:0}} columns={this.columns} pagination={false} showHeader={true} bordered={false} className='OrderCenterEidt'/>
