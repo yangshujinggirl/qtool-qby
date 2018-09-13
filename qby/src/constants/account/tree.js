@@ -25,7 +25,7 @@ class Treerole extends React.Component {
 		for(var i=0;i<e.checkedNodes.length;i++){
 			if((!e.checkedNodes[i].props.children) || (e.checkedNodes[i].props.children.length<1)){
 				postcheckedKeys.push(e.checkedNodes[i].key)
-                if(e.checkedNodes[i].props.code!='0'){
+        if(e.checkedNodes[i].props.code!='0'){
 					//处理基础权限
 					const newcheckedKeys=checkedKeys.filter((item)=>{
 						return item==e.checkedNodes[i].props.code
@@ -35,7 +35,6 @@ class Treerole extends React.Component {
 						postcheckedKeys.push(e.checkedNodes[i].props.code)
 					}
 				}
-
 			}
 		}
 		this.setState({
@@ -88,6 +87,7 @@ class Treerole extends React.Component {
 			if(json.code=='0'){
 				const urRoles=json.urRoles
 				this.renderRoleData(urRoles)
+        console.log(urRoles)
 				this.setState({
 					treeData:urRoles,
 					checkedKeys:this.props.checkedKeys,

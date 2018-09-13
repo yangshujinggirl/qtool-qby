@@ -80,6 +80,7 @@ class OrdercgTable extends React.Component {
 					const addorder = rolelists.find((currentValue,index)=>{
 						return currentValue.url == "qerp.web.ws.invoice.save"
 					});
+					console.log(addorder)
 					return(
 						record.status == 30 && record.invoiceStatus!=30 && addorder?
 							<a
