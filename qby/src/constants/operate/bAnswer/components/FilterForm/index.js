@@ -42,11 +42,12 @@ class NormalForm extends Component{
                 <FormItem label='问题类型'>
                     {getFieldDecorator('type')(
                     <Select allowClear={true} placeholder="请选择问题类型" className='select'>
-                        <Option value={10}>问题类型 </Option>
                         <Option value={20}>运营问题 </Option>
                         <Option value={30}>商品问题</Option>
                         <Option value={40}>设计问题</Option>
                         <Option value={50}>招商问题 </Option>
+                        <Option value={60}>系统类型 </Option>
+                        <Option value={70}>其他 </Option>
                     </Select>
                     )}
                 </FormItem>

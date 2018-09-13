@@ -285,7 +285,7 @@ class OrdercgEditForm extends React.Component{
 										<Option value={10}>新品首单</Option>
 										<Option value={20}>正常品单</Option>
 										<Option value={30}>缺货压货单</Option>
-										<Option value={40}>已付款</Option>
+										<Option value={40}>样品订单</Option>
 								</Select>
 							)}
 						</FormItem>
