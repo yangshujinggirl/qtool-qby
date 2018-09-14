@@ -99,7 +99,6 @@ class OperatesupplierEditForm extends React.Component{
         if(this.props.data){
           data.pdSupplierId = this.props.data.pdSupplierId;
         };
-				debugger
 				if(values.goodDay||values.billDay){
 					values.dayPay = values.goodDay||values.billDay;
 				}
