@@ -90,6 +90,7 @@ class OrdercgEditForm extends React.Component{
 		this.props.form.validateFields((err, values) => {
       if (!err) {
 				let data = this.props.editInfo;
+				console.log(this.props.editInfo)
 				data.shippingFee = values.shippingFee;
 				data.wsWarehouseId = values.wsWarehouseId;
 				data.shippingFeeType = values.shippingFeeType;
@@ -98,6 +99,7 @@ class OrdercgEditForm extends React.Component{
 					data.taxRateType = 0;
 				}else{
 					data.taxRate = values.taxRate.replace('%','');
+					data.taxRateType = 1;
 				}
 				data.vouchersType = values.vouchersType;
 				data.details = this.props.goodsInfo;
@@ -245,6 +247,7 @@ class OrdercgEditForm extends React.Component{
 	}
 
 	render(){
+		console.log(this.props.editInfo)
 		const { getFieldDecorator } = this.props.form;
 		const { selectedSuppler } = this.state;
 		const isChange = Boolean(this.props.data&&this.props.data.wsAsnId) //是否为修改
