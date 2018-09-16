@@ -94,8 +94,8 @@ class AppBase extends Component{
     return(
       <div>
         <div className='clearfix mb10'>
-          <p className='fr pointer'>数据定义说明
-            <Icon type="question-circle-o" onClick={this.desinfo} style={{color:"#ED6531",marginLeft:"4px"}}/>
+          <p className='fr pointer' onClick={this.desinfo} >数据定义说明
+            <Icon type="question-circle-o" style={{color:"#ED6531",marginLeft:"4px"}}/>
           </p>
         </div>
         <Cards data={data1}/>

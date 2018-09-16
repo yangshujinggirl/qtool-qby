@@ -18,7 +18,7 @@ const RangePicker = DatePicker.RangePicker
 class NormalForm extends Component{
   //点击搜索
   handleSubmit = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       const{rangePicker,..._values} = values;
       if(rangePicker&&rangePicker[0]){
