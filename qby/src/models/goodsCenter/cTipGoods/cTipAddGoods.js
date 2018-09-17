@@ -20,6 +20,15 @@ export default {
     getGoodsInfo(state, { payload : { pdSpu, fileList } }) {
       return { ...state, pdSpu, fileList }
     },
+    changeSilver(state, { payload : { record, status}}) {
+      let pdSpu = state.pdSpu;
+      pdSpu.pdSkus.map((el,index) => {
+        if(record.key == el.key) {
+          el.silverDisabled = status;
+        }
+      })
+      return { ...state, pdSpu }
+    },
   },
   effects: {
     *fetchGoodsInfo({ payload: values },{ call, put ,select}) {
@@ -51,6 +60,7 @@ export default {
             el.name = el.pdType2Val?`${name1}/${name2}`:`${name1}`;
             el.key = el.pdSkuId;
             el.imgUrl = `${fileDomain}${el.picUrl}`;
+            el.silverDisabled = el.goldCardPrice?false:true;
             iPdSpu.isSkus = el.pdType1Val?true:false;
             return el
           })
@@ -64,7 +74,8 @@ export default {
                   tagPrice:iPdSpu.tagPrice,
                   key:iPdSpu.barcode,
                   silverCardPrice:iPdSpu.silverCardPrice,
-                  goldCardPrice:iPdSpu.goldCardPrice
+                  goldCardPrice:iPdSpu.goldCardPrice,
+                  silverDisabled:iPdSpu.goldCardPrice?false:true
                 }
           pdSkus.push(initPdspuData);
         }

@@ -21,31 +21,53 @@ class GoodsInfo extends Component {
   constructor(props) {
     super(props);
   }
-  //比例自定义校验
-  validatorGoldPrice(rule, value, callback,record) {
-    let price = (record.toCPrice).toFixed(2);
+  changeGold(e,record) {
+    let price = (Number(record.toCPrice)).toFixed(2);
     let minPrice = (price*0.8).toFixed(2);
     let maxPrice = record.toCPrice;
-
-    if(value>maxPrice||) {
-      callback('分成比例不能大于100');
-    } else if(value<minPrice){
-      callback('分成比例不能大于100');
+    const value = e.nativeEvent.target.value;
+    record.goldCardPrice = value;
+    let status;
+    //控制银卡表单
+    if(value>minPrice&&value<maxPrice) {
+      status = false;
     } else {
+      status = true;
+    }
+    this.props.dispatch({
+      type:'cTipAddGoods/changeSilver',
+      payload:{
+        record,
+        status
+      }
+    })
+  }
+  //比例自定义校验
+  validatorGoldPrice(rule, value, callback,record) {
+    let price = (Number(record.toCPrice)).toFixed(2);
+    let minPrice = (price*0.8).toFixed(2);
+    let maxPrice = record.toCPrice;
+    if(value>=minPrice&&value<=maxPrice) {
       callback();
+    } else {
+      callback(`请输入${minPrice}~${maxPrice}之间的价格`);
     }
   }
   validatorPrice(rule, value, callback,record) {
-    let price = (record.toCPrice).toFixed(2);
+    let price = (Number(record.toCPrice)).toFixed(2);
     let goldPrice = record.goldCardPrice;
-    let minPrice = (price*0.9).toFixed(2);
+    let silverPrice = (price*0.9).toFixed(2);
+    let minPrice;
     let maxPrice = record.toCPrice;
-    if(value>maxPrice) {
-      callback('分成比例不能大于100');
-    } else if(value<minPrice){
-      callback('分成比例不能大于100');
+    if(goldPrice>silverPrice) {
+      minPrice = goldPrice;
     } else {
+      minPrice = silverPrice;
+    }
+    if(value>=minPrice&&value<=maxPrice) {
       callback();
+    } else {
+      callback(`请输入${minPrice}~${maxPrice}之间的价格`);
     }
   }
   renderGoldPrice =(text, record, index)=> {
@@ -57,7 +79,8 @@ class GoodsInfo extends Component {
                   {pattern:/^[0-9]+([.]{1}[0-9]+){0,1}$/,message:'仅限2位小数'},
                   {validator:(rule, value, callback)=>this.validatorGoldPrice(rule, value, callback,record)}
                 ],
-                initialValue:pdSpu.pdSkus[index].goldCardPrice
+                initialValue:pdSpu.pdSkus[index].goldCardPrice,
+                onChange:(e)=>this.changeGold(e,record)
               })(
                 <Input placeholder="请输入金卡价格" autoComplete="off"/>
               )}
@@ -74,7 +97,7 @@ class GoodsInfo extends Component {
                 ],
                 initialValue:pdSpu.pdSkus[index].silverCardPrice
               })(
-                <Input placeholder="请输入银卡价格" autoComplete="off"/>
+                <Input placeholder="请输入银卡价格" autoComplete="off" disabled={record.silverDisabled}/>
               )}
             </FormItem>
   }
@@ -93,7 +116,6 @@ class GoodsInfo extends Component {
   }
   render() {
     const { pdSpu } = this.props.cTipAddGoods;
-    console.log(pdSpu)
     return(
         <Table
           className="cGoods-goodsInfo-table"
