@@ -7,7 +7,7 @@ export default {
   state: {
     fileList:[],
     pdSpu:{
-      isHasSize:false,
+      isSkus:false,
     },
   },
   reducers: {
@@ -62,7 +62,9 @@ export default {
                   toCPrice:iPdSpu.toCPrice,
                   costPrice:iPdSpu.costPrice,
                   tagPrice:iPdSpu.tagPrice,
-                  key:iPdSpu.barcode
+                  key:iPdSpu.barcode,
+                  silverCardPrice:iPdSpu.silverCardPrice,
+                  goldCardPrice:iPdSpu.goldCardPrice
                 }
           pdSkus.push(initPdspuData);
         }

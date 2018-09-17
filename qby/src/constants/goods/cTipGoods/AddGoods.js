@@ -16,6 +16,7 @@ import Imgmodel from '../../../components/model/modelimg';
 
 import Qtable from '../../../components/Qtable';
 import { DetailColumns, DetailSizeColumns} from './columns/detailColumns'
+import GoodsInfo from './components/GoodsInfo';
 
 
 const FormItem = Form.Item;
@@ -84,6 +85,7 @@ class AddGoodsForm extends Component {
     const { pdSpuId, source } =this.props.data;
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
+      console.log(values)
       if (!err) {
         values = Object.assign(values,{
           pdSpuId
@@ -192,8 +194,11 @@ class AddGoodsForm extends Component {
             </Col>
             <Col span={24}>
               <FormItem label='商品信息' {...formItemLayout2}>
-                 <Qtable
+                 {/* <Qtable
                    columns={pdSpu.isSkus?DetailSizeColumns:DetailColumns}
+                   dataSource={pdSpu.pdSkus}/> */}
+                 <GoodsInfo
+                   form={this.props.form}
                    dataSource={pdSpu.pdSkus}/>
                </FormItem>
             </Col>
