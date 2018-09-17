@@ -46,16 +46,6 @@ class NormalForm extends Component{
                   <Input placeholder='请输入创建人' autoComplete="off"/>
                 )}
               </FormItem>
-              <FormItem label='推送状态'>
-                  {getFieldDecorator('status')(
-                  <Select allowClear={true} placeholder="请选择推送状态" className='select'>
-                      {/* <Option value='10'>待发货</Option> */}
-                      <Option value='1'>待推送</Option>
-                      <Option value='2'>已推送</Option>
-                      <Option value='3'>已撤销</Option>
-                  </Select>
-                  )}
-                </FormItem>
                 <FormItem label='推送状态'>
                     {getFieldDecorator('status')(
                     <Select allowClear={true} placeholder="请选择推送状态" className='select'>
@@ -83,13 +73,6 @@ class NormalForm extends Component{
                   {getFieldDecorator('rangePicker')(
                     <RangePicker showTime format="YYYY-MM-DD HH:mm:ss"/>
                   )}
-              </FormItem>
-              <FormItem
-                  label="推送时间"
-              >
-                {getFieldDecorator('rangePicker')(
-                  <RangePicker showTime format="YYYY-MM-DD HH:mm:ss"/>
-                )}
               </FormItem>
             </div>
           </div>
