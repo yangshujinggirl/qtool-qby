@@ -61,7 +61,7 @@ export default {
             el.key = el.pdSkuId;
             el.imgUrl = `${fileDomain}${el.picUrl}`;
             el.silverDisabled = el.goldCardPrice?false:true;
-            iPdSpu.isSkus = el.pdType1Val?true:false;
+            iPdSpu.isSkus = iPdSpu.skuStatus?true:false;
             return el
           })
         } else {

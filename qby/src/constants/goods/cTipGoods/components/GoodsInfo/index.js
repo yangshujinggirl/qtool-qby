@@ -76,8 +76,9 @@ class GoodsInfo extends Component {
   }
   renderGoldPrice =(text, record, index)=> {
     const { pdSpu } = this.props.cTipAddGoods;
+    let name = pdSpu.isSkus?`pdSkus[${index}].goldCardPrice`:'goldCardPrice'
     return  <FormItem className='purchasePrice-input'>
-              {this.props.form.getFieldDecorator(`pdSkus[${index}].goldCardPrice`,{
+              {this.props.form.getFieldDecorator(name,{
                 rules:[
                   {required: true, message: '请输入价格'},
                   {pattern:/^[0-9]+([.]{1}[0-9]+){0,1}$/,message:'仅限2位小数'},
@@ -92,8 +93,9 @@ class GoodsInfo extends Component {
   }
   renderSilverPrice =(text, record, index)=> {
     const { pdSpu } = this.props.cTipAddGoods;
+    let name = pdSpu.isSkus?`pdSkus[${index}].silverCardPrice`:'silverCardPrice';
     return  <FormItem className='purchasePrice-input'>
-              {this.props.form.getFieldDecorator(`pdSkus[${index}].silverCardPrice`,{
+              {this.props.form.getFieldDecorator(name,{
                 rules:[
                   { required: true, message: '请输入价格'},
                   {pattern:/^[0-9]+([.]{1}[0-9]+){0,1}$/,message:'仅限2位小数'},
