@@ -53,7 +53,7 @@ export default {
           ))
         }
         //处理商品信息
-        if(iPdSpu.pdSkus.length>0) {
+        if(iPdSpu.skuStatus ==1) {
           pdSkus = iPdSpu.pdSkus.map((el) => {
             let name1 = el.pdType1Val&&el.pdType1Val.name;
             let name2 = el.pdType2Val&&el.pdType2Val.name;

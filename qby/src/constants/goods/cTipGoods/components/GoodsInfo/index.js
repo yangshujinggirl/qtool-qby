@@ -24,12 +24,13 @@ class GoodsInfo extends Component {
   changeGold(e,record) {
     let price = (Number(record.toCPrice)).toFixed(2);
     let minPrice = (price*0.8).toFixed(2);
-    let maxPrice = record.toCPrice;
-    const value = e.nativeEvent.target.value;
+    let maxPrice = price;
+    const value = Number(e.nativeEvent.target.value);
+    //存储当前金卡价格
     record.goldCardPrice = value;
     let status;
     //控制银卡表单
-    if(value>minPrice&&value<maxPrice) {
+    if(value>=minPrice&&value<=maxPrice) {
       status = false;
     } else {
       status = true;
@@ -44,18 +45,20 @@ class GoodsInfo extends Component {
   }
   //比例自定义校验
   validatorGoldPrice(rule, value, callback,record) {
+    value = Number(value)
     let price = (Number(record.toCPrice)).toFixed(2);
     let minPrice = (price*0.8).toFixed(2);
-    let maxPrice = record.toCPrice;
-    if(value>=minPrice&&value<=maxPrice) {
-      callback();
-    } else {
-      callback(`请输入${minPrice}~${maxPrice}之间的价格`);
+    let maxPrice = Number(record.toCPrice);
+    if(value) {
+      if(value>maxPrice || value<minPrice) {
+        callback(`请输入${minPrice}~${maxPrice}之间的价格`);
+      }
     }
+    callback();
   }
   validatorPrice(rule, value, callback,record) {
     let price = (Number(record.toCPrice)).toFixed(2);
-    let goldPrice = record.goldCardPrice;
+    let goldPrice = Number(record.goldCardPrice);
     let silverPrice = (price*0.9).toFixed(2);
     let minPrice;
     let maxPrice = record.toCPrice;
@@ -64,11 +67,12 @@ class GoodsInfo extends Component {
     } else {
       minPrice = silverPrice;
     }
-    if(value>=minPrice&&value<=maxPrice) {
-      callback();
-    } else {
-      callback(`请输入${minPrice}~${maxPrice}之间的价格`);
+    if(value) {
+      if(value>maxPrice || value<minPrice) {
+        callback(`请输入${minPrice}~${maxPrice}之间的价格`);
+      }
     }
+    callback();
   }
   renderGoldPrice =(text, record, index)=> {
     const { pdSpu } = this.props.cTipAddGoods;

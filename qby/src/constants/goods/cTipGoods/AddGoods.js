@@ -97,7 +97,9 @@ class AddGoodsForm extends Component {
   }
   //参数格式化
   formtParams(values) {
+    let { skuStatus, pdSkus:pdSkusData } =this.props.cTipAddGoods.pdSpu;
     let pdSpuInfo = values.pdSpuInfo;
+    let pdSkus = values.pdSkus;
     if(pdSpuInfo) {
       pdSpuInfo.map((el) => {
         if(el.content instanceof Array) {
@@ -111,6 +113,11 @@ class AddGoodsForm extends Component {
           el.type = '1'
         }
         return el;
+      })
+    }
+    if(skuStatus == 1&&pdSkus.length>0) {
+      pdSkus.map((el,index) => {
+        el.code = pdSkusData[index].code
       })
     }
     return values;
