@@ -121,6 +121,7 @@ class cPush extends Component{
         msgContent:record.msgContent,
         alertTypeStr:record.alertTypeStr,
         pushMan:record.pushMan,
+        pushContent:record.alertTypeContent
       }
     }
     this.props.dispatch({
