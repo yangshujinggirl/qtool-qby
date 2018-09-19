@@ -86,7 +86,21 @@ class OperateinoutTable extends React.Component {
           })
         }
 				if(record.type == '33'){
-          const paneitem={title:'订单详情',key:'402000edit'+ record.outId + 'info27',data:{pdSpuId:record.outId,No:record.name,type:32},componkey:'207000info'}
+          const paneitem={title:'订单详情',key:'402000edit'+ record.outId + 'info27',data:{pdSpuId:record.outId,No:record.name,type:33},componkey:'207000info'}
+          this.props.dispatch({
+            type:'tab/firstAddTab',
+            payload:paneitem
+          })
+        }
+				if(record.type == '34'){
+          const paneitem={title:'提现详情',key:'402000edit'+ record.outId + 'info28',data:{spCarryCashId:record.outId,No:record.name,type:34},componkey:'408000info'}
+          this.props.dispatch({
+            type:'tab/firstAddTab',
+            payload:paneitem
+          })
+        }
+				if(record.type == '35'){
+          const paneitem={title:'提现详情',key:'402000edit'+ record.outId + 'info29',data:{spCarryCashId:record.outId,type:35},componkey:'408000info'}
           this.props.dispatch({
             type:'tab/firstAddTab',
             payload:paneitem
