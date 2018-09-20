@@ -60,7 +60,7 @@ class UpLoadFile extends Component {
          fileList={fileList}
          listType="picture-card"
          className="avatar-uploader"
-         action="/erpWebRest/qcamp/upload.htm?type=banner"
+         action="/erpWebRest/qcamp/upload.htm?type=answerConfig"
          beforeUpload={this.beforeUpload}
          onPreview={this.handlePreview}
          onChange={this.handleChange}>

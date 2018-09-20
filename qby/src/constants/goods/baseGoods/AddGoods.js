@@ -265,6 +265,7 @@ class AddGoodsForm extends Component {
     const { pdSpuId, source } =this.props.data;
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
+      console.log(values)
       if (!err) {
         if(pdSpuId) {
           values = Object.assign(values,{
