@@ -7,7 +7,7 @@ export default {
   state: {
     fileList:[],
     pdSpu:{
-      isSkus:false,
+      isSkus:false,//是不是skus商品
     },
   },
   reducers: {

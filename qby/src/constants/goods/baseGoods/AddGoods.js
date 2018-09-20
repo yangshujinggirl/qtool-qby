@@ -76,7 +76,8 @@ class AddGoodsForm extends Component {
     this.creatArrow();
   }
   creatArrow() {
-    let arrItem = document.getElementsByClassName('ant-upload-list-item-done');
+    let goodsPicEl = document.getElementById('goods-pic');
+    let arrItem = goodsPicEl.getElementsByClassName('ant-upload-list-item-done');
     if(arrItem&&arrItem.length>0) {
       for(var i=0; i<arrItem.length; i++) {
         let itemElement = arrItem[i];
@@ -667,11 +668,13 @@ class AddGoodsForm extends Component {
             </Col>
             <Col span={24} onClickCapture={(e)=>this.moveItem(e)}>
               <FormItem label='商品图片' {...formItemLayout3}>
-                 <UpLoadFileModal
-                   onChange={this.goSetFileList}
-                   name="spuPics"
-                   fileList={fileList}
-                   form={this.props.form}/>
+                <div id="goods-pic">
+                   <UpLoadFileModal
+                     onChange={this.goSetFileList}
+                     name="spuPics"
+                     fileList={fileList}
+                     form={this.props.form}/>
+                 </div>
                </FormItem>
             </Col>
             <Col span={24}>

@@ -43,6 +43,29 @@ class GoodsInfo extends Component {
       }
     })
   }
+  changeSilver(e,record) {
+    const status = record.silverDisabled;
+    const value = Number(e.nativeEvent.target.value);
+    //存储当前金卡价格
+    record.silverCardPrice = value;
+    this.props.dispatch({
+      type:'cTipAddGoods/changeSilver',
+      payload:{
+        record,
+        status
+      }
+    })
+  }
+  validatorPattern(rule, value, callback,) {
+    let pattern = /^\d+(?:\.\d{1,2})?$/;
+    if(value&&!pattern.test(value)) {
+      callback('仅限2位小数');
+      return false;
+    } else {
+      callback();
+      return true
+    }
+  }
   //比例自定义校验
   validatorGoldPrice(rule, value, callback,record) {
     value = Number(value)
@@ -52,11 +75,16 @@ class GoodsInfo extends Component {
     if(value) {
       if(value>maxPrice || value<minPrice) {
         callback(`请输入${minPrice}~${maxPrice}之间的价格`);
+      } else {
+        callback();
       }
+    } else {
+      callback();
     }
-    callback();
+
   }
   validatorPrice(rule, value, callback,record) {
+    value = Number(value)
     let price = (Number(record.toCPrice)).toFixed(2);
     let goldPrice = Number(record.goldCardPrice);
     let silverPrice = (price*0.9).toFixed(2);
@@ -81,7 +109,7 @@ class GoodsInfo extends Component {
               {this.props.form.getFieldDecorator(name,{
                 rules:[
                   {required: true, message: '请输入价格'},
-                  {pattern:/^[0-9]+([.]{1}[0-9]+){0,1}$/,message:'仅限2位小数'},
+                  {pattern:/^\d+(?:\.\d{1,2})?$/,message:'仅限2位小数'},
                   {validator:(rule, value, callback)=>this.validatorGoldPrice(rule, value, callback,record)}
                 ],
                 initialValue:pdSpu.pdSkus[index].goldCardPrice,
@@ -98,10 +126,11 @@ class GoodsInfo extends Component {
               {this.props.form.getFieldDecorator(name,{
                 rules:[
                   { required: true, message: '请输入价格'},
-                  {pattern:/^[0-9]+([.]{1}[0-9]+){0,1}$/,message:'仅限2位小数'},
+                  {pattern:/^\d+(?:\.\d{1,2})?$/,message:'仅限2位小数'},
                   {validator:(rule, value, callback)=>this.validatorPrice(rule, value, callback,record)}
                 ],
-                initialValue:pdSpu.pdSkus[index].silverCardPrice
+                initialValue:pdSpu.pdSkus[index].silverCardPrice,
+                onChange:(e)=>this.changeSilver(e,record)
               })(
                 <Input placeholder="请输入银卡价格" autoComplete="off" disabled={record.silverDisabled}/>
               )}
