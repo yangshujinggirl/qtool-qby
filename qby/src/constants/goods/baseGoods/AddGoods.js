@@ -265,21 +265,6 @@ class AddGoodsForm extends Component {
     const { pdSpuId, source } =this.props.data;
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
-      for(var key in values){
-        if(String(values[key])==''){ //spu商品属性为'',置为null
-          values[key] = null;
-        };
-        if(key == 'pdSkus' && values[key]){ //有sku,sku商品属性值为'',置为null
-          values[key].map((item)=>{
-            for(var childKey in item){
-              if(item[childKey]==''){
-                item[childKey] = null;
-              };
-            };
-          });
-        };
-      };
-      console.log(values)
       if (!err) {
         if(pdSpuId) {
           values = Object.assign(values,{
@@ -293,6 +278,20 @@ class AddGoodsForm extends Component {
   }
   //格式化数据
   formParams(values) {
+    for(var key in values){
+      if(String(values[key])==''){ //spu商品属性为'',置为null
+        values[key] = null;
+      };
+      if(key == 'pdSkus' && values[key]){ //有sku,sku商品属性值为'',置为null
+        values[key].map((item)=>{
+          for(var childKey in item){
+            if(item[childKey]==''){
+              item[childKey] = null;
+            };
+          };
+        });
+      };
+    };
     //取出store中id品牌，国家
     values.pdBrandId = this.props.addGoods.autoComplete.pdBrandId;
     values.pdCountryId = this.props.addGoods.autoComplete.pdCountryId;

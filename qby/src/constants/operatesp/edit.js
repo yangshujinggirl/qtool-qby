@@ -78,6 +78,7 @@ class SpEditForm extends React.Component{
 	//删除当前tab
 	deleteTab=()=>{
 		const pane = eval(sessionStorage.getItem("pane"));
+		console.log(pane);
 		if(pane.length<=1){
 			return
 		};
