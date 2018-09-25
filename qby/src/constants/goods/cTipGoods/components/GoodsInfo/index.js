@@ -23,8 +23,8 @@ class GoodsInfo extends Component {
   }
   changeGold(e,record) {
     let price = (Number(record.toCPrice)).toFixed(2);
-    let minPrice = (price*0.8).toFixed(2);
-    let maxPrice = price;
+    let minPrice = (price*0.8).toFixed(2);//金价官方折扣价
+    let maxPrice = price;//最高价格
     const value = Number(e.nativeEvent.target.value);
     //存储当前金卡价格
     record.goldCardPrice = value;
@@ -35,6 +35,30 @@ class GoodsInfo extends Component {
     } else {
       status = true;
     }
+    //联动校验银价表单****************************************
+    let silverCardPrice = record.silverCardPrice;//当前银价
+    let index = record.index;
+    let sDiscount = (price*0.9).toFixed(2);//银价官方折扣价
+    let sMinPrice;//银价最小价
+    let name = `pdSkus[${index}].silverCardPrice`;
+    let error;
+    if(value>silverCardPrice) {
+      sMinPrice = value;
+    } else {
+      sMinPrice = sDiscount;
+    }
+    if(silverCardPrice>maxPrice || silverCardPrice<minPrice) {
+      error = `请输入${sMinPrice}~${maxPrice}之间的价格`;
+    }
+    if(error) {
+      this.props.form.setFields({
+        [name]: {
+          value: record.silverCardPrice,
+          errors: [new Error(error)],
+        },
+      });
+    }
+
     this.props.dispatch({
       type:'cTipAddGoods/changeSilver',
       payload:{
@@ -84,6 +108,7 @@ class GoodsInfo extends Component {
 
   }
   validatorPrice(rule, value, callback,record) {
+    console.log('联动校验银价')
     value = Number(value)
     let price = (Number(record.toCPrice)).toFixed(2);
     let goldPrice = Number(record.goldCardPrice);

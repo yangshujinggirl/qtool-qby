@@ -54,13 +54,14 @@ export default {
         }
         //处理商品信息
         if(iPdSpu.skuStatus ==1) {
-          pdSkus = iPdSpu.pdSkus.map((el) => {
+          pdSkus = iPdSpu.pdSkus.map((el, index) => {
             let name1 = el.pdType1Val&&el.pdType1Val.name;
             let name2 = el.pdType2Val&&el.pdType2Val.name;
             el.name = el.pdType2Val?`${name1}/${name2}`:`${name1}`;
             el.key = el.pdSkuId;
             el.imgUrl = `${fileDomain}${el.picUrl}`;
             el.silverDisabled = el.goldCardPrice?false:true;
+            el.index = index;
             iPdSpu.isSkus = iPdSpu.skuStatus?true:false;
             return el
           })
