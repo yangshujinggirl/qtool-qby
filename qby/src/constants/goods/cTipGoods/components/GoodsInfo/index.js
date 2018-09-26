@@ -60,21 +60,24 @@ class GoodsInfo extends Component {
     let sDiscount = price*0.9;//银价官方折扣价
         sDiscount = this.formPrice(sDiscount);
     let sMinPrice;//银价最小价
-    let name = `pdSkus[${index}].silverCardPrice`;
-    let error;
+    let name;//字段
+    let error;//错误信息
+    if(this.props.cTipAddGoods.pdSpu.isSkus) {
+      name = `pdSkus[${index}].silverCardPrice`;
+    } else {
+      name = 'silverCardPrice';
+    }
     //金价大于官方折扣价，最小取金价，否则取官方折扣价
     if(value>sDiscount) {
       sMinPrice = value;
     } else {
       sMinPrice = sDiscount;
     }
-
     if(silverCardPrice>maxPrice || silverCardPrice<sMinPrice) {
       error = `请输入${sMinPrice}~${maxPrice}之间的价格`;
     } else {
       error = ''
     }
-
     this.props.form.setFields({
       [name]: {
         value: record.silverCardPrice,
