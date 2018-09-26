@@ -55,7 +55,8 @@ class GoodsInfo extends Component {
     let sMinPrice;//银价最小价
     let name = `pdSkus[${index}].silverCardPrice`;
     let error;
-    if(value>silverCardPrice) {
+    //金价大于官方折扣价，最小取金价，否则取官方折扣价
+    if(value>sDiscount) {
       sMinPrice = value;
     } else {
       sMinPrice = sDiscount;
@@ -131,6 +132,7 @@ class GoodsInfo extends Component {
         silverPrice = this.formPrice(silverPrice);
     let minPrice;//最低价
     let maxPrice = record.toCPrice;//最高价
+    //金价大于官方折扣价，最小取金价，否则取官方折扣价
     if(goldPrice>silverPrice) {
       minPrice = goldPrice;
     } else {
