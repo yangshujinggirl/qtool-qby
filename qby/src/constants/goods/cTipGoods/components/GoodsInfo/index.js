@@ -22,10 +22,20 @@ class GoodsInfo extends Component {
   constructor(props) {
     super(props);
   }
+  //格式化金额，保留两位小数，3位小数时，直接在2位上进1;
+  formPrice(value) {
+    let stringVal = String(value);
+    stringVal = stringVal.split('.');
+    if(stringVal[1].length>2) {
+      value = value+0.01;
+    }
+    value = NP.round(value, 2);
+    return value;
+  }
   changeGold(e,record) {
     let price = (Number(record.toCPrice)).toFixed(2);
     let minPrice = NP.times(price, 0.8);//金价官方折扣价
-        minPrice = NP.round(minPrice, 2);
+        minPrice = this.formPrice(minPrice);
     let maxPrice = price;//最高价格
     const value = Number(e.nativeEvent.target.value);
     //存储当前金卡价格
@@ -41,7 +51,7 @@ class GoodsInfo extends Component {
     let silverCardPrice = NP.round(record.silverCardPrice,2);//当前银价
     let index = record.index;
     let sDiscount = NP.times(price, 0.9);//银价官方折扣价
-        sDiscount = NP.round(sDiscount, 2);;//银价官方折扣价
+        sDiscount = this.formPrice(sDiscount);
     let sMinPrice;//银价最小价
     let name = `pdSkus[${index}].silverCardPrice`;
     let error;
@@ -56,7 +66,7 @@ class GoodsInfo extends Component {
     } else {
       error = ''
     }
-    
+
     this.props.form.setFields({
       [name]: {
         value: record.silverCardPrice,
@@ -99,7 +109,8 @@ class GoodsInfo extends Component {
   validatorGoldPrice(rule, value, callback,record) {
     value = Number(value)
     let price = (Number(record.toCPrice)).toFixed(2);
-    let minPrice = (price*0.8).toFixed(2);
+    let minPrice = price*0.8;
+        minPrice = this.formPrice(minPrice);
     let maxPrice = Number(record.toCPrice);
     if(value) {
       if(value>maxPrice || value<minPrice) {
@@ -113,13 +124,13 @@ class GoodsInfo extends Component {
 
   }
   validatorPrice(rule, value, callback,record) {
-    console.log('联动校验银价')
     value = Number(value)
-    let price = (Number(record.toCPrice)).toFixed(2);
-    let goldPrice = Number(record.goldCardPrice);
-    let silverPrice = (price*0.9).toFixed(2);
-    let minPrice;
-    let maxPrice = record.toCPrice;
+    let price = (Number(record.toCPrice)).toFixed(2);//原价
+    let goldPrice = Number(record.goldCardPrice);//金价
+    let silverPrice = price*0.9;//银价官方折扣
+        silverPrice = this.formPrice(silverPrice);
+    let minPrice;//最低价
+    let maxPrice = record.toCPrice;//最高价
     if(goldPrice>silverPrice) {
       minPrice = goldPrice;
     } else {
