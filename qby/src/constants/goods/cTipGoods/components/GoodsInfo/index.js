@@ -13,6 +13,7 @@ import {
   message,
   Table
 } from 'antd';
+import NP from 'number-precision'
 import Imgmodel from '../../../../../components/model/modelimg';
 import './index.less';
 const FormItem = Form.Item;
@@ -23,7 +24,8 @@ class GoodsInfo extends Component {
   }
   changeGold(e,record) {
     let price = (Number(record.toCPrice)).toFixed(2);
-    let minPrice = (price*0.8).toFixed(2);//金价官方折扣价
+    let minPrice = NP.times(price, 0.8);//金价官方折扣价
+        minPrice = NP.round(minPrice, 2);
     let maxPrice = price;//最高价格
     const value = Number(e.nativeEvent.target.value);
     //存储当前金卡价格
@@ -36,9 +38,10 @@ class GoodsInfo extends Component {
       status = true;
     }
     //联动校验银价表单****************************************
-    let silverCardPrice = record.silverCardPrice;//当前银价
+    let silverCardPrice = NP.round(record.silverCardPrice,2);//当前银价
     let index = record.index;
-    let sDiscount = (price*0.9).toFixed(2);//银价官方折扣价
+    let sDiscount = NP.times(price, 0.9);//银价官方折扣价
+        sDiscount = NP.round(sDiscount, 2);;//银价官方折扣价
     let sMinPrice;//银价最小价
     let name = `pdSkus[${index}].silverCardPrice`;
     let error;
@@ -47,17 +50,19 @@ class GoodsInfo extends Component {
     } else {
       sMinPrice = sDiscount;
     }
-    if(silverCardPrice>maxPrice || silverCardPrice<minPrice) {
+
+    if(silverCardPrice>maxPrice || silverCardPrice<sMinPrice) {
       error = `请输入${sMinPrice}~${maxPrice}之间的价格`;
+    } else {
+      error = ''
     }
-    if(error) {
-      this.props.form.setFields({
-        [name]: {
-          value: record.silverCardPrice,
-          errors: [new Error(error)],
-        },
-      });
-    }
+    
+    this.props.form.setFields({
+      [name]: {
+        value: record.silverCardPrice,
+        errors: [new Error(error)],
+      },
+    });
 
     this.props.dispatch({
       type:'cTipAddGoods/changeSilver',
