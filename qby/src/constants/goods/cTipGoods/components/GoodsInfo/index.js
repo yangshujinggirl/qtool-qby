@@ -24,13 +24,16 @@ class GoodsInfo extends Component {
   }
   //格式化金额，保留两位小数，3位小数时，直接在2位上进1;
   formPrice(value) {
+    value = NP.round(value, 3);
     let stringVal = String(value);
     //整数返回
     if(stringVal.indexOf('.') == -1) {
       return value
     }
     stringVal = stringVal.split('.');
-    if(stringVal[1].length>2) {
+    let floatNum = stringVal[1];
+    //三位小数，且第三位小于5
+    if(stringVal[1].length>2&&floatNum.substr(-1,1)<5) {
       value = value+0.01;
     }
     value = NP.round(value, 2);
@@ -38,7 +41,7 @@ class GoodsInfo extends Component {
   }
   changeGold(e,record) {
     let price = (Number(record.toCPrice)).toFixed(2);
-    let minPrice = NP.times(price, 0.8);//金价官方折扣价
+    let minPrice = price*0.8;//金价官方折扣价
         minPrice = this.formPrice(minPrice);
     let maxPrice = price;//最高价格
     const value = Number(e.nativeEvent.target.value);
@@ -54,7 +57,7 @@ class GoodsInfo extends Component {
     //联动校验银价表单****************************************
     let silverCardPrice = NP.round(record.silverCardPrice,2);//当前银价
     let index = record.index;
-    let sDiscount = NP.times(price, 0.9);//银价官方折扣价
+    let sDiscount = price*0.9;//银价官方折扣价
         sDiscount = this.formPrice(sDiscount);
     let sMinPrice;//银价最小价
     let name = `pdSkus[${index}].silverCardPrice`;
@@ -126,7 +129,6 @@ class GoodsInfo extends Component {
     } else {
       callback();
     }
-
   }
   validatorPrice(rule, value, callback,record) {
     value = Number(value)
@@ -145,9 +147,12 @@ class GoodsInfo extends Component {
     if(value) {
       if(value>maxPrice || value<minPrice) {
         callback(`请输入${minPrice}~${maxPrice}之间的价格`);
+      } else {
+        callback();
       }
+    } else {
+      callback();
     }
-    callback();
   }
   renderGoldPrice =(text, record, index)=> {
     const { pdSpu } = this.props.cTipAddGoods;
