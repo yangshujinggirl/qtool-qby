@@ -25,6 +25,10 @@ class GoodsInfo extends Component {
   //格式化金额，保留两位小数，3位小数时，直接在2位上进1;
   formPrice(value) {
     let stringVal = String(value);
+    //整数返回
+    if(stringVal.indexOf('.') == -1) {
+      return value
+    }
     stringVal = stringVal.split('.');
     if(stringVal[1].length>2) {
       value = value+0.01;
