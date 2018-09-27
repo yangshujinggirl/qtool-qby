@@ -111,7 +111,7 @@ render(){
         <div className='mb20'>
           <EditableTable
             columns={this.columns1}
-            title='处理日志'
+            title='商品信息'
             bordered={true}
             dataSource = { goodsInfos }
           />

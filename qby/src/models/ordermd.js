@@ -101,7 +101,7 @@ export default {
 				const result=yield call(GetServerData,code,values);
 				yield put({type: 'tab/loding',payload:false});
 				if(result.code=='0'){
-                    const cardtitle='入库信息'
+                    const cardtitle='门店信息'
                     let cardlist = [];
                     cardlist = [
                         {lable:'订单号', text:result.spOrder.orderNo},
