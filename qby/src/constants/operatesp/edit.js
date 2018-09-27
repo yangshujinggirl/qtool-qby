@@ -136,30 +136,42 @@ class SpEditForm extends React.Component{
 				// if(JSON.stringify(this.state.fileList) == '[]'){
 				// 	message.warn('请上传合同信息',.8)
 				// }else{
-	        const values={spShop:value}
-	        const result=GetServerData('qerp.web.sp.shop.save',values)
-	        result.then((res) => {
-	            return res;
-	        }).then((json) => {
-	          if(json.code=='0'){
-							if(this.props.data){
-								message.success('门店修改成功',.8)
-								this.deleteTab()
-							}else{
-								//弹窗
-								this.setState({
-									spname:json.name,
-									spusername:json.username,
-									sppassword:json.password
-								},function(){
-									this.modelsuccess()
-								})
-							}
-	          }
-	        })
+
 				// };
+				if(value.shopType == 2){
+					if(value.foodShareRatio && value.nonfoodShareRatio){
+						this.submit(value)
+					}else{
+						message.error('请将分成比例填写完整',.8)
+					}
+				}else{
+					this.submit(value)
+				}
       };
     });
+	}
+	submit =(	value ) => {
+		const values={spShop:value}
+		const result=GetServerData('qerp.web.sp.shop.save',values)
+		result.then((res) => {
+				return res;
+		}).then((json) => {
+			if(json.code=='0'){
+				if(this.props.data){
+					message.success('门店修改成功',.8)
+					this.deleteTab()
+				}else{
+					//弹窗
+					this.setState({
+						spname:json.name,
+						spusername:json.username,
+						sppassword:json.password
+					},function(){
+						this.modelsuccess()
+					})
+				}
+			}
+		})
 	}
 	//取消
 	hindCancel=()=>{
@@ -342,7 +354,9 @@ class SpEditForm extends React.Component{
 			values=parseFloat(e.target.value)
 			this.setState({
 				foodShareRatio:values
-			})
+			});
+		}else{
+			message.warning('请输入食品尿不湿类分成比例',.8)
 		}
 	}
 	hindChange2=(e)=>{
@@ -362,6 +376,8 @@ class SpEditForm extends React.Component{
 			this.setState({
 				nonfoodShareRatio:values
 			})
+		}else{
+			message.warning('请输入非食品尿不湿类分成比例',.8)
 		}
 	}
 	changeImg =(fileList)=> {

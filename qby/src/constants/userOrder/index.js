@@ -35,8 +35,8 @@ class UserOrder extends Component {
   handleOperateClick(record) {
     const paneitem = {
       title:'订单详情',
-      key:`${this.props.componkey}info`,
-      componkey:`${this.props.componkey}info`,
+      key:`${this.props.componkey}edit`+record.orderId,
+      componkey:`${this.props.componkey}edit`,
       data:{
         pdSpuId:record.orderId,
       }

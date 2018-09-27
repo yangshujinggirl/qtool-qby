@@ -65,7 +65,7 @@ render(){
 	return(
 			<div className='withdraw_detail'>
         <div className='mb10'>
-          <Card title='工单信息'>
+          <Card title='提现信息'>
             <div className='cardlist'>
                 <div className='cardlist_item'><label>提现单号：</label><span>{carryCashNo}</span></div>
                 <div className='cardlist_item'><label>审核状态：</label><span>{statusStr}</span></div>
@@ -78,7 +78,7 @@ render(){
         <div className='mb20 server-bill-edit'>
           <EditableTable
             columns={this.columns}
-            title='处理日志'
+            title='订单日志'
             bordered={true}
             dataSource = {spCarryCashLog}
           />

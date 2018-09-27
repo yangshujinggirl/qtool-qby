@@ -297,7 +297,7 @@ class Content extends React.Component {
                                     case "402000infoExchange" : return <OperateinoutExchangeInfo data={this.props.data}/>
                                     // ------------------------------ 用户订单 ------------------------------
                                     case formDataCode('order70') : return <UserOrder data={this.props.data} componkey={this.props.componkey}/>
-                                    case formDataCode('order70-info') : return <UserOrderDetail data={this.props.data} componkey={this.props.componkey}/>
+                                    case formDataCode('order70-edit') : return <UserOrderDetail data={this.props.data} componkey={this.props.componkey}/>
                                     // -------------------------------合作中心----------------------------
                                     case formDataCode('cooperate10') : return <MarketResource data={this.props.data} componkey={this.props.componkey}/> //市场资源
                                     case formDataCode('cooperate10-edit') : return <AddStaff data={this.props.data} componkey={this.props.componkey}/> //新增人员
