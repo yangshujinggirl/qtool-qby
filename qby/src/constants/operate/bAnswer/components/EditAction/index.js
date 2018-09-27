@@ -82,6 +82,7 @@ class EditAction extends React.Component {
 		if(record.type == '1') {
 			return <div className="content-action">
 								<Input.TextArea
+									maxLength='1000'
 									key={index}
 									value={record.content}
 									onChange={(e)=>this.setValusInForm(index,e)}
