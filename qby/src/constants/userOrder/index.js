@@ -8,7 +8,6 @@ import FilterForm from './FilterForm/index'
 import Columns from './columns/index';
 import moment from 'moment';
 const confirm = Modal.confirm;
-import './index.less'
 
 class UserOrder extends Component {
   constructor(props) {
@@ -108,177 +107,43 @@ class UserOrder extends Component {
     })
   }
   render() {
-    const dataSource =[{
-      id:1,
-      code:111,
-      youcode:1111,
-      time:20180928,
-      list:[
-        {code:'s123232412',name:'小黄鸭泡沫洗脸洗手液250ml*2',size:'vdv',qty:'1',sellprice:'23',price:'20',payAmount:1,orderMoney:1,actmoney:1},
-        {code:'s123232412',name:'小黄鸭泡沫洗脸洗手液250ml*2',size:'vdv',qty:'1',sellprice:'23',price:'20',payAmount:1,orderMoney:1,actmoney:1},
-        {code:'s123232412',name:'小黄鸭泡沫洗脸洗手液250ml*2',size:'vdv',qty:'1',sellprice:'23',price:'20',payAmount:1,orderMoney:1,actmoney:1}
-      ]
-    },{
-      id:1,
-      code:111,
-      youcode:1111,
-      time:20180928,
-      list:[
-        {code:111,name:'affff',size:'vdv',qty:'1',sellprice:'23',price:'20',payAmount:1,orderMoney:1,actmoney:1},
-        {code:111,name:'affff',size:'vdv',qty:'1',sellprice:'23',price:'20',payAmount:1,orderMoney:1,actmoney:1},
-        {code:111,name:'affff',size:'vdv',qty:'1',sellprice:'23',price:'20',payAmount:1,orderMoney:1,actmoney:1},
-        {code:111,name:'affff',size:'vdv',qty:'1',sellprice:'23',price:'20',payAmount:1,orderMoney:1,actmoney:1}
-      ]
-    },{
-      id:1,
-      code:111,
-      youcode:1111,
-      time:20180928,
-      list:[
-        {code:111,name:'affff',size:'vdv',qty:'1',sellprice:'23',price:'20',payAmount:1,orderMoney:1,actmoney:1},
-        {code:111,name:'affff',size:'vdv',qty:'1',sellprice:'23',price:'20',payAmount:1,orderMoney:1,actmoney:1}
-      ]
-    },]
     //导出数据按钮是否显示
 		const exportUserorderData=this.props.data.rolelists.find((currentValue,index)=>{
 			return currentValue.url=="qerp.web.sys.doc.task"
 		})
-    const rowSelection = {
-      type:"radio",
-      onChange: (selectedRowKeys, selectedRows) => {
-        console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-      },
-      onSelect: (record, selected, selectedRows) => {
-        console.log(record, selected, selectedRows);
-      },
-      onSelectAll: (selected, selectedRows, changeRows) => {
-        console.log(selected, selectedRows, changeRows);
-      },
-    };
     const { dataList=[] } = this.props.userorders;
     return (
-      // <div className='qtools-components-pages'>
-      //   <FilterForm
-      //     submit={this.searchData}
-      //     onValuesChange = {this.searchDataChange}
-      //   />
-      //   <div className="handel-btn-lists">
-      //   {
-      //     exportUserorderData
-      //     ?
-      //       <Button
-      //         type='primary'
-      //         size='large'
-      //         onClick={this.exportData}
-      //         >导出数据
-      //       </Button>
-      //     : null
-      //   }
-      //
-      //   </div>
-      //   <Qtable
-      //     dataSource={dataList}
-      //     onOperateClick = {this.handleOperateClick.bind(this)}
-      //     columns = {Columns}/>
-      //   {
-      //       dataList.length>0?
-      //       <Qpagination
-      //         data={this.props.userorders}
-      //         onChange={this.changePage}
-      //         onShowSizeChange = {this.onShowSizeChange}
-      //       />:null
-      //   }
-      // </div>
       <div className='qtools-components-pages'>
         <FilterForm
-           submit={this.searchData}
-           onValuesChange = {this.searchDataChange}
-         />
-        <Table
-          rowSelection={rowSelection}
-          columns={Columns}
-          defaultExpandAllRows={true}
-          expandedRowRender={
-            (record) => {
-              const length = record.list.length;
-              const renderContent2 = (index,value)=>{
-                const obj = {
-                  children:value,
-                  props:{},
-                };
-                if(index === 0){
-                  obj.props.rowSpan = 4;
-                }else{
-                  obj.props.rowSpan = 0;
-                };
-                return obj;
-              };
-              const Columns2 = [{
-                   colSpan:0,
-                   dataIndex: 'code',
+          submit={this.searchData}
+          onValuesChange = {this.searchDataChange}
+        />
+        <div className="handel-btn-lists">
+        {
+          exportUserorderData
+          ?
+            <Button
+              type='primary'
+              size='large'
+              onClick={this.exportData}
+              >导出数据
+            </Button>
+          : null
+        }
 
-                 },{
-                   colSpan:0,
-                   dataIndex: 'name',
-                 },{
-                   colSpan:0,
-                   dataIndex: 'size'
-                 }, {
-                   colSpan:0,
-                   dataIndex: 'qty'
-                 },{
-                   colSpan:0,
-                   dataIndex: 'sellprice'
-                 },{
-                   colSpan:0,
-                   dataIndex: 'price'
-                 },{
-                   colSpan:0,
-                   dataIndex: 'payAmount'
-                 },{
-                   colSpan:0,
-                   dataIndex: 'orderMoney',
-                 },{
-                   colSpan:0,
-                   dataIndex: 'actmoney',
-                   render:(text,record,index)=>{
-                     const obj = {
-                       children:<div>
-                         <Button type="primary" className="audit">审核通过</Button><br/>
-                         <Button>取消订单</Button><br/>
-                       </div>,
-                       props:{},
-                     };
-                     if(index === 0){
-                       obj.props.rowSpan = 4;
-                     }else{
-                       obj.props.rowSpan = 0;
-                     };
-                     return obj;
-                   }
-                 },{
-                   colSpan:0,
-                   render:(text,record,index)=>{
-                     const obj = {
-                       children:<div>
-                         <Button type="primary" className="audit">审核通过</Button><br/>
-                         <Button>取消订单</Button><br/>
-                       </div>,
-                       props:{},
-                     };
-                     if(index === 0){
-                       obj.props.rowSpan = 4;
-                     }else{
-                       obj.props.rowSpan = 0;
-                     };
-                     return obj;
-                   }
-                 }];
-              return(<Qtable columns = {Columns2} dataSource={record.list}/>)
-            }
-          }
-          dataSource={dataSource}
-          />
+        </div>
+        <Qtable
+          dataSource={dataList}
+          onOperateClick = {this.handleOperateClick.bind(this)}
+          columns = {Columns}/>
+        {
+            dataList.length>0?
+            <Qpagination
+              data={this.props.userorders}
+              onChange={this.changePage}
+              onShowSizeChange = {this.onShowSizeChange}
+            />:null
+        }
       </div>
     )
   }
