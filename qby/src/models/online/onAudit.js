@@ -1,14 +1,14 @@
-import {
-  getDetailApi,
-  getSaveApi
-} from '../../../services/operate/bAnswer'
+// import { getListApi } from '../../../services/operate/bAnswer'
 export default{
-  namespace:'bAddAnswer',
+  namespace:'onAudit',
   state:{
-    detail:{}
+    dataList:[],
+    currentPage:0,
+    limit:15,
+    total:'',
   },
   reducers:{
-    getDetail(state,{payload:{dataList, currentPage, limit, total}}){
+    getList(state,{payload:{dataList, currentPage, limit, total}}){
       return { ...state, dataList, currentPage, limit, total}
     },
     clearSelect(state,{payload:{selectedRowKeys}}){
@@ -16,24 +16,24 @@ export default{
     }
   },
   effects:{
-    *fetchInfo({payload:values},{call,put}){
-      const result =  yield call(getDetailApi,values);
-      if(result.code == '0'){
-        const { pdAnswer, currentPage, limit, total } = result;
-        pdAnswer.map((item,index)=>{
-          item.key = index;
-          return item;
-        });
-        yield put({
-          type:'getList',
-          payload:{
-            dataList:pdAnswer,
-            currentPage,
-            limit,
-            total,
-          }
-        });
-      };
-    }
+    // *fetchList({payload:values},{call,put}){
+    //   const result =  yield call(getListApi,values);
+    //   if(result.code == '0'){
+    //     const { pdAnswer, currentPage, limit, total } = result;
+    //     pdAnswer.map((item,index)=>{
+    //       item.key = index;
+    //       return item;
+    //     });
+    //     yield put({
+    //       type:'getList',
+    //       payload:{
+    //         dataList:pdAnswer,
+    //         currentPage,
+    //         limit,
+    //         total,
+    //       }
+    //     });
+    //   };
+    // }
   }
 }

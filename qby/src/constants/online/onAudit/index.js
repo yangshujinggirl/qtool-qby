@@ -10,7 +10,7 @@ import moment from 'moment';
 const confirm = Modal.confirm;
 import './index.less'
 
-class UserOrder extends Component {
+class OnAudit extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -208,7 +208,7 @@ class UserOrder extends Component {
         apart:'',
       }
     ]
-    const { dataList=[] } = this.props.userorders;
+    const { dataList=[] } = this.props.onAudit;
     const newList=[];
     const content = (
       <div>
@@ -261,10 +261,11 @@ class UserOrder extends Component {
           columns={Columns}
           defaultExpandAllRows={true}
           indentSize={0}
+          pagination={false}
           dataSource={dataSource}
         />
         <Qpagination
-          data={this.props.bAnswer}
+          data={this.props.onAudit}
           onChange={this.changePage}
           onShowSizeChange = {this.onShowSizeChange}/>
         <Modal
@@ -309,8 +310,8 @@ class UserOrder extends Component {
 }
 
 function mapStateToProps(state) {
-  const { userorders } = state;
-  return {userorders};
+  const { onAudit } = state;
+  return {onAudit};
 }
 
-export default connect(mapStateToProps)(UserOrder);
+export default connect(mapStateToProps)(OnAudit);
