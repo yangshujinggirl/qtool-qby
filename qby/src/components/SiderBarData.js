@@ -1088,6 +1088,18 @@ const SiderBarData =  [
               "children": null
             }
           ]
+        },
+        {
+          "urResourceId": 804000,
+          "name": "待审核订单",
+          "code": "803000",
+          "url": "",
+          "remark": null,
+          "status": 1,
+          "statusStr": null,
+          "menu": 1,
+          "menuStr": null,
+          "rank": null,
         }
       ]
     },

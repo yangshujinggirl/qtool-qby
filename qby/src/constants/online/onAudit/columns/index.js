@@ -1,39 +1,4 @@
-import {Button} from 'antd'
-// const Columns = [{
-//      title: '订单号',
-//      dataIndex: 'orderNo',
-//      render:(text, record)=>{
-//        return(
-//          <div>
-//            <a href="javascript:;" className="theme-color" onClick={record.onOperateClick.bind(this)}>{text}</a>
-//          </div>
-//        )
-//      }
-//    },{
-//      title: '门店名称',
-//      dataIndex: 'spShopName'
-//    },{
-//      title: '用户昵称',
-//      dataIndex: 'nickName'
-//    }, {
-//      title: '用户电话',
-//      dataIndex: 'mobilePhone'
-//    },{
-//      title: '商品数量',
-//      dataIndex: 'qtySum'
-//    },{
-//      title: '订单金额',
-//      dataIndex: 'amountSum'
-//    },{
-//      title: '用户支付金额',
-//      dataIndex: 'payAmount'
-//    },{
-//      title: '流程状态',
-//      dataIndex: 'orderStatusStr'
-//    },{
-//      title: '订单时间',
-//      dataIndex: 'createTime'
-//    }];
+import {Button,Icon} from 'antd'
    const Columns = [{
         title:'商品编码',
         dataIndex: 'code',
@@ -41,8 +6,12 @@ import {Button} from 'antd'
           if(record.youcode){
             return{
               children:<span>
-                <span className='product_code'>订单：<a href="javascript:;" className="theme-color">{record.zicode}</a></span><br/>
-                <span>子订单：{record.youcode}</span>
+                <span className='product_code'>子订单号：
+                  <a href="javascript:;" className="theme-color">{record.zicode}</a>
+                  <span title='ewqe' className='audit_remark'><Icon type="caret-up" theme="outlined" /></span>
+                  <span title='喵喵' className='audit_remark_star'><Icon type="star" theme="filled" /></span>
+                </span><br/>
+                <span>有赞订单号：{record.youcode}</span>
               </span>,
               props:{
                 colSpan:3

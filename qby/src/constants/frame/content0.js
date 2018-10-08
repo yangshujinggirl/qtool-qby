@@ -96,6 +96,8 @@ import InfouserIndex from '../online/infouser/index';
 import OrderuserIndex from '../online/orderuser/index';
 import OrderuserInfo from '../online/orderuser/info';
 
+import OnAudit from '../online/onAudit/index' //待审核订单
+
 import OnlineGoodsIndex from '../online/infogoods/index';
 
 import OnlineGoodEdit from '../online/infogoods/edit';
@@ -280,11 +282,14 @@ class Content extends React.Component {
                                     case "801000info": return <OrderuserInfo data={this.props.data}/>;
                                     case "803000": return <InfouserIndex data={this.props.data}/>
 
+
                                     // case "802000": return <OnlineGoodsIndex data={this.props.data}/>
                                     case "802000": return <ProductInfo data={this.props.data} componkey={this.props.componkey}/>
                                     case "802000edit":return  <EditGoods data={this.props.data}/>;
                                     case "802000info":return  <OnLineGoodsDetail data={this.props.data}/>;
                                     case "802000editconfig" : return <OnLineLogList data={this.props.data}/>;
+
+                                    case "804000": return <OnAudit data={this.props.data}/>
 
                                     case "707000info" : return <AdjustInfo data={this.props.data}/>;
                                     case "707000infoinventory": return <InventoryInfo data={this.props.data}/>

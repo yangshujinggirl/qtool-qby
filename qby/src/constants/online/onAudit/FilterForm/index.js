@@ -10,7 +10,6 @@ import {
   DatePicker
 } from 'antd';
 import moment from 'moment';
-import { ProcesasStatusOption } from '../../../components/FixedDataSource.js'
 import './index.less'
 
 
@@ -38,19 +37,14 @@ class NormalForm extends Component {
         <Form className="qtools-condition-form">
           <div className='search-form-outwrap'>
             <div className="search-form-wrap">
-              <FormItem label='门店名称'>
+              <FormItem label='子订单号'>
                  {getFieldDecorator('spShopName')(
-                   <Input placeholder="请输入门店名称" autoComplete="off"/>
+                   <Input placeholder="请输入子订单号" autoComplete="off"/>
                  )}
                </FormItem>
-              <FormItem label='订单号'>
+              <FormItem label='有赞订单号'>
                  {getFieldDecorator('orderNo')(
-                   <Input placeholder="请输入订单号" autoComplete="off"/>
-                 )}
-               </FormItem>
-              <FormItem label='商品名称'>
-                 {getFieldDecorator('pdSpuName')(
-                   <Input placeholder="请输入商品名称" autoComplete="off"/>
+                   <Input placeholder="请输入有赞订单号" autoComplete="off"/>
                  )}
                </FormItem>
               <FormItem label='商品编码'>
@@ -58,23 +52,27 @@ class NormalForm extends Component {
                    <Input placeholder="请输入商品编码" autoComplete="off"/>
                  )}
                </FormItem>
-              <FormItem label='用户电话'>
+               <FormItem label='商品名称'>
+                  {getFieldDecorator('pdSpuName')(
+                    <Input placeholder="请输入商品名称" autoComplete="off"/>
+                  )}
+                </FormItem>
+              <FormItem label='收货电话'>
                  {getFieldDecorator('mobilePhone')(
-                   <Input placeholder="请输入用户电话" autoComplete="off"/>
+                   <Input placeholder="请输入收货电话" autoComplete="off"/>
                  )}
                </FormItem>
-              <FormItem label='流程状态'>
+              <FormItem label='收货人'>
                  {getFieldDecorator('orderStatus')(
-                   <Select allowClear={true} placeholder="请选择流程状态">
-                     {
-                       ProcesasStatusOption.map((el) => (
-                         <Option value={el.key} key={el.key}>{el.value}</Option>
-                       ))
-                     }
-                   </Select>
+                    <Input placeholder="请输入收货人" autoComplete="off"/>
                  )}
                </FormItem>
-              <FormItem label='订单时间'>
+               <FormItem label='身份证号'>
+                  {getFieldDecorator('orderStatus')(
+                     <Input placeholder="请输入身份证号" autoComplete="off"/>
+                  )}
+                </FormItem>
+              <FormItem label='下单时间'>
                  {getFieldDecorator('rangePicker')(
                    <RangePicker showTime format="YYYY-MM-DD HH:mm:ss"/>
                  )}

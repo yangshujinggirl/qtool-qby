@@ -1,9 +1,9 @@
 import React,{ Component } from 'react';
 import { connect } from 'dva';
-import { Button, message, Modal,Row,Col,Table,Input} from 'antd'
-import { exportDataApi } from '../../services/orderCenter/userOrders'
-import Qtable from '../../components/Qtable/index';
-import Qpagination from '../../components/Qpagination/index';
+import { Button, message, Modal,Row,Col,Table,Input,Icon,Popover} from 'antd'
+import { exportDataApi } from '../../../services/orderCenter/userOrders'
+import Qtable from '../../../components/Qtable/index';
+import Qpagination from '../../../components/Qpagination/index';
 import FilterForm from './FilterForm/index'
 import Columns from './columns/index';
 import moment from 'moment';
@@ -146,9 +146,9 @@ class UserOrder extends Component {
       ]
     },]
     //导出数据按钮是否显示
-		const exportUserorderData=this.props.data.rolelists.find((currentValue,index)=>{
-			return currentValue.url=="qerp.web.sys.doc.task"
-		})
+		// const exportUserorderData=this.props.data.rolelists.find((currentValue,index)=>{
+		// 	return currentValue.url=="qerp.web.sys.doc.task"
+		// })
     const rowSelection = {
       type:"radio",
       onChange: (selectedRowKeys, selectedRows) => {
@@ -210,44 +210,50 @@ class UserOrder extends Component {
     ]
     const { dataList=[] } = this.props.userorders;
     const newList=[];
+    const content = (
+      <div>
+        <p>1.姓名不规范</p>
+        <p>2.商品实付金额为0</p>
+        <p>3.该用户有未发货订单</p>
+      </div>
+    );
     return (
-      // <div className='qtools-components-pages'>
-      //   <FilterForm
-      //     submit={this.searchData}
-      //     onValuesChange = {this.searchDataChange}
-      //   />
-      //   <div className="handel-btn-lists">
-      //   {
-      //     exportUserorderData
-      //     ?
-      //       <Button
-      //         type='primary'
-      //         size='large'
-      //         onClick={this.exportData}
-      //         >导出数据
-      //       </Button>
-      //     : null
-      //   }
-      //
-      //   </div>
-      //   <Qtable
-      //     dataSource={dataList}
-      //     onOperateClick = {this.handleOperateClick.bind(this)}
-      //     columns = {Columns}/>
-      //   {
-      //       dataList.length>0?
-      //       <Qpagination
-      //         data={this.props.userorders}
-      //         onChange={this.changePage}
-      //         onShowSizeChange = {this.onShowSizeChange}
-      //       />:null
-      //   }
-      // </div>
       <div className='qtools-components-pages on_audit'>
         <FilterForm
            submit={this.searchData}
            onValuesChange = {this.searchDataChange}
          />
+         <div className="handel-btn-lists">
+           <Button
+             size='large'
+             type='primary'
+             onClick={this.addAnswer}>
+             订单拆分
+           </Button>
+           <Button
+             size='large'
+             type='primary'
+             onClick={this.addAnswer}>
+             订单合单
+           </Button>
+           <Button
+             size='large'
+             type='primary'
+             onClick={this.addAnswer}>
+             星标
+           </Button>
+           <Button
+             size='large'
+             type='primary'
+             onClick={this.addAnswer}>
+             修改价格
+           </Button>
+           <Popover style={{textAlign:'right'}} content={content} title="标记说明" trigger="hover">
+              <a className="remark_intro">
+               标记说明<Icon type="question-circle-o" style={{color:"#ED6531",marginLeft:"4px"}}/>
+              </a>
+            </Popover>
+         </div>
         <Table
           className='main_table'
           bordered
@@ -257,7 +263,10 @@ class UserOrder extends Component {
           indentSize={0}
           dataSource={dataSource}
         />
-      /* ******************************* 订单拆分****************************** */
+        <Qpagination
+          data={this.props.bAnswer}
+          onChange={this.changePage}
+          onShowSizeChange = {this.onShowSizeChange}/>
         <Modal
           width={920}
           title='订单拆分'
