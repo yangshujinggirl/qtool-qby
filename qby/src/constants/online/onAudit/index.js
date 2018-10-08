@@ -14,6 +14,7 @@ class OnAudit extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      newList:[],
       field:{
         spShopName:'',
         orderNo:'',
@@ -108,9 +109,42 @@ class OnAudit extends Component {
     })
   }
   //订单拆分
-  onChange =()=>{
-
+  splitFormChange =(record,e)=>{
+    const value = e.target.value;
+    if(Number(value) ){ //有值就推到下面
+      record.apart = value;
+      const key = record.key; //唯一标识
+      let {newList} = this.state;
+      let formIndex;
+      const isConsist = newList.some((item,index)=>{
+        if(item.key == key ){
+          formIndex = index;
+        };
+        return (item.key == key);
+      });
+      if(isConsist){
+        newList.splice(formIndex,1,record);
+      }else{
+        newList.push(record);
+      };
+      this.setState({newList})
+    }else{ //没值或原本有值现在又清掉
+      const key = record.key; //唯一标识
+      let {newList} = this.state;
+      let formIndex;
+      const isConsist = newList.some((item,index)=>{
+        if(item.key == key ){
+          formIndex = index;
+        };
+        return (item.key == key);
+      });
+      if(isConsist){
+        newList.splice(formIndex,1);
+      };
+      this.setState({newList})
+    };
   }
+
   render() {
     const dataSource =[{
       key:1,
@@ -145,10 +179,6 @@ class OnAudit extends Component {
         {key:32,code:111,name:'affff',size:'vdv',qty:'1',sellprice:'23',price:'20',payAmount:1,orderMoney:1,actmoney:1}
       ]
     },]
-    //导出数据按钮是否显示
-		// const exportUserorderData=this.props.data.rolelists.find((currentValue,index)=>{
-		// 	return currentValue.url=="qerp.web.sys.doc.task"
-		// })
     const rowSelection = {
       type:"radio",
       onChange: (selectedRowKeys, selectedRows) => {
@@ -161,6 +191,7 @@ class OnAudit extends Component {
         console.log(selected, selectedRows, changeRows);
       },
     };
+    /* -----------------------------修改前的colums(上面的)---------------- */
     const columns1 = [{
         title:'商品编码',
         dataIndex:'code',
@@ -183,14 +214,40 @@ class OnAudit extends Component {
         title:'拆分数量',
         dataIndex:'apart',
         render:(text,record,index)=>{
+          console.log(record)
           return(
-            <Input type='text' onChange={this.onChange}/>
+            <Input oninput="if(value>record.surpulsQty)value=record.surpulsQty" onBlur={(e)=>this.splitFormChange(record,e)}/>
           )
         }
       },
   ]
+  /* -----------------------------修改后的colums(下面的)---------------- */
+  const columns2= [{
+      title:'商品编码',
+      dataIndex:'code',
+    },{
+      title:'商品名称',
+      dataIndex:'name',
+    },{
+      title:'规格',
+      dataIndex:'size',
+    },{
+      title:'原数量',
+      dataIndex:'qty',
+    },{
+      title:'商品实付金额',
+      dataIndex:'actPrice',
+    },{
+      title:'剩余数量',
+      dataIndex:'surpulsQty',
+    },{
+      title:'拆分数量',
+      dataIndex:'apart',
+    },
+]
     const apartList = [
       {
+        key:1,
         code:'s123232412',
         name:'小黄鸭泡沫洗脸洗手液250ml*2',
         size:'900g',
@@ -199,6 +256,7 @@ class OnAudit extends Component {
         surpulsQty:1,
         apart:'',
       }, {
+        key:2,
         code:'s123232412',
         name:'小黄鸭泡沫洗脸洗手液250ml*2',
         size:'900g',
@@ -209,7 +267,7 @@ class OnAudit extends Component {
       }
     ]
     const { dataList=[] } = this.props.onAudit;
-    const newList=[];
+    const {newList}=this.state;
     const content = (
       <div>
         <p>1.姓名不规范</p>
@@ -271,7 +329,7 @@ class OnAudit extends Component {
         <Modal
           width={920}
           title='订单拆分'
-          visible={false}
+          visible={true}
         >
           <div className='wrapper_order'>
             <div className='old_order'>
@@ -286,6 +344,7 @@ class OnAudit extends Component {
                 dataSource={apartList}
                 columns={columns1}
                 bordered
+                onOperateClick={()=>this.splitFormChange}
               />
             </div>
             <div className='old_order'>
@@ -298,7 +357,7 @@ class OnAudit extends Component {
               </div>
               <Qtable
                 dataSource={newList}
-                columns={columns1}
+                columns={columns2}
                 bordered
               />
             </div>

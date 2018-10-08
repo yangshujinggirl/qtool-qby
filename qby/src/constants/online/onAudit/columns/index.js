@@ -8,8 +8,8 @@ import {Button,Icon} from 'antd'
               children:<span>
                 <span className='product_code'>子订单号：
                   <a href="javascript:;" className="theme-color">{record.zicode}</a>
-                  <span title='ewqe' className='audit_remark'><Icon type="caret-up" theme="outlined" /></span>
-                  <span title='喵喵' className='audit_remark_star'><Icon type="star" theme="filled" /></span>
+                  <span title='ewqe' className='audit_remark'><Icon type="caret-up" /></span>
+                  <span title='喵喵' className='audit_remark_star'><Icon type="star" /></span>
                 </span><br/>
                 <span>有赞订单号：{record.youcode}</span>
               </span>,
