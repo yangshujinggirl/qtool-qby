@@ -16,10 +16,14 @@ class OnAudit extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      newList:[],
-      apartList:[],
-      orderId:null,
-      splitVisible:false,
+      newList:[], //拆单新增
+      apartList:[], //拆的单子
+      orderId:null, //拆的单子的id
+      splitVisible:false, //拆单弹窗
+      apartListCode:null,
+      apartListPrice:0,
+      apartSurplusPrice:0,
+      totalActPrcie:0,//新增实付金额总和
       field:{
         spShopName:'',
         orderNo:'',
@@ -35,7 +39,14 @@ class OnAudit extends Component {
         selectedRowKeys:this.props.onAudit.selectedRowKeys,
         onChange:this.onChange,
         onSelect: (record, selected, selectedRows) => {
-          this.setState({apartList:record.children,orderId:record.key})
+          console.log(record)
+          this.setState({
+            apartList:record.children,
+            orderId:record.key,
+            apartListCode:record.zicode,
+            apartListPrice:record.children[0].actmoney,
+            apartSurplusPrice:record.children[0].actmoney,
+          })
         },
       },
     }
@@ -154,7 +165,23 @@ class OnAudit extends Component {
       }else{//不存在就新增
         obj.newList.push(record);
       };
-      this.setState({newList:obj.newList,apartList})
+
+      /* --------------新增实付金额总和-------------- */
+      let totalActPrcie = 0;
+      obj.newList.map((item,index)=>{
+        console.log(Number(item.payAmount))
+        console.log(Number(item.qty))
+        console.log(Number(item.apart))
+        console.log(totalActPrcie)
+        totalActPrcie+=Number((Number(item.payAmount)/Number(item.qty)*Number(item.apart)).toFixed(2));
+      });
+      console.log(record)
+      debugger
+      let apartSurplusPrice = Number(record.actmoney) - totalActPrcie;
+      console.log()
+      /* --------------新增实付金额总和-------------- */
+
+      this.setState({newList:obj.newList,apartList,totalActPrcie,apartSurplusPrice})
     }else{ //没值(如果是0就清掉)
       const obj = this.isExit(record);
       if(obj.isConsist){ //数组中原本存在，现在为0就清掉
@@ -193,9 +220,9 @@ class OnAudit extends Component {
       qty:4,
       time:'2018-09-28 09:45:23',
       children:[
-        {key:11,code:'s123232412',name:'小黄鸭泡沫洗脸洗手液250ml*2',size:'900g',qty:3,surpulsQty:3,sellprice:'23:00',price:'20:00',payAmount:"49:00",orderMoney:"30:00",actmoney:"79:00"},
-        {key:12,code:'s123232412',name:'小黄鸭泡沫洗脸洗手液250ml*2',size:'900g',qty:3,surpulsQty:3,sellprice:'23:00',price:'20:00',payAmount:"49:00",orderMoney:"30:00",actmoney:"79:00"},
-        {key:13,code:'s123232412',name:'小黄鸭泡沫洗脸洗手液250ml*2',size:'900g',qty:3,surpulsQty:3,sellprice:'23:00',price:'20:00',payAmount:"49:00",orderMoney:"30:00",actmoney:"79:00"},
+        {key:11,code:'s123232412',name:'小黄鸭泡沫洗脸洗手液250ml*2',size:'900g',qty:3,surpulsQty:3,sellprice:'23.00',price:'20.00',payAmount:"49",orderMoney:"30.00",actmoney:"79.00"},
+        {key:12,code:'s123232412',name:'小黄鸭泡沫洗脸洗手液250ml*2',size:'900g',qty:3,surpulsQty:3,sellprice:'23.00',price:'20.00',payAmount:"49",orderMoney:"30.00",actmoney:"79.00"},
+        {key:13,code:'s123232412',name:'小黄鸭泡沫洗脸洗手液250ml*2',size:'900g',qty:3,surpulsQty:3,sellprice:'23.00',price:'20.00',payAmount:"49",orderMoney:"30.00",actmoney:"79.00"},
       ]
     },{
       key:2,
@@ -234,7 +261,7 @@ class OnAudit extends Component {
         title:'原数量',
         dataIndex:'qty',
       },{
-        title:'商品实付金额',
+        title:'原实付金额',
         dataIndex:'payAmount',
       },{
         title:'剩余数量',
@@ -275,7 +302,11 @@ class OnAudit extends Component {
       dataIndex:'apart',
     },{
       title:'商品实付金额',
-      dataIndex:'payAmount',
+      dataIndex:'',
+      render:(text,record,index)=>{
+        const goodPrice = (Number(record.payAmount)/Number(record.qty)*Number(record.apart)).toFixed(2)
+        return(<span>{goodPrice}</span>)
+      }
 
     }
 ]
@@ -301,7 +332,7 @@ class OnAudit extends Component {
     //   }
     // ]
     const { dataList=[] } = this.props.onAudit;
-    const {newList,splitVisible,rowSelection,apartList}=this.state;
+    const {newList,splitVisible,rowSelection,apartList,apartListCode,apartListPrice,totalActPrcie,apartSurplusPrice}=this.state;
     const content = (
       <div>
         <p>1.姓名不规范</p>
@@ -360,7 +391,42 @@ class OnAudit extends Component {
           data={this.props.onAudit}
           onChange={this.changePage}
           onShowSizeChange = {this.onShowSizeChange}/>
-
+        <Modal
+          width={920}
+          title='订单拆分'
+          visible={splitVisible}
+          onCancel={this.onSplitCancel}
+        >
+          <div className='wrapper_order'>
+            <div className='old_order'>
+              <div className='origin_order'>
+                <p>原始订单号：{apartListCode}</p>
+                <p>　
+                  <span>原始订单实付金额：{apartListPrice}</span>　
+                  <span>订单剩余实付金额：{apartSurplusPrice}</span>
+                </p>
+              </div>
+              <Qtable
+                dataSource={apartList}
+                columns={columns1}
+                bordered
+              />
+            </div>
+            <div className='old_order'>
+              <div className='origin_order'>
+                <p>新增订单号：YH02130000700001</p>
+                <p>
+                  <span>新订单实付金额：{totalActPrcie}</span>
+                </p>
+              </div>
+              <Qtable
+                dataSource={newList}
+                columns={columns2}
+                bordered
+              />
+            </div>
+          </div>
+        </Modal>
       </div>
     )
   }
