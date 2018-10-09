@@ -1,13 +1,15 @@
 import React,{ Component } from 'react';
 import { connect } from 'dva';
-import { Button, message, Modal,Row,Col,Table,Input,Icon,Popover} from 'antd'
+import { Button, message, Modal,Row,Col,Table,Input,Icon,Popover,Form,} from 'antd'
 import { exportDataApi } from '../../../services/orderCenter/userOrders'
 import Qtable from '../../../components/Qtable/index';
 import Qpagination from '../../../components/Qpagination/index';
 import FilterForm from './FilterForm/index'
 import Columns from './columns/index';
 import moment from 'moment';
+
 const confirm = Modal.confirm;
+const FormItem = Form.Item;
 import './index.less'
 
 class OnAudit extends Component {
@@ -15,6 +17,9 @@ class OnAudit extends Component {
     super(props);
     this.state = {
       newList:[],
+      apartList:[],
+      orderId:null,
+      splitVisible:false,
       field:{
         spShopName:'',
         orderNo:'',
@@ -25,6 +30,35 @@ class OnAudit extends Component {
         dateTimeST:'',
         dateTimeET:'',
       },
+      rowSelection:{
+        type:"radio",
+        selectedRowKeys:this.props.onAudit.selectedRowKeys,
+        onChange:this.onChange,
+        onSelect: (record, selected, selectedRows) => {
+          this.setState({apartList:record.children,orderId:record.key})
+        },
+      },
+    }
+  }
+  componentWillReceiveProps(props) {
+    this.setState({
+      rowSelection : {
+        selectedRowKeys:props.onAudit.selectedRowKeys,
+        type:'radio',
+        onChange:this.onChange
+      }
+    });
+  }
+  onChange =(selectedRowKeys,selectedRows)=> {
+    console.log(selectedRowKeys)
+    console.log(selectedRows)
+    // 消除选中状态
+    const {rowSelection}=this.state;
+    this.setState({
+      rowSelection:Object.assign({},rowSelection,{selectedRowKeys})
+    });
+    if(selectedRows[0]){
+      this.setState({orderId:selectedRows[0].key})
     }
   }
   componentWillMount() {
@@ -80,71 +114,77 @@ class OnAudit extends Component {
       payload:values
     })
   }
-  //导出数据
-  exportData =()=> {
-    const values ={type:12,downloadParam:{...this.state.field}}
-    exportDataApi(values)
-    .then(res => {
-      if(res.code == '0'){
-        confirm({
-					title: '数据已经进入导出队列',
-					content: '请前往下载中心查看导出进度',
-					cancelText:'稍后去',
-					okText:'去看看',
-					onOk:()=> {
-						const paneitem={title:'下载中心',key:'000001',componkey:'000001',data:null}
-						this.props.dispatch({
-							type:'tab/firstAddTab',
-							payload:paneitem
-						});
-						this.props.dispatch({
-							type:'downlaod/fetch',
-							payload:{code:'qerp.web.sys.doc.list',values:{limit:15,currentPage:0}}
-						});
-					},
-  			});
+
+  //判断数组里是否含有这组值，并记录现在这组值在新增数组中所处的位置
+  isExit =(record)=> {
+    const key = record.key; //唯一标识
+    let {newList} = this.state;
+    let currentIndex;
+    const isConsist = newList.some((item,index)=>{
+      if(item.key == key ){
+        currentIndex = index;
+      };
+      return (item.key == key);
+    });
+     /**
+      * isconsist Boolean
+      * currentIndex Num
+      * newList []
+     */
+    const obj = {isConsist,currentIndex,newList}
+    return obj
+  }
+  //拆分订单做处理--->是新增替换还是删除
+  handleSplitOrder =(record,value)=> {
+    const {apartList} = this.state;
+    if(Number(value) ){ //有值
+      /* ---------------------修改剩余数量--------------------- */
+      const surpulsQty = Number(record.qty)-Number(value) //剩余数量
+      apartList.map((item,index)=>{
+        if(item.key==record.key){
+          item.surpulsQty = surpulsQty;
+        };
+        return item;
+      });
+      /* ---------------------修改剩余数量--------------------- */
+      record.apart = value;
+      const obj = this.isExit(record);
+      if(obj.isConsist){ //存在就替换
+        obj.newList.splice(obj.currentIndex,1,record);
+      }else{//不存在就新增
+        obj.newList.push(record);
+      };
+      this.setState({newList:obj.newList,apartList})
+    }else{ //没值(如果是0就清掉)
+      const obj = this.isExit(record);
+      if(obj.isConsist){ //数组中原本存在，现在为0就清掉
+        obj.newList.splice(obj.currentIndex,1);
+      };
+      this.setState({newList:obj.newList})
+    };
+  }
+  //订单拆分input失去焦点
+  onSplitBlur =(record,e)=>{
+    this.props.form.validateFieldsAndScroll((err)=>{
+      const index = record.key;
+      const attr = "apart"+index;
+      const value = e.target.value;
+      if(err && !(err.hasOwnProperty(attr))){ //有错，当前列无错
+        this.handleSplitOrder(record,value)
+      }else if(!err){ //无错
+        this.handleSplitOrder(record,value)
       }
-    },err => {
-      message.error('导出数据失败')
     })
   }
   //订单拆分
-  splitFormChange =(record,e)=>{
-    const value = e.target.value;
-    if(Number(value) ){ //有值就推到下面
-      record.apart = value;
-      const key = record.key; //唯一标识
-      let {newList} = this.state;
-      let formIndex;
-      const isConsist = newList.some((item,index)=>{
-        if(item.key == key ){
-          formIndex = index;
-        };
-        return (item.key == key);
-      });
-      if(isConsist){
-        newList.splice(formIndex,1,record);
-      }else{
-        newList.push(record);
-      };
-      this.setState({newList})
-    }else{ //没值或原本有值现在又清掉
-      const key = record.key; //唯一标识
-      let {newList} = this.state;
-      let formIndex;
-      const isConsist = newList.some((item,index)=>{
-        if(item.key == key ){
-          formIndex = index;
-        };
-        return (item.key == key);
-      });
-      if(isConsist){
-        newList.splice(formIndex,1);
-      };
-      this.setState({newList})
-    };
+  splitFormChange =()=>{
+    this.setState({splitVisible:true})
   }
-
+  //拆分订单取消
+  onSplitCancel =()=> {
+    this.setState({splitVisible:false})
+    this.onChange([],[]);
+  }
   render() {
     const dataSource =[{
       key:1,
@@ -153,9 +193,9 @@ class OnAudit extends Component {
       qty:4,
       time:'2018-09-28 09:45:23',
       children:[
-        {key:11,code:'s123232412',name:'小黄鸭泡沫洗脸洗手液250ml*2',size:'900g',qty:'1',sellprice:'23:00',price:'20:00',payAmount:"49:00",orderMoney:"30:00",actmoney:"79:00"},
-        {key:12,code:'s123232412',name:'小黄鸭泡沫洗脸洗手液250ml*2',size:'900g',qty:'1',sellprice:'23:00',price:'20:00',payAmount:"49:00",orderMoney:"30:00",actmoney:"79:00"},
-        {key:13,code:'s123232412',name:'小黄鸭泡沫洗脸洗手液250ml*2',size:'900g',qty:'1',sellprice:'23:00',price:'20:00',payAmount:"49:00",orderMoney:"30:00",actmoney:"79:00"},
+        {key:11,code:'s123232412',name:'小黄鸭泡沫洗脸洗手液250ml*2',size:'900g',qty:3,surpulsQty:3,sellprice:'23:00',price:'20:00',payAmount:"49:00",orderMoney:"30:00",actmoney:"79:00"},
+        {key:12,code:'s123232412',name:'小黄鸭泡沫洗脸洗手液250ml*2',size:'900g',qty:3,surpulsQty:3,sellprice:'23:00',price:'20:00',payAmount:"49:00",orderMoney:"30:00",actmoney:"79:00"},
+        {key:13,code:'s123232412',name:'小黄鸭泡沫洗脸洗手液250ml*2',size:'900g',qty:3,surpulsQty:3,sellprice:'23:00',price:'20:00',payAmount:"49:00",orderMoney:"30:00",actmoney:"79:00"},
       ]
     },{
       key:2,
@@ -164,9 +204,9 @@ class OnAudit extends Component {
       qty:4,
       time:20180928,
       children:[
-        {key:21,code:111,name:'affff',size:'vdv',qty:'1',sellprice:'23',price:'20',payAmount:1,orderMoney:1,actmoney:1},
-        {key:22,code:222,name:'affff',size:'vdv',qty:'1',sellprice:'23',price:'20',payAmount:1,orderMoney:1,actmoney:1},
-        {key:23,code:333,name:'affff',size:'vdv',qty:'1',sellprice:'23',price:'20',payAmount:1,orderMoney:1,actmoney:1},
+        {key:21,code:111,name:'affff',size:'vdv',qty:'1',sellprice:'23',price:'20',payAmount:1,orderMoney:1,actmoney:"33.00"},
+        {key:22,code:222,name:'affff',size:'vdv',qty:'1',sellprice:'23',price:'20',payAmount:1,orderMoney:1,actmoney:"33.00"},
+        {key:23,code:333,name:'affff',size:'vdv',qty:'1',sellprice:'23',price:'20',payAmount:1,orderMoney:1,actmoney:"33.00"},
       ]
     },{
       key:3,
@@ -179,18 +219,7 @@ class OnAudit extends Component {
         {key:32,code:111,name:'affff',size:'vdv',qty:'1',sellprice:'23',price:'20',payAmount:1,orderMoney:1,actmoney:1}
       ]
     },]
-    const rowSelection = {
-      type:"radio",
-      onChange: (selectedRowKeys, selectedRows) => {
-        console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-      },
-      onSelect: (record, selected, selectedRows) => {
-        console.log(record, selected, selectedRows);
-      },
-      onSelectAll: (selected, selectedRows, changeRows) => {
-        console.log(selected, selectedRows, changeRows);
-      },
-    };
+
     /* -----------------------------修改前的colums(上面的)---------------- */
     const columns1 = [{
         title:'商品编码',
@@ -206,7 +235,7 @@ class OnAudit extends Component {
         dataIndex:'qty',
       },{
         title:'商品实付金额',
-        dataIndex:'actPrice',
+        dataIndex:'payAmount',
       },{
         title:'剩余数量',
         dataIndex:'surpulsQty',
@@ -214,9 +243,19 @@ class OnAudit extends Component {
         title:'拆分数量',
         dataIndex:'apart',
         render:(text,record,index)=>{
-          console.log(record)
+          const { getFieldDecorator } = this.props.form;
+          const maxNum = record.qty;
+          const reg = new RegExp("^(?:[0-"+maxNum+"]"+"{0,1})"+"$");
           return(
-            <Input oninput="if(value>record.surpulsQty)value=record.surpulsQty" onBlur={(e)=>this.splitFormChange(record,e)}/>
+            <Form>
+              <FormItem>
+                {getFieldDecorator(`apart`+index,{
+                  rules:[{pattern:reg,message:'请输入小于原数量的整数'}]
+                })(
+                  <Input onBlur={(e)=>this.onSplitBlur(record,e)}/>
+                )}
+              </FormItem>
+            </Form>
           )
         }
       },
@@ -232,42 +271,37 @@ class OnAudit extends Component {
       title:'规格',
       dataIndex:'size',
     },{
-      title:'原数量',
-      dataIndex:'qty',
+      title:'数量',
+      dataIndex:'apart',
     },{
       title:'商品实付金额',
-      dataIndex:'actPrice',
-    },{
-      title:'剩余数量',
-      dataIndex:'surpulsQty',
-    },{
-      title:'拆分数量',
-      dataIndex:'apart',
-    },
+      dataIndex:'payAmount',
+
+    }
 ]
-    const apartList = [
-      {
-        key:1,
-        code:'s123232412',
-        name:'小黄鸭泡沫洗脸洗手液250ml*2',
-        size:'900g',
-        qty:1,
-        actPrice:'20:00',
-        surpulsQty:1,
-        apart:'',
-      }, {
-        key:2,
-        code:'s123232412',
-        name:'小黄鸭泡沫洗脸洗手液250ml*2',
-        size:'900g',
-        qty:1,
-        actPrice:'20:00',
-        surpulsQty:1,
-        apart:'',
-      }
-    ]
+    // const apartList = [
+    //   {
+    //     key:0,
+    //     code:'s123232411',
+    //     name:'小黄鸭泡沫洗脸洗手液250ml*2',
+    //     size:'900g',
+    //     qty:1,
+    //     payAmount:'20:00',
+    //     surpulsQty:1,
+    //     apart:'',
+    //   }, {
+    //     key:1,
+    //     code:'s123232412',
+    //     name:'小黄鸭泡沫洗脸洗手液250ml*2',
+    //     size:'900g',
+    //     qty:1,
+    //     payAmount:'20:00',
+    //     surpulsQty:1,
+    //     apart:'',
+    //   }
+    // ]
     const { dataList=[] } = this.props.onAudit;
-    const {newList}=this.state;
+    const {newList,splitVisible,rowSelection,apartList}=this.state;
     const content = (
       <div>
         <p>1.姓名不规范</p>
@@ -285,7 +319,7 @@ class OnAudit extends Component {
            <Button
              size='large'
              type='primary'
-             onClick={this.addAnswer}>
+             onClick={this.splitFormChange}>
              订单拆分
            </Button>
            <Button
@@ -326,51 +360,15 @@ class OnAudit extends Component {
           data={this.props.onAudit}
           onChange={this.changePage}
           onShowSizeChange = {this.onShowSizeChange}/>
-        <Modal
-          width={920}
-          title='订单拆分'
-          visible={true}
-        >
-          <div className='wrapper_order'>
-            <div className='old_order'>
-              <div className='origin_order'>
-                <p>原始订单号：YH02130000700001</p>
-                <p>
-                  <span>原始订单实付金额：YH02130000700001</span>
-                  <span>订单剩余实付金额：22.00</span>
-                </p>
-              </div>
-              <Qtable
-                dataSource={apartList}
-                columns={columns1}
-                bordered
-                onOperateClick={()=>this.splitFormChange}
-              />
-            </div>
-            <div className='old_order'>
-              <div className='origin_order'>
-                <p>原始订单号：YH02130000700001</p>
-                <p>
-                  <span>原始订单实付金额：YH02130000700001</span>
-                  <span>订单剩余实付金额：22.00</span>
-                </p>
-              </div>
-              <Qtable
-                dataSource={newList}
-                columns={columns2}
-                bordered
-              />
-            </div>
-          </div>
-        </Modal>
+
       </div>
     )
   }
 }
-
+const OnAudits = Form.create()(OnAudit);
 function mapStateToProps(state) {
-  const { onAudit } = state;
+  const {onAudit} = state;
   return {onAudit};
 }
 
-export default connect(mapStateToProps)(OnAudit);
+export default connect(mapStateToProps)(OnAudits);

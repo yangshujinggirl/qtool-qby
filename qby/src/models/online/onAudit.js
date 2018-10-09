@@ -3,9 +3,10 @@ export default{
   namespace:'onAudit',
   state:{
     dataList:[],
+    selectedRowKeys:[],
     currentPage:0,
     limit:15,
-    total:'',
+    total:null,
   },
   reducers:{
     getList(state,{payload:{dataList, currentPage, limit, total}}){
@@ -33,6 +34,12 @@ export default{
     //         total,
     //       }
     //     });
+          // yield put({
+          //   type:'clearSelect',
+          //   payload:{
+          //     selectedRowKeys:[]
+          //   }
+          // });
     //   };
     // }
   }
