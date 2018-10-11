@@ -1,12 +1,16 @@
 import React,{ Component } from 'react';
 import { connect } from 'dva';
 import { Button, message, Modal,Row,Col,Table,Input,Icon,Popover,Form,} from 'antd'
-import { exportDataApi } from '../../../services/orderCenter/userOrders'
+import { getPriceListApi,mergeOrderApi } from '../../../services/online/onAudit'
 import Qtable from '../../../components/Qtable/index';
 import Qpagination from '../../../components/Qpagination/index';
 import FilterForm from './FilterForm/index'
 import Columns from './columns/index';
 import moment from 'moment';
+import SplitOrderModal from "./components/SplitOrder"
+import ChangePriceModal from "./components/ChangePriceModal"
+import MergeModal from "./components/MergeModal"
+import MarkStar from "./components/MarkStar"
 
 const confirm = Modal.confirm;
 const FormItem = Form.Item;
@@ -16,14 +20,21 @@ class OnAudit extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      newList:[], //拆单新增
-      apartList:[], //拆的单子
-      orderId:null, //拆的单子的id
+      dataSource:[],
+      newList:[], //新增订单列表
+      apartList:[], //原始订单列表
+      ecSuborderId:null, //原始订单的id
       splitVisible:false, //拆单弹窗
       apartListCode:null,
-      apartListPrice:0,
-      apartSurplusPrice:0,
+      ecSuborderPayAmount:0,//原始订单实付金额
+      ecSuborderSurplusPayAmount:0,//原始订单剩余实付金额
       totalActPrcie:0,//新增实付金额总和
+      priceVisible:false,//修改价格弹窗
+      newTotalMoney:0,//新实付总价
+      priceList:[],//修价列表
+      oldTotalPrice:0,//原实付总价
+      mergeVisible:false,
+      markVisible:false,
       field:{
         spShopName:'',
         orderNo:'',
@@ -39,20 +50,28 @@ class OnAudit extends Component {
         selectedRowKeys:this.props.onAudit.selectedRowKeys,
         onChange:this.onChange,
         onSelect: (record, selected, selectedRows) => {
-          console.log(record)
           this.setState({
+            iconType:record.iconType,
+            iconTypeRemark:record.iconTypeRemark,
             apartList:record.children,
-            orderId:record.key,
-            apartListCode:record.zicode,
-            apartListPrice:record.children[0].actmoney,
-            apartSurplusPrice:record.children[0].actmoney,
+            ecSuborderId:record.key,
+            apartListCode:record.ecSuborderNo,
+            ecSuborderPayAmount:record.children[0].actmoney,
+            ecSuborderSurplusPayAmount:record.children[0].actmoney,
           })
         },
       },
     }
   }
+  componentDidMount =()=> {
+    this.props.dispatch({
+      type:"onAudit/fetchList",
+      payload:{}
+    })
+  }
   componentWillReceiveProps(props) {
     this.setState({
+      dataSource:props.onAudit.dataSource,
       rowSelection : {
         selectedRowKeys:props.onAudit.selectedRowKeys,
         type:'radio',
@@ -61,31 +80,23 @@ class OnAudit extends Component {
     });
   }
   onChange =(selectedRowKeys,selectedRows)=> {
-    console.log(selectedRowKeys)
-    console.log(selectedRows)
     // 消除选中状态
     const {rowSelection}=this.state;
     this.setState({
       rowSelection:Object.assign({},rowSelection,{selectedRowKeys})
     });
     if(selectedRows[0]){
-      this.setState({orderId:selectedRows[0].key})
+      this.setState({ecSuborderId:selectedRows[0].key})
     }
-  }
-  componentWillMount() {
-    this.props.dispatch({
-        type:'userorders/fetchList',
-        payload:{}
-    });
   }
   //操作
   handleOperateClick(record) {
     const paneitem = {
       title:'订单详情',
-      key:`${this.props.componkey}edit`+record.orderId,
+      key:`${this.props.componkey}edit`+record.ecSuborderId,
       componkey:`${this.props.componkey}edit`,
       data:{
-        pdSpuId:record.orderId,
+        pdSpuId:record.ecSuborderId,
       }
     }
     this.props.dispatch({
@@ -102,8 +113,8 @@ class OnAudit extends Component {
       payload: values
     });
   }
-  //pageSize改变时的回调
-  onShowSizeChange =({currentPage,limit})=> {
+  //pagedisplayName改变时的回调
+  onShowdisplayNameChange =({currentPage,limit})=> {
     this.props.dispatch({
       type:'userorders/fetchList',
       payload:{currentPage,limit}
@@ -125,214 +136,186 @@ class OnAudit extends Component {
       payload:values
     })
   }
-
-  //判断数组里是否含有这组值，并记录现在这组值在新增数组中所处的位置
-  isExit =(record)=> {
-    const key = record.key; //唯一标识
-    let {newList} = this.state;
-    let currentIndex;
-    const isConsist = newList.some((item,index)=>{
-      if(item.key == key ){
-        currentIndex = index;
-      };
-      return (item.key == key);
-    });
-     /**
-      * isconsist Boolean
-      * currentIndex Num
-      * newList []
-     */
-    const obj = {isConsist,currentIndex,newList}
-    return obj
-  }
-  //拆分订单做处理--->是新增替换还是删除
-  handleSplitOrder =(record,value)=> {
-    const {apartList} = this.state;
-    if(Number(value) ){ //有值
-      /* ---------------------修改剩余数量--------------------- */
-      const surpulsQty = Number(record.qty)-Number(value) //剩余数量
-      apartList.map((item,index)=>{
-        if(item.key==record.key){
-          item.surpulsQty = surpulsQty;
-        };
-        return item;
-      });
-      /* ---------------------修改剩余数量--------------------- */
-      record.apart = value;
-      const obj = this.isExit(record);
-      if(obj.isConsist){ //存在就替换
-        obj.newList.splice(obj.currentIndex,1,record);
-      }else{//不存在就新增
-        obj.newList.push(record);
-      };
-
-      /* --------------新增实付金额总和-------------- */
-      let totalActPrcie = 0;
-      obj.newList.map((item,index)=>{
-        console.log(Number(item.payAmount))
-        console.log(Number(item.qty))
-        console.log(Number(item.apart))
-        console.log(totalActPrcie)
-        totalActPrcie+=Number((Number(item.payAmount)/Number(item.qty)*Number(item.apart)).toFixed(2));
-      });
-      console.log(record)
-      debugger
-      let apartSurplusPrice = Number(record.actmoney) - totalActPrcie;
-      console.log()
-      /* --------------新增实付金额总和-------------- */
-
-      this.setState({newList:obj.newList,apartList,totalActPrcie,apartSurplusPrice})
-    }else{ //没值(如果是0就清掉)
-      const obj = this.isExit(record);
-      if(obj.isConsist){ //数组中原本存在，现在为0就清掉
-        obj.newList.splice(obj.currentIndex,1);
-      };
-      this.setState({newList:obj.newList})
-    };
-  }
-  //订单拆分input失去焦点
-  onSplitBlur =(record,e)=>{
-    this.props.form.validateFieldsAndScroll((err)=>{
-      const index = record.key;
-      const attr = "apart"+index;
-      const value = e.target.value;
-      if(err && !(err.hasOwnProperty(attr))){ //有错，当前列无错
-        this.handleSplitOrder(record,value)
-      }else if(!err){ //无错
-        this.handleSplitOrder(record,value)
-      }
-    })
-  }
   //订单拆分
   splitFormChange =()=>{
     this.setState({splitVisible:true})
   }
   //拆分订单取消
   onSplitCancel =()=> {
-    this.setState({splitVisible:false})
+    this.setState({splitVisible:false,apartList:[]})
     this.onChange([],[]);
   }
+  //确认拆单
+  onSplitOk =(newList)=> {
+    const {
+      apartList, //原始订单列表
+      ecSuborderId, //原始订单的id
+      apartListCode,
+      ecSuborderPayAmount,//原始订单实付金额
+      ecSuborderSurplusPayAmount,//原始订单剩余实付金额
+      totalActPrcie//新增实付金额总和
+    } = this.state;
+    let oldSuborder = {
+      ecSuborderId,
+      ecSuborderPayAmount,
+      ecSuborderSurplusPayAmount,
+      spus:apartList
+    }
+  }
+  //修改价格确定
+  onPriceOk=()=>{
+
+  }
+  //修改价格取消
+  onPriceCancel =()=> {
+    this.setState({priceVisible:false,priceList:[],newTotalMoney:0});
+    this.onChange([],[])
+  }
+  //确定合并
+  onMergeOk =(value,clearForm)=> {
+      mergeOrderApi(value)
+      .then(res=>{
+        if(res.code == "0"){
+          clearForm();
+          this.setState({mergeVisible:false})
+        };
+      })
+  }
+  onMergeCancel =(clearForm)=> {
+    clearForm();
+    this.setState({mergeVisible:false})
+  }
+  //确认添加星标
+  onMarkOk =(value,clearForm)=> {
+    value.ecSuborderId = this.state.ecSuborderId;
+    value.iconType = 1; //1表示有星标
+    mergeOrderApi(value)
+    .then(res=>{
+      if(res.code == "0"){
+        clearForm();
+        this.setState({mergeVisible:false})
+        //重新刷新列表
+
+      };
+    })
+  }
+  //取消星标
+  onMarkCancel =(clearForm)=> {
+    clearForm();
+    this.setState({markVisible:false})
+  }
+  markStar =()=> {
+    this.setState({markVisible:true})
+  }
+  //订单合并
+  mergeOrder =()=> {
+    this.setState({mergeVisible:true})
+  }
+  //拆单原订单数据改变
+  dataChange =(apartList,ecSuborderSurplusPayAmount)=> {
+    this.setState({apartList,ecSuborderSurplusPayAmount})
+  }
+  //修改价格数据改变
+  priceDataChange=(newTotalMoney,priceList)=>{
+    this.setState({newTotalMoney,newTotalMoney})
+  }
+  changePrice =()=> {
+    //const {ecSuborderId} = this.state
+    // getPriceListApi({ecSuborderId})
+    // .then(res=>{
+    //   if(res.code=='0'){
+    //     this.setState({priceList:res.ecSuborder.spus,oldTotalPrice:ecSuborderPayAmount})
+    //   }
+    // });
+    let priceList = [
+      {key:11,index:0,skuCode:'s123232412',name:'小黄鸭泡沫洗脸洗手液250ml*2',displayName:'900g',qty:3,payAmount:'60.00',},
+      {key:12,index:1,skuCode:'s123232412',name:'小黄鸭泡沫洗脸洗手液250ml*2',displayName:'900g',qty:3,payAmount:'20.00',},
+      {key:13,index:3,skuCode:'s123232412',name:'小黄鸭泡沫洗脸洗手液250ml*2',displayName:'900g',qty:3,payAmount:'20.00',},
+    ]
+    let oldTotalPrice = "100.00";
+    this.setState({priceList,oldTotalPrice})
+
+    this.setState({
+      priceVisible:true
+    })
+  }
+
   render() {
     const dataSource =[{
+      iconType:1,
+      iconTypeRemark:"兴兴",
+      sign:0,
       key:1,
-      zicode:111,
-      youcode:1111,
-      qty:4,
+      ecSuborderNo:111,
+      outNo:1111,
+      sumQty:4,
+      suborderAmount:"99.00",
+      suborderPayAmount:"99.00",
       time:'2018-09-28 09:45:23',
       children:[
-        {key:11,code:'s123232412',name:'小黄鸭泡沫洗脸洗手液250ml*2',size:'900g',qty:3,surpulsQty:3,sellprice:'23.00',price:'20.00',payAmount:"49",orderMoney:"30.00",actmoney:"79.00"},
-        {key:12,code:'s123232412',name:'小黄鸭泡沫洗脸洗手液250ml*2',size:'900g',qty:3,surpulsQty:3,sellprice:'23.00',price:'20.00',payAmount:"49",orderMoney:"30.00",actmoney:"79.00"},
-        {key:13,code:'s123232412',name:'小黄鸭泡沫洗脸洗手液250ml*2',size:'900g',qty:3,surpulsQty:3,sellprice:'23.00',price:'20.00',payAmount:"49",orderMoney:"30.00",actmoney:"79.00"},
+        {skuCode:'s123232412',key:11,name:'小黄鸭泡沫洗脸洗手液250ml*2',displayName:'900g',qty:3,surpulssumQty:3,sellprice:'23.00',price:'20.00',payAmount:"49"},
+        {skuCode:'s123232412',key:12,name:'小黄鸭泡沫洗脸洗手液250ml*2',displayName:'900g',qty:3,surpulssumQty:3,sellprice:'23.00',price:'20.00',payAmount:"49"},
+        {skuCode:'s123232412',key:13,name:'小黄鸭泡沫洗脸洗手液250ml*2',displayName:'900g',qty:3,surpulssumQty:3,sellprice:'23.00',price:'20.00',payAmount:"49"},
       ]
     },{
+      iconType:1,
+      iconTypeRemark:"兴兴",
+      sign:1,
       key:2,
-      zicode:111,
-      youcode:1111,
-      qty:4,
+      ecSuborderNo:111,
+      outNo:1111,
+      sumQty:4,
       time:20180928,
+      suborderAmount:"99.00",
+      suborderPayAmount:"99.00",
       children:[
-        {key:21,code:111,name:'affff',size:'vdv',qty:'1',sellprice:'23',price:'20',payAmount:1,orderMoney:1,actmoney:"33.00"},
-        {key:22,code:222,name:'affff',size:'vdv',qty:'1',sellprice:'23',price:'20',payAmount:1,orderMoney:1,actmoney:"33.00"},
-        {key:23,code:333,name:'affff',size:'vdv',qty:'1',sellprice:'23',price:'20',payAmount:1,orderMoney:1,actmoney:"33.00"},
+        {key:21,skuCode:111,name:'affff',displayName:'vdv',qty:'1',price:'23',amount:'20',payAmount:1},
+        {key:22,skuCode:111,name:'affff',displayName:'vdv',qty:'1',price:'23',amount:'20',payAmount:1},
+        {key:23,skuCode:111,name:'affff',displayName:'vdv',qty:'1',price:'23',amount:'20',payAmount:1},
       ]
     },{
+      iconType:1,
+      iconTypeRemark:"兴兴",
+      sign:1,
       key:3,
-      zicode:111,
-      youcode:1111,
-      qty:4,
+      ecSuborderNo:111,
+      outNo:1111,
+      sumQty:4,
       time:20180928,
+      suborderAmount:"99.00",
+      suborderPayAmount:"99.00",
       children:[
-        {key:31,code:111,name:'affff',size:'vdv',qty:'1',sellprice:'23',price:'20',payAmount:1,orderMoney:1,actmoney:1},
-        {key:32,code:111,name:'affff',size:'vdv',qty:'1',sellprice:'23',price:'20',payAmount:1,orderMoney:1,actmoney:1}
+        {key:31,skuCode:111,name:'affff',displayName:'vdv',qty:'1',price:'23',amount:'20',payAmount:1},
+        {key:32,skuCode:111,name:'affff',displayName:'vdv',qty:'1',price:'23',amount:'20',payAmount:1}
       ]
     },]
-
-    /* -----------------------------修改前的colums(上面的)---------------- */
-    const columns1 = [{
-        title:'商品编码',
-        dataIndex:'code',
-      },{
-        title:'商品名称',
-        dataIndex:'name',
-      },{
-        title:'规格',
-        dataIndex:'size',
-      },{
-        title:'原数量',
-        dataIndex:'qty',
-      },{
-        title:'原实付金额',
-        dataIndex:'payAmount',
-      },{
-        title:'剩余数量',
-        dataIndex:'surpulsQty',
-      },{
-        title:'拆分数量',
-        dataIndex:'apart',
-        render:(text,record,index)=>{
-          const { getFieldDecorator } = this.props.form;
-          const maxNum = record.qty;
-          const reg = new RegExp("^(?:[0-"+maxNum+"]"+"{0,1})"+"$");
-          return(
-            <Form>
-              <FormItem>
-                {getFieldDecorator(`apart`+index,{
-                  rules:[{pattern:reg,message:'请输入小于原数量的整数'}]
-                })(
-                  <Input onBlur={(e)=>this.onSplitBlur(record,e)}/>
-                )}
-              </FormItem>
-            </Form>
-          )
-        }
-      },
-  ]
-  /* -----------------------------修改后的colums(下面的)---------------- */
-  const columns2= [{
-      title:'商品编码',
-      dataIndex:'code',
-    },{
-      title:'商品名称',
-      dataIndex:'name',
-    },{
-      title:'规格',
-      dataIndex:'size',
-    },{
-      title:'数量',
-      dataIndex:'apart',
-    },{
-      title:'商品实付金额',
-      dataIndex:'',
-      render:(text,record,index)=>{
-        const goodPrice = (Number(record.payAmount)/Number(record.qty)*Number(record.apart)).toFixed(2)
-        return(<span>{goodPrice}</span>)
-      }
-
-    }
-]
-    // const apartList = [
-    //   {
-    //     key:0,
-    //     code:'s123232411',
-    //     name:'小黄鸭泡沫洗脸洗手液250ml*2',
-    //     size:'900g',
-    //     qty:1,
-    //     payAmount:'20:00',
-    //     surpulsQty:1,
-    //     apart:'',
-    //   }, {
-    //     key:1,
-    //     code:'s123232412',
-    //     name:'小黄鸭泡沫洗脸洗手液250ml*2',
-    //     size:'900g',
-    //     qty:1,
-    //     payAmount:'20:00',
-    //     surpulsQty:1,
-    //     apart:'',
-    //   }
-    // ]
-    const { dataList=[] } = this.props.onAudit;
-    const {newList,splitVisible,rowSelection,apartList,apartListCode,apartListPrice,totalActPrcie,apartSurplusPrice}=this.state;
+    dataSource.map((item,index)=>{
+      item.children.map((newItem,newIndex)=>{
+        newItem.orderMoney=item.suborderAmount;
+        newItem.actmoney=item.suborderPayAmount;
+        return newItem;
+      });
+      return item;
+    });
+    // const { dataSource } = this.props.onAudit;
+    const {
+      ecSuborderId,
+      newList,
+      splitVisible,
+      rowSelection,
+      apartList,
+      apartListCode,
+      ecSuborderPayAmount,
+      totalActPrcie,
+      ecSuborderSurplusPayAmount,
+      priceVisible,
+      priceList,
+      oldTotalPrice,
+      newTotalMoney,
+      mergeVisible,
+      markVisible,
+      iconTypeRemark
+    }=this.state;
     const content = (
       <div>
         <p>1.姓名不规范</p>
@@ -347,30 +330,10 @@ class OnAudit extends Component {
            onValuesChange = {this.searchDataChange}
          />
          <div className="handel-btn-lists">
-           <Button
-             size='large'
-             type='primary'
-             onClick={this.splitFormChange}>
-             订单拆分
-           </Button>
-           <Button
-             size='large'
-             type='primary'
-             onClick={this.addAnswer}>
-             订单合单
-           </Button>
-           <Button
-             size='large'
-             type='primary'
-             onClick={this.addAnswer}>
-             星标
-           </Button>
-           <Button
-             size='large'
-             type='primary'
-             onClick={this.addAnswer}>
-             修改价格
-           </Button>
+           <Button size='large' type='primary' onClick={this.splitFormChange}> 订单拆分 </Button>
+           <Button size='large' type='primary' onClick={this.mergeOrder}> 订单合单 </Button>
+           <Button size='large' type='primary' onClick={this.markStar}> 星标 </Button>
+           <Button size='large' type='primary' onClick={this.changePrice}> 修改价格 </Button>
            <Popover style={{textAlign:'right'}} content={content} title="标记说明" trigger="hover">
               <a className="remark_intro">
                标记说明<Icon type="question-circle-o" style={{color:"#ED6531",marginLeft:"4px"}}/>
@@ -383,50 +346,47 @@ class OnAudit extends Component {
           rowSelection={rowSelection}
           columns={Columns}
           defaultExpandAllRows={true}
-          indentSize={0}
+          indentsize={0}
           pagination={false}
           dataSource={dataSource}
         />
         <Qpagination
           data={this.props.onAudit}
           onChange={this.changePage}
-          onShowSizeChange = {this.onShowSizeChange}/>
-        <Modal
-          width={920}
-          title='订单拆分'
+          onShowsizeChange = {this.onShowsizeChange}/>
+        <SplitOrderModal
           visible={splitVisible}
           onCancel={this.onSplitCancel}
-        >
-          <div className='wrapper_order'>
-            <div className='old_order'>
-              <div className='origin_order'>
-                <p>原始订单号：{apartListCode}</p>
-                <p>　
-                  <span>原始订单实付金额：{apartListPrice}</span>　
-                  <span>订单剩余实付金额：{apartSurplusPrice}</span>
-                </p>
-              </div>
-              <Qtable
-                dataSource={apartList}
-                columns={columns1}
-                bordered
-              />
-            </div>
-            <div className='old_order'>
-              <div className='origin_order'>
-                <p>新增订单号：YH02130000700001</p>
-                <p>
-                  <span>新订单实付金额：{totalActPrcie}</span>
-                </p>
-              </div>
-              <Qtable
-                dataSource={newList}
-                columns={columns2}
-                bordered
-              />
-            </div>
-          </div>
-        </Modal>
+          onOk={this.onSplitOk}
+          apartList={apartList}
+          ecSuborderId={ecSuborderId}
+          apartListCode={apartListCode}
+          ecSuborderPayAmount={ecSuborderPayAmount}
+          ecSuborderSurplusPayAmount={ecSuborderSurplusPayAmount}
+          dataChange={this.dataChange}
+        />
+        <ChangePriceModal
+          dataChange={this.priceDataChange}
+          onChange={()=>this.onChange([],[])}
+          ecSuborderId={ecSuborderId}
+          visible={priceVisible}
+          priceList={priceList}
+          oldTotalPrice={oldTotalPrice}
+          newTotalMoney={newTotalMoney}
+          onOk={this.onPriceOk}
+          onCancel={this.onPriceCancel}
+          />
+        <MergeModal
+          visible={mergeVisible}
+          onOk={this.onMergeOk}
+          onCancel={this.onMergeCancel}
+        />
+        <MarkStar
+          iconTypeRemark={iconTypeRemark}
+          visible={markVisible}
+          onOk={this.onMarkOk}
+          onCancel={this.onMarkCancel}
+        />
       </div>
     )
   }

@@ -1,17 +1,17 @@
 import {Button,Icon} from 'antd'
    const Columns = [{
         title:'商品编码',
-        dataIndex: 'code',
+        dataIndex: 'skuCode',
         render:(text,record,index)=>{
-          if(record.youcode){
+          if(record.outNo){
             return{
               children:<span>
                 <span className='product_code'>子订单号：
-                  <a href="javascript:;" className="theme-color">{record.zicode}</a>
+                  <a href="javascript:;" className="theme-color">{record.ecSuborderNo}</a>
                   <span title='ewqe' className='audit_remark'><Icon type="caret-up" /></span>
                   <span title='喵喵' className='audit_remark_star'><Icon type="star" /></span>
                 </span><br/>
-                <span>有赞订单号：{record.youcode}</span>
+                <span>有赞订单号：{record.outNo}</span>
               </span>,
               props:{
                 colSpan:3
@@ -39,7 +39,7 @@ import {Button,Icon} from 'antd'
         }
       },{
         title:'规格',
-        dataIndex:"size",
+        dataIndex:"displayName",
         render:(text,record,index)=>{
           if(record.name){
             return(<span>{text}</span>)
@@ -57,7 +57,7 @@ import {Button,Icon} from 'antd'
 
       },{
         title:'售价',
-        dataIndex:"sellprice",
+        dataIndex:"price",
         render:(text,record,index)=>{
           if(record.name){
             return(<span>{text}</span>)
@@ -71,7 +71,7 @@ import {Button,Icon} from 'antd'
         }
       },{
         title:'金额',
-        dataIndex:"price",
+        dataIndex:"amount",
         render:(text,record,index)=>{
           if(record.name){
             return(<span>{text}</span>)
