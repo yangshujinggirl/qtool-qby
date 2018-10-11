@@ -1,7 +1,7 @@
 import React,{ Component } from 'react';
 import { connect } from 'dva';
 import { Button, message, Modal,Row,Col,Table,Input,Icon,Popover,Form,} from 'antd'
-import { getPriceListApi,mergeOrderApi } from '../../../services/online/onAudit'
+import { getPriceListApi,mergeOrderApi,saveAuditOrdeApi } from '../../../services/online/onAudit'
 import Qtable from '../../../components/Qtable/index';
 import Qpagination from '../../../components/Qpagination/index';
 import FilterForm from './FilterForm/index'
@@ -11,6 +11,7 @@ import SplitOrderModal from "./components/SplitOrder"
 import ChangePriceModal from "./components/ChangePriceModal"
 import MergeModal from "./components/MergeModal"
 import MarkStar from "./components/MarkStar"
+
 
 const confirm = Modal.confirm;
 const FormItem = Form.Item;
@@ -23,10 +24,12 @@ class OnAudit extends Component {
       dataSource:[],
       newList:[], //新增订单列表
       apartList:[], //原始订单列表
+      ecOrderId:null,//主单id
       ecSuborderId:null, //原始订单的id
       splitVisible:false, //拆单弹窗
-      apartListCode:null,
-      ecSuborderPayAmount:0,//原始订单实付金额
+      ecSuborderNo:null,//原始子单单号
+      newEcSuborderNo:null,//新增子单单号
+      suborderPayAmount:0,//原始订单实付金额
       ecSuborderSurplusPayAmount:0,//原始订单剩余实付金额
       totalActPrcie:0,//新增实付金额总和
       priceVisible:false,//修改价格弹窗
@@ -53,11 +56,12 @@ class OnAudit extends Component {
           this.setState({
             iconType:record.iconType,
             iconTypeRemark:record.iconTypeRemark,
-            apartList:record.children,
-            ecSuborderId:record.key,
-            apartListCode:record.ecSuborderNo,
-            ecSuborderPayAmount:record.children[0].actmoney,
-            ecSuborderSurplusPayAmount:record.children[0].actmoney,
+            // apartList:record.children,
+            ecOrderId:record.ecOrderId,
+            ecSuborderId:record.ecSuborderId,
+            // apartListCode:record.ecSuborderNo,
+            // ecSuborderPayAmount:record.children[0].actmoney,
+            // ecSuborderSurplusPayAmount:record.children[0].actmoney,
           })
         },
       },
@@ -124,8 +128,8 @@ class OnAudit extends Component {
   searchDataChange =(values)=> {
     const {rangePicker,..._values} = values;
     if(rangePicker&&rangePicker[0]){
-      _values.dateTimeST =  moment(new Date(rangePicker[0]._d).getTime()).format('YYYY-MM-DD HH:mm:ss');
-      _values.dateTimeET = moment(new Date(rangePicker[1]._d).getTime()).format('YYYY-MM-DD HH:mm:ss');
+      _values.dateTimeST =  moment(new Date(rangePicker[0])).format('YYYY-MM-DD HH:mm:ss');
+      _values.dateTimeET = moment(new Date(rangePicker[1])).format('YYYY-MM-DD HH:mm:ss');
     }
     this.setState({field:_values});
   }
@@ -138,29 +142,47 @@ class OnAudit extends Component {
   }
   //订单拆分
   splitFormChange =()=>{
-    this.setState({splitVisible:true})
+    this.setState({splitVisible:true});
+    // const {ecOrderId,ecSuborderId} = this.state;
+    // auditOrdeApi({ecOrderId,ecSuborderId})
+    // .then(res => {
+    //   if(res.code == "0"){
+    //     this.setState({apartList:res.spus,ecSuborderNo,newEcSuborderNo})
+    //   };
+    // })
+    let apartList = [
+      {ecSuborderDetailId:1,pdSpuId:1,pdSkuId:null,code:'s123232412',name:'小黄鸭泡沫洗脸洗手液250ml*2',displayName:'900g',qty:3,payAmount:"200.44"},
+      {ecSuborderDetailId:2,pdSpuId:1,pdSkuId:null,code:'s123232412',name:'小黄鸭泡沫洗脸洗手液250ml*2',displayName:'900g',qty:3,payAmount:"500.89"},
+      {ecSuborderDetailId:3,pdSpuId:1,pdSkuId:null,code:'s123232412',name:'小黄鸭泡沫洗脸洗手液250ml*2',displayName:'900g',qty:3,payAmount:"299.17"}
+    ]
+      apartList.map((item,index)=>{
+        item.key=index;
+        item.surpulsQty=item.qty;
+        return item;
+      })
+      let [ecSuborderNo,newEcSuborderNo,suborderPayAmount] = ["YH021809130000700001","YH021809130000700003",'1000.50']
+      this.setState({apartList,ecSuborderNo,newEcSuborderNo,suborderPayAmount,ecSuborderSurplusPayAmount:suborderPayAmount})
   }
+
   //拆分订单取消
   onSplitCancel =()=> {
     this.setState({splitVisible:false,apartList:[]})
     this.onChange([],[]);
   }
   //确认拆单
-  onSplitOk =(newList)=> {
-    const {
-      apartList, //原始订单列表
-      ecSuborderId, //原始订单的id
-      apartListCode,
-      ecSuborderPayAmount,//原始订单实付金额
-      ecSuborderSurplusPayAmount,//原始订单剩余实付金额
-      totalActPrcie//新增实付金额总和
-    } = this.state;
-    let oldSuborder = {
-      ecSuborderId,
-      ecSuborderPayAmount,
-      ecSuborderSurplusPayAmount,
-      spus:apartList
-    }
+  onSplitOk =(obj)=> {
+    const { limit, currentPage } = this.props.onAudit;
+    // saveAuditOrdeApi(obj)
+    // .then(res=>{
+    //   if(res.code=="0"){
+    //     this.setState({splitVisible:false})
+    //   }
+    // });
+    this.setState({splitVisible:false});
+    // this.props.dispatch({
+    //   type:'onAudit/fetchList',
+    //   payload:{...this.state.field,limit,currentPage}
+    // });
   }
   //修改价格确定
   onPriceOk=()=>{
@@ -173,13 +195,13 @@ class OnAudit extends Component {
   }
   //确定合并
   onMergeOk =(value,clearForm)=> {
-      mergeOrderApi(value)
-      .then(res=>{
-        if(res.code == "0"){
-          clearForm();
-          this.setState({mergeVisible:false})
-        };
-      })
+    mergeOrderApi(value)
+    .then(res=>{
+      if(res.code == "0"){
+        clearForm();
+        this.setState({mergeVisible:false})
+      };
+    })
   }
   onMergeCancel =(clearForm)=> {
     clearForm();
@@ -228,84 +250,28 @@ class OnAudit extends Component {
     //   }
     // });
     let priceList = [
-      {key:11,index:0,skuCode:'s123232412',name:'小黄鸭泡沫洗脸洗手液250ml*2',displayName:'900g',qty:3,payAmount:'60.00',},
-      {key:12,index:1,skuCode:'s123232412',name:'小黄鸭泡沫洗脸洗手液250ml*2',displayName:'900g',qty:3,payAmount:'20.00',},
-      {key:13,index:3,skuCode:'s123232412',name:'小黄鸭泡沫洗脸洗手液250ml*2',displayName:'900g',qty:3,payAmount:'20.00',},
+      {skuCode:'s123232412',name:'小黄鸭泡沫洗脸洗手液250ml*2',displayName:'900g',qty:3,payAmount:'60.00',},
+      {skuCode:'s123232412',name:'小黄鸭泡沫洗脸洗手液250ml*2',displayName:'900g',qty:3,payAmount:'20.00',},
+      {skuCode:'s123232412',name:'小黄鸭泡沫洗脸洗手液250ml*2',displayName:'900g',qty:3,payAmount:'20.00',},
     ]
+    priceList.map((item,index)=>{
+      item.key = index;
+    });
     let oldTotalPrice = "100.00";
-    this.setState({priceList,oldTotalPrice})
-
-    this.setState({
-      priceVisible:true
-    })
+    this.setState({priceList,oldTotalPrice,priceVisible:true});
   }
 
   render() {
-    const dataSource =[{
-      iconType:1,
-      iconTypeRemark:"兴兴",
-      sign:0,
-      key:1,
-      ecSuborderNo:111,
-      outNo:1111,
-      sumQty:4,
-      suborderAmount:"99.00",
-      suborderPayAmount:"99.00",
-      time:'2018-09-28 09:45:23',
-      children:[
-        {skuCode:'s123232412',key:11,name:'小黄鸭泡沫洗脸洗手液250ml*2',displayName:'900g',qty:3,surpulssumQty:3,sellprice:'23.00',price:'20.00',payAmount:"49"},
-        {skuCode:'s123232412',key:12,name:'小黄鸭泡沫洗脸洗手液250ml*2',displayName:'900g',qty:3,surpulssumQty:3,sellprice:'23.00',price:'20.00',payAmount:"49"},
-        {skuCode:'s123232412',key:13,name:'小黄鸭泡沫洗脸洗手液250ml*2',displayName:'900g',qty:3,surpulssumQty:3,sellprice:'23.00',price:'20.00',payAmount:"49"},
-      ]
-    },{
-      iconType:1,
-      iconTypeRemark:"兴兴",
-      sign:1,
-      key:2,
-      ecSuborderNo:111,
-      outNo:1111,
-      sumQty:4,
-      time:20180928,
-      suborderAmount:"99.00",
-      suborderPayAmount:"99.00",
-      children:[
-        {key:21,skuCode:111,name:'affff',displayName:'vdv',qty:'1',price:'23',amount:'20',payAmount:1},
-        {key:22,skuCode:111,name:'affff',displayName:'vdv',qty:'1',price:'23',amount:'20',payAmount:1},
-        {key:23,skuCode:111,name:'affff',displayName:'vdv',qty:'1',price:'23',amount:'20',payAmount:1},
-      ]
-    },{
-      iconType:1,
-      iconTypeRemark:"兴兴",
-      sign:1,
-      key:3,
-      ecSuborderNo:111,
-      outNo:1111,
-      sumQty:4,
-      time:20180928,
-      suborderAmount:"99.00",
-      suborderPayAmount:"99.00",
-      children:[
-        {key:31,skuCode:111,name:'affff',displayName:'vdv',qty:'1',price:'23',amount:'20',payAmount:1},
-        {key:32,skuCode:111,name:'affff',displayName:'vdv',qty:'1',price:'23',amount:'20',payAmount:1}
-      ]
-    },]
-    dataSource.map((item,index)=>{
-      item.children.map((newItem,newIndex)=>{
-        newItem.orderMoney=item.suborderAmount;
-        newItem.actmoney=item.suborderPayAmount;
-        return newItem;
-      });
-      return item;
-    });
-    // const { dataSource } = this.props.onAudit;
+    const { dataSource } = this.props.onAudit;
     const {
       ecSuborderId,
+      ecSuborderNo,
+      newEcSuborderNo,
+      suborderPayAmount,
       newList,
       splitVisible,
       rowSelection,
       apartList,
-      apartListCode,
-      ecSuborderPayAmount,
       totalActPrcie,
       ecSuborderSurplusPayAmount,
       priceVisible,
@@ -316,6 +282,7 @@ class OnAudit extends Component {
       markVisible,
       iconTypeRemark
     }=this.state;
+    console.log(ecSuborderNo)
     const content = (
       <div>
         <p>1.姓名不规范</p>
@@ -340,16 +307,20 @@ class OnAudit extends Component {
               </a>
             </Popover>
          </div>
-        <Table
-          className='main_table'
-          bordered
-          rowSelection={rowSelection}
-          columns={Columns}
-          defaultExpandAllRows={true}
-          indentsize={0}
-          pagination={false}
-          dataSource={dataSource}
-        />
+         {
+           dataSource.length>0 &&
+           <Table
+             className='main_table'
+             bordered
+             rowSelection={rowSelection}
+             columns={Columns}
+             defaultExpandAllRows={true}
+             indentsize={0}
+             pagination={false}
+             dataSource={dataSource}
+           />
+         }
+
         <Qpagination
           data={this.props.onAudit}
           onChange={this.changePage}
@@ -360,8 +331,9 @@ class OnAudit extends Component {
           onOk={this.onSplitOk}
           apartList={apartList}
           ecSuborderId={ecSuborderId}
-          apartListCode={apartListCode}
-          ecSuborderPayAmount={ecSuborderPayAmount}
+          ecSuborderNo={ecSuborderNo}
+          newEcSuborderNo={newEcSuborderNo}
+          suborderPayAmount={suborderPayAmount}
           ecSuborderSurplusPayAmount={ecSuborderSurplusPayAmount}
           dataChange={this.dataChange}
         />

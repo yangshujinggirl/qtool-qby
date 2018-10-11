@@ -4,13 +4,14 @@ import {Modal,Form,Input} from 'antd'
 import Qtable from '../../../../components/Qtable/index';
 const FormItem = Form.Item;
 import {accAdd,accMul,Subtr} from '../../../../utils/operate'
+import {deepcCloneObj} from "../../../../utils/commonFc"
 
 class SplitOrderModal extends Component{
   constructor(props){
     super(props);
     this.state = {
       newList:[],
-      totalActPrcie:0
+      newEcSuborderPayAmount:0
     }
     /* -----------------------------修改前的colums(上面的)---------------- */
     this.columns1 = [{
@@ -21,7 +22,7 @@ class SplitOrderModal extends Component{
         dataIndex:'name',
       },{
         title:'规格',
-        dataIndex:'size',
+        dataIndex:'displayName',
       },{
         title:'原数量',
         dataIndex:'qty',
@@ -33,7 +34,7 @@ class SplitOrderModal extends Component{
         dataIndex:'surpulsQty',
       },{
         title:'拆分数量',
-        dataIndex:'apart',
+        dataIndex:'auditQty',
         render:(text,record,index)=>{
           const { getFieldDecorator } = this.props.form;
           const maxNum = record.qty;
@@ -41,7 +42,7 @@ class SplitOrderModal extends Component{
           return(
             <Form>
               <FormItem>
-                {getFieldDecorator(`apart`+index,{
+                {getFieldDecorator(`auditQty`+record.key,{
                   rules:[{pattern:reg,message:'请输入小于原数量的整数'}]
                 })(
                   <Input onBlur={(e)=>this.onSplitBlur(record,e)}/>
@@ -61,29 +62,29 @@ class SplitOrderModal extends Component{
         dataIndex:'name',
       },{
         title:'规格',
-        dataIndex:'size',
+        dataIndex:'displayName',
       },{
         title:'数量',
-        dataIndex:'apart',
+        dataIndex:'auditQty',
       },{
         title:'商品实付金额',
         dataIndex:'',
         render:(text,record,index)=>{
-          const goodPrice = (Number(record.payAmount)/Number(record.qty)*Number(record.apart)).toFixed(2)
+          const goodPrice = (Number(record.payAmount)/Number(record.qty)*Number(record.auditQty)).toFixed(2)
           return(<span>{goodPrice}</span>)
         },
       }];
   }
   //取消
   onCancel =()=>{
-    this.setState({newList:[],totalActPrcie:0})
+    this.setState({newList:[],newEcSuborderPayAmount:0})
     this.props.onCancel()
   }
   //订单拆分input失去焦点
   onSplitBlur =(record,e)=>{
     this.props.form.validateFieldsAndScroll((err)=>{
       const index = record.key;
-      const attr = "apart"+index;
+      const attr = "auditQty"+index;
       const value = e.target.value;
       if(err && !(err.hasOwnProperty(attr))){ //有错，当前列无错
         this.handleSplitOrder(record,value)
@@ -105,7 +106,7 @@ class SplitOrderModal extends Component{
         return item;
       });
       /* ---------------------修改剩余数量--------------------- */
-      record.apart = value;
+      record.auditQty = value;
       const obj = this.isExit(record);
       if(obj.isConsist){ //存在就替换
         obj.newList.splice(obj.currentIndex,1,record);
@@ -113,17 +114,17 @@ class SplitOrderModal extends Component{
         obj.newList.push(record);
       };
       /* --------------新增实付金额总和-------------- */
-      let totalActPrcie = 0;
+      let newEcSuborderPayAmount = 0;
       obj.newList.map((item,index)=>{
-        let price = Number((Number(item.payAmount)/Number(item.qty)*Number(item.apart)).toFixed(2));
+        let price = Number((Number(item.payAmount)/Number(item.qty)*Number(item.auditQty)).toFixed(2));
         let newPrice = accMul(price,100);
-        totalActPrcie+=newPrice;
+        newEcSuborderPayAmount+=newPrice;
       });
-      totalActPrcie = totalActPrcie/100;
+      newEcSuborderPayAmount = newEcSuborderPayAmount/100;
       let newObj = obj.newList;
-      let ecSuborderSurplusPayAmount = Subtr(Number(record.actmoney),totalActPrcie);
+      let ecSuborderSurplusPayAmount = Subtr(Number(this.props.suborderPayAmount),newEcSuborderPayAmount); //剩余金额
       /* --------------新增实付金额总和-------------- */
-      this.setState({newList:obj.newList,totalActPrcie})
+      this.setState({newList:obj.newList,newEcSuborderPayAmount})
       this.props.dataChange(apartList,ecSuborderSurplusPayAmount)
     }else{ //没值(如果是0就清掉)
       const obj = this.isExit(record);
@@ -148,12 +149,28 @@ class SplitOrderModal extends Component{
     return obj
   }
   onOk =()=> {
-    const {newList} = this.state
-    this.props.onOk(newList)
+    this.props.form.validateFieldsAndScroll((err)=>{
+      debugger
+      if(!err){
+        const {newList,newEcSuborderPayAmount} = this.state;
+        const {ecSuborderId,suborderPayAmount,ecSuborderSurplusPayAmount,newEcSuborderNo,apartList}=this.props;
+        let qtySum = 0;
+        const arr = deepcCloneObj(newList);
+        arr.map((item,index)=>{
+          qtySum+=Number(item.auditQty);
+          item.qty=item.auditQty
+        });
+        const obj={
+          oldSuborder:{ecSuborderId,ecSuborderPayAmount:suborderPayAmount,ecSuborderSurplusPayAmount,spus:apartList},
+          newSuborder:{newEcSuborderNo,newEcSuborderPayAmount,qtySum,spus:arr}
+        }
+        this.props.onOk(obj)
+      };
+    })
   }
   render(){
-    const {visible,apartList,ecSuborderId,apartListCode,ecSuborderPayAmount,ecSuborderSurplusPayAmount} = this.props;
-    const {newList,totalActPrcie} = this.state;
+    const {visible,apartList,ecSuborderNo,newEcSuborderNo,suborderPayAmount,ecSuborderPayAmount,ecSuborderSurplusPayAmount} = this.props;
+    const {newList,newEcSuborderPayAmount} = this.state;
     return(
       <div>
         <Modal
@@ -166,9 +183,9 @@ class SplitOrderModal extends Component{
           <div className='wrapper_order'>
             <div className='old_order'>
               <div className='origin_order'>
-                <p>原始订单号：{apartListCode}</p>
+                <p>原始订单号：{ecSuborderNo}</p>
                 <p>　
-                  <span>原始订单实付金额：{ecSuborderPayAmount}</span>　
+                  <span>原始订单实付金额：{suborderPayAmount}</span>　
                   <span>订单剩余实付金额：{ecSuborderSurplusPayAmount}</span>
                 </p>
               </div>
@@ -180,9 +197,9 @@ class SplitOrderModal extends Component{
             </div>
             <div className='old_order'>
               <div className='origin_order'>
-                <p>新增订单号：YH02130000700001</p>
+                <p>新增订单号：{newEcSuborderNo}</p>
                 <p>
-                  <span>新订单实付金额：{totalActPrcie}</span>
+                  <span>新订单实付金额：{newEcSuborderPayAmount}</span>
                 </p>
               </div>
               <Qtable

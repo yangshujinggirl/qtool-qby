@@ -5,7 +5,7 @@ import {Button,Icon} from 'antd'
         render:(text,record,index)=>{
           if(record.outNo){
             return{
-              children:<span>
+              children:<span className="testtttt">
                 <span className='product_code'>子订单号：
                   <a href="javascript:;" className="theme-color">{record.ecSuborderNo}</a>
                   <span title='ewqe' className='audit_remark'><Icon type="caret-up" /></span>
@@ -19,7 +19,7 @@ import {Button,Icon} from 'antd'
             };
           }else{
             return(
-              <span>{text}</span>
+              <span >{text}</span>
             )
           };
         }
@@ -54,6 +54,13 @@ import {Button,Icon} from 'antd'
       }, {
         title:'数量',
         dataIndex:"qty",
+        render:(text,record)=>{
+          if(record.sumQty){
+            return(<span>{record.sumQty}</span>)
+          }else{
+            return(<span>{text}</span>)
+          }
+        }
 
       },{
         title:'售价',
@@ -168,7 +175,7 @@ import {Button,Icon} from 'antd'
             return obj;
           }else{
             return{
-              children:<span>下单时间：{record.time}</span>,
+              children:<span>下单时间：{record.payTime}</span>,
             };
           };
         }
