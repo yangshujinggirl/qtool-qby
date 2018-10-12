@@ -1,15 +1,25 @@
 import {Button,Icon} from 'antd'
    const Columns = [{
         title:'商品编码',
-        dataIndex: 'skuCode',
+        dataIndex: 'code',
         render:(text,record,index)=>{
           if(record.outNo){
             return{
               children:<span className="testtttt">
                 <span className='product_code'>子订单号：
-                  <a href="javascript:;" className="theme-color">{record.ecSuborderNo}</a>
-                  <span title='ewqe' className='audit_remark'><Icon type="caret-up" /></span>
-                  <span title='喵喵' className='audit_remark_star'><Icon type="star" /></span>
+                  <a href="javascript:;" className="theme-color" onClick={(type)=>record.onOperateClick("detail")}>{record.ecSuborderNo}</a>
+                  {
+                    record.iconType ? <span title={record.nameSignStr} className='audit_remark_star'><Icon type="star" /></span> : null
+                  }
+                  {
+                    record.nameSign ? <span title={record.nameSignStr} className='audit_remark'><Icon type="caret-up" /></span> : null
+                  }
+                  {
+                    record.paySign ? <span title={record.nameSignStr} className='audit_remark_star'><Icon type="heart"/></span> : null
+                  }
+                  {
+                    record.sendingSign ? <span title={record.nameSignStr} className='audit_remark_star'><Icon type="home"/></span> : null
+                  }
                 </span><br/>
                 <span>有赞订单号：{record.outNo}</span>
               </span>,
@@ -156,12 +166,13 @@ import {Button,Icon} from 'antd'
         }
       },{
         title:'操作',
+        dataIndex:"",
         render:(text,record,index)=>{
           const obj = {
             children:<div>
-              <Button className='audit' type="primary">审核通过</Button><br/>
-              <Button>取消订单</Button>
-            </div>,
+                        <Button onClick={(type)=>record.onOperateClick("audit")} className='audit' type="primary">审核通过</Button><br/>
+                        <Button onClick={(type)=>record.onOperateClick("cancel")}>取消订单</Button>
+                      </div>,
             props:{
               rowSpan:3
             },

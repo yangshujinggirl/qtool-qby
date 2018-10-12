@@ -48,3 +48,11 @@ export function mergeOrderApi(values) {
       data:values
   })
 }
+//审核通过/取消订单/标记星星
+export function cancelOrderApi(values) {
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.ec.od.auditOrder.save',
+      data:values
+  })
+}

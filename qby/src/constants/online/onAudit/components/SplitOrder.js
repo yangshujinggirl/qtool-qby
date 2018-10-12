@@ -1,6 +1,6 @@
 import React,{ Component }from 'react'
 import { connect } from 'dva'
-import {Modal,Form,Input} from 'antd'
+import {Modal,Form,Input,message} from 'antd'
 import Qtable from '../../../../components/Qtable/index';
 const FormItem = Form.Item;
 import {accAdd,accMul,Subtr} from '../../../../utils/operate'
@@ -106,7 +106,7 @@ class SplitOrderModal extends Component{
         return item;
       });
       /* ---------------------修改剩余数量--------------------- */
-      record.auditQty = value;
+      record.auditQty = Number(value);
       const obj = this.isExit(record);
       if(obj.isConsist){ //存在就替换
         obj.newList.splice(obj.currentIndex,1,record);
@@ -150,21 +150,29 @@ class SplitOrderModal extends Component{
   }
   onOk =()=> {
     this.props.form.validateFieldsAndScroll((err)=>{
-      debugger
       if(!err){
         const {newList,newEcSuborderPayAmount} = this.state;
         const {ecSuborderId,suborderPayAmount,ecSuborderSurplusPayAmount,newEcSuborderNo,apartList}=this.props;
-        let qtySum = 0;
+        let [qtySum,oldQtySum] = [0,0];
         const arr = deepcCloneObj(newList);
         arr.map((item,index)=>{
           qtySum+=Number(item.auditQty);
-          item.qty=item.auditQty
+          item.oldpayAmount = item.payAmount;
+          item.payAmount = (Number(item.oldpayAmount)/Number(item.qty)*Number(item.auditQty)).toFixed(2);
+          item.qty=item.auditQty;
         });
+        apartList.map((item,index)=>{
+          oldQtySum+=Number(item.qty);
+        })
         const obj={
           oldSuborder:{ecSuborderId,ecSuborderPayAmount:suborderPayAmount,ecSuborderSurplusPayAmount,spus:apartList},
           newSuborder:{newEcSuborderNo,newEcSuborderPayAmount,qtySum,spus:arr}
-        }
-        this.props.onOk(obj)
+        };
+        if(qtySum != oldQtySum ){
+          this.props.onOk(obj)
+        }else{
+          message.error("不可将原订单中的全部拆分至新订单")
+        };
       };
     })
   }

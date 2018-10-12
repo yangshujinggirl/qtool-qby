@@ -20,10 +20,16 @@ export default{
     *fetchList({payload:values},{call,put}){
       let [currentPage,limit,total]= [1,1,1];
       const auditOrders =[{
+        ecOrderId:1,
         ecSuborderId:1,
         iconType:1,
-        iconTypeRemark:"兴兴",
-        sign:0,
+        iconTypeRemark:"xcsxcd",
+        nameSign:1,
+        nameSignStr:"fjff",
+        paySign:1,
+        paySignStr:'111',
+        sendingSign:1,
+        sendingSignStr:"www",
         ecSuborderNo:111,
         outNo:1111,
         sumQty:4,
@@ -31,14 +37,21 @@ export default{
         suborderPayAmount:"99.10",
         payTime:'2018-09-28 09:45:23',
         children:[
-          {skuCode:'s123232412',name:'小黄鸭泡沫洗脸洗手液250ml*2',displayName:'900g',qty:3,surpulssumQty:3,sellprice:'23.10',price:'20.20',payAmount:"49.22"},
-          {skuCode:'s123232412',name:'小黄鸭泡沫洗脸洗手液250ml*2',displayName:'900g',qty:3,surpulssumQty:3,sellprice:'23.10',price:'20.20',payAmount:"49.33"},
-          {skuCode:'s123232412',name:'小黄鸭泡沫洗脸洗手液250ml*2',displayName:'900g',qty:3,surpulssumQty:3,sellprice:'23.10',price:'20.20',payAmount:"49.44"},
+          {code:'s123232412',name:'小黄鸭泡沫洗脸洗手液250ml*2',displayName:'900g',qty:3,surpulssumQty:3,sellprice:'23.10',price:'20.20',payAmount:"49.22"},
+          {code:'s123232412',name:'小黄鸭泡沫洗脸洗手液250ml*2',displayName:'900g',qty:3,surpulssumQty:3,sellprice:'23.10',price:'20.20',payAmount:"49.33"},
+          {code:'s123232412',name:'小黄鸭泡沫洗脸洗手液250ml*2',displayName:'900g',qty:3,surpulssumQty:3,sellprice:'23.10',price:'20.20',payAmount:"49.44"},
         ]
       },{
+        nameSign:1,
+        nameSignStr:"fjff",
+        paySign:1,
+        paySignStr:'111',
+        sendingSign:0,
+        sendingSignStr:"",
+        ecOrderId:1,
         ecSuborderId:2,
-        iconType:1,
-        iconTypeRemark:"兴兴",
+        iconType:0,
+        iconTypeRemark:"",
         sign:1,
         ecSuborderNo:111,
         outNo:1111,
@@ -52,9 +65,16 @@ export default{
           {skuCode:111,name:'affff',displayName:'vdv',qty:'1',price:'23',amount:'20',payAmount:"11.00"},
         ]
       },{
+        ecOrderId:1,
         ecSuborderId:3,
         iconType:1,
         iconTypeRemark:"兴兴",
+        nameSign:1,
+        nameSignStr:"fjff",
+        paySign:1,
+        paySignStr:'111',
+        sendingSign:0,
+        sendingSignStr:"",
         sign:1,
         key:3,
         ecSuborderNo:111,
@@ -88,12 +108,12 @@ export default{
       //       total,
       //     }
       //   });
-      //   yield put({
-      //     type:'clearSelect',
-      //     payload:{
-      //       selectedRowKeys:[]
-      //     }
-      //   });
+        // yield put({
+        //   type:'clearSelect',
+        //   payload:{
+        //     selectedRowKeys:[]
+        //   }
+        // });
       // };
       auditOrders.map((item,index)=>{
         item.children.map((subItem,subIndex) => {

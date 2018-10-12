@@ -1,7 +1,7 @@
 import React,{ Component } from 'react';
 import { connect } from 'dva';
 import { Button, message, Modal,Row,Col,Table,Input,Icon,Popover,Form,} from 'antd'
-import { getPriceListApi,mergeOrderApi,saveAuditOrdeApi } from '../../../services/online/onAudit'
+import { getPriceListApi,mergeOrderApi,saveAuditOrdeApi,savePriceApi,cancelOrderApi} from '../../../services/online/onAudit'
 import Qtable from '../../../components/Qtable/index';
 import Qpagination from '../../../components/Qpagination/index';
 import FilterForm from './FilterForm/index'
@@ -38,6 +38,7 @@ class OnAudit extends Component {
       oldTotalPrice:0,//原实付总价
       mergeVisible:false,
       markVisible:false,
+      iconTypeRemark:"",
       field:{
         spShopName:'',
         orderNo:'',
@@ -48,22 +49,11 @@ class OnAudit extends Component {
         dateTimeST:'',
         dateTimeET:'',
       },
+      selectedRowKeys:null,
       rowSelection:{
         type:"radio",
         selectedRowKeys:this.props.onAudit.selectedRowKeys,
         onChange:this.onChange,
-        onSelect: (record, selected, selectedRows) => {
-          this.setState({
-            iconType:record.iconType,
-            iconTypeRemark:record.iconTypeRemark,
-            // apartList:record.children,
-            ecOrderId:record.ecOrderId,
-            ecSuborderId:record.ecSuborderId,
-            // apartListCode:record.ecSuborderNo,
-            // ecSuborderPayAmount:record.children[0].actmoney,
-            // ecSuborderSurplusPayAmount:record.children[0].actmoney,
-          })
-        },
       },
     }
   }
@@ -90,23 +80,51 @@ class OnAudit extends Component {
       rowSelection:Object.assign({},rowSelection,{selectedRowKeys})
     });
     if(selectedRows[0]){
-      this.setState({ecSuborderId:selectedRows[0].key})
-    }
+      this.setState({
+        selectedRowKeys:selectedRowKeys[0],
+        ecSuborderId:selectedRows[0].ecSuborderId,
+        iconType:selectedRows[0].iconType,
+        iconTypeRemark:selectedRows[0].iconTypeRemark,
+        ecOrderId:selectedRows[0].ecOrderId,
+      })
+    };
+  }
+  cancelOrder =(obj)=> {
+    cancelOrderApi(obj)
+    .then(res=>{
+      if(res.code=="0"){
+        message.success("审核通过成功");
+        this.props.dispatch({
+          type:'onAudit/fetchList',
+          payload:{...this.state.field,limit,currentPage}
+        });
+      };
+    });
   }
   //操作
-  handleOperateClick(record) {
-    const paneitem = {
-      title:'订单详情',
-      key:`${this.props.componkey}edit`+record.ecSuborderId,
-      componkey:`${this.props.componkey}edit`,
-      data:{
-        pdSpuId:record.ecSuborderId,
+  handleOperateClick(parentRecord,record,type) {
+    const {limit,currentPage} = this.props.onAudit;
+    let obj={ecSuborderId:parentRecord.ecSuborderId};
+    if(type=="audit"){
+      obj.status = 6;
+      this.cancelOrder(obj);
+    }else if(type=="cancel"){
+      obj.status = 5;
+
+      this.cancelOrder(obj);
+    }else{ //跳转至订单详情
+      console.log(record);
+      const paneitem={
+        title:'订单详情',
+        key:'801000edit'+record.ecSuborderId+'info',
+        data:{id:record.ecSuborderId},
+        componkey:'801000info'
       }
-    }
-    this.props.dispatch({
-      type:'tab/firstAddTab',
-      payload:paneitem
-    })
+      this.props.dispatch({
+        type:'tab/firstAddTab',
+        payload:paneitem
+      });
+    };
   }
   //点击分页
   changePage = (current,limit) => {
@@ -142,55 +160,80 @@ class OnAudit extends Component {
   }
   //订单拆分
   splitFormChange =()=>{
-    this.setState({splitVisible:true});
-    // const {ecOrderId,ecSuborderId} = this.state;
-    // auditOrdeApi({ecOrderId,ecSuborderId})
-    // .then(res => {
-    //   if(res.code == "0"){
-    //     this.setState({apartList:res.spus,ecSuborderNo,newEcSuborderNo})
-    //   };
-    // })
-    let apartList = [
-      {ecSuborderDetailId:1,pdSpuId:1,pdSkuId:null,code:'s123232412',name:'小黄鸭泡沫洗脸洗手液250ml*2',displayName:'900g',qty:3,payAmount:"200.44"},
-      {ecSuborderDetailId:2,pdSpuId:1,pdSkuId:null,code:'s123232412',name:'小黄鸭泡沫洗脸洗手液250ml*2',displayName:'900g',qty:3,payAmount:"500.89"},
-      {ecSuborderDetailId:3,pdSpuId:1,pdSkuId:null,code:'s123232412',name:'小黄鸭泡沫洗脸洗手液250ml*2',displayName:'900g',qty:3,payAmount:"299.17"}
-    ]
-      apartList.map((item,index)=>{
-        item.key=index;
-        item.surpulsQty=item.qty;
-        return item;
-      })
-      let [ecSuborderNo,newEcSuborderNo,suborderPayAmount] = ["YH021809130000700001","YH021809130000700003",'1000.50']
-      this.setState({apartList,ecSuborderNo,newEcSuborderNo,suborderPayAmount,ecSuborderSurplusPayAmount:suborderPayAmount})
+    console.log(this.state.ecOrderId)
+    if(this.state.selectedRowKeys){
+      this.setState({splitVisible:true});
+      // const {ecOrderId,ecSuborderId} = this.state;
+      // auditOrdeApi({ecOrderId,ecSuborderId})
+      // .then(res => {
+      //   if(res.code == "0"){
+      //     this.setState({apartList:res.spus,ecSuborderNo,newEcSuborderNo})
+      //   };
+      // })
+      let apartList = [
+        {ecSuborderDetailId:1,pdSpuId:1,pdSkuId:null,code:'s123232412',name:'小黄鸭泡沫洗脸洗手液250ml*2',displayName:'900g',qty:3,payAmount:"200.44"},
+        {ecSuborderDetailId:2,pdSpuId:1,pdSkuId:null,code:'s123232412',name:'小黄鸭泡沫洗脸洗手液250ml*2',displayName:'900g',qty:3,payAmount:"500.89"},
+        {ecSuborderDetailId:3,pdSpuId:1,pdSkuId:null,code:'s123232412',name:'小黄鸭泡沫洗脸洗手液250ml*2',displayName:'900g',qty:3,payAmount:"299.17"}
+      ]
+        apartList.map((item,index)=>{
+          item.key=index;
+          item.surpulsQty=item.qty;
+          return item;
+        })
+        let [ecSuborderNo,newEcSuborderNo,suborderPayAmount] = ["YH021809130000700001","YH021809130000700003",'1000.50']
+        this.setState({apartList,ecSuborderNo,newEcSuborderNo,suborderPayAmount,ecSuborderSurplusPayAmount:suborderPayAmount})
+    }else{
+      message.error("请选择需要拆分的订单")
+    };
   }
 
   //拆分订单取消
   onSplitCancel =()=> {
-    this.setState({splitVisible:false,apartList:[]})
+    this.setState({splitVisible:false,apartList:[],selectedRowKeys:null})
     this.onChange([],[]);
   }
   //确认拆单
   onSplitOk =(obj)=> {
     const { limit, currentPage } = this.props.onAudit;
-    // saveAuditOrdeApi(obj)
-    // .then(res=>{
-    //   if(res.code=="0"){
-    //     this.setState({splitVisible:false})
-    //   }
-    // });
-    this.setState({splitVisible:false});
-    // this.props.dispatch({
-    //   type:'onAudit/fetchList',
-    //   payload:{...this.state.field,limit,currentPage}
-    // });
+    saveAuditOrdeApi(obj)
+    .then(res=>{
+      if(res.code=="0"){
+        message.success("订单拆分成功");
+        this.setState({splitVisible:false});
+        this.props.dispatch({
+          type:'onAudit/fetchList',
+          payload:{...this.state.field,limit,currentPage}
+        });
+      };
+    });
   }
   //修改价格确定
   onPriceOk=()=>{
-
+    const {oldTotalPrice,ecSuborderId,newTotalMoney,priceList}=this.state;
+    const { limit, currentPage } = this.props.onAudit;
+    const obj={
+      ecSuborderId,
+      newEcSuborderPayAmount:newTotalMoney,
+      spus:priceList
+    };
+    if(newTotalMoney == Number(oldTotalPrice)){
+      savePriceApi(obj)
+      .then(res=>{
+        if(res.code=="0"){
+          this.setState({newTotalMoney:0});
+          this.props.dispatch({
+            type:'onAudit/fetchList',
+            payload:{...this.state.field,limit,currentPage}
+          });
+        };
+      })
+    }else{
+      message.error("实付金额输入有误")
+    };
   }
   //修改价格取消
   onPriceCancel =()=> {
-    this.setState({priceVisible:false,priceList:[],newTotalMoney:0});
+    this.setState({priceVisible:false,priceList:[],newTotalMoney:0,selectedRowKeys:null});
     this.onChange([],[])
   }
   //确定合并
@@ -198,17 +241,25 @@ class OnAudit extends Component {
     mergeOrderApi(value)
     .then(res=>{
       if(res.code == "0"){
+        const {limit,currentPage} = this.props;
         clearForm();
-        this.setState({mergeVisible:false})
+        this.setState({mergeVisible:false});
+        //重新刷新列表
+        this.props.dispatch({
+          type:'onAudit/fetchList',
+          payload:{...this.state.field,limit,currentPage}
+        });
       };
     })
   }
   onMergeCancel =(clearForm)=> {
     clearForm();
     this.setState({mergeVisible:false})
+    this.onChange([],[])
   }
   //确认添加星标
   onMarkOk =(value,clearForm)=> {
+    const {limit,currentPage} = this.props;
     value.ecSuborderId = this.state.ecSuborderId;
     value.iconType = 1; //1表示有星标
     mergeOrderApi(value)
@@ -217,17 +268,25 @@ class OnAudit extends Component {
         clearForm();
         this.setState({mergeVisible:false})
         //重新刷新列表
-
+        this.props.dispatch({
+          type:'onAudit/fetchList',
+          payload:{...this.state.field,limit,currentPage}
+        });
       };
     })
   }
   //取消星标
   onMarkCancel =(clearForm)=> {
     clearForm();
-    this.setState({markVisible:false})
+    this.setState({markVisible:false,selectedRowKeys:null});
+    this.onChange([],[])
   }
   markStar =()=> {
-    this.setState({markVisible:true})
+    if(this.state.selectedRowKeys){
+      this.setState({markVisible:true})
+    }else{
+      message.error("请选择需要添加星标的订单")
+    }
   }
   //订单合并
   mergeOrder =()=> {
@@ -242,26 +301,32 @@ class OnAudit extends Component {
     this.setState({newTotalMoney,newTotalMoney})
   }
   changePrice =()=> {
-    //const {ecSuborderId} = this.state
-    // getPriceListApi({ecSuborderId})
-    // .then(res=>{
-    //   if(res.code=='0'){
-    //     this.setState({priceList:res.ecSuborder.spus,oldTotalPrice:ecSuborderPayAmount})
-    //   }
-    // });
-    let priceList = [
-      {skuCode:'s123232412',name:'小黄鸭泡沫洗脸洗手液250ml*2',displayName:'900g',qty:3,payAmount:'60.00',},
-      {skuCode:'s123232412',name:'小黄鸭泡沫洗脸洗手液250ml*2',displayName:'900g',qty:3,payAmount:'20.00',},
-      {skuCode:'s123232412',name:'小黄鸭泡沫洗脸洗手液250ml*2',displayName:'900g',qty:3,payAmount:'20.00',},
-    ]
-    priceList.map((item,index)=>{
-      item.key = index;
-    });
-    let oldTotalPrice = "100.00";
-    this.setState({priceList,oldTotalPrice,priceVisible:true});
+    if(this.state.selectedRowKeys){
+      //const {ecSuborderId} = this.state
+      // getPriceListApi({ecSuborderId})
+      // .then(res=>{
+      //   if(res.code=='0'){
+      //     this.setState({priceList:res.ecSuborder.spus,oldTotalPrice:ecSuborderPayAmount})
+      //   }
+      // });
+      let priceList = [
+        {skuCode:'s123232412',name:'小黄鸭泡沫洗脸洗手液250ml*2',displayName:'900g',qty:3,payAmount:'60.00',},
+        {skuCode:'s123232412',name:'小黄鸭泡沫洗脸洗手液250ml*2',displayName:'900g',qty:3,payAmount:'20.00',},
+        {skuCode:'s123232412',name:'小黄鸭泡沫洗脸洗手液250ml*2',displayName:'900g',qty:3,payAmount:'20.00',},
+      ]
+      priceList.map((item,index)=>{
+        item.key = index;
+      });
+      let oldTotalPrice = "100.00";
+      this.setState({priceList,oldTotalPrice,priceVisible:true});
+    }else{
+      message.error("请选择需要修改价格的订单")
+    }
+
   }
 
   render() {
+    // console.log(this.state.iconType)
     const { dataSource } = this.props.onAudit;
     const {
       ecSuborderId,
@@ -282,7 +347,6 @@ class OnAudit extends Component {
       markVisible,
       iconTypeRemark
     }=this.state;
-    console.log(ecSuborderNo)
     const content = (
       <div>
         <p>1.姓名不规范</p>
@@ -290,6 +354,12 @@ class OnAudit extends Component {
         <p>3.该用户有未发货订单</p>
       </div>
     );
+    dataSource && dataSource.map((item) => {
+        item.onOperateClick = (type) => { this.handleOperateClick(item,"",type) };
+        item.children.map((subItem,subIndex)=>{
+          subItem.onOperateClick = (type) => { this.handleOperateClick(item,subItem,type) };
+        })
+    });
     return (
       <div className='qtools-components-pages on_audit'>
         <FilterForm

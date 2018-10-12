@@ -3,7 +3,6 @@ import { connect } from 'dva'
 import {Modal,Form,Input,message} from 'antd'
 import Qtable from '../../../../components/Qtable/index';
 const FormItem = Form.Item;
-import {savePriceApi} from '../../../../services/online/onAudit'
 import "../index.less"
 
 class ChangePriceModal extends Component{
@@ -12,7 +11,7 @@ class ChangePriceModal extends Component{
     this.state = {
       priceList:[],
       newTotalMoney:0,
-    }
+    };
     this.columns = [{
         title:'商品编码',
         dataIndex:'skuCode',
@@ -30,7 +29,6 @@ class ChangePriceModal extends Component{
         dataIndex:'payAmount',
       },{
         title:'新实付金额',
-        dataIndex:'newPayAmount',
         render:(text,record,index)=>{
           const { getFieldDecorator } = this.props.form;
           return(
@@ -91,23 +89,7 @@ class ChangePriceModal extends Component{
     this.props.onCancel();
   }
   onOk =()=> {
-    const {oldTotalPrice,ecSuborderId,newTotalMoney,priceList}=this.props;
-    let obj={
-      ecSuborderId,
-      newEcSuborderPayAmount:newTotalMoney,
-      spus:priceList
-    }
-    if(newTotalMoney == Number(oldTotalPrice)){
-      changePriceApi(obj)
-      .then(res=>{
-        if(res.code=="0"){
-          this.setState({newTotalMoney:0});
-          this.props.onChange()
-        }
-      })
-    }else{
-      message.error("实付金额输入有误")
-    };
+    this.props.onOk();
   }
   render(){
     const {visible,priceList,oldTotalPrice,newTotalMoney} = this.props;
