@@ -759,6 +759,22 @@ class AddGoodsForm extends Component {
                    </FormItem>
                 </Col>
                 <Col span={24}>
+                  <FormItem label='关税综合税率' {...formItemLayout}>
+                     {getFieldDecorator('warehouseId',{
+                       rules: [{ required: true, message: '请选择保税仓库'}],
+                       initialValue:pdSpu.warehouseId
+                     })(
+                       <Select placeholder="请选择" allowClear={false}>
+                         <Option key={0}>7%</Option>
+                         <Option key={1}>11.2%</Option>
+                         <Option key={2}>20.222%</Option>
+                         <Option key={3}>31.5%</Option>
+                         <Option key={4}>25.529%</Option>
+                       </Select>
+                     )}
+                   </FormItem>
+                </Col>
+                <Col span={24}>
                   <FormItem label='分成比例' {...formItemLayout} className="addonAfter-inputs-common">
                      {getFieldDecorator('shareRatio',{
                        initialValue:pdSpu.shareRatio&&Number(pdSpu.shareRatio)||'',
