@@ -2,6 +2,7 @@ import React,{ Component }from 'react'
 import { connect } from 'dva'
 import {Modal,Form,Input,message} from 'antd'
 import Qtable from '../../../../components/Qtable/index';
+import {accAdd} from '../../../../utils/operate'
 const FormItem = Form.Item;
 import "../index.less"
 
@@ -14,7 +15,7 @@ class ChangePriceModal extends Component{
     };
     this.columns = [{
         title:'商品编码',
-        dataIndex:'skuCode',
+        dataIndex:'code',
       },{
         title:'商品名称',
         dataIndex:'name',
@@ -43,14 +44,14 @@ class ChangePriceModal extends Component{
             </Form>
           )
         }
-      },];
+      }];
   }
   //订单拆分input失去焦点
   onPriceBlur =(record,e)=>{
     const value = e.target.value;
     const index = record.index;
     const key = record.key;
-    const attr = "newPayAmount"+index;
+    const attr = "newPayAmount" + index;
     const {priceList} = this.props;
     let currentIndex;
     record.newPayAmount = Number(value);
@@ -65,9 +66,10 @@ class ChangePriceModal extends Component{
         let newTotalMoney = 0;
         priceList.map((item,index)=>{
           if(item.newPayAmount){
-            newTotalMoney+=item.newPayAmount
-          }
+            newTotalMoney += item.newPayAmount;
+          };
         });
+        newTotalMoney = newTotalMoney.toFixed(2);
         this.props.dataChange(newTotalMoney,priceList)
       }else if(!err){ //无错
         priceList.map((item,index)=>{
@@ -80,6 +82,7 @@ class ChangePriceModal extends Component{
         priceList.map((item,index)=>{
           newTotalMoney += item.newPayAmount
         });
+        newTotalMoney = newTotalMoney.toFixed(2);
         this.props.dataChange(newTotalMoney,priceList)
       }
     });

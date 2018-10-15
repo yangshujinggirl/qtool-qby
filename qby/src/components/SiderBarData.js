@@ -464,9 +464,9 @@ const SiderBarData =  [
       "rank": 20,
       "children": [
         {
-          "urResourceId": 301000,
+          "urResourceId": 306000,
           "name": "商品管理",
-          "code": "301000",
+          "code": "306000",
           "url": "",
           "remark": null,
           "status": 1,
@@ -717,9 +717,9 @@ const SiderBarData =  [
           ]
         },
         {
-          "urResourceId": 306000,
+          "urResourceId": 301000,
           "name": "基础商品",
-          "code": "305000",
+          "code": "301000",
           "url": "",
           "remark": null,
           "status": 1,
@@ -729,7 +729,7 @@ const SiderBarData =  [
           "rank": null,
           "children": [
             {
-              "urResourceId": 306100,
+              "urResourceId": 301100,
               "name": "增改定时",
               "code": "305100",
               "url": "qerp.web.pd.task.time.save",

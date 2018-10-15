@@ -14,7 +14,7 @@ class SearchTable extends React.Component {
 						<TableLink text={text} hindClick={this.lookInfo.bind(this,record)} type='1'/>
 					);
 				}
-            }, 
+            },
             {
                 title: '有赞订单号',
                 dataIndex: 'outNo'
@@ -22,7 +22,7 @@ class SearchTable extends React.Component {
             // {
             //     title: '归属门店',
             //     dataIndex: 'shopName'
-            // }, 
+            // },
             {
                 title: '商品数量',
                 dataIndex: 'qty'
@@ -30,7 +30,7 @@ class SearchTable extends React.Component {
             {
                 title: '订单金额',
                 dataIndex: 'amount'
-            }, 
+            },
             {
                 title: '实际支付金额',
                 dataIndex: 'payAmount'
@@ -49,7 +49,7 @@ class SearchTable extends React.Component {
             }
         ];
     }
- 
+
     //跳转到详情页面
     lookInfo=(record)=>{
         const id=String(record.ecOrderId);
@@ -57,7 +57,7 @@ class SearchTable extends React.Component {
         this.props.dispatch({
             type:'tab/firstAddTab',
             payload:paneitem
-        })
+        });
     }
     //分页方法
     pageChange=(page,pageSize)=>{
@@ -74,13 +74,13 @@ class SearchTable extends React.Component {
     render() {
 
         return (
-            <EditableTable 
+            <EditableTable
                 select={(this.props.addorder || this.props.repigood)?true:false}
                 selectType='checkbox'
                 selectChange={this.selectChange.bind(this)}
                 selectedRowKeys={this.props.selectedRowKeys}
-                dataSource={this.props.datasouce} 
-                columns={this.columns} 
+                dataSource={this.props.datasouce}
+                columns={this.columns}
                 bordered={true}
                 footer={true}
                 pageChange={this.pageChange.bind(this)}
@@ -94,6 +94,3 @@ class SearchTable extends React.Component {
 }
 
 export default connect()(SearchTable);
- 
-
-

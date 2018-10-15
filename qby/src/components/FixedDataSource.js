@@ -54,6 +54,15 @@ const WarehouseOption = [{
         {
           key:6,
           value:'杭州学月保税'
+        },{
+          key:7,
+          value:'杭州仓（自采）'
+        },{
+          key:8,
+          value:'杭州仓（惟信）'
+        },{
+          key:9,
+          value:'杭州仓（其他）'
         }]
 //保税状态
 const GoosStatusOption = [{

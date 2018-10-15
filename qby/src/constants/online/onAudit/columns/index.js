@@ -9,16 +9,16 @@ import {Button,Icon} from 'antd'
                 <span className='product_code'>子订单号：
                   <a href="javascript:;" className="theme-color" onClick={(type)=>record.onOperateClick("detail")}>{record.ecSuborderNo}</a>
                   {
-                    record.iconType ? <span title={record.nameSignStr} className='audit_remark_star'><Icon type="star" /></span> : null
+                    record.iconType ? <span title={record.nameSignStr} className='audit_remark'>备</span> : null
                   }
                   {
-                    record.nameSign ? <span title={record.nameSignStr} className='audit_remark'><Icon type="caret-up" /></span> : null
+                    record.nameSign ? <span title={record.nameSignStr} className='audit_remark'>名</span> : null
                   }
                   {
-                    record.paySign ? <span title={record.nameSignStr} className='audit_remark_star'><Icon type="heart"/></span> : null
+                    record.paySign ? <span title={record.nameSignStr} className='audit_remark'>零</span> : null
                   }
                   {
-                    record.sendingSign ? <span title={record.nameSignStr} className='audit_remark_star'><Icon type="home"/></span> : null
+                    record.sendingSign ? <span title={record.nameSignStr} className='audit_remark'>待</span> : null
                   }
                 </span><br/>
                 <span>有赞订单号：{record.outNo}</span>

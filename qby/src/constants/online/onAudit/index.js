@@ -1,7 +1,7 @@
 import React,{ Component } from 'react';
 import { connect } from 'dva';
 import { Button, message, Modal,Row,Col,Table,Input,Icon,Popover,Form,} from 'antd'
-import { getPriceListApi,mergeOrderApi,saveAuditOrdeApi,savePriceApi,cancelOrderApi} from '../../../services/online/onAudit'
+import { getPriceListApi,mergeOrderApi,auditOrdeApi,saveAuditOrdeApi,savePriceApi,cancelOrderApi} from '../../../services/online/onAudit'
 import Qtable from '../../../components/Qtable/index';
 import Qpagination from '../../../components/Qpagination/index';
 import FilterForm from './FilterForm/index'
@@ -11,6 +11,7 @@ import SplitOrderModal from "./components/SplitOrder"
 import ChangePriceModal from "./components/ChangePriceModal"
 import MergeModal from "./components/MergeModal"
 import MarkStar from "./components/MarkStar"
+import {deepcCloneObj} from "../../../utils/commonFc"
 
 
 const confirm = Modal.confirm;
@@ -90,10 +91,15 @@ class OnAudit extends Component {
     };
   }
   cancelOrder =(obj)=> {
+    const {limit,currentPage} = this.props.onAudit;
     cancelOrderApi(obj)
     .then(res=>{
       if(res.code=="0"){
-        message.success("审核通过成功");
+        if(obj.status == 6){
+          message.success("审核通过成功");
+        }else{
+            message.success("取消订单成功");
+        };
         this.props.dispatch({
           type:'onAudit/fetchList',
           payload:{...this.state.field,limit,currentPage}
@@ -110,10 +116,8 @@ class OnAudit extends Component {
       this.cancelOrder(obj);
     }else if(type=="cancel"){
       obj.status = 5;
-
       this.cancelOrder(obj);
     }else{ //跳转至订单详情
-      console.log(record);
       const paneitem={
         title:'订单详情',
         key:'801000edit'+record.ecSuborderId+'info',
@@ -160,30 +164,24 @@ class OnAudit extends Component {
   }
   //订单拆分
   splitFormChange =()=>{
-    console.log(this.state.ecOrderId)
     if(this.state.selectedRowKeys){
       this.setState({splitVisible:true});
-      // const {ecOrderId,ecSuborderId} = this.state;
-      // auditOrdeApi({ecOrderId,ecSuborderId})
-      // .then(res => {
-      //   if(res.code == "0"){
-      //     this.setState({apartList:res.spus,ecSuborderNo,newEcSuborderNo})
-      //   };
-      // })
-      let apartList = [
-        {ecSuborderDetailId:1,pdSpuId:1,pdSkuId:null,code:'s123232412',name:'小黄鸭泡沫洗脸洗手液250ml*2',displayName:'900g',qty:3,payAmount:"200.44"},
-        {ecSuborderDetailId:2,pdSpuId:1,pdSkuId:null,code:'s123232412',name:'小黄鸭泡沫洗脸洗手液250ml*2',displayName:'900g',qty:3,payAmount:"500.89"},
-        {ecSuborderDetailId:3,pdSpuId:1,pdSkuId:null,code:'s123232412',name:'小黄鸭泡沫洗脸洗手液250ml*2',displayName:'900g',qty:3,payAmount:"299.17"}
-      ]
-        apartList.map((item,index)=>{
-          item.key=index;
-          item.surpulsQty=item.qty;
-          return item;
-        })
-        let [ecSuborderNo,newEcSuborderNo,suborderPayAmount] = ["YH021809130000700001","YH021809130000700003",'1000.50']
-        this.setState({apartList,ecSuborderNo,newEcSuborderNo,suborderPayAmount,ecSuborderSurplusPayAmount:suborderPayAmount})
+      const {ecOrderId,ecSuborderId} = this.state;
+      auditOrdeApi({ecOrderId,ecSuborderId})
+      .then(res => {
+        if(res.code == "0"){
+          let {spus,ecSuborderNo,newEcSuborderNo,suborderPayAmount} = res.ecSuborder;
+          suborderPayAmount = Number(suborderPayAmount).toFixed(2);
+          spus.map((item,index)=>{
+            item.key=index;
+            item.surplusQty=item.qty;
+            return item;
+          });
+          this.setState({apartList:spus,ecSuborderNo,newEcSuborderNo,suborderPayAmount,ecSuborderSurplusPayAmount:suborderPayAmount})
+        };
+      })
     }else{
-      message.error("请选择需要拆分的订单")
+      message.error("请选择需要拆分的订单");
     };
   }
 
@@ -211,16 +209,22 @@ class OnAudit extends Component {
   onPriceOk=()=>{
     const {oldTotalPrice,ecSuborderId,newTotalMoney,priceList}=this.state;
     const { limit, currentPage } = this.props.onAudit;
+    const spus = deepcCloneObj(priceList);
+    spus.map((item)=>{
+      delete item.key;
+      return item;
+    });
     const obj={
       ecSuborderId,
       newEcSuborderPayAmount:newTotalMoney,
-      spus:priceList
+      spus
     };
     if(newTotalMoney == Number(oldTotalPrice)){
+
       savePriceApi(obj)
       .then(res=>{
         if(res.code=="0"){
-          this.setState({newTotalMoney:0});
+          this.setState({newTotalMoney:0,priceVisible:false});
           this.props.dispatch({
             type:'onAudit/fetchList',
             payload:{...this.state.field,limit,currentPage}
@@ -262,7 +266,7 @@ class OnAudit extends Component {
     const {limit,currentPage} = this.props;
     value.ecSuborderId = this.state.ecSuborderId;
     value.iconType = 1; //1表示有星标
-    mergeOrderApi(value)
+    cancelOrderApi(value)
     .then(res=>{
       if(res.code == "0"){
         clearForm();
@@ -302,29 +306,24 @@ class OnAudit extends Component {
   }
   changePrice =()=> {
     if(this.state.selectedRowKeys){
-      //const {ecSuborderId} = this.state
-      // getPriceListApi({ecSuborderId})
-      // .then(res=>{
-      //   if(res.code=='0'){
-      //     this.setState({priceList:res.ecSuborder.spus,oldTotalPrice:ecSuborderPayAmount})
-      //   }
-      // });
-      let priceList = [
-        {skuCode:'s123232412',name:'小黄鸭泡沫洗脸洗手液250ml*2',displayName:'900g',qty:3,payAmount:'60.00',},
-        {skuCode:'s123232412',name:'小黄鸭泡沫洗脸洗手液250ml*2',displayName:'900g',qty:3,payAmount:'20.00',},
-        {skuCode:'s123232412',name:'小黄鸭泡沫洗脸洗手液250ml*2',displayName:'900g',qty:3,payAmount:'20.00',},
-      ]
-      priceList.map((item,index)=>{
-        item.key = index;
+      this.setState({priceVisible:true})
+      const {ecSuborderId} = this.state
+      getPriceListApi({ecSuborderId})
+      .then(res=>{
+        if(res.code=='0'){
+          let {spus,suborderPayAmount} = res.ecSuborder;
+          suborderPayAmount = Number(suborderPayAmount).toFixed(2);
+          spus.map((item,index)=>{
+            item.key = index;
+            return item;
+          });
+          this.setState({priceList:spus,oldTotalPrice:suborderPayAmount});
+        };
       });
-      let oldTotalPrice = "100.00";
-      this.setState({priceList,oldTotalPrice,priceVisible:true});
     }else{
-      message.error("请选择需要修改价格的订单")
-    }
-
+      message.error("请选择需要修改价格的订单");
+    };
   }
-
   render() {
     // console.log(this.state.iconType)
     const { dataSource } = this.props.onAudit;

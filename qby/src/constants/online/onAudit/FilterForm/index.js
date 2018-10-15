@@ -38,12 +38,12 @@ class NormalForm extends Component {
           <div className='search-form-outwrap'>
             <div className="search-form-wrap">
               <FormItem label='子订单号'>
-                 {getFieldDecorator('spShopName')(
+                 {getFieldDecorator('ecSuborderNo')(
                    <Input placeholder="请输入子订单号" autoComplete="off"/>
                  )}
                </FormItem>
               <FormItem label='有赞订单号'>
-                 {getFieldDecorator('orderNo')(
+                 {getFieldDecorator('outNo')(
                    <Input placeholder="请输入有赞订单号" autoComplete="off"/>
                  )}
                </FormItem>
@@ -53,17 +53,17 @@ class NormalForm extends Component {
                  )}
                </FormItem>
                <FormItem label='商品名称'>
-                  {getFieldDecorator('pdSpuName')(
+                  {getFieldDecorator('name')(
                     <Input placeholder="请输入商品名称" autoComplete="off"/>
                   )}
                 </FormItem>
               <FormItem label='收货电话'>
-                 {getFieldDecorator('mobilePhone')(
+                 {getFieldDecorator('recTelephone')(
                    <Input placeholder="请输入收货电话" autoComplete="off"/>
                  )}
                </FormItem>
               <FormItem label='收货人'>
-                 {getFieldDecorator('orderStatus')(
+                 {getFieldDecorator('recName')(
                     <Input placeholder="请输入收货人" autoComplete="off"/>
                  )}
                </FormItem>

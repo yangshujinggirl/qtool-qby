@@ -31,7 +31,7 @@ class SplitOrderModal extends Component{
         dataIndex:'payAmount',
       },{
         title:'剩余数量',
-        dataIndex:'surpulsQty',
+        dataIndex:'surplusQty',
       },{
         title:'拆分数量',
         dataIndex:'auditQty',
@@ -98,10 +98,10 @@ class SplitOrderModal extends Component{
     const {apartList} = this.props;
     if(Number(value) ){ //有值
       /* ---------------------修改剩余数量--------------------- */
-      const surpulsQty = Number(record.qty)-Number(value) //剩余数量
+      const surplusQty = Number(record.qty)-Number(value) //剩余数量
       apartList.map((item,index)=>{
         if(item.key==record.key){
-          item.surpulsQty = surpulsQty;
+          item.surplusQty = surplusQty;
         };
         return item;
       });
@@ -150,7 +150,7 @@ class SplitOrderModal extends Component{
   }
   onOk =()=> {
     this.props.form.validateFieldsAndScroll((err)=>{
-      if(!err){
+      if(!err && Boolean(this.state.newList[0])){
         const {newList,newEcSuborderPayAmount} = this.state;
         const {ecSuborderId,suborderPayAmount,ecSuborderSurplusPayAmount,newEcSuborderNo,apartList}=this.props;
         let [qtySum,oldQtySum] = [0,0];
@@ -159,6 +159,7 @@ class SplitOrderModal extends Component{
           qtySum+=Number(item.auditQty);
           item.oldpayAmount = item.payAmount;
           item.payAmount = (Number(item.oldpayAmount)/Number(item.qty)*Number(item.auditQty)).toFixed(2);
+          item.oldQty = item.qty;
           item.qty=item.auditQty;
         });
         apartList.map((item,index)=>{
@@ -173,6 +174,8 @@ class SplitOrderModal extends Component{
         }else{
           message.error("不可将原订单中的全部拆分至新订单")
         };
+      }else{
+        message.error("请正确填写拆分数量");
       };
     })
   }
