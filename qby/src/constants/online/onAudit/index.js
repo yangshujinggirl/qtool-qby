@@ -135,14 +135,14 @@ class OnAudit extends Component {
     const currentPage = current-1;
     const values = {...this.state.field,currentPage,limit}
     this.props.dispatch({
-      type:'userorders/fetchList',
+      type:'onAudit/fetchList',
       payload: values
     });
   }
   //pagedisplayName改变时的回调
   onShowdisplayNameChange =({currentPage,limit})=> {
     this.props.dispatch({
-      type:'userorders/fetchList',
+      type:'onAudit/fetchList',
       payload:{currentPage,limit}
     });
   }
@@ -158,7 +158,7 @@ class OnAudit extends Component {
   //点击搜索
   searchData = (values)=> {
     this.props.dispatch({
-      type:'userorders/fetchList',
+      type:'onAudit/fetchList',
       payload:values
     })
   }
@@ -175,7 +175,7 @@ class OnAudit extends Component {
           spus.map((item,index)=>{
             item.key=index;
             item.surplusQty=item.qty;
-            return item;
+            return item;o
           });
           this.setState({apartList:spus,ecSuborderNo,newEcSuborderNo,suborderPayAmount,ecSuborderSurplusPayAmount:suborderPayAmount})
         };
@@ -191,11 +191,12 @@ class OnAudit extends Component {
     this.onChange([],[]);
   }
   //确认拆单
-  onSplitOk =(obj)=> {
+  onSplitOk =(obj,clearForm)=> {
     const { limit, currentPage } = this.props.onAudit;
     saveAuditOrdeApi(obj)
     .then(res=>{
       if(res.code=="0"){
+        clearForm();
         message.success("订单拆分成功");
         this.setState({splitVisible:false});
         this.props.dispatch({
@@ -206,7 +207,7 @@ class OnAudit extends Component {
     });
   }
   //修改价格确定
-  onPriceOk=()=>{
+  onPriceOk=(clearForm)=>{
     const {oldTotalPrice,ecSuborderId,newTotalMoney,priceList}=this.state;
     const { limit, currentPage } = this.props.onAudit;
     const spus = deepcCloneObj(priceList);
@@ -220,10 +221,10 @@ class OnAudit extends Component {
       spus
     };
     if(newTotalMoney == Number(oldTotalPrice)){
-
       savePriceApi(obj)
       .then(res=>{
         if(res.code=="0"){
+          clearForm();
           this.setState({newTotalMoney:0,priceVisible:false});
           this.props.dispatch({
             type:'onAudit/fetchList',
@@ -245,6 +246,7 @@ class OnAudit extends Component {
     mergeOrderApi(value)
     .then(res=>{
       if(res.code == "0"){
+        message.success("合单成功");
         const {limit,currentPage} = this.props;
         clearForm();
         this.setState({mergeVisible:false});
@@ -269,8 +271,9 @@ class OnAudit extends Component {
     cancelOrderApi(value)
     .then(res=>{
       if(res.code == "0"){
+
         clearForm();
-        this.setState({mergeVisible:false})
+        this.setState({markVisible:false})
         //重新刷新列表
         this.props.dispatch({
           type:'onAudit/fetchList',

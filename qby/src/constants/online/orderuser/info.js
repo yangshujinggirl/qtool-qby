@@ -63,9 +63,9 @@ class OrderuserInfo extends React.Component{
 			goodinfo:[],
 			subOrderInfos:[],
 			logisticsInfos:[],
-			orderLogs:[],
-			auditLogs:[],
-			clearLogs:[],
+			logs:[],
+			AuditLogs:[],
+			cleanLogs:[],
 			newClearLogs:[],
 			orderinfo:[],
 			receiptinfo:[],
@@ -175,18 +175,10 @@ class OrderuserInfo extends React.Component{
 					{lable:'收货地址',text:orderInfos.address}
 				]
 				const logs = json.logs;
-				let [orderLogs,auditLogs,clearLogs] = [[],[],[]];
-				logs.map((item)=> { //区分订单日志  审核日志 清关日志
-					if(item.docType == 90){
-						orderLogs.push(item);
-					}else if(item.docType == 92){
-						auditLogs.push(item);
-					}else if(item.docType == 93){
-						clearLogs.push(item);
-					};
-				});
+				const AuditLogs = json.AuditLogs;
+				const cleanLogs = json.cleanLogs;
 				let [docNo,alldocNo,newClearLogs] = ["",[],[]];
-				clearLogs.map((item,index)=>{ //把出现的docNo放进一个数组中
+				cleanLogs.map((item,index)=>{ //把出现的docNo放进一个数组中
 					if(item.docNo != docNo){
 						alldocNo.push(item.docNo);
 						docNo = item.docNo;
@@ -197,7 +189,7 @@ class OrderuserInfo extends React.Component{
 					let obj = {
 						name:[]
 					};
-					clearLogs.map((subItem)=>{
+					cleanLogs.map((subItem)=>{
 						if(subItem.docNo == item){
 							obj.name.push(subItem);
 						};
@@ -206,13 +198,12 @@ class OrderuserInfo extends React.Component{
 					newClearLogs.push(obj.name);
 					return item;
 				});
-
        	this.setState({
 					goodinfo:json.goodinfo,
 					subOrderInfos:json.subOrderInfos,
 					logisticsInfos:json.logisticsInfos,
-					orderLogs,
-					auditLogs,
+					logs,
+					AuditLogs,
 					newClearLogs,
 					orderinfo:orderinfo,
 					receiptinfo:receiptinfo,
@@ -228,6 +219,8 @@ class OrderuserInfo extends React.Component{
 					subOrderInfos:[],
 					logisticsInfos:[],
 					logs:[],
+					newClearLogs:[],
+					AuditLogs:[],
 					orderinfo:[],
 					receiptinfo:[],
 					canedit:false,
@@ -310,7 +303,7 @@ class OrderuserInfo extends React.Component{
         <div className='mb10'>
 					<EditableTable
 						columns={this.column3}
-						dataSource={this.state.orderLogs}
+						dataSource={this.state.logs}
             title="订单日志"
             bordered={true}
 						footer={false}/>
@@ -318,7 +311,7 @@ class OrderuserInfo extends React.Component{
 				<div className='mb10'>
 					<EditableTable
 						columns={this.column3}
-						dataSource={this.state.auditLogs}
+						dataSource={this.state.AuditLogs}
             title="杭州仓审核日志"
             bordered={true}
 						footer={false}/>

@@ -30,13 +30,14 @@ class ChangePriceModal extends Component{
         dataIndex:'payAmount',
       },{
         title:'新实付金额',
+        dataIndex:'newPayAmount',
         render:(text,record,index)=>{
           const { getFieldDecorator } = this.props.form;
           return(
             <Form>
               <FormItem>
                 {getFieldDecorator(`newPayAmount`+index,{
-                  rules:[{required:true,message:"请输入实付金额"},{pattern:/^\d+(\.\d{0,2})?$/,message:'仅可输入数字'}]
+                  rules:[{required:true,message:"请输入实付金额"},{pattern:/^\d+(\.\d{0,2})?$/,message:'仅可输入两位小数的数字'}]
                 })(
                   <Input onBlur={(e)=>this.onPriceBlur(record,e)}/>
                 )}
@@ -48,14 +49,14 @@ class ChangePriceModal extends Component{
   }
   //订单拆分input失去焦点
   onPriceBlur =(record,e)=>{
+    console.log(record)
     const value = e.target.value;
-    const index = record.index;
     const key = record.key;
-    const attr = "newPayAmount" + index;
+    const attr = "newPayAmount" + key;
     const {priceList} = this.props;
     let currentIndex;
     record.newPayAmount = Number(value);
-    this.props.form.validateFieldsAndScroll((err)=>{
+    this.props.form.validateFields([attr],(err)=>{
       if(err && !(err.hasOwnProperty(attr))){ //有错，当前列无错
         priceList.map((item,index)=>{
           if(item.key == key ){
@@ -86,13 +87,19 @@ class ChangePriceModal extends Component{
         this.props.dataChange(newTotalMoney,priceList)
       }
     });
-
   }
   onCancel =()=> {
     this.props.onCancel();
   }
+  clearForm =()=> {
+    this.props.form.resetFields();
+  }
   onOk =()=> {
-    this.props.onOk();
+    this.props.form.validateFieldsAndScroll((err)=>{
+      if(!err){
+        this.props.onOk(this.clearForm);
+      }
+    })
   }
   render(){
     const {visible,priceList,oldTotalPrice,newTotalMoney} = this.props;

@@ -9,16 +9,16 @@ import {Button,Icon} from 'antd'
                 <span className='product_code'>子订单号：
                   <a href="javascript:;" className="theme-color" onClick={(type)=>record.onOperateClick("detail")}>{record.ecSuborderNo}</a>
                   {
-                    record.iconType ? <span title={record.nameSignStr} className='audit_remark'>备</span> : null
+                    record.iconType ? <span title={record.iconTypeStr} className='audit_remark bei'>备</span> : null
                   }
                   {
-                    record.nameSign ? <span title={record.nameSignStr} className='audit_remark'>名</span> : null
+                    record.nameSign ? <span title={record.nameSignStr} className='audit_remark name'>名</span> : null
                   }
                   {
-                    record.paySign ? <span title={record.nameSignStr} className='audit_remark'>零</span> : null
+                    record.paySign ? <span title={record.paySignStr} className='audit_remark zero'>零</span> : null
                   }
                   {
-                    record.sendingSign ? <span title={record.nameSignStr} className='audit_remark'>待</span> : null
+                    record.sendingSign ? <span title={record.sendingSignStr} className='audit_remark ready'>待</span> : null
                   }
                 </span><br/>
                 <span>有赞订单号：{record.outNo}</span>
@@ -37,7 +37,7 @@ import {Button,Icon} from 'antd'
         title:'商品名称',
         dataIndex: 'name',
         render:(text,record,index)=>{
-          if(record.name){
+          if("name" in record){
             return(<span>{text}</span>)
           }else{
             return{
@@ -51,7 +51,7 @@ import {Button,Icon} from 'antd'
         title:'规格',
         dataIndex:"displayName",
         render:(text,record,index)=>{
-          if(record.name){
+          if("name" in record){
             return(<span>{text}</span>)
           }else{
             return{
@@ -76,7 +76,7 @@ import {Button,Icon} from 'antd'
         title:'售价',
         dataIndex:"price",
         render:(text,record,index)=>{
-          if(record.name){
+          if("name" in record){
             return(<span>{text}</span>)
           }else{
             return{
@@ -90,7 +90,7 @@ import {Button,Icon} from 'antd'
         title:'金额',
         dataIndex:"amount",
         render:(text,record,index)=>{
-          if(record.name){
+          if("name" in record){
             return(<span>{text}</span>)
           }else{
             return{
@@ -104,7 +104,7 @@ import {Button,Icon} from 'antd'
         title:'商品实付金额',
         dataIndex:"payAmount",
         render:(text,record,index)=>{
-          if(record.name){
+          if("name" in record){
             return(<span>{text}</span>)
           }else{
             return{
@@ -118,7 +118,7 @@ import {Button,Icon} from 'antd'
         title:'订单金额',
         dataIndex:"orderMoney",
         render:(text,record,index)=>{
-          if(record.name){
+          if("name" in record){
             const obj = {
               children:<span>{text}</span>,
               props:{
@@ -126,7 +126,7 @@ import {Button,Icon} from 'antd'
               },
             };
             if(index==0){
-              obj.props.rowSpan = 3;  //dataSource的长度
+              obj.props.rowSpan = record.len;  //dataSource的长度
             }else{
               obj.props.rowSpan = 0;
             };
@@ -143,7 +143,7 @@ import {Button,Icon} from 'antd'
         title:'订单实付金额',
         dataIndex: 'actmoney',
         render:(text,record,index)=>{
-          if(record.name){
+          if("name" in record){
             const obj = {
               children:<span>{text}</span>,
               props:{
@@ -151,7 +151,7 @@ import {Button,Icon} from 'antd'
               },
             };
             if(index==0){
-              obj.props.rowSpan = 3;  //dataSource的长度
+              obj.props.rowSpan = record.len;  //dataSource的长度
             }else{
               obj.props.rowSpan = 0;
             };
@@ -166,20 +166,20 @@ import {Button,Icon} from 'antd'
         }
       },{
         title:'操作',
-        dataIndex:"",
+        dataIndex:"sumQty",
         render:(text,record,index)=>{
           const obj = {
             children:<div>
-                        <Button onClick={(type)=>record.onOperateClick("audit")} className='audit' type="primary">审核通过</Button><br/>
-                        <Button onClick={(type)=>record.onOperateClick("cancel")}>取消订单</Button>
-                      </div>,
+              <Button onClick={(type)=>record.onOperateClick("audit")} className='audit' type="primary">审核通过</Button><br/>
+              <Button onClick={(type)=>record.onOperateClick("cancel")}>取消订单</Button>
+            </div>,
             props:{
-              rowSpan:3
+              rowSpan:0
             },
           };
-          if(record.name){
+          if("name" in record){
             if(index == 0){
-              obj.props.rowSpan = 3;  //dataSource的长度
+              obj.props.rowSpan = record.len;  //dataSource的长度
             }else{
               obj.props.rowSpan = 0;
             };

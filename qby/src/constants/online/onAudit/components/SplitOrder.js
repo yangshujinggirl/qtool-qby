@@ -148,6 +148,9 @@ class SplitOrderModal extends Component{
     const obj = {isConsist,currentIndex,newList}
     return obj
   }
+  clearForm =()=> {
+    this.props.form.resetFields();
+  }
   onOk =()=> {
     this.props.form.validateFieldsAndScroll((err)=>{
       if(!err && Boolean(this.state.newList[0])){
@@ -170,7 +173,7 @@ class SplitOrderModal extends Component{
           newSuborder:{newEcSuborderNo,newEcSuborderPayAmount,qtySum,spus:arr}
         };
         if(qtySum != oldQtySum ){
-          this.props.onOk(obj)
+          this.props.onOk(obj,this.clearForm)
         }else{
           message.error("不可将原订单中的全部拆分至新订单")
         };

@@ -33,7 +33,7 @@ const BooleanOption = [{
 //保税仓库
 const WarehouseOption = [{
           key:1,
-          value:'杭州下沙保税'
+          value:'杭州仓（惟信）'
         },
         {
           key:2,
@@ -59,9 +59,6 @@ const WarehouseOption = [{
           value:'杭州仓（自采）'
         },{
           key:8,
-          value:'杭州仓（惟信）'
-        },{
-          key:9,
           value:'杭州仓（其他）'
         }]
 //保税状态

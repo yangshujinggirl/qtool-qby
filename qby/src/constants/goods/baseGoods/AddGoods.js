@@ -760,9 +760,9 @@ class AddGoodsForm extends Component {
                 </Col>
                 <Col span={24}>
                   <FormItem label='关税综合税率' {...formItemLayout}>
-                     {getFieldDecorator('warehouseId',{
+                     {getFieldDecorator('taxRate',{
                        rules: [{ required: true, message: '请选择保税仓库'}],
-                       initialValue:pdSpu.warehouseId
+                       initialValue:pdSpu.taxRate
                      })(
                        <Select placeholder="请选择" allowClear={false}>
                          <Option key={0}>7%</Option>
