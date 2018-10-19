@@ -67,18 +67,26 @@ export default{
       //      selectedRowKeys:[]
       //    }
       //  });
+      let auditOrders = [];
+      yield put({
+         type:'getList',
+         payload:{
+           dataSource:auditOrders,
+         }
+     });
       const result =  yield call(getListApi,values);
       if(result.code == '0'){
-        const { auditOrders, currentPage, limit, total } = result;
+        const { currentPage, limit, total } = result;
+        auditOrders = result.auditOrders;
         auditOrders.map((item,index)=>{
           item.children.map((subItem,subIndex) => {
-            subItem.key=1000*(index+1)+subIndex+1;
+            subItem.key=1000*(index+1)+subIndex+1+"";
             subItem.len=item.children.length;
             subItem.orderMoney=item.suborderAmount;
             subItem.actmoney=item.suborderPayAmount;
             return subItem;
           });
-          item.key = index+1;
+          item.key = index+1+"";
           return item;
         });
         yield put({

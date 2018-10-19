@@ -272,7 +272,6 @@ class OnAudit extends Component {
     cancelOrderApi(value)
     .then(res=>{
       if(res.code == "0"){
-
         clearForm();
         this.setState({markVisible:false})
         //重新刷新列表
@@ -328,10 +327,14 @@ class OnAudit extends Component {
       message.error("请选择需要修改价格的订单");
     };
   }
+  onExpandRowsChange =(rows)=> {
+    console.log(rows)
+    this.setState({expandedRowKeys:rows})
+  }
   render() {
     // console.log(this.state.iconType)
     const { dataSource } = this.props.onAudit;
-    console.log(dataSource)
+    // console.log(dataSource)
     const {
       ecSuborderId,
       ecSuborderNo,
@@ -349,7 +352,8 @@ class OnAudit extends Component {
       newTotalMoney,
       mergeVisible,
       markVisible,
-      iconTypeRemark
+      iconTypeRemark,
+      expandedRowKeys=[]
     }=this.state;
     const content = (
       <div className='remark_box'>
@@ -382,16 +386,17 @@ class OnAudit extends Component {
             </Popover>
          </div>
          {
-           dataSource.length>0 &&
+           dataSource&&dataSource.length>0 &&
            <Table
              className='main_table'
              bordered
              rowSelection={rowSelection}
              columns={Columns}
-             defaultExpandAllRows={true}
+             defaultExpandAllRows = {true}
              indentsize={0}
              pagination={false}
              dataSource={dataSource}
+             rowKey="key"
            />
          }
 

@@ -2,6 +2,7 @@ import {Button,Icon} from 'antd'
    const Columns = [{
         title:'商品编码',
         dataIndex: 'code',
+        key:"code",
         render:(text,record,index)=>{
           if("outNo" in record){
             return{
@@ -36,6 +37,7 @@ import {Button,Icon} from 'antd'
       },{
         title:'商品名称',
         dataIndex: 'name',
+        key:"name",
         render:(text,record,index)=>{
           if("name" in record){
             return(<span>{text}</span>)
@@ -50,6 +52,7 @@ import {Button,Icon} from 'antd'
       },{
         title:'规格',
         dataIndex:"displayName",
+        key:"displayName",
         render:(text,record,index)=>{
           if("name" in record){
             return(<span>{text}</span>)
@@ -64,6 +67,7 @@ import {Button,Icon} from 'antd'
       }, {
         title:'数量',
         dataIndex:"qty",
+        key:"qty",
         render:(text,record)=>{
           if(record.sumQty){
             return(<span>{record.sumQty}</span>)
@@ -74,6 +78,7 @@ import {Button,Icon} from 'antd'
       },{
         title:'售价',
         dataIndex:"price",
+        key:"price",
         render:(text,record,index)=>{
           if("name" in record){
             return(<span>{text}</span>)
@@ -88,6 +93,7 @@ import {Button,Icon} from 'antd'
       },{
         title:'金额',
         dataIndex:"amount",
+        key:"amount",
         render:(text,record,index)=>{
           if("name" in record){
             return(<span>{text}</span>)
@@ -102,6 +108,7 @@ import {Button,Icon} from 'antd'
       },{
         title:'商品实付金额',
         dataIndex:"payAmount",
+        key:"payAmount",
         render:(text,record,index)=>{
           if("name" in record){
             return(<span>{text}</span>)
@@ -116,6 +123,7 @@ import {Button,Icon} from 'antd'
       },{
         title:'订单金额',
         dataIndex:"orderMoney",
+        key:"orderMoney",
         render:(text,record,index)=>{
           if("name" in record){
             const obj = {
@@ -141,6 +149,7 @@ import {Button,Icon} from 'antd'
       },{
         title:'订单实付金额',
         dataIndex: 'actmoney',
+        key:"actmoney",
         render:(text,record,index)=>{
           if("name" in record){
             const obj = {
@@ -166,6 +175,7 @@ import {Button,Icon} from 'antd'
       },{
         title:'操作',
         dataIndex:"sumQty",
+        key:"sumQty",
         render:(text,record,index)=>{
           const obj = {
             children:<div>
