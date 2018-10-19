@@ -38,7 +38,14 @@ class SplitOrderModal extends Component{
         render:(text,record,index)=>{
           const { getFieldDecorator } = this.props.form;
           const maxNum = record.qty;
-          const reg = new RegExp("^(?:[0-"+maxNum+"]"+"{0,1})"+"$");
+          let len = String(maxNum).length;
+          let reg;
+          if(len>1){
+            len = len-1;
+            reg = new RegExp("^(?:[0-9]{0,"+len+"}|"+maxNum+")$");
+          }else{
+            reg = new RegExp("^(?:[0-"+maxNum+"]{0,"+len+"}|"+maxNum+")$");
+          };
           return(
             <Form>
               <FormItem>

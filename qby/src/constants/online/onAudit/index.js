@@ -66,7 +66,7 @@ class OnAudit extends Component {
   }
   componentWillReceiveProps(props) {
     this.setState({
-      dataSource:props.onAudit.dataSource,
+      // dataSource:props.onAudit.dataSource,
       rowSelection : {
         selectedRowKeys:props.onAudit.selectedRowKeys,
         type:'radio',
@@ -330,6 +330,7 @@ class OnAudit extends Component {
   render() {
     // console.log(this.state.iconType)
     const { dataSource } = this.props.onAudit;
+    console.log(dataSource)
     const {
       ecSuborderId,
       ecSuborderNo,
@@ -350,10 +351,10 @@ class OnAudit extends Component {
       iconTypeRemark
     }=this.state;
     const content = (
-      <div>
-        <p>1.姓名不规范</p>
-        <p>2.商品实付金额为0</p>
-        <p>3.该用户有未发货订单</p>
+      <div className='remark_box'>
+        <p className='mark'><span className='name'>名</span> 1. 姓名不规范</p>
+        <p className='mark'><span className='zero'>零</span> 2. 商品实付金额为0</p>
+        <p className='mark'><span className='ready'>待</span> 3. 该用户有未发货订单</p>
       </div>
     );
     dataSource && dataSource.map((item) => {

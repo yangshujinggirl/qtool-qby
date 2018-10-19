@@ -3,22 +3,22 @@ import {Button,Icon} from 'antd'
         title:'商品编码',
         dataIndex: 'code',
         render:(text,record,index)=>{
-          if(record.outNo){
+          if("outNo" in record){
             return{
-              children:<span className="testtttt">
-                <span className='product_code'>子订单号：
-                  <a href="javascript:;" className="theme-color" onClick={(type)=>record.onOperateClick("detail")}>{record.ecSuborderNo}</a>
+              children:<span>
+                <span className='product_code remark_box'>子订单号：
+                  <a href="javascript:;" className="theme-color remark_box" onClick={(type)=>record.onOperateClick("detail")}>{record.ecSuborderNo}</a>
                   {
-                    record.iconType ? <span title={record.iconTypeStr} className='audit_remark bei'>备</span> : null
+                    record.iconType ? <span title={record.iconTypeRemark} className='audit_remark bei'>备</span> : null
                   }
                   {
-                    record.nameSign ? <span title={record.nameSignStr} className='audit_remark name'>名</span> : null
+                    record.nameSign ? <span title="姓名不规范" className='audit_remark name'>名</span> : null
                   }
                   {
-                    record.paySign ? <span title={record.paySignStr} className='audit_remark zero'>零</span> : null
+                    record.paySign ? <span title="商品实付金额为0" className='audit_remark zero'>零</span> : null
                   }
                   {
-                    record.sendingSign ? <span title={record.sendingSignStr} className='audit_remark ready'>待</span> : null
+                    record.sendingSign ? <span title="该用户有未发货订单" className='audit_remark ready'>待</span> : null
                   }
                 </span><br/>
                 <span>有赞订单号：{record.outNo}</span>
@@ -28,6 +28,7 @@ import {Button,Icon} from 'antd'
               },
             };
           }else{
+            console.log(text)
             return(
               <span >{text}</span>
             )
@@ -69,9 +70,8 @@ import {Button,Icon} from 'antd'
             return(<span>{record.sumQty}</span>)
           }else{
             return(<span>{text}</span>)
-          }
-        }
-
+          };
+        },
       },{
         title:'售价',
         dataIndex:"price",

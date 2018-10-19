@@ -29,6 +29,7 @@ export default {
       if(result.code == '0') {
         let { iPdSpu, fileDomain } = result;
         let pdSpu = iPdSpu;
+        pdSpu.taxRate = pdSpu.taxRate + "%";
         let fileList = [];
         //格式化商品图片数据
         if(pdSpu.spuIdPics && pdSpu.spuIdPics) {

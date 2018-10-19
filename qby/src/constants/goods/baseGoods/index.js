@@ -181,10 +181,6 @@ class BaseGoods extends Component {
           submit={this.searchData}
           onValuesChange={this.handleFormChange}/>
         <div className="handel-btn-lists">
-          <Button
-            size="large"
-            type="primary"
-            onClick={()=>this.addGoods(1)}>新增线上商品</Button>
           {
             authorityList.authorityOnline&&
             <Button
