@@ -72,7 +72,7 @@ export default{
         const { auditOrders, currentPage, limit, total } = result;
         auditOrders.map((item,index)=>{
           item.children.map((subItem,subIndex) => {
-            subItem.key=10*(index+1)+subIndex+1;
+            subItem.key=1000*(index+1)+subIndex+1;
             subItem.len=item.children.length;
             subItem.orderMoney=item.suborderAmount;
             subItem.actmoney=item.suborderPayAmount;

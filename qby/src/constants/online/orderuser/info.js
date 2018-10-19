@@ -335,6 +335,7 @@ class OrderuserInfo extends React.Component{
 		)
 	}
 	componentDidMount(){
+		console.log(this.props.data)
 		this.infofetch(this.props.data.id)
 	}
 }

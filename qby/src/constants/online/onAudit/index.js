@@ -41,14 +41,15 @@ class OnAudit extends Component {
       markVisible:false,
       iconTypeRemark:"",
       field:{
-        spShopName:'',
-        orderNo:'',
-        pdSpuName:'',
+        ecSuborderNo:'',
+        outNo:'',
+        name:'',
         code:'',
-        mobile:'',
-        orderStatus:'',
-        dateTimeST:'',
-        dateTimeET:'',
+        recTelephone:'',
+        recName:'',
+        idCardNo:'',
+        payTimeST:'',
+        payTimeET:'',
       },
       selectedRowKeys:null,
       rowSelection:{
@@ -120,9 +121,9 @@ class OnAudit extends Component {
     }else{ //跳转至订单详情
       const paneitem={
         title:'订单详情',
-        key:'801000edit'+record.ecSuborderId+'info',
-        data:{id:record.ecSuborderId},
-        componkey:'801000info'
+        key:'804000edit'+parentRecord.ecSuborderId+'info',
+        data:{id:parentRecord.ecOrderId},
+        componkey:'801000info',
       }
       this.props.dispatch({
         type:'tab/firstAddTab',
@@ -150,8 +151,8 @@ class OnAudit extends Component {
   searchDataChange =(values)=> {
     const {rangePicker,..._values} = values;
     if(rangePicker&&rangePicker[0]){
-      _values.dateTimeST =  moment(new Date(rangePicker[0])).format('YYYY-MM-DD HH:mm:ss');
-      _values.dateTimeET = moment(new Date(rangePicker[1])).format('YYYY-MM-DD HH:mm:ss');
+      _values.payTimeST =  moment(new Date(rangePicker[0])).format('YYYY-MM-DD HH:mm:ss');
+      _values.payTimeET = moment(new Date(rangePicker[1])).format('YYYY-MM-DD HH:mm:ss');
     }
     this.setState({field:_values});
   }

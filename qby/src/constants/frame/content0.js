@@ -290,6 +290,7 @@ class Content extends React.Component {
                                     case "802000editconfig" : return <OnLineLogList data={this.props.data}/>;
 
                                     case "804000": return <OnAudit data={this.props.data}/>
+                                    case "804000info": return <OrderuserInfo data={this.props.data}/>
 
                                     case "707000info" : return <AdjustInfo data={this.props.data}/>;
                                     case "707000infoinventory": return <InventoryInfo data={this.props.data}/>

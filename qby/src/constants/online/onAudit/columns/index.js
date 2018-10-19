@@ -28,7 +28,6 @@ import {Button,Icon} from 'antd'
               },
             };
           }else{
-            console.log(text)
             return(
               <span >{text}</span>
             )
