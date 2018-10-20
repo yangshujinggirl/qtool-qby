@@ -278,9 +278,11 @@ class AddGoodsForm extends Component {
   }
   //格式化数据
   formParams(values) {
-    if(values.taxRate.indexOf("%") != -1){
-      values.taxRate = values.taxRate.replace("%","");
-    };
+    if(values && values.taxRate){
+      if(values.taxRate.indexOf("%") != -1){
+        values.taxRate = values.taxRate.replace("%","");
+      };
+    }
     //取出store中id品牌，国家
     values.pdBrandId = this.props.addGoods.autoComplete.pdBrandId;
     values.pdCountryId = this.props.addGoods.autoComplete.pdCountryId;

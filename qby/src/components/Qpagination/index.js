@@ -23,7 +23,7 @@ class Qpagination extends Component {
       return ['15','30','50','100','200','500']
     } else {
       return ['16','50','100','200']
-    }
+    };
   }
 
   render() {
