@@ -37,20 +37,19 @@ class SplitOrderModal extends Component{
         dataIndex:'auditQty',
         render:(text,record,index)=>{
           const { getFieldDecorator } = this.props.form;
-          const maxNum = record.qty;
-          let len = String(maxNum).length;
-          let reg;
-          if(len>1){
-            len = len-1;
-            reg = new RegExp("^(?:[0-9]{0,"+len+"}|"+maxNum+")$");
-          }else{
-            reg = new RegExp("^(?:[0-"+maxNum+"]{0,"+len+"}|"+maxNum+")$");
-          };
+          var method = "handleConfirmQty"+record.key;
+          method = (rule, value, callback) => {
+              const { getFieldValue } = this.props.form;
+              if (value && value > record.qty && /^[0-9]*$/.test(value)) {
+                  callback('输入小于原数量的整数')
+              };
+              callback();
+          }
           return(
             <Form>
               <FormItem>
                 {getFieldDecorator(`auditQty`+record.key,{
-                  rules:[{pattern:reg,message:'请输入小于原数量的整数'}]
+                  rules:[{validator: method}]
                 })(
                   <Input onBlur={(e)=>this.onSplitBlur(record,e)}/>
                 )}
@@ -75,7 +74,7 @@ class SplitOrderModal extends Component{
         dataIndex:'auditQty',
       },{
         title:'商品实付金额',
-        dataIndex:'',
+        dataIndex:'actPaymoney',
         render:(text,record,index)=>{
           const goodPrice = (Number(record.payAmount)/Number(record.qty)*Number(record.auditQty)).toFixed(2)
           return(<span>{goodPrice}</span>)
@@ -84,7 +83,7 @@ class SplitOrderModal extends Component{
   }
   //取消
   onCancel =()=>{
-    this.setState({newList:[],newEcSuborderPayAmount:0})
+    // this.setState({newEcSuborderPayAmount:0})
     this.props.onCancel()
   }
   //订单拆分input失去焦点
@@ -131,20 +130,23 @@ class SplitOrderModal extends Component{
       let newObj = obj.newList;
       let ecSuborderSurplusPayAmount = Subtr(Number(this.props.suborderPayAmount),newEcSuborderPayAmount); //剩余金额
       /* --------------新增实付金额总和-------------- */
-      this.setState({newList:obj.newList,newEcSuborderPayAmount})
-      this.props.dataChange(apartList,ecSuborderSurplusPayAmount)
+      let newList = obj.newList;
+      // this.setState({newList:obj.newList,newEcSuborderPayAmount})
+      this.props.dataChange(apartList,ecSuborderSurplusPayAmount,newEcSuborderPayAmount,newList)
     }else{ //没值(如果是0就清掉)
       const obj = this.isExit(record);
       if(obj.isConsist){ //数组中原本存在，现在为0就清掉
         obj.newList.splice(obj.currentIndex,1);
       };
-      this.setState({newList:obj.newList})
+      let newList = obj.newList;
+      // this.setState({newList:obj.newList})
+      this.props.dataChangeList(newList)
     };
   }
   //判断数组里是否含有这组值，并记录现在这组值在新增数组中所处的位置
   isExit =(record)=> {
     const key = record.key; //唯一标识
-    let {newList} = this.state;
+    let {newList} = this.props;
     let currentIndex;
     const isConsist = newList.some((item,index)=>{
       if(item.key == key ){
@@ -160,9 +162,9 @@ class SplitOrderModal extends Component{
   }
   onOk =()=> {
     this.props.form.validateFieldsAndScroll((err)=>{
-      if(!err && Boolean(this.state.newList[0])){
-        const {newList,newEcSuborderPayAmount} = this.state;
-        const {ecSuborderId,suborderPayAmount,ecSuborderSurplusPayAmount,newEcSuborderNo,apartList}=this.props;
+      if(!err && Boolean(this.props.newList[0])){
+        const {newEcSuborderPayAmount} = this.props;
+        const {newList,ecSuborderId,suborderPayAmount,ecSuborderSurplusPayAmount,newEcSuborderNo,apartList}=this.props;
         let [qtySum,oldQtySum] = [0,0];
         const arr = deepcCloneObj(newList);
         arr.map((item,index)=>{
@@ -190,8 +192,8 @@ class SplitOrderModal extends Component{
     })
   }
   render(){
-    const {visible,apartList,ecSuborderNo,newEcSuborderNo,suborderPayAmount,ecSuborderPayAmount,ecSuborderSurplusPayAmount} = this.props;
-    const {newList,newEcSuborderPayAmount} = this.state;
+    const {newEcSuborderPayAmount,newList,visible,apartList,ecSuborderNo,newEcSuborderNo,suborderPayAmount,ecSuborderPayAmount,ecSuborderSurplusPayAmount} = this.props;
+    // const {newEcSuborderPayAmount} = this.state;
     return(
       <div>
         <Modal

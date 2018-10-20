@@ -22,6 +22,7 @@ class OnAudit extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      newEcSuborderPayAmount:0,
       dataSource:[],
       newList:[], //新增订单列表
       apartList:[], //原始订单列表
@@ -188,7 +189,7 @@ class OnAudit extends Component {
 
   //拆分订单取消
   onSplitCancel =()=> {
-    this.setState({splitVisible:false,apartList:[],selectedRowKeys:null})
+    this.setState({splitVisible:false,apartList:[],selectedRowKeys:null,newList:[],newEcSuborderPayAmount:0})
     this.onChange([],[]);
   }
   //确认拆单
@@ -199,7 +200,7 @@ class OnAudit extends Component {
       if(res.code=="0"){
         clearForm();
         message.success("订单拆分成功");
-        this.setState({splitVisible:false});
+        this.setState({splitVisible:false,apartList:[],newList:[],newEcSuborderPayAmount:0});
         this.props.dispatch({
           type:'onAudit/fetchList',
           payload:{...this.state.field,limit,currentPage}
@@ -300,8 +301,11 @@ class OnAudit extends Component {
     this.setState({mergeVisible:true})
   }
   //拆单原订单数据改变
-  dataChange =(apartList,ecSuborderSurplusPayAmount)=> {
-    this.setState({apartList,ecSuborderSurplusPayAmount})
+  dataChange =(apartList,ecSuborderSurplusPayAmount,newEcSuborderPayAmount,newList)=> {
+    this.setState({apartList,ecSuborderSurplusPayAmount,newEcSuborderPayAmount,newList})
+  }
+  dataChangeList =(newList)=> {
+    this.setState({newList});
   }
   //修改价格数据改变
   priceDataChange=(newTotalMoney,priceList)=>{
@@ -346,6 +350,7 @@ class OnAudit extends Component {
       apartList,
       totalActPrcie,
       ecSuborderSurplusPayAmount,
+      newEcSuborderPayAmount,
       priceVisible,
       priceList,
       oldTotalPrice,
@@ -405,6 +410,8 @@ class OnAudit extends Component {
           onChange={this.changePage}
           onShowsizeChange = {this.onShowsizeChange}/>
         <SplitOrderModal
+          dataChangeList={this.dataChangeList}
+          newList = {newList}
           visible={splitVisible}
           onCancel={this.onSplitCancel}
           onOk={this.onSplitOk}
@@ -414,6 +421,7 @@ class OnAudit extends Component {
           newEcSuborderNo={newEcSuborderNo}
           suborderPayAmount={suborderPayAmount}
           ecSuborderSurplusPayAmount={ecSuborderSurplusPayAmount}
+          newEcSuborderPayAmount={newEcSuborderPayAmount}
           dataChange={this.dataChange}
         />
         <ChangePriceModal
