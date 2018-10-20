@@ -269,10 +269,10 @@ class AddGoodsForm extends Component {
         if(pdSpuId) {
           values = Object.assign(values,{
             pdSpuId
-          })
+          });
         };
         values = this.formParams(values);
-        this.saveOnLineGoods({iPdSpu:values},source)
+        this.saveOnLineGoods({iPdSpu:values},source);
       }
     });
   }
