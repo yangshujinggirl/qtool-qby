@@ -338,9 +338,31 @@ class OnAudit extends Component {
   }
   render() {
     const rolelists=this.props.data.rolelists;
-    //修改订单
-    const editorder=rolelists.find((currentValue,index)=>{
-	       return currentValue.url=="qerp.web.ec.pd.userOrder.save"
+    console.log(this.props.data)
+    //订单拆分
+    const dismantle=rolelists.find((currentValue,index)=>{
+	       return currentValue.url=="qerp.web.ec.od.auditOrder.dismantle.query"
+    });
+    console.log(dismantle)
+    //订单合并
+    const orderMerge=rolelists.find((currentValue,index)=>{
+	       return currentValue.url=="qerp.web.ec.od.auditOrder.merge.save"
+    })
+    //星标
+    const setStar=rolelists.find((currentValue,index)=>{
+	       return currentValue.url=="qerp.web.ec.od.auditOrder.save"
+    })
+    //修改价格
+    const changePrice=rolelists.find((currentValue,index)=>{
+	       return currentValue.url=="qerp.web.ec.od.auditOrder.price.query"
+    })
+    //审核通过
+    const auditPass=rolelists.find((currentValue,index)=>{
+	       return currentValue.url=="qerp.web.ec.od.auditOrder.save"
+    })
+    //取消订单
+    const auditCancel=rolelists.find((currentValue,index)=>{
+	       return currentValue.url=="qerp.web.ec.od.auditOrder.save"
     })
     const { dataSource } = this.props.onAudit;
     const {
@@ -369,30 +391,41 @@ class OnAudit extends Component {
         <p className='mark'><span className='name'>名</span> 1. 姓名不规范</p>
         <p className='mark'><span className='zero'>零</span> 2. 商品实付金额为0</p>
         <p className='mark'><span className='ready'>待</span> 3. 该用户有未发货订单</p>
+        <p className='mark'><span className='bei'>备</span> 4. 人工添加</p>
       </div>
     );
     dataSource && dataSource.map((item) => {
         item.onOperateClick = (type) => { this.handleOperateClick(item,"",type) };
         item.children.map((subItem,subIndex)=>{
           subItem.onOperateClick = (type) => { this.handleOperateClick(item,subItem,type) };
+          subItem.auditPass = auditPass;
+          subItem.auditCancel = auditCancel;
         })
     });
     return (
-      <div className='qtools-components-pages on_audit'>
+      <div className='qtools-components-pages' id="on_audit">
         <FilterForm
            submit={this.searchData}
            onValuesChange = {this.searchDataChange}
          />
-         <div className="handel-btn-lists">
-           <Button size='large' type='primary' onClick={this.splitFormChange}> 订单拆分 </Button>
-           <Button size='large' type='primary' onClick={this.mergeOrder}> 订单合单 </Button>
-           <Button size='large' type='primary' onClick={this.markStar}> 星标 </Button>
-           <Button size='large' type='primary' onClick={this.changePrice}> 修改价格 </Button>
-           <Popover style={{textAlign:'right'}} content={content} title="标记说明" trigger="hover">
-              <a className="remark_intro">
-               标记说明<Icon type="question-circle-o" style={{color:"#ED6531",marginLeft:"4px"}}/>
-              </a>
-            </Popover>
+       <div className="handel-btn-lists">
+         {
+           dismantle && <Button size='large' type='primary' onClick={this.splitFormChange}> 订单拆分 </Button>
+         }
+         {
+           orderMerge && <Button size='large' type='primary' onClick={this.mergeOrder}> 订单合并 </Button>
+         }
+         {
+           setStar && <Button size='large' type='primary' onClick={this.markStar}> 星标 </Button>
+         }
+         {
+           changePrice && <Button size='large' type='primary' onClick={this.changePrice}> 修改价格 </Button>
+         }
+         <Popover style={{textAlign:'right'}} content={content} title="标记说明" trigger="hover">
+            <a className="remark_intro">
+             标记说明<Icon type="question-circle-o" style={{color:"#ED6531",marginLeft:"4px"}}/>
+            </a>
+          </Popover>
          </div>
          {
            dataSource&&dataSource.length>0 &&

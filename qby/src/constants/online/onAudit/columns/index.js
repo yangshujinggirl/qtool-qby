@@ -178,10 +178,10 @@ import {Button,Icon} from 'antd'
         key:"sumQty",
         render:(text,record,index)=>{
           const obj = {
-            children:<div>
+            children:record.auditPass ? <div>
               <Button onClick={(type)=>record.onOperateClick("audit")} className='audit' type="primary">审核通过</Button><br/>
               <Button onClick={(type)=>record.onOperateClick("cancel")}>取消订单</Button>
-            </div>,
+            </div>:null,
             props:{
               rowSpan:0
             },

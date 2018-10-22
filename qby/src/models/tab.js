@@ -18,6 +18,7 @@ export default {
         },
         //刷新,第一次进入页面
         refresh(state, { payload:pannelfirst}) {
+          debugger
             var pane = eval(sessionStorage.getItem("pane"));
             var activeKey = sessionStorage.getItem('activeKey');
             var openKey = eval(sessionStorage.getItem("openKey"));
@@ -88,6 +89,7 @@ export default {
         *fetch({ payload: {code,values} }, { call, put }) {
             const result=yield call(GetServerData,code,values);
             if(result.code=='0'){
+              debugger
                 let {menus}=result;
                 let first = menus[0].children[0];
                 const firstItem={title:first.name,key:String(first.urResourceId)};

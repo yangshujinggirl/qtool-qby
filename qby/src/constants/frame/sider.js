@@ -30,6 +30,7 @@ class Siders extends React.Component {
     render() {
       // const menus = SiderBarData;
       const menus = this.props.menus;
+      console.log(menus)
         return (
     		<div className='sidebox'>
     			<Sider className={this.props.isHideSider?'slidebox hide':'slidebox'} width='220'>
@@ -52,7 +53,7 @@ class Siders extends React.Component {
 														<IconLogo type={item.type}/>
 														<span>{item.name}</span>
 													</div>
-														}
+						             }
 												 key={item.urResourceId}>
 											{
 												item.children.map((subitem,subindex)=>{

@@ -26,6 +26,7 @@ class Tab extends React.Component {
 		  });
   	}
   	render() {
+      console.log(this.props.pane) //这个从何而来
     	return (
         	<Tabs
 				hideAdd
