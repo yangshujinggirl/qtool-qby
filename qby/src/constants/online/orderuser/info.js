@@ -31,12 +31,12 @@ class Tabletitle extends React.Component {
 					{
 						(this.props.postgood && this.props.isdelivery)?
 						<div className='fr'>
-						<Shipeditmodel
-							modeltit={'子单'+this.props.listindex+'信息'}
-							ecOrderId={this.props.ecOrderId}
-							ecSuborderNo={this.props.ecSuborderNo}
-							infofetch={this.props.infofetch}
-							ecSuborderId={this.props.ecSuborderId}/>
+							<Shipeditmodel
+								modeltit={'子单'+this.props.listindex+'信息'}
+								ecOrderId={this.props.ecOrderId}
+								ecSuborderNo={this.props.ecSuborderNo}
+								infofetch={this.props.infofetch}
+								ecSuborderId={this.props.ecSuborderId}/>
 						</div>:null
 					}
 				</div>

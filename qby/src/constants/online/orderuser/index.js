@@ -48,7 +48,7 @@ class OrderuserIndex extends React.Component{
 			}
 		})
     }
-    
+
     //table搜索
     hindSearch=(values)=>{
         values.limit=this.state.limit
@@ -70,7 +70,7 @@ class OrderuserIndex extends React.Component{
                     selectedRows:[]
                 })
             }
-        }) 
+        })
     }
     //获得分页最新的limit和currentPage
     getPageSize=(limit,currentPage)=>{
@@ -105,7 +105,7 @@ class OrderuserIndex extends React.Component{
                 }
             })
     }
-    
+
     //重新匹配商品
     matchOrder=()=>{
         if (this.state.selectedRows.length < 1) {
@@ -127,7 +127,7 @@ class OrderuserIndex extends React.Component{
                 message.success('重新匹配商品成功')
                 this.hindSearch(this.state.searchvalue)
             }
-        }) 
+        })
     }
 
     //获得选中行数据
@@ -139,7 +139,7 @@ class OrderuserIndex extends React.Component{
     }
 
   	render(){
-        const rolelists=this.props.data.rolelists
+    const rolelists=this.props.data.rolelists
 		//重新推送
 		const addorder=rolelists.find((currentValue,index)=>{
 			return currentValue.url=="qerp.web.ec.pd.spulog.list"
@@ -152,16 +152,16 @@ class OrderuserIndex extends React.Component{
 		const repigood=rolelists.find((currentValue,index)=>{
 			return currentValue.url=="qerp.web.ec.pd.userOrder.reMatch"
         })
-        //修改订单
-        const editorder=rolelists.find((currentValue,index)=>{
-			return currentValue.url=="qerp.web.ec.pd.userOrder.save"
-        })
-        //发货
-        const postgood=rolelists.find((currentValue,index)=>{
-			return currentValue.url=="qerp.web.ec.express.hk.save"
-        })
+    //修改订单
+    const editorder=rolelists.find((currentValue,index)=>{
+	       return currentValue.url=="qerp.web.ec.pd.userOrder.save"
+    })
+    //发货
+    const postgood=rolelists.find((currentValue,index)=>{
+	     return currentValue.url=="qerp.web.ec.express.hk.save"
+    })
 
-        
+
 
 
      	return(
@@ -169,8 +169,8 @@ class OrderuserIndex extends React.Component{
                 <SearchForm  hindFormSearch={this.hindSearch.bind(this)}/>
                 {
                     expontdata?
-                    <Button 
-                    type="primary" 
+                    <Button
+                    type="primary"
                     size='large'
                     className='mt20 mr10'
                     onClick={this.exportData.bind(this,91,this.state.searchvalue)}
@@ -182,8 +182,8 @@ class OrderuserIndex extends React.Component{
                 }
                 {
                     addorder?
-                    <Button 
-                        type="primary" 
+                    <Button
+                        type="primary"
                         size='large'
                         className='mt20 mr10'
                         onClick={this.postMessage.bind(this)}
@@ -193,9 +193,9 @@ class OrderuserIndex extends React.Component{
                     :null
                 }
                 {
-                   repigood? 
-                   <Button 
-                    type="primary" 
+                   repigood?
+                   <Button
+                    type="primary"
                     size='large'
                     className='mt20 mr10'
                     onClick={this.matchOrder.bind(this)}
@@ -206,13 +206,13 @@ class OrderuserIndex extends React.Component{
 
                 }
 
-                
-                
+
+
                 <div className='mt15'>
-                    <SearchTable 
+                    <SearchTable
                         getPageSizeDate={this.getPageSize.bind(this)}
-                        total={this.state.total} 
-                        limit={this.state.limit} 
+                        total={this.state.total}
+                        limit={this.state.limit}
                         currentPage={this.state.currentPage}
                         datasouce={this.state.datasouce}
                         getSelectDate={this.getSelectDate.bind(this)}

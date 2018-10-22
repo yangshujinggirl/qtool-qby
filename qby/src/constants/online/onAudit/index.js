@@ -120,10 +120,11 @@ class OnAudit extends Component {
       obj.status = 5;
       this.cancelOrder(obj);
     }else{ //跳转至订单详情
+      const editorder = {children: null,code: "801400",menu: 1,menuStr: null,name: "修改订单",rank: null,remark: null,status: 1,statusStr: null,urResourceId: 801400,url: "qerp.web.ec.pd.userOrder.save"}
       const paneitem={
         title:'订单详情',
         key:'804000edit'+parentRecord.ecSuborderId+'info',
-        data:{id:parentRecord.ecOrderId},
+        data:{id:parentRecord.ecOrderId,editorder},
         componkey:'801000info',
       }
       this.props.dispatch({
@@ -332,13 +333,15 @@ class OnAudit extends Component {
     };
   }
   onExpandRowsChange =(rows)=> {
-    console.log(rows)
     this.setState({expandedRowKeys:rows})
   }
   render() {
-    // console.log(this.state.iconType)
+    const rolelists=this.props.data.rolelists;
+    //修改订单
+    const editorder=rolelists.find((currentValue,index)=>{
+	       return currentValue.url=="qerp.web.ec.pd.userOrder.save"
+    })
     const { dataSource } = this.props.onAudit;
-    // console.log(dataSource)
     const {
       ecSuborderId,
       ecSuborderNo,
