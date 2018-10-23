@@ -1,4 +1,4 @@
-import {Button,Icon} from 'antd'
+  import {Button,Icon} from 'antd'
    const Columns = [{
         title:'商品编码',
         dataIndex: 'code',
@@ -200,6 +200,7 @@ import {Button,Icon} from 'antd'
           };
         }
       }];
+
 
 
    export  default Columns

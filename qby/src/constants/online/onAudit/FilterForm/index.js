@@ -72,11 +72,11 @@ class NormalForm extends Component {
                      <Input placeholder="请输入身份证号" autoComplete="off"/>
                   )}
                 </FormItem>
-              <FormItem label='下单时间'>
-                 {getFieldDecorator('rangePicker')(
-                   <RangePicker showTime format="YYYY-MM-DD HH:mm:ss"/>
-                 )}
-              </FormItem>
+                <FormItem label='下单时间'>
+                   {getFieldDecorator('rangePicker')(
+                     <RangePicker showTime format="YYYY-MM-DD HH:mm:ss"/>
+                   )}
+                </FormItem>
              </div>
            </div>
            <div className="search-submit-btn">

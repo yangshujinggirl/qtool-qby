@@ -64,7 +64,7 @@ class OnAudit extends Component {
     this.props.dispatch({
       type:"onAudit/fetchList",
       payload:{}
-    })
+    });
   }
   componentWillReceiveProps(props) {
     this.setState({
@@ -89,7 +89,7 @@ class OnAudit extends Component {
         iconType:selectedRows[0].iconType,
         iconTypeRemark:selectedRows[0].iconTypeRemark,
         ecOrderId:selectedRows[0].ecOrderId,
-      })
+      });
     };
   }
   cancelOrder =(obj)=> {
@@ -156,7 +156,7 @@ class OnAudit extends Component {
     if(rangePicker&&rangePicker[0]){
       _values.payTimeST =  moment(new Date(rangePicker[0])).format('YYYY-MM-DD HH:mm:ss');
       _values.payTimeET = moment(new Date(rangePicker[1])).format('YYYY-MM-DD HH:mm:ss');
-    }
+    };
     this.setState({field:_values});
   }
   //点击搜索
@@ -338,20 +338,19 @@ class OnAudit extends Component {
   }
   render() {
     const rolelists=this.props.data.rolelists;
-    console.log(this.props.data)
     //订单拆分
     const dismantle=rolelists.find((currentValue,index)=>{
 	       return currentValue.url=="qerp.web.ec.od.auditOrder.dismantle.query"
     });
-    console.log(dismantle)
     //订单合并
     const orderMerge=rolelists.find((currentValue,index)=>{
 	       return currentValue.url=="qerp.web.ec.od.auditOrder.merge.save"
     })
     //星标
     const setStar=rolelists.find((currentValue,index)=>{
-	       return currentValue.url=="qerp.web.ec.od.auditOrder.save"
-    })
+	       return currentValue.url=="qerp.web.ec.od.auditOrder.icon"
+    });
+      console.log(setStar)
     //修改价格
     const changePrice=rolelists.find((currentValue,index)=>{
 	       return currentValue.url=="qerp.web.ec.od.auditOrder.price.query"
@@ -408,7 +407,7 @@ class OnAudit extends Component {
            submit={this.searchData}
            onValuesChange = {this.searchDataChange}
          />
-       <div className="handel-btn-lists">
+       <div className="handel-btn-lists onaudit_list">
          {
            dismantle && <Button size='large' type='primary' onClick={this.splitFormChange}> 订单拆分 </Button>
          }
@@ -441,7 +440,6 @@ class OnAudit extends Component {
              rowKey="key"
            />
          }
-
         <Qpagination
           data={this.props.onAudit}
           onChange={this.changePage}

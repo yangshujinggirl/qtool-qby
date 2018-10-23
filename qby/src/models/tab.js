@@ -18,7 +18,6 @@ export default {
         },
         //刷新,第一次进入页面
         refresh(state, { payload:pannelfirst}) {
-          debugger
             var pane = eval(sessionStorage.getItem("pane"));
             var activeKey = sessionStorage.getItem('activeKey');
             var openKey = eval(sessionStorage.getItem("openKey"));
@@ -28,7 +27,7 @@ export default {
                 pane.push(pannelfirst)
                 activeKey=pannelfirst.key
                 openKey=[pannelfirst.openkey]
-            }
+            };
             sessionStorage.setItem("pane", JSON.stringify(pane));
             sessionStorage.setItem("activeKey", activeKey);
             sessionStorage.setItem("openKey", JSON.stringify(openKey));
@@ -89,7 +88,6 @@ export default {
         *fetch({ payload: {code,values} }, { call, put }) {
             const result=yield call(GetServerData,code,values);
             if(result.code=='0'){
-              debugger
                 let {menus}=result;
                 let first = menus[0].children[0];
                 const firstItem={title:first.name,key:String(first.urResourceId)};
@@ -178,7 +176,7 @@ export default {
             }else{
                 //已经存在直接切回去
                 yield put({type: 'tabover',payload:paneitem});
-            }
+            };
         }
 
     },
