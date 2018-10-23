@@ -270,7 +270,7 @@ class OrderuserInfo extends React.Component{
 							<div className='mb10' key={index}>
 								<EditableTable
 									columns={this.column1}
-									dataSource={item.subOrderinfo}
+									dataSource={item.subOrderDetails}
 									title={<Tabletitle
 											dispatch={this.props.dispatch}
 											listindex={index+1}
@@ -291,7 +291,7 @@ class OrderuserInfo extends React.Component{
 						)
 					})
 					:null
-                }
+        }
 				<div className='mb10'>
 					<EditableTable
 						columns={this.column2}
