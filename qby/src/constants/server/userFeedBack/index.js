@@ -64,7 +64,7 @@ class UserFeedBack extends Component{
   handleOperateClick(record){
     const paneitem = {
       title:'用户反馈详情',
-      key:`${this.state.componkey}edit`,
+      key:`${this.state.componkey}edit`+record.feedbackId,
       componkey:`${this.state.componkey}edit`,
       data:{
         pdSpuId:record.feedbackId,
