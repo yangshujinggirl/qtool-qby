@@ -268,6 +268,8 @@ class OrderuserInfo extends React.Component{
 					this.state.subOrderInfos.map((item,index)=>{
 						return (
 							<div className='mb10' key={index}>
+							{
+								item.status != 10 ?
 								<EditableTable
 									columns={this.column1}
 									dataSource={item.subOrderDetails}
@@ -286,7 +288,9 @@ class OrderuserInfo extends React.Component{
 											ecSuborderId={item.ecSuborderId}
 											/>}
 									bordered={true}
-									footer={false}/>
+									footer={false}/> : null
+							}
+
 							</div>
 						)
 					})

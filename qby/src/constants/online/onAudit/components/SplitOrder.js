@@ -76,7 +76,7 @@ class SplitOrderModal extends Component{
         title:'商品实付金额',
         dataIndex:'actPaymoney',
         render:(text,record,index)=>{
-          const goodPrice = (Number(record.payAmount)/Number(record.qty)*Number(record.auditQty)).toFixed(2)
+          const goodPrice = _.round((Number(record.payAmount)/Number(record.qty)*Number(record.auditQty)),2);
           return(<span>{goodPrice}</span>)
         },
       }];
@@ -122,7 +122,7 @@ class SplitOrderModal extends Component{
       /* --------------新增实付金额总和-------------- */
       let newEcSuborderPayAmount = 0;
       obj.newList.map((item,index)=>{
-        let price = Number((Number(item.payAmount)/Number(item.qty)*Number(item.auditQty)).toFixed(2));
+        let price = _.round((Number(item.payAmount)/Number(item.qty)*Number(item.auditQty)),2);
         let newPrice = accMul(price,100);
         newEcSuborderPayAmount+=newPrice;
       });
@@ -170,7 +170,7 @@ class SplitOrderModal extends Component{
         arr.map((item,index)=>{
           qtySum+=Number(item.auditQty);
           item.oldpayAmount = item.payAmount;
-          item.payAmount = (Number(item.oldpayAmount)/Number(item.qty)*Number(item.auditQty)).toFixed(2);
+          item.payAmount = _.round((Number(item.oldpayAmount)/Number(item.qty)*Number(item.auditQty)),2);
           item.oldQty = item.qty;
           item.qty=item.auditQty;
         });
