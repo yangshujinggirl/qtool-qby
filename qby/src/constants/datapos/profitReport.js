@@ -170,41 +170,40 @@ class ProfitReportForm extends React.Component {
     }
 
     exportData = (type,data) => {
-		const values={
-			type:type,
-			downloadParam:data,
-		}
-		const result=GetServerData('qerp.web.sys.doc.task',values);
-		result.then((res) => {
-			return res;
-		}).then((json) => {
-			if(json.code=='0'){
-				var _dispatch=this.props.dispatch
-				confirm({
-					title: '数据已经进入导出队列',
-					content: '请前往下载中心查看导出进度',
-					cancelText:'稍后去',
-					okText:'去看看',
-					onOk() {
-						const paneitem={title:'下载中心',key:'000001',componkey:'000001',data:null}
-						_dispatch({
-							type:'tab/firstAddTab',
-							payload:paneitem
-						});
-						_dispatch({
-							type:'downlaod/fetch',
-							payload:{code:'qerp.web.sys.doc.list',values:{limit:15,currentPage:0}}
-						});
-					},
-					onCancel() {
-						
-					},
-	  			});
-			}
-		})
-	
+  		const values={
+  			type:type,
+  			downloadParam:data,
+  		}
+  		const result=GetServerData('qerp.web.sys.doc.task',values);
+  		result.then((res) => {
+  			return res;
+  		}).then((json) => {
+  			if(json.code=='0'){
+  				var _dispatch=this.props.dispatch
+  				confirm({
+  					title: '数据已经进入导出队列',
+  					content: '请前往下载中心查看导出进度',
+  					cancelText:'稍后去',
+  					okText:'去看看',
+  					onOk() {
+  						const paneitem={title:'下载中心',key:'000001',componkey:'000001',data:null}
+  						_dispatch({
+  							type:'tab/firstAddTab',
+  							payload:paneitem
+  						});
+  						_dispatch({
+  							type:'downlaod/fetch',
+  							payload:{code:'qerp.web.sys.doc.list',values:{limit:15,currentPage:0}}
+  						});
+  					},
+  					onCancel() {
+
+  					},
+  	  			});
+  			}
+  		})
     }
-    
+
 
 
     //获取当前时间
@@ -240,121 +239,114 @@ class ProfitReportForm extends React.Component {
         return (
             <div className="daily-bill border-top-style">
                 <div>
+                  <div className="toggle-btn">
+                    <Button type="primary" size='large' onClick={this.props.resetShopId}>切换门店</Button>
+                  </div>
                     {/* 数据展示部分 */}
                     <div className="top-data">
                         <ul>
-                            <li>
-                                <div>
-                                    <p style={{color:"#FB6349"}}><i>¥</i>
-                                    {this.state.rpProfit.amount && this.state.rpProfit.amount!="0"?this.state.rpProfit.amount.split('.')[0]:"0"}
-                                    <span>.
-                                    {this.state.rpProfit.amount && this.state.rpProfit.amount!="0"?this.state.rpProfit.amount.split('.')[1]:"00"}
-                                    </span>
-                                    </p>
-                                    <span className="explain-span">
-                                        <Tooltip title="时间段内商品销售结算金额总和">
-                                            销售额&nbsp;<Icon type="exclamation-circle-o"/>
-                                        </Tooltip>
-                                    </span>
-                                </div>
-                            </li>
-                            <li>
-                                <div>
-                                    <p style={{color:"#F7A303"}}><i>¥</i>
-                                    {this.state.rpProfit.saleCostAmount && this.state.rpProfit.saleCostAmount!="0"?this.state.rpProfit.saleCostAmount.split('.')[0]:"0"}
-                                    <span>.
-                                    {this.state.rpProfit.saleCostAmount && this.state.rpProfit.saleCostAmount!="0"?this.state.rpProfit.saleCostAmount.split('.')[1]:"00"}
-                                    </span></p>
-                                    <span className="explain-span">
-                                        <Tooltip title="商品成本*销售数量">
-                                            销售成本&nbsp;<Icon type="exclamation-circle-o"/>
-                                        </Tooltip>
-                                    </span>
-                                </div>
-                            </li>
-                            <li>
-                                <div>
-                                    <p style={{color:"#F7A303"}}><i>¥</i>
-                                    {this.state.rpProfit.cutAmount && this.state.rpProfit.cutAmount!="0"?this.state.rpProfit.cutAmount.split('.')[0]:"0"}
-                                    <span>.
-                                    {this.state.rpProfit.cutAmount && this.state.rpProfit.cutAmount!="0"?this.state.rpProfit.cutAmount.split('.')[1]:"00"}
-                                    </span></p>
-                                    <span className="explain-span">
-                                        <Tooltip title="销售订单结算时抹零的金额-退货订单结算时抹零的金额">
-                                            抹零金额&nbsp;<Icon type="exclamation-circle-o"/>
-                                        </Tooltip>
-                                    </span>
-                                </div>
-                            </li>
-
-                            <li>
-                                <div>
-                                    <p style={{color:"#51C193"}}><i>¥</i>
-                                    {this.state.rpProfit.profitAmount && this.state.rpProfit.profitAmount!="0"?this.state.rpProfit.profitAmount.split('.')[0]:"0"}
-                                    <span>.
-                                    {this.state.rpProfit.profitAmount && this.state.rpProfit.profitAmount!="0"?this.state.rpProfit.profitAmount.split('.')[1]:"00"}
-                                    </span></p>
-                                    <span className="explain-span">
-                                        <Tooltip title="销售额-销售成本">
-                                            销售毛利&nbsp;<Icon type="exclamation-circle-o"/>
-                                        </Tooltip>
-                                    </span>
-                                </div>
-                            </li>
+                          <li>
+                            <div>
+                              <p style={{color:"#FB6349"}}><i>¥</i>
+                              {this.state.rpProfit.amount && this.state.rpProfit.amount!="0"?this.state.rpProfit.amount.split('.')[0]:"0"}
+                              <span>.
+                              {this.state.rpProfit.amount && this.state.rpProfit.amount!="0"?this.state.rpProfit.amount.split('.')[1]:"00"}
+                              </span>
+                              </p>
+                              <span className="explain-span">
+                                <Tooltip title="时间段内商品销售结算金额总和">
+                                    销售额&nbsp;<Icon type="exclamation-circle-o"/>
+                                </Tooltip>
+                              </span>
+                            </div>
+                          </li>
+                          <li>
+                            <div>
+                              <p style={{color:"#F7A303"}}><i>¥</i>
+                              {this.state.rpProfit.saleCostAmount && this.state.rpProfit.saleCostAmount!="0"?this.state.rpProfit.saleCostAmount.split('.')[0]:"0"}
+                              <span>.
+                              {this.state.rpProfit.saleCostAmount && this.state.rpProfit.saleCostAmount!="0"?this.state.rpProfit.saleCostAmount.split('.')[1]:"00"}
+                              </span></p>
+                              <span className="explain-span">
+                                <Tooltip title="商品成本*销售数量">
+                                    销售成本&nbsp;<Icon type="exclamation-circle-o"/>
+                                </Tooltip>
+                              </span>
+                            </div>
+                          </li>
+                          <li>
+                            <div>
+                              <p style={{color:"#F7A303"}}><i>¥</i>
+                              {this.state.rpProfit.cutAmount && this.state.rpProfit.cutAmount!="0"?this.state.rpProfit.cutAmount.split('.')[0]:"0"}
+                              <span>.
+                              {this.state.rpProfit.cutAmount && this.state.rpProfit.cutAmount!="0"?this.state.rpProfit.cutAmount.split('.')[1]:"00"}
+                              </span></p>
+                              <span className="explain-span">
+                                <Tooltip title="销售订单结算时抹零的金额-退货订单结算时抹零的金额">
+                                    抹零金额&nbsp;<Icon type="exclamation-circle-o"/>
+                                </Tooltip>
+                              </span>
+                            </div>
+                          </li>
+                          <li>
+                            <div>
+                              <p style={{color:"#51C193"}}><i>¥</i>
+                              {this.state.rpProfit.profitAmount && this.state.rpProfit.profitAmount!="0"?this.state.rpProfit.profitAmount.split('.')[0]:"0"}
+                              <span>.
+                              {this.state.rpProfit.profitAmount && this.state.rpProfit.profitAmount!="0"?this.state.rpProfit.profitAmount.split('.')[1]:"00"}
+                              </span></p>
+                              <span className="explain-span">
+                                <Tooltip title="销售额-销售成本">
+                                    销售毛利&nbsp;<Icon type="exclamation-circle-o"/>
+                                </Tooltip>
+                              </span>
+                            </div>
+                          </li>
                         </ul>
                     </div>
                     {/*搜索部分 */}
                     <Form  className='formbox'>
-                        <Row gutter={40} className='formbox_row' style={{marginTop:"20px"}}>
-                            <Col span={24} className='formbox_col'>
-                                <Row>
-                                    <div className='serach_form'>
-                                        <FormItem
-                                        className="monthSelect-input"
-                                        label="订单时间"
-                                       >
-                                            <MonthPicker 
-                                            allowClear={false}
-                                            value={this.state.rpDate?moment(this.state.rpDate, dateFormat):null}
-                                            format={dateFormat}
-                                            onChange={this.dateChange.bind(this)}/>
-                                        </FormItem>
-                                        <FormItem
-                                        label="商品名称"
-                                       >
-                                        {getFieldDecorator('name')(
-                                            <Input placeholder="请输入商品名称" autoComplete="off"/>
-                                        )}
-                                        </FormItem>
-                                    </div>
-                                </Row>
-                            </Col>
-                        </Row>
-                        <div style={{'position':'absolute','right':'0','bottom':'20px'}}>
-                            <Button type="primary" htmlType="submit" onClick={this.handleSubmit.bind(this)} size='large'>搜索</Button>
-                        </div>
+                      <Row gutter={40} className='formbox_row' style={{marginTop:"20px"}}>
+                        <Col span={24} className='formbox_col'>
+                          <div className='serach_form'>
+                            <FormItem className="monthSelect-input" label="订单时间">
+                              <MonthPicker
+                                allowClear={false}
+                                value={this.state.rpDate?moment(this.state.rpDate, dateFormat):null}
+                                format={dateFormat}
+                                onChange={this.dateChange.bind(this)}/>
+                            </FormItem>
+                            <FormItem label="商品名称">
+                              {getFieldDecorator('name')(
+                                  <Input placeholder="请输入商品名称" autoComplete="off"/>
+                              )}
+                            </FormItem>
+                          </div>
+                        </Col>
+                      </Row>
+                      <div style={{'position':'absolute','right':'0','bottom':'20px'}}>
+                        <Button type="primary" htmlType="submit" onClick={this.handleSubmit.bind(this)} size='large'>搜索</Button>
+                      </div>
                     </Form>
-                    <Button 
-						type="primary" 
-						size='large'
-						className='mt20'
-						onClick={this.exportDatas.bind(this)}
-					>
-						导出数据
-					</Button>
+                    <Button
+          						type="primary"
+          						size='large'
+          						className='mt20'
+          						onClick={this.exportDatas.bind(this)}>
+          						导出数据
+          					</Button>
                     <div className="mt15">
-                        <EditableTable 
-                            columns={this.columns} 
-                            dataSource={this.state.dataSource}
-                            footer={true}
-                            pageChange={this.pageChange.bind(this)}
-                            pageSizeChange={this.onShowSizeChange.bind(this)}
-                            total={this.state.total}
-                            limit={this.state.limit}
-                            current={this.state.currentPage+1}
-                            bordered={true}
-                            />
-                    </div>   
+                      <EditableTable
+                        columns={this.columns}
+                        dataSource={this.state.dataSource}
+                        footer={true}
+                        pageChange={this.pageChange.bind(this)}
+                        pageSizeChange={this.onShowSizeChange.bind(this)}
+                        total={this.state.total}
+                        limit={this.state.limit}
+                        current={this.state.currentPage+1}
+                        bordered={true}/>
+                    </div>
                 </div>
             </div>
         );
