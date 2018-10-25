@@ -278,7 +278,7 @@ class CtipGoods extends Component {
   }
   //编辑。
   getEdit(record) {
-    const { limit, currentPage } = this.props.cTipGoodsList;
+    const { limit, currentPage } = this.props.cTipGoodsList.dataPag;
     const { componkey } = this.state;
     const paneitem={
       title:'商品编辑',

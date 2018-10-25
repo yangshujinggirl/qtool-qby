@@ -278,7 +278,7 @@ class BtipGoods extends Component {
   }
   //编辑。
   getEdit(record) {
-    const { limit, currentPage } = this.props.bTipGoodsList;
+    const { limit, currentPage } = this.props.bTipGoodsList.dataPag;
     const { componkey } = this.state;
     const paneitem={
       title:'商品编辑',

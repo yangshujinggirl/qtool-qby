@@ -130,7 +130,7 @@ class BaseGoods extends Component {
   }
   //编辑。
   getEdit(record) {
-    const { limit, currentPage } = this.props.baseGoodsList;
+    const { limit, currentPage } = this.props.baseGoodsList.dataPag;
     const { componkey } = this.state;
     const paneitem={
       title:'商品编辑',
