@@ -111,8 +111,8 @@ class IntegralStatements extends React.Component {
     let nowDate = moment().format('YYYY-MM-DD');
     let lastDate = moment().add(-1,'month').format('YYYY-MM-DD');
     this.setState({
-      orderST:nowDate,
-      orderET:lastDate
+      orderST:lastDate,
+      orderET:nowDate
     },() => {
       this.getList(this.state.currentPage,this.state.limit)
     })
@@ -158,8 +158,8 @@ class IntegralStatements extends React.Component {
         spShopId:this.props.shopId
       }
     }
-    GetServerData('qerp.web.rp.mbcard.point.export',values);
-    then((json) => {
+    GetServerData('qerp.web.sys.doc.task',values)
+    .then((json) => {
       if(json.code=='0'){
         var _dispatch=this.props.dispatch
         confirm({
