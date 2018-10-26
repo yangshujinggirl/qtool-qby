@@ -332,7 +332,7 @@ class InOutReportForm extends React.Component {
                         </span>
                         </p>
                         <span className="explain-span">
-                          <Tooltip title="期初库存总成本+进货总成本-销售总成本-损益总成本">
+                          <Tooltip title="期初库存总成本 + 收货总成本 - 销售总成本 + 其他成本">
                               期末库存总成本&nbsp;<Icon type="exclamation-circle-o"/>
                           </Tooltip>
                         </span>
@@ -346,7 +346,7 @@ class InOutReportForm extends React.Component {
                         {this.state.invAmountSum&&this.state.invAmountSum!="0"?this.state.invAmountSum.split('.')[1]:"00"}
                         </span></p>
                         <span className="explain-span">
-                          <Tooltip title="期初库存总数量*期初商品移动总成本">
+                          <Tooltip title="查询时间范围内，该门店上期期末成本">
                               期初库存总成本&nbsp;<Icon type="exclamation-circle-o"/>
                           </Tooltip>
                         </span>
@@ -360,7 +360,7 @@ class InOutReportForm extends React.Component {
                         {this.state.receiptAmountSum&&this.state.receiptAmountSum!="0"?this.state.receiptAmountSum.split('.')[1]:"00"}
                         </span></p>
                         <span className="explain-span">
-                          <Tooltip title="收货总数量*收货商品移动总成本">
+                          <Tooltip title="查询时间范围内，该门店各商品收货成本总和">
                               收货总成本&nbsp;<Icon type="exclamation-circle-o"/>
                           </Tooltip>
                         </span>
@@ -374,7 +374,7 @@ class InOutReportForm extends React.Component {
                               {this.state.saleAmountSum&&this.state.saleAmountSum!="0"?this.state.saleAmountSum.split('.')[1]:"00"}
                               </span></p>
                               <span className="explain-span">
-                                  <Tooltip title="销售总数量*销售商品移动总成本">
+                                  <Tooltip title="查询时间范围内，该门店各商品销售成本总和">
                                       销售总成本&nbsp;<Icon type="exclamation-circle-o"/>
                                   </Tooltip>
                               </span>
@@ -392,7 +392,7 @@ class InOutReportForm extends React.Component {
                           }
                           </span></p>
                           <span className="explain-span">
-                          <Tooltip title="退货总成本+损益总成本-调出总成本">
+                          <Tooltip title="退货总成本 + 损益总成本 - 调出总成本">
                               其他成本&nbsp;<Icon type="exclamation-circle-o"/>
                           </Tooltip>
                           </span>

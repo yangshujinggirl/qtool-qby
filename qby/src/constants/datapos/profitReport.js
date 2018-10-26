@@ -46,29 +46,32 @@ class ProfitReportForm extends React.Component {
             title: '销售单均价',
             dataIndex: 'saleSinglePrice',
         },{
-            title: '销售数量',
+            title: '净销售数量',
             dataIndex: 'qty',
         },{
-            title: '销售额',
+            title: '净销售额',
             dataIndex: 'amount',
         },{
             title: '商品成本',
             dataIndex: 'pdCostAmount',
         },{
-            title: '销售成本',
+            title: '净销售成本',
             dataIndex: 'sumCostAmount',
         },{
-            title: '销售毛利额',
+            title: '净销售毛利额',
             dataIndex: 'saleProfitAmount',
         },{
-            title: '销售毛利率',
+            title: '净销售毛利率',
             dataIndex: 'saleProfitRate',
         },{
-            title: '损益数量',
-            dataIndex: 'adjustQty',
+            title: '调出数量',
+            dataIndex: 'pdExchangeQty',
         },{
-            title: '损益成本',
-            dataIndex: 'adjustCostAmount',
+            title: '调出总额',
+            dataIndex: 'pdExchangeAmount',
+        },{
+            title: '调出成本',
+            dataIndex: 'pdExchangeCostAmount',
         },{
             title: '商品毛利额',
             dataIndex: 'pdProfit',
@@ -254,8 +257,8 @@ class ProfitReportForm extends React.Component {
                               </span>
                               </p>
                               <span className="explain-span">
-                                <Tooltip title="时间段内商品销售结算金额总和">
-                                    销售额&nbsp;<Icon type="exclamation-circle-o"/>
+                                <Tooltip title="查询时间范围内，该门店各商品净销售额总和">
+                                    净销售额&nbsp;<Icon type="exclamation-circle-o"/>
                                 </Tooltip>
                               </span>
                             </div>
@@ -268,8 +271,8 @@ class ProfitReportForm extends React.Component {
                               {this.state.rpProfit.saleCostAmount && this.state.rpProfit.saleCostAmount!="0"?this.state.rpProfit.saleCostAmount.split('.')[1]:"00"}
                               </span></p>
                               <span className="explain-span">
-                                <Tooltip title="商品成本*销售数量">
-                                    销售成本&nbsp;<Icon type="exclamation-circle-o"/>
+                                <Tooltip title="查询时间范围内，该门店各商品净销售成本总和">
+                                    净销售成本&nbsp;<Icon type="exclamation-circle-o"/>
                                 </Tooltip>
                               </span>
                             </div>
@@ -282,7 +285,7 @@ class ProfitReportForm extends React.Component {
                               {this.state.rpProfit.cutAmount && this.state.rpProfit.cutAmount!="0"?this.state.rpProfit.cutAmount.split('.')[1]:"00"}
                               </span></p>
                               <span className="explain-span">
-                                <Tooltip title="销售订单结算时抹零的金额-退货订单结算时抹零的金额">
+                                <Tooltip title="查询时间范围内，该门店各销售订单抹零金额总和 - 各退货订单抹零总和">
                                     抹零金额&nbsp;<Icon type="exclamation-circle-o"/>
                                 </Tooltip>
                               </span>
@@ -296,8 +299,8 @@ class ProfitReportForm extends React.Component {
                               {this.state.rpProfit.profitAmount && this.state.rpProfit.profitAmount!="0"?this.state.rpProfit.profitAmount.split('.')[1]:"00"}
                               </span></p>
                               <span className="explain-span">
-                                <Tooltip title="销售额-销售成本">
-                                    销售毛利&nbsp;<Icon type="exclamation-circle-o"/>
+                                <Tooltip title="净销售额 - 净销售成本 - 抹零金额">
+                                    净销售毛利&nbsp;<Icon type="exclamation-circle-o"/>
                                 </Tooltip>
                               </span>
                             </div>
