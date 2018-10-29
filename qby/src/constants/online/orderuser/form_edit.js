@@ -30,7 +30,7 @@ class App extends React.Component {
                         this.props.hindCancel()
                         this.props.infofetch(this.props.ecOrderId)
                     }
-                }) 
+                })
             }
         });
     }
@@ -118,7 +118,7 @@ class App extends React.Component {
                     className='lists'
                     >
                         {getFieldDecorator('spAddressId', {
-
+                          rules:[{required:true,message:"请填写收货城市"}]
                         })(
                             <div className='lists-con'>
                                 <Input value={this.state.recProvince} onChange={this.hindrecProvince.bind(this)} placeholder='省'/>
@@ -141,7 +141,7 @@ class App extends React.Component {
                 </FormItem>
                 <FormItem
                     wrapperCol={{ span: 4, offset: 4 }}
-                >   
+                >
                     <div>
                         <Button onClick={hindCancel} className='mr10'>
                             取消
@@ -154,7 +154,7 @@ class App extends React.Component {
             </Form>
         );
     }
-   
+
 }
 
 const WrappedApp = Form.create()(App);
