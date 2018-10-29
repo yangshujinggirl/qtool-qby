@@ -14,8 +14,9 @@ class App extends React.Component {
     }
     //修改保存
     handleSubmit = (e) => {
-        e.preventDefault();
         this.props.form.validateFields((err, values) => {
+          console.log(err)
+          debugger
             if (!err) {
                 values.ecOrderId=this.props.ecOrderId
                 values.recProvince=this.state.recProvince
@@ -118,7 +119,6 @@ class App extends React.Component {
                     className='lists'
                     >
                         {getFieldDecorator('spAddressId', {
-                          rules:[{required:true,message:"请填写收货城市"}]
                         })(
                             <div className='lists-con'>
                                 <Input value={this.state.recProvince} onChange={this.hindrecProvince.bind(this)} placeholder='省'/>
