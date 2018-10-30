@@ -57,15 +57,15 @@ class EchartsTest extends Component {
             if(json.code=='0'){
                 const posOrderDatas=json.posOrderDatas
 				const xdata=[]
-				const data1=[] 
-                const data2=[] 
+				const data1=[]
+                const data2=[]
 				for(var i=0;i<posOrderDatas.length;i++){
                     if(values.startDate==values.endDate){
                         xdata.push(posOrderDatas[i].rpDateTimeStr)
                     }else{
                         xdata.push(posOrderDatas[i].rpDateStr)
                     }
-					
+
 					data1.push(posOrderDatas[i].orderQtySum) //订单数
 					data2.push(posOrderDatas[i].amount) //销售额
 				}
@@ -82,7 +82,7 @@ class EchartsTest extends Component {
     }
 
 
-   
+
 
 
     checkonChange=(checked)=>{
@@ -93,7 +93,7 @@ class EchartsTest extends Component {
         })
 
     }
-    
+
     //绘制
     writeCall=()=>{
         const xdata=this.state.xdata
@@ -111,10 +111,10 @@ class EchartsTest extends Component {
                 trigger: 'axis'
             },
             legend: {
-                data:[]
+                data:[],
             },
             grid:{
-                left:"50",
+                left:'80',
                 top:'100'
             },
             toolbox: {
@@ -144,9 +144,8 @@ class EchartsTest extends Component {
                 {
                     name:type=='1'?'订单数量':'订单金额',
                     type:'line',
-                    data:type=='1'?data1:data2
-                }
-                
+                    data:type=='1'?data1:data2,
+                },
             ]
         });
     }
@@ -179,8 +178,8 @@ class EchartsTest extends Component {
             const values={startDate:startDate,endDate:endDate}
             this.fetdraw(values)
         })
-       
-        
+
+
     }
 
 }

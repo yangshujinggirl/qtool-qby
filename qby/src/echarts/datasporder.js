@@ -63,15 +63,15 @@ class EchartsTest extends Component {
             if(json.code=='0'){
                 const shopOrderData=json.shopOrderDatas
 				const xdata=[]
-				const data1=[] 
-				const data2=[] 
+				const data1=[]
+				const data2=[]
 				for(var i=0;i<shopOrderData.length;i++){
                     if(values.startDate==values.endDate){
                         xdata.push(shopOrderData[i].rpDateTime)
                     }else{
                         xdata.push(shopOrderData[i].rpDate)
                     }
-					
+
 					data1.push(shopOrderData[i].qtySum) //订单数
 					data2.push(shopOrderData[i].amountSum) //销售额
 				}
@@ -87,13 +87,13 @@ class EchartsTest extends Component {
 
 
 
-                
+
             }
         })
     }
 
 
-   
+
 
 
     checkonChange=(checked)=>{
@@ -104,7 +104,7 @@ class EchartsTest extends Component {
         })
 
     }
-    
+
     //绘制
     writeCall=()=>{
         const xdata=this.state.xdata
@@ -125,7 +125,7 @@ class EchartsTest extends Component {
                 data:[],
             },
             grid:{
-                left:"50",
+                left:"80",
                 top:'100'
             },
             toolbox: {
@@ -157,7 +157,7 @@ class EchartsTest extends Component {
                     type:'line',
                     data:type=='1'?data1:data2
                 }
-                
+
             ]
         });
     }
@@ -190,8 +190,8 @@ class EchartsTest extends Component {
             const values={startDate:startDate,endDate:endDate}
             this.fetdraw(values)
         })
-       
-        
+
+
     }
 
 }

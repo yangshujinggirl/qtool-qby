@@ -62,10 +62,10 @@ class EchartsTest extends Component {
             if(json.code=='0'){
                 const analysis=json.shopSaleDatas
 				const xdata=[]
-				const data1=[] 
-				const data2=[] 
-				const data3=[] 
-                const data4=[] 
+				const data1=[]
+				const data2=[]
+				const data3=[]
+                const data4=[]
 				for(var i=0;i<analysis.length;i++){
                     if(values.startRpDate==values.endRpDate){
                         xdata.push(analysis[i].rpDateTime)
@@ -107,11 +107,11 @@ class EchartsTest extends Component {
 			payload:values
         })
         this.props.dispatch({ type: 'tab/loding', payload:true});
-        
+
     }
 
 
-    
+
 
     checkonChange=(checked)=>{
         this.setState({
@@ -121,7 +121,7 @@ class EchartsTest extends Component {
         })
 
     }
-    
+
     //绘制
     writeCall=()=>{
         const xdata=this.state.xdata
@@ -130,11 +130,11 @@ class EchartsTest extends Component {
         const data3=this.state.data3
         const data4=this.state.data4
         const type=this.state.type
-        
+
         for(var i=0;i<data1.length;i++){
             data1[i]=String(data1[i])
         }
-        
+
         // 基于准备好的dom，初始化echarts实例
         var myChart = echarts.init(document.getElementById('mainsp'));
         // 绘制图表
@@ -189,7 +189,8 @@ class EchartsTest extends Component {
                     name:'POS销售',
                     type:'line',
                     data:type=='1'?data2:data4
-                }
+                },
+
             ]
         });
     }
@@ -226,8 +227,8 @@ class EchartsTest extends Component {
             this.fetdraw(values)
             this.gettabledata()
         })
-       
-        
+
+
     }
 
 }
@@ -237,4 +238,3 @@ class EchartsTest extends Component {
 
 
 export default connect()(EchartsTest);
-
