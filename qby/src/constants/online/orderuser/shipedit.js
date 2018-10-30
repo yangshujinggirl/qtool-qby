@@ -17,7 +17,7 @@ const CollectionCreateForm = Form.create()(
                     onOk={onCreate}
                 >
                     <Form>
-                        <FormItem 
+                        <FormItem
                             label="物流公司"
                             labelCol={{ span: 7 }}
                             wrapperCol={{ span: 12 }}
@@ -39,7 +39,7 @@ const CollectionCreateForm = Form.create()(
                                 </Select>
                             )}
                         </FormItem>
-                        <FormItem 
+                        <FormItem
                             label="物流单号"
                             labelCol={{ span: 7 }}
                             wrapperCol={{ span: 12 }}
@@ -90,7 +90,7 @@ class Shipeditmodel extends React.Component {
                     this.props.infofetch(this.props.ecOrderId)
                     form.resetFields();
                 }
-            }) 
+            })
         });
     }
     saveFormRef = (formRef) => {
