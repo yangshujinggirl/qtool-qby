@@ -382,14 +382,14 @@ class InOutReportForm extends React.Component {
                       </li>
                       <li>
                         <div onClick={this.showModal.bind(this)}>
-                          <p style={{color:"#F24343"}}><i>¥</i>
+                          <p style={{color:"#51C193",cursor:'pointer'}}><i>¥</i>
                           {
                             others.otherSum&&this.formatData(others.otherSum)[0]
                           }
                           <span>.
                           {
                             others.otherSum&&this.formatData(others.otherSum)[1]
-                          }
+                          }>>
                           </span></p>
                           <span className="explain-span">
                           <Tooltip title="退货总成本 + 损益总成本 - 调出总成本">

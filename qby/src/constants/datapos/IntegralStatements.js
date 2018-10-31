@@ -265,7 +265,7 @@ class IntegralStatements extends React.Component {
                 { totalData.deductPoints&&this.formatData(totalData.deductPoints)[1] }
               </p>
               <p className="label">
-                <Tooltip title="统计订单时间内，门店积分抵值总数（正数）">
+                <Tooltip title="统计订单时间内，门店积分抵值总数">
                     抵扣积分数&nbsp;<Icon type="exclamation-circle-o"/>
                 </Tooltip>
               </p>
@@ -276,7 +276,7 @@ class IntegralStatements extends React.Component {
                 { totalData.toDeductTotalPoints&&this.formatData(totalData.toDeductTotalPoints)[1]}
               </p>
               <p className="label">
-                <Tooltip title="门店待抵扣积分总数（负数）= 门店消费赠送总积分（负数）+ 门店退货扣减总积分（正数）+ 门店积分抵值总数（正数）">
+                <Tooltip title="门店待抵扣积分总数">
                   积分池待抵扣总积分&nbsp;<Icon type="exclamation-circle-o"/>
                 </Tooltip>
               </p>
