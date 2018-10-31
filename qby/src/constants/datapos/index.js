@@ -82,7 +82,7 @@ class DataposIndexForm extends React.Component{
         })
     }
 		resetShopId() {
-			this.setState({ sureShopId: null});
+			this.setState({ sureShopId: null, key:1 });
 		}
   	render(){
         const { getFieldDecorator } = this.props.form;
