@@ -41,21 +41,21 @@ class ConsumptionInfo extends React.Component{
 		}];
 		}
 
-	
 
-	
+
+
 	infofetch=(id)=>{
 	//获取订单信息列表
 			this.props.dispatch({
 				type:'operatemember/infofetch',
 				payload:{code:'qerp.web.qpos.mb.card.detail',values:{mbCardId:id}}
-			}) 
+			})
 	}
 	detailfetch=(id,limit,currentPage)=>{
 		this.props.dispatch({
 			type:'operatemember/detailfetch',
 			payload:{code:'qerp.web.qpos.mb.card.page',values:{mbCardId:id,limit:limit,currentPage:currentPage}}
-		}) 
+		})
 	}
 
 	pageChange=(page,pageSize)=>{
@@ -64,15 +64,15 @@ class ConsumptionInfo extends React.Component{
 	pageSizeChange=(current,size)=>{
 		this.detailfetch(this.props.data.mbCardId,size,Number(current-1))
 	}
-	
+
 	render(){
 		return(
 			<div>
 				<div className='mb10'><Cardlist cardtitle={this.props.cardtitle} cardlist={this.props.cardlist}/></div>
 				<div className='mb10'>
-					<EditableTable 
-						columns={this.column1} 
-						dataSource={this.props.details} 
+					<EditableTable
+						columns={this.column1}
+						dataSource={this.props.details}
 						title="消费记录"
 						bordered={true}
 						footer={true}
@@ -83,7 +83,7 @@ class ConsumptionInfo extends React.Component{
 						current={Number(this.props.decurrentPage)+1}
 						/>
 				</div>
-				
+
 			</div>
 		)
 	}
@@ -98,4 +98,3 @@ function mapStateToProps(state) {
 	return {cardtitle,cardlist,details,detotal,delimit,decurrentPage};
 }
 export default connect(mapStateToProps)(ConsumptionInfo);
-
