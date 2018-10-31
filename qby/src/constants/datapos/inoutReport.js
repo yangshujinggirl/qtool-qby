@@ -393,7 +393,7 @@ class InOutReportForm extends React.Component {
                           </span></p>
                           <span className="explain-span">
                           <Tooltip>
-                              其他成本>>
+                              <span style={{color:"#51C193"}}>其他成本>></span>
                           </Tooltip>
                           </span>
                         </div>
