@@ -12,6 +12,9 @@ class ConsumptionInfo extends React.Component{
 			title: '订单号',
 			dataIndex: 'orderNo'
 		}, {
+			title: '消费平台',
+			dataIndex: 'payPlatform'
+		}, {
 			title: '结算金额',
 			dataIndex: 'amount'
 		}, {
