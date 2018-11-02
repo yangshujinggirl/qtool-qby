@@ -16,8 +16,9 @@ export default{
     },
     detailInfo:{
       udeskTicketVo:{},
-      replys:[]
-    }
+      replys:[],
+      fileDomain:''
+    },
   },
   reducers:{
     getList(state,{payload:{ data } }){
@@ -76,7 +77,8 @@ export default{
           payload:{
             detailInfo:{
               udeskTicketVo,
-              replys
+              replys,
+              fileDomain
             }
           }
         });

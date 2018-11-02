@@ -39,7 +39,7 @@ class CserverOrderdetail extends  Component {
     })
   }
   render() {
-    const { detailInfo } =this.props.cServerOrder;
+    const { detailInfo, fileDomain } =this.props.cServerOrder;
     return (
       <div className="cserver-order-detail-pages">
         <div className="cserver-page-wrap">
@@ -69,16 +69,25 @@ class CserverOrderdetail extends  Component {
                     </Row>
                     <Row className='label-item'>
                       <Col span={2}>工单内容：</Col>
-                      <Col span={20}>{detailInfo.udeskTicketVo.content}</Col>
-                    </Row>
-                    {/* <Row className='label-item'>
-                      <Col span={2}>图片：</Col>
                       <Col span={20}>
-                        <div className="img-list">
-                          <div className="img-item"></div>
-                        </div>
+                      {
+                        detailInfo.picPath&&detailInfo.picPath.length?
+                          <div className="img-list">
+                            {
+                              detailInfo.picPath.map((el,index) => (
+                                <div className="img-item">
+                                  <image src={`${detailInfo.fileDomain}${el}`}></image>
+                                </div>
+                              ))
+                            }
+                          </div>
+                        :
+                          <span className="content-wrap">
+                            {detailInfo.udeskTicketVo.content}
+                          </span>
+                      }
                       </Col>
-                    </Row> */}
+                    </Row>
           				</div>
           			</Card>
               </div>
