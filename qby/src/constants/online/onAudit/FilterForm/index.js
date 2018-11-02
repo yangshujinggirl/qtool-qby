@@ -11,11 +11,12 @@ import {
 } from 'antd';
 import moment from 'moment';
 import './index.less'
-
+import {wshouse} from "../data.js"
 
 const FormItem = Form.Item;
 const Option =  Select.Option;
 const RangePicker = DatePicker.RangePicker
+
 
 class NormalForm extends Component {
   handleSubmit = (e) => {
@@ -72,6 +73,17 @@ class NormalForm extends Component {
                      <Input placeholder="请输入身份证号" autoComplete="off"/>
                   )}
                 </FormItem>
+                <FormItem label='推送仓库'>
+                  {getFieldDecorator('warehouseId')(
+                  <Select allowClear={true} placeholder="请选择">
+                      {
+                          wshouse.map((item,index)=>{
+                              return <Option value={item.key} key={index}>{item.name}</Option>
+                          })
+                      }
+                  </Select>
+                  )}
+                 </FormItem>
                 <FormItem label='下单时间'>
                    {getFieldDecorator('rangePicker')(
                      <RangePicker showTime format="YYYY-MM-DD HH:mm:ss"/>

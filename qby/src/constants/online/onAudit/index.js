@@ -350,7 +350,6 @@ class OnAudit extends Component {
     const setStar=rolelists.find((currentValue,index)=>{
 	       return currentValue.url=="qerp.web.ec.od.auditOrder.icon"
     });
-      console.log(setStar)
     //修改价格
     const changePrice=rolelists.find((currentValue,index)=>{
 	       return currentValue.url=="qerp.web.ec.od.auditOrder.price.query"

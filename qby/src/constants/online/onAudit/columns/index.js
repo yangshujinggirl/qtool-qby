@@ -85,7 +85,7 @@
           }else{
             return{
               props:{
-                colSpan:5
+                colSpan:3
               },
             };
           };
@@ -140,8 +140,9 @@
             return obj;
           }else{
             return{
+              children:<div>仓库: {record.warehouseStr}　下单时间：{record.payTime}</div>,
               props:{
-                colSpan:0,
+                colSpan:3,
               },
             };
           };
@@ -196,6 +197,9 @@
           }else{
             return{
               children:<span>下单时间：{record.payTime}</span>,
+              props:{
+                colSpan:0
+              }
             };
           };
         }
