@@ -20,10 +20,6 @@ const Columns = [{
      dataIndex: 'priority',
      key: 'priority',
    },{
-     title: '渠道',
-     dataIndex: 'channel',
-     key: 'channel',
-   },{
      title: '用户电话',
      dataIndex: 'cellPhone',
      key: 'cellPhone'
