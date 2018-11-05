@@ -35,8 +35,7 @@ class Creatlabel extends Component {
       return
     }
     if (inputValue && judgeTags.indexOf(inputValue) === -1) {
-      judgeTags = [...judgeTags, inputValue];
-      this.props.addGoodsLabel(inputValue,this.props.level);
+      this.isHasTag(inputValue)
     } else {
       message.error('此属性已存在',3);
       return
@@ -47,7 +46,24 @@ class Creatlabel extends Component {
       inputValue: '',
     });
   }
-
+  isHasTag(values) {
+    let tags;
+    const { level, addGoods } =this.props;
+    if(level=='one') {
+      tags = addGoods.specData.specOne;
+    } else {
+      tags = addGoods.specData.specTwo;
+    }
+    let index = tags.findIndex((value,index,arr) => {
+      return value.name == values;
+    })
+    if (index != -1) {
+      message.error('此属性已存在',3);
+      return false;
+    } else {
+      this.props.addGoodsLabel(values,level);
+    }
+  }
 
   render() {
     const { inputVisible, inputValue } = this.state;

@@ -335,14 +335,43 @@ export default {
           }
           pdSkus.push(initPdspuData);
         }
-
-        //商品详情
+        //对数据进行排序，根据属性的排序来////////////////////////////////
+        let sortKeyArry=[];
+        if(specOne.length >0) {
+          if(specTwo.length >0) {
+            specOne.forEach((val,index) => {
+              specTwo.forEach((ele,idx) => {
+                let item={};
+                item.name = `${val.name}/${ele.name}`;
+                item.key = `${val.key}_${ele.key}`;
+                sortKeyArry.push(item);
+              })
+            })
+          } else {
+            specOne.forEach((val,idx) => {
+              let item={};
+              item.name = val.name;
+              item.key = val.key;
+              sortKeyArry.push(item);
+            })
+          }
+        }
+        let formatPdSkus = [];
+        sortKeyArry.forEach((val,index) => {
+          pdSkus.forEach((ele,idx) => {
+            if(val.key == ele.key ) {
+              val = {...val,...ele};
+              formatPdSkus.push(val)
+            }
+          })
+        })
+        //商品详情////////////////////////////////////////////////
         yield put({
           type:'getGoodsInfo',
           payload:{
             pdSpu,
             fileList,
-            pdSkus,
+            pdSkus:formatPdSkus,
             specData:{specOne,specTwo},
             sizeIdList,
             autoComplete:{ pdBrandId,pdCountryId },
