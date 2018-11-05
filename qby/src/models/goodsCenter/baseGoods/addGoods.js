@@ -266,8 +266,6 @@ export default {
         let pdSkus = [];
         let specOne=[];
         let specTwo=[];
-        let oldspecOne=[];
-        let oldspecTwo=[];
         let sizeIdList={};
         linkageLabel.isTimeRequired = !!pdSpu.isSeasonSpu;
         linkageLabel.isLotRequired = !!pdSpu.lotStatus;
@@ -280,7 +278,6 @@ export default {
             let id2 = el.pdType2ValId;
             el.name = el.pdType2Val?`${name1}/${name2}`:`${name1}`;
             el.key = el.pdType2ValId?`${id1}_${id2}`:`${id1}`;//
-            // el.picUrl = `${fileDomain}${el.picUrl}`;
             //商品图片
             let fileList = [{
                   name: el.picUrl,
@@ -292,16 +289,20 @@ export default {
             //获取商品规格值
             sizeIdList.pdSkusSizeOne = el.pdType1&&el.pdType1.pdTypeId;
             sizeIdList.pdSkusSizeTwo = el.pdType2&&el.pdType2.pdTypeId;
-            //商品属性数据处理
-            if(el.pdType1Val&&(oldspecOne.indexOf(el.pdType1Val.pdTypeValId)==-1)) {
-              oldspecOne.push(el.pdType1Val.pdTypeValId);
+            //商品属性数据处理/////////////////////////////////////////////////////
+            let oneIndex = specOne.findIndex((val,index,arr) => {
+              return val.key == el.pdType1Val.pdTypeValId;
+            })
+            if(oneIndex == -1) {
               specOne.push({
                 key:el.pdType1Val.pdTypeValId,
                 name:el.pdType1Val.name
               })
             }
-            if(el.pdType2Val&&(oldspecTwo.indexOf(el.pdType2Val.pdTypeValId)==-1)) {
-              oldspecTwo.push(el.pdType2Val.pdTypeValId);
+            let twoIndex = specTwo.findIndex((val,index,arr) => {
+              return  val.key == el.pdType2Val.pdTypeValId;
+            })
+            if(twoIndex == -1) {
               specTwo.push({
                 key:el.pdType2Val.pdTypeValId,
                 name:el.pdType2Val.name
@@ -335,6 +336,7 @@ export default {
           }
           pdSkus.push(initPdspuData);
         }
+
         //对数据进行排序，根据属性的排序来////////////////////////////////
         let sortKeyArry=[];
         if(specOne.length >0) {
