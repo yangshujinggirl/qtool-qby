@@ -118,7 +118,7 @@ class EchartsTest extends Component {
                 left:"460"
             },
             grid:{
-                left:"50",
+                left:"80",
                 top:'100'
             },
             toolbox: {
