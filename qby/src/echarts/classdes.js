@@ -126,7 +126,7 @@ class EchartsTest extends Component {
             legend: {
                 data: ['掌柜销售', 'POS销售'],
                 top:"43",
-                left:"300",
+                left:"350",
             },
             grid:{
                 left:"80",
