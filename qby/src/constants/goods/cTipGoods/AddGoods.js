@@ -119,7 +119,9 @@ class AddGoodsForm extends Component {
       pdSkus.map((el,index) => {
         el.code = pdSkusData[index].code
       })
+      pdSkus = pdSkus.filter((el,index) =>  el);
     }
+    values = {...values,pdSkus};
     return values;
   }
   //提交api
