@@ -184,7 +184,17 @@ class OrdercgEditForm extends React.Component{
 			}else{
 				arr[0].taxRate = arr[0].taxRate + '%'
 			}
-		}
+		};
+		if(!this.props.data){
+			this.props.form.setFields({
+				paymentType: {
+					value: arr[0].typeStr,
+				},
+				taxRate: {
+					value: arr[0].taxRate,
+				},
+			});
+		};
 		this.setState({selectedSuppler:arr})
 		let tempFormvalue = deepcCloneObj(this.props.editInfo);
 		tempFormvalue.pdSupplierId = value;
