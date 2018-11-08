@@ -139,7 +139,6 @@ class SplitOrderModal extends Component{
         obj.newList.splice(obj.currentIndex,1);
       };
       let newList = obj.newList;
-      // this.setState({newList:obj.newList})
       this.props.dataChangeList(newList)
     };
   }
@@ -184,10 +183,10 @@ class SplitOrderModal extends Component{
         if(qtySum != oldQtySum ){
           this.props.onOk(obj,this.clearForm)
         }else{
-          message.error("不可将原订单中的全部拆分至新订单")
+          message.error("不可将原订单中的全部拆分至新订单",.8)
         };
       }else{
-        message.error("请正确填写拆分数量");
+        message.error("请正确填写拆分数量",.8);
       };
     })
   }

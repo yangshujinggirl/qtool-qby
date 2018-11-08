@@ -52,7 +52,6 @@ class OnAudit extends Component {
         payTimeST:'',
         payTimeET:'',
       },
-      selectedRowKeys:null,
       rowSelection:{
         type:"radio",
         selectedRowKeys:this.props.onAudit.selectedRowKeys,
@@ -68,7 +67,6 @@ class OnAudit extends Component {
   }
   componentWillReceiveProps(props) {
     this.setState({
-      // dataSource:props.onAudit.dataSource,
       rowSelection : {
         selectedRowKeys:props.onAudit.selectedRowKeys,
         type:'radio',
@@ -76,6 +74,7 @@ class OnAudit extends Component {
       }
     });
   }
+  //单选按钮发生改变
   onChange =(selectedRowKeys,selectedRows)=> {
     // 消除选中状态
     const {rowSelection}=this.state;
@@ -92,15 +91,16 @@ class OnAudit extends Component {
       });
     };
   }
+  //取消订单或审核通过的请求
   cancelOrder =(obj)=> {
     const {limit,currentPage} = this.props.onAudit;
     cancelOrderApi(obj)
     .then(res=>{
       if(res.code=="0"){
         if(obj.status == 6){
-          message.success("审核通过成功");
+          message.success("审核通过成功",.8);
         }else{
-          message.success("取消订单成功");
+          message.success("取消订单成功",.8);
         };
         this.props.dispatch({
           type:'onAudit/fetchList',
@@ -113,10 +113,10 @@ class OnAudit extends Component {
   handleOperateClick(parentRecord,record,type) {
     const {limit,currentPage} = this.props.onAudit;
     let obj={ecSuborderId:parentRecord.ecSuborderId};
-    if(type=="audit"){
+    if(type=="audit"){ //审核通过
       obj.status = 6;
       this.cancelOrder(obj);
-    }else if(type=="cancel"){
+    }else if(type=="cancel"){ //取消订单
       obj.status = 5;
       this.cancelOrder(obj);
     }else{ //跳转至订单详情
@@ -166,9 +166,9 @@ class OnAudit extends Component {
       payload:values
     })
   }
-  //订单拆分
+  //点击订单拆分按钮
   splitFormChange =()=>{
-    if(this.state.selectedRowKeys){
+    if(this.state.rowSelection.selectedRowKeys){
       this.setState({splitVisible:true});
       const {ecOrderId,ecSuborderId} = this.state;
       auditOrdeApi({ecOrderId,ecSuborderId})
@@ -179,20 +179,19 @@ class OnAudit extends Component {
           spus.map((item,index)=>{
             item.key=index;
             item.surplusQty=item.qty;
-            return item;o
+            return item;
           });
           this.setState({apartList:spus,ecSuborderNo,newEcSuborderNo,suborderPayAmount,ecSuborderSurplusPayAmount:suborderPayAmount})
         };
       })
     }else{
-      message.error("请选择需要拆分的订单");
+      message.error("请选择需要拆分的订单",.8);
     };
   }
-
   //拆分订单取消
   onSplitCancel =()=> {
     this.setState({splitVisible:false,apartList:[],selectedRowKeys:null,newList:[],newEcSuborderPayAmount:0})
-    this.onChange([],[]);
+    this.onChange(null,[]);
   }
   //确认拆单
   onSplitOk =(obj,clearForm)=> {
@@ -201,7 +200,7 @@ class OnAudit extends Component {
     .then(res=>{
       if(res.code=="0"){
         clearForm();
-        message.success("订单拆分成功");
+        message.success("订单拆分成功",.8);
         this.setState({splitVisible:false,apartList:[],newList:[],newEcSuborderPayAmount:0});
         this.props.dispatch({
           type:'onAudit/fetchList',
@@ -209,6 +208,27 @@ class OnAudit extends Component {
         });
       };
     });
+  }
+  //点击修改价格按钮
+  changePrice =()=> {
+    if(this.state.rowSelection.selectedRowKeys){
+      this.setState({priceVisible:true})
+      const {ecSuborderId} = this.state
+      getPriceListApi({ecSuborderId})
+      .then(res=>{
+        if(res.code=='0'){
+          let {spus,suborderPayAmount} = res.ecSuborder;
+          suborderPayAmount = Number(suborderPayAmount).toFixed(2);
+          spus.map((item,index)=>{
+            item.key = index;
+            return item;
+          });
+          this.setState({priceList:spus,oldTotalPrice:suborderPayAmount});
+        };
+      });
+    }else{
+      message.error("请选择需要修改价格的订单",.8);
+    };
   }
   //修改价格确定
   onPriceOk=(clearForm)=>{
@@ -237,20 +257,24 @@ class OnAudit extends Component {
         };
       })
     }else{
-      message.error("实付金额输入有误")
+      message.error("实付金额输入有误",.8)
     };
   }
   //修改价格取消
   onPriceCancel =()=> {
     this.setState({priceVisible:false,priceList:[],newTotalMoney:0,selectedRowKeys:null});
-    this.onChange([],[])
+    this.onChange(null,[])
+  }
+  //点击订单合并按钮
+  mergeOrder =()=> {
+    this.setState({mergeVisible:true})
   }
   //确定合并
   onMergeOk =(value,clearForm)=> {
     mergeOrderApi(value)
     .then(res=>{
       if(res.code == "0"){
-        message.success("合单成功");
+        message.success("合单成功",.8);
         const {limit,currentPage} = this.props;
         clearForm();
         this.setState({mergeVisible:false});
@@ -262,10 +286,19 @@ class OnAudit extends Component {
       };
     })
   }
+  //取消订单合并
   onMergeCancel =(clearForm)=> {
     clearForm();
     this.setState({mergeVisible:false})
-    this.onChange([],[])
+    this.onChange(null,[])
+  }
+  //点击星标
+  markStar =()=> {
+    if(this.state.rowSelection.selectedRowKeys){
+      this.setState({markVisible:true})
+    }else{
+      message.error("请选择需要添加星标的订单",.8)
+    }
   }
   //确认添加星标
   onMarkOk =(value,clearForm)=> {
@@ -276,7 +309,7 @@ class OnAudit extends Component {
     .then(res=>{
       if(res.code == "0"){
         clearForm();
-        this.setState({markVisible:false})
+        this.setState({markVisible:false});
         //重新刷新列表
         this.props.dispatch({
           type:'onAudit/fetchList',
@@ -289,23 +322,13 @@ class OnAudit extends Component {
   onMarkCancel =(clearForm)=> {
     clearForm();
     this.setState({markVisible:false,selectedRowKeys:null});
-    this.onChange([],[])
-  }
-  markStar =()=> {
-    if(this.state.selectedRowKeys){
-      this.setState({markVisible:true})
-    }else{
-      message.error("请选择需要添加星标的订单")
-    }
-  }
-  //订单合并
-  mergeOrder =()=> {
-    this.setState({mergeVisible:true})
+    this.onChange(null,[])
   }
   //拆单原订单数据改变
   dataChange =(apartList,ecSuborderSurplusPayAmount,newEcSuborderPayAmount,newList)=> {
     this.setState({apartList,ecSuborderSurplusPayAmount,newEcSuborderPayAmount,newList})
   }
+  //拆单新订单数据改变
   dataChangeList =(newList)=> {
     this.setState({newList});
   }
@@ -313,30 +336,8 @@ class OnAudit extends Component {
   priceDataChange=(newTotalMoney,priceList)=>{
     this.setState({newTotalMoney,newTotalMoney})
   }
-  changePrice =()=> {
-    if(this.state.selectedRowKeys){
-      this.setState({priceVisible:true})
-      const {ecSuborderId} = this.state
-      getPriceListApi({ecSuborderId})
-      .then(res=>{
-        if(res.code=='0'){
-          let {spus,suborderPayAmount} = res.ecSuborder;
-          suborderPayAmount = Number(suborderPayAmount).toFixed(2);
-          spus.map((item,index)=>{
-            item.key = index;
-            return item;
-          });
-          this.setState({priceList:spus,oldTotalPrice:suborderPayAmount});
-        };
-      });
-    }else{
-      message.error("请选择需要修改价格的订单");
-    };
-  }
-  onExpandRowsChange =(rows)=> {
-    this.setState({expandedRowKeys:rows})
-  }
   render() {
+    console.log(this.state.rowSelection.selectedRowKeys)
     const rolelists=this.props.data.rolelists;
     //订单拆分
     const dismantle=rolelists.find((currentValue,index)=>{
