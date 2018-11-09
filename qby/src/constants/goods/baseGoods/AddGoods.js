@@ -288,10 +288,15 @@ class AddGoodsForm extends Component {
     //处理商品信息,如果是skus商品
     let pdSkus = values.pdSkus;
     if(pdSkus&&pdSkus.length>0) {
-      let { pdSkus: paramsPdSkus, sizeIdList } =this.props.addGoods;
+      let { pdSkus: paramsPdSkus, sizeIdList, specData } =this.props.addGoods;
       pdSkus.map((el,index) => {
         el.pdType1Id = sizeIdList.pdSkusSizeOne;//规格1id
-        el.pdType2Id = sizeIdList.pdSkusSizeTwo;//规格2id
+        //选好规格，属性2没选时，属性置Null
+        if(specData.specTwo.length == 0) {
+          el.pdType2Id = null;//规格2id
+        } else {
+          el.pdType2Id = sizeIdList.pdSkusSizeTwo;//规格2id
+        }
         el.pdType1ValId = paramsPdSkus[index].pdType1ValId;//属性1id
         el.pdType2ValId = paramsPdSkus[index].pdType2ValId;//属性2id
         //格式化商品信息图片

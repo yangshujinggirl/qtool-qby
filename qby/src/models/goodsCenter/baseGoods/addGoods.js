@@ -299,14 +299,16 @@ export default {
                 name:el.pdType1Val.name
               })
             }
-            let twoIndex = specTwo.findIndex((val,index,arr) => {
-              return  val.key == el.pdType2Val.pdTypeValId;
-            })
-            if(twoIndex == -1) {
-              specTwo.push({
-                key:el.pdType2Val.pdTypeValId,
-                name:el.pdType2Val.name
-              })
+            if(el.pdType2Val) {
+              let twoIndex = specTwo.findIndex((val,index,arr) => {
+                return  val.key == el.pdType2Val.pdTypeValId;
+              });
+              if(twoIndex == -1) {
+                specTwo.push({
+                  key:el.pdType2Val.pdTypeValId,
+                  name:el.pdType2Val.name
+                })
+              }
             }
             return el;
           })
