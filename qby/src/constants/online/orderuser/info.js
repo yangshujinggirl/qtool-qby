@@ -322,7 +322,8 @@ class OrderuserInfo extends React.Component{
 				</div>
 				{
 					newClearLogs.map((item,index)=>{
-						let title = "杭州仓清关日志（子单" + index+1 + ")";
+						let newIndex = index + 1;
+						let title = "杭州仓清关日志（子单" + newIndex + ")";
 						return (
 							<div className='mb10'>
 								<EditableTable
