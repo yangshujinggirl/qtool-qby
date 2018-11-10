@@ -199,8 +199,15 @@ class OrderuserInfo extends React.Component{
 					return item;
 				});
 				newClearLogs.map((item,index) => { //表格中的每个操作加子单数 微信推送失败-->子单3微信推送失败
-					let newIndex = index+1;
 					item.map(subItem=>{
+						let len = subItem.docNo.length;
+						let lastTwo = subItem.docNo.slice(len-2,len);
+						let newIndex;
+						if(Number(lastTwo)<10){
+							newIndex = lastTwo.slice(1,2)
+						}else{
+							newIndex = lastTwo;
+						}
 						subItem.action = "子单"+newIndex+subItem.action;
 					});
 				});
