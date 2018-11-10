@@ -199,15 +199,16 @@ class OrderuserInfo extends React.Component{
 					return item;
 				});
 				newClearLogs.map((item,index) => { //表格中的每个操作加子单数 微信推送失败-->子单3微信推送失败
+					let len = item[0].docNo.length;
+					let lastTwo = item[0].docNo.slice(len-2,len);
+					let newIndex;
+					if(Number(lastTwo)<10){
+						newIndex = lastTwo.slice(1,2)
+					}else{
+						newIndex = lastTwo;
+					};
+					item.newIndex = newIndex;
 					item.map(subItem=>{
-						let len = subItem.docNo.length;
-						let lastTwo = subItem.docNo.slice(len-2,len);
-						let newIndex;
-						if(Number(lastTwo)<10){
-							newIndex = lastTwo.slice(1,2)
-						}else{
-							newIndex = lastTwo;
-						}
 						subItem.action = "子单"+newIndex+subItem.action;
 					});
 				});
@@ -335,8 +336,7 @@ class OrderuserInfo extends React.Component{
 				</div>
 				{
 					newClearLogs.map((item,index)=>{
-						let newIndex = index + 1;
-						let title = "杭州仓清关日志（子单" + newIndex + ")";
+						let title = "杭州仓清关日志（子单" + item.newIndex + ")";
 						return (
 							<div className='mb10'>
 								<EditableTable
