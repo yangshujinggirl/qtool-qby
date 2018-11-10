@@ -138,6 +138,14 @@ class SplitOrderModal extends Component{
       if(obj.isConsist){ //数组中原本存在，现在为0就清掉
         obj.newList.splice(obj.currentIndex,1);
       };
+      /* ---------------------修改剩余数量（输完又清掉的情况）--------------------- */
+      const surplusQty = Number(record.qty)-0 //剩余数量
+      apartList.map((item,index)=>{
+        if(item.key==record.key){
+          item.surplusQty = surplusQty;
+        };
+        return item;
+      });
       let newList = obj.newList;
       this.props.dataChangeList(newList)
     };
