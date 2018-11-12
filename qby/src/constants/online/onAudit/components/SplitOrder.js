@@ -146,8 +146,19 @@ class SplitOrderModal extends Component{
         };
         return item;
       });
+      /* --------------新增实付金额总和-------------- */
+      let newEcSuborderPayAmount = 0;
+      obj.newList.map((item,index)=>{
+        let price = _.round((Number(item.payAmount)/Number(item.qty)*Number(item.auditQty)),2);
+        let newPrice = accMul(price,100);
+        newEcSuborderPayAmount+=newPrice;
+      });
+      newEcSuborderPayAmount = newEcSuborderPayAmount/100;
+      let newObj = obj.newList;
+      let ecSuborderSurplusPayAmount = Subtr(Number(this.props.suborderPayAmount),newEcSuborderPayAmount); //剩余金额
+      /* --------------新增实付金额总和-------------- */
       let newList = obj.newList;
-      this.props.dataChangeList(newList)
+      this.props.dataChange(apartList,ecSuborderSurplusPayAmount,newEcSuborderPayAmount,newList)
     };
   }
   //判断数组里是否含有这组值，并记录现在这组值在新增数组中所处的位置

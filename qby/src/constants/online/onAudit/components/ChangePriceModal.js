@@ -49,7 +49,6 @@ class ChangePriceModal extends Component{
   }
   //订单拆分input失去焦点
   onPriceBlur =(record,e)=>{
-    console.log(record)
     const value = e.target.value;
     const key = record.key;
     const attr = "newPayAmount" + key;
@@ -57,7 +56,7 @@ class ChangePriceModal extends Component{
     let currentIndex;
     record.newPayAmount = Number(value);
     this.props.form.validateFields([attr],(err)=>{
-      if(err && !(err.hasOwnProperty(attr))){ //有错，当前列无错
+      if( Number(value) && err && !(err.hasOwnProperty(attr))){ //有错，当前列无错
         priceList.map((item,index)=>{
           if(item.key == key ){
             currentIndex = index;
@@ -72,7 +71,24 @@ class ChangePriceModal extends Component{
         });
         newTotalMoney = newTotalMoney.toFixed(2);
         this.props.dataChange(newTotalMoney,priceList)
-      }else if(!err){ //无错
+      }else if( !Number(value)){
+        priceList.map((item,index)=>{
+          if(item.key == key ){
+            currentIndex = index;
+          };
+        });
+        // priceList.splice(currentIndex,1,record);
+        priceList[currentIndex].newPayAmount = 0;
+        let newTotalMoney = 0;
+        priceList.map((item,index)=>{
+          if(item.newPayAmount){
+            newTotalMoney += item.newPayAmount;
+          };
+        });
+        newTotalMoney = newTotalMoney.toFixed(2);
+        this.props.dataChange(newTotalMoney,priceList)
+      }
+      else if(!err){ //无错
         priceList.map((item,index)=>{
           if(item.key == key ){
             currentIndex = index;
