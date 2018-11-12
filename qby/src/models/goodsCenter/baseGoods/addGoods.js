@@ -472,7 +472,6 @@ export default {
         }
       }
       let pdSkus = newPdSkus;
-      console.log(pdSkus)
       yield put({
         type:'setSpec',
         payload:{
