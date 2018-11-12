@@ -312,6 +312,37 @@ export default {
             }
             return el;
           })
+          //对数据进行排序，根据属性的排序来////////////////////////////////
+          let sortKeyArry=[];
+          if(specOne.length >0) {
+            if(specTwo.length >0) {
+              specOne.forEach((val,index) => {
+                specTwo.forEach((ele,idx) => {
+                  let item={};
+                  item.name = `${val.name}/${ele.name}`;
+                  item.key = `${val.key}_${ele.key}`;
+                  sortKeyArry.push(item);
+                })
+              })
+            } else {
+              specOne.forEach((val,idx) => {
+                let item={};
+                item.name = val.name;
+                item.key = val.key;
+                sortKeyArry.push(item);
+              })
+            }
+          }
+          let formatPdSkus = [];
+          sortKeyArry.forEach((val,index) => {
+            pdSkus.forEach((ele,idx) => {
+              if(val.key == ele.key ) {
+                val = {...val,...ele};
+                formatPdSkus.push(val)
+              }
+            })
+          })
+          pdSkus = formatPdSkus;
         } else {
           //初始化spu商品pdSpu数据
           let initPdspuData;//1是线上，0是线下
@@ -339,43 +370,14 @@ export default {
           pdSkus.push(initPdspuData);
         }
 
-        //对数据进行排序，根据属性的排序来////////////////////////////////
-        let sortKeyArry=[];
-        if(specOne.length >0) {
-          if(specTwo.length >0) {
-            specOne.forEach((val,index) => {
-              specTwo.forEach((ele,idx) => {
-                let item={};
-                item.name = `${val.name}/${ele.name}`;
-                item.key = `${val.key}_${ele.key}`;
-                sortKeyArry.push(item);
-              })
-            })
-          } else {
-            specOne.forEach((val,idx) => {
-              let item={};
-              item.name = val.name;
-              item.key = val.key;
-              sortKeyArry.push(item);
-            })
-          }
-        }
-        let formatPdSkus = [];
-        sortKeyArry.forEach((val,index) => {
-          pdSkus.forEach((ele,idx) => {
-            if(val.key == ele.key ) {
-              val = {...val,...ele};
-              formatPdSkus.push(val)
-            }
-          })
-        })
+
         //商品详情////////////////////////////////////////////////
         yield put({
           type:'getGoodsInfo',
           payload:{
             pdSpu,
             fileList,
-            pdSkus:formatPdSkus,
+            pdSkus,
             specData:{specOne,specTwo},
             sizeIdList,
             autoComplete:{ pdBrandId,pdCountryId },
@@ -470,6 +472,7 @@ export default {
         }
       }
       let pdSkus = newPdSkus;
+      console.log(pdSkus)
       yield put({
         type:'setSpec',
         payload:{

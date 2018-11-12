@@ -376,28 +376,31 @@ class AddGoodsForm extends Component {
   deleteGoodsLabel(tags,type) {
     let forms = this.props.form;
     //删除时要清掉form中的历史值，重置pdSkus
-    let currentDelete = [];//当半被删项
+    let currentDeleteObj = [];//当前被删项
     if(type == 'one') {
       this.props.addGoods.pdSkus.map((el,index) => {
         if(el.pdType1ValId == tags.key) {
-          currentDelete.push(index)
+          currentDeleteObj.push(el)
         }
       })
     } else {
       this.props.addGoods.pdSkus.map((el,index) => {
         if(el.pdType2ValId == tags.key) {
-          currentDelete.push(index)
+          currentDeleteObj.push(el)
         }
       })
     }
-    currentDelete.map((el,index) => {
-      let pdSkus = forms.getFieldsValue(['pdSkus']);
-      pdSkus.pdSkus.splice(el,1);
-        forms.setFieldsValue({
-          pdSkus:pdSkus.pdSkus
-        });
+    let pdSkus = forms.getFieldsValue(['pdSkus']);
+    currentDeleteObj.map((el,index) => {
+      pdSkus.pdSkus.map((ee,idx) => {
+        if(el.name == ee.name) {
+          pdSkus.pdSkus.splice(idx,1);
+        }
+      })
     })
-
+    forms.setFieldsValue({
+      pdSkus:pdSkus.pdSkus
+    });
     this.props.dispatch({
       type:'addGoods/deleteSpec',
       payload:{
