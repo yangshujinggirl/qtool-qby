@@ -23,9 +23,12 @@ class SpTable extends React.Component {
 		},{
 			title: '所在城市',
 			dataIndex: 'provinces'
-        },{
+    },{
 			title: '账户余额',
 			dataIndex: 'amount'
+		},{
+			title: '门店积分',
+			dataIndex: 'toDeductTotalPoints'
 		},{
 			title: '操作',
 			dataIndex: 'opation',

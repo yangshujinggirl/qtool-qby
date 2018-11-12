@@ -85,7 +85,6 @@ class AddGoodsForm extends Component {
     const { pdSpuId, source } =this.props.data;
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
-      console.log(values)
       if (!err) {
         values = Object.assign(values,{
           pdSpuId
@@ -119,7 +118,9 @@ class AddGoodsForm extends Component {
       pdSkus.map((el,index) => {
         el.code = pdSkusData[index].code
       })
+      pdSkus = pdSkus.filter((el,index) =>  el);
     }
+    values = {...values,pdSkus};
     return values;
   }
   //提交api
