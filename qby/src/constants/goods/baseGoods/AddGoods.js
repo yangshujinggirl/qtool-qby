@@ -766,7 +766,7 @@ class AddGoodsForm extends Component {
                 <Col span={24}>
                   <FormItem label='关税综合税率' {...formItemLayout}>
                      {getFieldDecorator('taxRate',{
-                       rules: [{ required: true, message: '请选择保税仓库'}],
+                       rules: [{ required: true, message: '请选择关税综合税率'}],
                        initialValue:pdSpu.taxRate
                      })(
                        <Select placeholder="请选择" allowClear={false}>
