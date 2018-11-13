@@ -10,14 +10,14 @@ const DetailSizeColumns = [{
      title: '商品条码',
      dataIndex: 'barcode'
    }, {
-     title: '售价',
-     dataIndex: 'toBPrice'
-   },{
      title: '零售价',
      dataIndex: 'toCPrice'
    },{
-     title: '建议零售价',
-     dataIndex: 'tagPrice'
+     title: '金卡售价',
+     dataIndex: 'goldCardPrice'
+   },{
+     title: '银卡售价',
+     dataIndex: 'silverCardPrice'
    },{
      title: 'SKU图片',
      dataIndex: 'picUrl',
@@ -41,14 +41,14 @@ const DetailColumns = [{
       title: '商品条码',
       dataIndex: 'barcode'
     }, {
-      title: '售价',
-      dataIndex: 'toBPrice'
-    },{
       title: '零售价',
       dataIndex: 'toCPrice'
     },{
-      title: '建议零售价',
-      dataIndex: 'tagPrice'
+      title: '金卡售价',
+      dataIndex: 'goldCardPrice'
+    },{
+      title: '银卡售价',
+      dataIndex: 'silverCardPrice'
     }];
 
    export default { DetailSizeColumns, DetailColumns };

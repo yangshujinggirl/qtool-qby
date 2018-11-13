@@ -21,6 +21,7 @@ class DataDistribute extends Component{
   //初始化数据
   componentWillMount(){
     const {pdSkuId,pdSpuId} = this.props.data;
+    this.setState({pdSkuId,pdSpuId});
     this.props.dispatch({
       type:'dataspcun/initId',
       payload:{pdSkuId,pdSpuId}
@@ -61,7 +62,8 @@ class DataDistribute extends Component{
 
   //导出数据
   exportData =()=> {
-    const values ={type:77,downloadParam:{...this.state.field}}
+    const {pdSpuId,pdSkuId} = this.state;
+    const values ={type:77,downloadParam:{...this.state.field,pdSpuId,pdSkuId}}
     exportDataApi(values)
     .then(res => {
       if(res.code == '0'){

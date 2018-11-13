@@ -39,13 +39,12 @@ class SplitOrderModal extends Component{
           const { getFieldDecorator } = this.props.form;
           var method = "handleConfirmQty"+record.key
           method = (rule, value, callback) => {
-            console.log(!(/^[0-9]*$/.test(value)))
-                const { getFieldValue } = this.props.form;
-                if (value && (value > record.qty || !(/^[0-9]*$/.test(value))) ) {
-                    callback('输入小于原数量的整数')
-                };
-                callback();
-            }
+            const { getFieldValue } = this.props.form;
+            if (value && (value > record.qty || !(/^[0-9]*$/.test(value))) ) {
+                callback('输入小于原数量的整数');
+            };
+            callback();
+          }
           return(
             <Form>
               <FormItem>

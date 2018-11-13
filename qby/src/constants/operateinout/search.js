@@ -81,7 +81,7 @@ class OperateinoutSearchForm extends React.Component {
                                         <Option value='24'>取消退款</Option>
                                         <Option value='31'>调拨支出</Option>
                                         <Option value='32'>调拨收入</Option>
-                                        <Option value='40'>销售收入</Option>
+                                        <Option value='33'>销售收入</Option>
                                         <Option value='34'>提现转出</Option>
                                         <Option value='35'>提现释放</Option>
                                     </Select>

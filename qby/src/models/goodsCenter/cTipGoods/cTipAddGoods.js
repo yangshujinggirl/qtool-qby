@@ -7,7 +7,7 @@ export default {
   state: {
     fileList:[],
     pdSpu:{
-      isHasSize:false,
+      isSkus:false,//是不是skus商品
     },
   },
   reducers: {
@@ -19,6 +19,15 @@ export default {
     },
     getGoodsInfo(state, { payload : { pdSpu, fileList } }) {
       return { ...state, pdSpu, fileList }
+    },
+    changeSilver(state, { payload : { record, status}}) {
+      let pdSpu = state.pdSpu;
+      pdSpu.pdSkus.map((el,index) => {
+        if(record.key == el.key) {
+          el.silverDisabled = status;
+        }
+      })
+      return { ...state, pdSpu }
     },
   },
   effects: {
@@ -44,14 +53,16 @@ export default {
           ))
         }
         //处理商品信息
-        if(iPdSpu.pdSkus.length>0) {
-          pdSkus = iPdSpu.pdSkus.map((el) => {
+        if(iPdSpu.skuStatus ==1) {
+          pdSkus = iPdSpu.pdSkus.map((el, index) => {
             let name1 = el.pdType1Val&&el.pdType1Val.name;
             let name2 = el.pdType2Val&&el.pdType2Val.name;
             el.name = el.pdType2Val?`${name1}/${name2}`:`${name1}`;
             el.key = el.pdSkuId;
             el.imgUrl = `${fileDomain}${el.picUrl}`;
-            iPdSpu.isSkus = el.pdType1Val?true:false;
+            el.silverDisabled = el.goldCardPrice?false:true;
+            el.index = index;
+            iPdSpu.isSkus = iPdSpu.skuStatus?true:false;
             return el
           })
         } else {
@@ -62,7 +73,10 @@ export default {
                   toCPrice:iPdSpu.toCPrice,
                   costPrice:iPdSpu.costPrice,
                   tagPrice:iPdSpu.tagPrice,
-                  key:iPdSpu.barcode
+                  key:iPdSpu.barcode,
+                  silverCardPrice:iPdSpu.silverCardPrice,
+                  goldCardPrice:iPdSpu.goldCardPrice,
+                  silverDisabled:iPdSpu.goldCardPrice?false:true
                 }
           pdSkus.push(initPdspuData);
         }

@@ -45,10 +45,10 @@ class EchartsTest extends Component {
             if(json.code=='0'){
                 const analysis=json.analysis
 				const xdata=[]
-				const data1=[] 
-				const data2=[] 
-				const data3=[] 
-                const data4=[] 
+				const data1=[]
+				const data2=[]
+				const data3=[]
+                const data4=[]
 				for(var i=0;i<analysis.length;i++){
 					xdata.push(analysis[i].rpDateMd)
 					data1.push(analysis[i].qbyQty) //掌柜数量
@@ -71,7 +71,7 @@ class EchartsTest extends Component {
     }
 
 
-    
+
 
     checkonChange1=()=>{
         this.setState({
@@ -89,7 +89,7 @@ class EchartsTest extends Component {
     }
 
 
-    
+
     //绘制
     writeCall=()=>{
         const xdata=this.state.xdata
@@ -193,8 +193,8 @@ class EchartsTest extends Component {
             const values={startRpDate:startRpDate,endRpDate:endRpDate,code:null}
             this.fetdraw(values)
         })
-       
-        
+
+
     }
 
 }
@@ -202,6 +202,6 @@ class EchartsTest extends Component {
 
 
 
-   
+
 
 export default connect()(EchartsTest);

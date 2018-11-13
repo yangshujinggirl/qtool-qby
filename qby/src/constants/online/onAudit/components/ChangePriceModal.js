@@ -71,13 +71,12 @@ class ChangePriceModal extends Component{
         });
         newTotalMoney = newTotalMoney.toFixed(2);
         this.props.dataChange(newTotalMoney,priceList)
-      }else if( !Number(value)){
+      }else if( !Number(value)){ //有错（为空报的错），这时候得重新计算金额
         priceList.map((item,index)=>{
           if(item.key == key ){
             currentIndex = index;
           };
         });
-        // priceList.splice(currentIndex,1,record);
         priceList[currentIndex].newPayAmount = 0;
         let newTotalMoney = 0;
         priceList.map((item,index)=>{
@@ -87,8 +86,7 @@ class ChangePriceModal extends Component{
         });
         newTotalMoney = newTotalMoney.toFixed(2);
         this.props.dataChange(newTotalMoney,priceList)
-      }
-      else if(!err){ //无错
+      }else if(!err){ //无错
         priceList.map((item,index)=>{
           if(item.key == key ){
             currentIndex = index;

@@ -9,7 +9,7 @@ class DatagodesIndex extends React.Component{
 		const values={}
 		this.props.dispatch({
 			type:'datagodes/sellfetch',
-            payload:{code:'qerp.web.rp.pd.analysis.query',values:values}
+      payload:{code:'qerp.web.rp.pd.analysis.query',values:values}
 		})
 	}
 	desinfo=()=>{
@@ -71,7 +71,7 @@ class DatagodesIndex extends React.Component{
 		}
 	}
 
-	
+
 
 
   	render(){
@@ -79,7 +79,7 @@ class DatagodesIndex extends React.Component{
         	<div>
 				<div className='clearfix mb10'>
 					<p className='fl'>数据更新于:{this.props.updateTime}</p>
-					<p className='fr pointer' onClick={this.desinfo.bind(this)}>数据定义说明<Icon type="question-circle-o" style={{color:"#ED6531",marginLeft:"4px"}}/></p>	
+					<p className='fr pointer' onClick={this.desinfo.bind(this)}>数据定义说明<Icon type="question-circle-o" style={{color:"#ED6531",marginLeft:"4px"}}/></p>
 				</div>
 				<Cards data={this.props.data}/>
                 <Cardlist data={this.props.listdata} hindent={this.hindent.bind(this)}/>
