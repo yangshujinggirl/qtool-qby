@@ -114,11 +114,7 @@ class EchartsTest extends Component {
                 data:[],
             },
             grid:{
-<<<<<<< HEAD
                 left:"80",
-=======
-                left:'80',
->>>>>>> 20181001_2.3.0_online
                 top:'100'
             },
             toolbox: {
@@ -148,14 +144,8 @@ class EchartsTest extends Component {
                 {
                     name:type=='1'?'订单数量':'订单金额',
                     type:'line',
-<<<<<<< HEAD
-                    data:type=='1'?data1:data2
-                }
-
-=======
                     data:type=='1'?data1:data2,
                 },
->>>>>>> 20181001_2.3.0_online
             ]
         });
     }
