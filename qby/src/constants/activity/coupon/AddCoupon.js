@@ -90,7 +90,7 @@ class AddCoupon extends Component {
             {getFieldDecorator('couponUseScene', {
               rules: [{ required: true, message: '请选择优惠券场景' }],
             })(
-              <Select placeholder="请选择banner状态" style={{width:'280px'}}>
+              <Select placeholder="请选择优惠券场景" style={{width:'280px'}}>
                   <Option value="1">新用户专享券</Option>
                   <Option value="2">注券</Option>
               </Select>
