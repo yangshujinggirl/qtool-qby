@@ -336,12 +336,12 @@ class Content extends React.Component {
                                     case formDataCode('goods12') : return <Ctimer data={this.props.data} componkey={this.props.componkey}/>//c端定时
                                     case formDataCode('goods12-edit') : return <AddTimer data={this.props.data} componkey={this.props.componkey}/>
                                     //------------------------------客服中心------------------------
-                                    // case formDataCode('server02') : return <UserFeedBack data={this.props.data} componkey={this.props.componkey}/>//用户反馈
-                                    // case formDataCode('server02-edit') : return <HandleBack data={this.props.data} componkey={this.props.componkey}/>
+                                    case formDataCode('server02') : return <UserFeedBack data={this.props.data} componkey={this.props.componkey}/>//用户反馈
+                                    case formDataCode('server02-edit') : return <HandleBack data={this.props.data} componkey={this.props.componkey}/>
                                     case formDataCode('server03') : return <ServerBill data={this.props.data} componkey={this.props.componkey}/>//客服工单
                                     case formDataCode('server03-edit') : return <HandleBill data={this.props.data} componkey={this.props.componkey}/>
-                                    case formDataCode('server02'): return <CserverOrder data={this.props.data} componkey={this.props.componkey}/>
-                                    case formDataCode('server02-info'): return <CserverOrderdetail data={this.props.data} componkey={this.props.componkey}/>
+                                    case formDataCode('server32'): return <CserverOrder data={this.props.data} componkey={this.props.componkey}/>//c客服工单
+                                    case formDataCode('server32-info'): return <CserverOrderdetail data={this.props.data} componkey={this.props.componkey}/>
 
 
                                     default:  return "我是404";
