@@ -73,12 +73,12 @@ class NormalForm extends Component {
             <div className="search-form-wrap">
               <FormItem label='工单id'>
                  {getFieldDecorator('ticketId')(
-                   <Input placeholder="请输入商品编码" autoComplete="off"/>
+                   <Input placeholder="请输入工单id" autoComplete="off"/>
                  )}
                </FormItem>
               <FormItem label='工单主题'>
                  {getFieldDecorator('subject')(
-                   <Input placeholder="请输入商品名称" autoComplete="off"/>
+                   <Input placeholder="请输入工单主题" autoComplete="off"/>
                  )}
                </FormItem>
               <FormItem label='工单状态'>
@@ -114,12 +114,12 @@ class NormalForm extends Component {
                 </FormItem>
                <FormItem label='用户电话'>
                   {getFieldDecorator('cellphone')(
-                    <Input placeholder="请输入商品品牌" autoComplete="off"/>
+                    <Input placeholder="请输入用户电话" autoComplete="off"/>
                   )}
                 </FormItem>
               <FormItem label='处理时长'>
                  {getFieldDecorator('handleTimeType')(
-                   <Select allowClear={true} placeholder="请选择是处理时长">
+                   <Select allowClear={true} placeholder="请选择处理时长">
                      {
                        timeOptions.map((el,index) => (
                          <Select.Option
