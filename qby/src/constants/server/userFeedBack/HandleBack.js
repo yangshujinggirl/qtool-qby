@@ -56,7 +56,7 @@ render(){
                 <div className='cardlist_item'><label>反馈编号：</label><span>{feedbackInfos.feedbackNo}</span></div>
                 <div className='cardlist_item'><label>反馈用户：</label><span>{feedbackInfos.nickName}</span></div>
                 <div className='cardlist_item'><label>用户电话：</label><span>{feedbackInfos.userTel}</span></div>
-                <div className='cardlist_item'><label>反馈状态：</label><span>{feedbackInfos.status}</span></div>
+                <div className='cardlist_item'><label>反馈状态：</label><span>{feedbackInfos.statusStr}</span></div>
                 <div className='cardlist_item'><label>处理时长：</label><span>{feedbackInfos.handleTime}</span></div>
                 <div className='cardlist_item'><label>反馈时间：</label><span>{feedbackInfos.createTime}</span></div>
             </div>

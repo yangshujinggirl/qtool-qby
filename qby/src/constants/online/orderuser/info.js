@@ -1,6 +1,7 @@
 import { message, Button } from 'antd';
 import { connect } from 'dva';
 import {GetServerData} from '../../../services/services';
+import {dismissAuditApi} from "../../../services/online/orderuser"
 import EditableTable from '../../../components/table/tablebasic';
 import EditableTableInfo from '../../../components/table/table_info';
 import Cardlist from '../../../components/table/cardlist';
@@ -11,6 +12,17 @@ import Shipeditmodel from './shipedit';
 import './orderuser.css';
 
 class Tabletitle extends React.Component {
+	// 驳回审核
+	dismissAudit =()=> {
+		const {ecSuborderId} = this.props;
+		dismissAuditApi({status:4,ecSuborderId})
+		.then(res => {
+			if(res.code == "0"){
+				message.success("驳回审核成功");
+				this.props.infofetch(this.props.id); //刷新详情
+			};
+		})
+	}
 	render() {
 		return (
 			<div>
@@ -19,12 +31,12 @@ class Tabletitle extends React.Component {
 					{
 						(this.props.postgood && this.props.isdelivery)?
 						<div className='fr'>
-						<Shipeditmodel
-							modeltit={'子单'+this.props.listindex+'信息'}
-							ecOrderId={this.props.ecOrderId}
-							ecSuborderNo={this.props.ecSuborderNo} 
-							infofetch={this.props.infofetch}
-							ecSuborderId={this.props.ecSuborderId}/>
+							<Shipeditmodel
+								modeltit={'子单'+this.props.listindex+'信息'}
+								ecOrderId={this.props.ecOrderId}
+								ecSuborderNo={this.props.ecSuborderNo}
+								infofetch={this.props.infofetch}
+								ecSuborderId={this.props.ecSuborderId}/>
 						</div>:null
 					}
 				</div>
@@ -32,21 +44,29 @@ class Tabletitle extends React.Component {
 					<div className='cardlist_item fl'><label>子单号：</label><span>{this.props.ecSuborderNo}</span></div>
 					<div className='cardlist_item fl'><label>保税仓库：</label><span>{this.props.warehouseStr}</span></div>
 					<div className='cardlist_item fl'><label>子单状态：</label><span>{this.props.statusStr}</span></div>
+					{ this.props.status == 2 || this.props.status == 5 || this.props.status == 6 || this.props.status == 8
+							? <Button type="primary" className="dismiss_audit" onClick={this.dismissAudit}>驳回审核</Button>
+							: null
+					}
 				</div>
-            </div>
+      </div>
 		);
 	}
 }
 
 
+
 class OrderuserInfo extends React.Component{
 	constructor(props) {
-        super(props);
-        this.state={
+    super(props);
+    this.state={
 			goodinfo:[],
 			subOrderInfos:[],
 			logisticsInfos:[],
 			logs:[],
+			AuditLogs:[],
+			cleanLogs:[],
+			newClearLogs:[],
 			orderinfo:[],
 			receiptinfo:[],
 			canedit:false, //是否显示修改收货地址按钮
@@ -54,28 +74,28 @@ class OrderuserInfo extends React.Component{
 			recCity:null,
 			recDistrict:null,
 			recAddress:null
-        }
-        this.column1 = [
+    }
+    this.column1 = [
 			{
-            	title: '商品名称',
-            	dataIndex: 'name'
+      	title: '商品名称',
+      	dataIndex: 'name'
 			},
 			{
-            	title: '规格',
-            	dataIndex: 'displayName'
+      	title: '规格',
+      	dataIndex: 'displayName'
 			},
 			{
-            	title: '商品编码',
-            	dataIndex: 'skuCode'
+      	title: '商品编码',
+      	dataIndex: 'skuCode'
 			},
 			{
-            	title: '商品数量',
-            	dataIndex: 'qty'
+      	title: '商品数量',
+      	dataIndex: 'qty'
 			},
 			{
-            	title: '商品价格',
-            	dataIndex: 'price'
-		  	},
+      	title: '商品价格',
+      	dataIndex: 'price'
+	  	},
 			{
 				title: '应付价格',
 				dataIndex: 'amount'
@@ -85,64 +105,57 @@ class OrderuserInfo extends React.Component{
 				dataIndex: 'payAmount'
 			}
 		];
-        this.column2 = [
+    this.column2 = [
 			{
-            	title: '子单号',
-            	dataIndex: 'ecSuborderNo'
+      	title: '子单号',
+      	dataIndex: 'ecSuborderNo'
 			},
 			{
-            	title: '保税仓库',
-            	dataIndex: 'warehouseStr'
+      	title: '保税仓库',
+      	dataIndex: 'warehouseStr'
 			},
 			{
-            	title: '物流公司',
-            	dataIndex: 'name'
-            },
-            {
-            	title: '物流单号',
-            	dataIndex: 'expressNo'
-            },
-            {
-            	title: '获取物流时间',
-            	dataIndex: 'shipDate'
+      	title: '物流公司',
+      	dataIndex: 'name'
+      },
+      {
+      	title: '物流单号',
+      	dataIndex: 'expressNo'
+      },
+      {
+      	title: '获取物流时间',
+      	dataIndex: 'shipDate'
 			}
-        ];
-        this.column3 = [
+    ];
+    this.column3 = [
 			{
-            	title: '操作',
-            	dataIndex: 'action'
+      	title: '操作',
+      	dataIndex: 'action'
 			},
 			{
-            	title: '操作时间',
-            	dataIndex: 'createTime'
+      	title: '操作时间',
+      	dataIndex: 'createTime'
 			},
 			{
-            	title: '操作人',
-            	dataIndex: 'user'
-            },
-            {
-            	title: '备注',
-            	dataIndex: 'content'
-            }
+      	title: '操作人',
+      	dataIndex: 'user'
+      },
+      {
+      	title: '备注',
+      	dataIndex: 'content'
+      }
 		];
 	}
-
-
-
-
-
-
-
     //获取订单信息列表
 	infofetch=(id)=>{
 		const values={ecOrderId:id}
 		this.props.dispatch({ type: 'tab/loding', payload:true});
-        const result=GetServerData('qerp.web.ec.od.userOrder.detail',values)
-        result.then((res) => {
-           return res;
-        }).then((json) => {
+    const result=GetServerData('qerp.web.ec.od.userOrder.detail',values)
+    result.then((res) => {
+       return res;
+    }).then((json) => {
 			this.props.dispatch({ type: 'tab/loding', payload:false});
-            if(json.code=='0'){
+      if(json.code=='0'){
 				const orderInfos=json.orderInfo
 				const orderinfo=[
 					{lable:'订单号',text:orderInfos.orderNo},
@@ -161,15 +174,54 @@ class OrderuserInfo extends React.Component{
 					{lable:'收货电话',text:orderInfos.recTelephone},
 					{lable:'收货地址',text:orderInfos.address}
 				]
-
-               	this.setState({
+				const logs = json.logs;
+				const AuditLogs = json.AuditLogs;
+				const cleanLogs = json.cleanLogs;
+				let [docNo,alldocNo,newClearLogs] = ["",[],[]];
+				cleanLogs.map((item,index)=>{ //把出现的docNo放进一个数组中
+					if(item.docNo != docNo){
+						alldocNo.push(item.docNo);
+						docNo = item.docNo;
+					};
+				});
+				alldocNo.map((item,index) => {
+					let name = "arr"+index;
+					let obj = {
+						name:[]
+					};
+					cleanLogs.map((subItem)=>{
+						if(subItem.docNo == item){
+							obj.name.push(subItem);
+						};
+						return subItem;
+					});
+					newClearLogs.push(obj.name);
+					return item;
+				});
+				newClearLogs.map((item,index) => { //表格中的每个操作加子单数 微信推送失败-->子单3微信推送失败
+					let len = item[0].docNo.length;
+					let lastTwo = item[0].docNo.slice(len-2,len);
+					let newIndex;
+					if(Number(lastTwo)<10){
+						newIndex = lastTwo.slice(1,2)
+					}else{
+						newIndex = lastTwo;
+					};
+					item.newIndex = newIndex;
+					item.map(subItem=>{
+						subItem.action = "子单"+newIndex+subItem.action;
+					});
+				});
+       	this.setState({
 					goodinfo:json.goodinfo,
 					subOrderInfos:json.subOrderInfos,
 					logisticsInfos:json.logisticsInfos,
-					logs:json.logs,
+					logs,
+					AuditLogs,
+					newClearLogs,
 					orderinfo:orderinfo,
 					receiptinfo:receiptinfo,
-					canedit:(orderInfos.status=='-1' || orderInfos.status=='-2' )?true:false,
+					canedit:(orderInfos.status=='-1' || orderInfos.status=='-2' || orderInfos.status== 10)?true:false,
 					recProvince:orderInfos.recProvince,
 					recCity:orderInfos.recCity,
 					recDistrict:orderInfos.recDistrict,
@@ -181,6 +233,8 @@ class OrderuserInfo extends React.Component{
 					subOrderInfos:[],
 					logisticsInfos:[],
 					logs:[],
+					newClearLogs:[],
+					AuditLogs:[],
 					orderinfo:[],
 					receiptinfo:[],
 					canedit:false,
@@ -190,15 +244,17 @@ class OrderuserInfo extends React.Component{
 					recAddress:null
 			   	})
 			}
-        })
-    }
+    })
+  }
 	render(){
+		console.log(this.state.newClearLogs)
+		let {newClearLogs} = this.state;
 		return(
 			<div>
 				<div className='mb10'>
 					<Cardlist cardtitle='订单信息' cardlist={this.state.orderinfo}/>
 				</div>
-                <div className='mb10 list-cad'>
+        <div className='mb10 list-cad'>
 					<Cardlists cardtitle='收货信息'
 						cardlist={this.state.receiptinfo}
 						canedit={this.state.canedit}
@@ -215,21 +271,24 @@ class OrderuserInfo extends React.Component{
 					<EditableTable
 						columns={this.column1}
 						dataSource={this.state.goodinfo}
-                        title='商品信息'
-                        bordered={true}
+            title='商品信息'
+            bordered={true}
 						footer={false}
 					/>
 				</div>
-                {
+        {
 					this.state.subOrderInfos.length>0
 					?
 					this.state.subOrderInfos.map((item,index)=>{
 						return (
 							<div className='mb10' key={index}>
+							{
+								item.status != 10 ?
 								<EditableTable
 									columns={this.column1}
-									dataSource={item.subOrderinfo}
+									dataSource={item.subOrderDetails}
 									title={<Tabletitle
+											dispatch={this.props.dispatch}
 											listindex={index+1}
 											isdelivery={item.isDelivery}
 											ecSuborderNo={item.ecSuborderNo}
@@ -239,15 +298,18 @@ class OrderuserInfo extends React.Component{
 											ecOrderId={this.props.data.id}
 											infofetch={this.infofetch.bind(this)}
 											postgood={this.props.data.postgood}
+											id={this.props.data.id}
 											ecSuborderId={item.ecSuborderId}
 											/>}
 									bordered={true}
-									footer={false}/>
+									footer={false}/> : null
+							}
+
 							</div>
 						)
 					})
 					:null
-                }
+        }
 				<div className='mb10'>
 					<EditableTable
 						columns={this.column2}
@@ -256,18 +318,42 @@ class OrderuserInfo extends React.Component{
                         bordered={true}
 						footer={false}/>
 				</div>
-                <div className='mb10'>
+        <div className='mb10'>
 					<EditableTable
 						columns={this.column3}
 						dataSource={this.state.logs}
-                        title="订单日志"
-                        bordered={true}
+            title="订单日志"
+            bordered={true}
 						footer={false}/>
 				</div>
+				<div className='mb10'>
+					<EditableTable
+						columns={this.column3}
+						dataSource={this.state.AuditLogs}
+            title="杭州仓审核日志"
+            bordered={true}
+						footer={false}/>
+				</div>
+				{
+					newClearLogs.map((item,index)=>{
+						let title = "杭州仓清关日志（子单" + item.newIndex + ")";
+						return (
+							<div className='mb10'>
+								<EditableTable
+									columns={this.column3}
+									dataSource={item}
+			            title={title}
+			            bordered={true}
+									footer={false}/>
+							</div>
+						)
+					})
+				}
 			</div>
 		)
 	}
 	componentDidMount(){
+		console.log(this.props.data)
 		this.infofetch(this.props.data.id)
 	}
 }

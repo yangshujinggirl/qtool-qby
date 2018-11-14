@@ -30,8 +30,8 @@ export default {
           case 301300:
             authorityList.authorityOutLine = true;
             break;
-        }
-      })
+        };
+      });
       return { ...state, authorityList }
     },
     getList( state, { payload : {dataList, dataPag} }) {

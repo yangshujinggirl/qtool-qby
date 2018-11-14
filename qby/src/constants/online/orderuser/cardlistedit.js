@@ -4,8 +4,9 @@ import WrappedApp from './form_edit';
 class Cardtitles extends React.Component {
 
 	render() {
+		console.log(this.props)
 		return (
-			<div>
+			<div style={{width:"100%"}}>
         <div className='fl'>{this.props.cardtitle}</div>
           {
             (this.props.editorder && this.props.canedit && !this.props.editopen)
