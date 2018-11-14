@@ -1,11 +1,11 @@
 const Columns = [{
      title: '工单id',
      key:'ticketId',
-     dataIndex: 'ticketId',
+     dataIndex: 'udeskTicketId',
      render:(text, record, index)=> {
        return <span
          className="theme-color pointer"
-         onClick={()=>record.onOperateClick(record)}>{record.ticketId}</span>
+         onClick={()=>record.onOperateClick(record)}>{record.udeskTicketId}</span>
      }
    },{
      title: '主题',

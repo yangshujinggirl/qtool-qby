@@ -49,7 +49,7 @@ class CserverOrderdetail extends  Component {
               <div className="row">
                 <Card title='工单详情'>
           				<div className='detail-list'>
-          					<div className='label-item'><label>工单id：</label><span>{detailInfo.udeskTicketVo.ticketId}</span></div>
+          					<div className='label-item'><label>工单id：</label><span>{detailInfo.udeskTicketVo.udeskTicketId}</span></div>
           					<div className='label-item'><label>工单状态：</label><span>{detailInfo.udeskTicketVo.status}</span></div>
           					<div className='label-item'><label>优先级：</label><span>{detailInfo.udeskTicketVo.priority}</span></div>
           					<div className='label-item'><label>渠道：</label><span>{detailInfo.udeskTicketVo.channel}</span></div>
