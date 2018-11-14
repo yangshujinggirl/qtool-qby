@@ -144,8 +144,8 @@ class EchartsTest extends Component {
                 {
                     name:type=='1'?'订单数量':'订单金额',
                     type:'line',
-                    data:type=='1'?data1:data2,
-                },
+                    data:type=='1'?data1:data2
+                }
             ]
         });
     }

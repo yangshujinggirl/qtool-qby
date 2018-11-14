@@ -66,12 +66,12 @@ class EchartsTest extends Component {
                     categoryAnalysis[i].posQtyBi=String(NP.round(NP.divide(NP.times(categoryAnalysis[i].posQty,100),categoryAnalysis[i].ofPosQty),2))+'%' //pos数量占比
                     categoryAnalysis[i].posAmountBi=String(NP.round(NP.divide(NP.times(categoryAnalysis[i].posAmount,100),categoryAnalysis[i].ofPosAmount),2))+'%' //pos金额占比
                 }
-                
+
 				const xdata=[]
-				const data1=[] 
-				const data2=[] 
-				const data3=[] 
-				const data4=[] 
+				const data1=[]
+				const data2=[]
+				const data3=[]
+				const data4=[]
 				for(var i=0;i<categoryAnalysis.length;i++){
 					xdata.push(categoryAnalysis[i].name)
 					data1.push(categoryAnalysis[i].qbyQty) //掌柜数量
@@ -104,7 +104,7 @@ class EchartsTest extends Component {
             this.writeCall()
         })
     }
-    
+
     //绘制
     writeCall=()=>{
         const xdata=this.state.xdata
@@ -126,10 +126,10 @@ class EchartsTest extends Component {
             legend: {
                 data: ['掌柜销售', 'POS销售'],
                 top:"43",
-                left:"300",
+                left:"350",
             },
             grid:{
-                left:"50",
+                left:"80",
                 top:'100',
             },
             toolbox: {
@@ -161,7 +161,7 @@ class EchartsTest extends Component {
                     type: 'bar',
                     barGap: 0,
                     data:type=='1'?data1:data3
-                    
+
                 },
                 {
                     name: 'POS销售',
@@ -197,7 +197,7 @@ class EchartsTest extends Component {
         const endRpDate=tody
         const values={startRpDate:startRpDate,endRpDate:endRpDate}
         this.fetdraw(values)
-        
+
     }
 
 }

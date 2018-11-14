@@ -176,7 +176,7 @@ class EchartsTest extends Component {
                 }
             },
             grid:{
-                left:"50",
+                left:"80",
                 top:'100'
             },
             series: [

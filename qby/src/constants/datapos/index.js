@@ -14,7 +14,8 @@ import InOutReport from './inoutReport';
 import AdjustLogIndex from './adjustLog';
 import InventorydiffLogIndex from './inventorydiffLog';
 import Onwayingindex from './onwaying'
-import DbLogIndex from './dblog'
+import DbLogIndex from './dblog';
+import IntegralStatements from './IntegralStatements';
 
 const FormItem = Form.Item;
 const TabPane = Tabs.TabPane;
@@ -80,9 +81,11 @@ class DataposIndexForm extends React.Component{
             }
         })
     }
-
+		resetShopId() {
+			this.setState({ sureShopId: null, key:1 });
+		}
   	render(){
-        const { getFieldDecorator } = this.props.form;       
+        const { getFieldDecorator } = this.props.form;
      	return(
         	<div className='content_box stock-tabs data-pos'>
             {
@@ -111,34 +114,37 @@ class DataposIndexForm extends React.Component{
                 :
                 <Tabs defaultActiveKey="1"  onTabClick={this.tabChange.bind(this)}>
                     <TabPane tab="每日对账单" key="1">
-                        {this.state.key == 1 && <DailyBill shopId={this.state.sureShopId}/>} 
+                        {this.state.key == 1 && <DailyBill shopId={this.state.sureShopId} resetShopId={this.resetShopId.bind(this)}/>}
                     </TabPane>
                     <TabPane tab="热销商品" key="2">
-                        {this.state.key == 2 && <HotSellGoods shopId={this.state.sureShopId}/>} 
+                        {this.state.key == 2 && <HotSellGoods shopId={this.state.sureShopId}/>}
                     </TabPane>
                     <TabPane tab="店员销售" key="3">
-                        {this.state.key == 3 && <ClerkSale shopId={this.state.sureShopId}/>} 
+                        {this.state.key == 3 && <ClerkSale shopId={this.state.sureShopId} resetShopId={this.resetShopId.bind(this)}/>}
                     </TabPane>
                     <TabPane tab="收货报表" key="4">
-                        {this.state.key == 4 && <ReceiptReport shopId={this.state.sureShopId}/>} 
+                        {this.state.key == 4 && <ReceiptReport shopId={this.state.sureShopId}/>}
                     </TabPane>
                     <TabPane tab="在途库存" key="9">
-                        {this.state.key == 9 && <Onwayingindex shopId={this.state.sureShopId}/>} 
-                    </TabPane>      
+                        {this.state.key == 9 && <Onwayingindex shopId={this.state.sureShopId}/>}
+                    </TabPane>
                     <TabPane tab="利润报表" key="5">
-                        {this.state.key == 5 && <ProfitReport shopId={this.state.sureShopId}/>} 
+                        {this.state.key == 5 && <ProfitReport shopId={this.state.sureShopId} resetShopId={this.resetShopId.bind(this)}/>}
                     </TabPane>
                     <TabPane tab="进销存报表" key="6">
-                        {this.state.key == 6 && <InOutReport shopId={this.state.sureShopId}/>} 
+                        {this.state.key == 6 && <InOutReport shopId={this.state.sureShopId} resetShopId={this.resetShopId.bind(this)}/>}
+                    </TabPane>
+                    <TabPane tab="积分报表" key="11">
+                        {this.state.key == 11 && <IntegralStatements shopId={this.state.sureShopId} resetShopId={this.resetShopId.bind(this)}/>}
                     </TabPane>
                     <TabPane tab="损益日志" key="7">
-                        {this.state.key == 7 && <AdjustLogIndex shopId={this.state.sureShopId}/>} 
+                        {this.state.key == 7 && <AdjustLogIndex shopId={this.state.sureShopId}/>}
                     </TabPane>
                     <TabPane tab="盘点日志" key="8">
-                        {this.state.key == 8 && <InventorydiffLogIndex shopId={this.state.sureShopId}/>} 
+                        {this.state.key == 8 && <InventorydiffLogIndex shopId={this.state.sureShopId}/>}
                     </TabPane>
                     <TabPane tab="调拨日志" key="10">
-                        {this.state.key == "10" && <DbLogIndex shopId={this.state.sureShopId}/>} 
+                        {this.state.key == "10" && <DbLogIndex shopId={this.state.sureShopId}/>}
                     </TabPane>
                 </Tabs>
             }

@@ -307,7 +307,7 @@ class SpEditForm extends React.Component{
 	 modelsuccess=()=>{
 		const _this=this
 		Modal.success({
-		  title: 'Qtools门店账户创建成功',
+		  title: 'Qtools门店账户密码重置成功',
 		  content:(
 			<div>
 				<p>门店：{_this.state.spname}</p>
@@ -318,7 +318,6 @@ class SpEditForm extends React.Component{
 		  onOk() {
 			_this.deleteTab()
 		  }
-
 		});
 	  }
 

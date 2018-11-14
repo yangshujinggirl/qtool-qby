@@ -158,6 +158,9 @@ class GoodsInfo extends Component {
     }
   }
   renderGoldPrice =(text, record, index)=> {
+    if(!record.toCPrice) {
+      return ''
+    }
     const { pdSpu } = this.props.cTipAddGoods;
     let name = pdSpu.isSkus?`pdSkus[${index}].goldCardPrice`:'goldCardPrice'
     return  <FormItem className='purchasePrice-input'>
@@ -175,6 +178,9 @@ class GoodsInfo extends Component {
             </FormItem>
   }
   renderSilverPrice =(text, record, index)=> {
+    if(!record.toCPrice) {
+      return ''
+    }
     const { pdSpu } = this.props.cTipAddGoods;
     let name = pdSpu.isSkus?`pdSkus[${index}].silverCardPrice`:'silverCardPrice';
     return  <FormItem className='purchasePrice-input'>

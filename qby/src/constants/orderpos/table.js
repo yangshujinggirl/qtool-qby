@@ -21,6 +21,9 @@ class OrderposTable extends React.Component {
           title: '订单类型',
           dataIndex: 'orderTypeStr'
         },{
+          title: '消费门店类型',
+          dataIndex: 'isLocalShopStr'
+        },{
           title: '用户类型',
           dataIndex: 'levelStr'
         },{
@@ -34,7 +37,7 @@ class OrderposTable extends React.Component {
           dataIndex: 'createTime'
         }];
     }
-    
+
     //点击表格上的修改按钮操作
     editInfo = (record) =>{
        const spOrderId=String(record.orderId);
@@ -53,8 +56,8 @@ class OrderposTable extends React.Component {
     pageSizeChange=(current,size)=>{
           this.initList(this.props.values,size,0)
     }
-    
-    //列表数据请求   
+
+    //列表数据请求
     initList=(values,limit,currentPage)=>{
         values.limit=limit;
         values.currentPage=currentPage;
@@ -67,9 +70,9 @@ class OrderposTable extends React.Component {
 
     render() {
         return (
-          <EditableTable 
-            dataSource={this.props.tableList} 
-            columns={this.columns} 
+          <EditableTable
+            dataSource={this.props.tableList}
+            columns={this.columns}
             footer={true}
             bordered={true}
             pageChange={this.pageChange.bind(this)}
@@ -81,9 +84,9 @@ class OrderposTable extends React.Component {
         );
 	}
 	componentDidMount(){
-    
+
 	}
-    
+
 }
 
 function mapStateToProps(state) {
@@ -92,6 +95,3 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(OrderposTable);
- 
-
-
