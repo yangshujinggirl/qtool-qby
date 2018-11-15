@@ -276,7 +276,7 @@ class OrdercgEditForm extends React.Component{
 							wrapperCol={{ span: 6 }}
 						>
 							{getFieldDecorator('supplier', {
-								rules: [{ required: true, message: '请输入账号名称'},{pattern:/^.{1,30}$/,message:'请输入1-30字账号名称'}],
+								rules: [{ required: true, message: '请输入供应商名称'},{pattern:/^.{1,30}$/,message:'请输入1-30字供应商名称'}],
 								initialValue:this.props.editInfo.name
 							})(
 		            <AutoComplete

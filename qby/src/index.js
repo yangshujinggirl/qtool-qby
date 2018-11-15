@@ -91,6 +91,8 @@ import withdraw from './models/operate/withdraw'
 //B端问答
 import bAnswer from './models/operate/bAnswer'
 import bAddAnswer from './models/operate/bAnswer/bAddAnswer'
+//待审核订单
+import onAudit from './models/online/onAudit'
 
 // 1. Initialize
 const app = dva({
@@ -170,7 +172,8 @@ const models = [
   withdraw,
   bAnswer,
   bAddAnswer,
-  cServerOrder
+  cServerOrder,
+  onAudit
 ]
 
 models.forEach(m => {

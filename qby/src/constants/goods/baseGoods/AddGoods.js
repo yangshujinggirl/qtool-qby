@@ -270,15 +270,20 @@ class AddGoodsForm extends Component {
         if(pdSpuId) {
           values = Object.assign(values,{
             pdSpuId
-          })
-        }
+          });
+        };
         values = this.formParams(values);
-        this.saveOnLineGoods({iPdSpu:values},source)
+        this.saveOnLineGoods({iPdSpu:values},source);
       }
     });
   }
   //格式化数据
   formParams(values) {
+    if(values && values.taxRate){
+      if(values.taxRate.indexOf("%") != -1){
+        values.taxRate = values.taxRate.replace("%","");
+      };
+    }
     //取出store中id品牌，国家
     values.pdBrandId = this.props.addGoods.autoComplete.pdBrandId;
     values.pdCountryId = this.props.addGoods.autoComplete.pdCountryId;
@@ -765,6 +770,22 @@ class AddGoodsForm extends Component {
                              <Option value={el.key} key={el.key}>{el.value}</Option>
                            ))
                          }
+                       </Select>
+                     )}
+                   </FormItem>
+                </Col>
+                <Col span={24}>
+                  <FormItem label='关税综合税率' {...formItemLayout}>
+                     {getFieldDecorator('taxRate',{
+                       rules: [{ required: true, message: '请选择关税综合税率'}],
+                       initialValue:pdSpu.taxRate
+                     })(
+                       <Select placeholder="请选择" allowClear={false}>
+                         <Option key={0} value='7'>7%</Option>
+                         <Option key={1} value='11.2'>11.2%</Option>
+                         <Option key={2} value='20.222'>20.222%</Option>
+                         <Option key={3} value='31.5'>31.5%</Option>
+                         <Option key={4} value='25.529'>25.529%</Option>
                        </Select>
                      )}
                    </FormItem>

@@ -1,6 +1,7 @@
 import { Router, Route } from 'dva/router';
 import IndexPage from './routes/IndexPage';
 import Login from './routes/Login';
+var _ = require('lodash');
 import { LocaleProvider, DatePicker, message } from 'antd';
 
  import zhCN from 'antd/lib/locale-provider/zh_CN';

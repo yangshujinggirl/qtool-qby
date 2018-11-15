@@ -143,7 +143,7 @@ class H5_configure extends React.Component{
 							payload:0
 						});
 					}
-				}) 
+				})
 			}else{
 				this.props.dispatch({
 					type:'h5config/syncConfigArr',

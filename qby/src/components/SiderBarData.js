@@ -464,9 +464,9 @@ const SiderBarData =  [
       "rank": 20,
       "children": [
         {
-          "urResourceId": 301000,
+          "urResourceId": 306000,
           "name": "商品管理",
-          "code": "301000",
+          "code": "306000",
           "url": "",
           "remark": null,
           "status": 1,
@@ -717,9 +717,9 @@ const SiderBarData =  [
           ]
         },
         {
-          "urResourceId": 306000,
+          "urResourceId": 301000,
           "name": "基础商品",
-          "code": "305000",
+          "code": "301000",
           "url": "",
           "remark": null,
           "status": 1,
@@ -729,19 +729,43 @@ const SiderBarData =  [
           "rank": null,
           "children": [
             {
-              "urResourceId": 306100,
-              "name": "增改定时",
-              "code": "305100",
-              "url": "qerp.web.pd.task.time.save",
-              "remark": null,
-              "status": 1,
-              "statusStr": null,
-              "menu": 1,
-              "menuStr": null,
-              "rank": null,
-              "children": null
-            }
-          ]
+              children: null,
+              code: "301100",
+              menu: 1,
+              menuStr: null,
+              name: "商品信息",
+              rank: null,
+              remark: null,
+              status: 1,
+              statusStr: null,
+              urResourceId: 301100,
+              url: "qerp.web.basepd.spu.query"
+            },
+            {
+              children: null,
+              code: "301200",
+              menu: 1,
+              menuStr: null,
+              name: "增改线上商品",
+              rank: null,
+              remark: null,
+              status: 1,
+              statusStr: null,
+              urResourceId: 301200,
+              url: "qerp.web.pd.spu.save"
+            },{
+              children: null,
+              code: "301300",
+              menu: 1,
+              menuStr: null,
+              name: "增改线下商品",
+              rank: null,
+              remark: null,
+              status: 1,
+              statusStr: null,
+              urResourceId: 301300,
+              url: "qerp.web.pd.spu.status"
+          }]
         },
         {
           "urResourceId": 307000,
@@ -1088,6 +1112,18 @@ const SiderBarData =  [
               "children": null
             }
           ]
+        },
+        {
+          "urResourceId": 804000,
+          "name": "待审核订单",
+          "code": "803000",
+          "url": "",
+          "remark": null,
+          "status": 1,
+          "statusStr": null,
+          "menu": 1,
+          "menuStr": null,
+          "rank": null,
         }
       ]
     },

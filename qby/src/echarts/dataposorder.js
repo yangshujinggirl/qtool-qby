@@ -111,7 +111,7 @@ class EchartsTest extends Component {
                 trigger: 'axis'
             },
             legend: {
-                data:[]
+                data:[],
             },
             grid:{
                 left:"80",
@@ -146,7 +146,6 @@ class EchartsTest extends Component {
                     type:'line',
                     data:type=='1'?data1:data2
                 }
-
             ]
         });
     }

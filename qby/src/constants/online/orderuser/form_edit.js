@@ -14,8 +14,9 @@ class App extends React.Component {
     }
     //修改保存
     handleSubmit = (e) => {
-        e.preventDefault();
         this.props.form.validateFields((err, values) => {
+          console.log(err)
+          debugger
             if (!err) {
                 values.ecOrderId=this.props.ecOrderId
                 values.recProvince=this.state.recProvince
@@ -30,7 +31,7 @@ class App extends React.Component {
                         this.props.hindCancel()
                         this.props.infofetch(this.props.ecOrderId)
                     }
-                }) 
+                })
             }
         });
     }
@@ -118,7 +119,6 @@ class App extends React.Component {
                     className='lists'
                     >
                         {getFieldDecorator('spAddressId', {
-
                         })(
                             <div className='lists-con'>
                                 <Input value={this.state.recProvince} onChange={this.hindrecProvince.bind(this)} placeholder='省'/>
@@ -141,7 +141,7 @@ class App extends React.Component {
                 </FormItem>
                 <FormItem
                     wrapperCol={{ span: 4, offset: 4 }}
-                >   
+                >
                     <div>
                         <Button onClick={hindCancel} className='mr10'>
                             取消
@@ -154,7 +154,7 @@ class App extends React.Component {
             </Form>
         );
     }
-   
+
 }
 
 const WrappedApp = Form.create()(App);

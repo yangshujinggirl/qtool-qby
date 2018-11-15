@@ -99,6 +99,10 @@ const OnLinePartDetail =({pdSpu}) =>(
       <label>{pdSpu.warehouseStr}</label>
     </FormItem>
     <FormItem
+      label="关税综合税率" {...formItemLayout}>
+      <label>{pdSpu.taxRate}</label>
+    </FormItem>
+    <FormItem
       label="分成比例" {...formItemLayout}>
       <label>{pdSpu.shareRatio&&`${pdSpu.shareRatio}%`}</label>
     </FormItem>

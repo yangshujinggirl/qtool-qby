@@ -2,8 +2,8 @@
 	height: 100%;
 }
 .counter_con{
-	min-height:-moz-calc(100% - 76px); 
-	min-height:-webkit-calc(100% - 76px); 
+	min-height:-moz-calc(100% - 76px);
+	min-height:-webkit-calc(100% - 76px);
 	min-height: calc(100% - 76px);
 	background: #fff;
 	padding:20px 30px;

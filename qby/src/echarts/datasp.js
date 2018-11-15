@@ -189,7 +189,8 @@ class EchartsTest extends Component {
                     name:'POS销售',
                     type:'line',
                     data:type=='1'?data2:data4
-                }
+                },
+
             ]
         });
     }

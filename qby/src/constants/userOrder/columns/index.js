@@ -1,4 +1,3 @@
-
 const Columns = [{
      title: '订单号',
      dataIndex: 'orderNo',
@@ -34,5 +33,4 @@ const Columns = [{
      title: '订单时间',
      dataIndex: 'createTime'
    }];
-
-   export default Columns;
+   export  default Columns

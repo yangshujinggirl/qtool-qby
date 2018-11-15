@@ -142,6 +142,7 @@ export default {
       const levelThr = yield select(state => state.addGoods.categoryData.categoryLevelThr);
       const levelFour = yield select(state => state.addGoods.categoryData.categoryLevelFour);
       const pdSpu = yield select(state => state.addGoods.pdSpu);
+      console.log(pdSpu)
       let categoryLevelOne=[];
       let categoryLevelTwo=[];
       let categoryLevelThr=[];

@@ -1,6 +1,6 @@
 import React,{ Component } from 'react';
 import { connect } from 'dva';
-import { Button, message, Modal} from 'antd'
+import { Button, message, Modal,Row,Col,Table} from 'antd'
 import { exportDataApi } from '../../services/orderCenter/userOrders'
 import Qtable from '../../components/Qtable/index';
 import Qpagination from '../../components/Qpagination/index';

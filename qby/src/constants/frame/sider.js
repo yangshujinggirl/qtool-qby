@@ -52,7 +52,7 @@ class Siders extends React.Component {
 														<IconLogo type={item.type}/>
 														<span>{item.name}</span>
 													</div>
-														}
+						             }
 												 key={item.urResourceId}>
 											{
 												item.children.map((subitem,subindex)=>{
