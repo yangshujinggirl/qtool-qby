@@ -13,7 +13,7 @@ import {
 } from 'antd';
 const FormItem = Form.Item;
 const Option =  Select.Option;
-
+const { RangePicker } = DatePicker;
 const statusOptions = [{
     key:0,
     value:'开启'
@@ -59,10 +59,12 @@ class NormalForm extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
-      if(values.creatertime) {
-        values.creatertime = moment(values.creatertime).format('YYYY-MM-DD')
+      const {creatertime,...params} = values;
+      if(creatertime) {
+        params.createTimeST = moment(creatertime[0]).format('YYYY-MM-DD');
+        params.createTimeET = moment(creatertime[1]).format('YYYY-MM-DD');
       }
-      this.props.submit && this.props.submit(values)
+      this.props.submit && this.props.submit(params)
     });
   }
   render() {
@@ -132,7 +134,7 @@ class NormalForm extends Component {
                </FormItem>
               <FormItem label='创建时间'>
                  {getFieldDecorator('creatertime')(
-                   <DatePicker />
+                   <RangePicker  />
                  )}
                </FormItem>
              </div>
