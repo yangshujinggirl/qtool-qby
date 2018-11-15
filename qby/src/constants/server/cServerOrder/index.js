@@ -48,7 +48,6 @@ class CserverOrder extends Component {
   changePage = (currentPage) => {
     currentPage--;
     const { fields } = this.state;
-    console.log(fields)
     const paramsObj ={...{currentPage},...fields}
     this.props.dispatch({
       type:'cServerOrder/fetchList',
@@ -66,10 +65,10 @@ class CserverOrder extends Component {
     const { componkey } =this.props;
     const paneitem={
       title:'C端客服工单详情',
-      key:`${componkey}edit${record.ticketId}info`,
+      key:`${componkey}edit${record.udeskTicketId}info`,
       componkey:`${componkey}info`,
       data:{
-        udeskTicketId:record.ticketId,
+        udeskTicketId:record.udeskTicketId,
       }
     };
     this.props.dispatch({
@@ -80,7 +79,6 @@ class CserverOrder extends Component {
 
   render() {
     const { data } = this.props.cServerOrder;
-    console.log(this.state.fields)
     return (
       <div className="qtools-components-pages">
         <FilterForm
@@ -95,7 +93,7 @@ class CserverOrder extends Component {
         {
           data.list.length>0&&
           <Qpagination
-            sizeOptions="2"
+            sizeOptions="1"
             onChange={this.changePage}
             onShowSizeChange={this.changePageSize}
             data={data}/>

@@ -120,7 +120,7 @@ class NormalForm extends Component {
                   )}
                 </FormItem>
               <FormItem label='处理时长'>
-                 {getFieldDecorator('handleTimeType')(
+                 {getFieldDecorator('type')(
                    <Select allowClear={true} placeholder="请选择处理时长">
                      {
                        timeOptions.map((el,index) => (
