@@ -47,8 +47,10 @@ export default{
       yield put({type: 'tab/loding',payload:false});
 
       if(result.code == '0'){
-        const { list, currentPage, limit, total } = result;
-        list&&list.map((item,index)=>{
+        let { list, currentPage, limit, total } = result;
+        currentPage--;
+        list = list?list:[];
+        list.length>0&&list.map((item,index)=>{
           item.key = item.udeskTicketId;
           return item;
         });

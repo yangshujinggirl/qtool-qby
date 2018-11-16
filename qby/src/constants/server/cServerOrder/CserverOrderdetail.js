@@ -47,7 +47,7 @@ class CserverOrderdetail extends  Component {
             detailInfo.udeskTicketVo&&
             <div>
               <div className="row">
-                <Card title='工单详情'>
+                <Card title='工单基础信息'>
           				<div className='detail-list'>
           					<div className='label-item'><label>工单id：</label><span>{detailInfo.udeskTicketVo.udeskTicketId}</span></div>
           					<div className='label-item'><label>工单状态：</label><span>{detailInfo.udeskTicketVo.status}</span></div>

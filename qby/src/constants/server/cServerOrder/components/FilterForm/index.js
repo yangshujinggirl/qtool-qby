@@ -60,7 +60,7 @@ class NormalForm extends Component {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       const {creatertime,...params} = values;
-      if(creatertime) {
+      if(creatertime&&creatertime.length>0) {
         params.createTimeST = moment(creatertime[0]).format('YYYY-MM-DD');
         params.createTimeET = moment(creatertime[1]).format('YYYY-MM-DD');
       }

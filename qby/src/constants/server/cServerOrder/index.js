@@ -46,7 +46,6 @@ class CserverOrder extends Component {
     });
   }
   changePage = (currentPage) => {
-    currentPage--;
     const { fields } = this.state;
     const paramsObj ={...{currentPage},...fields}
     this.props.dispatch({
