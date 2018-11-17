@@ -1,3 +1,14 @@
+const platformMap={
+  '1':'IOS',
+  '2':'ANDROID',
+  '3':'APPLET',
+}
+const deliveryMap={
+  '1':'门店自提',
+  '2':'同城配送',
+  '3':'快递邮寄',
+}
+
 const Columns = [{
      title: '订单号',
      dataIndex: 'orderNo',
@@ -11,6 +22,18 @@ const Columns = [{
    },{
      title: '门店名称',
      dataIndex: 'spShopName'
+   },{
+     title: '下单平台',
+     dataIndex: 'platform',
+     render:(text,record)=> {
+       return platformMap[record.platform]
+     }
+   },{
+     title: '配送方式',
+     dataIndex: 'delivery',
+     render:(text,record)=> {
+       return deliveryMap[record.platform]
+     }
    },{
      title: '用户昵称',
      dataIndex: 'nickName'

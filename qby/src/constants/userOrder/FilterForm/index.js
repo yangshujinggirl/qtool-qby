@@ -10,7 +10,7 @@ import {
   DatePicker
 } from 'antd';
 import moment from 'moment';
-import { ProcesasStatusOption } from '../../../components/FixedDataSource.js'
+import { ProcesasStatusOption, DeliveryOption, PlatformOption } from '../../../components/FixedDataSource.js'
 import './index.less'
 
 
@@ -61,6 +61,33 @@ class NormalForm extends Component {
               <FormItem label='用户电话'>
                  {getFieldDecorator('mobilePhone')(
                    <Input placeholder="请输入用户电话" autoComplete="off"/>
+                 )}
+               </FormItem>
+              <FormItem label='订单状态'>
+                 {getFieldDecorator('status')(
+                   <Input placeholder="请输入用户电话" autoComplete="off"/>
+                 )}
+               </FormItem>
+              <FormItem label='下单平台'>
+                 {getFieldDecorator('platform')(
+                   <Select allowClear={true} placeholder="请选择下单平台">
+                     {
+                       PlatformOption.map((el) => (
+                         <Option value={el.key} key={el.key}>{el.value}</Option>
+                       ))
+                     }
+                   </Select>
+                 )}
+               </FormItem>
+              <FormItem label='配送方式'>
+                 {getFieldDecorator('delivery')(
+                   <Select allowClear={true} placeholder="请选择配送方式">
+                     {
+                       DeliveryOption.map((el) => (
+                         <Option value={el.key} key={el.key}>{el.value}</Option>
+                       ))
+                     }
+                   </Select>
                  )}
                </FormItem>
               <FormItem label='流程状态'>

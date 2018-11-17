@@ -2,17 +2,22 @@ import React from 'react';
 import {GetServerData} from '../../../services/services';
 import {deepcCloneObj} from '../../../utils/commonFc';
 import { connect } from 'dva';
-import { Form, Select, Input, Button ,message,Modal, Row, Col,DatePicker,Radio} from 'antd';
+import { Form, Select, Input, Button ,Checkbox, message,Modal, Row, Col,DatePicker,Radio} from 'antd';
 import moment from 'moment';
 import Avatar from './avatar';
 const FormItem = Form.Item;
 const Option = Select.Option;
-
+const CheckboxGroup = Checkbox.Group
 class OperatebannerEditForm extends React.Component{
 
 	constructor(props) {
 		super(props);
-		this.state = {}
+		this.state = {};
+		this.options = [
+		  { value: '0', label: 'Qtools App' },
+		  { value: '1', label: 'Qtools 小程序' },
+		];
+		this.selectOptions=['0','1']
 	}
 
 	//请求页面初始化数据
@@ -208,11 +213,19 @@ class OperatebannerEditForm extends React.Component{
                 )}
                 </FormItem>
 								<FormItem
-                    label="展示App"
+                    label="展示平台"
                     labelCol={{ span: 3,offset: 1 }}
-                    wrapperCol={{ span: 6 }}
-                >
-									Qtools App
+                    wrapperCol={{ span: 6 }}>
+									{/* Qtools App */}
+									{getFieldDecorator('platform', {
+	                    rules: [
+												{required: true, message: '请选择展示平台'}
+											],
+	                    initialValue:this.selectOptions
+	                })(
+										<CheckboxGroup
+											options={this.options}/>
+	                )}
                 </FormItem>
                 <FormItem
                     label="banner图片"

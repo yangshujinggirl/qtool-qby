@@ -34,9 +34,16 @@ class userOrderDetail extends React.Component{
 			dataIndex: 'qty',
       key:'4'
 		}, {
-			title: '商品价格',
+			title: '零售价',
 			dataIndex: 'price',
       key:'5'
+		}, {
+			title: '应付价格',
+			dataIndex: 'sprice',
+      key:'6',
+			render:(text,record) => {
+				console.log(record)
+			}
 		}];
 
 		this.columns2 = [{
@@ -92,9 +99,15 @@ render(){
                 <div className='cardlist_item'><label>订单号：</label><span>{orderInfo.orderNo}</span></div>
                 <div className='cardlist_item'><label>下单时间：</label><span>{orderInfo.createTime}</span></div>
                 <div className='cardlist_item'><label>流程状态：</label><span>{orderInfo.orderStatusStr}</span></div>
+                <div className='cardlist_item'><label>订单序号：</label><span>{orderInfo.orderStatusStr}</span></div>
+                <div className='cardlist_item'><label>下单平台：</label><span>{orderInfo.orderStatusStr}</span></div>
+                <div className='cardlist_item'><label>配送方式：</label><span>{orderInfo.orderStatusStr}</span></div>
                 <div className='cardlist_item'><label>订单金额：</label><span>{orderInfo.amountSum}</span>元</div>
+                <div className='cardlist_item'><label>商品金额：</label><span>{orderInfo.deductionAmount}</span>元</div>
+                <div className='cardlist_item'><label>用户支付配送费：</label><span>{orderInfo.deductionAmount}</span>元</div>
                 <div className='cardlist_item'><label>优惠券：</label><span>{orderInfo.deductionAmount}</span>元</div>
-                <div className='cardlist_item'><label>订单序号：</label><span>{orderInfo.orderNum}</span></div>
+                <div className='cardlist_item'><label>优惠券批次号：</label><span>{orderInfo.deductionAmount}</span>元</div>
+                <div className='cardlist_item'><label>版本号：</label><span>{orderInfo.orderNum}</span></div>
             </div>
           </Card>
         </div>
@@ -103,8 +116,9 @@ render(){
             <div className='cardlist'>
                 <div className='cardlist_item'><label>昵称：</label><span>{userInfo.nickname}</span></div>
                 <div className='cardlist_item'><label>注册手机：</label><span>{userInfo.mobile}</span></div>
-                <div className='cardlist_item'><label>下单次数：</label><span>{userInfo.userSumCounts}</span></div>
-                <div className='cardlist_item'><label>本店下单次数：</label><span>{userInfo.spSumCounts}</span></div>
+                <div className='cardlist_item'><label>本单用户下单次序：</label><span>{userInfo.userSumCounts}</span></div>
+                <div className='cardlist_item'><label>本单本店下单次序：</label><span>{userInfo.userSumCounts}</span></div>
+                <div className='cardlist_item'><label>会员级别：</label><span>{userInfo.spSumCounts}</span></div>
             </div>
           </Card>
         </div>
@@ -123,6 +137,30 @@ render(){
                 <div className='cardlist_item'><label>店主姓名：</label><span>{shopInfo.shopman}</span></div>
                 <div className='cardlist_item'><label>店主电话：</label><span>{shopInfo.telephone}</span></div>
                 <div className='cardlist_item'><label>门店电话：</label><span>{shopInfo.mobile}</span></div>
+            </div>
+          </Card>
+        </div>
+				<div className='mb10'>
+          <Card title='配送信息'>
+            <div className='cardlist'>
+                <div className='cardlist_item'><label>收件人：</label><span>{orderInfo.orderNo}</span></div>
+                <div className='cardlist_item'><label>收货人电话：</label><span>{orderInfo.createTime}</span></div>
+                <div className='cardlist_item'><label>收货地址：</label><span>{orderInfo.orderStatusStr}</span></div>
+                <div className='cardlist_item'><label>顺丰实际配送费：</label><span>{orderInfo.orderStatusStr}</span></div>
+                <div className='cardlist_item'><label>骑士姓名：</label><span>{orderInfo.orderStatusStr}</span></div>
+                <div className='cardlist_item'><label>骑士联系方式：</label><span>{orderInfo.orderStatusStr}</span></div>
+                <div className='cardlist_item'><label>预计送达时间：</label><span>{orderInfo.amountSum}</span>元</div>
+                <div className='cardlist_item'><label>实际送达时间：</label><span>{orderInfo.deductionAmount}</span>元</div>
+            </div>
+          </Card>
+        </div>
+				<div className='mb10'>
+          <Card title='配送信息'>
+            <div className='cardlist'>
+                <div className='cardlist_item'><label>收件人：</label><span>{orderInfo.orderNo}</span></div>
+                <div className='cardlist_item'><label>收货人电话：</label><span>{orderInfo.createTime}</span></div>
+                <div className='cardlist_item'><label>收货地址：</label><span>{orderInfo.orderStatusStr}</span></div>
+                <div className='cardlist_item'><label>快递单号：</label><span>{orderInfo.orderStatusStr}</span></div>
             </div>
           </Card>
         </div>

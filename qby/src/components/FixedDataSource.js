@@ -137,8 +137,28 @@ const ProcesasStatusOption = [{
           value:'用户支付后取消'
         },
       ]
-
-
+//配送方式
+const DeliveryOption=[{
+          key:1,
+          value:'门店自提',
+        },{
+          key:2,
+          value:'同城配送',
+        },{
+          key:3,
+          value:'快递邮寄',
+        }]
+//下单平台
+const PlatformOption=[{
+          key:1,
+          value:'IOS,',
+        },{
+          key:2,
+          value:'ANDROID',
+        },{
+          key:3,
+          value:'APPLET',
+        }]
 export default {
   NumberOption,
   BooleanOption,
@@ -147,5 +167,7 @@ export default {
   GoosStatusOption,
   SalePropertyOption,
   LotStatusOption,
-  ProcesasStatusOption
+  ProcesasStatusOption,
+  DeliveryOption,
+  PlatformOption
 }
