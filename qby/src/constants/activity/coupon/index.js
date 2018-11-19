@@ -202,10 +202,11 @@ class Coupon extends Component{
     }else if(type == 'edit'){
       const paneitem = {
         title:'注券记录',
-        key:`${this.state.componkey}editconfig`,
-        componkey:`${this.state.componkey}editconfig`+record.couponId,
+        key:`${this.state.componkey}editconfig`+record.couponId,
+        componkey:`${this.state.componkey}editconfig`,
         data:{
           pdSpuId:record.couponId,
+          couponCode:record.couponCode
         },
       };
       this.props.dispatch({
