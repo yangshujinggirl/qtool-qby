@@ -12,14 +12,14 @@ class CserverOrder extends Component {
     super(props)
     this.state = {
       fields: {
-         ticketId:'',
+         udeskTicketId:'',
          subject:'',
          status:'',
          priority:'',
-         agentGroupname:'',
+         agentGroupName:'',
         //  cellphone:'',
-         handleTimeType:'',
-         creatertime:''
+         type:'',
+         createrTime:''
        },
     }
   }
@@ -79,6 +79,7 @@ class CserverOrder extends Component {
 
   render() {
     const { data } = this.props.cServerOrder;
+    console.log(data)
     return (
       <div className="qtools-components-pages">
         <FilterForm

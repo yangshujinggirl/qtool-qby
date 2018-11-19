@@ -59,12 +59,12 @@ class NormalForm extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
-      const {creatertime,...params} = values;
-      if(creatertime&&creatertime.length>0) {
-        params.createTimeST = moment(creatertime[0]).format('YYYY-MM-DD');
-        params.createTimeET = moment(creatertime[1]).format('YYYY-MM-DD');
-      }
-      this.props.submit && this.props.submit(params)
+      // const {createrTime,...params} = values;
+      // if(createrTime&&creatertime.length>0) {
+      //   params.createTimeST = moment(creatertime[0]).format('YYYY-MM-DD');
+      //   params.createTimeET = moment(creatertime[1]).format('YYYY-MM-DD');
+      // }
+      this.props.submit && this.props.submit(values)
     });
   }
   render() {
@@ -110,7 +110,7 @@ class NormalForm extends Component {
                  )}
                </FormItem>
                <FormItem label='受理客服'>
-                  {getFieldDecorator('agentGroupname')(
+                  {getFieldDecorator('agentGroupName')(
                     <Input placeholder="请输入受理客服" autoComplete="off"/>
                   )}
                 </FormItem>
@@ -133,7 +133,7 @@ class NormalForm extends Component {
                  )}
                </FormItem>
               <FormItem label='创建时间'>
-                 {getFieldDecorator('creatertime')(
+                 {getFieldDecorator('createrTime')(
                    <RangePicker  />
                  )}
                </FormItem>

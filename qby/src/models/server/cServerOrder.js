@@ -1,4 +1,5 @@
 import { getListApi, getDetailApi } from '../../services/server/cServerOrder';
+import moment from 'moment';
 
 export default{
   namespace:'cServerOrder',
@@ -38,17 +39,21 @@ export default{
   effects:{
     *fetchList({payload:values},{ select, call,put}){
       const fixedLimit = yield select(state => state.cServerOrder.data.limit);
+      let { createrTime, ...params } =values;
       //默认分页是16
-      if(!values.limit) {
-        values = {...values,...{ limit: fixedLimit}}
+      if(!params.limit) {
+        params = {...params,...{ limit: fixedLimit}}
+      }
+      if(createrTime&&createrTime.length>0) {
+        params.createTimeST = moment(createrTime[0]).format('YYYY-MM-DD');
+        params.createTimeET = moment(values.createrTime[1]).format('YYYY-MM-DD');
       }
       yield put({type: 'tab/loding',payload:true});
-      const result = yield call(getListApi,values);
+      const result = yield call(getListApi,params);
       yield put({type: 'tab/loding',payload:false});
 
       if(result.code == '0'){
         let { list, currentPage, limit, total } = result;
-        currentPage--;
         list = list?list:[];
         list.length>0&&list.map((item,index)=>{
           item.key = item.ticketId;
