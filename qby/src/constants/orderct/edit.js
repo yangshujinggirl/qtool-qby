@@ -14,12 +14,14 @@ class OrderctEditForm extends React.Component{
 	constructor(props) {
 		super(props);
 		this.state = {
-						loading:false,
-            dataSource:[],
-            residences:[],
-            //请求的仓库列表信息
-            warehouses:[],
-            taxRateDisabled:false
+			loading:false,
+      dataSource:[],
+      residences:[],
+      //请求的仓库列表信息
+      warehouses:[],
+      taxRateDisabled:false,
+			suppliers:"",
+			taxRate:"",
 		}
 	}
 
@@ -53,6 +55,15 @@ class OrderctEditForm extends React.Component{
     onSelect=(value)=>{
         let tempFormvalue = this.props.formValue;
         tempFormvalue.supplierId = value;
+				let {suppliers} = this.state;
+				let selectedSuppliers = suppliers.filter(item=>{
+					return item.pdSupplierId == value
+				});
+				console.log(selectedSuppliers)
+				this.setState({
+					taxRate:selectedSuppliers[0].taxRate
+				});
+
         this.props.dispatch({
             type:'orderct/syncEditInfo',
             payload:tempFormvalue
@@ -72,7 +83,7 @@ class OrderctEditForm extends React.Component{
                 return res;
             }).then((json) => {
                 if(json.code=='0'){
-                    const suppliers=json.suppliers
+                    let suppliers=json.suppliers;
                     var valuess=[]
                     for(var i=0;i<suppliers.length;i++){
                         valuess.push({
@@ -81,7 +92,8 @@ class OrderctEditForm extends React.Component{
                         })
                     }
                     this.setState({
-                        dataSource: valuess
+                        dataSource: valuess,
+												suppliers
                     });
                 }
             })
@@ -99,7 +111,9 @@ class OrderctEditForm extends React.Component{
                 data.recProvinceId = values.recCity[0];
                 data.recCityId = values.recCity[1];
                 data.recDistrictId = values.recCity[2];
-                 const result=GetServerData('qerp.web.sp.ctorder.save',data);
+								data.taxRate = parseInt(data.taxRate);
+								data.taxRateType = 1;
+               	const result=GetServerData('qerp.web.sp.ctorder.save',data);
                 result.then((res) => {
                     return res;
                 }).then((json) => {
@@ -111,7 +125,7 @@ class OrderctEditForm extends React.Component{
 											this.setState({loading:false});
                     }else{
 											this.setState({loading:false});
-										}
+										};
                 })
             }else{
                 return false;
@@ -162,7 +176,9 @@ class OrderctEditForm extends React.Component{
     }
 
   	render(){
-		const { getFieldDecorator } = this.props.form;
+			const {taxRate} = this.state;
+			console.log(taxRate)
+			const { getFieldDecorator } = this.props.form;
      	return(
           	<Form className="addUser-form addcg-form">
                 <FormItem
@@ -225,34 +241,14 @@ class OrderctEditForm extends React.Component{
 										</Select>
               		)}
             		</FormItem>
-                <FormItem
-									label="是否含税"
-									labelCol={{ span: 3,offset: 1 }}
-									wrapperCol={{ span: 6 }}>
-									{getFieldDecorator('taxRateType', {
-										rules: [{ required: true, message: '请选择是否含税' }],
-									})(
-										<RadioGroup onChange={this.RadioChangeTaxRate.bind(this)}>
-											<Radio value="1">是</Radio>
-											<Radio value="0">否</Radio>
-										</RadioGroup>
-									)}
-								</FormItem>
 								<FormItem
 									label="含税税率"
 									labelCol={{ span: 3,offset: 1}}
 									wrapperCol={{ span: 6 }}>
 									{getFieldDecorator('taxRate', {
+										initialValue:taxRate && taxRate+'%'
 									})(
-										<Select  placeholder="请选择含税税率" disabled={this.state.taxRateDisabled}>
-											<Option value='0'>0%</Option>
-											<Option value='3'>3%</Option>
-											<Option value='6'>6%</Option>
-											<Option value='10'>10%</Option>
-											<Option value='11'>11%</Option>
-											<Option value='16'>16%</Option>
-											<Option value='17'>17%</Option>
-										</Select>
+										<Input placeholder="请输入退货原因"  autoComplete="off" disabled/>
 									)}
 								</FormItem>
                 <FormItem

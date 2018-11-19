@@ -12,6 +12,7 @@ class OrdermdSearchForm extends React.Component {
         this.state = {
             dateStart: '',
             dateEnd:'',
+            userName:"",
             deliveryTimeST:'',
             deliveryTimeET:''
       };
@@ -30,6 +31,7 @@ class OrdermdSearchForm extends React.Component {
   initList=(values,limit,currentPage)=>{
         values.dateStart=this.state.dateStart;
         values.dateEnd=this.state.dateEnd;
+        values.userName=this.state.userName;
         values.deliveryTimeST=this.state.deliveryTimeST;
         values.deliveryTimeET=this.state.deliveryTimeET;
         values.limit=limit;
@@ -45,6 +47,7 @@ class OrdermdSearchForm extends React.Component {
     syncState=(values)=>{
         values.dateStart=this.state.dateStart;
         values.dateEnd=this.state.dateEnd;
+        values.userName=this.state.userName;
         values.deliveryTimeST=this.state.deliveryTimeST;
         values.deliveryTimeET=this.state.deliveryTimeET;
 
@@ -142,6 +145,11 @@ class OrdermdSearchForm extends React.Component {
                                         <Option value='0'>否</Option>
                                     </Select>
                                     )}
+                                </FormItem>
+                                <FormItem label='创建人'>
+                                  {getFieldDecorator('userName')(
+                                    <Input placeholder="请输入创建人" autoComplete="off"/>
+                                  )}
                                 </FormItem>
                                 <FormItem label='下单时间'>
                                         {

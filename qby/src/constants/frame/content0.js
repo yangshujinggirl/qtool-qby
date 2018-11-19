@@ -67,6 +67,7 @@ import H5_configure from '../operatebanner/editH5';
 
 import OperateIndex from '../operatesp/index';
 import SpEditForms from '../operatesp/edit';
+import SpInfo from '../operatesp/info';
 
 import DownloadIndex from '../download/index';
 
@@ -210,6 +211,7 @@ class Content extends React.Component {
                                     case "402500edit":return  <ConsumptionInfo data={this.props.data}/>;
                                     case "403000":return  <OperateIndex data={this.props.data}/>;
                                     case "403000edit":return  <SpEditForms data={this.props.data}/>;
+                                    case "403000info":return  <SpInfo data={this.props.data}/>;
 
                                     case "407000":return <Supplyinout data={this.props.data} componkey={this.props.componkey}/>; //供应商收支列表
                                     case "407000edit":return <BillDetails data={this.props.data} componkey={this.props.componkey}/>; //结算单明细

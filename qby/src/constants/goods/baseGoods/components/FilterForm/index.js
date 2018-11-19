@@ -9,22 +9,56 @@ import {
   Select ,
   DatePicker
 } from 'antd';
+import {getCategoryApi} from "../../../../../services/goodsCenter/baseGoods"
 const FormItem = Form.Item;
 const Option =  Select.Option;
 class NormalForm extends Component {
+  constructor(props){
+    super(props)
+    this.state={
+      categoryList2:[]
+    }
+  }
+
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
         this.props.submit && this.props.submit(values)
     });
   }
+  //分类发生变化
+  onChange=(value)=>{
+    if(!value){
+      this.setState({
+        categoryList2:[]
+      });
+      this.props.form.resetFields(["pdCategory2Id"])
+    };
+  }
+  //一级分类选中
+  onSelect=(value)=>{
+    getCategoryApi({level:2,parentId:value,status:1})
+    .then(res=>{
+      if(res.code == "0" ){
+        this.setState({
+          categoryList2:res.pdCategory
+        })
+      }
+    })
+  }
   render() {
     const { getFieldDecorator } = this.props.form;
     const { categoryList } =this.props;
+    const { categoryList2 } = this.state;
     return(
         <Form className="qtools-condition-form">
           <div className='search-form-outwrap'>
             <div className="search-form-wrap">
+              <FormItem label='SPU ID'>
+                 {getFieldDecorator('pdSpuId')(
+                   <Input placeholder="请输入spuid" autoComplete="off"/>
+                 )}
+              </FormItem>
               <FormItem label='商品编码'>
                  {getFieldDecorator('code')(
                    <Input placeholder="请输入商品编码" autoComplete="off"/>
@@ -42,9 +76,14 @@ class NormalForm extends Component {
                </FormItem>
               <FormItem label='一级分类'>
                  {getFieldDecorator('pdCategory1Id')(
-                   <Select placeholder="请选择一级分类" allowClear={true}>
+                   <Select
+                     placeholder="请选择一级分类"
+                     allowClear={true}
+                     onSelect={this.onSelect}
+                     onChange={this.onChange}
+                     >
                      {
-                      categoryList.length>0&&categoryList.map((el) => (
+                      categoryList.length>0 && categoryList.map((el) => (
                          <Select.Option
                            value={el.pdCategoryId}
                            key={el.pdCategoryId}>{el.name}</Select.Option>
@@ -53,6 +92,19 @@ class NormalForm extends Component {
                    </Select>
                  )}
                </FormItem>
+               <FormItem label='二级分类'>
+                  {getFieldDecorator('pdCategory2Id')(
+                    <Select disabled={!categoryList2.length>0} placeholder="请选择二级分类" allowClear={true}>
+                      {
+                       categoryList2.length>0 && categoryList2.map((el) => (
+                          <Select.Option
+                            value={el.pdCategoryId}
+                            key={el.pdCategoryId}>{el.name}</Select.Option>
+                        ))
+                      }
+                    </Select>
+                  )}
+              </FormItem>
               <FormItem label='是否完整'>
                  {getFieldDecorator('infoStatus')(
                    <Select allowClear={true} placeholder="请选择是否完整">
