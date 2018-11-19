@@ -59,11 +59,6 @@ class NormalForm extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
-      // const {createrTime,...params} = values;
-      // if(createrTime&&creatertime.length>0) {
-      //   params.createTimeST = moment(creatertime[0]).format('YYYY-MM-DD');
-      //   params.createTimeET = moment(creatertime[1]).format('YYYY-MM-DD');
-      // }
       this.props.submit && this.props.submit(values)
     });
   }
