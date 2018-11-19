@@ -113,9 +113,6 @@ class Coupon extends Component{
       title:'注券记录',
       key:`${this.state.componkey}editconfig`,
       componkey:`${this.state.componkey}editconfig`,
-      data:{
-        pdSpuId:null,
-      },
     };
     this.props.dispatch({
         type:'tab/firstAddTab',
@@ -188,19 +185,34 @@ class Coupon extends Component{
     });
   }
   //操作
-  handleOperateClick(record) {
-    const paneitem = {
-      title:'优惠券详情',
-      key:`${this.state.componkey}info`,
-      componkey:`${this.state.componkey}info`,
-      data:{
-        pdSpuId:record.couponId,
+  handleOperateClick(record,type) {
+    if(type == "info"){
+      const paneitem = {
+        title:'优惠券详情',
+        key:`${this.state.componkey}info`,
+        componkey:`${this.state.componkey}info`,
+        data:{
+          pdSpuId:record.couponId,
+        }
       }
-    }
-    this.props.dispatch({
-      type:'tab/firstAddTab',
-      payload:paneitem
-    })
+      this.props.dispatch({
+        type:'tab/firstAddTab',
+        payload:paneitem
+      });
+    }else if(type == 'edit'){
+      const paneitem = {
+        title:'注券记录',
+        key:`${this.state.componkey}editconfig`,
+        componkey:`${this.state.componkey}editconfig`+record.couponId,
+        data:{
+          pdSpuId:record.couponId,
+        },
+      };
+      this.props.dispatch({
+          type:'tab/firstAddTab',
+          payload:paneitem
+      });
+    };
   }
 
   render(){

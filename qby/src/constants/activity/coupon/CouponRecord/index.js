@@ -57,6 +57,7 @@ class CouponRecord extends Component{
   }
   //初始化数据
   componentWillMount(){
+    console.log(this.props.data)
     this.props.dispatch({
       type:'coupon/fetchAddCouponList',
       payload:{}
