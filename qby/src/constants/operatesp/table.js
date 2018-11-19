@@ -78,7 +78,7 @@ class SpTable extends React.Component {
 				payload:paneitem
 			});
 		}else{
-			const paneitem={title:'门店详情',key:'403000info'+spShopId,data:{spShopId:spShopId},componkey:'403000info'}
+			const paneitem={title:'门店详情',key:'403000edit'+spShopId,data:{spShopId:spShopId},componkey:'403000info'}
 			this.props.dispatch({
 				type:'tab/firstAddTab',
 				payload:paneitem

@@ -40,7 +40,7 @@ class OrdermdTable extends React.Component {
           dataIndex: 'recName'
         },{
           title: '创建人',
-          dataIndex: 'recName'
+          dataIndex: 'userName'
         }, {
           title: '下单时间',
           dataIndex: 'createTime'
