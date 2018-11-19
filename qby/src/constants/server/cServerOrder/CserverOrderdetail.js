@@ -52,8 +52,8 @@ class CserverOrderdetail extends  Component {
           					<div className='label-item'><label>工单id：</label><span>{detailInfo.udeskTicketVo.udeskTicketId}</span></div>
           					<div className='label-item'><label>工单状态：</label><span>{detailInfo.udeskTicketVo.status}</span></div>
           					<div className='label-item'><label>优先级：</label><span>{detailInfo.udeskTicketVo.priority}</span></div>
-          					<div className='label-item'><label>渠道：</label><span>{detailInfo.udeskTicketVo.channel}</span></div>
-          					<div className='label-item'><label>用户电话：</label><span>{detailInfo.udeskTicketVo.cellPhone}</span></div>
+          					{/* <div className='label-item'><label>渠道：</label><span>{detailInfo.udeskTicketVo.channel}</span></div> */}
+          					{/* <div className='label-item'><label>用户电话：</label><span>{detailInfo.udeskTicketVo.cellPhone}</span></div> */}
           					<div className='label-item'><label>受理客服：</label><span>{detailInfo.udeskTicketVo.agentGroupName}</span></div>
           					<div className='label-item'><label>创建时间：</label><span>{detailInfo.udeskTicketVo.createrTime}</span></div>
           					<div className='label-item'><label>结束时间：</label><span>{detailInfo.udeskTicketVo.closeTime}</span></div>

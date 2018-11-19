@@ -17,7 +17,7 @@ class CserverOrder extends Component {
          status:'',
          priority:'',
          agentGroupname:'',
-         cellphone:'',
+        //  cellphone:'',
          handleTimeType:'',
          creatertime:''
        },
@@ -46,6 +46,7 @@ class CserverOrder extends Component {
     });
   }
   changePage = (currentPage) => {
+    currentPage--;
     const { fields } = this.state;
     const paramsObj ={...{currentPage},...fields}
     this.props.dispatch({

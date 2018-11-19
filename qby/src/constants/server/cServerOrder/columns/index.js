@@ -19,11 +19,11 @@ const Columns = [{
      title: '优先级',
      dataIndex: 'priority',
      key: 'priority',
-   },{
+   },/*{
      title: '用户电话',
      dataIndex: 'cellPhone',
      key: 'cellPhone'
-   },{
+   },*/{
      title: '受理客服',
      dataIndex: 'agentGroupName',
      key: 'agentGroupName',

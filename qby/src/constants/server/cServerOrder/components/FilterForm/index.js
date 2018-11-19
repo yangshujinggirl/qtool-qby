@@ -114,11 +114,11 @@ class NormalForm extends Component {
                     <Input placeholder="请输入受理客服" autoComplete="off"/>
                   )}
                 </FormItem>
-               <FormItem label='用户电话'>
+               {/* <FormItem label='用户电话'>
                   {getFieldDecorator('cellphone')(
                     <Input placeholder="请输入用户电话" autoComplete="off"/>
                   )}
-                </FormItem>
+                </FormItem> */}
               <FormItem label='处理时长'>
                  {getFieldDecorator('type')(
                    <Select allowClear={true} placeholder="请选择处理时长">
