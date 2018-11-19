@@ -51,7 +51,7 @@ export default{
         currentPage--;
         list = list?list:[];
         list.length>0&&list.map((item,index)=>{
-          item.key = item.udeskTicketId;
+          item.key = item.ticketId;
           return item;
         });
         yield put({
