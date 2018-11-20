@@ -129,7 +129,7 @@ class OrdermdIndex extends React.Component{
 							type="primary"
 							size='large'
 							className='mt20 mr10'
-							onClick={this.exportData.bind(this,10,this.props.values)}
+							onClick={this.exportData.bind(this,13,this.props.values)}
 						>
 							导出商品数据
 						</Button>
