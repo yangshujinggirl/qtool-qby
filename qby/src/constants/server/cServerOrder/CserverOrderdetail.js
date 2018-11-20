@@ -38,6 +38,14 @@ class CserverOrderdetail extends  Component {
       payload:{udeskTicketId:this.props.data.udeskTicketId}
     })
   }
+  formatDom(value) {
+    console.log(value)
+    if(!value) {
+      return ''
+    }
+    value = JSON.parse(value);
+    return value
+  }
   render() {
     const { detailInfo, fileDomain } =this.props.cServerOrder;
     return (
@@ -82,9 +90,11 @@ class CserverOrderdetail extends  Component {
                             }
                           </div>
                         :
-                          <span className="content-wrap">
-                            {detailInfo.udeskTicketVo.content}
-                          </span>
+                          <div className="content-wrap">
+                            <div dangerouslySetInnerHTML={{
+                              __html:detailInfo.udeskTicketVo.content
+                            }} />
+                          </div>
                       }
                       </Col>
                     </Row>
@@ -93,16 +103,19 @@ class CserverOrderdetail extends  Component {
               </div>
             </div>
           }
-          <div className="row">
-    				<div>
-    					<Table
-                bordered
-                title={()=>'回复信息'}
-                dataSource={detailInfo.replys}
-                columns={columns}
-                pagination={false}></Table>
-    				</div>
-          </div>
+          {
+            detailInfo.replys.length>0&&
+            <div className="row">
+      				<div>
+      					<Table
+                  bordered
+                  title={()=>'回复信息'}
+                  dataSource={detailInfo.replys}
+                  columns={columns}
+                  pagination={false}></Table>
+      				</div>
+            </div>
+          }
         </div>
       </div>
     )

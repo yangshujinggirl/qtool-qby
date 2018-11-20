@@ -75,7 +75,8 @@ export default{
     *fetchDetail({ payload:values }, { call, put }) {
       const res = yield call(getDetailApi,values);
       if(res.code == '0') {
-        const { udeskTicketVo, replys,  fileDomain} =res;
+        let { udeskTicketVo, replys,  fileDomain} =res;
+        replys = replys?replys:[];
         replys&&replys.map((el,index) => (
           el.key = el.replyId
         ))

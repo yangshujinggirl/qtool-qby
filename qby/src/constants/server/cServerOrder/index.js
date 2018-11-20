@@ -79,7 +79,6 @@ class CserverOrder extends Component {
 
   render() {
     const { data } = this.props.cServerOrder;
-    console.log(data)
     return (
       <div className="qtools-components-pages">
         <FilterForm
