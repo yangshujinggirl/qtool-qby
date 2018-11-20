@@ -15,7 +15,7 @@ class OperateIndex extends React.Component{
 	    	payload:paneitem
 		});
 	}
-	  
+
 	exportData = (type,data) => {
 		const values={
 			type:type,
@@ -44,33 +44,35 @@ class OperateIndex extends React.Component{
 						});
 					},
 					onCancel() {
-						
+
 					},
 	  			});
 			}
 		})
-	
+
 	}
 
   	render(){
 		const rolelists=this.props.data.rolelists
-		// //新增门店
+		//新增门店
 		const addorder=rolelists.find((currentValue,index)=>{
 			return currentValue.url=="qerp.web.sp.shop.save"
-		})
+		});
 		//导出数据
 		const expontdata=rolelists.find((currentValue,index)=>{
 			return currentValue.url=="qerp.web.sys.doc.task"
-		})
-		
-		
+		});
+		//门店详情
+		const mdDetail=rolelists.find((currentValue,index)=>{
+			return currentValue.url=="qerp.web.sp.shop.info"
+		});
      	return(
         	<div className='content_box'>
                 <SearchForms/>
 				{
 					addorder?
-					<Button 
-					type="primary" 
+					<Button
+					type="primary"
 					size='large'
 					className='mt20 mr10'
 					onClick={this.addNew}
@@ -81,8 +83,8 @@ class OperateIndex extends React.Component{
 				}
 				{
 					expontdata?
-					<Button 
-					type="primary" 
+					<Button
+					type="primary"
 					size='large'
 					className='mt20 mr10'
 					onClick={this.exportData.bind(this,21,this.props.values)}
@@ -92,10 +94,10 @@ class OperateIndex extends React.Component{
 				:null
 
 				}
-             	<div className='mt15'><SpTable addorderobj={addorder}/></div>
+             	<div className='mt15'><SpTable mdDetail={mdDetail} addorderobj={addorder}/></div>
         	</div>
       	)
-	}	
+	}
 }
 
 function mapStateToProps(state) {

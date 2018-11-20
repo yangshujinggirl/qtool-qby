@@ -10,7 +10,9 @@ class SpTable extends React.Component {
 			dataIndex: 'name',
 			render: (text, record) => {
 				return (
-					<TableLink type={'1'} text={text} hindClick={this.editInfo.bind(this,record,"info")}/>
+					this.props.mdDetail
+					? <TableLink type={'1'} text={text} hindClick={this.editInfo.bind(this,record,"info")}/>
+					:	<span>{text}</span>
 				);
 			}
 		}, {
