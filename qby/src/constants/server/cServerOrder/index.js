@@ -82,6 +82,7 @@ class CserverOrder extends Component {
     return (
       <div className="qtools-components-pages">
         <FilterForm
+          {...this.state.fields}
           submit={this.searchData}
           onValuesChange={this.handleFormChange}/>
         <div className="table-list">
