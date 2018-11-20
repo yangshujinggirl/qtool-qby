@@ -21,7 +21,7 @@ class SearchForm extends React.Component {
             payload:{code:'qerp.web.sp.shop.query',values:values}
         });
         this.props.dispatch({ type: 'tab/loding', payload:true});
-    }  
+    }
 
     //同步data
     syncState=(values)=>{
@@ -74,6 +74,14 @@ class SearchForm extends React.Component {
                                 <FormItem label='所在省份'>
                                     {getFieldDecorator('province')(
                                         <Input placeholder="请输入所在省份" autoComplete="off"/>
+                                    )}
+                                </FormItem>
+                                <FormItem label='是否开启C端app'>
+                                    {getFieldDecorator('openApp')(
+                                    <Select allowClear={true} placeholder="请选择是否开启C端app">
+                                       <Option value={0} key={0}>否</Option>
+                                       <Option value={1} key={1}>是</Option>
+                                    </Select>
                                     )}
                                 </FormItem>
                                 <FormItem label='所在城市'>

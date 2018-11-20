@@ -152,10 +152,8 @@ class SpEditForm extends React.Component{
 	}
 	submit =(	value ) => {
 		const values={spShop:value}
-		const result=GetServerData('qerp.web.sp.shop.save',values)
-		result.then((res) => {
-				return res;
-		}).then((json) => {
+		GetServerData('qerp.web.sp.shop.save',values)
+		.then((json) => {
 			if(json.code=='0'){
 				if(this.props.data){
 					message.success('门店修改成功',.8)
@@ -184,10 +182,8 @@ class SpEditForm extends React.Component{
 	}
 	getinfoData=()=>{
 		const values = {spShopId:this.props.data.spShopId}
-		const result = GetServerData('qerp.web.sp.shop.info',values)
-		result.then((res) => {
-			return res;
-		}).then((json) => {
+		GetServerData('qerp.web.sp.shop.info',values)
+		.then((json) => {
 	  	if(json.code=='0'){
         const fileDomain=eval(sessionStorage.getItem('fileDomain'));
         const spShopPics=[]
@@ -280,11 +276,9 @@ class SpEditForm extends React.Component{
 		})
 	}
 	handUse=()=>{
-		 const values={urUserId:this.state.urUserId}
-		const result=GetServerData('qerp.web.sp.qposuser.resetpwd',values)
-		result.then((res) => {
-			return res;
-		}).then((json) => {
+		const values={urUserId:this.state.urUserId}
+		result=GetServerData('qerp.web.sp.qposuser.resetpwd',values)
+		.then((json) => {
 			if(json.code=='0'){
 				this.setState({
 					spname:json.name,
@@ -295,16 +289,14 @@ class SpEditForm extends React.Component{
 				})
 			}
 		})
-    }
-
-    fromonChange=(time,Strtime)=>{
-        this.setState({ fromtime: Strtime });
-    }
-    endonChange=(time,Strtime)=>{
-        this.setState({ endtime: Strtime });
-	 }
-
-	 modelsuccess=()=>{
+  }
+  fromonChange=(time,Strtime)=>{
+      this.setState({ fromtime: Strtime });
+  }
+  endonChange=(time,Strtime)=>{
+      this.setState({ endtime: Strtime });
+  }
+	modelsuccess=()=>{
 		const _this=this
 		Modal.success({
 		  title: 'Qtools门店账户密码重置成功',
@@ -319,8 +311,7 @@ class SpEditForm extends React.Component{
 			_this.deleteTab()
 		  }
 		});
-	  }
-
+  }
 	selectChange=(value)=>{
 		if(value=='2'){
 			this.setState({
@@ -346,7 +337,6 @@ class SpEditForm extends React.Component{
 			})
 		}
 	}
-
 	hindBlue1=(e)=>{
 		var values=e.target.value
 		if(values){
@@ -793,13 +783,13 @@ class SpEditForm extends React.Component{
 						label="C端同城配送"
 						labelCol={{ span: 3,offset: 1 }}
 						wrapperCol={{ span:6 }}>
-						{getFieldDecorator('openApp', {
-							rules: [{ required: true, message: '请选择是否使用C端App'}],
+						{getFieldDecorator('openCityDistribution', {
+							rules: [{ required: true, message: '请选择是否使用C端同城配送'}],
 							initialValue:Number(this.state.openApp)
 						})(
 							<RadioGroup>
-								<Radio value={1}>开启</Radio>
-								<Radio value={0}>关闭</Radio>
+								<Radio value={1} key={1}>开启</Radio>
+								<Radio value={0} key={0}>关闭</Radio>
 					  	</RadioGroup>
 						)}
 					</FormItem>

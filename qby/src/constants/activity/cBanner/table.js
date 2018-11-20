@@ -3,6 +3,12 @@ import { connect } from 'dva';
 import EditableTable from '../../../components/table/tablebasic';
 import TableLink from '../../../components/table/tablelink';
 
+const platformMap={
+  '1':'IOS',
+  '2':'ANDROID',
+  '3':'APPLET',
+}
+
 class operatebannerTable extends React.Component {
 	constructor(props) {
         super(props);
@@ -15,6 +21,13 @@ class operatebannerTable extends React.Component {
           }, {
                 title: '状态',
                 dataIndex: 'statusStr'
+          },
+          {
+                title: '展示平台',
+                dataIndex: 'displayplatform',
+								render:(text,record) => {
+									return platformMap[record.displayplatform]
+								}
           },
           {
                 title: '创建人',

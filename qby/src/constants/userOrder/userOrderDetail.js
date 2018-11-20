@@ -7,6 +7,17 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 const { TextArea } = Input;
 
+const platformMap={
+  '1':'Qtools App ios端',
+  '2':'Qtools App  安卓端',
+  '3':'小程序',
+}
+const deliveryMap={
+  '1':'门店自提',
+  '2':'同城配送',
+  '3':'快递邮寄',
+}
+
 class userOrderDetail extends React.Component{
 	constructor(props) {
 		super(props);
@@ -99,14 +110,14 @@ render(){
                 <div className='cardlist_item'><label>订单号：</label><span>{orderInfo.orderNo}</span></div>
                 <div className='cardlist_item'><label>下单时间：</label><span>{orderInfo.createTime}</span></div>
                 <div className='cardlist_item'><label>流程状态：</label><span>{orderInfo.orderStatusStr}</span></div>
-                <div className='cardlist_item'><label>订单序号：</label><span>{orderInfo.orderStatusStr}</span></div>
-                <div className='cardlist_item'><label>下单平台：</label><span>{orderInfo.orderStatusStr}</span></div>
-                <div className='cardlist_item'><label>配送方式：</label><span>{orderInfo.orderStatusStr}</span></div>
+                <div className='cardlist_item'><label>订单序号：</label><span>{orderInfo.orderNum}</span></div>
+                <div className='cardlist_item'><label>下单平台：</label><span>{platformMap[orderInfo.platform]}</span></div>
+                <div className='cardlist_item'><label>配送方式：</label><span>{deliveryMap[orderInfo.deliveryType]}</span></div>
                 <div className='cardlist_item'><label>订单金额：</label><span>{orderInfo.amountSum}</span>元</div>
-                <div className='cardlist_item'><label>商品金额：</label><span>{orderInfo.deductionAmount}</span>元</div>
-                <div className='cardlist_item'><label>用户支付配送费：</label><span>{orderInfo.deductionAmount}</span>元</div>
-                <div className='cardlist_item'><label>优惠券：</label><span>{orderInfo.deductionAmount}</span>元</div>
-                <div className='cardlist_item'><label>优惠券批次号：</label><span>{orderInfo.deductionAmount}</span>元</div>
+                <div className='cardlist_item'><label>商品金额：</label><span>{orderInfo.CommodityAmount}</span>元</div>
+                <div className='cardlist_item'><label>用户支付配送费：</label><span>{orderInfo.actualExpressAmount}</span>元</div>
+                <div className='cardlist_item'><label>优惠券：</label><span>{orderInfo.discountAmount}</span>元</div>
+                <div className='cardlist_item'><label>优惠券批次号：</label><span>{orderInfo.couponNumber}</span>元</div>
                 <div className='cardlist_item'><label>版本号：</label><span>{orderInfo.orderNum}</span></div>
             </div>
           </Card>
@@ -117,8 +128,8 @@ render(){
                 <div className='cardlist_item'><label>昵称：</label><span>{userInfo.nickname}</span></div>
                 <div className='cardlist_item'><label>注册手机：</label><span>{userInfo.mobile}</span></div>
                 <div className='cardlist_item'><label>本单用户下单次序：</label><span>{userInfo.userSumCounts}</span></div>
-                <div className='cardlist_item'><label>本单本店下单次序：</label><span>{userInfo.userSumCounts}</span></div>
-                <div className='cardlist_item'><label>会员级别：</label><span>{userInfo.spSumCounts}</span></div>
+                <div className='cardlist_item'><label>本单本店下单次序：</label><span>{userInfo.spSumCounts}</span></div>
+                <div className='cardlist_item'><label>会员级别：</label><span>{userInfo.userType}</span></div>
             </div>
           </Card>
         </div>

@@ -1,7 +1,7 @@
 const platformMap={
-  '1':'IOS',
-  '2':'ANDROID',
-  '3':'APPLET',
+  '1':'Qtools App ios端',
+  '2':'Qtools App  安卓端',
+  '3':'小程序',
 }
 const deliveryMap={
   '1':'门店自提',

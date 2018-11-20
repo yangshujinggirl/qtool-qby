@@ -261,9 +261,9 @@ class Content extends React.Component {
                                     case "206000info":return <OrderdbInfo data={this.props.data}/>;
                                     case "206000edit":return <OrderdbEdit data={this.props.data}/>;
                                 // --------------------------- 运营管理 -------------------------------
-                                    // case "402000":return <OperateinoutIndex data={this.props.data}/>;
-                                    // case "402000info":return <OperateinoutInfo data={this.props.data}/>;
-                                    case "402000":return <SellManage data={this.props.data} componkey={this.props.componkey}/>;
+                                    case "402000":return <OperateinoutIndex data={this.props.data}/>;
+                                    case "402000info":return <OperateinoutInfo data={this.props.data}/>;
+                                    case formDataCode('operate41'):return <SellManage data={this.props.data} componkey={this.props.componkey}/>;
                                     case "402000infoMoney":return <OperateinoutMoneyInfo data={this.props.data}/>;
                                     case "402500":return <OperatememberIndex data={this.props.data}/>;
                                     case "405000":return <OperatesupplierIndex data={this.props.data}/>;
