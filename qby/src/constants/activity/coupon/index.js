@@ -217,7 +217,28 @@ class Coupon extends Component{
   }
 
   render(){
+    const {rolelists} = this.props.data;
     const {dataList} = this.props.coupon.data1;
+
+    //创建优惠券
+    const addCoupon = rolelists.find((currentValue,index)=>{
+      return currentValue.url=="qerp.web.pd.coupon.save"
+    })
+    //注券
+    const inject = rolelists.find((currentValue,index)=>{
+      return currentValue.url=="qerp.web.pd.coupon.create"
+    })
+    //注券记录
+    const injectRecord = rolelists.find((currentValue,index)=>{
+      return currentValue.url=="qerp.web.pd.coupon.record"
+    })
+    //熔断
+    const fuse = rolelists.find((currentValue,index)=>{
+      return currentValue.url=="qerp.web.pd.coupon.break"
+    })
+    dataList.map((item)=>{
+      item.injectRecord = injectRecord;
+    })
     return(
       <div className='qtools-components-pages'>
         <FilterForm
@@ -225,10 +246,22 @@ class Coupon extends Component{
           onValuesChange = {this.searchDataChange}
         />
         <div className="handel-btn-lists">
-          <Button onClick={this.createCoupon}  size='large' type='primary'>创建优惠券</Button>
-          <Button onClick={this.addCouponToUser}  size='large' type='primary'>注券</Button>
-          <Button onClick={this.addCouponToUserRecord}  size='large' type='primary'>注券记录</Button>
-          <Button onClick={this.fuseCoupon} type='primary' size='large'>熔断</Button>
+          {
+            addCoupon &&
+            <Button onClick={this.createCoupon}  size='large' type='primary'>创建优惠券</Button>
+          }
+          {
+            inject &&
+            <Button onClick={this.addCouponToUser}  size='large' type='primary'>注券</Button>
+          }
+          {
+            injectRecord &&
+            <Button onClick={this.addCouponToUserRecord}  size='large' type='primary'>注券记录</Button>
+          }
+          {
+            fuse &&
+            <Button onClick={this.fuseCoupon} type='primary' size='large'>熔断</Button>
+          }
         </div>
         <Modal
             bodyStyle={{'fontSize':'24px','textAlign':'center','padding':'50px'}}
@@ -246,6 +279,7 @@ class Coupon extends Component{
           onOk={this.onOk}
         />
         <Qtable
+          injectRecord={injectRecord}
           onOperateClick = {this.handleOperateClick.bind(this)}
           dataSource = {dataList}
           columns = {Columns}

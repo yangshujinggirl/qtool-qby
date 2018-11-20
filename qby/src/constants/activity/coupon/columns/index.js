@@ -27,10 +27,15 @@ const Columns = [{
      dataIndex: 'couponGiveCount',
      render:(text, record)=>{
        return(
-         <div>
-           <a href="javascript:;" className="theme-color" onClick={record.onOperateClick.bind(this,"edit")}>{text}</a>
-         </div>
-     )}
+           record.injectRecord
+           ?
+             <div>
+               <a href="javascript:;" className="theme-color" onClick={record.onOperateClick.bind(this,"edit")}>{text}</a>
+             </div>
+           :
+             <span>{text}</span>
+       )
+   }
    },{
      title: '优惠券状态',
      dataIndex: 'statusStr'
