@@ -28,13 +28,13 @@ export default {
       const result=yield call(getListApi,values);
       yield put({type: 'tab/loding',payload:false});
       if(result.code=='0') {
-        let { orders, currentPage, limit, total } = result;
-        orders = orders?orders:[];
-        orders.length>0&&orders.map((el,index) => el.key = el.orderNo)
+        let { ispMoneyReceipts, currentPage, limit, total } = result;
+        ispMoneyReceipts = ispMoneyReceipts?ispMoneyReceipts:[];
+        ispMoneyReceipts.length>0&&ispMoneyReceipts.map((el,index) => el.key = index)
         yield put ({
           type: 'getList',
           payload:{
-            list:orders,
+            list:ispMoneyReceipts,
             data:{
               currentPage,
               limit,

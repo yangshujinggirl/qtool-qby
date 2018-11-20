@@ -1,3 +1,8 @@
+const deliveryMap={
+  '1':'门店自提',
+  '2':'同城配送',
+  '3':'快递邮寄',
+}
 const Columns = [{
      title: '订单号',
      dataIndex: 'orderNo',
@@ -10,6 +15,9 @@ const Columns = [{
      title: '配送方式',
      dataIndex: 'deliveryType',
      key: 'deliveryType',
+     render:(text,record)=> {
+       return deliveryMap[record.deliveryType]
+     }
    },{
      title: '商品金额',
      dataIndex: 'amountSum',

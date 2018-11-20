@@ -4,11 +4,11 @@ const Columns = [{
      key: 'orderNo',
    },{
      title: '配送费用',
-     dataIndex: 'standardExpressAmount',
-     key: 'standardExpressAmount',
+     dataIndex: 'actualExpressAmount',
+     key: 'actualExpressAmount',
    },{
      title: '订单时间',
-     dataIndex: 'createTime',
-     key: 'createTime',
+     dataIndex: 'orderCreateTime',
+     key: 'orderCreateTime',
    }];
 export default Columns;
