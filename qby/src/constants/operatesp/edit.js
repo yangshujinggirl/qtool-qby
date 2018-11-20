@@ -58,6 +58,7 @@ class SpEditForm extends React.Component{
 			bankNo:null,
 			bankName:null,
 			openApp:null,
+			openCityDistribution:null,
 			bank:null,
 			recAddress:null,
 			spShopContracts:null,
@@ -260,6 +261,7 @@ class SpEditForm extends React.Component{
 							bankNo:json.spShop.bankNo,
 							bankName:json.spShop.bankName,
 							openApp:json.spShop.openApp,
+							openCityDistribution:json.spShop.openCityDistribution,
 							spShopContracts:json.spShop.spShopContracts,
 							lat:json.spShop.lat,
 							lng:json.spShop.lng,
@@ -785,7 +787,7 @@ class SpEditForm extends React.Component{
 						wrapperCol={{ span:6 }}>
 						{getFieldDecorator('openCityDistribution', {
 							rules: [{ required: true, message: '请选择是否使用C端同城配送'}],
-							initialValue:Number(this.state.openApp)
+							initialValue:Number(this.state.openCityDistribution)
 						})(
 							<RadioGroup>
 								<Radio value={1} key={1}>开启</Radio>
