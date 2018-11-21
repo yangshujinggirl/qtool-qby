@@ -7,6 +7,9 @@ const Columns = [{
      title: '订单号',
      dataIndex: 'orderNo',
      key: 'orderNo',
+     render:(text,record)=> {
+       return<span className="theme-color" style={{'cursor':'pointer'}} onClick={()=>record.onOperateClick()}>{record.orderNo}</span>
+     }
    }, {
      title: '门店名称',
      dataIndex: 'spShopName',

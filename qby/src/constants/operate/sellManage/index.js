@@ -96,6 +96,22 @@ class SellManage extends Component {
       message.error('导出数据失败')
     })
   }
+  //操作
+  handleOperateClick(record) {
+    let componkey = '207000';
+    const paneitem = {
+      title:'订单详情',
+      key:`${componkey}edit`+record.orderId,
+      componkey:`${componkey}edit`,
+      data:{
+        pdSpuId:record.orderId,
+      }
+    }
+    this.props.dispatch({
+      type:'tab/firstAddTab',
+      payload:paneitem
+    })
+  }
   render() {
     const { fields } =this.state;
     const { data, list } =this.props.sellManage;
@@ -124,6 +140,7 @@ class SellManage extends Component {
             </div>
           </div>
         <Qtable
+          onOperateClick={this.handleOperateClick.bind(this)}
           columns={columns}
           dataSource={list}/>
         {
