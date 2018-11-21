@@ -127,17 +127,21 @@ class SpEditForm extends React.Component{
 				}
 				const imgArr = this.state.fileList;
 				const spShopContracts = [];
+				console.log(imgArr)
 				const imgArrs = imgArr.map((item) => {
 					if(item.status == 'done'){
 						spShopContracts.push(item.response.data[0])
 					}
-				})
+				});
+
+
 				value.spShopContracts = spShopContracts;
 				// if(JSON.stringify(this.state.fileList) == '[]'){
 				// 	message.warn('请上传合同信息',.8)
 				// }else{
 
 				// };
+				delete value.imgFile
 				if(value.shopType == 2){
 					if(value.foodShareRatio && value.nonfoodShareRatio){
 						this.submit(value)
@@ -776,6 +780,7 @@ class SpEditForm extends React.Component{
 						wrapperCol={{ span: 6 }}
 					>
 						<UpLoadImg
+							getFieldDecorator={getFieldDecorator}
 							name='imgFile'
 							action = '/erpWebRest/qcamp/upload.htm?type=spu'
 							fileList = {this.state.fileList}

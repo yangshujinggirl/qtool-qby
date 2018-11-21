@@ -81,13 +81,15 @@ class SpTable extends React.Component {
 	editInfo = (record,type) =>{
 		const spShopId=String(record.spShopId);
 		if(type=="edit"){
+			console.log("edit")
 			const paneitem={title:'修改门店',key:'403000edit'+spShopId,data:{spShopId:spShopId},componkey:'403000edit'}
 			this.props.dispatch({
 				type:'tab/firstAddTab',
 				payload:paneitem
 			});
 		}else{
-			const paneitem={title:'门店详情',key:'403000edit'+spShopId,data:{spShopId:spShopId},componkey:'403000info'}
+			console.log("info")
+			const paneitem={title:'门店详情',key:'403000edit'+"info"+spShopId,data:{spShopId:spShopId},componkey:'403000info'}
 			this.props.dispatch({
 				type:'tab/firstAddTab',
 				payload:paneitem

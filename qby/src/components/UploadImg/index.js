@@ -1,6 +1,6 @@
 import React ,{ Component } from 'react';
 import { connect } from 'dva';
-import { Upload, Icon, Modal, Form } from 'antd';
+import { Upload, Icon, Modal, Form, message } from 'antd';
 
 class UploadImg extends Component{
   constructor(props){
@@ -12,15 +12,17 @@ class UploadImg extends Component{
     }
   }
   //上传大小限制
-  beforeUpload = (file) =>{
+  beforeUpload = (file,fileList) =>{
     const isJPG = file.type === 'image/jpeg';
     const isPNG = file.type === 'image/png';
       if (!isJPG && !isPNG) {
           message.error('仅支持jpg/jpeg/png格式',.8);
+          fileList = fileList.filter((fileItem)=> file.uid !== fileItem.uid);
       }
       const isLt2M = file.size / 1024 / 1024 < 2;
       if (!isLt2M) {
           message.error('上传内容大于2M，请选择2M以内的文件',.8);
+          fileList = fileList.filter((fileItem)=> file.uid !== fileItem.uid);
       }
     return (isJPG || isPNG) && isLt2M;
   }
@@ -39,26 +41,26 @@ class UploadImg extends Component{
     this.setState({ fileList })
     this.props.changeImg(fileList)
   }
-  //格式化数据
   normFile = (e) => {
-    const {target} = e;
-  	if (Array.isArray(e)) {
-  		return e;
-  	}
-  	let formFile = e && e.fileList.map((el)=> {
-  		if(el.status == 'done') {
-  			if(el.response) {
-  				return el.response.data[0]
-  			} else {
-  				return el.name
-  			}
-  		}
-  	})
-  	return formFile;
+    const isJPG = e.file.type === 'image/jpeg';
+  	const isPNG = e.file.type === 'image/png';
+    const isLt2M = e.file.size / 1024 / 1024 < 2;
+  	if (!isJPG && !isPNG) {
+    	message.error('仅支持jpg/jpeg/png格式',.8);
+      return e.fileList.filter((fileItem)=> e.file.uid !== fileItem.uid);
+    }else if (!isLt2M) {
+    	message.error('上传内容大于2M，请选择2M以内的文件',.8);
+      return e.fileList.filter((fileItem)=> e.file.uid !== fileItem.uid);
+    }else {
+      if (Array.isArray(e)) {
+        return e;
+      }
+      return e && e.fileList;
+    }
   }
   render(){
     const { previewVisible, previewImage } = this.state;
-    const fileList = this.props.fileList;
+     const { name, fileList } = this.props;
     const uploadButton = (
         <div>
           <Icon type="plus" />
@@ -67,18 +69,24 @@ class UploadImg extends Component{
     );
     return (
       <div className="clearfix">
-        <Upload
-           name = { this.props.name}
-           action = {this.props.action}
-           listType = "picture-card"
-           fileList = {fileList}
-           showUploadList = {true}
-           onPreview = {this.handlePreview}
-           onChange = { this.handleChange}
-           beforeUpload={this.beforeUpload}
-         >
-           {fileList.length >= this.state.maxLength ? null : uploadButton}
-         </Upload>
+        {
+           this.props.getFieldDecorator(this.props.name,{
+             getValueFromEvent: this.normFile,
+             valuePropName: 'fileList',
+             initialValue:fileList,
+           })(
+             <Upload
+                name = { this.props.name}
+                action = {this.props.action}
+                listType = "picture-card"
+                onPreview = {this.handlePreview}
+                onChange = { this.handleChange}
+              >
+                {fileList.length >= this.state.maxLength ? null : uploadButton}
+              </Upload>
+           )
+         }
+
          <Modal
            visible={ previewVisible }
            footer={ null }
