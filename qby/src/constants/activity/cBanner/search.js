@@ -4,6 +4,8 @@ const FormItem = Form.Item;
 const Option = Select.Option
 const RangePicker = DatePicker.RangePicker;
 
+
+
 class OperatebannerSearchForm extends React.Component {
     state = {};
 
@@ -59,6 +61,14 @@ class OperatebannerSearchForm extends React.Component {
                                     <Select allowClear={true} placeholder="请选择banner状态">
                                         <Option value='1'>上线</Option>
                                         <Option value='0'>下线</Option>
+                                    </Select>
+                                    )}
+                                </FormItem>
+                                <FormItem label='展示平台'>
+                                    {getFieldDecorator('displayplatform')(
+                                    <Select allowClear={true} placeholder="请选择展示平台">
+                                        <Option value='1' key='1'>Qtools App</Option>
+                                        <Option value='2' key='2'>Qtools 小程序</Option>
                                     </Select>
                                     )}
                                 </FormItem>

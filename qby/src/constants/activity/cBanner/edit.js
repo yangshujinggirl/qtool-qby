@@ -214,7 +214,7 @@ class OperatebannerEditForm extends React.Component{
             labelCol={{ span: 3,offset: 1 }}
             wrapperCol={{ span: 6 }}>
 					{/* Qtools App */}
-					{getFieldDecorator('displayplatform', {
+					{getFieldDecorator('platform', {
               rules: [
 								{required: true, message: '请选择展示平台'}
 							],
