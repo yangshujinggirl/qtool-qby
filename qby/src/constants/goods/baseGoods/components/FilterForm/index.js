@@ -37,6 +37,7 @@ class NormalForm extends Component {
   }
   //一级分类选中
   onSelect=(value)=>{
+    this.props.form.resetFields(["pdCategory2Id"]);
     getCategoryApi({level:2,parentId:value,status:1})
     .then(res=>{
       if(res.code == "0" ){
