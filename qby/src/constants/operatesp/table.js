@@ -48,7 +48,14 @@ class SpTable extends React.Component {
 
 		this.columnsrole = [{
 			title: '门店名称',
-			dataIndex: 'name'
+			dataIndex: 'name',
+			render: (text, record) => {
+				return (
+					this.props.mdDetail
+					? <TableLink type={'1'} text={text} hindClick={this.editInfo.bind(this,record,"info")}/>
+					:	<span>{text}</span>
+				);
+			}
 		}, {
 			title: '门店电话',
 			dataIndex: 'mobile'
