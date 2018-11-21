@@ -20,7 +20,7 @@ class UploadImg extends Component{
       }
       const isLt2M = file.size / 1024 / 1024 < 2;
       if (!isLt2M) {
-          message.error('图片文件需小于2MB',.8);
+          message.error('上传内容大于2M，请选择2M以内的文件',.8);
       }
     return (isJPG || isPNG) && isLt2M;
   }
