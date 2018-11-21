@@ -1,6 +1,6 @@
 import React ,{ Component } from 'react';
 import { connect } from 'dva';
-import { Upload,Icon, Modal, Button } from 'antd';
+import { Upload,Icon, Modal, Button, message } from 'antd';
 
 
 class UpLoadFile extends Component {
@@ -11,6 +11,7 @@ class UpLoadFile extends Component {
       previewImage: '',
     }
   }
+  //filelist 限制大小用normalFile
   beforeUpload(file){
   	const isJPG = file.type === 'image/jpeg';
   	const isPNG = file.type === 'image/png';
@@ -31,10 +32,21 @@ class UpLoadFile extends Component {
     });
   }
   normFile = (e) => {
-    if (Array.isArray(e)) {
-      return e;
+    const isJPG = e.file.type === 'image/jpeg';
+  	const isPNG = e.file.type === 'image/png';
+    const isLt2M = e.file.size / 1024 / 1024 < 2;
+  	if (!isJPG && !isPNG) {
+    	message.error('仅支持jpg/jpeg/png格式',.8);
+      return e.fileList.filter((fileItem)=> e.file.uid !== fileItem.uid);
+    }else if (!isLt2M) {
+    	message.error('上传内容大于2M，请选择2M以内的文件',.8);
+      return e.fileList.filter((fileItem)=> e.file.uid !== fileItem.uid);
+    }else {
+      if (Array.isArray(e)) {
+        return e;
+      }
+      return e && e.fileList;
     }
-    return e && e.fileList;
   }
   onChange =(info)=>{
     if(info.file.status == 'done') {
@@ -64,7 +76,6 @@ class UpLoadFile extends Component {
                 listType="picture-card"
                 className="avatar-uploader"
                 action="/erpWebRest/qcamp/upload.htm?type=spu"
-                beforeUpload={this.beforeUpload}
                 onPreview={this.handlePreview}>
                 {
                   fileList.length >= 1000 ? null : uploadButton
