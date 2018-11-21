@@ -32,7 +32,7 @@ const Columns = [{
      title: '配送方式',
      dataIndex: 'delivery',
      render:(text,record)=> {
-       return deliveryMap[record.platform]
+       return deliveryMap[record.deliveryType]
      }
    },{
      title: '用户昵称',
@@ -45,10 +45,10 @@ const Columns = [{
      dataIndex: 'qtySum'
    },{
      title: '订单金额',
-     dataIndex: 'amountSum'
-   },{
-     title: '用户支付金额',
      dataIndex: 'payAmount'
+   },{
+     title: '优惠券金额',
+     dataIndex: 'discountAmount'
    },{
      title: '流程状态',
      dataIndex: 'orderStatusStr'

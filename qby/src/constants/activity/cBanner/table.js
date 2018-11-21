@@ -4,9 +4,9 @@ import EditableTable from '../../../components/table/tablebasic';
 import TableLink from '../../../components/table/tablelink';
 
 const platformMap={
-  '1':'IOS',
-  '2':'ANDROID',
-  '3':'APPLET',
+  '1':'Qtools App',
+  '2':'Qtools App',
+  '3':'小程序',
 }
 
 class operatebannerTable extends React.Component {
