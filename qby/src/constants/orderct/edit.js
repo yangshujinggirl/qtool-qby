@@ -248,7 +248,7 @@ class OrderctEditForm extends React.Component{
 									{getFieldDecorator('taxRate', {
 										initialValue:taxRate && taxRate+'%'
 									})(
-										<Input placeholder="请输入退货原因"  autoComplete="off" disabled/>
+										<Input placeholder="请输入含税税率"  autoComplete="off" disabled/>
 									)}
 								</FormItem>
                 <FormItem
