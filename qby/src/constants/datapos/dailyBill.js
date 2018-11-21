@@ -311,7 +311,8 @@ class DailyBillForm extends React.Component {
                     <FormItem
                       label="订单分类">
                       {getFieldDecorator('type',{
-                        onChange:this.changeType
+                        onChange:this.changeType,
+                        initialValue:'1'
                       })(
                           <Select allowClear placeholder="请选择订单类型">
                               <Option value="1">销售订单</Option>
@@ -323,7 +324,8 @@ class DailyBillForm extends React.Component {
                     <FormItem
                       label="订单来源">
                       {getFieldDecorator('source',{
-                        onChange:this.changeSource
+                        onChange:this.changeSource,
+                        initialValue:0
                       })(
                         <Select placeholder="请选择订单来源">
                           <Option key={0} value={0}>全部</Option>

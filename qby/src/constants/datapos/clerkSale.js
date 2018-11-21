@@ -190,19 +190,26 @@ class ClerkSaleForm extends React.Component {
                       <Col span={24} className='formbox_col'>
                         <div className='serach_form'>
                           <FormItem label="选择时间">
-                            <RangePicker
-                              defaultValue={[moment(a,dateFormat),moment(a, dateFormat)]}
-                              format="YYYY-MM-DD"
-                              allowClear={false}
-                              onChange={this.dataChange.bind(this)} />
+                            {getFieldDecorator('time',{
+                              onChange:this.dataChange,
+                              initialValue:[moment(a,dateFormat),moment(a, dateFormat)]
+                            })(
+                              <RangePicker
+                                format="YYYY-MM-DD"/>
+                            )}
                           </FormItem>
                           <FormItem
                             label="订单来源">
-                            <Select placeholder="请选择订单来源" onChange={this.changeSource}>
-                              <Option key={0} value={0}>全部</Option>
-                              <Option key={1} value={1}>POS</Option>
-                              <Option key={2} value={2}>APP</Option>
-                            </Select>
+                            {getFieldDecorator('source',{
+                              onChange:this.changeSource,
+                              initialValue:0
+                            })(
+                              <Select placeholder="请选择订单来源">
+                                <Option key={0} value={0}>全部</Option>
+                                <Option key={1} value={1}>POS</Option>
+                                <Option key={2} value={2}>APP</Option>
+                              </Select>
+                            )}
                           </FormItem>
                         </div>
                       </Col>
