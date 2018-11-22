@@ -54,8 +54,7 @@ class NormalForm extends Component {
               <FormItem label='时间选择'>
                  {getFieldDecorator('time')(
                    <RangePicker
-                     showTime
-                     format="YYYY-MM-DD HH:mm:ss"/>
+                     format="YYYY-MM-DD"/>
                  )}
                </FormItem>
              </div>

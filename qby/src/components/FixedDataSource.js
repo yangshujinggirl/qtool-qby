@@ -136,6 +136,10 @@ const ProcesasStatusOption = [{
           key:50,
           value:'用户支付后取消'
         },
+        {
+          key:-10,
+          value:'已发货'
+        },
       ]
 //配送方式
 const DeliveryOption=[{

@@ -18,7 +18,6 @@ class OperatebannerEditForm extends React.Component{
 		  { value: '1', label: 'Qtools App' },
 		  { value: '2', label: 'Qtools 小程序' },
 		];
-		this.selectOptions=['1','2']
 	}
 	componentDidMount(){
 		if(this.props.data){
@@ -70,7 +69,6 @@ class OperatebannerEditForm extends React.Component{
 	handleSubmit = (e) => {
 		e.preventDefault();
 		this.props.form.validateFields((err, values) => {
-			console.log(values)
 		    if (!err) {
             let data = values;
             if(!this.props.formValue.url){
@@ -218,7 +216,7 @@ class OperatebannerEditForm extends React.Component{
               rules: [
 								{required: true, message: '请选择展示平台'}
 							],
-              initialValue:this.selectOptions,
+              initialValue:this.props.formValue.platform,
           })(
 						<CheckboxGroup
 							options={this.options}/>

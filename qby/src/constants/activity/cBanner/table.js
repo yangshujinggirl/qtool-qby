@@ -5,8 +5,8 @@ import TableLink from '../../../components/table/tablelink';
 
 const platformMap={
   '1':'Qtools App',
-  '2':'Qtools App',
-  '3':'小程序',
+  '2':'Qtools 小程序',
+  '3':'Qtools App+小程序',
 }
 
 class operatebannerTable extends React.Component {

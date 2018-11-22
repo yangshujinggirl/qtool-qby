@@ -1,6 +1,5 @@
 import React from 'react';
-import EditableTable from '../../components/table/tablebasic';
-import { Button, Icon ,Form,Select,Input,Card, message } from 'antd';
+import { Button, Icon ,Form,Select,Input,Card, message, Table } from 'antd';
 import { getInfoApi } from '../../services/orderCenter/userOrders'
 import { connect } from 'dva';
 const FormItem = Form.Item;
@@ -147,10 +146,10 @@ render(){
                 <div className='cardlist_item'><label>下单平台：</label><span>{platformMap[orderInfo.platform]}</span></div>
                 <div className='cardlist_item'><label>配送方式：</label><span>{deliveryMap[orderInfo.deliveryType]}</span></div>
                 <div className='cardlist_item'><label>订单金额：</label><span>{orderInfo.amountSum}</span>元</div>
-                <div className='cardlist_item'><label>商品金额：</label><span>{orderInfo.CommodityAmount}</span>元</div>
-                <div className='cardlist_item'><label>用户支付配送费：</label><span>{orderInfo.actualExpressAmount}</span>元</div>
-                <div className='cardlist_item'><label>优惠券：</label><span>{orderInfo.discountAmount}</span>元</div>
-                <div className='cardlist_item'><label>优惠券批次号：</label><span>{orderInfo.couponNumber}</span></div>
+                <div className='cardlist_item'><label>商品金额：</label><span>{orderInfo.amountSum}</span>元</div>
+                <div className='cardlist_item'><label>用户支付配送费：</label><span>{orderInfo.standardExpressAmount}</span>元</div>
+                <div className='cardlist_item'><label>优惠券：</label><span>{orderInfo.discountAmount?orderInfo.discountAmount:0}</span>元</div>
+                <div className='cardlist_item'><label>优惠券批次号：</label><span>{orderInfo.couponCode}</span></div>
                 <div className='cardlist_item'><label>版本号：</label><span>{orderInfo.platVersion}</span></div>
             </div>
           </Card>
@@ -173,12 +172,12 @@ render(){
           </Card>
         </div>
         <div className='mb20'>
-          <EditableTable
+          <Table
+            bordered
+            title={()=>'商品信息'}
+            dataSource={goodsInfos}
             columns={this.columns1}
-            title='商品信息'
-            bordered={true}
-            dataSource = { goodsInfos }
-          />
+            pagination={false}/>
         </div>
 				<div className='mb10'>
           <Card title='门店信息'>
@@ -197,11 +196,12 @@ render(){
           </div>
         }
 				<div className='mb20'>
-          <EditableTable
+          <Table
+            bordered
+            title={()=>'处理日志'}
+            dataSource={logInfos}
             columns={this.columns2}
-            title='处理日志'
-            bordered={true}
-            dataSource = { logInfos }/>
+            pagination={false}/>
         </div>
 			</div>
 		)}
