@@ -44,9 +44,9 @@ class NormalForm extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
+        values.pdSpuId = values.pdSpuId.replace(/\s+/g, "");
         this.props.submit && this.props.submit(values)
     });
-
   }
   render() {
     const { getFieldDecorator } = this.props.form;

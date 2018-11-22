@@ -280,11 +280,23 @@ class SpInfo extends React.Component{
     					<div className='felxboxs'>
     						<div style={{width:'45%'}}>
     							<p className='tc'>食品尿不湿类</p>
-                  <p>{spShop.foodShareRatio}%</p>
+                  {
+                    spShop.foodShareRatio
+                      ?
+                      <p style={{marginLeft:"55px"}}>{spShop.foodShareRatio}%</p>
+                      :
+                      <p style={{marginLeft:"55px"}}>0%</p>
+                  }
     						</div>
     						<div style={{width:'45%'}}>
     							<p className='tc'>非食品尿不湿类</p>
-                  <p>{spShop.nonfoodShareRatio}%</p>
+                  {
+                    spShop.nonfoodShareRatio
+                      ?
+                      <p style={{marginLeft:"55px"}}>{spShop.nonfoodShareRatio}%</p>
+                      :
+                      <p style={{marginLeft:"55px"}}>0%</p>
+                  }
     						</div>
     					</div>
     				</FormItem>
