@@ -42,19 +42,6 @@ class AddanswerForm extends Component {
       if(iPdAnswer.pdAnswerConfig&&iPdAnswer.pdAnswerConfig.content) {
         content = JSON.parse(iPdAnswer.pdAnswerConfig.content)
       }
-      content.length>0&&content.map((el,index) => {
-        el.key = index;
-        if(el.type == '1') {
-          return el;
-        }
-        el.content =el.content.length>0? [{
-          uid:index,
-          name:el.content,
-          url: `${fileDomain}${el.content}`,
-          status:'done'
-        }]:[]
-        return el;
-      })
       this.props.dispatch({type: 'tab/loding',payload:false});
       this.setState({
         type:iPdAnswer.type,
@@ -91,7 +78,7 @@ class AddanswerForm extends Component {
     let valueContent = [];
     if(answerContent) {
       answerContent.map((el) => {
-        if(el.content.length>0) {
+        if(el.content.length>0) { //控制不展示
           valueContent.push({
             type:el.type,
             content:el.content
@@ -99,24 +86,24 @@ class AddanswerForm extends Component {
         }
         return el;
       })
-      valueContent.map((el) => {
-        if(el.content instanceof Array) {
-          if(el.content[0].response) {
-            el.content = el.content[0].response.data[0]
-          } else {
-            el.content = el.content[0].name
-          }
-          el.type = '2';
-        } else {
-          el.content = el.content;
-          el.type = '1'
-        }
-        return el;
-      })
+      // valueContent.map((el) => {
+      //   if(el.content instanceof Array) {
+      //     if(el.content[0].response) {
+      //       el.content = el.content[0].response.data[0]
+      //     } else {
+      //       el.content = el.content[0].name
+      //     }
+      //     el.type = '2';
+      //   } else {
+      //     el.content = el.content;
+      //     el.type = '1'
+      //   }
+      //   return el;
+      // })
     }
     let pdAnswerConfig = {
-          content:valueContent
-        };
+      content:valueContent
+    };
     if(this.props.data.pdAnswerId) {
       pdAnswerConfig.pdAnswerConfigId = this.state.pdAnswerConfigId;
       values.pdAnswerId = this.props.data.pdAnswerId;

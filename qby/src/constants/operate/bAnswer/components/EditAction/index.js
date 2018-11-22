@@ -10,7 +10,8 @@ class EditAction extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			key:this.props.dataSource.length
+			key:this.props.dataSource.length,
+			imageUrl:"",
 		};
 	}
 	componentWillReceiveProps(props) {
@@ -47,10 +48,10 @@ class EditAction extends React.Component {
 	handelMove(type, currentIndex) {
 		let hoverIndex = currentIndex;
 		if(type == 'up') {
-      hoverIndex--
+      hoverIndex--;
     } else {
-      hoverIndex++
-    }
+      hoverIndex++;
+    };
     let { dataSource } = this.props;
     if(hoverIndex<0 || hoverIndex > (dataSource.length-1)) {
       return;
@@ -63,9 +64,10 @@ class EditAction extends React.Component {
 		this.props.setDataSource(dataSource);
   }
 	//更改表单内容
-	setValusInForm =(currentIndex,value)=> {
+	setValusInForm =(currentIndex,type,value)=> {
+		console.log(value)
 		let { dataSource } = this.props;
-		if(value instanceof Array == false ) {
+		if(type==1 ) { //文本框不可輸入
 			value.persist();
     	value = value.nativeEvent.target.value;
 		}
@@ -77,6 +79,9 @@ class EditAction extends React.Component {
 		})
 		this.props.setDataSource(dataSource);
 	}
+	imgChange =(index,file)=> {
+
+	}
 
 	renderForm =(record,index)=> {
 		if(record.type == '1') {
@@ -85,25 +90,24 @@ class EditAction extends React.Component {
 									maxLength='1000'
 									key={index}
 									value={record.content}
-									onChange={(e)=>this.setValusInForm(index,e)}
+									onChange={(e)=>this.setValusInForm(index,1,e)}
 									className="text-input"
 									placeholder="请输入文本"
 									autoComplete="off"/>
 						</div>
 		} else {
-			let fileList = [];
-			if(record.content!=='') {
-				fileList=record.content;
-			}
+
 			return <div className="content-action">
 								<UpLoadFile
-									fileList={fileList}
-									onChange={(file)=>this.setValusInForm(index,file)}/>
+									onChange={(file)=>this.setValusInForm(index,2,file)}
+									imageUrl={record.content}
+								/>
 							</div>
 		}
 	}
 	render() {
 		let { dataSource } = this.props;
+		console.log(dataSource)
 		const { title } =this.props;
 		return (
 			<div className='edit-action-components'>

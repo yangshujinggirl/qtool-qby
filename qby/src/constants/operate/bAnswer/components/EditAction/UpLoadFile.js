@@ -1,6 +1,7 @@
 import React ,{ Component } from 'react';
 import { connect } from 'dva';
-import { Upload,Icon, Modal, Button } from 'antd';
+import { Upload,Icon, Modal, Button,message} from 'antd';
+import "./index.less"
 
 
 class UpLoadFile extends Component {
@@ -23,54 +24,53 @@ class UpLoadFile extends Component {
   	if (!isJPG && !isPNG) {
     	message.error('仅支持jpg/jpeg/png格式',.8);
     }
-    const isLt2M = file.size / 1024 / 1024 < 10;
+    const isLt2M = file.size / 1024 / 1024 < 2;
     if (!isLt2M) {
     	message.error('上传内容大于2M，请选择2M以内的文件',.8);
     }
-
     return (isJPG || isPNG) && isLt2M;
   }
   handleCancel = () => this.setState({ previewVisible: false })
   handlePreview = (file) => {
+    console.log(file)
     this.setState({
       previewImage: file.url || file.thumbUrl,
       previewVisible: true,
     });
   }
 	handleChange = ({fileList}) => {
-    this.setState({
-      fileList
-    })
-    this.props.onChange&&this.props.onChange(fileList)
-	}
-  normFile = (e) => {
-    if (Array.isArray(e)) {
-      return e;
+    if(fileList[0].status == "done"){
+      this.setState({
+        imageUrl:fileList[0].response.data[0]
+      },function(){
+          this.props.onChange&&this.props.onChange(this.state.imageUrl)
+      });
     }
-    return e && e.fileList;
-  }
+	}
   render() {
-   const { fileList, previewVisible, previewImage } = this.state;
+   const fileDomain = eval(sessionStorage.getItem("fileDomain"))
+   const { previewVisible, previewImage } = this.state;
+   const {imageUrl} = this.props;
    return(
       <div className="upload-wrap">
         <Upload
          style={{'width':'100%'}}
          className="avatar-uploader"
          name="imgFile"
-         fileList={fileList}
          listType="picture-card"
          className="avatar-uploader"
+         showUploadList={false}
          action="/erpWebRest/qcamp/upload.htm?type=answerConfig"
          beforeUpload={this.beforeUpload}
          onPreview={this.handlePreview}
          onChange={this.handleChange}>
          {
-           fileList.length >0 ? null : <Icon type="plus" className="avatar-uploader-trigger" />
+           imageUrl ? <img src={fileDomain+imageUrl} className='upload-img' alt="avatar" /> : <Icon type="plus" className="avatar-uploader-trigger" />
          }
        </Upload>
-       <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
-         <img alt="example" style={{ width: '100%' }} src={previewImage} />
-       </Modal>
+       <div className='mask'>
+          <img src="../../../../../static/eye.png" className='upload-img'/>
+       </div>
      </div>
     )
   }
