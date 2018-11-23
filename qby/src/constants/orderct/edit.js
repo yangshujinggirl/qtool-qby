@@ -103,8 +103,13 @@ class OrderctEditForm extends React.Component{
         data.recProvinceId = values.recCity[0];
         data.recCityId = values.recCity[1];
         data.recDistrictId = values.recCity[2];
-				data.taxRate = parseInt(data.taxRate);
-				data.taxRateType = 1;
+				if(data.taxRate == "不含税"){
+					data.taxRate = null;
+					data.taxRateType = 0;
+				}else{
+					data.taxRate = parseInt(data.taxRate);
+					data.taxRateType = 1;
+				};
        	const result=GetServerData('qerp.web.sp.ctorder.save',data);
         result.then((res) => {
             return res;
@@ -149,11 +154,7 @@ class OrderctEditForm extends React.Component{
 			.then((res)=>{
 				if(res.code == 0){
 					if(res.asns && res.asns[0]){
-						if(res.asns[0].taxRate){
-							this.setState({taxRate:res.asns[0].taxRate})
-						}else{
-								this.setState({taxRate:0})
-						};
+						this.setState({taxRate:res.asns[0].taxRate})
 					};
 				};
  			})
@@ -228,7 +229,7 @@ class OrderctEditForm extends React.Component{
 									labelCol={{ span: 3,offset: 1}}
 									wrapperCol={{ span: 6 }}>
 									{getFieldDecorator('taxRate', {
-										initialValue:taxRate && taxRate+'%'
+										initialValue:taxRate!=null ? taxRate+'%' :"不含税"
 									})(
 										<Input placeholder="请输入含税税率"  autoComplete="off" disabled/>
 									)}
