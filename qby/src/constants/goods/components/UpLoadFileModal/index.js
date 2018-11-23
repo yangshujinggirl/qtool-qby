@@ -32,9 +32,14 @@ class UpLoadFile extends Component {
     });
   }
   normFile = (e) => {
-    const isJPG = e.file.type === 'image/jpeg';
-  	const isPNG = e.file.type === 'image/png';
-    const isLt2M = e.file.size / 1024 / 1024 < 2;
+    let isJPG = true;
+    let isPNG = true;
+    let isLt2M = true;
+    if(e.file.type){ //一进页面就删除的时候type不存在
+       isJPG = e.file.type === 'image/jpeg';
+    	 isPNG = e.file.type === 'image/png';
+       isLt2M = e.file.size / 1024 / 1024 < 2;
+    };
   	if (!isJPG && !isPNG) {
     	message.error('仅支持jpg/jpeg/png格式',.8);
       return e.fileList.filter((fileItem)=> e.file.uid !== fileItem.uid);
@@ -44,14 +49,14 @@ class UpLoadFile extends Component {
     }else {
       if (Array.isArray(e)) {
         return e;
-      }
+      };
       return e && e.fileList;
-    }
+    };
   }
   onChange =(info)=>{
     if(info.file.status == 'done') {
       this.props.onChange&&this.props.onChange(info.fileList)
-    }
+    };
   }
   render() {
     const uploadButton = (

@@ -12,18 +12,16 @@ class UploadImg extends Component{
     }
   }
   //上传大小限制
-  beforeUpload = (file,fileList) =>{
+  beforeUpload = (file) =>{
     const isJPG = file.type === 'image/jpeg';
     const isPNG = file.type === 'image/png';
       if (!isJPG && !isPNG) {
           message.error('仅支持jpg/jpeg/png格式',.8);
-          fileList = fileList.filter((fileItem)=> file.uid !== fileItem.uid);
-      }
+      };
       const isLt2M = file.size / 1024 / 1024 < 2;
       if (!isLt2M) {
           message.error('上传内容大于2M，请选择2M以内的文件',.8);
-          fileList = fileList.filter((fileItem)=> file.uid !== fileItem.uid);
-      }
+      };
     return (isJPG || isPNG) && isLt2M;
   }
 
@@ -38,29 +36,14 @@ class UploadImg extends Component{
   }
   //点击变化时候的回调
   handleChange = ({ fileList }) => {
-    this.setState({ fileList })
-    this.props.changeImg(fileList)
-  }
-  normFile = (e) => {
-    const isJPG = e.file.type === 'image/jpeg';
-  	const isPNG = e.file.type === 'image/png';
-    const isLt2M = e.file.size / 1024 / 1024 < 2;
-  	if (!isJPG && !isPNG) {
-    	message.error('仅支持jpg/jpeg/png格式',.8);
-      return e.fileList.filter((fileItem)=> e.file.uid !== fileItem.uid);
-    }else if (!isLt2M) {
-    	message.error('上传内容大于2M，请选择2M以内的文件',.8);
-      return e.fileList.filter((fileItem)=> e.file.uid !== fileItem.uid);
-    }else {
-      if (Array.isArray(e)) {
-        return e;
-      }
-      return e && e.fileList;
+    if( !fileList[0] || (fileList[0] && fileList[0].status) ){
+      this.setState({ fileList })
+      this.props.changeImg(fileList)
     }
   }
   render(){
     const { previewVisible, previewImage } = this.state;
-     const { name, fileList } = this.props;
+    const fileList = this.props.fileList;
     const uploadButton = (
         <div>
           <Icon type="plus" />
@@ -69,29 +52,22 @@ class UploadImg extends Component{
     );
     return (
       <div className="clearfix">
-        {
-           this.props.getFieldDecorator(this.props.name,{
-             getValueFromEvent: this.normFile,
-             valuePropName: 'fileList',
-             initialValue:fileList,
-           })(
-             <Upload
-                name = { this.props.name}
-                action = {this.props.action}
-                listType = "picture-card"
-                onPreview = {this.handlePreview}
-                onChange = { this.handleChange}
-              >
-                {fileList.length >= this.state.maxLength ? null : uploadButton}
-              </Upload>
-           )
-         }
-
+        <Upload
+           name = { this.props.name}
+           action = {this.props.action}
+           listType = "picture-card"
+           fileList = {fileList}
+           showUploadList = {true}
+           onPreview = {this.handlePreview}
+           onChange = { this.handleChange}
+           beforeUpload={this.beforeUpload}
+         >
+           {fileList.length >= this.state.maxLength ? null : uploadButton}
+         </Upload>
          <Modal
            visible={ previewVisible }
            footer={ null }
            onCancel={ this.handleCancel }
-           wrapClassName='billModal'
          >
            <img alt="example" style={{ width: '100%' }} src={previewImage} />
          </Modal>

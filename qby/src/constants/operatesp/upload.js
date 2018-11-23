@@ -1,4 +1,4 @@
-import { Upload, Icon, Modal } from 'antd';
+import { Upload, Icon, Modal, message } from 'antd';
 import { connect } from 'dva';
 
 class PicturesWall extends React.Component {
@@ -30,26 +30,27 @@ class PicturesWall extends React.Component {
     }
 
     handleChange = ({fileList }) =>{
+      if( (fileList[0] && fileList[0].status) || !fileList[0] ){
         this.setState({ fileList })
         var res=fileList.every(function(item){
-                return item.status=='done'
-        })
+          return item.status=='done'
+        });
         if(res==true){
-            const  spShopPics=[]
-            for(var i=0;i<fileList.length;i++){
-                spShopPics.push(fileList[i].response.data[0])
-            }
-            this.props.dispatch({
-                type:'operatesp/spShopPics',
-                payload:spShopPics
-            })
-        }
+          const  spShopPics=[]
+          for(var i=0;i<fileList.length;i++){
+            spShopPics.push(fileList[i].response.data[0])
+          };
+          this.props.dispatch({
+            type:'operatesp/spShopPics',
+            payload:spShopPics
+          });
+        };
+      };
     }
-
     setinit=(values)=>{
-        this.setState({
-            fileList:values
-        })
+      this.setState({
+          fileList:values
+      });
     }
     render() {
         const { previewVisible, previewImage, fileList } = this.state;

@@ -1,6 +1,6 @@
 import React ,{ Component } from 'react';
 import { connect } from 'dva';
-import { Upload,Icon, Modal, Button } from 'antd';
+import { Upload,Icon, Modal, Button,message } from 'antd';
 
 
 class UpLoadFile extends Component {
@@ -23,11 +23,10 @@ class UpLoadFile extends Component {
   	if (!isJPG && !isPNG) {
     	message.error('仅支持jpg/jpeg/png格式',.8);
     }
-    const isLt2M = file.size / 1024 / 1024 < 10;
+    const isLt2M = file.size / 1024 / 1024 < 2;
     if (!isLt2M) {
-    	message.error('图片文件需小于10MB',.8);
-    }
-
+    	message.error('上传内容大于2M，请选择2M以内的文件',.8);
+    };
     return (isJPG || isPNG) && isLt2M;
   }
   handleCancel = () => this.setState({ previewVisible: false })
@@ -38,10 +37,12 @@ class UpLoadFile extends Component {
     });
   }
 	handleChange = ({fileList}) => {
-    this.setState({
-      fileList
-    })
-    this.props.onChange&&this.props.onChange(fileList)
+    if(!fileList[0] || (fileList[0]&&fileList[0].status)){
+      this.setState({
+        fileList
+      })
+      this.props.onChange&&this.props.onChange(fileList)
+    }
 	}
   normFile = (e) => {
     if (Array.isArray(e)) {

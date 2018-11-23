@@ -1,6 +1,6 @@
 import React ,{ Component } from 'react';
 import { connect } from 'dva';
-import { Upload,Icon, Modal, Button } from 'antd';
+import { Upload,Icon, Modal, Button, message } from 'antd';
 
 
 class UpLoadFile extends Component {
@@ -29,35 +29,42 @@ class UpLoadFile extends Component {
     });
   }
   beforeUpload(file){
-  	const isJPG = file.type === 'image/jpeg';
-  	const isPNG = file.type === 'image/png';
+    let isJPG = true;
+    let isPNG = true;
+    let isLt2M = true;
+    if(file.type){ //一进页面就删除的时候type不存在
+       isJPG = file.type === 'image/jpeg';
+    	 isPNG = file.type === 'image/png';
+       isLt2M = file.size / 1024 / 1024 < 2;
+    };
   	if (!isJPG && !isPNG) {
     	message.error('仅支持jpg/jpeg/png格式',.8);
-    }
-    const isLt2M = file.size / 1024 / 1024 < 2;
-    if (!isLt2M) {
+    }else if (!isLt2M) {
     	message.error('上传内容大于2M，请选择2M以内的文件',.8);
     }
-
     return (isJPG || isPNG) && isLt2M;
   }
 	handleChange = ({fileList}) => {
-    this.setState({
-      fileList
-    })
-    this.props.dispatch({
-      type:'addGoods/setSkusPicUrl',
-      payload:{
-        index:this.props.index,
+    if((fileList[0] && fileList[0].status) || !fileList[0]){ //成功或者为空时
+      this.setState({
         fileList
-      }
-    })
+      });
+      this.props.dispatch({
+        type:'addGoods/setSkusPicUrl',
+        payload:{
+          index:this.props.index,
+          fileList
+        }
+      });
+    };
 	}
   normFile = (e) => {
     if (Array.isArray(e)) {
       return e;
-    }
-    return e && e.fileList;
+    };
+    if((e.fileList[0] && e.fileList[0].status) || !e.fileList[0]){
+      return e && e.fileList;
+    };
   }
   render() {
     const uploadButton = (
