@@ -95,6 +95,7 @@ class Banswer extends Component{
       payload:paneitem
     })
   }
+
   render(){
     const { dataList } = this.props.bAnswer;
     const rolelists=this.props.data.rolelists
