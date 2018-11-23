@@ -79,10 +79,10 @@ class CserverOrderdetail extends  Component {
                       <Col span={2}>工单内容：</Col>
                       <Col span={20}>
                       {
-                        detailInfo.picPath&&detailInfo.picPath.length?
+                        detailInfo.picPathResult&&detailInfo.picPathResult.length?
                           <div className="img-list">
                             {
-                              detailInfo.picPath.map((el,index) => (
+                              detailInfo.picPathResult.map((el,index) => (
                                 <div className="img-item">
                                   <image src={`${detailInfo.fileDomain}${el}`}></image>
                                 </div>
