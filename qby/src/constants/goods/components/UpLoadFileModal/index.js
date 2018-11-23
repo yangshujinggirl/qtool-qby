@@ -83,7 +83,7 @@ class UpLoadFile extends Component {
               </Upload>
            )
          }
-         <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
+         <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel} wrapClassName='billModal'>
             <img alt="example" style={{ width: '100%' }} src={previewImage} />
           </Modal>
        </div>

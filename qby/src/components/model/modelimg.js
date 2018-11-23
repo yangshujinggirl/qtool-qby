@@ -33,6 +33,7 @@ class Imgmodel extends React.Component {
                     onOk={this.handleOk}
                     onCancel={this.handleCancel}
                     footer={null}
+                    wrapClassName='billModal'
                 >
                     <div>
                         {
@@ -40,7 +41,7 @@ class Imgmodel extends React.Component {
                             : <img src={fileDomain+this.props.picUrl} className='w100 h100'/>
 
                         }
-                       
+
                     </div>
                 </Modal>
             </div>

@@ -68,7 +68,7 @@ class UpLoadFile extends Component {
            fileList.length >0 ? null : <Icon type="plus" className="avatar-uploader-trigger" />
          }
        </Upload>
-       <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
+       <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel} wrapClassName='billModal'>
          <img alt="example" style={{ width: '100%' }} src={previewImage} />
        </Modal>
      </div>

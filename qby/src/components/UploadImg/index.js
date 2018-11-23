@@ -91,6 +91,7 @@ class UploadImg extends Component{
            visible={ previewVisible }
            footer={ null }
            onCancel={ this.handleCancel }
+           wrapClassName='billModal'
          >
            <img alt="example" style={{ width: '100%' }} src={previewImage} />
          </Modal>
