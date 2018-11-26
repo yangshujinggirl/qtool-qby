@@ -48,6 +48,7 @@ class CserverOrderdetail extends  Component {
   }
   render() {
     const { detailInfo, fileDomain } =this.props.cServerOrder;
+    console.log(detailInfo)
     return (
       <div className="cserver-order-detail-pages">
         <div className="cserver-page-wrap">
@@ -78,22 +79,21 @@ class CserverOrderdetail extends  Component {
                     <Row className='label-item'>
                       <Col span={2}>工单内容：</Col>
                       <Col span={20}>
+                        <div className="content-wrap">
+                          <div dangerouslySetInnerHTML={{
+                            __html:detailInfo.udeskTicketVo.content
+                          }} />
+                        </div>
                       {
-                        detailInfo.picPathResult&&detailInfo.picPathResult.length?
+                        detailInfo.udeskTicketVo.picPathResult&&detailInfo.udeskTicketVo.picPathResult.length>0&&
                           <div className="img-list">
                             {
-                              detailInfo.picPathResult.map((el,index) => (
-                                <div className="img-item">
-                                  <image src={`${detailInfo.fileDomain}${el}`}></image>
+                              detailInfo.udeskTicketVo.picPathResult.map((el,index) => (
+                                <div className="img-item" key={index}>
+                                  <img src={el}></img>
                                 </div>
                               ))
                             }
-                          </div>
-                        :
-                          <div className="content-wrap">
-                            <div dangerouslySetInnerHTML={{
-                              __html:detailInfo.udeskTicketVo.content
-                            }} />
                           </div>
                       }
                       </Col>

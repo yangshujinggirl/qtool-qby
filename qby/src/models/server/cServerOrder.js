@@ -46,7 +46,7 @@ export default{
       }
       if(createrTime&&createrTime.length>0) {
         params.createTimeSTStr = moment(createrTime[0]).format('YYYY-MM-DD');
-        params.createTimeSTStr = moment(values.createrTime[1]).format('YYYY-MM-DD');
+        params.createTimeETStr = moment(createrTime[1]).format('YYYY-MM-DD');
       }
       yield put({type: 'tab/loding',payload:true});
       const result = yield call(getListApi,params);
