@@ -123,18 +123,6 @@ class OrdermdIndex extends React.Component{
 						</Button>
 						:null
 					}
-					{
-						expontdata?
-						<Button
-							type="primary"
-							size='large'
-							className='mt20 mr10'
-							onClick={this.exportData.bind(this,13,this.props.values)}
-						>
-							导出商品数据
-						</Button>
-						:null
-					}
          		<div className='mt15'><OrdermdTable cancelorderobj={cancelorder}/></div>
         	</div>
       	)
