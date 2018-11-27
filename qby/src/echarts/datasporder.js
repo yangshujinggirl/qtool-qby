@@ -125,7 +125,7 @@ class EchartsTest extends Component {
                 data:[],
             },
             grid:{
-                left:"80",
+                left:"50",
                 top:'100'
             },
             toolbox: {

@@ -60,7 +60,7 @@ export default {
                 let data=result.spExpressFee;
                 let cardlist =[
                         {lable:'门店名称', text:data.shopName},
-                        {lable:'费用周期', text:data.month+'月物流费用'},
+                        {lable:'费用名称', text:data.week},
                         {lable:'订单数', text:data.orderSum},
                         {lable:'物流费用', text:data.feeSum}
                     ]
