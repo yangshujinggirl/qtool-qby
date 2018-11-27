@@ -5,6 +5,7 @@ import Qtable from '../../../components/Qtable/index'; //表单
 import Qpagination from '../../../components/Qpagination/index'; //分页
 import FilterForm from './FilterForm/index'
 import moment from 'moment';
+import {timeForMat} from '../../../utils/meth';
 
 class UserFeedBack extends Component{
   constructor(props){
@@ -16,10 +17,31 @@ class UserFeedBack extends Component{
         telephone:'',
         status:'',
         handleTimeType:'',
+        createTimeST:"",
+        createTimeET:""
       }
     }
   }
-
+  componentWillMount() {
+    this.getNowFormatDate();
+  }
+  getNowFormatDate = () => {
+   const startRpDate=timeForMat(30).t2;
+   const endRpDate=timeForMat(30).t1;
+   const {field} = this.state;
+   this.setState({
+     field:{
+       ...field,
+       createTimeST:startRpDate,
+       createTimeET:endRpDate,
+       }
+     },function(){
+       this.searchData({
+         createTimeST:startRpDate,
+         createTimeET:endRpDate
+       });
+   })
+  }
   //点击搜索
   searchData = (values)=> {
     this.props.dispatch({
@@ -52,13 +74,6 @@ class UserFeedBack extends Component{
       _values.createTimeET = moment(new Date(rangePicker[1]._d).getTime()).format('YYYY-MM-DD');
     }
     this.setState({field:_values});
-  }
-  //初始化数据
-  componentWillMount(){
-    this.props.dispatch({
-      type:'userFeedBack/fetchList',
-      payload:{}
-    })
   }
   //点击跳转详情页
   handleOperateClick(record){

@@ -7,6 +7,7 @@ import Qpagination from '../../../components/Qpagination/index'; //分页
 import FilterForm from './FilterForm/index'
 import { checkApi } from '../../../services/operate/withdraw'
 import moment from 'moment';
+import {timeForMats} from '../../../utils/meth';
 const FormItem = Form.Item;
 const Option = Select.Option;
 
@@ -28,16 +29,25 @@ class Withdraw extends Component{
       },
     }
   }
-  //初始化数据
-  componentWillMount(){
-    this.initData()
+  componentWillMount() {
+    this.getNowFormatDate();
   }
-  //初始数据
-  initData =()=> {
-    this.props.dispatch({
-      type:'withdraw/fetchList',
-      payload:{}
-    })
+  getNowFormatDate = () => {
+   const startRpDate=timeForMats(30).t2;
+   const endRpDate=timeForMats(30).t1;
+   const {field} = this.state;
+   this.setState({
+     field:{
+       ...field,
+       dateStart:startRpDate,
+       dateEnd:endRpDate,
+       }
+     },function(){
+       this.searchData({
+         dateStart:startRpDate,
+         dateEnd:endRpDate
+       });
+   })
   }
   //搜索框数据发生变化
   searchDataChange =(values)=> {
@@ -68,7 +78,7 @@ class Withdraw extends Component{
   onShowSizeChange =({currentPage,limit})=> {
     this.props.dispatch({
       type:'withdraw/fetchList',
-      payload:{currentPage,limit}
+      payload:{currentPage,limit,...this.state.field}
     });
   }
   //处理表格的点击事件

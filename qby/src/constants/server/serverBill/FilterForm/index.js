@@ -14,6 +14,7 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 const RangePicker = DatePicker.RangePicker
 import moment from 'moment';
+import {timeForMats} from '../../../../utils/meth';
 
 class NormalForm extends Component{
   //点击搜索
@@ -30,6 +31,7 @@ class NormalForm extends Component{
   }
   //初始化
   render(){
+    const defaultTime = [moment(timeForMats(30).t2), moment(timeForMats(30).t1)]
     const { getFieldDecorator }= this.props.form;
     return(
       <div>
@@ -74,7 +76,9 @@ class NormalForm extends Component{
               <FormItem
                   label="开始时间"
               >
-                {getFieldDecorator('rangePicker')(
+                {getFieldDecorator('rangePicker',{
+                  initialValue:defaultTime
+                })(
                   <RangePicker showTime format="YYYY-MM-DD HH:mm:ss"/>
                 )}
               </FormItem>

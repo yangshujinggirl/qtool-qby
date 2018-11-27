@@ -12,7 +12,7 @@ class OrdermdSearchForm extends React.Component {
         this.state = {
             dateStart: '',
             dateEnd:'',
-             deliveryTimeST:'',
+            deliveryTimeST:'',
             deliveryTimeET:''
       };
     }

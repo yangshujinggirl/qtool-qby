@@ -1,6 +1,6 @@
 import { Form, Row, Col, Input, Button, Icon,Select ,DatePicker} from 'antd';
 import moment from 'moment';
-
+import {timeForMat} from '../../../utils/meth';
 const FormItem = Form.Item;
 const { RangePicker } = DatePicker;
 const dateFormat = 'YYYY-MM-DD';
@@ -12,9 +12,23 @@ class Searchform extends React.Component {
         lastCosumeTimeST:'',
         lastCosumeTimeET:''
     };
+    componentDidMount(){
+        this.getNowFormatDate();
+    }
+    getNowFormatDate = () => {
+       const startRpDate=timeForMat(30).t2;
+       const endRpDate=timeForMat(30).t1
+       this.setState({
+           lastCosumeTimeST:startRpDate,
+           lastCosumeTimeET:endRpDate
+       },function(){
+           this.handleSearch();
+       })
+   }
     //点击搜索按钮获取搜索表单数据
     handleSearch = (e) => {
         this.props.form.validateFields((err, values) => {
+            delete values.lastCosumeTime;
             values.firstCosumeTimeST=this.state.firstCosumeTimeST
             values.firstCosumeTimeET=this.state.firstCosumeTimeET
             values.lastCosumeTimeST=this.state.lastCosumeTimeST
@@ -61,20 +75,24 @@ class Searchform extends React.Component {
                                 </FormItem>
                                 <FormItem label='初次消费时间'>
                                     {getFieldDecorator('firstCosumeTime')(
-                                        <RangePicker  
-                                            format={dateFormat} 
+                                        <RangePicker
+                                            format={dateFormat}
                                             onChange={this.startDateChange.bind(this)}
                                             />
                                     )}
                                 </FormItem>
                                 <FormItem label='最后消费时间'>
-                                    {getFieldDecorator('lastCosumeTime')(
-                                        <RangePicker  
-                                            format={dateFormat} 
+                                    {getFieldDecorator('lastCosumeTime',{
+                                      initialValue:this.state.lastCosumeTimeST
+                                        ?[moment(this.state.lastCosumeTimeST), moment(this.state.lastCosumeTimeET)]
+                                        :null
+                                    })(
+                                        <RangePicker
+                                            format={dateFormat}
                                             onChange={this.endDateChange.bind(this)}
                                             />
                                     )}
-                                </FormItem> 
+                                </FormItem>
                             </div>
                         </Row>
                     </Col>
@@ -84,9 +102,6 @@ class Searchform extends React.Component {
                 </div>
             </Form>
         );
-    }
-    componentDidMount(){
-        this.handleSearch()
     }
 }
 

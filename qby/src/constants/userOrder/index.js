@@ -6,6 +6,7 @@ import Qtable from '../../components/Qtable/index';
 import Qpagination from '../../components/Qpagination/index';
 import FilterForm from './FilterForm/index'
 import Columns from './columns/index';
+import {timeForMats} from '../../utils/meth';
 import moment from 'moment';
 const confirm = Modal.confirm;
 
@@ -26,11 +27,26 @@ class UserOrder extends Component {
     }
   }
   componentWillMount() {
-    this.props.dispatch({
-        type:'userorders/fetchList',
-        payload:{}
-    });
+    this.getNowFormatDate();
   }
+  getNowFormatDate = () => {
+   const startRpDate=timeForMats(30).t2;
+   const endRpDate=timeForMats(30).t1;
+   const {field} = this.state;
+   this.setState({
+     field:{
+       ...field,
+       dateTimeST:startRpDate,
+       dateTimeET:endRpDate,
+       }
+     },function(){
+       this.searchData({
+         dateTimeST:startRpDate,
+         dateTimeET:endRpDate
+       });
+   })
+ }
+
   //操作
   handleOperateClick(record) {
     const paneitem = {
@@ -107,6 +123,7 @@ class UserOrder extends Component {
     })
   }
   render() {
+    console.log(this.state.field)
     //导出数据按钮是否显示
 		const exportUserorderData=this.props.data.rolelists.find((currentValue,index)=>{
 			return currentValue.url=="qerp.web.sys.doc.task"

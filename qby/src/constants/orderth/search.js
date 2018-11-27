@@ -1,5 +1,7 @@
 import { Form, Row, Col, Input, Button, Icon,Select ,DatePicker} from 'antd';
 import { connect } from 'dva';
+import moment from 'moment';
+import {timeForMat} from '../../utils/meth';
 const FormItem = Form.Item;
 const Option = Select.Option
 const RangePicker = DatePicker.RangePicker;
@@ -12,6 +14,19 @@ class OrderthSearchForm extends React.Component {
         finishTimeST:'',
         finishTimeET:''
     };
+    componentDidMount(){
+        this.getNowFormatDate();
+    }
+    getNowFormatDate = () =>{
+       const startRpDate=timeForMat(30).t2
+       const endRpDate=timeForMat(30).t1
+       this.setState({
+           createTimeST:startRpDate,
+           createTimeET:endRpDate
+       },function(){
+           this.handleSearch();
+       })
+   }
 
   //点击搜索按钮获取搜索表单数据
   handleSearch = (e) => {
@@ -37,12 +52,12 @@ class OrderthSearchForm extends React.Component {
             payload:{code:'qerp.web.ws.asn.query',values:values}
         });
         this.props.dispatch({ type: 'tab/loding', payload:true});
-    }  
+    }
 
     //同步data
     syncState=(values)=>{
         values.type=this.state.type;
-        
+
         values.createTimeST = this.state.createTimeST;
         values.createTimeET = this.state.createTimeET;
         values.finishTimeST = this.state.finishTimeST;
@@ -112,10 +127,14 @@ class OrderthSearchForm extends React.Component {
                                         <RangePicker
                                             showTime
                                             format="YYYY-MM-DD"
+                                            value={this.state.createTimeST?
+                                                    [moment(this.state.createTimeST), moment(this.state.createTimeET)]
+                                                    :null
+                                                }
                                             onChange={this.hindDateChange.bind(this,1)}
                                         />
                                     }
-                                </FormItem> 
+                                </FormItem>
                                 {/* 添加完成时间 */}
                                 <FormItem label='完成时间'>
                                     {
@@ -125,7 +144,7 @@ class OrderthSearchForm extends React.Component {
                                             onChange={this.hindDateChange.bind(this,2)}
                                         />
                                     }
-                                </FormItem> 
+                                </FormItem>
                             </div>
                         </Row>
                     </Col>
@@ -135,10 +154,6 @@ class OrderthSearchForm extends React.Component {
                 </div>
             </Form>
         );
-    }
-
-    componentDidMount(){
-        
     }
 }
 function mapStateToProps(state) {

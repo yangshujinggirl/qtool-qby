@@ -8,6 +8,7 @@ import FilterForm from './FilterForm/index'
 import { createBpushApi } from '../../../services/activity/bPush'
 import './index'
 import moment from 'moment';
+import {timeForMats} from '../../../utils/meth';
 
 class Bpush extends Component{
   constructor(props){
@@ -32,6 +33,26 @@ class Bpush extends Component{
          onChange:this.onChange
        }
     }
+  }
+  componentWillMount() {
+    this.getNowFormatDate();
+  }
+  getNowFormatDate = () => {
+   const startRpDate=timeForMats(30).t2;
+   const endRpDate=timeForMats(30).t1;
+   const {field} = this.state;
+   this.setState({
+     field:{
+       ...field,
+       pushTimeST:startRpDate,
+       pushTimeET:endRpDate,
+       }
+     },function(){
+       this.searchData({
+         pushTimeST:startRpDate,
+         pushTimeET:endRpDate
+       });
+   })
   }
   componentWillReceiveProps(props) {
     this.setState({
@@ -78,7 +99,7 @@ class Bpush extends Component{
   onShowSizeChange =({currentPage,limit})=> {
     this.props.dispatch({
       type:'bPush/fetchList',
-      payload:{currentPage,limit}
+      payload:{currentPage,limit,...this.state.field}
     });
   }
   //搜索框数据发生变化
@@ -89,13 +110,6 @@ class Bpush extends Component{
       _values.endTime = moment(rangePicker[1]).format('YYYY-MM-DD HH:mm:ss');;
     }
     this.setState({field:_values});
-  }
-  //初始化数据
-  componentWillMount(){
-    this.props.dispatch({
-      type:'bPush/fetchList',
-      payload:{}
-    })
   }
   //新增推送
   addPush =()=> {

@@ -1,6 +1,8 @@
 import { Form, Row, Col, Input, Button, Icon,Select ,DatePicker,message} from 'antd';
 import { connect } from 'dva';
 import {GetServerData} from '../../services/services';
+import moment from 'moment';
+import {timeForMat} from '../../utils/meth';
 const FormItem = Form.Item;
 const Option = Select.Option
 const RangePicker = DatePicker.RangePicker;
@@ -31,6 +33,20 @@ class OrderdbSearchForm extends React.Component {
         finishTimeStart:null,
         finishTimeEnd:null
     };
+    componentDidMount(){
+        this.getNowFormatDate();
+        this.wslist();
+    }
+    getNowFormatDate = () => {
+       const startRpDate=timeForMat(30).t2
+       const endRpDate=timeForMat(30).t1
+       this.setState({
+           createTimeStart:startRpDate,
+           createTimeEnd:endRpDate
+       },function(){
+           this.handleSearch();
+       });
+   }
 
     //点击搜索按钮获取搜索表单数据
     handleSearch = (e) => {
@@ -133,6 +149,10 @@ class OrderdbSearchForm extends React.Component {
                                 <FormItem label='下单时间'>
                                     <RangePicker
                                         format="YYYY-MM-DD"
+                                        value={this.state.createTimeStart?
+                                                [moment(this.state.createTimeStart), moment(this.state.createTimeEnd)]
+                                              :null
+                                          }
                                         onChange={this.hindDateChange1.bind(this)}
                                     />
                                 </FormItem>
@@ -140,7 +160,7 @@ class OrderdbSearchForm extends React.Component {
                                     <RangePicker
                                         format="YYYY-MM-DD"
                                         onChange={this.hindDateChange2.bind(this)}
-                                    />     
+                                    />
                                 </FormItem>
 
 
@@ -155,11 +175,6 @@ class OrderdbSearchForm extends React.Component {
                 </div>
             </Form>
         );
-    }
-
-    componentDidMount(){
-        this.wslist();
-        this.handleSearch()
     }
 }
 

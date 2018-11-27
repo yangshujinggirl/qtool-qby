@@ -13,7 +13,7 @@ class Qpagination extends Component {
     currentPage = 0;
     let params = {
       currentPage,
-      limit:pageSize
+      limit:pageSize,
     }
     this.props.onShowSizeChange&&this.props.onShowSizeChange(params)
   }

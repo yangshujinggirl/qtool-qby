@@ -1,5 +1,7 @@
 import { Form, Row, Col, Input, Button, Icon,Select ,DatePicker} from 'antd';
 import { connect } from 'dva';
+import {timeForMats} from '../../utils/meth';
+import moment from 'moment';
 const FormItem = Form.Item;
 const Option = Select.Option
 const RangePicker = DatePicker.RangePicker;
@@ -9,7 +11,19 @@ class OperateinoutSearchForm extends React.Component {
         dateStart: '',
         dateEnd:''
     };
-
+    componentDidMount(){
+        this.getNowFormatDate();
+    }
+    getNowFormatDate = () => {
+       const startRpDate=timeForMats(30).t2
+       const endRpDate=timeForMats(30).t1
+       this.setState({
+           dateStart:startRpDate,
+           dateEnd:endRpDate
+       },function(){
+           this.handleSearch();
+       })
+   }
   //点击搜索按钮获取搜索表单数据
   handleSearch = (e) => {
     this.props.form.validateFields((err, values) => {
@@ -17,8 +31,6 @@ class OperateinoutSearchForm extends React.Component {
         this.syncState(values);
     });
   }
-
-
   //搜索请求数据
   initList=(values,limit,currentPage)=>{
         values.dateStart=this.state.dateStart;
@@ -92,6 +104,10 @@ class OperateinoutSearchForm extends React.Component {
                                             <RangePicker
                                                 showTime
                                                 format="YYYY-MM-DD HH:mm:ss"
+                                                value={this.state.dateStart?
+                                                        [moment(this.state.dateStart), moment(this.state.dateEnd)]
+                                                        :null
+                                                    }
                                                 onChange={this.hindDateChange.bind(this)}
                                             />
                                         }
@@ -106,8 +122,6 @@ class OperateinoutSearchForm extends React.Component {
             </Form>
         );
     }
-
-    componentDidMount(){}
 }
 function mapStateToProps(state) {
     // const {currentPage} = state.operateinout;
