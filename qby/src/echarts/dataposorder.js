@@ -105,7 +105,7 @@ class EchartsTest extends Component {
         // 绘制图表
         myChart.setOption({
             title: {
-                text: '订单变化趋势图'
+                text: '订单变化趋势'
             },
             tooltip: {
                 trigger: 'axis'
