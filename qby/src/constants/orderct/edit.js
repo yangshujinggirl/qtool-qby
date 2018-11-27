@@ -5,6 +5,7 @@ import { connect } from 'dva';
 import { Form, Select, Input, Button ,message,Modal, Row, Col,DatePicker,Radio,AutoComplete,Cascader } from 'antd';
 import moment from 'moment';
 import GoodsInfoTable from './goodsTable';
+import {getTaxRateApi} from "../../services/orderct.js"
 const FormItem = Form.Item;
 const Option = Select.Option;
 const RadioGroup = Radio.Group;
@@ -14,12 +15,14 @@ class OrderctEditForm extends React.Component{
 	constructor(props) {
 		super(props);
 		this.state = {
-						loading:false,
-            dataSource:[],
-            residences:[],
-            //请求的仓库列表信息
-            warehouses:[],
-            taxRateDisabled:false
+			loading:false,
+      dataSource:[],
+      residences:[],
+      //请求的仓库列表信息
+      warehouses:[],
+      taxRateDisabled:false,
+			suppliers:"",
+			taxRate:"",
 		}
 	}
 
@@ -28,11 +31,11 @@ class OrderctEditForm extends React.Component{
 		const pane = eval(sessionStorage.getItem("pane"));
 		if(pane.length<=1){
 			return
-		}
-        this.props.dispatch({
-            type:'tab/initDeletestate',
-            payload:'204000edit'
-        });
+		};
+    this.props.dispatch({
+        type:'tab/initDeletestate',
+        payload:'204000edit'
+    });
 	}
 
 	//刷新列表
@@ -40,93 +43,99 @@ class OrderctEditForm extends React.Component{
 		this.props.dispatch({
             type:'orderct/fetch',
             payload:{code:'qerp.web.sp.ctorder.query',values:this.props.values}
-		})
+		});
 		this.props.dispatch({ type: 'tab/loding', payload:true})
 	}
-
-
 	//初始化state
 	initState=()=>{
 		this.props.form.resetFields();
-    }
-
-    onSelect=(value)=>{
-        let tempFormvalue = this.props.formValue;
-        tempFormvalue.supplierId = value;
-        this.props.dispatch({
-            type:'orderct/syncEditInfo',
-            payload:tempFormvalue
-        });
-    }
-
-    handleSearch = (value) => {
-        let tempFormvalue = this.props.formValue;
-        tempFormvalue.supplierId = null;
-        this.props.dispatch({
-            type:'orderth/syncEditInfo',
-            payload:tempFormvalue
-        });
-        let values={name:value}
-        const result=GetServerData('qerp.web.pd.supplier.list',values)
-            result.then((res) => {
-                return res;
-            }).then((json) => {
-                if(json.code=='0'){
-                    const suppliers=json.suppliers
-                    var valuess=[]
-                    for(var i=0;i<suppliers.length;i++){
-                        valuess.push({
-                            text:suppliers[i].name,
-                            value:suppliers[i].pdSupplierId
-                        })
-                    }
-                    this.setState({
-                        dataSource: valuess
-                    });
-                }
-            })
-    }
+  }
+  onSelect=(value)=>{
+    let tempFormvalue = this.props.formValue;
+    tempFormvalue.supplierId = value;
+		let {suppliers} = this.state;
+		let selectedSuppliers = suppliers.filter(item=>{
+			return item.pdSupplierId == value
+		});
+    this.props.dispatch({
+        type:'orderct/syncEditInfo',
+        payload:tempFormvalue
+    });
+  }
+  handleSearch = (value) => {
+    let tempFormvalue = this.props.formValue;
+    tempFormvalue.supplierId = null;
+    this.props.dispatch({
+        type:'orderth/syncEditInfo',
+        payload:tempFormvalue
+    });
+    let values={name:value}
+    const result=GetServerData('qerp.web.pd.supplier.list',values)
+      result.then((res) => {
+          return res;
+      }).then((json) => {
+        if(json.code=='0'){
+          let suppliers=json.suppliers;
+          var valuess=[]
+          for(var i=0;i<suppliers.length;i++){
+            valuess.push({
+              text:suppliers[i].name,
+              value:suppliers[i].pdSupplierId
+            });
+          }
+          this.setState({
+            dataSource: valuess,
+						suppliers
+          });
+        };
+      })
+  }
 
 	//保存
 	handleSubmit = (e) => {
 		e.preventDefault();
 		this.props.form.validateFields((err, values) => {
-		    if (!err) {
-								this.setState({loading:true});
-                let data = values;
-                data.details = this.props.goodsInfo;
-                data.supplierId = this.props.formValue.supplierId;
-                data.recProvinceId = values.recCity[0];
-                data.recCityId = values.recCity[1];
-                data.recDistrictId = values.recCity[2];
-                 const result=GetServerData('qerp.web.sp.ctorder.save',data);
-                result.then((res) => {
-                    return res;
-                }).then((json) => {
-                    if(json.code=='0'){
-											message.success('采退单创建成功',.8);
-											this.deleteTab();
-											this.refreshList();
-									    this.initState();
-											this.setState({loading:false});
-                    }else{
-											this.setState({loading:false});
-										}
-                })
-            }else{
-                return false;
-								this.setState({loading:false});
-            }
-        });
+	    if (!err) {
+				this.setState({loading:true});
+        let data = values;
+        data.details = this.props.goodsInfo;
+        data.supplierId = this.props.formValue.supplierId;
+        data.recProvinceId = values.recCity[0];
+        data.recCityId = values.recCity[1];
+        data.recDistrictId = values.recCity[2];
+				if(data.taxRate == "不含税"){
+					data.taxRate = null;
+					data.taxRateType = 0;
+				}else{
+					data.taxRate = parseInt(data.taxRate);
+					data.taxRateType = 1;
+				};
+       	const result=GetServerData('qerp.web.sp.ctorder.save',data);
+        result.then((res) => {
+            return res;
+        }).then((json) => {
+          if(json.code=='0'){
+						message.success('采退单创建成功',.8);
+						this.deleteTab();
+						this.refreshList();
+				    this.initState();
+						this.setState({loading:false});
+          }else{
+						this.setState({loading:false});
+					};
+        })
+      }else{
+        return false;
+				this.setState({loading:false});
+      };
+    });
 	}
-
 	//取消
 	hindCancel=()=>{
 		this.deleteTab()
 		this.refreshList()
-    }
-
-    //收货仓库列表
+  }
+  //收货仓库列表
 	warehouseList = () =>{
 		let value={type:1};
 		const result=GetServerData('qerp.web.ws.warehouse.all.list',value);
@@ -137,32 +146,22 @@ class OrderctEditForm extends React.Component{
 				warehouses:json.warehouses
 			})
 		})
-    }
-
-    RadioChangeTaxRate=(e)=>{
-        if(e.target.value=='1'){
-            this.setState({
-                taxRateDisabled:false
-            })
-        }else{
-            let tempFormvalue =  deepcCloneObj(this.props.formValue);
-            tempFormvalue.taxRate = '';
-            this.props.dispatch({
-                type:'orderct/syncEditInfo',
-                payload:tempFormvalue
-            });
-            this.setState({
-                taxRateDisabled:true
-            },function(){
-                this.props.form.setFieldsValue({
-                    taxRate:String(tempFormvalue.taxRate)
-                })
-            })
-        }
-    }
-
+  }
+	getTaxtRate =(e)=>{ //通过采购订单号获取税率
+			const value=e.target.value;
+			console.log(value);
+			getTaxRateApi({asnNo:value})
+			.then((res)=>{
+				if(res.code == 0){
+					if(res.asns && res.asns[0]){
+						this.setState({taxRate:res.asns[0].taxRate})
+					};
+				};
+ 			})
+		}
   	render(){
-		const { getFieldDecorator } = this.props.form;
+			const {taxRate} = this.state;
+			const { getFieldDecorator } = this.props.form;
      	return(
           	<Form className="addUser-form addcg-form">
                 <FormItem
@@ -188,7 +187,7 @@ class OrderctEditForm extends React.Component{
 									{getFieldDecorator('wsAsnNo', {
 										rules: [{ required: true, message: '请输入采购订单'}],
 									})(
-										<Input placeholder="请输入采购订单" autoComplete="off"/>
+										<Input onBlur={this.getTaxtRate} placeholder="请输入采购订单" autoComplete="off"/>
 									)}
 								</FormItem>
                 <FormItem
@@ -225,34 +224,14 @@ class OrderctEditForm extends React.Component{
 										</Select>
               		)}
             		</FormItem>
-                <FormItem
-									label="是否含税"
-									labelCol={{ span: 3,offset: 1 }}
-									wrapperCol={{ span: 6 }}>
-									{getFieldDecorator('taxRateType', {
-										rules: [{ required: true, message: '请选择是否含税' }],
-									})(
-										<RadioGroup onChange={this.RadioChangeTaxRate.bind(this)}>
-											<Radio value="1">是</Radio>
-											<Radio value="0">否</Radio>
-										</RadioGroup>
-									)}
-								</FormItem>
 								<FormItem
 									label="含税税率"
 									labelCol={{ span: 3,offset: 1}}
 									wrapperCol={{ span: 6 }}>
 									{getFieldDecorator('taxRate', {
+										initialValue:taxRate!=null ? taxRate+'%' :"不含税"
 									})(
-										<Select  placeholder="请选择含税税率" disabled={this.state.taxRateDisabled}>
-											<Option value='0'>0%</Option>
-											<Option value='3'>3%</Option>
-											<Option value='6'>6%</Option>
-											<Option value='10'>10%</Option>
-											<Option value='11'>11%</Option>
-											<Option value='16'>16%</Option>
-											<Option value='17'>17%</Option>
-										</Select>
+										<Input placeholder="请输入含税税率"  autoComplete="off" disabled/>
 									)}
 								</FormItem>
                 <FormItem

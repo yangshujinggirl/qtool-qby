@@ -149,6 +149,7 @@ export default {
             const result=isInArray(pane,paneitem.key);
             if(!result){
                 const itemkey=paneitem.key.search('edit')
+                console.log(itemkey)
                 if(itemkey!=-1){
                     //二级
                     const arr=pane.filter((pane)=>{

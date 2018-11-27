@@ -37,7 +37,9 @@ class NormalForm extends Component{
           <div className='search-form-outwrap'>
               <div className="search-form-wrap">
                 <FormItem label='优惠券批次号'>
-                  {getFieldDecorator('couponCode')(
+                  {getFieldDecorator('couponCode',{
+                    initialValue:this.props.couponCode
+                  })(
                       <Input placeholder='反馈编号' autoComplete="off"/>
                     )}
                 </FormItem>

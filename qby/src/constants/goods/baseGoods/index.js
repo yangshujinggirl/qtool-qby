@@ -14,10 +14,12 @@ class BaseGoods extends Component {
     this.state = {
       componkey:this.props.componkey,
       fields: {
+         pdSpuId:"",
          code:'',
          name:'',
          pdBrandName:'',
          pdCategory1Id:'',
+         pdCategory2Id:"",
          infoStatus:'',
          source:''
        },

@@ -10,6 +10,7 @@ class CouponRecord extends Component{
     super(props);
     this.state ={
       componkey:this.props.componkey,
+      couponCode:"",
       field:{
         couponCode:'',
         userMobiles:'',
@@ -57,16 +58,27 @@ class CouponRecord extends Component{
   }
   //初始化数据
   componentWillMount(){
-    this.props.dispatch({
-      type:'coupon/fetchAddCouponList',
-      payload:{}
-    })
+    if(this.props.data){
+      this.props.dispatch({
+        type:'coupon/fetchAddCouponList',
+        payload:{couponCode:this.props.data.couponCode}
+      });
+      this.setState({
+        couponCode:this.props.data.couponCode
+      })
+    }else{
+      this.props.dispatch({
+        type:'coupon/fetchAddCouponList',
+        payload:{}
+      })
+    }
   }
   render(){
     const { dataList } = this.props.coupon.data2;
     return(
       <div>
         <FilterForm
+          couponCode={this.state.couponCode}
           submit={this.searchData}
           onValuesChange = {this.searchDataChange}
         />

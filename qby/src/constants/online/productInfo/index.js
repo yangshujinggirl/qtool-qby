@@ -24,6 +24,7 @@ class BtipGoods extends Component {
       selecteKeys:[],
       tips:'',
       fields: {
+         pdSpuId:'',
          code:'',
          oname:'',
          barCode:'',

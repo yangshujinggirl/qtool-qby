@@ -7,7 +7,14 @@ class SpTable extends React.Component {
 		super(props);
 		this.columns = [{
 			title: '门店名称',
-			dataIndex: 'name'
+			dataIndex: 'name',
+			render: (text, record) => {
+				return (
+					this.props.mdDetail
+					? <TableLink type={'1'} text={text} hindClick={this.editInfo.bind(this,record,"info")}/>
+					:	<span>{text}</span>
+				);
+			}
 		}, {
 			title: '门店电话',
 			dataIndex: 'mobile'
@@ -34,14 +41,21 @@ class SpTable extends React.Component {
 			dataIndex: 'opation',
 			render: (text, record) => {
 				return (
-					<TableLink type={'1'} text='修改' hindClick={this.editInfo.bind(this,record)}/>
+					<TableLink type={'1'} text='修改' hindClick={this.editInfo.bind(this,record,"edit")}/>
 				);
 			}
 		}]
 
 		this.columnsrole = [{
 			title: '门店名称',
-			dataIndex: 'name'
+			dataIndex: 'name',
+			render: (text, record) => {
+				return (
+					this.props.mdDetail
+					? <TableLink type={'1'} text={text} hindClick={this.editInfo.bind(this,record,"info")}/>
+					:	<span>{text}</span>
+				);
+			}
 		}, {
 			title: '门店电话',
 			dataIndex: 'mobile'
@@ -64,13 +78,23 @@ class SpTable extends React.Component {
 	}
 
 	//点击表格上的修改按钮操作
-	editInfo = (record) =>{
+	editInfo = (record,type) =>{
 		const spShopId=String(record.spShopId);
-		const paneitem={title:'修改门店',key:'403000edit'+spShopId,data:{spShopId:spShopId},componkey:'403000edit'}
-		this.props.dispatch({
-			type:'tab/firstAddTab',
-			payload:paneitem
-		})
+		if(type=="edit"){
+			console.log("edit")
+			const paneitem={title:'修改门店',key:'403000edit'+spShopId,data:{spShopId:spShopId},componkey:'403000edit'}
+			this.props.dispatch({
+				type:'tab/firstAddTab',
+				payload:paneitem
+			});
+		}else{
+			console.log("info")
+			const paneitem={title:'门店详情',key:'403000edit'+"info"+spShopId,data:{spShopId:spShopId},componkey:'403000info'}
+			this.props.dispatch({
+				type:'tab/firstAddTab',
+				payload:paneitem
+			});
+		}
 	}
 
 	//分页方法

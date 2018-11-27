@@ -52,6 +52,9 @@ class GoodsDetail extends Component {
     return(
       <div className="btip-add-goods-components">
         <Form>
+          <FormItem label="SPU ID" {...formItemLayout}>
+            <label>{pdSpu.pdSpuId}</label>
+    			</FormItem>
     			<FormItem
     				label="商品名称" {...formItemLayout}>
             <label>{pdSpu.name}</label>

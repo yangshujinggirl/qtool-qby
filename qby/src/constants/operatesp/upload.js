@@ -1,4 +1,4 @@
-import { Upload, Icon, Modal } from 'antd';
+import { Upload, Icon, Modal, message } from 'antd';
 import { connect } from 'dva';
 
 class PicturesWall extends React.Component {
@@ -15,7 +15,7 @@ class PicturesWall extends React.Component {
         }
         const isLt2M = file.size / 1024 / 1024 < 2;
         if (!isLt2M) {
-        message.error('图片文件需小于2MB',.8);
+        message.error('上传内容大于2M，请选择2M以内的文件',.8);
         }
         return (isJPG || isPNG) && isLt2M;
     }
@@ -30,26 +30,27 @@ class PicturesWall extends React.Component {
     }
 
     handleChange = ({fileList }) =>{
+      if( (fileList[0] && fileList[0].status) || !fileList[0] ){
         this.setState({ fileList })
         var res=fileList.every(function(item){
-                return item.status=='done'
-        })
+          return item.status=='done'
+        });
         if(res==true){
-            const  spShopPics=[]
-            for(var i=0;i<fileList.length;i++){
-                spShopPics.push(fileList[i].response.data[0])
-            }
-            this.props.dispatch({
-                type:'operatesp/spShopPics',
-                payload:spShopPics
-            })
-        }
+          const  spShopPics=[]
+          for(var i=0;i<fileList.length;i++){
+            spShopPics.push(fileList[i].response.data[0])
+          };
+          this.props.dispatch({
+            type:'operatesp/spShopPics',
+            payload:spShopPics
+          });
+        };
+      };
     }
-
     setinit=(values)=>{
-        this.setState({
-            fileList:values
-        })
+      this.setState({
+          fileList:values
+      });
     }
     render() {
         const { previewVisible, previewImage, fileList } = this.state;
@@ -72,7 +73,7 @@ class PicturesWall extends React.Component {
                 >
                     {fileList.length >= 3 ? null : uploadButton}
                 </Upload>
-                <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
+                <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel} wrapClassName='billModal'>
                     <img alt="example" style={{ width: '100%' }} src={previewImage} />
                 </Modal>
         </div>
