@@ -155,13 +155,13 @@ const DeliveryOption=[{
 //下单平台
 const PlatformOption=[{
           key:1,
-          value:'IOS,',
+          value:'Qtools App ios端,',
         },{
           key:2,
-          value:'ANDROID',
+          value:'Qtools App  安卓端',
         },{
           key:3,
-          value:'APPLET',
+          value:'小程序',
         }]
 export default {
   NumberOption,

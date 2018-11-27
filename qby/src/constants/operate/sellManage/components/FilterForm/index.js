@@ -35,9 +35,9 @@ class NormalForm extends Component {
         <Form className="qtools-condition-form">
           <div className='search-form-outwrap'>
             <div className="search-form-wrap">
-              <FormItem label='商品名称'>
+              <FormItem label='门店名称'>
                  {getFieldDecorator('spShopName')(
-                   <Input placeholder="请输入商品名称" autoComplete="off"/>
+                   <Input placeholder="请输入门店名称" autoComplete="off"/>
                  )}
                </FormItem>
               <FormItem label='配送方式'>

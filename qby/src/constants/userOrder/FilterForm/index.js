@@ -63,11 +63,17 @@ class NormalForm extends Component {
                    <Input placeholder="请输入用户电话" autoComplete="off"/>
                  )}
                </FormItem>
-              <FormItem label='订单状态'>
-                 {getFieldDecorator('status')(
-                   <Input placeholder="请输入用户电话" autoComplete="off"/>
-                 )}
-               </FormItem>
+               <FormItem label='订单状态'>
+                  {getFieldDecorator('orderStatus')(
+                    <Select allowClear={true} placeholder="请选择订单状态">
+                      {
+                        ProcesasStatusOption.map((el) => (
+                          <Option value={el.key} key={el.key}>{el.value}</Option>
+                        ))
+                      }
+                    </Select>
+                  )}
+                </FormItem>
               <FormItem label='下单平台'>
                  {getFieldDecorator('platform')(
                    <Select allowClear={true} placeholder="请选择下单平台">
@@ -84,17 +90,6 @@ class NormalForm extends Component {
                    <Select allowClear={true} placeholder="请选择配送方式">
                      {
                        DeliveryOption.map((el) => (
-                         <Option value={el.key} key={el.key}>{el.value}</Option>
-                       ))
-                     }
-                   </Select>
-                 )}
-               </FormItem>
-              <FormItem label='流程状态'>
-                 {getFieldDecorator('orderStatus')(
-                   <Select allowClear={true} placeholder="请选择流程状态">
-                     {
-                       ProcesasStatusOption.map((el) => (
                          <Option value={el.key} key={el.key}>{el.value}</Option>
                        ))
                      }
