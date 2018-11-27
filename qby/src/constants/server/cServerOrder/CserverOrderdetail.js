@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import { Card, Table, Row, Col } from 'antd';
 import moment from 'moment';
+import Imgmodel from '../../../components/model/modelimg';
 import './CserverOrderdetail.less';
 
 
@@ -38,17 +39,9 @@ class CserverOrderdetail extends  Component {
       payload:{udeskTicketId:this.props.data.udeskTicketId}
     })
   }
-  formatDom(value) {
-    console.log(value)
-    if(!value) {
-      return ''
-    }
-    value = JSON.parse(value);
-    return value
-  }
+
   render() {
     const { detailInfo, fileDomain } =this.props.cServerOrder;
-    console.log(detailInfo)
     return (
       <div className="cserver-order-detail-pages">
         <div className="cserver-page-wrap">
@@ -90,7 +83,10 @@ class CserverOrderdetail extends  Component {
                             {
                               detailInfo.udeskTicketVo.picPathResult.map((el,index) => (
                                 <div className="img-item" key={index}>
-                                  <img src={el}></img>
+                                  <div className="table-img-wrap">
+                                    <Imgmodel picUrl={el} ishasFileDomin={true}/>
+                                  </div>
+                                  {/* <img src={el}></img> */}
                                 </div>
                               ))
                             }
