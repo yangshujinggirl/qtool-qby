@@ -122,7 +122,7 @@ const ProcesasStatusOption = [{
         },
         {
           key:70,
-          value:'用户已提货'
+          value:'已完成'
         },
         {
           key:20,
@@ -135,12 +135,7 @@ const ProcesasStatusOption = [{
         {
           key:50,
           value:'用户支付后取消'
-        },
-        {
-          key:-10,
-          value:'已发货'
-        },
-      ]
+        }]
 //配送方式
 const DeliveryOption=[{
           key:1,
