@@ -121,6 +121,10 @@ class OrderctSearchForm extends React.Component {
                                         <RangePicker
                                             showTime
                                             format="YYYY-MM-DD"
+                                            value={this.state.createTimeST?
+                                                    [moment(this.state.createTimeST), moment(this.state.createTimeET)]
+                                                    :null
+                                                }
                                             onChange={this.hindDateChange.bind(this,1)}
                                         />
                                     }
@@ -131,10 +135,6 @@ class OrderctSearchForm extends React.Component {
                                         <RangePicker
                                             showTime
                                             format="YYYY-MM-DD"
-                                            value={this.state.createTimeST?
-                                                    [moment(this.state.createTimeST), moment(this.state.createTimeET)]
-                                                    :null
-                                                }
                                             onChange={this.hindDateChange.bind(this,2)}
                                         />
                                     }
