@@ -64,11 +64,8 @@ class SellManage extends Component {
   exportData =()=> {
     let { time, ...params} = this.state.fields;
     if(time&&time.length>0) {
-      params.dateTimeST = moment(time[0]).format('YYYY-MM-DD');
-      params.dateTimeET = moment(time[1]).format('YYYY-MM-DD');
-    } else {
-      params.dateTimeST = '';
-      params.dateTimeET = '';
+      params.dateTimeST = moment(time[0]).format('YYYY-MM-DD HH:mm:ss');
+      params.dateTimeET = moment(time[1]).format('YYYY-MM-DD HH:mm:ss');
     }
     const values ={type:78,downloadParam:{...params}}
     exportDataApi(values)

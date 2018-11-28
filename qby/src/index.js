@@ -176,7 +176,7 @@ const models = [
   bAddAnswer,
   onAudit,
   sellManage,
-  freightDetail
+  freightDetail,
   cServerOrder,
 ]
 

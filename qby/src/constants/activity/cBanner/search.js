@@ -69,6 +69,7 @@ class OperatebannerSearchForm extends React.Component {
                                     <Select allowClear={true} placeholder="请选择展示平台">
                                         <Option value='1' key='1'>Qtools App</Option>
                                         <Option value='2' key='2'>Qtools 小程序</Option>
+                                        <Option value='12' key='12'>Qtools App+小程序</Option>
                                     </Select>
                                     )}
                                 </FormItem>

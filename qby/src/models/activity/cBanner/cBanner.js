@@ -38,24 +38,26 @@ export default {
     },
     effects: {
       *fetch({ payload: {code,values} }, { call, put ,select}) {
-          const result=yield call(GetServerData,code,values);
-          yield put({type: 'tab/loding',payload:false});
-          if(result.code=='0'){
-              const tableList = result.pdBanners;
-              const limit=result.limit;
-              const currentPage=result.currentPage;
-              const total=result.total;
-              for(var i=0;i<tableList.length;i++){
-                  tableList[i].key=tableList[i].pdBannerId;
-              }
-              yield put({type: 'syncTableList',payload:{tableList,total,limit,currentPage}});
-          }
+        yield put({type: 'tab/loding',payload:true});
+        const result=yield call(GetServerData,code,values);
+        if(result.code=='0'){
+            const tableList = result.pdBanners;
+            const limit=result.limit;
+            const currentPage=result.currentPage;
+            const total=result.total;
+            for(var i=0;i<tableList.length;i++){
+                tableList[i].key=tableList[i].pdBannerId;
+            }
+            yield put({type: 'syncTableList',payload:{tableList,total,limit,currentPage}});
+        }
+        yield put({type: 'tab/loding',payload:false});
       },
-      *editfetch({ payload: {code,values} }, { call, put }) {
+      *editfetch({ payload: {values} }, { call, put }) {
+        const code = 'qerp.web.pd.cbanner.info';
+        yield put({type: 'tab/loding',payload:true});
   			const result=yield call(GetServerData,code,values);
-  			yield put({type: 'tab/loding',payload:false});
   			if(result.code=='0'){
-          const { pdBanner } =result;
+            const { pdBanner } =result;
             let formValue = {};
             formValue.name = pdBanner.name;
             formValue.status = String(pdBanner.status);
@@ -65,11 +67,12 @@ export default {
               formValue.platform = ['1']
             } else if(pdBanner.displayplatform == '2') {
               formValue.platform = ['2']
-            } else if(pdBanner.displayplatform == '3') {
+            } else if(pdBanner.displayplatform == '12') {
               formValue.platform = ['1','2']
             }
             yield put({type: 'syncEditInfo',payload:formValue});
   			}
+        yield put({type: 'tab/loding',payload:false});
   		},
   	},
   	subscriptions: {},

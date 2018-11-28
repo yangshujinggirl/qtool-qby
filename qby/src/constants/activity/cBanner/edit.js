@@ -20,17 +20,22 @@ class OperatebannerEditForm extends React.Component{
 		];
 	}
 	componentDidMount(){
+		//修改
 		if(this.props.data){
-			const payload={code:'qerp.web.pd.cbanner.info',values:{'pdBannerId':this.props.data.pdBannerId,type:20}}
-			//请求表单信息
-			this.initDateEdit(payload)
+			this.initDateEdit()
 		}
 	}
 	//请求页面初始化数据
-	initDateEdit = (value) =>{
+	initDateEdit = () =>{
+		const values={
+			'pdBannerId':this.props.data.pdBannerId,
+			type:20
+		}
 	  //请求用户信息
-		this.props.dispatch({type:'cBanner/editfetch',payload:value})
-  	this.props.dispatch({ type: 'tab/loding', payload:true})
+		this.props.dispatch({
+			type:'cBanner/editfetch',
+			payload:{values}
+		})
 	}
 	//删除当前tab
 	deleteTab=()=>{
@@ -53,8 +58,8 @@ class OperatebannerEditForm extends React.Component{
 	//刷新列表
 	refreshList=()=>{
 		this.props.dispatch({
-            type:'cBanner/fetch',
-            payload:{code:'qerp.web.pd.cbanner.list',values:this.props.values}
+      type:'cBanner/fetch',
+      payload:{code:'qerp.web.pd.cbanner.list',values:this.props.values}
 		})
 		this.props.dispatch({ type: 'tab/loding', payload:true})
 	}
