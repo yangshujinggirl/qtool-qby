@@ -47,16 +47,16 @@ const confirm = Modal.confirm;
 	export function timeForMat (count) {
 		// 拼接时间
 		let time1 = new Date()
-	   	time1.setTime(time1.getTime()) //昨天日期
-	   	let Y1 = time1.getFullYear()
-		let M1 = ((time1.getMonth() + 1) >= 10 ? (time1.getMonth() + 1) : '0' + (time1.getMonth() + 1))
-		let D1 = (time1.getDate() >= 10 ? time1.getDate() : '0' + time1.getDate())
+   	time1.setTime(time1.getTime()) //昨天日期
+   	let Y1 = time1.getFullYear()
+    let M1 = ( (time1.getMonth()+1).toString() ).padStart(2,0)
+    let D1 = ( time1.getDate().toString() ).padStart(2,0)
 		let timer1 = Y1 + '-' + M1 + '-' + D1 // 当前时间
 		let time2 = new Date()
 		time2.setTime(time2.getTime() - (24 * 60 * 60 * 1000 * (count-1)))
 		let Y2 = time2.getFullYear()
-		let M2 = ((time2.getMonth() + 1) >= 10 ? (time2.getMonth() + 1) : '0' + (time2.getMonth() + 1))
-		let D2 = (time2.getDate() >= 10 ? time2.getDate() : '0' + time2.getDate())
+    let M2 = ( (time2.getMonth()+1).toString() ).padStart(2,0)
+		let D2 = ( time2.getDate().toString() ).padStart(2,0)
 		let timer2 = Y2 + '-' + M2 + '-' + D2 // 之前的7天或者30天
 		return {
 		 	t1: timer1,
@@ -68,8 +68,8 @@ const confirm = Modal.confirm;
 	export function timeForMattoday (count) {
 		// 拼接时间
 		let time1 = new Date()
-	   	time1.setTime(time1.getTime()) //今天日期
-	   	let Y1 = time1.getFullYear()
+   	time1.setTime(time1.getTime()) //今天日期
+   	let Y1 = time1.getFullYear()
 		let M1 = ((time1.getMonth() + 1) >= 10 ? (time1.getMonth() + 1) : '0' + (time1.getMonth() + 1))
 		let D1 = (time1.getDate() >= 10 ? time1.getDate() : '0' + time1.getDate())
 		let timer1 = Y1 + '-' + M1 + '-' + D1 // 当前时间
@@ -91,15 +91,15 @@ const confirm = Modal.confirm;
 		// 拼接时间
 		let time1 = new Date()
 		time1.setTime(time1.getTime()) //当前日期
-	   	let Y1 = time1.getFullYear()  //当前年
-		let M1 = ((time1.getMonth() + 1) >= 10 ? (time1.getMonth() + 1) : '0' + (time1.getMonth() + 1)) //当前月
-		let D1 = (time1.getDate() >= 10 ? time1.getDate() : '0' + time1.getDate())  //当前天
+   	let Y1 = time1.getFullYear()  //当前年
+		let M1 = ( (time1.getMonth()+1).toString() ).padStart(2,0) //当前月
+		let D1 = ( time1.getDate().toString() ).padStart(2,0)  //当前天
 		let timer1 = Y1 + '-' + M1 + '-' + D1 + ' 23:59:59' // 当前时间
 		let time2 = new Date()
 		time2.setTime(time2.getTime() - (24 * 60 * 60 * 1000 * (count-1)))
 		let Y2 = time2.getFullYear()
-		let M2 = ((time2.getMonth() + 1) >= 10 ? (time2.getMonth() + 1) : '0' + (time2.getMonth() + 1))
-		let D2 = (time2.getDate() >= 10 ? time2.getDate() : '0' + time2.getDate())
+		let M2 = ( (time2.getMonth()+1).toString() ).padStart(2,0)
+		let D2 = ( time2.getDate().toString() ).padStart(2,0)
 		let timer2 = Y2 + '-' + M2 + '-' + D2 + ' 00:00:00' // 之前的7天或者30天
 		return {
 		 	t1: timer1,
