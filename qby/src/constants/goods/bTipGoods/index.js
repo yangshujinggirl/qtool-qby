@@ -36,10 +36,12 @@ class BtipGoods extends Component {
       visible:false,
       handleContent:{},
       fields: {
+         pdSpuId:"",
          code:'',
          bname:'' ,
          pdBrandName: '',
          pdCategory1Id:'',
+         pdCategory2Id:'',
          status:'',
          isNew: '',
          isHot:'',

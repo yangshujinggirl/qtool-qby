@@ -36,10 +36,12 @@ class CtipGoods extends Component {
       visible:false,
       handleContent:{},
       fields: {
+         pdSpuId:"",
          code:'' ,
          cname:'',
          pdBrandName:'',
          pdCategory1Id:'',
+         pdCategory2Id:'',
          cstatus:'',
          isNew:'',
          isHot:'',

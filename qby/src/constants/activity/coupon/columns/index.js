@@ -2,11 +2,11 @@ const Columns = [{
      title: '优惠券批次号',
      dataIndex: 'couponCode',
      render:(text, record)=>{
-           return(
-             <div>
-               <a href="javascript:;" className="theme-color" onClick={record.onOperateClick.bind(this)}>{text}</a>
-             </div>
-           )}
+       return(
+         <div>
+           <a href="javascript:;" className="theme-color" onClick={record.onOperateClick.bind(this,"info")}>{text}</a>
+         </div>
+     )}
    },{
      title: '优惠券名称',
      dataIndex: 'couponName'
@@ -24,7 +24,18 @@ const Columns = [{
      dataIndex: 'couponCount'
    },{
      title: '已经发放数量',
-     dataIndex: 'couponGiveCount'
+     dataIndex: 'couponGiveCount',
+     render:(text, record)=>{
+       return(
+           record.injectRecord
+           ?
+             <div>
+               <a href="javascript:;" className="theme-color" onClick={record.onOperateClick.bind(this,"edit")}>{text}</a>
+             </div>
+           :
+             <span>{text}</span>
+       )
+   }
    },{
      title: '优惠券状态',
      dataIndex: 'statusStr'

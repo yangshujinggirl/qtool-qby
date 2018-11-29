@@ -12,7 +12,7 @@ class OrdermdSearchForm extends React.Component {
         this.state = {
             dateStart: '',
             dateEnd:'',
-            deliveryTimeST:'',
+             deliveryTimeST:'',
             deliveryTimeET:''
       };
     }
@@ -24,8 +24,6 @@ class OrdermdSearchForm extends React.Component {
         this.syncState(values);
     });
   }
-
-
   //搜索请求数据
   initList=(values,limit,currentPage)=>{
         values.dateStart=this.state.dateStart;
@@ -47,7 +45,6 @@ class OrdermdSearchForm extends React.Component {
         values.dateEnd=this.state.dateEnd;
         values.deliveryTimeST=this.state.deliveryTimeST;
         values.deliveryTimeET=this.state.deliveryTimeET;
-
         this.props.dispatch({
             type:'ordermd/synchronous',
             payload:values
@@ -143,18 +140,23 @@ class OrdermdSearchForm extends React.Component {
                                     </Select>
                                     )}
                                 </FormItem>
+                                <FormItem label='创建人'>
+                                  {getFieldDecorator('userName')(
+                                    <Input placeholder="请输入创建人" autoComplete="off"/>
+                                  )}
+                                </FormItem>
                                 <FormItem label='下单时间'>
-                                        {
-                                            <RangePicker
-                                                showTime
-                                                format="YYYY-MM-DD HH:mm:ss"
-                                                value={this.state.dateStart?
-                                                        [moment(this.state.dateStart, 'YYYY-MM-DD HH:mm:ss'), moment(this.state.dateEnd, 'YYYY-MM-DD HH:mm:ss')]
-                                                        :null
-                                                    }
-                                                onChange={this.hindDateChange.bind(this,1)}
-                                            />
-                                        }
+                                  {
+                                    <RangePicker
+                                      showTime
+                                      format="YYYY-MM-DD HH:mm:ss"
+                                      value={this.state.dateStart?
+                                              [moment(this.state.dateStart, 'YYYY-MM-DD HH:mm:ss'), moment(this.state.dateEnd, 'YYYY-MM-DD HH:mm:ss')]
+                                              :null
+                                          }
+                                      onChange={this.hindDateChange.bind(this,1)}
+                                    />
+                                  }
                                 </FormItem>
                                 <FormItem label='发货时间'>
                                         {

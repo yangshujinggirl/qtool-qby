@@ -22,12 +22,7 @@ class NormalForm extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
-      const { rangePicker, ..._values } = values;
-      if(rangePicker&&rangePicker[0]){
-        _values.dateTimeST =  moment(rangePicker[0]).format('YYYY-MM-DD HH:mm:ss');
-        _values.dateTimeET =  moment(rangePicker[1]).format('YYYY-MM-DD HH:mm:ss');
-      }
-      this.props.submit && this.props.submit(_values);
+      this.props.submit && this.props.submit(values);
     });
   }
 
@@ -63,11 +58,17 @@ class NormalForm extends Component {
                    <Input placeholder="请输入用户电话" autoComplete="off"/>
                  )}
                </FormItem>
-              <FormItem label='订单状态'>
-                 {getFieldDecorator('status')(
-                   <Input placeholder="请输入用户电话" autoComplete="off"/>
-                 )}
-               </FormItem>
+               <FormItem label='订单状态'>
+                  {getFieldDecorator('orderStatus')(
+                    <Select allowClear={true} placeholder="请选择订单状态">
+                      {
+                        ProcesasStatusOption.map((el) => (
+                          <Option value={el.key} key={el.key}>{el.value}</Option>
+                        ))
+                      }
+                    </Select>
+                  )}
+                </FormItem>
               <FormItem label='下单平台'>
                  {getFieldDecorator('platform')(
                    <Select allowClear={true} placeholder="请选择下单平台">
@@ -80,21 +81,10 @@ class NormalForm extends Component {
                  )}
                </FormItem>
               <FormItem label='配送方式'>
-                 {getFieldDecorator('delivery')(
+                 {getFieldDecorator('deliveryType')(
                    <Select allowClear={true} placeholder="请选择配送方式">
                      {
                        DeliveryOption.map((el) => (
-                         <Option value={el.key} key={el.key}>{el.value}</Option>
-                       ))
-                     }
-                   </Select>
-                 )}
-               </FormItem>
-              <FormItem label='流程状态'>
-                 {getFieldDecorator('orderStatus')(
-                   <Select allowClear={true} placeholder="请选择流程状态">
-                     {
-                       ProcesasStatusOption.map((el) => (
                          <Option value={el.key} key={el.key}>{el.value}</Option>
                        ))
                      }

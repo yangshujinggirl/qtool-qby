@@ -3,19 +3,19 @@ import EditableTable from '../../../components/table/tablebasic';
 
 class DatawsonTable extends React.Component {
 	constructor(props) {
-        super(props); 
+        super(props);
     }
-	
+
 	//分页方法
 	pageChange=(page,pageSize)=>{
         this.initstockList(this.props.values,pageSize,Number(page-1))
 	}
 	//pagesize变化
 	pageSizeChange=(current,size)=>{
-        this.initstockList(this.props.values,size,0)
+      this.initstockList(this.props.values,size,0)
 	}
-    
-    //列表数据请求   
+
+    //列表数据请求
     initstockList=(values,limit,currentPage)=>{
         values.limit=limit;
         values.currentPage=currentPage;
@@ -29,8 +29,8 @@ class DatawsonTable extends React.Component {
     render() {
         return (
 			<EditableTable
-				dataSource={this.props.invdatas} 
-				columns={this.props.headArr} 
+				dataSource={this.props.invdatas}
+				columns={this.props.headArr}
 				pageChange={this.pageChange.bind(this)}
 				pageSizeChange={this.pageSizeChange.bind(this)}
 				total={this.props.total}
@@ -42,8 +42,8 @@ class DatawsonTable extends React.Component {
 				/>
         );
 	}
-	
-    
+
+
 }
 
 function mapStateToProps(state) {

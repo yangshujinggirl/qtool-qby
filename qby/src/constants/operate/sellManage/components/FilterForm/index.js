@@ -20,12 +20,7 @@ class NormalForm extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
-        const {time,...params} =values;
-        if(time&&time.length>0) {
-          params.dateTimeST = moment(time[0]).format('YYYY-MM-DD');
-          params.dateTimeET = moment(time[1]).format('YYYY-MM-DD');
-        }
-        this.props.submit && this.props.submit(params)
+        this.props.submit && this.props.submit(values)
     });
   }
   render() {
@@ -35,9 +30,9 @@ class NormalForm extends Component {
         <Form className="qtools-condition-form">
           <div className='search-form-outwrap'>
             <div className="search-form-wrap">
-              <FormItem label='商品名称'>
+              <FormItem label='门店名称'>
                  {getFieldDecorator('spShopName')(
-                   <Input placeholder="请输入商品名称" autoComplete="off"/>
+                   <Input placeholder="请输入门店名称" autoComplete="off"/>
                  )}
                </FormItem>
               <FormItem label='配送方式'>
@@ -54,7 +49,7 @@ class NormalForm extends Component {
               <FormItem label='时间选择'>
                  {getFieldDecorator('time')(
                    <RangePicker
-                     format="YYYY-MM-DD"/>
+                     format="YYYY-MM-DD HH:mm:ss"/>
                  )}
                </FormItem>
              </div>

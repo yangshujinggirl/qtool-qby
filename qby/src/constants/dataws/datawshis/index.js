@@ -5,10 +5,20 @@ import DatawshisTable from './table';
 import DatawshisSearch from './search';
 import {Getexpont} from '../../../services/expont';
 const confirm = Modal.confirm;
-
+import {getCategoryApi} from "../../../services/goodsCenter/baseGoods"
 class DatawshisIndex extends React.Component{
-	state = {};
-
+	state = {
+		categoryList:[],
+	};
+	componentWillMount =()=> {
+		getCategoryApi({level:1,status:1,parentId:null}).then(res=>{
+			if(res.code=="0"){
+				this.setState({
+					categoryList:res.pdCategory
+				});
+			};
+		})
+	}
 	//导出数据
 	exportData = (type,data) => {
 		const values={
@@ -38,20 +48,20 @@ class DatawshisIndex extends React.Component{
 						});
 					},
 					onCancel() {
-						
+
 					},
 	  			});
 			}
 		})
-	
+
 	}
-	
+
   	render(){
      	return(
         	<div>
-                <DatawshisSearch/>
-				<Button 
-						type="primary" 
+                <DatawshisSearch categoryList={this.state.categoryList}/>
+				<Button
+						type="primary"
 						size='large'
 						className='mt20'
 						onClick={this.exportData.bind(this,61,this.props.values)}

@@ -79,6 +79,7 @@ import cPush from './models/activity/cPush/cPush' //bpush
 //客服中心
 import userFeedBack from './models/server/userFeedBack'
 import serverBill from './models/server/serverBill'
+import cServerOrder from './models/server/cServerOrder';//c端客服工单;
 
 //app数据
 import appBase from './models/appData/appBase'
@@ -175,7 +176,8 @@ const models = [
   bAddAnswer,
   onAudit,
   sellManage,
-  freightDetail
+  freightDetail,
+  cServerOrder,
 ]
 
 models.forEach(m => {

@@ -34,7 +34,7 @@ class MarkStar extends Component{
     return(
       <Modal
         width={420}
-        title='订单合并'
+        title='星标备注'
         visible={visible}
         onOk={this.onOk}
         onCancel={this.onCancel}

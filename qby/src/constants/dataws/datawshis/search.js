@@ -1,7 +1,7 @@
 import { Form, Row, Col, Input, Button, Icon,Select ,DatePicker} from 'antd';
 import { connect } from 'dva';
 import moment from 'moment';
-
+import {getCategoryApi} from "../../../services/goodsCenter/baseGoods"
 const FormItem = Form.Item;
 const Option = Select.Option
 const { MonthPicker, RangePicker } = DatePicker;
@@ -9,7 +9,8 @@ const dateFormat = 'YYYY-MM-DD';
 
 class BatchStockSearchForm extends React.Component {
   state = {
-    date:null
+    date:null,
+    categoryList2:[]
   };
 
   //点击搜索按钮获取搜索表单数据
@@ -31,7 +32,7 @@ class BatchStockSearchForm extends React.Component {
             payload:{code:'qerp.web.pd.historyInvdata.query',values:values}
         });
         this.props.dispatch({ type: 'tab/loding', payload:true});
-    }  
+    }
 
     //同步data
     syncState=(values)=>{
@@ -40,16 +41,39 @@ class BatchStockSearchForm extends React.Component {
             payload:values
         });
     }
-    
+
     hindtimeChange=(date,dateString)=>{
         this.setState({
             date:dateString
         })
-        
+
+    }
+    //分类发生变化
+    onChange=(value)=>{
+      if(!value){
+        this.setState({
+          categoryList2:[]
+        });
+        this.props.form.resetFields(["pdCategory2Id"])
+      };
+    }
+    //一级分类选中
+    onSelect=(value)=>{
+      this.props.form.resetFields(["pdCategory2Id"])
+      getCategoryApi({level:2,parentId:value,status:1})
+      .then(res=>{
+        if(res.code == "0" ){
+          this.setState({
+            categoryList2:res.pdCategory
+          })
+        }
+      })
     }
 
   render() {
       const { getFieldDecorator } = this.props.form;
+      const {categoryList} = this.props;
+      const {categoryList2} = this.state;
       const adminType=eval(sessionStorage.getItem('adminType'));
     return (
       <Form  className='formbox'>
@@ -76,15 +100,45 @@ class BatchStockSearchForm extends React.Component {
                 {getFieldDecorator('ccname',{
                       initialValue:moment(this.state.date, dateFormat)
                 })(
-                    <DatePicker 
-                        format={dateFormat} 
+                    <DatePicker
+                        format={dateFormat}
                         onChange={this.hindtimeChange.bind(this)}
                         className='noant-calendar-picker'
                         allowClear={false}
                     />
                 )}
             </FormItem>
-
+            <FormItem label='一级分类'>
+               {getFieldDecorator('pdCategory1Id')(
+                 <Select
+                   placeholder="请选择一级分类"
+                   allowClear={true}
+                   onSelect={this.onSelect}
+                   onChange={this.onChange}
+                   >
+                   {
+                    categoryList.length>0 && categoryList.map((el) => (
+                       <Select.Option
+                         value={el.pdCategoryId}
+                         key={el.pdCategoryId}>{el.name}</Select.Option>
+                     ))
+                   }
+                 </Select>
+               )}
+             </FormItem>
+             <FormItem label='二级分类'>
+                {getFieldDecorator('pdCategory2Id')(
+                  <Select disabled={!categoryList2.length>0} placeholder="请选择二级分类" allowClear={true}>
+                    {
+                     categoryList2.length>0 && categoryList2.map((el) => (
+                        <Select.Option
+                          value={el.pdCategoryId}
+                          key={el.pdCategoryId}>{el.name}</Select.Option>
+                      ))
+                    }
+                  </Select>
+                )}
+            </FormItem>
 
                 </div>
                 </Row>
@@ -105,7 +159,7 @@ class BatchStockSearchForm extends React.Component {
     },function(){
         this.handleSearch()
     })
-     
+
   }
 }
 function mapStateToProps(state) {

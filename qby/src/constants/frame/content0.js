@@ -67,6 +67,7 @@ import H5_configure from '../operatebanner/editH5';
 
 import OperateIndex from '../operatesp/index';
 import SpEditForms from '../operatesp/edit';
+import SpInfo from '../operatesp/info';
 
 import DownloadIndex from '../download/index';
 
@@ -161,6 +162,8 @@ import UserFeedBack from '../server/userFeedBack/index'; //用户反馈
 import HandleBack from '../server/userFeedBack/HandleBack'//反馈处理
 import ServerBill from '../server/serverBill/index'; //用户反馈
 import HandleBill from '../server/serverBill/HandleBill'; //工单处理
+import CserverOrder from '../server/cServerOrder'; //工单处理
+import CserverOrderdetail from '../server/cServerOrder/CserverOrderdetail'; //工单处理
 //app数据
 import AppData from '../dataapp/index'
 
@@ -211,6 +214,7 @@ class Content extends React.Component {
                                     case "402500edit":return  <ConsumptionInfo data={this.props.data}/>;
                                     case "403000":return  <OperateIndex data={this.props.data}/>;
                                     case "403000edit":return  <SpEditForms data={this.props.data}/>;
+                                    case "403000info":return  <SpInfo data={this.props.data}/>;
 
                                     case "407000":return <Supplyinout data={this.props.data} componkey={this.props.componkey}/>; //供应商收支列表
                                     case "407000edit":return <BillDetails data={this.props.data} componkey={this.props.componkey}/>; //结算单明细
@@ -346,7 +350,8 @@ class Content extends React.Component {
                                     case formDataCode('server02-edit') : return <HandleBack data={this.props.data} componkey={this.props.componkey}/>
                                     case formDataCode('server03') : return <ServerBill data={this.props.data} componkey={this.props.componkey}/>//客服工单
                                     case formDataCode('server03-edit') : return <HandleBill data={this.props.data} componkey={this.props.componkey}/>
-
+                                    case formDataCode('server32'): return <CserverOrder data={this.props.data} componkey={this.props.componkey}/>//c客服工单
+                                    case formDataCode('server32-info'): return <CserverOrderdetail data={this.props.data} componkey={this.props.componkey}/>
 
 
                                     default:  return "我是404";

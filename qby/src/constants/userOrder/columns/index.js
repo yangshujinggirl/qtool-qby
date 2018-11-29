@@ -47,7 +47,7 @@ const Columns = [{
      title: '订单金额',
      dataIndex: 'payAmount'
    },{
-     title: '优惠券金额',
+     title: '优惠金额',
      dataIndex: 'discountAmount'
    },{
      title: '流程状态',

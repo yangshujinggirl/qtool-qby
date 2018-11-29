@@ -6,9 +6,20 @@ import { connect } from 'dva';
 import DatawsonTable from './table';
 import DatawsonSearch from './search';
 const confirm = Modal.confirm;
-
+import {getCategoryApi} from "../../../services/goodsCenter/baseGoods"
 class DatawsonIndex extends React.Component{
-	state = {};
+	state = {
+		categoryList:[],
+	};
+	componentWillMount =()=> {
+		getCategoryApi({level:1,status:1,parentId:null}).then(res=>{
+			if(res.code=="0"){
+				this.setState({
+					categoryList:res.pdCategory
+				});
+			};
+		})
+	}
 	//导出数据
 	exportData = (type,data) => {
 		const values={
@@ -38,30 +49,31 @@ class DatawsonIndex extends React.Component{
 						});
 					},
 					onCancel() {
-						
+
 					},
 	  			});
 			}
 		})
-	
+
 	}
+
 
   	render(){
 		const adminType=eval(sessionStorage.getItem('adminType'));
      	return(
-        	<div>
-                <DatawsonSearch/>
-				<Button 
-					type="primary" 
-					size='large'
-					className='mt20'
-					onClick={this.exportData.bind(this,60,this.props.values)}
-				>
-					导出数据
-				</Button>
-             	<div className='mt15'><DatawsonTable/></div>
-        	</div>
-      	)
+      	<div>
+          <DatawsonSearch categoryList={this.state.categoryList}/>
+					<Button
+						type="primary"
+						size='large'
+						className='mt20'
+						onClick={this.exportData.bind(this,60,this.props.values)}
+					>
+						导出数据
+					</Button>
+         	<div className='mt15'><DatawsonTable/></div>
+      	</div>
+    	)
   	}
 }
 

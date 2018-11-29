@@ -1,6 +1,6 @@
 import React ,{ Component } from 'react';
 import { connect } from 'dva';
-import { Upload, Icon, Modal, Form } from 'antd';
+import { Upload, Icon, Modal, Form, message } from 'antd';
 
 class UploadImg extends Component{
   constructor(props){
@@ -17,11 +17,11 @@ class UploadImg extends Component{
     const isPNG = file.type === 'image/png';
       if (!isJPG && !isPNG) {
           message.error('仅支持jpg/jpeg/png格式',.8);
-      }
+      };
       const isLt2M = file.size / 1024 / 1024 < 2;
       if (!isLt2M) {
-          message.error('图片文件需小于2MB',.8);
-      }
+          message.error('上传内容大于2M，请选择2M以内的文件',.8);
+      };
     return (isJPG || isPNG) && isLt2M;
   }
 
@@ -36,25 +36,10 @@ class UploadImg extends Component{
   }
   //点击变化时候的回调
   handleChange = ({ fileList }) => {
-    this.setState({ fileList })
-    this.props.changeImg(fileList)
-  }
-  //格式化数据
-  normFile = (e) => {
-    const {target} = e;
-  	if (Array.isArray(e)) {
-  		return e;
-  	}
-  	let formFile = e && e.fileList.map((el)=> {
-  		if(el.status == 'done') {
-  			if(el.response) {
-  				return el.response.data[0]
-  			} else {
-  				return el.name
-  			}
-  		}
-  	})
-  	return formFile;
+    if( !fileList[0] || (fileList[0] && fileList[0].status) ){
+      this.setState({ fileList })
+      this.props.changeImg(fileList)
+    }
   }
   render(){
     const { previewVisible, previewImage } = this.state;

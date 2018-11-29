@@ -17,7 +17,10 @@ class NormalForm extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
-        this.props.submit && this.props.submit(values)
+      if(values.pdSpuId){
+        values.pdSpuId = values.pdSpuId.replace(/\s+/g, "");
+      };
+      this.props.submit && this.props.submit(values)
     });
 
   }
@@ -27,6 +30,11 @@ class NormalForm extends Component {
         <Form className="qtools-condition-form">
           <div className='search-form-outwrap'>
             <div className="search-form-wrap">
+              <FormItem label='SPU ID'>
+                 {getFieldDecorator('pdSpuId')(
+                   <Input placeholder="请输入spuid" autoComplete="off"/>
+                 )}
+              </FormItem>
               <FormItem label='商品编码'>
                  {getFieldDecorator('code')(
                    <Input placeholder="请输入商品编码" autoComplete="off"/>

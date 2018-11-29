@@ -24,6 +24,7 @@ class Tabletitle extends React.Component {
 		})
 	}
 	render() {
+		console.log(this.props)
 		return (
 			<div>
 				<div className='clearfix' style={{height:'32px',lineHeight:"32px"}}>
@@ -44,7 +45,7 @@ class Tabletitle extends React.Component {
 					<div className='cardlist_item fl'><label>子单号：</label><span>{this.props.ecSuborderNo}</span></div>
 					<div className='cardlist_item fl'><label>保税仓库：</label><span>{this.props.warehouseStr}</span></div>
 					<div className='cardlist_item fl'><label>子单状态：</label><span>{this.props.statusStr}</span></div>
-					{ this.props.status == 2 || this.props.status == 5 || this.props.status == 6 || this.props.status == 8
+					{ (this.props.warehouseId == 1 || this.props.warehouseId == 7) &&(this.props.status == 2 || this.props.status == 5 || this.props.status == 6 || this.props.status == 8)
 							? <Button type="primary" className="dismiss_audit" onClick={this.dismissAudit}>驳回审核</Button>
 							: null
 					}
@@ -247,7 +248,6 @@ class OrderuserInfo extends React.Component{
     })
   }
 	render(){
-		console.log(this.state.newClearLogs)
 		let {newClearLogs} = this.state;
 		return(
 			<div>
@@ -268,13 +268,15 @@ class OrderuserInfo extends React.Component{
 					/>
 				</div>
 				<div className='mb10'>
-					<EditableTable
-						columns={this.column1}
-						dataSource={this.state.goodinfo}
-            title='商品信息'
-            bordered={true}
-						footer={false}
-					/>
+					{this.state.goodinfo.length>0 &&
+						<EditableTable
+							columns={this.column1}
+							dataSource={this.state.goodinfo}
+	            title='商品信息'
+	            bordered={true}
+							footer={false}
+						/>
+					}
 				</div>
         {
 					this.state.subOrderInfos.length>0
@@ -293,6 +295,7 @@ class OrderuserInfo extends React.Component{
 											isdelivery={item.isDelivery}
 											ecSuborderNo={item.ecSuborderNo}
 											warehouseStr={item.warehouseStr}
+											warehouseId={item.warehouseId}
 											statusStr={item.statusStr}
 											status={item.status}
 											ecOrderId={this.props.data.id}
@@ -311,28 +314,34 @@ class OrderuserInfo extends React.Component{
 					:null
         }
 				<div className='mb10'>
-					<EditableTable
-						columns={this.column2}
-						dataSource={this.state.logisticsInfos}
-                        title="物流信息"
-                        bordered={true}
-						footer={false}/>
+					{this.state.logisticsInfos.length>0 &&
+						<EditableTable
+							columns={this.column2}
+							dataSource={this.state.logisticsInfos}
+              title="物流信息"
+              bordered={true}
+							footer={false}/>
+					}
 				</div>
         <div className='mb10'>
-					<EditableTable
-						columns={this.column3}
-						dataSource={this.state.logs}
-            title="订单日志"
-            bordered={true}
-						footer={false}/>
+					{this.state.logs.length>0 &&
+						<EditableTable
+							columns={this.column3}
+							dataSource={this.state.logs}
+	            title="订单日志"
+	            bordered={true}
+							footer={false}/>
+					}
 				</div>
 				<div className='mb10'>
-					<EditableTable
-						columns={this.column3}
-						dataSource={this.state.AuditLogs}
-            title="杭州仓审核日志"
-            bordered={true}
-						footer={false}/>
+					{this.state.AuditLogs.length>0 &&
+						<EditableTable
+							columns={this.column3}
+							dataSource={this.state.AuditLogs}
+	            title="杭州仓审核日志"
+	            bordered={true}
+							footer={false}/>
+					}
 				</div>
 				{
 					newClearLogs.map((item,index)=>{
@@ -353,7 +362,6 @@ class OrderuserInfo extends React.Component{
 		)
 	}
 	componentDidMount(){
-		console.log(this.props.data)
 		this.infofetch(this.props.data.id)
 	}
 }

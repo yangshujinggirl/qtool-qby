@@ -12,13 +12,14 @@ class DataspcunIndex extends React.Component{
 	handleOperateClick =(record)=> {
 		const paneitem = {
 			title:'库存分布',
-			key:`${this.props.componkey}distribute`,
+			key:`${this.props.componkey}edit`+record.pdSpuId,
 			componkey:`${this.props.componkey}distribute`,
 			data:{
 				pdSpuId:record.pdSpuId,
 				pdSkuId:record.pdSkuId,
 			}
 		};
+		// console.log(paneitem)
 		this.props.dispatch({
 			type:'tab/firstAddTab',
 			payload:paneitem
