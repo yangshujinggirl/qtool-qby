@@ -43,6 +43,9 @@ class DailyBillForm extends React.Component {
             title: '结算金额',
             dataIndex: 'amount',
         },{
+            title: '销售额',
+            dataIndex: 'saleAmount',
+        },{
             title: '微信(转账）',
             dataIndex: 'wechatAmount',
         },{
@@ -256,7 +259,7 @@ class DailyBillForm extends React.Component {
                           </p>
                           <span className="explain-span">
                               <Tooltip title="销售订单金额-退款订单金额">
-                                  净销售额&nbsp;<Icon type="exclamation-circle-o"/>
+                                  销售额&nbsp;<Icon type="exclamation-circle-o"/>
                               </Tooltip>
                           </span>
                       </div>

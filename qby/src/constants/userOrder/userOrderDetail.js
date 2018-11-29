@@ -178,7 +178,7 @@ render(){
               <div className='cardlist_item'><label>下单平台：</label><span>{platformMap[orderInfo.platform]}</span></div>
               <div className='cardlist_item'><label>配送方式：</label><span>{deliveryMap[orderInfo.deliveryType]}</span></div>
               <div className='cardlist_item'><label>订单金额：</label><span>{orderInfo.amountSum}</span>元</div>
-              <div className='cardlist_item'><label>商品金额：</label><span>{orderInfo.amountSum}</span>元</div>
+              <div className='cardlist_item'><label>商品金额：</label><span>{orderInfo.commodityAmount}</span>元</div>
               <div className='cardlist_item'><label>用户支付配送费：</label><span>{orderInfo.standardExpressAmount}</span>元</div>
               <div className='cardlist_item'><label>优惠券：</label><span>{orderInfo.discountAmount?orderInfo.discountAmount:0}</span>元</div>
               <div className='cardlist_item'><label>优惠券批次号：</label><span>{orderInfo.couponCode}</span></div>
