@@ -153,7 +153,7 @@ const DeliveryOption=[{
 //下单平台
 const PlatformOption=[{
           key:1,
-          value:'Qtools App ios端,',
+          value:'Qtools App ios端',
         },{
           key:2,
           value:'Qtools App  安卓端',
