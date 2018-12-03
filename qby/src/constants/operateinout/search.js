@@ -66,7 +66,7 @@ class OperateinoutSearchForm extends React.Component {
                                 <FormItem label='收支筛选'>
                                     {getFieldDecorator('status')(
                                         <Select allowClear={true} placeholder="请选择收支筛选">
-                                            <Option value='1'>收入</Option>
+                                            <Option value='1'>收款</Option>
                                             <Option value='2'>支出</Option>
                                         </Select>
                                     )}
