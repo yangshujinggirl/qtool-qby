@@ -447,6 +447,31 @@ const SiderBarData =  [
               "children": null
             }
           ]
+        },
+        {
+          "urResourceId": 208000,
+          "name": "用户退单",
+          "code": "208000",
+          "url": "",
+          "remark": null,
+          "status": 1,
+          "statusStr": null,
+          "menu": 1,
+          "menuStr": null,
+          "rank": null,
+          "children":[{
+            "urResourceId": 208100,
+            "name": "订单信息",
+            "code": "208100",
+            "url": "qerp.web.sp.order.query",
+            "remark": null,
+            "status": 1,
+            "statusStr": null,
+            "menu": 1,
+            "menuStr": null,
+            "rank": null,
+            "children": null
+          },]
         }
       ]
     },

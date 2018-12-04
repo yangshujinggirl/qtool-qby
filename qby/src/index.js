@@ -23,6 +23,8 @@ import productGoodsList from './models/online/productInfo/productGoodsList.js'
 import productEditGoods from './models/online/productInfo/productEditGoods.js'
 //订单中心--用户订单
 import userorders from './models/userorders';
+import allth from './models/orderCenter/userth/allth';
+import toAudit from './models/orderCenter/userth/toAudit';
 import account from "./models/account"
 import downlaod from "./models/downlaod"
 import dataposorder from "./models/dataposorder"
@@ -113,6 +115,8 @@ const models = [
   baseGoodsDetail,
   baseGoodsList,
   userorders,
+  allth,
+  toAudit,
   account,
   downlaod,
   dataposorder,

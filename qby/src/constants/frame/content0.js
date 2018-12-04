@@ -117,6 +117,8 @@ import QposDbInfo from '../datapos/dbinfo'
 //订单中心
 import UserOrder from '../userOrder/index';//用户订单
 import UserOrderDetail from '../userOrder/userOrderDetail'
+import Userth from '../userth/index'
+import UserthDetail from '../userth/userthDetail'
 //商品中心
 import  BaseGoods from '../goods/baseGoods/index';//基础商品
 import  AddGoods from '../goods/baseGoods/AddGoods';//基础商品--新增商品
@@ -308,6 +310,8 @@ class Content extends React.Component {
                                     // ------------------------------ 用户订单 ------------------------------
                                     case formDataCode('order70') : return <UserOrder data={this.props.data} componkey={this.props.componkey}/>
                                     case formDataCode('order70-edit') : return <UserOrderDetail data={this.props.data} componkey={this.props.componkey}/>
+                                    case "208000":return <Userth data={this.props.data} componkey={this.props.componkey}/>
+                                    case "208000info":return <UserthDetail data={this.props.data} componkey={this.props.componkey}/>
                                     // -------------------------------合作中心----------------------------
                                     case formDataCode('cooperate10') : return <MarketResource data={this.props.data} componkey={this.props.componkey}/> //市场资源
                                     case formDataCode('cooperate10-edit') : return <AddStaff data={this.props.data} componkey={this.props.componkey}/> //新增人员
