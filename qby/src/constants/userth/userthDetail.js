@@ -4,6 +4,7 @@ import { Button,Icon,Form,Select,Input,Card,message,Radio} from 'antd';
 import { getInfoApi } from '../../services/orderCenter/userOrders'
 import { connect } from 'dva';
 import Imgmodel from '../../components/model/modelimg';
+import './index.less'
 
 const TextArea = Input.TextArea;
 const FormItem = Form.Item;
@@ -13,6 +14,7 @@ class UserthDetail extends React.Component{
 	constructor(props) {
 		super(props);
     this.state={
+			loading:false,
       value:'',
       orderInfo:{},
       userInfo:{},
@@ -78,12 +80,25 @@ componentDidMount(){
 		message.error(err.message)
 	})
 }
+//单选按钮 的变化
 onChange = (e) => {
-    console.log('radio checked', e.target.value);
-    this.setState({
-      value: e.target.value,
-    });
-  }
+  console.log('radio checked', e.target.value);
+  this.setState({
+    value: e.target.value,
+  });
+}
+//拒绝买家退款
+refuse =()=> {
+	this.setState({
+		loading:true
+	})
+}
+//同意买家退款
+agree =()=> {
+	this.setState({
+		loading:true
+	})
+}
 render(){
   const {orderInfo,userInfo,goodsInfos,shopInfo,logInfos} = this.state;
 	logInfos.map((item,index)=>{
@@ -101,7 +116,7 @@ render(){
         lineHeight: '30px',
       };
 	return(
-			<div>
+			<div className='userth-detail'>
         <div className='mb10'>
           <Card title='退单信息'>
             <div className='cardlist'>
@@ -191,17 +206,11 @@ render(){
               <TextArea rows={4}   placeholder='限制50字符以内' maxLength='200'/>
             )}
 						</FormItem>
-            <FormItem
-
-							labelCol={{ span: 2 }}
-							wrapperCol={{ span: 12 }}
-						>
-              <div width='300px;margin:0 auto'>
-                <Button size='large' >拒绝买家退款</Button>
-                <Button type="primary" size='large'>同意买家退款</Button>
-              </div>
-						</FormItem>
   				</Form>
+					<div className='reason-btn'>
+						<Button size='large' className='btn' onClick={this.refuse} loading={this.state.loading} >拒绝买家退款</Button>
+						<Button type="primary" size='large' onClick={this.agree} loading={this.state.loading} >同意买家退款</Button>
+					</div>
 				</div>
 				<div className='mb20'>
           <EditableTable

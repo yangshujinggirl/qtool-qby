@@ -58,6 +58,7 @@ class SpEditForm extends React.Component{
 			bankNo:null,
 			bankName:null,
 			openApp:null,
+			openCityDistribution:null,
 			bank:null,
 			recAddress:null,
 			spShopContracts:null,
@@ -152,10 +153,8 @@ class SpEditForm extends React.Component{
 	}
 	submit =(	value ) => {
 		const values={spShop:value}
-		const result=GetServerData('qerp.web.sp.shop.save',values)
-		result.then((res) => {
-				return res;
-		}).then((json) => {
+		GetServerData('qerp.web.sp.shop.save',values)
+		.then((json) => {
 			if(json.code=='0'){
 				if(this.props.data){
 					message.success('门店修改成功',.8)
@@ -184,10 +183,8 @@ class SpEditForm extends React.Component{
 	}
 	getinfoData=()=>{
 		const values = {spShopId:this.props.data.spShopId}
-		const result = GetServerData('qerp.web.sp.shop.info',values)
-		result.then((res) => {
-			return res;
-		}).then((json) => {
+		GetServerData('qerp.web.sp.shop.info',values)
+		.then((json) => {
 	  	if(json.code=='0'){
         const fileDomain=eval(sessionStorage.getItem('fileDomain'));
         const spShopPics=[]
@@ -264,6 +261,7 @@ class SpEditForm extends React.Component{
 							bankNo:json.spShop.bankNo,
 							bankName:json.spShop.bankName,
 							openApp:json.spShop.openApp,
+							openCityDistribution:json.spShop.openCityDistribution,
 							spShopContracts:json.spShop.spShopContracts,
 							lat:json.spShop.lat,
 							lng:json.spShop.lng,
@@ -280,11 +278,9 @@ class SpEditForm extends React.Component{
 		})
 	}
 	handUse=()=>{
-		 const values={urUserId:this.state.urUserId}
-		const result=GetServerData('qerp.web.sp.qposuser.resetpwd',values)
-		result.then((res) => {
-			return res;
-		}).then((json) => {
+		const values={urUserId:this.state.urUserId}
+		result=GetServerData('qerp.web.sp.qposuser.resetpwd',values)
+		.then((json) => {
 			if(json.code=='0'){
 				this.setState({
 					spname:json.name,
@@ -295,16 +291,14 @@ class SpEditForm extends React.Component{
 				})
 			}
 		})
-    }
-
-    fromonChange=(time,Strtime)=>{
-        this.setState({ fromtime: Strtime });
-    }
-    endonChange=(time,Strtime)=>{
-        this.setState({ endtime: Strtime });
-	 }
-
-	 modelsuccess=()=>{
+  }
+  fromonChange=(time,Strtime)=>{
+      this.setState({ fromtime: Strtime });
+  }
+  endonChange=(time,Strtime)=>{
+      this.setState({ endtime: Strtime });
+  }
+	modelsuccess=()=>{
 		const _this=this
 		Modal.success({
 		  title: 'Qtools门店账户密码重置成功',
@@ -319,8 +313,7 @@ class SpEditForm extends React.Component{
 			_this.deleteTab()
 		  }
 		});
-	  }
-
+  }
 	selectChange=(value)=>{
 		if(value=='2'){
 			this.setState({
@@ -346,7 +339,6 @@ class SpEditForm extends React.Component{
 			})
 		}
 	}
-
 	hindBlue1=(e)=>{
 		var values=e.target.value
 		if(values){
@@ -382,19 +374,34 @@ class SpEditForm extends React.Component{
 	changeImg =(fileList)=> {
 		this.setState({fileList:fileList})
 	}
-  	render(){
-			const { getFieldDecorator } = this.props.form;
-     	return(
+	//比例自定义校验
+  validatorLng(rule, value, callback) {
+    if(value>180||value<-180) {
+      callback('请输入正确的纬度');
+    } else {
+      callback();
+    }
+  }
+	//比例自定义校验
+  validatorLat(rule, value, callback) {
+    if(value>90||value<-90) {
+      callback('请输入正确的经度');
+    } else {
+      callback();
+    }
+  }
+	render(){
+		const { getFieldDecorator } = this.props.form;
+   	return(
     	<Form className="addUser-form addcg-form operate-shop-form">
-			<div className='title'>基本信息</div>
-        <FormItem>
+				<div className='title'>基本信息</div>
+      	<FormItem>
 					<PicturesWall initfileList={this.state.initfileList}/>
 				</FormItem>
 				<FormItem
 					label="门店名称"
 					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}
-				>
+					wrapperCol={{ span: 6 }}>
 					{getFieldDecorator('name', {
 						rules: [{ required: true, message: '请输入门店名称'}],
 						initialValue:this.state.name
@@ -405,8 +412,7 @@ class SpEditForm extends React.Component{
         <FormItem
 					label="门店简称"
 					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}
-				>
+					wrapperCol={{ span: 6 }}>
 					{getFieldDecorator('sname', {
 						rules: [{ required: true, message: '请输入门店简称'}],
 						initialValue:this.state.sname
@@ -527,269 +533,288 @@ class SpEditForm extends React.Component{
 						<Input placeholder='请输入开户名' autoComplete="off"/>
 					)}
 				</FormItem>
-			<div className='title'>地址信息</div>
-      	<FormItem
-          label="所属城市"
-          labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}>
-            {getFieldDecorator('shop_city', {
-                rules: [{ type: 'array', required: true, message: '请选择所属城市' }],
-                initialValue:this.props.data?this.state.shopcity:null
-            })(
-                <Cascader placeholder="请选择所属城市" options={this.props.bsRegions}/>
-            )}
-        </FormItem>
-        <FormItem
-					label="门店地址"
-					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}>
-					{getFieldDecorator('address', {
-						rules: [{ required: true, message: '请输入门店地址'}],
-						initialValue:this.state.address
-					})(
-						<Input placeholder='请输入门店地址' autoComplete="off"/>
-					)}
-				</FormItem>
-				<FormItem
-					label="门店经度"
-					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}>
-					{getFieldDecorator('lng', {
-						rules: [{ required: true, message: '请输入门店经度'}],
-						initialValue:this.state.lng
-					})(
-						<Input placeholder='请输入门店经度' autoComplete="off"/>
-					)}
-				</FormItem>
-				<FormItem
-					label="门店纬度"
-					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}>
-					{getFieldDecorator('lat', {
-						rules: [{ required: true, message: '请输入门店纬度'}],
-						initialValue:this.state.lat
-					})(
-						<Input placeholder='请输入门店纬度' autoComplete="off"/>
-					)}
-				</FormItem>
-        <FormItem
-          label="收货城区"
-          labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}>
-            {getFieldDecorator('rec_city', {
-                rules: [{ type: 'array', required: true, message: '请选择收货城区' }],
-                initialValue:this.props.data?this.state.rec_city:null
-            })(
-                <Cascader placeholder="请选择所属城市" options={this.props.bsRegions}/>
-            )}
-        </FormItem>
-				<FormItem
-					label="收货地址"
-					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}>
-					{getFieldDecorator('recAddress', {
-						rules: [{ required: true, message: '请输入收货地址'}],
-						initialValue:this.state.recAddress
-					})(
-						<Input placeholder='请输入收货地址' autoComplete="off"/>
-					)}
-				</FormItem>
-			<div className='title'>店铺信息</div>
-        <FormItem
-					label="门店面积"
-					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}>
-					{getFieldDecorator('square', {
-						initialValue:this.state.square
-					})(
-						<Input placeholder='请输入门店面积' autoComplete="off"/>
-					)}
-				</FormItem>
-        <FormItem
-					label="装修费用"
-					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}>
-					{getFieldDecorator('fixtureMoney', {
-						initialValue:this.state.fixtureMoney,
-						rules:[{pattern:/^\d+(\.\d{0,2})?$/,message:'只能输入两位小数的数字'}]
-					})(
-						<Input placeholder='请输入装修费用' autoComplete="off"/>
-					)}
-				</FormItem>
-        <FormItem
-					label="门店租金"
-					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}>
-					{getFieldDecorator('rental', {
-						initialValue:this.state.rental,
-						rules:[{pattern:/^\d+(\.\d{0,2})?$/,message:'只能输入两位小数的数字'}]
-					})(
-						<Input placeholder='请输入门店租金' autoComplete="off"/>
-					)}
-				</FormItem>
-        <FormItem
-					label="人事费用"
-					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}>
-					{getFieldDecorator('staffCost', {
-						initialValue:this.state.staffCost,
-						rules:[{pattern:/^\d+(\.\d{0,2})?$/,message:'只能输入两位小数的数字'}]
-					})(
-						<Input placeholder='请输入人事费用' autoComplete="off"/>
-					)}
-				</FormItem>
-				<FormItem
-					label="店主微信"
-					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}>
-					{getFieldDecorator('wechat', {
-						initialValue:this.state.wechat
-					})(
-						<Input placeholder='请输入店主微信' autoComplete="off"/>
-					)}
-				</FormItem>
-        <FormItem
-					label="营业时间"
-					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}>
-          {getFieldDecorator('businessTime', {
-          })(
-            <div>
-                <TimePicker  onChange={this.fromonChange.bind(this)}  value={(this.state.fromtime!=null && this.state.fromtime!=undefined && this.state.fromtime!='' && this.state.fromtime!=[])?moment(String(this.state.fromtime),'HH:mm'):null} style={{width:'45%'}} format="HH:mm"/>
-                <span style={{display:'inline-block',width:'10%',textAlign:'center'}}>至</span>
-                <TimePicker  onChange={this.endonChange.bind(this)}  value={(this.state.endtime!=null && this.state.endtime!=undefined && this.state.endtime!='' && this.state.endtime!=[])?moment(this.state.endtime,'HH:mm'):null} style={{width:'45%'}} format="HH:mm"/>
-            </div>
-          )}
-        </FormItem>
-        <FormItem
-					label="开业时间"
-					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span:6 }}>
-					{getFieldDecorator('openTime', {
-						initialValue:(this.props.data && this.state.startTime!=null && this.state.startTime!=undefined  && this.state.startTime!='' && this.state.startTime!=[])?moment(this.state.startTime):null
-					})(
-					<DatePicker  format="YYYY-MM-DD" showTime onChange={this.timeChange.bind(this)}/>
-					)}
-				</FormItem>
-				<FormItem
-					label="店主备注"
-					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}>
-					{getFieldDecorator('remark', {
-						initialValue:this.state.remark
-					})(
-						<TextArea rows={4} placeholder='请输入店主备注' autoComplete="off"/>
-					)}
-				</FormItem>
-				<div className='title'>合作经营</div>
-				<FormItem
-					label="门店状态"
-					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}>
-					{getFieldDecorator('status', {
-						rules: [{ required: true, message: '请选择门店状态'}],
-						initialValue:this.state.status
-					})(
-						<Select placeholder="请选择门店状态">
-							<Option value="0">待开业</Option>
-							<Option value="10">开业中</Option>
-							<Option value="20">关业中</Option>
-						</Select>
-					)}
-				</FormItem>
-				<FormItem
-					label="门店类型"
-					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}>
-					{getFieldDecorator('shopType', {
-						rules: [{ required: true, message: '请选择门店类型'}],
-						initialValue:this.state.shopType,
-						onChange:this.selectChange
-					})(
-						<Select placeholder="请选择门店类型">
-							<Option value="1">直营</Option>
-							<Option value="2">联营</Option>
-							<Option value="3">加盟</Option>
-						</Select>
-					)}
-				</FormItem>
-				<FormItem
-					label="分成比例"
-					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span: 6 }}>
-					<div className='felxboxs'>
-						<div style={{width:'45%'}}>
-							<p className='tc'>食品尿不湿类</p>
-							<Input suffix='%' disabled={this.state.shopType=='2'?false:true} value={this.state.foodShareRatio} onChange={this.hindChange1.bind(this)} onBlur={this.hindBlue1.bind(this)}/>
-						</div>
-						<div style={{width:'45%'}}>
-							<p className='tc'>非食品尿不湿类</p>
-							<Input suffix='%' disabled={this.state.shopType=='2'?false:true} value={this.state.nonfoodShareRatio} onChange={this.hindChange2.bind(this)} onBlur={this.hindBlue2.bind(this)}/>
-						</div>
-					</div>
-				</FormItem>
-				<FormItem
-					label="微信支付扫码"
-					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span:6 }}>
-					{getFieldDecorator('openWechat', {
-						rules: [{ required: true, message: '请选择是否使用微信扫码支付'}],
-						initialValue:Number(this.state.openWechat)
-					})(
-						<RadioGroup>
-							<Radio value={1}>开启</Radio>
-							<Radio value={0}>关闭</Radio>
-				  	</RadioGroup>
-					)}
-				</FormItem>
-				<FormItem
-					label="支付宝扫码"
-					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span:6 }}>
-					{getFieldDecorator('openAlipay', {
-						rules: [{ required: true, message: '请选择是否使用支付宝扫码'}],
-						initialValue:Number(this.state.openAlipay)
-					})(
-						<RadioGroup>
-							<Radio value={1}>开启</Radio>
-							<Radio value={0}>关闭</Radio>
-				  	</RadioGroup>
-					)}
-				</FormItem>
-				<FormItem
-					label="C端App"
-					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span:6 }}>
-					{getFieldDecorator('openApp', {
-						rules: [{ required: true, message: '请选择是否使用C端App'}],
-						initialValue:Number(this.state.openApp)
-					})(
-						<RadioGroup>
-							<Radio value={1}>开启</Radio>
-							<Radio value={0}>关闭</Radio>
-				  	</RadioGroup>
-					)}
-				</FormItem>
-				<FormItem
-						label="合同信息"
+				<div className='title'>地址信息</div>
+	      	<FormItem
+	          label="所属城市"
+	          labelCol={{ span: 3,offset: 1 }}
+						wrapperCol={{ span: 6 }}>
+	            {getFieldDecorator('shop_city', {
+	                rules: [{ type: 'array', required: true, message: '请选择所属城市' }],
+	                initialValue:this.props.data?this.state.shopcity:null
+	            })(
+	                <Cascader placeholder="请选择所属城市" options={this.props.bsRegions}/>
+	            )}
+	        </FormItem>
+	        <FormItem
+						label="门店地址"
 						labelCol={{ span: 3,offset: 1 }}
-						wrapperCol={{ span: 6 }}
-					>
-						<UpLoadImg
-							name='imgFile'
-							action = '/erpWebRest/qcamp/upload.htm?type=spu'
-							fileList = {this.state.fileList}
-							maxLength = '10'
-							changeImg = {this.changeImg}
-						/>
-				</FormItem>
-      	<FormItem wrapperCol={{ offset: 4}} style = {{marginBottom:0}}>
-      		<Button className='mr30' onClick={this.hindCancel.bind(this)}>取消</Button>
-				  {
-					  this.props.data?<Button  type="primary" onClick={this.handUse.bind(this)}>重置密码</Button>:null
-				  }
-      		<Button  type="primary" onClick={this.handleSubmit.bind(this)} className='ml30'>保存</Button>
-      	</FormItem>
+						wrapperCol={{ span: 6 }}>
+						{getFieldDecorator('address', {
+							rules: [{ required: true, message: '请输入门店地址'}],
+							initialValue:this.state.address
+						})(
+							<Input placeholder='请输入门店地址' autoComplete="off"/>
+						)}
+					</FormItem>
+					<FormItem
+						label="门店经度"
+						labelCol={{ span: 3,offset: 1 }}
+						wrapperCol={{ span: 6 }}>
+						{getFieldDecorator('lng', {
+							rules: [
+								{ required: true, message: '请输入门店经度'},
+								{ validator:this.validatorLng }
+							],
+							initialValue:this.state.lng
+						})(
+							<Input placeholder='请输入门店经度' autoComplete="off"/>
+						)}
+					</FormItem>
+					<FormItem
+						label="门店纬度"
+						labelCol={{ span: 3,offset: 1 }}
+						wrapperCol={{ span: 6 }}>
+						{getFieldDecorator('lat', {
+							rules: [
+								{ required: true, message: '请输入门店纬度'},
+								{ validator:this.validatorLat }],
+								initialValue:this.state.lat
+						})(
+							<Input placeholder='请输入门店纬度' autoComplete="off"/>
+						)}
+					</FormItem>
+	        <FormItem
+	          label="收货城区"
+	          labelCol={{ span: 3,offset: 1 }}
+						wrapperCol={{ span: 6 }}>
+	            {getFieldDecorator('rec_city', {
+	                rules: [{ type: 'array', required: true, message: '请选择收货城区' }],
+	                initialValue:this.props.data?this.state.rec_city:null
+	            })(
+	                <Cascader placeholder="请选择所属城市" options={this.props.bsRegions}/>
+	            )}
+	        </FormItem>
+					<FormItem
+						label="收货地址"
+						labelCol={{ span: 3,offset: 1 }}
+						wrapperCol={{ span: 6 }}>
+						{getFieldDecorator('recAddress', {
+							rules: [{ required: true, message: '请输入收货地址'}],
+							initialValue:this.state.recAddress
+						})(
+							<Input placeholder='请输入收货地址' autoComplete="off"/>
+						)}
+					</FormItem>
+				<div className='title'>店铺信息</div>
+	        <FormItem
+						label="门店面积"
+						labelCol={{ span: 3,offset: 1 }}
+						wrapperCol={{ span: 6 }}>
+						{getFieldDecorator('square', {
+							initialValue:this.state.square
+						})(
+							<Input placeholder='请输入门店面积' autoComplete="off"/>
+						)}
+					</FormItem>
+	        <FormItem
+						label="装修费用"
+						labelCol={{ span: 3,offset: 1 }}
+						wrapperCol={{ span: 6 }}>
+						{getFieldDecorator('fixtureMoney', {
+							initialValue:this.state.fixtureMoney,
+							rules:[{pattern:/^\d+(\.\d{0,2})?$/,message:'只能输入两位小数的数字'}]
+						})(
+							<Input placeholder='请输入装修费用' autoComplete="off"/>
+						)}
+					</FormItem>
+	        <FormItem
+						label="门店租金"
+						labelCol={{ span: 3,offset: 1 }}
+						wrapperCol={{ span: 6 }}>
+						{getFieldDecorator('rental', {
+							initialValue:this.state.rental,
+							rules:[{pattern:/^\d+(\.\d{0,2})?$/,message:'只能输入两位小数的数字'}]
+						})(
+							<Input placeholder='请输入门店租金' autoComplete="off"/>
+						)}
+					</FormItem>
+	        <FormItem
+						label="人事费用"
+						labelCol={{ span: 3,offset: 1 }}
+						wrapperCol={{ span: 6 }}>
+						{getFieldDecorator('staffCost', {
+							initialValue:this.state.staffCost,
+							rules:[{pattern:/^\d+(\.\d{0,2})?$/,message:'只能输入两位小数的数字'}]
+						})(
+							<Input placeholder='请输入人事费用' autoComplete="off"/>
+						)}
+					</FormItem>
+					<FormItem
+						label="店主微信"
+						labelCol={{ span: 3,offset: 1 }}
+						wrapperCol={{ span: 6 }}>
+						{getFieldDecorator('wechat', {
+							initialValue:this.state.wechat
+						})(
+							<Input placeholder='请输入店主微信' autoComplete="off"/>
+						)}
+					</FormItem>
+	        <FormItem
+						label="营业时间"
+						labelCol={{ span: 3,offset: 1 }}
+						wrapperCol={{ span: 6 }}>
+	          {getFieldDecorator('businessTime', {
+	          })(
+	            <div>
+	                <TimePicker  onChange={this.fromonChange.bind(this)}  value={(this.state.fromtime!=null && this.state.fromtime!=undefined && this.state.fromtime!='' && this.state.fromtime!=[])?moment(String(this.state.fromtime),'HH:mm'):null} style={{width:'45%'}} format="HH:mm"/>
+	                <span style={{display:'inline-block',width:'10%',textAlign:'center'}}>至</span>
+	                <TimePicker  onChange={this.endonChange.bind(this)}  value={(this.state.endtime!=null && this.state.endtime!=undefined && this.state.endtime!='' && this.state.endtime!=[])?moment(this.state.endtime,'HH:mm'):null} style={{width:'45%'}} format="HH:mm"/>
+	            </div>
+	          )}
+	        </FormItem>
+	        <FormItem
+						label="开业时间"
+						labelCol={{ span: 3,offset: 1 }}
+						wrapperCol={{ span:6 }}>
+						{getFieldDecorator('openTime', {
+							initialValue:(this.props.data && this.state.startTime!=null && this.state.startTime!=undefined  && this.state.startTime!='' && this.state.startTime!=[])?moment(this.state.startTime):null
+						})(
+						<DatePicker  format="YYYY-MM-DD" showTime onChange={this.timeChange.bind(this)}/>
+						)}
+					</FormItem>
+					<FormItem
+						label="店主备注"
+						labelCol={{ span: 3,offset: 1 }}
+						wrapperCol={{ span: 6 }}>
+						{getFieldDecorator('remark', {
+							initialValue:this.state.remark
+						})(
+							<TextArea rows={4} placeholder='请输入店主备注' autoComplete="off"/>
+						)}
+					</FormItem>
+					<div className='title'>合作经营</div>
+					<FormItem
+						label="门店状态"
+						labelCol={{ span: 3,offset: 1 }}
+						wrapperCol={{ span: 6 }}>
+						{getFieldDecorator('status', {
+							rules: [{ required: true, message: '请选择门店状态'}],
+							initialValue:this.state.status
+						})(
+							<Select placeholder="请选择门店状态">
+								<Option value="0">待开业</Option>
+								<Option value="10">开业中</Option>
+								<Option value="20">关业中</Option>
+							</Select>
+						)}
+					</FormItem>
+					<FormItem
+						label="门店类型"
+						labelCol={{ span: 3,offset: 1 }}
+						wrapperCol={{ span: 6 }}>
+						{getFieldDecorator('shopType', {
+							rules: [{ required: true, message: '请选择门店类型'}],
+							initialValue:this.state.shopType,
+							onChange:this.selectChange
+						})(
+							<Select placeholder="请选择门店类型">
+								<Option value="1">直营</Option>
+								<Option value="2">联营</Option>
+								<Option value="3">加盟</Option>
+							</Select>
+						)}
+					</FormItem>
+					<FormItem
+						label="分成比例"
+						labelCol={{ span: 3,offset: 1 }}
+						wrapperCol={{ span: 6 }}>
+						<div className='felxboxs'>
+							<div style={{width:'45%'}}>
+								<p className='tc'>食品尿不湿类</p>
+								<Input suffix='%' disabled={this.state.shopType=='2'?false:true} value={this.state.foodShareRatio} onChange={this.hindChange1.bind(this)} onBlur={this.hindBlue1.bind(this)}/>
+							</div>
+							<div style={{width:'45%'}}>
+								<p className='tc'>非食品尿不湿类</p>
+								<Input suffix='%' disabled={this.state.shopType=='2'?false:true} value={this.state.nonfoodShareRatio} onChange={this.hindChange2.bind(this)} onBlur={this.hindBlue2.bind(this)}/>
+							</div>
+						</div>
+					</FormItem>
+					<FormItem
+						label="微信支付扫码"
+						labelCol={{ span: 3,offset: 1 }}
+						wrapperCol={{ span:6 }}>
+						{getFieldDecorator('openWechat', {
+							rules: [{ required: true, message: '请选择是否使用微信扫码支付'}],
+							initialValue:Number(this.state.openWechat)
+						})(
+							<RadioGroup>
+								<Radio value={1}>开启</Radio>
+								<Radio value={0}>关闭</Radio>
+					  	</RadioGroup>
+						)}
+					</FormItem>
+					<FormItem
+						label="支付宝扫码"
+						labelCol={{ span: 3,offset: 1 }}
+						wrapperCol={{ span:6 }}>
+						{getFieldDecorator('openAlipay', {
+							rules: [{ required: true, message: '请选择是否使用支付宝扫码'}],
+							initialValue:Number(this.state.openAlipay)
+						})(
+							<RadioGroup>
+								<Radio value={1}>开启</Radio>
+								<Radio value={0}>关闭</Radio>
+					  	</RadioGroup>
+						)}
+					</FormItem>
+					<FormItem
+						label="C端App"
+						labelCol={{ span: 3,offset: 1 }}
+						wrapperCol={{ span:6 }}>
+						{getFieldDecorator('openApp', {
+							rules: [{ required: true, message: '请选择是否使用C端App'}],
+							initialValue:Number(this.state.openApp)
+						})(
+							<RadioGroup>
+								<Radio value={1}>开启</Radio>
+								<Radio value={0}>关闭</Radio>
+					  	</RadioGroup>
+						)}
+					</FormItem>
+					<FormItem
+						label="C端同城配送"
+						labelCol={{ span: 3,offset: 1 }}
+						wrapperCol={{ span:6 }}>
+						{getFieldDecorator('openCityDistribution', {
+							rules: [{ required: true, message: '请选择是否使用C端同城配送'}],
+							initialValue:Number(this.state.openCityDistribution)
+						})(
+							<RadioGroup>
+								<Radio value={1} key={1}>开启</Radio>
+								<Radio value={0} key={0}>关闭</Radio>
+					  	</RadioGroup>
+						)}
+					</FormItem>
+					<FormItem
+							label="合同信息"
+							labelCol={{ span: 3,offset: 1 }}
+							wrapperCol={{ span: 6 }}
+						>
+							<UpLoadImg
+								name='imgFile'
+								action = '/erpWebRest/qcamp/upload.htm?type=spu'
+								fileList = {this.state.fileList}
+								maxLength = '10'
+								changeImg = {this.changeImg}
+							/>
+					</FormItem>
+	      	<FormItem wrapperCol={{ offset: 4}} style = {{marginBottom:0}}>
+	      		<Button className='mr30' onClick={this.hindCancel.bind(this)}>取消</Button>
+					  {
+						  this.props.data?<Button  type="primary" onClick={this.handUse.bind(this)}>重置密码</Button>:null
+					  }
+	      		<Button  type="primary" onClick={this.handleSubmit.bind(this)} className='ml30'>保存</Button>
+	      	</FormItem>
     	</Form>
   	)
 	}

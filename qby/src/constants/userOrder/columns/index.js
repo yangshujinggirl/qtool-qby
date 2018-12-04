@@ -1,3 +1,14 @@
+const platformMap={
+  '1':'Qtools App ios端',
+  '2':'Qtools App  安卓端',
+  '3':'小程序',
+}
+const deliveryMap={
+  '1':'门店自提',
+  '2':'同城配送',
+  '3':'快递邮寄',
+}
+
 const Columns = [{
      title: '订单号',
      dataIndex: 'orderNo',
@@ -12,6 +23,18 @@ const Columns = [{
      title: '门店名称',
      dataIndex: 'spShopName'
    },{
+     title: '下单平台',
+     dataIndex: 'platform',
+     render:(text,record)=> {
+       return platformMap[record.platform]
+     }
+   },{
+     title: '配送方式',
+     dataIndex: 'delivery',
+     render:(text,record)=> {
+       return deliveryMap[record.deliveryType]
+     }
+   },{
      title: '用户昵称',
      dataIndex: 'nickName'
    }, {
@@ -22,10 +45,10 @@ const Columns = [{
      dataIndex: 'qtySum'
    },{
      title: '订单金额',
-     dataIndex: 'amountSum'
-   },{
-     title: '用户支付金额',
      dataIndex: 'payAmount'
+   },{
+     title: '优惠金额',
+     dataIndex: 'discountAmount'
    },{
      title: '流程状态',
      dataIndex: 'orderStatusStr'

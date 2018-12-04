@@ -1,4 +1,5 @@
 import { GetServerData } from '../services/services';
+import moment from 'moment';
 import { getListApi } from '../services/orderCenter/userOrders.js';
 
 export default {
@@ -16,8 +17,17 @@ export default {
   },
   effects: {
     *fetchList({ payload: values }, { call, put ,select}) {
+      const fixedLimit = yield select(state => state.userorders.limit);
+      let { rangePicker, ...params } =values;
+      if(!params.limit) {
+        params = {...params,...{ limit: fixedLimit}}
+      };
+      if(rangePicker&&rangePicker.length>0) {
+        params.dateTimeST = moment(rangePicker[0]).format('YYYY-MM-DD HH:mm:ss');
+        params.dateTimeET = moment(rangePicker[1]).format('YYYY-MM-DD HH:mm:ss');
+      }
       yield put({type: 'tab/loding',payload:true});
-      const result=yield call(getListApi,values);
+      const result=yield call(getListApi,params);
       yield put({type: 'tab/loding',payload:false});
       if(result.code=='0') {
         const { orders, currentPage, limit, total } = result;

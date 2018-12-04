@@ -23,7 +23,8 @@ class ClerkSaleForm extends React.Component {
           totalUserSale:{},
           setsouce:[],
           startDate:'',
-          endDate:''
+          endDate:'',
+          source:0
       };
       this.amount = <Tooltip placement="top" title='销售订单金额-退款订单金额'>
                       净销售额&nbsp;<Icon type="exclamation-circle-o" />
@@ -91,6 +92,9 @@ class ClerkSaleForm extends React.Component {
         }];
   }
   componentDidMount(){
+    this.getDate()
+  }
+  getDate() {
     let d= new Date()
     d.setDate(d.getDate()-1);
     let dy=d.getFullYear(); //年
@@ -100,13 +104,9 @@ class ClerkSaleForm extends React.Component {
     this.setState({
         startDate:a,
         endDate:a
+    },()=> {
+      this.initdataspuce()
     });
-    let values={
-        shopId:this.props.shopId,
-        startDate:a,
-        endDate:a
-    };
-    this.initdataspuce(values)
   }
   rowClassName=(record, index)=>{
     if (index % 2) {
@@ -116,16 +116,17 @@ class ClerkSaleForm extends React.Component {
     }
   }
   searchTable = () =>{
-    let values={
-        shopId:this.props.shopId,
-        startDate:this.state.startDate,
-        endDate:this.state.endDate
-    };
-    this.initdataspuce(values);
+    this.initdataspuce();
   }
   initdataspuce=(values)=>{
+    let params={
+        shopId:this.props.shopId,
+        startDate:this.state.startDate,
+        endDate:this.state.endDate,
+        source:this.state.source
+    };
     this.props.dispatch({ type: 'tab/loding', payload:true});
-    GetServerData('qerp.web.rp.day.users.list',values)
+    GetServerData('qerp.web.rp.day.users.list',params)
     .then((json) => {
         this.props.dispatch({ type: 'tab/loding', payload:false});
         if(json.code=='0'){
@@ -166,6 +167,9 @@ class ClerkSaleForm extends React.Component {
       endDate:dateStrings[1]
     })
   }
+  changeSource=(value)=> {
+    this.setState({ source: value});
+  }
   render() {
       const { getFieldDecorator } = this.props.form;
       let d= new Date()
@@ -186,11 +190,26 @@ class ClerkSaleForm extends React.Component {
                       <Col span={24} className='formbox_col'>
                         <div className='serach_form'>
                           <FormItem label="选择时间">
-                            <RangePicker
-                              defaultValue={[moment(a,dateFormat),moment(a, dateFormat)]}
-                              format="YYYY-MM-DD"
-                              allowClear={false}
-                              onChange={this.dataChange.bind(this)} />
+                            {getFieldDecorator('time',{
+                              onChange:this.dataChange,
+                              initialValue:[moment(a,dateFormat),moment(a, dateFormat)]
+                            })(
+                              <RangePicker
+                                format="YYYY-MM-DD"/>
+                            )}
+                          </FormItem>
+                          <FormItem
+                            label="订单来源">
+                            {getFieldDecorator('source',{
+                              onChange:this.changeSource,
+                              initialValue:0
+                            })(
+                              <Select placeholder="请选择订单来源">
+                                <Option key={0} value={0}>全部</Option>
+                                <Option key={1} value={1}>POS</Option>
+                                <Option key={2} value={2}>APP</Option>
+                              </Select>
+                            )}
                           </FormItem>
                         </div>
                       </Col>

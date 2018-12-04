@@ -122,7 +122,7 @@ const ProcesasStatusOption = [{
         },
         {
           key:70,
-          value:'用户已提货'
+          value:'已完成'
         },
         {
           key:20,
@@ -135,10 +135,32 @@ const ProcesasStatusOption = [{
         {
           key:50,
           value:'用户支付后取消'
-        },
-      ]
-
-
+        },{
+          key:-10,
+          value:'已发货'
+        }]
+//配送方式
+const DeliveryOption=[{
+          key:1,
+          value:'门店自提',
+        },{
+          key:2,
+          value:'同城配送',
+        },{
+          key:3,
+          value:'快递邮寄',
+        }]
+//下单平台
+const PlatformOption=[{
+          key:1,
+          value:'Qtools App ios端',
+        },{
+          key:2,
+          value:'Qtools App  安卓端',
+        },{
+          key:3,
+          value:'小程序',
+        }]
 export default {
   NumberOption,
   BooleanOption,
@@ -147,5 +169,7 @@ export default {
   GoosStatusOption,
   SalePropertyOption,
   LotStatusOption,
-  ProcesasStatusOption
+  ProcesasStatusOption,
+  DeliveryOption,
+  PlatformOption
 }

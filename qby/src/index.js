@@ -89,12 +89,14 @@ import appBase from './models/appData/appBase'
 //供应商收支
 import supplyinout from './models/operate/supplyinout'
 //提现管理
-import withdraw from './models/operate/withdraw'
+import withdraw from './models/operate/withdraw';
+import sellManage from './models/operate/sellManage';
 //B端问答
 import bAnswer from './models/operate/bAnswer'
 import bAddAnswer from './models/operate/bAnswer/bAddAnswer'
 //待审核订单
 import onAudit from './models/online/onAudit'
+import freightDetail from './models/datapos/freightDetail';
 
 // 1. Initialize
 const app = dva({
@@ -176,8 +178,10 @@ const models = [
   withdraw,
   bAnswer,
   bAddAnswer,
+  onAudit,
+  sellManage,
+  freightDetail,
   cServerOrder,
-  onAudit
 ]
 
 models.forEach(m => {

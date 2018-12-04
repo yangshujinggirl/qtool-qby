@@ -176,6 +176,7 @@ import Withdraw from '../operate/withdraw/index' //提现
 import WithdrawDetails from '../operate/withdraw/WithdrawDetails' //提现详情
 import Banswer from '../operate/bAnswer/index' //b端问答
 import Addanswer from '../operate/bAnswer/addAnswer' //b端问答
+import SellManage from '../operate/sellManage' //b端问答
 //门店数据
 import DataDistribute from '../datasp/dataspcun/dataDistribution/index'
 
@@ -268,6 +269,7 @@ class Content extends React.Component {
                                 // --------------------------- 运营管理 -------------------------------
                                     case "402000":return <OperateinoutIndex data={this.props.data}/>;
                                     case "402000info":return <OperateinoutInfo data={this.props.data}/>;
+                                    case formDataCode('operate41'):return <SellManage data={this.props.data} componkey={this.props.componkey}/>;
                                     case "402000infoMoney":return <OperateinoutMoneyInfo data={this.props.data}/>;
                                     case "402500":return <OperatememberIndex data={this.props.data}/>;
                                     case "405000":return <OperatesupplierIndex data={this.props.data}/>;
