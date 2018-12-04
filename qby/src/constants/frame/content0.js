@@ -12,6 +12,7 @@ import Brandindex from '../goods/brand/index';
 import Specsindex from '../goods/specs/index';
 import GoodtimeIndex from '../goods/goodtime/index';
 import GoodEditForm from '../goods/goodtime/edit';
+import CgoodsExplain from '../goods/cgoodsExplain/index'
 
 
 
@@ -117,8 +118,8 @@ import QposDbInfo from '../datapos/dbinfo'
 //订单中心
 import UserOrder from '../userOrder/index';//用户订单
 import UserOrderDetail from '../userOrder/userOrderDetail'
-import Userth from '../userth/index'
-import UserthDetail from '../userth/userthDetail'
+import Userth from '../userth/index' //用户退单
+import UserthDetail from '../userth/userthDetail' //用户退单详情
 //商品中心
 import  BaseGoods from '../goods/baseGoods/index';//基础商品
 import  AddGoods from '../goods/baseGoods/AddGoods';//基础商品--新增商品
@@ -134,6 +135,7 @@ import  CtipGoodsDetail from '../goods/cTipGoods/GoodsDetail';//C端商品--商�
 import  CtipLogList from '../goods/cTipGoods/LogList';//C端商品--日志
 import  InternalSort from '../goods/internalSort/index.js';//内部分类
 import  CountryManage from '../goods/countryManage/index.js';//国家管理
+import  BondManage from '../goods/bondManage/index.js'//保税仓管理
 //电商中心
 import ProductInfo from '../online/productInfo/index.js';//商品信息
 import EditGoods from '../online/productInfo/AddGoods.js';//修改商品信息
@@ -144,6 +146,7 @@ import AddTimer from '../goods/cTimer/AddTimer.js';//c端定时
 // 合作中心
 import MarketResource from '../cooperate/marketResource/index';
 import AddStaff from '../cooperate/marketResource/AddStaff';
+
 //活动中心
 import Coupon from '../activity/coupon/index';//优惠券
 import Cbanner from '../activity/cBanner/index'//C端banner
@@ -159,6 +162,8 @@ import Cpush from '../activity/cPush/index'; //b端push
 import CpushDetail from '../activity/cPush/CpushDetail' //b端详情
 import AddcPush from '../activity/cPush/AddPush' //新增push页面
 
+//财务中心
+import ShareManage from '../financeCenter/shareManage/index'
 //客服中心
 import UserFeedBack from '../server/userFeedBack/index'; //用户反馈
 import HandleBack from '../server/userFeedBack/HandleBack'//反馈处理
@@ -199,6 +204,8 @@ class Content extends React.Component {
                         {
                             (() => {
                                 switch (this.props.componkey) {
+                                  //财务中心
+                                    case "314000":return  <ShareManage data={this.props.data}/>;
 
                                     case "301700":return  <Stockindex data={this.props.data}/>;
                                     // case "302000":return  <Classificationindex data={this.props.data}/>;
@@ -206,6 +213,9 @@ class Content extends React.Component {
                                     case "304000":return  <Specsindex data={this.props.data}/>;
                                     case "305000":return  <GoodtimeIndex data={this.props.data}/>;
                                     case "305000edit":return  <GoodEditForm data={this.props.data}/>;
+                                    case "312000":return  <CgoodsExplain data={this.props.data}/>;
+
+
 
                                     case "401000":return  <CzIndex data={this.props.data}/>;
                                     case "401000info":return  <OperateczInfo data={this.props.data}/>;
@@ -349,6 +359,7 @@ class Content extends React.Component {
                                     case formDataCode('goods80-editconfig') : return <CtipLogList data={this.props.data} />
                                     case formDataCode('goods12') : return <Ctimer data={this.props.data} componkey={this.props.componkey}/>//c端定时
                                     case formDataCode('goods12-edit') : return <AddTimer data={this.props.data} componkey={this.props.componkey}/>
+                                    case "313000" : return <BondManage data={this.props.data} componkey={this.props.componkey}/>
                                     //------------------------------客服中心------------------------
                                     case formDataCode('server02') : return <UserFeedBack data={this.props.data} componkey={this.props.componkey}/>//用户反馈
                                     case formDataCode('server02-edit') : return <HandleBack data={this.props.data} componkey={this.props.componkey}/>

@@ -795,7 +795,8 @@ class AddGoodsForm extends Component {
                      {getFieldDecorator('shareRatio',{
                        initialValue:pdSpu.shareRatio&&Number(pdSpu.shareRatio)||'',
                        rules: [
-                         { pattern:/^[0-9]+([.]{1}[0-9]+){0,1}$/,message:'请输入数字'},
+                         {required:true,message:"请输入分成比例"},
+                         { pattern:/^\d+(\.\d{0,2})?$/,message:'请输入两位小数的数字'},
                          { validator:this.validatorShareRatio }
                        ]
                      })(

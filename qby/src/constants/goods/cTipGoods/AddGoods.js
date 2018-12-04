@@ -4,7 +4,7 @@ import {
   Form,Row,Col,
   Input,Button,Icon,
   Select ,AutoComplete,Upload,
-  message,Radio,DatePicker
+  message,Radio,DatePicker,Checkbox
 } from 'antd';
 import moment from 'moment';
 import {
@@ -22,6 +22,7 @@ import GoodsInfo from './components/GoodsInfo';
 const FormItem = Form.Item;
 const Option = Select.Option;
 const RadioGroup = Radio.Group;
+const CheckboxGroup = Checkbox.Group;
 
 const formItemLayout = {
   labelCol: {
@@ -54,6 +55,11 @@ class AddGoodsForm extends Component {
     this.state = {
       loading:false,
     }
+    this.plainOptions=[
+      { label: '七天无理由退换货', value: '1' },
+      { label: '包税', value: '2' },
+      { label: '商品保质说明', value: '3' },
+    ]
   }
   componentDidMount() {
     this.initPage()
@@ -231,6 +237,15 @@ class AddGoodsForm extends Component {
        							<Radio value={1} value={1}>是</Radio>
        							<Radio value={0} value={0}>否</Radio>
        						 </RadioGroup>
+                 )}
+               </FormItem>
+            </Col>
+            <Col span={24}>
+              <FormItem label='商品说明' {...formItemLayout}>
+                 {getFieldDecorator('isHot',{
+                   initialValue:pdSpu.eventHotc||0
+                 })(
+                   <CheckboxGroup options={plainOptions} defaultValue={['1']} onChange={onChange} />
                  )}
                </FormItem>
             </Col>
