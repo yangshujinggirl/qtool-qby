@@ -83,10 +83,6 @@ class OrderposTable extends React.Component {
             />
         );
 	}
-	componentDidMount(){
-
-	}
-
 }
 
 function mapStateToProps(state) {

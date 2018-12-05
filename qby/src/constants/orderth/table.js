@@ -83,7 +83,7 @@ class OrderthTable extends React.Component {
 	  }
   	];
     }
-    
+
     //点击表格上的修改按钮操作
     lookInfo = (record) =>{
        const wsAsnId=String(record.wsAsnId);
@@ -112,8 +112,8 @@ class OrderthTable extends React.Component {
     pageSizeChange=(current,size)=>{
           this.initList(this.props.values,size,0)
     }
-    
-    //列表数据请求   
+
+    //列表数据请求
     initList=(values,limit,currentPage)=>{
         values.limit=limit;
         values.currentPage=currentPage;
@@ -124,7 +124,7 @@ class OrderthTable extends React.Component {
         });
         this.props.dispatch({ type: 'tab/loding', payload:true});
 	}
-	
+
 	//列表数据选择
 	selectChange=(selectedRowKeys,selectedRows)=>{
 		this.props.dispatch({
@@ -135,10 +135,10 @@ class OrderthTable extends React.Component {
 
     render() {
         return (
-          <EditableTable 
+          <EditableTable
             bordered={true}
-            dataSource={this.props.tableList} 
-            columns={this.props.addorderobj?this.columns:this.columnsrole} 
+            dataSource={this.props.tableList}
+            columns={this.props.addorderobj?this.columns:this.columnsrole}
             footer={true}
             pageChange={this.pageChange.bind(this)}
             pageSizeChange={this.pageSizeChange.bind(this)}
@@ -152,11 +152,6 @@ class OrderthTable extends React.Component {
             />
         );
 	}
-	componentDidMount(){
-    	//执行初始化数据方法获取list
-		this.initList(this.props.values,this.props.limit,this.props.currentPage);
-	}
-    
 }
 
 function mapStateToProps(state) {
@@ -165,6 +160,3 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(OrderthTable);
- 
-
-

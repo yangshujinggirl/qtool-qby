@@ -42,7 +42,7 @@ class OrderdbTable extends React.Component {
             dataIndex: 'createTime'
         }];
     }
-    
+
     //跳转到订单详情
     editInfo = (record) =>{
        const spExchangeId=String(record.spExchangeId);
@@ -68,9 +68,9 @@ class OrderdbTable extends React.Component {
 
     render() {
         return (
-          <EditableTable 
-                dataSource={this.props.datasource} 
-                columns={this.columns} 
+          <EditableTable
+                dataSource={this.props.datasource}
+                columns={this.columns}
                 footer={true}
                 bordered={true}
                 pageChange={this.pageChange.bind(this)}
@@ -88,7 +88,3 @@ class OrderdbTable extends React.Component {
 }
 
 export default connect()(OrderdbTable);
-
- 
-
-

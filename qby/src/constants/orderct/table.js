@@ -31,7 +31,7 @@ class OrderctTable extends React.Component {
           dataIndex: 'createTime'
         }];
     }
-    
+
     //点击表格上的修改按钮操作
     editInfo = (record) =>{
        const spOrderId=String(record.spOrderId);
@@ -50,8 +50,8 @@ class OrderctTable extends React.Component {
     pageSizeChange=(current,size)=>{
           this.initList(this.props.values,size,0)
     }
-    
-    //列表数据请求   
+
+    //列表数据请求
     initList=(values,limit,currentPage)=>{
         values.limit=limit;
         values.currentPage=currentPage;
@@ -64,9 +64,9 @@ class OrderctTable extends React.Component {
 
     render() {
         return (
-          <EditableTable 
-            dataSource={this.props.tableList} 
-            columns={this.columns} 
+          <EditableTable
+            dataSource={this.props.tableList}
+            columns={this.columns}
             footer={true}
             bordered={true}
             pageChange={this.pageChange.bind(this)}
@@ -77,11 +77,6 @@ class OrderctTable extends React.Component {
             />
         );
 	}
-	componentDidMount(){
-    //执行初始化数据方法获取list
-		this.initList(this.props.values,this.props.limit,this.props.currentPage);
-	}
-    
 }
 
 function mapStateToProps(state) {
@@ -90,6 +85,3 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(OrderctTable);
- 
-
-
