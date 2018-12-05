@@ -105,7 +105,6 @@ class OperatememberSearchForm extends React.Component {
                                 <FormItem label='最近使用时间'>
                                         {
                                             <RangePicker
-                                                showTime
                                                 format="YYYY-MM-DD"
                                                 value={this.state.startTime?
                                                         [moment(this.state.startTime), moment(this.state.endTime)]

@@ -125,7 +125,6 @@ class OrderthSearchForm extends React.Component {
                                 <FormItem label='下单时间'>
                                     {
                                         <RangePicker
-                                            showTime
                                             format="YYYY-MM-DD"
                                             value={this.state.createTimeST?
                                                     [moment(this.state.createTimeST), moment(this.state.createTimeET)]
@@ -139,7 +138,6 @@ class OrderthSearchForm extends React.Component {
                                 <FormItem label='完成时间'>
                                     {
                                         <RangePicker
-                                            showTime
                                             format="YYYY-MM-DD"
                                             onChange={this.hindDateChange.bind(this,2)}
                                         />

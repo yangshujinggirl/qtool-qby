@@ -105,9 +105,10 @@ class Bpush extends Component{
   //搜索框数据发生变化
   searchDataChange =(values)=> {
     const {rangePicker,..._values} = values;
+    console.log(rangePicker)
     if(rangePicker&&rangePicker[0]){
-      _values.startTime =  moment(rangePicker).format('YYYY-MM-DD HH:mm:ss');;
-      _values.endTime = moment(rangePicker[1]).format('YYYY-MM-DD HH:mm:ss');;
+      _values.pushTimeST =  moment(rangePicker[0]).format('YYYY-MM-DD HH:mm:ss');
+      _values.pushTimeET = moment(rangePicker[1]).format('YYYY-MM-DD HH:mm:ss');
     }
     this.setState({field:_values});
   }

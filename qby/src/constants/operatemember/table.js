@@ -50,14 +50,14 @@ class OperatememberTable extends React.Component {
 			type:'tab/firstAddTab',
 			payload:paneitem
 		})
-		
+
 
 
 	}
-	
+
 	//点击表格上的修改按钮操作
 	lookInfo = (record) =>{
-		
+
 	}
 
 	//分页方法
@@ -68,8 +68,8 @@ class OperatememberTable extends React.Component {
 	pageSizeChange=(current,size)=>{
 		this.initList(this.props.values,size,0)
 	}
-	
-	//列表数据请求   
+
+	//列表数据请求
 	initList=(values,limit,currentPage)=>{
 		values.limit=limit;
 		values.currentPage=currentPage;
@@ -82,9 +82,9 @@ class OperatememberTable extends React.Component {
 
 	render() {
 		return (
-		<EditableTable 
-			dataSource={this.props.tableList} 
-			columns={this.columns} 
+		<EditableTable
+			dataSource={this.props.tableList}
+			columns={this.columns}
 			footer={true}
 			bordered={true}
 			pageChange={this.pageChange.bind(this)}
@@ -95,11 +95,11 @@ class OperatememberTable extends React.Component {
 			/>
 		);
 	}
-	componentDidMount(){
-	//执行初始化数据方法获取list
-		this.initList(this.props.values,this.props.limit,this.props.currentPage);
-	}
-	
+	// componentDidMount(){
+	// //执行初始化数据方法获取list
+	// 	this.initList(this.props.values,this.props.limit,this.props.currentPage);
+	// }
+
 }
 
 function mapStateToProps(state) {
@@ -108,6 +108,3 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(OperatememberTable);
-
-
-

@@ -63,15 +63,15 @@ class UserFeedBack extends Component{
   onShowSizeChange =({currentPage,limit})=> {
     this.props.dispatch({
       type:'userFeedBack/fetchList',
-      payload:{currentPage,limit}
+      payload:{currentPage,limit,...this.state.field}
     })
   }
   //搜索框数据发生变化
   searchDataChange =(values)=> {
     const {rangePicker,..._values} = values;
     if(rangePicker&&rangePicker[0]){
-      _values.createTimeST =  moment(new Date(rangePicker[0]._d).getTime()).format('YYYY-MM-DD');
-      _values.createTimeET = moment(new Date(rangePicker[1]._d).getTime()).format('YYYY-MM-DD');
+      _values.createTimeST =  moment(rangePicker[0]).format('YYYY-MM-DD');
+      _values.createTimeET = moment(rangePicker[1]).format('YYYY-MM-DD');
     }
     this.setState({field:_values});
   }

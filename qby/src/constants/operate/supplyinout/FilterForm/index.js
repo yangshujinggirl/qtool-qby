@@ -85,7 +85,7 @@ class NormalForm extends Component{
                   {getFieldDecorator('rangePicker',{
                     initialValue:defaultTime
                   })(
-                    <RangePicker showTime format="YYYY-MM-DD"/>
+                    <RangePicker  format="YYYY-MM-DD"/>
                   )}
                 </FormItem>
             </div>

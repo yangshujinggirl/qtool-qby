@@ -113,7 +113,6 @@ class SearchForm extends React.Component {
                                       initialValue:defaultTime
                                     })(
                                         <RangePicker
-                                            showTime
                                             format="YYYY-MM-DD"
                                             onChange={this.hindDateChange.bind(this)}
                                     />

@@ -134,7 +134,6 @@ class OrdercgSearchForm extends React.Component {
                                 <FormItem label='下单时间'>
                                     {
                                         <RangePicker
-                                            showTime
                                             format="YYYY-MM-DD"
                                             value={this.state.createTimeST?
                                                     [moment(this.state.createTimeST), moment(this.state.createTimeET)]
