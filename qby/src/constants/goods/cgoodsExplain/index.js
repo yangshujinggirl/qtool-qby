@@ -9,13 +9,12 @@ import ExplainModal from './components/ExplainModal'
 class Cexplain extends Component{
   constructor(props){
     super(props);
-    this.state ={
+    this.state = {
       title:"",
       visible:false,
       field:{
-        code:'',
-        updateUserName:'',
-        opstatus:'',
+        abbreviation:'',
+        lastChangeMan:'',
         status:'',
       }
     }

@@ -8,7 +8,7 @@ import GoodEdit from '../goods/goodscenter/edit';
 import Goodinfo from '../goods/goodscenter/info';
 import Stockindex from '../goods/stock/index';
 import Classificationindex from '../goods/classification/index';
-import Brandindex from '../goods/brand/index';
+import Brandindex from '../goods/brandManage/index';
 import Specsindex from '../goods/specs/index';
 import GoodtimeIndex from '../goods/goodtime/index';
 import GoodEditForm from '../goods/goodtime/edit';

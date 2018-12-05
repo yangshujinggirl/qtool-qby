@@ -35,21 +35,24 @@ class NormalForm extends Component{
         <Form className="qtools-condition-form">
           <div className='search-form-outwrap'>
             <div className="search-form-wrap">
-              <FormItem  label='简称'>
-                {getFieldDecorator('abbreviation')(
-                    <Input placeholder='请输入简称' autoComplete='off'/>
+              <FormItem  label='品牌名称'>
+                {getFieldDecorator('name')(
+                    <Input placeholder='请输入品牌名称' autoComplete='off'/>
                 )}
               </FormItem>
-              <FormItem label='最后修改人'>
-                {getFieldDecorator('lastChangeMan')(
-                  <Input placeholder='请输入最后修改人' autoComplete='off'/>
-                )}
-              </FormItem>
-              <FormItem label='状态'>
+              <FormItem label='品牌状态'>
                   {getFieldDecorator('status')(
-                  <Select allowClear={true} placeholder="请选择状态" className='select'>
-                      <Option value='1'>启用</Option>
-                      <Option value='0'>禁用</Option>
+                  <Select allowClear={true} placeholder="请选择品牌状态" className='select'>
+                      <Option value={1}>启用</Option>
+                      <Option value={0}>禁用</Option>
+                  </Select>
+                  )}
+              </FormItem>
+              <FormItem label='C端品牌馆'>
+                  {getFieldDecorator('eventStatus')(
+                  <Select allowClear={true} placeholder="请选择C端品牌馆" className='select'>
+                      <Option value={10}>上架</Option>
+                      <Option value={20}>下架</Option>
                   </Select>
                   )}
               </FormItem>
