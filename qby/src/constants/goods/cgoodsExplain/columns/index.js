@@ -1,9 +1,9 @@
 const Columns = [{
      title: '简称',
-     dataIndex: 'taskName',
+     dataIndex: 'name',
      render:(text,record)=>{
        return(
-          text.length>15
+          text && text.length>15
          ?
           <p>{text.slice(0,15)+'...'}</p>
          :
@@ -12,10 +12,10 @@ const Columns = [{
      }
    },{
      title: '详细说明',
-     dataIndex: 'opstatusStr',
+     dataIndex: 'text',
      render:(text,record)=>{
        return(
-          text.length>100
+          text && text.length>100
          ?
           <p>{text.slice(0,100)+'...'}</p>
          :
@@ -23,11 +23,14 @@ const Columns = [{
        )
      }
    }, {
+     title:'状态',
+     dataIndex:'statusStr'
+   },{
      title: '权重',
-     dataIndex: 'statusStr'
+     dataIndex: 'rank'
    },{
      title: '最后修改人',
-     dataIndex: 'updateUserName'
+     dataIndex: 'userName'
    },{
      title: '操作',
      dataIndex: '',

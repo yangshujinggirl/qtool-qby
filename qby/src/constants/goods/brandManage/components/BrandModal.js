@@ -24,12 +24,11 @@ class ExplainModal extends Component{
     this.props.onCancel(this.clearForm);
   }
   changeImg =(imageUrl)=> {
-    console.log(imageUrl)
     this.props.changeImg(imageUrl)
   }
   render(){
     const { getFieldDecorator } = this.props.form;
-    const {imageUrl} = this.props;
+    const {imageUrl,name,rank,status,eventStatus} = this.props;
     return(
       <div>
       <Modal
@@ -55,12 +54,11 @@ class ExplainModal extends Component{
                labelCol={{ span: 5 }}
                wrapperCol={{ span: 12 }}>
                {
-                 getFieldDecorator("age",{
-                   rules:[{
-                     required:true,message:"请输入品牌名称"
-                   }]
+                 getFieldDecorator("name",{
+                   rules:[{required:true,message:"请输入品牌名称",}],
+                   initialValue:name?name:null,
                  })(
-                    <Input placeholder='请输入品牌名称'/>
+                    <Input placeholder='请输入品牌名称' autoComplete="off"/>
                  )
                }
            </FormItem>
@@ -69,12 +67,13 @@ class ExplainModal extends Component{
                labelCol={{ span: 5 }}
                wrapperCol={{ span: 12 }}>
                {
-                 getFieldDecorator("adre",{
+                 getFieldDecorator("rank",{
+                   initialValue:rank?rank:null,
                    rules:[
                      {pattern:/^(?:[0-9]{0,2}|100)$/,message:"请输入0-100整数"},
                      {required:true,message:"请输入0-100整数，数值越大权重越高"}]
                  })(
-                    <Input maxLength='15' placeholder='请输入0-100整数，数值越大权重越高'/>
+                    <Input maxLength='15' placeholder='请输入0-100整数，数值越大权重越高' autoComplete="off"/>
                  )
                }
            </FormItem>
@@ -82,12 +81,13 @@ class ExplainModal extends Component{
              label="品牌状态"
              labelCol={{ span: 5 }}
              wrapperCol={{ span: 12 }}>
-             {getFieldDecorator('wsGroupId',{
+             {getFieldDecorator('status',{
+               initialValue:status?status:null,
                rules:[{required:true,message:'请选择品牌状态'}],
              })(
                <Select allowClear={true} placeholder="请选择品牌状态" className='select'>
                  <Option value={1}>启用</Option>
-                 <Option value={2}>禁用</Option>
+                 <Option value={0}>禁用</Option>
                </Select>
              )}
            </FormItem>
@@ -95,7 +95,8 @@ class ExplainModal extends Component{
              label="C端品牌馆"
              labelCol={{ span: 5 }}
              wrapperCol={{ span: 12 }}>
-             {getFieldDecorator('wsGroupId',{
+             {getFieldDecorator('eventStatus',{
+               initialValue:eventStatus?eventStatus:null,
                rules:[{required:true,message:'请选择C端品牌馆'}],
              })(
                <Select allowClear={true} placeholder="请选择C端品牌馆" className='select'>

@@ -22,7 +22,6 @@ class Uploadimg extends Component {
     }
     if (info.file.status === 'done') {
       const imageUrl = info.file.response.data[0];
-      console.log(imageUrl)
       this.props.changeImg(imageUrl)
        this.setState({
         loading: false,
@@ -32,7 +31,6 @@ class Uploadimg extends Component {
 
   render() {
     const fileDomain = eval(sessionStorage.getItem('fileDomain'));
-    console.log(fileDomain)
     const uploadButton = (
       <div>
         <Icon type={this.state.loading ? 'loading' : 'plus'} />

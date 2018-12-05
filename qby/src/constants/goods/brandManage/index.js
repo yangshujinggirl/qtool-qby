@@ -6,6 +6,7 @@ import Qtable from '../../../components/Qtable/index'; //表单
 import Qpagination from '../../../components/Qpagination/index'; //分页
 import FilterForm from './FilterForm/index'
 import BrandModal from './components/BrandModal'
+import {brandSaveApi} from '../../../services/goodsCenter/brand'
 class Brand extends Component{
   constructor(props){
     super(props);
@@ -13,7 +14,13 @@ class Brand extends Component{
       message:'',
       title:'',
       visible:false,
-      imageUrl:[],
+      imageUrl:"",
+      name:"",
+      rank:"",
+      status:"",
+      eventStatus:"",
+      pdBrandId:"",
+      mark:null,
       field:{
         name:'',
         status:'',
@@ -39,57 +46,103 @@ class Brand extends Component{
       payload:values
     })
   }
+  //pageSize改变时的回调
+  onShowSizeChange =({currentPage,limit})=> {
+    this.props.dispatch({
+      type:'brand/fetchList',
+      payload:{currentPage,limit,...this.state.field}
+    });
+  }
   //搜索框数据发生变化
   searchDataChange =(values)=> {
     this.setState({field:values});
   }
   //初始化数据
   componentWillMount(){
-    const {limit,currentPage} = this.props.brand;
     this.props.dispatch({
       type:'brand/fetchList',
-      payload:{limit,currentPage}
+      payload:{}
     })
   }
-  //新增定时
+  //新增品牌
   addBrand(){
     this.setState({
       title:"新增品牌",
-      visible:true
+      visible:true,
+      mark:false
     })
   }
 
   //修改
   handleOperateClick =(record)=> {
+    const {url,name,rank,status,eventStatus,pdBrandId} = record;
     this.setState({
       title:"修改品牌",
-      visible:true
+      visible:true,
+      imageUrl:url,
+      name,
+      rank,
+      status,
+      eventStatus,
+      pdBrandId,
+      mark:true
+    });
+  }
+  onOk =(values,clearForm)=> {
+    const {currentPage,limit} = this.props.brand;
+    const url = this.state.imageUrl;
+    const {mark,pdBrandId} = this.state;
+    let pdBrand = {};
+    if(mark){ //是修改
+      pdBrand = {pdBrandId,url,...values}
+    }else{
+      pdBrand = {url,...values}
+    };
+    brandSaveApi({pdBrand})
+    .then(res => {
+      if(res.code == '0'){
+        if(mark){ //是修改
+          message.success('修改成功',.3);
+        }else{
+          message.success('新增成功',.3);
+        };
+        this.props.dispatch({
+          type:'brand/fetchList',
+          payload:{currentPage,limit,...this.state.field}
+        });
+        this.setState({
+          visible:false,
+          name:'',
+          rank:'',
+          status:'',
+          eventStatus:'',
+          imageUrl:'',
+        },()=>{
+          clearForm()
+        });
+      };
     })
   }
-  onOk =(value,clearForm)=> {
-    this.setState({
-      visible:false
 
-    },()=>{
-      clearForm()
-    })
-  }
   onCancel =(clearForm)=> {
     this.setState({
       visible:false,
       imageUrl:'',
+      name:'',
+      rank:'',
+      status:'',
+      eventStatus:'',
     },()=>{
       clearForm();
     })
   }
   changeImg =(imageUrl)=> {
-    console.log(imageUrl)
     this.setState({
       imageUrl
     })
   }
   render(){
-    const {visible,title,imageUrl} = this.state;
+    const {visible,title,imageUrl,name,rank,status,eventStatus} = this.state;
     const {dataList} = this.props.brand;
     return(
       <div className="qtools-components-pages">
@@ -111,10 +164,15 @@ class Brand extends Component{
           onOperateClick = {this.handleOperateClick}
         />
         <Qpagination
+          onShowSizeChange = {this.onShowSizeChange}
           data={this.props.brand}
           onChange={this.changePage}/>
         <BrandModal
           title={title}
+          name={name}
+          rank={rank}
+          status={status}
+          eventStatus={eventStatus}
           onOk={this.onOk}
           onCancel={this.onCancel}
           visible={visible}

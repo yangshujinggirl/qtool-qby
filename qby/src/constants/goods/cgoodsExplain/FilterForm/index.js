@@ -36,12 +36,12 @@ class NormalForm extends Component{
           <div className='search-form-outwrap'>
             <div className="search-form-wrap">
               <FormItem  label='简称'>
-                {getFieldDecorator('abbreviation')(
+                {getFieldDecorator('name')(
                     <Input placeholder='请输入简称' autoComplete='off'/>
                 )}
               </FormItem>
               <FormItem label='最后修改人'>
-                {getFieldDecorator('lastChangeMan')(
+                {getFieldDecorator('urUserName')(
                   <Input placeholder='请输入最后修改人' autoComplete='off'/>
                 )}
               </FormItem>

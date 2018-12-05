@@ -6,15 +6,20 @@ import Qtable from '../../../components/Qtable/index'; //表单
 import Qpagination from '../../../components/Qpagination/index'; //分页
 import FilterForm from './FilterForm/index'
 import ExplainModal from './components/ExplainModal'
+import {saveExplainApi} from "../../../services/goodsCenter/cExplain"
 class Cexplain extends Component{
   constructor(props){
     super(props);
     this.state = {
       title:"",
       visible:false,
+      name:'',
+      rank:'',
+      status:'',
+      text:'',
       field:{
-        abbreviation:'',
-        lastChangeMan:'',
+        name:'',
+        urUserName:'',
         status:'',
       }
     }
@@ -52,22 +57,56 @@ class Cexplain extends Component{
   addExplain(){
     this.setState({
       title:"新建商品说明",
-      visible:true
-    })
+      visible:true,
+      flag:false
+    });
   }
   //确定
   onOk =(values,clearForm)=> {
-    this.setState({
-      visible:false
-    },()=>{
-      clearForm();
-    });
-
+    const {currentPage,limit}= this.props.cExplain;
+    const {flag,pdExplainId,field} = this.state;
+    let explain={}
+    if(flag){ //修改
+      explain={pdExplainId,...values}
+    }else{
+      explain=values
+    }
+    saveExplainApi({explain})
+    .then(res=>{
+      if(res.code == "0"){
+        if(flag){
+          message.success('修改成功');
+          this.props.dispatch({
+            type:'cExplain/fetchList',
+            payload:{limit,currentPage,...field}
+          });
+        }else{
+          message.success('新增成功')
+          this.props.dispatch({
+            type:'cExplain/fetchList',
+            payload:{}
+          });
+        };
+        this.setState({
+          visible:false,
+          name:'',
+          text:'',
+          rank:'',
+          status:'',
+        },()=>{
+          clearForm();
+        });
+      }
+    })
   }
   //取消
   onCancel =(clearForm)=> {
     this.setState({
       visible:false,
+      name:'',
+      text:'',
+      rank:'',
+      status:'',
     },()=>{
       clearForm();
     });
@@ -75,14 +114,21 @@ class Cexplain extends Component{
 
   //修改
   handleOperateClick =(record)=> {
+    const {name,text,rank,status,pdExplainId} = record;
     this.setState({
       title:"修改仓库",
-      visible:true
+      visible:true,
+      flag:true,
+      name,
+      text,
+      rank,
+      status,
+      pdExplainId
     })
   }
   render(){
     const {dataList} = this.props.cExplain;
-    const {visible,title} = this.state;
+    const {visible,title,name,text,rank,status} = this.state;
     return(
       <div className="qtools-components-pages">
         <FilterForm
@@ -108,6 +154,10 @@ class Cexplain extends Component{
           <ExplainModal
             title={title}
             visible={visible}
+            name={name}
+            text={text}
+            rank={rank}
+            status={status}
             onOk={this.onOk}
             onCancel={this.onCancel}
           />
