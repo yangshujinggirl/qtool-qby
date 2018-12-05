@@ -6,16 +6,17 @@ import Qtable from '../../../components/Qtable/index'; //表单
 import Qpagination from '../../../components/Qpagination/index'; //分页
 import FilterForm from './FilterForm/index'
 import BondModal from './components/BondModal'
+import {saveBondApi} from '../../../services/goodsCenter/bondManage'
 class BondManage extends Component{
   constructor(props){
     super(props);
     this.state ={
       title:"",
       visible:false,
+      flag:null,
       field:{
-        code:'',
-        updateUserName:'',
-        opstatus:'',
+        name:'',
+        lastChangeMan:'',
         status:'',
       }
     }
@@ -53,13 +54,47 @@ class BondManage extends Component{
   addWarehouse(){
     this.setState({
       title:"新建仓库",
-      visible:true
+      visible:true,
+      flag:false
     })
   }
   //确定
   onOk =(values,clearForm)=> {
+    const {flag,pdTaxWarehouseId,field} = this.state;
+    const {currentPage,limit} = this.props.bondManage;
+    let taxWarehouse = {}
+    if(flag){
+        taxWarehouse = {pdTaxWarehouseId,...values}
+    }else{
+        taxWarehouse = values;
+    }
+    saveBondApi({taxWarehouse})
+    .then(res=>{
+      if(res.code == "0"){
+        if(flag){
+          message.success('修改成功');
+          this.props.dispatch({
+            type:'bondManage/fetchList',
+            payload:{currentPage,limit,...field}
+          })
+        }else{
+          message.success('创建成功')
+          this.props.dispatch({
+            type:'bondManage/fetchList',
+            payload:{}
+          })
+        };
+      };
+    });
     this.setState({
-      visible:false
+      visible:false,
+      flag:true,
+      pdTaxWarehouseId:'',
+      name:'',
+      cname:'',
+      dispExp:'',
+      pushPlatform:'',
+      status:''
     },()=>{
       clearForm();
     });
@@ -69,6 +104,13 @@ class BondManage extends Component{
   onCancel =(clearForm)=> {
     this.setState({
       visible:false,
+      flag:true,
+      pdTaxWarehouseId:'',
+      name:'',
+      cname:'',
+      dispExp:'',
+      pushPlatform:'',
+      status:''
     },()=>{
       clearForm();
     });
@@ -76,14 +118,23 @@ class BondManage extends Component{
 
   //修改
   handleOperateClick =(record)=> {
+    const {name,cname,dispExp,pushPlatform,status,pdTaxWarehouseId} = record;
     this.setState({
       title:"修改仓库",
-      visible:true
+      visible:true,
+      flag:true,
+      pdTaxWarehouseId,
+      name,
+      cname,
+      dispExp,
+      pushPlatform,
+      status
     })
   }
   render(){
     const {dataList} = this.props.bondManage;
-    const {visible,title} = this.state;
+    const {visible,title,name,cname,dispExp,pushPlatform,status} = this.state;
+    console.log(pushPlatform)
     return(
       <div className="qtools-components-pages">
         <FilterForm
@@ -111,6 +162,11 @@ class BondManage extends Component{
             visible={visible}
             onOk={this.onOk}
             onCancel={this.onCancel}
+            name={name}
+            cname={cname}
+            dispExp={dispExp}
+            pushPlatform={pushPlatform}
+            status={status}
           />
       </div>
     )

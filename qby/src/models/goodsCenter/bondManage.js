@@ -19,15 +19,15 @@ export default{
       const result = yield call(getListApi,values);
       yield put({type: 'tab/loding',payload:false});
       if(result.code == '0'){
-        const { taskTimes, currentPage, limit, total } = result;
-        taskTimes.map((item,index)=>{
+        const { pdTaxWarehouses, currentPage, limit, total } = result;
+        pdTaxWarehouses.map((item,index)=>{
           item.key = index;
           return item;
         });
         yield put({
           type:'getList',
           payload:{
-            dataList:taskTimes,
+            dataList:pdTaxWarehouses,
             currentPage,
             limit,
             total,

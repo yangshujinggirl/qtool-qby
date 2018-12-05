@@ -14,10 +14,9 @@ class BondModal extends Component{
   }
   onOk =()=> {
     this.props.form.validateFieldsAndScroll((err,values)=>{
-      console.log(values)
-      // if(!err){
-      //   this.props.onOk(values,this.clearForm)
-      // };
+      if(!err){
+        this.props.onOk(values,this.clearForm)
+      };
     })
   }
   onCancel =()=>{
@@ -25,11 +24,13 @@ class BondModal extends Component{
   }
   render(){
     const { getFieldDecorator } = this.props.form;
+    const {title,visible,name,cname,dispExp,pushPlatform,status} = this.props;
+    console.log(typeof(pushPlatform) )
     return(
       <div>
       <Modal
-         title={this.props.title}
-         visible={this.props.visible}
+         title={title}
+         visible={visible}
          onOk={this.onOk}
          onCancel={this.onCancel}
        >
@@ -40,11 +41,12 @@ class BondModal extends Component{
                wrapperCol={{ span: 12 }}>
                {
                  getFieldDecorator("name",{
+                   initialValue:name?name:null,
                    rules:[{
                      required:true,message:"请输入仓库名称，15字以内"
                    }]
                  })(
-                    <Input maxLength='15' placeholder='请输入名称，15字以内'/>
+                    <Input maxLength='15' placeholder='请输入名称，15字以内' autoComplete='off'/>
                  )
                }
            </FormItem>
@@ -53,12 +55,28 @@ class BondModal extends Component{
                labelCol={{ span: 5 }}
                wrapperCol={{ span: 12 }}>
                {
-                 getFieldDecorator("age",{
+                 getFieldDecorator("cname",{
+                   initialValue:cname?cname:null,
                    rules:[{
                      required:true,message:"请输入名称，15字以内"
                    }]
                  })(
-                    <Input maxLength='15' placeholder='请输入名称，15字以内'/>
+                    <Input maxLength='15' placeholder='请输入名称，15字以内' autoComplete='off'/>
+                 )
+               }
+           </FormItem>
+           <FormItem
+               label="C端配送说明"
+               labelCol={{ span: 5 }}
+               wrapperCol={{ span: 12 }}>
+               {
+                 getFieldDecorator("dispExp",{
+                   initialValue:dispExp?dispExp:null,
+                   rules:[{
+                     required:true,message:"请输入名称，20字以内"
+                   }]
+                 })(
+                    <Input maxLength='20' placeholder='请输入名称，15字以内' autoComplete='off'/>
                  )
                }
            </FormItem>
@@ -67,14 +85,15 @@ class BondModal extends Component{
                labelCol={{ span: 5 }}
                wrapperCol={{ span: 12 }}>
                {
-                 getFieldDecorator("adre",{
+                 getFieldDecorator("pushPlatform",{
+                   initialValue:pushPlatform ? Number(pushPlatform) : null,
                    rules:[
                      {required:true,message:"请选择推送平台"}]
                  })(
                    <RadioGroup>
-                     <Radio value={1}>管家</Radio>
-                     <Radio value={2}>丰趣</Radio>
-                     <Radio value={3}>无</Radio>
+                     <Radio value={10}>管家</Radio>
+                     <Radio value={20}>丰趣</Radio>
+                     <Radio value={30}>无</Radio>
                    </RadioGroup>
                  )
                }
@@ -83,12 +102,13 @@ class BondModal extends Component{
              label="状态"
              labelCol={{ span: 5 }}
              wrapperCol={{ span: 12 }}>
-             {getFieldDecorator('wsGroupId',{
+             {getFieldDecorator('status',{
+               initialValue:status?status:null,
                rules:[{required:true,message:'请选择状态'}],
              })(
                <Select allowClear={true} placeholder="请选择状态" className='select'>
                  <Option value={1}>启用</Option>
-                 <Option value={2}>禁用</Option>
+                 <Option value={0}>禁用</Option>
                </Select>
              )}
            </FormItem>

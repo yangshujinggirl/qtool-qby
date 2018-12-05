@@ -1,6 +1,6 @@
 const Columns = [{
      title: '仓库名称',
-     dataIndex: 'taskName',
+     dataIndex: 'name',
      render:(text,record)=>{
        return(
           text.length>15
@@ -12,7 +12,7 @@ const Columns = [{
      }
    },{
      title: 'C端展示名称',
-     dataIndex: 'opstatusStr',
+     dataIndex: 'cname',
      render:(text,record)=>{
        return(
           text.length>15
@@ -24,7 +24,7 @@ const Columns = [{
      }
    }, {
      title: 'C端配送说明',
-     dataIndex: 'statusStr',
+     dataIndex: 'dispExp',
      render:(text,record)=>{
        return(
           text.length>20
@@ -36,13 +36,13 @@ const Columns = [{
      }
    },{
      title: '推送平台',
-     dataIndex: 'updateUserName'
+     dataIndex: 'pushPlatformStr'
    },{
      title: '状态',
-     dataIndex: 'type'
+     dataIndex: 'statusStr'
    },{
      title: '最后修改人',
-     dataIndex: 'statushot'
+     dataIndex: 'urUserName'
    },{
      title: '操作',
      dataIndex: '',

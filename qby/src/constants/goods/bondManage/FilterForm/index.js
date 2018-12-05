@@ -36,12 +36,12 @@ class NormalForm extends Component{
           <div className='search-form-outwrap'>
             <div className="search-form-wrap">
               <FormItem  label='仓库名称'>
-                {getFieldDecorator('code')(
+                {getFieldDecorator('name')(
                     <Input placeholder='请输入仓库名称' autoComplete='off'/>
                 )}
               </FormItem>
               <FormItem label='最后修改人'>
-                {getFieldDecorator('updateUserName')(
+                {getFieldDecorator('urUserName')(
                   <Input placeholder='请输入最后修改人' autoComplete='off'/>
                 )}
               </FormItem>
@@ -49,7 +49,7 @@ class NormalForm extends Component{
                   {getFieldDecorator('status')(
                   <Select allowClear={true} placeholder="请选择状态" className='select'>
                       <Option value='1'>启用</Option>
-                      <Option value='2'>禁用</Option>
+                      <Option value='0'>禁用</Option>
                   </Select>
                   )}
               </FormItem>
