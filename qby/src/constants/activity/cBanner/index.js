@@ -24,17 +24,16 @@ class OperatebannerIndex extends React.Component{
 	render(){
    	return(
       	<div className='content_box'>
-              <OperatebannerSearch/>
-			<Button
-				type="primary"
-				size='large'
-				className='mt20'
-				onClick={this.addNew}
-			>
-				新建banner
-			</Button>
-			<div className='mt15'><OperatebannerTable/></div>
-    	</div>
+		      <OperatebannerSearch/>
+					<Button
+						type="primary"
+						size='large'
+						className='mt20'
+						onClick={this.addNew}>
+						新建banner
+					</Button>
+					<div className='mt15'><OperatebannerTable/></div>
+	    	</div>
     	)
 	}
 

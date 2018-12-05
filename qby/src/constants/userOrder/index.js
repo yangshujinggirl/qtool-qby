@@ -14,15 +14,16 @@ class UserOrder extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      field:{
+      fields:{
         spShopName:'',
         orderNo:'',
         pdSpuName:'',
         code:'',
-        mobile:'',
+        mobilePhone:'',
         orderStatus:'',
-        dateTimeST:'',
-        dateTimeET:'',
+        platform:'',
+        deliveryType:'',
+        rangePicker:'',
       },
     }
   }
@@ -63,9 +64,9 @@ class UserOrder extends Component {
     })
   }
   //点击分页
-  changePage = (current,limit) => {
+  changePage = (current) => {
     const currentPage = current-1;
-    const values = {...this.state.field,currentPage,limit}
+    const values = {...this.state.fields,currentPage}
     this.props.dispatch({
       type:'userorders/fetchList',
       payload: values
@@ -75,17 +76,14 @@ class UserOrder extends Component {
   onShowSizeChange =({currentPage,limit})=> {
     this.props.dispatch({
       type:'userorders/fetchList',
-      payload:{currentPage,limit,...this.state.field}
+      payload:{currentPage,limit,...this.state.fields}
     });
   }
   //搜索框数据发生变化
-  searchDataChange =(values)=> {
-    const {rangePicker,..._values} = values;
-    if(rangePicker&&rangePicker[0]){
-      _values.dateTimeST =  moment(new Date(rangePicker[0]._d).getTime()).format('YYYY-MM-DD HH:mm:ss');
-      _values.dateTimeET = moment(new Date(rangePicker[1]._d).getTime()).format('YYYY-MM-DD HH:mm:ss');
-    }
-    this.setState({field:_values});
+  searchDataChange =(changedFields)=> {
+    this.setState(({ fields }) => ({
+      fields: { ...fields, ...changedFields },
+    }));
   }
   //点击搜索
   searchData = (values)=> {
@@ -96,7 +94,12 @@ class UserOrder extends Component {
   }
   //导出数据
   exportData =()=> {
-    const values ={type:12,downloadParam:{...this.state.field}}
+    const { rangePicker, ...params } =this.state.fields;
+    if(rangePicker&&rangePicker.length>0) {
+      params.dateTimeST = moment(rangePicker[0]).format('YYYY-MM-DD HH:mm:ss');
+      params.dateTimeET = moment(rangePicker[1]).format('YYYY-MM-DD HH:mm:ss');
+    }
+    const values ={ type: 12, downloadParam: {...params}};
     exportDataApi(values)
     .then(res => {
       if(res.code == '0'){
@@ -128,22 +131,21 @@ class UserOrder extends Component {
 		const exportUserorderData=this.props.data.rolelists.find((currentValue,index)=>{
 			return currentValue.url=="qerp.web.sys.doc.task"
 		})
-    const { dataList=[] } = this.props.userorders;
+    const { dataList } = this.props.userorders;
     return (
       <div className='qtools-components-pages'>
         <FilterForm
+          {...this.state.fields}
           submit={this.searchData}
-          onValuesChange = {this.searchDataChange}
-        />
+          onValuesChange = {this.searchDataChange}/>
         <div className="handel-btn-lists">
         {
-          exportUserorderData
-          ?
+          exportUserorderData?
             <Button
               type='primary'
               size='large'
-              onClick={this.exportData}
-              >导出数据
+              onClick={this.exportData}>
+              导出数据
             </Button>
           : null
         }
