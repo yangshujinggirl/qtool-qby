@@ -11,7 +11,7 @@ import {
 } from 'antd';
 import moment from 'moment';
 import {timeForMats} from '../../../utils/meth';
-import { ProcesasStatusOption } from '../../../components/FixedDataSource.js'
+import { ProcesasStatusOption, DeliveryOption, PlatformOption } from '../../../components/FixedDataSource.js'
 import './index.less'
 
 
