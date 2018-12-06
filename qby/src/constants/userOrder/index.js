@@ -24,6 +24,8 @@ class UserOrder extends Component {
         platform:'',
         deliveryType:'',
         rangePicker:'',
+        dateTimeST:'',
+        dateTimeET:'',
       },
     }
   }
@@ -33,10 +35,10 @@ class UserOrder extends Component {
   getNowFormatDate = () => {
    const startRpDate=timeForMats(30).t2;
    const endRpDate=timeForMats(30).t1;
-   const {field} = this.state;
+   const {fields} = this.state;
    this.setState({
-     field:{
-       ...field,
+     fields:{
+       ...fields,
        dateTimeST:startRpDate,
        dateTimeET:endRpDate,
        }
@@ -126,7 +128,7 @@ class UserOrder extends Component {
     })
   }
   render() {
-    console.log(this.state.field)
+    console.log(this.state.fields)
     //导出数据按钮是否显示
 		const exportUserorderData=this.props.data.rolelists.find((currentValue,index)=>{
 			return currentValue.url=="qerp.web.sys.doc.task"
