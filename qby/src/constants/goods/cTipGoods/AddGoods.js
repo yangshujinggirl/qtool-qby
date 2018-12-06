@@ -7,6 +7,7 @@ import {
   message,Radio,DatePicker,Checkbox
 } from 'antd';
 import moment from 'moment';
+import './index.less'
 import {
   goodSaveApi,
   saveValApi
@@ -49,6 +50,7 @@ const formItemLayout3 = {
   }
 };
 
+
 class AddGoodsForm extends Component {
   constructor(props) {
     super(props);
@@ -56,9 +58,9 @@ class AddGoodsForm extends Component {
       loading:false,
     }
     this.plainOptions=[
-      { label: '七天无理由退换货', value: '1' },
-      { label: '包税', value: '2' },
-      { label: '商品保质说明', value: '3' },
+      { label: '七天无理由退换货', value: 1 },
+      { label: '包税', value: 2 },
+      { label: '商品保质说明', value: 3 },
     ]
   }
   componentDidMount() {
@@ -156,8 +158,15 @@ class AddGoodsForm extends Component {
       console.log(error)
     })
   }
-
+  onChange =(value)=> {
+    console.log(value)
+  }
   render() {
+    const checkboxStyle = {
+      display: 'block',
+      height: '30px',
+      lineHeight: '30px',
+    }
     const { getFieldDecorator } = this.props.form;
     const { pdSpu, fileList } = this.props.cTipAddGoods;
     const { loading } =this.state;
@@ -241,11 +250,11 @@ class AddGoodsForm extends Component {
                </FormItem>
             </Col>
             <Col span={24}>
-              <FormItem label='商品说明' {...formItemLayout}>
+              <FormItem className='checkBox' label='商品说明' {...formItemLayout}>
                  {getFieldDecorator('isHot',{
                    initialValue:pdSpu.eventHotc||0
                  })(
-                   <CheckboxGroup options={plainOptions} defaultValue={['1']} onChange={onChange} />
+                   <CheckboxGroup style={checkboxStyle} options={this.plainOptions} onChange={this.onChange} />
                  )}
                </FormItem>
             </Col>

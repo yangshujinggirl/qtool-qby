@@ -945,6 +945,17 @@ const SiderBarData =  [
           "menu": 1,
           "menuStr": null,
           "rank": null,
+        },{
+          "urResourceId": 315000,
+          "name": "c端用户管理",
+          "code": "315000",
+          "url": "",
+          "remark": null,
+          "status": 1,
+          "statusStr": null,
+          "menu": 1,
+          "menuStr": null,
+          "rank": null,
         }
       ]
     },

@@ -103,6 +103,8 @@ import bAddAnswer from './models/operate/bAnswer/bAddAnswer'
 //待审核订单
 import onAudit from './models/online/onAudit'
 import freightDetail from './models/datapos/freightDetail';
+//用户中心
+import cUserManage from './models/userCenter/cUserManage'
 
 // 1. Initialize
 const app = dva({
@@ -125,6 +127,7 @@ const models = [
   cExplain,
   bondManage,
   userorders,
+  cUserManage,
   allth,
   toAudit,
   account,
