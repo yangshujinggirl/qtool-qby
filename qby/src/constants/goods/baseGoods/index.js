@@ -87,10 +87,9 @@ class BaseGoods extends Component {
   addGoods(source) {
     const paneitem={
       title:'新增商品',
-      key:`${this.state.componkey}edit`,
+      key:`${this.state.componkey}edit`+Math.random(),
       componkey:`${this.state.componkey}edit`,
       data:{
-        pdSpuId:null,
         source,
         key:`${this.state.componkey}edit`,
       }
