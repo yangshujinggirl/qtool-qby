@@ -77,7 +77,7 @@ class cPush extends Component{
   onShowSizeChange =({currentPage,limit})=> {
     this.props.dispatch({
       type:'cPush/fetchList',
-      payload:{currentPage,limit}
+      payload:{currentPage,limit,...this.state.field}
     });
   }
   //搜索框数据发生变化
