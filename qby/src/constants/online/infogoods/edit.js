@@ -1,4 +1,4 @@
-	import { Input,message ,Button,Form, Select,AutoComplete,Row,Col,Radio} from 'antd';
+	import { Input,message ,Button,Form, Select,AutoComplete,Row,Col,Radio,Checkbox } from 'antd';
 	import {GetServerData} from '../../../services/services';
 	import { connect } from 'dva';
 	import PicturesWall from './upload';
@@ -10,6 +10,7 @@
 	import {deepcCloneObj} from '../../../utils/commonFc';
 	import './config.css';
 	const { TextArea } = Input;
+	const CheckboxGroup = Checkbox.Group;
 
 	const RadioGroup = Radio.Group;
 
@@ -19,6 +20,11 @@
 	class App extends React.Component {
 		constructor(props) {
 			super(props);
+			this.plainOptions=[
+				{ label: '七天无理由退换货', value: 1 },
+				{ label: '包税', value: 2 },
+				{ label: '商品保质说明', value: 3 },
+			];
 			this.columns = [{
 				title: '规格',
 				dataIndex: 'name',
@@ -80,7 +86,7 @@
 						<SkuPicturesWall url={text} index={index}/>
 					);
 				}
-			}];    
+			}];
 			this.columnsuse = [{
 				title: '商品编码',
 				dataIndex: 'code',
@@ -129,13 +135,13 @@
 						<Input value={text} onChange={this.hindcostPricechange.bind(this,index)} onBlur={this.hindcostPricechangeblue.bind(this,index)}/>
 					);
 				}
-			}];  
+			}];
 
 			this.state = {
 				pdBrandId:this.props.pdBrandId,
 				dataSource:[],
 				issku:false
-			};  
+			};
 		}
 		//商品信息请求
 		spuInfo=()=>{
@@ -233,7 +239,7 @@
 				expdays: null,
 				lotLimitInDay:null,
 			  });
-	
+
 			if(lotStatusstate=='1'){
 				this.props.form.setFieldsValue({
 					lotType:'1'
@@ -257,7 +263,7 @@
 				payload:{pdType1Ids,pdType2Ids,tag1s,tag2s}
 			})
 		}
-	
+
 		handleSelectChange_guige2=(value)=>{
 			const pdType1Ids=this.props.pdType1Id
 			const pdType2Ids=value
@@ -322,7 +328,7 @@
 		}
 
 
-	
+
 
 
 
@@ -431,7 +437,7 @@
 			if (!err) {
 				if(parseFloat(value.shareRatio)>100){
 					message.warning('分成比例只能小于100')
-					return 
+					return
 				}
 				value.source='1'
 				value.pdBrandId=this.props.pdBrandId
@@ -440,7 +446,7 @@
 				if(this.props.data.pdSpuId){
 					value.pdSpuId=this.props.data.pdSpuId
 				}
-				
+
 				//判断是上传还是非上传表
 				const isskus=this.props.isskus
 				if(isskus){
@@ -464,7 +470,7 @@
 						this.initWarehouseList();
 					}
 				})
-			}	
+			}
 			});
 		}
 		//取消
@@ -486,10 +492,10 @@
 			}
 		}
 
-		
+
 		//搜搜请求数据
 		initWarehouseList=()=>{
-			let values =deepcCloneObj(this.props.values); 
+			let values =deepcCloneObj(this.props.values);
 			values.currentPage="0";
 			this.props.dispatch({
 				type:'onlinegood/fetch',
@@ -591,7 +597,7 @@
 						wrapperCol={{ span: 16 }}
 						>
 						{getFieldDecorator('imgs', {
-							
+
 						})(
 							<PicturesWall/>
 						)}
@@ -667,7 +673,7 @@
 								:null
 							}
 						</div>
-						
+
 					</FormItem>
 					<FormItem
 						label="保税仓库"
@@ -701,13 +707,19 @@
 							<Input autoComplete="off" addonAfter="%"/>
 						)}
 					</FormItem>
+					<FormItem className='checkBox' label='商品说明' {...formItemLayout}>
+						 {getFieldDecorator('isHot',{
+						 })(
+							 <CheckboxGroup options={this.plainOptions} onChange={this.onChange} />
+						 )}
+				 </FormItem>
 					<FormItem
 						label="商品描述"
 						labelCol={{ span: 8 }}
 						wrapperCol={{ span: 10 }}
 					>
 						{getFieldDecorator('ssd', {
-							 
+
 						})(
 							<AddEditableTable data={eval(this.props.pdSpuInfo)}/>
 						)}
@@ -745,7 +757,7 @@
 							initialValue:this.props.remark3,
 							rules: [{ "max": 200, message: '不能超过200字' }]
 						})(
-							
+
 							<TextArea rows={4} />
 						)}
 					</FormItem>
@@ -756,12 +768,12 @@
 						<Button onClick={this.Handcancel.bind(this)} style = {{marginRight:'50px'}}>取消</Button>
 						<Button onClick={this.handleSubmit.bind(this)} type="primary">保存</Button>
 					</FormItem>
-					
+
 			</Form>
 		);
 	}
 	componentDidMount(){
-		this.pdTypeslist()	
+		this.pdTypeslist()
 		this.Categorylist()
 		if(this.props.data.pdSpuId){
 			 this.spuInfo()

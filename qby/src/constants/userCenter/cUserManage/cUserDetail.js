@@ -1,72 +1,22 @@
 import React from 'react';
 import { Button, Icon ,Form,Select,Input,Card, message, Table } from 'antd';
-import { getInfoApi } from '../../services/orderCenter/userOrders'
 import { connect } from 'dva';
-const FormItem = Form.Item;
-const Option = Select.Option;
-const { TextArea } = Input;
-
-const platformMap={
-  '1':'Qtools App ios端',
-  '2':'Qtools App 安卓端',
-  '3':'小程序',
-}
-const deliveryMap={
-  '1':'门店自提',
-  '2':'同城配送',
-  '3':'快递邮寄',
-}
-const levelMap={
-  1:'金卡',
-  2:'银卡',
-  3:'普卡',
-}
-
 const columns = [{
-    title: '商品名称',
+    title: '昵称',
     dataIndex: 'spuName',
     key:'1'
   }, {
-    title: '规格',
+    title: '性别',
     dataIndex: 'displayName',
     key:'2'
   }, {
-    title: '商品编码',
+    title: '生日类型',
     dataIndex: 'code',
     key:'3'
-  }, {
-    title: '商品数量',
+  },{
+    title: '日期',
     dataIndex: 'qty',
     key:'4'
-  }, {
-    title: '零售价',
-    dataIndex: 'price',
-    key:'5'
-  }, {
-    title: '应付价格',
-    dataIndex: 'payPrice',
-    key:'payPrice',
-  }];
-const columnsNor = [{
-    title: '商品名称',
-    dataIndex: 'spuName',
-    key:'1'
-  }, {
-    title: '规格',
-    dataIndex: 'displayName',
-    key:'2'
-  }, {
-    title: '商品编码',
-    dataIndex: 'code',
-    key:'3'
-  }, {
-    title: '商品数量',
-    dataIndex: 'qty',
-    key:'4'
-  }, {
-    title: '零售价',
-    dataIndex: 'price',
-    key:'5'
   }];
 const columns2 = [{
     title: '操作',
@@ -76,10 +26,6 @@ const columns2 = [{
     title: '操作时间',
     dataIndex: 'createTime',
     key:'2'
-  }, {
-    title: '操作人',
-    dataIndex: 'operateUser',
-    key:'3'
   }, {
     title: '备注',
     dataIndex: 'remark',
@@ -169,70 +115,31 @@ render(){
 	return(
 			<div>
         <div className='mb10'>
-          <Card title='订单详情'>
+          <Card title='个人信息'>
             <div className='cardlist'>
-              <div className='cardlist_item'><label>订单号：</label><span>{orderInfo.orderNo}</span></div>
-              <div className='cardlist_item'><label>下单时间：</label><span>{orderInfo.createTime}</span></div>
-              <div className='cardlist_item'><label>订单状态：</label><span>{orderInfo.statusStr}</span></div>
-              <div className='cardlist_item'><label>流程状态：</label><span>{orderInfo.orderStatusStr}</span></div>
-              <div className='cardlist_item'><label>订单序号：</label><span>{orderInfo.orderNum}</span></div>
-              <div className='cardlist_item'><label>下单平台：</label><span>{platformMap[orderInfo.platform]}</span></div>
-              <div className='cardlist_item'><label>配送方式：</label><span>{deliveryMap[orderInfo.deliveryType]}</span></div>
-              <div className='cardlist_item'><label>订单金额：</label><span>{orderInfo.amountSum}</span>元</div>
-              <div className='cardlist_item'><label>商品金额：</label><span>{orderInfo.commodityAmount}</span>元</div>
-              <div className='cardlist_item'><label>用户支付配送费：</label><span>{orderInfo.standardExpressAmount}</span>元</div>
-              <div className='cardlist_item'><label>优惠金额</label><span>{orderInfo.standardExpressAmount}</span>元</div>
-              <div className='cardlist_item'><label>优惠券：</label><span>{orderInfo.deductionAmount?orderInfo.deductionAmount:0}</span>元</div>
-              <div className='cardlist_item'><label>优惠券批次号：</label><span>{orderInfo.couponCode}</span></div>
-              <div className='cardlist_item'><label>版本号：</label><span>{orderInfo.platVersion}</span></div>
-            </div>
-          </Card>
-        </div>
-				<div className='mb10'>
-          <Card title='用户信息'>
-            <div className='cardlist'>
-              <div className='cardlist_item'><label>昵称：</label><span>{userInfo.nickname}</span></div>
-              <div className='cardlist_item'><label>注册手机：</label><span>{userInfo.mobile}</span></div>
-              <div className='cardlist_item'><label>本单用户下单次序：</label><span>{userInfo.userSumCounts}</span></div>
-              <div className='cardlist_item'><label>本单本店下单次序：</label><span>{userInfo.spSumCounts}</span></div>
-              {
-                userInfo.level!=4&&
-                <div className='cardlist_item'>
-                  <label>会员级别：</label>
-                  <span>{levelMap[userInfo.level]}</span>
-                </div>
-              }
+              <div className='cardlist_item'><label>用户id：</label><span>{orderInfo.orderNo}</span></div>
+              <div className='cardlist_item'><label>Qtools昵称：</label><span>{orderInfo.createTime}</span></div>
+              <div className='cardlist_item'><label>微信昵称：</label><span>{orderInfo.statusStr}</span></div>
+              <div className='cardlist_item'><label>手机号：</label><span>{orderInfo.orderStatusStr}</span></div>
+              <div className='cardlist_item'><label>注册时间：</label><span>{orderInfo.orderNum}</span></div>
+              <div className='cardlist_item'><label>注册平台：</label><span>{platformMap[orderInfo.platform]}</span></div>
+              <div className='cardlist_item'><label>生日：</label><span>{deliveryMap[orderInfo.deliveryType]}</span></div>
+              <div className='cardlist_item'><label>居住城市：</label><span>{orderInfo.amountSum}</span>元</div>
             </div>
           </Card>
         </div>
         <div className='mb20'>
           <Table
             bordered
-            title={()=>'商品信息'}
+            title={()=>'宝宝信息'}
             dataSource={goodsInfos}
-            columns={(userInfo.level==1||userInfo.level==2)?columns:columnsNor}
+            columns={columns}
             pagination={false}/>
         </div>
-				<div className='mb10'>
-          <Card title='门店信息'>
-            <div className='cardlist'>
-              <div className='cardlist_item'><label>门店名称：</label><span>{shopInfo.spShopName}</span></div>
-              <div className='cardlist_item'><label>店主姓名：</label><span>{shopInfo.shopman}</span></div>
-              <div className='cardlist_item'><label>店主电话：</label><span>{shopInfo.telephone}</span></div>
-              <div className='cardlist_item'><label>门店电话：</label><span>{shopInfo.mobile}</span></div>
-            </div>
-          </Card>
-        </div>
-        {
-          deliveryInfo&&
-          <div className='mb10'>
-            {this.renderDelivery(deliveryInfo)}
-          </div>
-        }
 				<div className='mb20'>
           <Table
             bordered
-            title={()=>'处理日志'}
+            title={()=>'信息修改日志'}
             dataSource={logInfos}
             columns={columns2}
             pagination={false}/>

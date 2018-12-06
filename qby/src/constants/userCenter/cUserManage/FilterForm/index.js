@@ -10,7 +10,6 @@ import {
   DatePicker
 } from 'antd';
 import moment from 'moment';
-import { ProcesasStatusOption, DeliveryOption, PlatformOption } from '../../../components/FixedDataSource.js'
 import './index.less'
 
 
@@ -33,65 +32,30 @@ class NormalForm extends Component {
         <Form className="qtools-condition-form">
           <div className='search-form-outwrap'>
             <div className="search-form-wrap">
-              <FormItem label='门店名称'>
+              <FormItem label='用户id'>
                  {getFieldDecorator('spShopName')(
-                   <Input placeholder="请输入门店名称" autoComplete="off"/>
+                   <Input placeholder="请输入用户id" autoComplete="off"/>
                  )}
                </FormItem>
-              <FormItem label='订单号'>
+              <FormItem label='昵称'>
                  {getFieldDecorator('orderNo')(
-                   <Input placeholder="请输入订单号" autoComplete="off"/>
+                   <Input placeholder="请输入昵称" autoComplete="off"/>
                  )}
                </FormItem>
-              <FormItem label='商品名称'>
+              <FormItem label='手机号'>
                  {getFieldDecorator('pdSpuName')(
-                   <Input placeholder="请输入商品名称" autoComplete="off"/>
+                   <Input placeholder="请输入手机号" autoComplete="off"/>
                  )}
                </FormItem>
-              <FormItem label='商品编码'>
-                 {getFieldDecorator('code')(
-                   <Input placeholder="请输入商品编码" autoComplete="off"/>
-                 )}
-               </FormItem>
-              <FormItem label='用户电话'>
-                 {getFieldDecorator('mobilePhone')(
-                   <Input placeholder="请输入用户电话" autoComplete="off"/>
-                 )}
-               </FormItem>
-               <FormItem label='订单状态'>
-                  {getFieldDecorator('orderStatus')(
-                    <Select allowClear={true} placeholder="请选择订单状态">
-                      {
-                        ProcesasStatusOption.map((el) => (
-                          <Option value={el.key} key={el.key}>{el.value}</Option>
-                        ))
-                      }
-                    </Select>
-                  )}
-                </FormItem>
-              <FormItem label='下单平台'>
+              <FormItem label='注册平台'>
                  {getFieldDecorator('platform')(
-                   <Select allowClear={true} placeholder="请选择下单平台">
-                     {
-                       PlatformOption.map((el) => (
-                         <Option value={el.key} key={el.key}>{el.value}</Option>
-                       ))
-                     }
+                   <Select allowClear={true} placeholder="请选择注册平台">
+                         <Option value={1}>Qtools</Option>
+                         <Option value={2}>小程序</Option>
                    </Select>
                  )}
                </FormItem>
-              <FormItem label='配送方式'>
-                 {getFieldDecorator('deliveryType')(
-                   <Select allowClear={true} placeholder="请选择配送方式">
-                     {
-                       DeliveryOption.map((el) => (
-                         <Option value={el.key} key={el.key}>{el.value}</Option>
-                       ))
-                     }
-                   </Select>
-                 )}
-               </FormItem>
-              <FormItem label='订单时间'>
+              <FormItem label='注册时间'>
                  {getFieldDecorator('rangePicker')(
                    <RangePicker showTime format="YYYY-MM-DD HH:mm:ss"/>
                  )}

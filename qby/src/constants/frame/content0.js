@@ -184,6 +184,8 @@ import Addanswer from '../operate/bAnswer/addAnswer' //b端问答
 import SellManage from '../operate/sellManage' //b端问答
 //门店数据
 import DataDistribute from '../datasp/dataspcun/dataDistribution/index'
+//用户管理
+import CuserManage from '../userCenter/cUserManage/index'
 
 
 
@@ -204,8 +206,10 @@ class Content extends React.Component {
                         {
                             (() => {
                                 switch (this.props.componkey) {
-                                  //财务中心
+                                    //财务中心
                                     case "314000":return  <ShareManage data={this.props.data}/>;
+                                    //用户中心
+                                    case "315000":return  <CuserManage data={this.props.data}/>;
 
                                     case "301700":return  <Stockindex data={this.props.data}/>;
                                     // case "302000":return  <Classificationindex data={this.props.data}/>;

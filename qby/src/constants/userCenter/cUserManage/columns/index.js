@@ -1,16 +1,6 @@
-const platformMap={
-  '1':'Qtools App ios端',
-  '2':'Qtools App  安卓端',
-  '3':'小程序',
-}
-const deliveryMap={
-  '1':'门店自提',
-  '2':'同城配送',
-  '3':'快递邮寄',
-}
 
 const Columns = [{
-     title: '订单号',
+     title: '用户id',
      dataIndex: 'orderNo',
      render:(text, record)=>{
        return(
@@ -20,40 +10,28 @@ const Columns = [{
        )
      }
    },{
-     title: '门店名称',
+     title: '昵称',
      dataIndex: 'spShopName'
    },{
-     title: '下单平台',
+     title: '手机号',
      dataIndex: 'platform',
-     render:(text,record)=> {
-       return platformMap[record.platform]
-     }
    },{
-     title: '配送方式',
+     title: '微信Id',
      dataIndex: 'delivery',
-     render:(text,record)=> {
-       return deliveryMap[record.deliveryType]
-     }
    },{
-     title: '用户昵称',
+     title: '注册时间',
      dataIndex: 'nickName'
    }, {
-     title: '用户电话',
+     title: '首次绑定手机号时间',
      dataIndex: 'mobilePhone'
    },{
-     title: '商品数量',
+     title: '最近一次消费时间',
      dataIndex: 'qtySum'
    },{
-     title: '订单金额',
+     title: '累积消费金额',
      dataIndex: 'payAmount'
    },{
-     title: '优惠金额',
+     title: '购买次数',
      dataIndex: 'discountAmount'
-   },{
-     title: '流程状态',
-     dataIndex: 'orderStatusStr'
-   },{
-     title: '订单时间',
-     dataIndex: 'createTime'
    }];
    export  default Columns
