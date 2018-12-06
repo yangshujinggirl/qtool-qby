@@ -84,6 +84,7 @@ class OperateinoutSearchForm extends React.Component {
                                         <Option value='33'>销售收入</Option>
                                         <Option value='34'>提现转出</Option>
                                         <Option value='35'>提现释放</Option>
+                                        <Option value='36'>销售退款</Option>
                                     </Select>
                                     )}
                                 </FormItem>
