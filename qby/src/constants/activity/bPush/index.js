@@ -8,7 +8,6 @@ import FilterForm from './FilterForm/index'
 import { createBpushApi } from '../../../services/activity/bPush'
 import './index'
 import moment from 'moment';
-import {timeForMats} from '../../../utils/meth';
 
 class Bpush extends Component{
   constructor(props){
@@ -34,25 +33,11 @@ class Bpush extends Component{
        }
     }
   }
-  componentWillMount() {
-    this.getNowFormatDate();
-  }
-  getNowFormatDate = () => {
-   const startRpDate=timeForMats(30).t2;
-   const endRpDate=timeForMats(30).t1;
-   const {field} = this.state;
-   this.setState({
-     field:{
-       ...field,
-       pushTimeST:startRpDate,
-       pushTimeET:endRpDate,
-       }
-     },function(){
-       this.searchData({
-         pushTimeST:startRpDate,
-         pushTimeET:endRpDate
-       });
-   })
+  componentWillMount(){
+    this.props.dispatch({
+      type:'bPush/fetchList',
+      payload:{}
+    })
   }
   componentWillReceiveProps(props) {
     this.setState({
