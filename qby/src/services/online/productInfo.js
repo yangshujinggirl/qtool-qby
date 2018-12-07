@@ -59,3 +59,27 @@ export function productListApi(values) {
       data:values
   })
 }
+//批量上下线
+export function productOnlineApi(values) {
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.pd.cspu.status',
+      data:values
+  })
+}
+//批量 NEW 下NEW
+export function productNewApi(values) {
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.pd.cspu.statusnew',
+      data:values
+  })
+}
+//批量 HOT 下HOT
+export function productHotApi(values) {
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.pd.ospu.statushot',
+      data:values
+  })
+}

@@ -53,12 +53,8 @@ class AddGoodsForm extends Component {
     super(props);
     this.state = {
       loading:false,
+      plainOptions:[]
     };
-    this.plainOptions=[
-      { label: '七天无理由退换货', value: 1 },
-      { label: '包税', value: 2 },
-      { label: '商品保质说明', value: 3 },
-    ];
   }
   componentWillMount() {
     this.initPage()
@@ -71,9 +67,16 @@ class AddGoodsForm extends Component {
     });
     productListApi()
     .then(res => {
+      let {plainOptions} = this.state;
       if(res.code == "0"){
-        console.log(res)
-      }
+        res.pdExplains.map((item,index) => {
+          plainOptions[index] = {label:item.name,value:item.pdExplainId}
+          return item;
+        });
+      };
+      this.setState({
+        plainOptions
+      });
     })
   }
   //取消
@@ -150,6 +153,7 @@ class AddGoodsForm extends Component {
   }
 
   render() {
+    console.log(this.state.plainOptions);
     const { getFieldDecorator } = this.props.form;
     const { iPdSpu, fileList } = this.props.productEditGoods;
     const { loading } =this.state;
@@ -208,8 +212,9 @@ class AddGoodsForm extends Component {
             <Col span={24}>
               <FormItem label='商品说明' {...formItemLayout}>
     						 {getFieldDecorator('pdExplainIds',{
+                   initialValue:iPdSpu.pdExplains?iPdSpu.pdExplains:null
     						 })(
-    							 <CheckboxGroup className='checkBox' options={this.plainOptions}/>
+    							 <CheckboxGroup className='checkBox' options={this.state.plainOptions}/>
     						 )}
     				 </FormItem>
             </Col>

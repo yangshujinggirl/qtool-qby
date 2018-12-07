@@ -5,8 +5,16 @@ import { Button, message, Modal } from 'antd'
 import FilterForm from './components/FilterForm/index.js';
 import GoodsList from './components/GoodsList/index.js';
 import Qpagination from '../../../components/Qpagination';
-import { exportDataApi, handleSellApi } from '../../../services/online/productInfo.js';
+import { exportDataApi, handleSellApi,productOnlineApi,productNewApi,productHotApi } from '../../../services/online/productInfo.js';
 
+const WarnMessage = {
+  t1: '商品状态将变为上架状态，Qtools将对外售卖，确认吗',
+  t2: '商品状态将变为下架状态，Qtools将无法对外售卖，确认吗',
+  t3: '商品将会在Qtools首页NEW栏目展示售卖，确认吗',//上新
+  t4: '商品将会停止在Qtools首页NEW栏目展示售卖，确认吗',//下新
+  t5: '商品将会在Qtools首页HOT栏目展示售卖，确认吗？',//畅销
+  t6: '商品将会停止在Qtools首页HOT栏目展示售卖，确认吗',//下畅销
+}
 const SuccessTips = {
   t1: '售卖成功',
   t2: '停售成功',
@@ -23,6 +31,8 @@ class BtipGoods extends Component {
       componkey:this.props.componkey,
       selecteKeys:[],
       tips:'',
+      visible:false,
+      handleContent:{},
       fields: {
          pdSpuId:'',
          code:'',
@@ -232,10 +242,56 @@ class BtipGoods extends Component {
         payload:paneitem
     })
   }
+  massOperation =(type,val)=> {
+    const { selecteKeys } =this.props.productGoodsList;
+    if(!selecteKeys.length>0) {
+      message.error('请勾选商品',1)
+      return
+    }
+    let tips;
+    switch(type){
+      case 'sell':
+        tips = val==10 ? 't1' :'t2';
+        break;
+      case 'new':
+        tips = val?'t3':'t4';
+        break;
+      case 'hot':
+        tips = val?'t5':'t6';
+        break;
+    }
+    this.setState({
+      handleContent:{
+        type,
+        val,
+        tips
+      },
+      visible:true
+    })
+  }
+  onCancelModal =()=> {
+    this.setState({
+      visible:false
+    })
+  }
+  onOkModal =()=> {
 
+  }
+  //多选
+  onCheckBoxChange(record) {
+    this.props.dispatch({
+      type:'productGoodsList/setCheckBox',
+      payload:record.pdSpuId
+    })
+  }
   render() {
     const { dataList, authorityList, dataPag } = this.props.productGoodsList;
-    const {fields} = this.state;
+    const {
+      fields,
+      handleContent,
+      visible,
+      loading
+    } = this.state;
     return (
       <div className="bTip-goods-components qtools-components-pages">
         <FilterForm
@@ -247,9 +303,24 @@ class BtipGoods extends Component {
             authorityList.authorityExport&&
             <Button size="large" type="primary" onClick={()=>this.exportData()}>导出数据</Button>
           }
+            <span>
+              <Button size="large" type="primary" onClick={()=>this.massOperation('sell',10)}>批量上线</Button>
+              <Button size="large" type="primary" onClick={()=>this.massOperation('sell',20)}>批量下线</Button>
+            </span>
+
+            <span>
+              <Button size="large" type="primary" onClick={()=>this.massOperation('new',true)}>批量NEW</Button>
+              <Button size="large" type="primary" onClick={()=>this.massOperation('new',false)}>批量下NEW</Button>
+            </span>
+
+            <span>
+              <Button size="large" type="primary" onClick={()=>this.massOperation('hot',true)}>批量HOT</Button>
+              <Button size="large" type="primary" onClick={()=>this.massOperation('hot',false)}>批量下HOT</Button>
+            </span>
         </div>
         <GoodsList
           list={dataList}
+          onChange={this.onCheckBoxChange.bind(this)}
           onOperateClick={this.handleOperateClick.bind(this)}/>
         {
           dataList.length>0&&
@@ -259,6 +330,22 @@ class BtipGoods extends Component {
             data={dataPag}
             onChange={this.changePage}/>
         }
+        <Modal
+          className="goods-handle-modal-wrap"
+					title='批量操作'
+					visible={visible}
+          footer={null}>
+          <div className="handle-modal-content">
+            {WarnMessage[handleContent.tips]}
+          </div>
+          <div className="handle-modal-footer">
+            <Button onClick={this.onCancelModal.bind(this)}>取消</Button>
+            <Button
+              type='primary'
+              loading={loading}
+              onClick={this.onOkModal.bind(this)}>确认</Button>
+          </div>
+				</Modal>
       </div>
     )
   }

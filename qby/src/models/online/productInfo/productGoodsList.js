@@ -18,11 +18,26 @@ export default {
       authorityEdit:false,
       authorityExport:false,
       authoritySale:false,
-    }
+    },
+    selecteKeys:[]
   },
   reducers: {
     getList( state, { payload : { dataList, dataPag } }) {
       return { ...state, dataList, dataPag }
+    },
+    setCheckBox( state, { payload: pdSpuId } ) {
+      let dataList = state.dataList;
+      let selecteKeys = [];
+      dataList.map((el) => {
+        if(el.pdSpuId == pdSpuId) {
+          el.checked = !el.checked;
+        }
+        if(el.checked) {
+          selecteKeys.push(el.pdSpuId);
+        }
+        return el;
+      })
+      return { ...state, dataList, selecteKeys}
     },
     setAuthority(state, { payload : authorityData }) {
       let authorityList={};
@@ -72,6 +87,10 @@ export default {
 
       if(result.code=='0') {
         const { pdSpus, currentPage, limit, total } = result;
+        pdSpus.map((el) => {
+          el.checked = false;
+          return el;
+        })
         yield put ({
           type: 'getList',
           payload:{

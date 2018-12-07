@@ -90,7 +90,7 @@ class GoodsList extends Component {
         {
           dataList.length>0 && dataList.map((el,index) => (
               <li className="goods-item-content" key={index}>
-                <div className="goods-action-top" onClick={(event)=>this.handleClick(event,el)}>
+                <div className="goods-action-top" >
                   <div className="part-l">
                     {
                       el.mainPicUrl?
@@ -98,9 +98,18 @@ class GoodsList extends Component {
                       :
                       <img src={nogoodsImg}/>
                     }
+                    <div className="checkbox-wrap">
+                      <Checkbox
+                        checked={el.checked}
+                        onChange={(event)=>this.onChange(event,el)}
+                        key={el.pdSpuId}/>
+                    </div>
                   </div>
                   <div className="part-r">
-                    <p className="goods-name">{el.oname?el.oname:el.name}</p>
+                    <p className="goods-name"
+                      onClick={(event)=>this.handleClick(event,el)}>
+                      {el.oname?el.oname:el.name}
+                    </p>
                     <p className="goods-property">售价：{this.getMinPrice(el)}</p>
                     <IconList data={el}/>
                   </div>
