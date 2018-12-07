@@ -143,7 +143,7 @@ class SellManage extends Component {
         {
           list.length>0&&
           <Qpagination
-            sizeOptions="2"
+            sizeOptions="1"
             onShowSizeChange={this.changePageSize}
             data={data}
             onChange={this.changePage}/>
