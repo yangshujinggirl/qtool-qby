@@ -51,3 +51,11 @@ export function handleSellApi(values) {
       data:values
   })
 }
+//商品说明列表
+export function productListApi(values) {
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.pd.explain.list',
+      data:values
+  })
+}

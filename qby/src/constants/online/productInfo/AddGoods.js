@@ -8,7 +8,7 @@ import {
 } from 'antd';
 import moment from 'moment';
 import {
-  goodSaveApi,
+  goodSaveApi,productListApi
 } from '../../../services/online/productInfo.js';
 import AddGoodsDesc from '../../goods/components/AddGoodsDesc/index.js';
 import Imgmodel from '../../../components/model/modelimg';
@@ -68,6 +68,12 @@ class AddGoodsForm extends Component {
     this.props.dispatch({
       type:'productEditGoods/fetchGoodsInfo',
       payload:{spuId:pdSpuId}
+    });
+    productListApi()
+    .then(res => {
+      if(res.code == "0"){
+        console.log(res)
+      }
     })
   }
   //取消
