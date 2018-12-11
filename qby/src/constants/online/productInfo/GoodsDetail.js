@@ -41,9 +41,7 @@ class GoodsDetail extends Component {
       type:'productEditGoods/fetchGoodsInfo',
       payload:{spuId:pdSpuId}
     })
-
   }
-
   render() {
     const { iPdSpu, fileList } = this.props.productEditGoods;
     return(
@@ -81,6 +79,14 @@ class GoodsDetail extends Component {
               columns={iPdSpu.isSkus?DetailSizeColumns:DetailColumns}
               dataSource={iPdSpu.pdSkus}/>
     			</FormItem>
+          <FormItem label="商品说明" {...formItemLayout}>
+            {
+              iPdSpu.pdExplain && iPdSpu.pdExplain.map(item=>(
+                <div>{item.name}</div>
+              ))
+            }
+    			</FormItem>
+
           <FormItem label="商品描述" {...formItemLayout}>
             <ul className="goods-desc-wrap">
               {

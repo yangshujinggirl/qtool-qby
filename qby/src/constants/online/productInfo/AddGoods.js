@@ -97,6 +97,7 @@ class AddGoodsForm extends Component {
     const { pdSpuId, source } =this.props.data;
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
+      console.log(values)
       if (!err) {
         values = Object.assign(values,{pdSpuId});
         values = this.formtParams(values);
@@ -153,7 +154,6 @@ class AddGoodsForm extends Component {
   }
 
   render() {
-    console.log(this.state.plainOptions);
     const { getFieldDecorator } = this.props.form;
     const { iPdSpu, fileList } = this.props.productEditGoods;
     const { loading } =this.state;

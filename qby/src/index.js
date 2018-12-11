@@ -38,7 +38,8 @@ import dataspfen from "./models/dataspfen"
 import datasphiscun from "./models/datasphiscun"
 import dataspcun from "./models/dataspcun"
 import dataspsell from "./models/dataspsell"
-import stock from "./models/stock"
+import bStock from "./models/stock/bStock"
+import onlineStock from "./models/stock/onlineStock"
 import specs from "./models/specs"
 import brand from "./models/goodsCenter/brand"
 import fenlei from "./models/fenlei"
@@ -141,7 +142,8 @@ const models = [
   datasphiscun,
   dataspcun,
   dataspsell,
-  stock,
+  bStock,
+  onlineStock,
   specs,
   brand,
   fenlei,

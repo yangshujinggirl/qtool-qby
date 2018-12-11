@@ -1,6 +1,6 @@
 import { Form, Select, Input, Button ,message} from 'antd';
-import EditableTable from '../../../components/table/tablebasic'
-import {GetServerData} from '../../../services/services';
+import EditableTable from '../../../../components/table/tablebasic'
+import {GetServerData} from '../../../../services/services';
 const FormItem = Form.Item;
 const Option = Select.Option;
 import { connect } from 'dva';
@@ -21,14 +21,10 @@ class App extends React.Component {
 			title: '可售库存',
 			dataIndex: 'wsQty'
 			}]
-
-
-		this.state = {
-			isinfo:false
-		}
+			this.state = {
+				isinfo:false
+			}
 	}
-
-
 
 handleSubmit = (e) => {
 	e.preventDefault();
@@ -44,6 +40,7 @@ handleSubmit = (e) => {
 				const name=json.pdSpu.name
 				const pdtypes=json.pdSku!=null ? (json.pdSku.pdType2Val == null ? json.pdSku.pdType1Val.name : json.pdSku.pdType1Val.name+json.pdSku.pdType2Val.name) : '';
 				const qty=json.qty
+				debugger
 				const afterQty=json.afterQty
 				message.success('售卖库存修改成功',.8)
 				const changedatasouce=this.props.changedatasouce.slice(0)
@@ -57,11 +54,11 @@ handleSubmit = (e) => {
 					}
 				)
 				this.props.dispatch({
-					type:'stock/stocktablechenge',
+					type:'bStock/stocktablechenge',
 					payload:changedatasouce
 				})
 				this.props.dispatch({
-					type:'stock/stocktablechengeok',
+					type:'bStock/stocktablechengeok',
 					payload:ishindok
 				})
 			}
@@ -107,19 +104,12 @@ handleEnt=(e)=>{
 						datasouce.wsQty=json.wsQty//可售
 						datasoucedata.push(datasouce)
 						this.props.dispatch({
-							type:'stock/stocktableinfo',
+							type:'bStock/stocktableinfo',
 							payload:datasoucedata
 						})
 				})
-				
-					
-
-
-				
 			}
 		})
-
-
 	}
 }
 
@@ -147,9 +137,9 @@ render() {
 		}
 		</FormItem>
 		<FormItem
-		label="增减库存"
-		labelCol={{ span: 6 }}
-		wrapperCol={{ span: 6 }}
+			label="增减库存"
+			labelCol={{ span: 6 }}
+			wrapperCol={{ span: 6 }}
 		>
 		{getFieldDecorator('delta', {
 			rules: [{ required: true, message: '请输入增减库存' }],
@@ -172,7 +162,7 @@ render() {
 const WrappedApp = Form.create()(App);
 
 function mapStateToProps(state) {
-	const {datasoucedata,changedatasouce,ishindok} = state.stock;
+	const {datasoucedata,changedatasouce,ishindok} = state.bStock;
 	return {datasoucedata,changedatasouce,ishindok};
 }
 export default connect(mapStateToProps)(WrappedApp);

@@ -136,7 +136,6 @@ class BtipGoods extends Component {
         });
       }
     })
-
   }
   //操作
   handleOperateClick(record,type) {
@@ -263,7 +262,7 @@ class BtipGoods extends Component {
     this.setState({
       handleContent:{
         type,
-        val,
+        status:val,
         tips
       },
       visible:true
@@ -275,7 +274,100 @@ class BtipGoods extends Component {
     })
   }
   onOkModal =()=> {
-
+    const { type, status } =this.state.handleContent;
+    const { selecteKeys } =this.props.productGoodsList;
+    switch(type) {
+      case 'sell':
+        this.sellAndSaleStop(selecteKeys,status)
+        break;
+      case 'new':
+        this.sellNewGoods(selecteKeys,status)
+        break;
+      case 'hot':
+        this.sellHotGoods(selecteKeys,status)
+        break;
+    }
+  }
+  //上线下线
+  sellAndSaleStop(ids,val) {
+    this.setState({
+      loading:true,
+    })
+    const params = {
+      cstatus:val,
+      pdSpuIds:ids
+    }
+    productOnlineApi(params)
+    .then(res => {
+      const { code } =res;
+      if(code == '0') {
+        message.success(SuccessTips[this.state.handleContent.tips],1)
+        this.successHandel()
+      }
+      this.setState({
+        loading:false,
+        visible:false
+      })
+    })
+  }
+  //上新
+  sellNewGoods(ids,val) {
+    this.setState({
+      loading:true,
+    })
+    const params = {
+      isNew:val,
+      pdSpuIds:ids
+    }
+    productNewApi(params)
+    .then(res => {
+      const { code } =res;
+      if(code == '0') {
+        message.success(SuccessTips[this.state.handleContent.tips],1)
+        this.successHandel()
+      }
+      this.setState({
+        loading:false,
+        visible:false
+      })
+    })
+  }
+  //畅销
+  sellHotGoods(ids,val) {
+    this.setState({
+      loading:true,
+    })
+    const params = {
+      isHot:val,
+      pdSpuIds:ids
+    }
+    productHotApi(params)
+    .then(res => {
+      const { code } =res;
+      if(code == '0') {
+        message.success(SuccessTips[this.state.handleContent.tips],1)
+        this.successHandel()
+      } else {
+        this.setState({visible:false})
+      };
+      this.setState({
+        loading:false,
+        visible:false
+      });
+    })
+  }
+  //请求成功后统一处理
+  successHandel() {
+    const {limit,currentPage} = this.props.productGoodsList.dataPag
+    //在当前页刷新
+    this.props.dispatch({
+      type:'productGoodsList/fetchList',
+      payload:{
+        ...this.state.fields,
+        limit,
+        currentPage
+      }
+    })
   }
   //多选
   onCheckBoxChange(record) {
