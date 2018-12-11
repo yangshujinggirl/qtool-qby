@@ -1,6 +1,7 @@
 import { Form, Row, Col, Input, Button,Select ,DatePicker} from 'antd';
 import { connect } from 'dva';
-
+import {timeForMats} from '../../utils/meth';
+import moment from 'moment';
 const Option = Select.Option
 const RangePicker = DatePicker.RangePicker;
 const FormItem = Form.Item;
@@ -10,16 +11,30 @@ class AdvancedSearchForm extends React.Component {
         voucherDateStart: undefined,
         voucherDateEnd:undefined
     };
+    componentDidMount(){
+        this.getNowFormatDate();
+    }
+    getNowFormatDate = () => {
+       const startRpDate=timeForMats(30).t2
+       const endRpDate=timeForMats(30).t1
+       this.setState({
+           voucherDateStart:startRpDate,
+           voucherDateEnd:endRpDate
+       },function(){
+           this.handleSearch();
+       })
+   }
     handleSearch = (e) => {
         this.props.form.validateFields((err, values) => {
+            delete values.time;
             this.initWarehouseList(values,this.props.limit,0)
             this.synchronousState(values)
         });
     }
     //搜搜请求数据
     initWarehouseList=(values,limit,currentPage)=>{
-        values.voucherDateStart=this.state.voucherDateStart 
-        values.voucherDateEnd=this.state.voucherDateEnd 
+        values.voucherDateStart=this.state.voucherDateStart
+        values.voucherDateEnd=this.state.voucherDateEnd
         values.limit=limit
         values.currentPage=currentPage
         this.props.dispatch({
@@ -30,8 +45,8 @@ class AdvancedSearchForm extends React.Component {
     }
     //同步data
     synchronousState=(values)=>{
-        values.voucherDateStart=this.state.voucherDateStart 
-        values.voucherDateEnd=this.state.voucherDateEnd 
+        values.voucherDateStart=this.state.voucherDateStart
+        values.voucherDateEnd=this.state.voucherDateEnd
         this.props.dispatch({
             type:'operatecz/synchronous',
             payload:values
@@ -45,6 +60,7 @@ class AdvancedSearchForm extends React.Component {
     }
 
     render() {
+        const defaultTime = [moment(timeForMats(30).t2), moment(timeForMats(30).t1)]
         const { getFieldDecorator } = this.props.form;
         return (
             <Form  className='formbox'>
@@ -72,14 +88,16 @@ class AdvancedSearchForm extends React.Component {
                                     )}
                                 </FormItem>
                                 <FormItem label='充值时间'>
-                                    {getFieldDecorator('time')(
+                                    {getFieldDecorator('time',
+                                      {initialValue:defaultTime}
+                                    )(
                                         <RangePicker
                                             showTime
                                             format="YYYY-MM-DD HH:mm:ss"
                                             onChange={this.hinddataChange.bind(this)}
                                         />
                                     )}
-                                </FormItem>    
+                                </FormItem>
                             </div>
                         </Row>
                     </Col>
@@ -90,10 +108,7 @@ class AdvancedSearchForm extends React.Component {
             </Form>
         );
     }
-    componentDidMount(){
-         this.handleSearch()
-       
-    }
+
 }
 function mapStateToProps(state) {
      const {limit,currentPage} = state.operatecz

@@ -11,6 +11,7 @@ import SplitOrderModal from "./components/SplitOrder"
 import ChangePriceModal from "./components/ChangePriceModal"
 import MergeModal from "./components/MergeModal"
 import MarkStar from "./components/MarkStar"
+import {timeForMats} from '../../../utils/meth';
 import {deepcCloneObj} from "../../../utils/commonFc"
 
 
@@ -60,11 +61,25 @@ class OnAudit extends Component {
     }
   }
   componentDidMount =()=> {
-    this.props.dispatch({
-      type:"onAudit/fetchList",
-      payload:{}
-    });
+    this.getNowFormatDate();
   }
+  getNowFormatDate = () => {
+   const startRpDate=timeForMats(30).t2;
+   const endRpDate=timeForMats(30).t1;
+   const {field} = this.state;
+   this.setState({
+     field:{
+       ...field,
+       payTimeST:startRpDate,
+       payTimeET:endRpDate,
+       }
+     },function(){
+       this.searchData({
+         payTimeST:startRpDate,
+         payTimeET:endRpDate
+       });
+   })
+ }
   componentWillReceiveProps(props) {
     this.setState({
       rowSelection : {
@@ -143,11 +158,11 @@ class OnAudit extends Component {
       payload: values
     });
   }
-  //pagedisplayName改变时的回调
-  onShowdisplayNameChange =({currentPage,limit})=> {
+  //pageSize改变时的回调
+  onShowSizeChange = ({currentPage,limit})=> {
     this.props.dispatch({
       type:'onAudit/fetchList',
-      payload:{currentPage,limit}
+      payload:{currentPage,limit,...this.state.field}
     });
   }
   //搜索框数据发生变化
@@ -337,7 +352,6 @@ class OnAudit extends Component {
     this.setState({newTotalMoney,newTotalMoney})
   }
   render() {
-    console.log(this.state.rowSelection.selectedRowKeys)
     const rolelists=this.props.data.rolelists;
     //订单拆分
     const dismantle=rolelists.find((currentValue,index)=>{
@@ -443,7 +457,7 @@ class OnAudit extends Component {
         <Qpagination
           data={this.props.onAudit}
           onChange={this.changePage}
-          onShowsizeChange = {this.onShowsizeChange}/>
+          onShowSizeChange = {this.onShowSizeChange}/>
         <SplitOrderModal
           dataChangeList={this.dataChangeList}
           newList = {newList}

@@ -6,6 +6,7 @@ import Qtable from '../../../components/Qtable/index'; //表单
 import Qpagination from '../../../components/Qpagination/index'; //分页
 import FilterForm from './FilterForm/index'
 import moment from 'moment';
+import {timeForMat} from '../../../utils/meth';
 import { changeStatusApi } from '../../../services/operate/supplyinout'
 import { exportDataApi } from '../../../services/orderCenter/userOrders'
 const confirm = Modal.confirm;
@@ -35,17 +36,26 @@ class Supplyinout extends Component{
        },
     }
   }
-  //初始化数据
-  componentWillMount(){
-    this.initData()
+  componentWillMount() {
+    this.getNowFormatDate();
   }
-  //初始数据
-  initData =()=> {
-    this.props.dispatch({
-      type:'supplyinout/fetchList',
-      payload:{}
-    })
-  }
+  getNowFormatDate = () => {
+   const startRpDate=timeForMat(30).t2;
+   const endRpDate=timeForMat(30).t1;
+   const {field} = this.state;
+   this.setState({
+     field:{
+       ...field,
+       dateStart:startRpDate,
+       dateEnd:endRpDate,
+       }
+     },function(){
+       this.searchData({
+         dateStart:startRpDate,
+         dateEnd:endRpDate
+       });
+   })
+ }
   //搜索框数据发生变化
   searchDataChange =(values)=> {
     const {rangePicker,..._values} = values;
@@ -103,7 +113,7 @@ class Supplyinout extends Component{
   onShowSizeChange =({currentPage,limit})=> {
     this.props.dispatch({
       type:'supplyinout/fetchList',
-      payload:{currentPage,limit}
+      payload:{currentPage,limit,...this.state.field}
     });
   }
   onChange =(selectedRowKeys, selectedRows)=> {

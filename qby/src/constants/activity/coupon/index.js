@@ -73,7 +73,7 @@ class Coupon extends Component{
   onShowSizeChange =({currentPage,limit})=> {
     this.props.dispatch({
       type:'coupon/fetchList',
-      payload:{currentPage,limit}
+      payload:{currentPage,limit,...this.state.field}
     });
   }
   //搜索框数据发生变化

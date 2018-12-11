@@ -36,7 +36,7 @@ class MarketResource extends Component{
     onShowSizeChange =({currentPage,limit})=> {
       this.props.dispatch({
         type:'marketResource/fetchList',
-        payload:{currentPage,limit}
+        payload:{currentPage,limit,...this.state.fields}
       });
     }
     //点击分页

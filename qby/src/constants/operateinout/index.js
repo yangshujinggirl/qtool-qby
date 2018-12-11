@@ -11,7 +11,7 @@ import Appmodelone from '../ordermd/modal';
 const confirm = Modal.confirm;
 
 class OperateinoutIndex extends React.Component{
-    state = {};
+  state = {};
     //导出数据
 	exportData = () => {
 		const values={
@@ -48,7 +48,7 @@ class OperateinoutIndex extends React.Component{
 		})
 
 	}
-  	render(){
+	render(){
   		const rolelists=this.props.data.rolelists
   		//导出数据
   		const expontdata=rolelists.find((currentValue,index)=>{

@@ -11,7 +11,7 @@ class OperatememberIndex extends React.Component{
     handleDownload=()=>{
         window.open('../../static/member.xlsx')
     }
-    
+
   	render(){
      	return(
         	<div className='content_box'>
@@ -28,8 +28,6 @@ class OperatememberIndex extends React.Component{
         	</div>
       	)
 	}
-	  
-	componentDidMount(){}
 }
 
 function mapStateToProps(state) {

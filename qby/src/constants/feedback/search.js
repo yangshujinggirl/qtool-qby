@@ -1,5 +1,7 @@
 import { Form, Row, Col, Input, Button, Icon,Select ,DatePicker} from 'antd';
 import { connect } from 'dva';
+import moment from 'moment';
+import {timeForMat} from '../../utils/meth';
 const FormItem = Form.Item;
 const Option = Select.Option
 const RangePicker = DatePicker.RangePicker;
@@ -9,6 +11,19 @@ class SearchForm extends React.Component {
         createTimeST:null,
         createTimeET:null
     }
+    componentDidMount(){
+        this.getNowFormatDate();
+    }
+    getNowFormatDate = () => {
+       const startRpDate=timeForMat(30).t2
+       const endRpDate=timeForMat(30).t1
+       this.setState({
+           createTimeST:startRpDate,
+           createTimeET:endRpDate
+       },function(){
+           this.handleSearch();
+       })
+   }
     handleSearch = (e) => {
         this.props.form.validateFields((err, values) => {
             this.initList(values,this.props.limit,0);
@@ -27,7 +42,7 @@ class SearchForm extends React.Component {
             payload:{code:'qerp.web.sp.feedback.query',values:values}
         });
         this.props.dispatch({ type: 'tab/loding', payload:true});
-    }  
+    }
 
     //同步data
     syncState=(values)=>{
@@ -43,8 +58,9 @@ class SearchForm extends React.Component {
             createTimeET:dateString[1]
         })
     }
-   
+
     render() {
+        const defaultTime = [moment(timeForMat(30).t2), moment(timeForMat(30).t1)]
         const { getFieldDecorator } = this.props.form;
         return (
             <Form  className='formbox'>
@@ -93,14 +109,15 @@ class SearchForm extends React.Component {
                                     )}
                                 </FormItem>
                                 <FormItem label='反馈时间'>
-                                    {getFieldDecorator('time')(
+                                    {getFieldDecorator('time',{
+                                      initialValue:defaultTime
+                                    })(
                                         <RangePicker
-                                            showTime
                                             format="YYYY-MM-DD"
                                             onChange={this.hindDateChange.bind(this)}
                                     />
                                     )}
-                                </FormItem>  
+                                </FormItem>
                             </div>
                         </Row>
                     </Col>
@@ -110,10 +127,6 @@ class SearchForm extends React.Component {
                 </div>
             </Form>
         );
-    }
-
-    componentDidMount(){
-        this.handleSearch()
     }
 }
 function mapStateToProps(state) {

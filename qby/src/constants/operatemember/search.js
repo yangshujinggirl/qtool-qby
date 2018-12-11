@@ -1,5 +1,7 @@
 import { Form, Row, Col, Input, Button, Icon,Select ,DatePicker} from 'antd';
 import { connect } from 'dva';
+import {timeForMat} from '../../utils/meth';
+import moment from 'moment';
 const FormItem = Form.Item;
 const Option = Select.Option
 const RangePicker = DatePicker.RangePicker;
@@ -9,7 +11,19 @@ class OperatememberSearchForm extends React.Component {
         startTime: '',
         endTime:''
     };
-
+    componentDidMount(){
+        this.getNowFormatDate();
+    }
+    getNowFormatDate = () => {
+       const startRpDate=timeForMat(30).t2
+       const endRpDate=timeForMat(30).t1
+       this.setState({
+           startTime:startRpDate,
+           endTime:endRpDate
+       },function(){
+           this.handleSearch();
+       })
+   }
     //点击搜索按钮获取搜索表单数据
     handleSearch = (e) => {
         this.props.form.validateFields((err, values) => {
@@ -30,7 +44,7 @@ class OperatememberSearchForm extends React.Component {
             payload:{code:'qerp.web.qpos.mb.card.query',values:values}
         });
         this.props.dispatch({ type: 'tab/loding', payload:true});
-    }  
+    }
 
     //同步data
     syncState=(values)=>{
@@ -49,7 +63,7 @@ class OperatememberSearchForm extends React.Component {
             endTime:dateString[1]
         })
     }
-    
+
     render() {
         const { getFieldDecorator } = this.props.form;
         return (
@@ -91,8 +105,11 @@ class OperatememberSearchForm extends React.Component {
                                 <FormItem label='最近使用时间'>
                                         {
                                             <RangePicker
-                                                showTime
                                                 format="YYYY-MM-DD"
+                                                value={this.state.startTime?
+                                                        [moment(this.state.startTime), moment(this.state.endTime)]
+                                                        :null
+                                                    }
                                                 onChange={this.hindDateChange.bind(this)}
                                             />
                                         }
@@ -107,8 +124,6 @@ class OperatememberSearchForm extends React.Component {
             </Form>
         );
     }
-
-    componentDidMount(){}
 }
 function mapStateToProps(state) {
     const {limit,currentPage} = state.operatemember;

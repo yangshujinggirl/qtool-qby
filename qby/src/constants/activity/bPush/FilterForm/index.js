@@ -11,6 +11,7 @@ import {
 }from 'antd'
 import '../index.css'
 import moment from 'moment';
+import {timeForMats} from '../../../../utils/meth';
 const FormItem = Form.Item;
 const Option = Select.Option;
 const RangePicker = DatePicker.RangePicker
@@ -70,7 +71,8 @@ class NormalForm extends Component{
                 <FormItem
                     label="推送时间"
                 >
-                  {getFieldDecorator('rangePicker')(
+                  {getFieldDecorator('rangePicker',{
+                  })(
                     <RangePicker showTime format="YYYY-MM-DD HH:mm:ss"/>
                   )}
               </FormItem>

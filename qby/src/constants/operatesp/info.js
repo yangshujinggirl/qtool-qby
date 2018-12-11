@@ -100,6 +100,13 @@ class SpInfo extends React.Component{
                 ))
               }
     				</FormItem>
+            <FormItem
+    					label="门店id"
+    					labelCol={{ span: 3,offset: 1 }}
+    					wrapperCol={{ span: 6 }}
+    				>
+              {spShop.spShopId}
+    				</FormItem>
     				<FormItem
     					label="门店名称"
     					labelCol={{ span: 3,offset: 1 }}

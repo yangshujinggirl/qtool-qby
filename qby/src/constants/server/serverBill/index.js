@@ -9,6 +9,7 @@ import AddBills from './AddBill'
 import ajax from '../../../utils/req.js'
 import { addBillApi } from '../../../services/server/server'
 import moment from 'moment';
+import {timeForMats} from '../../../utils/meth';
 
 class ServerBill extends Component{
   constructor(props){
@@ -27,6 +28,26 @@ class ServerBill extends Component{
         createTimeET:'',
       }
     }
+  }
+  componentWillMount() {
+    this.getNowFormatDate();
+  }
+  getNowFormatDate = () => {
+   const startRpDate=timeForMats(30).t2;
+   const endRpDate=timeForMats(30).t1;
+   const {field} = this.state;
+   this.setState({
+     field:{
+       ...field,
+       createTimeST:startRpDate,
+       createTimeET:endRpDate,
+       }
+     },function(){
+       this.searchData({
+         createTimeST:startRpDate,
+         createTimeET:endRpDate
+       });
+   })
   }
   //点击搜索
   searchData = (values)=> {
@@ -52,13 +73,6 @@ class ServerBill extends Component{
       _values.createTimeET = moment(new Date(rangePicker[1]._d).getTime()).format('YYYY-MM-DD HH:mm:ss');
     }
     this.setState({field:_values});
-  }
-  //初始化数据
-  componentWillMount(){
-    this.props.dispatch({
-      type:'serverBill/fetchList',
-      payload:{}
-    })
   }
   //新增工单
   addBill(){
@@ -105,7 +119,7 @@ class ServerBill extends Component{
   onShowSizeChange =({currentPage,limit})=> {
     this.props.dispatch({
       type:'serverBill/fetchList',
-      payload:{currentPage,limit}
+      payload:{currentPage,limit,...this.state.field}
     });
   }
   render(){

@@ -33,6 +33,12 @@ class Bpush extends Component{
        }
     }
   }
+  componentWillMount(){
+    this.props.dispatch({
+      type:'bPush/fetchList',
+      payload:{}
+    })
+  }
   componentWillReceiveProps(props) {
     this.setState({
       rowSelection : {
@@ -78,24 +84,18 @@ class Bpush extends Component{
   onShowSizeChange =({currentPage,limit})=> {
     this.props.dispatch({
       type:'bPush/fetchList',
-      payload:{currentPage,limit}
+      payload:{currentPage,limit,...this.state.field}
     });
   }
   //搜索框数据发生变化
   searchDataChange =(values)=> {
     const {rangePicker,..._values} = values;
+    console.log(rangePicker)
     if(rangePicker&&rangePicker[0]){
-      _values.startTime =  moment(rangePicker).format('YYYY-MM-DD HH:mm:ss');;
-      _values.endTime = moment(rangePicker[1]).format('YYYY-MM-DD HH:mm:ss');;
+      _values.pushTimeST =  moment(rangePicker[0]).format('YYYY-MM-DD HH:mm:ss');
+      _values.pushTimeET = moment(rangePicker[1]).format('YYYY-MM-DD HH:mm:ss');
     }
     this.setState({field:_values});
-  }
-  //初始化数据
-  componentWillMount(){
-    this.props.dispatch({
-      type:'bPush/fetchList',
-      payload:{}
-    })
   }
   //新增推送
   addPush =()=> {

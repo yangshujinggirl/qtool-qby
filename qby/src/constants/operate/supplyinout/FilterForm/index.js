@@ -10,6 +10,7 @@ import {
   DatePicker
 }from 'antd'
 import moment from 'moment';
+import {timeForMat} from '../../../../utils/meth';
 const FormItem = Form.Item;
 const Option = Select.Option;
 const RangePicker = DatePicker.RangePicker
@@ -29,6 +30,7 @@ class NormalForm extends Component{
   }
   //初始化
   render(){
+    const defaultTime = [moment(timeForMat(30).t2), moment(timeForMat(30).t1)]
     const { getFieldDecorator }= this.props.form;
     return(
       <div>
@@ -80,8 +82,10 @@ class NormalForm extends Component{
                 <FormItem
                     label="结算到期日"
                 >
-                  {getFieldDecorator('rangePicker')(
-                    <RangePicker showTime format="YYYY-MM-DD"/>
+                  {getFieldDecorator('rangePicker',{
+                    initialValue:defaultTime
+                  })(
+                    <RangePicker  format="YYYY-MM-DD"/>
                   )}
                 </FormItem>
             </div>

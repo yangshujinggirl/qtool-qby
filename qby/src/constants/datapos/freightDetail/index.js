@@ -45,6 +45,9 @@ class FreightDetail extends Component {
       params.startDate = moment(time[0]).format('YYYY-MM-DD');
       params.endDate = moment(time[1]).format('YYYY-MM-DD');
     }
+    if(value) {
+      params = {...params,...value}
+    }
     this.props.dispatch({
       type:'freightDetail/fetchList',
       payload:params
@@ -82,7 +85,7 @@ class FreightDetail extends Component {
         {
           list.length>0&&
           <Qpagination
-            sizeOptions="2"
+            sizeOptions="1"
             onShowSizeChange={(value)=>this.getList(value)}
             data={data}
             onChange={this.changePage}/>

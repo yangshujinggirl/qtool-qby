@@ -144,10 +144,6 @@ class OrdercgTable extends React.Component {
 		// ];
 
     }
-		componentDidMount(){
-			//执行初始化数据方法获取list
-			this.initList(this.props.values,this.props.limit,this.props.currentPage);
-		}
     //点击表格上的修改按钮操作
     lookInfo = (record) =>{
        const wsAsnId=String(record.wsAsnId);
