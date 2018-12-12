@@ -1,21 +1,21 @@
 const Columns = [{
      title: '退单号',
-     dataIndex: 'orderNo',
+     dataIndex: 'orderReturnNo',
    },{
      title: '用户电话',
-     dataIndex: 'spShopName'
+     dataIndex: 'userPhone'
    },{
      title: '订单类型',
-     dataIndex: 'nickName'
+     dataIndex: 'orderTypeStr'
    }, {
      title: '退款类型',
-     dataIndex: 'mobilePhone'
+     dataIndex: 'returnTypeStr'
    },{
      title: '退款金额',
-     dataIndex: 'qtySum'
+     dataIndex: 'actualReturnQuota'
    },{
      title: '创建时间',
-     dataIndex: 'amountSum'
+     dataIndex: 'createTime'
    },{
      title: '操作',
      dataIndex:'operate',

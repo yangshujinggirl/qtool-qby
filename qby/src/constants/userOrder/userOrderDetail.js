@@ -43,7 +43,15 @@ const columns = [{
     dataIndex: 'price',
     key:'5'
   }, {
-    title: '应付价格',
+    title: '应付单价',
+    dataIndex: 'payPrice',
+    key:'payPrice',
+  }, {
+    title: '应付金额',
+    dataIndex: 'payPrice',
+    key:'payPrice',
+  }, {
+    title: '商品实付金额',
     dataIndex: 'payPrice',
     key:'payPrice',
   }];
@@ -129,9 +137,7 @@ getDetail() {
 				logInfos,
         deliveryInfo
 			})
-		} else {
-      message.error(res.message)
-    }
+		};
     this.props.dispatch({
       type:'tab/loding',
       payload:false

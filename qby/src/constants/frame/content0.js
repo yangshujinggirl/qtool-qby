@@ -120,6 +120,7 @@ import UserOrder from '../userOrder/index';//用户订单
 import UserOrderDetail from '../userOrder/userOrderDetail'
 import Userth from '../userth/index' //用户退单
 import UserthDetail from '../userth/userthDetail' //用户退单详情
+import AddThOrder from '../userth/allth/addThOrder'
 //商品中心
 import  BaseGoods from '../goods/baseGoods/index';//基础商品
 import  AddGoods from '../goods/baseGoods/AddGoods';//基础商品--新增商品
@@ -327,6 +328,7 @@ class Content extends React.Component {
                                     case formDataCode('order70') : return <UserOrder data={this.props.data} componkey={this.props.componkey}/>
                                     case formDataCode('order70-edit') : return <UserOrderDetail data={this.props.data} componkey={this.props.componkey}/>
                                     case "208000":return <Userth data={this.props.data} componkey={this.props.componkey}/>
+                                    case "208000edit":return <AddThOrder data={this.props.data} componkey={this.props.componkey}/>
                                     case "208000info":return <UserthDetail data={this.props.data} componkey={this.props.componkey}/>
                                     // -------------------------------合作中心----------------------------
                                     case formDataCode('cooperate10') : return <MarketResource data={this.props.data} componkey={this.props.componkey}/> //市场资源

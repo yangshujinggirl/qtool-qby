@@ -39,33 +39,33 @@ class NormalForm extends Component {
           <div className='search-form-outwrap'>
             <div className="search-form-wrap">
               <FormItem label='退货单号'>
-                 {getFieldDecorator('spShopName')(
+                 {getFieldDecorator('orderReturnNo')(
                    <Input placeholder="请输入退货单号" autoComplete="off"/>
                  )}
                </FormItem>
               <FormItem label='用户订单号'>
-                 {getFieldDecorator('orderNo')(
+                 {getFieldDecorator('orderNum')(
                    <Input placeholder="请输入用户订单号" autoComplete="off"/>
                  )}
                </FormItem>
                <FormItem label='退款类型'>
-                  {getFieldDecorator('orderStatus')(
+                  {getFieldDecorator('returnStatus')(
                     <Select allowClear={true} placeholder="请选择退款类型">
-                      <Option value={1}>售中退款</Option>
-                      <Option value={2}>售后退款</Option>
+                      <Option value={0}>售中退款</Option>
+                      <Option value={1}>售后退款</Option>
                     </Select>
                   )}
                 </FormItem>
               <FormItem label='用户电话'>
-                 {getFieldDecorator('pdSpuName')(
+                 {getFieldDecorator('userPhone')(
                    <Input placeholder="请输入用户电话" autoComplete="off"/>
                  )}
                </FormItem>
               <FormItem label='订单类型'>
-                {getFieldDecorator('orderStatus')(
+                {getFieldDecorator('orderType')(
                   <Select allowClear={true} placeholder="请选择订单类型">
-                    <Option value={1}>直邮订单</Option>
-                    <Option value={2}>保税仓订单</Option>
+                    <Option value={0}>直邮订单</Option>
+                    <Option value={1}>保税仓订单</Option>
                   </Select>
                 )}
                </FormItem>

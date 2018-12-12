@@ -24,7 +24,6 @@ class Tabletitle extends React.Component {
 		})
 	}
 	render() {
-		console.log(this.props)
 		return (
 			<div>
 				<div className='clearfix' style={{height:'32px',lineHeight:"32px"}}>
@@ -157,7 +156,7 @@ class OrderuserInfo extends React.Component{
     }).then((json) => {
 			this.props.dispatch({ type: 'tab/loding', payload:false});
       if(json.code=='0'){
-				const orderInfos=json.orderInfo
+				const orderInfos = json.orderInfo
 				const orderinfo=[
 					{lable:'订单号',text:orderInfos.orderNo},
 					{lable:'有赞订单',text:orderInfos.outNo},
@@ -166,7 +165,7 @@ class OrderuserInfo extends React.Component{
 					{lable:'归属门店',text:orderInfos.shopName},
 					{lable:'订单金额',text:orderInfos.amount},
 					{lable:'实际支付金额',text:orderInfos.payAmount}
-				]
+				];
 				//收货信息
 				const receiptinfo=[
 					{lable:'姓名',text:orderInfos.idCardName},
@@ -249,6 +248,8 @@ class OrderuserInfo extends React.Component{
   }
 	render(){
 		let {newClearLogs} = this.state;
+		console.log(this.state.subOrderInfos)
+		console.log(this.props.data.postgood)
 		return(
 			<div>
 				<div className='mb10'>

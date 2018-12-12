@@ -1,7 +1,8 @@
 import React,{ Component } from 'react';
 import { connect } from 'dva';
 import { Button, message, Modal,Row,Col,Table,Icon} from 'antd'
-import { exportDataApi } from '../../../services/orderCenter/userth/allth'
+import { sureGetApi,forceCancelApi } from '../../../services/orderCenter/userth/allth'
+import {timeForMats} from '../../../utils/meth';
 import Qtable from '../../../components/Qtable/index';
 import Qpagination from '../../../components/Qpagination/index';
 import FilterForm from './FilterForm/index'
@@ -19,23 +20,45 @@ class Allth extends Component {
         onChange:this.onChange
       },
       field:{
-        spShopName:'',
-        orderNo:'',
-        pdSpuName:'',
-        code:'',
-        mobile:'',
-        orderStatus:'',
-        dateTimeST:'',
-        dateTimeET:'',
+        orderReturnNo:'',
+        orderNum:'',
+        returnWay:'',
+        returnStatus:'',
+        returnType:'',
+        userPhone:'',
+        createTimeST:'',
+        createTimeET:'',
       },
     }
   }
   componentWillMount() {
-    console.log(this.props)
-    this.props.dispatch({
-        type:'allth/fetchList',
-        payload:{}
-    });
+    this.getNowFormatDate()
+  }
+  getNowFormatDate = () => {
+   const startRpDate=timeForMats(30).t2;
+   const endRpDate=timeForMats(30).t1;
+   const {field} = this.state;
+   this.setState({
+     field:{
+       ...field,
+       createTimeST:startRpDate,
+       createTimeET:endRpDate,
+       }
+     },function(){
+       this.searchData({
+         createTimeST:startRpDate,
+         createTimeET:endRpDate
+       });
+   })
+ }
+  componentWillReceiveProps(props){
+    this.setState({
+      rowSelection : {
+        selectedRowKeys:this.props.allth.selectedRowKeys,
+        type:'radio',
+        onChange:this.onChange
+      }
+    })
   }
   onChange =(selectedRowKeys,selectedRows)=> {
     const {rowSelection}=this.state;
@@ -43,8 +66,8 @@ class Allth extends Component {
       rowSelection:Object.assign({},rowSelection,{selectedRowKeys})
     })
     if(selectedRows[0]){
-      this.setState({couponId:selectedRows[0].couponId})
-    }
+      this.setState({orderReturnNo:selectedRows[0].orderReturnNo})
+    };
   }
   //操作
   handleOperateClick(record,type) {
@@ -53,20 +76,20 @@ class Allth extends Component {
       //用户退单详情
       paneitem = {
         title:'订单详情',
-        key:`${this.props.componkey}edit`+record.orderId,
+        key:`${this.props.componkey}edit`+record.orderReturnId,
         componkey:`${this.props.componkey}info`,
         data:{
-          pdSpuId:record.orderId,
+          orderReturnNo:record.orderReturnNo,
         }
       }
     }else{
       //用户订单详情
       paneitem={
         title:'订单详情',
-        key:`${this.props.componkey}edit`+ record.outId + 'info27',
-        data:{pdSpuId:record.orderId},
+        key:`${this.props.componkey}edit`+ record.orderReturnId + 'info27',
+        data:{pdSpuId:record.orderReturnId},
         componkey:'207000edit'
-      }
+      };
     }
     this.props.dispatch({
       type:'tab/firstAddTab',
@@ -93,8 +116,8 @@ class Allth extends Component {
   searchDataChange =(values)=> {
     const {rangePicker,..._values} = values;
     if(rangePicker&&rangePicker[0]){
-      _values.dateTimeST =  moment(new Date(rangePicker[0]._d).getTime()).format('YYYY-MM-DD HH:mm:ss');
-      _values.dateTimeET = moment(new Date(rangePicker[1]._d).getTime()).format('YYYY-MM-DD HH:mm:ss');
+      _values.createTimeST =  moment(rangePicker[0]).format('YYYY-MM-DD HH:mm:ss');
+      _values.createTimeET = moment(rangePicker[1]).format('YYYY-MM-DD HH:mm:ss');
     }
     this.setState({field:_values});
   }
@@ -153,7 +176,43 @@ class Allth extends Component {
 	};
   //创建退单
   createTorder =()=> {
-
+    const paneitem = {
+      title:'新建退单',
+      key:`${this.props.componkey}edit`,
+      componkey:`${this.props.componkey}edit`,
+    };
+    this.props.dispatch({
+      type:'tab/firstAddTab',
+      payload:paneitem
+    });
+  }
+  //确认收货
+  sureGet =()=> {
+    const {orderReturnNo} = this.state;
+    sureGetApi( {orderReturnNo})
+    .then(res => {
+      if(res.code == '0'){
+        message.success('已确认收货')
+        this.props.dispatch({
+          type:'allth/clearSelect',
+          payload:{selectedRowKeys:null}
+        });
+      };
+    })
+  }
+  //强制取消
+  forceCancel =()=> {
+    const {orderReturnNo} = this.state;
+    forceCancelApi( {orderReturnNo})
+    .then(res => {
+      if(res.code == '0'){
+        message.success('强制取消成功')
+        this.props.dispatch({
+          type:'allth/clearSelect',
+          payload:{selectedRowKeys:null}
+        });
+      };
+    })
   }
   render() {
     // //导出数据按钮是否显示
@@ -182,13 +241,13 @@ class Allth extends Component {
             <Button
               type='primary'
               size='large'
-              onClick={this.createTorder}
+              onClick={this.sureGet}
             >确认收货
             </Button>
             <Button
               type='primary'
               size='large'
-              onClick={this.createTorder}
+              onClick={this.forceCancel}
             >强制取消
             </Button>
         </div>

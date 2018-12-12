@@ -1,7 +1,7 @@
 import React from 'react';
 import EditableTable from '../../components/table/tablebasic';
 import { Button, Icon ,Form,Select,Input,Card, message } from 'antd';
-import { getInfoApi } from '../../services/orderCenter/userOrders'
+import { getInfoApi } from '../../services/orderCenter/userth/allth'
 import { connect } from 'dva';
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -59,7 +59,7 @@ class userOrderDetail extends React.Component{
 }
 //初始化
 componentDidMount(){
-	const id = this.props.data.pdSpuId;
+	const id = this.props.data.orderReturnNo;
 	getInfoApi({orderId:id}).then(res => {
 		if(res.code=='0'){
 			this.setState({

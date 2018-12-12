@@ -20,14 +20,31 @@ const Option =  Select.Option;
 const RangePicker = DatePicker.RangePicker
 
 class NormalForm extends Component {
+  constructor(props){
+    super(props)
+    this.state={
+      flowStatus:[]
+    }
+  }
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       this.props.submit && this.props.submit(values);
     });
   }
+  typeChange =(e)=> {
+    const value = e.target.value;
+    console.log(value)
+    //根据订单类型查询订单状态接口
+    const flowStatus = [];
+    this.setState({
+      flowStatus
+    })
+
+  }
   render() {
     const defaultTime = [moment(timeForMats(30).t2), moment(timeForMats(30).t1)]
+    const {flowStatus} = this.state
     const { getFieldDecorator } = this.props.form;
     return(
       <div>
@@ -70,35 +87,48 @@ class NormalForm extends Component {
                     </Select>
                   )}
                 </FormItem>
-              <FormItem label='下单平台'>
-                 {getFieldDecorator('platform')(
-                   <Select allowClear={true} placeholder="请选择下单平台">
-                     {
-                       PlatformOption.map((el) => (
-                         <Option value={el.key} key={el.key}>{el.value}</Option>
-                       ))
-                     }
-                   </Select>
-                 )}
-               </FormItem>
-              <FormItem label='配送方式'>
-                 {getFieldDecorator('deliveryType')(
-                   <Select allowClear={true} placeholder="请选择配送方式">
-                     {
-                       DeliveryOption.map((el) => (
-                         <Option value={el.key} key={el.key}>{el.value}</Option>
-                       ))
-                     }
-                   </Select>
-                 )}
-               </FormItem>
-              <FormItem label='订单时间'>
-                 {getFieldDecorator('rangePicker',
-                   {initialValue:defaultTime}
-                 )(
-                   <RangePicker showTime format="YYYY-MM-DD HH:mm:ss"/>
-                 )}
-              </FormItem>
+                <FormItem label='订单类型'>
+                   {getFieldDecorator('deliveryType',{
+                     onChange:this.typeChange
+                   })(
+                     <Select allowClear={true} placeholder="请选择配送方式">
+                       {
+                         DeliveryOption.map((el) => (
+                           <Option value={el.key} key={el.key}>{el.value}</Option>
+                         ))
+                       }
+                     </Select>
+                   )}
+                 </FormItem>
+                 <FormItem label='流程状态'>
+                    {getFieldDecorator('deliveryType')(
+                      <Select allowClear={true} placeholder="请选择流程状态">
+                        {
+                          flowStatus.map((el) => (
+                            <Option value={el.key} key={el.key}>{el.value}</Option>
+                          ))
+                        }
+                      </Select>
+                    )}
+                </FormItem>
+                <FormItem label='下单平台'>
+                   {getFieldDecorator('platform')(
+                     <Select allowClear={true} placeholder="请选择下单平台">
+                       {
+                         PlatformOption.map((el) => (
+                           <Option value={el.key} key={el.key}>{el.value}</Option>
+                         ))
+                       }
+                     </Select>
+                   )}
+                 </FormItem>
+                <FormItem label='下单时间'>
+                   {getFieldDecorator('rangePicker',
+                     {initialValue:defaultTime}
+                   )(
+                     <RangePicker showTime format="YYYY-MM-DD HH:mm:ss"/>
+                   )}
+                </FormItem>
              </div>
            </div>
            <div className="search-submit-btn">

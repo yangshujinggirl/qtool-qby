@@ -1,6 +1,6 @@
 const Columns = [{
      title: '退单号',
-     dataIndex: 'orderNo',
+     dataIndex: 'orderReturnNo',
      render:(text, record)=>{
        return(
          <div>
@@ -10,7 +10,7 @@ const Columns = [{
      }
    },{
      title: '用户订单',
-     dataIndex: 'spShopName',
+     dataIndex: 'orderNum',
      render:(text, record)=>{
        return(
          <div>
@@ -20,30 +20,30 @@ const Columns = [{
      }
    },{
      title: '用户电话',
-     dataIndex: 'nickName'
+     dataIndex: 'userPhone'
    }, {
      title: '退款类型',
-     dataIndex: 'mobilePhone'
+     dataIndex: 'returnTypeStr'
    },{
      title: '退款方式',
-     dataIndex: 'qtySum'
+     dataIndex: 'returnWayStr'
    },{
      title: '原订单支付金额',
-     dataIndex: 'amountSum'
+     dataIndex: 'orderPayQuota'
    },{
      title: '申请金额',
-     dataIndex: 'payAmount'
+     dataIndex: 'applyReturnQuota'
    },{
      title: '实退金额',
-     dataIndex: 'orderStatusStr'
+     dataIndex: 'actualReturnQuota'
    },{
      title: '退单商品数',
-     dataIndex: 'createTime'
+     dataIndex: 'returnPdCount'
    },{
      title: '退款状态',
-     dataIndex: 'userId'
+     dataIndex: 'returnStatusStr'
    },{
      title: '创建时间',
-     dataIndex: 'type'
+     dataIndex: 'createTime'
    },];
    export  default Columns

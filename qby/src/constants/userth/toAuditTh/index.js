@@ -27,7 +27,7 @@ class ToAudit extends Component {
   }
   componentWillMount() {
     this.props.dispatch({
-        type:'userth/fetchList',
+        type:'toAudit/fetchList',
         payload:{}
     });
   }
@@ -35,10 +35,10 @@ class ToAudit extends Component {
   handleOperateClick(record) {
     const paneitem = {
       title:'订单详情',
-      key:`${this.props.componkey}edit`+record.orderId,
+      key:`${this.props.componkey}edit`+record.orderReturnId,
       componkey:`${this.props.componkey}edit`,
       data:{
-        pdSpuId:record.orderId,
+        orderReturnNo:record.orderReturnNo,
       }
     }
     this.props.dispatch({

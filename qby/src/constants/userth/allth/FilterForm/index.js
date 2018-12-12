@@ -10,6 +10,7 @@ import {
   DatePicker
 } from 'antd';
 import moment from 'moment';
+import {timeForMats} from '../../../../utils/meth';
 import { ProcesasStatusOption } from '../../../../components/FixedDataSource.js'
 import './index.less'
 
@@ -24,14 +25,15 @@ class NormalForm extends Component {
     this.props.form.validateFieldsAndScroll((err, values) => {
       const { rangePicker, ..._values } = values;
       if(rangePicker&&rangePicker[0]){
-        _values.dateTimeST =  moment(rangePicker[0]).format('YYYY-MM-DD HH:mm:ss');
-        _values.dateTimeET =  moment(rangePicker[1]).format('YYYY-MM-DD HH:mm:ss');
+        _values.createTimeST =  moment(rangePicker[0]).format('YYYY-MM-DD HH:mm:ss');
+        _values.createTimeET =  moment(rangePicker[1]).format('YYYY-MM-DD HH:mm:ss');
       }
       this.props.submit && this.props.submit(_values);
     });
   }
 
   render() {
+    const defaultTime = [moment(timeForMats(30).t2), moment(timeForMats(30).t1)]
     const { getFieldDecorator } = this.props.form;
     return(
       <div>
@@ -39,30 +41,33 @@ class NormalForm extends Component {
           <div className='search-form-outwrap'>
             <div className="search-form-wrap">
               <FormItem label='退款单号'>
-                 {getFieldDecorator('spShopName')(
+                 {getFieldDecorator('orderReturnNo')(
                    <Input placeholder="请输入退款单号" autoComplete="off"/>
                  )}
                </FormItem>
               <FormItem label='用户订单'>
-                 {getFieldDecorator('orderNo')(
+                 {getFieldDecorator('orderNum')(
                    <Input placeholder="请输入用户订单" autoComplete="off"/>
                  )}
                </FormItem>
                <FormItem label='退款类型'>
-                  {getFieldDecorator('orderStatus')(
+                  {getFieldDecorator('returnType')(
                     <Select allowClear={true} placeholder="请选择退款类型">
-                        <Option value={1}>售中退款</Option>
-                        <Option value={2}>售后退款</Option>
+                        <Option value={0}>售中退款</Option>
+                        <Option value={1}>售后退款</Option>
                     </Select>
                   )}
                 </FormItem>
               <FormItem label='退款方式'>
-                 {getFieldDecorator('code')(
-                   <Input placeholder="请输入退款方式" autoComplete="off"/>
+                 {getFieldDecorator('returnWay')(
+                   <Select allowClear={true} placeholder="请选择流程状态">
+                     <Option value={0}>仅退款</Option>
+                     <Option value={1}>退货退款</Option>
+                   </Select>
                  )}
                </FormItem>
                <FormItem label='退款状态'>
-                  {getFieldDecorator('orderStatus')(
+                  {getFieldDecorator('returnStatus')(
                     <Select allowClear={true} placeholder="请选择流程状态">
                       <Option value={1}>待审核</Option>
                       <Option value={2}>待收货</Option>
@@ -74,12 +79,13 @@ class NormalForm extends Component {
                   )}
                 </FormItem>
               <FormItem label='用户电话'>
-                 {getFieldDecorator('mobilePhone')(
+                 {getFieldDecorator('userPhone')(
                    <Input placeholder="请输入用户电话" autoComplete="off"/>
                  )}
                </FormItem>
               <FormItem label='创建时间'>
                  {getFieldDecorator('rangePicker',{
+                   initialValue:defaultTime
                  })(
                    <RangePicker showTime format="YYYY-MM-DD HH:mm:ss"/>
                  )}

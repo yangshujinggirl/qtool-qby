@@ -96,10 +96,18 @@ class Searchform extends React.Component {
                                     {getFieldDecorator('warehouseId')(
                                     <Select allowClear={true} placeholder="请选择">
                                         {
-                                            confgdata.wshouse.map((item,index)=>{
-                                                return <Option value={item.key} key={index}>{item.name}</Option>
-                                            })
+                                          confgdata.wshouse.map((item,index)=>{
+                                              return <Option value={item.key} key={index}>{item.name}</Option>
+                                          })
                                         }
+                                    </Select>
+                                    )}
+                                </FormItem>
+                                <FormItem label='来源'>
+                                    {getFieldDecorator('source')(
+                                    <Select allowClear={true} placeholder="请选择">
+                                        <Option value={1}>有赞订单</Option>
+                                        <Option value={2}>用户订单</Option>
                                     </Select>
                                     )}
                                 </FormItem>
@@ -135,7 +143,7 @@ class Searchform extends React.Component {
         },function(){
             this.handleSearch()
         })
-        
+
     }
 }
 

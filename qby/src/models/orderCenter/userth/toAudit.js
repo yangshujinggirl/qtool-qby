@@ -19,14 +19,14 @@ export default {
       const result=yield call(getListApi,values);
       yield put({type: 'tab/loding',payload:false});
       if(result.code=='0') {
-        const { orders, currentPage, limit, total } = result;
-        for(var i=0;i<orders.length;i++){
-          orders[i].key = orders[i].orderId;
-        };
+        const { pdOrderReturnList, currentPage, limit, total } = result;
+        pdOrderReturnList.map((item,index)=>{
+          item.key = index;
+        })
         yield put ({
           type: 'getList',
           payload:{
-            dataList:orders,
+            dataList:pdOrderReturnList,
             currentPage,
             limit,
             total

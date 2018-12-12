@@ -99,7 +99,7 @@ const SalePropertyOption = [{
           key:3,
           value:'滞销商品'
         }]
-//流程状态-----用户订单
+//订单状态-----用户订单
 const ProcesasStatusOption = [{
           key:10,
           value:'待用户支付'
@@ -138,6 +138,15 @@ const ProcesasStatusOption = [{
         },{
           key:-10,
           value:'已发货'
+        },{
+          key:20,
+          value:'待付款'
+        },{
+          key:30,
+          value:'待发货'
+        },{
+          key:40,
+          value:'已取消'
         }]
 //配送方式
 const DeliveryOption=[{
@@ -149,6 +158,12 @@ const DeliveryOption=[{
         },{
           key:3,
           value:'快递邮寄',
+        },{
+          key:4,
+          value:'仓库直邮',
+        },{
+          key:5,
+          value:'保税直邮',
         }]
 //下单平台
 const PlatformOption=[{

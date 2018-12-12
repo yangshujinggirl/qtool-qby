@@ -1,7 +1,7 @@
 import React from 'react';
 import EditableTable from '../../components/table/tablebasic';
 import { Button,Icon,Form,Select,Input,Card,message,Radio} from 'antd';
-import { getInfoApi } from '../../services/orderCenter/userOrders'
+import { getInfoApi } from '../../services/orderCenter/userth/allth'
 import { connect } from 'dva';
 import Imgmodel from '../../components/model/modelimg';
 import './index.less'
@@ -65,9 +65,8 @@ class UserthDetail extends React.Component{
 }
 //初始化
 componentDidMount(){
-	// const id = this.props.data.pdSpuId;
-  const id =  1439;
-	getInfoApi({orderId:id}).then(res => {
+	const id = this.props.data.orderReturnNo;
+	getInfoApi({orderReturnNo:id}).then(res => {
 		if(res.code=='0'){
 			this.setState({
 				orderInfo:res.orderInfo,

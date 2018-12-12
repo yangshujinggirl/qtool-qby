@@ -1,27 +1,51 @@
 import ajax from '../../../utils/req.js';
 
-//用户订单列表
+//用户退单列表
 export function getListApi(values) {
   values = JSON.stringify(values)
   return ajax.post('/webrest.htm',{
-      code:'qerp.web.user.st.order.query',
+      code:'qerp.web.pd.order.return.query',
       data:values
   })
 }
-//用户订单详情
-export function getInfoApi(values) {
+//确认收货
+export function sureGetApi(values) {
   values = JSON.stringify(values)
   return ajax.post('/webrest.htm',{
-      code:'qerp.web.user.od.order.info',
+      code:'qerp.web.pd.order.return.confirm',
       data:values
   })
 }
 
-//导出数据
-export function exportDataApi(values) {
+//强制取消
+export function forceCancelApi(values) {
   values = JSON.stringify(values)
   return ajax.post('/webrest.htm',{
-      code:'qerp.web.sys.doc.task',
+      code:'qerp.web.pd.order.return.cancel',
+      data:values
+  })
+}
+//订单详情
+export function getInfoApi(values) {
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.pd.order.return.detail',
+      data:values
+  })
+}
+//根据订单查详情
+export function getOrderInfoApi(values) {
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.pd.order.detail.query',
+      data:values
+  })
+}
+//新建订单
+export function saveThApi(values) {
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.pd.order.return.save',
       data:values
   })
 }

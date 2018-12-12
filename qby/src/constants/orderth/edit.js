@@ -49,7 +49,7 @@ class OrderthEditForm extends React.Component{
             type:'orderth/fetch',
             payload:{code:'qerp.web.ws.asn.query',values:this.props.values}
 		})
-		this.props.dispatch({ type: 'tab/loding', payload:true}) 
+		this.props.dispatch({ type: 'tab/loding', payload:true})
 	}
 
 
@@ -71,14 +71,14 @@ class OrderthEditForm extends React.Component{
 				data.type = '20';
 				data.details = this.props.goodsInfo;
 				data.spOrderId = this.props.formValue.spOrderId;
-                if(this.props.data){
-                    data.wsAsnId = this.props.data.wsAsnId;
-                }
-                const result=GetServerData('qerp.web.ws.asn.save',data);
-                result.then((res) => {
-                    return res;
-                }).then((json) => {
-                    if(json.code=='0'){
+        if(this.props.data){
+            data.wsAsnId = this.props.data.wsAsnId;
+        }
+        const result=GetServerData('qerp.web.ws.asn.save',data);
+        result.then((res) => {
+            return res;
+        }).then((json) => {
+            if(json.code=='0'){
 						if(this.props.data){
 							message.success('退货单修改成功',.8);
 						}else{
@@ -117,8 +117,10 @@ class OrderthEditForm extends React.Component{
 						let tempJson = {};
 						tempJson.key=i
 						tempJson.qtyline=true
-						tempJson.priceline=true	
+						tempJson.priceline=true
 						tempJson.pdCode = goodsInfoList[i].pdCode
+						tempJson.pdSpuId = goodsInfoList[i].pdSpuId
+						tempJson.pdSkuId = goodsInfoList[i].pdSkuId
 						tempJson.pdName = goodsInfoList[i].pdName
 						tempJson.pdSkuType = goodsInfoList[i].pdSkuType
 						tempJson.qty = goodsInfoList[i].qty
@@ -145,7 +147,7 @@ class OrderthEditForm extends React.Component{
 			})
 		}
     }
-    
+
     //选择预计送达时间
 	chooseArriveTime = (date, dateString) =>{
 		let tempFormvalue =deepcCloneObj(this.props.formValue);
@@ -155,7 +157,7 @@ class OrderthEditForm extends React.Component{
             payload:tempFormvalue
         })
     }
-    
+
     //收货仓库列表
 	warehouseList = () =>{
 		let value={type:1};
@@ -209,8 +211,8 @@ class OrderthEditForm extends React.Component{
 					labelCol={{ span: 3,offset: 1 }}
 					wrapperCol={{ span: 6 }}
 				>
-					<DatePicker placeholder='请选择送达时间' 
-								value={this.props.formValue.expectedTime?moment(this.props.formValue.expectedTime, 'YYYY-MM-DD'):null} 
+					<DatePicker placeholder='请选择送达时间'
+								value={this.props.formValue.expectedTime?moment(this.props.formValue.expectedTime, 'YYYY-MM-DD'):null}
 								onChange={this.chooseArriveTime.bind(this)}/>
 				</FormItem>
                 <FormItem
