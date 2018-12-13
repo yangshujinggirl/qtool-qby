@@ -69,11 +69,9 @@ componentDidMount(){
 	getInfoApi({orderReturnNo:id}).then(res => {
 		if(res.code=='0'){
 			this.setState({
-				orderInfo:res.orderInfo,
-	      userInfo:res.userInfo,
-				goodsInfos:res.goodsInfos,
-	      shopInfo:res.shopInfo,
-				logInfos:res.logInfos
+				ReturnOrderBaseInfo:res.ReturnOrderBaseInfo,
+	      pdOrderReturnDetail:res.pdOrderReturnDetail,
+				pdOrderReturnLog:res.pdOrderReturnLog,
 			})
 		}
 	},err => {
@@ -100,12 +98,10 @@ agree =()=> {
 	})
 }
 render(){
-  const {orderInfo,userInfo,goodsInfos,shopInfo,logInfos} = this.state;
-	logInfos.map((item,index)=>{
-		item.key = index;
-		return item;
-	});
-	goodsInfos.map((item,index)=>{
+  const backInfos = this.state.ReturnOrderBaseInfo
+  const goodInfos = this.state.pdOrderReturnDetail
+  const orderLogs = this.state.pdOrderReturnLog
+	pdOrderReturnLog.map((item,index)=>{
 		item.key = index;
 		return item;
 	});
@@ -120,18 +116,18 @@ render(){
         <div className='mb10'>
           <Card title='退单信息'>
             <div className='cardlist'>
-                <div className='cardlist_item'><label>退单号：</label><span>{orderInfo.orderNo}</span></div>
-                <div className='cardlist_item'><label>用户订单号：</label><span>{orderInfo.createTime}</span></div>
-                <div className='cardlist_item'><label>用户手机号：</label><span>{orderInfo.orderStatusStr}</span></div>
-                <div className='cardlist_item'><label>用户昵称：</label><span>{orderInfo.amountSum}</span>元</div>
-                <div className='cardlist_item'><label>生成时间：</label><span>{orderInfo.deductionAmount}</span>元</div>
-                <div className='cardlist_item'><label>退款类型：</label><span>{orderInfo.orderNum}</span></div>
-                <div className='cardlist_item'><label>退款方式：</label><span>{orderInfo.orderNum}</span></div>
-                <div className='cardlist_item'><label>退单状态：</label><span>{orderInfo.orderNum}</span></div>
-                <div className='cardlist_item'><label>退款总金额：</label><span>{orderInfo.orderNum}</span></div>
-                <div className='cardlist_item'><label>退款原因：</label><span>{orderInfo.orderNum}</span></div>
-                <div className='cardlist_item'><label>快递单号：</label><span>{orderInfo.orderNum}</span></div>
-                <div className='cardlist_item'><label>退款地址：</label><span>{orderInfo.orderNum}</span></div>
+                <div className='cardlist_item'><label>退单号：</label><span>{backInfos.orderReturnNo}</span></div>
+                <div className='cardlist_item'><label>用户订单号：</label><span>{backInfos.orderNum}</span></div>
+                <div className='cardlist_item'><label>用户手机号：</label><span>{backInfos.userPhone}</span></div>
+                <div className='cardlist_item'><label>用户昵称：</label><span>{backInfos.userNickName}</span>元</div>
+                <div className='cardlist_item'><label>生成时间：</label><span>{backInfos.createTime}</span>元</div>
+                <div className='cardlist_item'><label>退款类型：</label><span>{backInfos.returnTypeStr}</span></div>
+                <div className='cardlist_item'><label>退款方式：</label><span>{backInfos.returnWayStr}</span></div>
+                <div className='cardlist_item'><label>退单状态：</label><span>{backInfos.returnStatusStr}</span></div>
+                <div className='cardlist_item'><label>退款总金额：</label><span>{backInfos.actualReturnQuota}</span></div>
+                <div className='cardlist_item'><label>退款原因：</label><span>{backInfos.returnReason}</span></div>
+                <div className='cardlist_item'><label>快递单号：</label><span>{backInfos.courierNumber}</span></div>
+                <div className='cardlist_item'><label>退款地址：</label><span>{backInfos.returnPdAddress}</span></div>
             </div>
           </Card>
         </div>
@@ -140,7 +136,7 @@ render(){
             columns={this.columns1}
             title='商品信息'
             bordered={true}
-            dataSource = { goodsInfos }
+            dataSource = { goodInfos }
           />
         </div>
         <div style={{padding:'10px 0',border:'1px solid #e8e8e8',margin:'10px 0',marginBottom:"10px"}}>
@@ -215,7 +211,7 @@ render(){
 				<div className='mb20'>
           <EditableTable
             columns={this.columns2}
-            title='处理日志'
+            title='订单日志'
             bordered={true}
             dataSource = { logInfos }
           />

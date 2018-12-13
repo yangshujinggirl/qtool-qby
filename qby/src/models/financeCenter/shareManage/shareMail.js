@@ -29,6 +29,7 @@ export default {
       const result=yield call(getListApi,params);
       yield put({type: 'tab/loding',payload:false});
       if(result.code=='0') {
+
         const { orders, currentPage, limit, total } = result;
         for(var i=0;i<orders.length;i++){
           orders[i].key = orders[i].orderId;
