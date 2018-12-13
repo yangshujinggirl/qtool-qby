@@ -5,10 +5,10 @@ import { connect } from 'dva';
 import { Link } from 'dva/router';
 import '../../style/dataManage.css';
 
-import DailyBill from './dailyBill';
+import DailyBill from './dailyBill/index';
 import HotSellGoods from './hotSellGoods';
 import ClerkSale from './clerkSale';
-import ReceiptReport from './receiptReport';
+import ShReport from './shReport/index';
 import ProfitReport from './profitReport';
 import InOutReport from './inoutReport';
 import AdjustLogIndex from './adjustLog';
@@ -82,6 +82,7 @@ class DataposIndexForm extends React.Component{
 		this.setState({ sureShopId: null, key:1 });
 	}
 	render(){
+		console.log(this.props)
     const { getFieldDecorator } = this.props.form;
    	return(
     	<div className='content_box stock-tabs data-pos'>
@@ -118,7 +119,7 @@ class DataposIndexForm extends React.Component{
                 {this.state.key == 3 && <ClerkSale shopId={this.state.sureShopId} resetShopId={this.resetShopId.bind(this)}/>}
             </TabPane>
             <TabPane tab="收货报表" key="4">
-                {this.state.key == 4 && <ReceiptReport shopId={this.state.sureShopId}/>}
+                {this.state.key == 4 && <ShReport shopId={this.state.sureShopId} componkey={this.props.componkey}/>}
             </TabPane>
             <TabPane tab="在途库存" key="9">
                 {this.state.key == 9 && <Onwayingindex shopId={this.state.sureShopId}/>}

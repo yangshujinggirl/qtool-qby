@@ -10,27 +10,27 @@ const Columns = [{
      }
    },{
      title: '门店名称',
-     dataIndex: 'spShopName'
+     dataIndex: 'shopName'
    },{
      title: '费用类型',
-     dataIndex: 'orderId'
+     dataIndex: 'shareTypeStr'
    }, {
      title: '商品金额',
-     dataIndex: 'mobilePhone'
-   },{
-     title: '商品成本',
-     dataIndex: 'qtySum'
-   },{
-     title: '用户支付快递费',
-     dataIndex: 'spShopId'
-   },{
-     title: '仓库发货快递费',
      dataIndex: 'amountSum'
    },{
+     title: '商品成本',
+     dataIndex: 'costAmount'
+   },{
+     title: '用户支付快递费',
+     dataIndex: 'expressAmount'
+   },{
+     title: '仓库发货快递费',
+     dataIndex: 'wsExpressAmount'
+   },{
      title: '分润金额',
-     dataIndex: 'nickName'
+     dataIndex: 'shareProfitAmount'
    },{
      title: '生成时间',
-     dataIndex:'operate',
+     dataIndex:'createTime',
    }];
    export  default Columns

@@ -1,5 +1,5 @@
 import React,{ Component } from 'react';
-import { Form, Select, Input, Button , message, Row, Col,DatePicker,Radio} from 'antd';
+import { Form, Select, Input, Button , message, Row, Col,DatePicker,Radio,Checkbox } from 'antd';
 import { connect } from 'dva'
 import { addCouponApi } from '../../../services/activity/coupon'
 import './index.css'
@@ -7,6 +7,7 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 const TextArea = Input.TextArea;
 const RadioGroup = Radio.Group;
+const CheckboxGroup = Checkbox.Group;
 class AddCoupon extends Component {
   constructor(props){
     super(props);
@@ -14,7 +15,12 @@ class AddCoupon extends Component {
       couponValidDay:true,
       couponValidDate:false,
     }
+    this.options = [
+      { label: '线下商品可以用', value: '1' },
+      { label: 'online商品可以用', value: '2' },
+    ];
   }
+
 
   //保存
   handleSubmit = (e) => {
@@ -177,6 +183,17 @@ class AddCoupon extends Component {
             })(
               <div><Input placeholder='请输入0-10000的正整数' style={{width:'255px'}}/>　张</div>
             )}
+            </FormItem>
+            <FormItem
+              label='使用商品范围'
+              labelCol={{span:3,offset:1}}
+              wrapperCol={{span:14}}>
+              {
+                getFieldDecorator('range',{
+                })(
+                  <CheckboxGroup options={this.options}/>
+                )
+              }
             </FormItem>
             <FormItem
               label='优惠券备注'

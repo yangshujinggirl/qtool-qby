@@ -3,7 +3,8 @@ import { connect } from 'dva';
 import { Button, message, Modal,Row,Col,Table,Icon} from 'antd'
 import Qtable from '../../../../components/Qtable/index';
 import Qpagination from '../../../../components/Qpagination/index';
-import { exportDataApi } from '../../../../services/orderCenter/userOrders'
+import { exportDataApi } from '../../../../services/financeCenter/shareManage/shareTotal'
+import { timeForMats } from '../../../../utils/meth';
 import FilterForm from './FilterForm/index'
 import Columns from './columns/index';
 import moment from 'moment';
@@ -15,22 +16,31 @@ class ShareTotal extends Component {
     this.state = {
       field:{
         spShopName:'',
-        orderNo:'',
-        pdSpuName:'',
-        code:'',
-        mobile:'',
-        orderStatus:'',
-        dateTimeST:'',
-        dateTimeET:'',
+        createST:'',
+        createET:'',
       },
     }
   }
   componentWillMount() {
-    this.props.dispatch({
-        type:'shareTotal/fetchList',
-        payload:{}
-    });
+    this.getNowFormatDate();
   }
+  getNowFormatDate = () => {
+   const startRpDate=timeForMats(7).t2;
+   const endRpDate=timeForMats(7).t1;
+   const {fields} = this.state;
+   this.setState({
+     fields:{
+       ...fields,
+       createST:startRpDate,
+       createET:endRpDate,
+       }
+     },function(){
+       this.searchData({
+         createST:startRpDate,
+         createET:endRpDate
+       });
+   })
+ }
   //操作
   handleOperateClick(record,type) {
     let paneitem = {};
@@ -92,7 +102,7 @@ class ShareTotal extends Component {
   }
   //导出数据
   exportData =()=> {
-    const values ={type:12,downloadParam:{...this.state.field}}
+    const values ={type:100,downloadParam:{...this.state.field}}
     exportDataApi(values)
     .then(res => {
       if(res.code == '0'){

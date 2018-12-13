@@ -10,7 +10,7 @@ import {
   DatePicker
 } from 'antd';
 import moment from 'moment';
-import { ProcesasStatusOption } from '../../../../../components/FixedDataSource.js'
+import { timeForMats } from '../../../../../utils/meth'
 import './index.less'
 
 
@@ -32,6 +32,7 @@ class NormalForm extends Component {
   }
 
   render() {
+    const defaultTime = [moment(timeForMats(7).t2), moment(timeForMats(7).t1)]
     const { getFieldDecorator } = this.props.form;
     return(
       <div>
@@ -39,12 +40,13 @@ class NormalForm extends Component {
           <div className='search-form-outwrap'>
             <div className="search-form-wrap">
               <FormItem label='门店名称'>
-                 {getFieldDecorator('spShopName')(
+                 {getFieldDecorator('shopName')(
                    <Input placeholder="请输入退款单号" autoComplete="off"/>
                  )}
                </FormItem>
               <FormItem label='结算时间'>
                  {getFieldDecorator('rangePicker',{
+                   initialValue:defaultTime
                  })(
                    <RangePicker showTime format="YYYY-MM-DD HH:mm:ss"/>
                  )}

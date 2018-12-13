@@ -127,3 +127,11 @@ const confirm = Modal.confirm;
 		 	t1: timer1
 		}
 	}
+  //获取当前时间
+  export function getCurrentTime(){
+    let YY = new Date().getFullYear();
+    let MM = ( (new Date().getMonth()+1).toString() ).padStart(2,0);
+    let DD = ( new Date().getDate().toString() ).padStart(2,0);
+    let time = YY + '-' + MM + '-' + DD;
+    return time;
+  }

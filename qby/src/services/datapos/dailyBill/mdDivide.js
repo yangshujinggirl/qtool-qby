@@ -1,10 +1,10 @@
 import ajax from '../../../utils/req.js';
 
-//分润合计列表
+//用户订单列表
 export function getListApi(values) {
   values = JSON.stringify(values)
   return ajax.post('/webrest.htm',{
-      code:'qerp.web.share.profitsum.query',
+      code:'qerp.web.user.st.order.query',
       data:values
   })
 }
@@ -12,7 +12,7 @@ export function getListApi(values) {
 export function exportDataApi(values) {
   values = JSON.stringify(values)
   return ajax.post('/webrest.htm',{
-      code:'qerp.web.share.profitsum.export',
+      code:'qerp.web.rp.share.profit.export',
       data:values
   })
 }

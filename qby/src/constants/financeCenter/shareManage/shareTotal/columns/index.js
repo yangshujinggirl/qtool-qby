@@ -1,20 +1,20 @@
 const Columns = [{
      title: '门店名称',
-     dataIndex: 'orderNo',
+     dataIndex: 'shopName',
    },{
      title: '直邮分润收款',
-     dataIndex: 'spShopName',
+     dataIndex: 'directDeliveryOrderAmount',
    },{
      title: '直邮分润扣款',
-     dataIndex: 'nickName'
+     dataIndex: 'directDeliveryReturnAmount'
    }, {
      title: '保税分润收款',
-     dataIndex: 'mobilePhone'
+     dataIndex: 'bondedWsOrderAmount'
    },{
      title: '保税分润扣款',
-     dataIndex: 'qtySum'
+     dataIndex: 'bondedWsReturnAmount'
    },{
      title: '总分润',
-     dataIndex: 'amountSum'
+     dataIndex: 'profitSum'
    }];
    export  default Columns

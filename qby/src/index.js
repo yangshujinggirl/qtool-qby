@@ -3,7 +3,6 @@ import createLoading from 'dva-loading';
 import 'antd/dist/antd.less';
 import './index.css';
 import './style/baseCommon.less';//公共样式
-
 import { useRouterHistory } from 'dva/router';
 import { createHashHistory } from 'history';
 //商品中心-------
@@ -29,6 +28,7 @@ import allth from './models/orderCenter/userth/allth';//所有退单
 import toAudit from './models/orderCenter/userth/toAudit';//待运营审核订单
 import account from "./models/account"
 import downlaod from "./models/downlaod"
+//数据中心
 import dataposorder from "./models/dataposorder"
 import datasporder from "./models/datasporder"
 import datas from "./models/datas"
@@ -38,6 +38,8 @@ import dataspfen from "./models/dataspfen"
 import datasphiscun from "./models/datasphiscun"
 import dataspcun from "./models/dataspcun"
 import dataspsell from "./models/dataspsell"
+import mdDivide from './models/datapos/dailyBill/mdDivide'
+import thList from './models/datapos/shReport/thList'
 import bStock from "./models/stock/bStock"
 import onlineStock from "./models/stock/onlineStock"
 import specs from "./models/specs"
@@ -89,10 +91,8 @@ import shareRate from './models/financeCenter/shareManage/shareRate'
 import userFeedBack from './models/server/userFeedBack'
 import serverBill from './models/server/serverBill'
 import cServerOrder from './models/server/cServerOrder';//c端客服工单;
-
 //app数据
 import appBase from './models/appData/appBase'
-
 //供应商收支
 import supplyinout from './models/operate/supplyinout'
 //提现管理
@@ -106,12 +106,10 @@ import onAudit from './models/online/onAudit'
 import freightDetail from './models/datapos/freightDetail';
 //用户中心
 import cUserManage from './models/userCenter/cUserManage'
-
 // 1. Initialize
 const app = dva({
     history: useRouterHistory(createHashHistory)({ queryKey: false }),
   });
-
 const models = [
   goodsLogList,
   productGoodsList,
@@ -142,6 +140,8 @@ const models = [
   datasphiscun,
   dataspcun,
   dataspsell,
+  mdDivide,
+  thList,
   bStock,
   onlineStock,
   specs,
@@ -199,20 +199,14 @@ const models = [
   shareTotal,
   shareMail
 ]
-
 models.forEach(m => {
   return app.model(m)
 })
-
-
 // 2. Plugins
 app.use(createLoading());
-
 // 3. Model
 // app.model(require('./models/example'));
-
 // 4. Router
 app.router(require('./router'));
-
 // 5. Start
 app.start('#root');

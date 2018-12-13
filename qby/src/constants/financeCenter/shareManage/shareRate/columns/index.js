@@ -10,30 +10,30 @@ const Columns = [{
      }
    },{
      title: '门店名称',
-     dataIndex: 'spShopName',
+     dataIndex: 'shopName',
    },{
      title: '费用类型',
-     dataIndex: 'nickName'
+     dataIndex: 'shareTypeStr'
    }, {
      title: '商品名称',
-     dataIndex: 'mobilePhone'
+     dataIndex: 'spuName'
    },{
      title: '商品编码',
-     dataIndex: 'qtySum'
+     dataIndex: 'code'
    },{
      title: '商品售价',
-     dataIndex: 'amountSum'
+     dataIndex: 'salePrice'
    },{
      title: '商品数量',
-     dataIndex: 'payAmount'
+     dataIndex: 'qty'
    },{
      title: '分润比例',
-     dataIndex: 'orderStatusStr'
+     dataIndex: 'shareRatio'
    },{
-     title: '销售收款',
-     dataIndex: 'createTime'
+     title: '分润金额',
+     dataIndex: 'shareProfitAmount'
    },{
      title: '收支生成时间',
-     dataIndex: 'userId'
+     dataIndex: 'createTime'
    },];
    export  default Columns

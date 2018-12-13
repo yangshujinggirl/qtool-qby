@@ -3,7 +3,7 @@ import { connect } from 'dva';
 import { Button, message, Modal,Row,Col,Table,Icon} from 'antd'
 import Qtable from '../../../../components/Qtable/index';
 import Qpagination from '../../../../components/Qpagination/index';
-import { exportDataApi } from '../../../../services/orderCenter/userOrders'
+import { exportDataApi } from '../../../../services/financeCenter/shareManage/shareRate'
 import FilterForm from './FilterForm/index'
 import Columns from './columns/index';
 import moment from 'moment';
@@ -14,14 +14,11 @@ class ShareRate extends Component {
     super(props);
     this.state = {
       field:{
-        spShopName:'',
+        shopName:'',
         orderNo:'',
-        pdSpuName:'',
-        code:'',
-        mobile:'',
-        orderStatus:'',
-        dateTimeST:'',
-        dateTimeET:'',
+        shareType:'',
+        createST:'',
+        createET:'',
       },
     }
   }
@@ -78,8 +75,8 @@ class ShareRate extends Component {
   searchDataChange =(values)=> {
     const {rangePicker,..._values} = values;
     if(rangePicker&&rangePicker[0]){
-      _values.dateTimeST =  moment(new Date(rangePicker[0]._d).getTime()).format('YYYY-MM-DD HH:mm:ss');
-      _values.dateTimeET = moment(new Date(rangePicker[1]._d).getTime()).format('YYYY-MM-DD HH:mm:ss');
+      _values.createST =  moment(new Date(rangePicker[0]._d).getTime()).format('YYYY-MM-DD HH:mm:ss');
+      _values.createET = moment(new Date(rangePicker[1]._d).getTime()).format('YYYY-MM-DD HH:mm:ss');
     }
     this.setState({field:_values});
   }
@@ -92,7 +89,7 @@ class ShareRate extends Component {
   }
   //导出数据
   exportData =()=> {
-    const values ={type:12,downloadParam:{...this.state.field}}
+    const values ={type:102,downloadParam:{...this.state.field}}
     exportDataApi(values)
     .then(res => {
       if(res.code == '0'){

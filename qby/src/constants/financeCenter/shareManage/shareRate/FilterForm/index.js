@@ -24,8 +24,8 @@ class NormalForm extends Component {
     this.props.form.validateFieldsAndScroll((err, values) => {
       const { rangePicker, ..._values } = values;
       if(rangePicker&&rangePicker[0]){
-        _values.dateTimeST =  moment(rangePicker[0]).format('YYYY-MM-DD HH:mm:ss');
-        _values.dateTimeET =  moment(rangePicker[1]).format('YYYY-MM-DD HH:mm:ss');
+        _values.createST =  moment(rangePicker[0]).format('YYYY-MM-DD HH:mm:ss');
+        _values.createET =  moment(rangePicker[1]).format('YYYY-MM-DD HH:mm:ss');
       }
       this.props.submit && this.props.submit(_values);
     });
@@ -39,7 +39,7 @@ class NormalForm extends Component {
           <div className='search-form-outwrap'>
             <div className="search-form-wrap">
               <FormItem label='门店名称'>
-                 {getFieldDecorator('spShopName')(
+                 {getFieldDecorator('shopName')(
                    <Input placeholder="请输入门店名称" autoComplete="off"/>
                  )}
                </FormItem>
@@ -49,7 +49,7 @@ class NormalForm extends Component {
                  )}
                </FormItem>
                <FormItem label='费用类型'>
-                  {getFieldDecorator('orderStatus')(
+                  {getFieldDecorator('shareType')(
                     <Select allowClear={true} placeholder="请选择费用类型">
                       <Option value={1}>分润收款</Option>
                       <Option value={2}>分润退款</Option>

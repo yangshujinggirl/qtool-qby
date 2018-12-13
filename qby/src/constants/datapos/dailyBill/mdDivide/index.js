@@ -3,31 +3,47 @@ import { connect } from 'dva';
 import { Button, message, Modal,Row,Col,Table,Icon} from 'antd'
 import Qtable from '../../../../components/Qtable/index';
 import Qpagination from '../../../../components/Qpagination/index';
-import { exportDataApi } from '../../../../services/financeCenter/shareManage/shareMail'
+import { exportDataApi } from '../../../../services/datapos/dailyBill/mdDivide'
+import { getCurrentTime } from '../../../../utils/meth';
 import FilterForm from './FilterForm/index'
 import Columns from './columns/index';
 import moment from 'moment';
 const confirm = Modal.confirm;
+import './index.less'
 
-class ShareMail extends Component {
+class MdDivide extends Component {
   constructor(props) {
     super(props);
     this.state = {
       field:{
-        shopName:'',
-        orderNo:'',
+        orderType:'',
         shareType:'',
-        createST:'',
-        createET:'',
+        createtimeST:'',
+        createtimeET:'',
       },
     }
   }
   componentWillMount() {
-    this.props.dispatch({
-        type:'shareMail/fetchList',
-        payload:{}
-    });
+    this.getNowFormatDate();
   }
+  getNowFormatDate = () => {
+   const startRpDate = getCurrentTime();
+   const endRpDate = getCurrentTime();
+   const {field} = this.state;
+   this.setState({
+     field:{
+       ...field,
+       createtimeST:startRpDate,
+       createtimeET:endRpDate,
+       }
+     },function(){
+       this.searchData({
+         createtimeST:startRpDate,
+         createtimeET:endRpDate
+       });
+   })
+ }
+
   //操作
   handleOperateClick(record) {
     const paneitem = {
@@ -48,14 +64,14 @@ class ShareMail extends Component {
     const currentPage = current-1;
     const values = {...this.state.field,currentPage,limit}
     this.props.dispatch({
-      type:'shareMail/fetchList',
+      type:'mdDivide/fetchList',
       payload: values
     });
   }
   //pageSize改变时的回调
   onShowSizeChange =({currentPage,limit})=> {
     this.props.dispatch({
-      type:'shareMail/fetchList',
+      type:'mdDivide/fetchList',
       payload:{currentPage,limit,...this.state.field}
     });
   }
@@ -63,21 +79,21 @@ class ShareMail extends Component {
   searchDataChange =(values)=> {
     const {rangePicker,..._values} = values;
     if(rangePicker&&rangePicker[0]){
-      _values.createST =  moment(new Date(rangePicker[0]._d).getTime()).format('YYYY-MM-DD HH:mm:ss');
-      _values.createET = moment(new Date(rangePicker[1]._d).getTime()).format('YYYY-MM-DD HH:mm:ss');
+      _values.createtimeST =  moment(rangePicker[0]).format('YYYY-MM-DD');
+      _values.createtimeET = moment(rangePicker[1]).format('YYYY-MM-DD');
     }
     this.setState({field:_values});
   }
   //点击搜索
   searchData = (values)=> {
     this.props.dispatch({
-      type:'shareMail/fetchList',
+      type:'mdDivide/fetchList',
       payload:values
     })
   }
   //导出数据
   exportData =()=> {
-    const values ={type:101,downloadParam:{...this.state.field}}
+    const values ={type:103,downloadParam:{...this.state.field}}
     exportDataApi(values)
     .then(res => {
       if(res.code == '0'){
@@ -103,32 +119,16 @@ class ShareMail extends Component {
       message.error('导出数据失败')
     })
   }
-  desinfo=()=>{
-    Modal.info({
-      title: '表单说明',
-      content: (
-      <div className='lists'>
-        <p>• 分润收款金额：商品金额-商品成本+用户支付快递费-仓库发货快递费</p>
-        <p>• 分润扣款金额：退货商品金额-退货商品成本</p>
-      </div>
-      ),
-      onOk() {},
-    });
-  };
+
   render() {
-    console.log(this.props.shareMail)
-    const { dataList=[] } = this.props.shareMail;
+    console.log(this.props.mdDivide)
+    const { dataList=[],orderNum,shareProfitSumAmount } = this.props.mdDivide;
     return (
-      <div className='qtools-components-pages'>
+      <div className='qtools-components-pages md_divide'>
         <FilterForm
           submit={this.searchData}
           onValuesChange = {this.searchDataChange}
         />
-        <div className='clearfix mb10 introModal'>
-          <p className='fr pointer' onClick={this.desinfo} >计算规则
-            <Icon type="question-circle-o" style={{color:"#ED6531",marginLeft:"4px"}}/>
-          </p>
-        </div>
         <div className="handel-btn-lists">
             <Button
               type='primary'
@@ -137,6 +137,7 @@ class ShareMail extends Component {
             >导出数据
             </Button>
         </div>
+        <div className='total'>共 {orderNum} 单，合计分成 {shareProfitSumAmount} 元</div>
         <Qtable
           dataSource={dataList}
           onOperateClick = {this.handleOperateClick.bind(this)}
@@ -144,7 +145,7 @@ class ShareMail extends Component {
         {
             dataList.length>0?
             <Qpagination
-              data={this.props.shareMail}
+              data={this.props.mdDivide}
               onChange={this.changePage}
               onShowSizeChange = {this.onShowSizeChange}
             />:null
@@ -155,8 +156,8 @@ class ShareMail extends Component {
 }
 
 function mapStateToProps(state) {
-  const { shareMail } = state;
-  return {shareMail};
+  const { mdDivide } = state;
+  return {mdDivide};
 }
 
-export default connect(mapStateToProps)(ShareMail);
+export default connect(mapStateToProps)(MdDivide);

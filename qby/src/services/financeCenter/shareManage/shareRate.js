@@ -8,3 +8,11 @@ export function getListApi(values) {
       data:values
   })
 }
+//导出
+export function exportDataApi(values) {
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.bondedws.profit.export',
+      data:values
+  })
+}

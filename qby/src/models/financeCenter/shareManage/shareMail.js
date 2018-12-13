@@ -30,14 +30,14 @@ export default {
       yield put({type: 'tab/loding',payload:false});
       if(result.code=='0') {
 
-        const { orders, currentPage, limit, total } = result;
-        for(var i=0;i<orders.length;i++){
-          orders[i].key = orders[i].orderId;
-        };
+        const { rpShareProfitOrderVo, currentPage, limit, total } = result;
+        rpShareProfitOrderVo.map((item,index)=>{
+          item.key = index;
+        })
         yield put ({
           type: 'getList',
           payload:{
-            dataList:orders,
+            dataList:rpShareProfitOrderVo,
             currentPage,
             limit,
             total
