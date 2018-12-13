@@ -41,6 +41,9 @@ class ReceiptReportForm extends React.Component {
             title: '已收商品数量',
             dataIndex: 'receiveQty',
         },{
+            title: '订单类型',
+            dataIndex: 'typeStr',
+        },{
             title: '订单状态',
             dataIndex: 'statusStr',
         },{
@@ -204,6 +207,16 @@ class ReceiptReportForm extends React.Component {
                                                 <Option value="10">待收货</Option>
                                                 <Option value="20">收货中</Option>
                                                 <Option value="30">已收货</Option>
+                                            </Select>
+                                        )}
+                                        </FormItem>
+                                        <FormItem
+                                        label="订单类型"
+                                       >
+                                        {getFieldDecorator('type')(
+                                            <Select allowClear placeholder="请选择订单状态">
+                                                <Option value={1}>门店配货单</Option>
+                                                <Option value={2}>门店调拨单</Option>
                                             </Select>
                                         )}
                                         </FormItem>

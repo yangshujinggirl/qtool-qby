@@ -304,7 +304,7 @@ class DailyBillForm extends React.Component {
                 <Row>
                   <div className='serach_form'>
                     <FormItem
-                      label="订单时间">
+                      label="订单完成时间">
                         <RangePicker
                           // disabledDate={this.setDisabledDate.bind(this)}
                           // ranges={{ range: moment["2017-09-01","2017-10-01"] }}
@@ -327,15 +327,15 @@ class DailyBillForm extends React.Component {
                       )}
                     </FormItem>
                     <FormItem
-                      label="订单来源">
+                      label="业务类型">
                       {getFieldDecorator('source',{
                         onChange:this.changeSource,
                         initialValue:0
                       })(
-                        <Select placeholder="请选择订单来源">
+                        <Select placeholder="请选择业务类型">
                           <Option key={0} value={0}>全部</Option>
-                          <Option key={1} value={1}>POS</Option>
-                          <Option key={2} value={2}>APP</Option>
+                          <Option key={1} value={1}>门店POS订单</Option>
+                          <Option key={2} value={2}>门店APP订单</Option>
                         </Select>
                       )}
                     </FormItem>

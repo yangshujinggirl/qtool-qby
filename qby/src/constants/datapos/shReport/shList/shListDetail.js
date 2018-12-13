@@ -158,6 +158,7 @@ class ReceiptDetailsForm extends React.Component {
                         <label>配货单号：</label><span>{this.state.detailsInfo.orderNo}</span>
                         <label>商品总数：</label><span>{this.state.detailsInfo.qtySum}</span>
                         <label>已收商品数量：</label><span>{this.state.detailsInfo.receiveQty}</span>
+                        <label>订单类型：</label><span>{this.state.detailsInfo.typeStr}</span>
                         <label>订单状态：</label><span>{this.state.detailsInfo.statusStr}</span>
                     </div>
                     <div className="info-title">

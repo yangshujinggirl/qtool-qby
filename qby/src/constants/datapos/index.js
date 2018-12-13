@@ -118,7 +118,7 @@ class DataposIndexForm extends React.Component{
             <TabPane tab="店员销售" key="3">
                 {this.state.key == 3 && <ClerkSale shopId={this.state.sureShopId} resetShopId={this.resetShopId.bind(this)}/>}
             </TabPane>
-            <TabPane tab="收货报表" key="4">
+            <TabPane tab="收/退货列表" key="4">
                 {this.state.key == 4 && <ShReport shopId={this.state.sureShopId} componkey={this.props.componkey}/>}
             </TabPane>
             <TabPane tab="在途库存" key="9">

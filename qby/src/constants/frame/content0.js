@@ -81,7 +81,7 @@ import DatawsIndex from '../dataws/index';
 import DatacgIndex from '../datacg/index';
 import DataposIndex from '../datapos/index';
 import ShListDetail from '../datapos/shReport/shList/shListDetail'; //收货列表详情
-// import ThListDetail from '../datapos/shReport/thList/thListDetail' //退货列表详情
+import ThListDetail from '../datapos/shReport/thList/thListDetail' //退货列表详情
 import DataFinanceIndex from '../datafinance/index';
 
 import DatagoIndex from '../datagoods/index';
@@ -258,7 +258,7 @@ class Content extends React.Component {
                                     case "702000":return  <DataspIndex data={this.props.data} componkey={this.props.componkey}/>;
                                     case "707000":return  <DataposIndex data={this.props.data} componkey={this.props.componkey}/>;
                                     case "707000info":return <ShListDetail data={this.props.data}/>
-                                    // case "707000infoTh":return <ThListDetail data={this.props.data}/>
+                                    case "707000infoTh":return <ThListDetail data={this.props.data}/>
                                     case "706000":return <DataFinanceIndex data={this.props.data}/>
 
                                     case "703000":return  <DatagoIndex data={this.props.data}/>;
