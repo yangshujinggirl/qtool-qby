@@ -13,7 +13,7 @@ import Brandindex from '../goods/brandManage/index';
 import Specsindex from '../goods/specs/index';
 import GoodtimeIndex from '../goods/goodtime/index';
 import GoodEditForm from '../goods/goodtime/edit';
-import CgoodsExplain from '../goods/cgoodsExplain/index'
+
 
 
 
@@ -123,7 +123,7 @@ import UserOrder from '../userOrder/index';//用户订单
 import UserOrderDetail from '../userOrder/userOrderDetail'
 import Userth from '../userth/index' //用户退单
 import UserthDetail from '../userth/userthDetail' //用户退单详情
-import AddThOrder from '../userth/allth/addThOrder'
+import AddThOrder from '../userth/allth/addThOrder'//创建退单
 //商品中心
 import  BaseGoods from '../goods/baseGoods/index';//基础商品
 import  AddGoods from '../goods/baseGoods/AddGoods';//基础商品--新增商品
@@ -140,6 +140,7 @@ import  CtipLogList from '../goods/cTipGoods/LogList';//C端商品--日志
 import  InternalSort from '../goods/internalSort/index.js';//内部分类
 import  CountryManage from '../goods/countryManage/index.js';//国家管理
 import  BondManage from '../goods/bondManage/index.js'//保税仓管理
+import CgoodsExplain from '../goods/cgoodsExplain/index'//c端商品说明
 //电商中心
 import ProductInfo from '../online/productInfo/index.js';//商品信息
 import EditGoods from '../online/productInfo/AddGoods.js';//修改商品信息
@@ -167,7 +168,7 @@ import CpushDetail from '../activity/cPush/CpushDetail' //b端详情
 import AddcPush from '../activity/cPush/AddPush' //新增push页面
 
 //财务中心
-import ShareManage from '../financeCenter/shareManage/index'
+import ShareManage from '../financeCenter/shareManage/index'//分润管理
 //客服中心
 import UserFeedBack from '../server/userFeedBack/index'; //用户反馈
 import HandleBack from '../server/userFeedBack/HandleBack'//反馈处理
@@ -188,8 +189,8 @@ import Addanswer from '../operate/bAnswer/addAnswer' //b端问答
 import SellManage from '../operate/sellManage' //b端问答
 //门店数据
 import DataDistribute from '../datasp/dataspcun/dataDistribution/index'
-//用户管理
-import CuserManage from '../userCenter/cUserManage/index'
+//用户中心
+import CuserManage from '../userCenter/cUserManage/index'//c端用户管理
 
 
 
@@ -211,9 +212,9 @@ class Content extends React.Component {
                             (() => {
                                 switch (this.props.componkey) {
                                     //财务中心
-                                    case "314000":return  <ShareManage data={this.props.data}/>;
+                                    case "1302000":return  <ShareManage data={this.props.data}/>;
                                     //用户中心
-                                    case "315000":return  <CuserManage data={this.props.data}/>;
+                                    case "1201000":return  <CuserManage data={this.props.data}/>;
 
                                     case "301700":return  <Stockindex data={this.props.data}/>;
                                     // case "302000":return  <Classificationindex data={this.props.data}/>;
@@ -221,7 +222,7 @@ class Content extends React.Component {
                                     case "304000":return  <Specsindex data={this.props.data}/>;
                                     case "305000":return  <GoodtimeIndex data={this.props.data}/>;
                                     case "305000edit":return  <GoodEditForm data={this.props.data}/>;
-                                    case "312000":return  <CgoodsExplain data={this.props.data}/>;
+                                    case "314000":return  <CgoodsExplain data={this.props.data}/>;
 
 
 
@@ -334,6 +335,7 @@ class Content extends React.Component {
                                     case "208000":return <Userth data={this.props.data} componkey={this.props.componkey}/>
                                     case "208000edit":return <AddThOrder data={this.props.data} componkey={this.props.componkey}/>
                                     case "208000info":return <UserthDetail data={this.props.data} componkey={this.props.componkey}/>
+                                    case "208000audit":return <Audit data={this.props.data} componkey={this.props.componkey}/>
                                     // -------------------------------合作中心----------------------------
                                     case formDataCode('cooperate10') : return <MarketResource data={this.props.data} componkey={this.props.componkey}/> //市场资源
                                     case formDataCode('cooperate10-edit') : return <AddStaff data={this.props.data} componkey={this.props.componkey}/> //新增人员

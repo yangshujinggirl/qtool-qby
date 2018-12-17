@@ -36,9 +36,10 @@ class ToAudit extends Component {
     const paneitem = {
       title:'订单详情',
       key:`${this.props.componkey}edit`+record.orderReturnId,
-      componkey:`${this.props.componkey}edit`,
+      componkey:`${this.props.componkey}audit`,
       data:{
         orderReturnNo:record.orderReturnNo,
+        type:record.returnType
       }
     }
     this.props.dispatch({

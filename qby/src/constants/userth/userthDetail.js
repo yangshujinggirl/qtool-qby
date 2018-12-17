@@ -17,15 +17,13 @@ class UserthDetail extends React.Component{
 			loading1:false,
 			loading2:false,
       value:'',
-      orderInfo:{},
-      userInfo:{},
-			goodsInfos:[],
-      shopInfo:{},
-			logInfos:[]
+			backInfos:{},
+			goodInfos:[],
+			orderLogs:[]
     },
 		this.columns1 = [{
 			title: '商品名称',
-			dataIndex: 'spuName',
+			dataIndex: 'pdName',
       key:'1'
 		}, {
 			title: '规格',
@@ -33,29 +31,29 @@ class UserthDetail extends React.Component{
       key:'2'
 		}, {
 			title: '商品编码',
-			dataIndex: 'code',
+			dataIndex: 'pdCode',
       key:'3'
 		}, {
 			title: '退款数量',
-			dataIndex: 'qty',
+			dataIndex: 'returnCount',
       key:'4'
 		}, {
 			title: '退款金额',
-			dataIndex: 'price',
+			dataIndex: 'returnQuota',
       key:'5'
 		}];
 
 		this.columns2 = [{
 			title: '操作',
-			dataIndex: 'action',
+			dataIndex: 'operation',
 			key:'1'
 		}, {
 			title: '操作时间',
-			dataIndex: 'createTime',
+			dataIndex: 'operationTime',
 			key:'2'
 		}, {
 			title: '操作人',
-			dataIndex: 'operateUser',
+			dataIndex: 'operationer',
 			key:'3'
 		}, {
 			title: '备注',
@@ -64,14 +62,14 @@ class UserthDetail extends React.Component{
 		}];
 }
 //初始化
-componentDidMount(){
+componentWillMount(){
 	const id = this.props.data.orderReturnNo;
 	getInfoApi({orderReturnNo:id}).then(res => {
 		if(res.code=='0'){
 			this.setState({
-				ReturnOrderBaseInfo:res.ReturnOrderBaseInfo,
-	      pdOrderReturnDetail:res.pdOrderReturnDetail,
-				pdOrderReturnLog:res.pdOrderReturnLog,
+				backInfos:res.pdOrderReturnDetailPage.ReturnOrderBaseInfo,
+	      goodInfos:res.pdOrderReturnDetailPage.pdOrderReturnDetail,
+				orderLogs:res.pdOrderReturnDetailPage.pdOrderReturnLog,
 			})
 		}
 	},err => {
@@ -98,13 +96,13 @@ agree =()=> {
 	})
 }
 render(){
-  const backInfos = this.state.ReturnOrderBaseInfo
-  const goodInfos = this.state.pdOrderReturnDetail
-  const orderLogs = this.state.pdOrderReturnLog
-	pdOrderReturnLog.map((item,index)=>{
-		item.key = index;
-		return item;
-	});
+  const {backInfos,goodInfos,orderLogs} = this.state
+	if(orderLogs[0]){
+		orderLogs.map((item,index)=>{
+			item.key = index;
+			return item;
+		});
+	}
   const {getFieldDecorator} = this.props.form;
   const radioStyle = {
         display: 'block',
@@ -139,58 +137,63 @@ render(){
             dataSource = { goodInfos }
           />
         </div>
-        <div style={{padding:'10px 0',border:'1px solid #e8e8e8',margin:'10px 0',marginBottom:"10px"}}>
-					<p style={{borderBottom:'1px solid #e8e8e8',padding:'5px 10px 15px'}}>详细描述</p>
-					<Form className='mt20'>
-						<FormItem
-							label="退款原因"
-							labelCol={{ span: 2 }}
-							wrapperCol={{ span: 12 }}
-						>
-							<div>1111</div>
-						</FormItem>
-            <FormItem
-							label="详细描述"
-							labelCol={{ span: 2 }}
-							wrapperCol={{ span: 12 }}
-						>
-							<div>1111</div>
-						</FormItem>
-						<FormItem
-							label="图片"
-							labelCol={{ span: 2 }}
-							wrapperCol={{ span: 12 }}
-						>
-            <ul className='img-list-wrap'>
-              <li className="img-item">
-                <Imgmodel picUrl='/static/eye.png'/>
-              </li>
-            </ul>
-						</FormItem>
-  				</Form>
-				</div>
+				{ this.props.data.type == '1' &&
+	        <div style={{padding:'10px 0',border:'1px solid #e8e8e8',margin:'10px 0',marginBottom:"10px"}}>
+						<p style={{borderBottom:'1px solid #e8e8e8',padding:'5px 10px 15px'}}>详细描述</p>
+						<Form className='mt20'>
+							<FormItem
+								label="退款原因"
+								labelCol={{ span: 2 }}
+								wrapperCol={{ span: 12 }}
+							>
+								<div>1111</div>
+							</FormItem>
+	            <FormItem
+								label="详细描述"
+								labelCol={{ span: 2 }}
+								wrapperCol={{ span: 12 }}
+							>
+								<div>1111</div>
+							</FormItem>
+							<FormItem
+								label="图片"
+								labelCol={{ span: 2 }}
+								wrapperCol={{ span: 12 }}
+							>
+	            <ul className='img-list-wrap'>
+	              <li className="img-item">
+	                <Imgmodel picUrl='/static/eye.png'/>
+	              </li>
+	            </ul>
+							</FormItem>
+	  				</Form>
+					</div>
+				}
         <div style={{padding:'10px 0',border:'1px solid #e8e8e8',marginBottom:"10px"}}>
 					<p style={{borderBottom:'1px solid #e8e8e8',padding:'5px 10px 15px'}}>退单处理</p>
 					<Form className='mt20'>
-						<FormItem
-							label="退款方式"
-							labelCol={{ span: 2 }}
-							wrapperCol={{ span: 12 }}
-						>
-            {getFieldDecorator('status',{
-              initialValue:this.state.value
-            })(
-              <RadioGroup onChange={this.onChange}>
-                <Radio style={radioStyle} value={1}>仅退款</Radio>
-                <Radio style={radioStyle} value={2}>退货退款</Radio>
-                  {
-                    this.state.value === 2
-                      ? <div>退货地址：<Input style={{ width: 300, marginLeft: 10 }} /></div>
-                      : null
-                   }
-              </RadioGroup>
-            )}
-						</FormItem>
+					{
+							this.props.data.type == '1' &&
+							<FormItem
+								label="退款方式"
+								labelCol={{ span: 2 }}
+								wrapperCol={{ span: 12 }}
+							>
+	            {getFieldDecorator('status',{
+	              initialValue:this.state.value
+	            })(
+	              <RadioGroup onChange={this.onChange}>
+	                <Radio style={radioStyle} value={1}>仅退款</Radio>
+	                <Radio style={radioStyle} value={2}>退货退款</Radio>
+	                  {
+	                    this.state.value === 2
+	                      ? <div>退货地址：<Input style={{ width: 300, marginLeft: 10 }} /></div>
+	                      : null
+	                   }
+	              </RadioGroup>
+	            )}
+							</FormItem>
+						}
 						<FormItem
 							label="拒绝原因"
 							labelCol={{ span: 2 }}
@@ -213,7 +216,7 @@ render(){
             columns={this.columns2}
             title='订单日志'
             bordered={true}
-            dataSource = { logInfos }
+            dataSource = { orderLogs }
           />
         </div>
 			</div>

@@ -80,6 +80,7 @@ class Allth extends Component {
         componkey:`${this.props.componkey}info`,
         data:{
           orderReturnNo:record.orderReturnNo,
+          type:'detail'
         }
       }
     }else{
@@ -161,14 +162,8 @@ class Allth extends Component {
 			title: '表单说明',
 			content: (
 			<div className='lists'>
-				<p>1、表单中为所有退单（不包含有赞保税退单）。按创建时间逆序
-				【自提、同城、邮寄】的退款单的【退款方式】默认为退货退款</p>
-				<p>2、【表头包含字段】：退单号、用户订单、用户电话、退款类型、退款方式、原单支付金额、申请金额、实退金额、退单商品数、退款状态、创建时间</p>
-				<p>字段说明:</p>
-				<p>• 退款方式：为用户售中退款时，退款方式为仅退款；【自提、同城、邮寄】的售后退款单的【退款方式】均为退货退款；【仓储、保税】的售后退款单按照运营选择结果</p>
-				<p>• 申请金额：为用户申请的退款金额，运营或门店申请的为申请的金额</p>
-				<p>• 实退金额：为最终退款金额，除“已退款”状态外，其他均为0.00</p>
-				<p>3、商品数量，非sku种数</p>
+				<p>1、保税仓待收货退单可确认收货</p>
+				<p>2、保税仓待收货退单和仓库直邮的待收货退单可强制取消</p>
 			</div>
 			),
 			onOk() {},
@@ -202,16 +197,27 @@ class Allth extends Component {
   }
   //强制取消
   forceCancel =()=> {
-    const {orderReturnNo} = this.state;
-    forceCancelApi( {orderReturnNo})
-    .then(res => {
-      if(res.code == '0'){
-        message.success('强制取消成功')
+    confirm({
+      content:'是否确认此操作',
+      onOk:()=>{
+        const {orderReturnNo} = this.state;
+        forceCancelApi( {orderReturnNo})
+        .then(res => {
+          if(res.code == '0'){
+            message.success('强制取消成功')
+            this.props.dispatch({
+              type:'allth/clearSelect',
+              payload:{selectedRowKeys:null}
+            });
+          };
+        })
+      },
+      onCancel:()=>{
         this.props.dispatch({
           type:'allth/clearSelect',
           payload:{selectedRowKeys:null}
         });
-      };
+      },
     })
   }
   render() {

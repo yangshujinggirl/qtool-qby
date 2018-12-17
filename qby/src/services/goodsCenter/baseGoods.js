@@ -89,3 +89,12 @@ export function getLogListApi(values) {
       data:values
   })
 }
+
+//保税仓库列表
+export function getWareListApi(values) {
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.pd.taxWarehouse.list',
+      data:values
+  })
+}

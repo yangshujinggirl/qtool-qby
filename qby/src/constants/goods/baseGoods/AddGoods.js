@@ -13,7 +13,8 @@ import {
   searchValApi,
   saveValApi,
   goodSaveOutLineApi,
-  getCountryListApi
+  getCountryListApi,
+  getWareListApi
 } from '../../../services/goodsCenter/baseGoods.js';
 import UpLoadFileModal from '../components/UpLoadFileModal/index.js';
 import GoodsInfo from './components/GoodsInfo/index.js';
@@ -63,14 +64,26 @@ class AddGoodsForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      pdTaxWarehouses:[],
       brandDataSource:[],
       loading:false,
       isEdit:false
     }
   }
+  getWareList =()=> {
+    getWareListApi()
+    .then(res=>{
+      if(res.code == '0'){
+        this.setState({
+          pdTaxWarehouses:res.pdTaxWarehouses
+        })
+      }
+    })
+  }
   componentDidMount() {
     this.initGoodslabel();
     this.initPage();
+    this.getWareList();
   }
   componentDidUpdate(props) {
     this.creatArrow();
@@ -536,7 +549,7 @@ class AddGoodsForm extends Component {
       specData,
       linkageLabel,
     } = this.props.addGoods;
-    const { loading } =this.state;
+    const { loading,pdTaxWarehouses } =this.state;
     return(
       <div className="add-goods-components" >
         <Form className="qtools-form-components">
@@ -760,14 +773,14 @@ class AddGoodsForm extends Component {
               <div>
                 <Col span={24}>
                   <FormItem label='保税仓库' {...formItemLayout}>
-                     {getFieldDecorator('warehouseId',{
+                     {getFieldDecorator('pdTaxWarehouseId',{
                        rules: [{ required: true, message: '请选择保税仓库'}],
-                       initialValue:pdSpu.warehouseId
+                       initialValue:pdSpu.pdTaxWarehouseId
                      })(
                        <Select placeholder="请选择" allowClear={false}>
                          {
-                           WarehouseOption.map((el) => (
-                             <Option value={el.key} key={el.key}>{el.value}</Option>
+                           pdTaxWarehouses.map((el) => (
+                             <Option value={el.pdTaxWarehouseId} key={el.key}>{el.name}</Option>
                            ))
                          }
                        </Select>

@@ -105,11 +105,11 @@ export default {
                               menus[i].type = 'wsn'
                            }else if (menus[i].urResourceId == 600000){
                               menus[i].type = 'account'
-                           }else if(menus[i].urResourceId == 800000){
+                           }else if(menus[i].urResourceId == 1300000){
                                 menus[i].type = 'online'
                            }else if(menus[i].urResourceId == 900000){
                                 menus[i].type = 'cooperate'
-                           }else if(menus[i].urResourceId == 1000000){
+                           }else if(menus[i].urResourceId == 1200000){
                                 menus[i].type = 'activity'
                            }else if(menus[i].urResourceId == 1100000){
                                 menus[i].type = 'server'

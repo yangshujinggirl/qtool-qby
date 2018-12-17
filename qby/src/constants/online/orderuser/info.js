@@ -145,6 +145,42 @@ class OrderuserInfo extends React.Component{
       	dataIndex: 'content'
       }
 		];
+		this.column4 = [
+			{
+      	title: '商品名称',
+      	dataIndex: 'name'
+			},
+			{
+      	title: '规格',
+      	dataIndex: 'displayName'
+			},
+			{
+      	title: '商品编码',
+      	dataIndex: 'skuCode'
+			},
+			{
+      	title: '商品数量',
+      	dataIndex: 'qty'
+			},
+			{
+      	title: '商品价格',
+      	dataIndex: 'price'
+	  	},
+			{
+				title: '应付价格',
+				dataIndex: 'amount'
+			},
+			{
+				title: '实付价格',
+				dataIndex: 'payAmount'
+			},{
+				title: '已退数量',
+				dataIndex: 'returnCount'
+			},{
+				title: '已退金额',
+				dataIndex: 'returnQuota'
+			}
+		];
 	}
     //获取订单信息列表
 	infofetch=(id)=>{
@@ -175,7 +211,9 @@ class OrderuserInfo extends React.Component{
 						{lable:'订单状态',text:orderInfos.statusStr},
 						{lable:'归属门店',text:orderInfos.shopName},
 						{lable:'订单金额',text:orderInfos.amount},
-						{lable:'优惠金额',text:orderInfos.payAmount}
+						{lable:'优惠金额',text:orderInfos.couponAmount},
+						{lable:'优惠券',text:orderInfos.couponMoney},
+						{lable:'优惠券批次号',text:orderInfos.couponCode},
 					];
 				}
 
@@ -261,8 +299,7 @@ class OrderuserInfo extends React.Component{
   }
 	render(){
 		let {newClearLogs} = this.state;
-		console.log(this.state.subOrderInfos)
-		console.log(this.props.data.postgood)
+		const {channel} = this.props.data.record;
 		return(
 			<div>
 				<div className='mb10'>
@@ -284,7 +321,7 @@ class OrderuserInfo extends React.Component{
 				<div className='mb10'>
 					{this.state.goodinfo.length>0 &&
 						<EditableTable
-							columns={this.column1}
+							columns={channel == 1 ? this.column1 : this.column4}
 							dataSource={this.state.goodinfo}
 	            title='商品信息'
 	            bordered={true}

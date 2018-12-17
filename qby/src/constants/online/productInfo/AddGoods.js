@@ -210,6 +210,30 @@ class AddGoodsForm extends Component {
                </FormItem>
             </Col>
             <Col span={24}>
+              <FormItem label='NEW商品' {...formItemLayout}>
+                 {getFieldDecorator('isNew',{
+                   initialValue:iPdSpu.eventNewO||0
+                 })(
+                   <RadioGroup>
+       							<Radio value={1}>是</Radio>
+       							<Radio value={0}>否</Radio>
+       						 </RadioGroup>
+                 )}
+               </FormItem>
+            </Col>
+            <Col span={24}>
+              <FormItem label='HOT商品' {...formItemLayout}>
+                 {getFieldDecorator('isHot',{
+                   initialValue:iPdSpu.eventHotO||0
+                 })(
+                   <RadioGroup>
+       							<Radio value={1}>是</Radio>
+       							<Radio value={0}>否</Radio>
+       						 </RadioGroup>
+                 )}
+               </FormItem>
+            </Col>
+            <Col span={24}>
               <FormItem label='商品说明' {...formItemLayout}>
     						 {getFieldDecorator('pdExplainIds',{
                    initialValue:iPdSpu.pdExplains?iPdSpu.pdExplains:null
