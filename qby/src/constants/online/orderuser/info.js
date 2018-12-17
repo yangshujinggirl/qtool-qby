@@ -157,15 +157,28 @@ class OrderuserInfo extends React.Component{
 			this.props.dispatch({ type: 'tab/loding', payload:false});
       if(json.code=='0'){
 				const orderInfos = json.orderInfo
-				const orderinfo=[
-					{lable:'订单号',text:orderInfos.orderNo},
-					{lable:'有赞订单',text:orderInfos.outNo},
-					{lable:'下单时间',text:orderInfos.payTime},
-					{lable:'订单状态',text:orderInfos.statusStr},
-					{lable:'归属门店',text:orderInfos.shopName},
-					{lable:'订单金额',text:orderInfos.amount},
-					{lable:'实际支付金额',text:orderInfos.payAmount}
-				];
+				let orderinfo = [];
+				if(this.props.data.record.channel == 1){
+					orderinfo=[
+						{lable:'订单号',text:orderInfos.orderNo},
+						{lable:'有赞订单',text:orderInfos.outNo},
+						{lable:'下单时间',text:orderInfos.payTime},
+						{lable:'订单状态',text:orderInfos.statusStr},
+						{lable:'归属门店',text:orderInfos.shopName},
+						{lable:'订单金额',text:orderInfos.amount},
+						{lable:'实际支付金额',text:orderInfos.payAmount}
+					];
+				}else{
+					orderinfo=[
+						{lable:'订单号',text:orderInfos.orderNo},
+						{lable:'下单时间',text:orderInfos.payTime},
+						{lable:'订单状态',text:orderInfos.statusStr},
+						{lable:'归属门店',text:orderInfos.shopName},
+						{lable:'订单金额',text:orderInfos.amount},
+						{lable:'优惠金额',text:orderInfos.payAmount}
+					];
+				}
+
 				//收货信息
 				const receiptinfo=[
 					{lable:'姓名',text:orderInfos.idCardName},
