@@ -63,7 +63,7 @@ export function productListApi(values) {
 export function productOnlineApi(values) {
   values = JSON.stringify(values)
   return ajax.post('/webrest.htm',{
-      code:'qerp.web.pd.cspu.status',
+      code:'qerp.web.pd.spu.status',
       data:values
   })
 }

@@ -23,7 +23,8 @@ class NormalForm extends Component {
   constructor(props){
     super(props)
     this.state={
-      flowStatus:[]
+      flowStatus:[],
+      typeValue:'',
     }
   }
   handleSubmit = (e) => {
@@ -32,19 +33,21 @@ class NormalForm extends Component {
       this.props.submit && this.props.submit(values);
     });
   }
-  typeChange =(e)=> {
-    const value = e.target.value;
-    console.log(value)
+  onChange=(value)=>{
+    this.setState({typeValue:value})
     //根据订单类型查询订单状态接口
     const flowStatus = [];
     this.setState({
       flowStatus
     })
-
+  }
+  onSearch =(value)=>{
+    debugger
+    console.log(value)
   }
   render() {
     const defaultTime = [moment(timeForMats(30).t2), moment(timeForMats(30).t1)]
-    const {flowStatus} = this.state
+    const {flowStatus,typeValue} = this.state
     const { getFieldDecorator } = this.props.form;
     return(
       <div>
@@ -77,7 +80,7 @@ class NormalForm extends Component {
                  )}
                </FormItem>
                <FormItem label='订单状态'>
-                  {getFieldDecorator('orderStatus')(
+                  {getFieldDecorator('qbOrderStatus')(
                     <Select allowClear={true} placeholder="请选择订单状态">
                       {
                         ProcesasStatusOption.map((el) => (
@@ -89,9 +92,12 @@ class NormalForm extends Component {
                 </FormItem>
                 <FormItem label='订单类型'>
                    {getFieldDecorator('deliveryType',{
-                     onChange:this.typeChange
+                      onChange:this.onChange
                    })(
-                     <Select allowClear={true} placeholder="请选择配送方式">
+                     <Select
+                       allowClear={true}
+                       placeholder="请选择订单类型"
+                       >
                        {
                          DeliveryOption.map((el) => (
                            <Option value={el.key} key={el.key}>{el.value}</Option>
@@ -102,7 +108,7 @@ class NormalForm extends Component {
                  </FormItem>
                  <FormItem label='流程状态'>
                     {getFieldDecorator('deliveryType')(
-                      <Select allowClear={true} placeholder="请选择流程状态">
+                      <Select disabled={!typeValue} allowClear={true} placeholder="请选择流程状态">
                         {
                           flowStatus.map((el) => (
                             <Option value={el.key} key={el.key}>{el.value}</Option>
@@ -122,6 +128,14 @@ class NormalForm extends Component {
                      </Select>
                    )}
                  </FormItem>
+                 <FormItem label='支付方式'>
+                    {getFieldDecorator('payType')(
+                      <Select allowClear={true} placeholder="请选择支付方式">
+                            <Option value={31} key={31}>支付宝</Option>
+                            <Option value={41} key={41}>微信</Option>
+                      </Select>
+                    )}
+                  </FormItem>
                 <FormItem label='下单时间'>
                    {getFieldDecorator('rangePicker',
                      {initialValue:defaultTime}

@@ -29,7 +29,7 @@ const Columns = [{
        return platformMap[record.platform]
      }
    },{
-     title: '配送方式',
+     title: '订单类型',
      dataIndex: 'delivery',
      render:(text,record)=> {
        return deliveryMap[record.deliveryType]
@@ -47,13 +47,19 @@ const Columns = [{
      title: '订单金额',
      dataIndex: 'payAmount'
    },{
+     title: '订单状态',
+     dataIndex: 'qbOrderStatusStr',
+   },{
      title: '优惠金额',
      dataIndex: 'discountAmount'
    },{
      title: '流程状态',
      dataIndex: 'orderStatusStr'
    },{
-     title: '订单时间',
+     title: '支付方式',
+     dataIndex: 'payTypeStr',
+   },{
+     title: '下单时间',
      dataIndex: 'createTime'
    }];
    export  default Columns

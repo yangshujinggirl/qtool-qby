@@ -30,7 +30,7 @@ handleSubmit = (e) => {
 	e.preventDefault();
 	this.props.form.validateFields((err, values) => {
 	if (!err) {
-		const result=GetServerData('qerp.web.pd.inv.change',values)
+		const result=GetServerData('qerp.web.pd.inv.online.change',values)
 		result.then((res) => {
 			return res;
 		}).then((json) => {
@@ -77,7 +77,7 @@ handleEnt=(e)=>{
 		const values={
 			code:e.target.value
 		}
-		const result=GetServerData('qerp.web.pd.spu.invinfo',values)
+		const result=GetServerData('qerp.web.pd.spu.online.invinfo',values)
 		result.then((res) => {
 			return res;
 		}).then((json) => {

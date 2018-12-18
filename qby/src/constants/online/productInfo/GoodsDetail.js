@@ -79,6 +79,12 @@ class GoodsDetail extends Component {
               columns={iPdSpu.isSkus?DetailSizeColumns:DetailColumns}
               dataSource={iPdSpu.pdSkus}/>
     			</FormItem>
+          <FormItem label="NEW商品" {...formItemLayout}>
+            <div>{iPdSpu.eventNewO?'是':'否'}</div>
+    			</FormItem>
+          <FormItem label="HOT商品" {...formItemLayout}>
+            <div>{iPdSpu.eventHotO?'是':'否'}</div>
+    			</FormItem>
           <FormItem label="商品说明" {...formItemLayout}>
             {
               iPdSpu.pdExplain && iPdSpu.pdExplain.map(item=>(

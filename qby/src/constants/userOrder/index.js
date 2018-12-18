@@ -128,7 +128,6 @@ class UserOrder extends Component {
     })
   }
   render() {
-    console.log(this.state.fields)
     //导出数据按钮是否显示
 		const exportUserorderData=this.props.data.rolelists.find((currentValue,index)=>{
 			return currentValue.url=="qerp.web.sys.doc.task"

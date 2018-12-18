@@ -532,9 +532,11 @@ class AddGoodsForm extends Component {
   }
   //比例自定义校验
   validatorShareRatio(rule, value, callback) {
-    if(value>100) {
+    if(value>=100) {
       callback('分成比例不能大于100');
-    } else {
+    } else if(value==0){
+      callback('分成比例不能小于0');
+    }else{
       callback();
     }
   }
@@ -809,7 +811,7 @@ class AddGoodsForm extends Component {
                        initialValue:pdSpu.shareRatio&&Number(pdSpu.shareRatio)||'',
                        rules: [
                          {required:true,message:"请输入分成比例"},
-                         { pattern:/^\d+(\.\d{0,2})?$/,message:'请输入两位小数的数字'},
+                         { pattern:/^\d+(\.\d{0,2})?$/,message:'请输入小于等于两位小数的数字'},
                          { validator:this.validatorShareRatio }
                        ]
                      })(

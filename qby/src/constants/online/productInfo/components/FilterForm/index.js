@@ -78,11 +78,27 @@ class NormalForm extends Component {
               <FormItem label='商品状态'>
                  {getFieldDecorator('status')(
                    <Select placeholder="请选择售卖状态" allowClear={true}>
-                     <Option value={20} key={20}>停售</Option>
-                     <Option value={10} key={10}>售卖</Option>
+                     <Option value={10} key={10}>上线</Option>
+                     <Option value={20} key={20}>下线</Option>
                    </Select>
                  )}
                </FormItem>
+               <FormItem label='NEW商品'>
+                  {getFieldDecorator('isNew')(
+                    <Select placeholder="请选择是否上新" allowClear={true}>
+                      <Option value={1} key={1}>是</Option>
+                      <Option value={0} key={0}>否</Option>
+                    </Select>
+                  )}
+                </FormItem>
+                <FormItem label='HOT商品'>
+                   {getFieldDecorator('isHot')(
+                     <Select placeholder="请选择是否畅销" allowClear={true}>
+                       <Option value={1} key={1}>是</Option>
+                       <Option value={0} key={0}>否</Option>
+                     </Select>
+                   )}
+                 </FormItem>
               <FormItem label='保税仓库'>
                  {getFieldDecorator('pdTaxWarehouseId')(
                    <Select placeholder="请选择" allowClear={false} allowClear={true}>

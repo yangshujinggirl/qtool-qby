@@ -101,51 +101,23 @@ const SalePropertyOption = [{
         }]
 //订单状态-----用户订单
 const ProcesasStatusOption = [{
-          key:10,
-          value:'待用户支付'
+          key:1,
+          value:'待付款'
         },
         {
-          key:40,
-          value:'待门店接单'
+          key:2,
+          value:'待发货'
         },
         {
-          key:60,
-          value:'门店已拒单'
+          key:3,
+          value:'已发货'
         },
         {
-          key:55,
-          value:'超时未接单'
-        },
-        {
-          key:45,
-          value:'门店已接单'
-        },
-        {
-          key:70,
+          key:4,
           value:'已完成'
         },
         {
-          key:20,
-          value:'用户支付前取消'
-        },
-        {
-          key:30,
-          value:'用户超时未支付'
-        },
-        {
-          key:50,
-          value:'用户支付后取消'
-        },{
-          key:-10,
-          value:'已发货'
-        },{
-          key:20,
-          value:'待付款'
-        },{
-          key:30,
-          value:'待发货'
-        },{
-          key:40,
+          key:5,
           value:'已取消'
         }]
 //配送方式

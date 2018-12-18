@@ -10,7 +10,8 @@ import moment from 'moment';
 import './index.less'
 import {
   goodSaveApi,
-  saveValApi
+  saveValApi,
+  productListApi
 } from '../../../services/goodsCenter/cTipGoods.js';
 import AddGoodsDesc from '../components/AddGoodsDesc/index.js';
 import Imgmodel from '../../../components/model/modelimg';
@@ -56,12 +57,8 @@ class AddGoodsForm extends Component {
     super(props);
     this.state = {
       loading:false,
+      plainOptions:[]
     }
-    this.plainOptions=[
-      { label: '七天无理由退换货', value: 1 },
-      { label: '包税', value: 2 },
-      { label: '商品保质说明', value: 3 },
-    ]
   }
   componentDidMount() {
     this.initPage()
@@ -73,6 +70,19 @@ class AddGoodsForm extends Component {
       payload:{
         spuId:pdSpuId
       }
+    });
+    productListApi()
+    .then(res => {
+      let {plainOptions} = this.state;
+      if(res.code == "0"){
+        res.pdExplains.map((item,index) => {
+          plainOptions[index] = {label:item.name,value:item.pdExplainId}
+          return item;
+        });
+      };
+      this.setState({
+        plainOptions
+      });
     })
   }
   //取消
@@ -162,11 +172,6 @@ class AddGoodsForm extends Component {
     console.log(value)
   }
   render() {
-    const checkboxStyle = {
-      display: 'block',
-      height: '30px',
-      lineHeight: '30px',
-    }
     const { getFieldDecorator } = this.props.form;
     const { pdSpu, fileList } = this.props.cTipAddGoods;
     const { loading } =this.state;
@@ -250,11 +255,11 @@ class AddGoodsForm extends Component {
                </FormItem>
             </Col>
             <Col span={24}>
-              <FormItem className='checkBox' label='商品说明' {...formItemLayout}>
-                 {getFieldDecorator('isHot',{
-                   initialValue:pdSpu.eventHotc||0
+              <FormItem label='商品说明' {...formItemLayout}>
+                 {getFieldDecorator('pdExplainIds',{
+                   initialValue:pdSpu.pdExplains?pdSpu.pdExplains:null
                  })(
-                   <CheckboxGroup style={checkboxStyle} options={this.plainOptions} onChange={this.onChange} />
+                   <CheckboxGroup className='checkBox' options={this.state.plainOptions} onChange={this.onChange} />
                  )}
                </FormItem>
             </Col>

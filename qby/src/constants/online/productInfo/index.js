@@ -16,8 +16,8 @@ const WarnMessage = {
   t6: '商品将会停止在Qtools首页HOT栏目展示售卖，确认吗',//下畅销
 }
 const SuccessTips = {
-  t1: '售卖成功',
-  t2: '停售成功',
+  t1: '上线成功',
+  t2: '下线成功',
   t3: '上新成功',//上新
   t4: '下新成功',//下新
   t5: '畅销',//畅销
@@ -40,6 +40,8 @@ class BtipGoods extends Component {
          barCode:'',
          pdBrandName:'',
          status:'',
+         isNew:'',
+         isHot:'',
          pdTaxWarehouseId:'',
        },
     }
@@ -294,7 +296,7 @@ class BtipGoods extends Component {
       loading:true,
     })
     const params = {
-      cstatus:val,
+      status:val,
       pdSpuIds:ids
     }
     productOnlineApi(params)
