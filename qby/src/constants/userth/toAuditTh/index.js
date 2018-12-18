@@ -34,10 +34,11 @@ class ToAudit extends Component {
   //操作
   handleOperateClick(record) {
     const paneitem = {
-      title:'订单详情',
-      key:`${this.props.componkey}edit`+record.orderReturnId,
-      componkey:`${this.props.componkey}audit`,
+      title:'退单审核',
+      key:`${this.props.componkey}edit`+record.orderReturnId+'audit',
+      componkey:`${this.props.componkey}info`,
       data:{
+        orderReturnId:record.orderReturnId+'audit',
         orderReturnNo:record.orderReturnNo,
         type:record.returnType
       }
@@ -108,7 +109,6 @@ class ToAudit extends Component {
     })
   }
   render() {
-
     const { dataList=[] } = this.props.toAudit;
     return (
       <div className='qtools-components-pages'>

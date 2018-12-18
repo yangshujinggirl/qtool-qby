@@ -122,12 +122,12 @@ class GoodsList extends Component {
                         size="small"
                         disabled={el.status == 20?false:true}
                         className="event-btn"
-                        onClick={()=>onOperateClick(el,'sell')}>售卖</Button>
+                        onClick={()=>onOperateClick(el,'sell')}>上线</Button>
                       <Button
                         size="small"
                         disabled={el.status == 20?true:false}
                         className="event-btn"
-                        onClick={()=>onOperateClick(el,'saleStop')}>停售</Button>
+                        onClick={()=>onOperateClick(el,'saleStop')}>下线</Button>
                     </span>
                   }
                   {

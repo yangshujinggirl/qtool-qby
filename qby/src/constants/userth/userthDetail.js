@@ -1,7 +1,8 @@
 import React from 'react';
 import EditableTable from '../../components/table/tablebasic';
-import { Button,Icon,Form,Select,Input,Card,message,Radio} from 'antd';
+import { Button,Icon,Form,Select,Input,Card,message,Radio,Modal} from 'antd';
 import { getInfoApi } from '../../services/orderCenter/userth/allth'
+import { auditApi } from '../../services/orderCenter/userth/toAudit'
 import { connect } from 'dva';
 import Imgmodel from '../../components/model/modelimg';
 import './index.less'
@@ -9,6 +10,7 @@ import './index.less'
 const TextArea = Input.TextArea;
 const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
+const confirm = Modal.confirm;
 
 class UserthDetail extends React.Component{
 	constructor(props) {
@@ -19,7 +21,8 @@ class UserthDetail extends React.Component{
       value:'',
 			backInfos:{},
 			goodInfos:[],
-			orderLogs:[]
+			orderLogs:[],
+			describes:{}
     },
 		this.columns1 = [{
 			title: '商品名称',
@@ -70,6 +73,7 @@ componentWillMount(){
 				backInfos:res.pdOrderReturnDetailPage.ReturnOrderBaseInfo,
 	      goodInfos:res.pdOrderReturnDetailPage.pdOrderReturnDetail,
 				orderLogs:res.pdOrderReturnDetailPage.pdOrderReturnLog,
+				describes:res.pdOrderReturnDetailPage.pdOrderReturnDetailDescribe,
 			})
 		}
 	},err => {
@@ -85,18 +89,73 @@ onChange = (e) => {
 }
 //拒绝买家退款
 refuse =()=> {
-	this.setState({
-		loading1:true
+	this.props.form.validateFieldsAndScroll((err,values)=>{
+		if(!err){
+			if(!values.refuseReason){
+				message.error('请输入拒绝原因')
+			}else{
+				confirm({
+					content:'是否确认此操作',
+					onOk:()=>{
+						this.setState({
+							loading1:true
+						});
+						this.sendRequest(values,'loading1')
+					},
+				});
+			};
+		};
+	});
+}
+sendRequest =(values,loads)=> {
+	auditApi(values)
+	.then(res=>{
+		if(res.code == 0){
+			if(loads=='loading1'){ //拒绝买家退款
+				this.setState({
+					loading1:false
+				});
+			}else{
+				this.setState({ //同意买家退款
+					loading2:false
+				});
+			};
+			const componkey = this.props.componkey.replace('info','');
+			this.props.dispatch({
+				type:'tab/initDeletestate',
+				payload:`${componkey}edit`+this.props.data.orderReturnId
+			});
+			this.props.dispatch({
+        type:'toAudit/fetchList',
+        payload:{}
+	    });
+			message.success("审核完成")
+		};
 	})
 }
 //同意买家退款
 agree =()=> {
-	this.setState({
-		loading2:true
-	})
+	this.props.form.validateFieldsAndScroll((err,values)=>{
+		if(!err){
+			if(!values.returnWay){
+				message.error('请选择退款方式')
+			}else{
+				confirm({
+					content:'是否确认此操作',
+					onOk:()=>{
+						this.setState({
+							loading2:true
+						});
+						this.sendRequest(values,'loading2')
+					},
+				});
+			};
+		};
+	});
 }
 render(){
-  const {backInfos,goodInfos,orderLogs} = this.state
+  const {backInfos,goodInfos,orderLogs,describes,value} = this.state
+	const fileDomain = eval(sessionStorage.getItem('fileDomain'));
 	if(orderLogs[0]){
 		orderLogs.map((item,index)=>{
 			item.key = index;
@@ -104,6 +163,7 @@ render(){
 		});
 	}
   const {getFieldDecorator} = this.props.form;
+	const { type } = this.props.data
   const radioStyle = {
         display: 'block',
         height: '30px',
@@ -137,7 +197,7 @@ render(){
             dataSource = { goodInfos }
           />
         </div>
-				{ this.props.data.type == '1' &&
+				{ type == '1' &&
 	        <div style={{padding:'10px 0',border:'1px solid #e8e8e8',margin:'10px 0',marginBottom:"10px"}}>
 						<p style={{borderBottom:'1px solid #e8e8e8',padding:'5px 10px 15px'}}>详细描述</p>
 						<Form className='mt20'>
@@ -146,81 +206,100 @@ render(){
 								labelCol={{ span: 2 }}
 								wrapperCol={{ span: 12 }}
 							>
-								<div>1111</div>
+								<div>{describes.returnReason}</div>
 							</FormItem>
 	            <FormItem
 								label="详细描述"
 								labelCol={{ span: 2 }}
 								wrapperCol={{ span: 12 }}
 							>
-								<div>1111</div>
+								<div>{describes.detailedDescription}</div>
 							</FormItem>
 							<FormItem
 								label="图片"
 								labelCol={{ span: 2 }}
 								wrapperCol={{ span: 12 }}
 							>
-	            <ul className='img-list-wrap'>
-	              <li className="img-item">
-	                <Imgmodel picUrl='/static/eye.png'/>
-	              </li>
-	            </ul>
+									{
+										describes.picUrl && describes.picUrl.map(item=>(
+											<Imgmodel picUrl={fileDomain+item}/>
+										))
+									}
 							</FormItem>
 	  				</Form>
 					</div>
 				}
-        <div style={{padding:'10px 0',border:'1px solid #e8e8e8',marginBottom:"10px"}}>
-					<p style={{borderBottom:'1px solid #e8e8e8',padding:'5px 10px 15px'}}>退单处理</p>
-					<Form className='mt20'>
-					{
-							this.props.data.type == '1' &&
-							<FormItem
-								label="退款方式"
-								labelCol={{ span: 2 }}
-								wrapperCol={{ span: 12 }}
-							>
-	            {getFieldDecorator('status',{
-	              initialValue:this.state.value
-	            })(
-	              <RadioGroup onChange={this.onChange}>
-	                <Radio style={radioStyle} value={1}>仅退款</Radio>
-	                <Radio style={radioStyle} value={2}>退货退款</Radio>
-	                  {
-	                    this.state.value === 2
-	                      ? <div>退货地址：<Input style={{ width: 300, marginLeft: 10 }} /></div>
-	                      : null
-	                   }
-	              </RadioGroup>
-	            )}
-							</FormItem>
-						}
-						<FormItem
-							label="拒绝原因"
-							labelCol={{ span: 2 }}
-							wrapperCol={{ span: 12 }}
-						>
-            {getFieldDecorator('remark',{
-              rules:[{required:true,message:"请输入50字符以内"}]
-            })(
-              <TextArea rows={4}   placeholder='限制50字符以内' maxLength='200'/>
-            )}
-						</FormItem>
-  				</Form>
-					<div className='reason-btn'>
-						<Button size='large' className='btn' onClick={this.refuse} loading={this.state.loading1} >拒绝买家退款</Button>
-						<Button type="primary" size='large' onClick={this.agree} loading={this.state.loading2} >同意买家退款</Button>
+				{
+					(type == '1'|| type == '0') &&
+					<div style={{padding:'10px 0',border:'1px solid #e8e8e8',marginBottom:"10px"}}>
+						<p style={{borderBottom:'1px solid #e8e8e8',padding:'5px 10px 15px'}}>退单处理</p>
+						<Form className='mt20'>
+							{
+								type == '1' &&
+								<div>
+										<FormItem
+											label="退款方式"
+											labelCol={{ span: 2 }}
+											wrapperCol={{ span: 12 }}
+										>
+					            {getFieldDecorator('returnWay',{
+					              initialValue:value
+						            })(
+						              <RadioGroup onChange={this.onChange}>
+						                <Radio style={radioStyle} value={0}>仅退款</Radio>
+						                <Radio style={radioStyle} value={1}>退货退款</Radio>
+						              </RadioGroup>
+					            	)}
+										</FormItem>
+										{value == 1 &&
+											<FormItem
+												label='退货地址'
+												labelCol={{ span: 4 }}
+												wrapperCol={{ span: 12 }}
+												>
+												{getFieldDecorator('returnPdAddress',{
+													rules:[{required:true,message:'请输入退货地址'}]
+						            })(
+						              <Input style={{ width: 300, marginLeft: 10 }}placeholder='请输入退货地址'/>
+						            )}
+											</FormItem>}
+									</div>
+								}
+								<FormItem
+									label="拒绝原因"
+									labelCol={{ span: 2 }}
+									wrapperCol={{ span: 12 }}
+								>
+		            {getFieldDecorator('refuseReason',{
+		            })(
+		              <TextArea rows={4}   placeholder='限制50字符以内' maxLength='200'/>
+		            )}
+								</FormItem>
+		  				</Form>
+							<div className='reason-btn'>
+								<Button size='large' className='btn' onClick={this.refuse} loading={this.state.loading1} >拒绝买家退款</Button>
+								<Button type="primary" size='large' onClick={this.agree} loading={this.state.loading2} >同意买家退款</Button>
+							</div>
 					</div>
-				</div>
-				<div className='mb20'>
-          <EditableTable
-            columns={this.columns2}
-            title='订单日志'
-            bordered={true}
-            dataSource = { orderLogs }
-          />
-        </div>
+				}
+				{
+					type=='detail' &&
+					<div className='mb20'>
+	          <EditableTable
+	            columns={this.columns2}
+	            title='订单日志'
+	            bordered={true}
+	            dataSource = { orderLogs }
+	          />
+	        </div>
+				}
 			</div>
 		)}
 }
+
 const UserthDetails = Form.create({})(UserthDetail)
-export default UserthDetails;
+function mapStateToProps(state){
+	const { toAudit } = state;
+	return toAudit;
+}
+export default connect(mapStateToProps)(UserthDetails);

@@ -10,10 +10,17 @@ import {
   DatePicker
 } from 'antd';
 import { WarehouseOption } from '../../../../../components/FixedDataSource';
+import { getWareListApi } from '../../../../../services/goodsCenter/baseGoods.js';
 const FormItem = Form.Item;
 const Option = Select.Option;
 
 class NormalForm extends Component {
+  constructor(props){
+    super(props);
+    this.state={
+      pdTaxWarehouses:[]
+    }
+  }
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
@@ -22,9 +29,22 @@ class NormalForm extends Component {
       };
       this.props.submit && this.props.submit(values)
     });
-
+  }
+  getWareList =()=> {
+    getWareListApi()
+    .then(res=>{
+      if(res.code == '0'){
+        this.setState({
+          pdTaxWarehouses:res.pdTaxWarehouses
+        })
+      }
+    })
+  }
+  componentWillMount() {
+    this.getWareList();
   }
   render() {
+    const {pdTaxWarehouses} = this.state;
     const { getFieldDecorator } = this.props.form;
     return(
         <Form className="qtools-condition-form">
@@ -64,11 +84,11 @@ class NormalForm extends Component {
                  )}
                </FormItem>
               <FormItem label='保税仓库'>
-                 {getFieldDecorator('warehouseId')(
+                 {getFieldDecorator('pdTaxWarehouseId')(
                    <Select placeholder="请选择" allowClear={false} allowClear={true}>
                      {
-                       WarehouseOption.map((el) => (
-                         <Option value={el.key} key={el.key}>{el.value}</Option>
+                       pdTaxWarehouses.map((el) => (
+                         <Option value={el.pdTaxWarehouseId} key={el.pdTaxWarehouseId}>{el.name}</Option>
                        ))
                      }
                    </Select>

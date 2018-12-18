@@ -40,7 +40,7 @@ class BtipGoods extends Component {
          barCode:'',
          pdBrandName:'',
          status:'',
-         warehouseId:'',
+         pdTaxWarehouseId:'',
        },
     }
   }

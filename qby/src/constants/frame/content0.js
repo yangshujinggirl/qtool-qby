@@ -335,7 +335,6 @@ class Content extends React.Component {
                                     case "208000":return <Userth data={this.props.data} componkey={this.props.componkey}/>
                                     case "208000edit":return <AddThOrder data={this.props.data} componkey={this.props.componkey}/>
                                     case "208000info":return <UserthDetail data={this.props.data} componkey={this.props.componkey}/>
-                                    case "208000audit":return <Audit data={this.props.data} componkey={this.props.componkey}/>
                                     // -------------------------------合作中心----------------------------
                                     case formDataCode('cooperate10') : return <MarketResource data={this.props.data} componkey={this.props.componkey}/> //市场资源
                                     case formDataCode('cooperate10-edit') : return <AddStaff data={this.props.data} componkey={this.props.componkey}/> //新增人员

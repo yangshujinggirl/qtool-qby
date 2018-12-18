@@ -11,6 +11,7 @@ import SplitOrderModal from "./components/SplitOrder"
 import ChangePriceModal from "./components/ChangePriceModal"
 import MergeModal from "./components/MergeModal"
 import MarkStar from "./components/MarkStar"
+import Cancel from "./components/CancelModal"
 import {timeForMats} from '../../../utils/meth';
 import {deepcCloneObj} from "../../../utils/commonFc"
 
@@ -41,6 +42,7 @@ class OnAudit extends Component {
       oldTotalPrice:0,//原实付总价
       mergeVisible:false,
       markVisible:false,
+      cancelVisible:false,
       iconTypeRemark:"",
       field:{
         ecSuborderNo:'',
@@ -107,7 +109,7 @@ class OnAudit extends Component {
     };
   }
   //取消订单或审核通过的请求
-  cancelOrder =(obj)=> {
+  cancelOrder =(obj,clearForm)=> {
     const {limit,currentPage} = this.props.onAudit;
     cancelOrderApi(obj)
     .then(res=>{
@@ -115,6 +117,8 @@ class OnAudit extends Component {
         if(obj.status == 6){
           message.success("审核通过成功",.8);
         }else{
+          this.setState({cancelVisible:false})
+          clearForm();
           message.success("取消订单成功",.8);
         };
         this.props.dispatch({
@@ -132,8 +136,10 @@ class OnAudit extends Component {
       obj.status = 6;
       this.cancelOrder(obj);
     }else if(type=="cancel"){ //取消订单
-      obj.status = 5;
-      this.cancelOrder(obj);
+      this.setState({
+        cancelVisible:true,
+        ecSuborderId:parentRecord.ecSuborderId
+      });
     }else{ //跳转至订单详情
       const postgood = {children:null,code:"801700",menu:1,menuStr:null,name:"发货",rank:null,remark:null,status:1,statusStr:null,urResourceId:801700,url:"qerp.web.ec.express.hk.save"}
       const editorder = {children: null,code: "801400",menu: 1,menuStr: null,name: "修改订单",rank: null,remark: null,status: 1,statusStr: null,urResourceId: 801400,url: "qerp.web.ec.pd.userOrder.save"}
@@ -333,6 +339,16 @@ class OnAudit extends Component {
       };
     })
   }
+  onCancelOk =(value,clearForm)=> {
+    const obj={status:5,...value,ecSuborderId:this.state.ecSuborderId}
+    this.cancelOrder(obj,clearForm);
+  }
+  onCancel =(clearForm)=> {
+    this.setState({
+      cancelVisible:false
+    });
+    clearForm();
+  }
   //取消星标
   onMarkCancel =(clearForm)=> {
     clearForm();
@@ -397,7 +413,8 @@ class OnAudit extends Component {
       mergeVisible,
       markVisible,
       iconTypeRemark,
-      expandedRowKeys=[]
+      expandedRowKeys=[],
+      cancelVisible
     }=this.state;
     const content = (
       <div className='remark_box'>
@@ -495,6 +512,12 @@ class OnAudit extends Component {
           onOk={this.onMarkOk}
           onCancel={this.onMarkCancel}
         />
+      <Cancel
+          visible={cancelVisible}
+          onOk={this.onCancelOk}
+          onCancel={this.onCancel}
+        />
+
       </div>
     )
   }

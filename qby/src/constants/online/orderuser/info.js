@@ -175,10 +175,10 @@ class OrderuserInfo extends React.Component{
 				dataIndex: 'payAmount'
 			},{
 				title: '已退数量',
-				dataIndex: 'returnCount'
+				dataIndex: 'returnQty'
 			},{
 				title: '已退金额',
-				dataIndex: 'returnQuota'
+				dataIndex: 'returnMoney'
 			}
 		];
 	}
@@ -194,7 +194,8 @@ class OrderuserInfo extends React.Component{
       if(json.code=='0'){
 				const orderInfos = json.orderInfo
 				let orderinfo = [];
-				if(this.props.data.record.channel == 1){
+				console.log(this.props.data)
+				if(this.props.data.record.channel == 1){ //有赞订单
 					orderinfo=[
 						{lable:'订单号',text:orderInfos.orderNo},
 						{lable:'有赞订单',text:orderInfos.outNo},
@@ -204,7 +205,7 @@ class OrderuserInfo extends React.Component{
 						{lable:'订单金额',text:orderInfos.amount},
 						{lable:'实际支付金额',text:orderInfos.payAmount}
 					];
-				}else{
+				}else{ //用户订单
 					orderinfo=[
 						{lable:'订单号',text:orderInfos.orderNo},
 						{lable:'下单时间',text:orderInfos.payTime},

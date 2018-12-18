@@ -780,7 +780,7 @@ class AddGoodsForm extends Component {
                        <Select placeholder="请选择" allowClear={false}>
                          {
                            pdTaxWarehouses.map((el) => (
-                             <Option value={el.pdTaxWarehouseId} key={el.key}>{el.name}</Option>
+                             <Option value={el.pdTaxWarehouseId} key={el.pdTaxWarehouseId}>{el.name}</Option>
                            ))
                          }
                        </Select>

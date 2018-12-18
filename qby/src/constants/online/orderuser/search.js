@@ -104,7 +104,7 @@ class Searchform extends React.Component {
                                     )}
                                 </FormItem>
                                 <FormItem label='来源'>
-                                    {getFieldDecorator('source')(
+                                    {getFieldDecorator('channel')(
                                     <Select allowClear={true} placeholder="请选择">
                                         <Option value={1}>有赞订单</Option>
                                         <Option value={2}>用户订单</Option>
