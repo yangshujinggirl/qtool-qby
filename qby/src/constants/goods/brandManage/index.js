@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button, message} from 'antd'
 import { connect } from 'dva'
-import Columns from './columns/index'
+import {Columns1,Columns2} from './columns/index'
 import Qtable from '../../../components/Qtable/index'; //表单
 import Qpagination from '../../../components/Qpagination/index'; //分页
 import FilterForm from './FilterForm/index'
@@ -142,6 +142,10 @@ class Brand extends Component{
     })
   }
   render(){
+    //新增修改品牌
+    const changeAddBrand=this.props.data.rolelists.find((currentValue,index)=>{
+      return currentValue.url=="qerp.web.pd.brand.save"
+    })
     const {visible,title,imageUrl,name,rank,status,eventStatus} = this.state;
     const {dataList} = this.props.brand;
     return(
@@ -151,18 +155,25 @@ class Brand extends Component{
           onValuesChange = {this.searchDataChange}
         />
         <div className='handel-btn-lists'>
-          <Button
-            type='primary'
-            size='large'
-            onClick={()=>this.addBrand()}
-          >新增品牌
-          </Button>
+          {
+            changeAddBrand &&
+            <Button
+              type='primary'
+              size='large'
+              onClick={()=>this.addBrand()}
+            >新增品牌
+            </Button>
+          }
         </div>
-        <Qtable
-          dataSource = {dataList}
-          columns = {Columns}
-          onOperateClick = {this.handleOperateClick}
-        />
+        {
+          dataSource.length>0 &&
+          <Qtable
+            dataSource = {dataList}
+            columns = {changeAddBrand?Columns1:Columns2}
+            onOperateClick = {this.handleOperateClick}
+          />
+        }
+
         <Qpagination
           onShowSizeChange = {this.onShowSizeChange}
           data={this.props.brand}

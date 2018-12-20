@@ -37,7 +37,7 @@ export default {
         addNewTab(state,{ payload:{arr,NewactiveKey}}){
             var pane = eval(sessionStorage.getItem("pane"));
             var activeKey = sessionStorage.getItem('activeKey');
-            pane=arr
+            pane = arr
             activeKey=NewactiveKey
             sessionStorage.setItem("pane", JSON.stringify(pane));
             sessionStorage.setItem("activeKey", activeKey);
@@ -92,40 +92,40 @@ export default {
                 let first = menus[0].children[0];
                 const firstItem={title:first.name,key:String(first.urResourceId)};
                 sessionStorage.setItem("firstItem", JSON.stringify(firstItem));
+
+                /* ------展示不同的logo-------- */
                 for(var i=0;i<menus.length;i++){
                     if (menus[i].urResourceId == 200000) {
-                                menus[i].type = 'order'
-                            }else if (menus[i].urResourceId == 300000){
-                                menus[i].type = 'goods'
-                            }else if (menus[i].urResourceId == 400000){
-                              menus[i].type = 'operation'
-                           }else if (menus[i].urResourceId == 700000){
-                              menus[i].type = 'datacenter'
-                           }else if (menus[i].urResourceId == 500000){
-                              menus[i].type = 'wsn'
-                           }else if (menus[i].urResourceId == 600000){
-                              menus[i].type = 'account'
-                           }else if(menus[i].urResourceId == 1300000){
-                                menus[i].type = 'online'
-                           }else if(menus[i].urResourceId == 900000){
-                                menus[i].type = 'cooperate'
-                           }else if(menus[i].urResourceId == 1200000){
-                                menus[i].type = 'activity'
-                           }else if(menus[i].urResourceId == 1100000){
-                                menus[i].type = 'server'
-                           }
+                        menus[i].type = 'order'
+                    }else if (menus[i].urResourceId == 300000){
+                        menus[i].type = 'goods'
+                    }else if (menus[i].urResourceId == 400000){
+                        menus[i].type = 'operation'
+                    }else if (menus[i].urResourceId == 700000){
+                        menus[i].type = 'datacenter'
+                    }else if (menus[i].urResourceId == 500000){
+                        menus[i].type = 'wsn'
+                    }else if (menus[i].urResourceId == 600000){
+                        menus[i].type = 'account'
+                    }else if(menus[i].urResourceId == 1300000){
+                        menus[i].type = 'online'
+                    }else if(menus[i].urResourceId == 900000){
+                        menus[i].type = 'cooperate'
+                    }else if(menus[i].urResourceId == 1200000){
+                        menus[i].type = 'activity'
+                    }else if(menus[i].urResourceId == 1100000){
+                        menus[i].type = 'server'
+                    }
                 }
-
-
+                /* ------展示不同的logo-------- */
 
                 const pannelfirst = {
-                                        title:menus[0].children[0].name,
-                                        key:String(menus[0].children[0].urResourceId),
-                                        data:{rolelists:menus[0].children[0].children},
-                                        componkey:String(menus[0].children[0].urResourceId),
-                                        openkey:String(menus[0].urResourceId)
+                  title:menus[0].children[0].name,
+                  key:String(menus[0].children[0].urResourceId),
+                  data:{rolelists:menus[0].children[0].children},
+                  componkey:String(menus[0].children[0].urResourceId),
+                  openkey:String(menus[0].urResourceId)
                 }
-
                 yield put({type: 'menulist',payload:menus});
                 yield put({type: 'refresh',payload:pannelfirst});
             }

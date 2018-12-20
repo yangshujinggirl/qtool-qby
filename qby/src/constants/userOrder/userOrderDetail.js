@@ -149,7 +149,7 @@ getDetail() {
 renderDelivery(deliveryInfo) {
   return <Card title='配送信息'>
           {
-            this.state.orderInfo.deliveryType==2?
+            this.state.orderInfo.orderType==2?
             <div className='cardlist'>
               <div className='cardlist_item'><label>收件人：</label><span>{deliveryInfo.recName}</span></div>
               <div className='cardlist_item'><label>收货人电话：</label><span>{deliveryInfo.recMobile}</span></div>
@@ -183,11 +183,11 @@ render(){
               <div className='cardlist_item'><label>流程状态：</label><span>{orderInfo.orderStatusStr}</span></div>
               <div className='cardlist_item'><label>订单序号：</label><span>{orderInfo.orderNum}</span></div>
               <div className='cardlist_item'><label>下单平台：</label><span>{platformMap[orderInfo.platform]}</span></div>
-              <div className='cardlist_item'><label>配送方式：</label><span>{deliveryMap[orderInfo.deliveryType]}</span></div>
+              <div className='cardlist_item'><label>配送方式：</label><span>{deliveryMap[orderInfo.orderType]}</span></div>
               <div className='cardlist_item'><label>订单金额：</label><span>{orderInfo.amountSum}</span>元</div>
               <div className='cardlist_item'><label>商品金额：</label><span>{orderInfo.commodityAmount}</span>元</div>
               <div className='cardlist_item'><label>用户支付配送费：</label><span>{orderInfo.standardExpressAmount}</span>元</div>
-              <div className='cardlist_item'><label>优惠金额</label><span>{orderInfo.standardExpressAmount}</span>元</div>
+              <div className='cardlist_item'><label>优惠金额：</label><span>{orderInfo.standardExpressAmount}</span>元</div>
               <div className='cardlist_item'><label>优惠券：</label><span>{orderInfo.deductionAmount?orderInfo.deductionAmount:0}</span>元</div>
               <div className='cardlist_item'><label>优惠券批次号：</label><span>{orderInfo.couponCode}</span></div>
               <div className='cardlist_item'><label>版本号：</label><span>{orderInfo.platVersion}</span></div>

@@ -8,25 +8,25 @@ const SubMenu = Menu.SubMenu;
 
 class Siders extends React.Component {
     setTab =  (item) =>{
-		const key =String(item.key);
-		const paneitem={
-			title:item.item.props.children.props.children,
-			key:String(item.key),
-			data:{rolelists:item.item.props.rolelist},
-			componkey:String(item.key)
-		};
+    		const key =String(item.key);
+    		const paneitem={
+    			title:item.item.props.children.props.children,
+    			key:String(item.key),
+    			data:{rolelists:item.item.props.rolelist},
+    			componkey:String(item.key)
+    		};
         this.props.dispatch({
             type:'tab/firstAddTab',
             payload:paneitem
         })
-	}
+     }
 
-	onOpenChange=(key)=>{
-		this.props.dispatch({
-            type:'tab/openkey',
-            payload:key
-        })
-	}
+    onOpenChange=(key)=>{
+    	this.props.dispatch({
+          type:'tab/openkey',
+          payload:key
+      })
+    }
     render() {
       // const menus = SiderBarData;
       const menus = this.props.menus;

@@ -160,11 +160,7 @@ class OrderuserIndex extends React.Component{
     const postgood=rolelists.find((currentValue,index)=>{
 	     return currentValue.url=="qerp.web.ec.express.hk.save"
     })
-
-
-
-
-     	return(
+   	return(
         	<div className='content_box'>
                 <SearchForm  hindFormSearch={this.hindSearch.bind(this)}/>
                 {

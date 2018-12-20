@@ -44,8 +44,6 @@ class User extends React.Component {
           payload:paneitem
       });
     }
-
-
     getUserinfo=()=>{
         const values={}
         const result=GetServerData('qerp.web.bs.userinfo',values)
@@ -61,9 +59,9 @@ class User extends React.Component {
                 this.setState({
                     dda:null
                 })
-                
+
             }
-        }) 
+        })
     }
     render() {
         const name=eval(sessionStorage.getItem('name'));
@@ -73,7 +71,7 @@ class User extends React.Component {
 
                 <Dropdown overlay={this.menu} trigger={['click']}>
 
-                    <div className='user pointer'>Qtools | {name}<Icon type="down" className='icon-down'/></div> 
+                    <div className='user pointer'>Qtools | {name}<Icon type="down" className='icon-down'/></div>
                 </Dropdown>
             </div>
         )

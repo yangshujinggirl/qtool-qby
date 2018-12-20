@@ -17,7 +17,7 @@ class Frame extends React.Component {
 	addTap=(title,count,key)=>{
 		const addTap=this.refs.tab.add
 		addTap(title,count,key)
-	} 
+	}
 
 	//隐藏显示侧边栏
 	hideSider = () =>{
@@ -30,11 +30,11 @@ class Frame extends React.Component {
 				isHideSider:true
 			 })
 		}
-         
+
 	}
-	
+
     render() {
-        return (   
+        return (
     		<Layout>
 				{/* 侧边栏部分 */}
     			<Siders isHideSider={this.state.isHideSider}/>
@@ -42,15 +42,15 @@ class Frame extends React.Component {
 					{/*右侧头部信息部分  */}
       				<Header className='clearfix headers'>
       					<div className='users'>
-                            <User/>
-                        </div>
+                    <User/>
+                </div>
       				</Header>
 					{/* 内容区部分 */}
 			      	<Content className='contents'>
-			        		<Tab ref='tab'/>	
+			        		<Tab ref='tab'/>
 			      	</Content>
     			</Layout>
-				<div className={this.state.isHideSider?'closepop':'openpop'} onClick={this.hideSider}></div>
+					<div className={this.state.isHideSider?'closepop':'openpop'} onClick={this.hideSider}></div>
   			</Layout>
         )
     }
@@ -59,4 +59,3 @@ class Frame extends React.Component {
 
 
 export default Frame;
-

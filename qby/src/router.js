@@ -9,10 +9,10 @@ import { LocaleProvider, DatePicker, message } from 'antd';
 function RouterConfig({ history }) {
   	return (
 		<LocaleProvider locale={zhCN}>
-		<Router history={history}>
-			<Route path="/" component={Login}/>
-			<Route path="/home" component={IndexPage}/>
-		</Router>
+  		<Router history={history}>
+  			<Route path="/" component={Login}/>
+  			<Route path="/home" component={IndexPage}/>
+  		</Router>
 		 </LocaleProvider>
   	);
 }

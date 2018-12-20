@@ -1,5 +1,5 @@
 import { Component } from 'react'
-import { Modal, Form, Input, Select} from 'antd'
+import { Modal, Form, Input, Select, message} from 'antd'
 const FormItem = Form.Item;
 const Option = Select.Option;
 const TextArea = Input.TextArea;
@@ -16,7 +16,15 @@ class ExplainModal extends Component{
   onOk =()=> {
     this.props.form.validateFieldsAndScroll((err,values)=>{
       if(!err){
-        this.props.onOk(values,this.clearForm)
+        if(values.eventStatus == 10){ //上架图片必填
+          if(!(this.props.imageUrl)){
+            message.warning('请上传品牌图片',1);
+          }else{
+            this.props.onOk(values,this.clearForm)
+          };
+        }else{
+          this.props.onOk(values,this.clearForm)
+        };
       };
     })
   }
@@ -96,8 +104,8 @@ class ExplainModal extends Component{
              labelCol={{ span: 5 }}
              wrapperCol={{ span: 12 }}>
              {getFieldDecorator('eventStatus',{
-               initialValue:eventStatus?eventStatus:null,
-               rules:[{required:true,message:'请选择C端品牌馆'}],
+               initialValue:eventStatus?eventStatus:20,
+               rules:[{required:true,message:'请选择状态'}],
              })(
                <Select allowClear={true} placeholder="请选择C端品牌馆" className='select'>
                  <Option value={10}>上架</Option>

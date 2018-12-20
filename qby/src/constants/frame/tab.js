@@ -28,12 +28,12 @@ class Tab extends React.Component {
   	render() {
     	return (
         	<Tabs
-				hideAdd
-				onChange={this.onChange}
-				activeKey={this.props.activeKey}
-				type="editable-card"
-				onEdit={this.onEdit}
-				className='h10 tabs-header'
+    				hideAdd
+    				onChange={this.onChange}
+    				activeKey={this.props.activeKey}
+    				type="editable-card"
+    				onEdit={this.onEdit}
+    				className='h10 tabs-header'
         	>
 				{
 					this.props.pane.map(

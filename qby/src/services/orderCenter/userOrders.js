@@ -25,3 +25,11 @@ export function exportDataApi(values) {
       data:values
   })
 }
+//根据订单类型查询订单装态
+export function getStatusListApi(values) {
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.pd.orderStatus.list',
+      data:values
+  })
+}

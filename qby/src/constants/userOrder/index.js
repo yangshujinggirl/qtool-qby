@@ -19,13 +19,15 @@ class UserOrder extends Component {
         orderNo:'',
         pdSpuName:'',
         code:'',
-        mobilePhone:'',
+        mobile:'',
         orderStatus:'',
         platform:'',
-        deliveryType:'',
+        orderType:'',
+        qbOrderStatus:'',
         rangePicker:'',
         dateTimeST:'',
         dateTimeET:'',
+        payType:'',
       },
     }
   }
@@ -52,14 +54,30 @@ class UserOrder extends Component {
 
   //操作
   handleOperateClick(record) {
-    const paneitem = {
-      title:'订单详情',
-      key:`${this.props.componkey}edit`+record.orderId,
-      componkey:`${this.props.componkey}edit`,
-      data:{
-        pdSpuId:record.orderId,
+    let paneitem = {};
+    if(record.orderType == 5){ //如果是保税订单 ------> 跳转保税订单c端详情
+      paneitem = {
+        title:'订单详情',
+        key:'801000edit'+id+'info',
+        data:{
+          record:record,
+          id:record.orderId,
+          editorder:this.props.editorder,
+          postgood:this.props.postgood
+        },
+        componkey:'801000info'
       }
+    }else{
+      paneitem = {
+        title:'订单详情',
+        key:`${this.props.componkey}edit`+record.orderId,
+        componkey:`${this.props.componkey}edit`,
+        data:{
+          pdSpuId:record.orderId,
+        }
+      };
     }
+
     this.props.dispatch({
       type:'tab/firstAddTab',
       payload:paneitem
@@ -128,6 +146,7 @@ class UserOrder extends Component {
     })
   }
   render() {
+    console.log(this.props)
     //导出数据按钮是否显示
 		const exportUserorderData=this.props.data.rolelists.find((currentValue,index)=>{
 			return currentValue.url=="qerp.web.sys.doc.task"
@@ -170,7 +189,7 @@ class UserOrder extends Component {
 }
 
 function mapStateToProps(state) {
-  const { userorders } = state;
+  const { userorders,} = state;
   return {userorders};
 }
 

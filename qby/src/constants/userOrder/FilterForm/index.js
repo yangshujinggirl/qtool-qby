@@ -11,6 +11,7 @@ import {
 } from 'antd';
 import moment from 'moment';
 import {timeForMats} from '../../../utils/meth';
+import {getStatusListApi} from '../../../services/orderCenter/userOrders'
 import { ProcesasStatusOption, DeliveryOption, PlatformOption } from '../../../components/FixedDataSource.js'
 import './index.less'
 
@@ -39,16 +40,20 @@ class NormalForm extends Component {
     });
   }
   onChange=(value)=>{
-    this.setState({typeValue:value})
+    this.setState({typeValue:value});
+    getStatusListApi({orderType:value})
+    .then(res=>{
+      if(res.code == 0){
+        this.setState({
+          flowStatus:res.orderStatusList
+        });
+      };
+    })
     //根据订单类型查询订单状态接口
     const flowStatus = [];
     this.setState({
       flowStatus
     })
-  }
-  onSearch =(value)=>{
-    debugger
-    console.log(value)
   }
   render() {
     const defaultTime = [moment(timeForMats(30).t2), moment(timeForMats(30).t1)]
@@ -80,7 +85,7 @@ class NormalForm extends Component {
                  )}
                </FormItem>
               <FormItem label='用户电话'>
-                 {getFieldDecorator('mobilePhone')(
+                 {getFieldDecorator('mobile')(
                    <Input placeholder="请输入用户电话" autoComplete="off"/>
                  )}
                </FormItem>
@@ -96,7 +101,7 @@ class NormalForm extends Component {
                   )}
                 </FormItem>
                 <FormItem label='订单类型'>
-                   {getFieldDecorator('deliveryType',{
+                   {getFieldDecorator('orderType',{
                       onChange:this.onChange
                    })(
                      <Select
@@ -112,11 +117,11 @@ class NormalForm extends Component {
                    )}
                  </FormItem>
                  <FormItem label='流程状态'>
-                    {getFieldDecorator('deliveryType')(
+                    {getFieldDecorator('orderStatus')(
                       <Select disabled={!typeValue} allowClear={true} placeholder="请选择流程状态">
                         {
                           flowStatus.map((el) => (
-                            <Option value={el.key} key={el.key}>{el.value}</Option>
+                            <Option value={el.orderStatus} key={el.orderStatus}>{el.orderStatusStr}</Option>
                           ))
                         }
                       </Select>

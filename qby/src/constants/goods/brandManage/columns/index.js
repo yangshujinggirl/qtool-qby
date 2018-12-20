@@ -1,10 +1,12 @@
-const Columns = [{
+const Columns1 = [{
      title: '图片',
      dataIndex: 'url',
      render:(text,record)=>{
        const fileDomain = eval(sessionStorage.getItem('fileDomain'));
        return(
-         <img style={{'width':'102px','height':'102px'}} src={fileDomain+text}/>
+         <img
+          style={{'width':'102px','height':'102px'}}
+          src={text ? (fileDomain+text) : require('../../../../assets/img_brandnologo.png')}/>
        )
      }
    },{
@@ -33,4 +35,31 @@ const Columns = [{
        )
      }
  }];
- export default Columns
+ const Columns2 = [{
+      title: '图片',
+      dataIndex: 'url',
+      render:(text,record)=>{
+        const fileDomain = eval(sessionStorage.getItem('fileDomain'));
+        return(
+          <img
+           style={{'width':'102px','height':'102px'}}
+           src={text ? (fileDomain+text) : require('../../../../assets/img_brandnologo.png')}/>
+        )
+      }
+    },{
+      title: '品牌名称',
+      dataIndex: 'name'
+    }, {
+      title: '品牌权重',
+      dataIndex: 'rank'
+    },{
+      title: '品牌状态',
+      dataIndex: 'statusStr'
+    },{
+      title: 'C端品牌馆',
+      dataIndex: 'eventStatusStr'
+    },{
+      title: '创建时间',
+      dataIndex: 'createTime'
+    }];
+ export {Columns1,Columns2} 

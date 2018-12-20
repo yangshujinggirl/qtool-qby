@@ -77,7 +77,7 @@ class BondModal extends Component{
                      required:true,message:"请输入名称，20字以内"
                    }]
                  })(
-                    <Input maxLength='20' placeholder='请输入名称，15字以内' autoComplete='off'/>
+                    <Input maxLength='20' placeholder='请输入名称，20字以内' autoComplete='off'/>
                  )
                }
            </FormItem>
