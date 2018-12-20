@@ -13,13 +13,13 @@ class App extends React.Component {
 			dataIndex: 'name'
 			}, {
 			title: '商品规格',
-			dataIndex: 'specification'
+			dataIndex: 'displayName'
 			},{
 			title: '在售库存',
 			dataIndex: 'qty'
 			},{
-			title: '可售库存',
-			dataIndex: 'wsQty'
+			title: '订单占用库存',
+			dataIndex: 'qtyOnhold'
 			}]
 			this.state = {
 				isinfo:false
@@ -92,15 +92,16 @@ handleEnt=(e)=>{
 							if (json.pdSku.pdType2Val != null) {
 								datasouce.specification = json.pdSku.pdType1Val.name + '/' + json.pdSku.pdType2Val.name;
 							} else {
-							datasouce.specification = json.pdSku.pdType1Val.name
-							}
+								datasouce.specification = json.pdSku.pdType1Val.name
+							};
 						} else if (json.pdSku.pdType2Val != null) {
 							datasouce.specification = json.pdSku.pdType2Val.name
-						}
-					}
-						datasouce.name=json.pdSpu.name//名字
-						datasouce.qty=json.qty//在售
-						datasouce.wsQty=json.wsQty//可售
+						};
+					};
+						datasouce.name=json.pdSpu.name //名字
+						datasouce.qty=json.qty //在售
+						datasouce.qtyOnhold=json.qtyOnhold //占用库存
+						datasouce.displayName=json.displayName //占用库存
 						datasoucedata.push(datasouce)
 						this.props.dispatch({
 							type:'onlineStock/stocktableinfo',

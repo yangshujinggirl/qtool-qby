@@ -1,10 +1,10 @@
 import ajax from '../../utils/req.js'
 
-//用户订单列表
+//c端用户管理列表
 export function getListApi(values) {
   values = JSON.stringify(values)
   return ajax.post('/webrest.htm',{
-      code:'qerp.web.user.st.order.query',
+      code:'qerp.web.ur.user.query.toc',
       data:values
   })
 }

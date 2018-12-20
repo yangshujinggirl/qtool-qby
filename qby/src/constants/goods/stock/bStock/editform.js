@@ -20,6 +20,9 @@ class App extends React.Component {
 			},{
 			title: '可售库存',
 			dataIndex: 'wsQty'
+			},{
+			title: 'C端占用仓库库存',
+			dataIndex: 'qtyOnhold'
 			}]
 			this.state = {
 				isinfo:false
@@ -30,7 +33,7 @@ handleSubmit = (e) => {
 	e.preventDefault();
 	this.props.form.validateFields((err, values) => {
 	if (!err) {
-		const result=GetServerData('qerp.web.pd.inv.changeB',values)
+		const result=GetServerData('qerp.web.pd.inv.change',values)
 		result.then((res) => {
 			return res;
 		}).then((json) => {
@@ -40,7 +43,6 @@ handleSubmit = (e) => {
 				const name=json.pdSpu.name
 				const pdtypes=json.pdSku!=null ? (json.pdSku.pdType2Val == null ? json.pdSku.pdType1Val.name : json.pdSku.pdType1Val.name+json.pdSku.pdType2Val.name) : '';
 				const qty=json.qty
-				debugger
 				const afterQty=json.afterQty
 				message.success('售卖库存修改成功',.8)
 				const changedatasouce=this.props.changedatasouce.slice(0)
@@ -102,6 +104,7 @@ handleEnt=(e)=>{
 						datasouce.name=json.pdSpu.name//名字
 						datasouce.qty=json.qty//在售
 						datasouce.wsQty=json.wsQty//可售
+						datasouce.qtyOnhold=json.qtyOnhold//c端占用库存
 						datasoucedata.push(datasouce)
 						this.props.dispatch({
 							type:'bStock/stocktableinfo',

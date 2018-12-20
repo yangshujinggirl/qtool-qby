@@ -186,7 +186,7 @@ import Withdraw from '../operate/withdraw/index' //提现
 import WithdrawDetails from '../operate/withdraw/WithdrawDetails' //提现详情
 import Banswer from '../operate/bAnswer/index' //b端问答
 import Addanswer from '../operate/bAnswer/addAnswer' //b端问答
-import SellManage from '../operate/sellManage' //b端问答
+import SellManage from '../operate/sellManage' //销售收支管理
 //门店数据
 import DataDistribute from '../datasp/dataspcun/dataDistribution/index'
 //用户中心
@@ -240,8 +240,8 @@ class Content extends React.Component {
                                     case "407000":return <Supplyinout data={this.props.data} componkey={this.props.componkey}/>; //供应商收支列表
                                     case "407000edit":return <BillDetails data={this.props.data} componkey={this.props.componkey}/>; //结算单明细
 
-                                    case "408000":return <Withdraw data={this.props.data} componkey={this.props.componkey}/>; //提现管理
-                                    case "408000info":return <WithdrawDetails data={this.props.data} componkey={this.props.componkey}/>; //提现详情
+                                    case "408100":return <Withdraw data={this.props.data} componkey={this.props.componkey}/>; //提现管理
+                                    case "408100info":return <WithdrawDetails data={this.props.data} componkey={this.props.componkey}/>; //提现详情
 
                                     case "409000":return <Banswer data={this.props.data} componkey={this.props.componkey}/>; //B端问答
                                     case "409000edit":return <Addanswer data={this.props.data} componkey={this.props.componkey}/>; //B端问答

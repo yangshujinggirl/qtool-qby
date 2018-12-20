@@ -5,7 +5,7 @@ import { exportDataApi } from '../../../services/orderCenter/userth/toAudit'
 import Qtable from '../../../components/Qtable/index';
 import Qpagination from '../../../components/Qpagination/index';
 import FilterForm from './FilterForm/index'
-import Columns from './columns/index';
+import {Columns1,Columns2} from './columns/index';
 import moment from 'moment';
 const confirm = Modal.confirm;
 
@@ -109,6 +109,10 @@ class ToAudit extends Component {
     })
   }
   render() {
+    //审核
+		// const onAudit=this.props.data.rolelists.find((currentValue,index)=>{
+		// 	return currentValue.url=="qerp.web.sys.doc.task"
+		// })
     const { dataList=[] } = this.props.toAudit;
     return (
       <div className='qtools-components-pages'>
@@ -116,18 +120,18 @@ class ToAudit extends Component {
           submit={this.searchData}
           onValuesChange = {this.searchDataChange}
         />
-        <Qtable
-          dataSource={dataList}
-          onOperateClick = {this.handleOperateClick.bind(this)}
-          columns = {Columns}/>
         {
-            dataList.length>0?
-            <Qpagination
-              data={this.props.toAudit}
-              onChange={this.changePage}
-              onShowSizeChange = {this.onShowSizeChange}
-            />:null
+          dataList.length>0 &&
+          <Qtable
+            dataSource={dataList}
+            onOperateClick = {this.handleOperateClick.bind(this)}
+            columns = {onAudit?Columns1:Columns2}/>
         }
+        <Qpagination
+          data={this.props.toAudit}
+          onChange={this.changePage}
+          onShowSizeChange = {this.onShowSizeChange}
+        />
       </div>
     )
   }

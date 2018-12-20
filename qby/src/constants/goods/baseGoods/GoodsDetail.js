@@ -96,7 +96,7 @@ const OnLinePartDetail =({pdSpu}) =>(
   <div>
     <FormItem
       label="保税仓库" {...formItemLayout}>
-      <label>{pdSpu.warehouseStr}</label>
+      <label>{pdSpu.pdTaxWarehouse&&pdSpu.pdTaxWarehouse.name}</label>
     </FormItem>
     <FormItem
       label="关税综合税率" {...formItemLayout}>

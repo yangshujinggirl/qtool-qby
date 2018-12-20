@@ -1,7 +1,7 @@
 
 const Columns = [{
      title: '用户id',
-     dataIndex: 'orderNo',
+     dataIndex: 'userId',
      render:(text, record)=>{
        return(
          <div>
@@ -10,28 +10,28 @@ const Columns = [{
        )
      }
    },{
-     title: '昵称',
-     dataIndex: 'spShopName'
+     title: 'Qtools昵称',
+     dataIndex: 'name'
+   },,{
+     title: '微信昵称',
+     dataIndex: 'unionId'
    },{
      title: '手机号',
-     dataIndex: 'platform',
-   },{
-     title: '微信Id',
-     dataIndex: 'delivery',
+     dataIndex: 'mobile',
    },{
      title: '注册时间',
-     dataIndex: 'nickName'
-   }, {
+     dataIndex: 'createTime'
+   },{
      title: '首次绑定手机号时间',
-     dataIndex: 'mobilePhone'
+     dataIndex: 'bindingMobileTime'
    },{
      title: '最近一次消费时间',
-     dataIndex: 'qtySum'
+     dataIndex: 'latelyOrderTime'
    },{
      title: '累积消费金额',
-     dataIndex: 'payAmount'
+     dataIndex: 'amountSum'
    },{
      title: '购买次数',
-     dataIndex: 'discountAmount'
+     dataIndex: 'purchaseTimes'
    }];
    export  default Columns

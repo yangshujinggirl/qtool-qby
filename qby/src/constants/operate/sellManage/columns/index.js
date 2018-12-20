@@ -22,6 +22,14 @@ const Columns = [{
        return deliveryMap[record.deliveryType]
      }
    },{
+     title: '订单状态',
+     dataIndex: 'orderStatusStr',
+     key: 'orderStatusStr',
+   },{
+     title: '费用类型',
+     dataIndex: 'costTypeStr',
+     key: 'costTypeStr',
+   },{
      title: '商品金额',
      dataIndex: 'amountSum',
      key: 'amountSum',

@@ -63,11 +63,6 @@ class Searchform extends React.Component {
                                         <Input placeholder="请输入" autoComplete="off"/>
                                     )}
                                 </FormItem>
-                                <FormItem label='身份证号'>
-                                    {getFieldDecorator('idCardNo')(
-                                        <Input placeholder="请输入" autoComplete="off"/>
-                                    )}
-                                </FormItem>
                                 <FormItem label='手机号'>
                                     {getFieldDecorator('telephoneNo')(
                                         <Input placeholder="请输入" autoComplete="off"/>

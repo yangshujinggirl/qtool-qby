@@ -267,10 +267,10 @@ class AddGoodsForm extends Component {
     if(pane.length<=1){return}
     this.props.dispatch({
       type:'addGoods/resetData'
-    })
+    });
     this.props.dispatch({
-            type:'tab/initDeletestate',
-            payload:key
+      type:'tab/initDeletestate',
+      payload:key
     });
 
   }
@@ -532,9 +532,9 @@ class AddGoodsForm extends Component {
   }
   //比例自定义校验
   validatorShareRatio(rule, value, callback) {
-    if(value>=100) {
+    if(value && value>=100) {
       callback('分成比例不能大于100');
-    } else if(value==0){
+    } else if(value && value==0){
       callback('分成比例不能小于0');
     }else{
       callback();
@@ -777,10 +777,10 @@ class AddGoodsForm extends Component {
                   <FormItem label='保税仓库' {...formItemLayout}>
                      {getFieldDecorator('pdTaxWarehouseId',{
                        rules: [{ required: true, message: '请选择保税仓库'}],
-                       initialValue:pdSpu.pdTaxWarehouseId
+                       initialValue:pdSpu.pdTaxWarehouse && pdSpu.pdTaxWarehouse.pdTaxWarehouseId
                      })(
                        <Select placeholder="请选择" allowClear={false}>
-                         {
+                         {pdTaxWarehouses.length>0 &&
                            pdTaxWarehouses.map((el) => (
                              <Option value={el.pdTaxWarehouseId} key={el.pdTaxWarehouseId}>{el.name}</Option>
                            ))

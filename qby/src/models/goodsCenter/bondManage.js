@@ -3,7 +3,7 @@ import { getListApi } from '../../services/goodsCenter/bondManage'
 export default{
   namespace:'bondManage',
   state:{
-    dataList:null,
+    dataList:[],
     currentPage:null,
     limit:null,
     total:null

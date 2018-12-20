@@ -152,40 +152,47 @@ class BtipGoods extends Component {
         this.getLog(record)
         break;
       case "sell":
-        this.setState({tips:'t1'})
+        this.setState({
+          handleContent:{tips:'t1'}
+        })
         this.sellAndSaleStop([record.pdSpuId],10)
         break;
       case "saleStop":
-        this.setState({tips:'t2'})
+        this.setState({
+          handleContent:{tips:'t2'}
+        })
         this.sellAndSaleStop([record.pdSpuId],20)
         break;
     }
   }
   //请求成功后统一处理
   successHandel() {
-    message.success(SuccessTips[this.state.tips],1)
+    // message.success(SuccessTips[this.state.tips],1)
+    const {limit,currentPage} = this.props.productGoodsList.dataPag
     //在当前页刷新
     this.props.dispatch({
       type:'productGoodsList/fetchList',
       payload:{
-        currentPage:this.props.productGoodsList.currentPage
+        ...this.state.fields,
+        limit,
+        currentPage
       }
     })
   }
   //售卖，停售
-  sellAndSaleStop(ids,val) {
-    const params = {
-      status:val,
-      pdSpuIds:ids
-    }
-    handleSellApi(params)
-    .then(res => {
-      const { code } =res;
-      if(code == '0') {
-        this.successHandel()
-      }
-    })
-  }
+  // sellAndSaleStop(ids,val) {
+  //   const params = {
+  //     status:val,
+  //     pdSpuIds:ids
+  //   }
+  //   handleSellApi(params)
+  //   .then(res => {
+  //     const { code } =res;
+  //     if(code == '0') {
+  //       this.successHandel()
+  //     }
+  //   })
+  // }
   //详情
   getDetail(record) {
     const paneitem={
@@ -358,19 +365,6 @@ class BtipGoods extends Component {
       });
     })
   }
-  //请求成功后统一处理
-  successHandel() {
-    const {limit,currentPage} = this.props.productGoodsList.dataPag
-    //在当前页刷新
-    this.props.dispatch({
-      type:'productGoodsList/fetchList',
-      payload:{
-        ...this.state.fields,
-        limit,
-        currentPage
-      }
-    })
-  }
   //多选
   onCheckBoxChange(record) {
     this.props.dispatch({
@@ -379,6 +373,18 @@ class BtipGoods extends Component {
     })
   }
   render() {
+    //批量上下线
+    const isSell=this.props.data.rolelists.find((currentValue,index)=>{
+			return currentValue.url=="qerp.web.pd.spu.status"
+		})
+    //批量New
+    const isNew=this.props.data.rolelists.find((currentValue,index)=>{
+			return currentValue.url=="qerp.web.pd.ospu.statusnew"
+		})
+    //批量Hot
+    const isHot=this.props.data.rolelists.find((currentValue,index)=>{
+      return currentValue.url=="qerp.web.pd.ospu.statushot"
+    })
     const { dataList, authorityList, dataPag } = this.props.productGoodsList;
     const {
       fields,
@@ -397,20 +403,27 @@ class BtipGoods extends Component {
             authorityList.authorityExport&&
             <Button size="large" type="primary" onClick={()=>this.exportData()}>导出数据</Button>
           }
+          {
+            isSell &&
             <span>
               <Button size="large" type="primary" onClick={()=>this.massOperation('sell',10)}>批量上线</Button>
               <Button size="large" type="primary" onClick={()=>this.massOperation('sell',20)}>批量下线</Button>
             </span>
-
+          }
+          {
+            isNew &&
             <span>
               <Button size="large" type="primary" onClick={()=>this.massOperation('new',true)}>批量NEW</Button>
               <Button size="large" type="primary" onClick={()=>this.massOperation('new',false)}>批量下NEW</Button>
             </span>
-
+          }
+          {
+            isHot &&
             <span>
               <Button size="large" type="primary" onClick={()=>this.massOperation('hot',true)}>批量HOT</Button>
               <Button size="large" type="primary" onClick={()=>this.massOperation('hot',false)}>批量下HOT</Button>
             </span>
+          }
         </div>
         <GoodsList
           list={dataList}

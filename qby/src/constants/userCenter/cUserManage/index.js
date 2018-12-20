@@ -5,6 +5,7 @@ import Qtable from '../../../components/Qtable/index';
 import Qpagination from '../../../components/Qpagination/index';
 import FilterForm from './FilterForm/index'
 import Columns from './columns/index';
+import {timeForMats} from '../../../utils/meth';
 import moment from 'moment';
 const confirm = Modal.confirm;
 
@@ -13,24 +14,35 @@ class UserManage extends Component {
     super(props);
     this.state = {
       fields:{
-        spShopName:'',
-        orderNo:'',
-        pdSpuName:'',
-        code:'',
-        mobilePhone:'',
-        orderStatus:'',
-        platform:'',
-        deliveryType:'',
-        rangePicker:'',
+        userId:'',
+        mobile:'',
+        name:'',
+        unionId:'',
+        createTimeST:'',
+        createTimeET:'',
       },
     }
   }
   componentWillMount() {
-    this.props.dispatch({
-        type:'cUserManage/fetchList',
-        payload:{}
-    });
+    this.getNowFormatDate();
   }
+  getNowFormatDate = () => {
+   const startRpDate=timeForMats(30).t2;
+   const endRpDate=timeForMats(30).t1;
+   const {fields} = this.state;
+   this.setState({
+     fields:{
+       ...fields,
+       createTimeST:startRpDate,
+       createTimeET:endRpDate,
+       }
+     },function(){
+       this.searchData({
+         createTimeST:startRpDate,
+         createTimeET:endRpDate
+       });
+   })
+ }
   //操作
   handleOperateClick(record) {
     const paneitem = {
@@ -83,17 +95,20 @@ class UserManage extends Component {
           {...this.state.fields}
           submit={this.searchData}
           onValuesChange = {this.searchDataChange}/>
-        <Qtable
-          dataSource={dataList}
-          onOperateClick = {this.handleOperateClick.bind(this)}
-          columns = {Columns}/>
         {
-            dataList.length>0?
-            <Qpagination
-              data={this.props.cUserManage}
-              onChange={this.changePage}
-              onShowSizeChange = {this.onShowSizeChange}
-            />:null
+          dataList.length>0 &&
+          <Qtable
+            dataSource={dataList}
+            onOperateClick = {this.handleOperateClick.bind(this)}
+            columns = {Columns}/>
+        }
+        {
+          dataList.length>0?
+          <Qpagination
+            data={this.props.cUserManage}
+            onChange={this.changePage}
+            onShowSizeChange = {this.onShowSizeChange}
+          />:null
         }
       </div>
     )

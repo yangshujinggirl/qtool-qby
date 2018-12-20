@@ -3,7 +3,7 @@ import { goodsInfoApi } from '../../../services/goodsCenter/baseGoods';
 export default {
   namespace:'baseGoodsDetail',
   state: {
-    pdSpu:{isSkus:false},
+    pdSpu:{isSkus:false,pdTaxWarehouse:{pdTaxWarehouseId:'',name:''}},
     pdSkus:[],
     fileList:[]
   },

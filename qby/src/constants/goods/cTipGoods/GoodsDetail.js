@@ -91,7 +91,12 @@ class GoodsDetail extends Component {
             <label>{pdSpu.eventHotc?'是':'否'}</label>
           </FormItem>
           <FormItem label="商品说明" {...formItemLayout}>
-            <label>{pdSpu.eventHotc?'是':'否'}</label>
+            {
+              pdSpu.pdExplain && pdSpu.pdExplain.map(item=>(
+                <p>{item.name}</p>
+              ))
+            }
+            <div></div>
           </FormItem>
           <FormItem label="商品描述" {...formItemLayout}>
             <ul className="goods-desc-wrap">

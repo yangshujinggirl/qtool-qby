@@ -221,8 +221,16 @@ class Allth extends Component {
     })
   }
   render() {
-    // //导出数据按钮是否显示
-		// const exportUserorderData=this.props.data.rolelists.find((currentValue,index)=>{
+    // //创建退单
+		// const createChargeBack=this.props.data.rolelists.find((currentValue,index)=>{
+		// 	return currentValue.url=="qerp.web.sys.doc.task"
+		// })
+    // //确认收货
+    // const makeSureGet=this.props.data.rolelists.find((currentValue,index)=>{
+		// 	return currentValue.url=="qerp.web.sys.doc.task"
+		// })
+    // //强制取消
+    // const forceCancel=this.props.data.rolelists.find((currentValue,index)=>{
 		// 	return currentValue.url=="qerp.web.sys.doc.task"
 		// })
     const { dataList=[] } = this.props.allth;
@@ -257,21 +265,21 @@ class Allth extends Component {
             >强制取消
             </Button>
         </div>
-        <Qtable
-          dataSource={dataList}
-          onOperateClick = {this.handleOperateClick.bind(this)}
-          columns = {Columns}
-          select
-          rowSelection = {this.state.rowSelection}
-          />
         {
-            dataList.length>0?
-            <Qpagination
-              data={this.props.allth}
-              onChange={this.changePage}
-              onShowSizeChange = {this.onShowSizeChange}
-            />:null
+          dataList.length>0 &&
+          <Qtable
+            dataSource={dataList}
+            onOperateClick = {this.handleOperateClick.bind(this)}
+            columns = {Columns}
+            select
+            rowSelection = {this.state.rowSelection}
+            />
         }
+        <Qpagination
+          data={this.props.allth}
+          onChange={this.changePage}
+          onShowSizeChange = {this.onShowSizeChange}
+        />
       </div>
     )
   }

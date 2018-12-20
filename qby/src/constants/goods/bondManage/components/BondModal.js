@@ -25,6 +25,7 @@ class BondModal extends Component{
   render(){
     const { getFieldDecorator } = this.props.form;
     const {title,visible,name,cname,dispExp,pushPlatform,status} = this.props;
+    console.log(status)
     console.log(typeof(pushPlatform) )
     return(
       <div>
@@ -103,7 +104,7 @@ class BondModal extends Component{
              labelCol={{ span: 5 }}
              wrapperCol={{ span: 12 }}>
              {getFieldDecorator('status',{
-               initialValue:status?status:null,
+               initialValue:typeof(status)=='number'?status:null,
                rules:[{required:true,message:'请选择状态'}],
              })(
                <Select allowClear={true} placeholder="请选择状态" className='select'>

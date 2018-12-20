@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button, message} from 'antd'
 import { connect } from 'dva'
-import Columns from './columns/index'
+import {Columns1,Columns2} from './columns/index'
 import Qtable from '../../../components/Qtable/index'; //表单
 import Qpagination from '../../../components/Qpagination/index'; //分页
 import FilterForm from './FilterForm/index'
@@ -127,6 +127,10 @@ class Cexplain extends Component{
     })
   }
   render(){
+    //增改说明
+    const changeAddExplain = this.props.data.rolelists.find((currentValue,index)=>{
+      return currentValue.url=="qerp.web.pd.brand.explaination.list"
+    });
     const {dataList} = this.props.cExplain;
     const {visible,title,name,text,rank,status} = this.state;
     return(
@@ -136,31 +140,37 @@ class Cexplain extends Component{
           onValuesChange = {this.searchDataChange}
         />
         <div className='handel-btn-lists'>
-              <Button
-                type='primary'
-                size='large'
-                onClick={()=>this.addExplain()}
-              >新增说明
-              </Button>
-          </div>
+          {
+            changeAddExplain &&
+            <Button
+              type='primary'
+              size='large'
+              onClick={()=>this.addExplain()}
+            >新增说明
+            </Button>
+          }
+        </div>
+        {
+          dataList.length>0 &&
           <Qtable
             dataSource = {dataList}
-            columns = {Columns}
+            columns = {changeAddExplain ? Columns1 : Columns2}
             onOperateClick = {this.handleOperateClick}
           />
-          <Qpagination
-            data={this.props.cExplain}
-            onChange={this.changePage}/>
-          <ExplainModal
-            title={title}
-            visible={visible}
-            name={name}
-            text={text}
-            rank={rank}
-            status={status}
-            onOk={this.onOk}
-            onCancel={this.onCancel}
-          />
+        }
+        <Qpagination
+          data={this.props.cExplain}
+          onChange={this.changePage}/>
+        <ExplainModal
+          title={title}
+          visible={visible}
+          name={name}
+          text={text}
+          rank={rank}
+          status={status}
+          onOk={this.onOk}
+          onCancel={this.onCancel}
+        />
       </div>
     )
   }

@@ -6,6 +6,7 @@ import Qtable from '../../../components/Qtable';
 import Qpagination from '../../../components/Qpagination';
 import FilterForm from './components/FilterForm';
 import columns from './columns';
+import {timeForMats} from '../../../utils/meth';
 import { exportDataApi } from '../../../services/orderCenter/userOrders'
 
 import './index.less';
@@ -19,17 +20,34 @@ class SellManage extends Component {
       fields: {
          spShopName:'',
          deliveryType:'',
-         time:'',
+         dateTimeST:'',
+         dateTimeET:'',
+         orderStatus:'',
+         costType:'',
+         rangePicker:'',
        },
     }
   }
   componentDidMount() {
-    this.props.dispatch({
-      type:'sellManage/fetchList',
-      payload:{}
-    })
+    this.getNowFormatDate()
   }
-
+  getNowFormatDate = () => {
+   const startRpDate=timeForMats(30).t2;
+   const endRpDate=timeForMats(30).t1;
+   const {fields} = this.state;
+   this.setState({
+     fields:{
+       ...fields,
+       dateTimeST:startRpDate,
+       dateTimeET:endRpDate,
+       }
+     },function(){
+       this.searchData({
+         dateTimeST:startRpDate,
+         dateTimeET:endRpDate
+       });
+   })
+  }
   //双向绑定表单
   handleFormChange = (changedFields) => {
     this.setState(({ fields }) => ({
@@ -62,10 +80,10 @@ class SellManage extends Component {
   }
   //导出数据
   exportData =()=> {
-    let { time, ...params} = this.state.fields;
-    if(time&&time.length>0) {
-      params.dateTimeST = moment(time[0]).format('YYYY-MM-DD HH:mm:ss');
-      params.dateTimeET = moment(time[1]).format('YYYY-MM-DD HH:mm:ss');
+    let { rangePicker, ...params} = this.state.fields;
+    if(rangePicker&&rangePicker.length>0) {
+      params.dateTimeST = moment(rangePicker[0]).format('YYYY-MM-DD HH:mm:ss');
+      params.dateTimeET = moment(rangePicker[1]).format('YYYY-MM-DD HH:mm:ss');
     }
     const values ={type:78,downloadParam:{...params}}
     exportDataApi(values)
@@ -110,6 +128,10 @@ class SellManage extends Component {
     })
   }
   render() {
+    //导出数据按钮是否显示
+		const exportSellorderData=this.props.data.rolelists.find((currentValue,index)=>{
+			return currentValue.url=="qerp.web.sys.doc.task"
+		})
     const { fields } =this.state;
     const { data, list } =this.props.sellManage;
     let content=(
@@ -117,6 +139,10 @@ class SellManage extends Component {
         <p className="label">1、若配送方式为：门店自提<span className="field">销售收款【结算金额】：商品金额*0.994</span></p>
         <p className="label">2、若配送方式为：同城配送<span className="field">销售收款【结算金额】：（商品金额+用户支付配送费）*0.994-顺丰返回实际费用</span></p>
         <p className="label">3、若配送方式为：快递邮寄<span className="field">销售收款【结算金额】：（商品金额+用户支付快递费）*0.994</span></p>
+        <p className="label">【销售退款】</p>
+        <p className="label">1、若配送方式为：门店自提<span className="field">销售退款【结算金额】：退款商品金额之和*0.994</span></p>
+        <p className="label">2、若配送方式为：同城配送<span className="field">销售收款【结算金额】：退款商品金额之和*0.994</span></p>
+        <p className="label">3、若配送方式为：快递邮寄<span className="field">销售收款【结算金额】：退款商品金额之和*0.994</span></p>
       </div>
     )
     return(
@@ -126,10 +152,13 @@ class SellManage extends Component {
           submit={this.searchData}
           onValuesChange={this.handleFormChange}/>
           <div className="handel-action">
-            <Button
-              size="large"
-              type="primary"
-              onClick={()=>this.exportData()}>导出数据</Button>
+            {
+              exportSellorderData &&
+              <Button
+                size="large"
+                type="primary"
+                onClick={()=>this.exportData()}>导出数据</Button>
+            }
             <div className="rules">
               <Popover content={content} title="销售收款计算规则" trigger="hover" placement="leftTop">
                 <div>销售收款计算规则<Icon type="question" /></div>

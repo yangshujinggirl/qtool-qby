@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button, message} from 'antd'
 import { connect } from 'dva'
-import Columns from './columns/index'
+import {Columns1,Columns2} from './columns/index'
 import Qtable from '../../../components/Qtable/index'; //表单
 import Qpagination from '../../../components/Qpagination/index'; //分页
 import FilterForm from './FilterForm/index'
@@ -132,9 +132,12 @@ class BondManage extends Component{
     })
   }
   render(){
+    //增改仓库
+    const  changeAddWarehouse= this.props.data.rolelists.find((currentValue,index)=>{
+      return currentValue.url=="qerp.web.pd.taxWarehouse.save"
+    });
     const {dataList} = this.props.bondManage;
     const {visible,title,name,cname,dispExp,pushPlatform,status} = this.state;
-    console.log(pushPlatform)
     return(
       <div className="qtools-components-pages">
         <FilterForm
@@ -142,32 +145,38 @@ class BondManage extends Component{
           onValuesChange = {this.searchDataChange}
         />
         <div className='handel-btn-lists'>
-              <Button
-                type='primary'
-                size='large'
-                onClick={()=>this.addWarehouse()}
-              >新增仓库
-              </Button>
-          </div>
+          {
+            changeAddWarehouse &&
+            <Button
+              type='primary'
+              size='large'
+              onClick={()=>this.addWarehouse()}
+            >新增仓库
+            </Button>
+          }
+        </div>
+        {
+          dataList.length>0 &&
           <Qtable
             dataSource = {dataList}
-            columns = {Columns}
+            columns = {changeAddWarehouse?Columns1:Columns2}
             onOperateClick = {this.handleOperateClick}
           />
-          <Qpagination
-            data={this.props.bondManage}
-            onChange={this.changePage}/>
-          <BondModal
-            title={title}
-            visible={visible}
-            onOk={this.onOk}
-            onCancel={this.onCancel}
-            name={name}
-            cname={cname}
-            dispExp={dispExp}
-            pushPlatform={pushPlatform}
-            status={status}
-          />
+        }
+        <Qpagination
+          data={this.props.bondManage}
+          onChange={this.changePage}/>
+        <BondModal
+          title={title}
+          visible={visible}
+          onOk={this.onOk}
+          onCancel={this.onCancel}
+          name={name}
+          cname={cname}
+          dispExp={dispExp}
+          pushPlatform={pushPlatform}
+          status={status}
+        />
       </div>
     )
   }

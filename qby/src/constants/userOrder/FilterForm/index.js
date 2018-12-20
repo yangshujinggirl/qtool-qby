@@ -30,7 +30,12 @@ class NormalForm extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
-      this.props.submit && this.props.submit(values);
+      const{rangePicker,..._values} = values;
+      if(rangePicker&&rangePicker[0]){
+        _values.dateTimeST =  moment(rangePicker[0]).format('YYYY-MM-DD HH:mm:ss');
+        _values.dateTimeET = moment(rangePicker[1]).format('YYYY-MM-DD HH:mm:ss');
+      }
+      this.props.submit && this.props.submit(_values);
     });
   }
   onChange=(value)=>{

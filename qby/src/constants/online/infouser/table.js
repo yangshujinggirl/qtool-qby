@@ -7,15 +7,11 @@ class SearchTable extends React.Component {
             {
                 title: '用户姓名',
                 dataIndex: 'userName'
-            }, 
-            {
-                title: '身份证号',
-                dataIndex: 'idCardNo'
             },
             {
                 title: '手机号',
                 dataIndex: 'telephoneNo'
-            }, 
+            },
             {
                 title: '消费次数',
                 dataIndex: 'consumeCounts'
@@ -23,7 +19,7 @@ class SearchTable extends React.Component {
             {
                 title: '消费金额',
                 dataIndex: 'consumeSumAmount'
-            }, 
+            },
             {
                 title: '初次消费时间',
                 dataIndex: 'firstCosumeTime'
@@ -34,7 +30,7 @@ class SearchTable extends React.Component {
             }
         ];
     }
- 
+
     //分页方法
     pageChange=(page,pageSize)=>{
         this.props.getPageSizeDate(pageSize,Number(page-1))
@@ -45,9 +41,9 @@ class SearchTable extends React.Component {
     }
     render() {
         return (
-            <EditableTable 
-                dataSource={this.props.datasouce} 
-                columns={this.columns} 
+            <EditableTable
+                dataSource={this.props.datasouce}
+                columns={this.columns}
                 bordered={true}
                 footer={true}
                 pageChange={this.pageChange.bind(this)}
@@ -61,6 +57,3 @@ class SearchTable extends React.Component {
 }
 
 export default SearchTable;
- 
-
-

@@ -3,7 +3,7 @@ import { getListApi } from '../../services/goodsCenter/cExplain'
 export default{
   namespace:'cExplain',
   state:{
-    dataList:null,
+    dataList:[],
     currentPage:null,
     limit:null,
     total:null

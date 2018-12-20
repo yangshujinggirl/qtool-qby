@@ -7,11 +7,11 @@ class Uploadimg extends Component {
   beforeUpload =(file)=> {
     const isJPG = file.type === 'image/jpeg'||'image.png';
     if (!isJPG) {
-      message.error('You can only upload JPG file!');
+      message.error('仅支持jpg/jpeg/png格式',.8);
     }
     const isLt2M = file.size / 1024 / 1024 < 2;
     if (!isLt2M) {
-      message.error('Image must smaller than 2MB!');
+      message.error('上传内容大于2M，请选择2M以内的文件',.8);
     }
     return isJPG && isLt2M;
   }
