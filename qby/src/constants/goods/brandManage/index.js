@@ -165,15 +165,11 @@ class Brand extends Component{
             </Button>
           }
         </div>
-        {
-          dataSource.length>0 &&
-          <Qtable
-            dataSource = {dataList}
-            columns = {changeAddBrand?Columns1:Columns2}
-            onOperateClick = {this.handleOperateClick}
-          />
-        }
-
+        <Qtable
+          dataSource = {dataList}
+          columns = {changeAddBrand?Columns1:Columns2}
+          onOperateClick = {this.handleOperateClick}
+        />
         <Qpagination
           onShowSizeChange = {this.onShowSizeChange}
           data={this.props.brand}

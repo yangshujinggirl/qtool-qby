@@ -62,8 +62,6 @@ class UserOrder extends Component {
         data:{
           record:record,
           id:record.orderId,
-          editorder:this.props.editorder,
-          postgood:this.props.postgood
         },
         componkey:'801000info'
       }
@@ -77,7 +75,6 @@ class UserOrder extends Component {
         }
       };
     }
-
     this.props.dispatch({
       type:'tab/firstAddTab',
       payload:paneitem
@@ -146,7 +143,6 @@ class UserOrder extends Component {
     })
   }
   render() {
-    console.log(this.props)
     //导出数据按钮是否显示
 		const exportUserorderData=this.props.data.rolelists.find((currentValue,index)=>{
 			return currentValue.url=="qerp.web.sys.doc.task"
@@ -189,7 +185,7 @@ class UserOrder extends Component {
 }
 
 function mapStateToProps(state) {
-  const { userorders,} = state;
+  const { userorders} = state;
   return {userorders};
 }
 

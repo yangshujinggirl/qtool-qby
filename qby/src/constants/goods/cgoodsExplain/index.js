@@ -150,14 +150,11 @@ class Cexplain extends Component{
             </Button>
           }
         </div>
-        {
-          dataList.length>0 &&
-          <Qtable
-            dataSource = {dataList}
-            columns = {changeAddExplain ? Columns1 : Columns2}
-            onOperateClick = {this.handleOperateClick}
-          />
-        }
+        <Qtable
+          dataSource = {dataList}
+          columns = {changeAddExplain ? Columns1 : Columns2}
+          onOperateClick = {this.handleOperateClick}
+        />
         <Qpagination
           data={this.props.cExplain}
           onChange={this.changePage}/>

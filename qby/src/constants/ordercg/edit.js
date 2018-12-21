@@ -257,9 +257,9 @@ class OrdercgEditForm extends React.Component{
 	}
 
 	render(){
-		console.log(this.props.editInfo)
 		const { getFieldDecorator } = this.props.form;
 		const { selectedSuppler } = this.state;
+		console.log(selectedSuppler)
 		const isChange = Boolean(this.props.data&&this.props.data.wsAsnId) //是否为修改
      	return(
 				<div>
@@ -419,7 +419,7 @@ class OrdercgEditForm extends React.Component{
 								rules: [{ required: true, message: '请输入是否含税' }],
 								initialValue:isChange
 								?	String(this.props.editInfo.taxRate)
-								:	selectedSuppler[0].taxRate
+								:	(selectedSuppler[0].taxRate?selectedSuppler[0].taxRate:'不含税')
 							})(
 								<Input  disabled placeholder='请输入含税税率' autoComplete="off"/>
 							)}

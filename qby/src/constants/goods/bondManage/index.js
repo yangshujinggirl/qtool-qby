@@ -155,14 +155,11 @@ class BondManage extends Component{
             </Button>
           }
         </div>
-        {
-          dataList.length>0 &&
-          <Qtable
-            dataSource = {dataList}
-            columns = {changeAddWarehouse?Columns1:Columns2}
-            onOperateClick = {this.handleOperateClick}
-          />
-        }
+        <Qtable
+          dataSource = {dataList}
+          columns = {changeAddWarehouse?Columns1:Columns2}
+          onOperateClick = {this.handleOperateClick}
+        />
         <Qpagination
           data={this.props.bondManage}
           onChange={this.changePage}/>

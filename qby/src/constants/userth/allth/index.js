@@ -21,13 +21,13 @@ class Allth extends Component {
       },
       field:{
         orderReturnNo:'',
-        orderNum:'',
+        orderNo:'',
         returnWay:'',
         returnStatus:'',
         returnType:'',
-        userPhone:'',
-        createTimeST:'',
-        createTimeET:'',
+        userMoblie:'',
+        startDate:'',
+        endDate:'',
       },
     }
   }
@@ -41,13 +41,13 @@ class Allth extends Component {
    this.setState({
      field:{
        ...field,
-       createTimeST:startRpDate,
-       createTimeET:endRpDate,
-       }
-     },function(){
+       startDate:startRpDate,
+       endDate:endRpDate,
+     }
+   },function(){
        this.searchData({
-         createTimeST:startRpDate,
-         createTimeET:endRpDate
+         startDate:startRpDate,
+         endDate:endRpDate
        });
    })
  }
@@ -117,8 +117,8 @@ class Allth extends Component {
   searchDataChange =(values)=> {
     const {rangePicker,..._values} = values;
     if(rangePicker&&rangePicker[0]){
-      _values.createTimeST =  moment(rangePicker[0]).format('YYYY-MM-DD HH:mm:ss');
-      _values.createTimeET = moment(rangePicker[1]).format('YYYY-MM-DD HH:mm:ss');
+      _values.startDate =  moment(rangePicker[0]).format('YYYY-MM-DD HH:mm:ss');
+      _values.endDate = moment(rangePicker[1]).format('YYYY-MM-DD HH:mm:ss');
     }
     this.setState({field:_values});
   }

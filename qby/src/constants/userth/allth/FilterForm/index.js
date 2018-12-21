@@ -24,8 +24,8 @@ class NormalForm extends Component {
     this.props.form.validateFieldsAndScroll((err, values) => {
       const { rangePicker, ..._values } = values;
       if(rangePicker&&rangePicker[0]){
-        _values.createTimeST =  moment(rangePicker[0]).format('YYYY-MM-DD HH:mm:ss');
-        _values.createTimeET =  moment(rangePicker[1]).format('YYYY-MM-DD HH:mm:ss');
+        _values.startDate =  moment(rangePicker[0]).format('YYYY-MM-DD HH:mm:ss');
+        _values.endDate =  moment(rangePicker[1]).format('YYYY-MM-DD HH:mm:ss');
       }
       this.props.submit && this.props.submit(_values);
     });
@@ -45,40 +45,40 @@ class NormalForm extends Component {
                  )}
                </FormItem>
               <FormItem label='用户订单'>
-                 {getFieldDecorator('orderNum')(
+                 {getFieldDecorator('orderNo')(
                    <Input placeholder="请输入用户订单" autoComplete="off"/>
                  )}
                </FormItem>
                <FormItem label='退款类型'>
                   {getFieldDecorator('returnType')(
                     <Select allowClear={true} placeholder="请选择退款类型">
-                        <Option value={0}>售中退款</Option>
-                        <Option value={1}>售后退款</Option>
+                        <Option value={1}>售中退款</Option>
+                        <Option value={2}>售后退款</Option>
                     </Select>
                   )}
                 </FormItem>
               <FormItem label='退款方式'>
                  {getFieldDecorator('returnWay')(
                    <Select allowClear={true} placeholder="请选择流程状态">
-                     <Option value={0}>仅退款</Option>
-                     <Option value={1}>退货退款</Option>
+                     <Option value={1}>仅退款</Option>
+                     <Option value={2}>退货退款</Option>
                    </Select>
                  )}
                </FormItem>
                <FormItem label='退款状态'>
                   {getFieldDecorator('returnStatus')(
                     <Select allowClear={true} placeholder="请选择流程状态">
-                      <Option value={1}>待审核</Option>
-                      <Option value={2}>待收货</Option>
-                      <Option value={3}>处理中</Option>
-                      <Option value={4}>已退款</Option>
-                      <Option value={5}>已取消</Option>
-                      <Option value={6}>已拒绝</Option>
+                      <Option value={10}>待审核</Option>
+                      <Option value={50}>待收货</Option>
+                      <Option value={60}>处理中</Option>
+                      <Option value={70}>已退款</Option>
+                      <Option value={40}>已取消</Option>
+                      <Option value={30}>已拒绝</Option>
                     </Select>
                   )}
                 </FormItem>
               <FormItem label='用户电话'>
-                 {getFieldDecorator('userPhone')(
+                 {getFieldDecorator('userMoblie')(
                    <Input placeholder="请输入用户电话" autoComplete="off"/>
                  )}
                </FormItem>

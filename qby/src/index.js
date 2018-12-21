@@ -28,6 +28,7 @@ import allth from './models/orderCenter/userth/allth';//所有退单
 import toAudit from './models/orderCenter/userth/toAudit';//待运营审核订单
 import account from "./models/account"
 import downlaod from "./models/downlaod"
+import orderuser from './models/online/orderuser/index' //online用户订单
 //数据中心
 import dataposorder from "./models/dataposorder"
 import datasporder from "./models/datasporder"
@@ -197,7 +198,8 @@ const models = [
   cServerOrder,
   shareRate,
   shareTotal,
-  shareMail
+  shareMail,
+  orderuser
 ]
 models.forEach(m => {
   return app.model(m)

@@ -15,6 +15,14 @@ class OrderuserIndex extends React.Component{
         selectedRowKeys:[],
         selectedRows:[]
     };
+    componentDidMount(){
+      const {rolelists} = this.props.data
+      //权限
+      this.props.dispatch({
+        type:'orderuser/setAuthority',
+        payload: rolelists
+      });
+    }
     //导出数据
 	exportData = (type,data) => {
 		const values={
@@ -85,8 +93,8 @@ class OrderuserIndex extends React.Component{
     //重新推送
     postMessage=()=>{
         if (this.state.selectedRows.length < 1) {
-			message.error('请选择用户订单',.8)
-			return;
+    			message.error('请选择用户订单',.8)
+    			return;
         }
         const ecOrderIds=[]
         for(var i=0;i<this.state.selectedRows.length;i++){
@@ -109,8 +117,8 @@ class OrderuserIndex extends React.Component{
     //重新匹配商品
     matchOrder=()=>{
         if (this.state.selectedRows.length < 1) {
-			message.error('请选择用户订单',.8)
-			return;
+    			message.error('请选择用户订单',.8)
+    			return;
         }
         const ecOrderIds=[]
         for(var i=0;i<this.state.selectedRows.length;i++){
@@ -139,27 +147,27 @@ class OrderuserIndex extends React.Component{
     }
 
   	render(){
-    const rolelists=this.props.data.rolelists
-		//重新推送
-		const addorder=rolelists.find((currentValue,index)=>{
-			return currentValue.url=="qerp.web.ec.pd.spulog.list"
-		})
-		//导出数据
-		const expontdata=rolelists.find((currentValue,index)=>{
-			return currentValue.url=="qerp.web.sys.doc.task"
-		})
-		//重新匹配商品
-		const repigood=rolelists.find((currentValue,index)=>{
-			return currentValue.url=="qerp.web.ec.pd.userOrder.reMatch"
-        })
-    //修改订单
-    const editorder=rolelists.find((currentValue,index)=>{
-	       return currentValue.url=="qerp.web.ec.pd.userOrder.save"
-    })
-    //发货
-    const postgood=rolelists.find((currentValue,index)=>{
-	     return currentValue.url=="qerp.web.ec.express.hk.save"
-    })
+      const rolelists=this.props.data.rolelists
+  		//重新推送
+  		const addorder=rolelists.find((currentValue,index)=>{
+  			return currentValue.url=="qerp.web.ec.pd.spulog.list"
+  		})
+  		//导出数据
+  		const expontdata=rolelists.find((currentValue,index)=>{
+  			return currentValue.url=="qerp.web.sys.doc.task"
+  		})
+  		//重新匹配商品
+  		const repigood=rolelists.find((currentValue,index)=>{
+  		    return currentValue.url=="qerp.web.ec.pd.userOrder.reMatch"
+      })
+      //修改订单
+      const editorder=rolelists.find((currentValue,index)=>{
+         return currentValue.url=="qerp.web.ec.pd.userOrder.save"
+      })
+      //发货
+      const postgood=rolelists.find((currentValue,index)=>{
+  	     return currentValue.url=="qerp.web.ec.express.hk.save"
+      })
    	return(
         	<div className='content_box'>
                 <SearchForm  hindFormSearch={this.hindSearch.bind(this)}/>
@@ -201,9 +209,6 @@ class OrderuserIndex extends React.Component{
                 :null
 
                 }
-
-
-
                 <div className='mt15'>
                     <SearchTable
                         getPageSizeDate={this.getPageSize.bind(this)}
@@ -213,8 +218,6 @@ class OrderuserIndex extends React.Component{
                         datasouce={this.state.datasouce}
                         getSelectDate={this.getSelectDate.bind(this)}
                         selectedRowKeys={this.state.selectedRowKeys}
-                        editorder={editorder}
-                        postgood={postgood}
                         addorder={addorder}
                         repigood={repigood}
                     />
@@ -223,5 +226,8 @@ class OrderuserIndex extends React.Component{
       	)
 	}
 }
-
-export default connect()(OrderuserIndex);
+function mapStateToProps(state) {
+  const { orderuser} = state;
+  return {orderuser};
+}
+export default connect(OrderuserIndex)(mapStateToProps);

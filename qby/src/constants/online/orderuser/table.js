@@ -10,10 +10,10 @@ class SearchTable extends React.Component {
                 title: '订单号',
                 dataIndex: 'orderNo',
                 render: (text, record) => {
-					return (
-						<TableLink text={text} hindClick={this.lookInfo.bind(this,record)} type='1'/>
-					);
-				}
+									return (
+										<TableLink text={text} hindClick={this.lookInfo.bind(this,record)} type='1'/>
+									);
+								}
             },
             {
                 title: '有赞订单号',
@@ -53,7 +53,7 @@ class SearchTable extends React.Component {
     //跳转到详情页面
     lookInfo=(record)=>{
         const id=String(record.ecOrderId);
-        const paneitem={title:'订单详情',key:'801000edit'+id+'info',data:{record:record,id:id,editorder:this.props.editorder,postgood:this.props.postgood},componkey:'801000info'}
+        const paneitem={title:'订单详情',key:'801000edit'+id+'info',data:{record:record,id:id},componkey:'801000info'}
         this.props.dispatch({
             type:'tab/firstAddTab',
             payload:paneitem

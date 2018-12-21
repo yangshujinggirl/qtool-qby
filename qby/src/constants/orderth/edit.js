@@ -65,12 +65,14 @@ class OrderthEditForm extends React.Component{
 	handleSubmit = (e) => {
 		e.preventDefault();
 		this.props.form.validateFields((err, values) => {
+			console.log(this.props.formValue)
 		    if (!err) {
 				let data = values;
 				data.expectedTime = this.props.formValue.expectedTime;
 				data.type = '20';
 				data.details = this.props.goodsInfo;
 				data.spOrderId = this.props.formValue.spOrderId;
+				data.spShopId = this.props.formValue.spShopId;
         if(this.props.data){
             data.wsAsnId = this.props.data.wsAsnId;
         }
@@ -132,6 +134,7 @@ class OrderthEditForm extends React.Component{
 					let tempFormvalue = deepcCloneObj(this.props.formValue);
 					tempFormvalue.supplier = json.spShopName;
 					tempFormvalue.spOrderId = json.spOrderId;
+					tempFormvalue.spShopId = json.spShopId;
 					this.props.dispatch({
 						type:'orderth/syncEditInfo',
 						payload:tempFormvalue

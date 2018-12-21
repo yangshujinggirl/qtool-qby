@@ -195,7 +195,8 @@ class OrderuserInfo extends React.Component{
 				const orderInfos = json.orderInfo
 				let orderinfo = [];
 				console.log(this.props.data)
-				if(this.props.data.record.channel == 1){ //有赞订单
+
+				if( this.props.data.record.channel == 1 ){ //有赞订单
 					orderinfo=[
 						{lable:'订单号',text:orderInfos.orderNo},
 						{lable:'有赞订单',text:orderInfos.outNo},
@@ -205,7 +206,7 @@ class OrderuserInfo extends React.Component{
 						{lable:'订单金额',text:orderInfos.amount},
 						{lable:'实际支付金额',text:orderInfos.payAmount}
 					];
-				}else{ //用户订单
+				}else{ //用户订单(c端) -----> channel=2
 					orderinfo=[
 						{lable:'订单号',text:orderInfos.orderNo},
 						{lable:'下单时间',text:orderInfos.payTime},
@@ -316,7 +317,7 @@ class OrderuserInfo extends React.Component{
 						recDistrict={this.state.recDistrict}
 						recAddress={this.state.recAddress}
 						infofetch={this.infofetch.bind(this)}
-						editorder={this.props.data.editorder}
+						editorder={this.props.editorder}
 					/>
 				</div>
 				<div className='mb10'>
@@ -352,7 +353,7 @@ class OrderuserInfo extends React.Component{
 											status={item.status}
 											ecOrderId={this.props.data.id}
 											infofetch={this.infofetch.bind(this)}
-											postgood={this.props.data.postgood}
+											postgood={this.props.postgood}
 											id={this.props.data.id}
 											ecSuborderId={item.ecSuborderId}
 											/>}
@@ -419,7 +420,8 @@ class OrderuserInfo extends React.Component{
 }
 
 function mapStateToProps(state) {
-    const {headTitle,headTit,details,logs} = state.ordercg;
-	return {headTitle,headTit,details,logs};
+  const {headTitle,headTit,details,logs} = state.ordercg;
+	const {editorder,postgood} = state.orderuser;
+	return {headTitle,headTit,details,logs,editorder,postgood};
 }
 export default connect(mapStateToProps)(OrderuserInfo);
