@@ -90,7 +90,7 @@ class ExplainModal extends Component{
              labelCol={{ span: 5 }}
              wrapperCol={{ span: 12 }}>
              {getFieldDecorator('status',{
-               initialValue:status?status:null,
+               initialValue:typeof(status)=='number'?status:null,
                rules:[{required:true,message:'请选择品牌状态'}],
              })(
                <Select allowClear={true} placeholder="请选择品牌状态" className='select'>

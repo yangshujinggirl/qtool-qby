@@ -202,7 +202,7 @@ class BtipGoods extends Component {
   getDetail(record) {
     const paneitem={
       title:'商品详情',
-      key:`${this.state.componkey}edit${record.pdSpuId}info`,
+      key:`${this.state.componkey}edit${record.pdSpuId}info`+Math.random(),
       componkey:`${this.state.componkey}info`,
       data:{
         pdSpuId:record.pdSpuId,
