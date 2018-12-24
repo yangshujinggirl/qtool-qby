@@ -233,7 +233,22 @@ class Allth extends Component {
     // const forceCancel=this.props.data.rolelists.find((currentValue,index)=>{
 		// 	return currentValue.url=="qerp.web.sys.doc.task"
 		// })
-    const { dataList=[] } = this.props.allth;
+    // const { dataList=[] } = this.props.allth;
+    const dataList = [{
+      orderReturnId:'111',
+      orderReturnNo:'222',
+      orderNo:'333',
+      userMoblie:'17701799531',
+      returnTypeStr:'售中退款',
+      returnWayStr:'仅退款',
+      returnStatusStr:'待审核',
+      payMount:'100',
+      expectAmount:'50',
+      actualAmount:'50',
+      actualAmount:'100',
+      qtySum:'3',
+      createTime:'20181224',
+    }]
     return (
       <div className='qtools-components-pages allth'>
         <FilterForm

@@ -15,8 +15,10 @@ class AddThOrder extends Component{
 			returnType:null,
 			productList:[],
 			freightQuota:null,
-			isOnline:null,
-			loading:false
+			isC:null,
+			loading:false,
+			returnWay:null,
+			isShowCarriage:false
 		};
 		this.columns1 = [{
 				width:'100px',
@@ -181,55 +183,63 @@ class AddThOrder extends Component{
 	//通过订单得到订单信息
 	getOrderInfo =(e)=> {
 		const value = e.target.value;
-		if(value.slice(0,2) == 'YH'){ //有赞
-			this.setState({
-				isOnline:true
-			});
-		}else{
-			this.setState({
-				isOnline:false
-			});
-		}
-		getOrderInfoApi({orderNum:value})
-		.then(res=>{
-			if(res.code == '0'){
-
-			}
-			const response ={
-				productList:[
-					{pdCode:1111111111,
-						pdName:'有wefwefcweffsdfsdssss',
-						displayName:1,
-						buyCount:3,
-						returnCount:1,
-						orderQuota:20,
-						canReturnQuota:2,
-						returnQuota:6.67,
-						applyReturnCount:null,
-						applyReturnQuota:null,
-					},
-					{
-						pdCode:1111121,
-						pdName:'有wefdfsdssss',
-						displayName:1,
-						buyCount:3,
-						returnCount:1,
-						orderQuota:10,
-						canReturnQuota:2,
-						returnQuota:3.33},
-				],
-					returnType:0,
-					freightQuota:2
+		if(value){
+			if(value.slice(0,2) == 'YH'){ //有赞
+				this.setState({
+					isC:false
+				});
+			}else{
+				this.setState({
+					isC:true,
+					returnWay:null
+				});
 			};
-			response.productList.map((item,index)=>{
-				item.key = index
+			getOrderInfoApi({orderNum:value})
+			.then(res=>{
+				if(res.code == '0'){
+
+				}
+				const response ={
+					productList:[
+						{ pdSpuId:'111',
+							pdSkuId:'222',
+							pdCode:1111111111,
+							pdName:'有wefwefcweffsdfsdssss',
+							displayName:1,
+							buyCount:3,
+							returnCount:1,
+							orderQuota:20,
+							canReturnQuota:2,
+							returnQuota:6.67,
+							applyReturnCount:null,
+							applyReturnQuota:null,
+						},
+						{
+							pdSpuId:'111',
+							pdSkuId:'222',
+							pdCode:1111121, //商品code
+							pdName:'有wefdfsdssss', //商品名称
+							displayName:1, //规格
+							buyCount:3, //购买数量
+							returnCount:1, //已退数量
+							orderQuota:10, //实付金额
+							canReturnQuota:2, //可退金额
+							returnQuota:3.33 //已退金额
+						},
+					],
+						returnType:0, //退款类型 0售中  1售后
+						freightQuota:2 //运费
+				};
+				response.productList.map((item,index)=>{
+					item.key = index
+				});
+				this.setState({
+					returnType:response.returnType,
+					productList:response.productList,
+					freightQuota:response.freightQuota
+				});
 			});
-			this.setState({
-				returnType:response.returnType,
-				productList:response.productList,
-				freightQuota:response.freightQuota
-			});
-		})
+		};
 	}
 	//合计退款
 	getReturnSumQuota =()=> {
@@ -241,6 +251,9 @@ class AddThOrder extends Component{
 			if(item.applyReturnQuota) totalReturnMoney += item.applyReturnQuota
 		});
 		if(surplusTotalCount == applyTotalCount && !returnType){ //全退且是售中 + 运费
+			this.setState({
+				isShowCarriage:true
+			})
 			if(totalReturnMoney > 0){
 				return totalReturnMoney + freightQuota
 			}else{
@@ -281,16 +294,23 @@ class AddThOrder extends Component{
 			};
 		})
 	}
-	//保存
+	//取消
 	onCancel =()=> {
 		this.props.dispatch({
 				type:'tab/initDeletestate',
 				payload:this.props.componkey
 		});
 	}
+	//退款方式辩护
+	onChange =(e)=> {
+		const {value} = e.target;
+		this.setState({
+			returnWay:value
+		})
+	}
 	render(){
 			const { getFieldDecorator } = this.props.form
-			const {returnType,productList,loading,isOnline} = this.state
+			const {returnType,productList,loading,isC,returnWay,isShowCarriage,freightQuota} = this.state
 			const radioStyle = {
 	      display: 'block',
 	      height: '30px',
@@ -311,14 +331,14 @@ class AddThOrder extends Component{
                     )}
                 </FormItem>
 								{
-									isOnline ?
+									isC ?
 										<div>
 											<FormItem
 													label="退款类型"
 													labelCol={{ span: 3,offset: 1 }}
 													wrapperCol={{ span: 6 }}>
 													{getFieldDecorator('returnType', {
-														initialValue:returnType!=null ? (returnType ?'售后退款':'售中退款') : null
+														initialValue:returnType != null ? (returnType ?'售后退款':'售中退款') : null
 													})(
 														<Input placeholder='请输入退款类型'  disabled autoComplete="off"/>
 													)}
@@ -330,6 +350,7 @@ class AddThOrder extends Component{
 														labelCol={{ span: 3,offset: 1 }}
 														wrapperCol={{ span: 6 }}>
 														{getFieldDecorator('returnWay', {
+															onChange:this.onChange,
 															rules: [{ required: true, message: '请输入退款方式'}],
 														})(
 															<RadioGroup>
@@ -354,7 +375,7 @@ class AddThOrder extends Component{
 													</FormItem>
 											}
 											{
-												returnType ?
+												returnWay?
 												<div>
 													<FormItem
 														label="退货地址"
@@ -398,6 +419,16 @@ class AddThOrder extends Component{
 														dataSource={productList}
 														columns={this.columns1} />
 											</FormItem>
+											{
+												isShowCarriage &&
+												<FormItem
+												 label="运费"
+												 labelCol={{ span: 3,offset: 1 }}
+												 wrapperCol={{ span: 24 }}>
+												 	{freightQuota}
+												</FormItem>
+											}
+
 			                <FormItem
 			              		label="合计退款"
 			              		labelCol={{ span: 3,offset: 1 }}

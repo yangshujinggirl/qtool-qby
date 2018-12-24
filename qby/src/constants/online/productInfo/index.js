@@ -255,7 +255,7 @@ class BtipGoods extends Component {
     if(!selecteKeys.length>0) {
       message.error('请勾选商品',1)
       return
-    }
+    };
     let tips;
     switch(type){
       case 'sell':
