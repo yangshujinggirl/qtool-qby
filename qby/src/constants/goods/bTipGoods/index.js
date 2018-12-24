@@ -186,6 +186,11 @@ class BtipGoods extends Component {
   }
   //请求成功后统一处理
   successHandel() {
+    //重置勾选为空
+    this.props.dispatch({
+      type:'bTipGoodsList/resetSelect',
+      payload:{selecteKeys:[]}
+    });
     //在当前页刷新
     this.props.dispatch({
       type:'bTipGoodsList/fetchList',

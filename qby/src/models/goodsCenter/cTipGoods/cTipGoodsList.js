@@ -25,6 +25,9 @@ export default {
     selecteKeys:[]
   },
   reducers: {
+    resetSelect(state,{payload:selecteKeys }){
+      return { ...state,selecteKeys}
+    },
     setAuthority(state, { payload : authorityData }) {
       let authorityList={};
       authorityData.map((el) => {

@@ -14,6 +14,7 @@ class BondManage extends Component{
       title:"",
       visible:false,
       flag:null,
+      status:1,
       field:{
         name:'',
         lastChangeMan:'',
@@ -94,7 +95,7 @@ class BondManage extends Component{
       cname:'',
       dispExp:'',
       pushPlatform:'',
-      status:''
+      status:1
     },()=>{
       clearForm();
     });
@@ -110,7 +111,7 @@ class BondManage extends Component{
       cname:'',
       dispExp:'',
       pushPlatform:'',
-      status:''
+      status:1
     },()=>{
       clearForm();
     });

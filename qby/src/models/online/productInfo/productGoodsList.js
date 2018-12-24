@@ -22,6 +22,9 @@ export default {
     selecteKeys:[]
   },
   reducers: {
+    resetSelect(state,{payload:selecteKeys }){
+      return { ...state,selecteKeys}
+    },
     getList( state, { payload : { dataList, dataPag } }) {
       return { ...state, dataList, dataPag }
     },

@@ -184,6 +184,11 @@ class CtipGoods extends Component {
   }
   //请求成功后统一处理
   successHandel() {
+    //重置勾选为空
+    this.props.dispatch({
+      type:'cTipGoodsList/resetSelect',
+      payload:{selecteKeys:[]}
+    });
     //在当前页刷新
     this.props.dispatch({
       type:'cTipGoodsList/fetchList',

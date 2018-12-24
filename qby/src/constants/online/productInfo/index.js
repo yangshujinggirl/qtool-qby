@@ -169,6 +169,11 @@ class BtipGoods extends Component {
   successHandel() {
     // message.success(SuccessTips[this.state.tips],1)
     const {limit,currentPage} = this.props.productGoodsList.dataPag
+    //重置勾选为空
+    this.props.dispatch({
+      type:'productGoodsList/resetSelect',
+      payload:{selecteKeys:[]}
+    })
     //在当前页刷新
     this.props.dispatch({
       type:'productGoodsList/fetchList',
