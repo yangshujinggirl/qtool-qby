@@ -116,7 +116,7 @@ class Cexplain extends Component{
   handleOperateClick =(record)=> {
     const {name,text,rank,status,pdExplainId} = record;
     this.setState({
-      title:"修改仓库",
+      title:"修改c端商品说明",
       visible:true,
       flag:true,
       name,

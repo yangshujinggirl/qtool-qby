@@ -34,7 +34,6 @@ class Uploadimg extends Component {
     const uploadButton = (
       <div>
         <Icon type={this.state.loading ? 'loading' : 'plus'} />
-        <div className="ant-upload-text">Upload</div>
       </div>
     );
     const {imageUrl,name,action} = this.props;

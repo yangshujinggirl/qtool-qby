@@ -70,7 +70,7 @@ class ExplainModal extends Component{
                wrapperCol={{ span: 12 }}>
                {
                  getFieldDecorator("rank",{
-                   initialValue:rank?rank:null,
+                   initialValue:typeof(rank)=='number'?rank:null,
                    rules:[
                      {pattern:/^(?:[0-9]{0,2}|100)$/,message:"请输入0-100整数"},
                      {required:true,message:"请输入0-100整数，数值越大权重越高"}]

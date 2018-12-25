@@ -3,6 +3,7 @@ import { connect } from 'dva';
 import { Table,Form, Select, Input, Button ,message,DatePicker,Radio} from 'antd';
 import moment from 'moment';
 import {saveThApi,getOrderInfoApi} from '../../../services/orderCenter/userth/allth'
+import TableList from './components/TableList'
 const FormItem = Form.Item;
 const Option = Select.Option;
 const RadioGroup = Radio.Group;
@@ -18,167 +19,7 @@ class AddThOrder extends Component{
 			isC:null,
 			loading:false,
 			returnWay:null,
-			isShowCarriage:false
 		};
-		this.columns1 = [{
-				width:'100px',
-			  title: '商品编码',
-			  dataIndex: 'pdCode',
-			}, {
-				width:'100px',
-			  title: '商品名称',
-			  dataIndex: 'pdName',
-			}, {
-				width:'70px',
-			  title: '商品规格',
-			  dataIndex: 'displayName',
-			}, {
-				width:'100px',
-			  title: '购买数量/已退数量',
-			  dataIndex: 'buyCount',
-			  render: (text,record) => (
-			    <div>{record.buyCount}/{record.returnCount}</div>
-			  ),
-			}, {
-				width:'100px',
-			  title: '实付金额/已退金额',
-			  key: 'orderQuota',
-			  render: (text, record) => (
-			     <div>{record.orderQuota}/{record.returnQuota}</div>
-			  ),
-			}, {
-				width:'80px',
-			  title: '可退金额',
-			  dataIndex: 'canReturnQuota',
-			}, {
-				width:'100px',
-			  title: '退款数量',
-				render: (text, record,index) => {
-					const { getFieldDecorator } = this.props.form;
-					const handleReturnCount =(rule,value,callback)=> {
-						const {buyCount,returnCount} = record;
-						if (value && value >(Number(buyCount)-Number(returnCount))) {
-							 callback('不可超剩余数量')
-					 	};
-							 callback();
-					};
-					return(
-              <FormItem className='applyReturnCount'>
-								{
-									getFieldDecorator(`applyReturnCount`+index, {
-										rules: [
-											{ required: true, message: '请输入退款数量'},
-											{	pattern:/^([1-9][0-9]*){1,3}$/,message:'请输入大于0的整数'},
-											{ validator: handleReturnCount }
-										],
-									})(<Input onBlur={this.getReturnCount.bind(this,index)}/>)
-								}
-              </FormItem>
-				 	)
-				},
-			}, {
-				width:'100px',
-			  title: '退款金额',
-				dataIndex:'applyReturnQuota',
-				render: (text, record, index) => {
-					if(!this.state.returnType && record.applyReturnCount){ //如果是售中直接计算
-						return (
-							<Input value={text} disabled />
-						)
-					}else{ //售后
-						const { getFieldDecorator } = this.props.form;
-						const handleReturnQuota =(rule,value,callback)=> {
-							const {orderQuota,returnQuota} = record;
-							if (value && value >(Number(orderQuota)-Number(returnQuota))) {
-								 callback('不可超可退金额')
-							};
-								 callback();
-						};
-						return(
-							<FormItem className='applyReturnCount'>
-								{
-									getFieldDecorator(`applyReturnQuota`+index, {
-			 	 					 rules: [
-			 							 { required: true, message: '请输入退款金额'},
-			 							 {	pattern:/^\d+(\.\d{0,2})?$/,message:'小于等于两位小数的数字'},
-									 	 { validator: handleReturnQuota }
-			 						 ],
-			 	 				 })(<Input onBlur={this.getReturnQuota.bind(this,index)} />)
-								}
-							</FormItem>
-						)
-				};
-			},
-			}, {
-				width:'60px',
-			  title: '',
-			  key: 'operate',
-			  render: (text, record, index) => (
-					this.state.productList.length > 1 ?
-			    	<a href="javascript:;" onClick={this.delete.bind(this,index)} className="theme-color">删除</a>
-					:null
-			  ),
-			}];
-			this.columns2=[{
-					width:'100px',
-				  title: '商品编码',
-				  dataIndex: 'pdCode',
-				}, {
-					width:'100px',
-				  title: '商品名称',
-				  dataIndex: 'pdName',
-				}, {
-					width:'70px',
-				  title: '商品规格',
-				  dataIndex: 'displayName',
-				}, {
-					width:'100px',
-				  title: '购买数量',
-					key:2,
-				  dataIndex:'returnCount'
-				}, {
-					width:'100px',
-				  title: '退款数量',
-					key:'1',
-				  dataIndex:'returnCount',
-					render:(text,record)=>{
-						return(<Input disabled value={text}/>)
-					}
-			 },]
-	}
-	//删除
-	delete =(index)=> {
-		this.state.productList.splice(index,1);
-		this.setState({
-			productList:this.state.productList
-		});
-	}
-	//得到退款数量
-	getReturnCount =(index,e)=> {
-		const {productList,returnType} = this.state;
-		const {value} = e.target; //退款数量
-		if(!returnType){ //如果是售中直接计算出退款金额--->不可编辑
-			let returnMoney;
-			let item = productList[index];
-			if(value == item.buyCount - item.returnCount){ //退款数量等于剩余可退 --->表示全退---->用实付-已退（保证两者相加等于全部）
-				returnMoney = item.orderQuota - item.returnQuota;
-				item.applyReturnQuota = returnMoney;
-			}else{ //单价 * 数量
-				returnMoney = Number((item.orderQuota/item.buyCount * Number(value) ).toFixed(2));
-				item.applyReturnQuota = returnMoney;
-			};
-		}
-		productList[index].applyReturnCount = Number(value);
-		this.setState({
-			productList
-		});
-	}
-	//得到的退款金额
-	getReturnQuota =(index,e)=> {
-		this.state.productList[index].applyReturnQuota = Number(e.target.value);
-		this.setState({
-			productList:this.state.productList
-		})
 	}
 	//通过订单得到订单信息
 	getOrderInfo =(e)=> {
@@ -251,9 +92,6 @@ class AddThOrder extends Component{
 			if(item.applyReturnQuota) totalReturnMoney += item.applyReturnQuota
 		});
 		if(surplusTotalCount == applyTotalCount && !returnType){ //全退且是售中 + 运费
-			this.setState({
-				isShowCarriage:true
-			})
 			if(totalReturnMoney > 0){
 				return totalReturnMoney + freightQuota
 			}else{
@@ -308,9 +146,14 @@ class AddThOrder extends Component{
 			returnWay:value
 		})
 	}
+	productListChange =(productList)=> {
+		this.setState({
+		  productList
+		});
+	}
 	render(){
 			const { getFieldDecorator } = this.props.form
-			const {returnType,productList,loading,isC,returnWay,isShowCarriage,freightQuota} = this.state
+			const {returnType,productList,loading,isC,returnWay,freightQuota} = this.state
 			const radioStyle = {
 	      display: 'block',
 	      height: '30px',
@@ -410,21 +253,19 @@ class AddThOrder extends Component{
 												label="商品信息"
 												labelCol={{ span: 3,offset: 1 }}
 												wrapperCol={{ span: 24 }}>
-													<Table
-														style = {{padding:0}}
-														pagination={false}
-														showHeader={true}
-														bordered={false}
-														className='OrderCenterEidt'
-														dataSource={productList}
-														columns={this.columns1} />
+													<TableList
+														productList = {productList}
+														columns={1}
+														returnType={returnType}
+														productListChange={this.productListChange}
+													/>
 											</FormItem>
 											{
-												isShowCarriage &&
+										 		returnType==0&&
 												<FormItem
 												 label="运费"
 												 labelCol={{ span: 3,offset: 1 }}
-												 wrapperCol={{ span: 24 }}>
+												 wrapperCol={{ span: 6 }}>
 												 	{freightQuota}
 												</FormItem>
 											}
@@ -445,14 +286,12 @@ class AddThOrder extends Component{
 												label="商品信息"
 												labelCol={{ span: 3,offset: 1 }}
 												wrapperCol={{ span: 16 }}>
-													<Table
-														style = {{padding:0}}
-														pagination={false}
-														showHeader={true}
-														bordered={false}
-														className='OrderCenterEidt'
-														dataSource={productList}
-														columns={this.columns2} />
+														<TableList
+															productList = {productList}
+															columns={2}
+															returnType={returnType}
+															productListChange={this.productListChange}
+														/>
 											</FormItem>
 								}
 								<FormItem
@@ -463,6 +302,7 @@ class AddThOrder extends Component{
 										rules: [{ required: true, message: '请输入退单原因' }]
 									})(
 										<Input placeholder="请输入退单原因"  autoComplete="off"/>
+
 									)}
 								</FormItem>
 	            	<FormItem wrapperCol={{ offset: 4}} style = {{marginBottom:0}}>
@@ -470,6 +310,7 @@ class AddThOrder extends Component{
 	              		<Button type="primary" onClick={this.handleSubmit} loading={loading}>保存</Button>
 	            	</FormItem>
           	</Form>
+
       	)
   	}
 }
