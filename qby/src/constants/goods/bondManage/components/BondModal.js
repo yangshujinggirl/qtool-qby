@@ -15,6 +15,9 @@ class BondModal extends Component{
   onOk =()=> {
     this.props.form.validateFieldsAndScroll((err,values)=>{
       if(!err){
+        values.name = values.name.trim();
+        values.cname = values.cname.trim();
+        values.dispExp = values.dispExp.trim();
         this.props.onOk(values,this.clearForm)
       };
     })

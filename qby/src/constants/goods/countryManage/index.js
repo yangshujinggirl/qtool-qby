@@ -96,6 +96,7 @@ class CountryManageForm extends Component {
     let { countryDetail } = this.props.countryManage;
     this.props.form.validateFields((err, values) => {
      if (this.validateLogo(countryDetail.imageUrl)&&!err) {
+       values.name = values.name.trim();
        values = {...values, ...{ url:countryDetail.imageUrl }};
        this.saveCountry(values);
      }

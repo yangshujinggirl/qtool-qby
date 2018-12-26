@@ -296,6 +296,7 @@ class AddGoodsForm extends Component {
       if(values.taxRate.indexOf("%") != -1){
         values.taxRate = values.taxRate.replace("%","");
       };
+      values.name = values.name.trim();
     }
     //取出store中id品牌，国家
     values.pdBrandId = this.props.addGoods.autoComplete.pdBrandId;

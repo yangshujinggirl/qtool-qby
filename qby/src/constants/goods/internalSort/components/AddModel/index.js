@@ -369,7 +369,7 @@ class AddModelForm extends Component {
 			const { pdCategoryId, level } =this.props;
       if (!err) {
 				let index = Number(level);
-				let name = values[`name${index}`];
+				let name = (values[`name${index}`]).trim();
 				let parentId = values[`pdCategoryId${index-1}`];
 				let params = {
 					level:level,

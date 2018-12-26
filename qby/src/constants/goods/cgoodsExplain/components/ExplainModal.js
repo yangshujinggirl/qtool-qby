@@ -15,6 +15,7 @@ class ExplainModal extends Component{
   onOk =()=> {
     this.props.form.validateFieldsAndScroll((err,values)=>{
       if(!err){
+        values.name = values.name.trim();
         this.props.onOk(values,this.clearForm)
       };
     })

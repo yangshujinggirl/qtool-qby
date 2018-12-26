@@ -16,8 +16,8 @@ const CollectionCreateForm = Form.create()(
 				onOk={onCreate}
 			>
 				<Form>
-				
-				<FormItem 
+
+				<FormItem
 				label="规格名称"
 				labelCol={{ span: 5 }}
 				wrapperCol={{ span: 12 }}
@@ -28,7 +28,7 @@ const CollectionCreateForm = Form.create()(
 					<Input/>
 				)}
 				</FormItem>
-				
+
 				</Form>
 			</Modal>
 		);
@@ -54,6 +54,7 @@ class CollectionsPages extends React.Component {
 			return;
 		}
 		value.state='1'
+		value.name = value.name.trim();
 		const values={pdType:value}
 		const result=GetServerData('qerp.web.pd.type.save',values)
 			result.then((res) => {
@@ -85,7 +86,7 @@ class CollectionsPages extends React.Component {
 	render() {
 		return (
 			<div style={{display:'inline-block'}}>
-				{ 
+				{
 					this.props.type=='1'
 					?
 					<div onClick={this.showModal} style={{color:'#35bab0'}} className='pointer'>{this.props.text}</div>
@@ -93,7 +94,7 @@ class CollectionsPages extends React.Component {
 					<Button size='large' type={this.props.statetype} onClick={this.showModal}>{this.props.text}</Button>
 
 				}
-				
+
 				<CollectionCreateForm
 					ref={this.saveFormRef}
 					visible={this.state.visible}
@@ -110,4 +111,3 @@ class CollectionsPages extends React.Component {
 }
 
 export default connect()(CollectionsPages);
-

@@ -107,6 +107,7 @@ class AddGoodsForm extends Component {
   }
   //参数格式化
   formtParams(values) {
+    values.oname = values.oname.trim();
     //处理商品描述参数
     let pdSpuInfo = values.pdSpuInfo;
     if(pdSpuInfo) {

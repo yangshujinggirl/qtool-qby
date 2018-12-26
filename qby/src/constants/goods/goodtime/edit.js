@@ -74,6 +74,7 @@ class GoodEditForm extends React.Component{
 				if(this.state.salestatus == null && this.state.statusnew ==null && this.state.statushot==null){
 					message.error('请选择定时操作',.8);
 				}else{
+					value.taskName = value.taskName.trim();
 					value.taskTime=this.state.taskTime
 					value.salestatus=this.state.salestatus
 					value.statusnew=this.state.statusnew
