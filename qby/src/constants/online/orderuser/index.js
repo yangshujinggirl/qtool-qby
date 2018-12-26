@@ -230,4 +230,4 @@ function mapStateToProps(state) {
   const { orderuser} = state;
   return {orderuser};
 }
-export default connect(OrderuserIndex)(mapStateToProps);
+export default connect(mapStateToProps)(OrderuserIndex);
