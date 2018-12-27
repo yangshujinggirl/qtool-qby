@@ -2,13 +2,6 @@
 const Columns = [{
      title: '用户id',
      dataIndex: 'userId',
-     render:(text, record)=>{
-       return(
-         <div>
-           <a href="javascript:;" className="theme-color" onClick={record.onOperateClick.bind(this)}>{text}</a>
-         </div>
-       )
-     }
    },{
      title: 'Qtools昵称',
      dataIndex: 'name'

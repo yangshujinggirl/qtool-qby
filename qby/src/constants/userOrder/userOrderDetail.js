@@ -11,11 +11,6 @@ const platformMap={
   '2':'Qtools App 安卓端',
   '3':'小程序',
 }
-const deliveryMap={
-  '1':'门店自提',
-  '2':'同城配送',
-  '3':'快递邮寄',
-}
 const levelMap={
   1:'金卡',
   2:'银卡',
@@ -48,33 +43,12 @@ const columns = [{
     key:'payPrice',
   }, {
     title: '应付金额',
-    dataIndex: 'payPrice',
-    key:'payPrice',
+    dataIndex: 'payAmount',
+    key:'payAmount',
   }, {
     title: '商品实付金额',
-    dataIndex: 'payPrice',
-    key:'payPrice',
-  }];
-const columnsNor = [{
-    title: '商品名称',
-    dataIndex: 'spuName',
-    key:'1'
-  }, {
-    title: '规格',
-    dataIndex: 'displayName',
-    key:'2'
-  }, {
-    title: '商品编码',
-    dataIndex: 'code',
-    key:'3'
-  }, {
-    title: '商品数量',
-    dataIndex: 'qty',
-    key:'4'
-  }, {
-    title: '零售价',
-    dataIndex: 'price',
-    key:'5'
+    dataIndex: 'actualPayAmount',
+    key:'actualPayAmount',
   }];
 const columns2 = [{
     title: '操作',
@@ -144,7 +118,7 @@ getDetail() {
     })
 	},err => {
 		message.error(err.message)
-	})
+	});
 }
 renderDelivery(deliveryInfo) {
   return <Card title='配送信息'>
@@ -179,16 +153,16 @@ render(){
             <div className='cardlist'>
               <div className='cardlist_item'><label>订单号：</label><span>{orderInfo.orderNo}</span></div>
               <div className='cardlist_item'><label>下单时间：</label><span>{orderInfo.createTime}</span></div>
-              <div className='cardlist_item'><label>订单状态：</label><span>{orderInfo.statusStr}</span></div>
+              <div className='cardlist_item'><label>订单状态：</label><span>{orderInfo.qbOrderStatusStr}</span></div>
               <div className='cardlist_item'><label>流程状态：</label><span>{orderInfo.orderStatusStr}</span></div>
               <div className='cardlist_item'><label>订单序号：</label><span>{orderInfo.orderNum}</span></div>
               <div className='cardlist_item'><label>下单平台：</label><span>{platformMap[orderInfo.platform]}</span></div>
-              <div className='cardlist_item'><label>配送方式：</label><span>{deliveryMap[orderInfo.orderType]}</span></div>
+              <div className='cardlist_item'><label>订单类型：</label><span>{orderInfo.orderTypeStr}</span></div>
               <div className='cardlist_item'><label>订单金额：</label><span>{orderInfo.amountSum}</span>元</div>
               <div className='cardlist_item'><label>商品金额：</label><span>{orderInfo.commodityAmount}</span>元</div>
               <div className='cardlist_item'><label>用户支付配送费：</label><span>{orderInfo.standardExpressAmount}</span>元</div>
-              <div className='cardlist_item'><label>优惠金额：</label><span>{orderInfo.standardExpressAmount}</span>元</div>
-              <div className='cardlist_item'><label>优惠券：</label><span>{orderInfo.deductionAmount?orderInfo.deductionAmount:0}</span>元</div>
+              <div className='cardlist_item'><label>优惠金额：</label><span>{orderInfo.deductionAmount}</span>元</div>
+              <div className='cardlist_item'><label>优惠券：</label><span>{orderInfo.discountAmount?orderInfo.discountAmount:0}</span>元</div>
               <div className='cardlist_item'><label>优惠券批次号：</label><span>{orderInfo.couponCode}</span></div>
               <div className='cardlist_item'><label>版本号：</label><span>{orderInfo.platVersion}</span></div>
             </div>
@@ -216,7 +190,7 @@ render(){
             bordered
             title={()=>'商品信息'}
             dataSource={goodsInfos}
-            columns={(userInfo.level==1||userInfo.level==2)?columns:columnsNor}
+            columns={columns}
             pagination={false}/>
         </div>
 				<div className='mb10'>

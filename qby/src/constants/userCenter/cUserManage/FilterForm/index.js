@@ -24,8 +24,8 @@ class NormalForm extends Component {
     this.props.form.validateFieldsAndScroll((err, values) => {
       const{rangePicker,..._values} = values;
       if(rangePicker&&rangePicker[0]){
-        _values.pushTimeST =  moment(rangePicker[0]).format('YYYY-MM-DD HH:mm:ss');
-        _values.pushTimeET = moment(rangePicker[1]).format('YYYY-MM-DD HH:mm:ss');
+        _values.createTimeST =  moment(rangePicker[0]).format('YYYY-MM-DD HH:mm:ss');
+        _values.createTimeET = moment(rangePicker[1]).format('YYYY-MM-DD HH:mm:ss');
       }
       this.props.submit && this.props.submit(_values);
     });

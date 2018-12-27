@@ -12,9 +12,6 @@ class Stockindex extends React.Component {
 constructor(props) {
 	super(props);
 		this.columns = [{
-			title: '商品编码',
-			dataIndex: 'code'
-			},{
 			title: '商品名称',
 			dataIndex: 'name'
 			}, {

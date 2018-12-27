@@ -189,7 +189,7 @@ class AddCoupon extends Component {
               labelCol={{span:3,offset:1}}
               wrapperCol={{span:14}}>
               {
-                getFieldDecorator('range',{
+                getFieldDecorator('couponUseScope',{
                 })(
                   <CheckboxGroup options={this.options}/>
                 )

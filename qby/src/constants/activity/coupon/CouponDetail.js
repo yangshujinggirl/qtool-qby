@@ -41,7 +41,7 @@ class CouponDetail extends Component{
          range = 'online商品可用';
          break;
        case 3:
-         range = 'online商品可用;C端商品可用';
+         range = 'online商品可用; C端商品可用';
          break;
      }
     return(

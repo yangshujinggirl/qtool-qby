@@ -9,6 +9,7 @@ import {
   Select ,
   DatePicker
 } from 'antd';
+import { timeForMats } from '../../../../../utils/meth'
 import moment from 'moment';
 import './index.less'
 
@@ -31,6 +32,7 @@ class NormalForm extends Component {
   }
 
   render() {
+    const defaultTime = [moment(timeForMats(30).t2), moment(timeForMats(30).t1)]
     const { getFieldDecorator } = this.props.form;
     return(
       <div>
@@ -56,7 +58,9 @@ class NormalForm extends Component {
                   )}
                 </FormItem>
               <FormItem label='时间选择'>
-                 {getFieldDecorator('rangePicker')(
+                 {getFieldDecorator('rangePicker',{
+                   initialValue:defaultTime
+                 })(
                    <RangePicker showTime format="YYYY-MM-DD HH:mm:ss"/>
                  )}
               </FormItem>

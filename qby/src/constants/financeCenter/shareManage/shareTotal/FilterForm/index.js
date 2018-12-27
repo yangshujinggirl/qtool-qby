@@ -24,15 +24,15 @@ class NormalForm extends Component {
     this.props.form.validateFieldsAndScroll((err, values) => {
       const { rangePicker, ..._values } = values;
       if(rangePicker&&rangePicker[0]){
-        _values.dateTimeST =  moment(rangePicker[0]).format('YYYY-MM-DD HH:mm:ss');
-        _values.dateTimeET =  moment(rangePicker[1]).format('YYYY-MM-DD HH:mm:ss');
+        _values.createST =  moment(rangePicker[0]).format('YYYY-MM-DD HH:mm:ss');
+        _values.createET =  moment(rangePicker[1]).format('YYYY-MM-DD HH:mm:ss');
       }
       this.props.submit && this.props.submit(_values);
     });
   }
 
   render() {
-    const defaultTime = [moment(timeForMats(7).t2), moment(timeForMats(7).t1)]
+    const defaultTime = [moment(timeForMats(30).t2), moment(timeForMats(30).t1)]
     const { getFieldDecorator } = this.props.form;
     return(
       <div>

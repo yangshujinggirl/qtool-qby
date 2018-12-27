@@ -189,7 +189,7 @@ class Coupon extends Component{
     if(type == "info"){
       const paneitem = {
         title:'优惠券详情',
-        key:`${this.state.componkey}info`,
+        key:`${this.state.componkey}edit`+record.couponId,
         componkey:`${this.state.componkey}info`,
         data:{
           pdSpuId:record.couponId,

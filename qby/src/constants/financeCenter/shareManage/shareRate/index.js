@@ -6,6 +6,7 @@ import Qpagination from '../../../../components/Qpagination/index';
 import { exportDataApi } from '../../../../services/financeCenter/shareManage/shareRate'
 import FilterForm from './FilterForm/index'
 import Columns from './columns/index';
+import { timeForMats } from '../../../../utils/meth';
 import moment from 'moment';
 const confirm = Modal.confirm;
 
@@ -23,11 +24,25 @@ class ShareRate extends Component {
     }
   }
   componentWillMount() {
-    this.props.dispatch({
-        type:'shareRate/fetchList',
-        payload:{}
-    });
+    this.getNowFormatDate()
   }
+  getNowFormatDate = () => {
+   const startRpDate=timeForMats(30).t2;
+   const endRpDate=timeForMats(30).t1;
+   const {fields} = this.state;
+   this.setState({
+     fields:{
+       ...fields,
+       createST:startRpDate,
+       createET:endRpDate,
+       }
+     },function(){
+       this.searchData({
+         createST:startRpDate,
+         createET:endRpDate
+       });
+   })
+ }
   //操作
   handleOperateClick(record,type) {
     let paneitem = {};

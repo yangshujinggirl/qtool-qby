@@ -39,7 +39,7 @@ class NormalForm extends Component {
       this.props.submit && this.props.submit(_values);
     });
   }
-  onChange=(value)=>{
+  onSelect=(value)=>{
     this.setState({typeValue:value});
     getStatusListApi({orderType:value})
     .then(res=>{
@@ -54,6 +54,10 @@ class NormalForm extends Component {
     this.setState({
       flowStatus
     })
+  }
+  onChange =(value)=> {
+    console.log(value)
+    this.setState({typeValue:value});
   }
   render() {
     const defaultTime = [moment(timeForMats(30).t2), moment(timeForMats(30).t1)]
@@ -102,11 +106,13 @@ class NormalForm extends Component {
                 </FormItem>
                 <FormItem label='订单类型'>
                    {getFieldDecorator('orderType',{
-                      onChange:this.onChange
+
                    })(
                      <Select
                        allowClear={true}
                        placeholder="请选择订单类型"
+                       onSelect={this.onSelect}
+                       onChange={this.onChange}
                        >
                        {
                          DeliveryOption.map((el) => (

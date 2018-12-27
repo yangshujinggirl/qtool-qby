@@ -25,8 +25,8 @@ class ShareTotal extends Component {
     this.getNowFormatDate();
   }
   getNowFormatDate = () => {
-   const startRpDate=timeForMats(7).t2;
-   const endRpDate=timeForMats(7).t1;
+   const startRpDate=timeForMats(30).t2;
+   const endRpDate=timeForMats(30).t1;
    const {fields} = this.state;
    this.setState({
      fields:{

@@ -16,27 +16,18 @@ export default {
   },
   effects: {
     *fetchList({ payload: values }, { call, put ,select}) {
-      const fixedLimit = yield select(state => state.userorders.limit);
-      let { rangePicker, ...params } =values;
-      if(!params.limit) {
-        params = {...params,...{ limit: fixedLimit}}
-      };
-      if(rangePicker&&rangePicker.length>0) {
-        params.dateTimeST = moment(rangePicker[0]).format('YYYY-MM-DD HH:mm:ss');
-        params.dateTimeET = moment(rangePicker[1]).format('YYYY-MM-DD HH:mm:ss');
-      }
       yield put({type: 'tab/loding',payload:true});
-      const result=yield call(getListApi,params);
+      const result=yield call(getListApi,values);
       yield put({type: 'tab/loding',payload:false});
       if(result.code=='0') {
-        const { orders, currentPage, limit, total } = result;
-        for(var i=0;i<orders.length;i++){
-          orders[i].key = orders[i].orderId;
-        };
+        const { users, currentPage, limit, total } = result;
+        users.map((item,index)=>{
+          item.key = index;
+        })
         yield put ({
           type: 'getList',
           payload:{
-            dataList:orders,
+            dataList:users,
             currentPage,
             limit,
             total
