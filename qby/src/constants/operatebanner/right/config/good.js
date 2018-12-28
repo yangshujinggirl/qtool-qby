@@ -30,7 +30,7 @@ class GoodsEditForm extends React.Component{
             payload:configArrEnd
         });
     }
-    
+
     handleSubmit = (e) =>{
 		e.preventDefault();
 		this.props.form.validateFields((err, values) => {
@@ -74,11 +74,13 @@ class GoodsEditForm extends React.Component{
                                             payload:configArrEnd
                                         });
                                     }else{
-                                        message.error('未找到商品2编码',.8);
+                                        // message.error('未找到商品2编码',.8);
+                                         message.error('商品2'+json.message,1);
                                     }
                                 })
                             }else{
-                                message.error('未找到商品1编码',.8);
+                                // message.error('未找到商品1编码',.8);
+                                message.error('商品1'+json.message,1);
                             }
                         })
                     }
@@ -131,13 +133,13 @@ class GoodsEditForm extends React.Component{
 													(this.props.configArr[this.props.currentItem].rowcode?
 													 this.props.configArr[this.props.currentItem].rowcode:
 													 ''):
-													 '';											 
+													 '';
 		this.props.dispatch({
 				type:'h5config/syncConfigArrPre',
 				payload:tempConfigArr
 		});
 	}
-    
+
     //实时保存商品编码
 	saveGoodCode = (e) =>{
         let tempConfigArr = deepcCloneObj(this.props.configArrPre);
@@ -147,7 +149,7 @@ class GoodsEditForm extends React.Component{
             payload:tempConfigArr
         });
     }
-    
+
     //实时保存商品编码
     saveRowCode = (e) =>{
         let tempConfigArr = deepcCloneObj(this.props.configArrPre);
@@ -157,7 +159,7 @@ class GoodsEditForm extends React.Component{
             payload:tempConfigArr
         });
     }
-    
+
 	render(){
         const { getFieldDecorator } = this.props.form;
 		return (
@@ -176,7 +178,7 @@ class GoodsEditForm extends React.Component{
                 <FormItem
                     label="链接商品"
                     labelCol={{ span: 8 }}
-                    wrapperCol={{ span: 8 }}  
+                    wrapperCol={{ span: 8 }}
                 >
                 {getFieldDecorator('code', {
                     rules: [{ required: true, message: '请输入商品编码' }],
@@ -205,7 +207,7 @@ class GoodsEditForm extends React.Component{
                 <FormItem
                     label="链接商品1"
                     labelCol={{ span: 8 }}
-                    wrapperCol={{ span: 8 }}  
+                    wrapperCol={{ span: 8 }}
                 >
                 {getFieldDecorator('code', {
                     rules: [{ required: true, message: '请输入商品编码' }],
@@ -236,7 +238,7 @@ class GoodsEditForm extends React.Component{
 	}
 
 	componentDidMount(){
-		
+
 	}
 }
 
@@ -246,11 +248,11 @@ function mapStateToProps(state) {
 }
 
 const GoodsEdit = Form.create({
-    mapPropsToFields(props) { 
-		return { 
+    mapPropsToFields(props) {
+		return {
             code:Form.createFormField({value: props.configArrPre[props.currentItem].code?props.configArrPre[props.currentItem].code:''}) ,
             rowcode:Form.createFormField({value: props.configArrPre[props.currentItem].rowcode?props.configArrPre[props.currentItem].rowcode:''})
-		}; 
+		};
 	}
 })(GoodsEditForm);
 export default connect(mapStateToProps)(GoodsEdit);

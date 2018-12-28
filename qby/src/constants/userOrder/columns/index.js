@@ -30,10 +30,7 @@ const Columns = [{
      }
    },{
      title: '订单类型',
-     dataIndex: 'delivery',
-     render:(text,record)=> {
-       return deliveryMap[record.deliveryType]
-     }
+     dataIndex: 'orderTypeStr',
    },{
      title: '用户昵称',
      dataIndex: 'nickName'

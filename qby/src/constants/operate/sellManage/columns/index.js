@@ -23,8 +23,8 @@ const Columns = [{
      }
    },{
      title: '订单状态',
-     dataIndex: 'orderStatusStr',
-     key: 'orderStatusStr',
+     dataIndex: 'incomeStatusStr',
+     key: 'incomeStatusStr',
    },{
      title: '费用类型',
      dataIndex: 'costTypeStr',

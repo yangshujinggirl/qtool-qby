@@ -43,7 +43,7 @@ class NormalForm extends Component {
                  )}
                </FormItem>
               <FormItem label='配送方式'>
-                 {getFieldDecorator('deliveryType')(
+                 {getFieldDecorator('orderType')(
                    <Select allowClear={true} placeholder="请选择是否完整">
                      {
                        DeliveryOption.map((el,index)=>(
@@ -54,7 +54,7 @@ class NormalForm extends Component {
                  )}
                </FormItem>
                <FormItem label='订单状态'>
-                  {getFieldDecorator('orderStatus')(
+                  {getFieldDecorator('incomeStatus')(
                     <Select allowClear={true} placeholder="请选择订单状态">
                           <Option value={1} key={1}>已完成</Option>
                           <Option value={2} key={2}>已取消</Option>
