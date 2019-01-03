@@ -58,11 +58,12 @@ class NormalForm extends Component {
                     <Select allowClear={true} placeholder="请选择订单状态">
                           <Option value={1} key={1}>已完成</Option>
                           <Option value={2} key={2}>已取消</Option>
+                          <Option value={3} key={3}>已退款</Option>
                     </Select>
                   )}
                 </FormItem>
                 <FormItem label='费用类型'>
-                   {getFieldDecorator('costType')(
+                   {getFieldDecorator('costType')( 
                      <Select allowClear={true} placeholder="请选择费用类型">
                        <Option value={1} key={1}>销售收款</Option>
                        <Option value={2} key={2}>销售退款</Option>

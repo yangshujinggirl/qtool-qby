@@ -22,8 +22,8 @@ class AccountIndex extends React.Component{
      	return(
         	<div className='content_box'>
 					<AccountSearch/>
-					<Button 
-						type="primary" 
+					<Button
+						type="primary"
 						onClick={this.addNewAccount.bind(this)}
 						size='large'
 						className='mt20'

@@ -62,8 +62,9 @@ class NormalForm extends Component {
               <FormItem label='注册平台'>
                  {getFieldDecorator('platform')(
                    <Select allowClear={true} placeholder="请选择注册平台">
-                         <Option value={1}>Qtools</Option>
-                         <Option value={2}>小程序</Option>
+                         <Option value={1}>小程序</Option>
+                         <Option value={2}>ios</Option>
+                         <Option value={3}>android</Option>
                    </Select>
                  )}
                </FormItem>

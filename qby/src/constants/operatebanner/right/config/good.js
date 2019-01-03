@@ -75,12 +75,12 @@ class GoodsEditForm extends React.Component{
                                         });
                                     }else{
                                         // message.error('未找到商品2编码',.8);
-                                         message.error('商品2'+json.message,1);
+                                         message.error(json.message,.8);
                                     }
                                 })
                             }else{
                                 // message.error('未找到商品1编码',.8);
-                                message.error('商品1'+json.message,1);
+                                message.error(json.message,.8);
                             }
                         })
                     }
