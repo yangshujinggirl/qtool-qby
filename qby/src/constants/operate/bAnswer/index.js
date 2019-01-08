@@ -55,7 +55,7 @@ class Banswer extends Component{
   onShowSizeChange =({currentPage,limit})=> {
     this.props.dispatch({
       type:'bAnswer/fetchList',
-      payload:{currentPage,limit}
+      payload:{currentPage,limit,...this.state.field}
     });
   }
   //处理表格的点击事件
