@@ -58,7 +58,7 @@ class UserOrder extends Component {
     if(record.orderType == 5){ //如果是保税订单 ------> 跳转保税订单c端详情
       paneitem = {
         title:'订单详情',
-        key:'801000edit'+id+'info',
+        key:'801000edit'+record.orderId+'info',
         data:{
           record:record,
           id:record.orderId,
