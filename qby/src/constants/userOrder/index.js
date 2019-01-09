@@ -14,19 +14,20 @@ class UserOrder extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      fields:{
-        spShopName:'',
-        orderNo:'',
-        pdSpuName:'',
-        code:'',
-        mobilePhone:'',
-        orderStatus:'',
-        platform:'',
-        deliveryType:'',
-        rangePicker:'',
-        dateTimeST:'',
-        dateTimeET:'',
-      },
+      inputValues:{},
+      // fields:{
+      //   spShopName:'',
+      //   orderNo:'',
+      //   pdSpuName:'',
+      //   code:'',
+      //   mobilePhone:'',
+      //   orderStatus:'',
+      //   platform:'',
+      //   deliveryType:'',
+      //   rangePicker:'',
+      //   dateTimeST:'',
+      //   dateTimeET:'',
+      // },
     }
   }
   componentWillMount() {
@@ -68,7 +69,7 @@ class UserOrder extends Component {
   //点击分页
   changePage = (current) => {
     const currentPage = current-1;
-    const values = {...this.state.fields,currentPage}
+    const values = {...this.state.inputValues,currentPage}
     this.props.dispatch({
       type:'userorders/fetchList',
       payload: values
@@ -78,30 +79,37 @@ class UserOrder extends Component {
   onShowSizeChange =({currentPage,limit})=> {
     this.props.dispatch({
       type:'userorders/fetchList',
-      payload:{currentPage,limit,...this.state.fields}
+      payload:{currentPage,limit,...this.state.inputValues}
     });
   }
   //搜索框数据发生变化
-  searchDataChange =(changedFields)=> {
-    this.setState(({ fields }) => ({
-      fields: { ...fields, ...changedFields },
-    }));
-  }
+  // searchDataChange =(changedFields)=> {
+  //   if(changedFields.rangePicker&&changedFields.rangePicker.length>0) {
+  //     const {rangePicker} = changedFields;
+  //     changedFields.dateTimeST = moment(rangePicker[0]).format('YYYY-MM-DD HH:mm:ss');
+  //     changedFields.dateTimeET = moment(rangePicker[1]).format('YYYY-MM-DD HH:mm:ss');
+  //   }else{
+  //     changedFields.dateTimeST = '';
+  //     changedFields.dateTimeET = '';
+  //   }
+  //   this.setState({
+  //     inputValues:changedFields
+  //   });
+  // }
   //点击搜索
   searchData = (values)=> {
     this.props.dispatch({
       type:'userorders/fetchList',
       payload:values
+    });
+    this.setState({
+      inputValues:values
     })
+    console.log(values)
   }
   //导出数据
   exportData =()=> {
-    const { rangePicker, ...params } =this.state.fields;
-    if(rangePicker&&rangePicker.length>0) {
-      params.dateTimeST = moment(rangePicker[0]).format('YYYY-MM-DD HH:mm:ss');
-      params.dateTimeET = moment(rangePicker[1]).format('YYYY-MM-DD HH:mm:ss');
-    }
-    const values ={ type: 12, downloadParam: {...params}};
+    const values ={ type: 12, downloadParam: {...this.state.inputValues}};
     exportDataApi(values)
     .then(res => {
       if(res.code == '0'){
@@ -128,7 +136,6 @@ class UserOrder extends Component {
     })
   }
   render() {
-    console.log(this.state.fields)
     //导出数据按钮是否显示
 		const exportUserorderData=this.props.data.rolelists.find((currentValue,index)=>{
 			return currentValue.url=="qerp.web.sys.doc.task"

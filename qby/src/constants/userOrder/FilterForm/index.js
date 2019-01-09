@@ -23,6 +23,12 @@ class NormalForm extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
+
+      if(values.rangePicker&&values.rangePicker.length>0) {
+        const {rangePicker} = values;
+        values.dateTimeST = moment(rangePicker[0]).format('YYYY-MM-DD HH:mm:ss');
+        values.dateTimeET = moment(rangePicker[1]).format('YYYY-MM-DD HH:mm:ss');
+      }
       this.props.submit && this.props.submit(values);
     });
   }
@@ -111,9 +117,9 @@ class NormalForm extends Component {
 }
 
 const FilterForm = Form.create({
-  onValuesChange:(props, changedValues, allValues) => {
-    props.onValuesChange(allValues);
-  }
+  // onValuesChange:(props, changedValues, allValues) => {
+  //   props.onValuesChange(allValues);
+  // }
 })(NormalForm);
 
 export default FilterForm;
