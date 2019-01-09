@@ -61,7 +61,13 @@ class cTimer extends Component{
         payload:paneitem
     });
   }
-
+  //pageSize改变时的回调
+  onShowSizeChange =({currentPage,limit})=> {
+    this.props.dispatch({
+      type:'cTimer/fetchList',
+      payload:{currentPage,limit,...this.state.field}
+    });
+  }
   //修改
   handleOperateClick =(record)=> {
     const paneitem = {
@@ -111,7 +117,9 @@ class cTimer extends Component{
         />
         <Qpagination
           data={this.props.cTimer}
-          onChange={this.changePage}/>
+          onChange={this.changePage}
+          onShowSizeChange = {this.onShowSizeChange}
+        />
       </div>
     )
   }

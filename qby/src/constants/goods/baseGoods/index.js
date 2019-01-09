@@ -71,9 +71,11 @@ class BaseGoods extends Component {
   }
   //修改pageSize
   changePageSize =(values)=> {
+    const { fields } = this.state;
+    const value  = {...values,...fields}
     this.props.dispatch({
       type:'baseGoodsList/fetchList',
-      payload: values
+      payload: value
     });
   }
   //搜索
