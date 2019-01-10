@@ -34,7 +34,7 @@ class DailyBillForm extends React.Component {
               rechargeAmount:''
           },
           source:0,
-          type:1
+          type:''
       };
       this.columns = [{
             title: '订单编号',
@@ -316,7 +316,7 @@ class DailyBillForm extends React.Component {
                       label="订单分类">
                       {getFieldDecorator('type',{
                         onChange:this.changeType,
-                        initialValue:'1'
+                        // initialValue:'1'
                       })(
                           <Select allowClear placeholder="请选择订单类型">
                               <Option value="1">销售订单</Option>
