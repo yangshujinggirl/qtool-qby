@@ -2,6 +2,7 @@ import React from 'react';
 import {GetServerData} from '../../services/services';
 import { Button, Icon ,Modal} from 'antd';
 import { connect } from 'dva';
+import {removeSpace} from '../../utils/meth';
 import '../../style/ordermd.css';
 //table
 import OrderposTable from './table';
@@ -13,6 +14,7 @@ class OrderposIndex extends React.Component{
 	state = {};
 	//导出数据
 	exportData = (type,data) => {
+		removeSpace(data);
 		const values={
 			type:type,
 			downloadParam:data,
@@ -40,12 +42,12 @@ class OrderposIndex extends React.Component{
 						});
 					},
 					onCancel() {
-						
+
 					},
 	  			});
 			}
 		})
-	
+
 	}
 
 	addNew = () =>{
@@ -67,8 +69,8 @@ class OrderposIndex extends React.Component{
                 <OrderposSearch/>
 					{
 						expontdata?
-						<Button 
-							type="primary" 
+						<Button
+							type="primary"
 							size='large'
 							className='mt20'
 							onClick={this.exportData.bind(this,18,this.props.values)}
@@ -81,9 +83,9 @@ class OrderposIndex extends React.Component{
         	</div>
       	)
 	}
-	  
+
 	componentDidMount(){
-		
+
 	}
 }
 

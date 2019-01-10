@@ -122,8 +122,17 @@ const confirm = Modal.confirm;
 		}
 		let M1 = (Y2> 10 ? Y2 : '0' + Y2) //当前月
 		let timer1 = Y1 + '-' + M1
-
 		return {
 		 	t1: timer1
 		}
 	}
+  //去空格
+  export function removeSpace (values) {
+    debugger
+    for(let i in values){
+      if(values[i] && typeof(values[i])=='string'){
+        values[i] = values[i].trim();
+      };
+    };
+    return values;
+  }

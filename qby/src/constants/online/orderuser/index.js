@@ -1,5 +1,6 @@
 import { connect } from 'dva';
 import {GetServerData} from '../../../services/services';
+import {removeSpace} from '../../../utils/meth';
 import { Button, Icon ,Modal,message} from 'antd';
 import SearchForm from './search';
 import SearchTable from './table';
@@ -17,6 +18,7 @@ class OrderuserIndex extends React.Component{
     };
     //导出数据
 	exportData = (type,data) => {
+    removeSpace(data)
 		const values={
 			type:type,
 			downloadParam:data,

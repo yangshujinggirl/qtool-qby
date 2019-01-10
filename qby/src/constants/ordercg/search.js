@@ -2,6 +2,7 @@ import { Form, Row, Col, Input, Button, Icon,Select ,DatePicker} from 'antd';
 import { connect } from 'dva';
 import moment from 'moment';
 import {timeForMat} from '../../utils/meth';
+import {removeSpace} from '../../utils/meth';
 const FormItem = Form.Item;
 const Option = Select.Option
 const RangePicker = DatePicker.RangePicker;
@@ -41,6 +42,7 @@ class OrdercgSearchForm extends React.Component {
         values.currentPage=currentPage;
         values.createTimeST = this.state.createTimeST;
         values.createTimeET = this.state.createTimeET;
+        removeSpace(values);
         this.props.dispatch({
             type:'ordercg/fetch',
             payload:{code:'qerp.web.ws.asn.query',values:values}

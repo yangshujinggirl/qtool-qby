@@ -2,6 +2,7 @@ import React from 'react';
 import {GetServerData} from '../../services/services';
 import { Button, Icon,Modal } from 'antd';
 import { connect } from 'dva';
+import {removeSpace} from '../../utils/meth';
 import '../../style/ordermd.css';
 import OrdermdTable from './table';
 import OrdermdSearch from './search';
@@ -12,6 +13,7 @@ class OrdermdIndex extends React.Component{
 	state = {};
 	//导出数据
 	exportData = (type,data) => {
+		removeSpace(data);
 		const values={
 			type:type,
 			downloadParam:data,

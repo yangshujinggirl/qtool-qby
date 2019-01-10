@@ -2,6 +2,7 @@ import React from 'react';
 import {GetServerData} from '../../services/services';
 import { Button, Icon ,Modal} from 'antd';
 import { connect } from 'dva';
+import {removeSpace} from '../../utils/meth';
 //table
 import OrderctTable from './table';
 //search
@@ -30,10 +31,11 @@ class OrderctIndex extends React.Component{
   	}
 
 	  exportData = (type,data) => {
-		const values={
-			type:type,
-			downloadParam:data,
-		}
+			removeSpace(data);
+			const values={
+				type:type,
+				downloadParam:data,
+		};
 		const result=GetServerData('qerp.web.sys.doc.task',values);
 		result.then((res) => {
 			return res;
@@ -57,14 +59,14 @@ class OrderctIndex extends React.Component{
 						});
 					},
 					onCancel() {
-						
+
 					},
 	  			});
 			}
 		})
-	
+
 	}
-	
+
   	render(){
 		const rolelists=this.props.data.rolelists
 		// //新增
@@ -75,26 +77,26 @@ class OrderctIndex extends React.Component{
 		const expontdata=rolelists.find((currentValue,index)=>{
 			return currentValue.url=="qerp.web.sys.doc.task"
 		})
-		
+
      	return(
         	<div className='content_box'>
                 <OrderctSearch/>
 					{
 						addorder?
 							<Button
-								type="primary" 
+								type="primary"
 								size='large'
 								className='mt20 mr10'
 								onClick={this.addNew.bind(this)}
-							>	
+							>
 								新建采退单
 							</Button>
 						:null
 					}
 					{
 						expontdata?
-						<Button 
-						type="primary" 
+						<Button
+						type="primary"
 						size='large'
 						className='mt20 mr10'
 						onClick={this.exportData.bind(this,16,this.props.values)}

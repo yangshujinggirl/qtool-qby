@@ -1,5 +1,6 @@
 import React from 'react';
 import {GetServerData} from '../../services/services';
+import {removeSpace} from '../../utils/meth';
 import { Button, Icon ,Modal} from 'antd';
 import { connect } from 'dva';
 //search
@@ -14,9 +15,11 @@ class OperateinoutIndex extends React.Component{
   state = {};
     //导出数据
 	exportData = () => {
+    console.log(this.props.operateinout.values)
+    console.log(removeSpace(this.props.operateinout.values))
 		const values={
 			type:20,
-			downloadParam:this.props.operateinout.values,
+			downloadParam:removeSpace(this.props.operateinout.values),
 		}
 		const result=GetServerData('qerp.web.sys.doc.task',values);
 		result.then((res) => {

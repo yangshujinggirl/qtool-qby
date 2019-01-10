@@ -2,6 +2,7 @@ import { Form, Row, Col, Input, Button, Icon,Select ,DatePicker} from 'antd';
 import moment from 'moment';
 import * as confgdata  from './confg';
 import {timeForMats} from '../../../utils/meth';
+import {removeSpace} from '../../../utils/meth';
 
 
 const { MonthPicker, RangePicker } = DatePicker;
@@ -18,6 +19,7 @@ class Searchform extends React.Component {
         this.props.form.validateFields((err, values) => {
             values.payTimeST=this.state.startTime
             values.payTimeET=this.state.endTime
+            removeSpace(values)
             this.props.hindFormSearch(values)
         });
     }
@@ -135,7 +137,7 @@ class Searchform extends React.Component {
         },function(){
             this.handleSearch()
         })
-        
+
     }
 }
 

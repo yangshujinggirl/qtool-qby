@@ -3,6 +3,7 @@ import { Button, Icon ,Modal} from 'antd';
 import SearchForm from './search';
 import SearchTable from './table';
 import { connect } from 'dva';
+import {removeSpace} from '../../../utils/meth';
 
 const confirm = Modal.confirm;
 
@@ -16,6 +17,7 @@ class InfouserIndex extends React.Component{
     };
     //导出数据
 	exportData = (type,data) => {
+    removeSpace(data)
 		const values={
 			type:type,
 			downloadParam:data,
