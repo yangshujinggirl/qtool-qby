@@ -181,7 +181,8 @@ class DailyBillForm extends React.Component {
           shopId:this.props.shopId,
           startDate:this.state.startDate,
           endDate:this.state.endDate,
-          type:this.state.type
+          type:this.state.type,
+          source:this.state.source
       }
       this.exportData(80,data)
   }
