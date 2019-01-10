@@ -91,8 +91,9 @@ class BtipGoods extends Component {
   exportData () {
     const { dataPag } = this.props.productGoodsList;
     const { fields } = this.state;
+    console.log(fields)
     for(var i in fields){
-      if(fields[i]){
+      if(fields[i] && typeof(fields[i]) == 'string'){
         fields[i] = fields[i].trim();
       };
     }
