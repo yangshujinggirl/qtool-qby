@@ -60,7 +60,7 @@ class NormalForm extends Component {
             <div className="search-form-wrap">
               <FormItem label='SPU ID'>
                  {getFieldDecorator('pdSpuId')(
-                   <Input placeholder="请输入spuid" autoComplete="off"/>
+                   <Input placeholder="请输入小于12位的spuid" maxLength='11' autoComplete="off"/>
                  )}
               </FormItem>
               <FormItem label='商品编码'>
