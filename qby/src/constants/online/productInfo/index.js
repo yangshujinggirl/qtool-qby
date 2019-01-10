@@ -91,6 +91,11 @@ class BtipGoods extends Component {
   exportData () {
     const { dataPag } = this.props.productGoodsList;
     const { fields } = this.state;
+    for(var i in fields){
+      if(fields[i]){
+        fields[i] = fields[i].trim();
+      };
+    }
     let params={
       type:32,
       downloadParam:{
