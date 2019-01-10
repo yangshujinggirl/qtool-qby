@@ -5,6 +5,7 @@ import { Link } from 'dva/router';
 import '../../style/dataManage.css';
 import EditableTable from '../../components/table/tablebasic';
 import {GetServerData} from '../../services/services';
+import {removeSpace} from '../../utils/meth';
 import {timeForMattoday} from '../../utils/meth';
 import moment from 'moment';
 import Appmodelone  from '../ordermd/modal';
@@ -99,6 +100,7 @@ class AdjustLogIndexForm extends React.Component {
             values.limit=this.state.limit
             values.currentPage=this.state.currentPage
             values.shopId=this.props.shopId
+            removeSpace(values)
             this.props.dispatch({ type: 'tab/loding', payload:true});
             const result=GetServerData('qerp.web.pd.adjust.query',values)
             result.then((res) => {

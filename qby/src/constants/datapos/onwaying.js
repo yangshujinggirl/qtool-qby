@@ -6,6 +6,7 @@ import '../../style/dataManage.css';
 import EditableTable from '../../components/table/tablebasic';
 import {GetServerData} from '../../services/services';
 import {timeForMattoday} from '../../utils/meth';
+import {removeSpace} from '../../utils/meth';
 import moment from 'moment';
 import Appmodelone  from '../ordermd/modal';
 import RemarkText from './remarkModal';
@@ -79,6 +80,7 @@ class Onwaying extends React.Component {
             values.limit=this.state.limit
             values.currentPage=this.state.currentPage
             values.spShopId=this.props.shopId
+            removeSpace(values)
             this.props.dispatch({ type: 'tab/loding', payload:true});
             const result=GetServerData('qerp.web.qpos.pd.unreceived.query',values)
                 result.then((res) => {
@@ -103,49 +105,50 @@ class Onwaying extends React.Component {
 
 
     //导出数据
-    exportDatas = () =>{
-        this.exportData(87,this.state.searchvalue)
+    exportDatas =()=> {
+      const data = removeSpace(this.state.searchvalue);
+      this.exportData(87,data)
     }
     exportData = (type,data) => {
-		const values={
-			type:type,
-			downloadParam:data,
-		}
-		const result=GetServerData('qerp.web.sys.doc.task',values);
-		result.then((res) => {
-			return res;
-		}).then((json) => {
-			if(json.code=='0'){
-				var _dispatch=this.props.dispatch
-				confirm({
-					title: '数据已经进入导出队列',
-					content: '请前往下载中心查看导出进度',
-					cancelText:'稍后去',
-					okText:'去看看',
-					onOk() {
-						const paneitem={title:'下载中心',key:'000001',componkey:'000001',data:null}
-						_dispatch({
-							type:'tab/firstAddTab',
-							payload:paneitem
-						});
-						_dispatch({
-							type:'downlaod/fetch',
-							payload:{code:'qerp.web.sys.doc.list',values:{limit:15,currentPage:0}}
-						});
-					},
-					onCancel() {
-						
-					},
-	  			});
-			}
-		})
-	
+      removeSpace(data);
+  		const values={
+  			type:type,
+  			downloadParam:data,
+  		};
+  		const result=GetServerData('qerp.web.sys.doc.task',values);
+  		result.then((res) => {
+  			return res;
+  		}).then((json) => {
+  			if(json.code=='0'){
+  				var _dispatch=this.props.dispatch
+  				confirm({
+  					title: '数据已经进入导出队列',
+  					content: '请前往下载中心查看导出进度',
+  					cancelText:'稍后去',
+  					okText:'去看看',
+  					onOk() {
+  						const paneitem={title:'下载中心',key:'000001',componkey:'000001',data:null}
+  						_dispatch({
+  							type:'tab/firstAddTab',
+  							payload:paneitem
+  						});
+  						_dispatch({
+  							type:'downlaod/fetch',
+  							payload:{code:'qerp.web.sys.doc.list',values:{limit:15,currentPage:0}}
+  						});
+  					},
+  					onCancel() {
+
+  					},
+  	  			});
+  			};
+  		})
 	}
     render() {
         const { getFieldDecorator } = this.props.form;
         return (
             <div className="daily-bill border-top-style">
-                <div> 
+                <div>
                 <Form  className='formbox'>
                     <Row gutter={40} className='formbox_row' style={{marginTop:"20px"}}>
                         <Col span={24} className='formbox_col'>
@@ -173,8 +176,8 @@ class Onwaying extends React.Component {
                         <Button type="primary"  onClick={this.handleSearch.bind(this)} size='large'>搜索</Button>
                     </div>
                 </Form>
-                <Button 
-						type="primary" 
+                <Button
+						type="primary"
 						size='large'
 						className='mt20'
 						onClick={this.exportDatas.bind(this)}
@@ -182,8 +185,8 @@ class Onwaying extends React.Component {
 						导出数据
 					</Button>
                 <div className="mt15">
-                    <EditableTable 
-                        columns={this.columns} 
+                    <EditableTable
+                        columns={this.columns}
                         dataSource={this.state.dataSource}
                         footer={true}
                         pageChange={this.pageChange.bind(this)}

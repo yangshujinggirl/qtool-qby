@@ -4,6 +4,7 @@ import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,m
 import { Link } from 'dva/router';
 import '../../style/dataManage.css';
 import {GetServerData} from '../../services/services';
+import {removeSpace} from '../../utils/meth';
 import {timeForMattoday} from '../../utils/meth';
 import EditableTable from '../../components/table/tablebasic';
 import Appmodelone  from '../ordermd/modal';
@@ -101,6 +102,7 @@ class InventorydiffLogIndexForm extends React.Component {
             values.shopId=this.props.shopId
             values.checkTimeST=this.state.checkTimeStart
             values.checkTimeET=this.state.checkTimeEnd
+            removeSpace(values)
             this.props.dispatch({ type: 'tab/loding', payload:true});
             const result=GetServerData('qerp.web.pd.check.query',values)
             result.then((res) => {

@@ -1,6 +1,7 @@
 import { Form, Row, Col, Input, Button, Icon,Select ,DatePicker,AutoComplete} from 'antd';
 import { connect } from 'dva';
 import {GetServerData} from '../../../services/services';
+import {removeSpace} from '../../../utils/meth';
 import moment from 'moment';
 const FormItem = Form.Item;
 const dateFormat = 'YYYY-MM-DD';
@@ -24,6 +25,7 @@ class StockSearchForm extends React.Component {
   initStockList=(values,limit,currentPage)=>{
         values.limit=limit;
         values.currentPage=currentPage;
+        removeSpace(values);
         this.props.dispatch({
             type:'datasphiscun/fetch',
             payload:{code:'qerp.web.qpos.pd.historyInv.query',values:values}

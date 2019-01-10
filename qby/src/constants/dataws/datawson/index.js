@@ -1,6 +1,7 @@
 
 import {GetServerData} from '../../../services/services';
 import {Getexpont} from '../../../services/expont';
+import {removeSpace} from '../../../utils/meth';
 import { Button, Icon ,Modal} from 'antd';
 import { connect } from 'dva';
 import DatawsonTable from './table';
@@ -22,6 +23,7 @@ class DatawsonIndex extends React.Component{
 	}
 	//导出数据
 	exportData = (type,data) => {
+		removeSpace(data)
 		const values={
 			type:type,
 			downloadParam:data,

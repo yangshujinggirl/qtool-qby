@@ -1,6 +1,7 @@
 import { Form, Row, Col, Input, Button, Icon,Select ,DatePicker} from 'antd';
 import { connect } from 'dva';
 import {timeForMat} from '../../utils/meth';
+import {removeSpace} from '../../utils/meth';
 import moment from 'moment';
 const FormItem = Form.Item;
 const Option = Select.Option
@@ -39,6 +40,7 @@ class OperatememberSearchForm extends React.Component {
         values.endTime=this.state.endTime;
         values.limit=limit;
         values.currentPage=currentPage;
+        removeSpace(values);
         this.props.dispatch({
             type:'operatemember/fetch',
             payload:{code:'qerp.web.qpos.mb.card.query',values:values}

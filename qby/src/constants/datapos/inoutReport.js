@@ -7,6 +7,7 @@ import '../../style/dataManage.css';
 import EditableTable from '../../components/table/tablebasic';
 import moment from 'moment';
 import {GetServerData} from '../../services/services';
+import {removeSpace} from '../../utils/meth';
 const FormItem = Form.Item;
 const Option = Select.Option;
 const { RangePicker,MonthPicker } = DatePicker;
@@ -179,7 +180,8 @@ class InOutReportForm extends React.Component {
     //获取数据
     getServerData = (values) =>{
         this.props.dispatch({ type: 'tab/loding', payload:true});
-        const result=GetServerData('qerp.web.qpos.rp.inventory.page',values)
+        removeSpace(values);
+        const result = GetServerData('qerp.web.qpos.rp.inventory.page',values)
         result.then((res) => {
             return res;
         }).then((json) => {
@@ -242,6 +244,7 @@ class InOutReportForm extends React.Component {
         this.exportData(82,data)
     }
     exportData = (type,data) => {
+      removeSpace(data);
   		const values={
   			type:type,
   			downloadParam:data,

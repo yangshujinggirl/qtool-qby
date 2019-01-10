@@ -6,6 +6,7 @@ import '../../style/dataManage.css';
 import EditableTable from '../../components/table/tablebasic';
 import moment from 'moment';
 import {GetServerData} from '../../services/services';
+import {removeSpace} from '../../utils/meth';
 import Appmodelone  from '../ordermd/modal';
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -136,7 +137,7 @@ class ProfitReportForm extends React.Component {
         source:this.state.source
     }
     this.props.dispatch({ type: 'tab/loding', payload:true});
-    GetServerData('qerp.web.rp.profit.page',params)
+    GetServerData('qerp.web.rp.profit.page',removeSpace(params))
     .then((json) => {
         this.props.dispatch({ type: 'tab/loding', payload:false});
         if(json.code=='0'){
@@ -173,6 +174,7 @@ class ProfitReportForm extends React.Component {
       this.exportData(81,data)
   }
   exportData = (type,data) => {
+    removeSpace(data);
 		const values={
 			type:type,
 			downloadParam:data,

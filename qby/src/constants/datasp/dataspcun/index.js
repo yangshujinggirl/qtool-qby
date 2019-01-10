@@ -3,6 +3,7 @@ import {GetServerData} from '../../../services/services';
 import {Getexpont} from '../../../services/expont';
 import { Button, Icon,Modal } from 'antd';
 import { connect } from 'dva';
+import {removeSpace} from '../../../utils/meth';
 import DataspcunTable from './table';
 import DataspcunSearch from './search';
 const confirm = Modal.confirm;
@@ -27,6 +28,7 @@ class DataspcunIndex extends React.Component{
 	}
 	//导出数据
 	exportData = (type,data) => {
+		removeSpace(data)
 		const values={
 			type:type,
 			downloadParam:data,

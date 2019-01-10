@@ -5,6 +5,7 @@ import { Link } from 'dva/router';
 import '../../style/dataManage.css';
 import {GetServerData} from '../../services/services';
 import {timeForMattoday} from '../../utils/meth';
+import {removeSpace} from '../../utils/meth';
 import EditableTable from '../../components/table/tablebasic';
 import Appmodelone  from '../ordermd/modal';
 import moment from 'moment';
@@ -242,6 +243,7 @@ class InventorydiffLogIndexForm extends React.Component {
         values.limit=this.state.limit
         values.currentPage=this.state.currentPage
         values.outShopId=this.props.shopId
+        removeSpace(values)
         this.props.dispatch({ type: 'tab/loding', payload:true});
         const result=GetServerData('qerp.web.sp.exchange.list',values)
         result.then((res) => {

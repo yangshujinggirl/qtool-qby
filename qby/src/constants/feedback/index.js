@@ -1,4 +1,3 @@
-
 import {GetServerData} from '../../services/services';
 import { Button, Icon } from 'antd';
 import { connect } from 'dva';
@@ -13,7 +12,7 @@ class FeedbackIndex extends React.Component{
              	<div className='mt15'><SpTable/></div>
         	</div>
       	)
-	}	
+	}
 }
 
 export default connect()(FeedbackIndex);

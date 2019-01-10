@@ -128,7 +128,6 @@ const confirm = Modal.confirm;
 	}
   //去空格
   export function removeSpace (values) {
-    debugger
     for(let i in values){
       if(values[i] && typeof(values[i])=='string'){
         values[i] = values[i].trim();
