@@ -22,7 +22,6 @@ class NormalForm extends Component {
       };
       this.props.submit && this.props.submit(values)
     });
-
   }
   render() {
     const { getFieldDecorator } = this.props.form;
@@ -83,10 +82,6 @@ class NormalForm extends Component {
     )
   }
 }
-const FilterForm = Form.create({
-  onValuesChange:(props, changedValues, allValues) => {
-    props.onValuesChange(allValues);
-  }
-})(NormalForm);
+const FilterForm = Form.create({})(NormalForm);
 
 export default FilterForm;

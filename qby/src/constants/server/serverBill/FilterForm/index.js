@@ -19,7 +19,6 @@ import {timeForMats} from '../../../../utils/meth';
 class NormalForm extends Component{
   //点击搜索
   handleSubmit = (e) => {
-    // e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       const{rangePicker,..._values} = values;
       if(rangePicker&&rangePicker[0]){
@@ -99,11 +98,7 @@ class NormalForm extends Component{
   }
 }
 
-const FilterForm = Form.create({
-  onValuesChange:(props, changedValues, allValues) => {
-    props.onValuesChange(allValues);
-  }
-})(NormalForm)
+const FilterForm = Form.create({})(NormalForm)
 function mapStateToProps(state){
   const { serverBill } = state;
   return { serverBill }

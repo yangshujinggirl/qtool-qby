@@ -35,17 +35,7 @@ class CtipGoods extends Component {
       componkey:this.props.componkey,
       visible:false,
       handleContent:{},
-      fields: {
-         pdSpuId:"",
-         code:'' ,
-         cname:'',
-         pdBrandName:'',
-         pdCategory1Id:'',
-         pdCategory2Id:'',
-         cstatus:'',
-         isNew:'',
-         isHot:'',
-       },
+      inputValues:{}
     }
   }
   componentWillMount() {
@@ -76,17 +66,11 @@ class CtipGoods extends Component {
       payload: rolelists
     });
   }
-  //双向绑定表单
-  handleFormChange = (changedFields) => {
-    this.setState(({ fields }) => ({
-      fields: { ...fields, ...changedFields },
-    }));
-  }
   //分页
   changePage = (currentPage) => {
     currentPage--;
-    const { fields } = this.state;
-    const paramsObj ={...{currentPage},...fields}
+    const { inputValues } = this.state;
+    const paramsObj ={...{currentPage},...inputValues}
     this.props.dispatch({
       type:'cTipGoodsList/fetchList',
       payload: paramsObj
@@ -94,8 +78,8 @@ class CtipGoods extends Component {
   }
   //修改pageSize
   changePageSize =(values)=> {
-    const { fields } = this.state;
-    const value  = {...values,...fields}
+    const { inputValues } = this.state;
+    const value  = {...values,...inputValues}
     this.props.dispatch({
       type:'cTipGoodsList/fetchList',
       payload: value
@@ -107,6 +91,9 @@ class CtipGoods extends Component {
       type:'cTipGoodsList/fetchList',
       payload: values
     });
+    this.setState({
+      inputValues:values
+    })
   }
   //Modal取消
   onCancelModal() {
@@ -190,7 +177,7 @@ class CtipGoods extends Component {
     this.props.dispatch({
       type:'cTipGoodsList/fetchList',
       payload:{
-        ...this.state.fields,
+        ...this.state.inputValues,
         limit:this.props.cTipGoodsList.dataPag.limit,
         currentPage:this.props.cTipGoodsList.dataPag.currentPage
       }
@@ -290,7 +277,7 @@ class CtipGoods extends Component {
       componkey:`${componkey}edit`,
       data:{
         listParams:{
-          ...this.state.fields,
+          ...this.state.inputValues,
           limit,
           currentPage
         },
@@ -331,7 +318,6 @@ class CtipGoods extends Component {
   render() {
     const { dataList, categoryList, authorityList, dataPag } = this.props.cTipGoodsList;
     const {
-      fields,
       handleContent,
       visible,
       loading
@@ -339,10 +325,9 @@ class CtipGoods extends Component {
     return (
       <div className="cTip-goods-components qtools-components-pages">
         <FilterForm
-          {...fields}
           categoryList={categoryList}
           submit={this.searchData}
-          onValuesChange={this.handleFormChange}/>
+        />
         <div className="handel-btn-lists">
           {
             authorityList.authoritySale&&

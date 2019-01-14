@@ -16,11 +16,7 @@ class SellManage extends Component {
   constructor(props) {
     super(props);
     this.state={
-      fields: {
-         spShopName:'',
-         deliveryType:'',
-         time:'',
-       },
+      inputValues:{}
     }
   }
   componentDidMount() {
@@ -29,18 +25,11 @@ class SellManage extends Component {
       payload:{}
     })
   }
-
-  //双向绑定表单
-  handleFormChange = (changedFields) => {
-    this.setState(({ fields }) => ({
-      fields: { ...fields, ...changedFields },
-    }));
-  }
   //分页
   changePage = (currentPage) => {
     currentPage--;
-    const { fields } = this.state;
-    const paramsObj ={...{currentPage},...fields}
+    const { inputValues } = this.state;
+    const paramsObj ={...{currentPage},...inputValues}
     this.props.dispatch({
       type:'sellManage/fetchList',
       payload: paramsObj
@@ -50,7 +39,7 @@ class SellManage extends Component {
   changePageSize =(values)=> {
     this.props.dispatch({
       type:'sellManage/fetchList',
-      payload: values
+      payload: {...values,...this.state.inputValues}
     });
   }
   //搜索
@@ -59,10 +48,13 @@ class SellManage extends Component {
       type:'sellManage/fetchList',
       payload: values
     });
+    this.setState({
+      inputValues:values
+    })
   }
   //导出数据
   exportData =()=> {
-    let { time, ...params} = this.state.fields;
+    let { time, ...params} = this.state.inputValues;
     if(time&&time.length>0) {
       params.dateTimeST = moment(time[0]).format('YYYY-MM-DD HH:mm:ss');
       params.dateTimeET = moment(time[1]).format('YYYY-MM-DD HH:mm:ss');
@@ -110,8 +102,7 @@ class SellManage extends Component {
     })
   }
   render() {
-    const { fields } =this.state;
-    const { data, list } =this.props.sellManage;
+    const { data, list } = this.props.sellManage;
     let content=(
       <div className="sell-manage-tips-modal">
         <p className="label">1、若配送方式为：门店自提<span className="field">销售收款【结算金额】：商品金额*0.994</span></p>
@@ -122,7 +113,6 @@ class SellManage extends Component {
     return(
       <div className="sell-manage-pages">
         <FilterForm
-          {...fields}
           submit={this.searchData}
           onValuesChange={this.handleFormChange}/>
           <div className="handel-action">

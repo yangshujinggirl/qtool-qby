@@ -21,7 +21,7 @@ class NormalForm extends Component{
     // e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       const{rangePicker,..._values} = values;
-      if(rangePicker){
+      if(rangePicker&&rangePicker[0]){
         _values.pushTimeST =  moment(rangePicker[0]).format('YYYY-MM-DD HH:mm:ss');
         _values.pushTimeET = moment(rangePicker[1]).format('YYYY-MM-DD HH:mm:ss');
       }
@@ -89,11 +89,7 @@ class NormalForm extends Component{
   }
 }
 
-const FilterForm = Form.create({
-  onValuesChange:(props, changedValues, allValues) => {
-    props.onValuesChange(allValues);
-  }
-})(NormalForm)
+const FilterForm = Form.create({})(NormalForm)
 function mapStateToProps(state){
   const { userFeedBack } = state;
   return {userFeedBack}

@@ -232,13 +232,15 @@ render(){
   }
 	//提交
 	submit =(values)=> {
+		const {listParams} = this.props.data;
+		debugger
 		customserviceSaveApi(values)
 		.then(res=>{
 			if(res.code == "0"){
 				message.success(res.message);
 				this.props.dispatch({
 					type:'serverBill/fetchList',
-					payload:{}
+					payload:{...listParams}
 				})
 				this.props.dispatch({
 						type:'tab/initDeletestate',

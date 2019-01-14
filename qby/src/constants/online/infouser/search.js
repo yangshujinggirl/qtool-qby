@@ -34,7 +34,7 @@ class Searchform extends React.Component {
             values.firstCosumeTimeET=this.state.firstCosumeTimeET
             values.lastCosumeTimeST=this.state.lastCosumeTimeST
             values.lastCosumeTimeET=this.state.lastCosumeTimeET
-            removeSpace(data)
+            removeSpace(values)
             this.props.hindFormSearch(values)
         });
     }

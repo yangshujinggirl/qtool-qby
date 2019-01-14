@@ -17,14 +17,7 @@ class cPush extends Component{
       cPushName:'',
       isPushVisible:false,
       componkey:this.props.componkey,
-      field:{
-        title:'',
-        creater:'',
-        status:'',
-        alertType:'',
-        pushTimeST:'',
-        pushTimeET:'',
-      },
+      inputValues:{},
       rowSelection:{
          type:'radio',
          selectedRowKeys:this.props.cPush.selectedRowKeys,
@@ -62,12 +55,15 @@ class cPush extends Component{
       type:'cPush/fetchList',
       payload:values
     });
+    this.setState({
+      inputValues:values
+    })
   }
 
   //点击分页
   changePage =(current,limit)=> {
     const currentPage = current-1;
-    const values = {...this.state.field,currentPage,limit}
+    const values = {...this.state.inputValues,currentPage,limit}
     this.props.dispatch({
       type:'cPush/fetchList',
       payload:values
@@ -77,17 +73,8 @@ class cPush extends Component{
   onShowSizeChange =({currentPage,limit})=> {
     this.props.dispatch({
       type:'cPush/fetchList',
-      payload:{currentPage,limit,...this.state.field}
+      payload:{currentPage,limit,...this.state.inputValues}
     });
-  }
-  //搜索框数据发生变化
-  searchDataChange =(values)=> {
-    const {rangePicker,..._values} = values;
-    if(rangePicker&&rangePicker[0]){
-      _values.startTime =  moment(rangePicker).format('YYYY-MM-DD HH:mm:ss');;
-      _values.endTime = moment(rangePicker[1]).format('YYYY-MM-DD HH:mm:ss');;
-    }
-    this.setState({field:_values});
   }
   //初始化数据
   componentWillMount(){
@@ -140,7 +127,7 @@ class cPush extends Component{
         bsPushId:record.bsPushId,
         status:record.status,
         listParams:{
-          ...this.state.fields,
+          ...this.state.inputValues,
           limit,
           currentPage
         }
@@ -207,7 +194,7 @@ class cPush extends Component{
         this.props.dispatch({
           type:'cPush/fetchList',
           payload:{
-            ...this.state.fields,
+            ...this.state.inputValues,
             limit,
             currentPage
           }
@@ -240,7 +227,6 @@ class cPush extends Component{
       <div className='qtools-components-pages'>
         <FilterForm
           submit={this.searchData}
-          onValuesChange = {this.searchDataChange}
         />
         <div className="handel-btn-lists">
           {

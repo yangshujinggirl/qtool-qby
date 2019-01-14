@@ -12,14 +12,7 @@ class UserFeedBack extends Component{
     super(props);
     this.state ={
       componkey:this.props.componkey,
-      field:{
-        feedbackNo:'',
-        telephone:'',
-        status:'',
-        handleTimeType:'',
-        createTimeST:"",
-        createTimeET:""
-      }
+      inputValues:{}
     }
   }
   componentWillMount() {
@@ -28,32 +21,26 @@ class UserFeedBack extends Component{
   getNowFormatDate = () => {
    const startRpDate=timeForMat(30).t2;
    const endRpDate=timeForMat(30).t1;
-   const {field} = this.state;
-   this.setState({
-     field:{
-       ...field,
-       createTimeST:startRpDate,
-       createTimeET:endRpDate,
-       }
-     },function(){
-       this.searchData({
-         createTimeST:startRpDate,
-         createTimeET:endRpDate
-       });
-   })
+   this.searchData({
+     createTimeST:startRpDate,
+     createTimeET:endRpDate
+   });
   }
   //点击搜索
   searchData = (values)=> {
     this.props.dispatch({
       type:'userFeedBack/fetchList',
       payload:values
+    });
+    this.setState({
+      inputValues:values
     })
   }
 
   //点击分页
   changePage =(current,limit)=> {
     const currentPage = current-1;
-    const values = {...this.state.field,currentPage,limit}
+    const values = {...this.state.inputValues,currentPage,limit}
     this.props.dispatch({
       type:'userFeedBack/fetchList',
       payload:values
@@ -63,17 +50,8 @@ class UserFeedBack extends Component{
   onShowSizeChange =({currentPage,limit})=> {
     this.props.dispatch({
       type:'userFeedBack/fetchList',
-      payload:{currentPage,limit,...this.state.field}
+      payload:{currentPage,limit,...this.state.inputValues}
     })
-  }
-  //搜索框数据发生变化
-  searchDataChange =(values)=> {
-    const {rangePicker,..._values} = values;
-    if(rangePicker&&rangePicker[0]){
-      _values.createTimeST =  moment(rangePicker[0]).format('YYYY-MM-DD');
-      _values.createTimeET = moment(rangePicker[1]).format('YYYY-MM-DD');
-    }
-    this.setState({field:_values});
   }
   //点击跳转详情页
   handleOperateClick(record){
@@ -96,7 +74,6 @@ class UserFeedBack extends Component{
       <div className='qtools-components-pages userfeedback'>
         <FilterForm
           submit={this.searchData}
-          onValuesChange = {this.searchDataChange}
         />
         <div className = 'userFeed-table'>
             <Qtable

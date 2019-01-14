@@ -20,7 +20,7 @@ class StockSearchForm extends React.Component {
   initStockList=(values,limit,currentPage)=>{
         values.limit=limit;
         values.currentPage=currentPage;
-        removeSpace(data)
+        removeSpace(values)
         this.props.dispatch({
             type:'dataws/fetch',
             payload:{code:'qerp.web.pd.invdata.query',values:values}

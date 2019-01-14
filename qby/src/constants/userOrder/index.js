@@ -15,40 +15,18 @@ class UserOrder extends Component {
     super(props);
     this.state = {
       inputValues:{},
-      // fields:{
-      //   spShopName:'',
-      //   orderNo:'',
-      //   pdSpuName:'',
-      //   code:'',
-      //   mobilePhone:'',
-      //   orderStatus:'',
-      //   platform:'',
-      //   deliveryType:'',
-      //   rangePicker:'',
-      //   dateTimeST:'',
-      //   dateTimeET:'',
-      // },
     }
   }
   componentWillMount() {
     this.getNowFormatDate();
   }
   getNowFormatDate = () => {
-   const startRpDate=timeForMats(30).t2;
-   const endRpDate=timeForMats(30).t1;
-   const {fields} = this.state;
-   this.setState({
-     fields:{
-       ...fields,
-       dateTimeST:startRpDate,
-       dateTimeET:endRpDate,
-       }
-     },function(){
-       this.searchData({
-         dateTimeST:startRpDate,
-         dateTimeET:endRpDate
-       });
-   })
+   const startRpDate = timeForMats(30).t2;
+   const endRpDate = timeForMats(30).t1;
+   this.searchData({
+     dateTimeST:startRpDate,
+     dateTimeET:endRpDate
+   });
  }
 
   //操作
@@ -82,20 +60,6 @@ class UserOrder extends Component {
       payload:{currentPage,limit,...this.state.inputValues}
     });
   }
-  //搜索框数据发生变化
-  // searchDataChange =(changedFields)=> {
-  //   if(changedFields.rangePicker&&changedFields.rangePicker.length>0) {
-  //     const {rangePicker} = changedFields;
-  //     changedFields.dateTimeST = moment(rangePicker[0]).format('YYYY-MM-DD HH:mm:ss');
-  //     changedFields.dateTimeET = moment(rangePicker[1]).format('YYYY-MM-DD HH:mm:ss');
-  //   }else{
-  //     changedFields.dateTimeST = '';
-  //     changedFields.dateTimeET = '';
-  //   }
-  //   this.setState({
-  //     inputValues:changedFields
-  //   });
-  // }
   //点击搜索
   searchData = (values)=> {
     this.props.dispatch({
@@ -105,7 +69,6 @@ class UserOrder extends Component {
     this.setState({
       inputValues:values
     })
-    console.log(values)
   }
   //导出数据
   exportData =()=> {
@@ -144,9 +107,7 @@ class UserOrder extends Component {
     return (
       <div className='qtools-components-pages'>
         <FilterForm
-          {...this.state.fields}
-          submit={this.searchData}
-          onValuesChange = {this.searchDataChange}/>
+          submit={this.searchData}/>
         <div className="handel-btn-lists">
         {
           exportUserorderData?

@@ -26,6 +26,7 @@ class Onwaying extends React.Component {
     constructor(props) {
         super(props);
         this.state={
+            inputValues:{},
             dataSource:[],
             total:0,
             currentPage:0,
@@ -55,51 +56,61 @@ class Onwaying extends React.Component {
 
 
     //分页1
-    pageChange=(page,pageSize)=>{
+    pageChange =(current,limit)=> {
+        const {inputValues} = this.state;
+        const currentPage = current - 1;
+        const values = {currentPage,limit,...inputValues};
         this.setState({
-            limit:pageSize,
-            currentPage:page-1
+            limit,
+            currentPage
         },function(){
-            this.handleSearch()
+            this.sendRequest(values)
         })
-
     }
     //分页2
-    onShowSizeChange=(current, pageSize)=>{
+    onShowSizeChange =(currentPage, limit)=> {
+        const {inputValues} = this.state;
+        const values = {limit,...inputValues};
         this.setState({
-            limit:pageSize,
-            currentPage:page-1
+            limit
         },function(){
-            this.handleSearch()
-        })
+            this.sendRequest(values);
+        });
     }
-
+    sendRequest =(values)=> {
+      this.props.dispatch({ type: 'tab/loding', payload:true});
+      const result = GetServerData('qerp.web.qpos.pd.unreceived.query',values)
+      result.then((res) => {
+          return res;
+      }).then((json) => {
+          this.props.dispatch({ type: 'tab/loding', payload:false});
+          if(json.code=='0'){
+            const goods = json.goods;
+            for(let i=0;i<goods.length;i++){
+                goods[i].key = i+1;
+            };
+            this.setState({
+                searchvalue:values,
+                dataSource:goods,
+                total:Number(json.total),
+                limit:json.limit,
+                currentPage:json.currentPage
+            });
+          };
+      });
+    }
     //搜索
     handleSearch = (e) =>{
         this.props.form.validateFields((err, values) => {
-            values.limit=this.state.limit
-            values.currentPage=this.state.currentPage
-            values.spShopId=this.props.shopId
-            removeSpace(values)
-            this.props.dispatch({ type: 'tab/loding', payload:true});
-            const result=GetServerData('qerp.web.qpos.pd.unreceived.query',values)
-                result.then((res) => {
-                    return res;
-                }).then((json) => {
-                    this.props.dispatch({ type: 'tab/loding', payload:false});
-                    if(json.code=='0'){
-                        const goods = json.goods;
-                        for(let i=0;i<goods.length;i++){
-                            goods[i].key = i+1;
-                        };
-                        this.setState({
-                            searchvalue:values,
-                            dataSource:goods,
-                            total:Number(json.total),
-                        })
-                    }
-                })
-        })
+          values.spShopId=this.props.shopId;
+          values.limit = this.state.limit;
+          const {limit,..._values} = values;
+          this.setState({
+            inputValues:_values
+          });
+          removeSpace(values)
+          this.sendRequest(values);
+        });
     }
 
 
@@ -177,13 +188,13 @@ class Onwaying extends React.Component {
                     </div>
                 </Form>
                 <Button
-						type="primary"
-						size='large'
-						className='mt20'
-						onClick={this.exportDatas.bind(this)}
-					>
-						导出数据
-					</Button>
+      						type="primary"
+      						size='large'
+      						className='mt20'
+      						onClick={this.exportDatas.bind(this)}
+      					>
+      						导出数据
+      					</Button>
                 <div className="mt15">
                     <EditableTable
                         columns={this.columns}

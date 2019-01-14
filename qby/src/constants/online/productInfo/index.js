@@ -23,15 +23,7 @@ class BtipGoods extends Component {
       componkey:this.props.componkey,
       selecteKeys:[],
       tips:'',
-      fields: {
-         pdSpuId:'',
-         code:'',
-         oname:'',
-         barCode:'',
-         pdBrandName:'',
-         status:'',
-         warehouseId:'',
-       },
+      inputValues:{},
     }
   }
   componentWillMount() {
@@ -53,12 +45,6 @@ class BtipGoods extends Component {
       payload: rolelists
     });
   }
-  //双向绑定表单
-  handleFormChange = (changedFields) => {
-    this.setState(({ fields }) => ({
-      fields: { ...fields, ...changedFields },
-    }));
-  }
   //分页
   changePage = (currentPage) => {
     currentPage--;
@@ -66,8 +52,8 @@ class BtipGoods extends Component {
     this.setState({
       selecteKeys:[],
     })
-    const { fields } = this.state;
-    const paramsObj ={...{currentPage},...fields}
+    const { inputValues } = this.state;
+    const paramsObj ={...{currentPage},...inputValues}
     this.props.dispatch({
       type:'productGoodsList/fetchList',
       payload: paramsObj
@@ -86,15 +72,18 @@ class BtipGoods extends Component {
       type:'productGoodsList/fetchList',
       payload: values
     });
+    this.setState({
+      inputValues:values
+    })
   }
   //导出数据
   exportData () {
     const { dataPag } = this.props.productGoodsList;
-    const { fields } = this.state;
+    const { inputValues } = this.state;
     let params={
       type:32,
       downloadParam:{
-        ...fields,
+        ...inputValues,
         limit:dataPag.limit,
         currentPage:dataPag.currentPage
       },
@@ -193,7 +182,7 @@ class BtipGoods extends Component {
   }
   //编辑。
   getEdit(record) {
-    const { limit, currentPage } = this.props.productGoodsList;
+    const { limit, currentPage } = this.props.productGoodsList.dataPag;
     const { componkey } = this.state;
     const paneitem={
       title:'商品编辑',
@@ -201,7 +190,7 @@ class BtipGoods extends Component {
       componkey:`${componkey}edit`,
       data:{
         listParams:{
-          ...this.state.fields,
+          ...this.state.inputValues,
           limit,
           currentPage
         },
@@ -235,11 +224,9 @@ class BtipGoods extends Component {
 
   render() {
     const { dataList, authorityList, dataPag } = this.props.productGoodsList;
-    const {fields} = this.state;
     return (
       <div className="bTip-goods-components qtools-components-pages">
         <FilterForm
-          {...fields}
           submit={this.searchData}
           onValuesChange={this.handleFormChange}/>
         <div className="handel-btn-lists">

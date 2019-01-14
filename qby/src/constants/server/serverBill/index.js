@@ -18,15 +18,7 @@ class ServerBill extends Component{
       loading:true,
       message:'',
       isVisible:false,
-      field:{
-        customServiceNo:'',
-        customServiceTheme:'',
-        waiter:'',
-        status:'',
-        handleTimeType:'',
-        createTimeST:"",
-        createTimeET:'',
-      }
+      inputValues:{}
     }
   }
   componentWillMount() {
@@ -35,44 +27,37 @@ class ServerBill extends Component{
   getNowFormatDate = () => {
    const startRpDate=timeForMats(30).t2;
    const endRpDate=timeForMats(30).t1;
-   const {field} = this.state;
-   this.setState({
-     field:{
-       ...field,
-       createTimeST:startRpDate,
-       createTimeET:endRpDate,
-       }
-     },function(){
-       this.searchData({
-         createTimeST:startRpDate,
-         createTimeET:endRpDate
-       });
-   })
+   this.searchData({
+     createTimeST:startRpDate,
+     createTimeET:endRpDate
+   });
   }
   //点击搜索
   searchData = (values)=> {
     this.props.dispatch({
       type:'serverBill/fetchList',
       payload:values
-    })
+    });
+    this.setState({
+      inputValues:values
+    });
   }
   //点击分页
   changePage =(current,limit)=> {
+
     const currentPage = current-1;
-    const values = {...this.state.field,currentPage,limit}
+    const values = {...this.state.inputValues,currentPage,limit}
     this.props.dispatch({
       type:'serverBill/fetchList',
       payload:values
     })
   }
-  //搜索框数据发生变化
-  searchDataChange =(values)=> {
-    const {rangePicker,..._values} = values;
-    if(rangePicker&&rangePicker[0]){
-      _values.createTimeST =  moment(new Date(rangePicker[0]._d).getTime()).format('YYYY-MM-DD HH:mm:ss');
-      _values.createTimeET = moment(new Date(rangePicker[1]._d).getTime()).format('YYYY-MM-DD HH:mm:ss');
-    }
-    this.setState({field:_values});
+  //pageSize改变时的回调
+  onShowSizeChange =({currentPage,limit})=> {
+    this.props.dispatch({
+      type:'serverBill/fetchList',
+      payload:{currentPage,limit,...this.state.inputValues}
+    });
   }
   //新增工单
   addBill(){
@@ -102,12 +87,19 @@ class ServerBill extends Component{
   }
   //点击跳转到详情
   handleOperateClick =(record)=> {
+    const {limit,currentPage} = this.props.serverBill;
+    debugger
     const paneitem = {
       title:'工单处理',
       key:`${this.props.componkey}edit`,
       componkey:`${this.props.componkey}edit`,
       data:{
-        pdSpuId:record.customServiceId
+        pdSpuId:record.customServiceId,
+        listParams:{
+          limit,
+          currentPage,
+          ...this.state.inputValues
+        }
       }
     };
     this.props.dispatch({
@@ -115,20 +107,13 @@ class ServerBill extends Component{
       payload:paneitem
     });
   }
-  //pageSize改变时的回调
-  onShowSizeChange =({currentPage,limit})=> {
-    this.props.dispatch({
-      type:'serverBill/fetchList',
-      payload:{currentPage,limit,...this.state.field}
-    });
-  }
+
   render(){
     const {dataList} = this.props.serverBill;
     return(
       <div className='qtools-components-pages'>
         <FilterForm
           submit={this.searchData}
-          onValuesChange = {this.searchDataChange}
         />
       <div className="handel-btn-lists">
           <Button

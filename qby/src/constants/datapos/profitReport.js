@@ -83,7 +83,7 @@ class ProfitReportForm extends React.Component {
       this.getNowFormatDate();
   }
   //获取当前时间
-  getNowFormatDate = () =>{
+  getNowFormatDate =()=> {
       const self = this;
       var date = new Date(); //前一天;
       var seperator1 = "-";
@@ -109,32 +109,28 @@ class ProfitReportForm extends React.Component {
       });
   }
   //表格的方法
-  pageChange=(page,pageSize)=>{
-      const self = this;
+  pageChange =(current,limit)=> {
+      const currentPage = current - 1;
       this.setState({
-          currentPage:page-1
+          currentPage
       },()=>{
-          self.getServerData();
+          this.getServerData({currentPage});
       });
   }
-  onShowSizeChange=(current, pageSize)=>{
-      const self = this;
+  onShowSizeChange=(current, limit)=>{
       this.setState({
-          limit:pageSize,
-          currentPage:0
+          limit,
       },()=>{
-          self.getServerData();
+          this.getServerData({limit});
       })
   }
   //获取数据
   getServerData = (values) =>{
     let params = {
         shopId:this.props.shopId,
-        currentPage:this.state.currentPage,
         limit:this.state.limit,
         rpDate:this.state.rpDate?(this.state.rpDate+"-01"):"",
-        name:this.state.name,
-        source:this.state.source
+        ...values
     }
     this.props.dispatch({ type: 'tab/loding', payload:true});
     GetServerData('qerp.web.rp.profit.page',removeSpace(params))
@@ -157,11 +153,11 @@ class ProfitReportForm extends React.Component {
         }
     })
   }
-  handleSubmit = (e) =>{
+  handleSubmit =(e)=> {
       e.preventDefault();
       const self = this;
       this.props.form.validateFields((err, values) => {
-          this.getServerData();
+          this.getServerData(values);
       })
   }
   //导出数据
@@ -208,14 +204,6 @@ class ProfitReportForm extends React.Component {
 			}
 		})
   }
-  changeSource=(value)=> {
-    debugger
-    this.setState({ source: value});
-  }
-  changeName=(e)=> {
-      let value = e.nativeEvent.target.value;
-      this.setState({ name: value })
-    }
   render() {
       const { getFieldDecorator } = this.props.form;
       return (
@@ -300,7 +288,6 @@ class ProfitReportForm extends React.Component {
                           </FormItem>
                           <FormItem label="商品名称">
                             {getFieldDecorator('name',{
-                              onChange:this.changeName
                             })(
                                 <Input placeholder="请输入商品名称" autoComplete="off"/>
                             )}
@@ -308,7 +295,6 @@ class ProfitReportForm extends React.Component {
                           <FormItem
                             label="订单来源">
                             {getFieldDecorator('source',{
-                              onChange:this.changeSource
                             })(
                               <Select placeholder="请选择订单来源">
                                 <Option key={0} value={0}>全部</Option>

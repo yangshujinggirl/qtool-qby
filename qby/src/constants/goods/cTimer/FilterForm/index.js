@@ -17,15 +17,9 @@ const RangePicker = DatePicker.RangePicker
 class NormalForm extends Component{
   //点击搜索
   handleSubmit = (e) => {
-    // e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
-      const{rangePicker,..._values} = values;
-      if(rangePicker){
-        _values.createTimeST =  new Date( rangePicker[0]).getTime();
-        _values.createTimeET = new Date(rangePicker[1]).getTime();
-      }
-      this.props.submit && this.props.submit(_values);
-    })
+      this.props.submit && this.props.submit(values);
+    });
   }
   //初始化
   render(){
@@ -83,11 +77,7 @@ class NormalForm extends Component{
   }
 }
 
-const FilterForm = Form.create({
-  onValuesChange:(props, changedValues, allValues) => {
-    props.onValuesChange(allValues);
-  }
-})(NormalForm)
+const FilterForm = Form.create({})(NormalForm)
 function mapStateToProps(state){
   const { serverBill } = state;
   return { serverBill }

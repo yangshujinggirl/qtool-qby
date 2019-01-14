@@ -5,6 +5,7 @@ import { Link } from 'dva/router';
 import '../../style/dataManage.css';
 import EditableTable from '../../components/table/tablebasic';
 import {GetServerData} from '../../services/services';
+import {removeSpace} from '../../utils/meth';
 import moment from 'moment';
 import Appmodelone from '../ordermd/modal';
 const FormItem = Form.Item;
@@ -77,44 +78,6 @@ class DailyBillForm extends React.Component {
   componentDidMount(){
       this.getNowFormatDate();
   }
-  //获取数据
-  getServerData = (values) =>{
-      let params = {
-          shopId:this.props.shopId,
-          currentPage:this.state.currentPage,
-          limit:this.state.limit,
-          startDate:this.state.startDate,
-          endDate:this.state.endDate,
-          type:this.state.type,
-          source:this.state.source
-      }
-      if(values) {
-        params = {...params,...values };
-      }
-      this.props.dispatch({ type: 'tab/loding', payload:true});
-      GetServerData('qerp.web.rp.day.account.page',params)
-      .then((json) => {
-          this.props.dispatch({ type: 'tab/loding', payload:false});
-          if(json.code=='0'){
-              let rpDayAccount =json.rpDayAccount;
-              let dataList = json.rpDayAccounts;
-              if(dataList.length){
-                  for(let i=0;i<dataList.length;i++){
-                      dataList[i].key = i+1;
-                  }
-              }
-              this.setState({
-                  rpDayAccount:rpDayAccount,
-                  dataSource:dataList,
-                  total:Number(json.total),
-                  currentPage:Number(json.currentPage),
-                  limit:Number(json.limit)
-              })
-          }else{
-              message.error(json.message,.8);
-          }
-      })
-  }
   //获取当前时间
   getNowFormatDate = () =>{
     const self = this;
@@ -142,55 +105,115 @@ class DailyBillForm extends React.Component {
         endDate:currentdate,
         lastMonthDate:lastMonthDate
     },()=>{
-        self.getServerData();
+        self.getServerData({
+          startDate:currentdate,
+          endDate:currentdate,
+          type:this.state.type,
+          source:this.state.source
+        });
+        this.setState({
+          inputValues:{
+            startDate:currentdate,
+            endDate:currentdate,
+            type:this.state.type,
+            source:this.state.source
+          }
+        })
     })
   }
-  dateChange = (date, dateString) =>{
+  handleSubmit = (e) =>{
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      values.shopId = this.props.shopId;
+      values.limit = this.state.limit;
+      values.startDate = this.state.startDate;
+      values.endDate = this.state.endDate;
+      removeSpace(values);
+      this.getServerData(values);
+      const {limit,..._values} = values;
       this.setState({
-          startDate:dateString[0],
-          endDate:dateString[1]
+        inputValues:_values
+      });
+    });
+  }
+  //获取数据
+  getServerData = (values) =>{
+      values.shopId = this.props.shopId;
+      this.props.dispatch({ type: 'tab/loding', payload:true});
+      GetServerData('qerp.web.rp.day.account.page',values)
+      .then((json) => {
+          this.props.dispatch({ type: 'tab/loding', payload:false});
+          if(json.code=='0'){
+              let rpDayAccount =json.rpDayAccount;
+              let dataList = json.rpDayAccounts;
+              if(dataList.length){
+                for(let i=0;i<dataList.length;i++){
+                  dataList[i].key = i+1;
+                };
+              };
+              this.setState({
+                rpDayAccount:rpDayAccount,
+                dataSource:dataList,
+                total:Number(json.total),
+                currentPage:Number(json.currentPage),
+                limit:Number(json.limit)
+              })
+          }else{
+              message.error(json.message,.8);
+          }
       })
+  }
+
+  dateChange = (date, dateString) =>{
+    this.setState({
+      startDate:dateString[0],
+      endDate:dateString[1]
+    })
   }
   //表格的方法
-  pageChange=(page,pageSize)=>{
-      const self = this;
-      this.setState({
-          currentPage:page-1
-      },()=>{
-          self.getServerData();
-      });
+  pageChange=(current,limit)=>{
+    const currentPage = current - 1;
+    const {inputValues} = this.state;
+    const values = {
+      currentPage,
+      limit:this.state.limit,
+      ...inputValues
+    };
+    this.setState({
+      currentPage,
+    },()=>{
+      this.getServerData(values);
+    });
   }
-  onShowSizeChange=(current, pageSize)=>{
-      const self = this;
-      this.setState({
-          limit:pageSize,
-          currentPage:0
-      },()=>{
-          self.getServerData();
-      })
+  onShowSizeChange=(current, limit)=>{
+    const {inputValues} = this.state;
+    const values = {
+      limit,
+      ...inputValues
+    };
+    this.setState({
+        limit,
+    },()=>{
+        this.getServerData(values);
+    });
   }
-  handleSubmit = (e) =>{
-      e.preventDefault();
-      this.props.form.validateFields((err, values) => {
-          this.getServerData();
-      })
-  }
+
   //导出数据
   exportDatas = () =>{
-      let data = {
-          shopId:this.props.shopId,
-          startDate:this.state.startDate,
-          endDate:this.state.endDate,
-          type:this.state.type
-      }
-      this.exportData(80,data)
+    let data = {
+        shopId:this.props.shopId,
+        startDate:this.state.startDate,
+        endDate:this.state.endDate,
+        type:this.state.type
+    }
+    this.exportData(80,data)
   }
   exportData = (type,data) => {
 		const values={
 			type:type,
 			downloadParam:data,
 		}
-		const result=GetServerData('qerp.web.sys.doc.task',values);
+		const result = GetServerData('qerp.web.sys.doc.task',values);
 		result.then((res) => {
 			return res;
 		}).then((json) => {

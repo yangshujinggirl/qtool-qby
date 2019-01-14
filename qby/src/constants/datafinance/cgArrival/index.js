@@ -17,6 +17,7 @@ class CgArrivalIndexForm extends React.Component {
     constructor(props) {
         super(props);
         this.state={
+            inputValues:{},
             dataSource:[],
             total:0,
             currentPage:0,
@@ -45,64 +46,64 @@ class CgArrivalIndexForm extends React.Component {
     }
 
     //表格的方法
-    pageChange=(page,pageSize)=>{
-        this.setState({
-            currentPage:Number(page)-1,
-            limit:pageSize
-        },function(){
-            this.handleSubmit()
-        })
-    }
-
-    onShowSizeChange=(current, pageSize)=>{
-
+    pageChange=(current,limit)=>{
+        const {inputValues} = this.state;
+        const currentPage = current - 1;
+        const values = {currentPage,limit,...inputValues}
         this.setState({
             currentPage:Number(current)-1,
-            limit:pageSize
+            limit
         },function(){
-            this.handleSubmit()
-        })
+            this.searchgetServerData(values)
+        });
+    }
+    onShowSizeChange=(currentPage, limit)=>{
+        const {inputValues} = this.state;
+        const values = {currentPage,limit,...inputValues}
+        this.setState({
+            currentPage,
+            limit
+        },function(){
+            this.searchgetServerData(values)
+        });
     }
     exportData = (type,data) => {
-		const values={
-			type:type,
-			downloadParam:data,
-		}
-		const result=GetServerData('qerp.web.sys.doc.task',values);
-		result.then((res) => {
-			return res;
-		}).then((json) => {
-			if(json.code=='0'){
-				var _dispatch=this.props.dispatch
-				confirm({
-					title: '数据已经进入导出队列',
-					content: '请前往下载中心查看导出进度',
-					cancelText:'稍后去',
-					okText:'去看看',
-					onOk() {
-						const paneitem={title:'下载中心',key:'000001',componkey:'000001',data:null}
-						_dispatch({
-							type:'tab/firstAddTab',
-							payload:paneitem
-						});
-						_dispatch({
-							type:'downlaod/fetch',
-							payload:{code:'qerp.web.sys.doc.list',values:{limit:15,currentPage:0}}
-						});
-					},
-					onCancel() {
+  		const values = {
+  			type:type,
+  			downloadParam:data,
+  		};
+  		const result=GetServerData('qerp.web.sys.doc.task',values);
+  		result.then((res) => {
+  			return res;
+  		}).then((json) => {
+  			if(json.code=='0'){
+  				var _dispatch=this.props.dispatch
+  				confirm({
+  					title: '数据已经进入导出队列',
+  					content: '请前往下载中心查看导出进度',
+  					cancelText:'稍后去',
+  					okText:'去看看',
+  					onOk() {
+  						const paneitem={title:'下载中心',key:'000001',componkey:'000001',data:null}
+  						_dispatch({
+  							type:'tab/firstAddTab',
+  							payload:paneitem
+  						});
+  						_dispatch({
+  							type:'downlaod/fetch',
+  							payload:{code:'qerp.web.sys.doc.list',values:{limit:15,currentPage:0}}
+  						});
+  					},
+  					onCancel() {
 
-					},
-	  			});
-			}
-		})
-
+  					},
+  	  			});
+  			}
+  		})
 	}
-
      //获取数据
      searchgetServerData = (values) =>{
-        values.limit=this.state.limit
-        values.currentPage=this.state.currentPage
+        values.limit = this.state.limit;
         this.props.dispatch({ type: 'tab/loding', payload:true});
         const result=GetServerData('qerp.web.ws.purchasedata.query',values)
         result.then((res) => {
@@ -114,13 +115,15 @@ class CgArrivalIndexForm extends React.Component {
                 if(dataList.length){
                     for(let i=0;i<dataList.length;i++){
                         dataList[i].key = i+1;
-                    }
-                }
+                    };
+                };
                 this.setState({
                     searchvalue:values,
                     dataSource:dataList,
-                    total:Number(json.total)
-                })
+                    total:Number(json.total),
+                    limit:json.limit,
+                    currentPage:json.currentPage
+                });
             }
         })
     }
@@ -131,7 +134,9 @@ class CgArrivalIndexForm extends React.Component {
             values.createTimeST=this.state.createTimeST
             values.createTimeET=this.state.createTimeET
             this.searchgetServerData(values);
-
+            this.setState({
+              inputValues:values
+            });
         })
     }
 

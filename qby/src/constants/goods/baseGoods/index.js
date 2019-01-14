@@ -13,16 +13,7 @@ class BaseGoods extends Component {
     super(props);
     this.state = {
       componkey:this.props.componkey,
-      fields: {
-         pdSpuId:"",
-         code:'',
-         name:'',
-         pdBrandName:'',
-         pdCategory1Id:'',
-         pdCategory2Id:"",
-         infoStatus:'',
-         source:''
-       },
+      inputValues:{}
     }
   }
   componentDidMount() {
@@ -53,17 +44,11 @@ class BaseGoods extends Component {
       payload: rolelists
     });
   }
-  //双向绑定表单
-  handleFormChange = (changedFields) => {
-    this.setState(({ fields }) => ({
-      fields: { ...fields, ...changedFields },
-    }));
-  }
   //分页
   changePage = (currentPage) => {
     currentPage--;
-    const { fields } = this.state;
-    const paramsObj ={...{currentPage},...fields}
+    const { inputValues } = this.state;
+    const paramsObj ={...{currentPage},...inputValues}
     this.props.dispatch({
       type:'baseGoodsList/fetchList',
       payload: paramsObj
@@ -71,8 +56,8 @@ class BaseGoods extends Component {
   }
   //修改pageSize
   changePageSize =(values)=> {
-    const { fields } = this.state;
-    const value  = {...values,...fields}
+    const { inputValues } = this.state;
+    const value  = {...values,...inputValues}
     this.props.dispatch({
       type:'baseGoodsList/fetchList',
       payload: value
@@ -84,6 +69,9 @@ class BaseGoods extends Component {
       type:'baseGoodsList/fetchList',
       payload: values
     });
+    this.setState({
+      inputValues:values
+    })
   }
   //新增商品
   addGoods(source) {
@@ -142,7 +130,7 @@ class BaseGoods extends Component {
       componkey:`${componkey}edit`,
       data:{
         listParams:{
-          ...this.state.fields,
+          ...this.state.inputValues,
           limit,
           currentPage
         },
@@ -176,14 +164,12 @@ class BaseGoods extends Component {
 
   render() {
     const { dataList=[], categoryList, authorityList, dataPag } = this.props.baseGoodsList;
-    const {fields} = this.state;
     return (
       <div className="base-goods-components qtools-components-pages">
         <FilterForm
-          {...fields}
-          categoryList={categoryList}
-          submit={this.searchData}
-          onValuesChange={this.handleFormChange}/>
+            categoryList={categoryList}
+            submit={this.searchData}
+          />
         <div className="handel-btn-lists">
           {
             authorityList.authorityOnline&&

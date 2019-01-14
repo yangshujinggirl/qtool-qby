@@ -4,6 +4,7 @@ import TableLink from './tablelink';
 
 class Paginations extends React.Component {
     onShowSizeChange=(current,size)=>{
+        current = 0;
         this.props.pageSizeChange(current,size)
     }
     onChange=(page,pageSize)=>{

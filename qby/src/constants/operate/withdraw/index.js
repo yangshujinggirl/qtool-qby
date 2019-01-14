@@ -19,14 +19,7 @@ class Withdraw extends Component{
       shopName:'',
       amount:'',
       spCarryCashId:'',
-      field:{
-        shopName:'',
-        status:'',
-        payStatus:'',
-        carryCashNo:'',
-        dateStart:'',
-        dateEnd:''
-      },
+      inputValues:{}
     }
   }
   componentWillMount() {
@@ -35,40 +28,25 @@ class Withdraw extends Component{
   getNowFormatDate = () => {
    const startRpDate=timeForMats(30).t2;
    const endRpDate=timeForMats(30).t1;
-   const {field} = this.state;
-   this.setState({
-     field:{
-       ...field,
-       dateStart:startRpDate,
-       dateEnd:endRpDate,
-       }
-     },function(){
-       this.searchData({
-         dateStart:startRpDate,
-         dateEnd:endRpDate
-       });
-   })
-  }
-  //搜索框数据发生变化
-  searchDataChange =(values)=> {
-    const {rangePicker,..._values} = values;
-    if(rangePicker&&rangePicker[0]){
-      _values.dateStart =  moment(new Date(rangePicker[0]._d).getTime()).format('YYYY-MM-DD HH:mm:ss');;
-      _values.dateEnd = moment(new Date(rangePicker[1]._d).getTime()).format('YYYY-MM-DD HH:mm:ss');;
-    }
-    this.setState({field:_values});
+   this.searchData({
+     dateStart:startRpDate,
+     dateEnd:endRpDate
+   });
   }
   //点击搜索
   searchData = (values)=> {
     this.props.dispatch({
       type:'withdraw/fetchList',
       payload:values
+    });
+    this.setState({
+      inputValues:values
     })
   }
   //点击分页
   changePage =(current,limit)=> {
     const currentPage = current-1;
-    const values = {...this.state.field,currentPage,limit}
+    const values = {...this.state.inputValues,currentPage,limit}
     this.props.dispatch({
       type:'withdraw/fetchList',
       payload:values
@@ -78,7 +56,7 @@ class Withdraw extends Component{
   onShowSizeChange =({currentPage,limit})=> {
     this.props.dispatch({
       type:'withdraw/fetchList',
-      payload:{currentPage,limit,...this.state.field}
+      payload:{currentPage,limit,...this.state.inputValues}
     });
   }
   //处理表格的点击事件

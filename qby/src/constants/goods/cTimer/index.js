@@ -11,35 +11,8 @@ class cTimer extends Component{
     this.state ={
       message:'',
       isVisible:false,
-      field:{
-        code:'',
-        updateUserName:'',
-        opstatus:'',
-        status:'',
-      }
+      inputValues:{},
     }
-  }
-
-  //点击搜索
-  searchData = (values)=> {
-    this.props.dispatch({
-      type:'cTimer/fetchList',
-      payload:values
-    })
-  }
-
-  //点击分页
-  changePage =(current)=> {
-    const currentPage = current-1;
-    const values = {...this.state.field,currentPage}
-    this.props.dispatch({
-      type:'cTimer/fetchList',
-      payload:values
-    })
-  }
-  //搜索框数据发生变化
-  searchDataChange =(values)=> {
-    this.setState({field:values});
   }
   //初始化数据
   componentWillMount(){
@@ -47,6 +20,33 @@ class cTimer extends Component{
       type:'cTimer/fetchList',
       payload:{}
     })
+  }
+  //点击搜索
+  searchData = (values)=> {
+    this.props.dispatch({
+      type:'cTimer/fetchList',
+      payload:values
+    });
+    this.setState({
+      inputValues:values
+    })
+  }
+
+  //点击分页
+  changePage =(current)=> {
+    const currentPage = current-1;
+    const values = {...this.state.inputValues,currentPage}
+    this.props.dispatch({
+      type:'cTimer/fetchList',
+      payload:values
+    })
+  }
+  //pageSize改变时的回调
+  onShowSizeChange =({currentPage,limit})=> {
+    this.props.dispatch({
+      type:'cTimer/fetchList',
+      payload:{currentPage,limit,...this.state.inputValues}
+    });
   }
   //新增定时
   addTimer(){
@@ -61,13 +61,7 @@ class cTimer extends Component{
         payload:paneitem
     });
   }
-  //pageSize改变时的回调
-  onShowSizeChange =({currentPage,limit})=> {
-    this.props.dispatch({
-      type:'cTimer/fetchList',
-      payload:{currentPage,limit,...this.state.field}
-    });
-  }
+
   //修改
   handleOperateClick =(record)=> {
     const paneitem = {
@@ -95,7 +89,6 @@ class cTimer extends Component{
       <div className="qtools-components-pages">
         <FilterForm
           submit={this.searchData}
-          onValuesChange = {this.searchDataChange}
         />
       <div className='handel-btn-lists'>
         {

@@ -11,6 +11,7 @@ import {
 } from 'antd';
 import moment from 'moment';
 import {timeForMats} from '../../../utils/meth';
+import {removeSpace} from '../../../utils/meth';
 import { ProcesasStatusOption, DeliveryOption, PlatformOption } from '../../../components/FixedDataSource.js'
 import './index.less'
 
@@ -23,7 +24,6 @@ class NormalForm extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
-
       if(values.rangePicker&&values.rangePicker.length>0) {
         const {rangePicker} = values;
         values.dateTimeST = moment(rangePicker[0]).format('YYYY-MM-DD HH:mm:ss');
@@ -116,10 +116,6 @@ class NormalForm extends Component {
   }
 }
 
-const FilterForm = Form.create({
-  // onValuesChange:(props, changedValues, allValues) => {
-  //   props.onValuesChange(allValues);
-  // }
-})(NormalForm);
+const FilterForm = Form.create({})(NormalForm);
 
 export default FilterForm;

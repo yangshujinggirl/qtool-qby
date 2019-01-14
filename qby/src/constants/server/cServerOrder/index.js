@@ -11,16 +11,7 @@ class CserverOrder extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      fields: {
-         udeskTicketId:'',
-         subject:'',
-         status:'',
-         priority:'',
-         agentGroupName:'',
-        //  cellphone:'',
-         type:'',
-         createrTime:''
-       },
+      inputValues:{}
     }
   }
   componentDidMount() {
@@ -32,23 +23,20 @@ class CserverOrder extends Component {
       payload:{}
     })
   }
-  //双向绑定表单
-  handleFormChange = (changedFields) => {
-    this.setState(({ fields }) => ({
-      fields: { ...fields, ...changedFields },
-    }));
-  }
   //搜索
   searchData =(values)=> {
     this.props.dispatch({
       type:'cServerOrder/fetchList',
       payload: values
     });
+    this.setState({
+      inputValues:values
+    })
   }
   changePage = (currentPage) => {
     currentPage--;
-    const { fields } = this.state;
-    const paramsObj ={...{currentPage},...fields}
+    const { inputValues } = this.state;
+    const paramsObj ={...{currentPage},...inputValues}
     this.props.dispatch({
       type:'cServerOrder/fetchList',
       payload: paramsObj
@@ -82,9 +70,8 @@ class CserverOrder extends Component {
     return (
       <div className="qtools-components-pages">
         <FilterForm
-          {...this.state.fields}
           submit={this.searchData}
-          onValuesChange={this.handleFormChange}/>
+        />
         <div className="table-list">
           <Qtable
             dataSource={data.list}
