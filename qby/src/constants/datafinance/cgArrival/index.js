@@ -4,6 +4,7 @@ import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,m
 import { Link } from 'dva/router';
 import EditableTable from '../../../components/table/tablebasic';
 import {GetServerData} from '../../../services/services';
+import {removeSpace} from '../../../utils/meth'
 import moment from 'moment';
 import Appmodelone from '../../ordermd/modal';
 const FormItem = Form.Item;
@@ -133,6 +134,7 @@ class CgArrivalIndexForm extends React.Component {
         this.props.form.validateFields((err, values) => {
             values.createTimeST=this.state.createTimeST
             values.createTimeET=this.state.createTimeET
+            removeSpace(values);
             this.searchgetServerData(values);
             this.setState({
               inputValues:values

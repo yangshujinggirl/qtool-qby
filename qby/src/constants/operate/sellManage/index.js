@@ -87,11 +87,10 @@ class SellManage extends Component {
   }
   //操作
   handleOperateClick(record) {
-    let componkey = '207000';
     const paneitem = {
       title:'订单详情',
-      key:`${componkey}edit`+record.orderId,
-      componkey:`${componkey}edit`,
+      key:`${this.props.componkey}edit`+record.orderId,
+      componkey:`207000edit`,
       data:{
         pdSpuId:record.orderId,
       }

@@ -4,6 +4,7 @@ import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,m
 import { Link } from 'dva/router';
 import EditableTable from '../../../components/table/tablebasic';
 import {GetServerData} from '../../../services/services';
+import {removeSpace} from '../../../utils/meth'
 import moment from 'moment';
 import Appmodelone from "../../ordermd/modal";
 const FormItem = Form.Item;
@@ -33,90 +34,86 @@ class MdInvoiceIndexForm extends React.Component {
         })
     }
 
-    //表格的方法
-    pageChange=(page,pageSize)=>{
+    //分页变化
+    pageChange =(current,limit)=> {
+      const currentPage = current - 1;
         this.setState({
-            currentPage:page-1
+            currentPage
         },function(){
+          const {inputValues} = this.state;
             let data = {
-                currentPage:this.state.currentPage,
+                currentPage,
                 limit:this.state.limit,
                 month:this.state.month,
-                name:this.state.name
+                ...inputValues
             }
             this.getServerData(data)
         });
     }
-    onShowSizeChange=(current, pageSize)=>{
-        this.setState({
-            limit:pageSize,
-            currentPage:0
-        },function(){
-            let data = {
-                currentPage:0,
-                limit:this.state.limit,
-                month:this.state.month,
-                name:this.state.name
-            }
-            this.getServerData(data)
-        })
-    }
 
+    //一页条数变化
+    onShowSizeChange=(current, limit)=>{
+      this.setState({
+        limit,
+        currentPage:0
+      },function(){
+        const {inputValues} = this.state;
+        const values = {limit,...inputValues}
+        this.getServerData(values)
+      });
+    }
+    //导出
     exportData = (type,data) => {
-		const values={
-			type:type,
-			downloadParam:data,
-		}
-		const result=GetServerData('qerp.web.sys.doc.task',values);
-		result.then((res) => {
-			return res;
-		}).then((json) => {
-			if(json.code=='0'){
-				var _dispatch=this.props.dispatch
-				confirm({
-					title: '数据已经进入导出队列',
-					content: '请前往下载中心查看导出进度',
-					cancelText:'稍后去',
-					okText:'去看看',
-					onOk() {
-						const paneitem={title:'下载中心',key:'000001',componkey:'000001',data:null}
-						_dispatch({
-							type:'tab/firstAddTab',
-							payload:paneitem
-						});
-						_dispatch({
-							type:'downlaod/fetch',
-							payload:{code:'qerp.web.sys.doc.list',values:{limit:15,currentPage:0}}
-						});
-					},
-					onCancel() {
-						
-					},
-	  			});
-			}
-		})
-	
-	}
-
-    handleSubmit = (e) =>{
+  		const values = {
+  			type:76,
+        month:this.state.month,
+        ...this.state.inputValues
+  		};
+  		const result=GetServerData('qerp.web.sys.doc.task',values);
+  		result.then((res) => {
+  			return res;
+  		}).then((json) => {
+  			if(json.code=='0'){
+  				var _dispatch=this.props.dispatch
+  				confirm({
+  					title: '数据已经进入导出队列',
+  					content: '请前往下载中心查看导出进度',
+  					cancelText:'稍后去',
+  					okText:'去看看',
+  					onOk() {
+  						const paneitem={title:'下载中心',key:'000001',componkey:'000001',data:null}
+  						_dispatch({
+  							type:'tab/firstAddTab',
+  							payload:paneitem
+  						});
+  						_dispatch({
+  							type:'downlaod/fetch',
+  							payload:{code:'qerp.web.sys.doc.list',values:{limit:15,currentPage:0}}
+  						});
+  					},
+  					onCancel() {
+  					},
+			     });
+			   };
+	     })
+	    }
+      handleSubmit = (e) =>{
         this.props.form.validateFields((err, values) => {
-            if (!err) {
-              this.setState({
-                  name:values.name
-              },function(){
-                let data = {
-                    currentPage:0,
-                    limit:this.state.limit,
-                    month:this.state.month,
-                    name:this.state.name
-                }
-                this.getServerData(data)
-              })
-            }
+          if (!err) {
+            let paramsObj = {
+              limit:this.state.limit,
+              month:this.state.month,
+              ...values
+            };
+            removeSpace(paramsObj);
+            this.getServerData(paramsObj);
+            const {limit,..._values} = paramsObj;
+            this.setState({
+              inputValues:_values
+            });
+          };
         })
-    }
-
-
+      }
     render() {
         const { getFieldDecorator } = this.props.form;
         var d = new Date()
@@ -127,12 +124,7 @@ class MdInvoiceIndexForm extends React.Component {
             data1=d.getFullYear()-1
         }
         const data=String(data1)+'-'+String(data2)
-        let datas = {
-            currentPage:0,
-            limit:10,
-            month:this.state.month,
-            name:this.state.name
-        }
+
         return (
             <div>
                 <Form  className='formbox'>
@@ -149,7 +141,7 @@ class MdInvoiceIndexForm extends React.Component {
                                         label="选择时间"
                                         labelCol={{ span: 5 }}
                                         wrapperCol={{span: 10}}>
-                                    <MonthPicker  
+                                    <MonthPicker
                                             defaultValue={moment(data, 'YYYY-MM')}
                                             className='noant-calendar-picker'
                                             format={dateFormat}
@@ -164,18 +156,18 @@ class MdInvoiceIndexForm extends React.Component {
                     <Button type="primary"  onClick={this.handleSubmit.bind(this)} size='large'>搜索</Button>
                 </div>
                 </Form>
-                
-                <Button 
-						type="primary" 
-						size='large'
-						className='mt20'
-						onClick={this.exportData.bind(this,76,datas)}
-					>
+
+                <Button
+      						type="primary"
+      						size='large'
+      						className='mt20'
+      						onClick={this.exportData}
+                 >
 						导出数据
 					</Button>
                 <div className='mt15'>
-                    <EditableTable 
-                        columns={this.columns} 
+                    <EditableTable
+                        columns={this.columns}
                         dataSource={this.state.dataSource}
                         footer={true}
                         pageChange={this.pageChange.bind(this)}
@@ -184,7 +176,7 @@ class MdInvoiceIndexForm extends React.Component {
                         limit={this.state.limit}
                         current={this.state.currentPage+1}
                         bordered={true}
-                        scroll={{ x: this.state.datalen}}                    
+                        scroll={{ x: this.state.datalen}}
                         />
                 </div>
             </div>
@@ -252,7 +244,7 @@ class MdInvoiceIndexForm extends React.Component {
                 for(var i=0;i<this.columns.length;i++){
                     datalen=datalen+Number(this.columns[i].width)
                 }
-                
+
                 this.setState({
                     dataSource:dataList,
                     total:Number(json.total),
@@ -292,7 +284,7 @@ class MdInvoiceIndexForm extends React.Component {
             this.getServerData(value)
 
         })
-       
+
     }
 
     componentDidMount(){

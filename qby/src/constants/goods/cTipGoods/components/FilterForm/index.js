@@ -10,6 +10,7 @@ import {
   DatePicker
 } from 'antd';
 import {getCategoryApi} from "../../../../../services/goodsCenter/baseGoods"
+import {removeSpace} from '../../../../../utils/meth';
 const FormItem = Form.Item;
 const Option = Select.Option;
 
@@ -37,8 +38,8 @@ class NormalForm extends Component {
       if(res.code == "0" ){
         this.setState({
           categoryList2:res.pdCategory
-        })
-      }
+        });
+      };
     })
   }
   handleSubmit = (e) => {
@@ -47,6 +48,7 @@ class NormalForm extends Component {
       if(values.pdSpuId){
         values.pdSpuId = values.pdSpuId.replace(/\s+/g, "");
       };
+      removeSpace(values);
       this.props.submit && this.props.submit(values)
     });
   }

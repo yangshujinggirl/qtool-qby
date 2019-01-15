@@ -51,7 +51,7 @@ class BtipGoods extends Component {
     //清空勾选
     this.setState({
       selecteKeys:[],
-    })
+    });
     const { inputValues } = this.state;
     const paramsObj ={...{currentPage},...inputValues}
     this.props.dispatch({
@@ -60,9 +60,9 @@ class BtipGoods extends Component {
     });
   }
   //修改pageSize
-  changePageSize =(currentPage,limit)=> {
+  changePageSize =({currentPage,limit})=> {
     const { inputValues } = this.state;
-    const paramsObj ={limit,...inputValues}
+    const paramsObj = {limit,...inputValues}
     this.props.dispatch({
       type:'productGoodsList/fetchList',
       payload: paramsObj

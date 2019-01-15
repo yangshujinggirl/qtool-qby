@@ -30,7 +30,7 @@ class OrderposSearchForm extends React.Component {
         values.endTime=this.state.endTime;
         values.limit=limit;
         values.currentPage=currentPage;
-        removeSpace(data);
+        removeSpace(values);
         this.props.dispatch({
             type:'orderpos/fetch',
             payload:{code:'qerp.web.qpos.st.order.query',values:values}

@@ -42,17 +42,7 @@ class OnAudit extends Component {
       mergeVisible:false,
       markVisible:false,
       iconTypeRemark:"",
-      field:{
-        ecSuborderNo:'',
-        outNo:'',
-        name:'',
-        code:'',
-        recTelephone:'',
-        recName:'',
-        idCardNo:'',
-        payTimeST:'',
-        payTimeET:'',
-      },
+      inputValues:{},
       rowSelection:{
         type:"radio",
         selectedRowKeys:this.props.onAudit.selectedRowKeys,
@@ -66,19 +56,10 @@ class OnAudit extends Component {
   getNowFormatDate = () => {
    const startRpDate=timeForMats(30).t2;
    const endRpDate=timeForMats(30).t1;
-   const {field} = this.state;
-   this.setState({
-     field:{
-       ...field,
-       payTimeST:startRpDate,
-       payTimeET:endRpDate,
-       }
-     },function(){
-       this.searchData({
-         payTimeST:startRpDate,
-         payTimeET:endRpDate
-       });
-   })
+   this.searchData({
+     payTimeST:startRpDate,
+     payTimeET:endRpDate
+   });
  }
   componentWillReceiveProps(props) {
     this.setState({
@@ -119,7 +100,7 @@ class OnAudit extends Component {
         };
         this.props.dispatch({
           type:'onAudit/fetchList',
-          payload:{...this.state.field,limit,currentPage}
+          payload:{...this.state.inputValues,limit,currentPage}
         });
       };
     });
@@ -152,7 +133,7 @@ class OnAudit extends Component {
   //点击分页
   changePage = (current,limit) => {
     const currentPage = current-1;
-    const values = {...this.state.field,currentPage,limit}
+    const values = {...this.state.inputValues,currentPage,limit}
     this.props.dispatch({
       type:'onAudit/fetchList',
       payload: values
@@ -162,23 +143,17 @@ class OnAudit extends Component {
   onShowSizeChange = ({currentPage,limit})=> {
     this.props.dispatch({
       type:'onAudit/fetchList',
-      payload:{currentPage,limit,...this.state.field}
+      payload:{currentPage,limit,...this.state.inputValues}
     });
-  }
-  //搜索框数据发生变化
-  searchDataChange =(values)=> {
-    const {rangePicker,..._values} = values;
-    if(rangePicker&&rangePicker[0]){
-      _values.payTimeST =  moment(new Date(rangePicker[0])).format('YYYY-MM-DD HH:mm:ss');
-      _values.payTimeET = moment(new Date(rangePicker[1])).format('YYYY-MM-DD HH:mm:ss');
-    };
-    this.setState({field:_values});
   }
   //点击搜索
   searchData = (values)=> {
     this.props.dispatch({
       type:'onAudit/fetchList',
       payload:values
+    });
+    this.setState({
+      inputValues:values
     })
   }
   //点击订单拆分按钮
@@ -419,7 +394,6 @@ class OnAudit extends Component {
       <div className='qtools-components-pages' id="on_audit">
         <FilterForm
            submit={this.searchData}
-           onValuesChange = {this.searchDataChange}
          />
        <div className="handel-btn-lists onaudit_list">
          {

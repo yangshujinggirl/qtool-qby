@@ -5,6 +5,7 @@ import { Link } from 'dva/router';
 import EditableTable from '../../../components/table/tablebasic';
 import {GetServerData} from '../../../services/services';
 import {timeyesterdaymoute} from '../../../utils/meth';
+import {removeSpace} from '../../../utils/meth'
 import moment from 'moment';
 
 
@@ -44,33 +45,30 @@ class MdCostIndexForm extends React.Component {
 
     //下载
     download = (text) =>{
-        window.open(text)
+      window.open(text)
     }
-
     dateChange = (date, dateString) =>{
-        this.setState({
-            month:dateString
-        })
+      this.setState({
+        month:dateString
+      });
     }
-
-
     pageChange=(current,limit)=>{
       const currentPage = current - 1;
       const values = {currentPage,limit,...this.state.inputValues}
       this.setState({
-          currentPage:current-1
+        currentPage:current - 1
       },function(){
-          this.getServerData(values);
+        this.getServerData(values);
       });
     }
     onShowSizeChange=(currentPage,limit)=>{
-        const values = {limit,...this.state.inputValues}
-        this.setState({
-            limit,
-            currentPage:0
-        },function(){
-            this.getServerData(values);
-        });
+      const values = {limit,...this.state.inputValues}
+      this.setState({
+        limit,
+        currentPage:0
+      },function(){
+        this.getServerData(values);
+      });
     }
     handleSubmit = () =>{
         let data = {
@@ -79,6 +77,7 @@ class MdCostIndexForm extends React.Component {
           month:this.state.month,
           spShopId:this.state.spShopId
         }
+        removeSpace(data);
         this.getServerData(data);
         this.setState({
           inputValues:{
@@ -116,9 +115,9 @@ class MdCostIndexForm extends React.Component {
 
     //智能选择
     onSelect=(value)=>{
-        this.setState({
-            spShopId:value
-        })
+      this.setState({
+        spShopId:value
+      })
     }
     render() {
         const { getFieldDecorator } = this.props.form;

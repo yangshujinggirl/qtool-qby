@@ -44,9 +44,11 @@ class CserverOrder extends Component {
   }
   //修改pageSize
   changePageSize =(values)=> {
+    const { inputValues } = this.state;
+    const paramsObj = {...inputValues,...values}
     this.props.dispatch({
       type:'cServerOrder/fetchList',
-      payload: values
+      payload:paramsObj
     });
   }
   getDetail(record) {

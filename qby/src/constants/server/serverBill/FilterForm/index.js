@@ -9,6 +9,7 @@ import {
   Select,
   DatePicker
 }from 'antd'
+import {removeSpace} from '../../../../utils/meth';
 import '../index.css'
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -24,7 +25,8 @@ class NormalForm extends Component{
       if(rangePicker&&rangePicker[0]){
         _values.createTimeST =  moment(new Date(rangePicker[0]).getTime()).format('YYYY-MM-DD HH:mm:ss');
         _values.createTimeET =  moment(new Date(rangePicker[1]).getTime()).format('YYYY-MM-DD HH:mm:ss');
-      }
+      };
+      removeSpace(_values);
       this.props.submit && this.props.submit(_values);
     })
   }

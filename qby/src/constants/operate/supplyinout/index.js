@@ -19,16 +19,7 @@ class Supplyinout extends Component{
       bPushName:'',
       isPushVisible:false,
       componkey:this.props.componkey,
-      field:{
-        settlementNo:'',
-        name:'',
-        type:'',
-        status:'',
-        userName:'',
-        payType:'',
-        dateStart:'',
-        dateEnd:''
-      },
+      inputValues:{},
       rowSelection:{
          type:'radio',
          selectedRowKeys:this.props.supplyinout.selectedRowKeys,
@@ -42,32 +33,14 @@ class Supplyinout extends Component{
   getNowFormatDate = () => {
    const startRpDate=timeForMat(30).t2;
    const endRpDate=timeForMat(30).t1;
-   const {field} = this.state;
-   this.setState({
-     field:{
-       ...field,
-       dateStart:startRpDate,
-       dateEnd:endRpDate,
-       }
-     },function(){
-       this.searchData({
-         dateStart:startRpDate,
-         dateEnd:endRpDate
-       });
-   })
+   this.searchData({
+     dateStart:startRpDate,
+     dateEnd:endRpDate
+   });
  }
-  //搜索框数据发生变化
-  searchDataChange =(values)=> {
-    const {rangePicker,..._values} = values;
-    if(rangePicker&&rangePicker[0]){
-      _values.dateStart =  moment(new Date(rangePicker[0]._d).getTime()).format('YYYY-MM-DD');;
-      _values.dateEnd = moment(new Date(rangePicker[1]._d).getTime()).format('YYYY-MM-DD');;
-    }
-    this.setState({field:_values});
-  }
   //导出数据
   exportData =(type)=> {
-    const values ={type:type,downloadParam:this.state.field}
+    const values ={type:type,downloadParam:this.state.inputValues}
     exportDataApi(values)
     .then(res => {
       if(res.code == '0'){
@@ -98,12 +71,15 @@ class Supplyinout extends Component{
     this.props.dispatch({
       type:'supplyinout/fetchList',
       payload:values
-    })
+    });
+    this.setState({
+      inputValues:values
+    });
   }
   //点击分页
   changePage =(current,limit)=> {
     const currentPage = current-1;
-    const values = {...this.state.field,currentPage,limit}
+    const values = {...this.state.inputValues,currentPage,limit}
     this.props.dispatch({
       type:'supplyinout/fetchList',
       payload:values
@@ -113,7 +89,7 @@ class Supplyinout extends Component{
   onShowSizeChange =({currentPage,limit})=> {
     this.props.dispatch({
       type:'supplyinout/fetchList',
-      payload:{currentPage,limit,...this.state.field}
+      payload:{currentPage,limit,...this.state.inputValues}
     });
   }
   onChange =(selectedRowKeys, selectedRows)=> {
@@ -249,7 +225,6 @@ class Supplyinout extends Component{
       <div className='qtools-components-pages supplyinout'>
         <FilterForm
           submit={this.searchData}
-          onValuesChange = {this.searchDataChange}
         />
         <div className="handel-btn-lists">
           {

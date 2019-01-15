@@ -11,6 +11,7 @@ import {
 }from 'antd'
 import moment from 'moment';
 import {timeForMats} from '../../../../utils/meth';
+import {removeSpace} from '../../../../utils/meth';
 const FormItem = Form.Item;
 const Option = Select.Option;
 const RangePicker = DatePicker.RangePicker
@@ -24,6 +25,7 @@ class NormalForm extends Component{
         _values.dateStart =  moment(rangePicker[0]).format('YYYY-MM-DD HH:mm:ss');
         _values.dateEnd = moment(rangePicker[1]).format('YYYY-MM-DD HH:mm:ss');
       }
+      removeSpace(_values);
       this.props.submit && this.props.submit(_values);
     })
   }

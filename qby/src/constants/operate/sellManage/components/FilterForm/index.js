@@ -11,7 +11,7 @@ import {
   DatePicker
 } from 'antd';
 import { DeliveryOption } from '../../../../../components/FixedDataSource';
-
+import {removeSpace} from '../../../../../utils/meth';
 const FormItem = Form.Item;
 const Option =  Select.Option;
 const { RangePicker } = DatePicker;
@@ -20,6 +20,7 @@ class NormalForm extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
+        removeSpace(values)
         this.props.submit && this.props.submit(values)
     });
   }
