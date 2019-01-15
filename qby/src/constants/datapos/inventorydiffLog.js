@@ -119,8 +119,6 @@ class InventorydiffLogIndexForm extends React.Component {
     }
     //每页条数发生变化
     onShowSizeChange =(current,limit)=> {
-      debugger
-      console.log(this.state.inputValues)
         const values = {limit,...this.state.inputValues};
         this.setState({
             limit,

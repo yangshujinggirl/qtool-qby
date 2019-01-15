@@ -94,7 +94,7 @@ class InventorydiffLogIndexForm extends React.Component {
         values.outShopId = this.props.shopId;
         removeSpace(values);
         this.sendRequest(values);
-        const {limit,_values} = values;
+        const {limit,..._values} = values;
         this.setState({
           inputValues:_values
         });

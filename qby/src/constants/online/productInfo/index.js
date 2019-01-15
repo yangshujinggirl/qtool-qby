@@ -60,10 +60,12 @@ class BtipGoods extends Component {
     });
   }
   //修改pageSize
-  changePageSize =(values)=> {
+  changePageSize =(currentPage,limit)=> {
+    const { inputValues } = this.state;
+    const paramsObj ={limit,...inputValues}
     this.props.dispatch({
       type:'productGoodsList/fetchList',
-      payload: values
+      payload: paramsObj
     });
   }
   //搜索

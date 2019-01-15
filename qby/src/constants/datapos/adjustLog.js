@@ -89,7 +89,7 @@ class AdjustLogIndexForm extends React.Component {
     }
     onShowSizeChange =(current, limit)=> {
       const {inputValues} = this.state;
-      const values = {limit,inputValues}
+      const values = {limit,...inputValues}
       this.setState({
         limit
       },function(){

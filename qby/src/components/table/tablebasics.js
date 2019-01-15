@@ -20,8 +20,6 @@ class Paginations extends React.Component {
                 pageSizeOptions={['15','30','50','100','200','500']}
                 defaultPageSize={15}
                 className='tc pagination'/>
-
-
         );
     }
 }
@@ -51,15 +49,14 @@ class EditableTable extends React.Component {
                 dataSource={this.props.dataSource}
                 columns={this.props.columns}
                 footer={
-                    this.props.footer?
+                  this.props.footer
+                  ?
                     () => <Paginations pageChange={this.props.pageChange}
-                                pageSizeChange={this.props.pageSizeChange}
-                                total={Number(this.props.total)}
-                                current={Number(this.props.current)}
-
-                                />
-                    :null
-
+                            pageSizeChange={this.props.pageSizeChange}
+                            total={Number(this.props.total)}
+                            current={Number(this.props.current)}
+                          />
+                  : null
                 }
                 showHeader={this.props.showHeader}
                 bordered={this.props.bordered}

@@ -108,27 +108,34 @@ class ProfitReportForm extends React.Component {
           rpDate:dateString
       });
   }
-  //表格的方法
+  //页数变化
   pageChange =(current,limit)=> {
       const currentPage = current - 1;
+      const {inputValues} = this.state;
+      const values = {
+        currentPage,
+        limit:this.state.limit,
+        ...inputValues
+      }
       this.setState({
           currentPage
       },()=>{
-          this.getServerData({currentPage});
+          this.getServerData(values);
       });
   }
+  //一页的条数变化
   onShowSizeChange=(current, limit)=>{
+      const {inputValues} = this.state;
       this.setState({
-          limit,
+          limit
       },()=>{
-          this.getServerData({limit});
+          this.getServerData({limit,...inputValues});
       })
   }
   //获取数据
   getServerData = (values) =>{
     let params = {
         shopId:this.props.shopId,
-        limit:this.state.limit,
         rpDate:this.state.rpDate?(this.state.rpDate+"-01"):"",
         ...values
     }
@@ -154,11 +161,14 @@ class ProfitReportForm extends React.Component {
     })
   }
   handleSubmit =(e)=> {
-      e.preventDefault();
-      const self = this;
       this.props.form.validateFields((err, values) => {
+          values.limit = this.state.limit;
           this.getServerData(values);
-      })
+          const {limit,..._values} = values;
+          this.setState({
+            inputValues:_values
+          });
+      });
   }
   //导出数据
   exportDatas = () =>{

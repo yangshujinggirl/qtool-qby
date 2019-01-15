@@ -16,7 +16,7 @@ const CollectionCreateForm = Form.create()(
                 onOk={onCreate}
             >
                 <Form>
-                <FormItem 
+                <FormItem
                 label="所属规格"
                 labelCol={{ span: 5 }}
                 wrapperCol={{ span: 12 }}
@@ -27,7 +27,7 @@ const CollectionCreateForm = Form.create()(
                     <Select
                     disabled
                 >
-                
+
                     {
                         pdCategoryslist.map((item,index)=>{
                             return (<Option value={String(item.pdCategoryId)} key={index}>{item.name}</Option>)
@@ -38,7 +38,7 @@ const CollectionCreateForm = Form.create()(
 
 
             </FormItem>
-                <FormItem 
+                <FormItem
                 label="类型名称"
                 labelCol={{ span: 5 }}
                 wrapperCol={{ span: 12 }}
@@ -49,7 +49,7 @@ const CollectionCreateForm = Form.create()(
                     <Input/>
                 )}
                 </FormItem>
-                <FormItem 
+                <FormItem
                 label="类型状态"
                 labelCol={{ span: 5 }}
                 wrapperCol={{ span: 12 }}
@@ -72,84 +72,75 @@ const CollectionCreateForm = Form.create()(
 
 class CollectionsPage extends React.Component {
     state = {
-        visible: false,
+      visible: false,
     };
-    showModal = () => {
-        const rolelists=this.props.rolelists
-        const addorder=rolelists.find((currentValue,index)=>{
-            return currentValue.url=="qerp.web.pd.category.save"
-        })
-      
-        if(addorder){
-            this.setState({ visible: true },function(){
-                this.setValues()
-            });
-        }else{
-            message.error('无修改权限')
-        }
-
-        
-    }
-    handleCancel = () => {
-        this.setState({ visible: false });
-    }
-    handleCreate = () => {
-        const form = this.form;
-        form.validateFields((err, value) => {
+    //点击新建
+    showModal =()=> {
+      const rolelists=this.props.rolelists
+      const addorder=rolelists.find((currentValue,index)=>{
+          return currentValue.url=="qerp.web.pd.category.save"
+      });
+      if(addorder){
+        this.setState({ visible: true },function(){
+            this.setValues()
+        });
+      }else{
+        message.error('无修改权限')
+      };
+    };
+    //取消
+    handleCancel =()=> {
+      this.setState({ visible: false });
+    };
+    //确定
+    handleCreate =()=> {
+      const form = this.form;
+      form.validateFields((err, value) => {
         if (err) {
-            return;
-        }
+          return;
+        };
         value.type=this.props.data.type
         if(this.props.data.pdCategoryId){
-            value.pdCategoryId=this.props.data.pdCategoryId
-        }
-
-        // value.parentId=this.props.data.pdCategoryIds
+          value.pdCategoryId=this.props.data.pdCategoryId
+        };
         const values={pdCategory:value}
         const result=GetServerData('qerp.web.pd.category.save',values)
         result.then((res) => {
             return res;
         }).then((json) => {
-            if(json.code=='0'){
-                form.resetFields();
-                this.setState({ visible: false });
-                this.props.dispatch({
-                    type:'fenlei/classfetch',
-                    payload:{code:'qerp.web.pd.category.list',values:{getChildren:true}}
-                })
-
-            }
+          if(json.code=='0'){
+            form.resetFields();
+            this.setState({ visible: false });
+            this.props.dispatch({
+              type:'fenlei/classfetch',
+              payload:{code:'qerp.web.pd.category.list',values:{getChildren:true}}
+            });
+          };
         })
-
-        });
+    });
     }
     saveFormRef = (form) => {
-        this.form = form;
+      this.form = form;
     }
     setValues=()=>{
-        const form = this.form;
-        const data=this.props.data
-        form.setFieldsValue({
-            parentId:String(data.pdCategoryIds),
-            name:data.name,
-            status:String(data.status)
-        });
+      const form = this.form;
+      const data=this.props.data
+      form.setFieldsValue({
+          parentId:String(data.pdCategoryIds),
+          name:data.name,
+          status:String(data.status)
+      });
     }
-
-
   render() {
-
     return (
       <div style={{display:'inline-block'}}>
-          { 
-              this.props.type=='1'
-              ?
-              <div onClick={this.showModal} style={{color:'#35bab0'}} className='pointer'>{this.props.text}</div>
-              :
-              <Button type={this.props.statetype} onClick={this.showModal} style={{color:"#666",fontWeight:"normal"}}><span>{this.props.text}</span></Button>
-
-          }
-        
+        {
+          this.props.type=='1'
+          ?
+          <div onClick={this.showModal} style={{color:'#35bab0'}} className='pointer'>{this.props.text}</div>
+          :
+          <Button type={this.props.statetype} onClick={this.showModal} style={{color:"#666",fontWeight:"normal"}}><span>{this.props.text}</span></Button>
+        }
         <CollectionCreateForm
           ref={this.saveFormRef}
           visible={this.state.visible}
@@ -172,4 +163,3 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(CollectionsPage);
-
