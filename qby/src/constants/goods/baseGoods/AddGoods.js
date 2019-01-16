@@ -64,6 +64,7 @@ class AddGoodsForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isBrandDirectMail:false,
       pdTaxWarehouses:[],
       brandDataSource:[],
       loading:false,
@@ -509,6 +510,12 @@ class AddGoodsForm extends Component {
     })
     this.props.form.resetFields(['listTimeStart','listTimeEnd']);
   }
+  changeBrand =(e)=> {
+    const value = e.target.value;
+    this.setState({
+      isBrandDirectMail:value
+    })
+  }
   //批次管理change事件
   changeLotStatus =(e)=> {
     const value = e.target.value;
@@ -552,7 +559,7 @@ class AddGoodsForm extends Component {
       specData,
       linkageLabel,
     } = this.props.addGoods;
-    const { loading,pdTaxWarehouses } =this.state;
+    const { loading,pdTaxWarehouses,isBrandDirectMail} =this.state;
     return(
       <div className="add-goods-components" >
         <Form className="qtools-form-components">
@@ -853,6 +860,34 @@ class AddGoodsForm extends Component {
                          }
                        </Select>
                      )}
+                   </FormItem>
+                </Col>
+                <Col span={24}>
+                  <FormItem label='品牌直供' {...formItemLayout}>
+                     {getFieldDecorator('brandDirectMail',{
+                       initialValue:pdSpu.isBrandDirectMail||0,
+                       onChange:this.changeBrand
+                     })(
+                       <RadioGroup>
+                         {
+                           NumberOption.map((el) => (
+                             <Radio value={el.key} key={el.key}>{el.value}</Radio>
+                           ))
+                         }
+           						 </RadioGroup>
+                     )}
+                   </FormItem>
+                </Col>
+                <Col span={24}>
+                  <FormItem label='配送说明' {...formItemLayout3}>
+                    品牌直邮，预计　
+                     {getFieldDecorator('deliveryExplain',{
+                       rules: [{ required: true, message: '请选择季节商品'}],
+                       initialValue:pdSpu.deliveryExplain||''
+                     })(
+                       <Input style={{width:'120px'}} placeholder='请输入1~30整数' disabled={!isBrandDirectMail}/>
+                     )}
+                      　工作日内发货
                    </FormItem>
                 </Col>
                 <Col span={24}>
