@@ -81,7 +81,13 @@ class BtipGoods extends Component {
   //导出数据
   exportData () {
     const { dataPag } = this.props.productGoodsList;
-    const { inputValues } = this.state;
+    const { fields } = this.state;
+    console.log(fields)
+    for(var i in fields){
+      if(fields[i] && typeof(fields[i]) == 'string'){
+        fields[i] = fields[i].trim();
+      };
+    }
     let params={
       type:32,
       downloadParam:{

@@ -35,7 +35,7 @@ class DailyBillForm extends React.Component {
               rechargeAmount:''
           },
           source:0,
-          type:1
+          type:''
       };
       this.columns = [{
             title: '订单编号',
@@ -200,13 +200,14 @@ class DailyBillForm extends React.Component {
 
   //导出数据
   exportDatas = () =>{
-    let data = {
-        shopId:this.props.shopId,
-        startDate:this.state.startDate,
-        endDate:this.state.endDate,
-        type:this.state.type
-    }
-    this.exportData(80,data)
+      let data = {
+          shopId:this.props.shopId,
+          startDate:this.state.startDate,
+          endDate:this.state.endDate,
+          type:this.state.type,
+          source:this.state.source
+      }
+      this.exportData(80,data)
   }
   exportData = (type,data) => {
 		const values={
@@ -338,7 +339,7 @@ class DailyBillForm extends React.Component {
                       label="订单分类">
                       {getFieldDecorator('type',{
                         onChange:this.changeType,
-                        initialValue:'1'
+                        // initialValue:'1'
                       })(
                           <Select allowClear placeholder="请选择订单类型">
                               <Option value="1">销售订单</Option>
