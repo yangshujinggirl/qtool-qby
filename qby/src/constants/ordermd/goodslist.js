@@ -139,7 +139,8 @@ class GoodsListTable extends React.Component {
         temDataSource[index].Code = e.target.value;
         this.setState({
             dataSource:temDataSource
-        })
+        });
+
     }
 
     onBluepdCode=(index)=>{
@@ -156,7 +157,6 @@ class GoodsListTable extends React.Component {
             if(json.code=='0'){
                 temDataSource[index].price=(!json.pdSku?json.pdSpu.toBPrice:json.pdSku.toBPrice);
                 temDataSource[index].name=json.name;
-                // temDataSource[index].displayName=(!json.pdSku?null:(json.pdSku.pdType2Val?json.pdSku.pdType1Val.name+'/'+json.pdSku.pdType2Val.name:json.pdSku.pdType1Val.name));
                 temDataSource[index].displayName=json.displayName
                 this.setState({
                     dataSource:temDataSource
