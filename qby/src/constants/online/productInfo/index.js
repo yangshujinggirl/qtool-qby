@@ -81,11 +81,10 @@ class BtipGoods extends Component {
   //导出数据
   exportData () {
     const { dataPag } = this.props.productGoodsList;
-    const { fields } = this.state;
-    console.log(fields)
-    for(var i in fields){
-      if(fields[i] && typeof(fields[i]) == 'string'){
-        fields[i] = fields[i].trim();
+    const {inputValues} = this.state;
+    for(var i in inputValues){
+      if(inputValues[i] && typeof(inputValues[i]) == 'string'){
+        inputValues[i] = inputValues[i].trim();
       };
     }
     let params={
