@@ -548,6 +548,15 @@ class AddGoodsForm extends Component {
       callback();
     }
   }
+  //校验配送说明
+  handleDelivery =(rule, value, callback)=> {
+    if(value){
+      if(value>30 || value == 0){
+        callback('请输入1~30整数')
+      };
+    };
+    callback();
+  }
   render() {
     const {deliveryExplain} = this.props.addGoods;
     const { getFieldDecorator } = this.props.form;
@@ -886,8 +895,8 @@ class AddGoodsForm extends Component {
                      {getFieldDecorator('deliveryExplain',{
                        rules: [
                          { required: !deliveryExplain, message: '请输入配送说明'},
-                         {pattern:/^[0-9]*$/,message:'请输入1~30整数'}
-
+                         {pattern:/^[0-9]*$/,message:'请输入1~30整数'},
+                         {validator: this.handleDelivery}
                        ],
                        initialValue:pdSpu.deliveryExplain||''
                      })(
