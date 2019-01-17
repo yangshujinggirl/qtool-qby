@@ -36,9 +36,15 @@ export default {
     linkageLabel:{
       isTimeRequired:false,
       isLotRequired:false,
-    }
+    },
+    deliveryExplain:false,
   },
   reducers: {
+    setdeliveryExplain(state, { payload:deliveryExplain }) {
+      console.log(deliveryExplain)
+      console.log({...state, ...deliveryExplain})
+      return { ...state, ...deliveryExplain };
+    },
     setFileList(state, { payload: fileList }) {
       return { ...state, fileList };
     },
@@ -243,18 +249,17 @@ export default {
       const linkageLabel = yield select(state => state.addGoods.linkageLabel)
       yield put({type:'resetData',payload:source})//重置初始数据
       yield put({type: 'tab/loding',payload:true});
-
       const result = yield call(goodsInfoApi,values);
       yield put({type: 'tab/loding',payload:false});
       if(result.code == '0') {
         let { iPdSpu, fileDomain } = result;
         let pdSpu = iPdSpu;
-        let pdBrandId =pdSpu.pdBrandId;//存入品牌id
+        let pdBrandId = pdSpu.pdBrandId;//存入品牌id
         let pdCountryId =pdSpu.pdCountryId;//存入国家id
         let fileList = [];
         //格式化图片数据
         if(pdSpu.spuIdPics && pdSpu.spuIdPics) {
-           fileList = pdSpu.spuIdPics.map(el=>(
+           fileList = pdSpu.spuIdPics.map(el => (
             {
               url:`${fileDomain}${el.url}`,
               uid:el.uid,
@@ -262,6 +267,22 @@ export default {
               status: 'done',
             }
           ))
+        }
+        //品牌直供值控制配送说明可不可编辑
+        if(pdSpu.brandDirectMail){
+          yield put({
+            type:'setdeliveryExplain',
+            payload:{
+              deliveryExplain:false
+            }
+          });
+        }else{
+          yield put({
+            type:'setdeliveryExplain',
+            payload:{
+              deliveryExplain:true
+            }
+          });
         }
         //格式化pdSkus数据,//商品规格，//商品属性
         let pdSkus = [];
@@ -349,24 +370,24 @@ export default {
           let initPdspuData;//1是线上，0是线下
           if(source == 1) {
             initPdspuData = {
-                    code:pdSpu.code,
-                    barcode:pdSpu.barcode,
-                    salePrice:pdSpu.salePrice,
-                    purchasePrice:pdSpu.purchasePrice,
-                    receivePrice:pdSpu.receivePrice,
-                    deliveryPrice:pdSpu.deliveryPrice,
-                    key:pdSpu.barcode
-                  }
+              code:pdSpu.code,
+              barcode:pdSpu.barcode,
+              salePrice:pdSpu.salePrice,
+              purchasePrice:pdSpu.purchasePrice,
+              receivePrice:pdSpu.receivePrice,
+              deliveryPrice:pdSpu.deliveryPrice,
+              key:pdSpu.barcode
+            }
           } else {
             initPdspuData = {
-                    code:pdSpu.code,
-                    barcode:pdSpu.barcode,
-                    toBPrice:pdSpu.toBPrice,
-                    toCPrice:pdSpu.toCPrice,
-                    costPrice:pdSpu.costPrice,
-                    tagPrice:pdSpu.tagPrice,
-                    key:pdSpu.barcode
-                  }
+              code:pdSpu.code,
+              barcode:pdSpu.barcode,
+              toBPrice:pdSpu.toBPrice,
+              toCPrice:pdSpu.toCPrice,
+              costPrice:pdSpu.costPrice,
+              tagPrice:pdSpu.tagPrice,
+              key:pdSpu.barcode
+            }
           }
           pdSkus.push(initPdspuData);
         }

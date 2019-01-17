@@ -66,8 +66,8 @@ class UserthDetail extends React.Component{
 }
 //初始化
 componentWillMount(){
-	const id = this.props.data.orderReturnNo;
-	getInfoApi({orderReturnNo:id}).then(res => {
+	const id = this.props.data.orderReturnId;
+	getInfoApi({orderReturnId:id}).then(res => {
 		if(res.code=='0'){
 			this.setState({
 				backInfos:res.pdOrderReturnDetailPage.ReturnOrderBaseInfo,

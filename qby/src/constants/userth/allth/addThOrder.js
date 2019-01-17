@@ -38,40 +38,38 @@ class AddThOrder extends Component{
 			getOrderInfoApi({orderNum:value})
 			.then(res=>{
 				if(res.code == '0'){
-
-				}
-				const response ={
-					productList:[
-						{ pdSpuId:'111',
-							pdSkuId:'222',
-							pdCode:1111111111,
-							pdName:'有wefwefcweffsdfsdssss',
-							displayName:1,
-							buyCount:3,
-							returnCount:1,
-							orderQuota:20,
-							canReturnQuota:2,
-							returnQuota:6.67,
-							applyReturnCount:null,
-							applyReturnQuota:null,
-						},
-						{
-							pdSpuId:'111',
-							pdSkuId:'222',
-							pdCode:1111121, //商品code
-							pdName:'有wefdfsdssss', //商品名称
-							displayName:1, //规格
-							buyCount:3, //购买数量
-							returnCount:1, //已退数量
-							orderQuota:10, //实付金额
-							canReturnQuota:2, //可退金额
-							returnQuota:3.33 //已退金额
-						},
-					],
-						returnType:0, //退款类型 0售中  1售后
-						freightQuota:2 //运费
-				};
-				response.productList.map((item,index)=>{
+				// const response ={
+				// 	productList:[
+				// 		{ pdSpuId:'111',
+				// 			pdSkuId:'222',
+				// 			pdCode:1111111111,
+				// 			pdName:'有wefwefcweffsdfsdssss',
+				// 			displayName:1,
+				// 			buyCount:3,
+				// 			returnCount:1,
+				// 			orderQuota:20,
+				// 			canReturnQuota:2,
+				// 			returnQuota:6.67,
+				// 			applyReturnCount:null,
+				// 			applyReturnQuota:null,
+				// 		},
+				// 		{
+				// 			pdSpuId:'111',
+				// 			pdSkuId:'222',
+				// 			pdCode:1111121, //商品code
+				// 			pdName:'有wefdfsdssss', //商品名称
+				// 			displayName:1, //规格
+				// 			buyCount:3, //购买数量
+				// 			returnCount:1, //已退数量
+				// 			orderQuota:10, //实付金额
+				// 			canReturnQuota:2, //可退金额
+				// 			returnQuota:3.33 //已退金额
+				// 		},
+				// 	],
+				// 		returnType:0, //退款类型 0售中  1售后
+				// 		freightQuota:2 //运费
+				// };
+				res.productList.map((item,index)=>{
 					item.key = index
 				});
 				this.setState({
@@ -79,8 +77,9 @@ class AddThOrder extends Component{
 					productList:response.productList,
 					freightQuota:response.freightQuota
 				});
-			});
-		};
+			};
+		})
+	 };
 	}
 	//合计退款
 	getReturnSumQuota =()=> {

@@ -11,7 +11,7 @@ const Columns = [{
    },{
      title: '用户订单',
      dataIndex: 'orderNo',
-     render:(text, record)=>{
+     render:(text, record) => {
        return(
          <div>
            <a href="javascript:;" className="theme-color" onClick={record.onOperateClick.bind(this,"detail2")}>{text}</a>

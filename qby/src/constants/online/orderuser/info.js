@@ -182,11 +182,21 @@ class OrderuserInfo extends React.Component{
 			}
 		];
 	}
+	componentDidMount(){
+		const {data} = this.props;
+		let values = {};
+		if(data.orderNo){ //用户订单页面跳转过来的保税订单
+			values = {outNo:data.orderNo}
+		};
+		if(data.id){
+			values = {ecOrderId:data.id}
+		};
+		this.infofetch(values)
+	}
     //获取订单信息列表
-	infofetch=(id)=>{
-		const values={ecOrderId:id}
+	infofetch =(values)=> {
 		this.props.dispatch({ type: 'tab/loding', payload:true});
-    const result=GetServerData('qerp.web.ec.od.userOrder.detail',values)
+    const result = GetServerData('qerp.web.ec.od.userOrder.detail',values)
     result.then((res) => {
        return res;
     }).then((json) => {
@@ -194,8 +204,6 @@ class OrderuserInfo extends React.Component{
       if(json.code=='0'){
 				const orderInfos = json.orderInfo
 				let orderinfo = [];
-				console.log(this.props.data)
-
 				if( this.props.data.record.channel == 1 ){ //有赞订单
 					orderinfo=[
 						{lable:'订单号',text:orderInfos.orderNo},
@@ -217,10 +225,9 @@ class OrderuserInfo extends React.Component{
 						{lable:'优惠券',text:orderInfos.couponMoney},
 						{lable:'优惠券批次号',text:orderInfos.couponCode},
 					];
-				}
-
+			 };
 				//收货信息
-				const receiptinfo=[
+				const receiptinfo = [
 					{lable:'姓名',text:orderInfos.idCardName},
 					{lable:'身份证号',text:orderInfos.idCardNo},
 					{lable:'收货人',text:orderInfos.recName},
@@ -279,7 +286,7 @@ class OrderuserInfo extends React.Component{
 					recCity:orderInfos.recCity,
 					recDistrict:orderInfos.recDistrict,
 					recAddress:orderInfos.recAddress
-			   	})
+		   	})
 			}else{
 				this.setState({
 					goodinfo:[],
@@ -295,8 +302,8 @@ class OrderuserInfo extends React.Component{
 					recCity:null,
 					recDistrict:null,
 					recAddress:null
-			   	})
-			}
+		   	});
+			};
     })
   }
 	render(){
@@ -414,9 +421,7 @@ class OrderuserInfo extends React.Component{
 			</div>
 		)
 	}
-	componentDidMount(){
-		this.infofetch(this.props.data.id)
-	}
+
 }
 
 function mapStateToProps(state) {

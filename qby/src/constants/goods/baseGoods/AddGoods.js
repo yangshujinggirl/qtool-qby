@@ -132,7 +132,7 @@ class AddGoodsForm extends Component {
     let { fileList } = this.props.addGoods;
     if(hoverIndex<0 || hoverIndex > (fileList.length-1)) {
       return;
-    }
+    };
     const currentData = fileList[currentIndex];
     const hoverData = fileList[hoverIndex];
     fileList.splice(currentIndex,1);
@@ -149,7 +149,7 @@ class AddGoodsForm extends Component {
 
   //编辑or新增
   initPage() {
-    const { pdSpuId, source } =this.props.data;
+    const { pdSpuId, source } = this.props.data;
     if(pdSpuId) {
       this.props.dispatch({
         type:'addGoods/fetchGoodsInfo',
@@ -157,15 +157,15 @@ class AddGoodsForm extends Component {
           pdSpuId,
           source
         }
-      })
+      });
       this.setState({
         isEdit:true
-      })
+      });
     } else {
       this.setState({
         isEdit:false
-      })
-    }
+      });
+    };
   }
   //初始化商品规格，分类,品牌
   initGoodslabel() {
@@ -173,7 +173,7 @@ class AddGoodsForm extends Component {
     this.props.dispatch({
       type:'addGoods/resetData',
       payload:source
-    })
+    });
     this.props.dispatch({
       type:'addGoods/fetchGoodsType',
       payload:{
@@ -186,7 +186,7 @@ class AddGoodsForm extends Component {
         level:1,
         parentId:null
 			}
-    })
+    });
   }
   //分类change事件
   handleChangeLevel(level,selected){
@@ -233,7 +233,7 @@ class AddGoodsForm extends Component {
             text:el.name,
             value:el.pdBrandId
           }
-        ))
+        ));
         this.props.dispatch({ type: 'tab/loding', payload:false});
         this.setState({
           brandDataSource:data
@@ -298,7 +298,7 @@ class AddGoodsForm extends Component {
         values.taxRate = values.taxRate.replace("%","");
       };
       values.name = values.name.trim();
-    }
+    };
     //取出store中id品牌，国家
     values.pdBrandId = this.props.addGoods.autoComplete.pdBrandId;
     values.pdCountryId = this.props.addGoods.autoComplete.pdCountryId;
@@ -326,10 +326,10 @@ class AddGoodsForm extends Component {
               el.picUrl = el.picUrl[0].name;
             } else {
               el.picUrl = el.picUrl[0].response.data[0];
-            }
+            };
           } else {
             el.picUrl = '';
-          }
+          };
         }
         return el
       })
@@ -372,7 +372,6 @@ class AddGoodsForm extends Component {
           loading:false
         })
       }
-
     },error=> {
     })
   }
@@ -512,9 +511,10 @@ class AddGoodsForm extends Component {
   }
   changeBrand =(e)=> {
     const value = e.target.value;
-    this.setState({
-      isBrandDirectMail:value
-    })
+    this.props.dispatch({
+      type:'addGoods/setdeliveryExplain',
+      payload:{deliveryExplain:!value}
+    });
   }
   //批次管理change事件
   changeLotStatus =(e)=> {
@@ -549,6 +549,7 @@ class AddGoodsForm extends Component {
     }
   }
   render() {
+    const {deliveryExplain} = this.props.addGoods;
     const { getFieldDecorator } = this.props.form;
     const {
       categoryData,
@@ -560,6 +561,7 @@ class AddGoodsForm extends Component {
       linkageLabel,
     } = this.props.addGoods;
     const { loading,pdTaxWarehouses,isBrandDirectMail} =this.state;
+    console.log(deliveryExplain)
     return(
       <div className="add-goods-components" >
         <Form className="qtools-form-components">
@@ -865,7 +867,7 @@ class AddGoodsForm extends Component {
                 <Col span={24}>
                   <FormItem label='品牌直供' {...formItemLayout}>
                      {getFieldDecorator('brandDirectMail',{
-                       initialValue:pdSpu.isBrandDirectMail||0,
+                       initialValue:pdSpu.brandDirectMail||0,
                        onChange:this.changeBrand
                      })(
                        <RadioGroup>
@@ -882,10 +884,14 @@ class AddGoodsForm extends Component {
                   <FormItem label='配送说明' {...formItemLayout3}>
                     品牌直邮，预计　
                      {getFieldDecorator('deliveryExplain',{
-                       rules: [{ required: true, message: '请选择季节商品'}],
+                       rules: [
+                         { required: !deliveryExplain, message: '请输入配送说明'},
+                         {pattern:/^[0-9]*$/,message:'请输入1~30整数'}
+
+                       ],
                        initialValue:pdSpu.deliveryExplain||''
                      })(
-                       <Input style={{width:'120px'}} placeholder='请输入1~30整数' disabled={!isBrandDirectMail}/>
+                       <Input style={{width:'120px'}} placeholder='请输入1~30整数' disabled={deliveryExplain}/>
                      )}
                       　工作日内发货
                    </FormItem>
