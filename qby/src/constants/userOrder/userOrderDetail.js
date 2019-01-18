@@ -88,7 +88,7 @@ getDetail() {
   this.props.dispatch({
     type:'tab/loding',
     payload:true
-  })
+  });
   const id = this.props.data.pdSpuId;
 	getInfoApi({orderId:id}).then(res => {
     let { orderInfo, userInfo, goodsInfos, shopInfo, logInfos, deliveryInfo, code } =res;

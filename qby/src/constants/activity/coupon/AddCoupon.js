@@ -16,8 +16,9 @@ class AddCoupon extends Component {
       couponValidDate:false,
     }
     this.options = [
-      { label: '线下商品可以用', value: '1' },
-      { label: 'online商品可以用', value: '2' },
+      { label: '普通商品(不包含品牌直供)', value: '1' },
+      { label: '保税仓商品', value: '2' },
+      { label: '品牌直供商品', value: '3' },
     ];
   }
 
@@ -195,6 +196,16 @@ class AddCoupon extends Component {
                 )
               }
             </FormItem>
+            <FormItem
+              label='优惠券说明'
+              labelCol={{ span: 3,offset: 1 }}
+              wrapperCol={{ span: 14 }}
+            >
+            {getFieldDecorator('couponRemark', {
+            })(
+                <TextArea style={{width:'255px'}} placeholder='请输入优惠券说明，50字以内' maxLength='50' rows={6} />
+            )}
+          </FormItem>
             <FormItem
               label='优惠券备注'
               labelCol={{ span: 3,offset: 1 }}

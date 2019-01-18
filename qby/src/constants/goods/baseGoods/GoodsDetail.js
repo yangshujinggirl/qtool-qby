@@ -48,6 +48,19 @@ const OutLinePartDetail =({pdSpu})=>(
       <label>{pdSpu.salesAttrStr}</label>
     </FormItem>
     <FormItem
+      label="品牌直邮" {...formItemLayout}>
+      <label>{pdSpu.brandDirectMail?'是':'否'}</label>
+    </FormItem>
+    {
+      pdSpu.brandDirectMail
+      ?
+      <FormItem
+        label="配送说明" {...formItemLayout}>
+        <label>品牌方直邮，预计{pdSpu.deliveryExplain}工作日内发货</label>
+      </FormItem>
+      :""
+    }
+    <FormItem
       label="季节商品" {...formItemLayout}>
       <label>{pdSpu.isSeasonSpuStr}</label>
     </FormItem>
@@ -112,7 +125,7 @@ const OnLinePartDetail =({pdSpu}) =>(
 class GoodsDetail extends Component {
 
   componentDidMount() {
-    const { pdSpuId, source } =this.props.data;
+    const { pdSpuId, source } = this.props.data;
     this.props.dispatch({
       type:'baseGoodsDetail/fetchGoodsInfo',
       payload:{

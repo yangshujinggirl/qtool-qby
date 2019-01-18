@@ -231,8 +231,14 @@ class GoodsInfo extends Component {
           <Table.Column title="商品编码" dataIndex='code' key ={1} render={this.renderCode}/>
           <Table.Column title="商品条码" dataIndex='barcode' key ={2} render={this.renderBarcode}/>
           <Table.Column title="零售价" dataIndex='toCPrice' key ={4} render={this.renderPurchasePricee} />
-          <Table.Column title="金卡售价" dataIndex='goldCardPrice' key ={5} render={this.renderGoldPrice}/>
-          <Table.Column title="银卡售价" dataIndex='silverCardPrice' key ={6} render={this.renderSilverPrice}/>
+          {
+            !pdSpu.brandDirectMail &&
+            <Table.Column title="金卡售价" dataIndex='goldCardPrice' key ={5} render={this.renderGoldPrice}/>
+          }
+          {
+            !pdSpu.brandDirectMail &&
+            <Table.Column title="银卡售价" dataIndex='silverCardPrice' key ={6} render={this.renderSilverPrice}/>
+          }
           {
             pdSpu.isSkus&&
             <Table.Column title="sku图片" key ={7} render={this.renderDeliveryPrice}/>

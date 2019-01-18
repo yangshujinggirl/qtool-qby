@@ -88,7 +88,7 @@ class Allth extends Component {
       paneitem={
         title:'订单详情',
         key:`${this.props.componkey}edit`+ record.orderReturnId + 'info27',
-        data:{pdSpuId:record.orderReturnId},
+        data:{pdSpuId:record.orderId},
         componkey:'207000edit'
       };
     }

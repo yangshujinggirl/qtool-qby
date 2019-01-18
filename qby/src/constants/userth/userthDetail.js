@@ -26,7 +26,7 @@ class UserthDetail extends React.Component{
     },
 		this.columns1 = [{
 			title: '商品名称',
-			dataIndex: 'pdName',
+			dataIndex: 'spuName',
       key:'1'
 		}, {
 			title: '规格',
@@ -34,15 +34,15 @@ class UserthDetail extends React.Component{
       key:'2'
 		}, {
 			title: '商品编码',
-			dataIndex: 'pdCode',
+			dataIndex: 'code',
       key:'3'
 		}, {
 			title: '退款数量',
-			dataIndex: 'returnCount',
+			dataIndex: 'qty',
       key:'4'
 		}, {
 			title: '退款金额',
-			dataIndex: 'returnQuota',
+			dataIndex: 'returnPrice',
       key:'5'
 		}];
 
@@ -68,9 +68,9 @@ class UserthDetail extends React.Component{
 componentWillMount(){
 	const id = this.props.data.orderReturnId;
 	getInfoApi({orderReturnId:id}).then(res => {
-		if(res.code=='0'){
+		if(res.code=='0' && res.pdOrderReturnDetailPage){
 			this.setState({
-				backInfos:res.pdOrderReturnDetailPage.ReturnOrderBaseInfo,
+				backInfos:res.pdOrderReturnDetailPage.returnOrderBaseInfo,
 	      goodInfos:res.pdOrderReturnDetailPage.pdOrderReturnDetail,
 				orderLogs:res.pdOrderReturnDetailPage.pdOrderReturnLog,
 				describes:res.pdOrderReturnDetailPage.pdOrderReturnDetailDescribe,
@@ -156,12 +156,13 @@ agree =()=> {
 render(){
   const {backInfos,goodInfos,orderLogs,describes,value} = this.state
 	const fileDomain = eval(sessionStorage.getItem('fileDomain'));
-	if(orderLogs[0]){
+	if(orderLogs && orderLogs[0]){
 		orderLogs.map((item,index)=>{
 			item.key = index;
 			return item;
 		});
 	}
+	console.log(goodInfos)
   const {getFieldDecorator} = this.props.form;
 	const { type } = this.props.data
   const radioStyle = {
@@ -175,17 +176,17 @@ render(){
           <Card title='退单信息'>
             <div className='cardlist'>
                 <div className='cardlist_item'><label>退单号：</label><span>{backInfos.orderReturnNo}</span></div>
-                <div className='cardlist_item'><label>用户订单号：</label><span>{backInfos.orderNum}</span></div>
-                <div className='cardlist_item'><label>用户手机号：</label><span>{backInfos.userPhone}</span></div>
+                <div className='cardlist_item'><label>用户订单号：</label><span>{backInfos.orderNo}</span></div>
+                <div className='cardlist_item'><label>用户手机号：</label><span>{backInfos.userMoblie}</span></div>
                 <div className='cardlist_item'><label>用户昵称：</label><span>{backInfos.userNickName}</span>元</div>
                 <div className='cardlist_item'><label>生成时间：</label><span>{backInfos.createTime}</span>元</div>
                 <div className='cardlist_item'><label>退款类型：</label><span>{backInfos.returnTypeStr}</span></div>
-                <div className='cardlist_item'><label>退款方式：</label><span>{backInfos.returnWayStr}</span></div>
+                <div className='cardlist_item'><label>退款方式：</label><span>{backInfos.returnWayStr }</span></div>
                 <div className='cardlist_item'><label>退单状态：</label><span>{backInfos.returnStatusStr}</span></div>
-                <div className='cardlist_item'><label>退款总金额：</label><span>{backInfos.actualReturnQuota}</span></div>
+                <div className='cardlist_item'><label>退款总金额：</label><span>{backInfos.actualAmount}</span></div>
                 <div className='cardlist_item'><label>退款原因：</label><span>{backInfos.returnReason}</span></div>
-                <div className='cardlist_item'><label>快递单号：</label><span>{backInfos.courierNumber}</span></div>
-                <div className='cardlist_item'><label>退款地址：</label><span>{backInfos.returnPdAddress}</span></div>
+                <div className='cardlist_item'><label>快递单号：</label><span>{backInfos.orderExpressNo}</span></div>
+                <div className='cardlist_item'><label>退款地址：</label><span>{backInfos.userAddress}</span></div>
             </div>
           </Card>
         </div>

@@ -109,10 +109,10 @@ class ToAudit extends Component {
     })
   }
   render() {
-    //审核
-		// const onAudit=this.props.data.rolelists.find((currentValue,index)=>{
-		// 	return currentValue.url=="qerp.web.sys.doc.task"
-		// })
+  // //  审核
+	// 	const toAudit = this.props.data.rolelists.find((currentValue,index)=>{
+	// 		return currentValue.url=="qerp.web.pd.order.return.audited"
+	// 	});
     const { dataList=[] } = this.props.toAudit;
     return (
       <div className='qtools-components-pages'>
@@ -125,7 +125,7 @@ class ToAudit extends Component {
           <Qtable
             dataSource={dataList}
             onOperateClick = {this.handleOperateClick.bind(this)}
-            columns = {onAudit?Columns1:Columns2}/>
+            columns = {0?Columns1:Columns2}/>
         }
         <Qpagination
           data={this.props.toAudit}

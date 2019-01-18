@@ -133,6 +133,14 @@ class NormalForm extends Component {
                     </Select>
                   )}
                 </FormItem>
+                <FormItem label='品牌直供'>
+                   {getFieldDecorator('brandDirectMail')(
+                     <Select allowClear={true} placeholder="请选择是否品牌直供" autoComplete="off">
+                         <Option value={1} key={1}>是</Option>
+                         <Option value={0} key={0}>否</Option>
+                     </Select>
+                   )}
+                 </FormItem>
             </div>
           </div>
           <div className="search-submit-btn">

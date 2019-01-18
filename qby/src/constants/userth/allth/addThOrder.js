@@ -73,9 +73,9 @@ class AddThOrder extends Component{
 					item.key = index
 				});
 				this.setState({
-					returnType:response.returnType,
-					productList:response.productList,
-					freightQuota:response.freightQuota
+					returnType:res.returnType,
+					productList:res.productList,
+					freightQuota:res.freightQuota
 				});
 			};
 		})

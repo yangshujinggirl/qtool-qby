@@ -2,7 +2,11 @@ import React,{ Component } from 'react';
 import { Input,Form} from 'antd';
 import { connect } from 'dva';
 import Qtable from '../../../components/Qtable';
-import { DetailColumns, DetailSizeColumns} from './columns/detailColumns';
+import {
+  DetailColumns,
+  DetailSizeColumns,
+  DetailDeliveryColumns,
+  SizeDeliveryColumns} from './columns/detailColumns';
 import Imgmodel from '../../../components/model/modelimg';
 import AddGoodsDesc from '../components/AddGoodsDesc/index.js';
 const FormItem = Form.Item;
@@ -81,7 +85,13 @@ class GoodsDetail extends Component {
     			</FormItem>
     			<FormItem label="商品信息" {...formItemLayout2}>
             <Qtable
-              columns={pdSpu.isSkus?DetailSizeColumns:DetailColumns}
+              columns={
+                pdSpu.isSkus
+                ?
+                (pdSpu.brandDirectMail ? SizeDeliveryColumns : DetailSizeColumns)
+                :
+                (pdSpu.brandDirectMail ? DetailDeliveryColumns : DetailColumns)
+              }
               dataSource={pdSpu.pdSkus}/>
     			</FormItem>
           <FormItem label="NEW商品" {...formItemLayout}>
@@ -98,6 +108,17 @@ class GoodsDetail extends Component {
             }
             <div></div>
           </FormItem>
+          <FormItem label="品牌直供" {...formItemLayout}>
+            <label>{pdSpu.brandDirectMail?'是':'否'}</label>
+          </FormItem>
+          {
+            pdSpu.brandDirectMail
+            ?
+            <FormItem label="配送说明" {...formItemLayout}>
+              <label>品牌方直邮，预计{pdSpu.deliveryExplain}工作日内发货</label>
+            </FormItem>
+            :''
+          }
           <FormItem label="商品描述" {...formItemLayout}>
             <ul className="goods-desc-wrap">
               {

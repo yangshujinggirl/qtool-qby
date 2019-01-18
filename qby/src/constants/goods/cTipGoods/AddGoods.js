@@ -265,6 +265,19 @@ class AddGoodsForm extends Component {
                </FormItem>
             </Col>
             <Col span={24}>
+              <FormItem label="品牌直供" {...formItemLayout}>
+                <label>{pdSpu.brandDirectMail?'是':'否'}</label>
+              </FormItem>
+            </Col>
+            {
+              pdSpu.brandDirectMail &&
+              <Col span={24}>
+                <FormItem label="配送说明" {...formItemLayout}>
+                  <label>品牌方直邮，预计{pdSpu.deliveryExplain}工作日内发货</label>
+                </FormItem>
+              </Col>
+            }
+            <Col span={24}>
               <FormItem label='商品描述' {...formItemLayout}>
                 {
                   pdSpu.pdSpuInfo &&
