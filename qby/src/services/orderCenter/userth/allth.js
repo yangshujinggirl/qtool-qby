@@ -4,7 +4,7 @@ import ajax from '../../../utils/req.js';
 export function getListApi(values) {
   values = JSON.stringify(values)
   return ajax.post('/webrest.htm',{
-      code:'qerp.web.pd.order.return.query',
+      code:'qerp.web.pd.return.order.query',
       data:values
   })
 }

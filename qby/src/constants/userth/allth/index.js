@@ -72,6 +72,7 @@ class Allth extends Component {
   //操作
   handleOperateClick(record,type) {
     let paneitem = {};
+
     if(type=="detail1"){
       //用户退单详情
       paneitem = {

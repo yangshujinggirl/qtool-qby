@@ -75,7 +75,8 @@ class AddThOrder extends Component{
 				this.setState({
 					returnType:res.returnType,
 					productList:res.productList,
-					freightQuota:res.freightQuota
+					freightQuota:res.freightQuota,
+					orderId:res.orderId
 				});
 			};
 		})
@@ -113,8 +114,14 @@ class AddThOrder extends Component{
 						delete values[key]
 					};
 				};
+				if(values.orderNo.slice(0,2) == 'XS') {
+					values.orderSource = 0;
+				}else{
+					values.orderSource = 1;
+				};
 				if(values.returnType&&values.returnType=='售中退款')values.returnType=0
 				if(values.returnType&&values.returnType=='售后退款')values.returnType=1
+				values.orderId = this.state.orderId;
 				values.productList = this.state.productList;
 				this.sendRequest(values)
 			};
@@ -166,7 +173,7 @@ class AddThOrder extends Component{
                     labelCol={{ span: 3,offset: 1 }}
                     wrapperCol={{ span: 6 }}
                 >
-                    {getFieldDecorator('orderNum', {
+                    {getFieldDecorator('orderNo', {
                         rules: [{ required: true, message: '请选择用户订单'}],
                     })(
 											<Input onBlur={this.getOrderInfo}  autoComplete="off"/>

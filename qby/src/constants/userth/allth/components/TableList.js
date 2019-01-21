@@ -42,7 +42,8 @@ class TableList extends Component {
 			  title: '退款数量',
 				render: (text, record,index) => {
 					const { getFieldDecorator } = this.props.form;
-					const handleReturnCount =(rule,value,callback)=> {
+					const handleReturnCount =(rule,value,callback)=>
+          {
 						const {buyCount,returnCount} = record;
 						if (value && value >(Number(buyCount)-Number(returnCount))) {
 							 callback('不可超剩余数量')

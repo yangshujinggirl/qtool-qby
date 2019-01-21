@@ -29,7 +29,8 @@ class CouponDetail extends Component{
       couponFullAmount,
       couponCount,
       couponRemark,
-      couponUseScopeStr
+      couponUseScopeStr,
+      couponExplain
      } = this.state.couponInfo
     return(
       <div className='couponDetail'>
@@ -47,7 +48,7 @@ class CouponDetail extends Component{
         <p className='tail'>使用门槛：　　满　{couponFullAmount}　可用</p>
         <p className='tail'>优惠券数：　　{couponCount}　张</p>
         <p className='tail'>使用商品范围：{couponUseScopeStr} </p>
-        <p className='tail'>优惠券说明：{couponUseScopeStr} </p>
+        <p className='tail'>优惠券说明：{couponExplain} </p>
         <p className='tail'>优惠券备注：　{couponRemark}</p>
       </div>
     )

@@ -201,7 +201,7 @@ class AddCoupon extends Component {
               labelCol={{ span: 3,offset: 1 }}
               wrapperCol={{ span: 14 }}
             >
-            {getFieldDecorator('couponRemark', {
+            {getFieldDecorator('couponExplain', {
             })(
                 <TextArea style={{width:'255px'}} placeholder='请输入优惠券说明，50字以内' maxLength='50' rows={6} />
             )}
