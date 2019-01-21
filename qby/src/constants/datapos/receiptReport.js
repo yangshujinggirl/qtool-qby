@@ -55,7 +55,7 @@ class ReceiptReportForm extends React.Component {
 
     toDetailInfo = (record) =>{
         const pdOrderId=String(record.pdOrderId);
-        const paneitem={title:'订单详情',key:'703006edit'+pdOrderId+'info',data:{pdOrderId:pdOrderId,shopId:this.props.shopId,details:record},componkey:'703006info'}
+        const paneitem={title:'订单详情',key:'707000edit'+pdOrderId+'info',data:{pdOrderId:pdOrderId,shopId:this.props.shopId,details:record},componkey:'703006info'}
         this.props.dispatch({
             type:'tab/firstAddTab',
             payload:paneitem

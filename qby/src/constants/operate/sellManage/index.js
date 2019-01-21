@@ -26,10 +26,10 @@ class SellManage extends Component {
     })
   }
   //分页
-  changePage = (currentPage) => {
+  changePage = (currentPage,limit) => {
     currentPage--;
     const { inputValues } = this.state;
-    const paramsObj ={...{currentPage},...inputValues}
+    const paramsObj ={currentPage,limit,...inputValues}
     this.props.dispatch({
       type:'sellManage/fetchList',
       payload: paramsObj
@@ -37,6 +37,7 @@ class SellManage extends Component {
   }
   //修改pageSize
   changePageSize =(values)=> {
+    console.log(values)
     this.props.dispatch({
       type:'sellManage/fetchList',
       payload: {...values,...this.state.inputValues}
