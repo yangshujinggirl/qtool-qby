@@ -111,7 +111,7 @@ class OrderdbSearchForm extends React.Component {
                                     )}
                                 </FormItem>
                                 <FormItem label='商品名称'>
-                                    {getFieldDecorator('spuName')(
+                                    {getFieldDecorator('shopName')(
                                     <Input placeholder="请输入商品名称" autoComplete="off"/>
                                     )}
                                 </FormItem>
