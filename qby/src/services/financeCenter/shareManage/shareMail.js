@@ -12,7 +12,7 @@ export function getListApi(values) {
 export function exportDataApi(values) {
   values = JSON.stringify(values)
   return ajax.post('/webrest.htm',{
-      code:'qerp.web.directDelivery.profit.export',
+      code:'qerp.web.sys.doc.task',
       data:values
   })
 }

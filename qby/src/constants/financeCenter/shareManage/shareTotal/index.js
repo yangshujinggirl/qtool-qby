@@ -14,7 +14,7 @@ class ShareTotal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      field:{
+      inputValues:{
         spShopName:'',
         createST:'',
         createET:'',
@@ -27,19 +27,10 @@ class ShareTotal extends Component {
   getNowFormatDate = () => {
    const startRpDate=timeForMats(30).t2;
    const endRpDate=timeForMats(30).t1;
-   const {fields} = this.state;
-   this.setState({
-     fields:{
-       ...fields,
-       createST:startRpDate,
-       createET:endRpDate,
-       }
-     },function(){
-       this.searchData({
-         createST:startRpDate,
-         createET:endRpDate
-       });
-   })
+   this.searchData({
+     createST:startRpDate,
+     createET:endRpDate
+   });
  }
   //操作
   handleOperateClick(record,type) {
@@ -71,7 +62,7 @@ class ShareTotal extends Component {
   //点击分页
   changePage = (current,limit) => {
     const currentPage = current-1;
-    const values = {...this.state.field,currentPage,limit}
+    const values = {...this.state.inputValues,currentPage,limit}
     this.props.dispatch({
       type:'shareTotal/fetchList',
       payload: values
@@ -81,28 +72,22 @@ class ShareTotal extends Component {
   onShowSizeChange =({currentPage,limit})=> {
     this.props.dispatch({
       type:'shareTotal/fetchList',
-      payload:{currentPage,limit,...this.state.field}
+      payload:{currentPage,limit,...this.state.inputValues}
     });
-  }
-  //搜索框数据发生变化
-  searchDataChange =(values)=> {
-    const {rangePicker,..._values} = values;
-    if(rangePicker&&rangePicker[0]){
-      _values.dateTimeST =  moment(new Date(rangePicker[0]._d).getTime()).format('YYYY-MM-DD HH:mm:ss');
-      _values.dateTimeET = moment(new Date(rangePicker[1]._d).getTime()).format('YYYY-MM-DD HH:mm:ss');
-    }
-    this.setState({field:_values});
   }
   //点击搜索
   searchData = (values)=> {
     this.props.dispatch({
       type:'shareTotal/fetchList',
       payload:values
+    });
+    this.setState({
+      inputValues:values
     })
   }
   //导出数据
   exportData =()=> {
-    const values ={type:100,downloadParam:{...this.state.field}}
+    const values ={type:100,downloadParam:{...this.state.inputValues}}
     exportDataApi(values)
     .then(res => {
       if(res.code == '0'){

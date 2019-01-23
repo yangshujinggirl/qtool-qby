@@ -19,7 +19,7 @@ const Option =  Select.Option;
 const RangePicker = DatePicker.RangePicker
 
 class NormalForm extends Component {
-  handleSubmit = (e) => {
+  handleSubmit =(e)=> {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       const { rangePicker, ..._values } = values;
@@ -75,10 +75,6 @@ class NormalForm extends Component {
   }
 }
 
-const FilterForm = Form.create({
-  onValuesChange:(props, changedValues, allValues) => {
-    props.onValuesChange(allValues);
-  }
-})(NormalForm);
+const FilterForm = Form.create({})(NormalForm);
 
 export default FilterForm;

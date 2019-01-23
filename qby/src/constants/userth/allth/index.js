@@ -19,7 +19,7 @@ class Allth extends Component {
         type:'radio',
         onChange:this.onChange
       },
-      field:{
+      inputValues:{
         orderReturnNo:'',
         orderNo:'',
         returnWay:'',
@@ -37,19 +37,10 @@ class Allth extends Component {
   getNowFormatDate =()=> {
    const startRpDate=timeForMats(30).t2;
    const endRpDate=timeForMats(30).t1;
-   const {field} = this.state;
-   this.setState({
-     field:{
-       ...field,
-       startDate:startRpDate,
-       endDate:endRpDate,
-     }
-   },function(){
-       this.searchData({
-         startDate:startRpDate,
-         endDate:endRpDate
-       });
-   })
+   this.searchData({
+     startDate:startRpDate,
+     endDate:endRpDate
+   });
  }
   componentWillReceiveProps(props){
     this.setState({
@@ -101,7 +92,7 @@ class Allth extends Component {
   //点击分页
   changePage = (current,limit) => {
     const currentPage = current-1;
-    const values = {...this.state.field,currentPage,limit}
+    const values = {...this.state.inputValues,currentPage,limit}
     this.props.dispatch({
       type:'allth/fetchList',
       payload: values
@@ -111,28 +102,22 @@ class Allth extends Component {
   onShowSizeChange =({currentPage,limit})=> {
     this.props.dispatch({
       type:'allth/fetchList',
-      payload:{currentPage,limit,...this.state.field}
+      payload:{currentPage,limit,...this.state.inputValues}
     });
   }
-  //搜索框数据发生变化
-  searchDataChange =(values)=> {
-    const {rangePicker,..._values} = values;
-    if(rangePicker&&rangePicker[0]){
-      _values.startDate =  moment(rangePicker[0]).format('YYYY-MM-DD HH:mm:ss');
-      _values.endDate = moment(rangePicker[1]).format('YYYY-MM-DD HH:mm:ss');
-    }
-    this.setState({field:_values});
-  }
   //点击搜索
-  searchData = (values)=> {
+  searchData =(values)=> {
     this.props.dispatch({
       type:'allth/fetchList',
       payload:values
+    });
+    this.setState({
+      inputValues:values
     })
   }
   //导出数据
   exportData =()=> {
-    const values ={type:12,downloadParam:{...this.state.field}}
+    const values ={type:12,downloadParam:{...this.state.inputValues}}
     exportDataApi(values)
     .then(res => {
       if(res.code == '0'){
@@ -239,7 +224,6 @@ class Allth extends Component {
       <div className='qtools-components-pages allth'>
         <FilterForm
           submit={this.searchData}
-          onValuesChange = {this.searchDataChange}
         />
       <div className='clearfix mb10 introModal'>
           <p className='fr pointer' onClick={this.desinfo} >说明
