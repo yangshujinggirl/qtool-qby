@@ -15,9 +15,9 @@ class ShareTotal extends Component {
     super(props);
     this.state = {
       inputValues:{
-        spShopName:'',
-        createST:'',
+        shopName:'',
         createET:'',
+        createST:'',
       },
     }
   }
@@ -77,17 +77,24 @@ class ShareTotal extends Component {
   }
   //点击搜索
   searchData = (values)=> {
+    const {inputValues} = this.state;
     this.props.dispatch({
       type:'shareTotal/fetchList',
       payload:values
     });
     this.setState({
       inputValues:values
-    })
+    });
   }
   //导出数据
   exportData =()=> {
-    const values ={type:100,downloadParam:{...this.state.inputValues}}
+    const {inputValues} = this.state;
+    for(var i in inputValues){
+      if(!inputValues[i]){ //职位undefined的，也要存在
+        inputValues[i] = ''
+      };
+    };
+    const values = {type:100,downloadParam:inputValues}
     exportDataApi(values)
     .then(res => {
       if(res.code == '0'){
@@ -142,7 +149,6 @@ class ShareTotal extends Component {
       <div className='qtools-components-pages shareTotal'>
         <FilterForm
           submit={this.searchData}
-          onValuesChange = {this.searchDataChange}
         />
       <div className='clearfix mb10 introModal'>
           <p className='fr pointer' onClick={this.desinfo} >计算规则
@@ -179,5 +185,4 @@ function mapStateToProps(state) {
   const { shareTotal } = state;
   return {shareTotal};
 }
-
 export default connect(mapStateToProps)(ShareTotal);

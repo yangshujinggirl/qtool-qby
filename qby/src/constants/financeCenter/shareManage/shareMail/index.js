@@ -19,7 +19,7 @@ class ShareMail extends Component {
         orderNo:'',
         shareType:'',
         createST:'',
-        createET:'',
+        createET:''
       },
     }
   }
@@ -43,11 +43,11 @@ class ShareMail extends Component {
       data:{
         pdSpuId:record.orderId,
       }
-    }
+    };
     this.props.dispatch({
       type:'tab/firstAddTab',
       payload:paneitem
-    })
+    });
   }
   //点击分页
   changePage = (current,limit) => {
@@ -67,6 +67,7 @@ class ShareMail extends Component {
   }
   //点击搜索
   searchData = (values)=> {
+    const {inputValue} = this.state
     this.props.dispatch({
       type:'shareMail/fetchList',
       payload:values
@@ -77,7 +78,13 @@ class ShareMail extends Component {
   }
   //导出数据
   exportData =()=> {
-    const values ={type:101,downloadParam:{...this.state.inputValues}}
+    const {inputValues} = this.state;
+    for(var i in inputValues){
+      if(!inputValues[i]){ //职位undefined的，也要存在
+        inputValues[i] = ''
+      };
+    };
+    const values = {type:101,downloadParam:inputValues};
     exportDataApi(values)
     .then(res => {
       if(res.code == '0'){

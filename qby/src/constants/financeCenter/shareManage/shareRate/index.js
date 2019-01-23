@@ -83,11 +83,19 @@ class ShareRate extends Component {
       type:'shareRate/fetchList',
       payload:values
     });
-    this.setState({inputValues:values})
+    this.setState({
+      inputValues:values
+    });
   }
   //导出数据
   exportData =()=> {
-    const values = {type:102,downloadParam:{...this.state.inputValues}}
+    const {inputValues} = this.state;
+    for(var i in inputValues){
+      if(!inputValues[i]){ //职位undefined的，也要存在
+        inputValues[i] = ''
+      };
+    };
+    const values = {type:102,downloadParam:inputValues}
     exportDataApi(values)
     .then(res => {
       if(res.code == '0'){

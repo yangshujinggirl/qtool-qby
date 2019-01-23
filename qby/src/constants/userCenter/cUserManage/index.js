@@ -13,7 +13,7 @@ class UserManage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      fields:{
+      inputValues:{
         userId:'',
         mobile:'',
         name:'',
@@ -29,19 +29,10 @@ class UserManage extends Component {
   getNowFormatDate = () => {
    const startRpDate=timeForMats(30).t2;
    const endRpDate=timeForMats(30).t1;
-   const {fields} = this.state;
-   this.setState({
-     fields:{
-       ...fields,
-       createTimeST:startRpDate,
-       createTimeET:endRpDate,
-       }
-     },function(){
-       this.searchData({
-         createTimeST:startRpDate,
-         createTimeET:endRpDate
-       });
-   })
+   this.searchData({
+     createTimeST:startRpDate,
+     createTimeET:endRpDate
+   });
  }
   //操作
   handleOperateClick(record) {
@@ -61,7 +52,7 @@ class UserManage extends Component {
   //点击分页
   changePage = (current) => {
     const currentPage = current-1;
-    const values = {...this.state.fields,currentPage}
+    const values = {...this.state.inputValues,currentPage}
     this.props.dispatch({
       type:'cUserManage/fetchList',
       payload: values
@@ -71,28 +62,24 @@ class UserManage extends Component {
   onShowSizeChange =({currentPage,limit})=> {
     this.props.dispatch({
       type:'cUserManage/fetchList',
-      payload:{currentPage,limit,...this.state.fields}
+      payload:{currentPage,limit,...this.state.inputValues}
     });
-  }
-  //搜索框数据发生变化
-  searchDataChange =(changedFields)=> {
-    this.setState(({ fields }) => ({
-      fields: { ...fields, ...changedFields },
-    }));
   }
   //点击搜索
   searchData = (values)=> {
     this.props.dispatch({
       type:'cUserManage/fetchList',
       payload:values
-    })
+    });
+    this.setState({
+      inputValues:values
+    });
   }
   render() {
     const { dataList } = this.props.cUserManage;
     return (
       <div className='qtools-components-pages'>
         <FilterForm
-          {...this.state.fields}
           submit={this.searchData}
           onValuesChange = {this.searchDataChange}/>
         {

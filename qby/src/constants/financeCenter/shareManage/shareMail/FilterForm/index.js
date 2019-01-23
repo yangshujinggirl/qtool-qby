@@ -26,7 +26,7 @@ class NormalForm extends Component {
       if(rangePicker&&rangePicker[0]){
         _values.createST =  moment(rangePicker[0]).format('YYYY-MM-DD HH:mm:ss');
         _values.createET =  moment(rangePicker[1]).format('YYYY-MM-DD HH:mm:ss');
-      }
+      };
       this.props.submit && this.props.submit(_values);
     });
   }
