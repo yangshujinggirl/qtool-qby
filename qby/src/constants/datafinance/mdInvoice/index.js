@@ -66,8 +66,10 @@ class MdInvoiceIndexForm extends React.Component {
     exportData = (type,data) => {
   		const values = {
   			type:76,
-        month:this.state.month,
-        ...this.state.inputValues
+        downloadParam:{
+          month:this.state.month,
+          ...this.state.inputValues
+        }
   		};
   		const result=GetServerData('qerp.web.sys.doc.task',values);
   		result.then((res) => {
