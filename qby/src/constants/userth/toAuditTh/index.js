@@ -103,10 +103,10 @@ class ToAudit extends Component {
     })
   }
   render() {
-  // //  审核
-	// 	const toAudit = this.props.data.rolelists.find((currentValue,index)=>{
-	// 		return currentValue.url=="qerp.web.pd.order.return.audited"
-	// 	});
+    //  审核
+		const toAudit = this.props.rolelists.find((currentValue,index)=>{
+			return currentValue.url == "qerp.web.pd.order.return.audited"
+		});
     const { dataList=[] } = this.props.toAudit;
     return (
       <div className='qtools-components-pages'>

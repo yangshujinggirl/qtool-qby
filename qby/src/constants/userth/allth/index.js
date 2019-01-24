@@ -57,7 +57,7 @@ class Allth extends Component {
       rowSelection:Object.assign({},rowSelection,{selectedRowKeys})
     })
     if(selectedRows[0]){
-      this.setState({orderReturnNo:selectedRows[0].orderReturnNo})
+      this.setState({orderReturnId:selectedRows[0].orderReturnId})
     };
   }
   //操作
@@ -169,8 +169,8 @@ class Allth extends Component {
   }
   //确认收货
   sureGet =()=> {
-    const {orderReturnNo} = this.state;
-    sureGetApi( {orderReturnNo})
+    const {orderReturnId} = this.state;
+    sureGetApi( {orderReturnId})
     .then(res => {
       if(res.code == '0'){
         message.success('已确认收货')
@@ -186,8 +186,8 @@ class Allth extends Component {
     confirm({
       content:'是否确认此操作',
       onOk:()=>{
-        const {orderReturnNo} = this.state;
-        forceCancelApi( {orderReturnNo})
+        const {orderReturnId} = this.state;
+        forceCancelApi( {orderReturnId})
         .then(res => {
           if(res.code == '0'){
             message.success('强制取消成功')
@@ -207,18 +207,18 @@ class Allth extends Component {
     })
   }
   render() {
-    // //创建退单
-		// const createChargeBack=this.props.data.rolelists.find((currentValue,index)=>{
-		// 	return currentValue.url=="qerp.web.sys.doc.task"
-		// })
-    // //确认收货
-    // const makeSureGet=this.props.data.rolelists.find((currentValue,index)=>{
-		// 	return currentValue.url=="qerp.web.sys.doc.task"
-		// })
-    // //强制取消
-    // const forceCancel=this.props.data.rolelists.find((currentValue,index)=>{
-		// 	return currentValue.url=="qerp.web.sys.doc.task"
-		// })
+    //创建退单
+		const createChargeBack=this.props.rolelists.find((currentValue,index)=>{
+			return currentValue.url=="qerp.web.pd.order.return.save"
+		})
+    //确认收货
+    const makeSureGet=this.props.rolelists.find((currentValue,index)=>{
+			return currentValue.url=="qerp.web.pd.order.return.confirm"
+		})
+    //强制取消
+    const forceCancel=this.props.rolelists.find((currentValue,index)=>{
+			return currentValue.url=="qerp.web.pd.order.return.cancel"
+		})
     const { dataList = [] } = this.props.allth;
     return (
       <div className='qtools-components-pages allth'>

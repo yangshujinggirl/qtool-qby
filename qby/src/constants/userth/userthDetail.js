@@ -162,9 +162,8 @@ render(){
 			return item;
 		});
 	}
-	console.log(goodInfos)
   const {getFieldDecorator} = this.props.form;
-	const { type } = this.props.data
+	const { type } = this.props.data;//type---->  1:审核售中 2：审核售后  detail:单纯的详情
   const radioStyle = {
         display: 'block',
         height: '30px',
