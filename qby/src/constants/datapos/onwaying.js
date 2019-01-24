@@ -104,11 +104,11 @@ class Onwaying extends React.Component {
         this.props.form.validateFields((err, values) => {
           values.spShopId=this.props.shopId;
           values.limit = this.state.limit;
+          removeSpace(values);
           const {limit,..._values} = values;
           this.setState({
             inputValues:_values
           });
-          removeSpace(values)
           this.sendRequest(values);
         });
     }
