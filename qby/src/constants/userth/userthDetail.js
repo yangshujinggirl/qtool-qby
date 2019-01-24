@@ -48,15 +48,15 @@ class UserthDetail extends React.Component{
 
 		this.columns2 = [{
 			title: '操作',
-			dataIndex: 'operation',
+			dataIndex: 'qerpAction',
 			key:'1'
 		}, {
 			title: '操作时间',
-			dataIndex: 'operationTime',
+			dataIndex: 'createTime',
 			key:'2'
 		}, {
 			title: '操作人',
-			dataIndex: 'operationer',
+			dataIndex: 'user',
 			key:'3'
 		}, {
 			title: '备注',
@@ -178,8 +178,8 @@ render(){
                 <div className='cardlist_item'><label>退单号：</label><span>{backInfos.orderReturnNo}</span></div>
                 <div className='cardlist_item'><label>用户订单号：</label><span>{backInfos.orderNo}</span></div>
                 <div className='cardlist_item'><label>用户手机号：</label><span>{backInfos.userMoblie}</span></div>
-                <div className='cardlist_item'><label>用户昵称：</label><span>{backInfos.userNickName}</span>元</div>
-                <div className='cardlist_item'><label>生成时间：</label><span>{backInfos.createTime}</span>元</div>
+                <div className='cardlist_item'><label>用户昵称：</label><span>{backInfos.userName}</span></div>
+                <div className='cardlist_item'><label>生成时间：</label><span>{backInfos.createTime}</span></div>
                 <div className='cardlist_item'><label>退款类型：</label><span>{backInfos.returnTypeStr}</span></div>
                 <div className='cardlist_item'><label>退款方式：</label><span>{backInfos.returnWayStr }</span></div>
                 <div className='cardlist_item'><label>退单状态：</label><span>{backInfos.returnStatusStr}</span></div>

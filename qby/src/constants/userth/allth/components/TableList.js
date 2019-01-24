@@ -59,7 +59,7 @@ class TableList extends Component {
 											{	pattern:/^([1-9][0-9]*){1,3}$/,message:'请输入大于0的整数'},
 											{ validator: handleReturnCount }
 										],
-									})(<Input onBlur={this.getReturnCount.bind(this,index)}/>)
+									})(<Input onBlur={this.getReturnCount.bind(this,index)} disabled={record.buyCount == record.returnCount}/>)
 								}
               </FormItem>
 				 	)
@@ -91,7 +91,7 @@ class TableList extends Component {
 			 							 {	pattern:/^\d+(\.\d{0,2})?$/,message:'小于等于两位小数的数字'},
 									 	 { validator: handleReturnQuota }
 			 						 ],
-			 	 				 })(<Input onBlur={this.getReturnQuota.bind(this,index)} />)
+			 	 				 })(<Input onBlur={this.getReturnQuota.bind(this,index)} disabled={record.buyCount == record.returnCount}/>)
 								}
 							</FormItem>
 						)

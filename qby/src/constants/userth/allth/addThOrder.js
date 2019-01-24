@@ -82,6 +82,13 @@ class AddThOrder extends Component{
 	handleSubmit =()=> {
 		this.props.form.validateFieldsAndScroll((err, values) => {
 			if(!err){
+				const {productList} = this.state;
+				const goodsList = _.cloneDeep(productList);
+				goodsList.map((item,index)=>{
+					if(!item.applyReturnCount){
+						goodsList.splice(index,1)
+					};
+				})
 				for(var key in values){
 					if(key.includes('apply')){
 						delete values[key]
@@ -95,8 +102,12 @@ class AddThOrder extends Component{
 				if(values.returnType&&values.returnType=='售中退款')values.returnType=0
 				if(values.returnType&&values.returnType=='售后退款')values.returnType=1
 				values.orderId = this.state.orderId;
-				values.productList = this.state.productList;
-				this.sendRequest(values)
+				if(goodsList[0]){
+					values.productList = goodsList;
+					this.sendRequest(values);
+				}else{
+					message.error('无可退商品',.8)
+				};
 			};
 		})
 	}
