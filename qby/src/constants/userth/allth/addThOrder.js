@@ -38,44 +38,17 @@ class AddThOrder extends Component{
 			getOrderInfoApi({orderNum:value})
 			.then(res=>{
 				if(res.code == '0'){
-				// const response ={
-				// 	productList:[
-				// 		{ pdSpuId:'111',
-				// 			pdSkuId:'222',
-				// 			pdCode:1111111111,
-				// 			pdName:'有wefwefcweffsdfsdssss',
-				// 			displayName:1,
-				// 			buyCount:3,
-				// 			returnCount:1,
-				// 			orderQuota:20,
-				// 			canReturnQuota:2,
-				// 			returnQuota:6.67,
-				// 			applyReturnCount:null,
-				// 			applyReturnQuota:null,
-				// 		},
-				// 		{
-				// 			pdSpuId:'111',
-				// 			pdSkuId:'222',
-				// 			pdCode:1111121, //商品code
-				// 			pdName:'有wefdfsdssss', //商品名称
-				// 			displayName:1, //规格
-				// 			buyCount:3, //购买数量
-				// 			returnCount:1, //已退数量
-				// 			orderQuota:10, //实付金额
-				// 			canReturnQuota:2, //可退金额
-				// 			returnQuota:3.33 //已退金额
-				// 		},
-				// 	],
-				// 		returnType:0, //退款类型 0售中  1售后
-				// 		freightQuota:2 //运费
-				// };
 				res.productList.map((item,index)=>{
 					item.key = index
 				});
 				this.setState({
 					returnType:res.returnType,
+					orderType:res.orderType,
 					productList:res.productList,
 					freightQuota:res.freightQuota,
+					recName:res.recName,
+					recTelephone:res.recTelephone,
+					recAddress:res.recAddress,
 					orderId:res.orderId
 				});
 			};
@@ -135,7 +108,9 @@ class AddThOrder extends Component{
 			if(res.code =='0'){
 				this.setState({loading:false})
 				message.success('保存成功')
-			};
+			}else{
+				this.setState({loading:false})
+			}
 		})
 	}
 	//取消
@@ -159,7 +134,17 @@ class AddThOrder extends Component{
 	}
 	render(){
 			const { getFieldDecorator } = this.props.form
-			const {returnType,productList,loading,isC,returnWay,freightQuota} = this.state
+			const {
+				returnType,
+				productList,
+				loading,
+				isC,
+				returnWay,
+				freightQuota,
+				recName,
+				recTelephone,
+				recAddress
+			} = this.state
 			const radioStyle = {
 	      display: 'block',
 	      height: '30px',
@@ -232,6 +217,7 @@ class AddThOrder extends Component{
 														wrapperCol={{ span: 6 }}>
 														{getFieldDecorator('acceptReturnOrderUserName', {
 															rules: [{ required: true, message: '请输入姓名'}],
+															initialValue:recName && orderType==4 ? recName : ''
 														})(
 															<Input placeholder="请输入姓名" autoComplete="off"/>
 														)}
@@ -240,14 +226,16 @@ class AddThOrder extends Component{
 														wrapperCol={{ span: 6,offset: 4}}>
 														{getFieldDecorator('acceptReturnOrderUserPhone', {
 																rules: [{ required: true, message: '请输入联系电话'}],
+																initialValue:recTelephone && orderType==4 ?recTelephone:''
 														})(
 															<Input placeholder="请输入联系电话" autoComplete="off"/>
 														)}
 													</FormItem>
 													<FormItem
-														wrapperCol={{ span: 6,offset: 4 }}>
+														wrapperCol={{ span: 16,offset: 4 }}>
 														{getFieldDecorator('returnPdAddress', {
 															rules: [{ required: true, message: '请输入地址'}],
+															initialValue:recAddress && orderType==4 ?recAddress:''
 														})(
 															<Input placeholder="请输入地址" autoComplete="off"/>
 														)}
