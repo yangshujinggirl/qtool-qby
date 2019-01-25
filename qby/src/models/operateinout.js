@@ -43,7 +43,7 @@ export default {
                 const limit=result.limit;
                 const currentPage=result.currentPage;
                 const total=result.total;
-                tableList.map((el) => el.key = el.outId)
+                tableList.map((el,index) => el.key = index)
                 yield put({type: 'syncTableList',payload:{tableList,total,limit,currentPage}});
             }
         },

@@ -130,12 +130,6 @@ const DeliveryOption=[{
         },{
           key:3,
           value:'快递邮寄',
-        },{
-          key:4,
-          value:'仓库直邮',
-        },{
-          key:5,
-          value:'保税直邮',
         }]
 //下单平台
 const PlatformOption=[{

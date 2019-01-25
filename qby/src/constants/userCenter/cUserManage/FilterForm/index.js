@@ -12,6 +12,7 @@ import {
 import moment from 'moment';
 import './index.less'
 import {timeForMats} from '../../../../utils/meth';
+import {removeSpace} from '../../../../utils/meth';
 
 
 const FormItem = Form.Item;
@@ -27,6 +28,7 @@ class NormalForm extends Component {
         _values.createTimeST =  moment(rangePicker[0]).format('YYYY-MM-DD HH:mm:ss');
         _values.createTimeET = moment(rangePicker[1]).format('YYYY-MM-DD HH:mm:ss');
       }
+      removeSpace(_values)
       this.props.submit && this.props.submit(_values);
     });
   }

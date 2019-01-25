@@ -44,7 +44,7 @@ class NormalForm extends Component {
                  )}
                </FormItem>
               <FormItem label='配送方式'>
-                 {getFieldDecorator('orderType')(
+                 {getFieldDecorator('deliveryType')(
                    <Select allowClear={true} placeholder="请选择是否完整">
                      {
                        DeliveryOption.map((el,index)=>(

@@ -10,6 +10,7 @@ import {
   DatePicker
 } from 'antd';
 import { timeForMats } from '../../../../../utils/meth'
+import {removeSpace} from '../../../../../utils/meth'
 import moment from 'moment';
 import './index.less'
 
@@ -27,6 +28,7 @@ class NormalForm extends Component {
         _values.createST =  moment(rangePicker[0]).format('YYYY-MM-DD HH:mm:ss');
         _values.createET =  moment(rangePicker[1]).format('YYYY-MM-DD HH:mm:ss');
       };
+      removeSpace(_values)
       this.props.submit && this.props.submit(_values);
     });
   }
