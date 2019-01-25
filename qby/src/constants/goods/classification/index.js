@@ -20,23 +20,23 @@ class Classificationindex extends React.Component {
 					<div className='list-con'>
 						{
 							record.childrens.map((item,index)=>{
-								return ( 
+								return (
 									<div className='list-item' key={index}>
-										<CollectionsPage  
-											type='2' 
-											statetype={item.status=='1'?null:'dashed'} 
-											data={{pdCategoryIds:item.parentId,name:item.name,status:item.status,pdCategoryId:item.pdCategoryId,type:item.type}} 
-											title='修改类型' 
-											text={item.name} 
+										<CollectionsPage
+											type='2'
+											statetype={item.status=='1'?null:'dashed'}
+											data={{pdCategoryIds:item.parentId,name:item.name,status:item.status,pdCategoryId:item.pdCategoryId,type:item.type}}
+											title='修改类型'
+											text={item.name}
 											pdTypes={this.props.pdTypes}
 											rolelists={this.props.data.rolelists}
-											
+
 										/>
 									</div>
 								)
 							})
 						}
-					</div> 
+					</div>
 				);
 			}
 			}, {
@@ -58,21 +58,21 @@ class Classificationindex extends React.Component {
 					<div className='list-con'>
 						{
 							record.childrens.map((item,index)=>{
-								return ( 
+								return (
 									<div className='list-item' key={index}>
-										<CollectionsPage  
+										<CollectionsPage
 											rolelists={this.props.data.rolelists}
-											type='2' 
-											statetype={item.status=='1'?null:'dashed'} 
-											data={{pdCategoryIds:item.parentId,name:item.name,status:item.status,pdCategoryId:item.pdCategoryId,type:item.type}} 
-											title='修改类型' 
-											text={item.name} 
+											type='2'
+											statetype={item.status=='1'?null:'dashed'}
+											data={{pdCategoryIds:item.parentId,name:item.name,status:item.status,pdCategoryId:item.pdCategoryId,type:item.type}}
+											title='修改类型'
+											text={item.name}
 											pdTypes={this.props.pdTypes}/>
 									</div>
 								)
 							})
 						}
-					</div> 
+					</div>
 				);
 			}
 			}]
@@ -114,13 +114,20 @@ class Classificationindex extends React.Component {
 		return (
 			<div className='content_box classssd'>
 					{
-						addorder?<div className='tl mb15'><CollectionsPages title='新增分类' text='新增分类' statetype='primary'/></div> :null
+						addorder?
+							<div className='tl mb15'>
+								<CollectionsPages title='新增分类' text='新增分类' statetype='primary'/>
+							</div>
+						: null
 					}
-					
-					<EditableTable dataSource={this.props.pdCategoryslist} columns={addorder?this.columns:this.columnsrole} showHeader={false} bordered={false}/>
+					<EditableTable
+						dataSource={this.props.pdCategoryslist}
+						columns={addorder?this.columns:this.columnsrole}
+						showHeader={false} bordered={false}
+					/>
 			</div>
 		)
-	}	
+	}
 	componentDidMount(){
 		this.getClassData()
 	}

@@ -33,17 +33,7 @@ class BtipGoods extends Component {
       tips:'',
       visible:false,
       handleContent:{},
-      fields: {
-         pdSpuId:'',
-         code:'',
-         oname:'',
-         barCode:'',
-         pdBrandName:'',
-         status:'',
-         isNew:'',
-         isHot:'',
-         pdTaxWarehouseId:'',
-       },
+      inputValues:{},
     }
   }
   componentWillMount() {
@@ -65,31 +55,27 @@ class BtipGoods extends Component {
       payload: rolelists
     });
   }
-  //双向绑定表单
-  handleFormChange = (changedFields) => {
-    this.setState(({ fields }) => ({
-      fields: { ...fields, ...changedFields },
-    }));
-  }
   //分页
   changePage = (currentPage) => {
     currentPage--;
     //清空勾选
     this.setState({
       selecteKeys:[],
-    })
-    const { fields } = this.state;
-    const paramsObj ={...{currentPage},...fields}
+    });
+    const { inputValues } = this.state;
+    const paramsObj ={...{currentPage},...inputValues}
     this.props.dispatch({
       type:'productGoodsList/fetchList',
       payload: paramsObj
     });
   }
   //修改pageSize
-  changePageSize =(values)=> {
+  changePageSize =({currentPage,limit})=> {
+    const { inputValues } = this.state;
+    const paramsObj = {limit,...inputValues}
     this.props.dispatch({
       type:'productGoodsList/fetchList',
-      payload: values
+      payload: paramsObj
     });
   }
   //搜索
@@ -98,15 +84,23 @@ class BtipGoods extends Component {
       type:'productGoodsList/fetchList',
       payload: values
     });
+    this.setState({
+      inputValues:values
+    })
   }
   //导出数据
   exportData () {
     const { dataPag } = this.props.productGoodsList;
-    const { fields } = this.state;
+    const {inputValues} = this.state;
+    for(var i in inputValues){
+      if(inputValues[i] && typeof(inputValues[i]) == 'string'){
+        inputValues[i] = inputValues[i].trim();
+      };
+    }
     let params={
       type:32,
       downloadParam:{
-        ...fields,
+        ...inputValues,
         limit:dataPag.limit,
         currentPage:dataPag.currentPage
       },
@@ -216,7 +210,7 @@ class BtipGoods extends Component {
   }
   //编辑。
   getEdit(record) {
-    const { limit, currentPage } = this.props.productGoodsList;
+    const { limit, currentPage } = this.props.productGoodsList.dataPag;
     const { componkey } = this.state;
     const paneitem={
       title:'商品编辑',
@@ -224,7 +218,7 @@ class BtipGoods extends Component {
       componkey:`${componkey}edit`,
       data:{
         listParams:{
-          ...this.state.fields,
+          ...this.state.inputValues,
           limit,
           currentPage
         },
@@ -400,7 +394,6 @@ class BtipGoods extends Component {
     return (
       <div className="bTip-goods-components qtools-components-pages">
         <FilterForm
-          {...fields}
           submit={this.searchData}
           onValuesChange={this.handleFormChange}/>
         <div className="handel-btn-lists">

@@ -10,6 +10,7 @@ import {
   DatePicker
 } from 'antd';
 import {getCategoryApi} from "../../../../../services/goodsCenter/baseGoods"
+import {removeSpace} from '../../../../../utils/meth';
 const FormItem = Form.Item;
 const Option = Select.Option;
 
@@ -37,8 +38,8 @@ class NormalForm extends Component {
       if(res.code == "0" ){
         this.setState({
           categoryList2:res.pdCategory
-        })
-      }
+        });
+      };
     })
   }
   handleSubmit = (e) => {
@@ -47,9 +48,9 @@ class NormalForm extends Component {
       if(values.pdSpuId){
         values.pdSpuId = values.pdSpuId.replace(/\s+/g, "");
       };
+      removeSpace(values);
       this.props.submit && this.props.submit(values)
     });
-
   }
   render() {
     const { getFieldDecorator } = this.props.form;
@@ -61,7 +62,7 @@ class NormalForm extends Component {
             <div className="search-form-wrap">
               <FormItem label='SPU ID'>
                  {getFieldDecorator('pdSpuId')(
-                   <Input placeholder="请输入spuid" autoComplete="off"/>
+                   <Input placeholder="请输入小于12位的spuid" maxLength='11' autoComplete="off"/>
                  )}
               </FormItem>
               <FormItem label='商品编码'>
@@ -163,10 +164,6 @@ class NormalForm extends Component {
     )
   }
 }
-const FilterForm = Form.create({
-    onValuesChange:(props, changedValues, allValues) => {
-      props.onValuesChange(allValues);
-    }
-})(NormalForm);
+const FilterForm = Form.create({})(NormalForm);
 
 export default FilterForm;

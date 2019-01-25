@@ -1,5 +1,6 @@
 import { Form, Row, Col, Input, Button, Icon,Select ,DatePicker} from 'antd';
 import { connect } from 'dva';
+import {removeSpace} from '../../utils/meth';
 const FormItem = Form.Item;
 const Option = Select.Option
 const RangePicker = DatePicker.RangePicker;
@@ -21,6 +22,7 @@ class OperatebannerSearchForm extends React.Component {
         values.type = 10;
         values.limit=limit;
         values.currentPage=currentPage;
+        removeSpace(values);
         this.props.dispatch({
             type:'operatebanner/fetch',
             payload:{code:'qerp.web.pd.banner.list',values:values}

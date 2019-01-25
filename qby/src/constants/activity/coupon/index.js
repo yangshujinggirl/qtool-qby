@@ -18,15 +18,7 @@ class Coupon extends Component{
       isFuseVisible:false,//熔断弹窗是否显示
       isVisible:false,
       componkey:this.props.componkey,
-      field:{
-        couponName:'',
-        couponCode:'',
-        creater:'',
-        couponUseScene:'',
-        status:'',
-        createTimeST:'',
-        createTimeET:'',
-      },
+      inputValues:{},
       rowSelection : {
         selectedRowKeys:this.props.coupon.selectedRowKeys,
         type:'radio',
@@ -58,12 +50,15 @@ class Coupon extends Component{
     this.props.dispatch({
       type:'coupon/fetchList',
       payload:values
+    });
+    this.setState({
+      inputValues:values
     })
   }
   //点击分页
   changePage =(current,limit)=> {
     const currentPage = current-1;
-    const values = {...this.state.field,currentPage,limit}
+    const values = {...this.state.inputValues,currentPage,limit}
     this.props.dispatch({
       type:'coupon/fetchList',
       payload:values
@@ -73,17 +68,8 @@ class Coupon extends Component{
   onShowSizeChange =({currentPage,limit})=> {
     this.props.dispatch({
       type:'coupon/fetchList',
-      payload:{currentPage,limit,...this.state.field}
+      payload:{currentPage,limit,...this.state.inputValues}
     });
-  }
-  //搜索框数据发生变化
-  searchDataChange =(values)=> {
-    const {rangePicker,..._values} = values;
-    if(rangePicker){
-      _values.createTimeST =  rangePicker[0]._d.getTime();
-      _values.createTimeET = rangePicker[1]._d.getTime();
-    }
-    this.setState({field:_values});
   }
   //初始化数据
   componentWillMount(){
@@ -243,7 +229,6 @@ class Coupon extends Component{
       <div className='qtools-components-pages'>
         <FilterForm
           submit={this.searchData}
-          onValuesChange = {this.searchDataChange}
         />
         <div className="handel-btn-lists">
           {

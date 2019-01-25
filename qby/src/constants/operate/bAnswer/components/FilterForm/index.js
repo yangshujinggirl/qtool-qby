@@ -9,6 +9,7 @@ import {
   Select,
   DatePicker
 }from 'antd'
+import {removeSpace} from '../../../../../utils/meth';
 import moment from 'moment';
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -18,6 +19,7 @@ class NormalForm extends Component{
   //点击搜索
   handleSubmit = (e) => {
     this.props.form.validateFieldsAndScroll((err, values) => {
+      removeSpace(values);
       this.props.submit && this.props.submit(values);
     })
   }
@@ -76,11 +78,7 @@ class NormalForm extends Component{
   }
 }
 
-const FilterForm = Form.create({
-  onValuesChange:(props, changedValues, allValues) => {
-    props.onValuesChange(allValues);
-  }
-})(NormalForm)
+const FilterForm = Form.create({})(NormalForm)
 function mapStateToProps(state){
   const { bAnswer } = state;
   return { bAnswer }

@@ -2,6 +2,7 @@ import { Form, Row, Col, Input, Button, Icon,Select ,DatePicker} from 'antd';
 import { connect } from 'dva';
 import moment from 'moment';
 import {getCategoryApi} from "../../../services/goodsCenter/baseGoods"
+import {removeSpace} from '../../../utils/meth';
 const FormItem = Form.Item;
 const Option = Select.Option
 const { MonthPicker, RangePicker } = DatePicker;
@@ -27,6 +28,7 @@ class BatchStockSearchForm extends React.Component {
         values.date=this.state.date
         values.limit=limit;
         values.currentPage=currentPage;
+        removeSpace(values);
         this.props.dispatch({
             type:'datawshis/fetch',
             payload:{code:'qerp.web.pd.historyInvdata.query',values:values}

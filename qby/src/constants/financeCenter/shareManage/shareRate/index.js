@@ -138,10 +138,11 @@ class ShareRate extends Component {
 
   }
   render() {
-    // //导出数据按钮是否显示
-		// const exportUserorderData=this.props.data.rolelists.find((currentValue,index)=>{
-		// 	return currentValue.url=="qerp.web.sys.doc.task"
-		// })
+    const {rolelists} = this.props;
+    //导出
+    const exportData = rolelists.find((currentValue,index)=>{
+      return currentValue.url=="qerp.web.sys.doc.task"
+    })
     const { dataList=[] } = this.props.shareRate;
     return (
       <div className='qtools-components-pages shareRate'>
@@ -155,12 +156,16 @@ class ShareRate extends Component {
           </p>
         </div>
         <div className="handel-btn-lists">
+          {
+            exportData &&
             <Button
               type='primary'
               size='large'
               onClick={this.exportData}
             >导出数据
             </Button>
+          }
+
         </div>
         <Qtable
           dataSource={dataList}

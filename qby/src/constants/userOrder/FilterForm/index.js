@@ -12,6 +12,7 @@ import {
 import moment from 'moment';
 import {timeForMats} from '../../../utils/meth';
 import {getStatusListApi} from '../../../services/orderCenter/userOrders'
+import {removeSpace} from '../../../utils/meth';
 import { ProcesasStatusOption, DeliveryOption, PlatformOption } from '../../../components/FixedDataSource.js'
 import './index.less'
 
@@ -36,6 +37,7 @@ class NormalForm extends Component {
         _values.dateTimeST =  moment(rangePicker[0]).format('YYYY-MM-DD HH:mm:ss');
         _values.dateTimeET = moment(rangePicker[1]).format('YYYY-MM-DD HH:mm:ss');
       }
+      removeSpace(_values);
       this.props.submit && this.props.submit(_values);
     });
   }
@@ -170,10 +172,6 @@ class NormalForm extends Component {
   }
 }
 
-const FilterForm = Form.create({
-  onValuesChange:(props, changedValues, allValues) => {
-    props.onValuesChange(allValues);
-  }
-})(NormalForm);
+const FilterForm = Form.create({})(NormalForm);
 
 export default FilterForm;

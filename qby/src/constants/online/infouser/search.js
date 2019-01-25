@@ -1,6 +1,7 @@
 import { Form, Row, Col, Input, Button, Icon,Select ,DatePicker} from 'antd';
 import moment from 'moment';
 import {timeForMat} from '../../../utils/meth';
+import {removeSpace} from '../../../utils/meth';
 const FormItem = Form.Item;
 const { RangePicker } = DatePicker;
 const dateFormat = 'YYYY-MM-DD';
@@ -33,6 +34,7 @@ class Searchform extends React.Component {
             values.firstCosumeTimeET=this.state.firstCosumeTimeET
             values.lastCosumeTimeST=this.state.lastCosumeTimeST
             values.lastCosumeTimeET=this.state.lastCosumeTimeET
+            removeSpace(values)
             this.props.hindFormSearch(values)
         });
     }

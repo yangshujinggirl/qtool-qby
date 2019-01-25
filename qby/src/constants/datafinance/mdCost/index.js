@@ -5,6 +5,7 @@ import { Link } from 'dva/router';
 import EditableTable from '../../../components/table/tablebasic';
 import {GetServerData} from '../../../services/services';
 import {timeyesterdaymoute} from '../../../utils/meth';
+import {removeSpace} from '../../../utils/meth'
 import moment from 'moment';
 
 
@@ -44,52 +45,46 @@ class MdCostIndexForm extends React.Component {
 
     //下载
     download = (text) =>{
-        window.open(text)
+      window.open(text)
     }
-
     dateChange = (date, dateString) =>{
-        this.setState({
-            month:dateString
-        })
+      this.setState({
+        month:dateString
+      });
     }
-
-
-    pageChange=(page,pageSize)=>{
-        this.setState({
-            currentPage:page-1
-        },function(){
-            let data = {
-                currentPage:this.state.currentPage,
-                limit:this.state.limit,
-                month:this.state.month,
-                spShopId:this.state.spShopId
-            }
-            this.getServerData(data);
-        });
+    pageChange=(current,limit)=>{
+      const currentPage = current - 1;
+      const values = {currentPage,limit,...this.state.inputValues}
+      this.setState({
+        currentPage:current - 1
+      },function(){
+        this.getServerData(values);
+      });
     }
-    onShowSizeChange=(current, pageSize)=>{
-        this.setState({
-            limit:pageSize,
-            currentPage:0
-        },function(){
-            let data = {
-                currentPage:0,
-                limit:this.state.limit,
-                month:this.state.month,
-                spShopId:this.state.spShopId
-            }
-            this.getServerData(data);
-        })
+    onShowSizeChange=(currentPage,limit)=>{
+      const values = {limit,...this.state.inputValues}
+      this.setState({
+        limit,
+        currentPage:0
+      },function(){
+        this.getServerData(values);
+      });
     }
-
     handleSubmit = () =>{
         let data = {
-            currentPage:0,
-            limit:this.state.limit,
+          currentPage:0,
+          limit:this.state.limit,
+          month:this.state.month,
+          spShopId:this.state.spShopId
+        }
+        removeSpace(data);
+        this.getServerData(data);
+        this.setState({
+          inputValues:{
             month:this.state.month,
             spShopId:this.state.spShopId
-        }
-        this.getServerData(data);
+          }
+        });
     }
 
     //智能搜索
@@ -120,15 +115,15 @@ class MdCostIndexForm extends React.Component {
 
     //智能选择
     onSelect=(value)=>{
-        this.setState({
-            spShopId:value
-        })
+      this.setState({
+        spShopId:value
+      })
     }
     render() {
         const { getFieldDecorator } = this.props.form;
         // const d = new Date()
         // const data=String(d.getFullYear())+'-'+String((d.getMonth()+1))
-        const data=timeyesterdaymoute().t1
+        const data = timeyesterdaymoute().t1;
         return (
             <div>
                 <Form  className='formbox'>
@@ -213,14 +208,17 @@ class MdCostIndexForm extends React.Component {
      getNowFormatDate = () =>{
         // var d = new Date()
         // const data=String(d.getFullYear())+'-'+String((d.getMonth()+1))
-        const data=timeyesterdaymoute().t1
+        const data = timeyesterdaymoute().t1
         this.setState({
             month:data,
+            inputValues:{
+              month:data
+            }
         },function(){
             let values = {
                 currentPage:0,
                 limit:15,
-                month:this.state.month,
+                month:data,
                 spShopId:this.state.spShopId
             }
             this.getServerData(values);

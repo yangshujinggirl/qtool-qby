@@ -2,6 +2,7 @@
 import {GetServerData} from '../../services/services';
 import { Button, Icon,Modal,message } from 'antd';
 import { connect } from 'dva';
+import {removeSpace} from '../../utils/meth';
 import OrderdbTable from './table';
 import OrderdbSearch from './search';
 import Appmodelone from '../ordermd/modal';
@@ -20,6 +21,7 @@ class OrderdbIndex extends React.Component{
 
 	//导出数据
 	exportData = (type,data) => {
+		removeSpace(data)
 		const values={
 			type:type,
 			downloadParam:data,
@@ -47,12 +49,12 @@ class OrderdbIndex extends React.Component{
 						});
 					},
 					onCancel() {
-						
+
 					},
 	  			});
 			}
 		})
-	
+
 	}
 
 	addNew = () =>{
@@ -80,7 +82,7 @@ class OrderdbIndex extends React.Component{
 		if (this.state.selectedRows.length < 1) {
 			message.error('请选择调拨单',.8)
 			return;
-		} 
+		}
 		if((this.state.selectedRows[0].status!=20) && (this.state.selectedRows[0].status!=30)){
 			message.error('此状态下的订单不能强制完成',.8);
 			return;
@@ -124,7 +126,7 @@ class OrderdbIndex extends React.Component{
 					selectedRows:[]
 				})
 			}
-		}) 
+		})
 	}
 
 	//获得分页当前limit,currentPage
@@ -162,11 +164,11 @@ class OrderdbIndex extends React.Component{
      	return(
         	<div className='content_box'>
                 <OrderdbSearch OrderdbFormSearch={this.hindSearch.bind(this)}/>
-					
+
 					{
 						addorder?
 						<Button
-						type="primary" 
+						type="primary"
 						size='large'
 						className='mt20 mr10'
 						onClick={this.addNew}
@@ -177,8 +179,8 @@ class OrderdbIndex extends React.Component{
 					}
 					{
 						expontdata?
-						<Button 
-						type="primary" 
+						<Button
+						type="primary"
 						size='large'
 						className='mt20 mr10'
 						onClick={this.exportData.bind(this,17,this.state.searchvalue)}
@@ -189,8 +191,8 @@ class OrderdbIndex extends React.Component{
 					}
 					{
 						overorder?
-						<Button 
-						type="primary" 
+						<Button
+						type="primary"
 						size='large'
 						className='mt20 mr10'
 						onClick={this.mandatoryOrder.bind(this)}
@@ -201,21 +203,21 @@ class OrderdbIndex extends React.Component{
 
 					}
              		<div className='mt15'>
-					  <OrderdbTable 
+					  <OrderdbTable
 					    overorderobj={overorder}
 						getPageSizeDate={this.getPageSize.bind(this)}
-                        total={this.state.total} 
-                        limit={this.state.limit} 
+                        total={this.state.total}
+                        limit={this.state.limit}
                         currentPage={this.state.currentPage}
                         datasource={this.state.datasource}
                         getSelectDate={this.getSelectDate.bind(this)}
-                        selectedRowKeys={this.state.selectedRowKeys}  
+                        selectedRowKeys={this.state.selectedRowKeys}
 					  />
 					</div>
         	</div>
       	)
     }
-    
+
 }
 
 

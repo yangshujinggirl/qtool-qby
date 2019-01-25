@@ -3,6 +3,8 @@ import {GetServerData} from '../../../services/services';
 import {Getexpont} from '../../../services/expont';
 import { Button, Icon,Modal } from 'antd';
 import { connect } from 'dva';
+import {removeSpace} from '../../../utils/meth';
+
 import DataspfenTable from './table';
 import DataspfenSearch from './search';
 const confirm = Modal.confirm;
@@ -12,6 +14,7 @@ class DataspfenIndex extends React.Component{
 
 	//导出数据
 	exportData = (type,data) => {
+		removeSpace(data);
 		const values={
 			type:type,
 			downloadParam:data,
@@ -39,12 +42,12 @@ class DataspfenIndex extends React.Component{
 						});
 					},
 					onCancel() {
-						
+
 					},
 	  			});
 			}
 		})
-	
+
 	}
 
   	render(){
@@ -52,8 +55,8 @@ class DataspfenIndex extends React.Component{
      	return(
         	<div>
                 <DataspfenSearch/>
-                    <Button 
-						type="primary" 
+                    <Button
+						type="primary"
 						size='large'
 						className='mt15'
 						onClick={this.exportData.bind(this,56,this.props.values)}

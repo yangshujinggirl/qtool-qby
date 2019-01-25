@@ -3,6 +3,7 @@ import { connect } from 'dva';
 import {GetServerData} from '../../services/services';
 import moment from 'moment';
 import {timeForMat} from '../../utils/meth';
+import {removeSpace} from '../../utils/meth';
 const FormItem = Form.Item;
 const Option = Select.Option
 const RangePicker = DatePicker.RangePicker;
@@ -55,6 +56,7 @@ class OrderdbSearchForm extends React.Component {
             values.createTimeEnd=this.state.createTimeEnd
             values.finishTimeStart=this.state.finishTimeStart
             values.finishTimeEnd=this.state.finishTimeEnd
+            removeSpace(values)
             this.props.OrderdbFormSearch(values)
         });
     }
@@ -109,7 +111,7 @@ class OrderdbSearchForm extends React.Component {
                                     )}
                                 </FormItem>
                                 <FormItem label='商品名称'>
-                                    {getFieldDecorator('spuName')(
+                                    {getFieldDecorator('shopName')(
                                     <Input placeholder="请输入商品名称" autoComplete="off"/>
                                     )}
                                 </FormItem>

@@ -1,5 +1,6 @@
 import React from 'react';
 import {GetServerData} from '../../services/services';
+import {removeSpace} from '../../utils/meth';
 import { Button, Icon } from 'antd';
 import { connect } from 'dva';
 import OperatememberSearch from './search';

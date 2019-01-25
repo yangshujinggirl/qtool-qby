@@ -8,6 +8,7 @@ import{
     Button,
     Select
 }from 'antd'
+import {removeSpace} from '../../../../utils/meth'
 const FormItem = Form.Item;
 const Option = Select.Option;
 
@@ -16,6 +17,7 @@ class NormalForm extends Component{
     handleSubmit = (e) => {
       e.preventDefault();
       this.props.form.validateFieldsAndScroll((err, values) => {
+        removeSpace(values);
         this.props.submit && this.props.submit(values);
       })
     }
@@ -69,12 +71,7 @@ class NormalForm extends Component{
     }
 }
 
-const FilterForm = Form.create({
-  onValuesChange:(props, changedValues, allValues) => {
-    props.onValuesChange(allValues);
-  }
-})(NormalForm)
-
+const FilterForm = Form.create({})(NormalForm)
 function mapStateToProps(state){
   const { marketResource } = state;
   return { marketResource }

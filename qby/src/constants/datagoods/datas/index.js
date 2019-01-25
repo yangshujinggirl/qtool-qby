@@ -3,6 +3,7 @@ import {GetServerData} from '../../../services/services';
 import {Getexpont} from '../../../services/expont';
 import { Button, Icon ,Modal} from 'antd';
 import { connect } from 'dva';
+import {removeSpace} from '../../../utils/meth';
 import DataspcunhisTable from './table';
 import DatasphiscunSearch from './search';
 const confirm = Modal.confirm;
@@ -12,6 +13,7 @@ class DatasIndex extends React.Component{
 
 	//导出数据
 	exportData = (type,data) => {
+		removeSpace(data);
 		const values={
 			type:type,
 			downloadParam:data,
@@ -39,12 +41,12 @@ class DatasIndex extends React.Component{
 						});
 					},
 					onCancel() {
-						
+
 					},
 	  			});
 			}
 		})
-	
+
 	}
 
   	render(){
@@ -52,8 +54,8 @@ class DatasIndex extends React.Component{
      	return(
         	<div>
                 <DatasphiscunSearch/>
-                    <Button 
-						type="primary" 
+                    <Button
+						type="primary"
 						size='large'
 						className='mt15'
 						onClick={this.exportData.bind(this,31,this.props.values)}

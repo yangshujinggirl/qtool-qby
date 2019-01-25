@@ -123,6 +123,11 @@ class ShareMail extends Component {
     });
   };
   render() {
+    const {rolelists} = this.props;
+    //导出
+    const exportData = rolelists.find((currentValue,index)=>{
+			return currentValue.url=="qerp.web.sys.doc.task"
+		})
     const { dataList=[] } = this.props.shareMail;
     return (
       <div className='qtools-components-pages'>
@@ -135,12 +140,15 @@ class ShareMail extends Component {
           </p>
         </div>
         <div className="handel-btn-lists">
+          {
+            exportData &&
             <Button
               type='primary'
               size='large'
               onClick={this.exportData}
             >导出数据
             </Button>
+          }
         </div>
         <Qtable
           dataSource={dataList}

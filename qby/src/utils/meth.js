@@ -122,7 +122,6 @@ const confirm = Modal.confirm;
 		}
 		let M1 = (Y2> 10 ? Y2 : '0' + Y2) //当前月
 		let timer1 = Y1 + '-' + M1
-
 		return {
 		 	t1: timer1
 		}
@@ -134,4 +133,13 @@ const confirm = Modal.confirm;
     let DD = ( new Date().getDate().toString() ).padStart(2,0);
     let time = YY + '-' + MM + '-' + DD;
     return time;
+  }
+  //去空格
+  export function removeSpace (values) {
+    for(let i in values){
+      if(values[i] && typeof(values[i])=='string'){
+        values[i] = values[i].trim();
+      };
+    };
+    return values;
   }

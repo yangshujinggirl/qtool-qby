@@ -35,19 +35,7 @@ class BtipGoods extends Component {
       componkey:this.props.componkey,
       visible:false,
       handleContent:{},
-      fields: {
-         pdSpuId:"",
-         code:'',
-         bname:'' ,
-         pdBrandName: '',
-         pdCategory1Id:'',
-         pdCategory2Id:'',
-         status:'',
-         isNew: '',
-         isHot:'',
-         isPresell:'' ,
-         isDirectExpress:'',
-       },
+      inputValues:{}
     }
   }
   componentWillMount() {
@@ -77,18 +65,12 @@ class BtipGoods extends Component {
       payload: rolelists
     });
   }
-  //双向绑定表单
-  handleFormChange = (changedFields) => {
-    this.setState(({ fields }) => ({
-      fields: { ...fields, ...changedFields },
-    }));
-  }
   //分页
   changePage = (currentPage) => {
     currentPage--;
     //清空勾选
-    const { fields } = this.state;
-    const paramsObj ={...{currentPage},...fields}
+    const { inputValues } = this.state;
+    const paramsObj ={...{currentPage},...inputValues}
     this.props.dispatch({
       type:'bTipGoodsList/fetchList',
       payload: paramsObj
@@ -96,9 +78,11 @@ class BtipGoods extends Component {
   }
   //修改pageSize
   changePageSize =(values)=> {
+    const { inputValues } = this.state;
+    const value  = {...values,...inputValues}
     this.props.dispatch({
       type:'bTipGoodsList/fetchList',
-      payload: values
+      payload: value
     });
   }
   //搜索
@@ -107,6 +91,9 @@ class BtipGoods extends Component {
       type:'bTipGoodsList/fetchList',
       payload: values
     });
+    this.setState({
+      inputValues:values
+    })
   }
   //Modal取消
   onCancelModal() {
@@ -195,7 +182,7 @@ class BtipGoods extends Component {
     this.props.dispatch({
       type:'bTipGoodsList/fetchList',
       payload:{
-        ...this.state.fields,
+        ...this.state.inputValues,
         limit:this.props.bTipGoodsList.dataPag.limit,
         currentPage:this.props.bTipGoodsList.dataPag.currentPage
       }
@@ -293,7 +280,7 @@ class BtipGoods extends Component {
       componkey:`${componkey}edit`,
       data:{
         listParams:{
-          ...this.state.fields,
+          ...this.state.inputValues,
           limit,
           currentPage
         },
@@ -335,7 +322,6 @@ class BtipGoods extends Component {
   render() {
     const { dataList, categoryList, authorityList, dataPag } = this.props.bTipGoodsList;
     const {
-      fields,
       handleContent,
       visible,
       loading
@@ -343,7 +329,6 @@ class BtipGoods extends Component {
     return (
       <div className="bTip-goods-components qtools-components-pages">
         <FilterForm
-          {...fields}
           categoryList={categoryList}
           submit={this.searchData}
           onValuesChange={this.handleFormChange}/>

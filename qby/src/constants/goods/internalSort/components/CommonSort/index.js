@@ -1,7 +1,7 @@
 import React,{ Component } from 'react';
 import { connect } from 'dva';
 import { Modal, Button, Form, message } from 'antd'
-
+import {removeSpace} from '../../../../../utils/meth';
 import Qtable from '../../../../../components/Qtable';
 import Qpagination from '../../../../../components/Qpagination';
 import AddModel from '../AddModel/index.js'
@@ -21,7 +21,7 @@ class FirstSort extends Component {
     this.state = {
       pdCategoryId:'',
       initContent:{},
-      fields: {},
+      inputValues:{},
     }
   }
   componentDidMount() {
@@ -103,29 +103,28 @@ class FirstSort extends Component {
       fields
     })
   }
-  //双向绑定表单
-  handleFormChange = (changedFields) => {
-    this.setState(({ fields }) => ({
-      fields: { ...fields, ...changedFields },
-    }));
-  }
   //分页
-  changePage = (currentPage) => {
+  changePage = (currentPage,limit) => {
     currentPage--;
+    const { inputValues } = this.state;
     let paramsObj = {
       currentPage,
-      level:this.props.level
-    }
-    const { fields } = this.state;
-    paramsObj ={...paramsObj,...fields}
+      level:this.props.level,
+      ...inputValues
+    };
     this.props.dispatch({
       type:'internalSort/fetchList',
       payload: paramsObj
     });
   }
   //修改pageSize
-  changePageSize =(values)=> {
-    values = {...values,...{ level: this.props.level}}
+  changePageSize =({currentPage,limit})=> {
+    const { inputValues } = this.state;
+    const values = {
+      limit,
+      ...{ level: this.props.level},
+      ...inputValues
+    }
     this.props.dispatch({
       type:'internalSort/fetchList',
       payload: values
@@ -134,9 +133,13 @@ class FirstSort extends Component {
   //搜索
   searchData =(values)=> {
     values = {...values,...{level:this.props.level}}
+    removeSpace(values);
     this.props.dispatch({
       type:'internalSort/fetchList',
       payload: values
+    });
+    this.setState({ //存放input值
+      inputValues:values
     });
   }
   //select change事件
@@ -200,7 +203,6 @@ class FirstSort extends Component {
       <div className="common-sort-components">
         <FilterForm
           {...fields}
-          onValuesChange={this.handleFormChange}
           submit={this.searchData}
           level={level}/>
         <div className="handle-btn-wrap">

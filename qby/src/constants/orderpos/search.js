@@ -2,6 +2,7 @@ import { Form, Row, Col, Input, Button, Icon,Select ,DatePicker} from 'antd';
 import { connect } from 'dva';
 import moment from 'moment';
 import {timeForMats} from '../../utils/meth';
+import {removeSpace} from '../../utils/meth';
 const FormItem = Form.Item;
 const Option = Select.Option
 const RangePicker = DatePicker.RangePicker;
@@ -29,6 +30,7 @@ class OrderposSearchForm extends React.Component {
         values.endTime=this.state.endTime;
         values.limit=limit;
         values.currentPage=currentPage;
+        removeSpace(values);
         this.props.dispatch({
             type:'orderpos/fetch',
             payload:{code:'qerp.web.qpos.st.order.query',values:values}

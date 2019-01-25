@@ -10,12 +10,7 @@ class MarketResource extends Component{
         super(props);
         this.state = {
           componkey:this.props.componkey,
-          fields: {
-             userName:"",
-             name:"",
-             shopName:"",
-             recTel:"",
-           },
+          inputValues:{},
         }
     }
     //初始化数据
@@ -25,24 +20,17 @@ class MarketResource extends Component{
           payload:{}
       })
     }
-
-    //双向绑定表单
-    handleFormChange = (changedFields) => {
-      this.setState(({ fields }) => ({
-        fields: { ...fields, ...changedFields },
-      }));
-    }
     //pageSize改变时的回调
     onShowSizeChange =({currentPage,limit})=> {
       this.props.dispatch({
         type:'marketResource/fetchList',
-        payload:{currentPage,limit,...this.state.fields}
+        payload:{currentPage,limit,...this.state.inputValues}
       });
     }
     //点击分页
     changePage =(current,limit)=> {
       const currentPage = current-1;
-      const values = {...this.state.fields,currentPage,limit}
+      const values = {...this.state.inputValues,currentPage,limit}
       this.props.dispatch({
           type:'marketResource/fetchList',
           payload:values
@@ -54,6 +42,9 @@ class MarketResource extends Component{
       this.props.dispatch({
           type:'marketResource/fetchList',
           payload:values
+      });
+      this.setState({
+        inputValues:values
       })
     }
     //点击新增人员
@@ -80,7 +71,7 @@ class MarketResource extends Component{
         data:{
           marketResId:record.marketResId,
           listParams:{
-            ...this.state.fields,
+            ...this.state.inputValues,
             limit,
             currentPage
           }
@@ -94,13 +85,10 @@ class MarketResource extends Component{
     //市场资源
     render(){
         const { dataList } = this.props.marketResource;
-        const { fields } = this.state;
         return (
             <div className='qtools-components-pages'>
                 <FilterForm
-                  {...fields}
                   submit={this.searchData}
-                  onValuesChange={this.handleFormChange}
                 />
                 <div className="handel-btn-lists">
                   <Button onClick={this.addStaff} size='large' type="primary">新增人员</Button>

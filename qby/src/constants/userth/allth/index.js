@@ -231,24 +231,33 @@ class Allth extends Component {
           </p>
         </div>
         <div className="handel-btn-lists">
+          {
+            createChargeBack &&
             <Button
               type='primary'
               size='large'
               onClick={this.createTorder}
             >创建退单
             </Button>
+          }
+          {
+            makeSureGet &&
             <Button
               type='primary'
               size='large'
               onClick={this.sureGet}
             >确认收货
             </Button>
+          }
+          {
+            forceCancel &&
             <Button
               type='primary'
               size='large'
               onClick={this.forceCancel}
             >强制取消
             </Button>
+          }
         </div>
         {
           dataList.length>0 &&

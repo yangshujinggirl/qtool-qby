@@ -17,15 +17,7 @@ class SellManage extends Component {
   constructor(props) {
     super(props);
     this.state={
-      fields: {
-         spShopName:'',
-         deliveryType:'',
-         dateTimeST:'',
-         dateTimeET:'',
-         incomeStatus:'',
-         costType:'',
-         rangePicker:'',
-       },
+      inputValues:{}
     }
   }
   componentDidMount() {
@@ -48,17 +40,11 @@ class SellManage extends Component {
        });
    })
   }
-  //双向绑定表单
-  handleFormChange = (changedFields) => {
-    this.setState(({ fields }) => ({
-      fields: { ...fields, ...changedFields },
-    }));
-  }
   //分页
-  changePage = (currentPage) => {
+  changePage = (currentPage,limit) => {
     currentPage--;
-    const { fields } = this.state;
-    const paramsObj ={...{currentPage},...fields}
+    const { inputValues } = this.state;
+    const paramsObj ={currentPage,limit,...inputValues}
     this.props.dispatch({
       type:'sellManage/fetchList',
       payload: paramsObj
@@ -66,9 +52,10 @@ class SellManage extends Component {
   }
   //修改pageSize
   changePageSize =(values)=> {
+    console.log(values)
     this.props.dispatch({
       type:'sellManage/fetchList',
-      payload: values
+      payload: {...values,...this.state.inputValues}
     });
   }
   //搜索
@@ -77,13 +64,16 @@ class SellManage extends Component {
       type:'sellManage/fetchList',
       payload: values
     });
+    this.setState({
+      inputValues:values
+    })
   }
   //导出数据
   exportData =()=> {
-    let { rangePicker, ...params} = this.state.fields;
-    if(rangePicker&&rangePicker.length>0) {
-      params.dateTimeST = moment(rangePicker[0]).format('YYYY-MM-DD HH:mm:ss');
-      params.dateTimeET = moment(rangePicker[1]).format('YYYY-MM-DD HH:mm:ss');
+    let { time, ...params} = this.state.inputValues;
+    if(time&&time.length>0) {
+      params.dateTimeST = moment(time[0]).format('YYYY-MM-DD HH:mm:ss');
+      params.dateTimeET = moment(time[1]).format('YYYY-MM-DD HH:mm:ss');
     }
     const values ={type:78,downloadParam:{...params}}
     exportDataApi(values)
@@ -113,11 +103,10 @@ class SellManage extends Component {
   }
   //操作
   handleOperateClick(record) {
-    let componkey = '207000';
     const paneitem = {
       title:'订单详情',
-      key:`${componkey}edit`+record.orderId,
-      componkey:`${componkey}edit`,
+      key:`${this.props.componkey}edit`+record.orderId,
+      componkey:`207000edit`,
       data:{
         pdSpuId:record.orderId,
       }
@@ -132,7 +121,6 @@ class SellManage extends Component {
 		const exportSellorderData=this.props.data.rolelists.find((currentValue,index)=>{
 			return currentValue.url=="qerp.web.sys.doc.task"
 		})
-    const { fields } =this.state;
     const { data, list } =this.props.sellManage;
     let content=(
       <div className="sell-manage-tips-modal">
@@ -149,7 +137,6 @@ class SellManage extends Component {
     return(
       <div className="sell-manage-pages">
         <FilterForm
-          {...fields}
           submit={this.searchData}
           onValuesChange={this.handleFormChange}/>
           <div className="handel-action">

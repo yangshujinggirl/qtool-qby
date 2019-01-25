@@ -1,4 +1,5 @@
 import {GetServerData} from '../../../services/services';
+import {removeSpace} from '../../../utils/meth';
 import { Button, Icon,Modal } from 'antd';
 import { connect } from 'dva';
 import DatawstimeTable from './table';
@@ -8,6 +9,7 @@ const confirm = Modal.confirm;
 class DatawstimeIndex extends React.Component{
 	state = {};
 	exportData = (type,data) => {
+		removeSpace(data);
 		const values={
 			type:type,
 			downloadParam:data,
@@ -35,19 +37,19 @@ class DatawstimeIndex extends React.Component{
 						});
 					},
 					onCancel() {
-						
+
 					},
 	  			});
 			}
 		})
-	
+
 	}
   	render(){
      	return(
         	<div>
                 <DatawstimeSearch/>
-				<Button 
-					type="primary" 
+				<Button
+					type="primary"
 					size='large'
 					className='mt20'
 					onClick={this.exportData.bind(this,65,this.props.values)}

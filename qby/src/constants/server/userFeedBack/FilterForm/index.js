@@ -11,6 +11,7 @@ import {
   Select,
   DatePicker
 }from 'antd'
+import {removeSpace} from '../../../../utils/meth';
 const FormItem = Form.Item;
 const Option = Select.Option;
 const RangePicker = DatePicker.RangePicker
@@ -24,7 +25,8 @@ class NormalForm extends Component{
       if(rangePicker&&rangePicker[0]){
         _values.createTimeST =  moment(new Date(rangePicker[0]._d).getTime()).format('YYYY-MM-DD');
         _values.createTimeET = moment(new Date(rangePicker[1]._d).getTime()).format('YYYY-MM-DD');
-      }
+      };
+      removeSpace(_values);
       this.props.submit && this.props.submit(_values);
     })
   }
@@ -92,12 +94,7 @@ class NormalForm extends Component{
     )
   }
 }
-
-const FilterForm = Form.create({
-  onValuesChange:(props, changedValues, allValues) => {
-    props.onValuesChange(allValues);
-  }
-})(NormalForm)
+const FilterForm = Form.create({})(NormalForm)
 function mapStateToProps(state){
   const { userFeedBack } = state;
   return {userFeedBack}

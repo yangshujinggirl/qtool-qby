@@ -4,6 +4,7 @@ import { connect } from 'dva';
 import DatawshisTable from './table';
 import DatawshisSearch from './search';
 import {Getexpont} from '../../../services/expont';
+import {removeSpace} from '../../../utils/meth';
 const confirm = Modal.confirm;
 import {getCategoryApi} from "../../../services/goodsCenter/baseGoods"
 class DatawshisIndex extends React.Component{
@@ -21,6 +22,7 @@ class DatawshisIndex extends React.Component{
 	}
 	//导出数据
 	exportData = (type,data) => {
+		removeSpace(data);
 		const values={
 			type:type,
 			downloadParam:data,

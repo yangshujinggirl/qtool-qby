@@ -12,6 +12,7 @@ import {
 import '../index.css'
 import moment from 'moment';
 import {timeForMats} from '../../../../utils/meth';
+import {removeSpace} from '../../../../utils/meth';
 const FormItem = Form.Item;
 const Option = Select.Option;
 const RangePicker = DatePicker.RangePicker
@@ -21,11 +22,12 @@ class NormalForm extends Component{
   handleSubmit = (e) => {
     // e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
-      const{rangePicker,..._values} = values;
+      const {rangePicker,..._values} = values;
       if(rangePicker&&rangePicker[0]){
         _values.pushTimeST =  moment(rangePicker[0]).format('YYYY-MM-DD HH:mm:ss');
         _values.pushTimeET = moment(rangePicker[1]).format('YYYY-MM-DD HH:mm:ss');
-      }
+      };
+      removeSpace(_values);
       this.props.submit && this.props.submit(_values);
     })
   }
@@ -93,11 +95,7 @@ class NormalForm extends Component{
   }
 }
 
-const FilterForm = Form.create({
-  onValuesChange:(props, changedValues, allValues) => {
-    props.onValuesChange(allValues);
-  }
-})(NormalForm)
+const FilterForm = Form.create({})(NormalForm)
 function mapStateToProps(state){
   const { userFeedBack } = state;
   return {userFeedBack}

@@ -1,6 +1,7 @@
 import { Form, Row, Col, Input, Button, Icon,Select ,DatePicker} from 'antd';
 import { connect } from 'dva';
 import {getCategoryApi} from "../../../services/goodsCenter/baseGoods"
+import {removeSpace} from '../../../utils/meth';
 
 
 const FormItem = Form.Item;
@@ -19,6 +20,7 @@ class StockSearchForm extends React.Component {
   initStockList=(values,limit,currentPage)=>{
         values.limit=limit;
         values.currentPage=currentPage;
+        removeSpace(values)
         this.props.dispatch({
             type:'dataws/fetch',
             payload:{code:'qerp.web.pd.invdata.query',values:values}

@@ -90,7 +90,15 @@ class OrdercgEditForm extends React.Component{
 		this.props.form.validateFields((err, values) => {
       if (!err) {
 				let data = this.props.editInfo;
-				console.log(this.props.editInfo)
+				const {goodsInfo} = this.props;
+				let goodList = [];
+				if(goodsInfo){
+					goodsInfo.map((item,index) => {
+						if(item.pdCode){
+							goodList.push(item)
+						};
+					});
+				};
 				data.shippingFee = values.shippingFee;
 				data.wsWarehouseId = values.wsWarehouseId;
 				data.shippingFeeType = values.shippingFeeType;
@@ -102,7 +110,7 @@ class OrdercgEditForm extends React.Component{
 					data.taxRateType = 1;
 				}
 				data.vouchersType = values.vouchersType;
-				data.details = this.props.goodsInfo;
+				data.details = goodList;
 				data.remark = values.remark;
 				data.type = 10;
 				data.dayPay = this.state.selectedSuppler[0].dayPay;

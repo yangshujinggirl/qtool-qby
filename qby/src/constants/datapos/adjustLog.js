@@ -5,6 +5,7 @@ import { Link } from 'dva/router';
 import '../../style/dataManage.css';
 import EditableTable from '../../components/table/tablebasic';
 import {GetServerData} from '../../services/services';
+import {removeSpace} from '../../utils/meth';
 import {timeForMattoday} from '../../utils/meth';
 import moment from 'moment';
 import Appmodelone  from '../ordermd/modal';
@@ -55,70 +56,80 @@ class AdjustLogIndexForm extends React.Component {
 
     //跳转
     editInfo=(record)=>{
-        const adjustId=String(record.adjustId)
-        const paneitem={title:'订单详情',key:'707000edit'+adjustId+'info',data:{
-              id:adjustId,adjustNo:record.adjustNo,qty:record.qty,typeStr:record.typeStr,
-              operater:record.operater,operateTime:record.operateTime,remark:record.remark},componkey:'707000info'
-        }
-        this.props.dispatch({
-          type:'tab/firstAddTab',
-          payload:paneitem
-        })
+      const adjustId=String(record.adjustId)
+      const paneitem={title:'订单详情',key:'707000edit'+adjustId+'info',data:{
+        id:adjustId,adjustNo:record.adjustNo,qty:record.qty,typeStr:record.typeStr,
+        operater:record.operater,operateTime:record.operateTime,remark:record.remark},componkey:'707000info'
+      };
+      this.props.dispatch({
+        type:'tab/firstAddTab',
+        payload:paneitem
+      });
     }
-
     dateChange = (date, dateString) =>{
-        this.setState({
-            adjustTimeST:dateString[0],
-            adjustTimeET:dateString[1]
-        })
+      this.setState({
+        adjustTimeST:dateString[0],
+        adjustTimeET:dateString[1]
+      });
     }
-
     //表格的方法
-    pageChange=(page,pageSize)=>{
-        this.setState({
-            limit:pageSize,
-            currentPage:Number(page)-1
-        },function(){
-            this.handleSearch()
-        })
+    pageChange=(current,limit)=>{
+      const currentPage = current - 1;
+      const {inputValues} = this.state;
+      const values = {
+        currentPage,
+        limit:this.state.limit,
+        ...inputValues
+      }
+      this.setState({
+        currentPage
+      },function(){
+        this.sendRequest(values)
+      });
     }
-    onShowSizeChange=(current, pageSize)=>{
-        const self = this;
-        this.setState({
-            limit:pageSize,
-            currentPage:0
-        },function(){
-            this.handleSearch()
-        })
+    onShowSizeChange =(current, limit)=> {
+      const {inputValues} = this.state;
+      const values = {limit,...inputValues}
+      this.setState({
+        limit
+      },function(){
+        this.sendRequest(values)
+      });
     }
-
+    sendRequest =(values)=> {
+      values.shopId = this.props.shopId;
+      this.props.dispatch({ type: 'tab/loding', payload:true});
+      const result = GetServerData('qerp.web.pd.adjust.query',values);
+      result.then((res) => {
+        return res;
+      }).then((json) => {
+        this.props.dispatch({ type: 'tab/loding', payload:false});
+        if(json.code == '0'){
+          const dataList = json.adjustNos;
+          for(let i=0;i<dataList.length;i++){
+            dataList[i].key = i + 1;
+          };
+          this.setState({
+            dataSource:dataList,
+            total:Number(json.total),
+            currentPage:Number(json.currentPage),
+            limit:Number(json.limit)
+          });
+        };
+      })
+    }
     handleSearch = (e) =>{
-        this.props.form.validateFields((err, values) => {
-            values.adjustTimeST=this.state.adjustTimeST
-            values.adjustTimeET=this.state.adjustTimeET
-            values.limit=this.state.limit
-            values.currentPage=this.state.currentPage
-            values.shopId=this.props.shopId
-            this.props.dispatch({ type: 'tab/loding', payload:true});
-            const result=GetServerData('qerp.web.pd.adjust.query',values)
-            result.then((res) => {
-                return res;
-            }).then((json) => {
-                this.props.dispatch({ type: 'tab/loding', payload:false});
-                if(json.code=='0'){
-                    const dataList = json.adjustNos;
-                    for(let i=0;i<dataList.length;i++){
-                        dataList[i].key = i+1;
-                    };
-                    this.setState({
-                        dataSource:dataList,
-                        total:Number(json.total),
-                        currentPage:Number(json.currentPage),
-                        limit:Number(json.limit)
-                    })
-                }
-            })
-        })
+      this.props.form.validateFields((err, values) => {
+        values.adjustTimeST = this.state.adjustTimeST;
+        values.adjustTimeET = this.state.adjustTimeET;
+        values.limit = this.state.limit;
+        removeSpace(values);
+        this.sendRequest(values);
+        const {limit,..._values} = values;
+        this.setState({
+          inputValues:_values
+        });
+      });
     }
 
     render() {

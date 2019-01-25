@@ -2,6 +2,8 @@ import { Form, Row, Col, Input, Button, Icon,Select ,DatePicker} from 'antd';
 const FormItem = Form.Item;
 import { connect } from 'dva';
 import {cloneObj} from '../../utils/commonFc';
+import {removeSpace} from '../../utils/meth';
+
 const Option = Select.Option
 const RangePicker = DatePicker.RangePicker;
 
@@ -17,6 +19,7 @@ class AccountSearchForm extends React.Component {
         let data = cloneObj(values);
         data.limit = limit;
         data.currentPage = currentPage;
+        removeSpace(data);
         this.props.dispatch({
             type:'account/fetch',
             payload:{code:'qerp.web.ur.user.query',values:data}
@@ -30,7 +33,7 @@ class AccountSearchForm extends React.Component {
             payload:values
         })
     }
-      
+
     render() {
         const adminType=eval(sessionStorage.getItem('adminType'));
         const { getFieldDecorator } = this.props.form;
@@ -81,4 +84,3 @@ function mapStateToProps(state) {
 
 const AccountSearch = Form.create()(AccountSearchForm);
 export default connect(mapStateToProps)(AccountSearch);
-

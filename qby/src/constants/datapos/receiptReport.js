@@ -3,6 +3,7 @@ import { connect } from 'dva';
 import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,message,DatePicker,Pagination,Row,Col} from 'antd';
 import { Link } from 'dva/router';
 import {GetServerData} from '../../services/services';
+import {removeSpace} from '../../utils/meth';
 import '../../style/dataManage.css';
 import EditableTable from '../../components/table/tablebasic';
 import moment from 'moment';
@@ -54,27 +55,28 @@ class ReceiptReportForm extends React.Component {
 
     toDetailInfo = (record) =>{
         const pdOrderId=String(record.pdOrderId);
-        const paneitem={title:'订单详情',key:'703006edit'+pdOrderId+'info',data:{pdOrderId:pdOrderId,shopId:this.props.shopId,details:record},componkey:'703006info'}
+        const paneitem={title:'订单详情',key:'707000edit'+pdOrderId+'info',data:{pdOrderId:pdOrderId,shopId:this.props.shopId,details:record},componkey:'703006info'}
         this.props.dispatch({
             type:'tab/firstAddTab',
             payload:paneitem
-        })
+        });
     }
 
     toRoute = (record) =>{
         this.props.dispatch({
             type:'dataManage/getDetailId',
             payload: record.pdOrderId
-        })
+        });
         this.props.dispatch({
             type:'dataManage/syncHeaderInfo',
             payload: record
-        })
+        });
         this.context.router.push('/dataManage/receiptDetail');
     }
 
     //获取数据
-    getServerData = (values) =>{
+    getServerData =(values)=> {
+        removeSpace(values);
         this.props.dispatch({ type: 'tab/loding', payload:true});
         const result=GetServerData('qerp.web.order.receiveRep',values)
         result.then((res) => {
@@ -93,11 +95,9 @@ class ReceiptReportForm extends React.Component {
                     limit:Number(json.limit)
                 })
             }
-            
+
         })
     }
-   
-
     dateChange = (date, dateString) =>{
         this.setState({
             operateST:dateString[0],
@@ -112,14 +112,14 @@ class ReceiptReportForm extends React.Component {
             currentPage:Number(page)-1
         },function(){
             let data = {
-                spShopId:this.props.shopId,
-                currentPage:this.state.currentPage,
-                limit:this.state.limit,
-                operateST:this.state.operateST,
-                operateET:this.state.operateET,
-                status:this.state.status,
-                orderNo:this.state.orderNo
-            }
+              spShopId:this.props.shopId,
+              currentPage:this.state.currentPage,
+              limit:this.state.limit,
+              operateST:this.state.operateST,
+              operateET:this.state.operateET,
+              status:this.state.status,
+              orderNo:this.state.orderNo
+            };
             self.getServerData(data);
         });
     }
@@ -191,7 +191,7 @@ class ReceiptReportForm extends React.Component {
                                         className="operate-time"
                                         label="最近操作时间"
                                        >
-                                            <RangePicker 
+                                            <RangePicker
                                                 value={this.state.operateST?[moment(this.state.operateST, dateFormat), moment(this.state.operateET, dateFormat)]:null}
                                                 format={dateFormat}
                                                 onChange={this.dateChange.bind(this)} />
@@ -223,8 +223,8 @@ class ReceiptReportForm extends React.Component {
                             <Button type="primary" htmlType="submit" onClick={this.handleSubmit.bind(this)} size='large'>搜索</Button>
                         </div>
                     </Form>
-                    <EditableTable 
-                        columns={this.columns} 
+                    <EditableTable
+                        columns={this.columns}
                         dataSource={this.state.dataSource}
                         footer={true}
                         pageChange={this.pageChange.bind(this)}
@@ -234,8 +234,8 @@ class ReceiptReportForm extends React.Component {
                         current={this.state.currentPage+1}
                         bordered={true}
                         />
-                    {/* <CommonTable 
-                        columns={this.columns} 
+                    {/* <CommonTable
+                        columns={this.columns}
                         dataSource={this.state.dataSource}
                         pagination={false}
                         total={20}
@@ -263,4 +263,3 @@ ReceiptReportForm.contextTypes= {
 const ReceiptReport = Form.create()(ReceiptReportForm);
 
 export default connect(mapStateToProps)(ReceiptReport);
-

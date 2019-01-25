@@ -12,12 +12,7 @@ class Banswer extends Component{
     super(props);
     this.state ={
       componkey:this.props.componkey,
-      field:{
-        title:'',
-        userName:'',
-        type:'',
-        status:'',
-      },
+      inputValues:{}
     }
   }
   //初始化数据
@@ -31,21 +26,21 @@ class Banswer extends Component{
       payload:{}
     })
   }
-  //搜索框数据发生变化
-  searchDataChange =(values)=> {
-    this.setState({field:values});
-  }
+
   //点击搜索
   searchData = (values)=> {
     this.props.dispatch({
       type:'bAnswer/fetchList',
       payload:values
+    });
+    this.setState({
+      inputValues:values
     })
   }
   //点击分页
   changePage =(current,limit)=> {
     const currentPage = current-1;
-    const values = {...this.state.field,currentPage,limit}
+    const values = {...this.state.inputValues,currentPage,limit}
     this.props.dispatch({
       type:'bAnswer/fetchList',
       payload:values
@@ -55,7 +50,7 @@ class Banswer extends Component{
   onShowSizeChange =({currentPage,limit})=> {
     this.props.dispatch({
       type:'bAnswer/fetchList',
-      payload:{currentPage,limit}
+      payload:{currentPage,limit,...this.state.inputValues}
     });
   }
   //处理表格的点击事件
@@ -68,7 +63,7 @@ class Banswer extends Component{
       componkey:`${componkey}edit`,
       data:{
         listParams:{
-          ...this.state.fields,
+          ...this.state.inputValues,
           limit,
           currentPage
         },

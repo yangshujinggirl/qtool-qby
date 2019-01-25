@@ -4,6 +4,7 @@ import { Table, Input, Icon, Button, Popconfirm ,Tabs,Form, Select,Radio,Modal,m
 import { Link } from 'dva/router';
 import '../../style/dataManage.css';
 import {GetServerData} from '../../services/services';
+import {removeSpace} from '../../utils/meth';
 import {timeForMattoday} from '../../utils/meth';
 import EditableTable from '../../components/table/tablebasic';
 import Appmodelone  from '../ordermd/modal';
@@ -29,7 +30,8 @@ class InventorydiffLogIndexForm extends React.Component {
             limit:15,
             adjustTimeST:"",
             adjustTimeET:"",
-            windowHeight:''
+            windowHeight:'',
+            inputValues:{}
         };
         this.columns = [
             {
@@ -59,69 +61,97 @@ class InventorydiffLogIndexForm extends React.Component {
             }
         ];
     }
-
+    componentDidMount(){
+      this.handleSearch();
+    }
+    handleSearch = (e) =>{
+      this.props.form.validateFields((err, values) => {
+        values.checkTimeST = this.state.checkTimeStart;
+        values.checkTimeET = this.state.checkTimeEnd;
+        values.limit = this.state.limit;
+        removeSpace(values);
+        this.sendRequest(values);
+        const {limit,..._values} = values;
+        this.setState({
+          inputValues:_values
+        });
+        console.log(_values)
+      });
+    }
+    sendRequest =(values)=> {
+      let params = {
+        shopId:this.props.shopId,
+        ...values
+      };
+      this.props.dispatch({ type: 'tab/loding', payload:true});
+      const result = GetServerData('qerp.web.pd.check.query',params);
+      result.then((res) => {
+          return res;
+      }).then((json) => {
+        if(json.code=='0'){
+          this.props.dispatch({ type: 'tab/loding', payload:false});
+          const checkNos = json.checkNos;
+          for(let i=0;i<checkNos.length;i++){
+              checkNos[i].key = i+1;
+          };
+          this.setState({
+            dataSource:checkNos,
+            total:Number(json.total),
+            currentPage:Number(json.currentPage),
+            limit:Number(json.limit)
+          });
+        };
+      })
+    }
+    //页数发生变化
+    pageChange =(page,limit)=> {
+      const currentPage = page - 1;
+      const values = {
+        currentPage,
+        limit:this.state.limit,
+        ...this.state.inputValues
+      };
+      this.setState({
+        currentPage,
+      },function(){
+          this.sendRequest(values);
+      });
+    }
+    //每页条数发生变化
+    onShowSizeChange =(current,limit)=> {
+        const values = {limit,...this.state.inputValues};
+        this.setState({
+            limit,
+        },function(){
+            this.sendRequest(values)
+        })
+    }
     editInfo=(record)=>{
-      const paneitem={title:'盘点详情',key:'707000edit'+record.checkId+'infoinventory',data:{
-          id:record.checkId,checkNo:record.checkNo,skuSum:record.skuSum,qty:record.qty,operater:record.operater,operateTime:record.operateTime},componkey:'707000infoinventory'}
+      const paneitem = {
+        title:'盘点详情',
+        key:'707000edit'+record.checkId+'infoinventory',
+        data:{
+          id:record.checkId,
+          checkNo:record.checkNo,
+          skuSum:record.skuSum,
+          qty:record.qty,
+          operater:record.operater,
+          operateTime:record.operateTime
+        },
+        componkey:'707000infoinventory'
+      };
       this.props.dispatch({
         type:'tab/firstAddTab',
         payload:paneitem
+      });
+    }
+    dateChange = (date, dateString) =>{
+      this.setState({
+        checkTimeStart:dateString[0],
+        checkTimeEnd:dateString[1]
       })
     }
 
-    dateChange = (date, dateString) =>{
-        this.setState({
-            checkTimeStart:dateString[0],
-            checkTimeEnd:dateString[1]
-        })
-    }
-
-    //表格的方法
-    pageChange=(page,pageSize)=>{
-        this.setState({
-            currentPage:page-1,
-            limit:pageSize
-        },function(){
-            this.handleSearch()
-        });
-    }
-    onShowSizeChange=(current, pageSize)=>{
-        this.setState({
-            limit:pageSize,
-            currentPage:0
-        },function(){
-            this.handleSearch()
-        })
-    }
-
-    handleSearch = (e) =>{
-        this.props.form.validateFields((err, values) => {
-            values.limit=this.state.limit
-            values.currentPage=this.state.currentPage
-            values.shopId=this.props.shopId
-            values.checkTimeST=this.state.checkTimeStart
-            values.checkTimeET=this.state.checkTimeEnd
-            this.props.dispatch({ type: 'tab/loding', payload:true});
-            const result=GetServerData('qerp.web.pd.check.query',values)
-            result.then((res) => {
-                return res;
-            }).then((json) => {
-                if(json.code=='0'){
-                    this.props.dispatch({ type: 'tab/loding', payload:false});
-                    const checkNos = json.checkNos;
-                    for(let i=0;i<checkNos.length;i++){
-                        checkNos[i].key = i+1;
-                    };
-                    this.setState({
-                        dataSource:checkNos,
-                        total:Number(json.total),
-                        currentPage:Number(json.currentPage),
-                        limit:Number(json.limit)
-                    })
-                }
-            })
-        })
-    }
     render() {
         const { getFieldDecorator } = this.props.form;
         return (
@@ -137,9 +167,9 @@ class InventorydiffLogIndexForm extends React.Component {
                                         label="选择时间"
                                         labelCol={{ span: 5 }}
                                         wrapperCol={{span: 10}}>
-                                            <RangePicker
-                                                format={dateFormat}
-                                                onChange={this.dateChange.bind(this)} />
+                                          <RangePicker
+                                            format={dateFormat}
+                                            onChange={this.dateChange.bind(this)} />
                                         </FormItem>
                                         <FormItem
                                         label="订单号"
@@ -190,11 +220,6 @@ class InventorydiffLogIndexForm extends React.Component {
         );
     }
 
-
-
-    componentDidMount(){
-        this.handleSearch();
-    }
 }
 
 const InventorydiffLogIndex = Form.create()(InventorydiffLogIndexForm);

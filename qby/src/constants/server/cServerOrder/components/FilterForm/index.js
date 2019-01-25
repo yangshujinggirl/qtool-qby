@@ -11,6 +11,7 @@ import {
   DatePicker,
   AutoComplete
 } from 'antd';
+import {removeSpace} from '../../../../../utils/meth';
 const FormItem = Form.Item;
 const Option =  Select.Option;
 const { RangePicker } = DatePicker;
@@ -59,6 +60,7 @@ class NormalForm extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
+      removeSpace(values);
       this.props.submit && this.props.submit(values)
     });
   }
@@ -145,10 +147,6 @@ class NormalForm extends Component {
     )
   }
 }
-const FilterForm = Form.create({
-  onValuesChange:(props, changedValues, allValues) => {
-    props.onValuesChange(allValues);
-  }
-})(NormalForm);
+const FilterForm = Form.create({})(NormalForm);
 
 export default FilterForm;

@@ -1,6 +1,7 @@
 import { Form, Row, Col, Input, Button, Icon,Select ,DatePicker,AutoComplete} from 'antd';
 import { connect } from 'dva';
 import {GetServerData} from '../../../services/services';
+import {removeSpace} from '../../../utils/meth';
 import moment from 'moment';
 
 const FormItem = Form.Item;
@@ -28,12 +29,13 @@ class StockSearchForm extends React.Component {
     initStockList=(values,limit,currentPage)=>{
         values.limit=limit;
         values.currentPage=currentPage;
+        removeSpace(values);
         this.props.dispatch({
             type:'datas/fetch',
             payload:{code:'qerp.web.rp.spu.data.page',values:values}
         });
         this.props.dispatch({ type: 'tab/loding', payload:true});
-    }  
+    }
 
     //同步data
     syncState=(values)=>{
@@ -74,14 +76,14 @@ class StockSearchForm extends React.Component {
                         <Input placeholder="请输入商品编码" autoComplete="off"/>
                         )}
                     </FormItem>
-                    
-                    <FormItem 
+
+                    <FormItem
                         label='销售时间'
                     >
                         {getFieldDecorator('date',{
                             initialValue:[moment(this.state.startRpDate,dateFormat), moment(this.state.startRpDate, dateFormat)]
                         })(
-                            
+
                             <RangePicker
                             showTime
                             format="YYYY-MM-DD"
@@ -115,10 +117,10 @@ class StockSearchForm extends React.Component {
         this.handleSearch()
     })
 
-    
+
 
 }
-  
+
 }
 function mapStateToProps(state) {
     const {limit,currentPage} = state.datasphiscun;

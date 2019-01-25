@@ -12,7 +12,7 @@ import {
 } from 'antd';
 import {timeForMats} from '../../../../../utils/meth';
 import { DeliveryOption } from '../../../../../components/FixedDataSource';
-
+import {removeSpace} from '../../../../../utils/meth';
 const FormItem = Form.Item;
 const Option =  Select.Option;
 const { RangePicker } = DatePicker;
@@ -26,6 +26,7 @@ class NormalForm extends Component {
           _values.dateTimeST =  moment(rangePicker[0]).format('YYYY-MM-DD HH:mm:ss');
           _values.dateTimeET = moment(rangePicker[1]).format('YYYY-MM-DD HH:mm:ss');
         }
+        removeSpace(_values)
         this.props.submit && this.props.submit(_values)
     });
   }
@@ -63,7 +64,7 @@ class NormalForm extends Component {
                   )}
                 </FormItem>
                 <FormItem label='费用类型'>
-                   {getFieldDecorator('costType')( 
+                   {getFieldDecorator('costType')(
                      <Select allowClear={true} placeholder="请选择费用类型">
                        <Option value={1} key={1}>销售收款</Option>
                        <Option value={2} key={2}>销售退款</Option>
@@ -92,10 +93,6 @@ class NormalForm extends Component {
     )
   }
 }
-const FilterForm = Form.create({
-  onValuesChange:(props, changedValues, allValues) => {
-    props.onValuesChange(allValues);
-  }
-})(NormalForm);
+const FilterForm = Form.create({})(NormalForm);
 
 export default FilterForm;

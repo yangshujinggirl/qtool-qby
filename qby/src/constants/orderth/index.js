@@ -2,6 +2,7 @@ import React from 'react';
 import {GetServerData} from '../../services/services';
 import { Button, Icon ,Modal,message} from 'antd';
 import { connect } from 'dva';
+import {removeSpace} from '../../utils/meth';
 import OrderthTable from './table';
 import OrderthSearch from './search';
 import Appmodelone from '../ordermd/modal';
@@ -50,15 +51,16 @@ class OrderthIndex extends React.Component{
 						});
 					},
 					onCancel() {
-						
+
 					},
 	  			});
 			}
 		})
 	}
 
-	//列表数据请求   
+	//列表数据请求
     initList=(values,limit,currentPage)=>{
+				removeSpace(values);
         values.limit=limit;
         values.currentPage=currentPage;
         values.type = "20";
@@ -115,16 +117,16 @@ class OrderthIndex extends React.Component{
 		const overorder=rolelists.find((currentValue,index)=>{
 			return currentValue.url=="qerp.web.ws.asn.finish"
 		})
-		
+
 
      	return(
         	<div className='content_box'>
                 <OrderthSearch/>
-				
+
 				{
 					addorder?
-					<Button 
-					type="primary" 
+					<Button
+					type="primary"
 					size='large'
 					className='mt20 mr10'
 					onClick={this.addNew}
@@ -135,8 +137,8 @@ class OrderthIndex extends React.Component{
 				}
 				{
 					expontdata?
-					<Button 
-					type="primary" 
+					<Button
+					type="primary"
 					size='large'
 					className='mt20 mr10'
 					onClick={this.exportData.bind(this,11,this.props.values)}
@@ -147,8 +149,8 @@ class OrderthIndex extends React.Component{
 				}
 				{
 					overorder?
-					<Button 
-					type="primary" 
+					<Button
+					type="primary"
 					size='large'
 					className='mt20 mr10'
 					onClick={this.mandatoryOrder.bind(this)}

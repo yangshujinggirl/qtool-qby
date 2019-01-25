@@ -1,6 +1,7 @@
 import { Form, Row, Col, Input, Button, Icon,Select ,DatePicker} from 'antd';
 import { connect } from 'dva';
 import {timeForMats} from '../../utils/meth';
+import {removeSpace} from '../../utils/meth';
 import moment from 'moment';
 const FormItem = Form.Item;
 const Option = Select.Option
@@ -37,6 +38,7 @@ class OperateinoutSearchForm extends React.Component {
         values.dateEnd=this.state.dateEnd;
         values.limit=limit;
         values.currentPage=currentPage;
+        removeSpace(values)
         this.props.dispatch({
             type:'operateinout/fetch',
             payload:{code:'qerp.web.sp.money.detail',values:values}

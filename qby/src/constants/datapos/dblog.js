@@ -5,6 +5,7 @@ import { Link } from 'dva/router';
 import '../../style/dataManage.css';
 import {GetServerData} from '../../services/services';
 import {timeForMattoday} from '../../utils/meth';
+import {removeSpace} from '../../utils/meth';
 import EditableTable from '../../components/table/tablebasic';
 import Appmodelone  from '../ordermd/modal';
 import moment from 'moment';
@@ -20,12 +21,13 @@ class InventorydiffLogIndexForm extends React.Component {
     constructor(props) {
         super(props);
         this.state={
+            inputValues:{},
             shopId:null,
             dataSource:[],
             dataSources:[],
             datadetail:[{
-                barcode1:'123',
-                barcode:'23'
+              barcode1:'123',
+              barcode:'23'
             }],
             total:0,
             currentPage:0,
@@ -34,106 +36,147 @@ class InventorydiffLogIndexForm extends React.Component {
             exchangeTimeEnd:"",
             windowHeight:'',
             dbstate:[{
-                name:'待收货',
-                key:'10'
+              name:'待收货',
+              key:'10'
             },{
-                name:'收货中',
-                key:'20'
+              name:'收货中',
+              key:'20'
             },{
-                name:'已收货',
-                key:'30'
+              name:'已收货',
+              key:'30'
             },{
-                name:'已撤销',
-                key:'40'
+              name:'已撤销',
+              key:'40'
             }]
         };
         this.columns = [
             {
-                title: '商品调拨单号',
-                dataIndex: 'exchangeNo',
-                render: (text, record) => {
-                    return (
-                      <TableLink text={text} hindClick={this.editInfo.bind(this,record)} type="1"/>
-                    );
-                }
+              title: '商品调拨单号',
+              dataIndex: 'exchangeNo',
+              render: (text, record) => {
+                return (
+                  <TableLink text={text} hindClick={this.editInfo.bind(this,record)} type="1"/>
+                );
+              }
             },
             {
-                title: '需求门店',
-                dataIndex: 'inShopName',
+              title: '需求门店',
+              dataIndex: 'inShopName',
             },
             {
-                title: '调拨商品数量',
-                dataIndex: 'qtySum',
+              title: '调拨商品数量',
+              dataIndex: 'qtySum',
             },
             {
-                title: '调拨总价',
-                dataIndex: 'amountSum',
+              title: '调拨总价',
+              dataIndex: 'amountSum',
             },
             {
-                title: '调拨状态',
-                dataIndex: 'statusStr',
+              title: '调拨状态',
+              dataIndex: 'statusStr',
             },{
-                title: '创建时间',
-                dataIndex: 'createTime',
+              title: '创建时间',
+              dataIndex: 'createTime',
             },{
-                title: '门店收货完成时间',
-                dataIndex: 'receiveTime'
+              title: '门店收货完成时间',
+              dataIndex: 'receiveTime'
             }
         ];
     }
-
-    editInfo=(record)=>{
-		    const paneitem={title:'调拨详情',key:'707000edit'+record.qposPdExchangeId+'infodb',data:{
-                          outShopId:this.props.shopId,qposPdExchangeId:record.qposPdExchangeId,
-                          exchangeNo:record.exchangeNo
-                          },componkey:'707000infodb1'
-                        }
+    componentDidMount(){
+       this.handleSearch();
+    }
+    handleSearch = (e) =>{
+      this.props.form.validateFields((err, values) => {
+        values.exchangeTimeStart = this.state.exchangeTimeStart;
+        values.exchangeTimeEnd = this.state.exchangeTimeEnd;
+        values.limit = this.state.limit;
+        values.outShopId = this.props.shopId;
+        removeSpace(values);
+        this.sendRequest(values);
+        const {limit,..._values} = values;
+        this.setState({
+          inputValues:_values
+        });
+      })
+    }
+    //发送请求
+    sendRequest =(values)=> {
+      this.props.dispatch({ type: 'tab/loding', payload:true});
+      const result = GetServerData('qerp.web.sp.exchange.list',values)
+      result.then((res) => {
+        return res;
+      }).then((json) => {
+        this.props.dispatch({ type: 'tab/loding', payload:false});
+        if(json.code == '0'){
+          const dataList = json.exchangeNos;
+          for(let i=0;i<dataList.length;i++){
+            dataList[i].key = i+1;
+          };
+          this.setState({
+            dataSource:dataList,
+            total:Number(json.total),
+            currentPage:Number(json.currentPage),
+            limit:Number(json.limit)
+          });
+        };
+      })
+    }
+    editInfo =(record)=> {
+		    const paneitem={
+          title:'调拨详情',
+          key:'707000edit'+record.qposPdExchangeId+'infodb',
+          data:{
+            outShopId:this.props.shopId,
+            qposPdExchangeId:record.qposPdExchangeId,
+            exchangeNo:record.exchangeNo
+          },componkey:'707000infodb1'
+        }
        	this.props.dispatch({
           type:'tab/firstAddTab',
           payload:paneitem
 		    })
     }
-
-    dateChange = (date, dateString) =>{
-        this.setState({
-          exchangeTimeStart:dateString[0],
-          exchangeTimeEnd:dateString[1]
-        })
+    dateChange =(date, dateString)=> {
+      this.setState({
+        exchangeTimeStart:dateString[0],
+        exchangeTimeEnd:dateString[1]
+      });
     }
-
-    //表格的方法
-    pageChange=(page,pageSize)=>{
-        this.setState({
-            currentPage:page-1
-        },function(){
-            let data = {
-                outshopId:this.props.shopId,
-                currentPage:this.state.currentPage,
-                limit:this.state.limit,
-                exchangeTimeStart:this.state.exchangeTimeStart,
-                exchangeTimeEnd:this.state.exchangeTimeEnd,
-            }
-           this.gethindServerData(data);
-        });
+    //分页变化
+    pageChange =(page,pageSize)=> {
+      const {inputValues} = this.state;
+      const currentPage = page - 1 ;
+      this.setState({
+        currentPage
+      },function(){
+        let data = {
+          currentPage,
+          limit:this.state.limit,
+          outShopId:this.props.shopId,
+          exchangeTimeStart:this.state.exchangeTimeStart,
+          exchangeTimeEnd:this.state.exchangeTimeEnd,
+          ...inputValues
+        }
+        this.sendRequest(data);
+      });
     }
-
-    onShowSizeChange=(current, pageSize)=>{
-        this.setState({
-            limit:pageSize,
-            currentPage:0
-        },function(){
-            let data = {
-                spShopId:this.props.shopId,
-                currentPage:this.state.currentPage,
-                limit:this.state.limit,
-                exchangeTimeStart:this.state.exchangeTimeStart,
-                exchangeTimeEnd:this.state.exchangeTimeEnd,
-                name:this.state.name,
-            }
-            this.gethindServerData(data);
-        })
+    //每页条数变化
+    onShowSizeChange =(current, limit)=> {
+      const {inputValues} = this.state;
+      this.setState({
+        limit
+      },function(){
+        let data = {
+          limit,
+          outShopId:this.props.shopId,
+          exchangeTimeStart:this.state.exchangeTimeStart,
+          exchangeTimeEnd:this.state.exchangeTimeEnd,
+          ...inputValues
+        }
+        this.sendRequest(data);
+      });
     }
-
     render() {
         const { getFieldDecorator } = this.props.form;
         return (
@@ -207,65 +250,9 @@ class InventorydiffLogIndexForm extends React.Component {
                     limit={this.state.limit}
                     current={this.state.currentPage+1}
                     bordered={true}
-                    />
+                />
             </div>
         );
-    }
-
-    //获取数据
-    gethindServerData = (values) =>{
-        // this.props.dispatch({ type: 'tab/loding', payload:true});
-        const result=GetServerData('qerp.web.sp.exchange.list',values)
-        result.then((res) => {
-            return res;
-        }).then((json) => {
-            if(json.code=='0'){
-                // this.props.dispatch({ type: 'tab/loding', payload:false});
-                let dataList = json.exchangeNos;
-                for(let i=0;i<dataList.length;i++){
-                    dataList[i].key = i+1;
-                };
-                this.setState({
-                    dataSource:dataList,
-                    total:Number(json.total),
-                    currentPage:Number(json.currentPage),
-                    limit:Number(json.limit)
-                })
-            }
-        })
-    }
-
-    handleSearch = (e) =>{
-      this.props.form.validateFields((err, values) => {
-        values.exchangeTimeStart=this.state.exchangeTimeStart
-        values.exchangeTimeEnd=this.state.exchangeTimeEnd
-        values.limit=this.state.limit
-        values.currentPage=this.state.currentPage
-        values.outShopId=this.props.shopId
-        this.props.dispatch({ type: 'tab/loding', payload:true});
-        const result=GetServerData('qerp.web.sp.exchange.list',values)
-        result.then((res) => {
-          return res;
-        }).then((json) => {
-          this.props.dispatch({ type: 'tab/loding', payload:false});
-          if(json.code=='0'){
-            const dataList = json.exchangeNos;
-            for(let i=0;i<dataList.length;i++){
-              dataList[i].key = i+1;
-            };
-            this.setState({
-              dataSource:dataList,
-              total:Number(json.total),
-              currentPage:Number(json.currentPage),
-              limit:Number(json.limit)
-            })
-          }
-        })
-      })
-    }
-
-    componentDidMount(){
-         this.handleSearch();
     }
 }
 

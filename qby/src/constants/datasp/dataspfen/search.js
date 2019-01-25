@@ -1,6 +1,7 @@
 import { Form, Row, Col, Input, Button, Icon,Select ,DatePicker,AutoComplete} from 'antd';
 import { connect } from 'dva';
 import {GetServerData} from '../../../services/services';
+import {removeSpace} from '../../../utils/meth';
 
 import moment from 'moment';
 const { MonthPicker, RangePicker } = DatePicker;
@@ -26,12 +27,13 @@ class StockSearchForm extends React.Component {
   initStockList=(values,limit,currentPage)=>{
         values.limit=limit;
         values.currentPage=currentPage;
+        removeSpace(values);
         this.props.dispatch({
             type:'dataspfen/fetch',
             payload:{code:'qerp.web.rp.shop.Joint.division.page',values:values}
         });
         this.props.dispatch({ type: 'tab/loding', payload:true});
-    }  
+    }
 
     //同步data
     syncState=(values)=>{
@@ -101,7 +103,7 @@ class StockSearchForm extends React.Component {
                         />
                         )}
                     </FormItem>
-                    <FormItem 
+                    <FormItem
                         label='选择时间'
                     >
                         {getFieldDecorator('codes',{
@@ -132,15 +134,15 @@ class StockSearchForm extends React.Component {
     },function(){
         this.handleSearch()
     })
-    
 
 
 
 
-    
+
+
 
 }
-  
+
 }
 function mapStateToProps(state) {
     const {limit,currentPage} = state.dataspfen;

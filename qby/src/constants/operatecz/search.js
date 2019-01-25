@@ -1,6 +1,7 @@
 import { Form, Row, Col, Input, Button,Select ,DatePicker} from 'antd';
 import { connect } from 'dva';
 import {timeForMats} from '../../utils/meth';
+import {removeSpace} from '../../utils/meth';
 import moment from 'moment';
 const Option = Select.Option
 const RangePicker = DatePicker.RangePicker;
@@ -37,6 +38,7 @@ class AdvancedSearchForm extends React.Component {
         values.voucherDateEnd=this.state.voucherDateEnd
         values.limit=limit
         values.currentPage=currentPage
+        removeSpace(values)
         this.props.dispatch({
             type:'operatecz/fetch',
             payload:{code:'qerp.web.sp.voucher.query',values:values}

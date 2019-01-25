@@ -11,6 +11,7 @@ import {
 }from 'antd'
 import moment from 'moment';
 import {timeForMat} from '../../../../utils/meth';
+import {removeSpace} from '../../../../utils/meth';
 const FormItem = Form.Item;
 const Option = Select.Option;
 const RangePicker = DatePicker.RangePicker
@@ -25,6 +26,7 @@ class NormalForm extends Component{
         _values.dateStart =  moment(rangePicker[0]).format('YYYY-MM-DD');
         _values.dateEnd = moment(rangePicker[1]).format('YYYY-MM-DD');
       };
+      removeSpace(_values);
       this.props.submit && this.props.submit(_values);
     })
   }
@@ -105,11 +107,7 @@ class NormalForm extends Component{
   }
 }
 
-const FilterForm = Form.create({
-  onValuesChange:(props, changedValues, allValues) => {
-    props.onValuesChange(allValues);
-  }
-})(NormalForm)
+const FilterForm = Form.create({})(NormalForm)
 function mapStateToProps(state){
   const { supplyinout } = state;
   return {supplyinout}

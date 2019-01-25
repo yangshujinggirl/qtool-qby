@@ -1,6 +1,7 @@
 import { Form, Row, Col, Input, Button, Icon,Select ,DatePicker} from 'antd';
 import { connect } from 'dva';
 import moment from 'moment';
+import {removeSpace} from '../../../utils/meth';
 
 const FormItem = Form.Item;
 const Option = Select.Option
@@ -19,15 +20,16 @@ class BatchStockSearchForm extends React.Component {
         });
     }
     //搜索请求数据
-    initList=(values,limit,currentPage)=>{
+    initList =(values,limit,currentPage)=> {
         values.limit=limit;
         values.currentPage=currentPage;
+        removeSpace(values);
         this.props.dispatch({
             type:'datawstime/fetch',
             payload:{code:'qerp.web.pd.validDate.query',values:values}
         });
         this.props.dispatch({ type: 'tab/loding', payload:true});
-    }  
+    }
 
     //同步data
     syncState=(values)=>{
@@ -36,8 +38,8 @@ class BatchStockSearchForm extends React.Component {
             payload:values
         });
     }
-    
-  
+
+
 
   render() {
       const { getFieldDecorator } = this.props.form;
@@ -97,11 +99,3 @@ function mapStateToProps(state) {
 
 const DatawstimeSearch = Form.create()(BatchStockSearchForm);
 export default connect(mapStateToProps)(DatawstimeSearch);
-
-
-
-
-
-
-
-

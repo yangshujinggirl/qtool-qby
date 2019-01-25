@@ -2,6 +2,7 @@
 import {GetServerData} from '../../services/services';
 import { Button, Icon ,Modal} from 'antd';
 import { connect } from 'dva';
+import {removeSpace} from '../../utils/meth';
 import SpTable from './table';
 import SearchForms from './search';
 const confirm = Modal.confirm;
@@ -17,6 +18,7 @@ class OperateIndex extends React.Component{
 	}
 
 	exportData = (type,data) => {
+		removeSpace(data);
 		const values={
 			type:type,
 			downloadParam:data,

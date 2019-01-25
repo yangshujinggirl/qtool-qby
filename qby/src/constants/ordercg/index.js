@@ -2,6 +2,7 @@ import React from 'react';
 import {GetServerData} from '../../services/services';
 import { Button, Icon,message,Modal  } from 'antd';
 import { connect } from 'dva';
+import {removeSpace} from '../../utils/meth';
 import {deepcCloneObj} from '../../utils/commonFc';
 import OrdercgSearch from './search';
 import OrdercgTable from './table';
@@ -33,6 +34,7 @@ class OrdercgIndex extends React.Component{
 	}
 	//table搜索
 	initList=(values,limit,currentPage)=>{
+		removeSpace(values);
 		values.type = "10";
 		 values.limit=limit;
 		 values.currentPage=currentPage;

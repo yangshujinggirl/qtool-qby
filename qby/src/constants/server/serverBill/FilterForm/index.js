@@ -9,6 +9,7 @@ import {
   Select,
   DatePicker
 }from 'antd'
+import {removeSpace} from '../../../../utils/meth';
 import '../index.css'
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -19,13 +20,13 @@ import {timeForMats} from '../../../../utils/meth';
 class NormalForm extends Component{
   //点击搜索
   handleSubmit = (e) => {
-    // e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       const{rangePicker,..._values} = values;
       if(rangePicker&&rangePicker[0]){
         _values.createTimeST =  moment(new Date(rangePicker[0]).getTime()).format('YYYY-MM-DD HH:mm:ss');
         _values.createTimeET =  moment(new Date(rangePicker[1]).getTime()).format('YYYY-MM-DD HH:mm:ss');
-      }
+      };
+      removeSpace(_values);
       this.props.submit && this.props.submit(_values);
     })
   }
@@ -99,11 +100,7 @@ class NormalForm extends Component{
   }
 }
 
-const FilterForm = Form.create({
-  onValuesChange:(props, changedValues, allValues) => {
-    props.onValuesChange(allValues);
-  }
-})(NormalForm)
+const FilterForm = Form.create({})(NormalForm)
 function mapStateToProps(state){
   const { serverBill } = state;
   return { serverBill }

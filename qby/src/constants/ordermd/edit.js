@@ -44,7 +44,8 @@ class OrdermdEditForm extends React.Component{
                   createType:this.props.data.type == '1'? values.createType : '2',
                   shopName:values.shopName,
 									remark:values.remark
-                }
+                };
+								values.spShopId = values.shopName;
                 this.setState({
                     spShop:values
                 },function(){
@@ -57,10 +58,11 @@ class OrdermdEditForm extends React.Component{
                             let value={
                                 spOrder:newsporder,
                                 orderCodes:this.state.dataSource
-                            }
+                            };
+														console.log(value)
                             this.showmodel(value)
-                        }
-                    }
+                        };
+                    };
                 });
             }
         });
@@ -99,7 +101,6 @@ class OrdermdEditForm extends React.Component{
 	}
 
     showmodel=(data)=>{
-        // this.refs.models.showModal(data);
       this.setState({
         visible:true,
         num:data.spOrder.qtySum,
@@ -182,8 +183,10 @@ class OrdermdEditForm extends React.Component{
         var allnumber=0
         var allpay=0
         for(var i=0;i<dataSource.length;i++){
-            allnumber=allnumber+Number(dataSource[i].qty)
+					if(dataSource[i].qty){
+						allnumber=allnumber+Number(dataSource[i].qty)
             allpay=allpay+parseFloat(parseFloat(dataSource[i].price)*Number(dataSource[i].qty))
+					};
         }
         //更新到spShop
         var spShop=this.state.spShop
@@ -258,11 +261,18 @@ class OrdermdEditForm extends React.Component{
     }
 
     handleOk=()=>{
-      const value = this.state.spShop
+      const value = this.state.spShop;
+			const {dataSource} = this.state;
+			const goodList = [];
+			dataSource.map((item,index)=>{
+				if(item.Code){
+					goodList.push(item);
+				};
+			});
       let payload = {
         spOrder:value,
-        orderCodes:this.state.dataSource
-      }
+        orderCodes:goodList
+      };
       let result
       if(value.createType == '2'){
         result=GetServerData('qerp.web.sp.order.gift.save',payload);
