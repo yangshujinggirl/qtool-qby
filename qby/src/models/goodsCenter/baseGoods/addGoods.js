@@ -37,7 +37,7 @@ export default {
       isTimeRequired:false,
       isLotRequired:false,
     },
-    deliveryExplain:false,
+    deliveryExplain:true,
   },
   reducers: {
     setdeliveryExplain(state, { payload:deliveryExplain }) {

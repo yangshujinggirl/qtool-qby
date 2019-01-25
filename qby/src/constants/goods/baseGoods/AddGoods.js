@@ -162,6 +162,10 @@ class AddGoodsForm extends Component {
         isEdit:true
       });
     } else {
+      this.props.dispatch({ //如果是新增先重置deliveryExplain的值
+        type:'addGoods/setdeliveryExplain',
+        payload:{deliveryExplain:true}
+      });
       this.setState({
         isEdit:false
       });

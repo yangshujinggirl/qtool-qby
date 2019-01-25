@@ -118,7 +118,15 @@ class AddThOrder extends Component{
 		.then(res=>{
 			if(res.code =='0'){
 				this.setState({loading:false})
-				message.success('保存成功')
+				message.success('保存成功');
+				this.props.dispatch({
+						type:'tab/initDeletestate',
+						payload:this.props.componkey
+				});
+				this.props.dispatch({
+					type:'allth/fetchList',
+					payload:{}
+				});
 			}else{
 				this.setState({loading:false})
 			}
