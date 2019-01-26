@@ -33,7 +33,7 @@ class DailyBillForm extends React.Component {
               orderSum:'',
               rechargeAmount:''
           },
-          orderType:7,
+          source:0,
           type:1
       };
       this.columns = [{
@@ -87,7 +87,7 @@ class DailyBillForm extends React.Component {
           startDate:this.state.startDate,
           endDate:this.state.endDate,
           type:this.state.type,
-          orderType:this.state.orderType
+          source:this.state.source
       }
       if(values) {
         params = {...params,...values };
@@ -111,8 +111,6 @@ class DailyBillForm extends React.Component {
                   currentPage:Number(json.currentPage),
                   limit:Number(json.limit)
               })
-          }else{
-              message.error(json.message,.8);
           }
       })
   }
@@ -224,7 +222,7 @@ class DailyBillForm extends React.Component {
     this.setState({ type: value});
   }
   changeSource=(value)=> {
-    this.setState({ orderType: value});
+    this.setState({ source: value});
   }
   render() {
     const { getFieldDecorator } = this.props.form;
@@ -327,14 +325,14 @@ class DailyBillForm extends React.Component {
                     </FormItem>
                     <FormItem
                       label="业务类型">
-                      {getFieldDecorator('orderType',{
+                      {getFieldDecorator('source',{
                         onChange:this.changeSource,
-                        initialValue:7
+                        initialValue:0
                       })(
                         <Select placeholder="请选择业务类型">
-                          <Option key={0} value={7}>全部</Option>
-                          <Option key={1} value={0}>门店POS订单</Option>
-                          <Option key={2} value={6}>门店APP订单</Option>
+                          <Option key={0} value={0}>全部</Option>
+                          <Option key={1} value={1}>门店POS订单</Option>
+                          <Option key={2} value={2}>门店APP订单</Option>
                         </Select>
                       )}
                     </FormItem>

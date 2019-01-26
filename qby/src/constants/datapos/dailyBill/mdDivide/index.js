@@ -15,12 +15,7 @@ class MdDivide extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      field:{
-        orderType:'',
-        shareType:'',
-        createtimeST:'',
-        createtimeET:'',
-      },
+      inputValues:{}
     }
   }
   componentWillMount() {
@@ -29,19 +24,11 @@ class MdDivide extends Component {
   getNowFormatDate = () => {
    const startRpDate = getCurrentTime();
    const endRpDate = getCurrentTime();
-   const {field} = this.state;
-   this.setState({
-     field:{
-       ...field,
-       createtimeST:startRpDate,
-       createtimeET:endRpDate,
-       }
-     },function(){
-       this.searchData({
-         createtimeST:startRpDate,
-         createtimeET:endRpDate
-       });
-   })
+   this.searchData({
+     spShopId:this.props.shopId,
+     createtimeST:startRpDate,
+     createtimeET:endRpDate
+   });
  }
 
   //操作
@@ -62,7 +49,7 @@ class MdDivide extends Component {
   //点击分页
   changePage = (current,limit) => {
     const currentPage = current-1;
-    const values = {...this.state.field,currentPage,limit}
+    const values = {...this.state.inputValues,currentPage,limit}
     this.props.dispatch({
       type:'mdDivide/fetchList',
       payload: values
@@ -72,28 +59,23 @@ class MdDivide extends Component {
   onShowSizeChange =({currentPage,limit})=> {
     this.props.dispatch({
       type:'mdDivide/fetchList',
-      payload:{currentPage,limit,...this.state.field}
+      payload:{currentPage,limit,...this.state.inputValues}
     });
-  }
-  //搜索框数据发生变化
-  searchDataChange =(values)=> {
-    const {rangePicker,..._values} = values;
-    if(rangePicker&&rangePicker[0]){
-      _values.createtimeST =  moment(rangePicker[0]).format('YYYY-MM-DD');
-      _values.createtimeET = moment(rangePicker[1]).format('YYYY-MM-DD');
-    }
-    this.setState({field:_values});
   }
   //点击搜索
   searchData = (values)=> {
+    values.spShopId = this.props.shopId;
     this.props.dispatch({
       type:'mdDivide/fetchList',
       payload:values
-    })
+    });
+    this.setState({
+      inputValues:values
+    });
   }
   //导出数据
   exportData =()=> {
-    const values ={type:103,downloadParam:{...this.state.field}}
+    const values ={type:103,downloadParam:{...this.state.inputValues}}
     exportDataApi(values)
     .then(res => {
       if(res.code == '0'){
@@ -121,13 +103,11 @@ class MdDivide extends Component {
   }
 
   render() {
-    console.log(this.props.mdDivide)
     const { dataList=[],orderNum,shareProfitSumAmount } = this.props.mdDivide;
     return (
       <div className='qtools-components-pages md_divide'>
         <FilterForm
           submit={this.searchData}
-          onValuesChange = {this.searchDataChange}
         />
         <div className="handel-btn-lists">
             <Button

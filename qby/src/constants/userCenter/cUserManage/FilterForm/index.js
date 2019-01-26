@@ -62,7 +62,7 @@ class NormalForm extends Component {
                  )}
                </FormItem>
               <FormItem label='注册平台'>
-                 {getFieldDecorator('platform')(
+                 {getFieldDecorator('registryPlatform')(
                    <Select allowClear={true} placeholder="请选择注册平台">
                          <Option value={1}>小程序</Option>
                          <Option value={2}>ios</Option>

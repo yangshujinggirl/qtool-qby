@@ -1,6 +1,6 @@
 const Columns = [{
      title: '退货单号',
-     dataIndex: 'orderNo',
+     dataIndex: 'asnNo',
      render:(text, record)=>{
        return(
          <div>

@@ -10,6 +10,7 @@ import {
   DatePicker
 } from 'antd';
 import {timeForMat} from '../../../../../utils/meth';
+import {removeSpace} from '../../../../../utils/meth';
 import moment from 'moment';
 import './index.less'
 
@@ -28,7 +29,13 @@ class NormalForm extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
-      this.props.submit && this.props.submit(values);
+      const {rangePicker,..._values} = values;
+      if(rangePicker&&rangePicker[0]){
+        _values.createTimeST = moment(rangePicker[0]).format('YYYY-MM-DD');
+        _values.createTimeET = moment(rangePicker[1]).format('YYYY-MM-DD');
+      }
+      removeSpace(_values);
+      this.props.submit && this.props.submit(_values);
     });
   }
 
@@ -71,10 +78,6 @@ class NormalForm extends Component {
   }
 }
 
-const FilterForm = Form.create({
-  onValuesChange:(props, changedValues, allValues) => {
-    props.onValuesChange(allValues);
-  }
-})(NormalForm);
+const FilterForm = Form.create({})(NormalForm);
 
 export default FilterForm;
