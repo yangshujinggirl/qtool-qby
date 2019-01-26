@@ -117,9 +117,11 @@ class NormalForm extends Component {
                        onChange={this.onChange}
                        >
                        {
-                         DeliveryOption.map((el) => (
-                           <Option value={el.key} key={el.key}>{el.value}</Option>
-                         ))
+                         <Option value={1} key={1}>门店自提</Option>
+                         <Option value={2} key={2}>同城配送</Option>
+                         <Option value={3} key={3}>快递邮寄</Option>
+                         <Option value={4} key={4}>仓库直邮</Option>
+                         <Option value={5} key={5}>保税直邮</Option>
                        }
                      </Select>
                    )}
