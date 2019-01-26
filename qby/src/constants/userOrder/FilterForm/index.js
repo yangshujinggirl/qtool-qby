@@ -108,7 +108,6 @@ class NormalForm extends Component {
                 </FormItem>
                 <FormItem label='订单类型'>
                    {getFieldDecorator('orderType',{
-
                    })(
                      <Select
                        allowClear={true}
@@ -116,13 +115,11 @@ class NormalForm extends Component {
                        onSelect={this.onSelect}
                        onChange={this.onChange}
                        >
-                       {
                          <Option value={1} key={1}>门店自提</Option>
                          <Option value={2} key={2}>同城配送</Option>
                          <Option value={3} key={3}>快递邮寄</Option>
                          <Option value={4} key={4}>仓库直邮</Option>
                          <Option value={5} key={5}>保税直邮</Option>
-                       }
                      </Select>
                    )}
                  </FormItem>

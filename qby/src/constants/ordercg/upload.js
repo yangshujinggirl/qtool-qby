@@ -36,7 +36,7 @@ class MyUploadMd extends React.Component {
                     json.createTime = file.response.pdSpuAsnLists[i].createTime;
                     json.displayName = file.response.pdSpuAsnLists[i].displayName;
                     json.key = i;
-                    json.isImport = true; //是否是导入
+                    json.isDetail = false //是否是导入
                     goodsInfo.push(json);
                 }
                 this.props.mdopdermeth.funct(goodsInfo)

@@ -17,7 +17,6 @@ class OrdercgEditForm extends React.Component{
 		this.state = {
 			supplierList:[],
 			warehouses:[],
-			isEdit:false,
 			suppliers:[],
 			selectedSuppler:[{
 				taxRate:null,
@@ -35,9 +34,6 @@ class OrdercgEditForm extends React.Component{
 			const payload={code:'qerp.web.ws.asn.detail',values:{'wsAsnId':this.props.data.wsAsnId}}
 			//请求信息
 			this.initDateEdit(payload);
-			this.setState({
-				isEdit:true
-			})
 		};
 	}
 	//修改数据初始化页面
@@ -319,7 +315,7 @@ class OrdercgEditForm extends React.Component{
 							wrapperCol={{ span: 16 }}
 						>
 						{getFieldDecorator('details')(
-								<GoodsInfoTable isEdit={this.state.isEdit?1:0}/>
+								<GoodsInfoTable/>
 						)}
 						</FormItem>
 						<FormItem

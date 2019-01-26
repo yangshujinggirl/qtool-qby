@@ -210,7 +210,7 @@ export default {
                     name:goodsInfoList[i].name,
                     displayName:goodsInfoList[i].displayName,
                     createTime:goodsInfoList[i].createTime,
-                    isImport:false //是否是导入
+                    isDetail:true //是否是导入
                 };
                 goodsInfo.push(json);
               };

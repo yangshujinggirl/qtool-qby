@@ -62,16 +62,11 @@ class GoodsInfoTable extends React.Component {
         dataIndex: 'name',
         width:"100px",
         render: (text, record, index) => {
+          console.log(this.props)
             return (
-              this.props.isEdit
+              record.isDetail
               ?
-                (
-                  this.props.goodsInfo[0].isImport
-                  ?
-                    <p style={{textAlign:'center'}}>{this.props.goodsInfo[index].name}</p>
-                  :
                   <p style={{textAlign:'center'}}>{this.props.goodsInfo[index].pdName}</p>
-                )
               :
                 <p style={{textAlign:'center'}}>{this.props.goodsInfo[index].name}</p>
             );
@@ -83,16 +78,11 @@ class GoodsInfoTable extends React.Component {
           width:"100px",
           render: (text, record, index) => {
               return (
-                this.props.isEdit
+                record.isDetail
                 ?
-                  (
-                    this.props.goodsInfo[0].isImport
-                    ? <p style={{textAlign:'center'}}>{this.props.goodsInfo[index].displayName}</p>
-                    : <p style={{textAlign:'center'}}>{this.props.goodsInfo[index].pdSkuType}</p>
-                  )
+                  <p style={{textAlign:'center'}}>{this.props.goodsInfo[index].pdSkuType}</p>
                 :
                   <p style={{textAlign:'center'}}>{this.props.goodsInfo[index].displayName}</p>
-
               );
             }
           },
@@ -184,6 +174,7 @@ class GoodsInfoTable extends React.Component {
           tempDataSource[index].name=json.pdSpu.name;
           tempDataSource[index].displayName=json.displayName;
           tempDataSource[index].createTime=json.pdSpu.createTime;
+          tempDataSource[index].isDetail=false;
           this.props.dispatch({
               type:'ordercg/syncGoodsInfo',
               payload:tempDataSource
