@@ -22,14 +22,15 @@ class UserthDetail extends React.Component{
 			backInfos:{},
 			goodInfos:[],
 			orderLogs:[],
-			describes:{}
+			describes:{},
+			recInformation:{}
     },
 		this.columns1 = [{
 			title: '商品名称',
 			dataIndex: 'spuName',
       key:'1'
 		}, {
-			title: '规格',
+			title: '商品规格',
 			dataIndex: 'displayName',
       key:'2'
 		}, {
@@ -37,13 +38,49 @@ class UserthDetail extends React.Component{
 			dataIndex: 'code',
       key:'3'
 		}, {
-			title: '退款数量',
+			title: '购买数量',
 			dataIndex: 'qty',
       key:'4'
+		},{
+			title: '实付金额',
+			dataIndex: 'qty',
+      key:'5'
+		},{
+			title: '退款数量',
+			dataIndex: 'qty',
+      key:'6'
 		}, {
 			title: '退款金额',
 			dataIndex: 'returnPrice',
-      key:'5'
+      key:'7',
+			render:(text,record,index)=>{
+
+				const handlePrice =(rule,value,callback)=> {
+					if(value && value > record.returnPrice){
+						message.error('修改范围为（0，'+record.returnPrice+')');
+					};
+				};
+				const { getFieldDecorator } = this.props;
+				return(
+					record.returnType ?
+					<Form>
+						<FormItem>
+							{
+								getFieldDecorator('currentPrice',{
+									rules:[
+										{ pattern:/^\d+(\.\d{0,2})?$/,message:'请输入小于等于两位小数的数字' },
+										{ validator:this.handlePrice }
+									],
+									initialValue:record.returnPrice
+								})(
+									<Input onBlur={(e)=>this.getCurrentPrice(index)}/>
+								)
+							}
+						</FormItem>
+					</Form>
+					: <div>{text}</div>
+				)
+			}
 		}];
 
 		this.columns2 = [{
@@ -66,19 +103,34 @@ class UserthDetail extends React.Component{
 }
 //初始化
 componentWillMount(){
-	const id = this.props.data.orderReturnId;
-	getInfoApi({orderReturnId:id}).then(res => {
+	const {orderReturnId} = this.props.data;
+	getInfoApi({orderReturnId}).then(res => {
 		if(res.code=='0' && res.pdOrderReturnDetailPage){
 			this.setState({
 				backInfos:res.pdOrderReturnDetailPage.returnOrderBaseInfo,
 	      goodInfos:res.pdOrderReturnDetailPage.pdOrderReturnDetail,
 				orderLogs:res.pdOrderReturnDetailPage.pdOrderReturnLog,
 				describes:res.pdOrderReturnDetailPage.pdOrderReturnDetailDescribe,
+				recInformation:res.pdOrderReturnDetailPage.recInformation,
+			},()=>{
+				const {goodInfos} = this.state;
+				let orderDetails = [];
+				goodInfos.map((item,index)=>{
+					let {pdSpuId,pdSkuId} = item;
+					orderDetails[index] = {pdSpuId,pdSkuId,currentPrice:item.returnPrice}
+				});
+				this.setState({
+					orderDetails
+				});
 			})
 		}
 	},err => {
 		message.error(err.message)
 	})
+}
+//获取金额
+getCurrentPrice =(e,index)=> {
+	const currentPrice = e.target.value;
 }
 //单选按钮 的变化
 onChange = (e) => {
@@ -123,7 +175,7 @@ sendRequest =(values,loads)=> {
 			const componkey = this.props.componkey.replace('info','');
 			this.props.dispatch({
 				type:'tab/initDeletestate',
-				payload:`${componkey}edit`+this.props.data.orderReturnId
+				payload:`${componkey}edit`+this.props.data.orderId
 			});
 			this.props.dispatch({
         type:'toAudit/fetchList',
@@ -136,8 +188,12 @@ sendRequest =(values,loads)=> {
 //同意买家退款
 agree =()=> {
 	this.props.form.validateFieldsAndScroll((err,values)=>{
+		const {orderDetails} = this.state;
+		const {orderReturnId} = this.props.data;
+		values.orderType = this.props.data.type;
+		const params = {orderDetails,orderReturnId,opType:1,...values}
 		if(!err){
-			if(!values.returnWay){
+			if(this.props.data.type == 2 && !values.returnWay){//是售后才会有退款方式才需要校验
 				message.error('请选择退款方式')
 			}else{
 				confirm({
@@ -146,7 +202,7 @@ agree =()=> {
 						this.setState({
 							loading2:true
 						});
-						this.sendRequest(values,'loading2')
+						this.sendRequest(params,'loading2')
 					},
 				});
 			};
@@ -154,7 +210,9 @@ agree =()=> {
 	});
 }
 render(){
-  const {backInfos,goodInfos,orderLogs,describes,value} = this.state
+	console.log(this.state.orderDetails)
+  const {backInfos,goodInfos,orderLogs,describes,value} = this.state;
+	const {recAddress,recName,recTelephone,orderType} = this.state.recInformation
 	const fileDomain = eval(sessionStorage.getItem('fileDomain'));
 	if(orderLogs && orderLogs[0]){
 		orderLogs.map((item,index)=>{
@@ -252,17 +310,37 @@ render(){
 					            	)}
 										</FormItem>
 										{value == 1 &&
-											<FormItem
-												label='退货地址'
-												labelCol={{ span: 4 }}
-												wrapperCol={{ span: 12 }}
-												>
-												{getFieldDecorator('returnPdAddress',{
-													rules:[{required:true,message:'请输入退货地址'}]
-						            })(
-						              <Input style={{ width: 300, marginLeft: 10 }}placeholder='请输入退货地址'/>
-						            )}
-											</FormItem>}
+											<div>
+												<FormItem
+													label="退货地址"
+													labelCol={{ span: 3,offset: 1}}
+													wrapperCol={{ span: 6 }}>
+													{getFieldDecorator('returnName', {
+														rules: [{ required: true, message: '请输入姓名'}],
+														initialValue:recName && orderType==4 ? recName : ''
+													})(
+														<Input placeholder="请输入姓名" autoComplete="off"/>
+													)}
+												</FormItem>
+												<FormItem
+													wrapperCol={{ span: 6,offset: 4}}>
+													{getFieldDecorator('returnMobile', {
+															rules: [{ required: true, message: '请输入联系电话'}],
+															initialValue:recTelephone && orderType==4 ?recTelephone:''
+													})(
+														<Input placeholder="请输入联系电话" autoComplete="off"/>
+													)}
+												</FormItem>
+												<FormItem
+													wrapperCol={{ span: 16,offset: 4 }}>
+													{getFieldDecorator('returnAddress', {
+														rules: [{ required: true, message: '请输入地址'}],
+														initialValue:recAddress && orderType==4 ?recAddress:''
+													})(
+														<Input placeholder="请输入地址" autoComplete="off"/>
+													)}
+												</FormItem>
+											</div>}
 									</div>
 								}
 								<FormItem

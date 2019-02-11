@@ -99,8 +99,8 @@ class AddThOrder extends Component{
 				}else{
 					values.orderSource = 1;
 				};
-				if(values.returnType&&values.returnType=='售中退款')values.returnType=0
-				if(values.returnType&&values.returnType=='售后退款')values.returnType=1
+				if(values.returnType && values.returnType=='售中退款')values.returnType = 0
+				if(values.returnType && values.returnType=='售后退款')values.returnType = 1
 				values.orderId = this.state.orderId;
 				if(goodsList[0]){
 					values.productList = goodsList;

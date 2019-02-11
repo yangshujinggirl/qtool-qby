@@ -33,14 +33,15 @@ class ToAudit extends Component {
   }
   //操作
   handleOperateClick(record) {
+
     const paneitem = {
       title:'退单审核',
-      key:`${this.props.componkey}edit`+record.orderReturnId+'audit',
+      key:`${this.props.componkey}edit`+record.orderId+'audit',
       componkey:`${this.props.componkey}info`,
       data:{
-        orderReturnId:record.orderReturnId+'audit',
-        orderReturnNo:record.orderReturnNo,
-        type:record.returnType
+        orderReturnId:record.orderReturnId,
+        orderId:record.orderId+'audit',
+        type:record.returnType //type  0:售中  1：售后
       }
     }
     this.props.dispatch({
