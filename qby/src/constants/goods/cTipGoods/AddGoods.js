@@ -133,7 +133,7 @@ class AddGoodsForm extends Component {
         return el;
       })
     }
-    if(skuStatus == 1&&pdSkus.length>0) {
+    if(skuStatus == 1&&pdSkus&&pdSkus.length>0) {
       pdSkus.map((el,index) => {
         el.code = pdSkusData[index].code
       })
