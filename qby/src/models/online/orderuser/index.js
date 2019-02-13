@@ -2,8 +2,7 @@ export default{
   namespace:'orderuser',
   state:{
     authorityList:{
-      editorder:false,
-      postgood:false,
+      editChange:false,
     }
   },
   reducers:{
@@ -11,11 +10,8 @@ export default{
       let authorityList={};
       authorityData.map((el) => {
         switch(el.urResourceId){
-          case 801400:
-            authorityList.editorder=true;
-            break;
-          case 801700:
-            authorityList.postgood = true;
+          case 801800:
+            authorityList.editChange = true;
             break;
         };
       });

@@ -9,7 +9,7 @@ class Cardtitles extends React.Component {
 			<div style={{width:"100%"}}>
         <div className='fl'>{this.props.cardtitle}</div>
           {
-            (this.props.editorder && this.props.canedit && !this.props.editopen)
+            (this.props.editChange && this.props.canedit && !this.props.editopen)
             ?
             <div className='fr'>
               <Button type="primary" onClick={this.props.hindlistClick}>修改收货信息</Button>
@@ -70,7 +70,7 @@ class Cardlists extends React.Component {
             hindlistClick={this.hindlistClick.bind(this)}
             canedit={this.props.canedit}
             editopen={this.state.editopen}
-            editorder={this.props.editorder}/>}>
+            editChange={this.props.editChange}/>}>
 				<div className='cardlist'>
           {
             this.state.editopen?

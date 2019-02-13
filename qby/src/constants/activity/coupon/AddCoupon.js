@@ -16,7 +16,7 @@ class AddCoupon extends Component {
       couponValidDate:false,
     }
     this.options = [
-      { label: '普通商品(不包含品牌直供)', value: '1' },
+      { label: '普通商品(不包含品牌直供)', value: '1'},
       { label: '保税仓商品', value: '2' },
       { label: '品牌直供商品', value: '3' },
     ];

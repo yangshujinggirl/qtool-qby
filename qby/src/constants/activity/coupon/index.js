@@ -14,6 +14,7 @@ class Coupon extends Component{
   constructor(props){
     super(props);
     this.state = {
+      confirmLoading:false,
       couponId:'',
       isFuseVisible:false,//熔断弹窗是否显示
       isVisible:false,
@@ -122,6 +123,11 @@ class Coupon extends Component{
       };
     };
   }
+  setConfirmLoading =()=> {
+    this.setState({
+      confirmLoading:true
+    });
+  }
   //确认熔断
   onfuseOk =()=>{
     const couponId = this.state.couponId;
@@ -157,17 +163,16 @@ class Coupon extends Component{
     InjectCouponApi(values)
     .then((res) => {
       if(res.code == '0'){
-        this.setState({isVisible:false});
         message.success(res.message);
         resetFiledsFunc();//清除数据
         this.props.dispatch({ //刷新列表
           type:'coupon/fetchList',
           payload:{}
         });
+        this.setState({isVisible:false,confirmLoading:false});
+      }else{
+          this.setState({confirmLoading:false});
       };
-    },err=>{
-        message.error(err.message);
-        resetFiledsFunc();//清除数据
     });
   }
   //操作
@@ -259,6 +264,8 @@ class Coupon extends Component{
             <p>你正在熔断代金券</p>
         </Modal>
         <InjectCoupons
+          setConfirmLoading={this.setConfirmLoading}
+          confirmLoading={this.state.confirmLoading}
           visible={this.state.isVisible}
           onCancel={this.onCancel}
           onOk={this.onOk}

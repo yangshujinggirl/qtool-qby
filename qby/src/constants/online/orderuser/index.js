@@ -152,7 +152,7 @@ class OrderuserIndex extends React.Component{
       const rolelists=this.props.data.rolelists
   		//重新推送
   		const addorder=rolelists.find((currentValue,index)=>{
-  			return currentValue.url=="qerp.web.ec.pd.spulog.list"
+  			return currentValue.url=="qerp.web.ec.od.repush"
   		})
   		//导出数据
   		const expontdata=rolelists.find((currentValue,index)=>{
@@ -160,15 +160,7 @@ class OrderuserIndex extends React.Component{
   		})
   		//重新匹配商品
   		const repigood=rolelists.find((currentValue,index)=>{
-  		    return currentValue.url=="qerp.web.ec.pd.userOrder.reMatch"
-      })
-      //修改订单
-      const editorder=rolelists.find((currentValue,index)=>{
-         return currentValue.url=="qerp.web.ec.pd.userOrder.save"
-      })
-      //发货
-      const postgood=rolelists.find((currentValue,index)=>{
-  	     return currentValue.url=="qerp.web.ec.express.hk.save"
+  		    return currentValue.url=="qerp.web.ec.od.userOrder.rematch"
       })
    	return(
         	<div className='content_box'>
@@ -181,11 +173,23 @@ class OrderuserIndex extends React.Component{
                     className='mt20 mr10'
                     onClick={this.exportData.bind(this,91,this.state.searchvalue)}
                 >
-                    导出数据
+                    导出订单数据
                     </Button>
                     :null
-
                 }
+                {
+                    expontdata?
+                    <Button
+                    type="primary"
+                    size='large'
+                    className='mt20 mr10'
+                    onClick={this.exportData.bind(this,91,this.state.searchvalue)}
+                >
+                    导出商品数据
+                    </Button>
+                    :null
+                }
+
                 {
                     addorder?
                     <Button

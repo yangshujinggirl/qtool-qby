@@ -41,8 +41,6 @@ export default {
   },
   reducers: {
     setdeliveryExplain(state, { payload:deliveryExplain }) {
-      console.log(deliveryExplain)
-      console.log({...state, ...deliveryExplain})
       return { ...state, ...deliveryExplain };
     },
     setFileList(state, { payload: fileList }) {
@@ -273,14 +271,14 @@ export default {
           yield put({
             type:'setdeliveryExplain',
             payload:{
-              deliveryExplain:false
+              deliveryExplain:true
             }
           });
         }else{
           yield put({
             type:'setdeliveryExplain',
             payload:{
-              deliveryExplain:true
+              deliveryExplain:false
             }
           });
         }

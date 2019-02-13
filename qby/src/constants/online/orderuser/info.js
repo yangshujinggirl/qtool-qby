@@ -29,7 +29,7 @@ class Tabletitle extends React.Component {
 				<div className='clearfix' style={{height:'32px',lineHeight:"32px"}}>
 					<div className='fl'>子单{this.props.listindex}信息</div>
 					{
-						(this.props.postgood && this.props.isdelivery)?
+						(this.props.editChange && this.props.isdelivery)?
 						<div className='fr'>
 							<Shipeditmodel
 								modeltit={'子单'+this.props.listindex+'信息'}
@@ -324,7 +324,7 @@ class OrderuserInfo extends React.Component{
 						recDistrict={this.state.recDistrict}
 						recAddress={this.state.recAddress}
 						infofetch={this.infofetch.bind(this)}
-						editorder={this.props.editorder}
+						editChange={this.props.editChange}
 					/>
 				</div>
 				<div className='mb10'>
@@ -360,7 +360,7 @@ class OrderuserInfo extends React.Component{
 											status={item.status}
 											ecOrderId={this.props.data.id}
 											infofetch={this.infofetch.bind(this)}
-											postgood={this.props.postgood}
+											editChange={this.props.editChange}
 											id={this.props.data.id}
 											ecSuborderId={item.ecSuborderId}
 											/>}
@@ -426,7 +426,7 @@ class OrderuserInfo extends React.Component{
 
 function mapStateToProps(state) {
   const {headTitle,headTit,details,logs} = state.ordercg;
-	const {editorder,postgood} = state.orderuser;
-	return {headTitle,headTit,details,logs,editorder,postgood};
+	const {editChange} = state.orderuser;
+	return {headTitle,headTit,details,logs,editChange};
 }
 export default connect(mapStateToProps)(OrderuserInfo);

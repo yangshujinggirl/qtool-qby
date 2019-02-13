@@ -15,6 +15,7 @@ class InjectCoupon extends Component{
   //点击确定
   onOk =()=> {
     this.props.form.validateFieldsAndScroll((err,values)=>{
+      this.props.setConfirmLoading();
       const {userMobiles} = values;
       let mobileArr = [];
       let isTrue = false;
@@ -51,6 +52,7 @@ class InjectCoupon extends Component{
           okText="确定"
           onCancel= {this.onCancel}
           onOk = {this.onOk}
+          confirmLoading = {this.props.confirmLoading}
         >
           <Form>
             <FormItem

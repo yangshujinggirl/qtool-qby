@@ -164,7 +164,7 @@ class AddGoodsForm extends Component {
     } else {
       this.props.dispatch({ //如果是新增先重置deliveryExplain的值
         type:'addGoods/setdeliveryExplain',
-        payload:{deliveryExplain:true}
+        payload:{deliveryExplain:false}
       });
       this.setState({
         isEdit:false
@@ -284,6 +284,7 @@ class AddGoodsForm extends Component {
     const { pdSpuId, source } =this.props.data;
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
+      console.log(err)
       if (!err) {
         if(pdSpuId) {
           values = Object.assign(values,{
@@ -517,8 +518,9 @@ class AddGoodsForm extends Component {
     const value = e.target.value;
     this.props.dispatch({
       type:'addGoods/setdeliveryExplain',
-      payload:{deliveryExplain:!value}
+      payload:{deliveryExplain:value}
     });
+    this.props.form.resetFields('deliveryExplain');
   }
   //批次管理change事件
   changeLotStatus =(e)=> {
@@ -574,7 +576,7 @@ class AddGoodsForm extends Component {
       linkageLabel,
     } = this.props.addGoods;
     const { loading,pdTaxWarehouses,isBrandDirectMail} =this.state;
-    console.log(deliveryExplain)
+
     return(
       <div className="add-goods-components" >
         <Form className="qtools-form-components">
@@ -880,6 +882,7 @@ class AddGoodsForm extends Component {
                 <Col span={24}>
                   <FormItem label='品牌直供' {...formItemLayout}>
                      {getFieldDecorator('brandDirectMail',{
+                       rules:[{required:true, message: '请输入品牌直供'}],
                        initialValue:pdSpu.brandDirectMail||0,
                        onChange:this.changeBrand
                      })(
@@ -898,13 +901,13 @@ class AddGoodsForm extends Component {
                     品牌直邮，预计　
                      {getFieldDecorator('deliveryExplain',{
                        rules: [
-                         { required: !deliveryExplain, message: '请输入配送说明'},
+                         {required:deliveryExplain, message: '请输入配送说明'},
                          {pattern:/^[0-9]*$/,message:'请输入1~30整数'},
                          {validator: this.handleDelivery}
                        ],
                        initialValue:pdSpu.deliveryExplain||''
                      })(
-                       <Input style={{width:'120px'}} placeholder='请输入1~30整数' disabled={deliveryExplain}/>
+                       <Input style={{width:'120px'}} placeholder='请输入1~30整数' disabled={!deliveryExplain}/>
                      )}
                       　工作日内发货
                    </FormItem>
