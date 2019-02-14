@@ -51,11 +51,6 @@ class NormalForm extends Component {
                    <Input placeholder="请输入Qtools昵称" autoComplete="off"/>
                  )}
                </FormItem>
-               <FormItem label='微信昵称'>
-                  {getFieldDecorator('unionId')(
-                    <Input placeholder="请输入微信昵称" autoComplete="off"/>
-                  )}
-                </FormItem>
               <FormItem label='手机号'>
                  {getFieldDecorator('mobile')(
                    <Input placeholder="请输入手机号" autoComplete="off"/>

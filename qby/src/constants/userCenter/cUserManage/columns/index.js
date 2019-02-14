@@ -5,9 +5,6 @@ const Columns = [{
    },{
      title: 'Qtools昵称',
      dataIndex: 'name'
-   },,{
-     title: '微信昵称',
-     dataIndex: 'unionId'
    },{
      title: '手机号',
      dataIndex: 'mobile',
