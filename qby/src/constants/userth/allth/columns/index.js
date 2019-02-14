@@ -29,7 +29,7 @@ const Columns = [{
      dataIndex: 'returnWayStr'
    },{
      title: '原订单支付金额',
-     dataIndex: 'payMount'
+     dataIndex: 'payAmount'
    },{
      title: '申请金额',
      dataIndex: 'expectAmount'
