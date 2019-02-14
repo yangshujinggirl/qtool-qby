@@ -191,6 +191,7 @@ class AddCoupon extends Component {
               wrapperCol={{span:14}}>
               {
                 getFieldDecorator('couponUseScope',{
+                  rules:[{required: true, message: '请选择使用商品范围'}]
                 })(
                   <CheckboxGroup options={this.options}/>
                 )
@@ -202,6 +203,7 @@ class AddCoupon extends Component {
               wrapperCol={{ span: 14 }}
             >
             {getFieldDecorator('couponExplain', {
+              rules:[{required: true, message: '请输入优惠券说明'}]
             })(
                 <TextArea style={{width:'255px'}} placeholder='请输入优惠券说明，50字以内' maxLength='50' rows={6} />
             )}
