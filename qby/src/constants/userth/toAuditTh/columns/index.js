@@ -3,7 +3,7 @@ const Columns1 = [{
      dataIndex: 'orderReturnNo',
    },{
      title: '用户电话',
-     dataIndex: 'userPhone'
+     dataIndex: 'userMoblie'
    },{
      title: '订单类型',
      dataIndex: 'orderTypeStr'
@@ -12,7 +12,7 @@ const Columns1 = [{
      dataIndex: 'returnTypeStr'
    },{
      title: '退款金额',
-     dataIndex: 'actualReturnQuota'
+     dataIndex: 'actualAmount'
    },{
      title: '创建时间',
      dataIndex: 'createTime'
