@@ -14,12 +14,10 @@ class ToAudit extends Component {
     super(props);
     this.state = {
       inputValues:{
-        spShopName:'',
+        orderReturnNo:'',
         orderNo:'',
-        pdSpuName:'',
-        code:'',
-        mobile:'',
-        orderStatus:'',
+        userMoblie:'',
+        orderType:'',
         dateTimeST:'',
         dateTimeET:'',
       },

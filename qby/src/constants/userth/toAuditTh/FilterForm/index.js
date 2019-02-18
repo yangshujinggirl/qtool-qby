@@ -43,12 +43,12 @@ class NormalForm extends Component {
                  )}
                </FormItem>
               <FormItem label='用户订单号'>
-                 {getFieldDecorator('orderNum')(
+                 {getFieldDecorator('orderNo')(
                    <Input placeholder="请输入用户订单号" autoComplete="off"/>
                  )}
                </FormItem>
                <FormItem label='退款类型'>
-                  {getFieldDecorator('returnStatus')(
+                  {getFieldDecorator('returnType')(
                     <Select allowClear={true} placeholder="请选择退款类型">
                       <Option value={0}>售中退款</Option>
                       <Option value={1}>售后退款</Option>
