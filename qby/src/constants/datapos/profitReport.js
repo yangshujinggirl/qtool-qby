@@ -137,6 +137,7 @@ class ProfitReportForm extends React.Component {
     let params = {
         shopId:this.props.shopId,
         rpDate:this.state.rpDate?(this.state.rpDate+"-01"):"",
+        orderType:7,
         ...values
     }
     this.props.dispatch({ type: 'tab/loding', payload:true});

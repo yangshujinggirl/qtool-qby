@@ -142,7 +142,7 @@ refuse =()=> {
 	this.props.form.validateFieldsAndScroll((err,values)=>{
 		if(!err){
 			if(!values.refuseReason){
-				message.error('请输入拒绝原因')
+				message.error('请输入拒绝原因,50字符以内')
 			}else{
 				confirm({
 					content:'是否确认此操作',
@@ -213,7 +213,7 @@ render(){
 	return(
 			<div className='userth-detail'>
         <div className='mb10'>
-          <Card title='退单信息'>
+					<Card title='退单信息'>
             <div className='cardlist'>
                 <div className='cardlist_item'><label>退单号：</label><span>{backInfos.orderReturnNo}</span></div>
                 <div className='cardlist_item'><label>用户订单号：</label><span>{backInfos.orderNo}</span></div>
