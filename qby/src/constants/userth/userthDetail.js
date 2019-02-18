@@ -21,7 +21,12 @@ class UserthDetail extends React.Component{
 			goodInfos:[],
 			orderLogs:[],
 			describes:{},
-			recInformation:{}
+			recInformation:{
+				recAddress:'',
+				recName:'',
+				recTelephone:'',
+				orderType:''
+			}
     },
 		this.columns1 = [{
 			title: '商品名称',
@@ -109,7 +114,7 @@ componentWillMount(){
 	      goodInfos:res.pdOrderReturnDetailPage.pdOrderReturnDetail,
 				orderLogs:res.pdOrderReturnDetailPage.pdOrderReturnLog,
 				describes:res.pdOrderReturnDetailPage.pdOrderReturnDetailDescribe,
-				recInformation:res.pdOrderReturnDetailPage.recInformation,
+				recInformation:res.pdOrderReturnDetailPage.recInformation||this.state.recInformation,
 			},()=>{
 				const {goodInfos} = this.state;
 				let orderDetails = [];
