@@ -24,7 +24,7 @@ class ClerkSaleForm extends React.Component {
           setsouce:[],
           startDate:'',
           endDate:'',
-          orderType:0
+          orderType:7
       };
       this.amount = <Tooltip placement="top" title='销售订单金额-退款订单金额'>
                       净销售额&nbsp;<Icon type="exclamation-circle-o" />

@@ -30,7 +30,7 @@ class ProfitReportForm extends React.Component {
           rpDate:'',
           name:'',
           windowHeight:'',
-          source:0
+          orderType:7
       };
       this.columns = [{
             title: '商品条码',
@@ -304,13 +304,13 @@ class ProfitReportForm extends React.Component {
                             )}
                           </FormItem>
                           <FormItem
-                            label="订单来源">
-                            {getFieldDecorator('source',{
+                            label="订单类型">
+                            {getFieldDecorator('orderType',{
                             })(
                               <Select placeholder="请选择订单来源">
-                                <Option key={0} value={0}>全部</Option>
-                                <Option key={1} value={1}>POS</Option>
-                                <Option key={2} value={2}>APP</Option>
+                                <Option key={7} value={7}>全部</Option>
+                                <Option key={0} value={0}>门店POS订单</Option>
+                                <Option key={6} value={6}>门店APP订单</Option>
                               </Select>
                             )}
                           </FormItem>

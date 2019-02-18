@@ -16,8 +16,6 @@ class UserthDetail extends React.Component{
 	constructor(props) {
 		super(props);
     this.state={
-			loading1:false,
-			loading2:false,
       value:'',
 			backInfos:{},
 			goodInfos:[],
@@ -149,29 +147,17 @@ refuse =()=> {
 				confirm({
 					content:'是否确认此操作',
 					onOk:()=>{
-						this.setState({
-							loading1:true
-						});
-						this.sendRequest(values,'loading1')
+						this.sendRequest(values)
 					},
 				});
 			};
 		};
 	});
 }
-sendRequest =(values,loads)=> {
+sendRequest =(values)=> {
 	auditApi(values)
 	.then(res=>{
 		if(res.code == 0){
-			if(loads=='loading1'){ //拒绝买家退款
-				this.setState({
-					loading1:false
-				});
-			}else{
-				this.setState({ //同意买家退款
-					loading2:false
-				});
-			};
 			const componkey = this.props.componkey.replace('info','');
 			this.props.dispatch({
 				type:'tab/initDeletestate',
@@ -199,10 +185,7 @@ agree =()=> {
 				confirm({
 					content:'是否确认此操作',
 					onOk:()=>{
-						this.setState({
-							loading2:true
-						});
-						this.sendRequest(params,'loading2')
+						this.sendRequest(params)
 					},
 				});
 			};
@@ -355,8 +338,8 @@ render(){
 								</FormItem>
 		  				</Form>
 							<div className='reason-btn'>
-								<Button size='large' className='btn' onClick={this.refuse} loading={this.state.loading1} >拒绝买家退款</Button>
-								<Button type="primary" size='large' onClick={this.agree} loading={this.state.loading2} >同意买家退款</Button>
+								<Button size='large' className='btn' onClick={this.refuse}>拒绝买家退款</Button>
+								<Button type="primary" size='large' onClick={this.agree}>同意买家退款</Button>
 							</div>
 					</div>
 				}

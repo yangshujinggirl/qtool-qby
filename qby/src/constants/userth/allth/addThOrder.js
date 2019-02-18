@@ -180,7 +180,7 @@ class AddThOrder extends Component{
                     {getFieldDecorator('orderNo', {
                         rules: [{ required: true, message: '请选择用户订单'}],
                     })(
-											<Input onBlur={this.getOrderInfo}  autoComplete="off"/>
+											<Input onBlur={this.getOrderInfo}  autoComplete="off" placeholder='请输入仓库直邮订单号或保税子单号'/>
                     )}
                 </FormItem>
 								{
@@ -314,7 +314,7 @@ class AddThOrder extends Component{
 									{getFieldDecorator('returnReason', {
 										rules: [{ required: true, message: '请输入退单原因' }]
 									})(
-										<Input placeholder="请输入退单原因"  autoComplete="off"/>
+										<Input placeholder="请输入退款原因、50字符以内" maxLength='50' autoComplete="off"/>
 
 									)}
 								</FormItem>
