@@ -1,21 +1,19 @@
 export default{
   namespace:'orderuser',
   state:{
-    authorityList:{
-      editChange:false,
-    }
+    editChange:false,
   },
   reducers:{
     setAuthority(state, { payload : authorityData }) {
-      let authorityList={};
+      let editChange = null;
       authorityData.map((el) => {
         switch(el.urResourceId){
           case 801800:
-            authorityList.editChange = true;
+            editChange = true;
             break;
         };
       });
-      return { ...state, authorityList }
+      return { ...state, editChange }
     },
   },
   effects:{}
