@@ -24,7 +24,7 @@ class ClerkSaleForm extends React.Component {
           setsouce:[],
           startDate:'',
           endDate:'',
-          source:0
+          orderType:0
       };
       this.amount = <Tooltip placement="top" title='销售订单金额-退款订单金额'>
                       净销售额&nbsp;<Icon type="exclamation-circle-o" />
@@ -123,7 +123,7 @@ class ClerkSaleForm extends React.Component {
         shopId:this.props.shopId,
         startDate:this.state.startDate,
         endDate:this.state.endDate,
-        source:this.state.source
+        orderType:this.state.orderType
     };
     this.props.dispatch({ type: 'tab/loding', payload:true});
     GetServerData('qerp.web.rp.day.users.list',params)
@@ -168,7 +168,7 @@ class ClerkSaleForm extends React.Component {
     })
   }
   changeSource=(value)=> {
-    this.setState({ source: value});
+    this.setState({ orderType: value});
   }
   render() {
       const { getFieldDecorator } = this.props.form;
@@ -200,14 +200,14 @@ class ClerkSaleForm extends React.Component {
                           </FormItem>
                           <FormItem
                             label="业务类型">
-                            {getFieldDecorator('source',{
+                            {getFieldDecorator('orderType',{
                               onChange:this.changeSource,
-                              initialValue:0
+                              initialValue:7
                             })(
                               <Select placeholder="请选择业务类型">
-                                <Option key={0} value={0}>全部</Option>
-                                <Option key={1} value={1}>门店POS订单</Option>
-                                <Option key={2} value={2}>门店APP订单</Option>
+                                <Option key={7} value={7}>全部</Option>
+                                <Option key={0} value={0}>门店POS订单</Option>
+                                <Option key={6} value={6}>门店APP订单</Option>
                               </Select>
                             )}
                           </FormItem>
