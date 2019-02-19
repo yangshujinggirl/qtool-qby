@@ -3,6 +3,7 @@ import moment from 'moment';
 import * as confgdata  from './confg';
 import {timeForMats} from '../../../utils/meth';
 import {removeSpace} from '../../../utils/meth';
+import { getWareListApi } from '../../../services/goodsCenter/baseGoods.js';
 
 
 const { MonthPicker, RangePicker } = DatePicker;
@@ -13,7 +14,20 @@ class Searchform extends React.Component {
     state = {
         startTime: '',
         endTime:'',
+        pdTaxWarehouses:[]
     };
+    componentDidMount(){
+        const startTime=timeForMats(30).t2
+        const endTime=timeForMats(30).t1
+        this.setState({
+            startTime:startTime,
+            endTime:endTime
+        },function(){
+            this.getWareList()
+            this.handleSearch()
+        })
+
+    }
     //点击搜索按钮获取搜索表单数据
     handleSearch = (e) => {
         this.props.form.validateFields((err, values) => {
@@ -30,8 +44,20 @@ class Searchform extends React.Component {
             endTime:dateString[1]
         })
     }
+    //请求仓库列表
+    getWareList =()=> {
+      getWareListApi()
+      .then(res=>{
+        if(res.code == '0'){
+          this.setState({
+            pdTaxWarehouses:res.pdTaxWarehouses
+          })
+        }
+      })
+    }
     render() {
         const { getFieldDecorator } = this.props.form;
+        const {pdTaxWarehouses} = this.state;
         return (
             <Form  className='formbox'>
                 <Row gutter={40} className='formbox_row'>
@@ -98,8 +124,8 @@ class Searchform extends React.Component {
                                     {getFieldDecorator('warehouseId')(
                                     <Select allowClear={true} placeholder="请选择">
                                         {
-                                          confgdata.wshouse.map((item,index)=>{
-                                              return <Option value={item.key} key={index}>{item.name}</Option>
+                                          pdTaxWarehouses.map((item,index)=>{
+                                              return <Option value={item.pdTaxWarehouseId} key={index}>{item.name}</Option>
                                           })
                                         }
                                     </Select>
@@ -136,17 +162,7 @@ class Searchform extends React.Component {
             </Form>
         );
     }
-    componentDidMount(){
-        const startTime=timeForMats(30).t2
-        const endTime=timeForMats(30).t1
-        this.setState({
-            startTime:startTime,
-            endTime:endTime
-        },function(){
-            this.handleSearch()
-        })
 
-    }
 }
 
 

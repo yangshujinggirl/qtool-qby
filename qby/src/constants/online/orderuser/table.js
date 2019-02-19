@@ -16,7 +16,7 @@ class SearchTable extends React.Component {
 								}
             },
             {
-                title: '有赞订单号',
+                title: '平台订单号',
                 dataIndex: 'outNo'
             },
             // {

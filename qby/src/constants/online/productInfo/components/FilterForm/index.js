@@ -32,6 +32,7 @@ class NormalForm extends Component {
       this.props.submit && this.props.submit(values)
     });
   }
+  //请求仓库列表
   getWareList =()=> {
     getWareListApi()
     .then(res=>{

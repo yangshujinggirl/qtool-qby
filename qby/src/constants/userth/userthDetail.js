@@ -160,6 +160,7 @@ refuse =()=> {
 	});
 }
 sendRequest =(values)=> {
+	values.orderReturnId = this.props.data.orderReturnId;
 	auditApi(values)
 	.then(res=>{
 		if(res.code == 0){
@@ -228,7 +229,12 @@ render(){
                 <div className='cardlist_item'><label>退款类型：</label><span>{backInfos.returnTypeStr}</span></div>
                 <div className='cardlist_item'><label>退款方式：</label><span>{backInfos.returnWayStr }</span></div>
                 <div className='cardlist_item'><label>退单状态：</label><span>{backInfos.returnStatusStr}</span></div>
-                <div className='cardlist_item'><label>退款总金额：</label><span>{backInfos.actualAmount}</span></div>
+
+                <div className='cardlist_item'><label>订单类型：</label><span>{backInfos.orderTypeStr}</span></div>
+                <div className='cardlist_item'><label>退款运费：</label><span>{backInfos.expressAmount}</span></div>
+                <div className='cardlist_item'><label>退款商品金额：</label><span>{backInfos.actualAmount}</span></div>
+
+                <div className='cardlist_item'><label>退款总金额：</label><span>{backInfos.totalReturnPrice}</span></div>
                 <div className='cardlist_item'><label>退款原因：</label><span>{backInfos.returnReason}</span></div>
                 <div className='cardlist_item'><label>快递单号：</label><span>{backInfos.orderExpressNo}</span></div>
                 <div className='cardlist_item'><label>退款地址：</label><span>{backInfos.userAddress}</span></div>
