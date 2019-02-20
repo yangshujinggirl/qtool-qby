@@ -152,6 +152,7 @@ refuse =()=> {
 				confirm({
 					content:'是否确认此操作',
 					onOk:()=>{
+						values.opType = 2;
 						this.sendRequest(values)
 					},
 				});
@@ -191,6 +192,7 @@ agree =()=> {
 				confirm({
 					content:'是否确认此操作',
 					onOk:()=>{
+						params.opType = 1;
 						this.sendRequest(params)
 					},
 				});
