@@ -53,7 +53,7 @@ class SearchTable extends React.Component {
     //跳转到详情页面
     lookInfo=(record)=>{
         const id=String(record.ecOrderId);
-        const paneitem={title:'订单详情',key:'801000edit'+id+'info',data:{record:record,id:id},componkey:'801000info'}
+        const paneitem={title:'订单详情',key:'801000edit'+id+'info',data:{record:record,id:id,roleLists:this.props.rolelists},componkey:'801000info',}
         this.props.dispatch({
             type:'tab/firstAddTab',
             payload:paneitem
@@ -72,7 +72,6 @@ class SearchTable extends React.Component {
         this.props.getSelectDate(selectedRowKeys,selectedRows)
     }
     render() {
-
         return (
             <EditableTable
                 select={(this.props.addorder || this.props.repigood)?true:false}

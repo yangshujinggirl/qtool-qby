@@ -15,8 +15,6 @@ class App extends React.Component {
     //修改保存
     handleSubmit = (e) => {
         this.props.form.validateFields((err, values) => {
-          console.log(err)
-          debugger
             if (!err) {
                 values.ecOrderId=this.props.ecOrderId
                 values.recProvince=this.state.recProvince

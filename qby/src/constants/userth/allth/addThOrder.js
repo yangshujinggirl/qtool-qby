@@ -19,6 +19,7 @@ class AddThOrder extends Component{
 			isC:null,
 			loading:false,
 			returnWay:null,
+			uOrderChange:null
 		};
 	}
 	//通过订单得到订单信息
@@ -35,6 +36,9 @@ class AddThOrder extends Component{
 					returnWay:null
 				});
 			};
+			this.setState({ //用户订单重新输入--->商品信息输入框重置
+				uOrderChange:true
+			});
 			getOrderInfoApi({orderNum:value})
 			.then(res=>{
 				if(res.code == '0'){

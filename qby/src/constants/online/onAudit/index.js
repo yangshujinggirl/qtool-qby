@@ -127,7 +127,7 @@ class OnAudit extends Component {
       const paneitem = {
         title:'订单详情',
         key:'804000edit'+parentRecord.ecSuborderId+'info',
-        data:{id:parentRecord.ecOrderId,editorder,postgood},
+        data:{id:parentRecord.ecOrderId,editorder,postgood,record:{channel:parentRecord.channel}},
         componkey:'801000info',
       };
       this.props.dispatch({

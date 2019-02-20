@@ -258,6 +258,7 @@ class AddGoodsForm extends Component {
             <Col span={24}>
               <FormItem label='商品说明' {...formItemLayout}>
                  {getFieldDecorator('pdExplainIds',{
+                   rules: [{ required: true, message: '请输入商品说明'}],
                    initialValue:pdSpu.pdExplains?pdSpu.pdExplains:null
                  })(
                    <CheckboxGroup className='checkBox' options={this.state.plainOptions} onChange={this.onChange} />

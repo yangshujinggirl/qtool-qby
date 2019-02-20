@@ -16,14 +16,6 @@ class OrderuserIndex extends React.Component{
         selectedRowKeys:[],
         selectedRows:[]
     };
-    componentDidMount(){
-      const {rolelists} = this.props.data
-      //权限
-      this.props.dispatch({
-        type:'orderuser/setAuthority',
-        payload: rolelists
-      });
-    }
     //导出数据
 	exportData = (type,data) => {
     removeSpace(data)
@@ -217,6 +209,7 @@ class OrderuserIndex extends React.Component{
                 }
                 <div className='mt15'>
                     <SearchTable
+                        rolelists = {rolelists}
                         getPageSizeDate={this.getPageSize.bind(this)}
                         total={this.state.total}
                         limit={this.state.limit}

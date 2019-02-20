@@ -6,7 +6,6 @@ import './orderuser.css';
 class Tabletitle extends React.Component {
 	dismissAudit =()=> {
 		const {ecSuborderId} = this.props;
-		console.log(this.props);
 		this.props.dispatch({
 			type:'tab/initDeletestate',
 			payload:"801000edit"+this.props.data.id,
@@ -23,7 +22,6 @@ class Tabletitle extends React.Component {
 		// })
 	}
 	render() {
-		console.log(this.props)
 		return (
 			<div>
 				<div className='clearfix' style={{height:'32px',lineHeight:"32px"}}>

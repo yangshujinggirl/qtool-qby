@@ -88,7 +88,6 @@ class ServerBill extends Component{
   //点击跳转到详情
   handleOperateClick =(record)=> {
     const {limit,currentPage} = this.props.serverBill;
-    debugger
     const paneitem = {
       title:'工单处理',
       key:`${this.props.componkey}edit`,

@@ -13,9 +13,22 @@ const Columns = [{
      title: '订单号',
      dataIndex: 'orderNo',
      render:(text, record)=>{
+       // 是直邮并且不展示则点不进去
        return(
          <div>
-           <a href="javascript:;" className="theme-color" onClick={record.onOperateClick.bind(this)}>{text}</a>
+         {
+            record.orderType != 5
+            ?
+            <a href="javascript:;" className="theme-color" onClick={record.onOperateClick.bind(this)}>{text}</a>
+            :
+            (
+                record.ecShow
+              ?
+                <a href="javascript:;" className="theme-color" onClick={record.onOperateClick.bind(this)}>{text}</a>
+              :
+                <a href="javascript:;">{text}</a>
+            )
+         }
          </div>
        )
      }

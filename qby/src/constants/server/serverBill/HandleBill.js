@@ -233,7 +233,6 @@ render(){
 	//提交
 	submit =(values)=> {
 		const {listParams} = this.props.data;
-		debugger
 		customserviceSaveApi(values)
 		.then(res=>{
 			if(res.code == "0"){

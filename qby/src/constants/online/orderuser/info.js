@@ -184,6 +184,7 @@ class OrderuserInfo extends React.Component{
 	}
 	componentDidMount(){
 		const {data} = this.props;
+		const {roleLists} = this.props.data
 		let values = {};
 		if(data.orderNo){ //用户订单页面跳转过来的保税订单
 			values = {outNo:data.orderNo}
@@ -191,7 +192,13 @@ class OrderuserInfo extends React.Component{
 		if(data.id){
 			values = {ecOrderId:data.id}
 		};
-		this.infofetch(values)
+		this.infofetch(values);
+		//权限
+		this.props.dispatch({
+			type:'orderuser/setAuthority',
+			payload: roleLists
+		});
+
 	}
     //获取订单信息列表
 	infofetch =(values)=> {
