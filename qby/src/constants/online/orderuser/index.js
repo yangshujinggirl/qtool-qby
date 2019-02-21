@@ -209,7 +209,6 @@ class OrderuserIndex extends React.Component{
                 }
                 <div className='mt15'>
                     <SearchTable
-                        rolelists = {rolelists}
                         getPageSizeDate={this.getPageSize.bind(this)}
                         total={this.state.total}
                         limit={this.state.limit}

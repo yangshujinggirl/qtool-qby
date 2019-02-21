@@ -183,8 +183,9 @@ class OrderuserInfo extends React.Component{
 		];
 	}
 	componentDidMount(){
+		const {menus} = this.props.tab;
+		const roleLists = (_.find(menus[0].children,{urResourceId:801000})).children;
 		const {data} = this.props;
-		const {roleLists} = this.props.data
 		let values = {};
 		if(data.orderNo){ //用户订单页面跳转过来的保税订单
 			values = {outNo:data.orderNo}
@@ -193,12 +194,10 @@ class OrderuserInfo extends React.Component{
 			values = {ecOrderId:data.id}
 		};
 		this.infofetch(values);
-		//权限
 		this.props.dispatch({
 			type:'orderuser/setAuthority',
-			payload: roleLists
-		});
-
+			payload:roleLists
+		})
 	}
     //获取订单信息列表
 	infofetch =(values)=> {
@@ -314,8 +313,9 @@ class OrderuserInfo extends React.Component{
     })
   }
 	render(){
-		let {newClearLogs} = this.state;
+		let {newClearLogs,goodinfo,subOrderInfos} = this.state;
 		const {channel} = this.props.data.record;
+		console.log(this.props)
 		return(
 			<div>
 				<div className='mb10'>
@@ -335,10 +335,11 @@ class OrderuserInfo extends React.Component{
 					/>
 				</div>
 				<div className='mb10'>
-					{this.state.goodinfo.length>0 &&
+					{
+						goodinfo.length>0 &&
 						<EditableTable
 							columns={channel == 1 ? this.column1 : this.column4}
-							dataSource={this.state.goodinfo}
+							dataSource={goodinfo}
 	            title='商品信息'
 	            bordered={true}
 							footer={false}
@@ -346,9 +347,9 @@ class OrderuserInfo extends React.Component{
 					}
 				</div>
         {
-					this.state.subOrderInfos.length>0
+					subOrderInfos.length>0
 					?
-					this.state.subOrderInfos.map((item,index)=>{
+					subOrderInfos.map((item,index)=>{
 						return (
 							<div className='mb10' key={index}>
 							{
@@ -432,8 +433,9 @@ class OrderuserInfo extends React.Component{
 }
 
 function mapStateToProps(state) {
+	const { tab } =state;
   const {headTitle,headTit,details,logs} = state.ordercg;
 	const {editChange} = state.orderuser;
-	return {headTitle,headTit,details,logs,editChange};
+	return {headTitle,headTit,details,logs,editChange,tab};
 }
 export default connect(mapStateToProps)(OrderuserInfo);

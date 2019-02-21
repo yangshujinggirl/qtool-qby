@@ -39,7 +39,7 @@ class Tab extends React.Component {
 					this.props.pane.map(
 						pane =>
 						<TabPane tab={pane.title} key={pane.key} className='h10'>
-							<Content data={pane.data} componkey={pane.componkey} ref='content'/>
+							<Content data={pane.data} componkey={pane.componkey} ref='content' author={pane.author}/>
 						</TabPane>
 					)
 				}
