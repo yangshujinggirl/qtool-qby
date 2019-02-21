@@ -33,8 +33,6 @@ class Cardlists extends React.Component {
             this.setInitData(this.props.cardlist,this.props.recProvince,this.props.recCity,this.props.recDistrict,this.props.recAddress)
         })
     }
-
-
     setInitData=(data,recProvince,recCity,recDistrict,recAddress)=>{
         const form = this.formRef.props.form;
         form.setFieldsValue({
@@ -46,20 +44,14 @@ class Cardlists extends React.Component {
         })
         this.formRef.initCitylist(recProvince,recCity,recDistrict)
     }
-
     hindCancel=()=>{
         this.setState({
             editopen:false
         })
     }
-
     saveFormRef = (formRef) => {
         this.formRef = formRef;
     }
-
-
-
-
 	render() {
 		return (
 			<Card

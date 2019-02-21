@@ -74,7 +74,7 @@ class Searchform extends React.Component {
                                         <Input placeholder={confgdata.placeholder_input} autoComplete="off"/>
                                     )}
                                 </FormItem>
-                                <FormItem label='有赞订单号'>
+                                <FormItem label='平台订单号'>
                                     {getFieldDecorator('outNo')(
                                         <Input placeholder={confgdata.placeholder_input} autoComplete="off"/>
                                     )}

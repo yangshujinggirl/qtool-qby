@@ -87,7 +87,7 @@ class Shipeditmodel extends React.Component {
             }).then((json) => {
                 if(json.code=='0'){
                     this.setState({ visible: false });
-                    this.props.infofetch(this.props.ecOrderId)
+                    this.props.infofetch({ecOrderId:this.props.ecOrderId})
                     form.resetFields();
                 }
             })

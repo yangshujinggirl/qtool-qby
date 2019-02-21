@@ -24,6 +24,7 @@ class AddThOrder extends Component{
 	}
 	//通过订单得到订单信息
 	getOrderInfo =(e)=> {
+		this.props.form.resetFields(['couponValidDay','couponValidDate']);
 		const value = e.target.value;
 		if(value){
 			if(value.slice(0,2) == 'YH'){ //有赞
@@ -271,6 +272,8 @@ class AddThOrder extends Component{
 												labelCol={{ span: 3,offset: 1 }}
 												wrapperCol={{ span: 24 }}>
 													<TableList
+														FormItem={FormItem}
+														form={this.props.form}
 														productList = {productList}
 														columns={1}
 														returnType={returnType}
@@ -304,6 +307,8 @@ class AddThOrder extends Component{
 												labelCol={{ span: 3,offset: 1 }}
 												wrapperCol={{ span: 16 }}>
 														<TableList
+															FormItem={FormItem}
+															form={this.props.form}
 															productList = {productList}
 															columns={2}
 															returnType={returnType}

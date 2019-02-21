@@ -1,11 +1,11 @@
 import {Component} from 'react'
 import {Table,Form,Input} from 'antd'
-const FormItem = Form.Item;
+
 class TableList extends Component {
   constructor(props){
     super(props);
+    const FormItem = this.props.FormItem
     this.state = {
-
     };
     this.columns1 = [{
 				width:'100px',
@@ -41,6 +41,7 @@ class TableList extends Component {
 				width:'100px',
 			  title: '退款数量',
 				render: (text, record,index) => {
+          console.log(this.props)
 					const { getFieldDecorator } = this.props.form;
 					const handleReturnCount =(rule,value,callback)=>
           {
@@ -176,5 +177,4 @@ class TableList extends Component {
     )
   }
 }
-const TableLists = Form.create()(TableList)
-export default TableLists;
+export default TableList;

@@ -19,6 +19,7 @@ class Allth extends Component {
         type:'radio',
         onChange:this.onChange
       },
+      selectedRows:[],
       inputValues:{
         orderReturnNo:'',
         orderNo:'',
@@ -54,7 +55,8 @@ class Allth extends Component {
   onChange =(selectedRowKeys,selectedRows)=> {
     const {rowSelection}=this.state;
     this.setState({
-      rowSelection:Object.assign({},rowSelection,{selectedRowKeys})
+      rowSelection:Object.assign({},rowSelection,{selectedRowKeys}),
+      selectedRows:selectedRows
     })
     if(selectedRows[0]){
       this.setState({orderReturnId:selectedRows[0].orderReturnId})
@@ -63,7 +65,6 @@ class Allth extends Component {
   //操作
   handleOperateClick(record,type) {
     let paneitem = {};
-
     if(type=="detail1"){
       //用户退单详情
       paneitem = {
@@ -169,42 +170,59 @@ class Allth extends Component {
   }
   //确认收货
   sureGet =()=> {
-    const {orderReturnId} = this.state;
-    sureGetApi( {orderReturnId})
-    .then(res => {
-      if(res.code == '0'){
-        message.success('已确认收货')
-        this.props.dispatch({
-          type:'allth/clearSelect',
-          payload:{selectedRowKeys:null}
-        });
-      };
-    })
-  }
-  //强制取消
-  forceCancel =()=> {
-    confirm({
-      content:'是否确认此操作',
-      onOk:()=>{
-        const {orderReturnId} = this.state;
-        forceCancelApi( {orderReturnId})
+    const {orderReturnId,selectedRows} = this.state;
+    if(!selectedRows[0]){ //如果未选择
+      message.warning('请选择需要操作的保税订单',.8)
+    }else{//只可操作保税仓的待收货订单
+      if(selectedRows[0].orderType != 5 || selectedRows[0].returnStatus != 50 ){
+        message.error('只可操作保税仓的待收货订单')
+      }else{
+        sureGetApi( {orderReturnId})
         .then(res => {
           if(res.code == '0'){
-            message.success('强制取消成功')
+            message.success('已确认收货')
             this.props.dispatch({
               type:'allth/clearSelect',
               payload:{selectedRowKeys:null}
             });
           };
         })
-      },
-      onCancel:()=>{
-        this.props.dispatch({
-          type:'allth/clearSelect',
-          payload:{selectedRowKeys:null}
+      };
+    };
+  }
+  //强制取消
+  forceCancel =()=> {
+    const {selectedRows} = this.state
+    if(!selectedRows[0]){
+      message.warning('请选择需要操作的保税订单或仓库直邮订单',.8)
+    }else{ //只可操作保税仓和仓库直邮的，待收货退单
+      if((selectedRows[0].orderType == 5&&selectedRows[0].returnStatus==50) || (selectedRows[0].orderType==4 && selectedRows[0].returnStatus==50) ){
+        confirm({
+          content:'是否确认此操作',
+          onOk:()=>{
+            const {orderReturnId} = this.state;
+            forceCancelApi( {orderReturnId})
+            .then(res => {
+              if(res.code == '0'){
+                message.success('强制取消成功')
+                this.props.dispatch({
+                  type:'allth/clearSelect',
+                  payload:{selectedRowKeys:null}
+                });
+              };
+            })
+          },
+          onCancel:()=>{
+            this.props.dispatch({
+              type:'allth/clearSelect',
+              payload:{selectedRowKeys:null}
+            });
+          },
         });
-      },
-    })
+      }else{
+        message.error('只可操作保税订单或仓库直邮订单的待收货状态的订单')
+      };
+    };
   }
   render() {
     //创建退单
