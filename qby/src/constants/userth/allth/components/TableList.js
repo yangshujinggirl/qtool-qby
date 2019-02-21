@@ -1,10 +1,9 @@
 import {Component} from 'react'
-import {Table,Form,Input} from 'antd'
-
+import {Table,Form,Input,Button} from 'antd'
+const FormItem = Form.Item
 class TableList extends Component {
   constructor(props){
     super(props);
-    const FormItem = this.props.FormItem
     this.state = {
     };
     this.columns1 = [{
@@ -41,7 +40,6 @@ class TableList extends Component {
 				width:'100px',
 			  title: '退款数量',
 				render: (text, record,index) => {
-          console.log(this.props)
 					const { getFieldDecorator } = this.props.form;
 					const handleReturnCount =(rule,value,callback)=>
           {
@@ -135,7 +133,21 @@ class TableList extends Component {
 					}
 			 },]
   }
-  //得到的退款金额
+  componentWillMount =()=>{
+    this.setState({
+      orderNo:this.props.orderNo
+    })
+  }
+  componentWillReceiveProps=(props)=>{
+    if(props.orderNo != this.state.orderNo){
+      this.resetFields();
+      this.setState({orderNo:props.orderNo})
+    }
+  }
+  resetFields=()=>{
+    this.props.form.resetFields()
+  }
+//得到的退款金额
 	getReturnQuota =(index,e)=> {
 		this.props.productList[index].applyReturnQuota = Number(e.target.value);
 	  this.props.productListChange(this.props.productList);
@@ -177,4 +189,5 @@ class TableList extends Component {
     )
   }
 }
-export default TableList;
+const TableLists = Form.create({})(TableList);
+export default TableLists;

@@ -13,6 +13,7 @@ class AddThOrder extends Component{
 	constructor(props) {
 		super(props);
 		this.state = {
+			orderNo:'',
 			returnType:null,
 			productList:[],
 			freightQuota:null,
@@ -38,12 +39,13 @@ class AddThOrder extends Component{
 				});
 			};
 			this.setState({ //用户订单重新输入--->商品信息输入框重置
-				uOrderChange:true
+				uOrderChange:true,
+				orderNo:value+Math.random()
 			});
 			getOrderInfoApi({orderNum:value})
 			.then(res=>{
 				if(res.code == '0'){
-				res.productList.map((item,index)=>{
+				res.productList&&res.productList.map((item,index)=>{
 					item.key = index
 				});
 				this.setState({
@@ -64,7 +66,7 @@ class AddThOrder extends Component{
 	getReturnSumQuota =()=> {
 		const {productList,returnType,freightQuota} = this.state;
 		let [surplusTotalCount,applyTotalCount,totalReturnMoney] = [0,0,0]
-		productList.map( (item,index)=> {
+		productList&&productList.map( (item,index)=> {
 			if(item.buyCount && item.returnCount) surplusTotalCount += (item.buyCount-item.returnCount);
 			if(item.applyReturnCount) applyTotalCount += item.applyReturnCount
 			if(item.applyReturnQuota) totalReturnMoney += item.applyReturnQuota
@@ -167,7 +169,8 @@ class AddThOrder extends Component{
 				freightQuota,
 				recName,
 				recTelephone,
-				recAddress
+				recAddress,
+				orderNo
 			} = this.state
 			const radioStyle = {
 	      display: 'block',
@@ -272,8 +275,7 @@ class AddThOrder extends Component{
 												labelCol={{ span: 3,offset: 1 }}
 												wrapperCol={{ span: 24 }}>
 													<TableList
-														FormItem={FormItem}
-														form={this.props.form}
+														orderNo={orderNo}
 														productList = {productList}
 														columns={1}
 														returnType={returnType}
@@ -307,8 +309,7 @@ class AddThOrder extends Component{
 												labelCol={{ span: 3,offset: 1 }}
 												wrapperCol={{ span: 16 }}>
 														<TableList
-															FormItem={FormItem}
-															form={this.props.form}
+															orderNo={orderNo}
 															productList = {productList}
 															columns={2}
 															returnType={returnType}

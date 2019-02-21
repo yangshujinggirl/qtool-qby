@@ -315,6 +315,16 @@ class OrderuserInfo extends React.Component{
   }
 	render(){
 		let {newClearLogs,goodinfo,subOrderInfos} = this.state;
+		goodinfo[0]&&goodinfo.map(item=>{ //skuCode不存在就取spuCode
+			item.skuCode = item.skuCode || item.spuCode
+		});
+		subOrderInfos[0]&&subOrderInfos.map(item=>{
+			if(item.subOrderDetails&&item.subOrderDetails[0]){
+				item.subOrderDetails.map(subItem=>{
+					subItem.skuCode = subItem.skuCode || subItem.spuCode
+				});
+			};
+		})
 		const {channel} = this.props.data.record;
 		console.log(this.props)
 		return(

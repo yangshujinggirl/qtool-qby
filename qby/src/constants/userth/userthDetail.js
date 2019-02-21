@@ -162,13 +162,14 @@ refuse =()=> {
 }
 sendRequest =(values)=> {
 	values.orderReturnId = this.props.data.orderReturnId;
+	values.orderId = this.props.data.orderId;
 	auditApi(values)
 	.then(res=>{
 		if(res.code == 0){
 			const componkey = this.props.componkey.replace('info','');
 			this.props.dispatch({
 				type:'tab/initDeletestate',
-				payload:`${componkey}edit`+this.props.data.orderId
+				payload:`${componkey}edit`+this.props.data.id
 			});
 			this.props.dispatch({
         type:'toAudit/fetchList',
