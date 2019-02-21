@@ -1,9 +1,10 @@
 import {Component} from 'react'
 import {Table,Form,Input,Button} from 'antd'
-const FormItem = Form.Item
+
 class TableList extends Component {
   constructor(props){
     super(props);
+    const FormItem = this.props.FormItem
     this.state = {
     };
     this.columns1 = [{
@@ -133,20 +134,6 @@ class TableList extends Component {
 					}
 			 },]
   }
-  componentWillMount =()=>{
-    this.setState({
-      orderNo:this.props.orderNo
-    })
-  }
-  componentWillReceiveProps=(props)=>{
-    if(props.orderNo != this.state.orderNo){
-      this.resetFields();
-      this.setState({orderNo:props.orderNo})
-    }
-  }
-  resetFields=()=>{
-    this.props.form.resetFields()
-  }
 //得到的退款金额
 	getReturnQuota =(index,e)=> {
 		this.props.productList[index].applyReturnQuota = Number(e.target.value);
@@ -189,5 +176,4 @@ class TableList extends Component {
     )
   }
 }
-const TableLists = Form.create({})(TableList);
-export default TableLists;
+export default TableList;

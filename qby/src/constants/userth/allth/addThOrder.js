@@ -13,7 +13,6 @@ class AddThOrder extends Component{
 	constructor(props) {
 		super(props);
 		this.state = {
-			orderNo:'',
 			returnType:null,
 			productList:[],
 			freightQuota:null,
@@ -25,8 +24,9 @@ class AddThOrder extends Component{
 	}
 	//通过订单得到订单信息
 	getOrderInfo =(e)=> {
-		this.props.form.resetFields(['couponValidDay','couponValidDate']);
+		this.props.form.resetFields();
 		const value = e.target.value;
+		this.props.form.setFieldsValue({orderNo:value})
 		if(value){
 			if(value.slice(0,2) == 'YH'){ //有赞
 				this.setState({
@@ -40,7 +40,6 @@ class AddThOrder extends Component{
 			};
 			this.setState({ //用户订单重新输入--->商品信息输入框重置
 				uOrderChange:true,
-				orderNo:value+Math.random()
 			});
 			getOrderInfoApi({orderNum:value})
 			.then(res=>{
@@ -161,6 +160,7 @@ class AddThOrder extends Component{
 	render(){
 			const { getFieldDecorator } = this.props.form
 			const {
+				orderType,
 				returnType,
 				productList,
 				loading,
@@ -170,7 +170,6 @@ class AddThOrder extends Component{
 				recName,
 				recTelephone,
 				recAddress,
-				orderNo
 			} = this.state
 			const radioStyle = {
 	      display: 'block',
@@ -275,7 +274,8 @@ class AddThOrder extends Component{
 												labelCol={{ span: 3,offset: 1 }}
 												wrapperCol={{ span: 24 }}>
 													<TableList
-														orderNo={orderNo}
+														form={this.props.form}
+														FormItem={FormItem}
 														productList = {productList}
 														columns={1}
 														returnType={returnType}
@@ -309,7 +309,8 @@ class AddThOrder extends Component{
 												labelCol={{ span: 3,offset: 1 }}
 												wrapperCol={{ span: 16 }}>
 														<TableList
-															orderNo={orderNo}
+															form={this.props.form}
+															FormItem={FormItem}
 															productList = {productList}
 															columns={2}
 															returnType={returnType}
