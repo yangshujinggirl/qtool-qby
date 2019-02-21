@@ -230,6 +230,7 @@ class OrderuserInfo extends React.Component{
 						{lable:'优惠金额',text:orderInfos.couponAmount},
 						{lable:'优惠券',text:orderInfos.couponMoney},
 						{lable:'优惠券批次号',text:orderInfos.couponCode},
+						{lable:'来源',text:'c端'},
 					];
 			 };
 				//收货信息
