@@ -348,7 +348,7 @@ render(){
 								>
 		            {getFieldDecorator('refuseReason',{
 		            })(
-		              <TextArea rows={4}   placeholder='限制50字符以内' maxLength='200'/>
+		              <TextArea rows={4}   placeholder='限制50字符以内' maxLength='50'/>
 		            )}
 								</FormItem>
 		  				</Form>
