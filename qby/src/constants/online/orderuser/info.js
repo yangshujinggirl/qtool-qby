@@ -44,7 +44,7 @@ class Tabletitle extends React.Component {
 					<div className='cardlist_item fl'><label>子单号：</label><span>{this.props.ecSuborderNo}</span></div>
 					<div className='cardlist_item fl'><label>保税仓库：</label><span>{this.props.warehouseStr}</span></div>
 					<div className='cardlist_item fl'><label>子单状态：</label><span>{this.props.statusStr}</span></div>
-					{ (this.props.warehouseId == 1 || this.props.warehouseId == 7) &&(this.props.status == 2 || this.props.status == 5 || this.props.status == 6 || this.props.status == 8)
+					{ (this.props.pushPlatform == 10) &&(this.props.status == 2 || this.props.status == 5 || this.props.status == 6 || this.props.status == 8)
 							? <Button type="primary" className="dismiss_audit" onClick={this.dismissAudit}>驳回审核</Button>
 							: null
 					}
@@ -374,7 +374,7 @@ class OrderuserInfo extends React.Component{
 											isdelivery={item.isDelivery}
 											ecSuborderNo={item.ecSuborderNo}
 											warehouseStr={item.warehouseStr}
-											warehouseId={item.warehouseId}
+											pushPlatform={item.pushPlatform}
 											statusStr={item.statusStr}
 											status={item.status}
 											ecOrderId={this.props.data.id}
