@@ -2,6 +2,7 @@ import React,{ Component } from 'react';
 import { connect } from 'dva';
 import { Button, message, Modal,Row,Col,Table,Input,Icon,Popover,Form,} from 'antd'
 import { getPriceListApi,mergeOrderApi,auditOrdeApi,saveAuditOrdeApi,savePriceApi,cancelOrderApi} from '../../../services/online/onAudit'
+import { getWareListApi } from '../../../services/goodsCenter/baseGoods.js';
 import Qtable from '../../../components/Qtable/index';
 import Qpagination from '../../../components/Qpagination/index';
 import FilterForm from './FilterForm/index'
@@ -50,10 +51,12 @@ class OnAudit extends Component {
         selectedRowKeys:this.props.onAudit.selectedRowKeys,
         onChange:this.onChange,
       },
+      pdTaxWarehouses:[]
     }
   }
   componentDidMount =()=> {
     this.getNowFormatDate();
+    this.getWareList();
   }
   getNowFormatDate = () => {
    const startRpDate=timeForMats(30).t2;
@@ -62,6 +65,17 @@ class OnAudit extends Component {
      payTimeST:startRpDate,
      payTimeET:endRpDate
    });
+ }
+ //请求仓库列表
+ getWareList =()=> {
+   getWareListApi()
+   .then(res=>{
+     if(res.code == '0'){
+       this.setState({
+         pdTaxWarehouses:res.pdTaxWarehouses
+       })
+     }
+   })
  }
   componentWillReceiveProps(props) {
     this.setState({
@@ -389,7 +403,8 @@ class OnAudit extends Component {
       markVisible,
       iconTypeRemark,
       expandedRowKeys=[],
-      cancelVisible
+      cancelVisible,
+      pdTaxWarehouses
     }=this.state;
     const content = (
       <div className='remark_box'>
@@ -410,7 +425,8 @@ class OnAudit extends Component {
     return (
       <div className='qtools-components-pages' id="on_audit">
         <FilterForm
-           submit={this.searchData}
+            pdTaxWarehouses={pdTaxWarehouses}
+            submit={this.searchData}
          />
        <div className="handel-btn-lists onaudit_list">
          {

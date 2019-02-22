@@ -31,13 +31,16 @@ class NormalForm extends Component{
   //初始化
   render(){
     const { getFieldDecorator }= this.props.form;
+    const {couponCode} = this.props
     return(
       <div>
         <Form className="qtools-condition-form">
           <div className='search-form-outwrap'>
               <div className="search-form-wrap">
                 <FormItem label='优惠券批次号'>
-                  {getFieldDecorator('couponCode')(
+                  {getFieldDecorator('couponCode',{
+                    initialValue:couponCode
+                  })(
                       <Input placeholder='优惠券批次号' autoComplete="off"/>
                     )}
                 </FormItem>

@@ -12,6 +12,7 @@ import {
 import moment from 'moment';
 import {timeForMats} from '../../../../utils/meth';
 import {removeSpace} from '../../../../utils/meth';
+
 import './index.less'
 import {wshouse} from "../data.js"
 
@@ -34,8 +35,10 @@ class NormalForm extends Component {
     });
   }
 
+
   render() {
     const defaultTime = [moment(timeForMats(30).t2), moment(timeForMats(30).t1)]
+    const {pdTaxWarehouses} = this.props
     const { getFieldDecorator } = this.props.form;
     return(
       <div>
@@ -81,8 +84,8 @@ class NormalForm extends Component {
                   {getFieldDecorator('warehouseId')(
                   <Select allowClear={true} placeholder="请选择">
                       {
-                          wshouse.map((item,index)=>{
-                              return <Option value={item.key} key={index}>{item.name}</Option>
+                          pdTaxWarehouses.map((item,index)=>{
+                              return <Option value={item.pdTaxWarehouseId} key={index}>{item.name}</Option>
                           })
                       }
                   </Select>
