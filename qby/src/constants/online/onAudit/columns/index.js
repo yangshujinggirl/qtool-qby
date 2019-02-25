@@ -22,7 +22,7 @@
                     record.sendingSign ? <span title="该用户有未发货订单" className='audit_remark ready'>待</span> : null
                   }
                 </span><br/>
-                <span>有赞订单号：{record.outNo}</span>
+                <span>平台订单号：{record.outNo}</span>
               </span>,
               props:{
                 colSpan:3

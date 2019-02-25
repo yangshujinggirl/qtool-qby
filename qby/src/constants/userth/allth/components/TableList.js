@@ -123,7 +123,7 @@ class TableList extends Component {
 					width:'100px',
 				  title: '购买数量',
 					key:2,
-				  dataIndex:'returnCount'
+				  dataIndex:'buyCount'
 				}, {
 					width:'100px',
 				  title: '退款数量',
