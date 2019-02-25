@@ -128,7 +128,7 @@ class TableList extends Component {
 					width:'100px',
 				  title: '退款数量',
 					key:'1',
-				  dataIndex:'returnCount',
+				  dataIndex:'buyCount',
 					render:(text,record)=>{
 						return(<Input disabled value={text}/>)
 					}
