@@ -39,7 +39,7 @@ class ShareMail extends Component {
     const paneitem = {
       title:'订单详情',
       key:`${this.props.componkey}edit`+record.orderId,
-      componkey:`${this.props.componkey}edit`,
+      componkey:'207000edit',
       data:{
         pdSpuId:record.orderId,
       }
@@ -68,6 +68,7 @@ class ShareMail extends Component {
   //点击搜索
   searchData = (values)=> {
     const {inputValue} = this.state
+    values.orderType = 4;
     this.props.dispatch({
       type:'shareMail/fetchList',
       payload:values
@@ -123,6 +124,7 @@ class ShareMail extends Component {
     });
   };
   render() {
+    console.log(this.props)
     const {rolelists} = this.props;
     //导出
     const exportData = rolelists.find((currentValue,index)=>{

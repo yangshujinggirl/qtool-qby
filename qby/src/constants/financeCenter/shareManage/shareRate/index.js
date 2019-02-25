@@ -38,22 +38,14 @@ class ShareRate extends Component {
   handleOperateClick(record,type) {
     let paneitem = {};
     if(type=="detail1"){
-      //用户退单详情
+      //用户订单详情
       paneitem = {
         title:'订单详情',
         key:`${this.props.componkey}edit`+record.orderId,
-        componkey:`${this.props.componkey}info`,
+        componkey:'207000edit',
         data:{
           pdSpuId:record.orderId,
         }
-      }
-    }else{
-      //用户订单详情
-      paneitem={
-        title:'订单详情',
-        key:`${this.props.componkey}edit`+ record.outId + 'info27',
-        data:{pdSpuId:record.orderId},
-        componkey:'207000edit'
       }
     }
     this.props.dispatch({
@@ -79,6 +71,7 @@ class ShareRate extends Component {
   }
   //点击搜索
   searchData = (values)=> {
+    values.orderType = 5;
     this.props.dispatch({
       type:'shareRate/fetchList',
       payload:values

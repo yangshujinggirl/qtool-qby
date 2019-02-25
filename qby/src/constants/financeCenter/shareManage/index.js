@@ -6,9 +6,6 @@ import ShareTotal from './shareTotal/index';
 const TabPane = Tabs.TabPane;
 
 class ShareManage extends React.Component{
-    componentWillMount(){
-      console.log(this.props)
-    }
   	render(){
       console.log(this.props)
       const {rolelists} = this.props.data;

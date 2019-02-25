@@ -50,7 +50,7 @@ class NormalForm extends Component {
                    <Input placeholder="请输入子订单号" autoComplete="off"/>
                  )}
                </FormItem>
-              <FormItem label='有赞订单号'>
+              <FormItem label='平台订单号'>
                  {getFieldDecorator('outNo')(
                    <Input placeholder="请输入有赞订单号" autoComplete="off"/>
                  )}

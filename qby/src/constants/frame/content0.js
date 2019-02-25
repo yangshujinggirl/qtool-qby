@@ -212,7 +212,7 @@ class Content extends React.Component {
                             (() => {
                                 switch (this.props.componkey) {
                                     //财务中心
-                                    case "1302000":return  <ShareManage data={this.props.data}/>;
+                                    case "1302000":return  <ShareManage data={this.props.data} componkey={this.props.componkey}/>;
                                     //用户中心
                                     case "1201000":return  <CuserManage data={this.props.data}/>;
 
