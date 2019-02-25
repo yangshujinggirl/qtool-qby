@@ -139,7 +139,17 @@ renderDelivery(deliveryInfo) {
               <div className='cardlist_item'><label>收件人：</label><span>{deliveryInfo.recName}</span></div>
               <div className='cardlist_item'><label>收货人电话：</label><span>{deliveryInfo.recMobile}</span></div>
               <div className='cardlist_item'><label>收货地址：</label><span>{deliveryInfo.recAddress}</span></div>
-              <div className='cardlist_item'><label>快递单号：</label><span>{deliveryInfo.expressNo}</span></div>
+              {
+                this.state.orderInfo.orderType==4 ?
+                <div className='cardlist_item'><label>快递单号：</label>
+                  <span>
+                    {deliveryInfo.whExpressNos && deliveryInfo.whExpressNos.join(';')}
+                  </span>
+                </div>
+                :
+                <div className='cardlist_item'><label>快递单号：</label><span>{deliveryInfo.expressNo}</span></div>
+              }
+
             </div>
           }
           </Card>

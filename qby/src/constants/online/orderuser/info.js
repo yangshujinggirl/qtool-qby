@@ -19,7 +19,7 @@ class Tabletitle extends React.Component {
 		.then(res => {
 			if(res.code == "0"){
 				message.success("驳回审核成功");
-				this.props.infofetch(this.props.id); //刷新详情
+				this.props.infofetch({ecOrderId:this.props.id}); //刷新详情
 			};
 		})
 	}

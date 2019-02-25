@@ -88,32 +88,39 @@ class AddThOrder extends Component{
 	handleSubmit =()=> {
 		this.props.form.validateFieldsAndScroll((err, values) => {
 			if(!err){
-				const {productList} = this.state;
-				const goodsList = _.cloneDeep(productList);
-				goodsList.map((item,index)=>{
-					if(!item.applyReturnCount){
-						goodsList.splice(index,1)
-					};
-				})
-				for(var key in values){
+				for(var key in values){ //去除无用的参数
 					if(key.includes('apply')){
 						delete values[key]
 					};
 				};
-				if(values.orderNo.slice(0,2) == 'XS') {
+				const {productList} = this.state;
+				const goodsList = _.cloneDeep(productList);
+				if(this.state.isC){  //如果是c端退单
+					goodsList.map((item,index)=>{
+						if(!item.applyReturnCount || !item.applyReturnQuota){ //需要检测退款数量有木有输入-->没有输入的数据不向后台输入
+							goodsList.splice(index,1)
+						};
+					});
 					values.orderSource = 0;
-				}else{
+					if(values.returnType && values.returnType=='售中退款')values.returnType = 0
+					if(values.returnType && values.returnType=='售后退款')values.returnType = 1
+					values.orderId = this.state.orderId;
+					if(goodsList[0]){
+						values.productList = goodsList;
+						this.sendRequest(values);
+					}else{
+						message.error('数据不完整，无可退商品',.8)
+					};
+				}else{ //有赞的退单
 					values.orderSource = 1;
-				};
-				if(values.returnType && values.returnType=='售中退款')values.returnType = 0
-				if(values.returnType && values.returnType=='售后退款')values.returnType = 1
-				values.orderId = this.state.orderId;
-				if(goodsList[0]){
+					values.bondedOrderType = 2;
+					goodsList.map(item=>{
+						item.applyReturnCount = item.buyCount;
+						item.applyReturnQuota = item.canReturnQuota;
+					});
 					values.productList = goodsList;
 					this.sendRequest(values);
-				}else{
-					message.error('无可退商品',.8)
-				};
+				}
 			};
 		})
 	}
