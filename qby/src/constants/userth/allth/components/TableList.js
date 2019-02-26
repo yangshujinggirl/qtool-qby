@@ -56,7 +56,7 @@ class TableList extends Component {
 									getFieldDecorator(`applyReturnCount`+index, {
 										rules: [
 											// { required: true, message: '请输入退款数量'},
-											{	pattern:/^([1-9][0-9]*){1,3}$/,message:'请输入大于0的整数'},
+											{	pattern:/^([1-9][0-9]*){1,3}$/,message:'退款数量需大于0'},
 											{ validator: handleReturnCount }
 										],
 									})(<Input onBlur={this.getReturnCount.bind(this,index)} disabled={record.buyCount == record.returnCount} autoComplete='off'/>)

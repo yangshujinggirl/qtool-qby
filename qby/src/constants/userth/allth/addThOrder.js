@@ -103,7 +103,7 @@ class AddThOrder extends Component{
 				const goodsList = _.cloneDeep(productList);
 				if(this.state.isC){  //如果是c端退单
 					goodsList.map((item,index)=>{
-						if(!item.applyReturnCount || !item.applyReturnQuota){ //需要检测退款数量有木有输入-->没有输入的数据不向后台输入
+						if(item.applyReturnCount==null || !item.applyReturnQuota==null){ //需要检测退款数量有木有输入-->没有输入的数据不向后台输入
 							goodsList.splice(index,1)
 						};
 					});
@@ -112,8 +112,15 @@ class AddThOrder extends Component{
 					if(values.returnType && values.returnType=='售后退款')values.returnType = 1
 					values.orderId = this.state.orderId;
 					if(goodsList[0]){
-						values.productList = goodsList;
-						this.sendRequest(values);
+						const isExistZero = goodsList.find(item=>(
+							item.applyReturnQuota == 0
+						));
+						if(isExistZero){
+							message.error('退款金额需大于0')
+						}else{
+							values.productList = goodsList;
+							this.sendRequest(values);
+						};
 					}else{
 						message.error('数据不完整，无可退商品',.8)
 					};

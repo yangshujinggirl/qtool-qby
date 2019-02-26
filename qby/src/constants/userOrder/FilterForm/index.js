@@ -120,7 +120,6 @@ class NormalForm extends Component {
                          <Option value={3} key={3}>快递邮寄</Option>
                          <Option value={4} key={4}>仓库直邮</Option>
                          <Option value={5} key={5}>保税直邮</Option>
-                         <Option value={6} key={6}>品牌直供</Option>
                      </Select>
                    )}
                  </FormItem>
