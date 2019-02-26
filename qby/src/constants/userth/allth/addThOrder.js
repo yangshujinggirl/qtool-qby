@@ -28,22 +28,28 @@ class AddThOrder extends Component{
 		const value = e.target.value;
 		this.props.form.setFieldsValue({orderNo:value})
 		if(value){
-			if(value.slice(0,2) == 'YH'){ //有赞
-				this.setState({
-					isC:false
-				});
-			}else{
-				this.setState({
-					isC:true,
-					returnWay:null
-				});
-			};
 			this.setState({ //用户订单重新输入--->商品信息输入框重置
 				uOrderChange:true,
 			});
 			getOrderInfoApi({orderNum:value})
 			.then(res=>{
 				if(res.code == '0'){
+					if(value.slice(0,2) == 'YH'){ //有赞 --->(c端保税  + 有赞)
+						if(res.outNo && res.outNo.slice(0,2) == 'XS'){
+							this.setState({ //c端保税
+								isC:true
+							});
+						}else if(res.outNo && res.outNo.slice(0,1) == 'E'){
+							this.setState({ //有赞
+								isC:false
+							});
+						}
+					}else{ //c端
+						this.setState({
+							isC:true,
+							returnWay:null
+						});
+					};
 				res.productList&&res.productList.map((item,index)=>{
 					item.key = index
 				});
