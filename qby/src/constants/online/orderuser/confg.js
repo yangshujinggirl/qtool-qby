@@ -11,7 +11,6 @@ export const orderState=[
     {name:'已发货',key:'20'},
     {name:'推送失败',key:'-10'},
     {name:'已取消',key:'21'},
-    {name:'已完成',key:'22'}
 ]
 export const wshouse=[
     {name:'杭州仓（惟信）',key:'1'},

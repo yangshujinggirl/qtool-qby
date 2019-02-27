@@ -37,15 +37,20 @@ class AddThOrder extends Component{
 					if(value.slice(0,2) == 'YH'){ //有赞 --->(c端保税  + 有赞)
 						if(res.outNo && res.outNo.slice(0,2) == 'XS'){
 							this.setState({ //c端保税
-								isC:true
+								isC:true,
+								orderSource:1,
+								bondedOrderType:1
 							});
 						}else if(res.outNo && res.outNo.slice(0,1) == 'E'){
 							this.setState({ //有赞
-								isC:false
+								isC:false,
+								orderSource:1,
+								bondedOrderType:2
 							});
 						}
 					}else{ //c端
 						this.setState({
+							orderSource:0,
 							isC:true,
 							returnWay:null
 						});
@@ -70,15 +75,16 @@ class AddThOrder extends Component{
 	//合计退款
 	getReturnSumQuota =()=> {
 		const {productList,returnType,freightQuota} = this.state;
-		let [surplusTotalCount,applyTotalCount,totalReturnMoney] = [0,0,0]
+		let [haveReturnTotalCount,applyTotalCount,totalBuyCount,totalReturnMoney] = [0,0,0,0]
 		productList&&productList.map( (item,index)=> {
-			if(item.buyCount && item.returnCount) surplusTotalCount += (item.buyCount-item.returnCount);
-			if(item.applyReturnCount) applyTotalCount += item.applyReturnCount
-			if(item.applyReturnQuota) totalReturnMoney += item.applyReturnQuota
+			 haveReturnTotalCount += Number(item.returnCount);//总的已退数量
+			 totalBuyCount += Number(item.buyCount);//总的购买数量
+			if(item.applyReturnCount) applyTotalCount += Number(item.applyReturnCount);//总的要退的数量
+			if(item.applyReturnQuota) totalReturnMoney += Number(item.applyReturnQuota);
 		});
-		if(surplusTotalCount == applyTotalCount && !returnType){ //全退且是售中 + 运费
+		if(totalBuyCount == haveReturnTotalCount+applyTotalCount && !returnType){ //全退且是售中 + 运费
 			if(totalReturnMoney > 0){
-				return totalReturnMoney + freightQuota
+				return totalReturnMoney + Number(freightQuota)
 			}else{
 				return null
 			}
@@ -94,6 +100,11 @@ class AddThOrder extends Component{
 	handleSubmit =()=> {
 		this.props.form.validateFieldsAndScroll((err, values) => {
 			if(!err){
+				const {orderSource} = this.state;
+				values.orderSource = orderSource;
+				if(orderSource){ //orderSource为1的时候需要填写
+					values.bondedOrderType = this.state.bondedOrderType
+				};
 				for(var key in values){ //去除无用的参数
 					if(key.includes('apply')){
 						delete values[key]
@@ -101,32 +112,28 @@ class AddThOrder extends Component{
 				};
 				const {productList} = this.state;
 				const goodsList = _.cloneDeep(productList);
+
 				if(this.state.isC){  //如果是c端退单
-					goodsList.map((item,index)=>{
-						if(item.applyReturnCount==null || !item.applyReturnQuota==null){ //需要检测退款数量有木有输入-->没有输入的数据不向后台输入
-							goodsList.splice(index,1)
-						};
-					});
-					values.orderSource = 0;
+					const newArr = 	goodsList.filter((item,index)=>{//需要检测退款数量有木有输入-->没有输入的数据不向后台输出
+							return Boolean(item.applyReturnCount)
+				 	});
 					if(values.returnType && values.returnType=='售中退款')values.returnType = 0
 					if(values.returnType && values.returnType=='售后退款')values.returnType = 1
 					values.orderId = this.state.orderId;
-					if(goodsList[0]){
-						const isExistZero = goodsList.find(item=>(
+					if(newArr[0]){
+						const isExistZero = newArr.find(item=>(
 							item.applyReturnQuota == 0
 						));
 						if(isExistZero){
 							message.error('退款金额需大于0')
 						}else{
-							values.productList = goodsList;
+							values.productList = newArr;
 							this.sendRequest(values);
 						};
 					}else{
 						message.error('数据不完整，无可退商品',.8)
 					};
 				}else{ //有赞的退单
-					values.orderSource = 1;
-					values.bondedOrderType = 2;
 					goodsList.map(item=>{
 						item.applyReturnCount = item.buyCount;
 						item.applyReturnQuota = item.canReturnQuota;
