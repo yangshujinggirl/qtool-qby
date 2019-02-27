@@ -241,7 +241,7 @@ render(){
                 <div className='cardlist_item'><label>退款原因：</label><span>{backInfos.returnReason}</span></div>
 
 								{type=='detail' && <div className='cardlist_item'><label>快递单号：</label><span>{backInfos.orderExpressNo}</span></div>}
-                {type=='detail' && <div className='cardlist_item'><label>退款地址：</label><span>{backInfos.userAddress}</span></div>}
+                {type=='detail' && <div className='cardlist_item'><label>退货地址：</label><span>{backInfos.userAddress}</span></div>}
             </div>
           </Card>
         </div>
@@ -299,6 +299,7 @@ render(){
 											wrapperCol={{ span: 12 }}
 										>
 					            {getFieldDecorator('returnWay',{
+												rules: [{ required: true, message: '请选择退款方式'}],
 					              initialValue:value
 						            })(
 						              <RadioGroup onChange={this.onChange}>
@@ -347,6 +348,7 @@ render(){
 									wrapperCol={{ span: 12 }}
 								>
 		            {getFieldDecorator('refuseReason',{
+									rules: [{ required: true, message: '请输入拒绝原因'}],
 		            })(
 		              <TextArea rows={4}   placeholder='限制50字符以内' maxLength='50'/>
 		            )}
