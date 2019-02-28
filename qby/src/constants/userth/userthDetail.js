@@ -348,7 +348,6 @@ render(){
 									wrapperCol={{ span: 12 }}
 								>
 		            {getFieldDecorator('refuseReason',{
-									rules: [{ required: true, message: '请输入拒绝原因'}],
 		            })(
 		              <TextArea rows={4}   placeholder='限制50字符以内' maxLength='50'/>
 		            )}
