@@ -175,7 +175,7 @@ class OrderuserIndex extends React.Component{
                     type="primary"
                     size='large'
                     className='mt20 mr10'
-                    onClick={this.exportData.bind(this,91,this.state.searchvalue)}
+                    onClick={this.exportData.bind(this,92,this.state.searchvalue)}
                 >
                     导出商品数据
                     </Button>

@@ -9,6 +9,7 @@ import Cardlists from './cardlistedit';
 import Shipeditmodel from './shipedit';
 
 
+
 import './orderuser.css';
 
 class Tabletitle extends React.Component {
@@ -377,7 +378,7 @@ class OrderuserInfo extends React.Component{
 											pushPlatform={item.pushPlatform}
 											statusStr={item.statusStr}
 											status={item.status}
-											ecOrderId={this.props.data.id}
+											ecOrderId={item.ecOrderId}
 											infofetch={this.infofetch.bind(this)}
 											editChange={this.props.editChange}
 											id={this.props.data.id}
