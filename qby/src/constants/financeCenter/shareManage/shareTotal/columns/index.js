@@ -1,20 +1,23 @@
 const Columns = [{
-     title: '门店名称',
-     dataIndex: 'shopName',
-   },{
-     title: '直邮分润收款',
-     dataIndex: 'directDeliveryOrderAmount',
-   },{
-     title: '直邮分润扣款',
-     dataIndex: 'directDeliveryReturnAmount'
-   }, {
-     title: '保税分润收款',
-     dataIndex: 'bondedWsOrderAmount'
-   },{
-     title: '保税分润扣款',
-     dataIndex: 'bondedWsReturnAmount'
-   },{
-     title: '总分润',
-     dataIndex: 'profitSum'
-   }];
+   title: '门店名称',
+   dataIndex: 'shopName',
+ },{
+    title: '门店类型',
+    dataIndex: 'shopTypeStr',
+ },{
+   title: '直邮分润收款',
+   dataIndex: 'directDeliveryOrderAmount',
+ },{
+   title: '直邮分润扣款',
+   dataIndex: 'directDeliveryReturnAmount'
+ }, {
+   title: '保税分润收款',
+   dataIndex: 'bondedWsOrderAmount'
+ },{
+   title: '保税分润扣款',
+   dataIndex: 'bondedWsReturnAmount'
+ },{
+   title: '总分润',
+   dataIndex: 'profitSum'
+ }];
    export  default Columns

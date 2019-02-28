@@ -12,6 +12,9 @@ const Columns = [{
      title: '门店名称',
      dataIndex: 'shopName'
    },{
+     title: '门店类型',
+     dataIndex: 'shopTypeStr',
+   },{
      title: '费用类型',
      dataIndex: 'shareTypeStr'
    }, {
