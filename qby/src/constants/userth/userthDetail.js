@@ -85,6 +85,27 @@ class UserthDetail extends React.Component{
 				)
 			}
 		}];
+		this.columns3 = [{
+			title: '商品名称',
+			dataIndex: 'spuName',
+      key:'1'
+		}, {
+			title: '规格',
+			dataIndex: 'displayName',
+      key:'2'
+		}, {
+			title: '商品编码',
+			dataIndex: 'code',
+      key:'3'
+		}, {
+			title: '退款数量',
+			dataIndex: 'qty',
+      key:'4'
+		}, {
+			title: '退款金额',
+			dataIndex: 'returnPrice',
+      key:'5',
+		}];
 
 		this.columns2 = [{
 			title: '操作',
@@ -247,7 +268,7 @@ render(){
         </div>
         <div className='mb20'>
           <EditableTable
-            columns={this.columns1}
+            columns={type=='detail'?this.columns3:this.columns1}
             title='商品信息'
             bordered={true}
             dataSource = { goodInfos }
