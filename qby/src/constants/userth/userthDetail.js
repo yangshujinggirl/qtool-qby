@@ -223,10 +223,8 @@ agree =()=> {
 	});
 }
 render(){
-	console.log(this.state.orderDetails)
   const {backInfos,goodInfos,orderLogs,describes,value} = this.state;
 	const {recAddress,recName,recTelephone,orderType} = this.state.recInformation
-	const fileDomain = eval(sessionStorage.getItem('fileDomain'));
 	if(orderLogs && orderLogs[0]){
 		orderLogs.map((item,index)=>{
 			item.key = index;
@@ -290,16 +288,18 @@ render(){
 								labelCol={{ span: 2 }}
 								wrapperCol={{ span: 12 }}
 							>
-								<div>{describes.detailedDescription}</div>
+								<div>{describes.returnDescription}</div>
 							</FormItem>
 							<FormItem
 								label="图片"
 								labelCol={{ span: 2 }}
-								wrapperCol={{ span: 12 }}
+								wrapperCol={{ span: 22 }}
 							>
 									{
-										describes.picUrl && describes.picUrl.map(item=>(
-											<Imgmodel picUrl={fileDomain+item}/>
+										describes.pics && describes.pics.map(item=>(
+											<div className='img-des'>
+												<Imgmodel picUrl={item}/>
+											</div>
 										))
 									}
 							</FormItem>
