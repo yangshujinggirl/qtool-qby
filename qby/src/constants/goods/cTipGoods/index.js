@@ -372,6 +372,7 @@ class CtipGoods extends Component {
           className="goods-handle-modal-wrap"
 					title='批量操作'
 					visible={visible}
+          closable={false}
           footer={null}>
           <div className="handle-modal-content">
             {WarnMessage[handleContent.tips]}

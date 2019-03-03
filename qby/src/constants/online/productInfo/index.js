@@ -438,7 +438,10 @@ class BtipGoods extends Component {
         <Modal
           className="goods-handle-modal-wrap"
 					title='批量操作'
+          onOk={this.onOkModal}
+          onCancel={this.onCancelModal}
 					visible={visible}
+          closable={false}
           footer={null}>
           <div className="handle-modal-content">
             {WarnMessage[handleContent.tips]}

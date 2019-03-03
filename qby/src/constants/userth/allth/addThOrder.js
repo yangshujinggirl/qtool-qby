@@ -37,6 +37,7 @@ class AddThOrder extends Component{
 					if(value.slice(0,2) == 'YH'){ //有赞 --->(c端保税  + 有赞)
 						if(res.outNo && res.outNo.slice(0,2) == 'XS'){
 							this.setState({ //c端保税
+								isTax:true,
 								isC:true,
 								orderSource:1,
 								bondedOrderType:1
@@ -50,6 +51,7 @@ class AddThOrder extends Component{
 						}
 					}else{ //c端
 						this.setState({
+							isTax:false,
 							orderSource:0,
 							isC:true,
 							returnWay:null
@@ -197,6 +199,7 @@ class AddThOrder extends Component{
 				recName,
 				recTelephone,
 				recAddress,
+				isTax
 			} = this.state
 			const radioStyle = {
 	      display: 'block',
@@ -303,6 +306,7 @@ class AddThOrder extends Component{
 													<TableList
 														form={this.props.form}
 														FormItem={FormItem}
+														isTax={isTax}
 														productList = {productList}
 														columns={1}
 														returnType={returnType}
