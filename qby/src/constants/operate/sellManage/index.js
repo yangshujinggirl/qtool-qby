@@ -103,18 +103,31 @@ class SellManage extends Component {
   }
   //操作
   handleOperateClick(record) {
-    const paneitem = {
-      title:'订单详情',
-      key:`${this.props.componkey}edit`+record.orderId,
-      componkey:`207000edit`,
-      data:{
-        pdSpuId:record.orderId,
-      }
+    let paneitem = {};
+    if(record.costType==1){
+      paneitem = {
+        title:'订单详情',
+        key:`${this.props.componkey}edit`+record.orderId,
+        componkey:`207000edit`,
+        data:{
+          pdSpuId:record.orderId,
+        }
+      };
+    }else if(record.costType==2){
+      paneitem = {
+        title:'退单详情',
+        key:`${this.props.componkey}edit`+record.orderId,
+        componkey:`208000info`,
+        data:{
+          type:'detail',
+          orderReturnId:record.orderId,
+        }
+      };
     }
     this.props.dispatch({
       type:'tab/firstAddTab',
       payload:paneitem
-    })
+    });
   }
   render() {
     //导出数据按钮是否显示

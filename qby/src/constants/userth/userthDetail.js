@@ -182,6 +182,7 @@ refuse =()=> {
 	});
 }
 sendRequest =(values)=> {
+	values.returnType = this.props.data.type;
 	values.orderReturnId = this.props.data.orderReturnId;
 	values.orderId = this.props.data.orderId;
 	auditApi(values)
