@@ -46,11 +46,11 @@ class UserthDetail extends React.Component{
       key:'4'
 		},{
 			title: '实付金额',
-			dataIndex: 'qty',
+			dataIndex: 'actualPayPrice',
       key:'5'
 		},{
 			title: '退款数量',
-			dataIndex: 'qty',
+			dataIndex: 'returnPdQty',
       key:'6'
 		}, {
 			title: '退款金额',
@@ -99,7 +99,7 @@ class UserthDetail extends React.Component{
       key:'3'
 		}, {
 			title: '退款数量',
-			dataIndex: 'qty',
+			dataIndex: 'returnPdQty',
       key:'4'
 		}, {
 			title: '退款金额',
