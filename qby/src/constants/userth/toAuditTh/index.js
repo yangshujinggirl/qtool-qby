@@ -39,7 +39,7 @@ class ToAudit extends Component {
         orderReturnId:record.orderReturnId,
         orderId:record.orderId,
         id:record.orderId+'audit',
-        type:record.returnType //type  1:售中  2：售后
+        type:record.returnType //type  0:售中  1：售后
       }
     }
     this.props.dispatch({

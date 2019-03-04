@@ -181,7 +181,8 @@ refuse =()=> {
 					content:'是否确认此操作',
 					onOk:()=>{
 						values.opType = 2;
-						this.sendRequest(values)
+						console.log(value)
+						// this.sendRequest(values)
 					},
 				});
 			};
@@ -217,12 +218,13 @@ agree =()=> {
 		values.orderId = this.props.data.orderId;
 		const params = {orderDetails,orderReturnId,opType:1,...values}
 		if(!err){
-			if(this.props.data.type == 2 && !values.returnWay){ //是售后才会有退款方式才需要校验
-				message.error('请选择退款方式')
+			if(this.props.data.type == 1 && values.returnWay===''){ //是售后才会有退款方式才需要校验
+				message.error('请选择退款方式',.8)
 			}else{
 				confirm({
 					content:'是否确认此操作',
 					onOk:()=>{
+						console.log(params)
 						this.sendRequest(params)
 					},
 				});
@@ -240,7 +242,7 @@ render(){
 		});
 	}
   const {getFieldDecorator} = this.props.form;
-	const { type,returnWay} = this.props.data;//type---->  1:审核售中 2：审核售后  detail:单纯的详情
+	const { type,returnWay} = this.props.data;//type---->  0:审核售中 1：审核售后  detail:单纯的详情
 	console.log(this.props.data)
   const radioStyle = {
         display: 'block',
@@ -329,7 +331,6 @@ render(){
 											wrapperCol={{ span: 12 }}
 										>
 					            {getFieldDecorator('returnWay',{
-												rules: [{ required: true, message: '请选择退款方式'}],
 					              initialValue:value
 						            })(
 						              <RadioGroup onChange={this.onChange}>
