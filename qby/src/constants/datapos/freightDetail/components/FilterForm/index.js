@@ -20,7 +20,12 @@ class NormalForm extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
+      if(values.time.length>0) {
+        values.startDate = moment(values.time[0]).format('YYYY-MM-DD');
+        values.endDate = moment(values.time[1]).format('YYYY-MM-DD');
+      }
         this.props.submit && this.props.submit(values)
+
     });
   }
   render() {

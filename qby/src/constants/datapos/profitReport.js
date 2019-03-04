@@ -100,7 +100,9 @@ class ProfitReportForm extends React.Component {
       this.setState({
           rpDate:currentdate
       },()=>{
-          self.getServerData();
+          self.getServerData({
+
+          });
       })
   }
   dateChange = (date, dateString) =>{
@@ -307,6 +309,7 @@ class ProfitReportForm extends React.Component {
                           <FormItem
                             label="订单类型">
                             {getFieldDecorator('orderType',{
+                              initialValue:7
                             })(
                               <Select placeholder="请选择订单来源">
                                 <Option key={7} value={7}>全部</Option>

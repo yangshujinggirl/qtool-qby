@@ -21,8 +21,8 @@ class ReceiptReportForm extends React.Component {
             total:0,
             currentPage:0,
             limit:15,
-            operateST:moment().subtract(1, "months").format("YYYY-MM-DD"),
-            operateET:moment().format("YYYY-MM-DD"),
+            operateStart:moment().subtract(1, "months").format("YYYY-MM-DD"),
+            operateEnd:moment().format("YYYY-MM-DD"),
             status:'',
             type:0,
             orderNo:''
@@ -58,7 +58,7 @@ class ReceiptReportForm extends React.Component {
 
     toDetailInfo = (record) =>{
         const pdOrderId=String(record.pdOrderId);
-        const paneitem={title:'订单详情',key:'707000edit'+pdOrderId+'info',data:{pdOrderId:pdOrderId,shopId:this.props.shopId,details:record},componkey:'707000info'}
+        const paneitem={title:'订单详情',key:'707000edit'+pdOrderId+'info',data:{pdOrderId:pdOrderId,shopId:this.props.shopId,details:record},componkey:'707000infoSh'}
         this.props.dispatch({
             type:'tab/firstAddTab',
             payload:paneitem
@@ -104,8 +104,8 @@ class ReceiptReportForm extends React.Component {
 
     dateChange = (date, dateString) =>{
         this.setState({
-            operateST:dateString[0],
-            operateET:dateString[1]
+            operateStart:dateString[0],
+            operateEnd:dateString[1]
         })
     }
 
@@ -119,8 +119,8 @@ class ReceiptReportForm extends React.Component {
                 spShopId:this.props.shopId,
                 currentPage:this.state.currentPage,
                 limit:this.state.limit,
-                operateST:this.state.operateST,
-                operateET:this.state.operateET,
+                operateStart:this.state.operateStart,
+                operateEnd:this.state.operateEnd,
                 status:this.state.status,
                 orderNo:this.state.orderNo
             }
@@ -137,8 +137,8 @@ class ReceiptReportForm extends React.Component {
                 spShopId:this.props.shopId,
                 currentPage:this.state.currentPage,
                 limit:this.state.limit,
-                operateST:this.state.operateST,
-                operateET:this.state.operateET,
+                operateStart:this.state.operateStart,
+                operateEnd:this.state.operateEnd,
                 status:this.state.status,
                 orderNo:this.state.orderNo
             }
@@ -158,8 +158,8 @@ class ReceiptReportForm extends React.Component {
                     spShopId:this.props.shopId,
                     currentPage:0,
                     limit:this.state.limit,
-                    operateST:this.state.operateST,
-                    operateET:this.state.operateET,
+                    operateStart:this.state.operateStart,
+                    operateEnd:this.state.operateEnd,
                     status:this.state.status,
                     orderNo:this.state.orderNo,
                     type:values.type
@@ -177,8 +177,8 @@ class ReceiptReportForm extends React.Component {
                 limit:15,
                 type:0,
                 status:"",
-                operateST:this.state.operateST,
-                operateET:this.state.operateET
+                operateStart:this.state.operateStart,
+                operateEnd:this.state.operateEnd
             }
             self.getServerData(values);
     }
@@ -199,7 +199,7 @@ class ReceiptReportForm extends React.Component {
                                         label="最近操作时间"
                                        >
                                            <RangePicker
-                                               value={this.state.operateST?[moment(this.state.operateST, dateFormat), moment(this.state.operateET, dateFormat)]:null}
+                                               value={this.state.operateStart?[moment(this.state.operateStart, dateFormat), moment(this.state.operateEnd, dateFormat)]:null}
                                                format={dateFormat}
                                                onChange={this.dateChange.bind(this)} />
                                         </FormItem>

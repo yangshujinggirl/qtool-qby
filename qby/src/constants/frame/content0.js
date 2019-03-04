@@ -258,7 +258,7 @@ class Content extends React.Component {
                                     case "701000":return  <DatacgIndex data={this.props.data}/>;
                                     case "702000":return  <DataspIndex data={this.props.data} componkey={this.props.componkey}/>;
                                     case "707000":return  <DataposIndex data={this.props.data} componkey={this.props.componkey}/>;
-                                    case "707000info":return <ShListDetail data={this.props.data}/>
+                                    case "707000infoSh":return <ShListDetail data={this.props.data}/>
                                     case "707000infoTh":return <ThListDetail data={this.props.data}/>
                                     case "706000":return <DataFinanceIndex data={this.props.data}/>
 
