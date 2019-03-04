@@ -125,9 +125,9 @@ class AddThOrder extends Component{
 							if(item.buyCount != item.returnCount){
 								canReturnList.push(item)
 							}else{
-								item.applyReturnCount = item.buyCount;
-								item.applyReturnQuota = item.canReturnQuota;
-							}
+								item.applyReturnCount = 0;
+								item.applyReturnQuota = 0;
+							};
 						});
 						const isAllReturn = canReturnList.every(item=>{ //对可退的订单做判断---->是否已全部退完
 							return item.applyReturnCount==item.buyCount

@@ -380,7 +380,7 @@ class BtipGoods extends Component {
 					visible={visible}
           footer={null}
           closable={false}
-					onCancel={this.onCancelModal.bind(this)}>
+				>
           <div className="handle-modal-content">
             {WarnMessage[handleContent.tips]}
           </div>

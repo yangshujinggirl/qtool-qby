@@ -60,23 +60,26 @@ class UserthDetail extends React.Component{
 
 				const handlePrice =(rule,value,callback)=> {
 					if(value && value > record.returnPrice){
-						message.error('修改范围为（0，'+record.returnPrice+')');
+						callback('修改范围为（0，'+record.returnPrice+')');
 					};
+					callback();
 				};
-				const { getFieldDecorator } = this.props;
+
+				const {type} = this.props.data
+				const { getFieldDecorator } = this.props.form;
 				return(
-					record.returnType ?
+					type==1 ?
 					<Form>
 						<FormItem>
 							{
 								getFieldDecorator('currentPrice',{
 									rules:[
 										{ pattern:/^\d+(\.\d{0,2})?$/,message:'请输入小于等于两位小数的数字' },
-										{ validator:this.handlePrice }
+										{ validator:handlePrice }
 									],
 									initialValue:record.returnPrice
 								})(
-									<Input onBlur={(e)=>this.getCurrentPrice(index)}/>
+									<Input style={{width:'80px','text-align':'center'}} onBlur={(e)=>this.getCurrentPrice(e,index)}/>
 								)
 							}
 						</FormItem>
@@ -154,7 +157,11 @@ componentWillMount(){
 }
 //获取金额
 getCurrentPrice =(e,index)=> {
-	const currentPrice = e.target.value;
+	const {orderDetails} = this.state;
+	orderDetails[index].currentPrice = e.target.value;
+	this.setState({
+		orderDetails
+	});
 }
 //单选按钮 的变化
 onChange = (e) => {
@@ -206,16 +213,16 @@ agree =()=> {
 	this.props.form.validateFieldsAndScroll((err,values)=>{
 		const {orderDetails} = this.state;
 		const {orderReturnId} = this.props.data;
-		values.orderType = this.props.data.type;
+		values.returnType = this.props.data.type;
+		values.orderId = this.props.data.orderId;
 		const params = {orderDetails,orderReturnId,opType:1,...values}
 		if(!err){
-			if(this.props.data.type == 2 && !values.returnWay){//是售后才会有退款方式才需要校验
+			if(this.props.data.type == 2 && !values.returnWay){ //是售后才会有退款方式才需要校验
 				message.error('请选择退款方式')
 			}else{
 				confirm({
 					content:'是否确认此操作',
 					onOk:()=>{
-						params.opType = 1;
 						this.sendRequest(params)
 					},
 				});
@@ -233,7 +240,8 @@ render(){
 		});
 	}
   const {getFieldDecorator} = this.props.form;
-	const { type } = this.props.data;//type---->  1:审核售中 2：审核售后  detail:单纯的详情
+	const { type,returnWay} = this.props.data;//type---->  1:审核售中 2：审核售后  detail:单纯的详情
+	console.log(this.props.data)
   const radioStyle = {
         display: 'block',
         height: '30px',
@@ -260,8 +268,8 @@ render(){
                 <div className='cardlist_item'><label>退款总金额：</label><span>{backInfos.totalReturnPrice}</span></div>
                 <div className='cardlist_item'><label>退款原因：</label><span>{backInfos.returnReason}</span></div>
 
-								{type=='detail' && <div className='cardlist_item'><label>快递单号：</label><span>{backInfos.orderExpressNo}</span></div>}
-                {type=='detail' && <div className='cardlist_item'><label>退货地址：</label><span>{backInfos.userAddress}</span></div>}
+								{(type=='detail'&&returnWay==1)?<div className='cardlist_item'><label>快递单号：</label><span>{backInfos.orderExpressNo}</span></div>:null}
+                {(type=='detail'&&returnWay==1)?<div className='cardlist_item'><label>退货地址：</label><span>{backInfos.userAddress}</span></div>:null}
             </div>
           </Card>
         </div>

@@ -88,7 +88,7 @@ class TableList extends Component {
 									getFieldDecorator(`applyReturnQuota`+index, {
 			 	 					 rules: [
 			 							 // { required: record.isTax, message: '请输入退款金额'},
-			 							 {	pattern:/^\d+(\.\d{0,2})?$/,message:'小于等于两位小数的数字'},
+			 							 { pattern:/^\d+(\.\d{0,2})?$/,message:'小于等于两位小数的数字'},
 									 	 { validator: handleReturnQuota }
 			 						 ],
 			 	 				 })(<Input onBlur={this.getReturnQuota.bind(this,index)} disabled={record.buyCount == record.returnCount} autoComplete='off'/>)

@@ -73,17 +73,30 @@ class Allth extends Component {
         componkey:`${this.props.componkey}info`,
         data:{
           orderReturnId:record.orderReturnId,
+          returnWay:record.returnWay,
           type:'detail'
         }
       }
     }else{
       //用户订单详情
-      paneitem={
-        title:'订单详情',
-        key:`${this.props.componkey}edit`+ record.orderReturnId + 'info27',
-        data:{pdSpuId:record.orderId},
-        componkey:'207000edit'
-      };
+      if(record.orderType == 5){ //跳转报税的详情
+        paneitem = {
+          title:'订单详情',
+          key:`${this.props.componkey}edit`+record.orderReturnId,
+          data:{
+            record:record,
+            orderNo:record.orderNo,
+          },
+          componkey:'801000info'
+        }
+      }else{ //用户详情
+        paneitem={
+          title:'订单详情',
+          key:`${this.props.componkey}edit`+ record.orderReturnId,
+          data:{pdSpuId:record.orderId},
+          componkey:'207000edit'
+        };
+      }
     }
     this.props.dispatch({
       type:'tab/firstAddTab',

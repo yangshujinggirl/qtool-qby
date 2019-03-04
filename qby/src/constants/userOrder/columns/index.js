@@ -26,7 +26,7 @@ const Columns = [{
               ?
                 <a href="javascript:;" className="theme-color" onClick={record.onOperateClick.bind(this)}>{text}</a>
               :
-                <a href="javascript:;">{text}</a>
+                <span href="javascript:;">{text}</span>
             )
          }
          </div>
