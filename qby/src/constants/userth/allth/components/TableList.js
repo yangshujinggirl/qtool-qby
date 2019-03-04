@@ -77,7 +77,7 @@ class TableList extends Component {
 						const { getFieldDecorator } = this.props.form;
 						const handleReturnQuota =(rule,value,callback)=> {
 							const {orderQuota,returnQuota} = record;
-							if (value && value >(Number(orderQuota)-Number(returnQuota))) {
+							if (value && value >(Number(orderQuota)-Number(returnQuota)).toFixed(2)) {
 								 callback('不可超可退金额')
 							};
 								 callback();
