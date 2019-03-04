@@ -120,20 +120,29 @@ class AddThOrder extends Component{
 					if(values.returnType && values.returnType=='售后退款')values.returnType = 1
 					values.orderId = this.state.orderId;
 					if(this.state.isTax){ //如果是c端保税必须	全退
-						const isAllReturn = goodsList.every(item=>{
-							return item.applyReturnCount == item.buyCount
+						let canReturnList = [];
+						goodsList.map(item=>{ //筛选出所有可退的商品 -----> 购买数量不等于已退数量的
+							if(item.buyCount != item.returnCount){
+								canReturnList.push(item)
+							}else{
+								item.applyReturnCount = item.buyCount;
+								item.applyReturnQuota = item.canReturnQuota;
+							}
+						});
+						const isAllReturn = canReturnList.every(item=>{ //对可退的订单做判断---->是否已全部退完
+							return item.applyReturnCount==item.buyCount
 						});
 						if(!isAllReturn){ //如果没有全退
 							message.error('保税订单必须全退')
 						}else{
 							values.productList = goodsList;
-								this.sendRequest(values);
+							this.sendRequest(values);
 						};
 					}else{ //不必全退
 						const newArr = 	goodsList.filter((item,index)=>{//需要检测退款数量有木有输入-->没有输入的数据不向后台输出
 								return Boolean(item.applyReturnCount)
 					 	});
-						if(newArr[0]){
+						if(newArr[0]){ // 数量为0的 金额也为0
 							const isExistZero = newArr.find(item=>(
 								item.applyReturnQuota == 0
 							));

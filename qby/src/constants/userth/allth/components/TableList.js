@@ -55,7 +55,7 @@ class TableList extends Component {
 								{
 									getFieldDecorator(`applyReturnCount`+index, {
 										rules: [
-											{ required: record.isTax, message: '请输入退款数量'},
+											// { required: record.isTax, message: '请输入退款数量'},
 											{	pattern:/^([1-9][0-9]*){1,3}$/,message:'退款数量需大于0'},
 											{ validator: handleReturnCount }
 										],
@@ -87,7 +87,7 @@ class TableList extends Component {
 								{
 									getFieldDecorator(`applyReturnQuota`+index, {
 			 	 					 rules: [
-			 							 { required: record.isTax, message: '请输入退款金额'},
+			 							 // { required: record.isTax, message: '请输入退款金额'},
 			 							 {	pattern:/^\d+(\.\d{0,2})?$/,message:'小于等于两位小数的数字'},
 									 	 { validator: handleReturnQuota }
 			 						 ],
