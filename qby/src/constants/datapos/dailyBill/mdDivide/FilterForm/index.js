@@ -10,7 +10,6 @@ import {
   DatePicker
 } from 'antd';
 import moment from 'moment';
-import {getCurrentTime} from '../../../../../utils/meth';
 import {removeSpace} from '../../../../../utils/meth';
 import './index.less'
 
@@ -23,7 +22,8 @@ class NormalForm extends Component {
   constructor(props){
     super(props)
     this.state={
-      flowStatus:[]
+      flowStatus:[],
+
     }
   }
   handleSubmit = (e) => {
@@ -40,7 +40,9 @@ class NormalForm extends Component {
   }
 
   render() {
-    const defaultTime = [moment(getCurrentTime()), moment(getCurrentTime())]
+    const now = moment();
+    const endDate = now.format("YYYY-MM-DD");
+    const startDate = now.subtract(1, "months").format("YYYY-MM-DD");
     const { getFieldDecorator } = this.props.form;
     return(
       <div>
@@ -49,22 +51,28 @@ class NormalForm extends Component {
             <div className="search-form-wrap">
                 <FormItem label='订单完成时间'>
                    {getFieldDecorator('rangePicker',
-                     {initialValue:defaultTime}
+                     {initialValue:[moment(startDate,'YYYY-MM-DD'),moment(endDate,'YYYY-MM-DD')]}
                    )(
-                     <RangePicker format="YYYY-MM-DD"/>
+                     <RangePicker/>
                    )}
                 </FormItem>
                 <FormItem label='业务类型'>
-                    {getFieldDecorator('orderType')(
-                    <Select allowClear={true} placeholder="请选择业务类型">
+                    {getFieldDecorator('orderType',{
+                      initialValue:0
+                    })(
+                    <Select  placeholder="请选择业务类型">
+                        <Option value={0}>全部</Option>
                         <Option value={4}>仓库直邮订单</Option>
                         <Option value={5}>保税订单</Option>
                     </Select>
                     )}
                 </FormItem>
                 <FormItem label='订单分类'>
-                    {getFieldDecorator('shareType')(
-                    <Select allowClear={true} placeholder="请选择订单分类">
+                    {getFieldDecorator('shareType',{
+                      initialValue:0
+                    })(
+                    <Select  placeholder="请选择订单分类">
+                        <Option value={0}>全部</Option>
                         <Option value={1}>销售订单</Option>
                         <Option value={2}>退货订单</Option>
                     </Select>

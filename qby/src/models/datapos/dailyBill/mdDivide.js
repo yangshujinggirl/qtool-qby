@@ -12,8 +12,8 @@ export default {
     shareProfitSumAmount:'',
   },
   reducers: {
-    getList( state, { payload : {dataList, currentPage, limit, total} }) {
-      return { ...state, dataList, currentPage, limit, total}
+    getList( state, { payload : {dataList, orderNum,shareProfitSumAmount,currentPage, limit, total} }) {
+      return { ...state, dataList,orderNum,shareProfitSumAmount,currentPage, limit, total}
     }
   },
   effects: {
@@ -22,9 +22,11 @@ export default {
       const result=yield call(getListApi,values);
       yield put({type: 'tab/loding',payload:false});
       if(result.code=='0') {
-        const { rpShareProfitOrderVo, currentPage, limit, total,shareProfitSumAmount,orderNum} = result;
-        if(rpShareProfitOrderVo[0]){
-          rpShareProfitOrder.map((item,index)=>{
+        const { rpShareProfitOrderVo, currentPage, limit, total} = result;
+        const {shareProfitSumAmount} = result;
+        const {orderNum} = result;
+        if(rpShareProfitOrderVo&&rpShareProfitOrderVo[0]){
+          rpShareProfitOrderVo.map((item,index)=>{
             item.key = index;
           });
         }

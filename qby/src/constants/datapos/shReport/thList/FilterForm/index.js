@@ -55,8 +55,11 @@ class NormalForm extends Component {
                    )}
                 </FormItem>
                 <FormItem label='订单状态'>
-                    {getFieldDecorator('returnType')(
-                    <Select allowClear={true} placeholder="请选择订单状态">
+                    {getFieldDecorator('returnType',{
+                      initialValue:0
+                    })(
+                    <Select placeholder="请选择订单状态">
+                        <Option value={0}>全部</Option>
                         <Option value={1}>退货中</Option>
                         <Option value={2}>已退货</Option>
                     </Select>

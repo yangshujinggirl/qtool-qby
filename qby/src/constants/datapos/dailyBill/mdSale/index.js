@@ -34,7 +34,7 @@ class DailyBillForm extends React.Component {
               rechargeAmount:''
           },
           orderType:7,
-          type:1
+          type:""
       };
       this.columns = [{
             title: '订单编号',
@@ -137,7 +137,7 @@ class DailyBillForm extends React.Component {
     var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate;
     var lastMonthDate = date.getFullYear() + seperator1 + beforeMonth + seperator1 + strDate;
     this.setState({
-        startDate:currentdate,
+        startDate:lastMonthDate,
         endDate:currentdate,
         lastMonthDate:lastMonthDate
     },()=>{
@@ -303,8 +303,6 @@ class DailyBillForm extends React.Component {
                     <FormItem
                       label="订单完成时间">
                         <RangePicker
-                          // disabledDate={this.setDisabledDate.bind(this)}
-                          // ranges={{ range: moment["2017-09-01","2017-10-01"] }}
                           allowClear={false}
                           value={this.state.startDate?[moment(this.state.startDate, dateFormat), moment(this.state.endDate, dateFormat)]:null}
                           format={dateFormat}
@@ -314,9 +312,10 @@ class DailyBillForm extends React.Component {
                       label="订单分类">
                       {getFieldDecorator('type',{
                         onChange:this.changeType,
-                        initialValue:'1'
+                        initialValue:''
                       })(
-                          <Select allowClear placeholder="请选择订单类型">
+                          <Select  placeholder="请选择订单类型">
+                              <Option value="">全部</Option>
                               <Option value="1">销售订单</Option>
                               <Option value="2">充值订单</Option>
                               <Option value="3">退货订单</Option>

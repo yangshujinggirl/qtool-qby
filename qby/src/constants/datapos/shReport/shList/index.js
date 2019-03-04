@@ -21,9 +21,10 @@ class ReceiptReportForm extends React.Component {
             total:0,
             currentPage:0,
             limit:15,
-            operateST:'',
-            operateET:'',
+            operateST:moment().subtract(1, "months").format("YYYY-MM-DD"),
+            operateET:moment().format("YYYY-MM-DD"),
             status:'',
+            type:0,
             orderNo:''
         };
         this.columns = [{
@@ -160,7 +161,8 @@ class ReceiptReportForm extends React.Component {
                     operateST:this.state.operateST,
                     operateET:this.state.operateET,
                     status:this.state.status,
-                    orderNo:this.state.orderNo
+                    orderNo:this.state.orderNo,
+                    type:values.type
                 };
                 self.getServerData(data);
             })
@@ -173,6 +175,8 @@ class ReceiptReportForm extends React.Component {
                 spShopId:this.props.shopId,
                 currentPage:0,
                 limit:15,
+                type:0,
+                status:"",
                 operateST:this.state.operateST,
                 operateET:this.state.operateET
             }
@@ -194,27 +198,33 @@ class ReceiptReportForm extends React.Component {
                                         className="operate-time"
                                         label="最近操作时间"
                                        >
-                                            <RangePicker
-                                                value={this.state.operateST?[moment(this.state.operateST, dateFormat), moment(this.state.operateET, dateFormat)]:null}
-                                                format={dateFormat}
-                                                onChange={this.dateChange.bind(this)} />
+                                           <RangePicker
+                                               value={this.state.operateST?[moment(this.state.operateST, dateFormat), moment(this.state.operateET, dateFormat)]:null}
+                                               format={dateFormat}
+                                               onChange={this.dateChange.bind(this)} />
                                         </FormItem>
                                         <FormItem
                                         label="订单状态"
                                        >
-                                        {getFieldDecorator('status')(
-                                            <Select allowClear placeholder="请选择订单状态">
-                                                <Option value="10">待收货</Option>
-                                                <Option value="20">收货中</Option>
-                                                <Option value="30">已收货</Option>
+                                        {getFieldDecorator('status',{
+                                          initialValue:""
+                                        })(
+                                            <Select placeholder="请选择订单状态">
+                                                <Option value="">全部</Option>
+                                                <Option value={10}>待收货</Option>
+                                                <Option value={20}>收货中</Option>
+                                                <Option value={30}>已收货</Option>
                                             </Select>
                                         )}
                                         </FormItem>
                                         <FormItem
                                         label="订单类型"
                                        >
-                                        {getFieldDecorator('type')(
-                                            <Select allowClear placeholder="请选择订单状态">
+                                        {getFieldDecorator('type',{
+                                          initialValue:0
+                                        })(
+                                            <Select placeholder="请选择订单状态">
+                                                <Option value={0}>全部</Option>
                                                 <Option value={1}>门店配货单</Option>
                                                 <Option value={2}>门店调拨单</Option>
                                             </Select>

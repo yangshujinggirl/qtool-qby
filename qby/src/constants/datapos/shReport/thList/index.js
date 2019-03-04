@@ -26,7 +26,8 @@ class ThList extends Component {
    const endRpDate = timeForMat(30).t1;
    this.searchData({
      createtimeST:startRpDate,
-     createtimeET:endRpDate
+     createtimeET:endRpDate,
+     returnType:0
    });
  }
 
@@ -34,7 +35,7 @@ class ThList extends Component {
   handleOperateClick(record) {
     const paneitem = {
       title:'订单详情',
-      key:`${this.props.componkey}edit`+record.orderId,
+      key:`${this.props.componkey}edit`+record.wsAsnId,
       componkey:`${this.props.componkey}infoTh`,
       data:{
         wsAsnId:record.wsAsnId,

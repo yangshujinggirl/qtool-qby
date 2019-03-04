@@ -116,24 +116,36 @@ class AddThOrder extends Component{
 				const goodsList = _.cloneDeep(productList);
 
 				if(this.state.isC){  //如果是c端退单
-					const newArr = 	goodsList.filter((item,index)=>{//需要检测退款数量有木有输入-->没有输入的数据不向后台输出
-							return Boolean(item.applyReturnCount)
-				 	});
 					if(values.returnType && values.returnType=='售中退款')values.returnType = 0
 					if(values.returnType && values.returnType=='售后退款')values.returnType = 1
 					values.orderId = this.state.orderId;
-					if(newArr[0]){
-						const isExistZero = newArr.find(item=>(
-							item.applyReturnQuota == 0
-						));
-						if(isExistZero){
-							message.error('退款金额需大于0')
+					if(this.state.isTax){ //如果是c端保税必须	全退
+						const isAllReturn = goodsList.every(item=>{
+							return item.applyReturnCount == item.buyCount
+						});
+						if(!isAllReturn){ //如果没有全退
+							message.error('保税订单必须全退')
 						}else{
-							values.productList = newArr;
-							this.sendRequest(values);
+							values.productList = goodsList;
+								this.sendRequest(values);
 						};
-					}else{
-						message.error('数据不完整，无可退商品',.8)
+					}else{ //不必全退
+						const newArr = 	goodsList.filter((item,index)=>{//需要检测退款数量有木有输入-->没有输入的数据不向后台输出
+								return Boolean(item.applyReturnCount)
+					 	});
+						if(newArr[0]){
+							const isExistZero = newArr.find(item=>(
+								item.applyReturnQuota == 0
+							));
+							if(isExistZero){
+								message.error('退款金额需大于0')
+							}else{
+								values.productList = newArr;
+								this.sendRequest(values);
+							};
+						}else{
+							message.error('数据不完整，无可退商品',.8)
+						};
 					};
 				}else{ //有赞的退单
 					goodsList.map(item=>{

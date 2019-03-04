@@ -255,7 +255,7 @@ render(){
 
                 <div className='cardlist_item'><label>订单类型：</label><span>{backInfos.orderTypeStr}</span></div>
                 <div className='cardlist_item'><label>退款运费：</label><span>{backInfos.expressAmount}</span></div>
-                <div className='cardlist_item'><label>退款商品金额：</label><span>{backInfos.actualAmount}</span></div>
+                <div className='cardlist_item'><label>退款商品金额：</label><span>{backInfos.everyPdPrice}</span></div>
 
                 <div className='cardlist_item'><label>退款总金额：</label><span>{backInfos.totalReturnPrice}</span></div>
                 <div className='cardlist_item'><label>退款原因：</label><span>{backInfos.returnReason}</span></div>

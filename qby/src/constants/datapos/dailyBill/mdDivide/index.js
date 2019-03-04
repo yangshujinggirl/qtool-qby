@@ -22,8 +22,8 @@ class MdDivide extends Component {
     this.getNowFormatDate();
   }
   getNowFormatDate = () => {
-   const startRpDate = getCurrentTime();
-   const endRpDate = getCurrentTime();
+   const startRpDate = moment().subtract(1, "months").format("YYYY-MM-DD");
+   const endRpDate =  moment().format("YYYY-MM-DD");
    this.searchData({
      spShopId:this.props.shopId,
      createtimeST:startRpDate,
@@ -104,6 +104,7 @@ class MdDivide extends Component {
 
   render() {
     const { dataList=[],orderNum,shareProfitSumAmount } = this.props.mdDivide;
+    console.log(this.props.mdDivide)
     return (
       <div className='qtools-components-pages md_divide'>
         <FilterForm
