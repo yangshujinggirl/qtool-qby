@@ -39,7 +39,7 @@ export default {
         initState(state, { payload: value}) {
 			const formValue={
 				spOrderNo:'',
-				supplier:'',		
+				supplier:'',
 				expectedTime:'',
 				wsWarehouseId:[],
                 reason:''
@@ -61,7 +61,7 @@ export default {
                     tableList[i].key=tableList[i].wsAsnId;
                 }
                 yield put({type: 'syncTableList',payload:{tableList,total,limit,currentPage}});
-            } 
+            }
         },
         *infofetch({ payload: {code,values} }, { call, put ,select}) {
             const result=yield call(GetServerData,code,values);
@@ -93,7 +93,7 @@ export default {
                 const details=[]
                 const logs=[]
                 yield put({type: 'syncInfolist',payload:{headTitle,headTit,details,logs}});
-            } 
+            }
         },
         *editfetch({ payload: {code,values} }, { call, put }) {
 			const result=yield call(GetServerData,code,values);
@@ -105,7 +105,7 @@ export default {
                     let tempJson = {};
                     tempJson.key=i
                     tempJson.qtyline=true
-                    tempJson.priceline=true	
+                    tempJson.priceline=true
                     tempJson.pdCode = goodsInfoList[i].pdCode
                     tempJson.pdName = goodsInfoList[i].pdName
                     tempJson.pdSkuType = goodsInfoList[i].pdSkuType
@@ -117,13 +117,14 @@ export default {
                 }
                 let formValue = {};
                 formValue.spOrderNo = result.asn.spOrderNo;
-				formValue.supplier = result.asn.name;		
+                formValue.spShopId = result.asn.spShopId;
+				formValue.supplier = result.asn.name;
 				formValue.expectedTime = result.asn.expectedTime;
 				formValue.wsWarehouseId = String(result.asn.wsWarehouseId);
                 formValue.reason = result.asn.reason;
                 yield put({type: 'syncEditInfo',payload:formValue});
                 yield put({type: 'syncGoodsInfo',payload:goodsInfo});
-			} 
+			}
 		},
   	},
   	subscriptions: {},
