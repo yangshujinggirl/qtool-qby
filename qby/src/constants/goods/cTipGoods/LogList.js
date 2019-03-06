@@ -85,7 +85,8 @@ class EditableCell extends React.Component {
         return (
         <div className="editable-cell">
         {
-        this.props.operadatatype=='1'?
+        this.props.operadatatype=='1'|| this.props.operadatatype=='5'
+        ?
         <span>{this.props.data}</span>
         :
         this.props.data.map((item,index)=>{
@@ -225,6 +226,10 @@ class Config extends React.Component{
                   case 'XGMSLR':
                     data[i].operadatatype = '3';
                     break;
+                  case 'XZSPSM':
+                  case 'QXSPSM':
+                    data[i].operadatatype = '5';
+                    break;
                 }
             }
               //操作描述操作
@@ -234,6 +239,8 @@ class Config extends React.Component{
                 const afterContent=(!data[i].afterContent)?'':data[i].afterContent
                 if(data[i].operadatatype=='1'){
                   data[i].des=data[i].operationTypeStrr.format(addContent,beforeContent,afterContent)
+                }else if(data[i].operadatatype=='5'){
+                  data[i].des = data[i].beforeContent;
                 }else{
                   //以%s为标准把模板分割为数组
                   var reg = new RegExp("%s", "g");
