@@ -63,7 +63,7 @@ class AddThOrder extends Component{
 				this.setState({
 					returnType:res.returnType,
 					orderType:res.orderType,
-					productList:res.productList,
+					productList:res.productList||[],
 					freightQuota:res.freightQuota,
 					recName:res.recName,
 					recTelephone:res.recTelephone,
@@ -76,7 +76,7 @@ class AddThOrder extends Component{
 	}
 	//合计退款
 	getReturnSumQuota =()=> {
-		const {productList,returnType,freightQuota} = this.state;
+		const {productList=[],returnType,freightQuota} = this.state;
 		let [haveReturnTotalCount,applyTotalCount,totalBuyCount,totalReturnMoney] = [0,0,0,0]
 		productList&&productList.map( (item,index)=> {
 			 haveReturnTotalCount += Number(item.returnCount);//总的已退数量
@@ -212,7 +212,7 @@ class AddThOrder extends Component{
 			const {
 				orderType,
 				returnType,
-				productList,
+				productList=[],
 				loading,
 				isC,
 				returnWay,

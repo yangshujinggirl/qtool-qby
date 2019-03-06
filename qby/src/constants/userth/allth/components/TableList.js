@@ -1,5 +1,6 @@
 import {Component} from 'react'
 import {Table,Form,Input,Button} from 'antd'
+import {Subtr} from '../../../../utils/operate'
 
 class TableList extends Component {
   constructor(props){
@@ -147,10 +148,10 @@ class TableList extends Component {
       let returnMoney;
       let item = productList[index];
       if(value == item.buyCount - item.returnCount){ //退款数量等于剩余可退 --->表示全退---->用实付-已退（保证两者相加等于全部）
-        returnMoney = item.orderQuota - item.returnQuota;
+        returnMoney = Subtr(Number(item.orderQuota) , Number(item.returnQuota) );
         item.applyReturnQuota = returnMoney;
       }else{ //单价 * 数量
-        returnMoney = Number((item.orderQuota/item.buyCount * Number(value) ).toFixed(2));
+        returnMoney = _.floor((item.orderQuota/item.buyCount * Number(value)),2) ;
         item.applyReturnQuota = returnMoney;
       };
     }
@@ -165,6 +166,7 @@ class TableList extends Component {
 	}
   render(){
     const {productList,columns,isTax} = this.props;
+    console.log(productList)
     productList.map(item=>{
       item.isTax = isTax;
     });
