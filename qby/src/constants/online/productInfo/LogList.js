@@ -244,6 +244,7 @@ class Config extends React.Component{
                       data[i].operadatatype = '3';
                       break;
                     case 'XZSPSM':
+                    case 'QXSPSM':
                       data[i].operadatatype = '5';
                       break;
                   }
