@@ -43,6 +43,7 @@ class NormalForm extends Component {
   }
   onSelect=(value)=>{
     this.setState({typeValue:value});
+    this.props.form.resetFields('orderStatus');
     getStatusListApi({orderType:value})
     .then(res=>{
       if(res.code == 0){
