@@ -43,7 +43,7 @@ class NormalForm extends Component {
             <div className="search-form-wrap">
               <FormItem label='门店名称'>
                  {getFieldDecorator('shopName')(
-                   <Input placeholder="请输入退款单号" autoComplete="off"/>
+                   <Input placeholder="请输入门店名称" autoComplete="off"/>
                  )}
                </FormItem>
               <FormItem label='结算时间'>
