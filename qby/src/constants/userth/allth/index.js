@@ -187,7 +187,7 @@ class Allth extends Component {
     if(!selectedRows[0]){ //如果未选择
       message.warning('请选择需要操作的保税订单',.8)
     }else{//只可操作保税仓的待收货订单
-      if(selectedRows[0].orderType != 5 || selectedRows[0].returnStatus != 50 ){
+      if(selectedRows[0].orderType != 5 || selectedRows[0].returnStatusStr != '待收货' ){
         message.error('只可操作保税仓的待收货订单')
       }else{
         sureGetApi( {orderReturnId})
