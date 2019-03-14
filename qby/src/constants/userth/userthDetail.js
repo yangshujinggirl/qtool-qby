@@ -42,7 +42,7 @@ class UserthDetail extends React.Component{
       key:'3'
 		}, {
 			title: '购买数量',
-			dataIndex: 'bugPdQty',
+			dataIndex: 'buyPdQty',
       key:'4'
 		},{
 			title: '实付金额',
