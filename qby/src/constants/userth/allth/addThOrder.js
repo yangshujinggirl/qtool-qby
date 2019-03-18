@@ -102,6 +102,7 @@ class AddThOrder extends Component{
 	handleSubmit =()=> {
 		this.props.form.validateFieldsAndScroll((err, values) => {
 			if(!err){
+				this.setState({loading:true})
 				const {orderSource} = this.state;
 				values.orderSource = orderSource;
 				if(orderSource){ //orderSource为1的时候需要填写
@@ -169,11 +170,9 @@ class AddThOrder extends Component{
 	}
 	//发送请求
 	sendRequest =(values)=> {
-		this.setState({loading:true})
 		saveThApi(values)
 		.then(res=>{
 			if(res.code =='0'){
-				this.setState({loading:false})
 				message.success('保存成功');
 				this.props.dispatch({
 						type:'tab/initDeletestate',
@@ -183,6 +182,7 @@ class AddThOrder extends Component{
 					type:'allth/fetchList',
 					payload:{}
 				});
+				this.setState({loading:false});
 			}else{
 				this.setState({loading:false})
 			}
