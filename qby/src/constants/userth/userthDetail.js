@@ -181,8 +181,7 @@ refuse =()=> {
 					content:'是否确认此操作',
 					onOk:()=>{
 						values.opType = 2;
-						console.log(value)
-						// this.sendRequest(values)
+						this.sendRequest(values)
 					},
 				});
 			};

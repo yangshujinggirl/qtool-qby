@@ -131,7 +131,7 @@ class AddThOrder extends Component{
 							};
 						});
 						const isAllReturn = canReturnList.every(item=>{ //对可退的订单做判断---->是否已全部退完
-							return item.applyReturnCount==item.buyCount
+							return item.applyReturnCount+item.returnCount==item.buyCount
 						});
 						if(!isAllReturn){ //如果没有全退
 							message.error('保税订单必须全退')
