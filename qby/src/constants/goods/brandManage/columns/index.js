@@ -22,6 +22,12 @@ const Columns1 = [{
      title: 'C端品牌馆',
      dataIndex: 'eventStatusStr'
    },{
+     title: '预览链接',
+     dataIndex: 'eventStatusStr'
+   },{
+     title: '跳转页面编码',
+     dataIndex: 'eventStatusStr'
+   },{
      title: '创建时间',
      dataIndex: 'createTime'
    },{
@@ -62,4 +68,4 @@ const Columns1 = [{
       title: '创建时间',
       dataIndex: 'createTime'
     }];
- export {Columns1,Columns2} 
+ export {Columns1,Columns2}

@@ -1,63 +1,80 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Form,Button,Input } from 'antd';
+import { Form,Button,Input,Row,Col} from 'antd';
 import moment from 'moment';
 import Upload from '../../../components/UploadImg/onlyOneImg';
 const FormItem = Form.Item;
+import './addGoods.less'
 
 
 class AddGood extends  Component {
   constructor(props) {
     super(props);
+    this.state={
+      imageUrl:''
+    }
   }
   componentDidMount(){
 
   }
   changeImg =(imageUrl)=> {
-
+    this.setState({
+      imageUrl
+    });
   }
+  cancel =()=> {
+    this.props.dispatch({
+      type:'tab/initDeletestate',
+      payload:this.props.componkey
+    });
+  }
+  handleSubmit =()=> {
+    this.props.form.validateFieldsAndScroll((err,values)=>{
+      if(!err){
+
+      }
+    })
+  }
+
   render() {
     const { getFieldDecorator } = this.props.form;
+    const {imageUrl} = this.state;
+    const formItemLayout = {
+      labelCol: { span:3 },
+      wrapperCol: { span:6 },
+    };
     return (
-      	<Form className="addUser-form addcg-form operate-shop-form">
-          	<div className='title'>基本信息</div>
-              <FormItem
-      					label="门店名称"
-      					labelCol={{ span: 3,offset: 1 }}
-      					wrapperCol={{ span: 6 }}>
+      	<Form className="exchangAct_addGood">
+          	<div className='title'>基础信息</div>
+              <FormItem {...formItemLayout}  label="商品名称">
       					{getFieldDecorator('name', {
-      						rules: [{ required: true, message: '请输入门店名称'}],
+      						rules: [{ required: true, message: '请输入商品名称'}],
       						initialValue:1
       					})(
-      						<Input placeholder='请输入门店名称' autoComplete="off"/>
+      						<Input placeholder='请输入商品名称' autoComplete="off"/>
       					)}
       				</FormItem>
-              <FormItem
-      					label="零售价"
-      					labelCol={{ span: 3,offset: 1 }}
-      					wrapperCol={{ span: 6 }}>
-      					{getFieldDecorator('n1ame', {
-      						rules: [{ required: true, message: '请输入门店名称'}],
-      						initialValue:2
+              <FormItem {...formItemLayout} label="品牌图片">
+                {getFieldDecorator('n1ame', {
+      						rules: [{ required: true, message: '请输入品牌图片'}],
       					})(
-      						<Input placeholder='请输入门店名称' autoComplete="off"/>
-      					)}
-      				</FormItem>
-              <FormItem
-                  label="品牌图片"
-                  labelCol={{ span: 5 }}
-                  wrapperCol={{ span: 12 }}>
                   <Upload
                     name='imgFile'
                     action='/erpWebRest/qcamp/upload.htm?type=brand'
-                    imageUrl = ''
+                    imageUrl = {imageUrl}
                     changeImg = {this.changeImg}
                   />
+      					)}
               </FormItem>
-              <FormItem
-      					label="兑换所需货币数"
-      					labelCol={{ span: 3,offset: 1 }}
-      					wrapperCol={{ span: 6 }}>
+              <FormItem {...formItemLayout} label="零售价">
+      					{getFieldDecorator('n1ame', {
+      						rules: [{ required: true, message: '请输入零售价'}],
+      						initialValue:2
+      					})(
+      						<Input placeholder='请输入零售价' autoComplete="off"/>
+      					)}
+      				</FormItem>
+              <FormItem {...formItemLayout} label="兑换所需货币数">
       					{getFieldDecorator('na2me', {
       						rules: [{ required: true, message: '请输入门店名称'}],
       						initialValue:3
@@ -65,10 +82,7 @@ class AddGood extends  Component {
       						<Input placeholder='请输入门店名称' autoComplete="off"/>
       					)}
       				</FormItem>
-              <FormItem
-      					label="可兑换数量"
-      					labelCol={{ span: 3,offset: 1 }}
-      					wrapperCol={{ span: 6 }}>
+              <FormItem {...formItemLayout} label="可兑换数量">
       					{getFieldDecorator('nam3e', {
       						rules: [{ required: true, message: '请输入门店名称'}],
       						initialValue:4
@@ -76,6 +90,16 @@ class AddGood extends  Component {
       						<Input placeholder='请输入门店名称' autoComplete="off"/>
       					)}
       				</FormItem>
+              <FormItem {...formItemLayout} className='btn_cancel_save'>
+                <Row type="flex" justify="space-around">
+                  <Col offset={4}>
+                    <Button onClick={this.cancel}>取消</Button>
+                  </Col>
+                  <Col>
+                    <Button onClick={this.handleSubmit} type="primary">保存</Button>
+                  </Col>
+                </Row>
+              </FormItem>
         </Form>
     )
   }

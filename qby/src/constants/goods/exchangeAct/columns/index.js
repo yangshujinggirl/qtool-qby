@@ -1,5 +1,5 @@
 const Columns = [{
-     title: '工单id',
+     title: '商品ID',
      key:'ticketId',
      dataIndex: 'udeskTicketId',
      render:(text, record, index)=> {
@@ -8,27 +8,23 @@ const Columns = [{
          onClick={()=>record.onOperateClick(record)}>{record.udeskTicketId}</span>
      }
    },{
-     title: '主题',
+     title: '商品名称',
      dataIndex: 'subject',
      key: 'subject',
    },{
-     title: '状态',
+     title: '商品零售价',
      dataIndex: 'status',
      key: 'status',
    }, {
-     title: '优先级',
+     title: '兑换所需金币数',
      dataIndex: 'priority',
      key: 'priority',
-   },/*{
-     title: '用户电话',
-     dataIndex: 'cellPhone',
-     key: 'cellPhone'
-   },*/{
-     title: '受理客服',
+   },{
+     title: '可兑换数量',
      dataIndex: 'agentGroupName',
      key: 'agentGroupName',
    },{
-     title: '创建时间',
+     title: '剩余数量',
      dataIndex: 'createrTime',
      key: 'createrTime',
    }];

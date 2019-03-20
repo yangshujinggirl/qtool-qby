@@ -86,6 +86,19 @@ class ExplainModal extends Component{
                }
            </FormItem>
            <FormItem
+               label="跳转页面编码"
+               labelCol={{ span: 5 }}
+               wrapperCol={{ span: 12 }}>
+               {
+                 getFieldDecorator("name",{
+                   rules:[{required:true,message:"请输入跳转页面编码",}],
+                   initialValue:name?name:null,
+                 })(
+                    <Input placeholder='请输入跳转页面编码' autoComplete="off"/>
+                 )
+               }
+           </FormItem>
+           <FormItem
              label="品牌状态"
              labelCol={{ span: 5 }}
              wrapperCol={{ span: 12 }}>

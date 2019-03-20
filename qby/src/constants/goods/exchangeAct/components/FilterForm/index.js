@@ -70,68 +70,14 @@ class NormalForm extends Component {
         <Form className="qtools-condition-form">
           <div className='search-form-outwrap'>
             <div className="search-form-wrap">
-              <FormItem label='工单id'>
+              <FormItem label='商品 ID'>
                  {getFieldDecorator('udeskTicketId')(
-                   <Input placeholder="请输入工单id" autoComplete="off"/>
+                   <Input placeholder="请输入商品 ID" autoComplete="off"/>
                  )}
                </FormItem>
-              <FormItem label='工单主题'>
+              <FormItem label='商品名称'>
                  {getFieldDecorator('subject')(
-                   <Input placeholder="请输入工单主题" autoComplete="off"/>
-                 )}
-               </FormItem>
-              <FormItem label='工单状态'>
-                 {getFieldDecorator('status')(
-                   <Select placeholder="请选择工单状态" allowClear={true}>
-                     {
-                      statusOptions.map((el) => (
-                         <Select.Option
-                           value={el.key}
-                           key={el.key}>{el.value}</Select.Option>
-                       ))
-                     }
-                   </Select>
-                 )}
-               </FormItem>
-              <FormItem label='优先级'>
-                 {getFieldDecorator('priority')(
-                   <Select allowClear={true} placeholder="请选择优先级">
-                     {
-                       priorityOptions.map((el,index) => (
-                         <Select.Option
-                           value={el.key}
-                           key={el.key}>{el.value}</Select.Option>
-                       ))
-                     }
-                   </Select>
-                 )}
-               </FormItem>
-               <FormItem label='受理客服'>
-                  {getFieldDecorator('agentGroupName')(
-                    <Input placeholder="请输入受理客服" autoComplete="off"/>
-                  )}
-                </FormItem>
-               {/* <FormItem label='用户电话'>
-                  {getFieldDecorator('cellphone')(
-                    <Input placeholder="请输入用户电话" autoComplete="off"/>
-                  )}
-                </FormItem> */}
-              <FormItem label='处理时长'>
-                 {getFieldDecorator('type')(
-                   <Select allowClear={true} placeholder="请选择处理时长">
-                     {
-                       timeOptions.map((el,index) => (
-                         <Select.Option
-                           value={el.key}
-                           key={el.key}>{el.value}</Select.Option>
-                       ))
-                     }
-                   </Select>
-                 )}
-               </FormItem>
-              <FormItem label='创建时间'>
-                 {getFieldDecorator('createrTime')(
-                   <RangePicker  />
+                   <Input placeholder="请输入商品名称" autoComplete="off"/>
                  )}
                </FormItem>
              </div>
