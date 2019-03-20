@@ -92,7 +92,16 @@ class GoodsDetail extends Component {
               ))
             }
     			</FormItem>
-
+          <FormItem label="上线平台" {...formItemLayout}>
+            {
+              [1,2][0]&&[1,2].map(item=>(
+                <div>
+                  {item==1 && <label>c端app</label>}
+                  {item==2 && <label>小程序</label>}
+                </div>
+              ))
+            }
+          </FormItem>
           <FormItem label="商品描述" {...formItemLayout}>
             <ul className="goods-desc-wrap">
               {

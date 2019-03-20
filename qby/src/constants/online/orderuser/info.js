@@ -103,7 +103,13 @@ class OrderuserInfo extends React.Component{
 			},
 			{
 				title: '实付价格',
-				dataIndex: 'payAmount'
+				dataIndex: 'payAmount',
+				render:(text,record,index)=>(
+		      record.payAmount ?
+		        <div>{text}（限时直降）</div>
+		      :
+		        <div>{text}（秒杀）</div>
+		    )
 			}
 		];
     this.column2 = [
@@ -173,7 +179,13 @@ class OrderuserInfo extends React.Component{
 			},
 			{
 				title: '实付价格',
-				dataIndex: 'payAmount'
+				dataIndex: 'payAmount',
+				render:(text,record,index)=>(
+		      record.payAmount ?
+		        <div>{record.payAmount}（限时直降）</div>
+		      :
+		        <div>{record.payAmount}（秒杀）</div>
+		    )
 			},{
 				title: '已退数量',
 				dataIndex: 'returnQty'

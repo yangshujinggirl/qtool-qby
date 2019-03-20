@@ -106,7 +106,16 @@ class GoodsDetail extends Component {
                 <p>{item.name}</p>
               ))
             }
-            <div></div>
+          </FormItem>
+          <FormItem label="上线平台" {...formItemLayout}>
+            {
+              [1,2][0]&&[1,2].map(item=>(
+                <div>
+                  {item==1 && <label>c端app</label>}
+                  {item==2 && <label>小程序</label>}
+                </div>
+              ))
+            }
           </FormItem>
           <FormItem label="品牌直供" {...formItemLayout}>
             <label>{pdSpu.brandDirectMail?'是':'否'}</label>

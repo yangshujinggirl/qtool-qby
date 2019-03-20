@@ -13,15 +13,7 @@ import Brandindex from '../goods/brandManage/index';
 import Specsindex from '../goods/specs/index';
 import GoodtimeIndex from '../goods/goodtime/index';
 import GoodEditForm from '../goods/goodtime/edit';
-
-
-
-
 import DataspIndex from '../datasp/index';
-
-
-
-
 import AccountIndex from '../account/index';
 import AddNewAccount from '../account/info';
 //门店订单
@@ -141,6 +133,8 @@ import  InternalSort from '../goods/internalSort/index.js';//内部分类
 import  CountryManage from '../goods/countryManage/index.js';//国家管理
 import  BondManage from '../goods/bondManage/index.js'//保税仓管理
 import CgoodsExplain from '../goods/cgoodsExplain/index'//c端商品说明
+import ExchangeAct from '../goods/exchangeAct/index'//活动兑换商品
+import ActAddGoods from '../goods/exchangeAct/addGoods'//活动兑换商品新增商品
 //电商中心
 import ProductInfo from '../online/productInfo/index.js';//商品信息
 import EditGoods from '../online/productInfo/AddGoods.js';//修改商品信息
@@ -371,6 +365,8 @@ class Content extends React.Component {
                                     case formDataCode('goods12') : return <Ctimer data={this.props.data} componkey={this.props.componkey}/>//c端定时
                                     case formDataCode('goods12-edit') : return <AddTimer data={this.props.data} componkey={this.props.componkey}/>
                                     case "313000" : return <BondManage data={this.props.data} componkey={this.props.componkey}/>
+                                    case "306000" : return <ExchangeAct data={this.props.data} componkey={this.props.componkey}/>
+                                    case "306000edit" : return <ActAddGoods data={this.props.data} componkey={this.props.componkey}/>
                                     //------------------------------客服中心------------------------
                                     case formDataCode('server02') : return <UserFeedBack data={this.props.data} componkey={this.props.componkey}/>//用户反馈
                                     case formDataCode('server02-edit') : return <HandleBack data={this.props.data} componkey={this.props.componkey}/>

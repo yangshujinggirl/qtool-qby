@@ -19,6 +19,7 @@ import cTimer from './models/cTimer/cTimer.js';//c端定时
 import cExplain from './models/goodsCenter/cExplain.js';//c端商品说明
 import bondManage from './models/goodsCenter/bondManage.js';//保税仓管理
 import countryManage from './models/goodsCenter/countryManage.js';//国家管理
+import exchangeAct from './models/goodsCenter/exchangeAct/exchangeAct.js';//国家管理
 //电商中心
 import productGoodsList from './models/online/productInfo/productGoodsList.js'
 import productEditGoods from './models/online/productInfo/productEditGoods.js'
@@ -199,7 +200,8 @@ const models = [
   shareRate,
   shareTotal,
   shareMail,
-  orderuser
+  orderuser,
+  exchangeAct
 ]
 models.forEach(m => {
   return app.model(m)

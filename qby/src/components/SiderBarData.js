@@ -1,5 +1,4 @@
 const SiderBarData =  [
-  //订单中心200000
     {
       "urResourceId": 200000,
       "name": "订单中心",
@@ -10,7 +9,7 @@ const SiderBarData =  [
       "statusStr": null,
       "menu": 1,
       "menuStr": null,
-      "rank": 10,
+      "rank": 1,
       "children": [
         {
           "urResourceId": 201000,
@@ -22,7 +21,7 @@ const SiderBarData =  [
           "statusStr": null,
           "menu": 1,
           "menuStr": null,
-          "rank": null,
+          "rank": 1,
           "children": [
             {
               "urResourceId": 201100,
@@ -35,7 +34,7 @@ const SiderBarData =  [
               "menu": 1,
               "menuStr": null,
               "rank": null,
-              "children": null
+              "children": []
             },
             {
               "urResourceId": 201200,
@@ -48,7 +47,7 @@ const SiderBarData =  [
               "menu": 1,
               "menuStr": null,
               "rank": null,
-              "children": null
+              "children": []
             },
             {
               "urResourceId": 201300,
@@ -61,7 +60,7 @@ const SiderBarData =  [
               "menu": 1,
               "menuStr": null,
               "rank": null,
-              "children": null
+              "children": []
             },
             {
               "urResourceId": 201400,
@@ -74,7 +73,7 @@ const SiderBarData =  [
               "menu": 1,
               "menuStr": null,
               "rank": null,
-              "children": null
+              "children": []
             },
             {
               "urResourceId": 201500,
@@ -87,7 +86,73 @@ const SiderBarData =  [
               "menu": 1,
               "menuStr": null,
               "rank": null,
-              "children": null
+              "children": []
+            }
+          ]
+        },
+        {
+          "urResourceId": 203000,
+          "name": "门店退单",
+          "code": "203000",
+          "url": "",
+          "remark": null,
+          "status": 1,
+          "statusStr": null,
+          "menu": 1,
+          "menuStr": null,
+          "rank": 2,
+          "children": [
+            {
+              "urResourceId": 203100,
+              "name": "订单信息",
+              "code": "203100",
+              "url": "qerp.web.ws.asn.query",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            },
+            {
+              "urResourceId": 203200,
+              "name": "新增退货单",
+              "code": "203200",
+              "url": "qerp.web.ws.asn.save",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            },
+            {
+              "urResourceId": 203300,
+              "name": "导出数据",
+              "code": "203300",
+              "url": "qerp.web.sys.doc.task",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            },
+            {
+              "urResourceId": 203400,
+              "name": "强制完成",
+              "code": "203400",
+              "url": "qerp.web.ws.asn.finish",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
             }
           ]
         },
@@ -101,7 +166,7 @@ const SiderBarData =  [
           "statusStr": null,
           "menu": 1,
           "menuStr": null,
-          "rank": null,
+          "rank": 3,
           "children": [
             {
               "urResourceId": 202100,
@@ -114,11 +179,11 @@ const SiderBarData =  [
               "menu": 1,
               "menuStr": null,
               "rank": null,
-              "children": null
+              "children": []
             },
             {
               "urResourceId": 202200,
-              "name": "新增采购单",
+              "name": "增改采购单",
               "code": "202200",
               "url": "qerp.web.ws.asn.save",
               "remark": null,
@@ -127,7 +192,7 @@ const SiderBarData =  [
               "menu": 1,
               "menuStr": null,
               "rank": null,
-              "children": null
+              "children": []
             },
             {
               "urResourceId": 202300,
@@ -140,20 +205,7 @@ const SiderBarData =  [
               "menu": 1,
               "menuStr": null,
               "rank": null,
-              "children": null
-            },
-            {
-              "urResourceId": 202400,
-              "name": "付款操作",
-              "code": "202400",
-              "url": "qerp.web.ws.asn.payStatus",
-              "remark": null,
-              "status": 1,
-              "statusStr": null,
-              "menu": 1,
-              "menuStr": null,
-              "rank": null,
-              "children": null
+              "children": []
             },
             {
               "urResourceId": 202600,
@@ -166,7 +218,7 @@ const SiderBarData =  [
               "menu": 1,
               "menuStr": null,
               "rank": null,
-              "children": null
+              "children": []
             },
             {
               "urResourceId": 202700,
@@ -179,73 +231,20 @@ const SiderBarData =  [
               "menu": 1,
               "menuStr": null,
               "rank": null,
-              "children": null
-            }
-          ]
-        },
-        {
-          "urResourceId": 203000,
-          "name": "退货订单",
-          "code": "203000",
-          "url": "",
-          "remark": null,
-          "status": 1,
-          "statusStr": null,
-          "menu": 1,
-          "menuStr": null,
-          "rank": null,
-          "children": [
-            {
-              "urResourceId": 203100,
-              "name": "订单信息",
-              "code": "203100",
-              "url": "qerp.web.ws.asn.query",
-              "remark": null,
-              "status": 1,
-              "statusStr": null,
-              "menu": 1,
-              "menuStr": null,
-              "rank": null,
-              "children": null
+              "children": []
             },
             {
-              "urResourceId": 203200,
-              "name": "新增退货单",
-              "code": "203200",
-              "url": "qerp.web.ws.asn.save",
+              "urResourceId": 202800,
+              "name": "发票管理",
+              "code": "202800",
+              "url": "qerp.web.ws.invoice.save",
               "remark": null,
               "status": 1,
               "statusStr": null,
               "menu": 1,
               "menuStr": null,
               "rank": null,
-              "children": null
-            },
-            {
-              "urResourceId": 203300,
-              "name": "导出数据",
-              "code": "203300",
-              "url": "qerp.web.sys.doc.task",
-              "remark": null,
-              "status": 1,
-              "statusStr": null,
-              "menu": 1,
-              "menuStr": null,
-              "rank": null,
-              "children": null
-            },
-            {
-              "urResourceId": 203400,
-              "name": "强制完成",
-              "code": "203400",
-              "url": "qerp.web.ws.asn.finish",
-              "remark": null,
-              "status": 1,
-              "statusStr": null,
-              "menu": 1,
-              "menuStr": null,
-              "rank": null,
-              "children": null
+              "children": []
             }
           ]
         },
@@ -259,7 +258,7 @@ const SiderBarData =  [
           "statusStr": null,
           "menu": 1,
           "menuStr": null,
-          "rank": null,
+          "rank": 4,
           "children": [
             {
               "urResourceId": 204100,
@@ -272,7 +271,7 @@ const SiderBarData =  [
               "menu": 1,
               "menuStr": null,
               "rank": null,
-              "children": null
+              "children": []
             },
             {
               "urResourceId": 204200,
@@ -285,7 +284,7 @@ const SiderBarData =  [
               "menu": 1,
               "menuStr": null,
               "rank": null,
-              "children": null
+              "children": []
             },
             {
               "urResourceId": 204300,
@@ -298,113 +297,7 @@ const SiderBarData =  [
               "menu": 1,
               "menuStr": null,
               "rank": null,
-              "children": null
-            }
-          ]
-        },
-        {
-          "urResourceId": 205000,
-          "name": "POS订单",
-          "code": "205000",
-          "url": "",
-          "remark": null,
-          "status": 1,
-          "statusStr": null,
-          "menu": 1,
-          "menuStr": null,
-          "rank": null,
-          "children": [
-            {
-              "urResourceId": 205100,
-              "name": "订单信息",
-              "code": "205100",
-              "url": "qerp.web.qpos.st.order.query",
-              "remark": null,
-              "status": 1,
-              "statusStr": null,
-              "menu": 1,
-              "menuStr": null,
-              "rank": null,
-              "children": null
-            },
-            {
-              "urResourceId": 205200,
-              "name": "导出数据",
-              "code": "205200",
-              "url": "qerp.web.sys.doc.task",
-              "remark": null,
-              "status": 1,
-              "statusStr": null,
-              "menu": 1,
-              "menuStr": null,
-              "rank": null,
-              "children": null
-            }
-          ]
-        },
-        {
-          "urResourceId": 206000,
-          "name": "调拨订单",
-          "code": "206000",
-          "url": "",
-          "remark": null,
-          "status": 1,
-          "statusStr": null,
-          "menu": 1,
-          "menuStr": null,
-          "rank": null,
-          "children": [
-            {
-              "urResourceId": 206100,
-              "name": "订单信息",
-              "code": "206100",
-              "url": "qerp.web.sp.exchange.query",
-              "remark": null,
-              "status": 1,
-              "statusStr": null,
-              "menu": 1,
-              "menuStr": null,
-              "rank": null,
-              "children": null
-            },
-            {
-              "urResourceId": 206200,
-              "name": "新增调拨单",
-              "code": "206200",
-              "url": "qerp.web.sp.exchange.save",
-              "remark": null,
-              "status": 1,
-              "statusStr": null,
-              "menu": 1,
-              "menuStr": null,
-              "rank": null,
-              "children": null
-            },
-            {
-              "urResourceId": 206300,
-              "name": "导出数据",
-              "code": "206300",
-              "url": "qerp.web.sys.doc.task",
-              "remark": null,
-              "status": 1,
-              "statusStr": null,
-              "menu": 1,
-              "menuStr": null,
-              "rank": null,
-              "children": null
-            },
-            {
-              "urResourceId": 206400,
-              "name": "强制完成",
-              "code": "206400",
-              "url": "qerp.web.ws.asn.finish",
-              "remark": null,
-              "status": 1,
-              "statusStr": null,
-              "menu": 1,
-              "menuStr": null,
-              "rank": null,
-              "children": null
+              "children": []
             }
           ]
         },
@@ -418,25 +311,25 @@ const SiderBarData =  [
           "statusStr": null,
           "menu": 1,
           "menuStr": null,
-          "rank": null,
+          "rank": 5,
           "children": [
             {
               "urResourceId": 207100,
               "name": "订单信息",
-              "code": "205100",
-              "url": "qerp.web.qpos.st.order.query",
+              "code": "207100",
+              "url": "qerp.web.user.st.order.query",
               "remark": null,
               "status": 1,
               "statusStr": null,
               "menu": 1,
               "menuStr": null,
               "rank": null,
-              "children": null
+              "children": []
             },
             {
               "urResourceId": 207200,
               "name": "导出数据",
-              "code": "205200",
+              "code": "207200",
               "url": "qerp.web.sys.doc.task",
               "remark": null,
               "status": 1,
@@ -444,7 +337,7 @@ const SiderBarData =  [
               "menu": 1,
               "menuStr": null,
               "rank": null,
-              "children": null
+              "children": []
             }
           ]
         },
@@ -458,24 +351,395 @@ const SiderBarData =  [
           "statusStr": null,
           "menu": 1,
           "menuStr": null,
-          "rank": null,
-          "children":[{
-            "urResourceId": 208100,
-            "name": "订单信息",
-            "code": "208100",
-            "url": "qerp.web.sp.order.query",
-            "remark": null,
-            "status": 1,
-            "statusStr": null,
-            "menu": 1,
-            "menuStr": null,
-            "rank": null,
-            "children": null
-          },]
+          "rank": 6,
+          "children": [
+            {
+              "urResourceId": 208100,
+              "name": "全部退单",
+              "code": "208100",
+              "url": "",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": [
+                {
+                  "urResourceId": 208300,
+                  "name": "订单信息",
+                  "code": "208300",
+                  "url": "qerp.web.pd.order.return.query",
+                  "remark": null,
+                  "status": 1,
+                  "statusStr": null,
+                  "menu": 1,
+                  "menuStr": null,
+                  "rank": null,
+                  "children": []
+                },
+                {
+                  "urResourceId": 208400,
+                  "name": "创建退单",
+                  "code": "208400",
+                  "url": "qerp.web.pd.order.return.save",
+                  "remark": null,
+                  "status": 1,
+                  "statusStr": null,
+                  "menu": 1,
+                  "menuStr": null,
+                  "rank": null,
+                  "children": []
+                },
+                {
+                  "urResourceId": 208500,
+                  "name": "确认收货",
+                  "code": "208500",
+                  "url": "qerp.web.pd.order.return.confirm",
+                  "remark": null,
+                  "status": 1,
+                  "statusStr": null,
+                  "menu": 1,
+                  "menuStr": null,
+                  "rank": null,
+                  "children": []
+                },
+                {
+                  "urResourceId": 208600,
+                  "name": "强制取消",
+                  "code": "208600",
+                  "url": "qerp.web.pd.order.return.cancel",
+                  "remark": null,
+                  "status": 1,
+                  "statusStr": null,
+                  "menu": 1,
+                  "menuStr": null,
+                  "rank": null,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "urResourceId": 208200,
+              "name": "待运营审核",
+              "code": "208200",
+              "url": "",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": [
+                {
+                  "urResourceId": 208700,
+                  "name": "订单信息",
+                  "code": "208700",
+                  "url": "qerp.web.pd.order.return.audited.query",
+                  "remark": null,
+                  "status": 1,
+                  "statusStr": null,
+                  "menu": 1,
+                  "menuStr": null,
+                  "rank": null,
+                  "children": []
+                },
+                {
+                  "urResourceId": 208800,
+                  "name": "审核",
+                  "code": "208800",
+                  "url": "qerp.web.pd.order.return.audited",
+                  "remark": null,
+                  "status": 1,
+                  "statusStr": null,
+                  "menu": 1,
+                  "menuStr": null,
+                  "rank": null,
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "urResourceId": 801000,
+          "name": "保税仓订单",
+          "code": "801000",
+          "url": "",
+          "remark": null,
+          "status": 1,
+          "statusStr": null,
+          "menu": 1,
+          "menuStr": null,
+          "rank": 7,
+          "children": [
+            {
+              "urResourceId": 801100,
+              "name": "订单信息",
+              "code": "801100",
+              "url": "qerp.web.ec.od.userOrder.query",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            },
+            {
+              "urResourceId": 801200,
+              "name": "重新推送",
+              "code": "801200",
+              "url": "qerp.web.ec.od.repush",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            },
+            {
+              "urResourceId": 801500,
+              "name": "导出数据",
+              "code": "801500",
+              "url": "qerp.web.sys.doc.task",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            },
+            {
+              "urResourceId": 801600,
+              "name": "重新匹配商品",
+              "code": "801600",
+              "url": "qerp.web.ec.od.userOrder.rematch",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            },
+            {
+              "urResourceId": 801800,
+              "name": "修改订单",
+              "code": "801800",
+              "url": "qerp.web.ec.pd.userOrder.save",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            }
+          ]
+        },
+        {
+          "urResourceId": 804000,
+          "name": "待审核订单",
+          "code": "804000",
+          "url": "",
+          "remark": null,
+          "status": 1,
+          "statusStr": null,
+          "menu": 1,
+          "menuStr": null,
+          "rank": 8,
+          "children": [
+            {
+              "urResourceId": 804100,
+              "name": "订单信息",
+              "code": "804100",
+              "url": "qerp.web.ec.od.auditOrder.query",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            },
+            {
+              "urResourceId": 804200,
+              "name": "订单拆分",
+              "code": "804200",
+              "url": "qerp.web.ec.od.auditOrder.dismantle.query",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            },
+            {
+              "urResourceId": 804300,
+              "name": "订单合并",
+              "code": "804300",
+              "url": "qerp.web.ec.od.auditOrder.merge.save",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            },
+            {
+              "urResourceId": 804400,
+              "name": "星标",
+              "code": "804400",
+              "url": "qerp.web.ec.od.auditOrder.icon",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            },
+            {
+              "urResourceId": 804500,
+              "name": "修改价格",
+              "code": "804500",
+              "url": "qerp.web.ec.od.auditOrder.price.query",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            },
+            {
+              "urResourceId": 804600,
+              "name": "审核通过",
+              "code": "804600",
+              "url": "qerp.web.ec.od.auditOrder.save",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            }
+          ]
+        },
+        {
+          "urResourceId": 206000,
+          "name": "调拨订单",
+          "code": "206000",
+          "url": "",
+          "remark": null,
+          "status": 1,
+          "statusStr": null,
+          "menu": 1,
+          "menuStr": null,
+          "rank": 9,
+          "children": [
+            {
+              "urResourceId": 206100,
+              "name": "订单信息",
+              "code": "206100",
+              "url": "qerp.web.sp.exchange.query",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            },
+            {
+              "urResourceId": 206200,
+              "name": "新增调拨单",
+              "code": "206200",
+              "url": "qerp.web.sp.exchange.save",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            },
+            {
+              "urResourceId": 206300,
+              "name": "导出数据",
+              "code": "206300",
+              "url": "qerp.web.sys.doc.task",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            },
+            {
+              "urResourceId": 206400,
+              "name": "强制完成",
+              "code": "206400",
+              "url": "qerp.web.ws.asn.finish",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            }
+          ]
+        },
+        {
+          "urResourceId": 205000,
+          "name": "POS订单",
+          "code": "205000",
+          "url": "",
+          "remark": null,
+          "status": 1,
+          "statusStr": null,
+          "menu": 1,
+          "menuStr": null,
+          "rank": 10,
+          "children": [
+            {
+              "urResourceId": 205100,
+              "name": "订单信息",
+              "code": "205100",
+              "url": "qerp.web.qpos.st.order.query",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            },
+            {
+              "urResourceId": 205200,
+              "name": "导出数据",
+              "code": "205200",
+              "url": "qerp.web.sys.doc.task",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            }
+          ]
         }
       ]
     },
-  //商品中心300000
     {
       "urResourceId": 300000,
       "name": "商品中心",
@@ -486,261 +750,8 @@ const SiderBarData =  [
       "statusStr": null,
       "menu": 1,
       "menuStr": null,
-      "rank": 20,
+      "rank": 2,
       "children": [
-        {
-          "urResourceId": 306000,
-          "name": "商品管理",
-          "code": "306000",
-          "url": "",
-          "remark": null,
-          "status": 1,
-          "statusStr": null,
-          "menu": 1,
-          "menuStr": null,
-          "rank": null,
-          "children": [
-            {
-              "urResourceId": 301100,
-              "name": "商品信息",
-              "code": "301100",
-              "url": "qerp.web.pd.spu.query",
-              "remark": null,
-              "status": 1,
-              "statusStr": null,
-              "menu": 1,
-              "menuStr": null,
-              "rank": null,
-              "children": null
-            },
-            {
-              "urResourceId": 301200,
-              "name": "增改商品",
-              "code": "301200",
-              "url": "qerp.web.pd.spu.save",
-              "remark": null,
-              "status": 1,
-              "statusStr": null,
-              "menu": 1,
-              "menuStr": null,
-              "rank": null,
-              "children": null
-            },
-            {
-              "urResourceId": 301300,
-              "name": "售卖开关",
-              "code": "301300",
-              "url": "qerp.web.pd.spu.status",
-              "remark": null,
-              "status": 1,
-              "statusStr": null,
-              "menu": 1,
-              "menuStr": null,
-              "rank": null,
-              "children": null
-            },
-            {
-              "urResourceId": 301400,
-              "name": "批量上新",
-              "code": "301400",
-              "url": "qerp.web.pd.spu.statusnew",
-              "remark": null,
-              "status": 1,
-              "statusStr": null,
-              "menu": 1,
-              "menuStr": null,
-              "rank": null,
-              "children": null
-            },
-            {
-              "urResourceId": 301500,
-              "name": "批量畅销",
-              "code": "301500",
-              "url": "qerp.web.pd.spu.statushot",
-              "remark": null,
-              "status": 1,
-              "statusStr": null,
-              "menu": 1,
-              "menuStr": null,
-              "rank": null,
-              "children": null
-            }
-          ]
-        },
-        {
-          "urResourceId": 301700,
-          "name": "商品库存",
-          "code": "301700",
-          "url": "",
-          "remark": null,
-          "status": 1,
-          "statusStr": null,
-          "menu": 1,
-          "menuStr": null,
-          "rank": null,
-          "children": [
-            {
-              "urResourceId": 301800,
-              "name": "库存修改",
-              "code": "301800",
-              "url": "qerp.web.pd.inv.change",
-              "remark": null,
-              "status": 1,
-              "statusStr": null,
-              "menu": 1,
-              "menuStr": null,
-              "rank": null,
-              "children": null
-            }
-          ]
-        },
-        {
-          "urResourceId": 302000,
-          "name": "分类管理",
-          "code": "302000",
-          "url": "",
-          "remark": null,
-          "status": 1,
-          "statusStr": null,
-          "menu": 1,
-          "menuStr": null,
-          "rank": null,
-          "children": [
-            {
-              "urResourceId": 302100,
-              "name": "分类信息",
-              "code": "302100",
-              "url": "qerp.web.pd.category.list",
-              "remark": null,
-              "status": 1,
-              "statusStr": null,
-              "menu": 1,
-              "menuStr": null,
-              "rank": null,
-              "children": null
-            },
-            {
-              "urResourceId": 302200,
-              "name": "增改分类",
-              "code": "302200",
-              "url": "qerp.web.pd.category.save",
-              "remark": null,
-              "status": 1,
-              "statusStr": null,
-              "menu": 1,
-              "menuStr": null,
-              "rank": null,
-              "children": null
-            }
-          ]
-        },
-        {
-          "urResourceId": 303000,
-          "name": "品牌管理",
-          "code": "303000",
-          "url": "",
-          "remark": null,
-          "status": 1,
-          "statusStr": null,
-          "menu": 1,
-          "menuStr": null,
-          "rank": null,
-          "children": [
-            {
-              "urResourceId": 303100,
-              "name": "品牌信息",
-              "code": "303100",
-              "url": "qerp.web.pd.brand.list",
-              "remark": null,
-              "status": 1,
-              "statusStr": null,
-              "menu": 1,
-              "menuStr": null,
-              "rank": null,
-              "children": null
-            },
-            {
-              "urResourceId": 303200,
-              "name": "增改品牌",
-              "code": "303200",
-              "url": "qerp.web.pd.brand.save",
-              "remark": null,
-              "status": 1,
-              "statusStr": null,
-              "menu": 1,
-              "menuStr": null,
-              "rank": null,
-              "children": null
-            }
-          ]
-        },
-        {
-          "urResourceId": 304000,
-          "name": "规格管理",
-          "code": "304000",
-          "url": "",
-          "remark": null,
-          "status": 1,
-          "statusStr": null,
-          "menu": 1,
-          "menuStr": null,
-          "rank": null,
-          "children": [
-            {
-              "urResourceId": 304100,
-              "name": "规格信息",
-              "code": "304100",
-              "url": "qerp.web.pd.type.list",
-              "remark": null,
-              "status": 1,
-              "statusStr": null,
-              "menu": 1,
-              "menuStr": null,
-              "rank": null,
-              "children": null
-            },
-            {
-              "urResourceId": 304200,
-              "name": "增改规格",
-              "code": "304200",
-              "url": "qerp.web.pd.type.save",
-              "remark": null,
-              "status": 1,
-              "statusStr": null,
-              "menu": 1,
-              "menuStr": null,
-              "rank": null,
-              "children": null
-            }
-          ]
-        },
-        {
-          "urResourceId": 305000,
-          "name": "商品定时",
-          "code": "305000",
-          "url": "",
-          "remark": null,
-          "status": 1,
-          "statusStr": null,
-          "menu": 1,
-          "menuStr": null,
-          "rank": null,
-          "children": [
-            {
-              "urResourceId": 305100,
-              "name": "增改定时",
-              "code": "305100",
-              "url": "qerp.web.pd.task.time.save",
-              "remark": null,
-              "status": 1,
-              "statusStr": null,
-              "menu": 1,
-              "menuStr": null,
-              "rank": null,
-              "children": null
-            }
-          ]
-        },
         {
           "urResourceId": 301000,
           "name": "基础商品",
@@ -751,46 +762,48 @@ const SiderBarData =  [
           "statusStr": null,
           "menu": 1,
           "menuStr": null,
-          "rank": null,
+          "rank": 1,
           "children": [
             {
-              children: null,
-              code: "301100",
-              menu: 1,
-              menuStr: null,
-              name: "商品信息",
-              rank: null,
-              remark: null,
-              status: 1,
-              statusStr: null,
-              urResourceId: 301100,
-              url: "qerp.web.basepd.spu.query"
+              "urResourceId": 301100,
+              "name": "商品信息",
+              "code": "301100",
+              "url": "qerp.web.basepd.spu.query",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
             },
             {
-              children: null,
-              code: "301200",
-              menu: 1,
-              menuStr: null,
-              name: "增改线上商品",
-              rank: null,
-              remark: null,
-              status: 1,
-              statusStr: null,
-              urResourceId: 301200,
-              url: "qerp.web.pd.spu.save"
-            },{
-              children: null,
-              code: "301300",
-              menu: 1,
-              menuStr: null,
-              name: "增改线下商品",
-              rank: null,
-              remark: null,
-              status: 1,
-              statusStr: null,
-              urResourceId: 301300,
-              url: "qerp.web.pd.spu.status"
-          }]
+              "urResourceId": 301200,
+              "name": "增改线上商品",
+              "code": "301200",
+              "url": "qerp.web.pd.spu.save",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            },
+            {
+              "urResourceId": 301300,
+              "name": "增改线下商品",
+              "code": "301300",
+              "url": "qerp.web.pd.spu.status",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            }
+          ]
         },
         {
           "urResourceId": 307000,
@@ -802,20 +815,72 @@ const SiderBarData =  [
           "statusStr": null,
           "menu": 1,
           "menuStr": null,
-          "rank": null,
+          "rank": 2,
           "children": [
             {
-              "urResourceId": 306100,
-              "name": "增改定时",
-              "code": "305100",
-              "url": "qerp.web.pd.task.time.save",
+              "urResourceId": 307100,
+              "name": "商品信息",
+              "code": "307100",
+              "url": "qerp.web.bpd.spu.query",
               "remark": null,
               "status": 1,
               "statusStr": null,
               "menu": 1,
               "menuStr": null,
               "rank": null,
-              "children": null
+              "children": []
+            },
+            {
+              "urResourceId": 307200,
+              "name": "修改商品",
+              "code": "307200",
+              "url": "qerp.web.bpd.spu.save",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            },
+            {
+              "urResourceId": 307300,
+              "name": "售卖开关",
+              "code": "307300",
+              "url": "qerp.web.pd.spu.status",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            },
+            {
+              "urResourceId": 307400,
+              "name": "批量上新",
+              "code": "307400",
+              "url": "qerp.web.pd.spu.statusnew",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            },
+            {
+              "urResourceId": 307500,
+              "name": "批量畅销",
+              "code": "307500",
+              "url": " qerp.web.pd.spu.statushot",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
             }
           ]
         },
@@ -829,257 +894,78 @@ const SiderBarData =  [
           "statusStr": null,
           "menu": 1,
           "menuStr": null,
-          "rank": null,
+          "rank": 3,
           "children": [
             {
-              "urResourceId": 306100,
-              "name": "增改定时",
-              "code": "305100",
-              "url": "qerp.web.pd.task.time.save",
+              "urResourceId": 308100,
+              "name": "商品信息",
+              "code": "308100",
+              "url": "qerp.web.cpd.spu.query",
               "remark": null,
               "status": 1,
               "statusStr": null,
               "menu": 1,
               "menuStr": null,
               "rank": null,
-              "children": null
-            }
-          ]
-        },
-        {
-          "urResourceId": 309000,
-          "name": "内部分类",
-          "code": "309000",
-          "url": "",
-          "remark": null,
-          "status": 1,
-          "statusStr": null,
-          "menu": 1,
-          "menuStr": null,
-          "rank": null,
-          "children": [
-            {
-              "urResourceId": 306100,
-              "name": "增改定时",
-              "code": "305100",
-              "url": "qerp.web.pd.task.time.save",
-              "remark": null,
-              "status": 1,
-              "statusStr": null,
-              "menu": 1,
-              "menuStr": null,
-              "rank": null,
-              "children": null
-            }
-          ]
-        },
-        {
-          "urResourceId": 310000,
-          "name": "国家管理",
-          "code": "310000",
-          "url": "",
-          "remark": null,
-          "status": 1,
-          "statusStr": null,
-          "menu": 1,
-          "menuStr": null,
-          "rank": null,
-          "children": [
-            {
-              "urResourceId": 306100,
-              "name": "增改定时",
-              "code": "305100",
-              "url": "qerp.web.pd.task.time.save",
-              "remark": null,
-              "status": 1,
-              "statusStr": null,
-              "menu": 1,
-              "menuStr": null,
-              "rank": null,
-              "children": null
-            }
-          ]
-        },
-        {
-          "urResourceId": 311000,
-          "name": "C端定时",
-          "code": "311000",
-          "url": "",
-          "remark": null,
-          "status": 1,
-          "statusStr": null,
-          "menu": 1,
-          "menuStr": null,
-          "rank": null,
-        },
-        {
-          "urResourceId": 312000,
-          "name": "c端商品说明",
-          "code": "312000",
-          "url": "",
-          "remark": null,
-          "status": 1,
-          "statusStr": null,
-          "menu": 1,
-          "menuStr": null,
-          "rank": null,
-        },{
-          "urResourceId": 313000,
-          "name": "保税仓管理",
-          "code": "313000",
-          "url": "",
-          "remark": null,
-          "status": 1,
-          "statusStr": null,
-          "menu": 1,
-          "menuStr": null,
-          "rank": null,
-        },{
-          "urResourceId": 314000,
-          "name": "分润管理",
-          "code": "314000",
-          "url": "",
-          "remark": null,
-          "status": 1,
-          "statusStr": null,
-          "menu": 1,
-          "menuStr": null,
-          "rank": null,
-        },{
-          "urResourceId": 315000,
-          "name": "c端用户管理",
-          "code": "315000",
-          "url": "",
-          "remark": null,
-          "status": 1,
-          "statusStr": null,
-          "menu": 1,
-          "menuStr": null,
-          "rank": null,
-        }
-      ]
-    },
-  //电商中心800000
-    {
-      "urResourceId": 800000,
-      "name": "电商中心",
-      "code": "800000",
-      "url": "",
-      "remark": null,
-      "status": 1,
-      "statusStr": null,
-      "menu": 1,
-      "menuStr": null,
-      "rank": 30,
-      "children": [
-        {
-          "urResourceId": 801000,
-          "name": "用户订单",
-          "code": "801000",
-          "url": "",
-          "remark": null,
-          "status": 1,
-          "statusStr": null,
-          "menu": 1,
-          "menuStr": null,
-          "rank": null,
-          "children": [
-            {
-              "urResourceId": 801100,
-              "name": "订单信息",
-              "code": "801100",
-              "url": "qerp.web.ec.pd.userOrder.query",
-              "remark": null,
-              "status": 1,
-              "statusStr": null,
-              "menu": 1,
-              "menuStr": null,
-              "rank": null,
-              "children": null
+              "children": []
             },
             {
-              "urResourceId": 801200,
-              "name": "重新推送",
-              "code": "801200",
-              "url": "qerp.web.ec.pd.spulog.list",
+              "urResourceId": 308200,
+              "name": "修改商品",
+              "code": "308200",
+              "url": "qerp.web.cpd.spu.save",
               "remark": null,
               "status": 1,
               "statusStr": null,
               "menu": 1,
               "menuStr": null,
               "rank": null,
-              "children": null
+              "children": []
             },
             {
-              "urResourceId": 801300,
-              "name": "重新拆单",
-              "code": "801300",
-              "url": "",
-              "remark": null,
-              "status": 0,
-              "statusStr": null,
-              "menu": 0,
-              "menuStr": null,
-              "rank": null,
-              "children": null
-            },
-            {
-              "urResourceId": 801400,
-              "name": "修改订单",
-              "code": "801400",
-              "url": "qerp.web.ec.pd.userOrder.save",
+              "urResourceId": 308300,
+              "name": "售卖开关",
+              "code": "308300",
+              "url": "qerp.web.cpd.spu.status",
               "remark": null,
               "status": 1,
               "statusStr": null,
               "menu": 1,
               "menuStr": null,
               "rank": null,
-              "children": null
+              "children": []
             },
             {
-              "urResourceId": 801500,
-              "name": "导出数据",
-              "code": "801500",
-              "url": "qerp.web.sys.doc.task",
+              "urResourceId": 308400,
+              "name": "批量NEW",
+              "code": "308400",
+              "url": "qerp.web.cpd.spu.statusnew",
               "remark": null,
               "status": 1,
               "statusStr": null,
               "menu": 1,
               "menuStr": null,
               "rank": null,
-              "children": null
+              "children": []
             },
             {
-              "urResourceId": 801600,
-              "name": "重新匹配商品",
-              "code": "801600",
-              "url": "qerp.web.ec.pd.userOrder.reMatch",
+              "urResourceId": 308500,
+              "name": "批量HOT",
+              "code": "308500",
+              "url": " qerp.web.cpd.spu.statushot",
               "remark": null,
               "status": 1,
               "statusStr": null,
               "menu": 1,
               "menuStr": null,
               "rank": null,
-              "children": null
-            },
-            {
-              "urResourceId": 801700,
-              "name": "发货",
-              "code": "801700",
-              "url": "qerp.web.ec.express.hk.save",
-              "remark": null,
-              "status": 1,
-              "statusStr": null,
-              "menu": 1,
-              "menuStr": null,
-              "rank": null,
-              "children": null
+              "children": []
             }
           ]
         },
         {
           "urResourceId": 802000,
-          "name": "商品信息",
+          "name": "online商品",
           "code": "802000",
           "url": "",
           "remark": null,
@@ -1087,7 +973,7 @@ const SiderBarData =  [
           "statusStr": null,
           "menu": 1,
           "menuStr": null,
-          "rank": null,
+          "rank": 4,
           "children": [
             {
               "urResourceId": 802100,
@@ -1100,11 +986,11 @@ const SiderBarData =  [
               "menu": 1,
               "menuStr": null,
               "rank": null,
-              "children": null
+              "children": []
             },
             {
               "urResourceId": 802200,
-              "name": "增改商品",
+              "name": "修改商品",
               "code": "802200",
               "url": "qerp.web.ec.pd.spu.save",
               "remark": null,
@@ -1113,7 +999,7 @@ const SiderBarData =  [
               "menu": 1,
               "menuStr": null,
               "rank": null,
-              "children": null
+              "children": []
             },
             {
               "urResourceId": 802300,
@@ -1126,7 +1012,7 @@ const SiderBarData =  [
               "menu": 1,
               "menuStr": null,
               "rank": null,
-              "children": null
+              "children": []
             },
             {
               "urResourceId": 802400,
@@ -1139,13 +1025,454 @@ const SiderBarData =  [
               "menu": 1,
               "menuStr": null,
               "rank": null,
-              "children": null
+              "children": []
+            },
+            {
+              "urResourceId": 802500,
+              "name": "批量NEW",
+              "code": "802500",
+              "url": "qerp.web.pd.ospu.statusnew",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            },
+            {
+              "urResourceId": 802600,
+              "name": "批量HOT",
+              "code": "802600",
+              "url": "qerp.web.pd.ospu.statushot",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            }
+          ]
+        },
+        {
+          "urResourceId": 302000,
+          "name": "分类管理",
+          "code": "302000",
+          "url": "",
+          "remark": null,
+          "status": 1,
+          "statusStr": null,
+          "menu": 1,
+          "menuStr": null,
+          "rank": 5,
+          "children": [
+            {
+              "urResourceId": 302100,
+              "name": "分类信息",
+              "code": "302100",
+              "url": "qerp.web.pd.category.list",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            },
+            {
+              "urResourceId": 302200,
+              "name": "增改分类",
+              "code": "302200",
+              "url": "qerp.web.pd.category.save",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            }
+          ]
+        },
+        {
+          "urResourceId": 311000,
+          "name": "国家管理",
+          "code": "311000",
+          "url": "",
+          "remark": null,
+          "status": 1,
+          "statusStr": null,
+          "menu": 1,
+          "menuStr": null,
+          "rank": 6,
+          "children": [
+            {
+              "urResourceId": 311100,
+              "name": "国家信息",
+              "code": "311100",
+              "url": "qerp.web.pd.country.list",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            },
+            {
+              "urResourceId": 311200,
+              "name": "增改国家",
+              "code": "311200",
+              "url": "qerp.web.pd.country.save",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            }
+          ]
+        },
+        {
+          "urResourceId": 303000,
+          "name": "品牌管理",
+          "code": "303000",
+          "url": "",
+          "remark": null,
+          "status": 1,
+          "statusStr": null,
+          "menu": 1,
+          "menuStr": null,
+          "rank": 7,
+          "children": [
+            {
+              "urResourceId": 303100,
+              "name": "品牌信息",
+              "code": "303100",
+              "url": "qerp.web.pd.brand.list",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            },
+            {
+              "urResourceId": 303200,
+              "name": "增改品牌",
+              "code": "303200",
+              "url": "qerp.web.pd.brand.save",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            }
+          ]
+        },
+        {
+          "urResourceId": 304000,
+          "name": "规格管理",
+          "code": "304000",
+          "url": "",
+          "remark": null,
+          "status": 1,
+          "statusStr": null,
+          "menu": 1,
+          "menuStr": null,
+          "rank": 8,
+          "children": [
+            {
+              "urResourceId": 304100,
+              "name": "规格信息",
+              "code": "304100",
+              "url": "qerp.web.pd.type.list",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            },
+            {
+              "urResourceId": 304200,
+              "name": "增改规格",
+              "code": "304200",
+              "url": "qerp.web.pd.type.save",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            }
+          ]
+        },
+        {
+          "urResourceId": 314000,
+          "name": "C端商品说明",
+          "code": "314000",
+          "url": "",
+          "remark": null,
+          "status": 1,
+          "statusStr": null,
+          "menu": 1,
+          "menuStr": null,
+          "rank": 9,
+          "children": [
+            {
+              "urResourceId": 314100,
+              "name": "说明信息",
+              "code": "314100",
+              "url": "qerp.web.pd.explain.list",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            },
+            {
+              "urResourceId": 314200,
+              "name": "增改说明",
+              "code": "314200",
+              "url": "qerp.web.pd.brand.explaination.list",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            }
+          ]
+        },
+        {
+          "urResourceId": 301700,
+          "name": "商品库存",
+          "code": "301700",
+          "url": "",
+          "remark": null,
+          "status": 1,
+          "statusStr": null,
+          "menu": 1,
+          "menuStr": null,
+          "rank": 10,
+          "children": [
+            {
+              "urResourceId": 301710,
+              "name": "online库存",
+              "code": "301710",
+              "url": "",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": [
+                {
+                  "urResourceId": 301720,
+                  "name": "库存修改",
+                  "code": "301720",
+                  "url": "qerp.web.pd.inv.online.change",
+                  "remark": null,
+                  "status": 1,
+                  "statusStr": null,
+                  "menu": 1,
+                  "menuStr": null,
+                  "rank": null,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "urResourceId": 301900,
+              "name": "B端库存",
+              "code": "301900",
+              "url": "",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": [
+                {
+                  "urResourceId": 301800,
+                  "name": "库存修改",
+                  "code": "301800",
+                  "url": "qerp.web.pd.inv.change",
+                  "remark": null,
+                  "status": 1,
+                  "statusStr": null,
+                  "menu": 1,
+                  "menuStr": null,
+                  "rank": null,
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "urResourceId": 313000,
+          "name": "保税仓库管理",
+          "code": "313000",
+          "url": "",
+          "remark": null,
+          "status": 1,
+          "statusStr": null,
+          "menu": 1,
+          "menuStr": null,
+          "rank": 11,
+          "children": [
+            {
+              "urResourceId": 313100,
+              "name": "仓库信息",
+              "code": "313100",
+              "url": "qerp.web.ws.warehouse.list",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            },
+            {
+              "urResourceId": 313200,
+              "name": "增改仓库",
+              "code": "313200",
+              "url": "qerp.web.pd.taxWarehouse.save",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            }
+          ]
+        },
+        {
+          "urResourceId": 305000,
+          "name": "B端定时",
+          "code": "305000",
+          "url": "",
+          "remark": null,
+          "status": 1,
+          "statusStr": null,
+          "menu": 1,
+          "menuStr": null,
+          "rank": 12,
+          "children": [
+            {
+              "urResourceId": 305100,
+              "name": "增改定时",
+              "code": "305100",
+              "url": "qerp.web.pd.task.time.save",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            }
+          ]
+        },
+        {
+          "urResourceId": 312000,
+          "name": "C端定时",
+          "code": "312000",
+          "url": "",
+          "remark": null,
+          "status": 1,
+          "statusStr": null,
+          "menu": 1,
+          "menuStr": null,
+          "rank": 13,
+          "children": [
+            {
+              "urResourceId": 312100,
+              "name": "增改定时",
+              "code": "312100",
+              "url": "qerp.web.pd.task.time.save",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            }
+          ]
+        },
+        {
+          "urResourceId": 306000,
+          "name": "活动兑换商品",
+          "code": "312000",
+          "url": "",
+          "remark": null,
+          "status": 1,
+          "statusStr": null,
+          "menu": 1,
+          "menuStr": null,
+          "rank": 13,
+        }
+      ]
+    },
+    {
+      "urResourceId": 1200000,
+      "name": "用户中心",
+      "code": "1200000",
+      "url": "",
+      "remark": null,
+      "status": 1,
+      "statusStr": null,
+      "menu": 1,
+      "menuStr": null,
+      "rank": 3,
+      "children": [
+        {
+          "urResourceId": 1201000,
+          "name": "C端用户管理",
+          "code": "1201000",
+          "url": "",
+          "remark": null,
+          "status": 1,
+          "statusStr": null,
+          "menu": 1,
+          "menuStr": null,
+          "rank": 1,
+          "children": [
+            {
+              "urResourceId": 1201100,
+              "name": "用户信息",
+              "code": "1201100",
+              "url": "qerp.web.c.user_consume_query",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
             }
           ]
         },
         {
           "urResourceId": 803000,
-          "name": "用户信息",
+          "name": "有赞用户管理",
           "code": "803000",
           "url": "",
           "remark": null,
@@ -1153,25 +1480,12 @@ const SiderBarData =  [
           "statusStr": null,
           "menu": 1,
           "menuStr": null,
-          "rank": null,
+          "rank": 2,
           "children": [
             {
               "urResourceId": 803100,
-              "name": "导出数据",
-              "code": "803100",
-              "url": "qerp.web.sys.doc.task",
-              "remark": null,
-              "status": 1,
-              "statusStr": null,
-              "menu": 1,
-              "menuStr": null,
-              "rank": null,
-              "children": null
-            },
-            {
-              "urResourceId": 803200,
               "name": "用户信息",
-              "code": "803200",
+              "code": "803100",
               "url": "qerp.web.ec.user_consume_query",
               "remark": null,
               "status": 1,
@@ -1179,93 +1493,12 @@ const SiderBarData =  [
               "menu": 1,
               "menuStr": null,
               "rank": null,
-              "children": null
-            }
-          ]
-        },
-        {
-          "urResourceId": 804000,
-          "name": "待审核订单",
-          "code": "803000",
-          "url": "",
-          "remark": null,
-          "status": 1,
-          "statusStr": null,
-          "menu": 1,
-          "menuStr": null,
-          "rank": null,
-        }
-      ]
-    },
-  //运营中心400000
-    {
-      "urResourceId": 400000,
-      "name": "运营中心",
-      "code": "400000",
-      "url": "",
-      "remark": null,
-      "status": 1,
-      "statusStr": null,
-      "menu": 1,
-      "menuStr": null,
-      "rank": 40,
-      "children": [
-        {
-          "urResourceId": 401000,
-          "name": "充值管理",
-          "code": "401000",
-          "url": "",
-          "remark": null,
-          "status": 1,
-          "statusStr": null,
-          "menu": 1,
-          "menuStr": null,
-          "rank": null,
-          "children": [
-            {
-              "urResourceId": 401100,
-              "name": "充值管理",
-              "code": "401100",
-              "url": "qerp.web.sp.voucher.query",
-              "remark": null,
-              "status": 1,
-              "statusStr": null,
-              "menu": 1,
-              "menuStr": null,
-              "rank": null,
-              "children": null
-            }
-          ]
-        },
-        {
-          "urResourceId": 402000,
-          "name": "收支管理",
-          "code": "402000",
-          "url": "qerp.web.sp.money.detail",
-          "remark": null,
-          "status": 1,
-          "statusStr": null,
-          "menu": 1,
-          "menuStr": null,
-          "rank": null,
-          "children": [
-            {
-              "urResourceId": 402100,
-              "name": "收支信息",
-              "code": "402100",
-              "url": "qerp.web.sp.money.detail",
-              "remark": null,
-              "status": 1,
-              "statusStr": null,
-              "menu": 1,
-              "menuStr": null,
-              "rank": null,
-              "children": null
+              "children": []
             },
             {
-              "urResourceId": 402200,
+              "urResourceId": 803200,
               "name": "导出数据",
-              "code": "402200",
+              "code": "803200",
               "url": "qerp.web.sys.doc.task",
               "remark": null,
               "status": 1,
@@ -1273,13 +1506,13 @@ const SiderBarData =  [
               "menu": 1,
               "menuStr": null,
               "rank": null,
-              "children": null
+              "children": []
             }
           ]
         },
         {
           "urResourceId": 402500,
-          "name": "会员管理",
+          "name": "pos用户管理",
           "code": "402500",
           "url": "",
           "remark": null,
@@ -1287,7 +1520,7 @@ const SiderBarData =  [
           "statusStr": null,
           "menu": 1,
           "menuStr": null,
-          "rank": null,
+          "rank": 3,
           "children": [
             {
               "urResourceId": 402510,
@@ -1300,66 +1533,27 @@ const SiderBarData =  [
               "menu": 1,
               "menuStr": null,
               "rank": null,
-              "children": null
+              "children": []
             }
           ]
-        },
-        {
-          "urResourceId": 403000,
-          "name": "门店管理",
-          "code": "403000",
-          "url": "",
-          "remark": null,
-          "status": 1,
-          "statusStr": null,
-          "menu": 1,
-          "menuStr": null,
-          "rank": null,
-          "children": [
-            {
-              "urResourceId": 403100,
-              "name": "门店信息",
-              "code": "403100",
-              "url": "qerp.web.sp.shop.query",
-              "remark": null,
-              "status": 1,
-              "statusStr": null,
-              "menu": 1,
-              "menuStr": null,
-              "rank": null,
-              "children": null
-            },
-            {
-              "urResourceId": 403200,
-              "name": "增改门店",
-              "code": "403200",
-              "url": "qerp.web.sp.shop.save",
-              "remark": null,
-              "status": 1,
-              "statusStr": null,
-              "menu": 1,
-              "menuStr": null,
-              "rank": null,
-              "children": null
-            },
-            {
-              "urResourceId": 403300,
-              "name": "导出数据",
-              "code": "403300",
-              "url": "qerp.web.sys.doc.task",
-              "remark": null,
-              "status": 1,
-              "statusStr": null,
-              "menu": 1,
-              "menuStr": null,
-              "rank": null,
-              "children": null
-            }
-          ]
-        },
+        }
+      ]
+    },
+    {
+      "urResourceId": 400000,
+      "name": "运营中心",
+      "code": "400000",
+      "url": "",
+      "remark": null,
+      "status": 1,
+      "statusStr": null,
+      "menu": 1,
+      "menuStr": null,
+      "rank": 4,
+      "children": [
         {
           "urResourceId": 404000,
-          "name": "Banner管理",
+          "name": "B端Banner",
           "code": "404000",
           "url": "",
           "remark": null,
@@ -1367,7 +1561,7 @@ const SiderBarData =  [
           "statusStr": null,
           "menu": 1,
           "menuStr": null,
-          "rank": null,
+          "rank": 1,
           "children": [
             {
               "urResourceId": 404100,
@@ -1380,7 +1574,339 @@ const SiderBarData =  [
               "menu": 1,
               "menuStr": null,
               "rank": null,
-              "children": null
+              "children": []
+            }
+          ]
+        },
+        {
+          "urResourceId": 1002000,
+          "name": "C端Banner",
+          "code": "1002000",
+          "url": "",
+          "remark": null,
+          "status": 1,
+          "statusStr": null,
+          "menu": 1,
+          "menuStr": null,
+          "rank": 2,
+          "children": [
+            {
+              "urResourceId": 1002100,
+              "name": "banner管理",
+              "code": "1002100",
+              "url": "qerp.web.pd.banner.list",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            }
+          ]
+        },
+        {
+          "urResourceId": 1003000,
+          "name": "优惠券",
+          "code": "1003000",
+          "url": "",
+          "remark": null,
+          "status": 1,
+          "statusStr": null,
+          "menu": 1,
+          "menuStr": null,
+          "rank": 3,
+          "children": [
+            {
+              "urResourceId": 1003100,
+              "name": "优惠券信息",
+              "code": "1003100",
+              "url": "qerp.web.pd.coupon.query",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            },
+            {
+              "urResourceId": 1003200,
+              "name": "新增优惠券",
+              "code": "1003200",
+              "url": "qerp.web.pd.coupon.save",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            },
+            {
+              "urResourceId": 1003300,
+              "name": "注券",
+              "code": "1003300",
+              "url": "qerp.web.pd.coupon.create",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            },
+            {
+              "urResourceId": 1003400,
+              "name": "注券记录",
+              "code": "1003400",
+              "url": "qerp.web.pd.coupon.record",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            },
+            {
+              "urResourceId": 1003500,
+              "name": "熔断",
+              "code": "1003500",
+              "url": "qerp.web.pd.coupon.break",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            }
+          ]
+        },
+        {
+          "urResourceId": 1004000,
+          "name": "B端推送",
+          "code": "1004000",
+          "url": "",
+          "remark": null,
+          "status": 1,
+          "statusStr": null,
+          "menu": 1,
+          "menuStr": null,
+          "rank": 4,
+          "children": [
+            {
+              "urResourceId": 1004100,
+              "name": "推送信息",
+              "code": "1004100",
+              "url": "qerp.web.pd.bpush.list",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            },
+            {
+              "urResourceId": 1004200,
+              "name": "增改推送",
+              "code": "1004200",
+              "url": "qerp.web.pd.bPush.save",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            },
+            {
+              "urResourceId": 1004300,
+              "name": "撤消推送",
+              "code": "1004300",
+              "url": "qerp.web.pd.bPush.revoke",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            }
+          ]
+        },
+        {
+          "urResourceId": 1005000,
+          "name": "C端推送",
+          "code": "1005000",
+          "url": "",
+          "remark": null,
+          "status": 1,
+          "statusStr": null,
+          "menu": 1,
+          "menuStr": null,
+          "rank": 5,
+          "children": [
+            {
+              "urResourceId": 1005100,
+              "name": "推送信息",
+              "code": "1005100",
+              "url": "qerp.web.pd.cpush.list",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            },
+            {
+              "urResourceId": 1005200,
+              "name": "增改推送",
+              "code": "1005200",
+              "url": "qerp.web.pd.cpush.save",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            },
+            {
+              "urResourceId": 1005300,
+              "name": "撤消推送",
+              "code": "1005300",
+              "url": "qerp.web.pd.cpush.revoke",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            }
+          ]
+        },
+        {
+          "urResourceId": 409000,
+          "name": "B端问答管理",
+          "code": "409000",
+          "url": "",
+          "remark": null,
+          "status": 1,
+          "statusStr": null,
+          "menu": 1,
+          "menuStr": null,
+          "rank": 6,
+          "children": [
+            {
+              "urResourceId": 409099,
+              "name": "问答信息",
+              "code": "409099",
+              "url": "qerp.web.pd.answer.query",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            },
+            {
+              "urResourceId": 409100,
+              "name": "新增/修改问答",
+              "code": "409100",
+              "url": "qerp.web.pd.answer.save",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "urResourceId": 900000,
+      "name": "合作中心",
+      "code": "900000",
+      "url": "",
+      "remark": null,
+      "status": 1,
+      "statusStr": null,
+      "menu": 1,
+      "menuStr": null,
+      "rank": 5,
+      "children": [
+        {
+          "urResourceId": 403000,
+          "name": "门店管理",
+          "code": "403000",
+          "url": "",
+          "remark": null,
+          "status": 1,
+          "statusStr": null,
+          "menu": 1,
+          "menuStr": null,
+          "rank": 1,
+          "children": [
+            {
+              "urResourceId": 403100,
+              "name": "门店信息",
+              "code": "403100",
+              "url": "qerp.web.sp.shop.query",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            },
+            {
+              "urResourceId": 403200,
+              "name": "增改门店",
+              "code": "403200",
+              "url": "qerp.web.sp.shop.save",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            },
+            {
+              "urResourceId": 403300,
+              "name": "导出数据",
+              "code": "403300",
+              "url": "qerp.web.sys.doc.task",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            },
+            {
+              "urResourceId": 403400,
+              "name": "门店详情",
+              "code": "403400",
+              "url": "qerp.web.sp.shop.info",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
             }
           ]
         },
@@ -1394,7 +1920,7 @@ const SiderBarData =  [
           "statusStr": null,
           "menu": 1,
           "menuStr": null,
-          "rank": null,
+          "rank": 2,
           "children": [
             {
               "urResourceId": 405100,
@@ -1407,7 +1933,7 @@ const SiderBarData =  [
               "menu": 1,
               "menuStr": null,
               "rank": null,
-              "children": null
+              "children": []
             },
             {
               "urResourceId": 405200,
@@ -1420,13 +1946,415 @@ const SiderBarData =  [
               "menu": 1,
               "menuStr": null,
               "rank": null,
-              "children": null
+              "children": []
             }
           ]
         },
         {
+          "urResourceId": 901000,
+          "name": "市场资源",
+          "code": "901000",
+          "url": "",
+          "remark": null,
+          "status": 1,
+          "statusStr": null,
+          "menu": 1,
+          "menuStr": null,
+          "rank": 3,
+          "children": [
+            {
+              "urResourceId": 901100,
+              "name": "资源信息",
+              "code": "901100",
+              "url": "qerp.web.pd.resource.query",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            },
+            {
+              "urResourceId": 901200,
+              "name": "增改资源",
+              "code": "901200",
+              "url": "qerp.web.pd.resource.save",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "urResourceId": 1300000,
+      "name": "财务中心",
+      "code": "1300000",
+      "url": "",
+      "remark": null,
+      "status": 1,
+      "statusStr": null,
+      "menu": 1,
+      "menuStr": null,
+      "rank": 6,
+      "children": [
+        {
+          "urResourceId": 408100,
+          "name": "提现管理",
+          "code": "408100",
+          "url": "",
+          "remark": null,
+          "status": 1,
+          "statusStr": null,
+          "menu": 1,
+          "menuStr": null,
+          "rank": 1,
+          "children": [
+            {
+              "urResourceId": 408000,
+              "name": "提现管理",
+              "code": "408000",
+              "url": "qerp.web.sp.carry.cash.query",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            }
+          ]
+        },
+        {
+          "urResourceId": 401000,
+          "name": "掌柜充值",
+          "code": "401000",
+          "url": "",
+          "remark": null,
+          "status": 1,
+          "statusStr": null,
+          "menu": 1,
+          "menuStr": null,
+          "rank": 2,
+          "children": [
+            {
+              "urResourceId": 401100,
+              "name": "充值管理",
+              "code": "401100",
+              "url": "qerp.web.sp.voucher.query",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            }
+          ]
+        },
+        {
+          "urResourceId": 402000,
+          "name": "掌柜收支明细",
+          "code": "402000",
+          "url": "",
+          "remark": null,
+          "status": 1,
+          "statusStr": null,
+          "menu": 1,
+          "menuStr": null,
+          "rank": 3,
+          "children": [
+            {
+              "urResourceId": 402100,
+              "name": "收支信息",
+              "code": "402100",
+              "url": "qerp.web.sp.money.detail",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            },
+            {
+              "urResourceId": 402200,
+              "name": "导出数据",
+              "code": "402200",
+              "url": "qerp.web.sys.doc.task",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            }
+          ]
+        },
+        {
+          "urResourceId": 1301000,
+          "name": "销售收支管理",
+          "code": "1301000",
+          "url": "",
+          "remark": null,
+          "status": 1,
+          "statusStr": null,
+          "menu": 1,
+          "menuStr": null,
+          "rank": 4,
+          "children": [
+            {
+              "urResourceId": 1301100,
+              "name": "收支信息",
+              "code": "1301100",
+              "url": "qerp.web.sp.income.pay",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            },
+            {
+              "urResourceId": 1301200,
+              "name": "导出数据",
+              "code": "1301200",
+              "url": "qerp.web.sys.doc.task",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            }
+          ]
+        },
+        {
+          "urResourceId": 1302000,
+          "name": "分润管理",
+          "code": "1302000",
+          "url": "",
+          "remark": null,
+          "status": 1,
+          "statusStr": null,
+          "menu": 1,
+          "menuStr": null,
+          "rank": 5,
+          "children": [
+            {
+              "urResourceId": 1302100,
+              "name": "分润合计",
+              "code": "1302100",
+              "url": "",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": [
+                {
+                  "urResourceId": 1302200,
+                  "name": "分润信息",
+                  "code": "1302200",
+                  "url": "qerp.web.share.profitsum.query",
+                  "remark": null,
+                  "status": 1,
+                  "statusStr": null,
+                  "menu": 1,
+                  "menuStr": null,
+                  "rank": null,
+                  "children": []
+                },
+                {
+                  "urResourceId": 1302300,
+                  "name": "导出数据",
+                  "code": "1302300",
+                  "url": "qerp.web.sys.doc.task",
+                  "remark": null,
+                  "status": 1,
+                  "statusStr": null,
+                  "menu": 1,
+                  "menuStr": null,
+                  "rank": null,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "urResourceId": 1302400,
+              "name": "直邮分润明细",
+              "code": "1302400",
+              "url": "",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": [
+                {
+                  "urResourceId": 1302500,
+                  "name": "分润信息",
+                  "code": "1302500",
+                  "url": "qerp.web.directDelivery.profit.query",
+                  "remark": null,
+                  "status": 1,
+                  "statusStr": null,
+                  "menu": 1,
+                  "menuStr": null,
+                  "rank": null,
+                  "children": []
+                },
+                {
+                  "urResourceId": 1302600,
+                  "name": "导出数据",
+                  "code": "1302600",
+                  "url": "qerp.web.sys.doc.task",
+                  "remark": null,
+                  "status": 1,
+                  "statusStr": null,
+                  "menu": 1,
+                  "menuStr": null,
+                  "rank": null,
+                  "children": []
+                }
+              ]
+            },
+            {
+              "urResourceId": 1302700,
+              "name": "保税分润明细",
+              "code": "1302700",
+              "url": "",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": [
+                {
+                  "urResourceId": 1302800,
+                  "name": "分润信息",
+                  "code": "1302800",
+                  "url": "qerp.web.bondedws.profit.query",
+                  "remark": null,
+                  "status": 1,
+                  "statusStr": null,
+                  "menu": 1,
+                  "menuStr": null,
+                  "rank": null,
+                  "children": []
+                },
+                {
+                  "urResourceId": 1302900,
+                  "name": "导出数据",
+                  "code": "1302900",
+                  "url": "qerp.web.sys.doc.task",
+                  "remark": null,
+                  "status": 1,
+                  "statusStr": null,
+                  "menu": 1,
+                  "menuStr": null,
+                  "rank": null,
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "urResourceId": 407000,
+          "name": "供应商收支",
+          "code": "407000",
+          "url": "",
+          "remark": null,
+          "status": 1,
+          "statusStr": null,
+          "menu": 1,
+          "menuStr": null,
+          "rank": 6,
+          "children": [
+            {
+              "urResourceId": 407099,
+              "name": "收支信息",
+              "code": "407099",
+              "url": "qerp.web.pd.settle.query",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            },
+            {
+              "urResourceId": 407100,
+              "name": "导出数据",
+              "code": "407100",
+              "url": "qerp.web.pd.settle.export",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            },
+            {
+              "urResourceId": 407500,
+              "name": "修改结算到期日",
+              "code": "407500",
+              "url": "qerp.web.pd.settle.update",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            },
+            {
+              "urResourceId": 407600,
+              "name": "结算操作",
+              "code": "407600",
+              "url": "qerp.web.pd.settle.update1",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "urResourceId": 1100000,
+      "name": "客服中心",
+      "code": "1100000",
+      "url": "",
+      "remark": null,
+      "status": 1,
+      "statusStr": null,
+      "menu": 1,
+      "menuStr": null,
+      "rank": 7,
+      "children": [
+        {
           "urResourceId": 406000,
-          "name": "意见反馈",
+          "name": "门店反馈",
           "code": "406000",
           "url": "",
           "remark": null,
@@ -1434,7 +2362,7 @@ const SiderBarData =  [
           "statusStr": null,
           "menu": 1,
           "menuStr": null,
-          "rank": null,
+          "rank": 1,
           "children": [
             {
               "urResourceId": 406100,
@@ -1447,136 +2375,36 @@ const SiderBarData =  [
               "menu": 1,
               "menuStr": null,
               "rank": null,
-              "children": null
+              "children": []
             }
           ]
-        }
-      ]
-    },
-  //合作中心500000
-    {
-      "urResourceId": 500000,
-      "name": "合作中心",
-      "code": "500000",
-      "url": "",
-      "remark": null,
-      "status": 1,
-      "statusStr": null,
-      "menu": 1,
-      "menuStr": null,
-      "rank": 40,
-      "children": [
-        {
-          "urResourceId": 501000,
-          "name": "资源管理",
-          "code": "401000",
-          "url": "",
-          "remark": null,
-          "status": 1,
-          "statusStr": null,
-          "menu": 1,
-          "menuStr": null,
-          "rank": null,
-        }
-      ]
-    },
-  //活动中心100000
-    {
-      "urResourceId": 100000,
-      "name": "活动中心",
-      "code": "100000",
-      "url": "",
-      "remark": null,
-      "status": 1,
-      "statusStr": null,
-      "menu": 1,
-      "menuStr": null,
-      "rank": 40,
-      "children": [
-        {
-          "urResourceId": 101000,
-          "name": "C端banner",
-          "code": "101000",
-          "url": "",
-          "remark": null,
-          "status": 1,
-          "statusStr": null,
-          "menu": 1,
-          "menuStr": null,
-          "rank": null,
-        },{
-          "urResourceId": 102000,
-          "name": "优惠券",
-          "code": "101000",
-          "url": "",
-          "remark": null,
-          "status": 1,
-          "statusStr": null,
-          "menu": 1,
-          "menuStr": null,
-          "rank": null,
-        },{
-          "urResourceId": 103000,
-          "name": "B端推送",
-          "code": "101000",
-          "url": "",
-          "remark": null,
-          "status": 1,
-          "statusStr": null,
-          "menu": 1,
-          "menuStr": null,
-          "rank": null,
-        },{
-          "urResourceId": 104000,
-          "name": "c端推送",
-          "code": "104000",
-          "url": "",
-          "remark": null,
-          "status": 1,
-          "statusStr": null,
-          "menu": 1,
-          "menuStr": null,
-          "rank": null,
-        }
-
-      ]
-    },
-//客服中心 10000
-    {
-      "urResourceId": 10000,
-      "name": "客服中心",
-      "code": "10000",
-      "url": "",
-      "remark": null,
-      "status": 1,
-      "statusStr": null,
-      "menu": 1,
-      "menuStr": null,
-      "rank": 40,
-      "children": [
-        {
-          "urResourceId": 10100,
-          "name": "用户反馈",
-          "code": "10100",
-          "url": "",
-          "remark": null,
-          "status": 1,
-          "statusStr": null,
-          "menu": 1,
-          "menuStr": null,
-          "rank": null,
         },
         {
-          "urResourceId": 10200,
-          "name": "客服工单",
-          "code": "10200",
+          "urResourceId": 1102000,
+          "name": "用户反馈",
+          "code": "1102000",
           "url": "",
           "remark": null,
           "status": 1,
           "statusStr": null,
           "menu": 1,
           "menuStr": null,
-          "rank": null,
+          "rank": 2,
+          "children": [
+            {
+              "urResourceId": 1102100,
+              "name": "用户反馈",
+              "code": "1102100",
+              "url": "qerp.web.pd.feedback.list",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            }
+          ]
         },
         {
           "urResourceId": 1104000,
@@ -1588,11 +2416,52 @@ const SiderBarData =  [
           "statusStr": null,
           "menu": 1,
           "menuStr": null,
-          "rank": null,
+          "rank": 3,
+          "children": [
+            {
+              "urResourceId": 1103200,
+              "name": "工单信息",
+              "code": "1103200",
+              "url": "qerp.web.ws.bin.udeskticket",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            }
+          ]
+        },
+        {
+          "urResourceId": 1103000,
+          "name": "客服工单",
+          "code": "1103000",
+          "url": "",
+          "remark": null,
+          "status": 1,
+          "statusStr": null,
+          "menu": 1,
+          "menuStr": null,
+          "rank": 4,
+          "children": [
+            {
+              "urResourceId": 1103100,
+              "name": "工单信息",
+              "code": "1103100",
+              "url": "qerp.web.pd.customservice.list",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            }
+          ]
         }
       ]
     },
-//数据中心70000
     {
       "urResourceId": 700000,
       "name": "数据中心",
@@ -1603,84 +2472,32 @@ const SiderBarData =  [
       "statusStr": null,
       "menu": 1,
       "menuStr": null,
-      "rank": 50,
+      "rank": 8,
       "children": [
         {
-          "urResourceId": 701000,
-          "name": "采购数据",
-          "code": "701000",
+          "urResourceId": 708000,
+          "name": "APP数据",
+          "code": "708000",
           "url": "",
           "remark": null,
           "status": 1,
           "statusStr": null,
           "menu": 1,
           "menuStr": null,
-          "rank": null,
-          "children": null
-        },
-        {
-          "urResourceId": 702000,
-          "name": "门店数据",
-          "code": "702000",
-          "url": "",
-          "remark": null,
-          "status": 1,
-          "statusStr": null,
-          "menu": 1,
-          "menuStr": null,
-          "rank": null,
+          "rank": 1,
           "children": [
             {
-              "urResourceId": 702100,
-              "name": "销售数据",
-              "code": "702100",
-              "url": "qerp.web.rp.shop.sale.data.query",
+              "urResourceId": 708100,
+              "name": "APP数据",
+              "code": "708100",
+              "url": "qerp.web.rp.qtoolsApp.data",
               "remark": null,
               "status": 1,
               "statusStr": null,
               "menu": 1,
               "menuStr": null,
               "rank": null,
-              "children": null
-            },
-            {
-              "urResourceId": 702200,
-              "name": "门店库存",
-              "code": "702200",
-              "url": "qerp.web.qpos.pd.inv.query",
-              "remark": null,
-              "status": 1,
-              "statusStr": null,
-              "menu": 1,
-              "menuStr": null,
-              "rank": null,
-              "children": null
-            },
-            {
-              "urResourceId": 702300,
-              "name": "历史库存",
-              "code": "702300",
-              "url": "qerp.web.qpos.pd.historyInv.query",
-              "remark": null,
-              "status": 1,
-              "statusStr": null,
-              "menu": 1,
-              "menuStr": null,
-              "rank": null,
-              "children": null
-            },
-            {
-              "urResourceId": 702400,
-              "name": "联营分成",
-              "code": "702400",
-              "url": "qerp.web.rp.shop.Joint.division.page",
-              "remark": null,
-              "status": 1,
-              "statusStr": null,
-              "menu": 1,
-              "menuStr": null,
-              "rank": null,
-              "children": null
+              "children": []
             }
           ]
         },
@@ -1694,7 +2511,7 @@ const SiderBarData =  [
           "statusStr": null,
           "menu": 1,
           "menuStr": null,
-          "rank": null,
+          "rank": 2,
           "children": [
             {
               "urResourceId": 703100,
@@ -1707,7 +2524,7 @@ const SiderBarData =  [
               "menu": 1,
               "menuStr": null,
               "rank": null,
-              "children": null
+              "children": []
             },
             {
               "urResourceId": 703200,
@@ -1720,7 +2537,7 @@ const SiderBarData =  [
               "menu": 1,
               "menuStr": null,
               "rank": null,
-              "children": null
+              "children": []
             },
             {
               "urResourceId": 703300,
@@ -1733,7 +2550,7 @@ const SiderBarData =  [
               "menu": 1,
               "menuStr": null,
               "rank": null,
-              "children": null
+              "children": []
             }
           ]
         },
@@ -1747,7 +2564,7 @@ const SiderBarData =  [
           "statusStr": null,
           "menu": 1,
           "menuStr": null,
-          "rank": null,
+          "rank": 3,
           "children": [
             {
               "urResourceId": 704100,
@@ -1760,7 +2577,7 @@ const SiderBarData =  [
               "menu": 1,
               "menuStr": null,
               "rank": null,
-              "children": null
+              "children": []
             },
             {
               "urResourceId": 704200,
@@ -1773,7 +2590,100 @@ const SiderBarData =  [
               "menu": 1,
               "menuStr": null,
               "rank": null,
-              "children": null
+              "children": []
+            }
+          ]
+        },
+        {
+          "urResourceId": 701000,
+          "name": "采购数据",
+          "code": "701000",
+          "url": "",
+          "remark": null,
+          "status": 1,
+          "statusStr": null,
+          "menu": 1,
+          "menuStr": null,
+          "rank": 4,
+          "children": [
+            {
+              "urResourceId": 701100,
+              "name": "采购数据",
+              "code": "701100",
+              "url": "qerp.web.rp.proposal.query",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            }
+          ]
+        },
+        {
+          "urResourceId": 702000,
+          "name": "门店数据",
+          "code": "702000",
+          "url": "",
+          "remark": null,
+          "status": 1,
+          "statusStr": null,
+          "menu": 1,
+          "menuStr": null,
+          "rank": 5,
+          "children": [
+            {
+              "urResourceId": 702100,
+              "name": "销售数据",
+              "code": "702100",
+              "url": "qerp.web.rp.shop.sale.data.query",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            },
+            {
+              "urResourceId": 702200,
+              "name": "门店库存",
+              "code": "702200",
+              "url": "qerp.web.qpos.pd.inv.query",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            },
+            {
+              "urResourceId": 702300,
+              "name": "历史库存",
+              "code": "702300",
+              "url": "qerp.web.qpos.pd.historyInv.query",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            },
+            {
+              "urResourceId": 702400,
+              "name": "联营分成",
+              "code": "702400",
+              "url": "qerp.web.rp.shop.Joint.division.page",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
             }
           ]
         },
@@ -1787,7 +2697,7 @@ const SiderBarData =  [
           "statusStr": null,
           "menu": 1,
           "menuStr": null,
-          "rank": null,
+          "rank": 6,
           "children": [
             {
               "urResourceId": 705100,
@@ -1800,7 +2710,7 @@ const SiderBarData =  [
               "menu": 1,
               "menuStr": null,
               "rank": null,
-              "children": null
+              "children": []
             },
             {
               "urResourceId": 705200,
@@ -1813,11 +2723,11 @@ const SiderBarData =  [
               "menu": 1,
               "menuStr": null,
               "rank": null,
-              "children": null
+              "children": []
             },
             {
               "urResourceId": 705300,
-              "name": "效期管理",
+              "name": "商品效期",
               "code": "705300",
               "url": "qerp.web.pd.validDate.query",
               "remark": null,
@@ -1826,7 +2736,7 @@ const SiderBarData =  [
               "menu": 1,
               "menuStr": null,
               "rank": null,
-              "children": null
+              "children": []
             }
           ]
         },
@@ -1840,7 +2750,7 @@ const SiderBarData =  [
           "statusStr": null,
           "menu": 1,
           "menuStr": null,
-          "rank": null,
+          "rank": 7,
           "children": [
             {
               "urResourceId": 706100,
@@ -1853,7 +2763,7 @@ const SiderBarData =  [
               "menu": 1,
               "menuStr": null,
               "rank": null,
-              "children": null
+              "children": []
             },
             {
               "urResourceId": 706200,
@@ -1866,7 +2776,7 @@ const SiderBarData =  [
               "menu": 1,
               "menuStr": null,
               "rank": null,
-              "children": null
+              "children": []
             },
             {
               "urResourceId": 706300,
@@ -1879,7 +2789,7 @@ const SiderBarData =  [
               "menu": 1,
               "menuStr": null,
               "rank": null,
-              "children": null
+              "children": []
             },
             {
               "urResourceId": 706400,
@@ -1892,7 +2802,7 @@ const SiderBarData =  [
               "menu": 1,
               "menuStr": null,
               "rank": null,
-              "children": null
+              "children": []
             }
           ]
         },
@@ -1906,7 +2816,7 @@ const SiderBarData =  [
           "statusStr": null,
           "menu": 1,
           "menuStr": null,
-          "rank": null,
+          "rank": 8,
           "children": [
             {
               "urResourceId": 707100,
@@ -1919,13 +2829,12 @@ const SiderBarData =  [
               "menu": 1,
               "menuStr": null,
               "rank": null,
-              "children": null
+              "children": []
             }
           ]
         }
       ]
     },
-//账号中心600000
     {
       "urResourceId": 600000,
       "name": "账号中心",
@@ -1936,11 +2845,11 @@ const SiderBarData =  [
       "statusStr": null,
       "menu": 1,
       "menuStr": null,
-      "rank": 60,
+      "rank": 9,
       "children": [
         {
           "urResourceId": 601000,
-          "name": "Q本营账号",
+          "name": "Q本营权限",
           "code": "601000",
           "url": "",
           "remark": null,
@@ -1948,11 +2857,24 @@ const SiderBarData =  [
           "statusStr": null,
           "menu": 1,
           "menuStr": null,
-          "rank": null,
-          "children": null
+          "rank": 9,
+          "children": [
+            {
+              "urResourceId": 601100,
+              "name": "Q本营权限",
+              "code": "601100",
+              "url": "qerp.web.ur.user.query",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            }
+          ]
         }
       ]
     }
-]
-
-export default  SiderBarData;
+  ]
+  export default SiderBarData;
