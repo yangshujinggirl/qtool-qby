@@ -141,7 +141,7 @@ class AddThOrder extends Component{
 						};
 					}else{ //不必全退
 						const newArr = 	goodsList.filter((item,index)=>{//需要检测退款数量有木有输入-->没有输入的数据不向后台输出
-								return Boolean(item.applyReturnCount)
+								return Boolean(item.applyReturnCount&&item.applyReturnQuota)
 					 	});
 						if(newArr[0]){ // 数量为0的 金额也为0
 							const isExistZero = newArr.find(item=>(
@@ -149,12 +149,14 @@ class AddThOrder extends Component{
 							));
 							if(isExistZero){
 								message.error('退款金额需大于0')
+								this.setState({loading:false})
 							}else{
 								values.productList = newArr;
 								this.sendRequest(values);
 							};
 						}else{
-							message.error('数据不完整，无可退商品',.8)
+							message.error('数据不完整，无法创建退单',.8)
+							this.setState({loading:false})
 						};
 					};
 				}else{ //有赞的退单
