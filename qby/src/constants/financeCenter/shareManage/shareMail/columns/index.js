@@ -1,13 +1,13 @@
 const Columns = [{
      title: '订单号',
      dataIndex: 'orderNo',
-     render:(text, record)=>{
-       return(
-         <div>
-           <a href="javascript:;" className="theme-color" onClick={record.onOperateClick.bind(this)}>{text}</a>
-         </div>
-       )
-     }
+     // render:(text, record)=>{
+     //   return(
+     //     <div>
+     //       <a href="javascript:;" className="theme-color" onClick={record.onOperateClick.bind(this)}>{text}</a>
+     //     </div>
+     //   )
+     // }
    },{
      title: '门店名称',
      dataIndex: 'shopName'
