@@ -2,31 +2,22 @@ import React, { Component } from 'react'
 import {connect} from 'dva'
 import {
   Form,
-  Row,
-  Col,
   Input,
   Button,
   Select,
-  DatePicker
 }from 'antd'
 import {removeSpace} from '../../../../utils/meth';
-import '../index.css'
 const FormItem = Form.Item;
 const Option = Select.Option;
-const RangePicker = DatePicker.RangePicker
+import '../index.css'
 
 class NormalForm extends Component{
   //点击搜索
   handleSubmit = (e) => {
-    // e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
-      const{rangePicker,..._values} = values;
-      if(rangePicker){
-        _values.createTimeST =  new Date( rangePicker[0]).getTime();
-        _values.createTimeET = new Date(rangePicker[1]).getTime();
-      };
-      removeSpace(_values);
-      this.props.submit && this.props.submit(_values);
+      values.type=1 //代表是b端活动进价
+      removeSpace(values);
+      this.props.submit && this.props.submit(values);
     })
   }
   //初始化
@@ -37,39 +28,40 @@ class NormalForm extends Component{
         <Form className="qtools-condition-form">
           <div className='search-form-outwrap'>
             <div className="search-form-wrap">
-              <FormItem label='优惠券名称'>
-                {getFieldDecorator('couponName')(
-                    <Input placeholder='请输入优惠券名称' autoComplete="off"/>
+              <FormItem label='商品编码'>
+                {getFieldDecorator('barCode')(
+                    <Input placeholder='请输入商品编码' autoComplete="off"/>
                   )}
               </FormItem>
-              <FormItem label='优惠券批次号'>
-                {getFieldDecorator('couponCode')(
-                  <Input placeholder='请输入批次号' autoComplete="off"/>
+              <FormItem label='商品名称'>
+                {getFieldDecorator('name')(
+                  <Input placeholder='请输入商品名称' autoComplete="off"/>
                 )}
               </FormItem>
-              <FormItem label='创建人'>
-                {getFieldDecorator('creater')(
-                  <Input placeholder='请输入创建人' autoComplete="off"/>
+              <FormItem label='活动名称'>
+                {getFieldDecorator('batchName')(
+                  <Input placeholder='请输入活动名称' autoComplete="off"/>
                 )}
               </FormItem>
-              <FormItem label='优惠券场景'>
-                  {getFieldDecorator('couponUseScene')(
-                  <Select allowClear={true} placeholder="请选择优惠券场景">
-                      {/* <Option value='10'>待发货</Option> */}
-                      <Option value='1'>新用户注册</Option>
-                      <Option value='2'>注券</Option>
-                  </Select>
-                  )}
+              <FormItem label='活动编号'>
+                {getFieldDecorator('batchNo')(
+                  <Input placeholder='请输入活动编号' autoComplete="off"/>
+                )}
               </FormItem>
-              <FormItem label='优惠券状态'>
+              <FormItem label='活动状态'>
                   {getFieldDecorator('status')(
-                  <Select allowClear={true} placeholder="请选择优惠券状态">
-                      {/* <Option value='10'>待发货</Option> */}
-                      <Option value='1'>发放中</Option>
-                      <Option value='2'>发放完</Option>
-                      <Option value='3'>熔断</Option>
+                  <Select allowClear={true} placeholder="请选择活动状态">
+                      <Option value='1'>未开始</Option>
+                      <Option value='2'>进行中</Option>
+                      <Option value='3'>已结束</Option>
+                      <Option value='4'>已失效</Option>
                   </Select>
                   )}
+              </FormItem>
+              <FormItem label='最后修改人'>
+                {getFieldDecorator('lastUpdateUser')(
+                  <Input placeholder='请输入最后修改人' autoComplete="off"/>
+                )}
               </FormItem>
             </div>
           </div>
@@ -89,8 +81,4 @@ class NormalForm extends Component{
 }
 
 const FilterForm = Form.create({})(NormalForm)
-function mapStateToProps(state){
-  const { coupon } = state;
-  return {coupon}
-}
-export default connect(mapStateToProps)(FilterForm)
+export default FilterForm

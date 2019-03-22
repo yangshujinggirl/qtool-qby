@@ -181,6 +181,10 @@ import WithdrawDetails from '../operate/withdraw/WithdrawDetails' //提现详情
 import Banswer from '../operate/bAnswer/index' //b端问答
 import Addanswer from '../operate/bAnswer/addAnswer' //b端问答
 import SellManage from '../operate/sellManage' //销售收支管理
+import BactPrice from '../operate/bActprice/index' //b端活动进价
+import BactDetail from '../operate/bActprice/bActDetail' //b端活动进价
+import Addactivity from '../operate/bActprice/addActivity' //b端活动进价
+
 //门店数据
 import DataDistribute from '../datasp/dataspcun/dataDistribution/index'
 //用户中心
@@ -280,7 +284,7 @@ class Content extends React.Component {
                                     case "206000":return <OrderdbIndex data={this.props.data}/>;
                                     case "206000info":return <OrderdbInfo data={this.props.data}/>;
                                     case "206000edit":return <OrderdbEdit data={this.props.data}/>;
-                                // --------------------------- 运营管理 -------------------------------
+                                // --------------------------- 运营中心 -------------------------------
                                     case "402000":return <OperateinoutIndex data={this.props.data}/>;
                                     case "402000info":return <OperateinoutInfo data={this.props.data}/>;
                                     case formDataCode('operate41'):return <SellManage data={this.props.data} componkey={this.props.componkey}/>;
@@ -291,6 +295,9 @@ class Content extends React.Component {
                                     case "404000":return <OperatebannerIndex data={this.props.data}/>;
                                     case "404000edit":return <OperatebannerEdit data={this.props.data}/>
                                     case "404000editH5":return <H5_configure data={this.props.data}/>
+                                    case "4010000":return <BactPrice data={this.props.data} componkey={this.props.componkey}/>//b端活动进价
+                                    case "4010000info":return <BactDetail data={this.props.data}/>//b端活动进价
+                                    case "4010000edit":return <Addactivity data={this.props.data}/>//b端活动进价
 
                                     case "601000": return <AccountIndex data={this.props.data}/>;
                                     case "601000edit": return <AddNewAccount data={this.props.data}/>;

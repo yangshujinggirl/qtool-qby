@@ -103,6 +103,8 @@ import sellManage from './models/operate/sellManage';
 //B端问答
 import bAnswer from './models/operate/bAnswer'
 import bAddAnswer from './models/operate/bAnswer/bAddAnswer'
+//B端活动进价
+import bActPrice from './models/operate/bActPrice/index'
 //待审核订单
 import onAudit from './models/online/onAudit'
 import freightDetail from './models/datapos/freightDetail';
@@ -201,7 +203,8 @@ const models = [
   shareTotal,
   shareMail,
   orderuser,
-  exchangeAct
+  exchangeAct,
+  bActPrice
 ]
 models.forEach(m => {
   return app.model(m)

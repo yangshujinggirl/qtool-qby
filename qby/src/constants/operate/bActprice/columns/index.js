@@ -1,6 +1,6 @@
 const Columns = [{
-     title: '优惠券批次号',
-     dataIndex: 'couponCode',
+     title: '批次号',
+     dataIndex: 'no',
      render:(text, record)=>{
        return(
          <div>
@@ -8,43 +8,25 @@ const Columns = [{
          </div>
      )}
    },{
-     title: '优惠券名称',
-     dataIndex: 'couponName'
+     title: '批次名称',
+     dataIndex: 'name'
    }, {
-     title: '优惠券场景',
-     dataIndex: 'couponUseSceneStr'
-   },{
-     title: '优惠券金额',
-     dataIndex: 'couponMoney'
-   },{
-     title: '使用门槛',
-     dataIndex: 'couponFullAmount'
-   },{
-     title: '优惠券总数',
-     dataIndex: 'couponCount'
-   },{
-     title: '已经发放数量',
-     dataIndex: 'couponGiveCount',
-     render:(text, record)=>{
-       return(
-           record.injectRecord
-           ?
-             <div>
-               <a href="javascript:;" className="theme-color" onClick={record.onOperateClick.bind(this,"edit")}>{text}</a>
-             </div>
-           :
-             <span>{text}</span>
-       )
-   }
-   },{
-     title: '优惠券状态',
+     title: '批次状态',
      dataIndex: 'statusStr'
    },{
-     title: '创建人',
-     dataIndex: 'creater'
+     title: '最后修改人',
+     dataIndex: 'lastUpdateUser'
    },{
-     title: '创建时间',
-     dataIndex: 'createTime'
+     title: '生效时间',
+     dataIndex: '',
+     render:(text,record,index)=>(
+       <div>{record.beginTime} ~ {record.endTime}</div>
+     )
+   },{
+     title: '操作',
+     render:(text,record,index)=>(
+       <a href='javascript' className='theme-color' onClick={record.onOperateClick.bind(this,'edit')}>修改</a>
+     )
    }];
 
  export default Columns

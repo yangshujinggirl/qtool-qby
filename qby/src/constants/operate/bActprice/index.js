@@ -5,23 +5,20 @@ import Columns from './columns/index'
 import Qtable from '../../../components/Qtable/index'; //表单
 import Qpagination from '../../../components/Qpagination/index'; //分页
 import FilterForm from './FilterForm/index'
-import InjectCoupons from './InjectCoupon'
-import { InjectCouponApi } from '../../../services/activity/coupon'
-import { fuseCouponApi } from '../../../services/activity/coupon'
+import ConfirmCancel from './components/confirmCancel.js'
+import { confirmCancelApi } from '../../../services/operate/bActPrice/index'
 
-
-class Coupon extends Component{
+class BactPrice extends Component{
   constructor(props){
     super(props);
     this.state = {
       confirmLoading:false,
-      couponId:'',
-      isFuseVisible:false,//熔断弹窗是否显示
-      isVisible:false,
+      bActPriceId:'',
+      confirmVisible:false,
       componkey:this.props.componkey,
       inputValues:{},
-      rowSelection : {
-        selectedRowKeys:this.props.coupon.selectedRowKeys,
+      rowSelection:{
+        selectedRowKeys:this.props.bActPrice.selectedRowKeys,
         type:'radio',
         onChange:this.onChange
       },
@@ -30,7 +27,7 @@ class Coupon extends Component{
   componentWillReceiveProps(props) {
     this.setState({
       rowSelection : {
-        selectedRowKeys:props.coupon.selectedRowKeys,
+        selectedRowKeys:props.bActPrice.selectedRowKeys,
         type:'radio',
         onChange:this.onChange
       }
@@ -43,13 +40,13 @@ class Coupon extends Component{
       rowSelection:Object.assign({},rowSelection,{selectedRowKeys})
     })
     if(selectedRows[0]){
-      this.setState({couponId:selectedRows[0].couponId})
+      this.setState({bActPriceId:selectedRows[0].bActPriceId})
     }
   }
   //点击搜索
   searchData = (values)=> {
     this.props.dispatch({
-      type:'coupon/fetchList',
+      type:'bActPrice/fetchList',
       payload:values
     });
     this.setState({
@@ -61,117 +58,61 @@ class Coupon extends Component{
     const currentPage = current-1;
     const values = {...this.state.inputValues,currentPage,limit}
     this.props.dispatch({
-      type:'coupon/fetchList',
+      type:'bActPrice/fetchList',
       payload:values
     });
   }
   //pageSize改变时的回调
   onShowSizeChange =({currentPage,limit})=> {
     this.props.dispatch({
-      type:'coupon/fetchList',
+      type:'bActPrice/fetchList',
       payload:{currentPage,limit,...this.state.inputValues}
     });
   }
   //初始化数据
   componentWillMount(){
     this.props.dispatch({
-      type:'coupon/fetchList',
+      type:'bActPrice/fetchList',
       payload:{}
     })
   }
-  //创建优惠券
-  createCoupon =()=>{
+  //新增活动进价
+  createbActPrice =()=>{
     const paneitem = {
-      title:'创建优惠券',
-      key:`${this.state.componkey}edit`,
-      componkey:`${this.state.componkey}edit`,
-      data:{
-        pdSpuId:null,
-      },
+      title:'新建活动进价',
+      key:`${this.props.componkey}edit`,
+      componkey:`${this.props.componkey}edit`,
     };
     this.props.dispatch({
         type:'tab/firstAddTab',
         payload:paneitem
     });
   }
-  //注券记录
-  addCouponToUserRecord =()=> {
-    const paneitem = {
-      title:'注券记录',
-      key:`${this.state.componkey}editconfig`,
-      componkey:`${this.state.componkey}editconfig`,
-    };
-    this.props.dispatch({
-        type:'tab/firstAddTab',
-        payload:paneitem
-    });
-  }
-  //熔断优惠券
-  fuseCoupon =()=> {
-    if(!this.state.couponId){
-      message.warning('请选择要熔断的优惠券',.5)
-    }else{
-      const {dataList} = this.props.coupon.data1;
-      const hadFuse = dataList.filter((item,index)=>{
-        return item.couponId == this.state.couponId
-      });
-      if(hadFuse[0].status == 3){
-        message.warning('该优惠券已经熔断',.8)
-        this.state.rowSelection.onChange([],[]);//取消选中
-      }else{
-        this.setState({isFuseVisible:true})
-      };
-    };
-  }
-  setConfirmLoading =()=> {
+  //改变弹窗确认的loading
+  changeLoading =(value)=> {
     this.setState({
-      confirmLoading:true
-    });
+      confirmLoading:value
+    })
   }
-  //确认熔断
-  onfuseOk =()=>{
-    const couponId = this.state.couponId;
-    fuseCouponApi({couponId:couponId})
-      .then(res=>{
-        if(res.code=="0"){
-          this.props.dispatch({
-            type:'coupon/fetchList',
-            payload:{}
-          })
-          this.setState({couponId:null});
-          this.setState({isFuseVisible:false})
-          message.success(res.message,.8);
-        }
-      })
-  }
-  //取消熔断
-  onfuseCancel =()=> {
-    this.setState({isFuseVisible:false})
-    this.state.rowSelection.onChange([],[]);//取消选中
-  }
-  //注券
-  addCouponToUser =()=> {
-    this.setState({isVisible:true})
-  }
-  //注券点击取消
+  //强制失效点击取消
   onCancel =(resetFiledsFunc)=> {
-    this.setState({isVisible:false})
+    this.setState({confirmVisible:false})
     resetFiledsFunc()
   }
-  //注券点击确定
+  //强制失效点击确定
   onOk =(values,resetFiledsFunc)=> {
-    InjectCouponApi(values)
+    confirmCancelApi(values)
     .then((res) => {
       if(res.code == '0'){
         message.success(res.message);
         resetFiledsFunc();//清除数据
         this.props.dispatch({ //刷新列表
-          type:'coupon/fetchList',
+          type:'bActPrice/fetchList',
           payload:{}
         });
-        this.setState({isVisible:false,confirmLoading:false});
+        this.setState({confirmVisible:false,confirmLoading:false});
       }else{
-          this.setState({confirmLoading:false});
+        this.setState({confirmLoading:false});
       };
     });
   }
@@ -179,11 +120,11 @@ class Coupon extends Component{
   handleOperateClick(record,type) {
     if(type == "info"){
       const paneitem = {
-        title:'优惠券详情',
-        key:`${this.state.componkey}edit`+record.couponId,
+        title:'活动进价详情',
+        key:`${this.state.componkey}info`,
         componkey:`${this.state.componkey}info`,
         data:{
-          pdSpuId:record.couponId,
+          activityId:record.activityId,
         }
       }
       this.props.dispatch({
@@ -193,11 +134,11 @@ class Coupon extends Component{
     }else if(type == 'edit'){
       const paneitem = {
         title:'注券记录',
-        key:`${this.state.componkey}editconfig`+record.couponId,
+        key:`${this.state.componkey}editconfig`+record.bActPriceId,
         componkey:`${this.state.componkey}editconfig`,
         data:{
-          pdSpuId:record.couponId,
-          couponCode:record.couponCode
+          pdSpuId:record.bActPriceId,
+          bActPriceCode:record.bActPriceCode
         },
       };
       this.props.dispatch({
@@ -206,30 +147,26 @@ class Coupon extends Component{
       });
     };
   }
-
+  //强制失效
+  confirmCancel =()=> {
+    this.setState({
+      confirmVisible:true
+    })
+  }
   render(){
-    const {rolelists} = this.props.data;
-    const {dataList} = this.props.coupon.data1;
-
-    //创建优惠券
-    const addCoupon = rolelists.find((currentValue,index)=>{
-      return currentValue.url=="qerp.web.pd.coupon.save"
-    })
-    //注券
-    const inject = rolelists.find((currentValue,index)=>{
-      return currentValue.url=="qerp.web.pd.coupon.create"
-    })
-    //注券记录
-    const injectRecord = rolelists.find((currentValue,index)=>{
-      return currentValue.url=="qerp.web.pd.coupon.record"
-    })
-    //熔断
-    const fuse = rolelists.find((currentValue,index)=>{
-      return currentValue.url=="qerp.web.pd.coupon.break"
-    })
-    dataList.map((item)=>{
-      item.injectRecord = injectRecord;
-    })
+    // const {rolelists} = this.props.data;
+    const {confirmVisible,confirmLoading} = this.state
+    const {dataList} = this.props.bActPrice;
+    console.log(this.props)
+    //
+    // //新增活动进价
+    // const addbActPrice = rolelists.find((currentValue,index)=>{
+    //   return currentValue.url=="qerp.web.pd.bActPrice.save"
+    // })
+    // //强制失效
+    // const inject = rolelists.find((currentValue,index)=>{
+    //   return currentValue.url=="qerp.web.pd.bActPrice.create"
+    // })
     return(
       <div className='qtools-components-pages'>
         <FilterForm
@@ -237,52 +174,32 @@ class Coupon extends Component{
         />
         <div className="handel-btn-lists">
           {
-            addCoupon &&
-            <Button onClick={this.createCoupon}  size='large' type='primary'>创建优惠券</Button>
+            1 &&
+            <Button onClick={this.createbActPrice}  size='large' type='primary'>新增活动进价</Button>
           }
           {
-            inject &&
-            <Button onClick={this.addCouponToUser}  size='large' type='primary'>注券</Button>
-          }
-          {
-            injectRecord &&
-            <Button onClick={this.addCouponToUserRecord}  size='large' type='primary'>注券记录</Button>
-          }
-          {
-            fuse &&
-            <Button onClick={this.fuseCoupon} type='primary' size='large'>熔断</Button>
+            1 &&
+            <Button onClick={this.confirmCancel}  size='large' type='primary'>强制失效</Button>
           }
         </div>
-        <Modal
-            bodyStyle={{'fontSize':'24px','textAlign':'center','padding':'50px'}}
-            visible= {this.state.isFuseVisible}
-            okText="确认熔断"
-            cancelText='不熔断了'
-            onCancel= {this.onfuseCancel}
-            onOk = {this.onfuseOk}
-          >
-            <p>你正在熔断代金券</p>
-        </Modal>
-        <InjectCoupons
-          setConfirmLoading={this.setConfirmLoading}
-          confirmLoading={this.state.confirmLoading}
-          visible={this.state.isVisible}
-          onCancel={this.onCancel}
+        <ConfirmCancel
+          changeLoading={this.changeLoading}
+          confirmLoading={confirmLoading}
+          visible={confirmVisible}
           onOk={this.onOk}
+          onCancel={this.onCancel}
         />
         <Qtable
-          injectRecord={injectRecord}
           onOperateClick = {this.handleOperateClick.bind(this)}
           dataSource = {dataList}
           columns = {Columns}
           select
           rowSelection = {this.state.rowSelection}
         />
-
         {
           dataList.length>0?
           <Qpagination
-            data={this.props.coupon.data1}
+            data={this.props.bActPrice}
             onChange={this.changePage}
             onShowSizeChange = {this.onShowSizeChange}
           />:null
@@ -292,7 +209,7 @@ class Coupon extends Component{
   }
 }
 function mapStateToProps(state){
-  const {coupon} = state;
-  return {coupon};
+  const {bActPrice} = state;
+  return {bActPrice};
 }
-export default connect(mapStateToProps)(Coupon);
+export default connect(mapStateToProps)(BactPrice);
