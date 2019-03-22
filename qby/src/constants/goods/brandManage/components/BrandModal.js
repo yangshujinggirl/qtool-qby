@@ -3,8 +3,9 @@ import { Modal, Form, Input, Select, message} from 'antd'
 const FormItem = Form.Item;
 const Option = Select.Option;
 const TextArea = Input.TextArea;
-import Upload from "./Upload"
-
+import LogoUpload from "./logoImgUpload.js"
+import ActUpload from "./actImgUpload.js"
+import '../index.less'
 
 class ExplainModal extends Component{
   constructor(props){
@@ -17,7 +18,7 @@ class ExplainModal extends Component{
     this.props.form.validateFieldsAndScroll((err,values)=>{
       if(!err){
         if(values.eventStatus == 10){ //上架图片必填
-          if(!(this.props.imageUrl)){
+          if(!(this.props.logoUrl)){
             message.warning('请上传品牌图片',1);
           }else{
             this.props.onOk(values,this.clearForm)
@@ -31,12 +32,15 @@ class ExplainModal extends Component{
   onCancel =()=>{
     this.props.onCancel(this.clearForm);
   }
-  changeImg =(imageUrl)=> {
-    this.props.changeImg(imageUrl)
+  changeLogoImg =(logoUrl)=> {
+    this.props.changeLogoImg(logoUrl)
+  }
+  changeActImg =(actUrl)=> {
+    this.props.changeActImg(actUrl)
   }
   render(){
     const { getFieldDecorator } = this.props.form;
-    const {imageUrl,name,rank,status,eventStatus} = this.props;
+    const {logoUrl,actUrl,name,rank,status,eventStatus} = this.props;
     return(
       <div>
       <Modal
@@ -44,17 +48,24 @@ class ExplainModal extends Component{
          visible={this.props.visible}
          onOk={this.onOk}
          onCancel={this.onCancel}
+         wrapClassName='add_brand'
        >
        <Form>
            <FormItem
                label="品牌图片"
                labelCol={{ span: 5 }}
-               wrapperCol={{ span: 12 }}>
-               <Upload
+               wrapperCol={{ span: 16 }}>
+               <LogoUpload
                  name='imgFile'
                  action='/erpWebRest/qcamp/upload.htm?type=brand'
-                 imageUrl = {imageUrl}
-                 changeImg = {this.changeImg}
+                 logoUrl = {logoUrl}
+                 changeLogoImg = {this.changeLogoImg}
+               />
+               <ActUpload
+                 name='imgFile'
+                 action='/erpWebRest/qcamp/upload.htm?type=brand'
+                 actUrl = {actUrl}
+                 changeActImg = {this.changeActImg}
                />
            </FormItem>
            <FormItem
@@ -91,7 +102,6 @@ class ExplainModal extends Component{
                wrapperCol={{ span: 12 }}>
                {
                  getFieldDecorator("name",{
-                   rules:[{required:true,message:"请输入跳转页面编码",}],
                    initialValue:name?name:null,
                  })(
                     <Input placeholder='请输入跳转页面编码' autoComplete="off"/>

@@ -14,7 +14,8 @@ class Brand extends Component{
       message:'',
       title:'',
       visible:false,
-      imageUrl:"",
+      logoUrl:"",
+      actUrl:"",
       name:"",
       rank:"",
       status:"",
@@ -79,7 +80,8 @@ class Brand extends Component{
     this.setState({
       title:"修改品牌",
       visible:true,
-      imageUrl:url,
+      logoUrl:url,
+      actUrl:url,
       name,
       rank,
       status,
@@ -90,11 +92,12 @@ class Brand extends Component{
   }
   onOk =(values,clearForm)=> {
     const {currentPage,limit} = this.props.brand;
-    const url = this.state.imageUrl;
+    const url = this.state.logoUrl;
+    const actUrl = this.state.actUrl;
     const {mark,pdBrandId} = this.state;
     let pdBrand = {};
     if(mark){ //是修改
-      pdBrand = {pdBrandId,url,...values}
+      pdBrand = {pdBrandId,url,actUrl,...values}
     }else{
       pdBrand = {url,...values}
     };
@@ -116,7 +119,7 @@ class Brand extends Component{
           rank:'',
           status:'',
           eventStatus:'',
-          imageUrl:'',
+          logoUrl:'',
         },()=>{
           clearForm()
         });
@@ -127,7 +130,8 @@ class Brand extends Component{
   onCancel =(clearForm)=> {
     this.setState({
       visible:false,
-      imageUrl:'',
+      logoUrl:'',
+      actUrl:'',
       name:'',
       rank:'',
       status:'',
@@ -136,17 +140,23 @@ class Brand extends Component{
       clearForm();
     })
   }
-  changeImg =(imageUrl)=> {
+  changeLogoImg =(logoUrl)=> {
     this.setState({
-      imageUrl
+      logoUrl
     })
   }
+  changeActImg =(actUrl)=> {
+    this.setState({
+      actUrl
+    });
+  }
+
   render(){
     //新增修改品牌
     const changeAddBrand=this.props.data.rolelists.find((currentValue,index)=>{
       return currentValue.url=="qerp.web.pd.brand.save"
     })
-    const {visible,title,imageUrl,name,rank,status,eventStatus} = this.state;
+    const {visible,title,logoUrl,actUrl,name,rank,status,eventStatus} = this.state;
     const {dataList} = this.props.brand;
     return(
       <div className="qtools-components-pages">
@@ -183,8 +193,10 @@ class Brand extends Component{
           onOk={this.onOk}
           onCancel={this.onCancel}
           visible={visible}
-          changeImg={this.changeImg}
-          imageUrl={imageUrl}
+          changeLogoImg={this.changeLogoImg}
+          changeActImg={this.changeActImg}
+          actUrl={actUrl}
+          logoUrl={logoUrl}
         />
       </div>
     )

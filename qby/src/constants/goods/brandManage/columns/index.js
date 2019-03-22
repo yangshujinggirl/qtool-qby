@@ -23,10 +23,10 @@ const Columns1 = [{
      dataIndex: 'eventStatusStr'
    },{
      title: '预览链接',
-     dataIndex: 'eventStatusStr'
+     dataIndex: 'nameEn'
    },{
      title: '跳转页面编码',
-     dataIndex: 'eventStatusStr'
+     dataIndex: 'version'
    },{
      title: '创建时间',
      dataIndex: 'createTime'
