@@ -82,7 +82,7 @@ class Allth extends Component {
       if(record.orderType == 5){ //跳转报税的详情
         paneitem = {
           title:'订单详情',
-          key:`${this.props.componkey}edit`+record.orderReturnId,
+          key:`${this.props.componkey}edit`+record.orderId,
           data:{
             record:record,
             orderNo:record.orderNo,
@@ -92,7 +92,7 @@ class Allth extends Component {
       }else{ //用户详情
         paneitem={
           title:'订单详情',
-          key:`${this.props.componkey}edit`+ record.orderReturnId,
+          key:`${this.props.componkey}edit`+ record.orderId,
           data:{pdSpuId:record.orderId},
           componkey:'207000edit'
         };
