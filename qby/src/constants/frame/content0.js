@@ -184,6 +184,12 @@ import SellManage from '../operate/sellManage' //销售收支管理
 import BactPrice from '../operate/bActprice/index' //b端活动进价
 import BactDetail from '../operate/bActprice/bActDetail' //b端活动进价
 import Addactivity from '../operate/bActprice/addActivity' //b端活动进价
+import Bdown from '../operate/bDown/index' //b端限时直降
+import BdownDetail from '../operate/bDown/bActDetail' //b端限时直降详情
+import AddDown from '../operate/bDown/addActivity' //b端活动进价
+import Cdown from '../operate/cDown/index' //c端限时直降
+import CdownDetail from '../operate/cDown/bActDetail' //c端限时直降详情
+import AddCdown from '../operate/cDown/addActivity' //c端活动进价
 
 //门店数据
 import DataDistribute from '../datasp/dataspcun/dataDistribution/index'
@@ -297,7 +303,13 @@ class Content extends React.Component {
                                     case "404000editH5":return <H5_configure data={this.props.data}/>
                                     case "4010000":return <BactPrice data={this.props.data} componkey={this.props.componkey}/>//b端活动进价
                                     case "4010000info":return <BactDetail data={this.props.data}/>//b端活动进价
-                                    case "4010000edit":return <Addactivity data={this.props.data}/>//b端活动进价
+                                    case "4010000edit":return <Addactivity data={this.props.data} componkey={this.props.componkey}/>//b端活动进价
+                                    case "4011000":return <Bdown data={this.props.data} componkey={this.props.componkey}/>//b端限时直降
+                                    case "4011000info":return <BdownDetail data={this.props.data}/>//b端限时直降详情
+                                    case "4011000edit":return <AddDown data={this.props.data} componkey={this.props.componkey}/>//新增b端限时直降
+                                    case "4012000":return <Cdown data={this.props.data} componkey={this.props.componkey}/>//c端限时直降
+                                    case "4012000info":return <CdownDetail data={this.props.data}/>//c端限时直降详情
+                                    case "4012000edit":return <AddCdown data={this.props.data} componkey={this.props.componkey}/>//新增c端限时直降
 
                                     case "601000": return <AccountIndex data={this.props.data}/>;
                                     case "601000edit": return <AddNewAccount data={this.props.data}/>;

@@ -100,11 +100,12 @@ import supplyinout from './models/operate/supplyinout'
 //提现管理
 import withdraw from './models/operate/withdraw';
 import sellManage from './models/operate/sellManage';
-//B端问答
-import bAnswer from './models/operate/bAnswer'
-import bAddAnswer from './models/operate/bAnswer/bAddAnswer'
-//B端活动进价
-import bActPrice from './models/operate/bActPrice/index'
+
+import bAnswer from './models/operate/bAnswer'//B端问答
+import bAddAnswer from './models/operate/bAnswer/bAddAnswer'//新增B端问答
+import bActPrice from './models/operate/bActPrice/index'//B端活动进价
+import bDown from './models/operate/bDown/index'//B限时直降
+import cDown from './models/operate/cDown/index'//c限时直降
 //待审核订单
 import onAudit from './models/online/onAudit'
 import freightDetail from './models/datapos/freightDetail';
@@ -204,7 +205,10 @@ const models = [
   shareMail,
   orderuser,
   exchangeAct,
-  bActPrice
+  //运营中心
+  bActPrice,
+  bDown,
+  cDown,
 ]
 models.forEach(m => {
   return app.model(m)

@@ -34,7 +34,7 @@ class AddGood extends  Component {
       if(!err){
         addGoodsApi(values).then(res=>{
           if(res.code=='0'){
-            
+
           }
         })
       }
@@ -110,4 +110,8 @@ class AddGood extends  Component {
   }
 }
 const AddGoods  = Form.create({})(AddGood);
-export default AddGoods;
+const mapStateToProps=(state)=>{
+  const {exchangeAct} = state;
+  return {exchangeAct}
+}
+export default connect(mapStateToProps)(AddGoods);
