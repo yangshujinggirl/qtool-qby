@@ -1,4 +1,4 @@
-import { getListApi } from '../../../services/exchangeAct/exchangeAct'
+import { getListApi } from '../../../services/goodsCenter/exchangeAct/index'
 
 export default{
   namespace:'exchangeAct',
@@ -16,15 +16,15 @@ export default{
       const result = yield call(getListApi,values);
       yield put({type: 'tab/loding',payload:false});
       if(result.code == '0'){
-        const { feedbacks, currentPage, limit, total } = result;
-        feedbacks.map((item,index)=>{
+        const { pdSpuActives, currentPage, limit, total } = result;
+        pdSpuActives.map((item,index)=>{
           item.key = index;
           return item;
         });
         yield put({
           type:'getList',
           payload:{
-            dataList:feedbacks,
+            dataList:pdSpuActives,
             currentPage,
             limit,
             total,

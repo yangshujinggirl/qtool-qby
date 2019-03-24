@@ -1,5 +1,6 @@
 import React,{ Component } from 'react';
 import { Form,Input, Button,message,DatePicker,} from 'antd';
+import TableList from './components/Table/index'
 import { connect } from 'dva'
 const FormItem = Form.Item;
 const TextArea = Input.TextArea;
@@ -9,8 +10,7 @@ class Addactivity extends Component {
   constructor(props){
     super(props);
     this.state={
-
-    }
+      tableList:[{code:'20170324',pdName:'胡罗比',displayName:'1',activityPrice:'1',costPrice:'0.2'}]}
   }
   //保存
   handleSubmit = (e) => {
@@ -27,7 +27,20 @@ class Addactivity extends Component {
         payload:this.props.componkey
     });
   }
+  //添加商品
+  addGoods =()=> {
+      const {tableList} = this.state;
+      const temp =[{code:'',pdName:'',displayName:'',activityPrice:'',costPrice:''}]
+      tableList.push(temp);
+      this.setState({
+        tableList
+      });
+  }
+  deleteGood=()=>{
+    
+  }
   render(){
+    const {tableList} = this.state;
     const { getFieldDecorator } = this.props.form;
     const { cBanner } = this.props;
     return(
@@ -74,6 +87,19 @@ class Addactivity extends Component {
                 })(
                 <TextArea style={{width:'280px'}} placeholder="请输入活动备注"/>
               )}
+            </FormItem>
+            <FormItem
+              label="活动商品"
+              labelCol={{ span: 3}}
+              wrapperCol={{ span: 18}}
+            >
+              <TableList
+                getFieldDecorator={getFieldDecorator}
+                FormItem = {FormItem}
+                tableList={tableList}
+                addGoods={this.addGoods}
+                deleteGood={this.deleteGood}
+              />
             </FormItem>
         	</Form>
       </div>

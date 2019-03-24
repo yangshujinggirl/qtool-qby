@@ -3,6 +3,7 @@ import { connect } from 'dva';
 import { Form,Button,Input,Row,Col} from 'antd';
 import moment from 'moment';
 import Upload from '../../../components/UploadImg/onlyOneImg';
+import {addGoodsApi} from '../../../services/goodsCenter/exchangeAct/index'
 const FormItem = Form.Item;
 import './addGoods.less'
 
@@ -31,7 +32,11 @@ class AddGood extends  Component {
   handleSubmit =()=> {
     this.props.form.validateFieldsAndScroll((err,values)=>{
       if(!err){
-
+        addGoodsApi(values).then(res=>{
+          if(res.code=='0'){
+            
+          }
+        })
       }
     })
   }
@@ -55,7 +60,7 @@ class AddGood extends  Component {
       					)}
       				</FormItem>
               <FormItem {...formItemLayout} label="品牌图片">
-                {getFieldDecorator('n1ame', {
+                {getFieldDecorator('picUrl', {
       						rules: [{ required: true, message: '请输入品牌图片'}],
       					})(
                   <Upload
@@ -67,7 +72,7 @@ class AddGood extends  Component {
       					)}
               </FormItem>
               <FormItem {...formItemLayout} label="零售价">
-      					{getFieldDecorator('n1ame', {
+      					{getFieldDecorator('price', {
       						rules: [{ required: true, message: '请输入零售价'}],
       						initialValue:2
       					})(
@@ -75,19 +80,19 @@ class AddGood extends  Component {
       					)}
       				</FormItem>
               <FormItem {...formItemLayout} label="兑换所需货币数">
-      					{getFieldDecorator('na2me', {
-      						rules: [{ required: true, message: '请输入门店名称'}],
+      					{getFieldDecorator('valueQty', {
+      						rules: [{ required: true, message: '请输入兑换所需货币数'}],
       						initialValue:3
       					})(
       						<Input placeholder='请输入门店名称' autoComplete="off"/>
       					)}
       				</FormItem>
               <FormItem {...formItemLayout} label="可兑换数量">
-      					{getFieldDecorator('nam3e', {
-      						rules: [{ required: true, message: '请输入门店名称'}],
+      					{getFieldDecorator('convertibleQty', {
+      						rules: [{ required: true, message: '请输入可兑换数量'}],
       						initialValue:4
       					})(
-      						<Input placeholder='请输入门店名称' autoComplete="off"/>
+      						<Input placeholder='请输入可兑换数量' autoComplete="off"/>
       					)}
       				</FormItem>
               <FormItem {...formItemLayout} className='btn_cancel_save'>

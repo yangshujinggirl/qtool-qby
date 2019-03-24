@@ -84,6 +84,14 @@ getDetail() {
 	});
 }
 render(){
+  // const infos = [
+  //   {name:'批次编号',byteName:'no'},
+  //   {name:'批次名称',byteName:'name'},
+  //   {name:'创建时间',byteName:'createTime'},
+  //   {name:'批次状态',byteName:'statusStr'},
+  //   {name:'生效时间',byteName:'no'},
+  //   {name:'备注',byteName:'remark'},
+  // ]
   const {activityInfo,goodsInfos,logInfos} = this.state;
 	return(
 			<div>

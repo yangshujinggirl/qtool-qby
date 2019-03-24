@@ -1,7 +1,7 @@
 const Columns = [{
      title: '商品ID',
-     key:'ticketId',
-     dataIndex: 'udeskTicketId',
+     key:'pdSpuActiveId',
+     dataIndex: 'pdSpuActiveId',
      render:(text, record, index)=> {
        return <span
          className="theme-color pointer"
@@ -9,24 +9,24 @@ const Columns = [{
      }
    },{
      title: '商品名称',
-     dataIndex: 'subject',
-     key: 'subject',
+     dataIndex: 'name',
+     key: 'name',
    },{
      title: '商品零售价',
-     dataIndex: 'status',
-     key: 'status',
+     dataIndex: 'price',
+     key: 'price',
    }, {
      title: '兑换所需金币数',
-     dataIndex: 'priority',
-     key: 'priority',
+     dataIndex: 'valueQty',
+     key: 'valueQty',
    },{
      title: '可兑换数量',
-     dataIndex: 'agentGroupName',
-     key: 'agentGroupName',
+     dataIndex: 'convertibleQty',
+     key: 'convertibleQty',
    },{
      title: '剩余数量',
-     dataIndex: 'createrTime',
-     key: 'createrTime',
+     dataIndex: 'leftQty',
+     key: 'leftQty',
    }];
 
 export default Columns
