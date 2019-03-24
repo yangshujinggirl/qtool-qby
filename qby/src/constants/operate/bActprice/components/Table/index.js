@@ -13,15 +13,20 @@ class TableList extends Component{
     this.columns1 = [
       {
         title: '商品编码',
+        key:'code',
         render:(text,record,index)=>{
-          const {getFieldDecorator,FormItem} = this.props
+          const {getFieldDecorator,FormItem} = this.props;
+
           return(
             <FormItem>
               {
-                getFieldDecorator('code',{
-                  initialValue:record.code
+                getFieldDecorator('code'+index,{
+                  initialValue:record.code,
+                  rules:[{
+                    validator:this.validateCode
+                  }]
                 })(
-                  <Input placeholder='请输入商品编码'/>
+                  <Input placeholder='请输入商品编码' onBlur={this.searchGood}/>
                 )
               }
             </FormItem>
@@ -29,23 +34,36 @@ class TableList extends Component{
         }
       },{
         title: '商品名称',
+        key:'pdName',
         dataIndex: 'pdName',
       },{
         title: '商品规格',
+        key:'displayName',
         dataIndex: 'displayName',
       },{
         title: '合同进价',
+        key:'costPrice',
         dataIndex: 'costPrice',
       },{
         title: '活动进价',
+        key:'activityPrice',
         dataIndex: 'activityPrice',
         render:(text,record,index)=>{
-          const {getFieldDecorator,FormItem} = this.props
+          const {getFieldDecorator,FormItem} = this.props;
+          const validatePrice=(rule,value,callback)=> {
+            if(Number(value)>Number(record.costPrice) ){
+              callback('活动进价大于合同进价，请谨慎填写')
+            };
+            callback();
+          };
           return(
             <FormItem>
               {
-                getFieldDecorator('activityPrice',{
-                  initialValue:record.activityPrice
+                getFieldDecorator('activityPrice'+index,{
+                  initialValue:record.activityPrice,
+                  rules:[{
+                    validator:validatePrice
+                  }]
                 })(
                   <Input placeholder='请输入活动进价'/>
                 )
@@ -54,17 +72,33 @@ class TableList extends Component{
           )
         }
       },{
-        title:'',
         render:(text,record,index)=>(
           this.props.tableList.length > 1&&
-          <a href="javascript:;" onClick={this.deleteGood} className="theme-color">删除</a>
+          <a href="javascript:;" onClick={()=>this.deleteGood(index)} className="theme-color">删除</a>
         )
-      }
+      },
     ]
   }
-  deleteGood =()=> {
-    this.props.deleteGood()
+
+  //验证商品编码重复
+  validateCode=(rule,value,callback)=>{
+    const {tableList} = this.props;
+    value.replace(/\s+/g,'');
+    const isRepeat = tableList.find(item=>item.code==value);
+    if(isRepeat){
+      callback("商品编码重复")
+    };
+    callback();
   }
+  //商品编码回车
+  searchGood=(e)=>{
+    const {value} = e.target;
+  }
+  //删除一行
+  deleteGood =(index)=> {
+    this.props.deleteGood(index)
+  }
+  //增加一行
   addGoods =()=> {
     this.props.addGoods()
   }

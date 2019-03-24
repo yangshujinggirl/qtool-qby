@@ -10,7 +10,7 @@ class Addactivity extends Component {
   constructor(props){
     super(props);
     this.state={
-      tableList:[{code:'20170324',pdName:'胡罗比',displayName:'1',activityPrice:'1',costPrice:'0.2'}]}
+      tableList:[{code:'20170324',pdName:'胡罗比',displayName:'1',activityPrice:'0.1',costPrice:'0.2'}]}
   }
   //保存
   handleSubmit = (e) => {
@@ -36,11 +36,19 @@ class Addactivity extends Component {
         tableList
       });
   }
-  deleteGood=()=>{
-    
+  deleteGood=(index)=>{
+    const {tableList} = this.state;
+    tableList.splice(index,1);
+    this.props.form.resetFields([`code`+index,`activityPrice`+index]);
+    this.setState({
+      tableList
+    });
   }
   render(){
     const {tableList} = this.state;
+    tableList.map((item,index)=>{
+      item.key = index;
+    });
     const { getFieldDecorator } = this.props.form;
     const { cBanner } = this.props;
     return(
