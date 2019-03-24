@@ -135,6 +135,7 @@ class AddThOrder extends Component{
 						});
 						if(!isAllReturn){ //如果没有全退
 							message.error('保税订单必须全退')
+							this.setState({loading:false})
 						}else{
 							values.productList = goodsList;
 							this.sendRequest(values);
