@@ -2,6 +2,7 @@ import React,{Component} from 'react'
 import {Table,Form,Input,Button} from 'antd'
 const {FormItem} = Form.Item
 const {Column} = Table
+import {getGoodInfoApi} from '../../../../../services/operate/bActPrice/index'
 import './index.less'
 
 class TableList extends Component{
@@ -12,7 +13,7 @@ class TableList extends Component{
     this.columns1 = [
       {
         title: '商品编码',
-        key:'code',
+        key:'pdCode',
         render:(text,record,index)=>{
           const {getFieldDecorator,FormItem} = this.props;
 
@@ -25,7 +26,7 @@ class TableList extends Component{
                     validator:this.validateCode
                   }]
                 })(
-                  <Input placeholder='请输入商品编码' onBlur={this.searchGood}/>
+                  <Input placeholder='请输入商品编码' onBlur={(e)=>this.searchGood(e,index)}/>
                 )
               }
             </FormItem>
@@ -33,8 +34,8 @@ class TableList extends Component{
         }
       },{
         title: '商品名称',
-        key:'pdName',
-        dataIndex: 'pdName',
+        key:'name',
+        dataIndex: 'name',
       },{
         title: '商品规格',
         key:'displayName',
@@ -83,15 +84,25 @@ class TableList extends Component{
   validateCode=(rule,value,callback)=>{
     const {tableList} = this.props;
     value.replace(/\s+/g,'');
-    const isRepeat = tableList.find(item=>item.code==value);
+    const isRepeat = tableList.find(item=>item.pdCode==value);
     if(isRepeat){
       callback("商品编码重复")
     };
     callback();
   }
-  //商品编码回车
-  searchGood=(e)=>{
+  //商品编码请求详情
+  searchGood=(e,index)=>{
     const {value} = e.target;
+    value.replace(/\s+/g,'');
+    console.log(value)
+    getGoodInfoApi({pdCode:value}).then(res=>{
+      if(res.code=='0'){
+        const {pdSpu} = res;
+        pdSpu.pdCode=value;
+        pdSpu.displayName=res.displayName;
+        this.props.changeList(index,pdSpu)
+      };
+    })
   }
   //删除一行
   deleteGood =(index)=> {

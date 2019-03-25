@@ -24,3 +24,11 @@ export function getInfoApi(values){
       data:values
   })
 }
+//根据商品编码请求商品详情
+export function getGoodInfoApi(values){
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.pd.spu.list',
+      data:values
+  })
+}

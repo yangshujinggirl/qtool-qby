@@ -2,6 +2,7 @@ import React,{Component} from 'react'
 import {Table,Form,Input,Button} from 'antd'
 const {FormItem} = Form.Item
 const {Column} = Table
+
 import './index.less'
 
 class TableList extends Component{
@@ -25,7 +26,7 @@ class TableList extends Component{
                     validator:this.validateCode
                   }]
                 })(
-                  <Input placeholder='请输入商品编码' onBlur={this.searchGood}/>
+                  <Input placeholder='请输入商品编码' onBlur={this.searchGood} autoComplete='off'/>
                 )
               }
             </FormItem>
@@ -64,7 +65,7 @@ class TableList extends Component{
                     validator:validatePrice
                   }]
                 })(
-                  <Input placeholder='请输入活动进价'/>
+                  <Input placeholder='请输入活动进价' autoComplete='off'/>
                 )
               }
             </FormItem>
@@ -89,7 +90,7 @@ class TableList extends Component{
     };
     callback();
   }
-  //商品编码回车
+  //请求商品详情
   searchGood=(e)=>{
     const {value} = e.target;
   }
