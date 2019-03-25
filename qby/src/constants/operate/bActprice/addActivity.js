@@ -7,11 +7,13 @@ const TextArea = Input.TextArea;
 const {RangePicker} = DatePicker;
 import './index.less'
 
+import UploadData from './components/Upload'
+
 class Addactivity extends Component {
   constructor(props){
     super(props);
     this.state={
-      tableList:[{code:'20170324',pdName:'胡罗比',displayName:'1',activityPrice:'0.1',costPrice:'0.2'}]}
+      tableList:[{pdCode:'20170324',name:'胡罗比',displayName:'1',costPrice:'0.2',activityPrice:'0.1'}]}
   }
   //保存
   handleSubmit = (e) => {
@@ -31,7 +33,7 @@ class Addactivity extends Component {
   //添加商品
   addGoods =()=> {
       const {tableList} = this.state;
-      const temp =[{code:'',pdName:'',displayName:'',activityPrice:'',costPrice:''}]
+      const temp={pdCode:'',pdName:'',displayName:'',activityPrice:'',costPrice:''}
       tableList.push(temp);
       this.setState({
         tableList
@@ -61,8 +63,19 @@ class Addactivity extends Component {
     window.open('../../../static/b_actIn.xlsx')
   }
   //导入商品
-  importData =()=> {
-
+  getFile =(pdSpuAsnLists)=> {
+    console.log(pdSpuAsnLists)
+    this.setState({
+      tableList:pdSpuAsnLists
+    })
+  }
+  //根据
+  changeList =(index,pdSpu)=> {
+    const {tableList}=this.state;
+    tableList[index] = pdSpu;
+    this.setState({
+      tableList
+    });
   }
   render(){
     const {tableList} = this.state;
@@ -128,6 +141,7 @@ class Addactivity extends Component {
                 tableList={tableList}
                 addGoods={this.addGoods}
                 deleteGood={this.deleteGood}
+                changeList={this.changeList}
               />
             </FormItem>
             <FormItem
@@ -144,7 +158,7 @@ class Addactivity extends Component {
               </Row>
             </FormItem>
         	</Form>
-          <Button className='import_good' onClick={this.importData} type='primary'>导入商品</Button>
+          <UploadData getFile={this.getFile}/>
           <Button className='download_temp' onClick={this.downLoad} type='primary'>下载导入模板</Button>
       </div>
     )
