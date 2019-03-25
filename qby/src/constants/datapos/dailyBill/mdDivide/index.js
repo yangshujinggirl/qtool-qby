@@ -15,7 +15,10 @@ class MdDivide extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      inputValues:{}
+      inputValues:{
+        orderType:0,
+        shareType:0,
+      }
     }
   }
   componentWillMount() {
@@ -69,8 +72,9 @@ class MdDivide extends Component {
       type:'mdDivide/fetchList',
       payload:values
     });
+    const _values={...this.state.inputValues,...values}
     this.setState({
-      inputValues:values
+      inputValues:_values
     });
   }
   //导出数据
