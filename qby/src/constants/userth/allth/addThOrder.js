@@ -8,6 +8,7 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 const RadioGroup = Radio.Group;
 import './index.less'
+import NP from 'number-precision'
 
 class AddThOrder extends Component{
 	constructor(props) {
@@ -79,14 +80,14 @@ class AddThOrder extends Component{
 		const {productList=[],returnType,freightQuota} = this.state;
 		let [haveReturnTotalCount,applyTotalCount,totalBuyCount,totalReturnMoney] = [0,0,0,0]
 		productList&&productList.map( (item,index)=> {
-			 haveReturnTotalCount += Number(item.returnCount);//总的已退数量
-			 totalBuyCount += Number(item.buyCount);//总的购买数量
-			if(item.applyReturnCount) applyTotalCount += Number(item.applyReturnCount);//总的要退的数量
-			if(item.applyReturnQuota) totalReturnMoney += Number(item.applyReturnQuota);
+			 haveReturnTotalCount = NP.plus( Number(item.returnCount),haveReturnTotalCount);//总的已退数量
+			 totalBuyCount = NP.plus(Number(item.buyCount),totalBuyCount);//总的购买数量
+			if(item.applyReturnCount) applyTotalCount = NP.plus(Number(item.applyReturnCount),applyTotalCount) ;//总的要退的数量
+			if(item.applyReturnQuota) totalReturnMoney = NP.plus(Number(item.applyReturnQuota),totalReturnMoney) ;//总的退款金额
 		});
-		if(totalBuyCount == haveReturnTotalCount+applyTotalCount && !returnType){ //全退且是售中 + 运费
+		if(totalBuyCount == NP.plus(haveReturnTotalCount,applyTotalCount) && !returnType){ //全退且是售中 + 运费
 			if(totalReturnMoney > 0){
-				return totalReturnMoney + Number(freightQuota)
+				return NP.plus(totalReturnMoney,Number(freightQuota))
 			}else{
 				return null
 			}
@@ -210,7 +211,11 @@ class AddThOrder extends Component{
 		  productList
 		});
 	}
+	componentDidMount =()=> {
+		console.log(NP.plus(2.3,2.4))
+	}
 	render(){
+
 			const { getFieldDecorator } = this.props.form
 			const {
 				orderType,
