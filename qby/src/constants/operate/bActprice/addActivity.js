@@ -64,7 +64,6 @@ class Addactivity extends Component {
   }
   //导入商品
   getFile =(pdSpuAsnLists)=> {
-    console.log(pdSpuAsnLists)
     this.setState({
       tableList:pdSpuAsnLists
     })
@@ -136,6 +135,7 @@ class Addactivity extends Component {
               wrapperCol={{ span: 18}}
             >
               <TableList
+                form={this.props.form}
                 getFieldDecorator={getFieldDecorator}
                 FormItem = {FormItem}
                 tableList={tableList}

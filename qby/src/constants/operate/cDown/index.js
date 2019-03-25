@@ -79,7 +79,7 @@ class BactPrice extends Component{
   //新增活动进价
   createbActPrice =()=>{
     const paneitem = {
-      title:'新建活动进价',
+      title:'新建C端直降',
       key:`${this.props.componkey}edit`,
       componkey:`${this.props.componkey}edit`,
     };
@@ -120,7 +120,7 @@ class BactPrice extends Component{
   handleOperateClick(record,type) {
     if(type == "info"){
       const paneitem = {
-        title:'活动进价详情',
+        title:'C端直降详情',
         key:`${this.state.componkey}info`,
         componkey:`${this.state.componkey}info`,
         data:{
@@ -133,7 +133,7 @@ class BactPrice extends Component{
       });
     }else if(type == 'edit'){
       const paneitem = {
-        title:'注券记录',
+        title:'修改C端直降',
         key:`${this.state.componkey}editconfig`+record.bActPriceId,
         componkey:`${this.state.componkey}editconfig`,
         data:{
@@ -175,7 +175,7 @@ class BactPrice extends Component{
         <div className="handel-btn-lists">
           {
             1 &&
-            <Button onClick={this.createbActPrice}  size='large' type='primary'>新增活动进价</Button>
+            <Button onClick={this.createbActPrice}  size='large' type='primary'>新增限时促销</Button>
           }
           {
             1 &&

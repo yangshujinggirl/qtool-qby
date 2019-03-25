@@ -21,7 +21,7 @@ class TableList extends Component{
             <FormItem>
               {
                 getFieldDecorator('code'+index,{
-                  initialValue:record.code,
+                  initialValue:record.pdCode,
                   rules:[{
                     validator:this.validateCode
                   }]
@@ -94,15 +94,18 @@ class TableList extends Component{
   searchGood=(e,index)=>{
     const {value} = e.target;
     value.replace(/\s+/g,'');
-    console.log(value)
-    getGoodInfoApi({pdCode:value}).then(res=>{
-      if(res.code=='0'){
-        const {pdSpu} = res;
-        pdSpu.pdCode=value;
-        pdSpu.displayName=res.displayName;
-        this.props.changeList(index,pdSpu)
+    this.props.form.validateFieldsAndScroll((err)=>{
+      if(!err){
+        getGoodInfoApi({pdCode:value}).then(res=>{
+          if(res.code=='0'){
+            const {pdSpu} = res;
+            pdSpu.pdCode=value;
+            pdSpu.displayName=res.displayName;
+            this.props.changeList(index,pdSpu)
+          };
+        });
       };
-    })
+    });
   }
   //删除一行
   deleteGood =(index)=> {

@@ -12,15 +12,15 @@ class TableList extends Component{
     this.columns1 = [
       {
         title: '商品编码',
-        key:'code',
+        key:'pdCode',
         render:(text,record,index)=>{
           const {getFieldDecorator,FormItem} = this.props;
 
           return(
             <FormItem>
               {
-                getFieldDecorator('code'+index,{
-                  initialValue:record.code,
+                getFieldDecorator('pdCode'+index,{
+                  initialValue:record.pdCode,
                   rules:[{
                     validator:this.validateCode
                   }]
@@ -40,18 +40,29 @@ class TableList extends Component{
         key:'displayName',
         dataIndex: 'displayName',
       },{
-        title: '合同进价',
-        key:'costPrice',
-        dataIndex: 'costPrice',
+        title: '零售价',
+        key:'toCprice',
+        dataIndex: 'toCprice',
       },{
-        title: '活动进价',
+        title: '金卡价',
+        key:'goldCardPrice',
+        dataIndex: 'goldCardPrice',
+      },{
+        title: '银卡价',
+        key:'silverCardPrice',
+        dataIndex: 'silverCardPrice',
+      },{
+        title: '活动特价',
         key:'activityPrice',
         dataIndex: 'activityPrice',
         render:(text,record,index)=>{
           const {getFieldDecorator,FormItem} = this.props;
           const validatePrice=(rule,value,callback)=> {
-            if(Number(value)>Number(record.costPrice) ){
-              callback('活动进价大于合同进价，请谨慎填写')
+            if(Number(value)>Number(record.toCprice) ){
+              callback('当前特价超过零售价，请谨慎填写')
+            };
+            if(Number(value)<Number(record.toCprice) ){
+              callback('当前特价小于成本价，请谨慎填写')
             };
             callback();
           };
@@ -92,6 +103,19 @@ class TableList extends Component{
   //商品编码回车
   searchGood=(e)=>{
     const {value} = e.target;
+    value.replace(/\s+/g,'');
+    this.props.form.validateFieldsAndScroll(['pdCode'+index],(err)=>{
+      if(!err){
+        getGoodInfoApi({pdCode:value}).then(res=>{
+          if(res.code=='0'){
+            const {pdSpu} = res;
+            pdSpu.pdCode=value;
+            pdSpu.displayName=res.displayName;
+            this.props.changeList(index,pdSpu)
+          };
+        });
+      };
+    });
   }
   //删除一行
   deleteGood =(index)=> {
