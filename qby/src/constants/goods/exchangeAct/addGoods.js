@@ -40,6 +40,17 @@ class AddGood extends  Component {
       }
     })
   }
+  beforeUpload =(file)=> {
+    const isJPG = file.type === 'image/jpeg'||'image.png';
+    if (!isJPG) {
+      message.error('仅支持jpg/jpeg/png格式',.8);
+    }
+    const isLt2M = file.size / 1024 / 1024 < 2;
+    if (!isLt2M) {
+      message.error('上传内容大于2M，请选择2M以内的文件',.8);
+    }
+    return isJPG && isLt2M;
+  }
 
   render() {
     const { getFieldDecorator } = this.props.form;
@@ -68,6 +79,7 @@ class AddGood extends  Component {
                     action='/erpWebRest/qcamp/upload.htm?type=brand'
                     imageUrl = {imageUrl}
                     changeImg = {this.changeImg}
+                    beforeUpload={this.beforeUpload}
                   />
       					)}
               </FormItem>

@@ -190,7 +190,7 @@ class Coupon extends Component{
         type:'tab/firstAddTab',
         payload:paneitem
       });
-    }else if(type == 'edit'){
+    }else if(type == 'inject'){ //注券记录
       const paneitem = {
         title:'注券记录',
         key:`${this.state.componkey}editconfig`+record.couponId,
@@ -204,7 +204,21 @@ class Coupon extends Component{
           type:'tab/firstAddTab',
           payload:paneitem
       });
-    };
+    }else if(type == 'edit'){
+      const paneitem = {
+        title:'修改优惠券',
+        key:`${this.state.componkey}edit`+record.couponId,
+        componkey:`${this.state.componkey}edit`,
+        data:{
+          pdSpuId:record.couponId,
+          couponCode:record.couponCode
+        },
+      };
+      this.props.dispatch({
+          type:'tab/firstAddTab',
+          payload:paneitem
+      });
+    }
   }
 
   render(){

@@ -1,6 +1,8 @@
 import React,{ Component } from 'react';
 import { Form,Input, Button,message,DatePicker,Row,Col,Checkbox,Radio } from 'antd';
 import TableList from './components/Table/index'
+import Uploadimg from '../../../components/UploadImg/onlyOneImg'
+import ShopList from '../../../components/importData/index'
 import { connect } from 'dva'
 const FormItem = Form.Item;
 const TextArea = Input.TextArea;
@@ -24,7 +26,9 @@ class Addactivity extends Component {
         { label:'门店', value:1},
         { label:'仓库', value:2},
       ],
+      shopList:[{shopId:1,shopName:'小卷福'}]
     };
+
   }
   //保存
   handleSubmit = (e) => {
@@ -58,6 +62,22 @@ class Addactivity extends Component {
       tableList
     });
   }
+  addMd =()=> {
+    const {shopList} = this.state;
+    const list={shopId:'',shopName:''};
+    shopList.push(list)
+    this.setState({
+      shopList
+    });
+  }
+  deleteMd =(index)=> {
+    const {shopList} = this.state;
+    shopList.splice(index,1);
+    this.props.form.resetFields([`shopId`+index]);
+    this.setState({
+      shopList
+    });
+  }
   //新增保存
   handleSubmit=()=>{
 
@@ -79,6 +99,13 @@ class Addactivity extends Component {
       tableList:pdSpuAsnLists
     })
   }
+  //导入门店
+  getFiles =(pdSpuAsnLists)=> {
+    this.setState({
+      shopList:pdSpuAsnLists
+    })
+  }
+
   //根据
   changeList =(index,pdSpu)=> {
     const {tableList}=this.state;
@@ -87,14 +114,43 @@ class Addactivity extends Component {
       tableList
     });
   }
+  //修改图片
+  changeImg=(imageUrl)=>{
+    this.setState({
+      imageUrl
+    });
+  }
+  beforeUpload =(file)=> {
+    const isJPG = file.type === 'image/png';
+    if (!isJPG) {
+      message.error('仅支持png格式',.8);
+    }
+    const isLt2M = file.size / 1024 / 1024 < 2;
+    if (!isLt2M) {
+      message.error('上传内容大于2M，请选择2M以内的文件',.8);
+    }
+    return isJPG && isLt2M;
+  }
+  //活动门店变化的时候
+  actShopChange =(e)=> {
+    const {value} = e.target;
+    if(value){
+      this.setState({
+        shopType:value
+      });
+    };
+  }
   render(){
     const radioStyle = {
      display: 'block',
      height: '30px',
      lineHeight: '30px',
    };
-    const {tableList,options,optionsWithDisabled} = this.state;
+    const {tableList,options,optionsWithDisabled,imageUrl,shopList,shopType} = this.state;
     tableList.map((item,index)=>{
+      item.key = index;
+    });
+    shopList.map((item,index)=>{
       item.key = index;
     });
     const { getFieldDecorator } = this.props.form;
@@ -106,9 +162,9 @@ class Addactivity extends Component {
             <FormItem
               label="活动名称"
               labelCol={{ span:3}}
-              wrapperCol={{ span:6}}
-            >
-              {getFieldDecorator('couponName', {
+              wrapperCol={{ span:6}}>
+              {getFieldDecorator('name', {
+                  initialValue:1,
                   rules: [{ required: true, message: '请输入优惠券名称'}],
                 })(
                     <Input
@@ -122,11 +178,9 @@ class Addactivity extends Component {
             <FormItem
               label="活动时间"
               labelCol={{ span:3}}
-              wrapperCol={{ span:6}}
-
-            >
-              {getFieldDecorator('couponName', {
-                  rules: [{ required: true, message: '请输入优惠券名称'}],
+              wrapperCol={{ span:6}}>
+              {getFieldDecorator('actTime', {
+                  rules: [{ required: true, message: '请选择活动时间'}],
                 })(
                   <RangePicker
                     showTime
@@ -137,25 +191,19 @@ class Addactivity extends Component {
             <FormItem
               label="预热时间"
               labelCol={{ span:3}}
-              wrapperCol={{ span:6}}
-
-            >
-              {getFieldDecorator('couponName', {
-                  rules: [{ required: true, message: '请输入优惠券名称'}],
+              wrapperCol={{ span:10}}>
+              {getFieldDecorator('onTime', {
+                  rules: [{ required: true, message: '请选择预热时间'}],
                 })(
-                  <RangePicker
-                    showTime
-                    style={{width:'280px'}}
-                    format="YYYY-MM-DD HH:mm:ss"/>
-                )}
+                   <DatePicker/>
+                )}　预热时间需早于活动开始时间
             </FormItem>
             <FormItem
               label="活动平台"
               labelCol={{ span:3}}
-              wrapperCol={{ span:6}}
-
-            >
-              {getFieldDecorator('couponName', {
+              wrapperCol={{ span:6}}>
+              {getFieldDecorator('activityPlat', {
+                  initialValue:[1],
                   rules: [{ required: true, message: '请输入优惠券名称'}],
                 })(
                 <CheckboxGroup options={options}/>
@@ -164,25 +212,20 @@ class Addactivity extends Component {
             <FormItem
               label="出货平台"
               labelCol={{ span:3}}
-              wrapperCol={{ span:6}}
-
-            >
-              {getFieldDecorator('couponName', {
+              wrapperCol={{ span:6}}>
+              {getFieldDecorator('shipmentPlat', {
+                  initialValue:[1,2],
                   rules: [{ required: true, message: '请输入优惠券名称'}],
                 })(
                   <CheckboxGroup
                     disabled
-                    options={optionsWithDisabled}
-                    defaultValue={[1,2]}
-                  />
+                    options={optionsWithDisabled}/>
                 )}
             </FormItem>
             <FormItem
               label="是否生成门店利润"
               labelCol={{ span:3}}
-              wrapperCol={{ span:6}}
-
-            >
+              wrapperCol={{ span:6}}>
               {getFieldDecorator('isStoreProfit', {
                   initialValue:1,
                   rules: [{ required: true, message: '请输入优惠券名称'}],
@@ -196,9 +239,7 @@ class Addactivity extends Component {
             <FormItem
               label="活动成本承担方"
               labelCol={{ span:3}}
-              wrapperCol={{ span:6}}
-
-            >
+              wrapperCol={{ span:6}}>
             {getFieldDecorator('activityCostbearer', {
                 initialValue:1,
                 rules: [{ required: true, message: '请选择活动成本承担方'}],
@@ -212,25 +253,26 @@ class Addactivity extends Component {
             <FormItem
               label="活动商品悬浮图"
               labelCol={{ span:3}}
-              wrapperCol={{ span:6}}
-            >
-            {getFieldDecorator('activityCostbearer', {
+              wrapperCol={{ span:6}}>
+            {getFieldDecorator('commodityPic', {
                 initialValue:1,
                 rules: [{ required: true, message: '请选择活动成本承担方'}],
               })(
-                <RadioGroup disabled>
-                  <Radio value={1}>是</Radio>
-                  <Radio value={0}>否</Radio>
-                </RadioGroup>
-              )}
+                <Uploadimg
+                  imageUrl={imageUrl}
+                  name='imgFile'
+                  action='/erpWebRest/qcamp/upload.htm?type=brand'
+                  beforeUpload={this.beforeUpload}
+                  changeImg={this.changeImg}/>
+              )}仅支持png格式
             </FormItem>
             <FormItem
               label="活动备注"
               labelCol={{ span: 3}}
               wrapperCol={{ span: 6}}
-              className='act_remark'
-            >
-              {getFieldDecorator('couponName', {
+              className='act_remark'>
+              {getFieldDecorator('remark', {
+                  initialValue:1,
                   rules: [{ required: true, message: '请输入活动备注'}],
                 })(
                 <TextArea style={{width:'280px'}} placeholder="请输入活动备注"/>
@@ -241,8 +283,7 @@ class Addactivity extends Component {
               <FormItem
                 label="活动商品"
                 labelCol={{ span: 3}}
-                wrapperCol={{ span: 18}}
-              >
+                wrapperCol={{ span: 18}}>
                 <TableList
                   form={this.props.form}
                   getFieldDecorator={getFieldDecorator}
@@ -256,35 +297,37 @@ class Addactivity extends Component {
               <FormItem
                 label="活动门店"
                 labelCol={{ span:3}}
-                wrapperCol={{ span:6}}
-              >
+                wrapperCol={{ span:6}}>
               {getFieldDecorator('shopType', {
                   initialValue:1,
                   rules: [{ required: true, message: '请选择活动成本承担方'}],
+                  onChange:this.actShopChange
                 })(
                   <RadioGroup>
-                    <Radio style={radioStyle}value={1}>全部门店</Radio>
+                    <Radio style={radioStyle} value={1}>全部门店</Radio>
                     <Radio style={radioStyle} value={2}>加盟店</Radio>
                     <Radio style={radioStyle} value={3}>直联营店</Radio>
                     <Radio style={radioStyle} value={4}>指定门店</Radio>
                   </RadioGroup>
                 )}
               </FormItem>
-              <FormItem
-                  label="选择门店"
-                  labelCol={{ span: 4}}
-                  wrapperCol={{ span: 18}}
-                >
-                  <TableList
-                    form={this.props.form}
-                    getFieldDecorator={getFieldDecorator}
-                    FormItem = {FormItem}
-                    tableList={tableList}
-                    addGoods={this.addGoods}
-                    deleteGood={this.deleteGood}
-                    changeList={this.changeList}
-                  />
-              </FormItem>
+              {
+                shopType == 4 &&
+                <FormItem
+                    label="选择门店"
+                    labelCol={{ span: 4}}
+                    wrapperCol={{ span: 12}}>
+                    <ShopList
+                      FormItem={FormItem}
+                      getFieldDecorator={getFieldDecorator}
+                      getFiles={this.getFiles}
+                      dataSource={shopList}
+                      delete={this.deleteMd}
+                      add={this.addMd}
+                      addText='+门店'
+                      type='1'/>
+                </FormItem>
+              }
               <UploadData getFile={this.getFile}/>
               <Button className='download_temp' onClick={this.downLoad} type='primary'>下载导入模板</Button>
             </div>
@@ -302,7 +345,6 @@ class Addactivity extends Component {
               </Row>
             </FormItem>
         	</Form>
-
       </div>
     )
   }
