@@ -1,4 +1,4 @@
-import { getListApi,InjectRecordApi } from '../../../services/activity/coupon'
+import { getListApi,InjectRecordApi,getManageListApi } from '../../../services/activity/coupon'
 export default{
   namespace:'coupon',
   state:{
@@ -6,6 +6,9 @@ export default{
       dataList:[]
     },
     data2:{
+      dataList:[]
+    },
+    data3:{
       dataList:[]
     },
     selectedRowKeys:[],
@@ -16,6 +19,9 @@ export default{
     },
     getInjectList(state,{payload:{data2} }){
       return { ...state, data2}
+    },
+    getManageList(state,{payload:{data3}}){
+      return { ...state, data3 }
     },
     clearSelect(state,{payload:{selectedRowKeys}}){
       return { ...state,selectedRowKeys}
@@ -68,6 +74,50 @@ export default{
           payload:{
             data2:{
               dataList:iPdCoupon,
+              currentPage,
+              limit,
+              total,
+            },
+          }
+        });
+      };
+    },
+    //获取券包列表
+    *fetchManageList({payload:values},{call,put}){
+      yield put({type: 'tab/loding',payload:true});
+      // const result = yield call(getManageListApi,values);
+      yield put({type: 'tab/loding',payload:false});
+      const result = {
+        code:'0',
+        couponPackageList:[{
+          couponBatchNo:'1111',
+          couponPackageName:'20',
+          couponCount:'12',
+          updateUserName:'yulu',
+          createTime:'2018-9-01',
+          couponPackageId:'1',
+          couponCodes:'1111\n22222\n3333'
+        },{
+          couponBatchNo:'111',
+          couponPackageName:'520',
+          couponCount:'12',
+          updateUserName:'yulu',
+          createTime:'2018-9-01',
+          couponPackageId:'2',
+          couponCodes:'111\n2222\n333'
+        }]
+      }
+      if(result.code == '0'){
+        const { couponPackageList, currentPage, limit, total } = result;
+        couponPackageList&&couponPackageList.map((item,index)=>{
+          item.key = index;
+          return item;
+        });
+        yield put({
+          type:'getManageList',
+          payload:{
+            data3:{
+              dataList:couponPackageList,
               currentPage,
               limit,
               total,

@@ -1591,6 +1591,19 @@ const SiderBarData =  [
           "children": []
         },
         {
+            "urResourceId": 4013000,
+            "name": "主题活动",
+            "code": "4013000",
+            "url": "",
+            "remark": null,
+            "status": 1,
+            "statusStr": null,
+            "menu": 1,
+            "menuStr": null,
+            "rank": 1,
+            "children": []
+          },
+        {
           "urResourceId": 404000,
           "name": "B端Banner",
           "code": "404000",

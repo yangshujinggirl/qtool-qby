@@ -72,7 +72,7 @@ class AddGood extends  Component {
       				</FormItem>
               <FormItem {...formItemLayout} label="品牌图片">
                 {getFieldDecorator('picUrl', {
-      						rules: [{ required: true, message: '请输入品牌图片'}],
+      						rules: [{ required: true, message: '请上传品牌图片'}],
       					})(
                   <Upload
                     name='imgFile'

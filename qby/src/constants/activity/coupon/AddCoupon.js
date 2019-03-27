@@ -1,7 +1,7 @@
 import React,{ Component } from 'react';
-import { Form, Select, Input, Button , message, Row, Col,DatePicker,Radio,Checkbox } from 'antd';
+import { AutoComplete, Form, Select, Input, Button , message, Row, Col,DatePicker,Radio,Checkbox,Tag} from 'antd';
 import { connect } from 'dva'
-import { addCouponApi } from '../../../services/activity/coupon'
+import { addCouponApi,getGoodTypeApi } from '../../../services/activity/coupon'
 import GoodList from '../../../components/importData/index'
 import ShopList from '../../../components/importData/index'
 import './index.css'
@@ -20,6 +20,8 @@ class AddCoupon extends Component {
       couponValidDate:false,
       goodList:[{pdCode:'',name:'',displayName:''}],
       shopList:[{spShopId:'',shopName:''}],
+      goodTypeList:[],
+      selectedBrands:[],
     }
     this.options1 = [
       { label: '不可与限时直降同享', value: '1'},
@@ -167,20 +169,57 @@ class AddCoupon extends Component {
       });
     };
   }
+  //商品类型选中
+  onGoodTypeSelect =(value,option)=> {
+    const {selectedBrands} = this.state;
+    const isRepeat = selectedBrands.find(item=>item.value==option.props.value)
+    if(!isRepeat){
+      const obj={};
+      obj.value = option.props.value;
+      obj.text = option.props.children;
+      selectedBrands.push(obj);
+      this.setState({
+        selectedBrands
+      });
+    };
+  }
+  //删除品牌
+  deleteBrand=(e,index)=> {
+    const list= this.state.selectedBrands;
+    list.splice(index,1);
+    this.setState({selectedBrands:list});
+  }
+  // 商品类型搜搜
+  onGoodTypeSearch =(value)=> {
+    // getGoodTypeApi({name:value})
+    // .then(res=>{
+    //   if(res.code=='0'){
+    //     this.setState({
+    //       goodTypeList:res.brandList
+    //     });
+    //   };
+    // });
+    const res={code:0,brandList:[{pdBrandId:1,name:'zhou'},{pdBrandId:2,name:'hong'}]}
+    const goodTypeList=[];
+    res.brandList&&res.brandList.map(item=>{
+      const obj = {};
+      obj.value = item.pdBrandId;
+      obj.text = item.name;
+      goodTypeList.push(obj)
+    });
+    this.setState({
+      goodTypeList
+    });
+  }
   render(){
-    var users = [
-      { 'user': 'barney',  'active': true },
-      { 'user': 'fred',    'active': false },
-      { 'user': 'pebbles', 'active': false }
-    ];
-    console.log(_.dropRightWhile(users, function(o) { return o.active; }));
-
-    const {goodList,shopList,shopScope,spuScope} = this.state;
+    const {goodList,shopList,shopScope,spuScope,goodTypeList,selectedBrands} = this.state;
     const radioStyle = {
       display: 'block',
       height: '30px',
       lineHeight: '30px',
     };
+    console.log(goodTypeList)
+    console.log(selectedBrands)
     const { getFieldDecorator } = this.props.form;
     return(
       <div className='addCoupon'>
@@ -360,10 +399,17 @@ class AddCoupon extends Component {
             </Col>
             <Col span={4}>
               <FormItem>
-                {getFieldDecorator('code',{
-                })(
-                    <Input autoComplete="off"/>
-                )}
+                <div>
+                  <AutoComplete
+                    onSelect={this.onGoodTypeSelect}
+                    onSearch={this.onGoodTypeSearch}
+                    dataSource={goodTypeList}/>
+                  {selectedBrands.length>0&&
+                    selectedBrands.map((item,index)=>(
+                      <Tag closable onClose={(e)=>this.deleteBrand(e,index)}>{item.text}</Tag>
+                    ))
+                  }
+                </div>
               </FormItem>
             </Col>
           </Row>

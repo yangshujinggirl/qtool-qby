@@ -154,6 +154,8 @@ import CH5_configure from '../activity/cBanner/editH5';//c端banner配置
 import CouponDetail from '../activity/coupon/CouponDetail';//优惠券详情
 import AddCoupon from '../activity/coupon/AddCoupon';//新增优惠券
 import CouponRecord from '../activity/coupon/CouponRecord/index';
+import CouponManage from '../activity/coupon/CouponManage/index';
+import AddCouponPack from '../activity/coupon/CouponManage/addCouponPack';
 import Bpush from '../activity/bPush/index'; //b端push
 import BpushDetail from '../activity/bPush/BpushDetail' //b端详情
 import AddbPush from '../activity/bPush/AddPush' //新增push页面
@@ -190,6 +192,8 @@ import AddDown from '../operate/bDown/addActivity' //b端活动进价
 import Cdown from '../operate/cDown/index' //c端限时直降
 import CdownDetail from '../operate/cDown/bActDetail' //c端限时直降详情
 import AddCdown from '../operate/cDown/addActivity' //c端活动进价
+import ThemeAct from '../operate/themeAct/index' //主题活动
+import AddTheme from '../operate/themeAct/AddTheme' //主题活动
 
 //门店数据
 import DataDistribute from '../datasp/dataspcun/dataDistribution/index'
@@ -310,6 +314,8 @@ class Content extends React.Component {
                                     case "4012000":return <Cdown data={this.props.data} componkey={this.props.componkey}/>//c端限时直降
                                     case "4012000info":return <CdownDetail data={this.props.data}/>//c端限时直降详情
                                     case "4012000edit":return <AddCdown data={this.props.data} componkey={this.props.componkey}/>//新增c端限时直降
+                                    case "4013000":return <ThemeAct data={this.props.data} componkey={this.props.componkey}/>//新增c端限时直降
+                                    case "4013000edit":return <AddTheme data={this.props.data} componkey={this.props.componkey}/>//新增c端限时直降
 
                                     case "601000": return <AccountIndex data={this.props.data}/>;
                                     case "601000edit": return <AddNewAccount data={this.props.data}/>;
@@ -360,6 +366,8 @@ class Content extends React.Component {
                                     case formDataCode('activity03-edit') : return <AddCoupon data={this.props.data} componkey={this.props.componkey}/> //创建优惠券
                                     case formDataCode('activity03-info') : return <CouponDetail data={this.props.data} componkey={this.props.componkey}/> //优惠券详情
                                     case formDataCode('activity03-editconfig') : return <CouponRecord data={this.props.data} componkey={this.props.componkey}/> //注券记录
+                                    case formDataCode('activity03-manage') : return <CouponManage data={this.props.data} componkey={this.props.componkey}/> //注券记录
+                                    case formDataCode('activity03-manageeditpack') : return <AddCouponPack data={this.props.data} componkey={this.props.componkey}/> //注券记录
                                     case formDataCode('activity04') : return <Bpush data={this.props.data} componkey={this.props.componkey}/>//B端推送
                                     case formDataCode('activity04-edit') : return <AddbPush data={this.props.data} componkey={this.props.componkey}/>//新增推送
                                     case formDataCode('activity04-info') : return <BpushDetail data={this.props.data}/>//b端推送详情

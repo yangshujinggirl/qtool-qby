@@ -220,7 +220,18 @@ class Coupon extends Component{
       });
     }
   }
-
+  //券包管理
+  couponManage=()=>{
+    const paneitem = {
+      title:'券包管理',
+      key:`${this.state.componkey}manage`,
+      componkey:`${this.state.componkey}manage`,
+    };
+    this.props.dispatch({
+      type:'tab/firstAddTab',
+      payload:paneitem
+    });
+  }
   render(){
     const {rolelists} = this.props.data;
     const {dataList} = this.props.coupon.data1;
@@ -266,6 +277,7 @@ class Coupon extends Component{
             fuse &&
             <Button onClick={this.fuseCoupon} type='primary' size='large'>熔断</Button>
           }
+          <Button type='primary' size='large' onClick={this.couponManage}>券包管理</Button>
         </div>
         <Modal
             bodyStyle={{'fontSize':'24px','textAlign':'center','padding':'50px'}}

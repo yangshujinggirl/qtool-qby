@@ -1,6 +1,7 @@
 import React,{ Component } from 'react';
 import {Card,Button,Table} from 'antd';
 import { couponInfoApi } from '../../../services/activity/coupon' //请求方法
+import './index.css'
 const columns = [
   {
     title:'操作',
@@ -40,11 +41,14 @@ class CouponDetail extends Component{
       }
     })
   }
+  //导出门店明细
+  exportShop =()=> {
 
+  }
   render(){
     const {coupon,operateLogs,activityShop} = this.state;
     return(
-      <div>
+      <div className='coupon_detail'>
         <div className='mb10'>
           <Card title='基本信息'>
             <div className='cardlist'>
@@ -67,12 +71,15 @@ class CouponDetail extends Component{
         </div>
         <div  className='mb10'>
           <Card title='活动商品'>
-            <div className='cardlist'>适用商品类型：指定品牌【嘉宝娜】、【ashai】</div>
+            <div className='des'>　适用商品类型：指定品牌【嘉宝娜】、【ashai】</div>
           </Card>
         </div>
         <div  className='mb10'>
           <Card title='活动门店'>
-            <div className='cardlist'>适用商品类型：指定品牌【嘉宝娜】、【ashai】</div>
+            <div className='des'>
+              <span>　适用商品类型：指定品牌【嘉宝娜】、【ashai】</span>
+              <Button className='export_shop_detail' type='primary' onClick={this.exportShop}>导出门店明细</Button>
+            </div>
           </Card>
         </div>
         <div className='mb20'>

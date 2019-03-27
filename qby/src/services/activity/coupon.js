@@ -48,3 +48,27 @@ export function InjectRecordApi(values){
       data:values
   })
 }
+//券包列表
+export function getManageListApi(values){
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.pd.coupon.package.query',
+      data:values
+  })
+}
+//新建券包保存
+export function addCouponPackApi(values){
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.pd.coupon.package.save',
+      data:values
+  })
+}
+//指定品牌列表
+export function getGoodTypeApi(values){
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.pd.coupon.brand.query',
+      data:values
+  })
+}
