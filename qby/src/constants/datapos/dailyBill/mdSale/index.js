@@ -180,7 +180,8 @@ class DailyBillForm extends React.Component {
           shopId:this.props.shopId,
           startDate:this.state.startDate,
           endDate:this.state.endDate,
-          type:this.state.type
+          type:this.state.type,
+          orderType:this.state.orderType
       }
       this.exportData(80,data)
   }

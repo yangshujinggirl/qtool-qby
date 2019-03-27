@@ -179,6 +179,7 @@ class ProfitReportForm extends React.Component {
           shopId:this.props.shopId,
           rpDate:this.state.rpDate?(this.state.rpDate+"-01"):"",
           name:this.state.name,
+          orderType:this.state.orderType,
           ...this.state.inputValues
       };
       this.exportData(81,data)
