@@ -12,11 +12,23 @@ class AddGood extends  Component {
   constructor(props) {
     super(props);
     this.state={
-      imageUrl:''
+      imageUrl:'',
+      infos:{
+        name:'',
+        price:'',
+        valueQty:'',
+        convertibleQty:'',
+        leftQty:'',
+        pdSpuActiveId:'',
+      }
     }
   }
   componentDidMount(){
-
+    if(this.props.data){
+      const {infos} = this.props.data;
+      const imageUrl = infos.picUrl;
+      this.setState({infos,imageUrl})
+    };
   }
   changeImg =(imageUrl)=> {
     this.setState({
@@ -24,21 +36,39 @@ class AddGood extends  Component {
     });
   }
   cancel =()=> {
+    let {componkey} = this.props;
+    if(this.props.data){
+      componkey = componkey+this.props.data.infos.pdSpuActiveId
+    };
     this.props.dispatch({
       type:'tab/initDeletestate',
-      payload:this.props.componkey
+      payload:componkey
     });
   }
   handleSubmit =()=> {
     this.props.form.validateFieldsAndScroll((err,values)=>{
       if(!err){
-        addGoodsApi(values).then(res=>{
+        if(this.props.data){
+          values.pdSpuActiveId = this.state.infos.pdSpuActiveId;
+        };
+        values.picUrl = this.state.imageUrl;
+        addGoodsApi({pdSpuActive:values}).then(res=>{
           if(res.code=='0'){
-
-          }
-        })
-      }
-    })
+            let {componkey} = this.props;
+            if(this.props.data){
+              message.success('修改成功');
+              componkey = componkey+this.props.data.infos.pdSpuActiveId
+            }else{
+              message.success('新增成功')
+            }
+            this.props.dispatch({
+              type:'tab/initDeletestate',
+              payload:componkey
+            });
+          };
+        });
+      };
+    });
   }
   beforeUpload =(file)=> {
     const isJPG = file.type === 'image/jpeg'||'image.png';
@@ -53,6 +83,13 @@ class AddGood extends  Component {
   }
 
   render() {
+    const {
+      name,
+      price,
+      valueQty,
+      convertibleQty,
+      leftQty,
+    } = this.state.infos;
     const { getFieldDecorator } = this.props.form;
     const {imageUrl} = this.state;
     const formItemLayout = {
@@ -65,15 +102,12 @@ class AddGood extends  Component {
               <FormItem {...formItemLayout}  label="商品名称">
       					{getFieldDecorator('name', {
       						rules: [{ required: true, message: '请输入商品名称'}],
-      						initialValue:1
+      						initialValue:name
       					})(
       						<Input placeholder='请输入商品名称' autoComplete="off"/>
       					)}
       				</FormItem>
-              <FormItem {...formItemLayout} label="品牌图片">
-                {getFieldDecorator('picUrl', {
-      						rules: [{ required: true, message: '请上传品牌图片'}],
-      					})(
+              <FormItem {...formItemLayout} label="品牌图片" className='must-pic'>
                   <Upload
                     name='imgFile'
                     action='/erpWebRest/qcamp/upload.htm?type=brand'
@@ -81,12 +115,11 @@ class AddGood extends  Component {
                     changeImg = {this.changeImg}
                     beforeUpload={this.beforeUpload}
                   />
-      					)}
               </FormItem>
               <FormItem {...formItemLayout} label="零售价">
       					{getFieldDecorator('price', {
       						rules: [{ required: true, message: '请输入零售价'}],
-      						initialValue:2
+      						initialValue:price
       					})(
       						<Input placeholder='请输入零售价' autoComplete="off"/>
       					)}
@@ -94,7 +127,7 @@ class AddGood extends  Component {
               <FormItem {...formItemLayout} label="兑换所需货币数">
       					{getFieldDecorator('valueQty', {
       						rules: [{ required: true, message: '请输入兑换所需货币数'}],
-      						initialValue:3
+      						initialValue:valueQty
       					})(
       						<Input placeholder='请输入门店名称' autoComplete="off"/>
       					)}
@@ -102,7 +135,7 @@ class AddGood extends  Component {
               <FormItem {...formItemLayout} label="可兑换数量">
       					{getFieldDecorator('convertibleQty', {
       						rules: [{ required: true, message: '请输入可兑换数量'}],
-      						initialValue:4
+      						initialValue:convertibleQty
       					})(
       						<Input placeholder='请输入可兑换数量' autoComplete="off"/>
       					)}

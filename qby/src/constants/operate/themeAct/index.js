@@ -15,7 +15,7 @@ class ThemeAct extends Component{
       confirmVisible:false,
       confirmLoading:false,
       inputValues:{},
-      rowSelection : {
+      rowSelection:{
         selectedRowKeys:this.props.themeAct.selectedRowKeys,
         type:'radio',
         onChange:this.onChange
@@ -28,23 +28,22 @@ class ThemeAct extends Component{
         selectedRowKeys:props.themeAct.selectedRowKeys,
         type:'radio',
         onChange:this.onChange
-      }
-    })
+      },
+    });
   }
-
   onChange =(selectedRowKeys,selectedRows)=> {
     const {rowSelection}=this.state;
     this.setState({
       rowSelection:Object.assign({},rowSelection,{selectedRowKeys})
-    })
+    });
     if(selectedRows[0]){
       this.setState({
         showTimeEnd:selectedRows[0].showTimeEnd,
         showTimeStart:selectedRows[0].showTimeStart,
         themeName:selectedRows[0].themeName,
         themeActivityId:selectedRows[0].themeActivityId,
-      })
-    }
+      });
+    };
   }
   //点击搜索
   searchData = (values)=> {
@@ -54,7 +53,7 @@ class ThemeAct extends Component{
     });
     this.setState({
       inputValues:values
-    })
+    });
   }
   //点击分页
   changePage =(current,limit)=> {

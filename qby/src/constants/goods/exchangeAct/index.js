@@ -21,7 +21,7 @@ class ExchangeAct extends Component {
     this.props.dispatch({
       type:'exchangeAct/fetchList',
       payload:{}
-    })
+    });
   }
   //搜索
   searchData =(values)=> {
@@ -29,9 +29,10 @@ class ExchangeAct extends Component {
       type:'exchangeAct/fetchList',
       payload: values
     });
+    const _values = {...this.state.inputValues,...values}
     this.setState({
-      inputValues:values
-    })
+      inputValues:_values
+    });
   }
   changePage = (currentPage) => {
     currentPage--;
@@ -51,24 +52,33 @@ class ExchangeAct extends Component {
       payload:paramsObj
     });
   }
-  getDetail(record) {
-    const { componkey } =this.props;
-    const paneitem={
-      title:'C端客服工单详情',
-      key:`${componkey}edit${record.udeskTicketId}info`,
-      componkey:`${componkey}info`,
+  //操作
+  handleOperateClick =(record,type)=> {
+    console.log(this.props.componkey)
+    const paneitem = {
+      title:'修改兑换商品',
+      key:`${this.props.componkey}edit`+record.pdSpuActiveId,
+      componkey:`${this.props.componkey}edit`,
       data:{
-        udeskTicketId:record.udeskTicketId,
-      }
+        infos:{
+          name:record.name,
+          picUrl:record.picUrl,
+          price:record.price,
+          valueQty:record.valueQty,
+          convertibleQty:record.convertibleQty,
+          leftQty:record.leftQty,
+          pdSpuActiveId:record.pdSpuActiveId,
+        }
+      },
     };
     this.props.dispatch({
         type:'tab/firstAddTab',
         payload:paneitem
-    })
+    });
   }
   addGoods =()=> {
     const paneitem = {
-      title:'新建商品',
+      title:'新增商品',
       key:`${this.props.componkey}edit`,
       componkey:`${this.props.componkey}edit`,
     };
@@ -79,6 +89,7 @@ class ExchangeAct extends Component {
   }
 
   render() {
+    console.log(this.props)
     const { dataList } = this.props.exchangeAct;
     return (
       <div className="qtools-components-pages">
@@ -101,7 +112,7 @@ class ExchangeAct extends Component {
         <div className="table-list">
           <Qtable
             dataSource={dataList}
-            onOperateClick={this.getDetail.bind(this)}
+            onOperateClick={this.handleOperateClick}
             columns={columns}/>
         </div>
         {
@@ -110,7 +121,7 @@ class ExchangeAct extends Component {
             sizeOptions="1"
             onChange={this.changePage}
             onShowSizeChange={this.changePageSize}
-            data={data}/>
+            data={this.props.data}/>
         }
       </div>
     )

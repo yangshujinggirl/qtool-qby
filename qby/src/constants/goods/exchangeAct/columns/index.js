@@ -2,11 +2,9 @@ const Columns = [{
      title: '商品ID',
      key:'pdSpuActiveId',
      dataIndex: 'pdSpuActiveId',
-     render:(text, record, index)=> {
-       return <span
-         className="theme-color pointer"
-         onClick={()=>record.onOperateClick(record)}>{record.udeskTicketId}</span>
-     }
+     render:(text, record, index)=> (
+       <a className="theme-color" onClick={()=>record.onOperateClick(record)}>{text}</a>
+     )
    },{
      title: '商品名称',
      dataIndex: 'name',

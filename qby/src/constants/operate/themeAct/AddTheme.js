@@ -32,13 +32,13 @@ class AddTheme extends  Component {
       const pdSpuIds = infos.pdThemeActivityDetail;
       let activityPdSpuIds='';
       pdSpuIds.map((item,index)=>{
-        console.log(index<pdSpuIds.length-1)
-        if(index < (pdSpuIds.length-1) ){
-          activityPdSpuIds += item.pdSpuId+','
-        };
+        if(index< (pdSpuIds.length-1) )
+        item.pdSpuId = item.pdSpuId+'\n'
+      });
+      pdSpuIds.map((item,index)=>{
+        activityPdSpuIds += item.pdSpuId
       });
       infos.activityPdSpuIds = activityPdSpuIds;
-      console.log(activityPdSpuIds);
       this.setState({
         infos,
         imageUrl:pics
@@ -72,11 +72,15 @@ class AddTheme extends  Component {
             if(res.code=='0'){
               let {componkey} = this.props;
               if(!this.props.data){
-                message.success('新增成功')
+                message.success('新增成功');
               }else{
                 message.success('修改成功');
                 componkey = componkey+this.props.data.infos.themeActivityId
               };
+              this.props.dispatch({
+                type:'themeAct/fetchList',
+                payload:{}
+              });
               this.props.dispatch({
                 type:'tab/initDeletestate',
                 payload:componkey
