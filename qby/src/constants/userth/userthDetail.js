@@ -55,38 +55,7 @@ class UserthDetail extends React.Component{
 		}, {
 			title: '退款金额',
 			dataIndex: 'returnPrice',
-      key:'7',
-			render:(text,record,index)=>{
-
-				const handlePrice =(rule,value,callback)=> {
-					if(value && value > record.returnPrice){
-						callback('修改范围为（0，'+record.returnPrice+')');
-					};
-					callback();
-				};
-
-				const {type} = this.props.data
-				const { getFieldDecorator } = this.props.form;
-				return(
-					type==1 ?
-					<Form>
-						<FormItem>
-							{
-								getFieldDecorator('currentPrice',{
-									rules:[
-										{ pattern:/^\d+(\.\d{0,2})?$/,message:'请输入小于等于两位小数的数字' },
-										{ validator:handlePrice }
-									],
-									initialValue:record.returnPrice
-								})(
-									<Input style={{width:'80px','text-align':'center'}} onBlur={(e)=>this.getCurrentPrice(e,index)}/>
-								)
-							}
-						</FormItem>
-					</Form>
-					: <div>{text}</div>
-				)
-			}
+      key:'7'
 		}];
 		this.columns3 = [{
 			title: '商品名称',
