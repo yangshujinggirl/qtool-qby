@@ -32,38 +32,23 @@ class NormalForm extends Component{
         <Form className="qtools-condition-form">
           <div className='search-form-outwrap'>
             <div className="search-form-wrap">
-              <FormItem label='优惠券名称'>
-                {getFieldDecorator('couponName')(
-                    <Input placeholder='请输入优惠券名称' autoComplete="off"/>
+              <FormItem label='主题名称'>
+                {getFieldDecorator('themeName')(
+                    <Input placeholder='请输入主题名称' autoComplete="off"/>
                   )}
               </FormItem>
-              <FormItem label='优惠券批次号'>
-                {getFieldDecorator('couponCode')(
-                  <Input placeholder='请输入批次号' autoComplete="off"/>
+              <FormItem label='最后修改人'>
+                {getFieldDecorator('operator')(
+                  <Input placeholder='请输入最后修改人' autoComplete="off"/>
                 )}
               </FormItem>
-              <FormItem label='创建人'>
-                {getFieldDecorator('creater')(
-                  <Input placeholder='请输入创建人' autoComplete="off"/>
-                )}
-              </FormItem>
-              <FormItem label='发放方式'>
+              <FormItem label='主题状态'>
                   {getFieldDecorator('couponUseScene')(
                   <Select allowClear={true} placeholder="请选择发放方式">
-                      {/* <Option value='10'>待发货</Option> */}
-                      <Option value='1'>注册领取</Option>
-                      <Option value='3'>手动领取</Option>
-                      <Option value='2'>注券</Option>
-                  </Select>
-                  )}
-              </FormItem>
-              <FormItem label='优惠券状态'>
-                  {getFieldDecorator('status')(
-                  <Select allowClear={true} placeholder="请选择优惠券状态">
-                      {/* <Option value='10'>待发货</Option> */}
-                      <Option value='1'>发放中</Option>
-                      <Option value='2'>发放完</Option>
-                      <Option value='3'>熔断</Option>
+                      <Option value={0}>未开始</Option>
+                      <Option value={1}>进行中</Option>
+                      <Option value={2}>注券</Option>
+                      <Option value={3}>注券</Option>
                   </Select>
                   )}
               </FormItem>
