@@ -12,11 +12,21 @@ class AddTheme extends  Component {
   constructor(props) {
     super(props);
     this.state={
+      infos:{},
       imageUrl:''
     }
   }
   componentDidMount(){
-
+    const {infos} = this.props.data;
+    const pdSpuIds = infos.pdThemeActivityDetail;
+    const activityPdSpuIds='';
+    pdSpuIds.map(item=>{
+        activityPdSpuIds += item.pdSpuId+'\n'
+    });
+    infos.activityPdSpuIds = activityPdSpuIds;
+    this.setState({
+      infos
+    });
   }
   changeImg =(imageUrl)=> {
     this.setState({
@@ -51,7 +61,6 @@ class AddTheme extends  Component {
     }
     return isJPG && isLt2M;
   }
-
   render() {
     const { getFieldDecorator } = this.props.form;
     const {imageUrl} = this.state;
@@ -61,7 +70,7 @@ class AddTheme extends  Component {
     };
     return (
       	<Form className="add_theme">
-          	<div className='title'>基础信息</div>
+          	<div className='head_title'>基础信息</div>
               <FormItem {...formItemLayout}  label="主题活动名称">
       					{getFieldDecorator('themeName', {
       						rules: [{ required: true, message: '请输入主题活动名称'}],
@@ -80,14 +89,6 @@ class AddTheme extends  Component {
                   />
       					)}
       				</FormItem>
-              <FormItem {...formItemLayout}  label="主题活动名称">
-      					{getFieldDecorator('themeName', {
-      						rules: [{ required: true, message: '请输入主题活动名称'}],
-      						initialValue:1
-      					})(
-      						<Input placeholder='请输入主题活动名称' autoComplete="off"/>
-      					)}
-      				</FormItem>
               <FormItem {...formItemLayout}  label="展示权重">
                 {getFieldDecorator('rank', {
                   rules: [{ required: true, message: '请输入展示权重'}],
@@ -97,7 +98,7 @@ class AddTheme extends  Component {
                 )}
               </FormItem>
               <FormItem {...formItemLayout} label="活动图片">
-                {getFieldDecorator('picUrl', {
+                {getFieldDecorator('pics', {
       						rules: [{ required: true, message: '请上传活动图片'}],
       					})(
                   <Upload
@@ -110,7 +111,7 @@ class AddTheme extends  Component {
       					)}
               </FormItem>
               <FormItem {...formItemLayout}  label="跳转页面编码">
-                {getFieldDecorator('name', {
+                {getFieldDecorator('pageCode', {
                   rules: [{ required: true, message: '请输入跳转页面编码'}],
                   initialValue:1
                 })(
@@ -118,13 +119,15 @@ class AddTheme extends  Component {
                 )}
               </FormItem>
               <FormItem {...formItemLayout} label="活动spuid">
-      					{getFieldDecorator('price', {
+      					{getFieldDecorator('activityPdSpuIds', {
+                  initialValue:1,
+                  rules: [{ required: true, message: '请输入活动spuid'}],
       					})(
       						<TextArea rows='5' placeholder='请输入活动spuid'/>
       					)}
       				</FormItem>
               <FormItem {...formItemLayout} label="备注">
-      					{getFieldDecorator('price', {
+      					{getFieldDecorator('remark', {
       					})(
       						<TextArea rows='3' placeholder='请输入备注'/>
       					)}

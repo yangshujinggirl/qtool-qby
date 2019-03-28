@@ -77,8 +77,8 @@ class ThemeAct extends Component{
   addTheme =()=> {
     const paneitem = {
       title:'新增主题',
-      key:`${this.state.componkey}edit`,
-      componkey:`${this.state.componkey}edit`,
+      key:`${this.props.componkey}edit`,
+      componkey:`${this.props.componkey}edit`,
     };
     this.props.dispatch({
       type:'tab/firstAddTab',
@@ -96,12 +96,21 @@ class ThemeAct extends Component{
   handleOperateClick(record,type) {
     if(type == 'edit'){
       const paneitem = {
-        title:'修改优惠券',
-        key:`${this.state.componkey}edit`+record.themeActId,
-        componkey:`${this.state.componkey}edit`,
+        title:'修改主题',
+        key:`${this.props.componkey}edit`+record.themeActivityId,
+        componkey:`${this.props.componkey}edit`,
         data:{
-          pdSpuId:record.themeActId,
-          themeActCode:record.themeActCode
+          infos:{
+            themeName:record.themeName,
+            showTimeStart:record.showTimeStart,
+            showTimeEnd:record.showTimeEnd,
+            rank:record.rank,
+            pics:record.pics,
+            pageCode:record.pageCode,
+            pdThemeActivityDetail:record.pdThemeActivityDetail,
+            remark:record.remark,
+            themeActivityId:record.themeActivityId,
+          }
         },
       };
       this.props.dispatch({

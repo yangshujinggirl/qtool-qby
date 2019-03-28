@@ -43,7 +43,7 @@ class NormalForm extends Component{
                 )}
               </FormItem>
               <FormItem label='主题状态'>
-                  {getFieldDecorator('couponUseScene')(
+                  {getFieldDecorator('themeStatus')(
                   <Select allowClear={true} placeholder="请选择发放方式">
                       <Option value={0}>未开始</Option>
                       <Option value={1}>进行中</Option>
