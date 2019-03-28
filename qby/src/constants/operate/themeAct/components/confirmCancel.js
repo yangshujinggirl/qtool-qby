@@ -27,7 +27,7 @@ class Cancel extends Component{
 
   render(){
     const { getFieldDecorator } = this.props.form;
-    const {visible,confirmLoading} = this.props;
+    const {visible,confirmLoading,themeName,showTimeStart,showTimeEnd} = this.props;
     const formItemLayout = {
       labelCol: {span:7},
       wrapperCol: {span:14},
@@ -43,14 +43,14 @@ class Cancel extends Component{
       >
         <div>
           <Form>
-            <FormItem {...formItemLayout} label='批次'>
-              <p>奶粉7月供应商特供</p>
+            <FormItem {...formItemLayout} label='主题名称'>
+              <p>{themeName}</p>
             </FormItem>
-            <FormItem {...formItemLayout} label='生效时间'>
-              <p>2017-07-31 00:00:00 ~2017-07-31 23:59:59</p>
+            <FormItem {...formItemLayout} label='展示时间'>
+              <p>{showTimeStart} ~ {showTimeEnd}</p>
             </FormItem>
             <FormItem {...formItemLayout} label='强制失效原因'>
-              {getFieldDecorator("reason",{
+              {getFieldDecorator("invalidReason",{
                 rules:[{required:true,message:"请输入强制失效原因"}]
               })(
                 <TextArea  rows={4} placeholder='请输入强制失效原因,30字以内' maxLength='30' autoComplete="off"/>

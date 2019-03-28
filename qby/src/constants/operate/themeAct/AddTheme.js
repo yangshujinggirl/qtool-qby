@@ -1,32 +1,49 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Form,Button,Input,Row,Col,DatePicker} from 'antd';
+import { Form,Button,Input,Row,Col,DatePicker,message} from 'antd';
 import moment from 'moment';
 import Upload from '../../../components/UploadImg/onlyOneImg';
+import {addThemeApi} from '../../../services/operate/themeAct/index'
 const FormItem = Form.Item;
 const TextArea = Input.TextArea;
 const RangePicker = DatePicker.RangePicker
+import './index.css'
 
 
 class AddTheme extends  Component {
   constructor(props) {
     super(props);
     this.state={
-      infos:{},
+      infos:{
+        themeName:'',
+        showTimeStart:moment().format('YYYY-MM-DD HH:mm:ss'),
+        showTimeEnd:moment().add(1,'days').format('YYYY-MM-DD HH:mm:ss'),
+        rank:'',
+        pageCode:'',
+        remark:'',
+      },
       imageUrl:''
     }
   }
   componentDidMount(){
-    const {infos} = this.props.data;
-    const pdSpuIds = infos.pdThemeActivityDetail;
-    const activityPdSpuIds='';
-    pdSpuIds.map(item=>{
-        activityPdSpuIds += item.pdSpuId+'\n'
-    });
-    infos.activityPdSpuIds = activityPdSpuIds;
-    this.setState({
-      infos
-    });
+    if(this.props.data){
+      const {infos} = this.props.data;
+      const {pics} = infos;
+      const pdSpuIds = infos.pdThemeActivityDetail;
+      let activityPdSpuIds='';
+      pdSpuIds.map((item,index)=>{
+        console.log(index<pdSpuIds.length-1)
+        if(index < (pdSpuIds.length-1) ){
+          activityPdSpuIds += item.pdSpuId+','
+        };
+      });
+      infos.activityPdSpuIds = activityPdSpuIds;
+      console.log(activityPdSpuIds);
+      this.setState({
+        infos,
+        imageUrl:pics
+      });
+    };
   }
   changeImg =(imageUrl)=> {
     this.setState({
@@ -42,12 +59,34 @@ class AddTheme extends  Component {
   handleSubmit =()=> {
     this.props.form.validateFieldsAndScroll((err,values)=>{
       if(!err){
-        addGoodsApi(values).then(res=>{
-          if(res.code=='0'){
-
+        const {imageUrl} = this.state;
+        if(imageUrl){
+          const {time,..._values} = values;
+          if(time && time[0]){
+            _values.showTimeStart = moment(time[0]).format('YYYY-MM-DD hh:mm:ss')
+            _values.showTimeEnd = moment(time[1]).format('YYYY-MM-DD hh:mm:ss')
           }
-        })
-      }
+          _values.activityPdSpuIds = values.activityPdSpuIds.split('\n');
+          _values.pics = imageUrl;
+          addThemeApi(_values).then(res=>{
+            if(res.code=='0'){
+              let {componkey} = this.props;
+              if(!this.props.data){
+                message.success('新增成功')
+              }else{
+                message.success('修改成功');
+                componkey = componkey+this.props.data.infos.themeActivityId
+              };
+              this.props.dispatch({
+                type:'tab/initDeletestate',
+                payload:componkey
+              });
+            };
+          });
+        }else{
+          message.error('请上传图片')
+        };
+      };
     })
   }
   beforeUpload =(file)=> {
@@ -64,6 +103,7 @@ class AddTheme extends  Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     const {imageUrl} = this.state;
+    const {themeName,showTimeStart,showTimeEnd,rank,pageCode,activityPdSpuIds,remark} = this.state.infos;
     const formItemLayout = {
       labelCol: { span:3 },
       wrapperCol: { span:6 },
@@ -74,13 +114,14 @@ class AddTheme extends  Component {
               <FormItem {...formItemLayout}  label="主题活动名称">
       					{getFieldDecorator('themeName', {
       						rules: [{ required: true, message: '请输入主题活动名称'}],
-      						initialValue:1
+      						initialValue:themeName
       					})(
       						<Input placeholder='请输入主题活动名称' autoComplete="off"/>
       					)}
       				</FormItem>
               <FormItem {...formItemLayout} label="展示时间">
       					{getFieldDecorator('time', {
+                  initialValue: [moment(showTimeStart, 'YYYY-MM-DD HH:mm:ss'), moment(showTimeEnd, 'YYYY-MM-DD HH:mm:ss')],
       						rules: [{ required: true, message: '请选择展示时间'}],
       					})(
       						<RangePicker
@@ -92,35 +133,31 @@ class AddTheme extends  Component {
               <FormItem {...formItemLayout}  label="展示权重">
                 {getFieldDecorator('rank', {
                   rules: [{ required: true, message: '请输入展示权重'}],
-                  initialValue:1
+                  initialValue:rank
                 })(
                   <Input placeholder='请输入展示权重' autoComplete="off"/>
                 )}
               </FormItem>
-              <FormItem {...formItemLayout} label="活动图片">
-                {getFieldDecorator('pics', {
-      						rules: [{ required: true, message: '请上传活动图片'}],
-      					})(
-                  <Upload
-                    name='imgFile'
-                    action='/erpWebRest/qcamp/upload.htm?type=brand'
-                    imageUrl = {imageUrl}
-                    changeImg = {this.changeImg}
-                    beforeUpload={this.beforeUpload}
-                  />
-      					)}
+              <FormItem {...formItemLayout} label="活动图片" className='must-pic'>
+                <Upload
+                  name='imgFile'
+                  action='/erpWebRest/qcamp/upload.htm?type=brand'
+                  imageUrl = {imageUrl}
+                  changeImg = {this.changeImg}
+                  beforeUpload={this.beforeUpload}
+                />
               </FormItem>
               <FormItem {...formItemLayout}  label="跳转页面编码">
                 {getFieldDecorator('pageCode', {
                   rules: [{ required: true, message: '请输入跳转页面编码'}],
-                  initialValue:1
+                  initialValue:pageCode
                 })(
                   <Input placeholder='请输入跳转页面编码' autoComplete="off"/>
                 )}
               </FormItem>
               <FormItem {...formItemLayout} label="活动spuid">
       					{getFieldDecorator('activityPdSpuIds', {
-                  initialValue:1,
+                  initialValue:activityPdSpuIds,
                   rules: [{ required: true, message: '请输入活动spuid'}],
       					})(
       						<TextArea rows='5' placeholder='请输入活动spuid'/>
@@ -128,6 +165,7 @@ class AddTheme extends  Component {
       				</FormItem>
               <FormItem {...formItemLayout} label="备注">
       					{getFieldDecorator('remark', {
+                  initialValue:remark
       					})(
       						<TextArea rows='3' placeholder='请输入备注'/>
       					)}

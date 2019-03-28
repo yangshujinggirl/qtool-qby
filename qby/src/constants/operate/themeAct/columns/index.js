@@ -10,12 +10,12 @@ const Columns = [{
      dataIndex: 'rank'
    },{
      title: '展示时间',
-     render:(text,record,index)=> {
+     render:(text,record,index)=> (
        <span>{record.showTimeStart}~{record.showTimeEnd}</span>
-     }
+     )
    },{
      title: '预览链接',
-     dataIndex: 'linkAddress',
+     dataIndex: 'pageCode',
      render:(text, record)=>{
        return(
          <div>

@@ -6,6 +6,7 @@ import Qtable from '../../../components/Qtable/index'; //表单
 import Qpagination from '../../../components/Qpagination/index'; //分页
 import FilterForm from './FilterForm/index'
 import ConfirmCancel from './components/confirmCancel.js'
+import {forceInvalidApi} from '../../../services/operate/themeAct/index'
 
 class ThemeAct extends Component{
   constructor(props){
@@ -37,7 +38,12 @@ class ThemeAct extends Component{
       rowSelection:Object.assign({},rowSelection,{selectedRowKeys})
     })
     if(selectedRows[0]){
-      this.setState({themeActId:selectedRows[0].themeActId})
+      this.setState({
+        showTimeEnd:selectedRows[0].showTimeEnd,
+        showTimeStart:selectedRows[0].showTimeStart,
+        themeName:selectedRows[0].themeName,
+        themeActivityId:selectedRows[0].themeActivityId,
+      })
     }
   }
   //点击搜索
@@ -138,13 +144,14 @@ class ThemeAct extends Component{
   }
   //强制失效点击确定
   onOk =(values,resetFiledsFunc)=> {
-    confirmCancelApi(values)
+    values.themeActivityId = this.state.themeActivityId;
+    forceInvalidApi(values)
     .then((res) => {
       if(res.code == '0'){
         message.success(res.message);
         resetFiledsFunc();//清除数据
         this.props.dispatch({ //刷新列表
-          type:'bActPrice/fetchList',
+          type:'themeAct/fetchList',
           payload:{}
         });
         this.setState({confirmVisible:false,confirmLoading:false});
@@ -154,7 +161,13 @@ class ThemeAct extends Component{
     });
   }
   render(){
-    const {confirmLoading,confirmVisible}=this.state;
+    const {
+      confirmLoading,
+      confirmVisible,
+      themeName,
+      showTimeStart,
+      showTimeEnd,
+    } = this.state;
     const {dataList} = this.props.themeAct;
     return(
       <div className='qtools-components-pages'>
@@ -183,6 +196,9 @@ class ThemeAct extends Component{
         <ConfirmCancel
           changeLoading={this.changeLoading}
           confirmLoading={confirmLoading}
+          themeName={themeName}
+          showTimeStart={showTimeStart}
+          showTimeEnd={showTimeEnd}
           visible={confirmVisible}
           onOk={this.onOk}
           onCancel={this.onCancel}
