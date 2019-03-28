@@ -72,7 +72,7 @@ class MdDivide extends Component {
       type:'mdDivide/fetchList',
       payload:values
     });
-    const _values={...this.state.inputValues,...values}
+    const _values = {...this.state.inputValues,...values}
     this.setState({
       inputValues:_values
     });
