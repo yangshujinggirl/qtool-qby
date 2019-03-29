@@ -17,5 +17,6 @@
   border-bottom:1px solid #eee;
 }
 .addCoupon .table_list{  margin-left:100px;}
+.addCoupon .coupon_list{margin-left:100px;}
 .coupon_detail .des{margin:10px 0 30px 0}
 .coupon_detail .export_shop_detail{float:right;margin-right:30px}

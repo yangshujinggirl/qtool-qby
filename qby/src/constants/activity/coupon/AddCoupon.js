@@ -218,8 +218,6 @@ class AddCoupon extends Component {
       height: '30px',
       lineHeight: '30px',
     };
-    console.log(goodTypeList)
-    console.log(selectedBrands)
     const { getFieldDecorator } = this.props.form;
     return(
       <div className='addCoupon'>
@@ -240,7 +238,7 @@ class AddCoupon extends Component {
                       maxLength='10'
                       autoComplete="off"
                     />　
-                    <span className='tips'>该名称将在前端给用户展示，请谨慎填写</span>
+                    <span className='suffix_tips'>该名称将在前端给用户展示，请谨慎填写</span>
                   </div>
               )}
             </FormItem>
@@ -269,7 +267,7 @@ class AddCoupon extends Component {
                   })(
                     <div>
                       <Input style={{width:'140px'}} disabled = {!this.state.couponValidDay} />　天可用
-                      <span className='tips'>0代表领取当天</span>
+                      <span className='suffix_tips'>0代表领取当天</span>
                     </div>
                   )}
                 </FormItem>
@@ -308,7 +306,7 @@ class AddCoupon extends Component {
               {getFieldDecorator('couponFullAmount', {
                 rules: [{required: true, message: '请输入优惠券金额'},{pattern:/^[^[+]{0,1}(\d+)$/,message: '请输入正整数'}],
               })(
-                <div><span>满　</span><Input style={{width:'205px'}} />　元可用　　<span className='tips'>只可输入0，正整数</span></div>
+                <div><span>满　</span><Input style={{width:'205px'}} />　元可用　　<span className='suffix_tips'>只可输入0，正整数</span></div>
               )}　
             </FormItem>
             <FormItem
@@ -347,7 +345,7 @@ class AddCoupon extends Component {
                 })(
                   <CheckboxGroup options={this.options1}/>
                 )
-              }<span className='tips'>若不选，则无使用限制</span>
+              }<span className='suffix_tips'>若不选，则无使用限制</span>
             </FormItem>
             <FormItem
               label='剩余数量预警'
@@ -431,8 +429,7 @@ class AddCoupon extends Component {
             }
           </FormItem>
           <FormItem
-            className='table_list'
-            label=''
+            className='table_temp_list coupon_list'
             labelCol={{span:4,offset:1}}
             wrapperCol={{span:10}}>
             {
@@ -485,7 +482,7 @@ class AddCoupon extends Component {
           {
             (shopScope==1 || shopScope==2)&&
             <FormItem
-              className='table_list'
+              className='table_temp_list coupon_list'
               label=''
               labelCol={{span:5}}
               wrapperCol={{span:10}}>

@@ -1,8 +1,9 @@
 import React,{ Component } from 'react';
 import { Form,Input, Button,message,DatePicker,Row,Col,Checkbox,Radio } from 'antd';
-import TableList from './components/Table/index'
-import Uploadimg from '../../../components/UploadImg/onlyOneImg'
+import GoodList from '../../../components/importData/index'
 import ShopList from '../../../components/importData/index'
+import Uploadimg from '../../../components/UploadImg/onlyOneImg.js'
+import {getInfoApi,addGoodApi,updataGoodApi} from '../../../services/operate/bActPrice'
 import { connect } from 'dva'
 const FormItem = Form.Item;
 const TextArea = Input.TextArea;
@@ -10,14 +11,23 @@ const {RangePicker} = DatePicker;
 const CheckboxGroup = Checkbox.Group;
 const RadioGroup = Radio.Group;
 import './index.less'
-
 import UploadData from './components/Upload'
-
+import moment from 'moment'
 class Addactivity extends Component {
   constructor(props){
     super(props);
     this.state = {
-      tableList:[{pdCode:'',name:'',displayName:'',toCprice:'',goldCardPrice:'',silverCardPrice:'',activityPrice:''}],
+      warmTime:moment().format('YYYY-MM-DD hh:mm:ss'),
+      activityPlat:'',
+      shipmentPlat:[1,2],
+      isStoreProfit:1,
+      activityCostbearer:1,
+      remark:'',
+      type:'',
+      beginTime:moment().format('YYYY-MM-DD hh:mm:ss'),
+      endTime:moment().add(1,'days').format('YYYY-MM-DD hh:mm:ss'),
+      goodList:[{pdCode:'',name:'',displayName:'',toCprice:'',goldCardPrice:'',silverCardPrice:'',activityPrice:''}],
+      shopList:[{spShopId:'',shopName:''}],
       options:[
         { label:'线上APP', value:1},
         { label:'线下POS', value:2},
@@ -26,41 +36,143 @@ class Addactivity extends Component {
         { label:'门店', value:1},
         { label:'仓库', value:2},
       ],
-      shopList:[{shopId:1,shopName:'小卷福'}]
+      imageUrl:''
     };
-
+  }
+  componentDidMount =()=> {
+    if(this.props.data){
+      const {activityId} = this.props.data;
+      getInfoApi({activityId}).then(res=>{
+        if(res.code=='0'){
+          const {activityInfo,goodsInfos} = res;
+          this.setState({
+            imageUrl:activityInfo.commodityPic,
+            name:activityInfo.name,
+            beginTime:activityInfo.beginTime,
+            endTime:activityInfo.endTime,
+            remark:activityInfo.remark,
+            warmTime:activityInfo.endTime,
+            activityPlat:activityInfo.activityPlat || activityInfo.activityPlat.split('-'),
+            shipmentPlat:activityInfo.shipmentPlat || activityInfo.shipmentPlat.split('-'),
+            isStoreProfit:activityInfo.isStoreProfit,
+            activityCostbearer:activityInfo.activityCostbearer,
+            type:activityInfo.type,
+            goodList:goodsInfos
+          });
+        };
+      })
+    };
   }
   //保存
   handleSubmit = (e) => {
-		e.preventDefault();
-		this.props.form.validateFields((err, values) => {
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
       if(!err){
-      }
+        debugger
+        const {actTime,warmTime,..._values} = values
+        if(actTime && actTime[0]){
+          _values.beginTime = moment(actTime[0]).format('YYYY-MM-DD hh:mm:ss');
+          _values.endTime = moment(actTime[1]).format('YYYY-MM-DD hh:mm:ss');
+        };
+        if(warmTime){
+          _values.warmTime = moment(warmTime).format('YYYY-MM-DD hh:mm:ss');
+        };
+        _values.productList = this.state.goodList;
+        _values.shopList = this.state.shopList;
+        _values.commodityPic = this.state.imageUrl;
+        _values.type = 3;
+        if(this.props.data){ //修改
+          _values.activityId = this.props.data.activityId;
+          this.sendRequest(_values)
+        }else{
+          this.sendRequest(_values)
+        };
+      };
     });
+  }
+  sendRequest =(values)=> {
+    if(this.props.data){
+      updataGoodApi(values).then(res=>{
+        if(res.code == '0'){
+          message.success('修改成功');
+          this.props.dispatch({
+            type:'tab/initDeletestate',
+            payload:this.props.componkey+this.props.data.activityId
+          });
+          this.props.dispatch({
+            type:'bActPrice/fetchList',
+            payload:{type:3}
+          })
+        };
+      })
+    }else{
+      addGoodApi(values).then(res=>{
+        if(res.code == '0'){
+          message.success('新增成功');
+          this.props.dispatch({
+            type:'tab/initDeletestate',
+            payload:this.props.componkey
+          });
+          this.props.dispatch({
+            type:'bActPrice/fetchList',
+            payload:{type:3}
+          })
+        };
+      });
+    };
   }
   //取消
   cancel =()=> {
+    let {componkey} = this.props;
+    if(this.props.data){
+      componkey = componkey + this.props.data.activityId;
+    };
     this.props.dispatch({
         type:'tab/initDeletestate',
-        payload:this.props.componkey
+        payload:componkey
     });
+  }
+  //导入商品list
+  getGoodFile=(list)=>{
+    this.setState({goodList:list});
   }
   //添加商品
-  addGoods =()=> {
-      const {tableList} = this.state;
-      const temp={pdCode:'',name:'',displayName:'',toCprice:'',goldCardPrice:'',silverCardPrice:'',activityPrice:''}
-      tableList.push(temp);
-      this.setState({
-        tableList
-      });
-  }
-  deleteGood=(index)=>{
-    const {tableList} = this.state;
-    tableList.splice(index,1);
-    this.props.form.resetFields([`pdCode`+index,`activityPrice`+index]);
+  addGood =()=> {
+    const {goodList} = this.state;
+    const list={spShopId:'',shopName:''};
+    goodList.push(list)
     this.setState({
-      tableList
+      goodList
     });
+  }
+  //删除商品
+  deleteGood =(index)=> {
+    const {goodList} = this.state;
+    goodList.splice(index,1);
+    this.props.form.resetFields([`pdCode`+index,'activitySupplyPrice'+index]);
+    this.setState({
+      goodList
+    });
+  }
+  //改变商品list
+  changeGoodList=(list,index)=>{
+    const {goodList} = this.state;
+    goodList[index] = list;
+    this.setState({goodList});
+  }
+  //改变门店list
+  changeShopList=(list,index)=>{
+    const {shopList} = this.state;
+    shopList[index] = list;
+    this.setState({shopList});
+  }
+  // 更新商品list
+  updataList =(goodList)=> {
+    this.setState({goodList});
+  }
+  //导入门店list
+  getShopFile=(list,index)=>{
+    this.setState({shopList:list});
   }
   addMd =()=> {
     const {shopList} = this.state;
@@ -76,42 +188,6 @@ class Addactivity extends Component {
     this.props.form.resetFields([`shopId`+index]);
     this.setState({
       shopList
-    });
-  }
-  //新增保存
-  handleSubmit=()=>{
-
-  }
-  //取消
-  cancel =()=> {
-    this.props.dispatch({
-      type:'tab/initDeletestate',
-      payload:this.props.componkey
-    });
-  }
-  //下载模板
-  downLoad =()=> {
-    window.open('../../../static/b_actIn.xlsx')
-  }
-  //导入商品
-  getFile =(pdSpuAsnLists)=> {
-    this.setState({
-      tableList:pdSpuAsnLists
-    })
-  }
-  //导入门店
-  getFiles =(pdSpuAsnLists)=> {
-    this.setState({
-      shopList:pdSpuAsnLists
-    })
-  }
-
-  //根据
-  changeList =(index,pdSpu)=> {
-    const {tableList}=this.state;
-    tableList[index] = pdSpu;
-    this.setState({
-      tableList
     });
   }
   //修改图片
@@ -146,13 +222,24 @@ class Addactivity extends Component {
      height: '30px',
      lineHeight: '30px',
    };
-    const {tableList,options,optionsWithDisabled,imageUrl,shopList,shopType} = this.state;
-    tableList.map((item,index)=>{
-      item.key = index;
-    });
-    shopList.map((item,index)=>{
-      item.key = index;
-    });
+   const {
+     name,
+     goodList,
+     shopList,
+     beginTime,
+     endTime,
+     warmTime,
+     activityPlat,
+     shipmentPlat,
+     isStoreProfit,
+     activityCostbearer,
+     remark,
+     type,
+     options,
+     optionsWithDisabled,
+     imageUrl,
+     shopType
+   } = this.state;
     const { getFieldDecorator } = this.props.form;
     const { cBanner } = this.props;
     return(
@@ -164,7 +251,7 @@ class Addactivity extends Component {
               labelCol={{ span:3}}
               wrapperCol={{ span:6}}>
               {getFieldDecorator('name', {
-                  initialValue:1,
+                  initialValue:name,
                   rules: [{ required: true, message: '请输入优惠券名称'}],
                 })(
                     <Input
@@ -180,6 +267,7 @@ class Addactivity extends Component {
               labelCol={{ span:3}}
               wrapperCol={{ span:6}}>
               {getFieldDecorator('actTime', {
+                  initialValue:[moment(beginTime,'YYYY-MM-DD hh:mm:ss'),moment(endTime,'YYYY-MM-DD hh:mm:ss')],
                   rules: [{ required: true, message: '请选择活动时间'}],
                 })(
                   <RangePicker
@@ -192,18 +280,19 @@ class Addactivity extends Component {
               label="预热时间"
               labelCol={{ span:3}}
               wrapperCol={{ span:10}}>
-              {getFieldDecorator('onTime', {
+              {getFieldDecorator('warmTime', {
+                  initialValue:moment(warmTime,'YYYY-MM-DD hh:mm:ss'),
                   rules: [{ required: true, message: '请选择预热时间'}],
                 })(
                    <DatePicker/>
-                )}　预热时间需早于活动开始时间
+                )}　<span className='suffix_tips'>预热时间需早于活动开始时间</span>
             </FormItem>
             <FormItem
               label="活动平台"
               labelCol={{ span:3}}
               wrapperCol={{ span:6}}>
               {getFieldDecorator('activityPlat', {
-                  initialValue:[1],
+                  initialValue:activityPlat,
                   rules: [{ required: true, message: '请输入优惠券名称'}],
                 })(
                 <CheckboxGroup options={options}/>
@@ -214,7 +303,7 @@ class Addactivity extends Component {
               labelCol={{ span:3}}
               wrapperCol={{ span:6}}>
               {getFieldDecorator('shipmentPlat', {
-                  initialValue:[1,2],
+                  initialValue:shipmentPlat,
                   rules: [{ required: true, message: '请输入优惠券名称'}],
                 })(
                   <CheckboxGroup
@@ -227,7 +316,7 @@ class Addactivity extends Component {
               labelCol={{ span:3}}
               wrapperCol={{ span:6}}>
               {getFieldDecorator('isStoreProfit', {
-                  initialValue:1,
+                  initialValue:isStoreProfit,
                   rules: [{ required: true, message: '请输入优惠券名称'}],
                 })(
                   <RadioGroup disabled>
@@ -241,7 +330,7 @@ class Addactivity extends Component {
               labelCol={{ span:3}}
               wrapperCol={{ span:6}}>
             {getFieldDecorator('activityCostbearer', {
-                initialValue:1,
+                initialValue:activityCostbearer,
                 rules: [{ required: true, message: '请选择活动成本承担方'}],
               })(
                 <RadioGroup disabled>
@@ -251,20 +340,17 @@ class Addactivity extends Component {
               )}
             </FormItem>
             <FormItem
+              className='must-pic'
               label="活动商品悬浮图"
               labelCol={{ span:3}}
               wrapperCol={{ span:6}}>
-            {getFieldDecorator('commodityPic', {
-                initialValue:1,
-                rules: [{ required: true, message: '请选择活动成本承担方'}],
-              })(
-                <Uploadimg
-                  imageUrl={imageUrl}
-                  name='imgFile'
-                  action='/erpWebRest/qcamp/upload.htm?type=brand'
-                  beforeUpload={this.beforeUpload}
-                  changeImg={this.changeImg}/>
-              )}仅支持png格式
+              <Uploadimg
+                imageUrl={imageUrl}
+                name='imgFile'
+                action='/erpWebRest/qcamp/upload.htm?type=brand'
+                beforeUpload={this.beforeUpload}
+                changeImg={this.changeImg}/>
+              <span className='suffix_tips'>仅支持png格式</span>
             </FormItem>
             <FormItem
               label="活动备注"
@@ -272,7 +358,7 @@ class Addactivity extends Component {
               wrapperCol={{ span: 6}}
               className='act_remark'>
               {getFieldDecorator('remark', {
-                  initialValue:1,
+                  initialValue:remark,
                   rules: [{ required: true, message: '请输入活动备注'}],
                 })(
                 <TextArea style={{width:'280px'}} placeholder="请输入活动备注"/>
@@ -283,23 +369,27 @@ class Addactivity extends Component {
               <FormItem
                 label="活动商品"
                 labelCol={{ span: 3}}
-                wrapperCol={{ span: 18}}>
-                <TableList
-                  form={this.props.form}
+                wrapperCol={{ span: 18}}
+                className='table_temp_list'
+              >
+                <GoodList
+                  FormItem={FormItem}
                   getFieldDecorator={getFieldDecorator}
-                  FormItem = {FormItem}
-                  tableList={tableList}
-                  addGoods={this.addGoods}
-                  deleteGood={this.deleteGood}
-                  changeList={this.changeList}
-                />
+                  getFile={this.getGoodFile}
+                  dataSource={goodList}
+                  delete={this.deleteGood}
+                  add={this.addGood}
+                  changeList={this.changeGoodList}
+                  updataList={this.updataList}
+                  addText='+商品'
+                  type='5'/>
               </FormItem>
               <FormItem
                 label="活动门店"
                 labelCol={{ span:3}}
                 wrapperCol={{ span:6}}>
               {getFieldDecorator('shopType', {
-                  initialValue:1,
+                  initialValue:shopType,
                   rules: [{ required: true, message: '请选择活动成本承担方'}],
                   onChange:this.actShopChange
                 })(
@@ -314,22 +404,22 @@ class Addactivity extends Component {
               {
                 shopType == 4 &&
                 <FormItem
+                    className='table_temp_list'
                     label="选择门店"
                     labelCol={{ span: 4}}
                     wrapperCol={{ span: 12}}>
                     <ShopList
                       FormItem={FormItem}
                       getFieldDecorator={getFieldDecorator}
-                      getFiles={this.getFiles}
+                      getFile={this.getShopFile}
                       dataSource={shopList}
                       delete={this.deleteMd}
                       add={this.addMd}
+                      changeList={this.changeShopList}
                       addText='+门店'
                       type='1'/>
                 </FormItem>
               }
-              <UploadData getFile={this.getFile}/>
-              <Button className='download_temp' onClick={this.downLoad} type='primary'>下载导入模板</Button>
             </div>
             <FormItem
               labelCol={{ span: 3}}

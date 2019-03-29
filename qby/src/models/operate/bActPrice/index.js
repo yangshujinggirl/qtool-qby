@@ -1,4 +1,4 @@
-import { getListApi,InjectRecordApi } from '../../../services/operate/bActPrice/index'
+import { getListApi} from '../../../services/operate/bActPrice/index'
 export default{
   namespace:'bActPrice',
   state:{

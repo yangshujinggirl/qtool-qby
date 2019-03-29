@@ -82,6 +82,7 @@ class TableList extends Component{
 
   //验证商品编码重复
   validateCode=(rule,value,callback)=>{
+    debugger
     const {tableList} = this.props;
     value.replace(/\s+/g,'');
     const isRepeat = tableList.find(item=>item.pdCode==value);

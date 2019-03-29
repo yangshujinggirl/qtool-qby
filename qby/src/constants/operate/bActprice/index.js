@@ -33,14 +33,24 @@ class BactPrice extends Component{
       }
     })
   }
-
+  //初始化数据
+  componentWillMount(){
+    this.props.dispatch({
+      type:'bActPrice/fetchList',
+      payload:{type:1}
+    })
+  }
   onChange =(selectedRowKeys,selectedRows)=> {
+    console.log(selectedRows)
     const {rowSelection}=this.state;
     this.setState({
       rowSelection:Object.assign({},rowSelection,{selectedRowKeys})
     })
     if(selectedRows[0]){
-      this.setState({bActPriceId:selectedRows[0].bActPriceId})
+      this.setState({
+        activityId:selectedRows[0].activityId,
+        selectedRows:selectedRows[0]
+      });
     }
   }
   //点击搜索
@@ -69,13 +79,7 @@ class BactPrice extends Component{
       payload:{currentPage,limit,...this.state.inputValues}
     });
   }
-  //初始化数据
-  componentWillMount(){
-    this.props.dispatch({
-      type:'bActPrice/fetchList',
-      payload:{type:1}
-    })
-  }
+
   //新增活动进价
   createbActPrice =()=>{
     const paneitem = {
@@ -101,6 +105,7 @@ class BactPrice extends Component{
   }
   //强制失效点击确定
   onOk =(values,resetFiledsFunc)=> {
+    values.activityId = this.state.activityId;
     confirmCancelApi(values)
     .then((res) => {
       if(res.code == '0'){
@@ -108,7 +113,7 @@ class BactPrice extends Component{
         resetFiledsFunc();//清除数据
         this.props.dispatch({ //刷新列表
           type:'bActPrice/fetchList',
-          payload:{}
+          payload:{type:1}
         });
         this.setState({confirmVisible:false,confirmLoading:false});
       }else{
@@ -133,12 +138,11 @@ class BactPrice extends Component{
       });
     }else if(type == 'edit'){
       const paneitem = {
-        title:'注券记录',
-        key:`${this.state.componkey}editconfig`+record.bActPriceId,
-        componkey:`${this.state.componkey}editconfig`,
+        title:'修改活动进价',
+        key:`${this.state.componkey}edit`+record.activityId,
+        componkey:`${this.state.componkey}edit`,
         data:{
-          pdSpuId:record.bActPriceId,
-          bActPriceCode:record.bActPriceCode
+          activityId:record.activityId
         },
       };
       this.props.dispatch({
@@ -149,9 +153,16 @@ class BactPrice extends Component{
   }
   //强制失效
   confirmCancel =()=> {
-    this.setState({
-      confirmVisible:true
-    })
+    const {status} = this.state.selectedRows;
+    if(status == 2){
+      message.warning('当前状态无法强制失效')
+    }else if(status == 3){
+      message.warning('当前状态已失效')
+    }else{
+      this.setState({
+        confirmVisible:true
+      });
+    };
   }
   render(){
     // const {rolelists} = this.props.data;

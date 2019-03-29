@@ -1,6 +1,9 @@
 import React,{ Component } from 'react';
 import { Form,Input, Button,message,DatePicker,Row,Col} from 'antd';
 import TableList from './components/Table/index'
+import {getInfoApi,addGoodApi,updataGoodApi} from '../../../services/operate/bActPrice'
+import GoodList from '../../../components/importData/index'
+import moment from 'moment'
 import { connect } from 'dva'
 const FormItem = Form.Item;
 const TextArea = Input.TextArea;
@@ -13,75 +16,130 @@ class Addactivity extends Component {
   constructor(props){
     super(props);
     this.state={
-      tableList:[{pdCode:null,name:'',displayName:'',toBPrice:'',costPrice:'',activityPrice:''}]}
+      beginTime:moment().format('YYYY-MM-DD hh:mm:ss'),
+      endTime:moment().add(1,'days').format('YYYY-MM-DD hh:mm:ss'),
+      goodList:[{pdCode:'',name:'',displayName:'',toBprice:'',costPrice:'',activityPrice:''}]}
+  }
+  componentDidMount =()=> {
+    if(this.props.data){
+      const {activityId} = this.props.data;
+      getInfoApi({activityId}).then(res=>{
+        if(res.code=='0'){
+          const {activityInfo,goodsInfos} = res;
+          this.setState({
+            name:activityInfo.name,
+            beginTime:activityInfo.beginTime,
+            endTime:activityInfo.endTime,
+            remark:activityInfo.remark,
+            goodList:goodsInfos
+          });
+        };
+      })
+    };
   }
   //保存
   handleSubmit = (e) => {
 		e.preventDefault();
 		this.props.form.validateFields((err, values) => {
       if(!err){
-      }
+        const {time,..._values} = values
+        if(time && time[0]){
+          _values.beginTime = moment(time[0]).format('YYYY-MM-DD hh:mm:ss');
+          _values.endTime = moment(time[0]).format('YYYY-MM-DD hh:mm:ss');
+        };
+        _values.productList = this.state.goodList;
+        _values.type = 2;
+        if(this.props.data){//修改
+          _values.activityId = this.props.data.activityId;
+          this.sendRequest(_values)
+        }else{
+          this.sendRequest(_values)
+        };
+      };
     });
+  }
+  sendRequest =(values)=> {
+    if(this.props.data){
+      updataGoodApi(values).then(res=>{
+        if(res.code == '0'){
+          message.success('修改成功');
+          this.props.dispatch({
+            type:'tab/initDeletestate',
+            payload:this.props.componkey+this.props.data.activityId
+          });
+          this.props.dispatch({
+            type:'bActPrice/fetchList',
+            payload:{type:2}
+          })
+        };
+      })
+    }else{
+      addGoodApi(values).then(res=>{
+        if(res.code == '0'){
+          message.success('新增成功');
+          this.props.dispatch({
+            type:'tab/initDeletestate',
+            payload:this.props.componkey
+          });
+          this.props.dispatch({
+            type:'bActPrice/fetchList',
+            payload:{type:2}
+          })
+        };
+      });
+    };
   }
   //取消
   cancel =()=> {
+    let {componkey} = this.props;
+    if(this.props.data){
+      componkey = componkey + this.props.data.activityId;
+    };
     this.props.dispatch({
         type:'tab/initDeletestate',
-        payload:this.props.componkey
+        payload:componkey
     });
+  }
+  //导入商品list
+  getGoodFile=(list)=>{
+    this.setState({goodList:list});
   }
   //添加商品
-  addGoods =()=> {
-      const {tableList} = this.state;
-      const temp={pdCode:'',pdName:'',displayName:'',toBPrice:'',activityPrice:'',costPrice:''}
-      tableList.push(temp);
-      this.setState({
-        tableList
-      });
-  }
-  deleteGood=(index)=>{
-    const {tableList} = this.state;
-    tableList.splice(index,1);
-    this.props.form.resetFields([`code`+index,`activityPrice`+index]);
+  addGood =()=> {
+    const {goodList} = this.state;
+    const list={spShopId:'',shopName:''};
+    goodList.push(list)
     this.setState({
-      tableList
+      goodList
     });
   }
-  //新增保存
-  handleSubmit=()=>{
-
-  }
-  //取消
-  cancel =()=> {
-    this.props.dispatch({
-      type:'tab/initDeletestate',
-      payload:this.props.componkey
+  //删除商品
+  deleteGood =(index)=> {
+    const {goodList} = this.state;
+    goodList.splice(index,1);
+    this.props.form.resetFields([`pdCode`+index,'activitySupplyPrice'+index]);
+    this.setState({
+      goodList
     });
   }
-  //下载模板
-  downLoad =()=> {
-    window.open('../../../static/b_low.xlsx')
+  //改变商品list
+  changeGoodList=(list,index)=>{
+    const {goodList} = this.state;
+    goodList[index] = list;
+    this.setState({goodList});
   }
-  //导入商品
-  getFile =(pdSpuAsnLists)=> {
-    this.setState({
-      tableList:pdSpuAsnLists
-    })
-  }
-  //根据
-  changeList =(index,pdSpu)=> {
-    const {tableList}=this.state;
-    tableList[index] = pdSpu;
-    this.setState({
-      tableList
-    });
+  // 更新商品list
+  updataList =(goodList)=> {
+    this.setState({goodList});
   }
   render(){
-    const {tableList} = this.state;
-    console.log(tableList)
-    tableList.map((item,index)=>{
-      item.key = index;
-    });
+    const {
+      name,
+      goodList,
+      beginTime,
+      endTime,
+      remark
+    } = this.state;
     const { getFieldDecorator } = this.props.form;
     const { cBanner } = this.props;
     return(
@@ -92,13 +150,14 @@ class Addactivity extends Component {
               labelCol={{ span:3}}
               wrapperCol={{ span:6}}
             >
-              {getFieldDecorator('couponName', {
-                  rules: [{ required: true, message: '请输入优惠券名称'}],
+              {getFieldDecorator('name', {
+                  initialValue:name,
+                  rules: [{ required: true, message: '请输入活动名称'}],
                 })(
                     <Input
                       style={{width:'280px'}}
-                      placeholder="请输入10字以内优惠券名称"
-                      maxLength='10'
+                      placeholder="请输入15字以内活动名称"
+                      maxLength='15'
                       autoComplete="off"
                     />　
               )}
@@ -107,10 +166,10 @@ class Addactivity extends Component {
               label="活动时间"
               labelCol={{ span:3}}
               wrapperCol={{ span:6}}
-
             >
-              {getFieldDecorator('couponName', {
-                  rules: [{ required: true, message: '请输入优惠券名称'}],
+              {getFieldDecorator('time', {
+                  initialValue:[moment(beginTime,'YYYY-MM-DD hh:mm:ss'),moment(endTime,'YYYY-MM-DD hh:mm:ss')],
+                  rules: [{ required: true, message: '请输入活动时间'}],
                 })(
                   <RangePicker
                     showTime
@@ -124,26 +183,30 @@ class Addactivity extends Component {
               wrapperCol={{ span: 6}}
               className='act_remark'
             >
-              {getFieldDecorator('couponName', {
-                  rules: [{ required: true, message: '请输入活动备注'}],
+              {getFieldDecorator('remark', {
+                  initialValue:remark,
+                  rules: [{ required: true, message: '请输入备注'}],
                 })(
-                <TextArea style={{width:'280px'}} placeholder="请输入活动备注"/>
+                <TextArea style={{width:'280px'}} placeholder="请输入备注，50字符以内" maxLength='50'/>
               )}
             </FormItem>
             <FormItem
               label="活动商品"
               labelCol={{ span: 3}}
               wrapperCol={{ span: 18}}
+              className='table_temp_list b_enter_price_list'
             >
-              <TableList
-                form={this.props.form}
+              <GoodList
+                FormItem={FormItem}
                 getFieldDecorator={getFieldDecorator}
-                FormItem = {FormItem}
-                tableList={tableList}
-                addGoods={this.addGoods}
-                deleteGood={this.deleteGood}
-                changeList={this.changeList}
-              />
+                getFile={this.getGoodFile}
+                dataSource={goodList}
+                delete={this.deleteGood}
+                add={this.addGood}
+                changeList={this.changeGoodList}
+                updataList={this.updataList}
+                addText='+商品'
+                type='4'/>
             </FormItem>
             <FormItem
               labelCol={{ span: 3}}
@@ -159,8 +222,6 @@ class Addactivity extends Component {
               </Row>
             </FormItem>
         	</Form>
-          <UploadData getFile={this.getFile}/>
-          <Button className='download_temp' onClick={this.downLoad} type='primary'>下载导入模板</Button>
       </div>
     )
   }

@@ -32,3 +32,19 @@ export function getGoodInfoApi(values){
       data:values
   })
 }
+//新建保存
+export function addGoodApi(values){
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.sp.activity.save',
+      data:values
+  })
+}
+//修改保存
+export function updataGoodApi(values){
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.sp.activity.update',
+      data:values
+  })
+}

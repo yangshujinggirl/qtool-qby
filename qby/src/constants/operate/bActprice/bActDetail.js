@@ -5,7 +5,7 @@ import { connect } from 'dva';
 
 const columns = [{
     title: '商品编码',
-    dataIndex: 'code',
+    dataIndex: 'pdCode',
     key:'1'
   }, {
     title: '商品名称',
@@ -58,12 +58,7 @@ componentDidMount(){
 getDetail() {
   const {activityId} = this.props.data;
 	getInfoApi({activityId}).then(res => {
-    // let { activityInfo,goodsInfos,logInfos } = res;
-    let { activityInfo,goodsInfos,logInfos } = {
-      activityInfo:{no:1,name:1,createTime:1,statusStr:1,beginTime:1,endTime:1,remark:1},
-      goodsInfos:[{name:2,code:111,displayName:'红色',costPrice:'1.00',activityPrice:'22'},],
-      logInfos:[{remark:'1.0',action:'1.0',createTime:'0.1',operateUser:'yulu'}]
-    };
+    let { activityInfo,goodsInfos,logInfos } = res;
     logInfos = logInfos||[];
     goodsInfos = goodsInfos||[];
     logInfos.length>0 && logInfos.map((item,index)=>{
@@ -84,14 +79,6 @@ getDetail() {
 	});
 }
 render(){
-  // const infos = [
-  //   {name:'批次编号',byteName:'no'},
-  //   {name:'批次名称',byteName:'name'},
-  //   {name:'创建时间',byteName:'createTime'},
-  //   {name:'批次状态',byteName:'statusStr'},
-  //   {name:'生效时间',byteName:'no'},
-  //   {name:'备注',byteName:'remark'},
-  // ]
   const {activityInfo,goodsInfos,logInfos} = this.state;
 	return(
 			<div>

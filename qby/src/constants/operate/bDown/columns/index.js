@@ -25,7 +25,7 @@ const Columns = [{
    },{
      title: '操作',
      render:(text,record,index)=>(
-       <a href='javascript' className='theme-color' onClick={record.onOperateClick.bind(this,'edit')}>修改</a>
+       <a href='javascript:;' className='theme-color' onClick={record.onOperateClick.bind(this,'edit')}>修改</a>
      )
    }];
 

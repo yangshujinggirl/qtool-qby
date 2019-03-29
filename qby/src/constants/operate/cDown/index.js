@@ -33,7 +33,13 @@ class BactPrice extends Component{
       }
     })
   }
-
+  //初始化数据
+  componentWillMount(){
+    this.props.dispatch({
+      type:'bActPrice/fetchList',
+      payload:{type:3}
+    })
+  }
   onChange =(selectedRowKeys,selectedRows)=> {
     const {rowSelection}=this.state;
     this.setState({
@@ -69,13 +75,7 @@ class BactPrice extends Component{
       payload:{currentPage,limit,...this.state.inputValues}
     });
   }
-  //初始化数据
-  componentWillMount(){
-    this.props.dispatch({
-      type:'bActPrice/fetchList',
-      payload:{}
-    })
-  }
+
   //新增活动进价
   createbActPrice =()=>{
     const paneitem = {
@@ -108,7 +108,7 @@ class BactPrice extends Component{
         resetFiledsFunc();//清除数据
         this.props.dispatch({ //刷新列表
           type:'bActPrice/fetchList',
-          payload:{}
+          payload:{type:3}
         });
         this.setState({confirmVisible:false,confirmLoading:false});
       }else{
@@ -121,8 +121,8 @@ class BactPrice extends Component{
     if(type == "info"){
       const paneitem = {
         title:'C端直降详情',
-        key:`${this.state.componkey}info`,
-        componkey:`${this.state.componkey}info`,
+        key:`${this.state.componkey}edit`,
+        componkey:`${this.state.componkey}edit`,
         data:{
           activityId:record.activityId,
         }
@@ -133,12 +133,11 @@ class BactPrice extends Component{
       });
     }else if(type == 'edit'){
       const paneitem = {
-        title:'修改C端直降',
-        key:`${this.state.componkey}editconfig`+record.bActPriceId,
-        componkey:`${this.state.componkey}editconfig`,
+        title:'修改c端直降',
+        key:`${this.state.componkey}edit`+record.activityId,
+        componkey:`${this.state.componkey}edit`,
         data:{
-          pdSpuId:record.bActPriceId,
-          bActPriceCode:record.bActPriceCode
+          activityId:record.activityId
         },
       };
       this.props.dispatch({

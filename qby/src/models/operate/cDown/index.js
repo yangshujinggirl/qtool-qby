@@ -1,4 +1,4 @@
-import { getListApi,InjectRecordApi } from '../../../services/operate/cDown/index'
+import { getListApi} from '../../../services/operate/bActPrice/index'
 export default{
   namespace:'cDown',
   state:{
@@ -20,19 +20,19 @@ export default{
     //优惠券list
     *fetchList({payload:values},{call,put}){
       yield put({type: 'tab/loding',payload:true});
-      // const result = yield call(getListApi,values);
-      const result = {
-        code:'0',
-        total:4,
-        limit:15,
-        currentPage:0,
-        activityList:[
-          {no:'111',activityId:1,name:'52活动',status:0,statusStr:'未开始',lastUpdateUser:'yulu',beginTime:'2017-07-31 00:00:00',endTime:'2017-07-31 23:59:59'},
-          {no:'111',activityId:2,name:'52活动',status:1,statusStr:'进行中',lastUpdateUser:'yulu',beginTime:'2017-07-31 00:00:00',endTime:'2017-07-31 23:59:59'},
-          {no:'111',activityId:3,name:'52活动',status:2,statusStr:'已结束',lastUpdateUser:'yulu',beginTime:'2017-07-31 00:00:00',endTime:'2017-07-31 23:59:59'},
-          {no:'111',activityId:4,name:'52活动',status:3,statusStr:'已失效',lastUpdateUser:'yulu',beginTime:'2017-07-31 00:00:00',endTime:'2017-07-31 23:59:59'},
-        ]
-      }
+      const result = yield call(getListApi,values);
+      // const result = {
+      //   code:'0',
+      //   total:4,
+      //   limit:15,
+      //   currentPage:0,
+      //   activityList:[
+      //     {no:'111',activityId:1,name:'52活动',status:0,statusStr:'未开始',lastUpdateUser:'yulu',beginTime:'2017-07-31 00:00:00',endTime:'2017-07-31 23:59:59'},
+      //     {no:'111',activityId:2,name:'52活动',status:1,statusStr:'进行中',lastUpdateUser:'yulu',beginTime:'2017-07-31 00:00:00',endTime:'2017-07-31 23:59:59'},
+      //     {no:'111',activityId:3,name:'52活动',status:2,statusStr:'已结束',lastUpdateUser:'yulu',beginTime:'2017-07-31 00:00:00',endTime:'2017-07-31 23:59:59'},
+      //     {no:'111',activityId:4,name:'52活动',status:3,statusStr:'已失效',lastUpdateUser:'yulu',beginTime:'2017-07-31 00:00:00',endTime:'2017-07-31 23:59:59'},
+      //   ]
+      // }
       yield put({type: 'tab/loding',payload:false});
       if(result.code == '0'){
         const { activityList, currentPage, limit, total } = result;

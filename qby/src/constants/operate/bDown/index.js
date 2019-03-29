@@ -33,6 +33,13 @@ class Bdown extends Component{
       }
     })
   }
+  //初始化数据
+  componentWillMount(){
+    this.props.dispatch({
+      type:'bDown/fetchList',
+      payload:{type:2}
+    })
+  }
 
   onChange =(selectedRowKeys,selectedRows)=> {
     const {rowSelection}=this.state;
@@ -69,13 +76,7 @@ class Bdown extends Component{
       payload:{currentPage,limit,...this.state.inputValues}
     });
   }
-  //初始化数据
-  componentWillMount(){
-    this.props.dispatch({
-      type:'bDown/fetchList',
-      payload:{}
-    })
-  }
+
   //新增活动进价
   createbDown =()=>{
     const paneitem = {
@@ -108,7 +109,7 @@ class Bdown extends Component{
         resetFiledsFunc();//清除数据
         this.props.dispatch({ //刷新列表
           type:'bDown/fetchList',
-          payload:{}
+          payload:{type:2}
         });
         this.setState({confirmVisible:false,confirmLoading:false});
       }else{
@@ -121,8 +122,8 @@ class Bdown extends Component{
     if(type == "info"){
       const paneitem = {
         title:'B端直降详情',
-        key:`${this.state.componkey}info`,
-        componkey:`${this.state.componkey}info`,
+        key:`${this.state.componkey}edit`,
+        componkey:`${this.state.componkey}edit`,
         data:{
           activityId:record.activityId,
         }
@@ -133,12 +134,11 @@ class Bdown extends Component{
       });
     }else if(type == 'edit'){
       const paneitem = {
-        title:'注券记录',
-        key:`${this.state.componkey}editconfig`+record.bDownId,
-        componkey:`${this.state.componkey}editconfig`,
+        title:'修改B端直降',
+        key:`${this.state.componkey}edit`+record.activityId,
+        componkey:`${this.state.componkey}edit`,
         data:{
-          pdSpuId:record.bDownId,
-          bDownCode:record.bDownCode
+          activityId:record.activityId
         },
       };
       this.props.dispatch({
