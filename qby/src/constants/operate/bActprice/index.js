@@ -73,7 +73,7 @@ class BactPrice extends Component{
   componentWillMount(){
     this.props.dispatch({
       type:'bActPrice/fetchList',
-      payload:{}
+      payload:{type:1}
     })
   }
   //新增活动进价
