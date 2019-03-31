@@ -107,6 +107,7 @@ import bActPrice from './models/operate/bActPrice/index'//B端活动进价
 import bDown from './models/operate/bDown/index'//B限时直降
 import cDown from './models/operate/cDown/index'//c限时直降
 import themeAct from './models/operate/themeAct/index'//c限时直降
+import pageConfig from './models/operate/pageConfig/index'//页面配置
 //待审核订单
 import onAudit from './models/online/onAudit'
 import freightDetail from './models/datapos/freightDetail';
@@ -210,7 +211,8 @@ const models = [
   bActPrice,
   bDown,
   cDown,
-  themeAct
+  themeAct,
+  pageConfig
 ]
 models.forEach(m => {
   return app.model(m)

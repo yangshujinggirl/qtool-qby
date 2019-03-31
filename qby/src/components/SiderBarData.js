@@ -1603,6 +1603,19 @@ const SiderBarData =  [
             "rank": 1,
             "children": []
           },
+          {
+              "urResourceId": 4014000,
+              "name": "页面配置",
+              "code": "4014000",
+              "url": "",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": 1,
+              "children": []
+            },
         {
           "urResourceId": 404000,
           "name": "B端Banner",

@@ -194,6 +194,8 @@ import CdownDetail from '../operate/cDown/bActDetail' //c端限时直降详情
 import AddCdown from '../operate/cDown/addActivity' //c端活动进价
 import ThemeAct from '../operate/themeAct/index' //主题活动
 import AddTheme from '../operate/themeAct/AddTheme' //主题活动
+import PageConfig from '../operate/pageConfig/index' //页面配置
+import AddPage from '../operate/pageConfig/addPage' //页面配置
 
 //门店数据
 import DataDistribute from '../datasp/dataspcun/dataDistribution/index'
@@ -316,6 +318,8 @@ class Content extends React.Component {
                                     case "4012000edit":return <AddCdown data={this.props.data} componkey={this.props.componkey}/>//新增c端限时直降
                                     case "4013000":return <ThemeAct data={this.props.data} componkey={this.props.componkey}/>//新增c端限时直降
                                     case "4013000edit":return <AddTheme data={this.props.data} componkey={this.props.componkey}/>//新增c端限时直降
+                                    case "4014000":return <PageConfig data={this.props.data} componkey={this.props.componkey}/>//页面配置
+                                    case "4014000edit":return <AddPage data={this.props.data} componkey={this.props.componkey}/>//新增配置页
 
                                     case "601000": return <AccountIndex data={this.props.data}/>;
                                     case "601000edit": return <AddNewAccount data={this.props.data}/>;
