@@ -18,7 +18,7 @@ class GoodTable extends Component{
            <FormItem>
            {
              getFieldDecorator('spShopId'+index,{
-               initialValue:record.shopId,
+               initialValue:record.spShopId,
              })(
                <Input placeholder='请输入商品ID' onBlur={(e)=>this.getInfo(e,index,'1')}/>
              )
@@ -79,7 +79,7 @@ class GoodTable extends Component{
           return(
             <FormItem>
               {
-                getFieldDecorator('code'+index,{
+                getFieldDecorator('pdCode'+index,{
                   initialValue:record.pdCode,
                   rules:[
                     {validator:this.validateCode},
@@ -225,7 +225,6 @@ class GoodTable extends Component{
         key:'pdCode',
         render:(text,record,index)=>{
           const {getFieldDecorator,FormItem} = this.props;
-
           return(
             <FormItem>
               {
@@ -372,8 +371,8 @@ class GoodTable extends Component{
   }
   //导入门店
   onShopChange =(info)=> {
-    const {pdSpuAsnLists} = info.file.response;
-    this.props.getFile(pdSpuAsnLists)
+    const {shopList} = info.file.response;
+    this.props.getFile(shopList)
   }
   //导入商品
   onGoodChange =(info)=> {

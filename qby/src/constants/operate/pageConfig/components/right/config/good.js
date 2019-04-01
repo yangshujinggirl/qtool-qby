@@ -35,129 +35,128 @@ class GoodsEditForm extends React.Component{
 		e.preventDefault();
 		this.props.form.validateFields((err, values) => {
 			if (!err) {
-                if(values.rowcode){
-                    if(values.rowcode == values.code){
-                        message.error('输入的商品编码相同',.8);
-                        return false;
-                    }else{
-                        let data = {"code":values.code};
-                        const result=GetServerData2('qerp.web.pd.banner.config.pdInfo',data);
-                        result.then((res) => {
-                            return res;
-                        }).then((json) => {
-                            if(json.code == "0"){
-                                let tempData = this.props.data;
-                                tempData.pdSpu = {};
-                                tempData.pdSpu.url =  json.pdSpu.url;
-                                tempData.pdSpu.name = json.pdSpu.name;
-                                tempData.pdSpu.price = json.pdSpu.price;
-                                let data2={"code":values.rowcode};
-                                const result2=GetServerData2('qerp.web.pd.banner.config.pdInfo',data2);
-                                result2.then((res) => {
-                                    return res;
-                                }).then((json) => {
-                                    if(json.code == "0"){
-                                        tempData.rowPdSpu = {};
-                                        tempData.rowPdSpu.url =  json.pdSpu.url;
-                                        tempData.rowPdSpu.name = json.pdSpu.name;
-                                        tempData.rowPdSpu.price = json.pdSpu.price;
-                                        let tempConfigArr = deepcCloneObj(this.props.configArrPre);
-                                        tempConfigArr[this.props.currentItem] =tempData;
-                                        this.props.dispatch({
-                                            type:'h5config/syncConfigArrPre',
-                                            payload:tempConfigArr
-                                        });
-                                        let configArrEnd = deepcCloneObj(this.props.configArr);
-                                        configArrEnd[this.props.currentItem] = tempData;
-                                        this.props.dispatch({
-                                            type:'h5config/syncConfigArr',
-                                            payload:configArrEnd
-                                        });
-                                    }else{
-                                        // message.error('未找到商品2编码',.8);
-                                         message.error(json.message,.8);
-                                    }
-                                })
-                            }else{
-                                // message.error('未找到商品1编码',.8);
-                                message.error(json.message,.8);
-                            }
-                        })
-                    }
-                }else{
-                    const result=GetServerData('qerp.web.pd.banner.config.pdInfo',values);
-                    result.then((res) => {
-                        return res;
-                    }).then((json) => {
-                        if(json.code == "0"){
-                            let tempData = this.props.data;
-                            tempData.pdSpu = {};
-                            tempData.pdSpu.url =  json.pdSpu.url;
-                            tempData.pdSpu.name = json.pdSpu.name;
-                            tempData.pdSpu.price = json.pdSpu.price;
-                            let tempConfigArr = deepcCloneObj(this.props.configArrPre);
-                            tempConfigArr[this.props.currentItem] =tempData;
-                            this.props.dispatch({
-                                type:'h5config/syncConfigArrPre',
-                                payload:tempConfigArr
-                            });
-                            let configArrEnd = deepcCloneObj(this.props.configArr);
-                            configArrEnd[this.props.currentItem] = tempData;
-                            this.props.dispatch({
-                                type:'h5config/syncConfigArr',
-                                payload:configArrEnd
-                            });
-                        }
-                    })
-                }
+        if(values.rowcode){
+          if(values.rowcode == values.pdCode){
+              message.error('输入的商品编码相同',.8);
+              return false;
+          }else{
+            let data = {"code":values.pdCode};
+            const result=GetServerData2('qerp.web.pd.banner.config.pdInfo',data);
+            result.then((res) => {
+                return res;
+            }).then((json) => {
+              if(json.code == "0"){
+                let tempData = this.props.data;
+                tempData.pdSpu = {};
+                tempData.pdSpu.url =  json.pdSpu.url;
+                tempData.pdSpu.name = json.pdSpu.name;
+                tempData.pdSpu.price = json.pdSpu.price;
+                let data2={"code":values.rowcode};
+                const result2=GetServerData2('qerp.web.pd.banner.config.pdInfo',data2);
+                result2.then((res) => {
+                    return res;
+                  }).then((json) => {
+                    if(json.code == "0"){
+                        tempData.rowPdSpu = {};
+                        tempData.rowPdSpu.url =  json.pdSpu.url;
+                        tempData.rowPdSpu.name = json.pdSpu.name;
+                        tempData.rowPdSpu.price = json.pdSpu.price;
+                        let tempConfigArr = deepcCloneObj(this.props.configArrPre);
+                          tempConfigArr[this.props.currentItem] =tempData;
+                          this.props.dispatch({
+                              type:'h5config/syncConfigArrPre',
+                              payload:tempConfigArr
+                          });
+                          let configArrEnd = deepcCloneObj(this.props.configArr);
+                          configArrEnd[this.props.currentItem] = tempData;
+                          this.props.dispatch({
+                              type:'h5config/syncConfigArr',
+                              payload:configArrEnd
+                          });
+                      }else{
+                          // message.error('未找到商品2编码',.8);
+                           message.error(json.message,.8);
+                      }
+                  })
+                  }else{
+                      // message.error('未找到商品1编码',.8);
+                      message.error(json.message,.8);
+                  }
+              })
+          }
+      }else{
+          const result=GetServerData('qerp.web.pd.banner.config.pdInfo',values);
+          result.then((res) => {
+              return res;
+          }).then((json) => {
+              if(json.code == "0"){
+                  let tempData = this.props.data;
+                  tempData.pdSpu = {};
+                  tempData.pdSpu.url =  json.pdSpu.url;
+                  tempData.pdSpu.name = json.pdSpu.name;
+                  tempData.pdSpu.price = json.pdSpu.price;
+                  let tempConfigArr = deepcCloneObj(this.props.configArrPre);
+                  tempConfigArr[this.props.currentItem] =tempData;
+                  this.props.dispatch({
+                      type:'h5config/syncConfigArrPre',
+                      payload:tempConfigArr
+                  });
+                  let configArrEnd = deepcCloneObj(this.props.configArr);
+                  configArrEnd[this.props.currentItem] = tempData;
+                  this.props.dispatch({
+                      type:'h5config/syncConfigArr',
+                      payload:configArrEnd
+                  });
+              }
+          })
+      }
 			}
 		})
     }
 
     handCancel = () =>{
-		this.props.form.setFieldsValue({
-			code: this.props.configArr.length?
-				  (this.props.configArr[this.props.currentItem].code?this.props.configArr[this.props.currentItem].code:''):
-                  '',
-            rowcode: this.props.configArr.length?
-            (this.props.configArr[this.props.currentItem].rowcode?this.props.configArr[this.props.currentItem].rowcode:''):
-            ''
-		});
-		let tempConfigArr = deepcCloneObj(this.props.configArrPre);
-		tempConfigArr[this.props.currentItem].code =this.props.configArr.length?
-													(this.props.configArr[this.props.currentItem].code?
-													 this.props.configArr[this.props.currentItem].code:
-													 ''):
-													 '';
-		tempConfigArr[this.props.currentItem].rowcode =this.props.configArr.length?
-													(this.props.configArr[this.props.currentItem].rowcode?
-													 this.props.configArr[this.props.currentItem].rowcode:
-													 ''):
-													 '';
-		this.props.dispatch({
-				type:'h5config/syncConfigArrPre',
-				payload:tempConfigArr
-		});
+			this.props.form.setFieldsValue({
+				pdCode: this.props.configArr.length?
+					  (this.props.configArr[this.props.currentItem].pdCode?this.props.configArr[this.props.currentItem].pdCode:''):
+	                  '',
+	            rowcode: this.props.configArr.length?
+	            (this.props.configArr[this.props.currentItem].rowcode?this.props.configArr[this.props.currentItem].rowcode:''):
+	            ''
+			});
+			let tempConfigArr = deepcCloneObj(this.props.configArrPre);
+			tempConfigArr[this.props.currentItem].pdCode =this.props.configArr.length?
+														(this.props.configArr[this.props.currentItem].pdCode?
+														 this.props.configArr[this.props.currentItem].pdCode:
+														 ''):
+														 '';
+			tempConfigArr[this.props.currentItem].rowcode =this.props.configArr.length?
+														(this.props.configArr[this.props.currentItem].rowcode?
+														 this.props.configArr[this.props.currentItem].rowcode:
+														 ''):
+														 '';
+			this.props.dispatch({
+					type:'h5config/syncConfigArrPre',
+					payload:tempConfigArr
+			});
 	}
-
-    //实时保存商品编码
+  //实时保存商品编码
 	saveGoodCode = (e) =>{
-        let tempConfigArr = deepcCloneObj(this.props.configArrPre);
-        tempConfigArr[this.props.currentItem].code = e.target.value;
-        this.props.dispatch({
-            type:'h5config/syncConfigArrPre',
-            payload:tempConfigArr
-        });
-    }
+    let tempConfigArr = deepcCloneObj(this.props.configArrPre);
+    tempConfigArr[this.props.currentItem].pdCode = e.target.value;
+    this.props.dispatch({
+      type:'h5config/syncConfigArrPre',
+      payload:tempConfigArr
+    });
+  }
 
     //实时保存商品编码
     saveRowCode = (e) =>{
-        let tempConfigArr = deepcCloneObj(this.props.configArrPre);
-        tempConfigArr[this.props.currentItem].rowcode = e.target.value;
-        this.props.dispatch({
-            type:'h5config/syncConfigArrPre',
-            payload:tempConfigArr
-        });
+      let tempConfigArr = deepcCloneObj(this.props.configArrPre);
+      tempConfigArr[this.props.currentItem].rowcode = e.target.value;
+      this.props.dispatch({
+        type:'h5config/syncConfigArrPre',
+        payload:tempConfigArr
+      });
     }
 
 	render(){
@@ -180,7 +179,7 @@ class GoodsEditForm extends React.Component{
                     labelCol={{ span: 8 }}
                     wrapperCol={{ span: 8 }}
                 >
-                {getFieldDecorator('code', {
+                {getFieldDecorator('pdCode', {
                     rules: [{ required: true, message: '请输入商品编码' }],
                     // initialValue:this.state.currentData.code
                 })(
@@ -209,7 +208,7 @@ class GoodsEditForm extends React.Component{
                     labelCol={{ span: 8 }}
                     wrapperCol={{ span: 8 }}
                 >
-                {getFieldDecorator('code', {
+                {getFieldDecorator('pdCode', {
                     rules: [{ required: true, message: '请输入商品编码' }],
                     // initialValue:this.state.currentData.code
                 })(
@@ -250,7 +249,7 @@ function mapStateToProps(state) {
 const GoodsEdit = Form.create({
     mapPropsToFields(props) {
 		return {
-            code:Form.createFormField({value: props.configArrPre[props.currentItem].code?props.configArrPre[props.currentItem].code:''}) ,
+            pdCode:Form.createFormField({value: props.configArrPre[props.currentItem].pdCode?props.configArrPre[props.currentItem].pdCode:''}) ,
             rowcode:Form.createFormField({value: props.configArrPre[props.currentItem].rowcode?props.configArrPre[props.currentItem].rowcode:''})
 		};
 	}

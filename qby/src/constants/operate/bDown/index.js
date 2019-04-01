@@ -107,6 +107,7 @@ class Bdown extends Component{
   }
   //强制失效点击确定
   onOk =(values,resetFiledsFunc)=> {
+    values.activityId = this.state.activityId;
     confirmCancelApi(values)
     .then((res) => {
       if(res.code == '0'){

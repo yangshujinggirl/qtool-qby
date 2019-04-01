@@ -61,7 +61,9 @@ class PageConfig extends Component {
       data:{
         previewLink:record.previewLink,
         configureCode:record.configureCode,
-        pdConfigureId:record.pdConfigureId
+        pdConfigureId:record.pdConfigureId,
+        pageName:record.pageName,
+        remark:record.remark
       }
     };
     this.props.dispatch({

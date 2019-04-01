@@ -12,13 +12,13 @@ class EditImgForm extends React.Component{
 	constructor(props) {
 	    super(props);
 	    this.state = {
-			code:''
+			pdCode:''
 	    }
 	}
 
 	saveCode = (e) =>{
 		let tempConfigArr = deepcCloneObj(this.props.configArrPre);
-			tempConfigArr[this.props.currentItem].code = e.target.value;
+			tempConfigArr[this.props.currentItem].pdCode = e.target.value;
 			this.props.dispatch({
 					type:'h5config/syncConfigArrPre',
 					payload:tempConfigArr
@@ -29,14 +29,14 @@ class EditImgForm extends React.Component{
 		e.preventDefault();
 		this.props.form.validateFields((err, values) => {
 			let configArrEnd = deepcCloneObj(this.props.configArr);
-			configArrEnd[this.props.currentItem].code =values.code;
+			configArrEnd[this.props.currentItem].pdCode =values.pdCode;
 			configArrEnd[this.props.currentItem].text = this.props.configArrPre[this.props.currentItem].text;
 			this.props.dispatch({
 				type:'h5config/syncConfigArr',
 				payload:configArrEnd
 			});
 			if (!err) {
-				if(!values.code){
+				if(!values.pdCode){
 					return false;
 				}
 				const result=GetServerData('qerp.web.pd.banner.config.pdInfo',values);
@@ -46,14 +46,14 @@ class EditImgForm extends React.Component{
 
 	handCancel = () =>{
 		this.props.form.setFieldsValue({
-			code: this.props.configArr.length?
-				  (this.props.configArr[this.props.currentItem].code?this.props.configArr[this.props.currentItem].code:''):
+			pdCode: this.props.configArr.length?
+				  (this.props.configArr[this.props.currentItem].pdCode?this.props.configArr[this.props.currentItem].pdCode:''):
 				  ''
 		});
 		let tempConfigArr = deepcCloneObj(this.props.configArrPre);
-		tempConfigArr[this.props.currentItem].code =this.props.configArr.length?
-													(this.props.configArr[this.props.currentItem].code?
-													 this.props.configArr[this.props.currentItem].code:
+		tempConfigArr[this.props.currentItem].pdCode =this.props.configArr.length?
+													(this.props.configArr[this.props.currentItem].pdCode?
+													 this.props.configArr[this.props.currentItem].pdCode:
 													 ''):
 													 '';
 		tempConfigArr[this.props.currentItem].text =this.props.configArr.length?
@@ -71,42 +71,42 @@ class EditImgForm extends React.Component{
 		const { getFieldDecorator,getFieldProps } = this.props.form;
 		return (
 			<Form>
-	     	  	<FormItem
-	              label="显示图片"
-	              labelCol={{ span: 8 }}
-	              wrapperCol={{ span: 6 }}
-	              >
+   	  	<FormItem
+            label="显示图片"
+            labelCol={{ span: 8 }}
+            wrapperCol={{ span: 6 }}
+            >
 					<AvatarImg data={this.props.configArrPre[this.props.currentItem].text?
 									this.props.configArrPre[this.props.currentItem].text:
 									null}
 									/>
-	            </FormItem>
-                <FormItem
-	              label="链接商品"
-	              labelCol={{ span: 8 }}
-	              wrapperCol={{ span: 9 }}
-	            >
-	              {getFieldDecorator('code', {
-	                	rules: [{ message: '请输入商品编码' }],
-	                 	initialValue:''
-	              })(
+        </FormItem>
+        <FormItem
+	        label="链接商品"
+	        labelCol={{ span: 8 }}
+	        wrapperCol={{ span: 9 }}
+	      >
+	        {getFieldDecorator('pdCode', {
+	          	rules: [{ message: '请输入商品编码' }],
+	           	initialValue:''
+	        })(
 						<Input placeholder='请输入商品编码' onChange={this.saveCode.bind(this)}/>
-	              )}
-	            </FormItem>
-                <FormItem
-                        wrapperCol={{ offset: 8}}
-                        style={{marginBottom:'0',marginTop:'-20px'}}
-                >
-                {/* 'banner_message' */}
-                    <p className='banner_message_w'>请输入正确的商品编码</p>
-                </FormItem>
-	            <FormItem
-	                 wrapperCol={{ offset: 8}}
-	            >
-                    <Button style={{marginRight:'10px'}} onClick={this.handCancel.bind(this)}>取消</Button>
-                    <Button onClick={this.handleSubmit.bind(this)}>确定</Button>
-	            </FormItem>
-            </Form>
+	        )}
+	      </FormItem>
+        <FormItem
+                wrapperCol={{ offset: 8}}
+                style={{marginBottom:'0',marginTop:'-20px'}}
+        >
+        {/* 'banner_message' */}
+            <p className='banner_message_w'>请输入正确的商品编码</p>
+        </FormItem>
+        <FormItem
+         wrapperCol={{ offset: 8}}
+        >
+          <Button style={{marginRight:'10px'}} onClick={this.handCancel.bind(this)}>取消</Button>
+          <Button onClick={this.handleSubmit.bind(this)}>确定</Button>
+        </FormItem>
+      </Form>
 		)
 	}
 
@@ -123,7 +123,7 @@ function mapStateToProps(state) {
 const ImgEdit = Form.create({
 	mapPropsToFields(props) {
 		return {
-			code:Form.createFormField({value: props.configArrPre[props.currentItem].code?props.configArrPre[props.currentItem].code:''})
+			pdCode:Form.createFormField({value: props.configArrPre[props.currentItem].pdCode?props.configArrPre[props.currentItem].pdCode:''})
 		};
 	}
 })(EditImgForm);

@@ -52,10 +52,10 @@ class Addactivity extends Component {
             endTime:activityInfo.endTime,
             remark:activityInfo.remark,
             warmTime:activityInfo.endTime,
-            activityPlat:activityInfo.activityPlat || activityInfo.activityPlat.split('-'),
-            shipmentPlat:activityInfo.shipmentPlat || activityInfo.shipmentPlat.split('-'),
-            isStoreProfit:activityInfo.isStoreProfit,
-            activityCostbearer:activityInfo.activityCostbearer,
+            activityPlat:activityInfo.activityPlat&&activityInfo.activityPlat.split('-'),
+            // shipmentPlat:activityInfo.shipmentPlat&&activityInfo.shipmentPlat.split('-'),
+            // isStoreProfit:activityInfo.isStoreProfit,
+            // activityCostbearer:activityInfo.activityCostbearer,
             type:activityInfo.type,
             goodList:goodsInfos
           });

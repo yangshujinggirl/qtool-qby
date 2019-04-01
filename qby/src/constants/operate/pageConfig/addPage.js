@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Form,Button,Input,Row,Col} from 'antd';
+import { Form,Button,Input,Row,Col,message} from 'antd';
 import {addPageApi,updataPageApi} from '../../../services/operate/pageConfig/index'
 import {GetServerData} from '../../../services/services';
 import {deepcCloneObj} from '../../../utils/commonFc';
@@ -44,9 +44,23 @@ class AddConfig extends  Component {
       payload:componkey
     });
   }
+  //保存
   handleSubmit =()=> {
     this.props.form.validateFieldsAndScroll((err,values)=>{
       if(!err){
+        const {configArrPre} = this.props;
+        if(configArrPre.length){
+          configArrPre.length && configArrPre.map(item => {
+            if(item.type == '4'){
+              if(!item.text){
+                item.text = null
+              }else{
+                item.text = item.text.replace(/\n/g,"#&#")
+              };
+            };
+         });
+        };
+        values.pdConfigureConfigList = configArrPre;
         if(this.props.data){ //修改
           const {pdConfigureId,previewLink,configureCode} = this.props.data;
           values.pdConfigureId = pdConfigureId;
@@ -57,8 +71,9 @@ class AddConfig extends  Component {
                 message.success('修改成功');
                 this.props.dispatch({
                   type:'tab/initDeletestate',
-                  payload:componkey
+                  payload:componkey+this.state.pdConfigureId
                 });
+                this.afterSaveSuccess();
             };
           });
         }else{ //新增
@@ -69,10 +84,30 @@ class AddConfig extends  Component {
                 type:'tab/initDeletestate',
                 payload:componkey
               });
+              this.afterSaveSuccess();
             };
           });
         };
       };
+    });
+  }
+  //成功之后
+  afterSaveSuccess =()=> {
+    this.props.dispatch({
+      type:'h5config/syncConfigArr',
+      payload:[]
+    });
+    this.props.dispatch({
+      type:'h5config/syncConfigArrPre',
+      payload:[]
+    });
+    this.props.dispatch({
+      type:'h5config/syncCurrentItem',
+      payload:0
+    });
+    this.props.dispatch({ //刷新配置页
+      type:'pageConfig/fetchList',
+      payload:{}
     });
   }
   beforeUpload =(file)=> {
@@ -98,6 +133,7 @@ class AddConfig extends  Component {
     });
   }
   render() {
+    console.log(this.props.configArrPre)
     const {
       configureCode,
       previewLink,
