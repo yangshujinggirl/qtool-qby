@@ -22,13 +22,14 @@ class UploadData extends Component{
     }
   }
   render(){
-    const {name,action,title} = this.props
+    const {name,action,title,data} = this.props
     return(
       <Upload
         className='import_list'
         accept='.xlsx,.xls'
         name={name}
         action={action}
+        data={data}
         onChange={this.onChange}
         showUploadList={false}
       >

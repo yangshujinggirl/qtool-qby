@@ -3,7 +3,7 @@ import { connect } from 'dva';
 import { Form,Button,Input,Row,Col,DatePicker,message} from 'antd';
 import moment from 'moment';
 import Upload from '../../../components/UploadImg/onlyOneImg';
-import {addThemeApi} from '../../../services/operate/themeAct/index'
+import {addThemeApi,updataThemeApi} from '../../../services/operate/themeAct/index'
 const FormItem = Form.Item;
 const TextArea = Input.TextArea;
 const RangePicker = DatePicker.RangePicker
@@ -32,7 +32,7 @@ class AddTheme extends  Component {
       const pdSpuIds = infos.pdThemeActivityDetail;
       let activityPdSpuIds='';
       pdSpuIds.map((item,index)=>{
-        if(index< (pdSpuIds.length-1) )
+        if(index < (pdSpuIds.length-1) )
         item.pdSpuId = item.pdSpuId+'\n'
       });
       pdSpuIds.map((item,index)=>{
@@ -68,25 +68,36 @@ class AddTheme extends  Component {
           }
           _values.activityPdSpuIds = values.activityPdSpuIds.split('\n');
           _values.pics = imageUrl;
-          addThemeApi(_values).then(res=>{
-            if(res.code=='0'){
-              let {componkey} = this.props;
-              if(!this.props.data){
-                message.success('新增成功');
-              }else{
+          if(this.props.data){ //修改
+            _values.themeActivityId = this.state.infos.themeActivityId;
+            updataThemeApi(_values).then(res=>{
+              if(res.code == '0'){
                 message.success('修改成功');
-                componkey = componkey+this.props.data.infos.themeActivityId
+                this.props.dispatch({
+                  type:'tab/initDeletestate',
+                  payload:this.props.componkey+this.props.data.infos.themeActivityId
+                });
+                this.props.dispatch({
+                  type:'themeAct/fetchList',
+                  payload:{}
+                });
               };
-              this.props.dispatch({
-                type:'themeAct/fetchList',
-                payload:{}
-              });
-              this.props.dispatch({
-                type:'tab/initDeletestate',
-                payload:componkey
-              });
-            };
-          });
+            })
+          }else{
+            addThemeApi(_values).then(res=>{
+              if(res.code=='0'){
+                message.success('新增成功');
+                this.props.dispatch({
+                  type:'tab/initDeletestate',
+                  payload:this.props.componkey
+                });
+                this.props.dispatch({
+                  type:'themeAct/fetchList',
+                  payload:{}
+                });
+              };
+            });
+          };
         }else{
           message.error('请上传图片')
         };

@@ -47,7 +47,12 @@ class Bdown extends Component{
       rowSelection:Object.assign({},rowSelection,{selectedRowKeys})
     })
     if(selectedRows[0]){
-      this.setState({bDownId:selectedRows[0].bDownId})
+      this.setState({
+        activityId:selectedRows[0].activityId,
+        name:selectedRows[0].name,
+        beginTime:selectedRows[0].beginTime,
+        endTime:selectedRows[0].endTime,
+      })
     }
   }
   //点击搜索
@@ -85,15 +90,15 @@ class Bdown extends Component{
       componkey:`${this.props.componkey}edit`,
     };
     this.props.dispatch({
-        type:'tab/firstAddTab',
-        payload:paneitem
+      type:'tab/firstAddTab',
+      payload:paneitem
     });
   }
   //改变弹窗确认的loading
   changeLoading =(value)=> {
     this.setState({
       confirmLoading:value
-    })
+    });
   }
   //强制失效点击取消
   onCancel =(resetFiledsFunc)=> {
@@ -155,7 +160,7 @@ class Bdown extends Component{
   }
   render(){
     // const {rolelists} = this.props.data;
-    const {confirmVisible,confirmLoading} = this.state
+    const {confirmVisible,confirmLoading,name,beginTime,endTime} = this.state
     const {dataList} = this.props.bDown;
     //
     // //新增活动进价
@@ -182,6 +187,9 @@ class Bdown extends Component{
           }
         </div>
         <ConfirmCancel
+          name={name}
+          beginTime={beginTime}
+          endTime={endTime}
           changeLoading={this.changeLoading}
           confirmLoading={confirmLoading}
           visible={confirmVisible}

@@ -16,6 +16,14 @@ export function addThemeApi(values){
       data:values
   })
 }
+//修改主题
+export function updataThemeApi(values){
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.theme.activity.update',
+      data:values
+  })
+}
 //主题活动强制失效
 export function forceInvalidApi(values){
   values = JSON.stringify(values)

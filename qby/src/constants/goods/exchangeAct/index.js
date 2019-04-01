@@ -121,7 +121,7 @@ class ExchangeAct extends Component {
             sizeOptions="1"
             onChange={this.changePage}
             onShowSizeChange={this.changePageSize}
-            data={this.props.data}/>
+            data={this.props.exchangeAct}/>
         }
       </div>
     )

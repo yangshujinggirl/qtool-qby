@@ -407,11 +407,17 @@ class GoodTable extends Component{
     this.props.add()
   };
   render(){
-    //type:1--->门店ID模板（columns1）   2：--->商品编码模板(column2)  3:b端商品进价商品（column3) 4:b端直降
+    //type:1--->门店ID模板（columns1）   2：--->商品编码模板(column2)  3:b端商品进价商品（column3) 4:b端直降 5:c端直降
     const {dataSource,type,addText} = this.props
     dataSource.map((item,index)=>{
       item.key=index;
     });
+    let Uploadtype = '';
+    if(type==2) Uploadtype=''
+    if(type==3) Uploadtype=1
+    if(type==4) Uploadtype=2
+    if(type==5) Uploadtype=3
+    const uploadData = { data:JSON.stringify({type:Uploadtype}) }
     return(
       <div className='good_table'>
         <Table
@@ -445,6 +451,7 @@ class GoodTable extends Component{
                  title='导入活动商品'
                  name='mfile'
                  action='/erpWebRest/webrest.htm?code=qerp.web.activity.spu.import'
+                 data={uploadData}
                  onChange={this.onGoodChange}
                 />
               : null

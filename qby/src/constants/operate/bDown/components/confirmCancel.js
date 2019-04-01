@@ -27,7 +27,7 @@ class Cancel extends Component{
 
   render(){
     const { getFieldDecorator } = this.props.form;
-    const {visible,confirmLoading} = this.props;
+    const {visible,confirmLoading,name,beginTime,endTime} = this.props;
     const formItemLayout = {
       labelCol: {span:7},
       wrapperCol: {span:14},
@@ -44,10 +44,10 @@ class Cancel extends Component{
         <div>
           <Form>
             <FormItem {...formItemLayout} label='活动'>
-              <p>奶粉7月供应商特供</p>
+              <p>{name}</p>
             </FormItem>
             <FormItem {...formItemLayout} label='生效时间'>
-              <p>2017-07-31 00:00:00 ~2017-07-31 23:59:59</p>
+              <p>{beginTime} ~ {endTime}</p>
             </FormItem>
             <FormItem {...formItemLayout} label='强制失效原因'>
               {getFieldDecorator("reason",{

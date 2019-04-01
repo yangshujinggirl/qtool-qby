@@ -46,7 +46,12 @@ class BactPrice extends Component{
       rowSelection:Object.assign({},rowSelection,{selectedRowKeys})
     })
     if(selectedRows[0]){
-      this.setState({bActPriceId:selectedRows[0].bActPriceId})
+      this.setState({
+        activityId:selectedRows[0].activityId,
+        name:selectedRows[0].name,
+        beginTime:selectedRows[0].beginTime,
+        endTime:selectedRows[0].endTime,
+      })
     }
   }
   //点击搜索
@@ -154,7 +159,7 @@ class BactPrice extends Component{
   }
   render(){
     // const {rolelists} = this.props.data;
-    const {confirmVisible,confirmLoading} = this.state
+    const {confirmVisible,confirmLoading,name,beginTime,endTime} = this.state
     const {dataList} = this.props.bActPrice;
     console.log(this.props)
     //
@@ -182,6 +187,9 @@ class BactPrice extends Component{
           }
         </div>
         <ConfirmCancel
+          name={name}
+          beginTime={beginTime}
+          endTime={endTime}
           changeLoading={this.changeLoading}
           confirmLoading={confirmLoading}
           visible={confirmVisible}
