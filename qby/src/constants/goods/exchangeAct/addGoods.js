@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Form,Button,Input,Row,Col} from 'antd';
+import { Form,Button,Input,Row,Col,message} from 'antd';
 import moment from 'moment';
 import Upload from '../../../components/UploadImg/onlyOneImg';
 import {addGoodsApi} from '../../../services/goodsCenter/exchangeAct/index'
@@ -65,6 +65,10 @@ class AddGood extends  Component {
               type:'tab/initDeletestate',
               payload:componkey
             });
+            this.props.dispatch({
+              type:'exchangeAct/fetchList',
+              payload:{}
+            });
           };
         });
       };
@@ -81,7 +85,6 @@ class AddGood extends  Component {
     }
     return isJPG && isLt2M;
   }
-
   render() {
     const {
       name,

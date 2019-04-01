@@ -71,12 +71,12 @@ class NormalForm extends Component {
           <div className='search-form-outwrap'>
             <div className="search-form-wrap">
               <FormItem label='商品 ID'>
-                 {getFieldDecorator('udeskTicketId')(
+                 {getFieldDecorator('pdSpuActiveId')(
                    <Input placeholder="请输入商品 ID" autoComplete="off"/>
                  )}
                </FormItem>
               <FormItem label='商品名称'>
-                 {getFieldDecorator('subject')(
+                 {getFieldDecorator('name')(
                    <Input placeholder="请输入商品名称" autoComplete="off"/>
                  )}
                </FormItem>
