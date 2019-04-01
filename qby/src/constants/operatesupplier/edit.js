@@ -294,8 +294,10 @@ class OperatesupplierEditForm extends React.Component{
                             <Option value='0'>0%</Option>
                             <Option value='3'>3%</Option>
                             <Option value='6'>6%</Option>
+														<Option value='9'>9%</Option>
 														<Option value='10'>10%</Option>
                             <Option value='11'>11%</Option>
+														<Option value='13'>13%</Option>
 														<Option value='16'>16%</Option>
                             <Option value='17'>17%</Option>
                         </Select>
