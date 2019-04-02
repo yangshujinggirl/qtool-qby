@@ -247,7 +247,7 @@ class AddGoodsForm extends Component {
               <FormItem label='上线平台' {...formItemLayout}>
                  {getFieldDecorator('plateform',{
                    rules: [{ required: true, message: '请选择上线平台'}],
-                   initialValue:pdSpu.pdExplains?pdSpu.pdExplains:null
+                   initialValue:iPdSpu.platform?iPdSpu.platform:null
                  })(
                    <CheckboxGroup className='checkBox' options={this.platformOptions} />
                  )}

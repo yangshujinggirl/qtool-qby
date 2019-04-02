@@ -111,11 +111,8 @@ class GoodTable extends Component{
         render:(text,record,index)=>{
           const {getFieldDecorator,FormItem} = this.props;
           const validatePrice=(rule,value,callback)=> {
-            if(Number(value)>Number(record.costPrice) ){
-              callback('活动进价大于合同进价，请谨慎填写')
-            };
             if(Number(value)== 0 ){
-              callback('活动进价需大于0')
+              callback('大于0的4位小数')
             };
             callback();
           };
@@ -126,7 +123,7 @@ class GoodTable extends Component{
                   initialValue:record.activityPrice,
                   rules:[
                     {validator:validatePrice},
-                    {pattern:/^\d+(\.\d{0,4})?$/,message:'小于等于四位小数的数字'},
+                    {pattern:/^\d+(\.\d{0,4})?$/,message:'大于0的4位小数'},
                     {required:true,message:'请输入活动进价'}
                   ]
                 })(
@@ -190,11 +187,8 @@ class GoodTable extends Component{
         render:(text,record,index)=>{
           const {getFieldDecorator,FormItem} = this.props;
           const validatePrice=(rule,value,callback)=> {
-            if(Number(value)>Number(record.toBPrice) ){
-              callback('活动供价超过供价，请谨慎填写')
-            };
-            if(Number(value)<Number(record.costPrice) ){
-              callback('活动供价小于合同进价，请谨慎填写')
+            if(Number(value)== 0 ){
+              callback('大于0的2位小数')
             };
             callback();
           };
@@ -205,7 +199,7 @@ class GoodTable extends Component{
                   initialValue:record.activitySupplyPrice,
                   rules:[
                   {required:true,message:'请输入活动供价'},
-                  {pattern:/^\d+(\.\d{0,2})?$/,message:'小于等于两位小数的数字'},
+                  {pattern:/^\d+(\.\d{0,2})?$/,message:'大于0的2位小数'},
                   {validator:validatePrice}]
                 })(
                   <Input placeholder='请输入活动供价' onBlur={(e)=>this.updataList(e,index)} autoComplete='off'/>
@@ -272,12 +266,10 @@ class GoodTable extends Component{
         render:(text,record,index)=>{
           const {getFieldDecorator,FormItem} = this.props;
           const validatePrice=(rule,value,callback)=> {
-            if(Number(value)>Number(record.toCprice) ){
-              callback('当前特价超过零售价，请谨慎填写')
+            if(Number(value)== 0 ){
+              callback('大于0的2位小数')
             };
-            if(Number(value)<Number(record.toCprice) ){
-              callback('当前特价小于成本价，请谨慎填写')
-            };
+
             callback();
           };
           return(
@@ -286,11 +278,12 @@ class GoodTable extends Component{
                 getFieldDecorator('specialPrice'+index,{
                   initialValue:record.specialPrice,
                   rules:[
-                    {required:true,message:'请输入活动进价'},
+                    {required:true,message:'请输入活动特价'},
+                    {pattern:/^\d+(\.\d{0,2})?$/,message:'大于0的2位小数'},
                     {validator:validatePrice}
                   ]
                 })(
-                  <Input placeholder='请输入活动进价' onBlur={(e)=>this.updataList(e,index)} autoComplete='off'/>
+                  <Input placeholder='请输入活动特价' onBlur={(e)=>this.updataList(e,index)} autoComplete='off'/>
                 )
               }
             </FormItem>
@@ -305,14 +298,30 @@ class GoodTable extends Component{
     ]
   }
   updataList =(e,index)=> {
-    const {value} = e.target;
+    let {value} = e.target;
+    value = Number(value);
     const {dataSource,type} = this.props;
     if(value){
       if(type==3){ //b活动进价
+        if(value > dataSource[index].costPrice){
+          message.warning('活动进价大于合同进价，请谨慎填写',1)
+        };
         dataSource[index].activityPrice = value;
       }else if(type == 4){ //b降
+        if(value > Number( dataSource[index].toBPrice ) ){
+          message.warning('活动供价超过供价，请谨慎填写',1)
+        };
+        if(value < Number( dataSource[index].costPrice ) ){
+          message.warning('活动供价小于合同进价，请谨慎填写',1)
+        };
         dataSource[index].activitySupplyPrice = value;
       }else if(type == 5){ //c降
+        if(value > Number(dataSource[index].toCprice) ){
+          message.warning('当前特价超过零售价，请谨慎填写',1)
+        };
+        if(Number(value) < Number(dataSource[index].toCprice) ){
+          message.warning('当前特价小于成本价，请谨慎填写',1)
+        };
         dataSource[index].specialPrice = value;
       }
     };
@@ -320,11 +329,12 @@ class GoodTable extends Component{
   }
   //根据商品获取信息
   getInfo =(e,index,type)=> { //type:1-->根据id请求接口， 2：根据商品编码获取接口
-    const {value} = e.target;
+    let {value} = e.target;
     if(value){
+      value = value.replace(/\s+/g,'');
       const {dataSource} = this.props;
       let isRepeat = false;
-      /*  ----新增优惠券-->商品id--------  */
+      /*  ------商品id--------  */
       if(type==1){
         if(dataSource.length>1){isRepeat = dataSource.find(item=>item.spShopId == value)}
         if(!isRepeat){
@@ -342,7 +352,7 @@ class GoodTable extends Component{
           message.error('门店Id重复',.8)
         };
       };
-      /*  ----新增优惠券-->商品编码--------  */
+      /*  ------商品编码--------  */
       if(type==2||type==3||type==4||type==5){
         if(dataSource.length>1){isRepeat = dataSource.find(item=>item.pdCode == value)}
         if(!isRepeat){

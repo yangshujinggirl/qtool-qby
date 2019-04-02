@@ -17,24 +17,24 @@ class Addactivity extends Component {
   constructor(props){
     super(props);
     this.state = {
-      warmTime:moment().format('YYYY-MM-DD hh:mm:ss'),
-      activityPlat:'',
+      warmTime:moment(),
+      activityPlat:[],
       shipmentPlat:[1,2],
       isStoreProfit:1,
       activityCostbearer:1,
       remark:'',
       shopType:'',
-      beginTime:moment().format('YYYY-MM-DD hh:mm:ss'),
-      endTime:moment().add(1,'days').format('YYYY-MM-DD hh:mm:ss'),
+      beginTime:moment().format('YYYY-MM-DD HH:mm:ss'),
+      endTime:moment().add(1,'days').format('YYYY-MM-DD HH:mm:ss'),
       goodList:[{pdCode:'',name:'',displayName:'',toCprice:'',goldCardPrice:'',silverCardPrice:'',activityPrice:''}],
       shopList:[{spShopId:'',shopName:''}],
       options:[
-        { label:'线上APP', value:'1'},
-        { label:'线下POS', value:'2'},
+        { label:'线上APP', value:1},
+        { label:'线下POS', value:2},
       ],
       optionsWithDisabled:[
-        { label:'门店', value:'1'},
-        { label:'仓库', value:'2'},
+        { label:'门店', value:1},
+        { label:'仓库', value:2},
       ],
       imageUrl:''
     };
@@ -45,6 +45,13 @@ class Addactivity extends Component {
       getInfoApi({activityId}).then(res=>{
         if(res.code=='0'){
           const {activityInfo,goodsInfos} = res;
+          let activityPlat = [];
+          if(activityInfo.activityPlat){
+            activityPlat = activityInfo.activityPlat.split('-');
+            for(var i=0;i<activityPlat.length;i++){
+              activityPlat[i] = Number(activityPlat[i])
+            };
+          };
           this.setState({
             imageUrl:activityInfo.commodityPic,
             name:activityInfo.name,
@@ -52,7 +59,7 @@ class Addactivity extends Component {
             endTime:activityInfo.endTime,
             remark:activityInfo.remark,
             warmTime:activityInfo.endTime,
-            activityPlat:activityInfo.activityPlat&&activityInfo.activityPlat.split('-'),
+            activityPlat,
             // shipmentPlat:activityInfo.shipmentPlat&&activityInfo.shipmentPlat.split('-'),
             // isStoreProfit:activityInfo.isStoreProfit,
             // activityCostbearer:activityInfo.activityCostbearer,
@@ -68,23 +75,27 @@ class Addactivity extends Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if(!err){
-        const {actTime,warmTime,..._values} = values
-        if(actTime && actTime[0]){
-          _values.beginTime = moment(actTime[0]).format('YYYY-MM-DD hh:mm:ss');
-          _values.endTime = moment(actTime[1]).format('YYYY-MM-DD hh:mm:ss');
-        };
-        if(warmTime){
-          _values.warmTime = moment(warmTime).format('YYYY-MM-DD hh:mm:ss');
-        };
-        _values.productList = this.state.goodList;
-        _values.shopList = this.state.shopList;
-        _values.commodityPic = this.state.imageUrl;
-        _values.type = 3;
-        if(this.props.data){ //修改
-          _values.activityId = this.props.data.activityId;
-          this.sendRequest(_values)
+        const {actTime,warmTime,..._values} = values;
+        if(new Date(warmTime).getTime() > new Date(actTime[0]).getTime()){ //if预热时间大于活动时间
+          message.error('预热时间需早于活动开始时间')
         }else{
-          this.sendRequest(_values)
+          if(actTime && actTime[0]){
+            _values.beginTime = moment(actTime[0]).format('YYYY-MM-DD hh:mm:ss');
+            _values.endTime = moment(actTime[1]).format('YYYY-MM-DD hh:mm:ss');
+          };
+          if(warmTime){
+            _values.warmTime = moment(warmTime).format('YYYY-MM-DD hh:mm:ss');
+          };
+          _values.productList = this.state.goodList;
+          _values.shopList = this.state.shopList;
+          _values.commodityPic = this.state.imageUrl;
+          _values.type = 3;
+          if(this.props.data){ //修改
+            _values.activityId = this.props.data.activityId;
+            this.sendRequest(_values)
+          }else{
+            this.sendRequest(_values)
+          };
         };
       };
     });
@@ -215,6 +226,15 @@ class Addactivity extends Component {
       });
     };
   }
+  //验证生效时间
+  validataTime =(rule,value,callback)=> {
+    const start = new Date(value[0]).getTime();
+    const end = new Date(value[1]).getTime();
+    if(end-start > 31536000000){
+      callback('活动时间范围不可超过1年')
+    };
+    callback()
+  }
   render(){
     const radioStyle = {
      display: 'block',
@@ -239,7 +259,6 @@ class Addactivity extends Component {
      imageUrl,
      shopType
    } = this.state;
-   console.log(activityPlat)
     const { getFieldDecorator } = this.props.form;
     const { cBanner } = this.props;
     return(
@@ -267,8 +286,11 @@ class Addactivity extends Component {
               labelCol={{ span:3}}
               wrapperCol={{ span:6}}>
               {getFieldDecorator('actTime', {
-                  initialValue:[moment(beginTime,'YYYY-MM-DD hh:mm:ss'),moment(endTime,'YYYY-MM-DD hh:mm:ss')],
-                  rules: [{ required: true, message: '请选择活动时间'}],
+                  initialValue:[moment(beginTime),moment(endTime)],
+                  rules: [
+                    { required: true, message: '请选择活动时间'},
+                    { validator: this.validataTime}
+                  ],
                 })(
                   <RangePicker
                     showTime
@@ -281,10 +303,10 @@ class Addactivity extends Component {
               labelCol={{ span:3}}
               wrapperCol={{ span:10}}>
               {getFieldDecorator('warmTime', {
-                  initialValue:moment(warmTime,'YYYY-MM-DD hh:mm:ss'),
+                  initialValue:moment(warmTime),
                   rules: [{ required: true, message: '请选择预热时间'}],
                 })(
-                   <DatePicker/>
+                   <DatePicker showTime format="YYYY-MM-DD HH:mm:ss"/>
                 )}　<span className='suffix_tips'>预热时间需早于活动开始时间</span>
             </FormItem>
             <FormItem

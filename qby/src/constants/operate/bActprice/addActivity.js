@@ -16,8 +16,8 @@ class Addactivity extends Component {
   constructor(props){
     super(props);
     this.state={
-      beginTime:moment().format('YYYY-MM-DD hh:mm:ss'),
-      endTime:moment().add(1,'days').format('YYYY-MM-DD hh:mm:ss'),
+      beginTime:moment().format('YYYY-MM-DD HH:mm:ss'),
+      endTime:moment().add(1,'days').format('YYYY-MM-DD HH:mm:ss'),
       goodList:[{pdCode:'',name:'',displayName:'',costPrice:'',activityPrice:''}]}
   }
   componentDidMount =()=> {
@@ -41,11 +41,12 @@ class Addactivity extends Component {
   handleSubmit = (e) => {
 		e.preventDefault();
 		this.props.form.validateFields((err, values) => {
+      debugger
       if(!err){
         const {time,..._values} = values
         if(time && time[0]){
-          _values.beginTime = moment(time[0]).format('YYYY-MM-DD hh:mm:ss');
-          _values.endTime = moment(time[0]).format('YYYY-MM-DD hh:mm:ss');
+          _values.beginTime = moment(time[0]).format('YYYY-MM-DD HH:mm:ss');
+          _values.endTime = moment(time[0]).format('YYYY-MM-DD HH:mm:ss');
         };
         _values.productList = this.state.goodList;
         _values.type = 1;
@@ -132,6 +133,15 @@ class Addactivity extends Component {
   updataList =(goodList)=> {
     this.setState({goodList});
   }
+  //验证生效时间
+  validataTime =(rule,value,callback)=> {
+    const start = new Date(value[0]).getTime();
+    const end = new Date(value[1]).getTime();
+    if(end-start > 31536000000){
+      callback('生效时间范围不可超过1年')
+    };
+    callback()
+  }
   render(){
     const {
       name,
@@ -168,8 +178,11 @@ class Addactivity extends Component {
               wrapperCol={{ span:6}}
             >
               {getFieldDecorator('time', {
-                  initialValue:[moment(beginTime,'YYYY-MM-DD hh:mm:ss'),moment(endTime,'YYYY-MM-DD hh:mm:ss')],
-                  rules: [{ required: true, message: '请输入生效时间'}],
+                  initialValue:[moment(beginTime),moment(endTime)],
+                  rules: [
+                    { required: true, message: '请输入生效时间'},
+                    { validator: this.validataTime}
+                  ],
                 })(
                   <RangePicker
                     showTime

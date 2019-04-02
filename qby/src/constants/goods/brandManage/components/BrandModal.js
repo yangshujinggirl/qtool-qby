@@ -40,7 +40,7 @@ class ExplainModal extends Component{
   }
   render(){
     const { getFieldDecorator } = this.props.form;
-    const {logoUrl,actUrl,name,rank,status,eventStatus} = this.props;
+    const {logoUrl,actUrl,name,rank,status,eventStatus,configureCode} = this.props;
     return(
       <div>
       <Modal
@@ -101,8 +101,8 @@ class ExplainModal extends Component{
                labelCol={{ span: 5 }}
                wrapperCol={{ span: 12 }}>
                {
-                 getFieldDecorator("name",{
-                   initialValue:name?name:null,
+                 getFieldDecorator("configureCode ",{
+                   initialValue:configureCode ? configureCode :null,
                  })(
                     <Input placeholder='请输入跳转页面编码' autoComplete="off"/>
                  )

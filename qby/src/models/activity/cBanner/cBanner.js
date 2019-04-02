@@ -8,6 +8,7 @@ export default {
         total:0,
         tableList:[],
         formValue:{
+            configureCode:'',
             name:'',
       			status:[],
       			url:'',
@@ -27,6 +28,7 @@ export default {
       },
       initState(state, { payload: value}) {
   			const formValue={
+          configureCode:'',
   						name:'',
   						status:[],
   						url:'',
@@ -63,6 +65,7 @@ export default {
             formValue.status = String(pdBanner.status);
             formValue.rank = pdBanner.rank;
             formValue.url = pdBanner.url;
+            formValue.configureCode = pdBanner.configureCode;
             if(pdBanner.displayplatform == '1') {
               formValue.platform = ['1']
             } else if(pdBanner.displayplatform == '2') {

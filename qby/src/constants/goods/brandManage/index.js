@@ -21,6 +21,7 @@ class Brand extends Component{
       status:"",
       eventStatus:"",
       pdBrandId:"",
+      configureCode:'',
       mark:null,
       field:{
         name:'',
@@ -76,7 +77,7 @@ class Brand extends Component{
 
   //修改
   handleOperateClick =(record)=> {
-    const {url,name,rank,status,eventStatus,pdBrandId} = record;
+    const {url,name,rank,status,eventStatus,pdBrandId,configureCode} = record;
     this.setState({
       title:"修改品牌",
       visible:true,
@@ -87,7 +88,8 @@ class Brand extends Component{
       status,
       eventStatus,
       pdBrandId,
-      mark:true
+      mark:true,
+      configureCode:''
     });
   }
   onOk =(values,clearForm)=> {
@@ -156,7 +158,7 @@ class Brand extends Component{
     const changeAddBrand=this.props.data.rolelists.find((currentValue,index)=>{
       return currentValue.url=="qerp.web.pd.brand.save"
     })
-    const {visible,title,logoUrl,actUrl,name,rank,status,eventStatus} = this.state;
+    const {visible,title,logoUrl,actUrl,name,rank,status,eventStatus,configureCode} = this.state;
     const {dataList} = this.props.brand;
     return(
       <div className="qtools-components-pages">
@@ -197,6 +199,7 @@ class Brand extends Component{
           changeActImg={this.changeActImg}
           actUrl={actUrl}
           logoUrl={logoUrl}
+          configureCode={configureCode}
         />
       </div>
     )
