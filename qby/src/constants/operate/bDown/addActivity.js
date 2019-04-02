@@ -197,6 +197,7 @@ class Addactivity extends Component {
               className='table_temp_list b_enter_price_list'
             >
               <GoodList
+                form={this.props.form}
                 FormItem={FormItem}
                 getFieldDecorator={getFieldDecorator}
                 getFile={this.getGoodFile}

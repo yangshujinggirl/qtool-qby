@@ -198,6 +198,7 @@ class Addactivity extends Component {
             >
               <GoodList
                 FormItem={FormItem}
+                form={this.props.form}
                 getFieldDecorator={getFieldDecorator}
                 getFile={this.getGoodFile}
                 dataSource={goodList}

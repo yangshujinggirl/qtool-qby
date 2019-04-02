@@ -12,6 +12,7 @@ class BactPrice extends Component{
   constructor(props){
     super(props);
     this.state = {
+      type:3,
       confirmLoading:false,
       bActPriceId:'',
       confirmVisible:false,
@@ -60,8 +61,9 @@ class BactPrice extends Component{
       type:'bActPrice/fetchList',
       payload:values
     });
+    const _values = {...this.state.inputValues,...values}
     this.setState({
-      inputValues:values
+      inputValues:_values
     })
   }
   //点击分页

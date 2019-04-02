@@ -20,7 +20,7 @@ class GoodTable extends Component{
              getFieldDecorator('spShopId'+index,{
                initialValue:record.spShopId,
              })(
-               <Input placeholder='请输入商品ID' onBlur={(e)=>this.getInfo(e,index,'1')}/>
+               <Input placeholder='请输入商品ID' onBlur={(e)=>this.getInfo(e,index,'1')} autoComplete='off'/>
              )
            }
           </FormItem>
@@ -50,7 +50,7 @@ class GoodTable extends Component{
              getFieldDecorator('pdCode'+index,{
                initialValue:record.pdCode
              })(
-               <Input placeholder='请输入商品编码' onBlur={(e)=>this.getInfo(e,index,'2')}/>
+               <Input placeholder='请输入商品编码' onBlur={(e)=>this.getInfo(e,index,'2')} autoComplete='off'/>
              )
            }
           </FormItem>
@@ -86,7 +86,7 @@ class GoodTable extends Component{
                     {required:true,message:'请输入商品编码'}
                   ]
                 })(
-                  <Input placeholder='请输入商品编码' onBlur={(e)=>this.getInfo(e,index,'3')}/>
+                  <Input placeholder='请输入商品编码' onBlur={(e)=>this.getInfo(e,index,'3')} autoComplete='off'/>
                 )
               }
             </FormItem>
@@ -114,6 +114,9 @@ class GoodTable extends Component{
             if(Number(value)>Number(record.costPrice) ){
               callback('活动进价大于合同进价，请谨慎填写')
             };
+            if(Number(value)== 0 ){
+              callback('活动进价需大于0')
+            };
             callback();
           };
           return(
@@ -123,10 +126,11 @@ class GoodTable extends Component{
                   initialValue:record.activityPrice,
                   rules:[
                     {validator:validatePrice},
+                    {pattern:/^\d+(\.\d{0,4})?$/,message:'小于等于四位小数的数字'},
                     {required:true,message:'请输入活动进价'}
                   ]
                 })(
-                  <Input placeholder='请输入活动进价' onBlur={(e)=>this.updataList(e,index)}/>
+                  <Input placeholder='请输入活动进价' onBlur={(e)=>this.updataList(e,index)} autoComplete='off'/>
                 )
               }
             </FormItem>
@@ -157,7 +161,7 @@ class GoodTable extends Component{
                     {required:true,message:'请输入商品编码'}
                   ]
                 })(
-                  <Input placeholder='请输入商品编码' onBlur={(e)=>this.getInfo(e,index,'4')}/>
+                  <Input placeholder='请输入商品编码' onBlur={(e)=>this.getInfo(e,index,'4')} autoComplete='off'/>
                 )
               }
             </FormItem>
@@ -204,7 +208,7 @@ class GoodTable extends Component{
                   {pattern:/^\d+(\.\d{0,2})?$/,message:'小于等于两位小数的数字'},
                   {validator:validatePrice}]
                 })(
-                  <Input placeholder='请输入活动供价' onBlur={(e)=>this.updataList(e,index)}/>
+                  <Input placeholder='请输入活动供价' onBlur={(e)=>this.updataList(e,index)} autoComplete='off'/>
                 )
               }
             </FormItem>
@@ -235,7 +239,7 @@ class GoodTable extends Component{
                     {validator:this.validateCode},
                   ]
                 })(
-                  <Input placeholder='请输入商品编码' onBlur={(e)=>this.getInfo(e,index,'5')}/>
+                  <Input placeholder='请输入商品编码' onBlur={(e)=>this.getInfo(e,index,'5')} autoComplete='off'/>
                 )
               }
             </FormItem>
@@ -286,7 +290,7 @@ class GoodTable extends Component{
                     {validator:validatePrice}
                   ]
                 })(
-                  <Input placeholder='请输入活动进价' onBlur={(e)=>this.updataList(e,index)}/>
+                  <Input placeholder='请输入活动进价' onBlur={(e)=>this.updataList(e,index)} autoComplete='off'/>
                 )
               }
             </FormItem>
@@ -371,11 +375,23 @@ class GoodTable extends Component{
   }
   //导入门店
   onShopChange =(info)=> {
+    this.props.form.resetFields(['spShopId0'])
     const {shopList} = info.file.response;
     this.props.getFile(shopList)
   }
   //导入商品
   onGoodChange =(info)=> {
+    const {type} = this.props;
+    this.props.form.resetFields(['pdCode0'])
+    if(type==3){ //b端进价
+      this.props.form.resetFields(['activityPrice0'])
+    };
+    if(type == 4){ //b端直降
+      this.props.form.resetFields(['activitySupplyPrice0'])
+    }
+    if(type == 5){ //c端直降
+      this.props.form.resetFields(['specialPrice0'])
+    }
     const {pdSpuAsnLists} = info.file.response;
     this.props.getFile(pdSpuAsnLists)
   }
@@ -391,7 +407,7 @@ class GoodTable extends Component{
     if(this.props.type==2){//商品编码模板
       window.open('../../static/act_good.xlsx')
     };
-    if(this.props.type==3){//b端直降
+    if(this.props.type==3){//b端进价
       window.open('../../static/b_actIn.xlsx')
     };
     if(this.props.type==4){//b端直降

@@ -23,18 +23,18 @@ class Addactivity extends Component {
       isStoreProfit:1,
       activityCostbearer:1,
       remark:'',
-      type:'',
+      shopType:'',
       beginTime:moment().format('YYYY-MM-DD hh:mm:ss'),
       endTime:moment().add(1,'days').format('YYYY-MM-DD hh:mm:ss'),
       goodList:[{pdCode:'',name:'',displayName:'',toCprice:'',goldCardPrice:'',silverCardPrice:'',activityPrice:''}],
       shopList:[{spShopId:'',shopName:''}],
       options:[
-        { label:'线上APP', value:1},
-        { label:'线下POS', value:2},
+        { label:'线上APP', value:'1'},
+        { label:'线下POS', value:'2'},
       ],
       optionsWithDisabled:[
-        { label:'门店', value:1},
-        { label:'仓库', value:2},
+        { label:'门店', value:'1'},
+        { label:'仓库', value:'2'},
       ],
       imageUrl:''
     };
@@ -56,7 +56,7 @@ class Addactivity extends Component {
             // shipmentPlat:activityInfo.shipmentPlat&&activityInfo.shipmentPlat.split('-'),
             // isStoreProfit:activityInfo.isStoreProfit,
             // activityCostbearer:activityInfo.activityCostbearer,
-            type:activityInfo.type,
+            shopType:activityInfo.shopType,
             goodList:goodsInfos
           });
         };
@@ -68,7 +68,6 @@ class Addactivity extends Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if(!err){
-        debugger
         const {actTime,warmTime,..._values} = values
         if(actTime && actTime[0]){
           _values.beginTime = moment(actTime[0]).format('YYYY-MM-DD hh:mm:ss');
@@ -240,6 +239,7 @@ class Addactivity extends Component {
      imageUrl,
      shopType
    } = this.state;
+   console.log(activityPlat)
     const { getFieldDecorator } = this.props.form;
     const { cBanner } = this.props;
     return(
@@ -373,6 +373,7 @@ class Addactivity extends Component {
                 className='table_temp_list'
               >
                 <GoodList
+                  form={this.props.form}
                   FormItem={FormItem}
                   getFieldDecorator={getFieldDecorator}
                   getFile={this.getGoodFile}
@@ -409,6 +410,7 @@ class Addactivity extends Component {
                     labelCol={{ span: 4}}
                     wrapperCol={{ span: 12}}>
                     <ShopList
+                      form={this.props.form}
                       FormItem={FormItem}
                       getFieldDecorator={getFieldDecorator}
                       getFile={this.getShopFile}

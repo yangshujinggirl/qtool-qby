@@ -61,9 +61,10 @@ class Bdown extends Component{
       type:'bDown/fetchList',
       payload:values
     });
+    const _values = {...this.state.inputValues,...values}
     this.setState({
-      inputValues:values
-    })
+      inputValues:_values
+    });
   }
   //点击分页
   changePage =(current,limit)=> {

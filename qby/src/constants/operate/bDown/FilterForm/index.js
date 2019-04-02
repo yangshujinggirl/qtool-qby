@@ -14,7 +14,7 @@ class NormalForm extends Component{
   //点击搜索
   handleSubmit = (e) => {
     this.props.form.validateFieldsAndScroll((err, values) => {
-      values.type=1 //代表是b端活动进价
+      values.type=2 //代表是b端降价
       removeSpace(values);
       this.props.submit && this.props.submit(values);
     })
