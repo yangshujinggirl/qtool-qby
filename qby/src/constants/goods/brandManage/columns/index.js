@@ -26,7 +26,7 @@ const Columns1 = [{
      dataIndex: 'configureUrl'
    },{
      title: '跳转页面编码',
-     dataIndex: 'version'
+     dataIndex: 'configureCode'
    },{
      title: '创建时间',
      dataIndex: 'createTime'

@@ -23,10 +23,8 @@ class Brand extends Component{
       pdBrandId:"",
       configureCode:'',
       mark:null,
-      field:{
-        name:'',
-        status:'',
-        eventStatus:''
+      inputValues:{
+        sortByFlg:1
       }
     }
   }
@@ -36,13 +34,17 @@ class Brand extends Component{
     this.props.dispatch({
       type:'brand/fetchList',
       payload:values
+    });
+    const _values = {...this.state.inputValues,...values};
+    this.setState({
+      inputValues:_values
     })
   }
 
   //点击分页
   changePage =(current)=> {
     const currentPage = current-1;
-    const values = {...this.state.field,currentPage}
+    const values = {...this.state.inputValues,currentPage}
     this.props.dispatch({
       type:'brand/fetchList',
       payload:values
@@ -52,18 +54,18 @@ class Brand extends Component{
   onShowSizeChange =({currentPage,limit})=> {
     this.props.dispatch({
       type:'brand/fetchList',
-      payload:{currentPage,limit,...this.state.field}
+      payload:{currentPage,limit,...this.state.inputValues}
     });
   }
   //搜索框数据发生变化
   searchDataChange =(values)=> {
-    this.setState({field:values});
+    this.setState({inputValues:values});
   }
   //初始化数据
   componentWillMount(){
     this.props.dispatch({
       type:'brand/fetchList',
-      payload:{}
+      payload:{sortByFlg:1}
     })
   }
   //新增品牌
@@ -77,19 +79,19 @@ class Brand extends Component{
 
   //修改
   handleOperateClick =(record)=> {
-    const {url,name,rank,status,eventStatus,pdBrandId,configureCode} = record;
+    const {url,actUrl,name,rank,status,eventStatus,pdBrandId,configureCode} = record;
     this.setState({
       title:"修改品牌",
       visible:true,
       logoUrl:url,
-      actUrl:url,
+      actUrl,
       name,
       rank,
       status,
       eventStatus,
       pdBrandId,
       mark:true,
-      configureCode:''
+      configureCode,
     });
   }
   onOk =(values,clearForm)=> {
@@ -113,7 +115,7 @@ class Brand extends Component{
         };
         this.props.dispatch({
           type:'brand/fetchList',
-          payload:{currentPage,limit,...this.state.field}
+          payload:{currentPage,limit,...this.state.inputValues}
         });
         this.setState({
           visible:false,

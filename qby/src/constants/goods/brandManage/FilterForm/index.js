@@ -57,10 +57,12 @@ class NormalForm extends Component{
                   )}
               </FormItem>
               <FormItem label='排序规则'>
-                  {getFieldDecorator('eventStatus')(
+                  {getFieldDecorator('sortByFlg',{
+                    initialValue:1
+                  })(
                   <Select allowClear={true} placeholder="请选择排序规则" className='select'>
-                      <Option value={10}>按创建时间倒序</Option>
-                      <Option value={20}>按C端品牌馆顺序</Option>
+                      <Option value={1}>按创建时间倒序</Option>
+                      <Option value={2}>按C端品牌馆顺序</Option>
                   </Select>
                   )}
               </FormItem>

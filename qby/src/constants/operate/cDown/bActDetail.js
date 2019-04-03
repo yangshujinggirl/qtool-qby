@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card,message,Table,Button } from 'antd';
-import { getInfoApi } from '../../../services/operate/bActPrice/index'
+import { getInfoApi,exportMdApi } from '../../../services/operate/bActPrice/index'
 import { connect } from 'dva';
 
 const columns = [{
@@ -80,7 +80,12 @@ getDetail() {
 }
 //导出门店明细
 exportShop =()=> {
-
+  const {shopType,activityId} = this.state.activityInfo;
+  exportMdApi({shopType,activityId,type:110}).then(res => {
+    if(res.code == '0'){
+      message.success('导出成功')
+    }
+  })
 }
 render(){
   const {activityInfo,goodsInfos,logInfos} = this.state;
@@ -128,7 +133,12 @@ render(){
         {
           activityInfo.type == 3 &&
           <Card title='活动门店'>
-            <div style={{'padding':'20px'}}>门店范围：</div>
+            <div style={{'padding':'20px'}}>门店范围：{
+                activityInfo.shopType == 1?'全部门店':
+                (activityInfo.shopType == 2 ? '加盟店' :
+                  (activityInfo.shopType == 3 ? '直联营店' : '指定门店')
+                )
+              }</div>
             <Button type='primary' style={{'float':'right','margin-right':'20px'}} onClick={this.exportShop}>导出门店明细</Button>
           </Card>
         }

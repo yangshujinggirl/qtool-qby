@@ -274,7 +274,7 @@ class AddGoodsForm extends Component {
                    rules: [{ required: true, message: '请选择上线平台'}],
                    initialValue:pdSpu.platform?pdSpu.platform:[]
                  })(
-                   <CheckboxGroup className='checkBox' options={this.platformOptions} />
+                   <CheckboxGroup options={this.platformOptions} />
                  )}
                </FormItem>
             </Col>

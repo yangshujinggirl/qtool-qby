@@ -43,7 +43,9 @@ export default {
         let fileList = [];
         if(iPdSpu.platform){
           const platform = iPdSpu.platform.split(',');
-          platform.map(item=>Number(item));
+          for(var i=0;i<platform.length;i++){
+            platform[i]=Number( platform[i] );
+          };
           iPdSpu.platform = platform;
         };
         //格式化商品图片数据

@@ -101,7 +101,7 @@ class ExplainModal extends Component{
                labelCol={{ span: 5 }}
                wrapperCol={{ span: 12 }}>
                {
-                 getFieldDecorator("configureCode ",{
+                 getFieldDecorator("configureCode",{
                    initialValue:configureCode ? configureCode :null,
                  })(
                     <Input placeholder='请输入跳转页面编码' autoComplete="off"/>
