@@ -24,3 +24,11 @@ export function updataPageApi(values){
       data:values
   })
 }
+//页面配置搜索详情
+export function getConfigDetailApi(values){
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.pd.configureId.detail',
+      data:values
+  })
+}

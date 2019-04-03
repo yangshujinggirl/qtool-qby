@@ -19,7 +19,7 @@ class GoodsEditForm extends React.Component{
         tempConfigArr[this.props.currentItem].template =e.target.value;
         tempConfigArr[this.props.currentItem].type = 2;
         configArrEnd[this.props.currentItem]={};
-        configArrEnd[this.props.currentItem].template =e.target.value;
+        configArrEnd[this.props.currentItem].template = e.target.value;
         configArrEnd[this.props.currentItem].type = 2;
         this.props.dispatch({
             type:'h5config/syncConfigArrPre',
@@ -85,7 +85,8 @@ class GoodsEditForm extends React.Component{
               })
           }
       }else{
-          const result=GetServerData('qerp.web.pd.banner.config.pdInfo',values);
+				  let data = {"code":values.pdCode};
+          const result=GetServerData('qerp.web.pd.banner.config.pdInfo',data);
           result.then((res) => {
               return res;
           }).then((json) => {

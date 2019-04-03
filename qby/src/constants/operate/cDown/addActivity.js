@@ -58,7 +58,7 @@ class Addactivity extends Component {
             beginTime:activityInfo.beginTime,
             endTime:activityInfo.endTime,
             remark:activityInfo.remark,
-            warmTime:activityInfo.endTime,
+            warmTime:activityInfo.warmTime,
             activityPlat,
             // shipmentPlat:activityInfo.shipmentPlat&&activityInfo.shipmentPlat.split('-'),
             // isStoreProfit:activityInfo.isStoreProfit,

@@ -329,6 +329,15 @@ class GoodTable extends Component{
   }
   //根据商品获取信息
   getInfo =(e,index,type)=> { //type:1-->根据id请求接口， 2：根据商品编码获取接口
+    if(type == 3){
+      this.props.form.resetFields(['activityPrice'+index]);
+    }
+    if(type == 4){
+      this.props.form.resetFields(['activitySupplyPrice'+index]);
+    }
+    if(type == 4){
+      this.props.form.resetFields(['specialPrice'+index]);
+    }
     let {value} = e.target;
     if(value){
       value = value.replace(/\s+/g,'');
@@ -403,6 +412,7 @@ class GoodTable extends Component{
       this.props.form.resetFields(['specialPrice0'])
     }
     const {pdSpuAsnLists} = info.file.response;
+    console.log(pdSpuAsnLists)
     this.props.getFile(pdSpuAsnLists)
   }
   //删除

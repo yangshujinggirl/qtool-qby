@@ -111,7 +111,7 @@ class AddGoodsForm extends Component {
   //参数格式化
   formtParams(values) {
     values.oname = values.oname.trim();
-    values.plateform = values.plateform.join("-");
+    values.platform = values.platform.join(",");
     //处理商品描述参数
     let pdSpuInfo = values.pdSpuInfo;
     if(pdSpuInfo) {
@@ -249,7 +249,7 @@ class AddGoodsForm extends Component {
             </Col>
             <Col span={24}>
               <FormItem label='上线平台' {...formItemLayout}>
-                 {getFieldDecorator('plateform',{
+                 {getFieldDecorator('platform',{
                    rules: [{ required: true, message: '请选择上线平台'}],
                    initialValue:iPdSpu.platform?iPdSpu.platform:[]
                  })(

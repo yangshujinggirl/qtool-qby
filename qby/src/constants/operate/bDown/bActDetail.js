@@ -5,7 +5,7 @@ import { connect } from 'dva';
 
 const columns = [{
     title: '商品编码',
-    dataIndex: 'code',
+    dataIndex: 'pdCode',
     key:'1'
   }, {
     title: '商品名称',
@@ -16,13 +16,17 @@ const columns = [{
     dataIndex: 'displayName',
     key:'3'
   }, {
+    title: '供价',
+    dataIndex: 'supplyPrice',
+    key:'4'
+  },{
     title: '合同进价',
     dataIndex: 'costPrice',
-    key:'4'
+    key:'5'
   }, {
     title: '活动进价',
     dataIndex: 'activityPrice',
-    key:'5'
+    key:'6'
   }];
 const columns2 = [{
     title: '操作',
@@ -58,12 +62,7 @@ componentDidMount(){
 getDetail() {
   const {activityId} = this.props.data;
 	getInfoApi({activityId}).then(res => {
-    // let { activityInfo,goodsInfos,logInfos } = res;
-    let { activityInfo,goodsInfos,logInfos } = {
-      activityInfo:{no:1,name:1,createTime:1,statusStr:1,beginTime:1,endTime:1,remark:1},
-      goodsInfos:[{name:2,code:111,displayName:'红色',costPrice:'1.00',activityPrice:'22'},],
-      logInfos:[{remark:'1.0',action:'1.0',createTime:'0.1',operateUser:'yulu'}]
-    };
+    let { activityInfo,goodsInfos,logInfos } = res;
     logInfos = logInfos||[];
     goodsInfos = goodsInfos||[];
     logInfos.length>0 && logInfos.map((item,index)=>{
@@ -98,12 +97,13 @@ render(){
         <div className='mb10'>
           <Card title='订单详情'>
             <div className='cardlist'>
-              <div className='cardlist_item'><label>批次编号：</label><span>{activityInfo.no}</span></div>
-              <div className='cardlist_item'><label>批次名称：</label><span>{activityInfo.name}</span></div>
-              <div className='cardlist_item'><label>创建时间：</label><span>{activityInfo.createTime}</span></div>
-              <div className='cardlist_item'><label>批次状态：</label><span>{activityInfo.statusStr}</span></div>
-              <div className='cardlist_item'><label>生效时间：</label><span>{activityInfo.beginTime}~{activityInfo.endTime}</span></div>
-              <div className='cardlist_item'><label>备注：</label><span>{activityInfo.remark}</span></div>
+               <div className='cardlist_item'><label>活动编码：</label><span>{activityInfo.no}</span></div>
+               <div className='cardlist_item'><label>活动名称：</label><span>{activityInfo.name}</span></div>
+               <div className='cardlist_item'><label>活动状态：</label><span>{activityInfo.statusStr}</span></div>
+               <div className='cardlist_item'><label>活动时间：</label><span>{activityInfo.beginTime}~{activityInfo.endTime}</span></div>
+               <div className='cardlist_item'><label>创建人：</label><span>{activityInfo.createUser}</span></div>
+               <div className='cardlist_item'><label>创建时间：</label><span>{activityInfo.createTime}</span></div>
+               <div className='cardlist_item'><label>活动备注：</label><span>{activityInfo.remark}</span></div>
             </div>
           </Card>
         </div>

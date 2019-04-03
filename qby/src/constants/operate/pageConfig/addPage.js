@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import { Form,Button,Input,Row,Col,message} from 'antd';
-import {addPageApi,updataPageApi} from '../../../services/operate/pageConfig/index'
+import {addPageApi,updataPageApi,getConfigDetailApi} from '../../../services/operate/pageConfig/index'
 import {GetServerData} from '../../../services/services';
 import {deepcCloneObj} from '../../../utils/commonFc';
 import moment from 'moment';
@@ -31,8 +31,49 @@ class AddConfig extends  Component {
         pageName,
         remark
       } = this.props.data;
-      this.setState({configureCode,previewLink,pdConfigureId,pageName,remark})
-    };
+      this.setState({configureCode,previewLink,pdConfigureId,pageName,remark});
+      getConfigDetailApi({pdConfigureId}).then(res=>{
+        if(res.code == '0'){
+          let initdataArr=[];
+          const pdBannerConfig = res.pdConfigureConfigList;
+          for(var i=0;i<pdBannerConfig.length;i++){
+            if(pdBannerConfig[i].type=='4'){
+              if(!pdBannerConfig[i].text){
+                pdBannerConfig[i].text=pdBannerConfig[i].text
+              }else{
+                pdBannerConfig[i].text=pdBannerConfig[i].text.replace(/#&#/g,"\n")
+              }
+            }
+          };
+          initdataArr = pdBannerConfig;
+          this.props.dispatch({
+            type:'h5config/syncConfigArr',
+            payload:initdataArr
+          });
+          this.props.dispatch({
+            type:'h5config/syncConfigArrPre',
+            payload:initdataArr
+          });
+          this.props.dispatch({
+            type:'h5config/syncCurrentItem',
+            payload:0
+          });
+        };
+      })
+    }else{
+      this.props.dispatch({
+        type:'h5config/syncConfigArr',
+        payload:[]
+      });
+      this.props.dispatch({
+        type:'h5config/syncConfigArrPre',
+        payload:[]
+      });
+      this.props.dispatch({
+        type:'h5config/syncCurrentItem',
+        payload:0
+      });
+    }
   }
   cancel =()=> {
     let {componkey} = this.props;
@@ -49,49 +90,20 @@ class AddConfig extends  Component {
     this.props.form.validateFieldsAndScroll((err,values)=>{
       if(!err){
         const {configArrPre} = this.props;
-        debugger
-        console.log(configArrPre)
-        const list = deepcCloneObj(configArrPre);
         if(configArrPre.length){
           configArrPre.length && configArrPre.map((item,index) => {
             if(item.type == '4'){
               if(!item.text){
-                item.text = null
+                configArrPre[index].text = null
               }else{
-                item.text = item.text.replace(/\n/g,"#&#")
+                configArrPre[index].text = item.text.replace(/\n/g,"#&#")
               };
             };
             if(item.type == '2'){
-              if(item.template == 1){
-                const obj={};
-                obj.pdCode = item.pdCode;
-                obj.type = item.type;
-                obj.template = item.template;
-                obj.text = item.pdSpu.url;
-                obj.name = item.pdSpu.name;
-                obj.price = item.pdSpu.price;
-                configArrPre[index] = obj;
-              };
-              if(item.template == 2){
-                const obj={};
-                const rowObj = {};
-                obj.pdCode = item.pdCode;
-                obj.type = item.type;
-                obj.template = item.template;
-                obj.text = item.pdSpu.url;
-                obj.name = item.pdSpu.name;
-                obj.price = item.pdSpu.price;
-                rowObj.rowCode = item.rowCode;
-                rowObj.template = item.template;
-                rowObj.text = item.rowPdSpu.url;
-                rowObj.name = item.rowPdSpu.name;
-                rowObj.price = item.rowPdSpu.price;
-                configArrPre[index] = obj;
-                configArrPre[index+1] = rowObj;
-              };
-            }
+              delete configArrPre[index]['pdSpu'];
+              delete configArrPre[index]['rowPdSpu'];
+            };
          });
-         console.log(configArrPre)
         };
         values.pdConfigureConfigList = configArrPre;
         if(this.props.data){ //修改
@@ -99,23 +111,23 @@ class AddConfig extends  Component {
           values.pdConfigureId = pdConfigureId;
           values.previewLink = previewLink;
           values.configureCode = configureCode;
-          // updataPageApi(values).then(res=>{
-          //   if(res.code=='0'){
-          //       message.success('修改成功');
-          //       this.props.dispatch({
-          //         type:'tab/initDeletestate',
-          //         payload:componkey+this.state.pdConfigureId
-          //       });
-          //       this.afterSaveSuccess();
-          //   };
-          // });
+          updataPageApi(values).then(res=>{
+            if(res.code=='0'){
+                message.success('修改成功');
+                this.props.dispatch({
+                  type:'tab/initDeletestate',
+                  payload:this.props.componkey+this.state.pdConfigureId
+                });
+                this.afterSaveSuccess();
+            };
+          });
         }else{ //新增
           addPageApi(values).then(res=>{
             if(res.code=='0'){
               message.success('新建成功');
               this.props.dispatch({
                 type:'tab/initDeletestate',
-                payload:componkey
+                payload:this.props.componkey
               });
               this.afterSaveSuccess();
             };
@@ -166,7 +178,6 @@ class AddConfig extends  Component {
     });
   }
   render() {
-    console.log(this.props.configArrPre)
     const {
       configureCode,
       previewLink,

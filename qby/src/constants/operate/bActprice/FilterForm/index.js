@@ -37,23 +37,23 @@ class NormalForm extends Component{
                   <Input placeholder='请输入商品名称' autoComplete="off"/>
                 )}
               </FormItem>
-              <FormItem label='活动名称'>
+              <FormItem label='批次名称'>
                 {getFieldDecorator('batchName')(
-                  <Input placeholder='请输入活动名称' autoComplete="off"/>
+                  <Input placeholder='请输入批次名称' autoComplete="off"/>
                 )}
               </FormItem>
-              <FormItem label='活动编号'>
+              <FormItem label='批次号'>
                 {getFieldDecorator('batchNo')(
-                  <Input placeholder='请输入活动编号' autoComplete="off"/>
+                  <Input placeholder='请输入批次号' autoComplete="off"/>
                 )}
               </FormItem>
-              <FormItem label='活动状态'>
+              <FormItem label='批次状态'>
                   {getFieldDecorator('status')(
                   <Select allowClear={true} placeholder="请选择活动状态">
-                      <Option value='1'>未开始</Option>
-                      <Option value='2'>进行中</Option>
-                      <Option value='3'>已结束</Option>
-                      <Option value='4'>已失效</Option>
+                      <Option value='0'>未开始</Option>
+                      <Option value='1'>进行中</Option>
+                      <Option value='2'>已结束</Option>
+                      <Option value='3'>已失效</Option>
                   </Select>
                   )}
               </FormItem>

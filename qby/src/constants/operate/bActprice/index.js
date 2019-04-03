@@ -44,7 +44,6 @@ class BactPrice extends Component{
     })
   }
   onChange =(selectedRowKeys,selectedRows)=> {
-    console.log(selectedRows)
     const {rowSelection}=this.state;
     this.setState({
       rowSelection:Object.assign({},rowSelection,{selectedRowKeys})
@@ -55,6 +54,7 @@ class BactPrice extends Component{
         name:selectedRows[0].name,
         beginTime:selectedRows[0].beginTime,
         endTime:selectedRows[0].endTime,
+        selectedRows:selectedRows[0],
       });
     }
   }
@@ -159,16 +159,20 @@ class BactPrice extends Component{
   }
   //强制失效
   confirmCancel =()=> {
-    const {status} = this.state.selectedRows;
-    if(status == 2){
-      message.warning('当前状态无法强制失效')
-    }else if(status == 3){
-      message.warning('当前状态已失效')
+    if(this.state.activityId){
+      const {status} = this.state.selectedRows;
+      if(status == 2){
+        message.warning('当前状态无法强制失效')
+      }else if(status == 3){
+        message.warning('当前状态已失效')
+      }else{
+        this.setState({
+          confirmVisible:true
+        });
+      };
     }else{
-      this.setState({
-        confirmVisible:true
-      });
-    };
+      message.error('请选择需要失效的批次号')
+    }
   }
   render(){
     // const {rolelists} = this.props.data;

@@ -91,8 +91,8 @@ class H5_configure extends React.Component{
 			<div className='content_box h5-wrapper'>
                 <div className='white_box h5-container'>
                    <LeftAddType/>
-				   <CenterPreview/>
-				   <RightConfig/>
+								   <CenterPreview/>
+								   <RightConfig/>
 				   <div className='submit-buttons'>
                         <button className='submit-cancel' onClick={this.cancelSave}>取消</button>
                         <button className='submit-save' onClick={this.saveArrList}>保存</button>

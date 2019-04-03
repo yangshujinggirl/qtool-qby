@@ -130,6 +130,7 @@ class H5_configure extends React.Component{
 							}
 						}
 						initdataArr = pdBannerConfig;
+						console.log(initdataArr)
 						this.props.dispatch({
 							type:'h5config/syncConfigArr',
 							payload:initdataArr

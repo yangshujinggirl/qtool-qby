@@ -118,7 +118,7 @@ class AddGoodsForm extends Component {
   }
   //参数格式化
   formtParams(values) {
-    values.plateform = values.plateform.join("-");
+    values.platform = values.platform.join(",");
     values.cname = values.cname.trim();
     let { skuStatus, pdSkus:pdSkusData } =this.props.cTipAddGoods.pdSpu;
     let pdSpuInfo = values.pdSpuInfo;
@@ -270,9 +270,9 @@ class AddGoodsForm extends Component {
             </Col>
             <Col span={24}>
               <FormItem label='上线平台' {...formItemLayout}>
-                 {getFieldDecorator('plateform',{
+                 {getFieldDecorator('platform',{
                    rules: [{ required: true, message: '请选择上线平台'}],
-                   initialValue:pdSpu.pdExplains?pdSpu.pdExplains:null
+                   initialValue:pdSpu.platform?pdSpu.platform:[]
                  })(
                    <CheckboxGroup className='checkBox' options={this.platformOptions} />
                  )}

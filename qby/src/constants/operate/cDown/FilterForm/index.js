@@ -50,10 +50,10 @@ class NormalForm extends Component{
               <FormItem label='活动状态'>
                   {getFieldDecorator('status')(
                   <Select allowClear={true} placeholder="请选择活动状态">
-                      <Option value='1'>未开始</Option>
-                      <Option value='2'>进行中</Option>
-                      <Option value='3'>已结束</Option>
-                      <Option value='4'>已失效</Option>
+                      <Option value='0'>未开始</Option>
+                      <Option value='1'>进行中</Option>
+                      <Option value='2'>已结束</Option>
+                      <Option value='3'>已失效</Option>
                   </Select>
                   )}
               </FormItem>

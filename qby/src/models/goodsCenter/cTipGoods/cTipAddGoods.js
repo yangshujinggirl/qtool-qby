@@ -41,10 +41,10 @@ export default {
         let { iPdSpu, fileDomain } = result;
         let pdSkus = [];
         let fileList = [];
-        if(iPdSpu.plateform){
-          const plateform = iPdSpu.plateform.split('-');
-          plateform.map(item=>Number(item));
-          iPdSpu.plateform = plateform;
+        if(iPdSpu.platform){
+          const platform = iPdSpu.platform.split(',');
+          platform.map(item=>Number(item));
+          iPdSpu.platform = platform;
         };
         //格式化商品图片数据
         if(iPdSpu.spuIdPics && iPdSpu.spuIdPics) {

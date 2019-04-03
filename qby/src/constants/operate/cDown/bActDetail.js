@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card,message,Table } from 'antd';
+import { Card,message,Table,Button } from 'antd';
 import { getInfoApi } from '../../../services/operate/bActPrice/index'
 import { connect } from 'dva';
 
@@ -16,12 +16,12 @@ const columns = [{
     dataIndex: 'displayName',
     key:'3'
   }, {
-    title: '合同进价',
-    dataIndex: 'costPrice',
+    title: '零售价',
+    dataIndex: 'salePrice',
     key:'4'
   }, {
-    title: '活动进价',
-    dataIndex: 'activityPrice',
+    title: '活动特价',
+    dataIndex: 'specialPrice',
     key:'5'
   }];
 const columns2 = [{
@@ -58,12 +58,7 @@ componentDidMount(){
 getDetail() {
   const {activityId} = this.props.data;
 	getInfoApi({activityId}).then(res => {
-    // let { activityInfo,goodsInfos,logInfos } = res;
-    let { activityInfo,goodsInfos,logInfos } = {
-      activityInfo:{no:1,name:1,createTime:1,statusStr:1,beginTime:1,endTime:1,remark:1},
-      goodsInfos:[{name:2,code:111,displayName:'红色',costPrice:'1.00',activityPrice:'22'},],
-      logInfos:[{remark:'1.0',action:'1.0',createTime:'0.1',operateUser:'yulu'}]
-    };
+    let { activityInfo,goodsInfos,logInfos } = res;
     logInfos = logInfos||[];
     goodsInfos = goodsInfos||[];
     logInfos.length>0 && logInfos.map((item,index)=>{
@@ -83,27 +78,41 @@ getDetail() {
 		message.error(err.message)
 	});
 }
+//导出门店明细
+exportShop =()=> {
+
+}
 render(){
-  // const infos = [
-  //   {name:'批次编号',byteName:'no'},
-  //   {name:'批次名称',byteName:'name'},
-  //   {name:'创建时间',byteName:'createTime'},
-  //   {name:'批次状态',byteName:'statusStr'},
-  //   {name:'生效时间',byteName:'no'},
-  //   {name:'备注',byteName:'remark'},
-  // ]
   const {activityInfo,goodsInfos,logInfos} = this.state;
 	return(
 			<div>
         <div className='mb10'>
           <Card title='订单详情'>
             <div className='cardlist'>
-              <div className='cardlist_item'><label>批次编号：</label><span>{activityInfo.no}</span></div>
-              <div className='cardlist_item'><label>批次名称：</label><span>{activityInfo.name}</span></div>
-              <div className='cardlist_item'><label>创建时间：</label><span>{activityInfo.createTime}</span></div>
-              <div className='cardlist_item'><label>批次状态：</label><span>{activityInfo.statusStr}</span></div>
-              <div className='cardlist_item'><label>生效时间：</label><span>{activityInfo.beginTime}~{activityInfo.endTime}</span></div>
-              <div className='cardlist_item'><label>备注：</label><span>{activityInfo.remark}</span></div>
+              <div className='cardlist_item'><label>活动编码：</label><span>{activityInfo.no}</span></div>
+              <div className='cardlist_item'><label>活动名称：</label><span>{activityInfo.name}</span></div>
+              <div className='cardlist_item'><label>预热时间：</label><span>{activityInfo.warmTime}</span></div>
+              <div className='cardlist_item'><label>活动状态：</label><span>{activityInfo.statusStr}</span></div>
+              <div className='cardlist_item'><label>创建时间：</label><span>{activityInfo.beginTime}~{activityInfo.endTime}</span></div>
+              <div className='cardlist_item'><label>活动平台：</label>
+                <span>
+                  {activityInfo.activityPlat=='1' ? '线上APP'
+                    : (activityInfo.activityPlat=='2') ? '线下POS'
+                      :'线上APP、线下POS'
+                  }
+                </span>
+              </div>
+              <div className='cardlist_item'><label>出货平台：</label>
+                <span>
+                  {activityInfo.shipmentPlat=='1' ? '门店'
+                    : (activityInfo.shipmentPlat=='2') ? '仓库'
+                      :'门店、仓库'
+                  }
+                </span>
+              </div>
+              <div className='cardlist_item'><label>是否生成门店利润：</label><span>{activityInfo.isStoreProfit?'是':'否'}</span></div>
+              <div className='cardlist_item'><label>活动成本承担方：</label><span>{activityInfo.activityCostbearer?'是':'否'}</span></div>
+              <div className='cardlist_item'><label>活动备注：</label><span>{activityInfo.remark}</span></div>
             </div>
           </Card>
         </div>
@@ -114,6 +123,15 @@ render(){
             dataSource={goodsInfos}
             columns={columns}
             pagination={false}/>
+        </div>
+        <div className='mb20'>
+        {
+          activityInfo.type == 3 &&
+          <Card title='活动门店'>
+            <div style={{'padding':'20px'}}>门店范围：</div>
+            <Button type='primary' style={{'float':'right','margin-right':'20px'}} onClick={this.exportShop}>导出门店明细</Button>
+          </Card>
+        }
         </div>
 				<div className='mb20'>
           <Table
