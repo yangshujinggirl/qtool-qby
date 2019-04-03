@@ -319,7 +319,7 @@ class GoodTable extends Component{
         if(value > Number(dataSource[index].toCprice) ){
           message.warning('当前特价超过零售价，请谨慎填写',1)
         };
-        if(Number(value) < Number(dataSource[index].toCprice) ){
+        if(Number(value) < Number(dataSource[index].purchasePrice) ){
           message.warning('当前特价小于成本价，请谨慎填写',1)
         };
         dataSource[index].specialPrice = value;
@@ -336,8 +336,8 @@ class GoodTable extends Component{
       let isRepeat = false;
       /*  ------商品id--------  */
       if(type==1){
-        if(dataSource.length>1){isRepeat = dataSource.find(item=>item.spShopId == value)}
-        if(!isRepeat){
+        // if(dataSource.length>1){isRepeat = dataSource.find(item=>item.spShopId == value)}
+        // if(!isRepeat){
           getShopInfoApi({spShopId:value}).then(res=>{
             if(res.code=='0'){
               if(res.spShop){
@@ -348,14 +348,14 @@ class GoodTable extends Component{
               };
             };
           });
-        }else{
-          message.error('门店Id重复',.8)
-        };
+        // }else{
+        //   message.error('门店Id重复',.8)
+        // };
       };
       /*  ------商品编码--------  */
       if(type==2||type==3||type==4||type==5){
-        if(dataSource.length>1){isRepeat = dataSource.find(item=>item.pdCode == value)}
-        if(!isRepeat){
+        // if(dataSource.length>1){isRepeat = dataSource.find(item=>item.pdCode == value)}
+        // if(!isRepeat){
           getGoodInfoApi({pdCode:value}).then(res=>{
             if(res.code=='0'){
               if(res.pdSpu){
@@ -377,9 +377,9 @@ class GoodTable extends Component{
               };
             };
           });
-        }else{
-          message.error('商品编码重复',.8)
-        };
+        // }else{
+        //   message.error('商品编码重复',.8)
+        // };
       };
     };
   }

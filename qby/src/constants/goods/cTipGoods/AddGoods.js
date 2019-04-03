@@ -118,6 +118,7 @@ class AddGoodsForm extends Component {
   }
   //参数格式化
   formtParams(values) {
+    values.plateform = values.plateform.join("-");
     values.cname = values.cname.trim();
     let { skuStatus, pdSkus:pdSkusData } =this.props.cTipAddGoods.pdSpu;
     let pdSpuInfo = values.pdSpuInfo;
