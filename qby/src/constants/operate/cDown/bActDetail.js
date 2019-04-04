@@ -81,7 +81,7 @@ getDetail() {
 //导出门店明细
 exportShop =()=> {
   const {shopType,activityId} = this.state.activityInfo;
-  exportMdApi({shopType,activityId,type:110}).then(res => {
+  exportMdApi({downloadParam:{shopType,activityId},type:110}).then(res => {
     if(res.code == '0'){
       message.success('导出成功')
     }
