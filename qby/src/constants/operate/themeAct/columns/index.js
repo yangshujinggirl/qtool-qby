@@ -17,9 +17,15 @@ const Columns = [{
      title: '预览链接',
      dataIndex: 'pageCode',
      render:(text, record)=>{
+       const url = 'http://v5.qby.testin.qtoolsbaby.net:81/config.html?pdConfigureId='+record.pdConfigureId;
        return(
          <div>
-           <a href="javascript:;" className="theme-color" onClick={record.onOperateClick.bind(this,"prev")}>{text}</a>
+           <a
+             target='_blank'
+             className='theme-color'
+             href={url}>
+             {text}
+           </a>
          </div>
      )}
    },{

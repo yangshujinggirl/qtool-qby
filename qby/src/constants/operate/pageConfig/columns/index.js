@@ -10,9 +10,13 @@ const Columns = [{
      title: '预览链接',
      dataIndex: 'previewLink',
      key: 'previewLink',
-     render:(text, record, index)=> (
-       <a className="theme-color" onClick={()=>record.onOperateClick(record,"detail")}>{text}</a>
-     )
+     render:(text, record, index)=> {
+        const url = 'http://v5.qby.testin.qtoolsbaby.net:81/config.html?pdConfigureId='+record.pdConfigureId;
+        return(
+          <a className="theme-color" target='_blank' href={url}>
+           {text}
+         </a>)
+     }
    },{
      title: '页面编码',
      dataIndex: 'configureCode',

@@ -168,14 +168,30 @@ class ThemeAct extends Component{
       showTimeEnd,
     } = this.state;
     const {dataList} = this.props.themeAct;
+    const {rolelists} = this.props.data
+    //新增主题
+    const addtheme = rolelists.find((currentValue,index)=>{
+      return currentValue.url=="qerp.web.theme.activity.save"
+    })
+    //强制失效
+    const confirmInval = rolelists.find((currentValue,index)=>{
+      return currentValue.url=="qerp.web.theme.activity.invalid"
+    })
     return(
       <div className='qtools-components-pages'>
         <FilterForm
           submit={this.searchData}
         />
         <div className="handel-btn-lists">
-          <Button onClick={this.addTheme}  size='large' type='primary'>新增主题</Button>
-          <Button type='primary' size='large' onClick={this.forceCancel}>强制失效</Button>
+          {
+            addtheme&&
+            <Button onClick={this.addTheme}  size='large' type='primary'>新增主题</Button>
+          }
+          {
+            confirmInval&&
+            <Button type='primary' size='large' onClick={this.forceCancel}>强制失效</Button>
+          }
+
         </div>
         <Qtable
           onOperateClick = {this.handleOperateClick.bind(this)}

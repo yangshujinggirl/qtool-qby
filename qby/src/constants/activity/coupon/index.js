@@ -233,9 +233,11 @@ class Coupon extends Component{
     });
   }
   render(){
-    const {rolelists} = this.props.data;
+    const {menus} = this.props;
+    const operation = menus.find(item=>(item.type=="operation") );
+    const bact = operation.children.find(item=>(item.code=="401200"))
+    const rolelists = ( bact.children.find(item=>(item.code=='401700')) ).children;
     const {dataList} = this.props.coupon.data1;
-
     //创建优惠券
     const addCoupon = rolelists.find((currentValue,index)=>{
       return currentValue.url=="qerp.web.pd.coupon.save"
@@ -319,6 +321,7 @@ class Coupon extends Component{
 }
 function mapStateToProps(state){
   const {coupon} = state;
-  return {coupon};
+  const {menus} = state.tab;
+  return {coupon,menus};
 }
 export default connect(mapStateToProps)(Coupon);

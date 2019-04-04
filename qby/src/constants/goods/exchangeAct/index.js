@@ -89,8 +89,12 @@ class ExchangeAct extends Component {
   }
 
   render() {
-    console.log(this.props)
     const { dataList } = this.props.exchangeAct;
+    const {rolelists} = this.props.data
+    //新增活动
+    const addAct = rolelists.find((currentValue,index)=>{
+      return currentValue.url=="qerp.web.pd.spu.active.save"
+    })
     return (
       <div className="qtools-components-pages">
         <FilterForm
@@ -98,7 +102,7 @@ class ExchangeAct extends Component {
         />
         <div className="handel-btn-lists">
         {
-          1 ?
+          addAct ?
             <Button
               type='primary'
               size='large'

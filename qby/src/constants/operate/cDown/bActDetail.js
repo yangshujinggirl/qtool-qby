@@ -1,11 +1,11 @@
 import React from 'react';
-import { Card,message,Table,Button } from 'antd';
+import { Card,message,Table,Button,Modal } from 'antd';
 import { getInfoApi,exportMdApi } from '../../../services/operate/bActPrice/index'
 import { connect } from 'dva';
-
+const confirm = Modal.confirm;
 const columns = [{
     title: '商品编码',
-    dataIndex: 'code',
+    dataIndex: 'pdCode',
     key:'1'
   }, {
     title: '商品名称',
@@ -83,7 +83,23 @@ exportShop =()=> {
   const {shopType,activityId} = this.state.activityInfo;
   exportMdApi({downloadParam:{shopType,activityId},type:110}).then(res => {
     if(res.code == '0'){
-      message.success('导出成功')
+      confirm({
+        title: '数据已经进入导出队列',
+        content: '请前往下载中心查看导出进度',
+        cancelText:'稍后去',
+        okText:'去看看',
+        onOk:()=>{
+          const paneitem={title:'下载中心',key:'000001',componkey:'000001',data:null}
+          this.props.dispatch({
+            type:'tab/firstAddTab',
+            payload:paneitem
+          });
+          this.props.dispatch({
+            type:'downlaod/fetch',
+            payload:{code:'qerp.web.sys.doc.list',values:{limit:15,currentPage:0}}
+          });
+        },
+      });
     }
   })
 }
@@ -154,4 +170,8 @@ render(){
 			</div>
 		)}
 }
-export default activityDetail;
+function mapStateToProps(state){
+  const {bActPrice} = state;
+  return {bActPrice};
+}
+export default connect(mapStateToProps)(activityDetail);

@@ -83,20 +83,27 @@ class PageConfig extends Component {
     });
   }
   render() {
-    console.log(this.props)
     const { dataList } = this.props.pageConfig;
+    const {rolelists} = this.props.data
+    //新增页面
+    const addpage = rolelists.find((currentValue,index)=>{
+      return currentValue.url=="qerp.web.pd.configureId.save"
+    })
     return (
       <div className="qtools-components-pages">
         <FilterForm
           submit={this.searchData}
         />
         <div className="handel-btn-lists">
+          {addpage&&
             <Button
               type='primary'
               size='large'
               onClick={this.addPage}
               >新增页面
             </Button>
+          }
+
         </div>
         <div className="table-list">
           <Qtable

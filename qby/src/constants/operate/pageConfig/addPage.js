@@ -189,6 +189,7 @@ class AddConfig extends  Component {
       labelCol: { span:3 },
       wrapperCol: { span:6 },
     };
+    const url = 'http://v5.qby.testin.qtoolsbaby.net:81/config.html?pdConfigureId='+this.state.pdConfigureId;
     return (
       <div className='add_config'>
       	<Form>
@@ -203,7 +204,12 @@ class AddConfig extends  Component {
               previewLink &&
               <FormItem {...formItemLayout} label="预览链接">
                 {
-                  <a className='theme-color link' href={previewLink}>{previewLink}</a>
+                  <a
+                    target='_blank'
+                    className='theme-color link'
+                    href={url}>
+                    {previewLink}
+                  </a>
                 }
               </FormItem>
             }

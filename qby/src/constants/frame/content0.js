@@ -196,7 +196,7 @@ import ThemeAct from '../operate/themeAct/index' //主题活动
 import AddTheme from '../operate/themeAct/AddTheme' //主题活动
 import PageConfig from '../operate/pageConfig/index' //页面配置
 import AddPage from '../operate/pageConfig/addPage' //页面配置
-import Market from '../operate/market/index'
+import Market from '../operate/market/index' //营销活动
 
 //门店数据
 import DataDistribute from '../datasp/dataspcun/dataDistribution/index'
@@ -308,20 +308,26 @@ class Content extends React.Component {
                                     case "404000":return <OperatebannerIndex data={this.props.data}/>;
                                     case "404000edit":return <OperatebannerEdit data={this.props.data}/>
                                     case "404000editH5":return <H5_configure data={this.props.data}/>
-                                    case "4010000":return <BactPrice data={this.props.data} componkey={this.props.componkey}/>//b端活动进价
-                                    case "4010000info":return <BactDetail data={this.props.data}/>//b端活动进价
-                                    case "4010000edit":return <Addactivity data={this.props.data} componkey={this.props.componkey}/>//b端活动进价
-                                    case "4011000":return <Bdown data={this.props.data} componkey={this.props.componkey}/>//b端限时直降
-                                    case "4011000info":return <BdownDetail data={this.props.data}/>//b端限时直降详情
-                                    case "4011000edit":return <AddDown data={this.props.data} componkey={this.props.componkey}/>//新增b端限时直降
-                                    case "4012000":return <Cdown data={this.props.data} componkey={this.props.componkey}/>//c端限时直降
-                                    case "4012000info":return <CdownDetail data={this.props.data}/>//c端限时直降详情
-                                    case "4012000edit":return <AddCdown data={this.props.data} componkey={this.props.componkey}/>//新增c端限时直降
-                                    case "4013000":return <ThemeAct data={this.props.data} componkey={this.props.componkey}/>//新增c端限时直降
-                                    case "4013000edit":return <AddTheme data={this.props.data} componkey={this.props.componkey}/>//新增c端限时直降
-                                    case "4014000":return <PageConfig data={this.props.data} componkey={this.props.componkey}/>//页面配置
-                                    case "4014000edit":return <AddPage data={this.props.data} componkey={this.props.componkey}/>//新增配置页
+                                    case "401200bact":return <BactPrice data={this.props.data} componkey={this.props.componkey}/>//b端活动进价
+                                    case "401200bactinfo":return <BactDetail data={this.props.data}/>//b端活动进价
+                                    case "401200bactedit":return <Addactivity data={this.props.data} componkey={this.props.componkey}/>//b端活动进价
+                                    case "401200blow":return <Bdown data={this.props.data} componkey={this.props.componkey}/>//b端限时直降
+                                    case "401200blowinfo":return <BdownDetail data={this.props.data}/>//b端限时直降详情
+                                    case "401200blowedit":return <AddDown data={this.props.data} componkey={this.props.componkey}/>//新增b端限时直降
+                                    case "401200clow":return <Cdown data={this.props.data} componkey={this.props.componkey}/>//c端限时直降
+                                    case "401200clowinfo":return <CdownDetail data={this.props.data}/>//c端限时直降详情
+                                    case "401200clowedit":return <AddCdown data={this.props.data} componkey={this.props.componkey}/>//新增c端限时直降
+                                    case "402600":return <ThemeAct data={this.props.data} componkey={this.props.componkey}/>//主题活动
+                                    case "402600edit":return <AddTheme data={this.props.data} componkey={this.props.componkey}/>//新增主题活动
+                                    case "401900":return <PageConfig data={this.props.data} componkey={this.props.componkey}/>//页面配置
+                                    case "401900edit":return <AddPage data={this.props.data} componkey={this.props.componkey}/>//新增配置页
                                     case "401200":return <Market data={this.props.data} componkey={this.props.componkey}/>//新增配置页
+                                    case "401200coupon": return <Coupon data={this.props.data} componkey={this.props.componkey}/> //优惠券
+                                    case "401200couponedit": return <AddCoupon data={this.props.data} componkey={this.props.componkey}/> //创建优惠券
+                                    case "401200couponinfo" : return <CouponDetail data={this.props.data} componkey={this.props.componkey}/> //优惠券详情
+                                    case "401200couponeditconfig": return <CouponRecord data={this.props.data} componkey={this.props.componkey}/> //注券记录
+                                    case "401200couponmanage": return <CouponManage data={this.props.data} componkey={this.props.componkey}/> //注券记录
+                                    case "401200couponmanageeditpack" : return <AddCouponPack data={this.props.data} componkey={this.props.componkey}/> //注券记录
 
                                     case "601000": return <AccountIndex data={this.props.data}/>;
                                     case "601000edit": return <AddNewAccount data={this.props.data}/>;
@@ -368,12 +374,7 @@ class Content extends React.Component {
                                     case formDataCode('activity02')  : return <Cbanner data={this.props.data} componkey={this.props.componkey}/> //cBanner
                                     case formDataCode('activity02-edit') : return <CoperatebannerEdit data={this.props.data}/>//cBanner新增修改
                                     case formDataCode('activity02-editH5') : return <CH5_configure data={this.props.data}/>//cBanner
-                                    case formDataCode('activity03') : return <Coupon data={this.props.data} componkey={this.props.componkey}/> //优惠券
-                                    case formDataCode('activity03-edit') : return <AddCoupon data={this.props.data} componkey={this.props.componkey}/> //创建优惠券
-                                    case formDataCode('activity03-info') : return <CouponDetail data={this.props.data} componkey={this.props.componkey}/> //优惠券详情
-                                    case formDataCode('activity03-editconfig') : return <CouponRecord data={this.props.data} componkey={this.props.componkey}/> //注券记录
-                                    case formDataCode('activity03-manage') : return <CouponManage data={this.props.data} componkey={this.props.componkey}/> //注券记录
-                                    case formDataCode('activity03-manageeditpack') : return <AddCouponPack data={this.props.data} componkey={this.props.componkey}/> //注券记录
+
                                     case formDataCode('activity04') : return <Bpush data={this.props.data} componkey={this.props.componkey}/>//B端推送
                                     case formDataCode('activity04-edit') : return <AddbPush data={this.props.data} componkey={this.props.componkey}/>//新增推送
                                     case formDataCode('activity04-info') : return <BpushDetail data={this.props.data}/>//b端推送详情

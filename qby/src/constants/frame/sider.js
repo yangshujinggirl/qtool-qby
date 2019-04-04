@@ -28,8 +28,8 @@ class Siders extends React.Component {
       })
     }
     render() {
-      const menus = SiderBarData;
-      // const menus = this.props.menus;
+      // const menus = SiderBarData;
+        const menus = this.props.menus;
         return (
     		<div className='sidebox'>
     			<Sider className={this.props.isHideSider?'slidebox hide':'slidebox'} width='220'>

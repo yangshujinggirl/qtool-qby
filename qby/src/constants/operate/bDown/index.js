@@ -169,22 +169,25 @@ class Bdown extends Component{
         });
       };
     }else{
-      message.error('请选择需要失效的批次号')
-    }
+      message.error('请选择需要失效的选项')
+    };
   }
   render(){
     // const {rolelists} = this.props.data;
     const {confirmVisible,confirmLoading,name,beginTime,endTime} = this.state
     const {dataList} = this.props.bDown;
-    //
-    // //新增活动进价
-    // const addbDown = rolelists.find((currentValue,index)=>{
-    //   return currentValue.url=="qerp.web.pd.bDown.save"
-    // })
-    // //强制失效
-    // const inject = rolelists.find((currentValue,index)=>{
-    //   return currentValue.url=="qerp.web.pd.bDown.create"
-    // })
+    const {menus} = this.props;
+    const operation = menus.find(item=>(item.type=="operation") );
+    const bact = operation.children.find(item=>(item.code=="401200"))
+    const rolelists = ( bact.children.find(item=>(item.code=='401500')) ).children;
+    //新增活动进价
+    const addbActPrice = rolelists.find((currentValue,index)=>{
+      return currentValue.url=="qerp.web.sp.activity.save"
+    })
+    //强制失效
+    const inject = rolelists.find((currentValue,index)=>{
+      return currentValue.url=="qerp.web.sp.activity.invalid"
+    })
     return(
       <div className='qtools-components-pages'>
         <FilterForm
@@ -192,11 +195,11 @@ class Bdown extends Component{
         />
         <div className="handel-btn-lists">
           {
-            1 &&
+            addbActPrice &&
             <Button onClick={this.createbDown}  size='large' type='primary'>新增限时直降 </Button>
           }
           {
-            1 &&
+            inject &&
             <Button onClick={this.confirmCancel}  size='large' type='primary'>强制失效</Button>
           }
         </div>
@@ -231,6 +234,7 @@ class Bdown extends Component{
 }
 function mapStateToProps(state){
   const {bDown} = state;
-  return {bDown};
+  const {menus} = state.tab;
+  return {bDown,menus};
 }
 export default connect(mapStateToProps)(Bdown);

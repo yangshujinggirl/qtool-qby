@@ -64,7 +64,8 @@ class Addactivity extends Component {
             // isStoreProfit:activityInfo.isStoreProfit,
             // activityCostbearer:activityInfo.activityCostbearer,
             shopType:activityInfo.shopType,
-            goodList:goodsInfos
+            goodList:goodsInfos,
+            shopList:res.shopList
           });
         };
       })
