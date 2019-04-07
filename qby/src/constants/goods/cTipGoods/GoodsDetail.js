@@ -53,6 +53,7 @@ class GoodsDetail extends Component {
   }
   render() {
     const { pdSpu, fileList } = this.props.cTipAddGoods;
+    console.log(pdSpu)
     return(
       <div className="btip-add-goods-components">
         <Form>
@@ -109,7 +110,7 @@ class GoodsDetail extends Component {
           </FormItem>
           <FormItem label="上线平台" {...formItemLayout}>
             {
-              [1,2][0]&&[1,2].map(item=>(
+              pdSpu.platform&& pdSpu.platform.map(item=>(
                 <div>
                   {item==1 && <label>c端app</label>}
                   {item==2 && <label>小程序</label>}

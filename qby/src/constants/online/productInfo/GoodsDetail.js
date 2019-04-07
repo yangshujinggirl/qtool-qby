@@ -94,7 +94,7 @@ class GoodsDetail extends Component {
     			</FormItem>
           <FormItem label="上线平台" {...formItemLayout}>
             {
-              [1,2][0]&&[1,2].map(item=>(
+              iPdSpu.platform && iPdSpu.platform.map(item=>(
                 <div>
                   {item==1 && <label>c端app</label>}
                   {item==2 && <label>小程序</label>}

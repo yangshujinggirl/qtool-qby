@@ -41,7 +41,6 @@ class Addactivity extends Component {
   handleSubmit = (e) => {
 		e.preventDefault();
 		this.props.form.validateFields((err, values) => {
-      debugger
       if(!err){
         const {time,..._values} = values
         if(time && time[0]){
@@ -180,7 +179,7 @@ class Addactivity extends Component {
               {getFieldDecorator('time', {
                   initialValue:[moment(beginTime),moment(endTime)],
                   rules: [
-                    { required: true, message: '请输入生效时间'},
+                    { required: true, message: '请选择效时间'},
                     { validator: this.validataTime}
                   ],
                 })(

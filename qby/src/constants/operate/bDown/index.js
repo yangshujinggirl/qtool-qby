@@ -119,7 +119,7 @@ class Bdown extends Component{
           type:'bDown/fetchList',
           payload:{type:2}
         });
-        this.setState({confirmVisible:false,confirmLoading:false});
+        this.setState({confirmVisible:false,confirmLoading:false,activityId:''});
       }else{
         this.setState({confirmLoading:false});
       };
@@ -130,7 +130,7 @@ class Bdown extends Component{
     if(type == "info"){
       const paneitem = {
         title:'B端直降详情',
-        key:`${this.state.componkey}info`,
+        key:`${this.state.componkey}editinfo`+record.activityId,
         componkey:`${this.state.componkey}info`,
         data:{
           activityId:record.activityId,
@@ -160,16 +160,16 @@ class Bdown extends Component{
     if(this.state.activityId){
       const {status} = this.state.selectedRows;
       if(status == 2){
-        message.warning('当前状态无法强制失效')
+        message.warning('当前状态无法强制失效',.8)
       }else if(status == 3){
-        message.warning('当前状态已失效')
+        message.warning('当前状态已失效',.8)
       }else{
         this.setState({
           confirmVisible:true
         });
       };
     }else{
-      message.error('请选择需要失效的选项')
+      message.error('请选择需要失效的选项',.8)
     };
   }
   render(){

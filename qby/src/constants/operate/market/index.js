@@ -27,7 +27,7 @@ class Market extends Component{
         <div className='mark_box'>
           <div className='out_box'>
             <h1 className='title'>C端</h1>
-            <div className='box' onClick={()=>this.togo('bact','b端活动进价')}>
+            <div className='box' onClick={()=>this.togo('bact','活动进价')}>
               <img className='img' alt="example" src="/static/menu_logo.c8fb482f.png"/>
               <div className='right'>
                 <span className='theme'>活动进价</span>

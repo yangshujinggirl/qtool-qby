@@ -82,11 +82,14 @@ class GoodTable extends Component{
                 getFieldDecorator('pdCode'+index,{
                   initialValue:record.pdCode,
                   rules:[
-                    {validator:this.validateCode},
                     {required:true,message:'请输入商品编码'}
                   ]
                 })(
-                  <Input placeholder='请输入商品编码' onBlur={(e)=>this.getInfo(e,index,'3')} autoComplete='off'/>
+                  <Input
+                    placeholder='请输入商品编码'
+                    onBlur={(e)=>this.getInfo(e,index,'3')}
+                    onChange={()=>this.pdCodeChange(index,'3')}
+                    autoComplete='off'/>
                 )
               }
             </FormItem>
@@ -154,11 +157,14 @@ class GoodTable extends Component{
                 getFieldDecorator('pdCode'+index,{
                   initialValue:record.pdCode,
                   rules:[
-                    {validator:this.validateCode},
                     {required:true,message:'请输入商品编码'}
                   ]
                 })(
-                  <Input placeholder='请输入商品编码' onBlur={(e)=>this.getInfo(e,index,'4')} autoComplete='off'/>
+                  <Input
+                    placeholder='请输入商品编码'
+                    onBlur={(e)=>this.getInfo(e,index,'4')}
+                    onChange={()=>this.pdCodeChange(index,'3')}
+                    autoComplete='off'/>
                 )
               }
             </FormItem>
@@ -230,10 +236,13 @@ class GoodTable extends Component{
                   initialValue:record.pdCode,
                   rules:[
                     {required:true,message:'请输入商品编码'},
-                    {validator:this.validateCode},
                   ]
                 })(
-                  <Input placeholder='请输入商品编码' onBlur={(e)=>this.getInfo(e,index,'5')} autoComplete='off'/>
+                  <Input
+                    placeholder='请输入商品编码'
+                    onBlur={(e)=>this.getInfo(e,index,'5')}
+                    onChange={()=>this.pdCodeChange(index,'3')}
+                    autoComplete='off'/>
                 )
               }
             </FormItem>
@@ -299,24 +308,23 @@ class GoodTable extends Component{
   }
   updataList =(e,index)=> {
     let {value} = e.target;
-    value = Number(value);
     const {dataSource,type} = this.props;
     if(value){
       if(type==3){ //b活动进价
-        if(value > dataSource[index].costPrice){
+        if(Number(value) > dataSource[index].costPrice){
           message.warning('活动进价大于合同进价，请谨慎填写',1)
         };
         dataSource[index].activityPrice = value;
       }else if(type == 4){ //b降
-        if(value > Number( dataSource[index].toBPrice ) ){
+        if(Number(value) > Number( dataSource[index].toBPrice ) ){
           message.warning('活动供价超过供价，请谨慎填写',1)
         };
-        if(value < Number( dataSource[index].costPrice ) ){
+        if(Number(value) < Number( dataSource[index].costPrice ) ){
           message.warning('活动供价小于合同进价，请谨慎填写',1)
         };
         dataSource[index].activitySupplyPrice = value;
       }else if(type == 5){ //c降
-        if(value > Number(dataSource[index].toCprice) ){
+        if(Number(value) > Number(dataSource[index].toCprice) ){
           message.warning('当前特价超过零售价，请谨慎填写',1)
         };
         if(Number(value) < Number(dataSource[index].purchasePrice) ){
@@ -327,17 +335,20 @@ class GoodTable extends Component{
     };
     this.props.updataList(dataSource);
   }
-  //根据商品获取信息
-  getInfo =(e,index,type)=> { //type:1-->根据id请求接口， 2：根据商品编码获取接口
+  //商品编码变化的时候
+  pdCodeChange=(index,type)=>{
     if(type == 3){
       this.props.form.resetFields(['activityPrice'+index]);
     }
     if(type == 4){
       this.props.form.resetFields(['activitySupplyPrice'+index]);
     }
-    if(type == 4){
+    if(type == 5){
       this.props.form.resetFields(['specialPrice'+index]);
     }
+  }
+  //根据商品获取信息
+  getInfo =(e,index,type)=> { //type:1-->根据id请求接口， 2：根据商品编码获取接口
     let {value} = e.target;
     if(value){
       value = value.replace(/\s+/g,'');
