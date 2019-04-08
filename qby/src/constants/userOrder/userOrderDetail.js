@@ -41,12 +41,6 @@ const columns = [{
     title: '应付单价',
     dataIndex: 'payPrice',
     key:'payPrice',
-    render:(text,record,index)=>(
-      record.payPrice ?
-        <div>{record.payPrice}（限时直降）</div>
-      :
-        <div>{record.payPrice}（秒杀）</div>
-    )
   }, {
     title: '应付金额',
     dataIndex: 'payAmount',

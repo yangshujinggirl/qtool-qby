@@ -26,9 +26,7 @@ class AddGood extends  Component {
   componentDidMount(){
     if(this.props.data){
       const {infos} = this.props.data;
-      console.log(infos)
       const imageUrl = infos.picUrl;
-      console.log(imageUrl)
       this.setState({infos,imageUrl})
     };
   }
@@ -97,7 +95,6 @@ class AddGood extends  Component {
     } = this.state.infos;
     const { getFieldDecorator } = this.props.form;
     const {imageUrl} = this.state;
-    console.log(imageUrl)
     const formItemLayout = {
       labelCol: { span:3 },
       wrapperCol: { span:6 },
@@ -110,7 +107,7 @@ class AddGood extends  Component {
       						rules: [{ required: true, message: '请输入商品名称'}],
       						initialValue:name
       					})(
-      						<Input placeholder='请输入商品名称' autoComplete="off"/>
+      						<Input placeholder='请输入商品名称' maxLength={30} autoComplete="off"/>
       					)}
       				</FormItem>
               <FormItem {...formItemLayout} label="品牌图片" className='must-pic'>
@@ -124,7 +121,10 @@ class AddGood extends  Component {
               </FormItem>
               <FormItem {...formItemLayout} label="零售价">
       					{getFieldDecorator('price', {
-      						rules: [{ required: true, message: '请输入零售价'}],
+      						rules: [
+                    { required: true, message: '请输入零售价'},
+                    {pattern:/^[0-9]*$/,message:'只能输入数字'}
+                  ],
       						initialValue:price
       					})(
       						<Input placeholder='请输入零售价' autoComplete="off"/>
@@ -132,7 +132,10 @@ class AddGood extends  Component {
       				</FormItem>
               <FormItem {...formItemLayout} label="兑换所需货币数">
       					{getFieldDecorator('valueQty', {
-      						rules: [{ required: true, message: '请输入兑换所需货币数'}],
+      						rules: [
+                    { required: true, message: '请输入兑换所需货币数'},
+                    {pattern:/^[0-9]*$/,message:'只能输入数字'}
+                  ],
       						initialValue:valueQty
       					})(
       						<Input placeholder='请输入门店名称' autoComplete="off"/>
@@ -140,7 +143,10 @@ class AddGood extends  Component {
       				</FormItem>
               <FormItem {...formItemLayout} label="可兑换数量">
       					{getFieldDecorator('convertibleQty', {
-      						rules: [{ required: true, message: '请输入可兑换数量'}],
+      						rules: [
+                    { required: true, message: '请输入可兑换数量'},
+                    {pattern:/^[0-9]*$/,message:'只能输入数字'}
+                  ],
       						initialValue:convertibleQty
       					})(
       						<Input placeholder='请输入可兑换数量' autoComplete="off"/>

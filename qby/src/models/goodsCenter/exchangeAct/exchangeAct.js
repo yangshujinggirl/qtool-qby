@@ -21,7 +21,6 @@ export default{
           item.key = index;
           return item;
         });
-        console.log(pdSpuActives)
         yield put({
           type:'getList',
           payload:{
