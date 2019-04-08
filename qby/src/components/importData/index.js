@@ -465,7 +465,7 @@ class GoodTable extends Component{
     if(type==5) Uploadtype=3
     const uploadData = { data:JSON.stringify({type:Uploadtype}) }
     return(
-      <div className='good_table'>
+      <div className='good_table_temp'>
         <Table
           pagination={false}
           columns={

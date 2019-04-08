@@ -15,7 +15,7 @@ const Columns = [{
      )
    },{
      title: '预览链接',
-     dataIndex: 'pageCode',
+     dataIndex: 'previewLink',
      render:(text, record)=>{
        const url = 'http://v5.qby.testin.qtoolsbaby.net:81/config.html?pdConfigureId='+record.pdConfigureId;
        return(
