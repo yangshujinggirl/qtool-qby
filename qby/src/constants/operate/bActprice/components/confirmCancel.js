@@ -7,8 +7,7 @@ const TextArea = Input.TextArea;
 class Cancel extends Component{
   constructor(props){
     super(props);
-    this.state = {
-    }
+    this.state = {}
   }
   clearForm =()=> {
     this.props.form.resetFields(['reason']);

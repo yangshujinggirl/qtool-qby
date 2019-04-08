@@ -138,7 +138,7 @@ class AddGood extends  Component {
                   ],
       						initialValue:valueQty
       					})(
-      						<Input placeholder='请输入门店名称' autoComplete="off"/>
+      						<Input placeholder='请输入兑换所需货币数' autoComplete="off"/>
       					)}
       				</FormItem>
               <FormItem {...formItemLayout} label="可兑换数量">

@@ -263,7 +263,7 @@ class Addactivity extends Component {
     const { getFieldDecorator } = this.props.form;
     const { cBanner } = this.props;
     return(
-      <div className='add_act add_cAct'>
+      <div className='add_cAct'>
         	<Form >
             <div className='title'>基本信息</div>
             <FormItem
@@ -363,7 +363,7 @@ class Addactivity extends Component {
               )}
             </FormItem>
             <FormItem
-              className='must-pic'
+
               label="活动商品悬浮图"
               labelCol={{ span:3}}
               wrapperCol={{ span:6}}>
@@ -382,7 +382,6 @@ class Addactivity extends Component {
               className='act_remark'>
               {getFieldDecorator('remark', {
                   initialValue:remark,
-                  rules: [{ required: true, message: '请输入活动备注'}],
                 })(
                 <TextArea style={{width:'280px'}} placeholder="请输入活动备注"/>
               )}
@@ -393,7 +392,7 @@ class Addactivity extends Component {
                 label="活动商品"
                 labelCol={{ span: 3}}
                 wrapperCol={{ span: 18}}
-                className='table_temp_list'
+                className='table_temp_list must-pic'
               >
                 <GoodList
                   form={this.props.form}

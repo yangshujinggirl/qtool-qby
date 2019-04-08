@@ -66,7 +66,7 @@ class AddTheme extends  Component {
             _values.showTimeStart = moment(time[0]).format('YYYY-MM-DD hh:mm:ss')
             _values.showTimeEnd = moment(time[1]).format('YYYY-MM-DD hh:mm:ss')
           }
-          _values.activityPdSpuIds = values.activityPdSpuIds.split('\n');
+          _values.activityPdSpuIds = values.activityPdSpuIds.split('\n').filter(item => item);
           _values.pics = imageUrl;
           if(this.props.data){ //修改
             _values.themeActivityId = this.state.infos.themeActivityId;
@@ -115,6 +115,23 @@ class AddTheme extends  Component {
     }
     return isJPG && isLt2M;
   }
+  validateQty =(rule,value,callback)=> {
+    const temp = value.split('\n').filter(item=>item);
+    console.log(temp)
+    const isRepeat = temp.filter((item,index,self)=>self.indexOf(item) != index);
+    console.log(isRepeat)
+    if(isRepeat[0]){
+      callback(+isRepeat[0]+'商品重复')
+    }else{
+      if(temp.length < 4){
+        callback('活动商品不可少于4条')
+      };
+      if(temp.length > 10){
+        callback('活动商品不可多于10条')
+      };
+    };
+    callback();
+  }
   render() {
     const { getFieldDecorator } = this.props.form;
     const {imageUrl} = this.state;
@@ -128,7 +145,7 @@ class AddTheme extends  Component {
           	<div className='head_title'>基础信息</div>
               <FormItem {...formItemLayout}  label="主题活动名称">
       					{getFieldDecorator('themeName', {
-      						rules: [{ required: true, message: '请输入主题活动名称'}],
+      						rules: [{ required: true, message: '请输入页面名称，50字符以内'}],
       						initialValue:themeName
       					})(
       						<Input placeholder='请输入主题活动名称' autoComplete="off"/>
@@ -147,10 +164,13 @@ class AddTheme extends  Component {
       				</FormItem>
               <FormItem {...formItemLayout}  label="展示权重">
                 {getFieldDecorator('rank', {
-                  rules: [{ required: true, message: '请输入展示权重'}],
+                  rules: [
+                    { required: true, message: '请输入展示权权重'},
+                    {pattern:/^(?:[0-9]{0,2}|100)$/,message:"请输入0-100整数"},
+                ],
                   initialValue:rank
                 })(
-                  <Input placeholder='请输入展示权重' autoComplete="off"/>
+                  <Input placeholder='请输入0-100整数，数值越高，权重越大' autoComplete="off"/>
                 )}
               </FormItem>
               <FormItem {...formItemLayout} label="活动图片" className='must-pic'>
@@ -173,16 +193,19 @@ class AddTheme extends  Component {
               <FormItem {...formItemLayout} label="活动spuid">
       					{getFieldDecorator('activityPdSpuIds', {
                   initialValue:activityPdSpuIds,
-                  rules: [{ required: true, message: '请输入活动spuid'}],
+                  rules: [
+                    { required: true, message: '请输入活动spuid'},
+                    { validator:this.validateQty}
+                  ],
       					})(
-      						<TextArea rows='5' placeholder='请输入活动spuid'/>
+      						<TextArea rows='5' placeholder='请输入活动商品的spu-id，4-10个'/>
       					)}
       				</FormItem>
               <FormItem {...formItemLayout} label="备注">
       					{getFieldDecorator('remark', {
                   initialValue:remark
       					})(
-      						<TextArea rows='3' placeholder='请输入备注'/>
+      						<TextArea rows='3' maxLength='50' placeholder='请输入备注，50字符以内'/>
       					)}
       				</FormItem>
               <FormItem {...formItemLayout} className='btn_cancel_save'>
