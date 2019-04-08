@@ -36,6 +36,7 @@ const CollectionCreateForm = Form.create()(
                                     <Option value="6">物流</Option>
                                     <Option value="7">顺丰</Option>
                                     <Option value="8">邮政</Option>
+                                    <Option value="9">汇通</Option>
                                 </Select>
                             )}
                         </FormItem>

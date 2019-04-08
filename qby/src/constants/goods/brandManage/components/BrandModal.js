@@ -47,7 +47,6 @@ class ExplainModal extends Component{
   render(){
     const { getFieldDecorator } = this.props.form;
     const {logoUrl,actUrl,name,rank,status,eventStatus,configureCode} = this.props;
-    console.log(eventStatus)
     return(
       <div>
       <Modal
@@ -120,7 +119,7 @@ class ExplainModal extends Component{
              labelCol={{ span: 5 }}
              wrapperCol={{ span: 12 }}>
              {getFieldDecorator('status',{
-               initialValue:typeof(status)=='number'?status:null,
+               initialValue:typeof(status)=='number'?status:undefined,
                rules:[{required:true,message:'请选择品牌状态'}],
              })(
                <Select allowClear={true} placeholder="请选择品牌状态" className='select'>

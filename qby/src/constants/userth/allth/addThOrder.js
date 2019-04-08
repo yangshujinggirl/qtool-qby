@@ -8,6 +8,7 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 const RadioGroup = Radio.Group;
 import './index.less'
+import NP from 'number-precision'
 
 class AddThOrder extends Component{
 	constructor(props) {
@@ -79,14 +80,14 @@ class AddThOrder extends Component{
 		const {productList=[],returnType,freightQuota} = this.state;
 		let [haveReturnTotalCount,applyTotalCount,totalBuyCount,totalReturnMoney] = [0,0,0,0]
 		productList&&productList.map( (item,index)=> {
-			 haveReturnTotalCount += Number(item.returnCount);//总的已退数量
-			 totalBuyCount += Number(item.buyCount);//总的购买数量
-			if(item.applyReturnCount) applyTotalCount += Number(item.applyReturnCount);//总的要退的数量
-			if(item.applyReturnQuota) totalReturnMoney += Number(item.applyReturnQuota);
+			 haveReturnTotalCount = NP.plus( Number(item.returnCount),haveReturnTotalCount);//总的已退数量
+			 totalBuyCount = NP.plus(Number(item.buyCount),totalBuyCount);//总的购买数量
+			if(item.applyReturnCount) applyTotalCount = NP.plus(Number(item.applyReturnCount),applyTotalCount) ;//总的要退的数量
+			if(item.applyReturnQuota) totalReturnMoney = NP.plus(Number(item.applyReturnQuota),totalReturnMoney) ;//总的退款金额
 		});
-		if(totalBuyCount == haveReturnTotalCount+applyTotalCount && !returnType){ //全退且是售中 + 运费
+		if(totalBuyCount == NP.plus(haveReturnTotalCount,applyTotalCount) && !returnType){ //全退且是售中 + 运费
 			if(totalReturnMoney > 0){
-				return totalReturnMoney + Number(freightQuota)
+				return NP.plus(totalReturnMoney,Number(freightQuota))
 			}else{
 				return null
 			}
@@ -102,6 +103,7 @@ class AddThOrder extends Component{
 	handleSubmit =()=> {
 		this.props.form.validateFieldsAndScroll((err, values) => {
 			if(!err){
+				this.setState({loading:true})
 				const {orderSource} = this.state;
 				values.orderSource = orderSource;
 				if(orderSource){ //orderSource为1的时候需要填写
@@ -130,17 +132,18 @@ class AddThOrder extends Component{
 							};
 						});
 						const isAllReturn = canReturnList.every(item=>{ //对可退的订单做判断---->是否已全部退完
-							return item.applyReturnCount==item.buyCount
+							return item.applyReturnCount+item.returnCount==item.buyCount
 						});
 						if(!isAllReturn){ //如果没有全退
 							message.error('保税订单必须全退')
+							this.setState({loading:false})
 						}else{
 							values.productList = goodsList;
 							this.sendRequest(values);
 						};
 					}else{ //不必全退
 						const newArr = 	goodsList.filter((item,index)=>{//需要检测退款数量有木有输入-->没有输入的数据不向后台输出
-								return Boolean(item.applyReturnCount)
+								return Boolean(item.applyReturnCount&&item.applyReturnQuota)
 					 	});
 						if(newArr[0]){ // 数量为0的 金额也为0
 							const isExistZero = newArr.find(item=>(
@@ -148,12 +151,14 @@ class AddThOrder extends Component{
 							));
 							if(isExistZero){
 								message.error('退款金额需大于0')
+								this.setState({loading:false})
 							}else{
 								values.productList = newArr;
 								this.sendRequest(values);
 							};
 						}else{
-							message.error('数据不完整，无可退商品',.8)
+							message.error('数据不完整，无法创建退单',.8)
+							this.setState({loading:false})
 						};
 					};
 				}else{ //有赞的退单
@@ -169,11 +174,9 @@ class AddThOrder extends Component{
 	}
 	//发送请求
 	sendRequest =(values)=> {
-		this.setState({loading:true})
 		saveThApi(values)
 		.then(res=>{
 			if(res.code =='0'){
-				this.setState({loading:false})
 				message.success('保存成功');
 				this.props.dispatch({
 						type:'tab/initDeletestate',
@@ -183,6 +186,7 @@ class AddThOrder extends Component{
 					type:'allth/fetchList',
 					payload:{}
 				});
+				this.setState({loading:false});
 			}else{
 				this.setState({loading:false})
 			}
@@ -207,7 +211,11 @@ class AddThOrder extends Component{
 		  productList
 		});
 	}
+	componentDidMount =()=> {
+		console.log(NP.plus(2.3,2.4))
+	}
 	render(){
+
 			const { getFieldDecorator } = this.props.form
 			const {
 				orderType,

@@ -117,25 +117,29 @@ class DailyBillForm extends React.Component {
   //获取当前时间
   getNowFormatDate = () =>{
     const self = this;
-    var date = new Date();
-    var seperator1 = "-";
-    var month = date.getMonth() + 1;
-    var beforeMonth = date.getMonth();
-    var strDate = date.getDate();
-    if (month >= 1 && month <= 9) {
-        month = "0" + month;
-    }
-    if (beforeMonth >= 1 && beforeMonth <= 9) {
-        beforeMonth = "0" + beforeMonth;
-    }
-    if(beforeMonth == 0){
-        beforeMonth = "12"
-    }
-    if (strDate >= 0 && strDate <= 9) {
-        strDate = "0" + strDate;
-    }
-    var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate;
-    var lastMonthDate = date.getFullYear() + seperator1 + beforeMonth + seperator1 + strDate;
+    // var date = new Date();
+    // var seperator1 = "-";
+    // var month = date.getMonth() + 1;
+    // var beforeMonth = date.getMonth();
+    // var strDate = date.getDate();
+    // if (month >= 1 && month <= 9) {
+    //     month = "0" + month;
+    // }
+    // if (beforeMonth >= 1 && beforeMonth <= 9) {
+    //     beforeMonth = "0" + beforeMonth;
+    // }
+    // if(beforeMonth == 0){
+    //     beforeMonth = "12"
+    // }
+    // if (strDate >= 0 && strDate <= 9) {
+    //     strDate = "0" + strDate;
+    // }
+    const now = moment();
+    const currentdate = now.format('YYYY-MM-DD')
+    let lastMonthDate = now.subtract(1,'month');
+      lastMonthDate = moment(lastMonthDate).format('YYYY-MM-DD')
+    // var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate;
+    // var lastMonthDate = date.getFullYear() + seperator1 + beforeMonth + seperator1 + strDate;
     this.setState({
         startDate:lastMonthDate,
         endDate:currentdate,
@@ -180,7 +184,8 @@ class DailyBillForm extends React.Component {
           shopId:this.props.shopId,
           startDate:this.state.startDate,
           endDate:this.state.endDate,
-          type:this.state.type
+          type:this.state.type,
+          orderType:this.state.orderType
       }
       this.exportData(80,data)
   }

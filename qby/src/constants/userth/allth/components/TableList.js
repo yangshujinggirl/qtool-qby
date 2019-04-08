@@ -151,7 +151,9 @@ class TableList extends Component {
         returnMoney = Subtr(Number(item.orderQuota) , Number(item.returnQuota) );
         item.applyReturnQuota = returnMoney;
       }else{ //单价 * 数量
-        returnMoney = _.floor((item.orderQuota/item.buyCount * Number(value)),2) ;
+        const tempValue = item.orderQuota/item.buyCount * Number(value);
+        console.log(tempValue);
+        returnMoney = _.floor(tempValue,2) ;
         item.applyReturnQuota = returnMoney;
       };
     }
@@ -166,11 +168,9 @@ class TableList extends Component {
 	}
   render(){
     const {productList,columns,isTax} = this.props;
-    console.log(productList)
     productList.map(item=>{
       item.isTax = isTax;
     });
-    console.log(productList)
     return(
       <Table
         style = {{padding:0}}
