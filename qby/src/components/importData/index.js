@@ -366,7 +366,7 @@ class GoodTable extends Component{
                 list.name = res.spShop.name;
                 this.props.changeList(list,index)
               };
-            };
+            }
           });
         // }else{
         //   message.error('门店Id重复',.8)
@@ -395,7 +395,11 @@ class GoodTable extends Component{
                 }
                 this.props.changeList(list,index)
               };
-            };
+            }else{
+              const list = {};
+              this.props.changeList(list,index);
+              this.props.form.resetFields(['activityPrice'+index]);
+            }
           });
         // }else{
         //   message.error('商品编码重复',.8)
