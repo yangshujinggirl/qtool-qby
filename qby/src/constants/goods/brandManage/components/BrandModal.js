@@ -21,9 +21,15 @@ class ExplainModal extends Component{
           if(!(this.props.logoUrl)){
             message.warning('请上传品牌图片',1);
           }else{
+            if(values.configureCode){
+                values.configureCode =  values.configureCode.replace(/\s+/g, "");
+            };
             this.props.onOk(values,this.clearForm)
           };
         }else{
+          if(values.configureCode){
+            values.configureCode =  values.configureCode.replace(/\s+/g, "");
+          };
           this.props.onOk(values,this.clearForm)
         };
       };
@@ -41,6 +47,7 @@ class ExplainModal extends Component{
   render(){
     const { getFieldDecorator } = this.props.form;
     const {logoUrl,actUrl,name,rank,status,eventStatus,configureCode} = this.props;
+    console.log(eventStatus)
     return(
       <div>
       <Modal

@@ -161,6 +161,7 @@ class Brand extends Component{
       return currentValue.url=="qerp.web.pd.brand.save"
     })
     const {visible,title,logoUrl,actUrl,name,rank,status,eventStatus,configureCode} = this.state;
+    console.log(eventStatus)
     const {dataList} = this.props.brand;
     return(
       <div className="qtools-components-pages">
