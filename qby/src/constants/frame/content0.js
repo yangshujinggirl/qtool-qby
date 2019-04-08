@@ -399,8 +399,8 @@ class Content extends React.Component {
                                     case formDataCode('goods12') : return <Ctimer data={this.props.data} componkey={this.props.componkey}/>//c端定时
                                     case formDataCode('goods12-edit') : return <AddTimer data={this.props.data} componkey={this.props.componkey}/>
                                     case "313000" : return <BondManage data={this.props.data} componkey={this.props.componkey}/>
-                                    case "306000" : return <ExchangeAct data={this.props.data} componkey={this.props.componkey}/>
-                                    case "306000edit" : return <ActAddGoods data={this.props.data} componkey={this.props.componkey}/>
+                                    case "309000" : return <ExchangeAct data={this.props.data} componkey={this.props.componkey}/>
+                                    case "309000edit" : return <ActAddGoods data={this.props.data} componkey={this.props.componkey}/>
                                     //------------------------------客服中心------------------------
                                     case formDataCode('server02') : return <UserFeedBack data={this.props.data} componkey={this.props.componkey}/>//用户反馈
                                     case formDataCode('server02-edit') : return <HandleBack data={this.props.data} componkey={this.props.componkey}/>

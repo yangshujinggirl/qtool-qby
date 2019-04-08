@@ -54,7 +54,7 @@ class ExchangeAct extends Component {
   }
   //操作
   handleOperateClick =(record,type)=> {
-    console.log(this.props.componkey)
+    console.log(record)
     const paneitem = {
       title:'修改兑换商品',
       key:`${this.props.componkey}edit`+record.pdSpuActiveId,

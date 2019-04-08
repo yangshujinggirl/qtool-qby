@@ -15,19 +15,13 @@ export default{
       yield put({type: 'tab/loding',payload:true});
       const result = yield call(getListApi,values);
       yield put({type: 'tab/loding',payload:false});
-      // const result = {
-      //   code:'0',
-      //   pdSpuActives:[
-      //     {pdSpuActiveId:1,name:'csac',picUrl:'qtltest/spu/1903/18/1552878163157.jpg',price:3,valueQty:7,convertibleQty:9,leftQty:10,createUserId:'cwev'},
-      //     {pdSpuActiveId:2,name:'2222',picUrl:'qtltest/spu/1903/08/1552012885981.jpg',price:3,valueQty:7,convertibleQty:9,leftQty:10,createUserId:'cwev'}
-      //   ]
-      // }
       if(result.code == '0'){
         const { pdSpuActives, currentPage, limit, total } = result;
         pdSpuActives.map((item,index)=>{
           item.key = index;
           return item;
         });
+        console.log(pdSpuActives)
         yield put({
           type:'getList',
           payload:{

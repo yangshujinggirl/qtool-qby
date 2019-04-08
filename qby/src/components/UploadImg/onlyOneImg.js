@@ -27,6 +27,7 @@ class Uploadimg extends Component {
       </div>
     );
     const {imageUrl,name,action,beforeUpload} = this.props;
+    console.log(imageUrl)
     return (
       <Upload
         name={name}

@@ -26,7 +26,9 @@ class AddGood extends  Component {
   componentDidMount(){
     if(this.props.data){
       const {infos} = this.props.data;
+      console.log(infos)
       const imageUrl = infos.picUrl;
+      console.log(imageUrl)
       this.setState({infos,imageUrl})
     };
   }
@@ -95,6 +97,7 @@ class AddGood extends  Component {
     } = this.state.infos;
     const { getFieldDecorator } = this.props.form;
     const {imageUrl} = this.state;
+    console.log(imageUrl)
     const formItemLayout = {
       labelCol: { span:3 },
       wrapperCol: { span:6 },
