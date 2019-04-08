@@ -163,7 +163,7 @@ class GoodTable extends Component{
                   <Input
                     placeholder='请输入商品编码'
                     onBlur={(e)=>this.getInfo(e,index,'4')}
-                    onChange={()=>this.pdCodeChange(index,'3')}
+                    onChange={()=>this.pdCodeChange(index,'4')}
                     autoComplete='off'/>
                 )
               }
@@ -241,7 +241,7 @@ class GoodTable extends Component{
                   <Input
                     placeholder='请输入商品编码'
                     onBlur={(e)=>this.getInfo(e,index,'5')}
-                    onChange={()=>this.pdCodeChange(index,'3')}
+                    onChange={()=>this.pdCodeChange(index,'5')}
                     autoComplete='off'/>
                 )
               }

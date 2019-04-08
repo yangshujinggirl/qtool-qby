@@ -27,18 +27,18 @@ class Market extends Component{
         <div className='mark_box'>
           <div className='out_box'>
             <h1 className='title'>C端</h1>
-            <div className='box' onClick={()=>this.togo('bact','活动进价')}>
-              <img className='img' alt="example" src="/static/menu_logo.c8fb482f.png"/>
-              <div className='right'>
-                <span className='theme'>活动进价</span>
-                <p className='des'>采购活动商品前可配置活动进价</p>
-              </div>
-            </div>
             <div className='box' onClick={()=>this.togo('blow','b端限时直降')}>
               <img className='img' alt="example" src="/static/menu_logo.c8fb482f.png"/>
               <div className='right'>
                 <span className='theme'>限时促销</span>
                 <p className='des'>商品限时打折/特价</p>
+              </div>
+            </div>
+            <div className='box' onClick={()=>this.togo('bact','活动进价')}>
+              <img className='img' alt="example" src="/static/menu_logo.c8fb482f.png"/>
+              <div className='right'>
+                <span className='theme'>活动进价</span>
+                <p className='des'>采购活动商品前可配置活动进价</p>
               </div>
             </div>
         </div>

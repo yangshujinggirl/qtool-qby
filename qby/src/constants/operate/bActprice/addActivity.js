@@ -179,7 +179,7 @@ class Addactivity extends Component {
               {getFieldDecorator('time', {
                   initialValue:[moment(beginTime),moment(endTime)],
                   rules: [
-                    { required: true, message: '请选择效时间'},
+                    { required: true, message: '请选择生效时间'},
                     { validator: this.validataTime}
                   ],
                 })(
@@ -197,7 +197,6 @@ class Addactivity extends Component {
             >
               {getFieldDecorator('remark', {
                   initialValue:remark,
-                  rules: [{ required: true, message: '请输入备注'}],
                 })(
                 <TextArea style={{width:'280px'}} placeholder="请输入备注，50字符以内" maxLength='50'/>
               )}
@@ -206,7 +205,7 @@ class Addactivity extends Component {
               label="商品"
               labelCol={{ span: 3}}
               wrapperCol={{ span: 18}}
-              className='table_temp_list b_enter_price_list'
+              className='table_temp_list b_enter_price_list must-pic'
             >
               <GoodList
                 FormItem={FormItem}
