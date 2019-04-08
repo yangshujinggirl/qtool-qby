@@ -30,12 +30,13 @@ class AddTheme extends  Component {
       const {infos} = this.props.data;
       const {pics} = infos;
       const pdSpuIds = infos.pdThemeActivityDetail;
+      const tempArr = _.cloneDeep(pdSpuIds)
       let activityPdSpuIds='';
-      pdSpuIds.map((item,index)=>{
+      tempArr.map((item,index)=>{
         if(index < (pdSpuIds.length-1) )
         item.pdSpuId = item.pdSpuId+'\n'
       });
-      pdSpuIds.map((item,index)=>{
+      tempArr.map((item,index)=>{
         activityPdSpuIds += item.pdSpuId
       });
       infos.activityPdSpuIds = activityPdSpuIds;
@@ -117,9 +118,7 @@ class AddTheme extends  Component {
   }
   validateQty =(rule,value,callback)=> {
     const temp = value.split('\n').filter(item=>item);
-    console.log(temp)
     const isRepeat = temp.filter((item,index,self)=>self.indexOf(item) != index);
-    console.log(isRepeat)
     if(isRepeat[0]){
       callback(+isRepeat[0]+'商品重复')
     }else{

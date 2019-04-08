@@ -107,7 +107,7 @@ class AddGood extends  Component {
       						rules: [{ required: true, message: '请输入商品名称'}],
       						initialValue:name
       					})(
-      						<Input placeholder='请输入商品名称' maxLength={30} autoComplete="off"/>
+      						<Input placeholder='请输入商品名称' maxLength='30' autoComplete="off"/>
       					)}
       				</FormItem>
               <FormItem {...formItemLayout} label="品牌图片" className='must-pic'>
@@ -123,7 +123,6 @@ class AddGood extends  Component {
       					{getFieldDecorator('price', {
       						rules: [
                     { required: true, message: '请输入零售价'},
-                    {pattern:/^[0-9]*$/,message:'只能输入数字'}
                   ],
       						initialValue:price
       					})(
@@ -134,7 +133,7 @@ class AddGood extends  Component {
       					{getFieldDecorator('valueQty', {
       						rules: [
                     { required: true, message: '请输入兑换所需货币数'},
-                    {pattern:/^[0-9]*$/,message:'只能输入数字'}
+                    {pattern:/\D/,message:'只能输入数字'}
                   ],
       						initialValue:valueQty
       					})(
