@@ -20,7 +20,7 @@ class GoodTable extends Component{
              getFieldDecorator('spShopId'+index,{
                initialValue:record.spShopId,
              })(
-               <Input placeholder='请输入商品ID' onBlur={(e)=>this.getInfo(e,index,'1')} autoComplete='off'/>
+               <Input placeholder='请输入商品ID' onBlur={(e)=>this.getIdInfo(e,index,'1')} autoComplete='off'/>
              )
            }
           </FormItem>
@@ -306,6 +306,7 @@ class GoodTable extends Component{
       },
     ]
   }
+  /* ----------------------- 更新商品列表 --------------------- */
   updataList =(e,index)=> {
     let {value} = e.target;
     const {dataSource,type} = this.props;
@@ -347,17 +348,13 @@ class GoodTable extends Component{
       this.props.form.resetFields(['specialPrice'+index]);
     }
   }
-  //根据商品获取信息
-  getInfo =(e,index,type)=> { //type:1-->根据id请求接口， 2：根据商品编码获取接口
+  /*----------------------------- 根据门店ID请求接口 -------------------------- */
+  getIdInfo =(e,index,type)=> {//type:1-->c端降价门店ID，type:2-->优惠券门店ID
     let {value} = e.target;
     if(value){
       value = value.replace(/\s+/g,'');
       const {dataSource} = this.props;
-      let isRepeat = false;
-      /*  ------商品id--------  */
       if(type==1){
-        // if(dataSource.length>1){isRepeat = dataSource.find(item=>item.spShopId == value)}
-        // if(!isRepeat){
           getShopInfoApi({spShopId:value}).then(res=>{
             if(res.code=='0'){
               if(res.spShop){
@@ -368,13 +365,34 @@ class GoodTable extends Component{
               };
             }
           });
-        // }else{
-        //   message.error('门店Id重复',.8)
-        // };
       };
-      /*  ------商品编码--------  */
-      if(type==2||type==3||type==4||type==5){
-        // if(dataSource.length>1){isRepeat = dataSource.find(item=>item.pdCode == value)}
+      if(type == 2 ){
+
+      }
+    }
+  }
+  /*----------------------------- 根据商品编码请求接口 -------------------------- */
+  getInfo =(e,index,type)=> {  //2：优惠券商品 3:b端降价 4：b端直降 5：c端直降
+    let {value} = e.target;
+    if(value){
+      value = value.replace(/\s+/g,'');
+      const {dataSource} = this.props;
+      let isRepeat = false;
+      if(type==2){ //接口不一致
+        getGoodInfoApi({pdCode:value}).then(res=>{
+          if(res.code=='0'){
+            if(res.pdSpu){
+              const list = {};
+              list.pdCode = value;
+              list.name = res.pdSpu.name;
+              list.displayName = res.displayName;
+              this.props.changeList(list,index)
+            };
+          };
+        });
+      };
+      if(type==3||type==4||type==5){
+        // if(dataSource.length>1){isRepeat = dataSource.find(item=>item.spShopId == value)}
         // if(!isRepeat){
           getGoodInfoApi({pdCode:value}).then(res=>{
             if(res.code=='0'){

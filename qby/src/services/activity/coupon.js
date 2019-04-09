@@ -72,3 +72,11 @@ export function getGoodTypeApi(values){
       data:values
   })
 }
+//优惠券查询
+export function getCouponInfoApi(values){
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.pd.coupon.detail',
+      data:values
+  })
+}

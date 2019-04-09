@@ -111,7 +111,7 @@ class Addactivity extends Component {
             payload:this.props.componkey+this.props.data.activityId
           });
           this.props.dispatch({
-            type:'bActPrice/fetchList',
+            type:'cDown/fetchList',
             payload:{type:3}
           })
         };
@@ -125,7 +125,7 @@ class Addactivity extends Component {
             payload:this.props.componkey
           });
           this.props.dispatch({
-            type:'bActPrice/fetchList',
+            type:'cDown/fetchList',
             payload:{type:3}
           })
         };
@@ -465,7 +465,7 @@ class Addactivity extends Component {
 }
 const Addactivitys = Form.create()(Addactivity);
 const mapStateToProps=(state)=>{
-  const {bActPrice} = state;
-  return {bActPrice}
+  const {cDown} = state;
+  return {cDown}
 }
 export default connect(mapStateToProps)(Addactivitys);

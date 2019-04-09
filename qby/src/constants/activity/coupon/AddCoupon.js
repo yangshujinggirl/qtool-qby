@@ -1,7 +1,7 @@
 import React,{ Component } from 'react';
 import { AutoComplete, Form, Select, Input, Button , message, Row, Col,DatePicker,Radio,Checkbox,Tag} from 'antd';
 import { connect } from 'dva'
-import { addCouponApi,getGoodTypeApi } from '../../../services/activity/coupon'
+import { addCouponApi,getGoodTypeApi,getCouponInfoApi } from '../../../services/activity/coupon'
 import GoodList from '../../../components/importData/index'
 import ShopList from '../../../components/importData/index'
 import './index.css'
@@ -18,18 +18,87 @@ class AddCoupon extends Component {
     this.state={
       couponValidDay:true,
       couponValidDate:false,
-      goodList:[{pdCode:'',name:'',displayName:''}],
+      pdList:[{pdCode:'',name:'',displayName:''}],
       shopList:[{spShopId:'',shopName:''}],
       goodTypeList:[],
       selectedBrands:[],
+      coupon:{
+        couponUseScope:4,
+        couponShopScope:0,
+        shopScope:0,
+        spuScope:0,
+        couponValid:1,
+        couponValidDateST:moment().format('YYYY-MM-DD HH:mm:ss'),
+        couponValidDateET:moment().add(1,'days').format('YYYY-MM-DD HH:mm:ss')
+      },
     }
     this.options1 = [
-      { label: '不可与限时直降同享', value: '1'},
-      { label: '不可与秒杀同享', value: '2' },
+      { label: '不可与限时直降同享',value:1},
+      { label: '不可与秒杀同享',value:2 },
     ];
   }
 
-
+  componentDidMount(){
+    if(this.props.data){ //修改
+      const {couponId} = this.props.data
+      // getCouponInfoApi({couponId}).then(res=>{
+        const result = {
+          code:'0',
+          coupon:{
+            couponName:'qqq',
+            couponValid:1,//有效期 1领取2特定
+            couponValidDay:0,
+            couponValidDateST:'2019-04-04 12:30:45',
+            couponValidDateET:'2019-04-04 12:30:46',
+            couponMoney:100,
+            couponFullAmount:100,
+            couponCount:1,
+            couponUseScene:1,
+            couponUsageLimit:[1],
+            couponWarningQty:1,
+            couponWarningEmail:'17701799531@163.com',
+            couponRemark:'备注',
+            spuScope:1,
+            shopScope:1,
+            couponExplain:'说明'
+          },
+          activityProduct:{
+            couponUseScope:5,
+            brandList:[{
+              name:1,
+              pdBrandId:1
+            }]
+          },
+          activityShop:{
+            couponShopScope:2,
+            shopList:[{
+              spShopId:1,
+              name:'周虹烨的门店'
+            }]
+          },
+          pdList:[{
+            pdCode:'111',
+            name:'zhy',
+            pdSpuId:1,
+            pdSkuId:1,
+            displayName:'红色'
+          }]
+        };
+        if(result.code == '0'){
+          const {coupon,activityProduct,activityShop,pdList} = result;
+          const {couponShopScope,shopList} = activityShop;
+          const {couponUseScope,brandList} = activityProduct;
+          coupon.couponShopScope = couponShopScope;
+          coupon.couponUseScope = couponUseScope;
+          this.setState({
+            coupon,
+            pdList,
+            shopList,
+          });
+        };
+      // })
+    }
+  }
   //保存
   handleSubmit = (e) => {
 		e.preventDefault();
@@ -81,20 +150,20 @@ class AddCoupon extends Component {
   }
   //添加商品
   addGood =()=> {
-    const {goodList} = this.state;
+    const {pdList} = this.state;
     const list={spShopId:'',shopName:''};
-    goodList.push(list)
+    pdList.push(list)
     this.setState({
-      goodList
+      pdList
     });
   }
   //删除商品
   deleteGood =(index)=> {
-    const {goodList} = this.state;
-    goodList.splice(index,1);
+    const {pdList} = this.state;
+    pdList.splice(index,1);
     this.props.form.resetFields([`pdCode`+index]);
     this.setState({
-      goodList
+      pdList
     });
   }
   //添加门店
@@ -121,7 +190,7 @@ class AddCoupon extends Component {
   }
   //导入商品list
   getGoodFile=(list)=>{
-    this.setState({goodList:list});
+    this.setState({pdList:list});
   }
   //改变门店list
   changeShopList=(list,index)=>{
@@ -130,42 +199,48 @@ class AddCoupon extends Component {
     this.setState({shopList});
   }
   //改变商品list
-  changeGoodList=(list,index)=>{
-    const {goodList} = this.state;
-    goodList[index] = list;
-    this.setState({goodList});
+  changepdList=(list,index)=>{
+    const {pdList} = this.state;
+    pdList[index] = list;
+    this.setState({pdList});
   }
+  //选择门店变化的时候
   onShopChange=(e)=>{
     const {value} = e.target;
-    if(String(value)){
-      this.setState({
-        shopScope:value
-      });
-    };
+    const {coupon} = this.state;
+    const newCoupon = _.assign(coupon,{spuScope:value});
+    this.setState({
+      coupon:newCoupon
+    })
   }
+  //选择商品变化的时候
   onGoodChange =(e)=> {
     const {value} = e.target;
-    if(String(value)){
-      this.setState({
-        spuScope:value
-      });
-    };
+    const {coupon} = this.state;
+    const newCoupon = _.assign(coupon,{spuScope:value});
+    this.setState({
+      coupon:newCoupon
+    })
   }
   //获取预警优惠券张数
   getCouponQty=(e)=>{
     const {value} = e.target;
+    const {coupon} = this.state;
+    const newCoupon = _.assign(coupon,{couponWarningQty:value})
     if(value){
       this.setState({
-        couponWarningQty:value
+        coupon:newCoupon
       });
     };
   }
   //获取预警邮箱
   getCouponEmail=(e)=>{
     const {value} = e.target;
+    const {coupon} = this.state;
+    const newCoupon = _.assign(coupon,{couponWarningEmail:value})
     if(value){
       this.setState({
-        couponWarningEmail:value
+        coupon:newCoupon
       });
     };
   }
@@ -212,7 +287,16 @@ class AddCoupon extends Component {
     });
   }
   render(){
-    const {goodList,shopList,shopScope,spuScope,goodTypeList,selectedBrands} = this.state;
+    const {
+      shopList,
+      pdList,
+      shopScope,
+      spuScope,
+      goodTypeList,
+      selectedBrands,
+      coupon,
+    } = this.state;
+    console.log(coupon)
     const radioStyle = {
       display: 'block',
       height: '30px',
@@ -229,18 +313,16 @@ class AddCoupon extends Component {
               wrapperCol={{ span: 14 }}
             >
               {getFieldDecorator('couponName', {
+                  initialValue:coupon.couponName,
                   rules: [{ required: true, message: '请输入优惠券名称'}],
                 })(
-                  <div>
-                    <Input
-                      placeholder="请输入10字以内优惠券名称"
-                      style={{width:'280px'}}
-                      maxLength='10'
-                      autoComplete="off"
-                    />　
-                    <span className='suffix_tips'>该名称将在前端给用户展示，请谨慎填写</span>
-                  </div>
-              )}
+                  <Input
+                    placeholder="请输入10字以内优惠券名称"
+                    style={{width:'280px'}}
+                    maxLength='10'
+                    autoComplete="off"
+                  />　
+              )}<span className='suffix_tips'>该名称将在前端给用户展示，请谨慎填写</span>
             </FormItem>
             <Row>
               <Col className='radio'>
@@ -250,8 +332,8 @@ class AddCoupon extends Component {
                   wrapperCol={{ span: 8 }}
                 >
                   {getFieldDecorator('couponValid',{
+                      initialValue:coupon.couponValid,
                       rules: [{ required: true, message: '请选择券有效期' }],
-
                   })(
                     <RadioGroup onChange = {this.choice}>
                         <Radio value={1}>用户领取时间起</Radio>
@@ -263,21 +345,21 @@ class AddCoupon extends Component {
               <Col className='limitDay'>
                 <FormItem>
                   {getFieldDecorator('couponValidDay',{
+                    initialValue:coupon.couponValidDay,
                     rules: [{ required:this.state.couponValidDay, message: '请填写用户领取时间' }],
                   })(
-                    <div>
-                      <Input style={{width:'140px'}} disabled = {!this.state.couponValidDay} />　天可用
-                      <span className='suffix_tips'>0代表领取当天</span>
-                    </div>
-                  )}
+                    <Input style={{width:'140px'}} disabled = {!this.state.couponValidDay}/>
+                  )}　天可用<span className='suffix_tips'>0代表领取当天</span>
                 </FormItem>
                 <FormItem>
                    {getFieldDecorator('couponValidDate',{
+                       initialValue:[moment(coupon.couponValidDateST),moment(coupon.couponValidDateET)],
                        rules: [{ required:this.state.couponValidDate , message: '请填写特定时间' }],
                     })(
                       <RangePicker
                         showTime
                         format="YYYY-MM-DD HH:mm:ss"
+                        disabled = {!this.state.couponValidDate}
                       />
                    )}
                 </FormItem>
@@ -289,36 +371,47 @@ class AddCoupon extends Component {
               wrapperCol={{ span: 14 }}
             >
             {getFieldDecorator('couponMoney', {
+              initialValue:coupon.couponMoney,
               rules: [
                 {required: true, message: '请输入优惠券金额'},
                 {pattern:/^(([1-9][0-9]*)|(([0]\.\d{0,2}|[1-9][0-9]*\.\d{0,2})))$/,
                 message: '请输入最多2位小数正数'}
               ],
             })(
-              <div><Input style={{width:'255px'}} placeholder = '请输入优惠券金额'/>　元</div>
-            )}
+              <Input style={{width:'255px'}} placeholder = '请输入优惠券金额'/>
+            )}　元
             </FormItem>
             <FormItem
               label='使用门槛'
               labelCol={{ span: 3,offset: 1 }}
               wrapperCol={{ span: 14 }}
-            >
+            >满　
               {getFieldDecorator('couponFullAmount', {
-                rules: [{required: true, message: '请输入优惠券金额'},{pattern:/^[^[+]{0,1}(\d+)$/,message: '请输入正整数'}],
+                initialValue:coupon.couponFullAmount,
+                rules: [
+                  {required: true, message: '请输入优惠券金额'},
+                  {pattern:/^[^[+]{0,1}(\d+)$/,message: '请输入正整数'}
+                ],
               })(
-                <div><span>满　</span><Input style={{width:'205px'}} />　元可用　　<span className='suffix_tips'>只可输入0，正整数</span></div>
-              )}　
+                <Input style={{width:'205px'}}/>
+              )}　元可用　　<span className='suffix_tips'>只可输入0，正整数</span>　
             </FormItem>
             <FormItem
               label='优惠券数'
               labelCol={{ span: 3,offset: 1 }}
               wrapperCol={{ span: 14 }}
             >
-            {getFieldDecorator('couponCount', {
-              rules: [{required: true, message: '请输入优惠券'},{pattern:/^(?:[0-9]{0,4}|10000)$/,message: '0-10000之间的正整数'}],
-            })(
-              <div><Input placeholder='请输入0-10000的正整数' style={{width:'255px'}}/>　张</div>
-            )}
+            {
+                getFieldDecorator('couponCount', {
+                  initialValue:coupon.couponCount,
+                  rules: [
+                    {required: true, message: '请输入优惠券'},
+                    {pattern:/^(?:[0-9]{0,4}|10000)$/,message: '0-10000之间的正整数'}
+                  ],
+              })(
+                <Input placeholder='请输入0-10000的正整数' style={{width:'255px'}}/>
+              )
+            }　张
             </FormItem>
             <FormItem
               label='发放方式'
@@ -326,6 +419,7 @@ class AddCoupon extends Component {
               wrapperCol={{span:14}}>
               {
                 getFieldDecorator('couponUseScene',{
+                  initialValue:coupon.couponUseScene,
                   rules:[{required: true, message: '请选择使用商品范围'}]
                 })(
                   <RadioGroup>
@@ -342,6 +436,7 @@ class AddCoupon extends Component {
               wrapperCol={{span:14}}>
               {
                 getFieldDecorator('couponUsageLimit',{
+                  initialValue:coupon.couponUsageLimit,
                 })(
                   <CheckboxGroup options={this.options1}/>
                 )
@@ -352,7 +447,11 @@ class AddCoupon extends Component {
               labelCol={{ span: 3,offset: 1 }}
               wrapperCol={{ span: 14 }}
             >
-              <div><span>剩余　</span><Input onBlur={this.getCouponQty} style={{width:'100px'}} />　张优惠券时预警，预警邮箱　　<Input onBlur={this.getCouponEmail} style={{width:'200px'}}/></div>
+              <div>
+                <span>剩余　</span>
+                <Input value={coupon.couponWarningQty} onChange={this.getCouponQty} style={{width:'100px'}} />　张优惠券时预警，预警邮箱　　
+                <Input value={coupon.couponWarningEmail} onChange={this.getCouponEmail} style={{width:'200px'}}/>
+            </div>
             </FormItem>
             <FormItem
               label='优惠券说明'
@@ -360,10 +459,11 @@ class AddCoupon extends Component {
               wrapperCol={{ span: 14 }}
             >
             {getFieldDecorator('couponExplain', {
+              initialValue:coupon.couponExplain,
               rules:[{required: true, message: '请输入优惠券说明'}]
             })(
                 <TextArea style={{width:'255px'}} placeholder='请输入优惠券说明，50字以内' maxLength='50' rows={6} />
-            )}
+            )}<span className='suffix_tips'>该名称将在前端给用户展示，请谨慎填写</span>
           </FormItem>
           <FormItem
             label='优惠券备注'
@@ -371,6 +471,7 @@ class AddCoupon extends Component {
             wrapperCol={{ span: 14 }}
           >
           {getFieldDecorator('couponRemark', {
+            initialValue:coupon.couponRemark,
           })(
               <TextArea style={{width:'255px'}} placeholder='请输入300字以下优惠券备注' maxLength='300' rows={6} />
           )}
@@ -384,10 +485,12 @@ class AddCoupon extends Component {
                 wrapperCol={{span:8}}>
                 {
                   getFieldDecorator('couponUseScope',{
+                    initialValue:coupon.couponUseScope,
                     rules:[{required: true, message: '请选择适用商品类型'}],
                   })(
                     <RadioGroup>
                       <Radio style={radioStyle} value={4}>全部商品</Radio>
+                      <Radio style={radioStyle} value={1}>一般贸易商品</Radio>
                       <Radio style={radioStyle} value={2}>保税商品</Radio>
                       <Radio style={radioStyle} value={5}>指定品牌</Radio>
                     </RadioGroup>
@@ -417,6 +520,7 @@ class AddCoupon extends Component {
             wrapperCol={{span:14}}>
             {
               getFieldDecorator('spuScope',{
+                initialValue:coupon.spuScope,
                 rules:[{required: true, message: '请选择选择商品'}],
                 onChange:this.onGoodChange
               })(
@@ -433,15 +537,15 @@ class AddCoupon extends Component {
             labelCol={{span:4,offset:1}}
             wrapperCol={{span:10}}>
             {
-              (spuScope==1||spuScope==2) &&
+              (coupon.spuScope==1||coupon.spuScope==2) &&
               <GoodList
                 FormItem={FormItem}
                 getFieldDecorator={getFieldDecorator}
                 getFile={this.getGoodFile}
-                dataSource={goodList}
+                dataSource={pdList}
                 delete={this.deleteGood}
                 add={this.addGood}
-                changeList={this.changeGoodList}
+                changeList={this.changepdList}
                 addText='+商品'
                 type='2'/>
             }
@@ -452,6 +556,7 @@ class AddCoupon extends Component {
             wrapperCol={{span:8}}>
             {
               getFieldDecorator('couponShopScope',{
+                initialValue:coupon.couponShopScope,
                 rules:[{required: true, message: '请选择适用门店类型'}]
               })(
                 <RadioGroup>
@@ -468,6 +573,7 @@ class AddCoupon extends Component {
             wrapperCol={{span:14}}>
             {
               getFieldDecorator('shopScope',{
+                initialValue:coupon.shopScope,
                 rules:[{required: true, message: '请选择选择商品'}],
                 onChange:this.onShopChange
               })(
@@ -480,7 +586,7 @@ class AddCoupon extends Component {
             }
           </FormItem>
           {
-            (shopScope==1 || shopScope==2)&&
+            (coupon.shopScope==1 || coupon.shopScope==2)&&
             <FormItem
               className='table_temp_list coupon_list'
               label=''

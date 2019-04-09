@@ -85,9 +85,6 @@ class Coupon extends Component{
       title:'创建优惠券',
       key:`${this.state.componkey}edit`,
       componkey:`${this.state.componkey}edit`,
-      data:{
-        pdSpuId:null,
-      },
     };
     this.props.dispatch({
         type:'tab/firstAddTab',
@@ -210,8 +207,7 @@ class Coupon extends Component{
         key:`${this.state.componkey}edit`+record.couponId,
         componkey:`${this.state.componkey}edit`,
         data:{
-          pdSpuId:record.couponId,
-          couponCode:record.couponCode
+          couponId:record.couponId,
         },
       };
       this.props.dispatch({
@@ -236,7 +232,7 @@ class Coupon extends Component{
     const {menus} = this.props;
     const operation = menus.find(item=>(item.type=="operation") );
     const bact = operation.children.find(item=>(item.code=="401200"))
-    const rolelists = ( bact.children.find(item=>(item.code=='401700')) ).children;
+    const rolelists = ( bact.children.find(item=>(item.code=='1003000')) ).children;
     const {dataList} = this.props.coupon.data1;
     //创建优惠券
     const addCoupon = rolelists.find((currentValue,index)=>{

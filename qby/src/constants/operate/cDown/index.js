@@ -6,9 +6,9 @@ import Qtable from '../../../components/Qtable/index'; //表单
 import Qpagination from '../../../components/Qpagination/index'; //分页
 import FilterForm from './FilterForm/index'
 import ConfirmCancel from './components/confirmCancel.js'
-import { confirmCancelApi } from '../../../services/operate/bActPrice/index'
+import { confirmCancelApi } from '../../../services/operate/cDown/index'
 
-class BactPrice extends Component{
+class cDown extends Component{
   constructor(props){
     super(props);
     this.state = {
@@ -19,7 +19,7 @@ class BactPrice extends Component{
       componkey:this.props.componkey,
       inputValues:{},
       rowSelection:{
-        selectedRowKeys:this.props.bActPrice.selectedRowKeys,
+        selectedRowKeys:this.props.cDown.selectedRowKeys,
         type:'radio',
         onChange:this.onChange
       },
@@ -28,7 +28,7 @@ class BactPrice extends Component{
   componentWillReceiveProps(props) {
     this.setState({
       rowSelection : {
-        selectedRowKeys:props.bActPrice.selectedRowKeys,
+        selectedRowKeys:props.cDown.selectedRowKeys,
         type:'radio',
         onChange:this.onChange
       }
@@ -37,7 +37,7 @@ class BactPrice extends Component{
   //初始化数据
   componentWillMount(){
     this.props.dispatch({
-      type:'bActPrice/fetchList',
+      type:'cDown/fetchList',
       payload:{type:3}
     })
   }
@@ -59,7 +59,7 @@ class BactPrice extends Component{
   //点击搜索
   searchData = (values)=> {
     this.props.dispatch({
-      type:'bActPrice/fetchList',
+      type:'cDown/fetchList',
       payload:values
     });
     const _values = {...this.state.inputValues,...values}
@@ -72,14 +72,14 @@ class BactPrice extends Component{
     const currentPage = current-1;
     const values = {...this.state.inputValues,currentPage,limit}
     this.props.dispatch({
-      type:'bActPrice/fetchList',
+      type:'cDown/fetchList',
       payload:values
     });
   }
   //pageSize改变时的回调
   onShowSizeChange =({currentPage,limit})=> {
     this.props.dispatch({
-      type:'bActPrice/fetchList',
+      type:'cDown/fetchList',
       payload:{currentPage,limit,...this.state.inputValues}
     });
   }
@@ -116,7 +116,7 @@ class BactPrice extends Component{
         message.success(res.message);
         resetFiledsFunc();//清除数据
         this.props.dispatch({ //刷新列表
-          type:'bActPrice/fetchList',
+          type:'cDown/fetchList',
           payload:{type:3}
         });
         this.setState({confirmVisible:false,confirmLoading:false,activityId:''});
@@ -174,7 +174,7 @@ class BactPrice extends Component{
   }
   render(){
     const {confirmVisible,confirmLoading,name,beginTime,endTime} = this.state
-    const {dataList} = this.props.bActPrice;
+    const {dataList} = this.props.cDown;
     const {menus} = this.props;
     const operation = menus.find(item=>(item.type=="operation") );
     const bact = operation.children.find(item=>(item.code=="401200"))
@@ -222,7 +222,7 @@ class BactPrice extends Component{
         {
           dataList.length>0?
           <Qpagination
-            data={this.props.bActPrice}
+            data={this.props.cDown}
             onChange={this.changePage}
             onShowSizeChange = {this.onShowSizeChange}
           />:null
@@ -232,8 +232,8 @@ class BactPrice extends Component{
   }
 }
 function mapStateToProps(state){
-  const {bActPrice} = state;
+  const {cDown} = state;
   const {menus} = state.tab;
-  return {bActPrice,menus};
+  return {cDown,menus};
 }
-export default connect(mapStateToProps)(BactPrice);
+export default connect(mapStateToProps)(cDown);

@@ -26,7 +26,7 @@ class Market extends Component{
       return(
         <div className='mark_box'>
           <div className='out_box'>
-            <h1 className='title'>C端</h1>
+            <h1 className='title'>B端</h1>
             <div className='box' onClick={()=>this.togo('blow','b端限时直降')}>
               <img className='img' alt="example" src="/static/menu_logo.c8fb482f.png"/>
               <div className='right'>
@@ -43,7 +43,7 @@ class Market extends Component{
             </div>
         </div>
         <div className='out_box'>
-          <h1 className='title'>B端</h1>
+          <h1 className='title'>C端</h1>
             <div className='box' onClick={()=>this.togo('coupon','优惠券')}>
               <img className='img' alt="example" src="/static/menu_logo.c8fb482f.png"/>
               <div className='right'>

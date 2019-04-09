@@ -149,7 +149,7 @@ class AddGood extends  Component {
                   ],
       						initialValue:convertibleQty
       					})(
-      						<Input placeholder='请输入可兑换数量' autoComplete="off"/>
+      						<Input placeholder='请输入可兑换数量' autoComplete="off" disabled={Boolean(this.props.data)}/>
       					)}
       				</FormItem>
               <FormItem {...formItemLayout} className='btn_cancel_save'>

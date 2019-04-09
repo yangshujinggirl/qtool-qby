@@ -17,7 +17,7 @@ const columns = [{
     key:'3'
   }, {
     title: '供价',
-    dataIndex: 'supplyPrice',
+    dataIndex: 'toBPrice',
     key:'4'
   },{
     title: '合同进价',

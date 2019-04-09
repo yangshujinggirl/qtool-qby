@@ -17,7 +17,7 @@ const columns = [{
     key:'3'
   }, {
     title: '零售价',
-    dataIndex: 'salePrice',
+    dataIndex: 'toCPrice',
     key:'4'
   }, {
     title: '活动特价',
