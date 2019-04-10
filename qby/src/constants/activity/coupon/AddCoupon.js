@@ -21,15 +21,17 @@ class AddCoupon extends Component {
       pdList:[{pdCode:'',name:'',displayName:''}],
       shopList:[{spShopId:'',shopName:''}],
       goodTypeList:[],
-      selectedBrands:[],
+      brandList:[],
       coupon:{
         couponUseScope:4,
         couponShopScope:0,
         shopScope:0,
         spuScope:0,
         couponValid:1,
-        couponValidDateST:moment().format('YYYY-MM-DD HH:mm:ss'),
-        couponValidDateET:moment().add(1,'days').format('YYYY-MM-DD HH:mm:ss')
+        // couponValidDateST:moment().format('YYYY-MM-DD HH:mm:ss'),
+        // couponValidDateET:moment().add(1,'days').format('YYYY-MM-DD HH:mm:ss')
+        couponValidDateST:null,
+        couponValidDateET:null
       },
     }
     this.options1 = [
@@ -104,10 +106,28 @@ class AddCoupon extends Component {
 		e.preventDefault();
 		this.props.form.validateFields((err, values) => {
       if(!err){
+        for (var key in values){
+          if(key.includes('pdCode')||key.includes('spShopId')){
+            delete values[key]
+          };
+        }
+        const {couponWarningEmail,couponWarningQty} = this.state.coupon;
+        const {shopList,pdList,brandList} = this.state;
+        values.pdList = pdList;
+        values.spList = shopList;
+        brandList.map(item=>{
+          item.name = item.text;
+          item.pdBrandId = item.value;
+          return item
+        });
+        brandList.map(item=>{
+          delete item.text;
+          delete item.value;
+        });
+        values.brandList = brandList;
+        values.couponWarningEmail = couponWarningEmail;
+        values.couponWarningQty = couponWarningQty;
         const {couponValidDate,..._values} = values;
-        const {couponWarningEmail,couponWarningQty} = this.state;
-        _values.couponWarningEmail = couponWarningEmail;
-        _values.couponWarningQty = couponWarningQty;
         if(couponValidDate&&couponValidDate[0]){
           _values.couponValidDateST = moment(values.couponValidDate[0]).format('YYYY-MM-DD HH:mm:ss');
           _values.couponValidDateET = moment(values.couponValidDate[1]).format('YYYY-MM-DD HH:mm:ss');
@@ -135,17 +155,18 @@ class AddCoupon extends Component {
   choice =(e)=> {
     const value = e.target.value;
     if(value==1){
-      this.setState({couponValidDay:true,couponValidDate:false})
+      this.setState({couponValidDay:true,couponValidDate:false});
+      this.props.form.setFieldsValue({couponValidDate:null,});
     }else if(value==2){
-      this.setState({couponValidDay:false,couponValidDate:true})
+      this.setState({couponValidDay:false,couponValidDate:true});
+      this.props.form.setFieldsValue({couponValidDay:''});
     };
-    this.props.form.resetFields(['couponValidDay','couponValidDate']);
   }
   //取消
   cancel =()=> {
     this.props.dispatch({
-        type:'tab/initDeletestate',
-        payload:this.props.componkey
+      type:'tab/initDeletestate',
+      payload:this.props.componkey
     });
   }
   //添加商品
@@ -246,16 +267,16 @@ class AddCoupon extends Component {
   }
   //商品类型选中
   onGoodTypeSelect =(value,option)=> {
-    const {selectedBrands} = this.state;
-    const isRepeat = selectedBrands.find(item=>item.value == option.props.value)
+    const {brandList} = this.state;
+    const isRepeat = brandList.find(item=>item.value == option.props.value)
     if(!isRepeat){ //不重复才会进行下去
-      if(selectedBrands.length<10){
+      if(brandList.length<10){
         const obj={};
         obj.value = option.props.value;
         obj.text = option.props.children;
-        selectedBrands.push(obj);
+        brandList.push(obj);
         this.setState({
-          selectedBrands
+          brandList
         });
       }else{
         message.warning('最多可指定10个品牌');
@@ -264,8 +285,8 @@ class AddCoupon extends Component {
   }
   //删除品牌
   handleClose=(removedTag)=> {
-    const tags = this.state.selectedBrands.filter(tag => tag !== removedTag);
-    this.setState({ selectedBrands:tags });
+    const tags = this.state.brandList.filter(tag => tag !== removedTag);
+    this.setState({ brandList:tags });
   }
   // 商品类型搜搜
   onGoodTypeSearch =(value)=> {
@@ -311,11 +332,12 @@ class AddCoupon extends Component {
       shopScope,
       spuScope,
       goodTypeList,
-      selectedBrands,
+      brandList,
       couponUseScopeValue,
       couponShopScopeValue,
       coupon,
     } = this.state;
+    console.log(coupon)
     const radioStyle = {
       display: 'block',
       height: '30px',
@@ -497,7 +519,7 @@ class AddCoupon extends Component {
           </FormItem>
           <div className='title'>使用范围</div>
           <Row>
-            <Col span={6} >
+            <Col span={6}>
               <FormItem
                 label='适用商品类型'
                 labelCol={{span:3,offset:1}}
@@ -518,28 +540,34 @@ class AddCoupon extends Component {
                 }
               </FormItem>
             </Col>
-            <Col span={4}>
-              <FormItem>
-                <div>
-                  <AutoComplete
-                    onSelect={this.onGoodTypeSelect}
-                    onSearch={this.onGoodTypeSearch}
-                    dataSource={goodTypeList}/>
-                  {selectedBrands.length>0 &&
-                    selectedBrands.map((item,index)=>(
-                      <Tag
-                        closable
-                        onClose={(e)=>{
-                          e.preventDefault();
-                          this.handleClose(item)}
-                        }>
-                        {item.text}
-                      </Tag>
-                    ))
-                  }
-                </div>
-              </FormItem>
-            </Col>
+            {coupon.couponUseScope == 5 &&
+              <Col span={10} style={{'padding-top':'136px'}}>
+                <FormItem>
+                  <div>
+                    <AutoComplete
+                      style={{ width: 200 }}
+                      onSelect={this.onGoodTypeSelect}
+                      onSearch={this.onGoodTypeSearch}
+                      onFocus={this.onGoodTypeSearch}
+                      dataSource={goodTypeList}/>
+                      <div>
+                        {brandList.length>0 &&
+                          brandList.map((item,index)=>(
+                            <Tag
+                              closable
+                              onClose={(e)=>{
+                                e.preventDefault();
+                                this.handleClose(item)}
+                              }>
+                              {item.text}
+                            </Tag>
+                          ))
+                        }
+                    </div>
+                  </div>
+                </FormItem>
+              </Col>
+            }
           </Row>
           <FormItem
             label='选择商品'
@@ -566,6 +594,7 @@ class AddCoupon extends Component {
             {
               (coupon.spuScope==1||coupon.spuScope==2) &&
               <GoodList
+                form={this.props.form}
                 couponUseScope={coupon.couponUseScope}
                 FormItem={FormItem}
                 getFieldDecorator={getFieldDecorator}
@@ -623,6 +652,7 @@ class AddCoupon extends Component {
               wrapperCol={{span:10}}>
               {
                   <ShopList
+                    form={this.props.form}
                     couponShopScope={coupon.couponShopScope}
                     FormItem={FormItem}
                     getFieldDecorator={getFieldDecorator}

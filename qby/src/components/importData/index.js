@@ -391,7 +391,6 @@ class GoodTable extends Component{
   }
   //优惠券商品详情
   getCouponGoodInfo =(e,index)=> {
-    debugger
     let {value} = e.target;
     const {couponUseScope} = this.props;
     if(value){
@@ -422,7 +421,7 @@ class GoodTable extends Component{
       if(type==3||type==4||type==5){
         // if(dataSource.length>1){isRepeat = dataSource.find(item=>item.spShopId == value)}
         // if(!isRepeat){
-          getGoodInfoApi({pdCode:value}).then(res=>{
+          getGoodInfoApi({pdCode:value,flag:1}).then(res=>{
             if(res.code=='0'){
               if(res.pdSpu){
                 const list = {};
@@ -533,7 +532,7 @@ class GoodTable extends Component{
           dataSource={dataSource}/>
         <Button onClick={this.add}>{addText}</Button>
         <div className='btn_box'>
-          {type==11 ?
+          {type==11 ||type==12?
             <ImportGood
               title='导入门店'
               name='mfile'

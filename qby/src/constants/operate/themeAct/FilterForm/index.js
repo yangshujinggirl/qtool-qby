@@ -47,8 +47,8 @@ class NormalForm extends Component{
                   <Select allowClear={true} placeholder="请选择发放方式">
                       <Option value={0}>未开始</Option>
                       <Option value={1}>进行中</Option>
-                      <Option value={2}>注券</Option>
-                      <Option value={3}>注券</Option>
+                      <Option value={2}>已结束</Option>
+                      <Option value={3}>已失效</Option>
                   </Select>
                   )}
               </FormItem>
