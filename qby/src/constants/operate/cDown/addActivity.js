@@ -441,7 +441,7 @@ class Addactivity extends Component {
                       add={this.addMd}
                       changeList={this.changeShopList}
                       addText='+门店'
-                      type='1'/>
+                      type='11'/>
                 </FormItem>
               }
             </div>

@@ -3,6 +3,7 @@ import {Table,Input,Button,message} from 'antd'
 import ImportGood from './Upload'
 import './index.less'
 import {getShopInfoApi,getGoodInfoApi} from '../../services/getInfo'
+import {getCouponGoodInfoApi,getCouponShopInfoApi} from '../../services/activity/coupon'
 
 class GoodTable extends Component{
   constructor(props){
@@ -13,14 +14,18 @@ class GoodTable extends Component{
         dataIndex:'spShopId',
         key:'spShopId',
         render:(text,record,index)=>{
-          const {getFieldDecorator,FormItem} = this.props;
+          const {getFieldDecorator,FormItem,type} = this.props;
           return(
            <FormItem>
            {
              getFieldDecorator('spShopId'+index,{
                initialValue:record.spShopId,
              })(
-               <Input placeholder='请输入商品ID' onBlur={(e)=>this.getIdInfo(e,index,'1')} autoComplete='off'/>
+               type == 11
+               ?
+                <Input placeholder='请输入商品ID' onBlur={(e)=>this.getIdInfo(e,index,'1')} autoComplete='off'/>
+               :
+               <Input placeholder='请输入商品ID' onBlur={(e)=>this.getIdInfo(e,index,'2')} autoComplete='off'/>
              )
            }
           </FormItem>
@@ -50,7 +55,7 @@ class GoodTable extends Component{
              getFieldDecorator('pdCode'+index,{
                initialValue:record.pdCode
              })(
-               <Input placeholder='请输入商品编码' onBlur={(e)=>this.getInfo(e,index,'2')} autoComplete='off'/>
+               <Input placeholder='请输入商品编码' onBlur={(e)=>this.getCouponGoodInfo(e,index)} autoComplete='off'/>
              )
            }
           </FormItem>
@@ -351,10 +356,14 @@ class GoodTable extends Component{
   /*----------------------------- 根据门店ID请求接口 -------------------------- */
   getIdInfo =(e,index,type)=> {//type:1-->c端降价门店ID，type:2-->优惠券门店ID
     let {value} = e.target;
+    let couponShopScope = '';
+    if(type==2){
+       couponShopScope = this.props.couponShopScope;
+    };
     if(value){
       value = value.replace(/\s+/g,'');
       const {dataSource} = this.props;
-      if(type==1){
+      if(type==1){ //c端直降门店列表模板
           getShopInfoApi({spShopId:value}).then(res=>{
             if(res.code=='0'){
               if(res.spShop){
@@ -366,10 +375,42 @@ class GoodTable extends Component{
             }
           });
       };
-      if(type == 2 ){
-
-      }
+      if(type == 2 ){ //优惠券门店列表模板
+        getCouponShopInfoApi({spShopId:value,couponShopScope}).then(res=>{
+          if(res.code=='0'){
+            if(res.spShop){
+              const list = {};
+              list.spShopId = value;
+              list.name = res.spShop.name;
+              this.props.changeList(list,index)
+            };
+          }
+        });
+      };
     }
+  }
+  //优惠券商品详情
+  getCouponGoodInfo =(e,index)=> {
+    debugger
+    let {value} = e.target;
+    const {couponUseScope} = this.props;
+    if(value){
+      value = value.replace(/\s+/g,'');
+      const {dataSource} = this.props;
+      getCouponGoodInfoApi({pdCode:value,couponUseScope}).then(res=>{
+        if(res.code=='0'){
+          if(res.pdSpu){
+            const list = {};
+            list.pdCode = value;
+            list.name = res.pdSpu.name;
+            list.displayName = res.displayName;
+            list.pdSkuId = res.pdSkuId;
+            list.pdSpuId = res.pdSpuId;
+            this.props.changeList(list,index)
+          };
+        };
+      });
+    };
   }
   /*----------------------------- 根据商品编码请求接口 -------------------------- */
   getInfo =(e,index,type)=> {  //2：优惠券商品 3:b端降价 4：b端直降 5：c端直降
@@ -378,19 +419,6 @@ class GoodTable extends Component{
       value = value.replace(/\s+/g,'');
       const {dataSource} = this.props;
       let isRepeat = false;
-      if(type==2){ //接口不一致
-        getGoodInfoApi({pdCode:value}).then(res=>{
-          if(res.code=='0'){
-            if(res.pdSpu){
-              const list = {};
-              list.pdCode = value;
-              list.name = res.pdSpu.name;
-              list.displayName = res.displayName;
-              this.props.changeList(list,index)
-            };
-          };
-        });
-      };
       if(type==3||type==4||type==5){
         // if(dataSource.length>1){isRepeat = dataSource.find(item=>item.spShopId == value)}
         // if(!isRepeat){
@@ -445,7 +473,6 @@ class GoodTable extends Component{
       this.props.form.resetFields(['specialPrice0'])
     }
     const {pdSpuAsnLists} = info.file.response;
-    console.log(pdSpuAsnLists)
     this.props.getFile(pdSpuAsnLists)
   }
   //删除
@@ -454,7 +481,7 @@ class GoodTable extends Component{
   }
   //下载模板
   downLoad =()=> {
-    if(this.props.type==1){ //门店模板
+    if(this.props.type==11){ //门店模板
       window.open('../../static/md.xlsx')
     };
     if(this.props.type==2){//商品编码模板
@@ -491,7 +518,7 @@ class GoodTable extends Component{
         <Table
           pagination={false}
           columns={
-            type==1 ?
+            type==11||type==12 ?
             this.columns1
             : (type==2 ?
               this.columns2
@@ -506,7 +533,7 @@ class GoodTable extends Component{
           dataSource={dataSource}/>
         <Button onClick={this.add}>{addText}</Button>
         <div className='btn_box'>
-          {type==1 ?
+          {type==11 ?
             <ImportGood
               title='导入门店'
               name='mfile'

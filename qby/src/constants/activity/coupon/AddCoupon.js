@@ -82,7 +82,7 @@ class AddCoupon extends Component {
             pdSpuId:1,
             pdSkuId:1,
             displayName:'红色'
-          }]
+          }],
         };
         if(result.code == '0'){
           const {coupon,activityProduct,activityShop,pdList} = result;
@@ -247,44 +247,62 @@ class AddCoupon extends Component {
   //商品类型选中
   onGoodTypeSelect =(value,option)=> {
     const {selectedBrands} = this.state;
-    const isRepeat = selectedBrands.find(item=>item.value==option.props.value)
-    if(!isRepeat){
-      const obj={};
-      obj.value = option.props.value;
-      obj.text = option.props.children;
-      selectedBrands.push(obj);
-      this.setState({
-        selectedBrands
-      });
+    const isRepeat = selectedBrands.find(item=>item.value == option.props.value)
+    if(!isRepeat){ //不重复才会进行下去
+      if(selectedBrands.length<10){
+        const obj={};
+        obj.value = option.props.value;
+        obj.text = option.props.children;
+        selectedBrands.push(obj);
+        this.setState({
+          selectedBrands
+        });
+      }else{
+        message.warning('最多可指定10个品牌');
+      };
     };
   }
   //删除品牌
-  deleteBrand=(e,index)=> {
-    const list= this.state.selectedBrands;
-    list.splice(index,1);
-    this.setState({selectedBrands:list});
+  handleClose=(removedTag)=> {
+    const tags = this.state.selectedBrands.filter(tag => tag !== removedTag);
+    this.setState({ selectedBrands:tags });
   }
   // 商品类型搜搜
   onGoodTypeSearch =(value)=> {
-    // getGoodTypeApi({name:value})
-    // .then(res=>{
-    //   if(res.code=='0'){
-    //     this.setState({
-    //       goodTypeList:res.brandList
-    //     });
-    //   };
-    // });
-    const res={code:0,brandList:[{pdBrandId:1,name:'zhou'},{pdBrandId:2,name:'hong'}]}
-    const goodTypeList=[];
-    res.brandList&&res.brandList.map(item=>{
-      const obj = {};
-      obj.value = item.pdBrandId;
-      obj.text = item.name;
-      goodTypeList.push(obj)
+    getGoodTypeApi({name:value})
+    .then(res=>{
+      if(res.code == '0'){
+        const goodTypeList=[];
+        res.brandList && res.brandList.map(item=>{
+          const obj = {};
+          obj.value = item.pdBrandId;
+          obj.text = item.name;
+          goodTypeList.push(obj)
+        });
+        this.setState({
+          goodTypeList
+        });
+      };
     });
+    // const res={code:0,brandList:[{pdBrandId:1,name:'zhou'},{pdBrandId:2,name:'hong'}]}
+  }
+  //商品适用范围发生变化
+  couponUseScopeChange =(e)=> {
+    const {value} = e.target;
+    const {coupon} = this.state;
+    const newCoupon = _.assign(coupon,{couponUseScope:value});
     this.setState({
-      goodTypeList
-    });
+      coupon:newCoupon
+    })
+  }
+  //适用门店类型发生变化时
+  couponShopScopeChange =(e)=> {
+    const {value} = e.target;
+    const {coupon} = this.state;
+    const newCoupon = _.assign(coupon,{couponShopScope:value});
+    this.setState({
+      coupon:newCoupon
+    })
   }
   render(){
     const {
@@ -294,9 +312,10 @@ class AddCoupon extends Component {
       spuScope,
       goodTypeList,
       selectedBrands,
+      couponUseScopeValue,
+      couponShopScopeValue,
       coupon,
     } = this.state;
-    console.log(coupon)
     const radioStyle = {
       display: 'block',
       height: '30px',
@@ -487,6 +506,7 @@ class AddCoupon extends Component {
                   getFieldDecorator('couponUseScope',{
                     initialValue:coupon.couponUseScope,
                     rules:[{required: true, message: '请选择适用商品类型'}],
+                    onChange:this.couponUseScopeChange
                   })(
                     <RadioGroup>
                       <Radio style={radioStyle} value={4}>全部商品</Radio>
@@ -505,9 +525,16 @@ class AddCoupon extends Component {
                     onSelect={this.onGoodTypeSelect}
                     onSearch={this.onGoodTypeSearch}
                     dataSource={goodTypeList}/>
-                  {selectedBrands.length>0&&
+                  {selectedBrands.length>0 &&
                     selectedBrands.map((item,index)=>(
-                      <Tag closable onClose={(e)=>this.deleteBrand(e,index)}>{item.text}</Tag>
+                      <Tag
+                        closable
+                        onClose={(e)=>{
+                          e.preventDefault();
+                          this.handleClose(item)}
+                        }>
+                        {item.text}
+                      </Tag>
                     ))
                   }
                 </div>
@@ -539,6 +566,7 @@ class AddCoupon extends Component {
             {
               (coupon.spuScope==1||coupon.spuScope==2) &&
               <GoodList
+                couponUseScope={coupon.couponUseScope}
                 FormItem={FormItem}
                 getFieldDecorator={getFieldDecorator}
                 getFile={this.getGoodFile}
@@ -557,7 +585,8 @@ class AddCoupon extends Component {
             {
               getFieldDecorator('couponShopScope',{
                 initialValue:coupon.couponShopScope,
-                rules:[{required: true, message: '请选择适用门店类型'}]
+                rules:[{required: true, message: '请选择适用门店类型'}],
+                onChange:this.couponShopScopeChange
               })(
                 <RadioGroup>
                   <Radio style={radioStyle} value={0}>全部门店</Radio>
@@ -594,6 +623,7 @@ class AddCoupon extends Component {
               wrapperCol={{span:10}}>
               {
                   <ShopList
+                    couponShopScope={coupon.couponShopScope}
                     FormItem={FormItem}
                     getFieldDecorator={getFieldDecorator}
                     getFile={this.getShopFile}
@@ -602,7 +632,7 @@ class AddCoupon extends Component {
                     add={this.addMd}
                     changeList={this.changeShopList}
                     addText='+门店'
-                    type='1'/>
+                    type='12'/>
               }
             </FormItem>
           }

@@ -80,3 +80,19 @@ export function getCouponInfoApi(values){
       data:values
   })
 }
+//商品查询
+export function getCouponGoodInfoApi(values){
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.pd.coupon.spuQuery',
+      data:values
+  })
+}
+//门店查询
+export function getCouponShopInfoApi(values){
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.pd.coupon.shopQuery',
+      data:values
+  })
+}

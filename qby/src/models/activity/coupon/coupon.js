@@ -31,19 +31,8 @@ export default{
     //优惠券list
     *fetchList({payload:values},{call,put}){
       yield put({type: 'tab/loding',payload:true});
-      // const result = yield call(getListApi,values);
+      const result = yield call(getListApi,values);
       yield put({type: 'tab/loding',payload:false});
-      const result =  {
-        code:0,
-        iPdCoupon:[{
-          couponId:1,
-          couponCode:'',
-          status:1
-        }],
-        currentPage:0,
-        limit:15,
-        total:1
-      }
       if(result.code == '0'){
         const { iPdCoupon, currentPage, limit, total } = result;
         iPdCoupon.map((item,index)=>{
