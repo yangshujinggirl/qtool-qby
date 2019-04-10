@@ -85,28 +85,28 @@ export default{
     //获取券包列表
     *fetchManageList({payload:values},{call,put}){
       yield put({type: 'tab/loding',payload:true});
-      // const result = yield call(getManageListApi,values);
+      const result = yield call(getManageListApi,values);
       yield put({type: 'tab/loding',payload:false});
-      const result = {
-        code:'0',
-        couponPackageList:[{
-          couponBatchNo:'1111',
-          couponPackageName:'20',
-          couponCount:'12',
-          updateUserName:'yulu',
-          createTime:'2018-9-01',
-          couponPackageId:'1',
-          couponCodes:'1111\n22222\n3333'
-        },{
-          couponBatchNo:'111',
-          couponPackageName:'520',
-          couponCount:'12',
-          updateUserName:'yulu',
-          createTime:'2018-9-01',
-          couponPackageId:'2',
-          couponCodes:'111\n2222\n333'
-        }]
-      }
+      // const result = {
+      //   code:'0',
+      //   couponPackageList:[{
+      //     couponBatchNo:'1111',
+      //     couponPackageName:'20',
+      //     couponCount:'12',
+      //     updateUserName:'yulu',
+      //     createTime:'2018-9-01',
+      //     couponPackageId:'1',
+      //     couponCodes:'1111\n22222\n3333'
+      //   },{
+      //     couponBatchNo:'111',
+      //     couponPackageName:'520',
+      //     couponCount:'12',
+      //     updateUserName:'yulu',
+      //     createTime:'2018-9-01',
+      //     couponPackageId:'2',
+      //     couponCodes:'111\n2222\n333'
+      //   }]
+      // }
       if(result.code == '0'){
         const { couponPackageList, currentPage, limit, total } = result;
         couponPackageList&&couponPackageList.map((item,index)=>{

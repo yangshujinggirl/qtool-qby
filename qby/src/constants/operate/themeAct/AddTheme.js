@@ -26,7 +26,7 @@ class AddTheme extends  Component {
     }
   }
   componentDidMount(){
-    if(this.props.data){
+    if(this.props.data.infos){
       const {infos} = this.props.data;
       const {pics} = infos;
       const pdSpuIds = infos.pdThemeActivityDetail;
@@ -69,7 +69,7 @@ class AddTheme extends  Component {
           }
           _values.activityPdSpuIds = values.activityPdSpuIds.split('\n').filter(item => item);
           _values.pics = imageUrl;
-          if(this.props.data){ //修改
+          if(this.props.data.infos){ //修改
             _values.themeActivityId = this.state.infos.themeActivityId;
             updataThemeApi(_values).then(res=>{
               if(res.code == '0'){
@@ -80,7 +80,7 @@ class AddTheme extends  Component {
                 });
                 this.props.dispatch({
                   type:'themeAct/fetchList',
-                  payload:{}
+                  payload:{...this.props.data.inputValues}
                 });
               };
             })
@@ -94,7 +94,7 @@ class AddTheme extends  Component {
                 });
                 this.props.dispatch({
                   type:'themeAct/fetchList',
-                  payload:{}
+                  payload:{...this.props.data.inputValues}
                 });
               };
             });

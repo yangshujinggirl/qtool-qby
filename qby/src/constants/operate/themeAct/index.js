@@ -80,10 +80,14 @@ class ThemeAct extends Component{
   }
   //新增主题
   addTheme =()=> {
+    const {inputValues} = this.state;
     const paneitem = {
       title:'新增主题',
       key:`${this.props.componkey}edit`,
       componkey:`${this.props.componkey}edit`,
+      data:{
+        inputValues
+      }
     };
     this.props.dispatch({
       type:'tab/firstAddTab',
@@ -99,12 +103,14 @@ class ThemeAct extends Component{
 
   //操作
   handleOperateClick(record,type) {
+    const {inputValues} =  this.state;
     if(type == 'edit'){
       const paneitem = {
         title:'修改主题',
         key:`${this.props.componkey}edit`+record.themeActivityId,
         componkey:`${this.props.componkey}edit`,
         data:{
+          inputValues,
           infos:{
             themeName:record.themeName,
             showTimeStart:record.showTimeStart,

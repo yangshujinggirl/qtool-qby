@@ -123,7 +123,7 @@ class AddGood extends  Component {
       					{getFieldDecorator('price', {
       						rules: [
                     { required: true, message: '请输入零售价'},
-                    { pattern:/^\d+$|^\d*\.\d+$/g,message:'只能输入数字' }
+                    { pattern:/^\d+(\.\d+)?$/,message:'只可输入正数' }
                   ],
       						initialValue:price
       					})(
@@ -134,7 +134,7 @@ class AddGood extends  Component {
       					{getFieldDecorator('valueQty', {
       						rules: [
                     { required: true, message: '请输入兑换所需货币数'},
-                    { pattern:/^[0-9]*$/,message:'只能输入数字'}
+                    { pattern:/^[0-9]*$/,message:'只可输入正整数'}
                   ],
       						initialValue:valueQty
       					})(
@@ -144,8 +144,8 @@ class AddGood extends  Component {
               <FormItem {...formItemLayout} label="可兑换数量">
       					{getFieldDecorator('convertibleQty', {
       						rules: [
-                    { required: true, message: '请输入可兑换数量'},
-                    {pattern:/^[0-9]*$/,message:'只能输入数字'}
+                    {required: true, message: '请输入可兑换数量'},
+                    {pattern:/^[0-9]*$/,message:'只可输入正整数'}
                   ],
       						initialValue:convertibleQty
       					})(

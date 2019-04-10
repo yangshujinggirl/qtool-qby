@@ -95,6 +95,7 @@ class OrdercgEditForm extends React.Component{
 						};
 					});
 				};
+				goodList.map(item=>(item.isPurchas=1));
 				data.shippingFee = values.shippingFee;
 				data.wsWarehouseId = values.wsWarehouseId;
 				data.shippingFeeType = values.shippingFeeType;

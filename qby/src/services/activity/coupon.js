@@ -64,6 +64,14 @@ export function addCouponPackApi(values){
       data:values
   })
 }
+//修改优惠券保存
+export function updataCouponPackApi(values){
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.pd.coupon.update',
+      data:values
+  })
+}
 //指定品牌列表
 export function getGoodTypeApi(values){
   values = JSON.stringify(values)

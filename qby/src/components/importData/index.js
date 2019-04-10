@@ -199,7 +199,10 @@ class GoodTable extends Component{
           const {getFieldDecorator,FormItem} = this.props;
           const validatePrice=(rule,value,callback)=> {
             if(Number(value)== 0 ){
-              callback('大于0的2位小数')
+               callback('大于0的2位小数')
+            };
+            if(Number(value) > Number( record.toBPrice ) ){
+              callback('活动供价超过供价，请谨慎填写');
             };
             callback();
           };
@@ -322,9 +325,6 @@ class GoodTable extends Component{
         };
         dataSource[index].activityPrice = value;
       }else if(type == 4){ //b降
-        if(Number(value) > Number( dataSource[index].toBPrice ) ){
-          message.warning('活动供价超过供价，请谨慎填写',1)
-        };
         if(Number(value) < Number( dataSource[index].costPrice ) ){
           message.warning('活动供价小于合同进价，请谨慎填写',1)
         };

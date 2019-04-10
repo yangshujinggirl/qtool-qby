@@ -1,7 +1,7 @@
 import React,{ Component } from 'react';
 import { AutoComplete, Form, Select, Input, Button , message, Row, Col,DatePicker,Radio,Checkbox,Tag} from 'antd';
 import { connect } from 'dva'
-import { addCouponApi,getGoodTypeApi,getCouponInfoApi } from '../../../services/activity/coupon'
+import { addCouponApi,getGoodTypeApi,getCouponInfoApi,updataCouponPackApi} from '../../../services/activity/coupon'
 import GoodList from '../../../components/importData/index'
 import ShopList from '../../../components/importData/index'
 import './index.css'
@@ -28,10 +28,8 @@ class AddCoupon extends Component {
         shopScope:0,
         spuScope:0,
         couponValid:1,
-        // couponValidDateST:moment().format('YYYY-MM-DD HH:mm:ss'),
-        // couponValidDateET:moment().add(1,'days').format('YYYY-MM-DD HH:mm:ss')
-        couponValidDateST:null,
-        couponValidDateET:null
+        couponValidDateST:moment().format('YYYY-MM-DD HH:mm:ss'),
+        couponValidDateET:moment().add(1,'days').format('YYYY-MM-DD HH:mm:ss')
       },
     }
     this.options1 = [
@@ -43,62 +41,76 @@ class AddCoupon extends Component {
   componentDidMount(){
     if(this.props.data){ //修改
       const {couponId} = this.props.data
-      // getCouponInfoApi({couponId}).then(res=>{
-        const result = {
-          code:'0',
-          coupon:{
-            couponName:'qqq',
-            couponValid:1,//有效期 1领取2特定
-            couponValidDay:0,
-            couponValidDateST:'2019-04-04 12:30:45',
-            couponValidDateET:'2019-04-04 12:30:46',
-            couponMoney:100,
-            couponFullAmount:100,
-            couponCount:1,
-            couponUseScene:1,
-            couponUsageLimit:[1],
-            couponWarningQty:1,
-            couponWarningEmail:'17701799531@163.com',
-            couponRemark:'备注',
-            spuScope:1,
-            shopScope:1,
-            couponExplain:'说明'
-          },
-          activityProduct:{
-            couponUseScope:5,
-            brandList:[{
-              name:1,
-              pdBrandId:1
-            }]
-          },
-          activityShop:{
-            couponShopScope:2,
-            shopList:[{
-              spShopId:1,
-              name:'周虹烨的门店'
-            }]
-          },
-          pdList:[{
-            pdCode:'111',
-            name:'zhy',
-            pdSpuId:1,
-            pdSkuId:1,
-            displayName:'红色'
-          }],
-        };
-        if(result.code == '0'){
-          const {coupon,activityProduct,activityShop,pdList} = result;
+      getCouponInfoApi({couponId}).then(res=>{
+        // const result = {
+        //   code:'0',
+        //   coupon:{
+        //     couponName:'qqq',
+        //     couponValid:1,//有效期 1领取2特定
+        //     couponValidDay:0,
+        //     couponValidDateST:'2019-04-04 12:30:45',
+        //     couponValidDateET:'2019-04-04 12:30:46',
+        //     couponMoney:100,
+        //     couponFullAmount:100,
+        //     couponCount:1,
+        //     couponUseScene:1,
+        //     couponUsageLimit:[1],
+        //     couponWarningQty:1,
+        //     couponWarningEmail:'17701799531@163.com',
+        //     couponRemark:'备注',
+        //     spuScope:1,
+        //     shopScope:1,
+        //     couponExplain:'说明'
+        //   },
+        //   activityProduct:{
+        //     couponUseScope:5,
+        //     brandList:[{
+        //       name:1,
+        //       pdBrandId:1
+        //     }]
+        //   },
+        //   activityShop:{
+        //     couponShopScope:2,
+        //     shopList:[{
+        //       spShopId:1,
+        //       name:'周虹烨的门店'
+        //     }]
+        //   },
+        //   pdList:[{
+        //     pdCode:'111',
+        //     name:'zhy',
+        //     pdSpuId:1,
+        //     pdSkuId:1,
+        //     displayName:'红色'
+        //   }],
+        // };
+        if(res.code == '0'){
+          const {couponInfo,activityProduct,activityShop,pdList} = res;
           const {couponShopScope,shopList} = activityShop;
           const {couponUseScope,brandList} = activityProduct;
-          coupon.couponShopScope = couponShopScope;
-          coupon.couponUseScope = couponUseScope;
+          let {couponUsageLimit} = couponInfo;
+          couponUsageLimit = couponUsageLimit&&couponUsageLimit.split('-');
+          couponInfo.couponUsageLimit = couponUsageLimit;
+          couponInfo.couponShopScope = couponShopScope;
+          couponInfo.couponUseScope = couponUseScope;
+          if(couponInfo.couponValid==1){
+            this.setState({
+              couponValidDay:true,
+              couponValidDate:false,
+            });
+          }else{
+            this.setState({
+              couponValidDay:false,
+              couponValidDate:true,
+            });
+          };
           this.setState({
-            coupon,
+            coupon:couponInfo,
             pdList,
             shopList,
           });
         };
-      // })
+      });
     }
   }
   //保存
@@ -110,7 +122,7 @@ class AddCoupon extends Component {
           if(key.includes('pdCode')||key.includes('spShopId')){
             delete values[key]
           };
-        }
+        };
         const {couponWarningEmail,couponWarningQty} = this.state.coupon;
         const {shopList,pdList,brandList} = this.state;
         values.pdList = pdList;
@@ -132,22 +144,41 @@ class AddCoupon extends Component {
           _values.couponValidDateST = moment(values.couponValidDate[0]).format('YYYY-MM-DD HH:mm:ss');
           _values.couponValidDateET = moment(values.couponValidDate[1]).format('YYYY-MM-DD HH:mm:ss');
         };
-        addCouponApi(_values)
-        .then(res => {
-          if(res.code=='0'){
-            this.props.dispatch({
-    					type:'coupon/fetchList',
-    					payload:{}
-    				})
-            this.props.dispatch({
-    						type:'tab/initDeletestate',
-    						payload:this.props.componkey
-    				});
-            message.success(res.message,.8);
-          }
-        },err=>{
-          message.error('请求失败')
-        })
+        if(this.props.data.couponId){//修改优惠券
+         updataCouponPackApi(_values)
+          .then(res => {
+            if(res.code=='0'){
+              this.props.dispatch({
+                type:'coupon/fetchList',
+                payload:{}
+              });
+              this.props.dispatch({
+                  type:'tab/initDeletestate',
+                  payload:this.props.componkey
+              });
+              message.success(res.message,.8);
+            };
+          },err=>{
+            message.error('请求失败')
+          })
+        }else{
+          addCouponApi(_values)
+          .then(res => {
+            if(res.code=='0'){
+              this.props.dispatch({
+                type:'coupon/fetchList',
+                payload:{}
+              });
+              this.props.dispatch({
+                  type:'tab/initDeletestate',
+                  payload:this.props.componkey
+              });
+              message.success(res.message,.8);
+            };
+          },err=>{
+            message.error('请求失败')
+          })
+        };
       }
     });
   }
@@ -229,7 +260,7 @@ class AddCoupon extends Component {
   onShopChange=(e)=>{
     const {value} = e.target;
     const {coupon} = this.state;
-    const newCoupon = _.assign(coupon,{spuScope:value});
+    const newCoupon = _.assign(coupon,{shopScope:value});
     this.setState({
       coupon:newCoupon
     })
