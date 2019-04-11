@@ -31,6 +31,7 @@ class AddCoupon extends Component {
         couponValidDateST:moment().format('YYYY-MM-DD HH:mm:ss'),
         couponValidDateET:moment().add(1,'days').format('YYYY-MM-DD HH:mm:ss')
       },
+      couponId:''
     }
     this.options1 = [
       { label: '不可与限时直降同享',value:1},
@@ -40,78 +41,52 @@ class AddCoupon extends Component {
 
   componentDidMount(){
     if(this.props.data){ //修改
-      const {couponId} = this.props.data
-      getCouponInfoApi({couponId}).then(res=>{
-        // const result = {
-        //   code:'0',
-        //   coupon:{
-        //     couponName:'qqq',
-        //     couponValid:1,//有效期 1领取2特定
-        //     couponValidDay:0,
-        //     couponValidDateST:'2019-04-04 12:30:45',
-        //     couponValidDateET:'2019-04-04 12:30:46',
-        //     couponMoney:100,
-        //     couponFullAmount:100,
-        //     couponCount:1,
-        //     couponUseScene:1,
-        //     couponUsageLimit:[1],
-        //     couponWarningQty:1,
-        //     couponWarningEmail:'17701799531@163.com',
-        //     couponRemark:'备注',
-        //     spuScope:1,
-        //     shopScope:1,
-        //     couponExplain:'说明'
-        //   },
-        //   activityProduct:{
-        //     couponUseScope:5,
-        //     brandList:[{
-        //       name:1,
-        //       pdBrandId:1
-        //     }]
-        //   },
-        //   activityShop:{
-        //     couponShopScope:2,
-        //     shopList:[{
-        //       spShopId:1,
-        //       name:'周虹烨的门店'
-        //     }]
-        //   },
-        //   pdList:[{
-        //     pdCode:'111',
-        //     name:'zhy',
-        //     pdSpuId:1,
-        //     pdSkuId:1,
-        //     displayName:'红色'
-        //   }],
-        // };
-        if(res.code == '0'){
-          const {couponInfo,activityProduct,activityShop,pdList} = res;
-          const {couponShopScope,shopList} = activityShop;
-          const {couponUseScope,brandList} = activityProduct;
-          let {couponUsageLimit} = couponInfo;
-          couponUsageLimit = couponUsageLimit&&couponUsageLimit.split('-');
-          couponInfo.couponUsageLimit = couponUsageLimit;
-          couponInfo.couponShopScope = couponShopScope;
-          couponInfo.couponUseScope = couponUseScope;
-          if(couponInfo.couponValid==1){
-            this.setState({
-              couponValidDay:true,
-              couponValidDate:false,
-            });
-          }else{
-            this.setState({
-              couponValidDay:false,
-              couponValidDate:true,
-            });
-          };
+      this.initPage();
+    };
+  }
+  initPage =()=> {
+    const {couponId} = this.props.data;
+    getCouponInfoApi({couponId}).then(res=>{
+      if(res.code == '0'){
+        const {couponInfo,activityProduct,activityShop,pdList} = res;
+        const {couponShopScope,shopList} = activityShop;
+        const {couponUseScope,brandList} = activityProduct;
+        let {couponUsageLimit} = couponInfo;
+        couponUsageLimit = couponUsageLimit && couponUsageLimit.split('-');
+        for(var i=0;i<couponUsageLimit.length;i++){
+          couponUsageLimit[i] = Number(couponUsageLimit[i]);
+        };
+        brandList.map(item=>{
+          item.text = item.name;
+          item.value = item.pdBrandId;
+        });
+        brandList.map(item=>{
+          delete item.name;
+          delete item.pdBrandId;
+        });
+        couponInfo.couponUsageLimit = couponUsageLimit;
+        couponInfo.couponShopScope = couponShopScope;
+        couponInfo.couponUseScope = couponUseScope;
+        if(couponInfo.couponValid==1){
           this.setState({
-            coupon:couponInfo,
-            pdList,
-            shopList,
+            couponValidDay:true,
+            couponValidDate:false,
+          });
+        }else{
+          this.setState({
+            couponValidDay:false,
+            couponValidDate:true,
           });
         };
-      });
-    }
+        this.setState({
+          coupon:couponInfo,
+          pdList,
+          shopList,
+          brandList,
+          couponId,
+        });
+      };
+    });
   }
   //保存
   handleSubmit = (e) => {
@@ -145,6 +120,8 @@ class AddCoupon extends Component {
           _values.couponValidDateET = moment(values.couponValidDate[1]).format('YYYY-MM-DD HH:mm:ss');
         };
         if(this.props.data.couponId){//修改优惠券
+          const {couponId} = this.props.data;
+          _values.couponId = couponId;
          updataCouponPackApi(_values)
           .then(res => {
             if(res.code=='0'){
@@ -154,7 +131,7 @@ class AddCoupon extends Component {
               });
               this.props.dispatch({
                   type:'tab/initDeletestate',
-                  payload:this.props.componkey
+                  payload:this.props.componkey+couponId
               });
               message.success(res.message,.8);
             };
@@ -356,6 +333,15 @@ class AddCoupon extends Component {
       coupon:newCoupon
     })
   }
+  //验证优惠券数修改时只能增加不能减少
+  validataCouponCount =(rule,value,callback)=> {
+    if(this.state.couponId){
+      if(Number(value) < this.state.coupon.couponCount){
+        callback('')
+      };
+      callback();
+    };
+  }
   render(){
     const {
       shopList,
@@ -368,7 +354,8 @@ class AddCoupon extends Component {
       couponShopScopeValue,
       coupon,
     } = this.state;
-    console.log(coupon)
+    const isEdit = Boolean(this.state.couponId);
+    console.log(isEdit)
     const radioStyle = {
       display: 'block',
       height: '30px',
@@ -393,6 +380,7 @@ class AddCoupon extends Component {
                     style={{width:'280px'}}
                     maxLength='10'
                     autoComplete="off"
+                    disabled={isEdit}
                   />　
               )}<span className='suffix_tips'>该名称将在前端给用户展示，请谨慎填写</span>
             </FormItem>
@@ -407,7 +395,7 @@ class AddCoupon extends Component {
                       initialValue:coupon.couponValid,
                       rules: [{ required: true, message: '请选择券有效期' }],
                   })(
-                    <RadioGroup onChange = {this.choice}>
+                    <RadioGroup onChange = {this.choice} disabled={isEdit}>
                         <Radio value={1}>用户领取时间起</Radio>
                         <Radio value={2}>特定时间到</Radio>
                     </RadioGroup>
@@ -420,7 +408,7 @@ class AddCoupon extends Component {
                     initialValue:coupon.couponValidDay,
                     rules: [{ required:this.state.couponValidDay, message: '请填写用户领取时间' }],
                   })(
-                    <Input style={{width:'140px'}} disabled = {!this.state.couponValidDay}/>
+                    <Input style={{width:'140px'}} disabled = {!this.state.couponValidDay||isEdit}/>
                   )}　天可用<span className='suffix_tips'>0代表领取当天</span>
                 </FormItem>
                 <FormItem>
@@ -431,7 +419,7 @@ class AddCoupon extends Component {
                       <RangePicker
                         showTime
                         format="YYYY-MM-DD HH:mm:ss"
-                        disabled = {!this.state.couponValidDate}
+                        disabled = {!this.state.couponValidDate||isEdit}
                       />
                    )}
                 </FormItem>
@@ -450,7 +438,7 @@ class AddCoupon extends Component {
                 message: '请输入最多2位小数正数'}
               ],
             })(
-              <Input style={{width:'255px'}} placeholder = '请输入优惠券金额'/>
+              <Input style={{width:'255px'}} placeholder = '请输入优惠券金额' disabled={isEdit}/>
             )}　元
             </FormItem>
             <FormItem
@@ -465,7 +453,7 @@ class AddCoupon extends Component {
                   {pattern:/^[^[+]{0,1}(\d+)$/,message: '请输入正整数'}
                 ],
               })(
-                <Input style={{width:'205px'}}/>
+                <Input style={{width:'205px'}} disabled={isEdit}/>
               )}　元可用　　<span className='suffix_tips'>只可输入0，正整数</span>　
             </FormItem>
             <FormItem
@@ -479,11 +467,12 @@ class AddCoupon extends Component {
                   rules: [
                     {required: true, message: '请输入优惠券'},
                     {pattern:/^(?:[0-9]{0,4}|10000)$/,message: '0-10000之间的正整数'}
+                    {validator:isEdit&&this.validataCouponCount}
                   ],
               })(
                 <Input placeholder='请输入0-10000的正整数' style={{width:'255px'}}/>
               )
-            }　张
+            }　张{isEdit&&<span className='suffix_tips'>修改优惠券总量时只能增加不能减少，请谨慎设置</span>}
             </FormItem>
             <FormItem
               label='发放方式'
@@ -494,7 +483,7 @@ class AddCoupon extends Component {
                   initialValue:coupon.couponUseScene,
                   rules:[{required: true, message: '请选择使用商品范围'}]
                 })(
-                  <RadioGroup>
+                  <RadioGroup disabled={isEdit}>
                     <Radio style={radioStyle} value={1}>注册领取</Radio>
                     <Radio style={radioStyle} value={3}>手动领取</Radio>
                     <Radio style={radioStyle} value={2}>注券</Radio>
@@ -510,7 +499,7 @@ class AddCoupon extends Component {
                 getFieldDecorator('couponUsageLimit',{
                   initialValue:coupon.couponUsageLimit,
                 })(
-                  <CheckboxGroup options={this.options1}/>
+                  <CheckboxGroup options={this.options1} disabled={isEdit}/>
                 )
               }<span className='suffix_tips'>若不选，则无使用限制</span>
             </FormItem>
@@ -534,7 +523,7 @@ class AddCoupon extends Component {
               initialValue:coupon.couponExplain,
               rules:[{required: true, message: '请输入优惠券说明'}]
             })(
-                <TextArea style={{width:'255px'}} placeholder='请输入优惠券说明，50字以内' maxLength='50' rows={6} />
+                <TextArea style={{width:'255px'}} placeholder='请输入优惠券说明，50字以内' maxLength='50' rows={6} disabled={isEdit}/>
             )}<span className='suffix_tips'>该名称将在前端给用户展示，请谨慎填写</span>
           </FormItem>
           <FormItem
@@ -561,7 +550,7 @@ class AddCoupon extends Component {
                     rules:[{required: true, message: '请选择适用商品类型'}],
                     onChange:this.couponUseScopeChange
                   })(
-                    <RadioGroup>
+                    <RadioGroup disabled={isEdit}>
                       <Radio style={radioStyle} value={4}>全部商品</Radio>
                       <Radio style={radioStyle} value={1}>一般贸易商品</Radio>
                       <Radio style={radioStyle} value={2}>保税商品</Radio>
@@ -571,7 +560,7 @@ class AddCoupon extends Component {
                 }
               </FormItem>
             </Col>
-            {coupon.couponUseScope == 5 &&
+            { (!isEdit && coupon.couponUseScope == 5) &&
               <Col span={10} style={{'padding-top':'136px'}}>
                 <FormItem>
                   <div>
@@ -610,7 +599,7 @@ class AddCoupon extends Component {
                 rules:[{required: true, message: '请选择选择商品'}],
                 onChange:this.onGoodChange
               })(
-                <RadioGroup>
+                <RadioGroup disabled={isEdit}>
                   <Radio value={0}>全部可用</Radio>
                   <Radio value={1}>指定商品可用</Radio>
                   <Radio value={2}>指定商品不可用</Radio>
@@ -623,7 +612,7 @@ class AddCoupon extends Component {
             labelCol={{span:4,offset:1}}
             wrapperCol={{span:10}}>
             {
-              (coupon.spuScope==1||coupon.spuScope==2) &&
+              (!isEdit && (coupon.spuScope==1||coupon.spuScope==2) ) &&
               <GoodList
                 form={this.props.form}
                 couponUseScope={coupon.couponUseScope}
@@ -648,7 +637,7 @@ class AddCoupon extends Component {
                 rules:[{required: true, message: '请选择适用门店类型'}],
                 onChange:this.couponShopScopeChange
               })(
-                <RadioGroup>
+                <RadioGroup disabled={isEdit}>
                   <Radio style={radioStyle} value={0}>全部门店</Radio>
                   <Radio style={radioStyle} value={1}>加盟店</Radio>
                   <Radio style={radioStyle} value={2}>直联营店</Radio>
@@ -666,7 +655,7 @@ class AddCoupon extends Component {
                 rules:[{required: true, message: '请选择选择商品'}],
                 onChange:this.onShopChange
               })(
-                <RadioGroup>
+                <RadioGroup disabled={isEdit}>
                   <Radio value={0}>全部可用</Radio>
                   <Radio value={1}>指定门店可用</Radio>
                   <Radio value={2}>指定门店不可用</Radio>
@@ -675,7 +664,7 @@ class AddCoupon extends Component {
             }
           </FormItem>
           {
-            (coupon.shopScope==1 || coupon.shopScope==2)&&
+            (!isEdit&&(coupon.shopScope==1 || coupon.shopScope==2))&&
             <FormItem
               className='table_temp_list coupon_list'
               label=''
