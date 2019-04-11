@@ -822,6 +822,7 @@ class AddGoodsForm extends Component {
                      })(
                        <Select placeholder="请选择" allowClear={false}>
                          <Option key={0} value='7'>7%</Option>
+                         <Option key={5} value='9.2'>9.2%</Option>
                          <Option key={1} value='11.2'>11.2%</Option>
                          <Option key={2} value='20.222'>20.222%</Option>
                          <Option key={3} value='31.5'>31.5%</Option>
