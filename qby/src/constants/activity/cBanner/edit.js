@@ -217,7 +217,6 @@ class OperatebannerEditForm extends React.Component{
 					labelCol={{ span: 3,offset: 1 }}
 					wrapperCol={{ span: 6 }}>
 					{getFieldDecorator('configureCode', {
-							rules: [{required: true, message: '请输入跳转页面编码'}],
 							initialValue:this.props.formValue.configureCode
 					})(
 							<Input placeholder = '请输入跳转页面编码' autoComplete="off"/>

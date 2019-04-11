@@ -55,12 +55,13 @@ class AddCouponPack extends Component {
     this.props.form.validateFieldsAndScroll((err,values)=>{
       if(!err){
         let {couponCodes} = values;
+        let tempCodes = [];
+        debugger
         if(couponCodes){
-          let tempCodes=couponCodes.split('\n');
-          tempCodes.filter(item=>item!='');
-          couponCodes = tempCodes.join('\n');
+          tempCodes=couponCodes.split('\n');
+          tempCodes = tempCodes.filter(item=>item != '');
         };
-        values.couponCodes = couponCodes;
+        values.couponCodes = tempCodes;
         if(data){
           const {couponPackageId,updateUserId,updateUserName,couponBatchNo} = this.state;
           values.couponPackageId = couponPackageId;
@@ -68,21 +69,21 @@ class AddCouponPack extends Component {
           values.updateUserName = updateUserName;
           values.couponBatchNo = couponBatchNo;
         };
-        addCouponPackApi(values)
-        .then(res=>{
-          if(res.code == '0'){
-            if(data){
-              message.success('修改成功');
-              componkey=componkey+data.couponPackageId;
-            }else{
-              message.success('新建成功');
-            };
-            this.props.dispatch({
-              type:'tab/initDeletestate',
-              payload:componkey
-            });
-          };
-        });
+        // addCouponPackApi(values)
+        // .then(res=>{
+        //   if(res.code == '0'){
+        //     if(data){
+        //       message.success('修改成功');
+        //       componkey=componkey+data.couponPackageId;
+        //     }else{
+        //       message.success('新建成功');
+        //     };
+        //     this.props.dispatch({
+        //       type:'tab/initDeletestate',
+        //       payload:componkey
+        //     });
+        //   };
+        // });
       };
     });
   }

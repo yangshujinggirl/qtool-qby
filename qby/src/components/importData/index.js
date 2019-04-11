@@ -506,16 +506,18 @@ class GoodTable extends Component{
     dataSource&&dataSource.map((item,index)=>{
       item.key=index;
     });
-    let Uploadtype = '';
+    let [Uploadtype,importCouponData,importCouponSpData]= ['',''];
     if(type==2) Uploadtype=''
     if(type==3) Uploadtype=1
     if(type==4) Uploadtype=2
     if(type==5) Uploadtype=3
     const uploadData = { data:JSON.stringify({type:Uploadtype}) }
     if(type == 2){
-      const importCouponData = { data:JSON.stringify({couponUseScope:this.props.couponUseScope}) }
+      importCoupongoodData = { data:JSON.stringify({couponUseScope:this.props.couponUseScope}) }
+    };
+    if(type==12){
+      importCouponSpData = { data:JSON.stringify({couponUseScope:this.props.couponShopScope}) }
     }
-
     return(
       <div className='good_table_temp'>
         <Table
@@ -526,17 +528,17 @@ class GoodTable extends Component{
             : (type==2 ?
               this.columns2
               :(type==3 ?
-                this.columns3 :
-                (type ==4) ?
-                  this.columns4 :
-                  (type ==5) ?
+                this.columns3
+                :(type ==4) ?
+                  this.columns4
+                  :(type ==5) ?
                    this.columns5 : null)
                 )
           }
           dataSource={dataSource}/>
         <Button onClick={this.add}>{addText}</Button>
         <div className='btn_box'>
-          {type==11 ||type==12?
+          {type==11 ? //导入c端直降门店
             <ImportGood
               title='导入门店'
               name='mfile'
@@ -544,7 +546,7 @@ class GoodTable extends Component{
               onChange={this.onShopChange}
               />
            :(
-               type==3 || type==4 || type==5?
+               type==3 || type==4 || type==5 ?
                <ImportGood
                  title='导入活动商品'
                  name='mfile'
@@ -552,16 +554,24 @@ class GoodTable extends Component{
                  data={uploadData}
                  onChange={this.onGoodChange}
                 />
-              : (
-                type==2 ?
+              : (type==2 ? //导入优惠券商品
                 <ImportGood
-                  title='导入门店'
+                  title='导入商品'
                   name='mfile'
                   action='/erpWebRest/webrest.htm?code=qerp.web.pd.coupon.spu.imoprt'
                   data={importCouponData}
                   onChange={this.onShopChange}
                   />
-                : null
+                : (type==12 ? //导入优惠券门店
+                  <ImportGood
+                    title='导入门店'
+                    name='mfile'
+                    action='/erpWebRest/webrest.htm?code=qerp.web.pd.coupon.shop.imoprt'
+                    data={importCouponSpData}
+                    onChange={this.onShopChange}
+                    />
+                  :null
+                )
               )
            )
           }
