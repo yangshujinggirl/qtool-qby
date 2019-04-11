@@ -56,11 +56,11 @@ class AddCoupon extends Component {
         for(var i=0;i<couponUsageLimit.length;i++){
           couponUsageLimit[i] = Number(couponUsageLimit[i]);
         };
-        brandList.map(item=>{
+        brandList&&brandList.map(item=>{
           item.text = item.name;
           item.value = item.pdBrandId;
         });
-        brandList.map(item=>{
+        brandList&&brandList.map(item=>{
           delete item.name;
           delete item.pdBrandId;
         });
@@ -102,12 +102,12 @@ class AddCoupon extends Component {
         const {shopList,pdList,brandList} = this.state;
         values.pdList = pdList;
         values.spList = shopList;
-        brandList.map(item=>{
+        brandList&&brandList.map(item=>{
           item.name = item.text;
           item.pdBrandId = item.value;
           return item
         });
-        brandList.map(item=>{
+        brandList&&brandList.map(item=>{
           delete item.text;
           delete item.value;
         });
@@ -119,8 +119,8 @@ class AddCoupon extends Component {
           _values.couponValidDateST = moment(values.couponValidDate[0]).format('YYYY-MM-DD HH:mm:ss');
           _values.couponValidDateET = moment(values.couponValidDate[1]).format('YYYY-MM-DD HH:mm:ss');
         };
-        if(this.props.data.couponId){//修改优惠券
-          const {couponId} = this.props.data;
+        if(this.state.couponId){//修改优惠券
+          const {couponId} = this.state;
           _values.couponId = couponId;
          updataCouponPackApi(_values)
           .then(res => {
@@ -172,10 +172,17 @@ class AddCoupon extends Component {
   }
   //取消
   cancel =()=> {
-    this.props.dispatch({
-      type:'tab/initDeletestate',
-      payload:this.props.componkey
-    });
+    if(this.state.couponId){
+      this.props.dispatch({
+        type:'tab/initDeletestate',
+        payload:this.props.componkey+this.state.couponId
+      });
+    }else{
+      this.props.dispatch({
+        type:'tab/initDeletestate',
+        payload:this.props.componkey
+      });
+    };
   }
   //添加商品
   addGood =()=> {
@@ -408,7 +415,7 @@ class AddCoupon extends Component {
                     initialValue:coupon.couponValidDay,
                     rules: [{ required:this.state.couponValidDay, message: '请填写用户领取时间' }],
                   })(
-                    <Input style={{width:'140px'}} disabled = {!this.state.couponValidDay||isEdit}/>
+                    <Input style={{width:'140px'}} disabled = {!this.state.couponValidDay||isEdit} autoComplete="off"/>
                   )}　天可用<span className='suffix_tips'>0代表领取当天</span>
                 </FormItem>
                 <FormItem>
@@ -438,7 +445,7 @@ class AddCoupon extends Component {
                 message: '请输入最多2位小数正数'}
               ],
             })(
-              <Input style={{width:'255px'}} placeholder = '请输入优惠券金额' disabled={isEdit}/>
+              <Input style={{width:'255px'}} placeholder = '请输入优惠券金额' disabled={isEdit} autoComplete="off"/>
             )}　元
             </FormItem>
             <FormItem
@@ -453,7 +460,7 @@ class AddCoupon extends Component {
                   {pattern:/^[^[+]{0,1}(\d+)$/,message: '请输入正整数'}
                 ],
               })(
-                <Input style={{width:'205px'}} disabled={isEdit}/>
+                <Input style={{width:'205px'}} disabled={isEdit} autoComplete="off"/>
               )}　元可用　　<span className='suffix_tips'>只可输入0，正整数</span>　
             </FormItem>
             <FormItem
@@ -466,11 +473,11 @@ class AddCoupon extends Component {
                   initialValue:coupon.couponCount,
                   rules: [
                     {required: true, message: '请输入优惠券'},
-                    {pattern:/^(?:[0-9]{0,4}|10000)$/,message: '0-10000之间的正整数'}
+                    {pattern:/^(?:[0-9]{0,4}|10000)$/,message: '0-10000之间的正整数'},
                     {validator:isEdit&&this.validataCouponCount}
                   ],
               })(
-                <Input placeholder='请输入0-10000的正整数' style={{width:'255px'}}/>
+                <Input placeholder='请输入0-10000的正整数' style={{width:'255px'}} autoComplete="off"/>
               )
             }　张{isEdit&&<span className='suffix_tips'>修改优惠券总量时只能增加不能减少，请谨慎设置</span>}
             </FormItem>
@@ -510,8 +517,8 @@ class AddCoupon extends Component {
             >
               <div>
                 <span>剩余　</span>
-                <Input value={coupon.couponWarningQty} onChange={this.getCouponQty} style={{width:'100px'}} />　张优惠券时预警，预警邮箱　　
-                <Input value={coupon.couponWarningEmail} onChange={this.getCouponEmail} style={{width:'200px'}}/>
+                <Input value={coupon.couponWarningQty} onChange={this.getCouponQty} style={{width:'100px'}} autoComplete="off"/>　张优惠券时预警，预警邮箱　　
+                <Input value={coupon.couponWarningEmail} onChange={this.getCouponEmail} style={{width:'200px'}} autoComplete="off"/>
             </div>
             </FormItem>
             <FormItem

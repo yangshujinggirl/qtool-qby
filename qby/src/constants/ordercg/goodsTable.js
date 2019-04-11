@@ -164,7 +164,7 @@ class GoodsInfoTable extends React.Component {
       if (!pdCode) {
           return;
       };
-      let data = {pdCode:pdCode};
+      let data = {pdCode:pdCode,isPurchas:1};
       const result=GetServerData('qerp.web.pd.spu.list',data);
       result.then((res) => {
           return res;

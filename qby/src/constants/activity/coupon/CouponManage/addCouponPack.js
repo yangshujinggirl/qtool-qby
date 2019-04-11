@@ -19,7 +19,16 @@ class AddCouponPack extends Component {
   componentDidMount =()=> {
     const {data} = this.props;
     if(data){
-      const {couponPackageId,couponPackageName,couponCodes,updateUserId,updateUserName,couponBatchNo} = this.props.data
+      let {
+        couponPackageId,
+        couponPackageName,
+        couponCodes,
+        updateUserId,
+        updateUserName,
+        couponBatchNo
+      } = this.props.data;
+      couponCodes = couponCodes&&couponCodes.split(',');
+      couponCodes =  couponCodes&&couponCodes.join('\n')
       this.setState({
         couponPackageId,
         couponPackageName,
@@ -27,8 +36,8 @@ class AddCouponPack extends Component {
         updateUserId,
         updateUserName,
         couponBatchNo,
-      })
-    }
+      });
+    };
   }
   cancel =()=> {
     const {data} = this.props;
@@ -45,8 +54,15 @@ class AddCouponPack extends Component {
     let {data,componkey} = this.props;
     this.props.form.validateFieldsAndScroll((err,values)=>{
       if(!err){
+        let {couponCodes} = values;
+        if(couponCodes){
+          let tempCodes=couponCodes.split('\n');
+          tempCodes.filter(item=>item!='');
+          couponCodes = tempCodes.join('\n');
+        };
+        values.couponCodes = couponCodes;
         if(data){
-          const {couponPackageId,couponPackageName,couponCodes,updateUserId,updateUserName,couponBatchNo} = this.state;
+          const {couponPackageId,updateUserId,updateUserName,couponBatchNo} = this.state;
           values.couponPackageId = couponPackageId;
           values.updateUserId = updateUserId;
           values.updateUserName = updateUserName;
@@ -99,7 +115,7 @@ class AddCouponPack extends Component {
             initialValue:couponCodes,
             rules:[{required:true,message:'请输入优惠券批次号'}]
           })(
-            <TextArea rows={5} placeholder={tips} maxLength='15'/>
+            <TextArea rows={5} placeholder={tips}/>
           )
         }
         </FormItem>
