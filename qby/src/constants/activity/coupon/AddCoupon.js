@@ -52,9 +52,11 @@ class AddCoupon extends Component {
         const {couponShopScope,shopList} = activityShop;
         const {couponUseScope,brandList} = activityProduct;
         let {couponUsageLimit} = couponInfo;
-        couponUsageLimit = couponUsageLimit && couponUsageLimit.split('-');
-        for(var i=0;i<couponUsageLimit.length;i++){
-          couponUsageLimit[i] = Number(couponUsageLimit[i]);
+        if(couponUsageLimit){
+          couponUsageLimit = couponUsageLimit && couponUsageLimit.split('-');
+          for(var i=0;i<couponUsageLimit.length;i++){
+            couponUsageLimit[i] = Number(couponUsageLimit[i]);
+          };
         };
         brandList&&brandList.map(item=>{
           item.text = item.name;
@@ -78,6 +80,7 @@ class AddCoupon extends Component {
             couponValidDate:true,
           });
         };
+        console.log(couponInfo)
         this.setState({
           coupon:couponInfo,
           pdList,
@@ -361,6 +364,7 @@ class AddCoupon extends Component {
       couponShopScopeValue,
       coupon,
     } = this.state;
+    console.log(coupon)
     const isEdit = Boolean(this.state.couponId);
     console.log(isEdit)
     const radioStyle = {

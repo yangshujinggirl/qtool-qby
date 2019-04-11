@@ -1,5 +1,5 @@
 import React,{Component} from 'react'
-import {Form,Button,Input,Row,Col} from 'antd'
+import {Form,Button,Input,Row,Col,message} from 'antd'
 import {connect} from 'dva'
 import {addCouponPackApi} from '../../../../services/activity/coupon'
 const TextArea = Input.TextArea;
@@ -56,10 +56,10 @@ class AddCouponPack extends Component {
       if(!err){
         let {couponCodes} = values;
         let tempCodes = [];
-        debugger
         if(couponCodes){
           tempCodes=couponCodes.split('\n');
           tempCodes = tempCodes.filter(item=>item != '');
+          tempCodes = tempCodes.map( item=>item.replace(/\s+/g,"") );
         };
         values.couponCodes = tempCodes;
         if(data){
@@ -69,21 +69,25 @@ class AddCouponPack extends Component {
           values.updateUserName = updateUserName;
           values.couponBatchNo = couponBatchNo;
         };
-        // addCouponPackApi(values)
-        // .then(res=>{
-        //   if(res.code == '0'){
-        //     if(data){
-        //       message.success('修改成功');
-        //       componkey=componkey+data.couponPackageId;
-        //     }else{
-        //       message.success('新建成功');
-        //     };
-        //     this.props.dispatch({
-        //       type:'tab/initDeletestate',
-        //       payload:componkey
-        //     });
-        //   };
-        // });
+        addCouponPackApi(values)
+        .then(res=>{
+          if(res.code == '0'){
+            if(data){
+              message.success('修改成功');
+              componkey=componkey+data.couponPackageId;
+            }else{
+              message.success('新建成功');
+            };
+            this.props.dispatch({
+              type:'tab/initDeletestate',
+              payload:componkey
+            });
+            this.props.dispatch({
+              type:'coupon/fetchManageList',
+              payload:{...this.props.data.inputValues}
+            })
+          };
+        });
       };
     });
   }

@@ -84,12 +84,15 @@ class cDown extends Component{
     });
   }
 
-  //新增活动进价
+  //新增直降
   createbActPrice =()=>{
     const paneitem = {
       title:'新建C端直降',
       key:`${this.props.componkey}edit`,
       componkey:`${this.props.componkey}edit`,
+      data:{
+        inputValues:this.state.inputValues
+      }
     };
     this.props.dispatch({
         type:'tab/firstAddTab',
@@ -134,6 +137,7 @@ class cDown extends Component{
         componkey:`${this.state.componkey}info`,
         data:{
           activityId:record.activityId,
+          inputValues:this.state.inputValues
         }
       }
       this.props.dispatch({

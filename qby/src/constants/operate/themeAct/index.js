@@ -132,9 +132,13 @@ class ThemeAct extends Component{
   }
   //点击强制失效
   forceCancel=()=>{
-    this.setState({
-      confirmVisible:true
-    })
+    if(this.state.themeActivityId){
+      this.setState({
+        confirmVisible:true
+      })
+    }else{
+      message.error('请选择要失效的选项',.8)
+    };
   }
   //改变弹窗确认的loading
   changeLoading =(value)=> {

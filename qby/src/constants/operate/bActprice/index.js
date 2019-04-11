@@ -92,6 +92,9 @@ class BactPrice extends Component{
       title:'新建活动进价',
       key:`${this.props.componkey}edit`,
       componkey:`${this.props.componkey}edit`,
+      data:{
+        inputValues:this.state.inputValues
+      }
     };
     this.props.dispatch({
         type:'tab/firstAddTab',
@@ -148,7 +151,8 @@ class BactPrice extends Component{
         key:`${this.state.componkey}edit`+record.activityId,
         componkey:`${this.state.componkey}edit`,
         data:{
-          activityId:record.activityId
+          activityId:record.activityId,
+          inputValues:this.state.inputValues
         },
       };
       this.props.dispatch({

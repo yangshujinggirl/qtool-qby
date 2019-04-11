@@ -52,10 +52,18 @@ class AddTheme extends  Component {
     });
   }
   cancel =()=> {
-    this.props.dispatch({
-      type:'tab/initDeletestate',
-      payload:this.props.componkey
-    });
+    if(this.props.data.infos){
+      let {themeActivityId} = this.props.data.infos
+      this.props.dispatch({
+        type:'tab/initDeletestate',
+        payload:this.props.componkey+themeActivityId
+      });
+    }else{
+      this.props.dispatch({
+        type:'tab/initDeletestate',
+        payload:this.props.componkey
+      });
+    }
   }
   handleSubmit =()=> {
     this.props.form.validateFieldsAndScroll((err,values)=>{

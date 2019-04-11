@@ -506,7 +506,7 @@ class GoodTable extends Component{
     dataSource&&dataSource.map((item,index)=>{
       item.key=index;
     });
-    let [Uploadtype,importCouponData,importCouponSpData]= ['',''];
+    let [Uploadtype,importCoupongoodData,importCouponSpData]= ['','',''];
     if(type==2) Uploadtype=''
     if(type==3) Uploadtype=1
     if(type==4) Uploadtype=2
@@ -559,7 +559,7 @@ class GoodTable extends Component{
                   title='导入商品'
                   name='mfile'
                   action='/erpWebRest/webrest.htm?code=qerp.web.pd.coupon.spu.imoprt'
-                  data={importCouponData}
+                  data={importCoupongoodData}
                   onChange={this.onShopChange}
                   />
                 : (type==12 ? //导入优惠券门店

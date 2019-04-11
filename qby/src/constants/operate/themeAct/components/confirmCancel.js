@@ -32,6 +32,7 @@ class Cancel extends Component{
       labelCol: {span:7},
       wrapperCol: {span:14},
     };
+    console.log(this.props)
     return(
       <Modal
         width={450}

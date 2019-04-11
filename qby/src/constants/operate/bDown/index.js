@@ -90,6 +90,9 @@ class Bdown extends Component{
       title:'新建直降',
       key:`${this.props.componkey}edit`,
       componkey:`${this.props.componkey}edit`,
+      data:{
+        inputValues:this.state.inputValues
+      }
     };
     this.props.dispatch({
       type:'tab/firstAddTab',
@@ -134,6 +137,7 @@ class Bdown extends Component{
         componkey:`${this.state.componkey}info`,
         data:{
           activityId:record.activityId,
+          inputValues:this.state.inputValues
         }
       }
       this.props.dispatch({
@@ -146,7 +150,8 @@ class Bdown extends Component{
         key:`${this.state.componkey}edit`+record.activityId,
         componkey:`${this.state.componkey}edit`,
         data:{
-          activityId:record.activityId
+          activityId:record.activityId,
+          inputValues:this.state.inputValues
         },
       };
       this.props.dispatch({

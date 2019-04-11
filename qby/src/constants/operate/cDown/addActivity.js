@@ -40,7 +40,7 @@ class Addactivity extends Component {
     };
   }
   componentDidMount =()=> {
-    if(this.props.data){
+    if(this.props.data.activityId){
       const {activityId} = this.props.data;
       getInfoApi({activityId}).then(res=>{
         if(res.code=='0'){
@@ -91,7 +91,7 @@ class Addactivity extends Component {
           _values.shopList = this.state.shopList;
           _values.commodityPic = this.state.imageUrl;
           _values.type = 3;
-          if(this.props.data){ //修改
+          if(this.props.data.activityId){ //修改
             _values.activityId = this.props.data.activityId;
             this.sendRequest(_values)
           }else{
@@ -102,7 +102,7 @@ class Addactivity extends Component {
     });
   }
   sendRequest =(values)=> {
-    if(this.props.data){
+    if(this.props.data.activityId){
       updataGoodApi(values).then(res=>{
         if(res.code == '0'){
           message.success('修改成功');
@@ -112,7 +112,7 @@ class Addactivity extends Component {
           });
           this.props.dispatch({
             type:'cDown/fetchList',
-            payload:{type:3}
+            payload:{type:3,...this.props.data.inputValues}
           })
         };
       })
@@ -126,7 +126,7 @@ class Addactivity extends Component {
           });
           this.props.dispatch({
             type:'cDown/fetchList',
-            payload:{type:3}
+            payload:{type:3,...this.props.data.inputValues}
           })
         };
       });
@@ -135,7 +135,7 @@ class Addactivity extends Component {
   //取消
   cancel =()=> {
     let {componkey} = this.props;
-    if(this.props.data){
+    if(this.props.data.activityId){
       componkey = componkey + this.props.data.activityId;
     };
     this.props.dispatch({

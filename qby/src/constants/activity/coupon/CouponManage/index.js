@@ -74,6 +74,7 @@ class CouponManage extends Component{
       key:`${this.props.componkey}editpack`+record.couponPackageId,
       componkey:`${this.props.componkey}editpack`,
       data:{
+        inputValues:this.state.inputValues,
         couponPackageId:record.couponPackageId,
         couponPackageName:record.couponPackageName,
         couponCodes:record.couponCodes,
@@ -92,6 +93,9 @@ class CouponManage extends Component{
       title:'创建券包',
       key:`${this.props.componkey}editpack`,
       componkey:`${this.props.componkey}editpack`,
+      data:{
+        inputValues:this.state.inputValues,
+      }
     };
     this.props.dispatch({
       type:'tab/firstAddTab',

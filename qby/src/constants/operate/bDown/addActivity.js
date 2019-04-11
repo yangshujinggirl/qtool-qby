@@ -21,7 +21,7 @@ class Addactivity extends Component {
       goodList:[{pdCode:'',name:'',displayName:'',toBprice:'',costPrice:'',activityPrice:''}]}
   }
   componentDidMount =()=> {
-    if(this.props.data){
+    if(this.props.data.activityId){
       const {activityId} = this.props.data;
       getInfoApi({activityId}).then(res=>{
         if(res.code=='0'){
@@ -49,7 +49,7 @@ class Addactivity extends Component {
         };
         _values.productList = this.state.goodList;
         _values.type = 2;
-        if(this.props.data){//修改
+        if(this.props.data.activityId){//修改
           _values.activityId = this.props.data.activityId;
           this.sendRequest(_values)
         }else{
@@ -59,7 +59,8 @@ class Addactivity extends Component {
     });
   }
   sendRequest =(values)=> {
-    if(this.props.data){
+    console.log(this.props)
+    if(this.props.data.activityId){ //修改
       updataGoodApi(values).then(res=>{
         if(res.code == '0'){
           message.success('修改成功');
@@ -69,7 +70,7 @@ class Addactivity extends Component {
           });
           this.props.dispatch({
             type:'bDown/fetchList',
-            payload:{type:2}
+            payload:{type:2,...this.props.data.inputValues}
           })
         };
       })
@@ -83,7 +84,7 @@ class Addactivity extends Component {
           });
           this.props.dispatch({
             type:'bDown/fetchList',
-            payload:{type:2}
+            payload:{type:2,...this.props.data.inputValues}
           })
         };
       });
@@ -92,7 +93,7 @@ class Addactivity extends Component {
   //取消
   cancel =()=> {
     let {componkey} = this.props;
-    if(this.props.data){
+    if(this.props.data.activityId){
       componkey = componkey + this.props.data.activityId;
     };
     this.props.dispatch({
