@@ -419,9 +419,13 @@ class GoodTable extends Component{
       const {dataSource} = this.props;
       let isRepeat = false;
       if(type==3||type==4||type==5){
+        let flag = '1';
+        if(type == 5){
+          flag = '3';
+        };
         // if(dataSource.length>1){isRepeat = dataSource.find(item=>item.spShopId == value)}
         // if(!isRepeat){
-          getGoodInfoApi({pdCode:value,flag:1}).then(res=>{
+          getGoodInfoApi({pdCode:value,flag}).then(res=>{
             if(res.code=='0'){
               if(res.pdSpu){
                 const list = {};

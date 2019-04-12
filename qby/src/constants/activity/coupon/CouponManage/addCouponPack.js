@@ -74,7 +74,7 @@ class AddCouponPack extends Component {
           if(res.code == '0'){
             if(data){
               message.success('修改成功');
-              componkey=componkey+data.couponPackageId;
+              componkey = componkey + data.couponPackageId;
             }else{
               message.success('新建成功');
             };
@@ -84,7 +84,11 @@ class AddCouponPack extends Component {
             });
             this.props.dispatch({
               type:'coupon/fetchManageList',
-              payload:{...this.props.data.inputValues}
+              payload:{
+                ...this.props.data.inputValues,
+                limit:this.props.data3.limit,
+                currentPage:this.props.data3.currentPage
+              }
             })
           };
         });

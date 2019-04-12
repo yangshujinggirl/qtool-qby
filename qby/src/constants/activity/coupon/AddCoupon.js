@@ -40,7 +40,7 @@ class AddCoupon extends Component {
   }
 
   componentDidMount(){
-    if(this.props.data){ //修改
+    if(this.props.data.couponId){ //修改
       this.initPage();
     };
   }
@@ -80,7 +80,6 @@ class AddCoupon extends Component {
             couponValidDate:true,
           });
         };
-        console.log(couponInfo)
         this.setState({
           coupon:couponInfo,
           pdList,
@@ -103,18 +102,19 @@ class AddCoupon extends Component {
         };
         const {couponWarningEmail,couponWarningQty} = this.state.coupon;
         const {shopList,pdList,brandList} = this.state;
+        const brands = _.cloneDeep(brandList)
         values.pdList = pdList;
         values.spList = shopList;
-        brandList&&brandList.map(item=>{
+        brands&&brands.map(item=>{
           item.name = item.text;
           item.pdBrandId = item.value;
           return item
         });
-        brandList&&brandList.map(item=>{
+        brands&&brands.map(item=>{
           delete item.text;
           delete item.value;
         });
-        values.brandList = brandList;
+        values.brandList = brands;
         values.couponWarningEmail = couponWarningEmail;
         values.couponWarningQty = couponWarningQty;
         const {couponValidDate,..._values} = values;
@@ -130,7 +130,11 @@ class AddCoupon extends Component {
             if(res.code=='0'){
               this.props.dispatch({
                 type:'coupon/fetchList',
-                payload:{}
+                payload:{
+                  ...this.state.inputValues,
+                  limit:this.props.data1.limit,
+                  currentPage:this.props.data1.currentPage
+                }
               });
               this.props.dispatch({
                   type:'tab/initDeletestate',
@@ -147,7 +151,11 @@ class AddCoupon extends Component {
             if(res.code=='0'){
               this.props.dispatch({
                 type:'coupon/fetchList',
-                payload:{}
+                payload:{
+                  ...this.state.inputValues,
+                  limit:this.props.data1.limit,
+                  currentPage:this.props.data1.currentPage
+                }
               });
               this.props.dispatch({
                   type:'tab/initDeletestate',
@@ -266,22 +274,18 @@ class AddCoupon extends Component {
     const {value} = e.target;
     const {coupon} = this.state;
     const newCoupon = _.assign(coupon,{couponWarningQty:value})
-    if(value){
-      this.setState({
-        coupon:newCoupon
-      });
-    };
+    this.setState({
+      coupon:newCoupon
+    });
   }
   //获取预警邮箱
   getCouponEmail=(e)=>{
     const {value} = e.target;
     const {coupon} = this.state;
     const newCoupon = _.assign(coupon,{couponWarningEmail:value})
-    if(value){
-      this.setState({
-        coupon:newCoupon
-      });
-    };
+    this.setState({
+      coupon:newCoupon
+    });
   }
   //商品类型选中
   onGoodTypeSelect =(value,option)=> {
@@ -325,8 +329,14 @@ class AddCoupon extends Component {
     });
     // const res={code:0,brandList:[{pdBrandId:1,name:'zhou'},{pdBrandId:2,name:'hong'}]}
   }
-  //商品适用范围发生变化
+  //适用商品类型发生变化
   couponUseScopeChange =(e)=> {
+    console.log(this.props.form);
+    let {pdList} = this.state;
+    pdList = [{pdCode:'',name:'',displayName:''}];
+    this.setState({ //商品列表中的商品要根据适用商品类型来判断---->所以当商品类型变化的时候，要刷新商品列表
+      pdList
+    });
     const {value} = e.target;
     const {coupon} = this.state;
     const newCoupon = _.assign(coupon,{couponUseScope:value});
@@ -336,6 +346,7 @@ class AddCoupon extends Component {
   }
   //适用门店类型发生变化时
   couponShopScopeChange =(e)=> {
+
     const {value} = e.target;
     const {coupon} = this.state;
     const newCoupon = _.assign(coupon,{couponShopScope:value});
@@ -353,6 +364,7 @@ class AddCoupon extends Component {
     };
   }
   render(){
+    console.log(this.state.brandList)
     const {
       shopList,
       pdList,
@@ -364,9 +376,7 @@ class AddCoupon extends Component {
       couponShopScopeValue,
       coupon,
     } = this.state;
-    console.log(coupon)
     const isEdit = Boolean(this.state.couponId);
-    console.log(isEdit)
     const radioStyle = {
       display: 'block',
       height: '30px',
@@ -572,7 +582,7 @@ class AddCoupon extends Component {
               </FormItem>
             </Col>
             { (!isEdit && coupon.couponUseScope == 5) &&
-              <Col span={10} style={{'padding-top':'136px'}}>
+              <Col span={10} style={{'paddingTop':'136px'}}>
                 <FormItem>
                   <div>
                     <AutoComplete
@@ -585,6 +595,7 @@ class AddCoupon extends Component {
                         {brandList.length>0 &&
                           brandList.map((item,index)=>(
                             <Tag
+                              key={index}
                               closable
                               onClose={(e)=>{
                                 e.preventDefault();

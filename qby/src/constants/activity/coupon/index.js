@@ -85,6 +85,9 @@ class Coupon extends Component{
       title:'创建优惠券',
       key:`${this.state.componkey}edit`,
       componkey:`${this.state.componkey}edit`,
+      data:{
+        inputValues:this.state.inputValues
+      }
     };
     this.props.dispatch({
         type:'tab/firstAddTab',
@@ -181,6 +184,7 @@ class Coupon extends Component{
         componkey:`${this.state.componkey}info`,
         data:{
           couponId:record.couponId,
+          inputValues:this.state.inputValues
         }
       }
       this.props.dispatch({

@@ -30,8 +30,8 @@ class CouponDetail extends Component{
 
   //拿取数据
   componentWillMount(){
-    const couponId = this.props.data.pdSpuId;
-    couponInfoApi({couponId:couponId})
+    const {couponId} = this.props.data;
+    couponInfoApi({couponId})
     .then(res => {
       if(res.code=="0"){
         this.setState({
@@ -112,8 +112,8 @@ class CouponDetail extends Component{
                   ? '保税商品 '
                   :(activityProduct.couponUseScope == 4
                     ? '全部商品'
-                    :(activityProduct.brandList&&activityProduct.brandList.map(item=>(
-                        <span>【{item}】、</span>))
+                    :(activityProduct.brandList&&activityProduct.brandList.map((item,index)=>(
+                        <span key={index}>【{item.name}】、</span>))
                     )
                   )
                 )

@@ -103,7 +103,6 @@ class CouponManage extends Component{
     });
   }
   render(){
-    console.log(this.props)
     const { dataList } = this.props.coupon.data3;
     return(
       <div  className='qtools-components-pages'>
