@@ -23,9 +23,9 @@ class GoodTable extends Component{
              })(
                type == 11
                ?
-                <Input placeholder='请输入商品ID' onBlur={(e)=>this.getIdInfo(e,index,'1')} autoComplete='off'/>
+                <Input placeholder='请输入门店ID' onBlur={(e)=>this.getIdInfo(e,index,'1')} autoComplete='off'/>
                :
-               <Input placeholder='请输入商品ID' onBlur={(e)=>this.getIdInfo(e,index,'2')} autoComplete='off'/>
+               <Input placeholder='请输入门店ID' onBlur={(e)=>this.getIdInfo(e,index,'2')} autoComplete='off'/>
              )
            }
           </FormItem>
@@ -119,8 +119,10 @@ class GoodTable extends Component{
         render:(text,record,index)=>{
           const {getFieldDecorator,FormItem} = this.props;
           const validatePrice=(rule,value,callback)=> {
-            if(Number(value)== 0 ){
-              callback('大于0的4位小数')
+            if(value){
+              if(Number(value)== 0 ){
+                callback('大于0的4位小数')
+              };
             };
             callback();
           };
@@ -198,11 +200,14 @@ class GoodTable extends Component{
         render:(text,record,index)=>{
           const {getFieldDecorator,FormItem} = this.props;
           const validatePrice=(rule,value,callback)=> {
-            if(Number(value)== 0 ){
-               callback('大于0的2位小数')
-            };
-            if(Number(value) > Number( record.toBPrice ) ){
-              callback('活动供价超过供价，请谨慎填写');
+            if(value){
+              if(Number(value) == 0 ){
+                 callback('大于0的2位小数')
+              }else{
+                if(Number(value) > Number( record.toBPrice ) ){
+                  callback('活动供价超过供价，请谨慎填写');
+                };
+              };
             };
             callback();
           };
@@ -212,9 +217,10 @@ class GoodTable extends Component{
                 getFieldDecorator('activitySupplyPrice'+index,{
                   initialValue:record.activitySupplyPrice,
                   rules:[
-                  {required:true,message:'请输入活动供价'},
-                  {pattern:/^\d+(\.\d{0,2})?$/,message:'大于0的2位小数'},
-                  {validator:validatePrice}]
+                    {required:true,message:'请输入活动供价'},
+                    {pattern:/^\d+(\.\d{0,2})?$/,message:'大于0的2位小数'},
+                    {validator:validatePrice}
+                  ]
                 })(
                   <Input placeholder='请输入活动供价' onBlur={(e)=>this.updataList(e,index)} autoComplete='off'/>
                 )
@@ -283,10 +289,11 @@ class GoodTable extends Component{
         render:(text,record,index)=>{
           const {getFieldDecorator,FormItem} = this.props;
           const validatePrice=(rule,value,callback)=> {
-            if(Number(value)== 0 ){
-              callback('大于0的2位小数')
+            if(value){
+              if(Number(value)== 0 ){
+                callback('大于0的2位小数')
+              };
             };
-
             callback();
           };
           return(

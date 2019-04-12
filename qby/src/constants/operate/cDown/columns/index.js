@@ -1,5 +1,5 @@
 const Columns = [{
-     title: '批次号',
+     title: '活动编号',
      dataIndex: 'no',
      render:(text, record)=>{
        return(
@@ -8,16 +8,16 @@ const Columns = [{
          </div>
      )}
    },{
-     title: '批次名称',
+     title: '活动名称',
      dataIndex: 'name'
    }, {
-     title: '批次状态',
+     title: '活动状态',
      dataIndex: 'statusStr'
    },{
      title: '最后修改人',
      dataIndex: 'lastUpdateUser'
    },{
-     title: '生效时间',
+     title: '活动时间',
      dataIndex: '',
      render:(text,record,index)=>(
        <div>{record.beginTime} ~ {record.endTime}</div>

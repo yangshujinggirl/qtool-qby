@@ -73,7 +73,7 @@ class PageConfig extends Component {
   }
   addPage =()=> {
     const paneitem = {
-      title:'新增商品',
+      title:'新增页面配置',
       key:`${this.props.componkey}edit`,
       componkey:`${this.props.componkey}edit`,
     };

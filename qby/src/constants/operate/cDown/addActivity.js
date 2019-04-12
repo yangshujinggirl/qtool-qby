@@ -64,8 +64,8 @@ class Addactivity extends Component {
             // isStoreProfit:activityInfo.isStoreProfit,
             // activityCostbearer:activityInfo.activityCostbearer,
             shopType:activityInfo.shopType,
-            goodList:goodsInfos,
-            shopList:res.shopList
+            goodList:goodsInfos||[{pdCode:'',name:'',displayName:'',toCprice:'',goldCardPrice:'',silverCardPrice:'',activityPrice:''}],
+            shopList:res.shopList||[{spShopId:'',shopName:''}]
           });
         };
       })
@@ -81,11 +81,11 @@ class Addactivity extends Component {
           message.error('预热时间需早于活动开始时间')
         }else{
           if(actTime && actTime[0]){
-            _values.beginTime = moment(actTime[0]).format('YYYY-MM-DD hh:mm:ss');
-            _values.endTime = moment(actTime[1]).format('YYYY-MM-DD hh:mm:ss');
+            _values.beginTime = moment(actTime[0]).format('YYYY-MM-DD HH:mm:ss');
+            _values.endTime = moment(actTime[1]).format('YYYY-MM-DD HH:mm:ss');
           };
           if(warmTime){
-            _values.warmTime = moment(warmTime).format('YYYY-MM-DD hh:mm:ss');
+            _values.warmTime = moment(warmTime).format('YYYY-MM-DD HH:mm:ss');
           };
           _values.productList = this.state.goodList;
           _values.shopList = this.state.shopList;
@@ -272,11 +272,11 @@ class Addactivity extends Component {
               wrapperCol={{ span:6}}>
               {getFieldDecorator('name', {
                   initialValue:name,
-                  rules: [{ required: true, message: '请输入优惠券名称'}],
+                  rules: [{ required: true, message: '请输入活动名称'}],
                 })(
                     <Input
                       style={{width:'280px'}}
-                      placeholder="请输入10字以内优惠券名称"
+                      placeholder="请输入10字以内活动名称"
                       maxLength='10'
                       autoComplete="off"
                     />　
@@ -305,7 +305,6 @@ class Addactivity extends Component {
               wrapperCol={{ span:10}}>
               {getFieldDecorator('warmTime', {
                   initialValue:moment(warmTime),
-                  rules: [{ required: true, message: '请选择预热时间'}],
                 })(
                    <DatePicker showTime format="YYYY-MM-DD HH:mm:ss"/>
                 )}　<span className='suffix_tips'>预热时间需早于活动开始时间</span>
@@ -316,7 +315,7 @@ class Addactivity extends Component {
               wrapperCol={{ span:6}}>
               {getFieldDecorator('activityPlat', {
                   initialValue:activityPlat,
-                  rules: [{ required: true, message: '请输入优惠券名称'}],
+                  rules: [{ required: true, message: '请选择活动平台'}],
                 })(
                 <CheckboxGroup options={options}/>
                 )}
@@ -327,7 +326,7 @@ class Addactivity extends Component {
               wrapperCol={{ span:6}}>
               {getFieldDecorator('shipmentPlat', {
                   initialValue:shipmentPlat,
-                  rules: [{ required: true, message: '请输入优惠券名称'}],
+                  rules: [{ required: true, message: '请选择出货平台'}],
                 })(
                   <CheckboxGroup
                     disabled
@@ -340,7 +339,7 @@ class Addactivity extends Component {
               wrapperCol={{ span:6}}>
               {getFieldDecorator('isStoreProfit', {
                   initialValue:isStoreProfit,
-                  rules: [{ required: true, message: '请输入优惠券名称'}],
+                  rules: [{ required: true, message: '请选择是否生成门店利润'}],
                 })(
                   <RadioGroup disabled>
                     <Radio value={1}>是</Radio>
@@ -383,7 +382,7 @@ class Addactivity extends Component {
               {getFieldDecorator('remark', {
                   initialValue:remark,
                 })(
-                <TextArea style={{width:'280px'}} placeholder="请输入活动备注"/>
+                <TextArea style={{width:'280px'}} placeholder="请输入活动备注" maxLength='50'/>
               )}
             </FormItem>
             <div className='title'>使用范围</div>
@@ -413,7 +412,7 @@ class Addactivity extends Component {
                 wrapperCol={{ span:6}}>
               {getFieldDecorator('shopType', {
                   initialValue:shopType,
-                  rules: [{ required: true, message: '请选择活动成本承担方'}],
+                  rules: [{ required: true, message: '请选择活动门店'}],
                   onChange:this.actShopChange
                 })(
                   <RadioGroup>

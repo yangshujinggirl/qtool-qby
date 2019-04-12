@@ -23,7 +23,14 @@ const Columns1 = [{
      dataIndex: 'eventStatusStr'
    },{
      title: '预览链接',
-     dataIndex: 'configureUrl'
+     dataIndex: 'configureUrl',
+     render:(text, record, index)=> {
+        const url = 'http://v5.qby.testin.qtoolsbaby.net:81/config.html?pdConfigureId='+record.pdConfigureId;
+        return(
+          <a className="theme-color" target='_blank' href={url}>
+           {text}
+         </a>)
+     }
    },{
      title: '跳转页面编码',
      dataIndex: 'configureCode'

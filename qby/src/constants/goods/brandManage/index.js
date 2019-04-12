@@ -103,7 +103,7 @@ class Brand extends Component{
     if(mark){ //是修改
       pdBrand = {pdBrandId,url,actUrl,...values}
     }else{
-      pdBrand = {url,...values}
+      pdBrand = {url,actUrl,...values}
     };
     brandSaveApi({pdBrand})
     .then(res => {
@@ -124,6 +124,8 @@ class Brand extends Component{
           status:'',
           eventStatus:'',
           logoUrl:'',
+          actUrl:'',
+          configureCode:''
         },()=>{
           clearForm()
         });
@@ -140,6 +142,7 @@ class Brand extends Component{
       rank:'',
       status:'',
       eventStatus:'',
+      configureCode:''
     },()=>{
       clearForm();
     })

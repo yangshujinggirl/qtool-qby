@@ -44,8 +44,8 @@ class Addactivity extends Component {
       if(!err){
         const {time,..._values} = values
         if(time && time[0]){
-          _values.beginTime = moment(time[0]).format('YYYY-MM-DD hh:mm:ss');
-          _values.endTime = moment(time[1]).format('YYYY-MM-DD hh:mm:ss');
+          _values.beginTime = moment(time[0]).format('YYYY-MM-DD HH:mm:ss');
+          _values.endTime = moment(time[1]).format('YYYY-MM-DD HH:mm:ss');
         };
         _values.productList = this.state.goodList;
         _values.type = 2;

@@ -331,10 +331,10 @@ class AddCoupon extends Component {
   }
   //适用商品类型发生变化
   couponUseScopeChange =(e)=> {
-    console.log(this.props.form);
+    this.props.form.resetFields(['pdCode0']);
     let {pdList} = this.state;
     pdList = [{pdCode:'',name:'',displayName:''}];
-    this.setState({ //商品列表中的商品要根据适用商品类型来判断---->所以当商品类型变化的时候，要刷新商品列表
+    this.setState({ //商品列表中的商品要根据适用商品类型来判断---->所以当商品类型变化的时候，要清空商品列表
       pdList
     });
     const {value} = e.target;
@@ -346,13 +346,18 @@ class AddCoupon extends Component {
   }
   //适用门店类型发生变化时
   couponShopScopeChange =(e)=> {
-
+    this.props.form.resetFields(['spShopId0']);
+    let {shopList} = this.state;
+    shopList = [{spShopId:'',shopName:''}];
+    this.setState({ //门店列表中的门店要根据适用门店类型来判断---->所以当门店类型变化的时候，要清空门店列表
+      shopList
+    });
     const {value} = e.target;
     const {coupon} = this.state;
     const newCoupon = _.assign(coupon,{couponShopScope:value});
     this.setState({
       coupon:newCoupon
-    })
+    });
   }
   //验证优惠券数修改时只能增加不能减少
   validataCouponCount =(rule,value,callback)=> {

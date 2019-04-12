@@ -108,7 +108,7 @@ class AddTheme extends  Component {
             });
           };
         }else{
-          message.error('请上传图片')
+          message.error('请添加商品图片')
         };
       };
     })
@@ -125,19 +125,21 @@ class AddTheme extends  Component {
     return isJPG && isLt2M;
   }
   validateQty =(rule,value,callback)=> {
-    const temp = value.split('\n').filter(item=>item);
-    const isRepeat = temp.filter((item,index,self)=>self.indexOf(item) != index);
-    if(isRepeat[0]){
-      callback(+isRepeat[0]+'商品重复')
-    }else{
-      if(temp.length < 4){
-        callback('活动商品不可少于4条')
+    if(value){
+      const temp = value.split('\n').filter(item=>item);
+      const isRepeat = temp.filter((item,index,self)=>self.indexOf(item) != index);
+      if(isRepeat[0]){
+        callback(+isRepeat[0]+'商品重复')
+      }else{
+        if(temp.length < 4){
+          callback('活动商品不可少于4条')
+        };
+        if(temp.length > 10){
+          callback('活动商品不可多于10条')
+        };
       };
-      if(temp.length > 10){
-        callback('活动商品不可多于10条')
-      };
+      callback();
     };
-    callback();
   }
   render() {
     const { getFieldDecorator } = this.props.form;
@@ -202,7 +204,7 @@ class AddTheme extends  Component {
                   initialValue:activityPdSpuIds,
                   rules: [
                     { required: true, message: '请输入活动spuid'},
-                    { validator:this.validateQty}
+                    // { validator:this.validateQty }
                   ],
       					})(
       						<TextArea rows='5' placeholder='请输入活动商品的spu-id，4-10个'/>
