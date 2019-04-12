@@ -24,8 +24,8 @@ const columns = [{
     dataIndex: 'costPrice',
     key:'5'
   }, {
-    title: '活动进价',
-    dataIndex: 'activityPrice',
+    title: '活动供价',
+    dataIndex: 'activitySupplyPrice',
     key:'6'
   }];
 const columns2 = [{
