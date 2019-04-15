@@ -366,8 +366,8 @@ class Addactivity extends Component {
                 rules: [{ required: true, message: '请选择活动成本承担方'}],
               })(
                 <RadioGroup disabled>
-                  <Radio value={1}>是</Radio>
-                  <Radio value={0}>否</Radio>
+                  <Radio value={1}>门店</Radio>
+                  <Radio value={2}>公司</Radio>
                 </RadioGroup>
               )}
             </FormItem>
