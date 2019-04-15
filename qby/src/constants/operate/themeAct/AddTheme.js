@@ -157,7 +157,7 @@ class AddTheme extends  Component {
       						rules: [{ required: true, message: '请输入页面名称，50字符以内'}],
       						initialValue:themeName
       					})(
-      						<Input placeholder='请输入主题活动名称' autoComplete="off"/>
+      						<Input placeholder='请输入主题活动名称' maxLength='50' autoComplete="off"/>
       					)}
       				</FormItem>
               <FormItem {...formItemLayout} label="展示时间">
@@ -174,7 +174,7 @@ class AddTheme extends  Component {
               <FormItem {...formItemLayout}  label="展示权重">
                 {getFieldDecorator('rank', {
                   rules: [
-                    { required: true, message: '请输入展示权权重'},
+                    { required: true, message: '请输入展示权重'},
                     {pattern:/^(?:[0-9]{0,2}|100)$/,message:"请输入0-100整数"},
                 ],
                   initialValue:rank
@@ -204,7 +204,7 @@ class AddTheme extends  Component {
                   initialValue:activityPdSpuIds,
                   rules: [
                     { required: true, message: '请输入活动spuid'},
-                    // { validator:this.validateQty }
+                    { validator:this.validateQty }
                   ],
       					})(
       						<TextArea rows='5' placeholder='请输入活动商品的spu-id，4-10个'/>

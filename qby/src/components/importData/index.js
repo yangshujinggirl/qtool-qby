@@ -20,6 +20,7 @@ class GoodTable extends Component{
            {
              getFieldDecorator('spShopId'+index,{
                initialValue:record.spShopId,
+               rules:[{required:true,message:'请输入门店ID'}]
              })(
                type == 11
                ?

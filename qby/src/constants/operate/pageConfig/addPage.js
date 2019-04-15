@@ -47,7 +47,7 @@ class AddConfig extends  Component {
           };
           initdataArr = pdBannerConfig;
           this.props.dispatch({
-            type:'h5config/syncConfigArr',
+            type:'h5config/syncConfigArzr',
             payload:initdataArr
           });
           this.props.dispatch({
@@ -105,7 +105,11 @@ class AddConfig extends  Component {
             };
          });
         };
-        values.pdConfigureConfigList = configArrPre;
+        const notGood = configArrPre.filter(item =>item.type != 2);
+        const Good = configArrPre.filter(item => item.type == 2);
+        const removeSpaceNotGood = notGood.filter( item => (item.type&&item.text) );
+        const removeSpaceGood = Good.filter( item => (item.type&&item.pdCode));
+        values.pdConfigureConfigList = {...removeSpaceNotGood,...removeSpaceGood};
         if(this.props.data){ //修改
           const {pdConfigureId,previewLink,configureCode} = this.props.data;
           values.pdConfigureId = pdConfigureId;

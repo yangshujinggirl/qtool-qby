@@ -62,7 +62,7 @@ class GoodsEditForm extends React.Component{
                         tempData.rowPdSpu.name = json.pdSpu.name;
                         tempData.rowPdSpu.price = json.pdSpu.price;
                         let tempConfigArr = deepcCloneObj(this.props.configArrPre);
-                          tempConfigArr[this.props.currentItem] =tempData;
+                          tempConfigArr[this.props.currentItem] = tempData;
                           this.props.dispatch({
                               type:'h5config/syncConfigArrPre',
                               payload:tempConfigArr

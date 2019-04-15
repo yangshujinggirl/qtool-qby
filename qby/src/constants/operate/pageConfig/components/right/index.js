@@ -9,7 +9,6 @@ import RuleEdit from './config/rule';
 
 class RightConfig extends React.Component{
 	state = {};
-
   	render(){
      	return(
         	<div className='right-configure'>
