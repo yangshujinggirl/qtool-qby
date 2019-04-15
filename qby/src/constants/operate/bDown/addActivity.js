@@ -70,7 +70,12 @@ class Addactivity extends Component {
           });
           this.props.dispatch({
             type:'bDown/fetchList',
-            payload:{type:2,...this.props.data.inputValues}
+            payload:{
+              type:2,
+              ...this.props.data.inputValues,
+              limit:this.props.bDown.limit,
+              currentPage:this.props.bDown.currentPage,
+            }
           })
         };
       })
@@ -84,7 +89,12 @@ class Addactivity extends Component {
           });
           this.props.dispatch({
             type:'bDown/fetchList',
-            payload:{type:2,...this.props.data.inputValues}
+            payload:{
+              type:2,
+              ...this.props.data.inputValues,
+              limit:this.props.bDown.limit,
+              currentPage:this.props.bDown.currentPage,
+            }
           })
         };
       });

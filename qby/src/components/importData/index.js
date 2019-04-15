@@ -453,6 +453,7 @@ class GoodTable extends Component{
               };
             }else{
               const list = {};
+              list.pdCode = value;
               this.props.changeList(list,index);
               this.props.form.resetFields(['activityPrice'+index]);
             }
@@ -465,9 +466,16 @@ class GoodTable extends Component{
   }
   //导入门店
   onShopChange =(info)=> {
-    this.props.form.resetFields(['spShopId0'])
-    const {shopList} = info.file.response;
-    this.props.getFile(shopList)
+    this.props.form.resetFields(['spShopId0']);
+    if(info.file.response.code == '0'){
+      if(this.props.type == 12){
+        const {spList} = info.file.response;
+        this.props.getFile(spList)
+      }else{
+        const {shopList} = info.file.response;
+        this.props.getFile(shopList)
+      };
+    };
   }
   //导入商品
   onGoodChange =(info)=> {
@@ -482,8 +490,15 @@ class GoodTable extends Component{
     if(type == 5){ //c端直降
       this.props.form.resetFields(['specialPrice0'])
     }
-    const {pdSpuAsnLists} = info.file.response;
-    this.props.getFile(pdSpuAsnLists)
+    if(info.file.response.code == '0'){
+      if(type==2){
+        const {pdList} = info.file.response;
+        this.props.getFile(pdList)
+      }else{
+        const {pdSpuAsnLists} = info.file.response;
+        this.props.getFile(pdSpuAsnLists)
+      };
+    };
   }
   //删除
   delete =(index)=> {
@@ -494,8 +509,11 @@ class GoodTable extends Component{
     if(this.props.type==11){ //门店模板
       window.open('../../static/md.xlsx')
     };
+    if(this.props.type==12){ //门店模板
+      window.open('../../static/coupon_md.xlsx')
+    };
     if(this.props.type==2){//商品编码模板
-      window.open('../../static/act_good.xlsx')
+      window.open('../../static/coupon_good.xlsx')
     };
     if(this.props.type==3){//b端进价
       window.open('../../static/b_actIn.xlsx')
@@ -527,7 +545,7 @@ class GoodTable extends Component{
       importCoupongoodData = { data:JSON.stringify({couponUseScope:this.props.couponUseScope}) }
     };
     if(type==12){
-      importCouponSpData = { data:JSON.stringify({couponUseScope:this.props.couponShopScope}) }
+      importCouponSpData = { data:JSON.stringify({couponShopScope:this.props.couponShopScope}) }
     }
     return(
       <div className='good_table_temp'>
@@ -571,7 +589,7 @@ class GoodTable extends Component{
                   name='mfile'
                   action='/erpWebRest/webrest.htm?code=qerp.web.pd.coupon.spu.imoprt'
                   data={importCoupongoodData}
-                  onChange={this.onShopChange}
+                  onChange={this.onGoodChange}
                   />
                 : (type==12 ? //导入优惠券门店
                   <ImportGood

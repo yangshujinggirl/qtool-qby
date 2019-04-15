@@ -112,7 +112,12 @@ class Addactivity extends Component {
           });
           this.props.dispatch({
             type:'cDown/fetchList',
-            payload:{type:3,...this.props.data.inputValues}
+            payload:{
+              type:3,
+              ...this.props.data.inputValues,
+              limit:this.props.cDown.limit,
+              currentPage:this.props.cDown.currentPage
+            }
           })
         };
       })
@@ -126,7 +131,12 @@ class Addactivity extends Component {
           });
           this.props.dispatch({
             type:'cDown/fetchList',
-            payload:{type:3,...this.props.data.inputValues}
+            payload:{
+              type:3,
+              ...this.props.data.inputValues,
+              limit:this.props.cDown.limit,
+              currentPage:this.props.cDown.currentPage
+            }
           })
         };
       });

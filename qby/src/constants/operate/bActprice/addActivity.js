@@ -69,7 +69,12 @@ class Addactivity extends Component {
           });
           this.props.dispatch({
             type:'bActPrice/fetchList',
-            payload:{type:1,...this.props.data.inputValues}
+            payload:{
+              type:1,
+              ...this.props.data.inputValues,
+              limit:this.props.bActPrice.limit,
+              currentPage:this.props.bActPrice.currentPage,
+            }
           });
         };
       })
@@ -83,7 +88,12 @@ class Addactivity extends Component {
           });
           this.props.dispatch({
             type:'bActPrice/fetchList',
-            payload:{type:1,...this.props.data.inputValues}
+            payload:{
+              type:1,
+              ...this.props.data.inputValues,
+              limit:this.props.bActPrice.limit,
+              currentPage:this.props.bActPrice.currentPage,
+            }
           });
         };
       });
@@ -142,6 +152,7 @@ class Addactivity extends Component {
     callback()
   }
   render(){
+    console.log(this.props)
     const {
       name,
       goodList,

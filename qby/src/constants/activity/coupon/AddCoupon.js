@@ -233,6 +233,7 @@ class AddCoupon extends Component {
   }
   //导入门店list
   getShopFile=(list,index)=>{
+    debugger
     this.setState({shopList:list});
   }
   //导入商品list

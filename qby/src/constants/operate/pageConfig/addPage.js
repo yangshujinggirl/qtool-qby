@@ -218,7 +218,7 @@ class AddConfig extends  Component {
     						rules: [{ required: true, message: '请输入页面名称,15字符以内'}],
     						initialValue:pageName
     					})(
-    						<Input placeholder='请输入页面名称,50字符以内' maxLength='15' autoComplete="off"/>
+    						<Input placeholder='请输入页面名称,15字符以内' maxLength='15' autoComplete="off"/>
     					)}
     				</FormItem>
             <FormItem {...formItemLayout} label="备注">
