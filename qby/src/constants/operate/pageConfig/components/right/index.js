@@ -10,6 +10,8 @@ import RuleEdit from './config/rule';
 class RightConfig extends React.Component{
 	state = {};
   	render(){
+			console.log(this.props)
+			console.log(this.props.configArrPre.length)
      	return(
         	<div className='right-configure'>
                 <div className='area-name'>
@@ -19,27 +21,27 @@ class RightConfig extends React.Component{
                 {
                     this.props.currentItem >= 0?
                     (
-                        this.props.configArrPre.length?
+                        this.props.configArrPre.length ?
                         <div className='config-content'>
                         {
-                            this.props.configArrPre[this.props.currentItem].type == 1?
+                            this.props.configArrPre[this.props.currentItem]&&this.props.configArrPre[this.props.currentItem].type == 1?
                             <ImgEdit data={this.props.configArrPre[this.props.currentItem]}/>
                             :(
-                            this.props.configArrPre[this.props.currentItem].type == 2?
+                            this.props.configArrPre[this.props.currentItem]&&this.props.configArrPre[this.props.currentItem].type == 2?
                             <GoodsEdit data={this.props.configArrPre[this.props.currentItem]}/>
                             :
                             (
-                                this.props.configArrPre[this.props.currentItem].type == 3?
+                                this.props.configArrPre[this.props.currentItem]&&this.props.configArrPre[this.props.currentItem].type == 3?
                                 <TextEdit data={this.props.configArrPre[this.props.currentItem]}/>
                                 :
                                 (
-                                    this.props.configArrPre[this.props.currentItem].type == 4?
+                                    this.props.configArrPre[this.props.currentItem]&&this.props.configArrPre[this.props.currentItem].type == 4?
                                     <RuleEdit data={this.props.configArrPre[this.props.currentItem]}/>
                                     :
                                     null
                                 )
                             )
-                            )
+                          )
                         }
                         </div>
                         :
