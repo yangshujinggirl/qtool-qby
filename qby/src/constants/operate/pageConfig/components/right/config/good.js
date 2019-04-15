@@ -51,6 +51,19 @@ class GoodsEditForm extends React.Component{
                 tempData.pdSpu.url =  json.pdSpu.url;
                 tempData.pdSpu.name = json.pdSpu.name;
                 tempData.pdSpu.price = json.pdSpu.price;
+                tempData.pdCode = values.pdCode;
+								let tempConfigArr = deepcCloneObj(this.props.configArrPre);
+									tempConfigArr[this.props.currentItem] = tempData;
+									this.props.dispatch({
+											type:'h5config/syncConfigArrPre',
+											payload:tempConfigArr
+									});
+									let configArrEnd = deepcCloneObj(this.props.configArr);
+									configArrEnd[this.props.currentItem] = tempData;
+									this.props.dispatch({
+											type:'h5config/syncConfigArr',
+											payload:configArrEnd
+									});
                 let data2={"code":values.rowcode};
                 const result2=GetServerData2('qerp.web.pd.banner.config.pdInfo',data2);
                 result2.then((res) => {
@@ -61,6 +74,7 @@ class GoodsEditForm extends React.Component{
                         tempData.rowPdSpu.url =  json.pdSpu.url;
                         tempData.rowPdSpu.name = json.pdSpu.name;
                         tempData.rowPdSpu.price = json.pdSpu.price;
+												tempData.rowcode = values.rowcode;
                         let tempConfigArr = deepcCloneObj(this.props.configArrPre);
                           tempConfigArr[this.props.currentItem] = tempData;
                           this.props.dispatch({
@@ -76,11 +90,40 @@ class GoodsEditForm extends React.Component{
                       }else{
                           // message.error('未找到商品2编码',.8);
                            message.error(json.message,.8);
+													 tempData.rowPdSpu = null;
+													 tempData.rowcode = values.rowcode;
+													 let tempConfigArr = deepcCloneObj(this.props.configArrPre);
+														 tempConfigArr[this.props.currentItem] = tempData;
+														 this.props.dispatch({
+																 type:'h5config/syncConfigArrPre',
+																 payload:tempConfigArr
+														 });
+														 let configArrEnd = deepcCloneObj(this.props.configArr);
+														 configArrEnd[this.props.currentItem] = tempData;
+														 this.props.dispatch({
+																 type:'h5config/syncConfigArr',
+																 payload:configArrEnd
+														 });
                       }
                   })
                   }else{
                       // message.error('未找到商品1编码',.8);
                       message.error(json.message,.8);
+											message.error(json.message,.8);
+											tempData.pdSpu = null;
+											tempData.pdCode = values.pdCode;
+											let tempConfigArr = deepcCloneObj(this.props.configArrPre);
+												tempConfigArr[this.props.currentItem] = tempData;
+												this.props.dispatch({
+														type:'h5config/syncConfigArrPre',
+														payload:tempConfigArr
+												});
+												let configArrEnd = deepcCloneObj(this.props.configArr);
+												configArrEnd[this.props.currentItem] = tempData;
+												this.props.dispatch({
+														type:'h5config/syncConfigArr',
+														payload:configArrEnd
+												});
                   }
               })
           }
@@ -97,7 +140,7 @@ class GoodsEditForm extends React.Component{
                   tempData.pdSpu.name = json.pdSpu.name;
                   tempData.pdSpu.price = json.pdSpu.price;
                   let tempConfigArr = deepcCloneObj(this.props.configArrPre);
-                  tempConfigArr[this.props.currentItem] =tempData;
+                  tempConfigArr[this.props.currentItem] = tempData;
                   this.props.dispatch({
                       type:'h5config/syncConfigArrPre',
                       payload:tempConfigArr

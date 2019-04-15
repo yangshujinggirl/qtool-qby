@@ -81,6 +81,7 @@ class ShowGoods extends React.Component{
     };
 
 	render(){
+		console.log(this.props)
         const fileDomain=eval(sessionStorage.getItem('fileDomain'));
 		return (
             <div>

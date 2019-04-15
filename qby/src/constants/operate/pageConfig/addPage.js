@@ -90,7 +90,16 @@ class AddConfig extends  Component {
     this.props.form.validateFieldsAndScroll((err,values)=>{
       if(!err){
         const {configArrPre} = this.props;
+
         if(configArrPre.length){
+          for(var i=0;i<configArrPre.length;i++){
+            if( (configArrPre[i].type==2)&&(configArrPre[i].template==2) ){
+              if(!configArrPre[i].rowPdSpu){
+                configArrPre.splice(i,1)
+              };
+              i--;
+            }
+          }
           configArrPre.length && configArrPre.map((item,index) => {
             if(item.type == '4'){
               if(!item.text){
@@ -99,17 +108,19 @@ class AddConfig extends  Component {
                 configArrPre[index].text = item.text.replace(/\n/g,"#&#")
               };
             };
+
             if(item.type == '2'){
               delete configArrPre[index]['pdSpu'];
               delete configArrPre[index]['rowPdSpu'];
             };
          });
         };
+        debugger
         const notGood = configArrPre.filter(item =>item.type != 2);
         const Good = configArrPre.filter(item => item.type == 2);
         const removeSpaceNotGood = notGood.filter( item => (item.type&&item.text) );
         const removeSpaceGood = Good.filter( item => (item.type&&item.pdCode));
-        values.pdConfigureConfigList = {...removeSpaceNotGood,...removeSpaceGood};
+        values.pdConfigureConfigList = [...removeSpaceNotGood,...removeSpaceGood];
         if(this.props.data){ //修改
           const {pdConfigureId,previewLink,configureCode} = this.props.data;
           values.pdConfigureId = pdConfigureId;
@@ -182,6 +193,7 @@ class AddConfig extends  Component {
     });
   }
   render() {
+    console.log(this.props)
     const {
       configureCode,
       previewLink,

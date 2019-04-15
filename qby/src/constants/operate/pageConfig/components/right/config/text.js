@@ -22,6 +22,7 @@ class TextEditForm extends React.Component{
 	}
 
 	handleSubmit = (e) =>{
+		console.log(this.props)
 		e.preventDefault();
 		let configArrEnd = deepcCloneObj(this.props.configArr);
 			configArrEnd[this.props.currentItem].text = this.props.configArrPre[this.props.currentItem].text;

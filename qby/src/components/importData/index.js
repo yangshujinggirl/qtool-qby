@@ -294,6 +294,9 @@ class GoodTable extends Component{
               if(Number(value)== 0 ){
                 callback('大于0的2位小数')
               };
+              if(Number(value) > Number(record.toCPrice) ){
+                callback('当前特价超过零售价，请谨慎填写',1)
+              };
             };
             callback();
           };
@@ -338,14 +341,11 @@ class GoodTable extends Component{
         };
         dataSource[index].activitySupplyPrice = value;
       }else if(type == 5){ //c降
-        if(Number(value) > Number(dataSource[index].toCprice) ){
-          message.warning('当前特价超过零售价，请谨慎填写',1)
-        };
         if(Number(value) < Number(dataSource[index].purchasePrice) ){
           message.warning('当前特价小于成本价，请谨慎填写',1)
         };
         dataSource[index].specialPrice = value;
-      }
+      };
     };
     this.props.updataList(dataSource);
   }
