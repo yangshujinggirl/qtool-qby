@@ -279,10 +279,16 @@ class GoodTable extends Component{
         title: '金卡价',
         key:'goldCardPrice',
         dataIndex: 'goldCardPrice',
+        render:(text,record,index)=>(
+          record.goldCardPrice ? <span>{record.goldCardPrice}</span>:(record.goldCardPrice==null?'无':'')
+        )
       },{
         title: '银卡价',
         key:'silverCardPrice',
         dataIndex: 'silverCardPrice',
+        render:(text,record,index)=>(
+          record.silverCardPrice ? <span>{record.silverCardPrice}</span>:(record.silverCardPrice==null?'无':'')
+        )
       },{
         title: '活动特价',
         key:'specialPrice',
@@ -455,6 +461,10 @@ class GoodTable extends Component{
             }else{
               const list = {};
               list.pdCode = value;
+              if(type==5){
+                list.goldCardPrice='';
+                list.silverCardPrice='';
+              }
               this.props.changeList(list,index);
               this.props.form.resetFields(['activityPrice'+index]);
             }
