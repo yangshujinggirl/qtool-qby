@@ -90,6 +90,7 @@ class AddConfig extends  Component {
     this.props.form.validateFieldsAndScroll((err,values)=>{
       if(!err){
         const {configArrPre} = this.props;
+        if(!configArrPre.length) return  message.error('页面配置不可为空',.8)
         if(configArrPre.length){
          if(configArrPre.some(item=> item.type==1 && !item.text )){
            message.error('请上传图片',.8)
@@ -102,7 +103,7 @@ class AddConfig extends  Component {
          if(configArrPre.some(item=> item.type==2 && item.template==2 && !item.pdCode && !item.rowCode)){
            message.error('请填写链接商品编码',.8)
            return ;
-         }
+         };
          const newArrPre = this.formatValue(configArrPre);
          values.pdConfigureConfigList =  newArrPre
          if(values.pdConfigureConfigList.length > 0){
@@ -136,9 +137,7 @@ class AddConfig extends  Component {
          }else{
            message.error('页面配置不可为空',.8)
          };
-       }else{
-         message.error('页面配置不可为空',.8)
-       };
+       }
       };
     });
   }
@@ -147,29 +146,16 @@ class AddConfig extends  Component {
     newArrPre.length && newArrPre.map((item,index) => {
       if(item.type == '4'){
         if(!item.text){
-          newArrPre[index].text = null
-        }else{
           newArrPre[index].text = item.text.replace(/\n/g,"#&#")
-        };
+        }
       };
       if(item.type == '2'){ //后端要求的数据格式不能有这两个
         delete newArrPre[index]['pdSpu'];
         delete newArrPre[index]['rowPdSpu'];
       };
     });
-    for(var i=0;i<newArrPre.length;i++){
-      if(newArrPre[i].type!=2&&!newArrPre[i].text){
-        newArrPre.splice(i,1);
-        i--;
-      }
-    }
-    // newArrPre.map((item,index)=> { //清除没有数据的选项
-    //   if(item.type!=2 && !item.text){
-    //     newArrPre.splice(index,1);
-    //      --index;
-    //   };
-    // });
-    return newArrPre;
+    const newValue = newArrPre.filter(item=>item.type==2||item.text);
+    return newValue;
   }
   //成功之后
   afterSaveSuccess =()=> {
