@@ -180,6 +180,7 @@ class OperatebannerEditForm extends React.Component{
 						Url:true
 					}
 				});
+				this.props.form.setFieldsValue({'configureUrl':null})
 			}else{
 				this.props.dispatch({
 					type:'operatebanner/syncStatus',
@@ -188,6 +189,7 @@ class OperatebannerEditForm extends React.Component{
 						Url:false
 					}
 				});
+				this.props.form.setFieldsValue({'configureCode':null})
 			};
 		}
 

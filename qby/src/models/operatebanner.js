@@ -81,11 +81,11 @@ export default {
             formValue.Url = true;
             if(configureCode){
               formValue.jumpCode = 1;
-              code = false;
+              formValue.code = false;
             }
             if(configureUrl){
               formValue.jumpCode = 2;
-              Url = true;
+              formValue.Url = true;
             };
             yield put({type: 'syncEditInfo',payload:formValue});
     			}
