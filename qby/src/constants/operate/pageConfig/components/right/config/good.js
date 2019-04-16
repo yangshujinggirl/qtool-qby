@@ -204,7 +204,7 @@ class GoodsEditForm extends React.Component{
     }
 
 	render(){
-        const { getFieldDecorator } = this.props.form;
+    const { getFieldDecorator } = this.props.form;
 		return (
             this.props.data.template == 1?
             <Form>

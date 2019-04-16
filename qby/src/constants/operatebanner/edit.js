@@ -47,9 +47,9 @@ class OperatebannerEditForm extends React.Component{
 	//刷新列表
 	refreshList=()=>{
 		this.props.dispatch({
-            type:'operatebanner/fetch',
-            payload:{code:'qerp.web.pd.banner.list',values:this.props.values}
-		})
+      type:'operatebanner/fetch',
+      payload:{code:'qerp.web.pd.banner.list',values:this.props.values}
+		});
 		this.props.dispatch({ type: 'tab/loding', payload:true})
 	}
 	//初始化state
@@ -77,19 +77,25 @@ class OperatebannerEditForm extends React.Component{
                 }
 								data.type = 10;
 								delete data.jumpCode;
+								if(values.configureCode){
+									values.configureCode = values.configureCode.replace(/\s+/g, "")
+								};
+								if(values.configureUrl){
+									values.configureUrl = values.configureUrl.replace(/\s+/g, "")
+								};
                 const result=GetServerData('qerp.web.pd.banner.save',{"pdBanner":data});
                 result.then((res) => {
                     return res;
                 }).then((json) => {
                     if(json.code=='0'){
-						if(this.props.data){
-							message.success('修改成功',.8);
-						}else{
-							message.success('新建成功',.8);
-						}
-						this.deleteTab();
-						this.refreshList();
-						this.initState();
+											if(this.props.data){
+												message.success('修改成功',.8);
+											}else{
+												message.success('新建成功',.8);
+											}
+											this.deleteTab();
+											this.refreshList();
+											this.initState();
                     }
                 })
             }else{
@@ -267,14 +273,14 @@ class OperatebannerEditForm extends React.Component{
 		                  {getFieldDecorator('configureCode',{
 												initialValue:configureCode
 		                  })(
-		                    <Input style={{width:'140px'}} disabled={code} autoComplete="off"/>
+		                    <Input placeholder='请输入跳转页面编码' style={{width:'140px'}} disabled={code} autoComplete="off"/>
 		                  )}
 		                </FormItem>
 		                <FormItem>
 		                   {getFieldDecorator('configureUrl',{
 												 initialValue:configureUrl
 		                    })(
-		                     <Input style={{width:'140px'}} disabled={Url} autoComplete="off"/>
+		                     <Input placeholder='请输入跳转链接' style={{width:'140px'}} disabled={Url} autoComplete="off"/>
 		                   )}
 		                </FormItem>
 		              </Col>

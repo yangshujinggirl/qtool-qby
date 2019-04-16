@@ -427,8 +427,8 @@ class Addactivity extends Component {
                 })(
                   <RadioGroup>
                     <Radio style={radioStyle} value={1}>全部门店</Radio>
-                    <Radio style={radioStyle} value={2}>加盟店</Radio>
-                    <Radio style={radioStyle} value={3}>直联营店</Radio>
+                    <Radio style={radioStyle} value={3}>加盟店</Radio>
+                    <Radio style={radioStyle} value={2}>直联营店</Radio>
                     <Radio style={radioStyle} value={4}>指定门店</Radio>
                   </RadioGroup>
                 )}

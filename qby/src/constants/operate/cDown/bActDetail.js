@@ -132,7 +132,7 @@ render(){
                 </span>
               </div>
               <div className='cardlist_item'><label>是否生成门店利润：</label><span>{activityInfo.isStoreProfit?'是':'否'}</span></div>
-              <div className='cardlist_item'><label>活动成本承担方：</label><span>{activityInfo.activityCostbearer?'是':'否'}</span></div>
+            <div className='cardlist_item'><label>活动成本承担方：</label><span>{activityInfo.activityCostbearer?'门店':'公司'}</span></div>
               <div className='cardlist_item'><label>活动备注：</label><span>{activityInfo.remark}</span></div>
             </div>
           </Card>
@@ -151,8 +151,8 @@ render(){
           <Card title='活动门店'>
             <div style={{'padding':'20px'}}>门店范围：{
                 activityInfo.shopType == 1?'全部门店':
-                (activityInfo.shopType == 2 ? '加盟店' :
-                  (activityInfo.shopType == 3 ? '直联营店' : '指定门店')
+                (activityInfo.shopType == 3 ? '加盟店' :
+                  (activityInfo.shopType == 2 ? '直联营店' : '指定门店')
                 )
               }</div>
             <Button type='primary' style={{'float':'right','margin-right':'20px'}} onClick={this.exportShop}>导出门店明细</Button>

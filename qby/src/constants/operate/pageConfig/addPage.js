@@ -90,66 +90,86 @@ class AddConfig extends  Component {
     this.props.form.validateFieldsAndScroll((err,values)=>{
       if(!err){
         const {configArrPre} = this.props;
-
         if(configArrPre.length){
-          for(var i=0;i<configArrPre.length;i++){
-            if( (configArrPre[i].type==2)&&(configArrPre[i].template==2) ){
-              if(!configArrPre[i].rowPdSpu){
-                configArrPre.splice(i,1)
-              };
-              i--;
-            }
-          }
-          configArrPre.length && configArrPre.map((item,index) => {
-            if(item.type == '4'){
-              if(!item.text){
-                configArrPre[index].text = null
-              }else{
-                configArrPre[index].text = item.text.replace(/\n/g,"#&#")
-              };
-            };
-
-            if(item.type == '2'){
-              delete configArrPre[index]['pdSpu'];
-              delete configArrPre[index]['rowPdSpu'];
-            };
-         });
-        };
-        debugger
-        const notGood = configArrPre.filter(item =>item.type != 2);
-        const Good = configArrPre.filter(item => item.type == 2);
-        const removeSpaceNotGood = notGood.filter( item => (item.type&&item.text) );
-        const removeSpaceGood = Good.filter( item => (item.type&&item.pdCode));
-        values.pdConfigureConfigList = [...removeSpaceNotGood,...removeSpaceGood];
-        if(this.props.data){ //修改
-          const {pdConfigureId,previewLink,configureCode} = this.props.data;
-          values.pdConfigureId = pdConfigureId;
-          values.previewLink = previewLink;
-          values.configureCode = configureCode;
-          updataPageApi(values).then(res=>{
-            if(res.code=='0'){
-                message.success('修改成功');
-                this.props.dispatch({
-                  type:'tab/initDeletestate',
-                  payload:this.props.componkey+this.state.pdConfigureId
-                });
-                this.afterSaveSuccess();
-            };
-          });
-        }else{ //新增
-          addPageApi(values).then(res=>{
-            if(res.code=='0'){
-              message.success('新建成功');
-              this.props.dispatch({
-                type:'tab/initDeletestate',
-                payload:this.props.componkey
-              });
-              this.afterSaveSuccess();
-            };
-          });
-        };
+         if(configArrPre.some(item=> item.type==1 && !item.text )){
+           message.error('请上传图片',.8)
+           return ;
+         };
+         if(configArrPre.some(item=> item.type==2 && item.template==1 && !item.pdCode )){
+           message.error('请填写链接商品编码',.8)
+           return ;
+         };
+         if(configArrPre.some(item=> item.type==2 && item.template==2 && !item.pdCode && !item.rowCode)){
+           message.error('请填写链接商品编码',.8)
+           return ;
+         }
+         const newArrPre = this.formatValue(configArrPre);
+         values.pdConfigureConfigList =  newArrPre
+         if(values.pdConfigureConfigList.length > 0){
+           if(this.props.data){ //修改
+             const {pdConfigureId,previewLink,configureCode} = this.props.data;
+             values.pdConfigureId = pdConfigureId;
+             values.previewLink = previewLink;
+             values.configureCode = configureCode;
+             updataPageApi(values).then(res=>{
+               if(res.code=='0'){
+                   message.success('修改成功');
+                   this.props.dispatch({
+                     type:'tab/initDeletestate',
+                     payload:this.props.componkey+this.state.pdConfigureId
+                   });
+                   this.afterSaveSuccess();
+               };
+             });
+           }else{ //新增
+             addPageApi(values).then(res=>{
+               if(res.code=='0'){
+                 message.success('新建成功');
+                 this.props.dispatch({
+                   type:'tab/initDeletestate',
+                   payload:this.props.componkey
+                 });
+                 this.afterSaveSuccess();
+               };
+             });
+           };
+         }else{
+           message.error('页面配置不可为空',.8)
+         };
+       }else{
+         message.error('页面配置不可为空',.8)
+       };
       };
     });
+  }
+  formatValue =(value)=> {
+    const newArrPre = _.cloneDeep(value);
+    newArrPre.length && newArrPre.map((item,index) => {
+      if(item.type == '4'){
+        if(!item.text){
+          newArrPre[index].text = null
+        }else{
+          newArrPre[index].text = item.text.replace(/\n/g,"#&#")
+        };
+      };
+      if(item.type == '2'){ //后端要求的数据格式不能有这两个
+        delete newArrPre[index]['pdSpu'];
+        delete newArrPre[index]['rowPdSpu'];
+      };
+    });
+    for(var i=0;i<newArrPre.length;i++){
+      if(newArrPre[i].type!=2&&!newArrPre[i].text){
+        newArrPre.splice(i,1);
+        i--;
+      }
+    }
+    // newArrPre.map((item,index)=> { //清除没有数据的选项
+    //   if(item.type!=2 && !item.text){
+    //     newArrPre.splice(index,1);
+    //      --index;
+    //   };
+    // });
+    return newArrPre;
   }
   //成功之后
   afterSaveSuccess =()=> {

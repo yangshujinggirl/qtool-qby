@@ -85,6 +85,9 @@ class OperatebannerEditForm extends React.Component{
             if(this.props.data){
                 data.pdBannerId = this.props.data.pdBannerId;
             }
+						if(values.configureCode){
+							values.configureCode = values.configureCode.replace(/\s+/g, "")
+						};
 						data.type = 20;
             GetServerData('qerp.web.pd.cbanner.save',{"pdBanner":data})
             .then((json) => {

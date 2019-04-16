@@ -138,8 +138,8 @@ class AddTheme extends  Component {
           callback('活动商品不可多于10条')
         };
       };
-      callback();
     };
+    callback();
   }
   render() {
     const { getFieldDecorator } = this.props.form;
