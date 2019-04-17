@@ -455,6 +455,7 @@ class GoodTable extends Component{
                   list.toCPrice = res.pdSpu.toCPrice;
                   list.goldCardPrice = res.pdSpu.goldCardPrice;
                   list.silverCardPrice = res.pdSpu.silverCardPrice;
+                  list.purchasePrice = res.pdSpu.purchasePrice;
                 }
                 this.props.changeList(list,index)
               };
