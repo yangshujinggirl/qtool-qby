@@ -18,7 +18,7 @@ class AddCouponPack extends Component {
   }
   componentDidMount =()=> {
     const {data} = this.props;
-    if(data){
+    if(data.couponPackageId){
       let {
         couponPackageId,
         couponPackageName,
@@ -42,7 +42,7 @@ class AddCouponPack extends Component {
   cancel =()=> {
     const {data} = this.props;
     let componkey=this.props.componkey;
-    if(data){
+    if(data.couponPackageId){
       componkey=this.props.componkey+data.couponPackageId
     };
     this.props.dispatch({
@@ -51,18 +51,20 @@ class AddCouponPack extends Component {
     });
   }
   handleSubmit =()=> {
-    let {data,componkey} = this.props;
+
     this.props.form.validateFieldsAndScroll((err,values)=>{
       if(!err){
         let {couponCodes} = values;
         let tempCodes = [];
         if(couponCodes){
-          tempCodes=couponCodes.split('\n');
+          tempCodes = couponCodes.split('\n');
           tempCodes = tempCodes.filter(item=>item != '');
           tempCodes = tempCodes.map( item=>item.replace(/\s+/g,"") );
         };
+        if(tempCodes.length>15){message.error('最多支持输入15个批次',.8); return;}
         values.couponCodes = tempCodes;
-        if(data){
+        let {data,componkey} = this.props;
+        if(data.couponPackageId){
           const {couponPackageId,updateUserId,updateUserName,couponBatchNo} = this.state;
           values.couponPackageId = couponPackageId;
           values.updateUserId = updateUserId;
@@ -72,11 +74,11 @@ class AddCouponPack extends Component {
         addCouponPackApi(values)
         .then(res=>{
           if(res.code == '0'){
-            if(data){
-              message.success('修改成功');
+            if(data.couponPackageId){
+              message.success('修改成功',.8);
               componkey = componkey + data.couponPackageId;
             }else{
-              message.success('新建成功');
+              message.success('新建成功',.8);
             };
             this.props.dispatch({
               type:'tab/initDeletestate',
@@ -95,6 +97,9 @@ class AddCouponPack extends Component {
       };
     });
   }
+  formatValue =()=> {
+
+  }
   render(){
     console.log(this.props)
     const {getFieldDecorator} =  this.props.form;
@@ -112,7 +117,7 @@ class AddCouponPack extends Component {
             initialValue:couponPackageName,
             rules:[{required:true,message:'请输入券包名称'}]
           })(
-            <Input placeholder='请输入券包名称，15字符以内' maxLength='15'/>
+            <Input placeholder='请输入券包名称，15字符以内' autoComplete='off' maxLength='15'/>
           )
         }
         </FormItem>
