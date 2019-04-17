@@ -86,8 +86,8 @@ class AddCouponPack extends Component {
               type:'coupon/fetchManageList',
               payload:{
                 ...this.props.data.inputValues,
-                limit:this.props.data3.limit,
-                currentPage:this.props.data3.currentPage
+                limit:this.props.coupon.data3.limit,
+                currentPage:this.props.coupon.data3.currentPage
               }
             })
           };
@@ -96,6 +96,7 @@ class AddCouponPack extends Component {
     });
   }
   render(){
+    console.log(this.props)
     const {getFieldDecorator} =  this.props.form;
     const {couponPackageName,couponCodes} = this.state;
     const tips=`请输入优惠券批次号，回车分隔. \n最多15条.领取方式为手动领取的优惠券`
