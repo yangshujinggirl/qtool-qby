@@ -95,80 +95,71 @@ class AddCoupon extends Component {
 		e.preventDefault();
 		this.props.form.validateFields((err, values) => {
       if(!err){
-        for (var key in values){
-          if(key.includes('pdCode')||key.includes('spShopId')){
-            delete values[key]
-          };
-        };
-        const {couponWarningEmail,couponWarningQty} = this.state.coupon;
-        const {shopList,pdList,brandList} = this.state;
-        const brands = _.cloneDeep(brandList)
-        values.pdList = pdList;
-        values.spList = shopList;
-        brands&&brands.map(item=>{
-          item.name = item.text;
-          item.pdBrandId = item.value;
-          return item
-        });
-        brands&&brands.map(item=>{
-          delete item.text;
-          delete item.value;
-        });
-        values.brandList = brands;
-        values.couponWarningEmail = couponWarningEmail;
-        values.couponWarningQty = couponWarningQty;
-        const {couponValidDate,..._values} = values;
-        if(couponValidDate&&couponValidDate[0]){
-          _values.couponValidDateST = moment(values.couponValidDate[0]).format('YYYY-MM-DD HH:mm:ss');
-          _values.couponValidDateET = moment(values.couponValidDate[1]).format('YYYY-MM-DD HH:mm:ss');
-        };
+        const _values = this.formatValue(values);
+        if(!_values) return;
         if(this.state.couponId){//修改优惠券
-          const {couponId} = this.state;
-          _values.couponId = couponId;
-         updataCouponPackApi(_values)
-          .then(res => {
-            if(res.code=='0'){
-              this.props.dispatch({
-                type:'coupon/fetchList',
-                payload:{
-                  ...this.state.inputValues,
-                  limit:this.props.data1.limit,
-                  currentPage:this.props.data1.currentPage
-                }
-              });
-              this.props.dispatch({
-                  type:'tab/initDeletestate',
-                  payload:this.props.componkey+couponId
-              });
-              message.success(res.message,.8);
-            };
-          },err=>{
-            message.error('请求失败')
-          })
-        }else{
-          addCouponApi(_values)
-          .then(res => {
-            if(res.code=='0'){
-              this.props.dispatch({
-                type:'coupon/fetchList',
-                payload:{
-                  ...this.state.inputValues,
-                  limit:this.props.data1.limit,
-                  currentPage:this.props.data1.currentPage
-                }
-              });
-              this.props.dispatch({
-                  type:'tab/initDeletestate',
-                  payload:this.props.componkey
-              });
-              message.success(res.message,.8);
-            };
-          },err=>{
-            message.error('请求失败')
-          })
+          _values.couponId = this.state.couponId;
+          const componkey = this.props.componkey+this.state.couponId;
+          this.sendRequest(updataCouponPackApi,_values,componkey)
+        }else{ //新增
+          this.sendRequest(addCouponApi,_values,this.props.componkey)
         };
-      }
+      };
     });
+  }
+  sendRequest =(requestApi,values,componkey)=> {
+    requestApi(values).then(res=>{
+      if(res.code=='0'){
+        this.props.dispatch({
+          type:'coupon/fetchList',
+          payload:{
+            ...this.state.inputValues,
+            limit:this.props.data1.limit,
+            currentPage:this.props.data1.currentPage
+          }
+        });
+        this.props.dispatch({
+            type:'tab/initDeletestate',
+            payload:componkey
+        });
+        message.success(res.message,.8);
+      };
+    })
+  }
+  formatValue=(values)=>{
+    const {couponWarningEmail,couponWarningQty} = this.state.coupon;
+    const {couponCount} = values;
+    if(Number(couponWarningQty)>Number(couponCount)){
+       message.error('剩余优惠券数不可超过当前发放数',.8)
+       return
+    };
+    const {shopList,pdList,brandList} = this.state;
+    const brands = _.cloneDeep(brandList)
+    values.pdList = pdList;
+    values.spList = shopList;
+    brands&&brands.map(item=>{
+      item.name = item.text;
+      item.pdBrandId = item.value;
+      return item
+    });
+    brands&&brands.map(item=>{
+      delete item.text;
+      delete item.value;
+    });
+    for (var key in values){
+      if(key.includes('pdCode')||key.includes('spShopId')){
+        delete values[key]
+      };
+    };
+    values.brandList = brands;
+    values.couponWarningEmail = couponWarningEmail;
+    values.couponWarningQty = couponWarningQty;
+    const {couponValidDate,..._values} = values;
+    if(couponValidDate&&couponValidDate[0]){
+      _values.couponValidDateST = moment(values.couponValidDate[0]).format('YYYY-MM-DD HH:mm:ss');
+      _values.couponValidDateET = moment(values.couponValidDate[1]).format('YYYY-MM-DD HH:mm:ss');
+    };
+    return _values;
   }
   //单选框选择
   choice =(e)=> {
@@ -477,7 +468,7 @@ class AddCoupon extends Component {
                 initialValue:coupon.couponFullAmount,
                 rules: [
                   {required: true, message: '请输入优惠券金额'},
-                  {pattern:/^[^[+]{0,1}(\d+)$/,message: '请输入正整数'}
+                  {pattern:/^([1-9]\d*|[0]{1,1})$/,message: '请输入正整数'}
                 ],
               })(
                 <Input style={{width:'205px'}} disabled={isEdit} autoComplete="off"/>
