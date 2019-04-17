@@ -17,9 +17,8 @@ const Columns = [{
      title: '预览链接',
      dataIndex: 'previewLink',
      render:(text, record)=>{
-       const currentUrl = window.location.href;
-       console.log(currentUrl)
-       const url = 'v5.qby.testin.qtoolsbaby.net:81/config.html?pdConfigureId='+record.pdConfigureId;
+       const currentUrl = window.location.host;
+       const url = 'http://'+currentUrl+'/config.html?pdConfigureId='+record.pdConfigureId;
        return(
          <div>
            <a
