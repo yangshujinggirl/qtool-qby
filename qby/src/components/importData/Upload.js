@@ -17,9 +17,9 @@ class UploadData extends Component{
       if(info.file.response.code=='0'){
         this.props.onChange(info)
       }else{
-        message.error(info.file.response.message)
+        message.error(info.file.response.message,.8)
       };
-    }
+    };
   }
   render(){
     const {name,action,title,data} = this.props

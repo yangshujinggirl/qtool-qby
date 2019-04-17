@@ -38,7 +38,7 @@ const Columns = [{
    }
    },{
      title: '已使用数',
-     dataIndex: 'status'
+     dataIndex: 'couponUsedQty'
    },{
      title: '优惠券状态',
      dataIndex: 'statusStr'

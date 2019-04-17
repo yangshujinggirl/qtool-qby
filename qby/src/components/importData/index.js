@@ -491,6 +491,7 @@ class GoodTable extends Component{
   }
   //导入商品
   onGoodChange =(info)=> {
+    debugger
     const {type} = this.props;
     this.props.form.resetFields(['pdCode0'])
     if(type==3){ //b端进价
