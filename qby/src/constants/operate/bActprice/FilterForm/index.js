@@ -49,7 +49,7 @@ class NormalForm extends Component{
               </FormItem>
               <FormItem label='批次状态'>
                   {getFieldDecorator('status')(
-                  <Select allowClear={true} placeholder="请选择活动状态">
+                  <Select allowClear={true} placeholder="请选择批次状态">
                       <Option value={0}>未开始</Option>
                       <Option value={1}>进行中</Option>
                       <Option value={2}>已结束</Option>
