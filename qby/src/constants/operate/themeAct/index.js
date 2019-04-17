@@ -170,7 +170,7 @@ class ThemeAct extends Component{
     });
   }
   render(){
-    const currentUrl = window.location.host;
+    const currentUrl = window.location.href;
     console.log(currentUrl)
     const {
       confirmLoading,
