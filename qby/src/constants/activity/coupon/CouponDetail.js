@@ -1,7 +1,9 @@
 import React,{ Component } from 'react';
-import {Card,Button,Table} from 'antd';
-import { couponInfoApi } from '../../../services/activity/coupon' //请求方法
+import {connect} from 'dva'
+import {Card,Button,Table,Modal} from 'antd';
+import { couponInfoApi,exportMdApi} from '../../../services/activity/coupon' //请求方法
 import './index.css'
+const confirm = Modal.confirm
 const columns = [
   {
     title:'操作',
@@ -45,8 +47,8 @@ class CouponDetail extends Component{
   }
   //导出门店明细
   exportShop =()=> {
-    const {shopType,activityId} = this.state.activityInfo;
-    exportMdApi({downloadParam:{shopType,activityId},type:110}).then(res => {
+    const {couponId} = this.props.data;
+    exportMdApi({downloadParam:{couponId},type:111}).then(res => {
       if(res.code == '0'){
         confirm({
           title: '数据已经进入导出队列',
@@ -148,4 +150,8 @@ class CouponDetail extends Component{
     )
   }
 }
-export default CouponDetail
+function mapStateToProps(state){
+  const {coupon} = state;
+  return {coupon}
+}
+export default connect(mapStateToProps)(CouponDetail)

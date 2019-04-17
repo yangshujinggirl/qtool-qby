@@ -104,3 +104,11 @@ export function getCouponShopInfoApi(values){
       data:values
   })
 }
+//导出门店明细
+export function exportMdApi(values){
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.sys.doc.task',
+      data:values
+  })
+}
