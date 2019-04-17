@@ -70,7 +70,7 @@ class Bdown extends Component{
   //点击分页
   changePage =(current,limit)=> {
     const currentPage = current-1;
-    const values = {...this.state.inputValues,currentPage,limit}
+    const values = {...this.state.inputValues,currentPage,limit,type:2}
     this.props.dispatch({
       type:'bDown/fetchList',
       payload:values
@@ -80,7 +80,7 @@ class Bdown extends Component{
   onShowSizeChange =({currentPage,limit})=> {
     this.props.dispatch({
       type:'bDown/fetchList',
-      payload:{currentPage,limit,...this.state.inputValues}
+      payload:{currentPage,limit,...this.state.inputValues,type:2}
     });
   }
 
