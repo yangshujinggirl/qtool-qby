@@ -11,7 +11,8 @@ const Columns = [{
      dataIndex: 'previewLink',
      key: 'previewLink',
      render:(text, record, index)=> {
-        const url = 'http://v5.qby.testin.qtoolsbaby.net:81/config.html?pdConfigureId='+record.pdConfigureId;
+        const currentUrl = window.location.host;
+        const url = 'http://'+currentUrl+'/config.html?pdConfigureId='+record.pdConfigureId;
         return(
           <a className="theme-color" target='_blank' href={url}>
            {text}

@@ -211,7 +211,8 @@ class AddConfig extends  Component {
       labelCol: { span:3 },
       wrapperCol: { span:6 },
     };
-    const url = 'http://v5.qby.testin.qtoolsbaby.net:81/config.html?pdConfigureId='+this.state.pdConfigureId;
+    const currentUrl = window.location.host;
+    const url = 'http://'+currentUrl+'/config.html?pdConfigureId='+this.state.pdConfigureId;
     return (
       <div className='add_config'>
       	<Form>
