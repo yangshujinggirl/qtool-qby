@@ -407,10 +407,14 @@ class GoodTable extends Component{
   getCouponGoodInfo =(e,index)=> {
     let {value} = e.target;
     const {couponUseScope} = this.props;
+    let pdBrandIdList = undefined;
+    if(couponUseScope==5){
+      pdBrandIdList = this.props.brandIds
+    };
     if(value){
       value = value.replace(/\s+/g,'');
       const {dataSource} = this.props;
-      getCouponGoodInfoApi({pdCode:value,couponUseScope}).then(res=>{
+      getCouponGoodInfoApi({pdCode:value,couponUseScope,pdBrandIdList}).then(res=>{
         if(res.code=='0'){
           if(res.pdList){
             const list = {};

@@ -373,6 +373,10 @@ class AddCoupon extends Component {
       couponShopScopeValue,
       coupon,
     } = this.state;
+    const brandIds = [];
+    brandList.length>0&&brandList.map(item=>{
+      brandIds.push(Number(item.value))
+    });
     const isEdit = Boolean(this.state.couponId);
     const radioStyle = {
       display: 'block',
@@ -642,6 +646,7 @@ class AddCoupon extends Component {
                 delete={this.deleteGood}
                 add={this.addGood}
                 changeList={this.changepdList}
+                brandIds={brandIds}
                 addText='+商品'
                 type='2'/>
             }
