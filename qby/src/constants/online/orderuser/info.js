@@ -209,7 +209,12 @@ class OrderuserInfo extends React.Component{
     }).then((json) => {
 			this.props.dispatch({ type: 'tab/loding', payload:false});
       if(json.code=='0'){
-				const orderInfos = json.orderInfo
+				const orderInfos = json.orderInfo;
+				if(orderInfos){
+					this.setState({
+						ecOrderId:orderInfos.ecOrderId
+					});
+				}
 				let orderinfo = [];
 				if( this.props.data.record.channel == 1 ){ //有赞订单
 					orderinfo=[
@@ -315,7 +320,7 @@ class OrderuserInfo extends React.Component{
     })
   }
 	render(){
-		let {newClearLogs,goodinfo,subOrderInfos} = this.state;
+		let {newClearLogs,goodinfo,subOrderInfos,ecOrderId} = this.state;
 		goodinfo[0]&&goodinfo.map(item=>{ //skuCode不存在就取spuCode
 			item.skuCode = item.skuCode || item.spuCode
 		});
@@ -337,7 +342,7 @@ class OrderuserInfo extends React.Component{
 					<Cardlists cardtitle='收货信息'
 						cardlist={this.state.receiptinfo}
 						canedit={this.state.canedit}
-						ecOrderId={this.props.data.id}
+						ecOrderId={ecOrderId}
 						recProvince={this.state.recProvince}
 						recCity={this.state.recCity}
 						recDistrict={this.state.recDistrict}
