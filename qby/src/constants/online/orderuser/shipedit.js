@@ -38,6 +38,7 @@ const CollectionCreateForm = Form.create()(
                                     <Option value="8">邮政</Option>
                                     <Option value="9">汇通</Option>
                                     <Option value="10">优速</Option>
+                                    <Option value="11">澳邮</Option>
                                 </Select>
                             )}
                         </FormItem>
