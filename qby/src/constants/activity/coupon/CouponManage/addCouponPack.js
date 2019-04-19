@@ -130,7 +130,7 @@ class AddCouponPack extends Component {
             initialValue:couponCodes,
             rules:[{required:true,message:'请输入优惠券批次号'}]
           })(
-            <TextArea rows={5} placeholder={tips}/>
+            <TextArea rows={5} placeholder={tips} disabled={this.props.data.couponPackageId}/>
           )
         }
         </FormItem>
