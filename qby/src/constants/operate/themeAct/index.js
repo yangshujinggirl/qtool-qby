@@ -161,15 +161,16 @@ class ThemeAct extends Component{
         resetFiledsFunc();//清除数据
         this.props.dispatch({ //刷新列表
           type:'themeAct/fetchList',
-          payload:{}
+          payload:{...this.state.inputValues,...this.props.themeAct.limit,...this.props.themeAct.currentPage}
         });
-        this.setState({confirmVisible:false,confirmLoading:false});
+        this.setState({confirmVisible:false,confirmLoading:false,themeActivityId:''});
       }else{
         this.setState({confirmLoading:false});
       };
     });
   }
   render(){
+    console.log(this.state)
     const {
       confirmLoading,
       confirmVisible,

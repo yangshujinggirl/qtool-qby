@@ -92,9 +92,9 @@ class CouponDetail extends Component{
               </span></div>
               <div className='cardlist_item'><label>使用限制：</label>
                 <span>{
-                    couponInfo.couponUsageLimit == 1?'不可与限时直降同享':(
+                    couponInfo.couponUsageLimit&&(couponInfo.couponUsageLimit == 1?'不可与限时直降同享':(
                       couponInfo.couponUsageLimit == 2?'不可与秒杀同享':'不可与限时直降同享、不可与秒杀同享'
-                    )
+                    ))
                   }</span>
               </div>
               <div className='cardlist_item'><label>剩余数量预警数：</label><span>{couponInfo.couponWarningQty}</span></div>

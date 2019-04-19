@@ -75,7 +75,11 @@ class AddTheme extends  Component {
             _values.showTimeStart = moment(time[0]).format('YYYY-MM-DD hh:mm:ss')
             _values.showTimeEnd = moment(time[1]).format('YYYY-MM-DD hh:mm:ss')
           }
-          _values.activityPdSpuIds = values.activityPdSpuIds.split('\n').filter(item => item);
+          const tempActivityPdSpuIds = values.activityPdSpuIds.split('\n').filter(item => item);
+          for(var i=0;i<tempActivityPdSpuIds.length;i++){
+            tempActivityPdSpuIds[i] = Number(tempActivityPdSpuIds[i])
+          };
+          _values.activityPdSpuIds = tempActivityPdSpuIds;
           _values.pics = imageUrl;
           if(this.props.data.infos){ //修改
             _values.themeActivityId = this.state.infos.themeActivityId;

@@ -49,8 +49,8 @@ class AddCoupon extends Component {
     getCouponInfoApi({couponId}).then(res=>{
       if(res.code == '0'){
         const {couponInfo,activityProduct,activityShop,pdList} = res;
-        const {couponShopScope,shopList} = activityShop;
-        const {couponUseScope,brandList} = activityProduct;
+        const {couponShopScope,shopList} = activityShop||{couponShopScope:'',shopList:null};
+        const {couponUseScope,brandList} = activityProduct||{couponUseScope:'',brandList:null};
         let {couponUsageLimit} = couponInfo;
         if(couponUsageLimit){
           couponUsageLimit = couponUsageLimit && couponUsageLimit.split('-');
@@ -374,7 +374,7 @@ class AddCoupon extends Component {
       coupon,
     } = this.state;
     const brandIds = [];
-    brandList.length>0&&brandList.map(item=>{
+    brandList&&brandList.length>0 && brandList.map(item=>{
       brandIds.push(Number(item.value))
     });
     const isEdit = Boolean(this.state.couponId);

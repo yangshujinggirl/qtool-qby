@@ -160,7 +160,7 @@ class Addactivity extends Component {
   //添加商品
   addGood =()=> {
     const {goodList} = this.state;
-    const list={spShopId:'',shopName:''};
+    const list={pdCode:'',name:'',displayName:'',toCprice:'',goldCardPrice:'',silverCardPrice:'',activityPrice:''};
     goodList.push(list)
     this.setState({
       goodList
@@ -286,8 +286,8 @@ class Addactivity extends Component {
                 })(
                     <Input
                       style={{width:'280px'}}
-                      placeholder="请输入10字以内活动名称"
-                      maxLength='10'
+                      placeholder="请输入15字以内活动名称"
+                      maxLength='15'
                       autoComplete="off"
                     />　
               )}

@@ -11,7 +11,7 @@ class Cancel extends Component{
     }
   }
   clearForm =()=> {
-    this.props.form.resetFields(['reason']);
+    this.props.form.resetFields(['invalidReason']);
   }
   onCancel =()=> {
     this.props.onCancel(this.clearForm)
@@ -32,7 +32,6 @@ class Cancel extends Component{
       labelCol: {span:7},
       wrapperCol: {span:14},
     };
-    console.log(this.props)
     return(
       <Modal
         width={450}
