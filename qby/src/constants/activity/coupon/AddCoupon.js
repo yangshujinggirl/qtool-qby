@@ -49,8 +49,8 @@ class AddCoupon extends Component {
     getCouponInfoApi({couponId}).then(res=>{
       if(res.code == '0'){
         const {couponInfo,activityProduct,activityShop,pdList} = res;
-        const {couponShopScope,shopList} = activityShop||{couponShopScope:'',shopList:null};
-        const {couponUseScope,brandList} = activityProduct||{couponUseScope:'',brandList:null};
+        const {shopList} = activityShop||{shopList:null};
+        const {brandList} = activityProduct||{brandList:null};
         let {couponUsageLimit} = couponInfo;
         if(couponUsageLimit){
           couponUsageLimit = couponUsageLimit && couponUsageLimit.split('-');
@@ -67,8 +67,10 @@ class AddCoupon extends Component {
           delete item.pdBrandId;
         });
         couponInfo.couponUsageLimit = couponUsageLimit;
-        couponInfo.couponShopScope = couponShopScope;
-        couponInfo.couponUseScope = couponUseScope;
+        if(!couponInfo.couponValidDateST){
+          couponInfo.couponValidDateST=moment().format('YYYY-MM-DD HH:mm:ss'),
+          couponInfo.couponValidDateET=moment().add(1,'days').format('YYYY-MM-DD HH:mm:ss')
+        };
         if(couponInfo.couponValid==1){
           this.setState({
             couponValidDay:true,
@@ -95,6 +97,11 @@ class AddCoupon extends Component {
 		e.preventDefault();
 		this.props.form.validateFieldsAndScroll((err, values) => {
       if(!err){
+        const {brandList} = this.state;
+        if(values.couponUseScope==5 && !brandList) {
+          message.error('指定品牌为空');
+          return;
+        };
         const _values = this.formatValue(values);
         if(!_values) return;
         if(this.state.couponId){//修改优惠券
@@ -373,6 +380,7 @@ class AddCoupon extends Component {
       couponShopScopeValue,
       coupon,
     } = this.state;
+    console.log(coupon)
     const brandIds = [];
     brandList&&brandList.length>0 && brandList.map(item=>{
       brandIds.push(Number(item.value))

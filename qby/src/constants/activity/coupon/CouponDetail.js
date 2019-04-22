@@ -108,13 +108,13 @@ class CouponDetail extends Component{
           <Card title='活动商品'>
             <div className='des'>　适用商品类型：
               {
-                activityProduct.couponUseScope == 1
+                couponInfo.couponUseScope == 1
                 ? '一般贸易商品'
-                :(activityProduct.couponUseScope == 2
+                :(couponInfo.couponUseScope == 2
                   ? '保税商品 '
-                  :(activityProduct.couponUseScope == 4
+                  :(couponInfo.couponUseScope == 4
                     ? '全部商品'
-                    :(activityProduct.brandList&&activityProduct.brandList.map((item,index)=>(
+                    :(activityProduct&&activityProduct.brandList&&activityProduct.brandList.map((item,index)=>(
                         <span key={index}>【{item.name}】、</span>))
                     )
                   )
@@ -128,9 +128,9 @@ class CouponDetail extends Component{
             <div className='des'>
               <span>　适用门店类型：
                 {
-                  activityShop.couponShopScope=='0'
+                  couponInfo.couponShopScope=='0'
                   ? '全部门店'
-                  : (activityShop.couponShopScope=='1')
+                  : (couponInfo.couponShopScope=='1')
                     ? '加盟店'
                     :'直联营店'
               }</span>

@@ -3,7 +3,7 @@ const Columns = [{
      key:'pdSpuActiveId',
      dataIndex: 'pdSpuActiveId',
      render:(text, record, index)=> (
-       <a className="theme-color" onClick={()=>record.onOperateClick(record)}>{text}</a>
+       record.addAct&&<a className="theme-color" onClick={()=>record.onOperateClick(record)}>{text}</a>
      )
    },{
      title: '商品名称',
