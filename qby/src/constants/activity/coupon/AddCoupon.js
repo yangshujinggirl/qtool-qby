@@ -23,7 +23,7 @@ class AddCoupon extends Component {
       goodTypeList:[],
       brandList:[],
       coupon:{
-        couponUseScope:4,
+        couponUseScope:'4',
         couponShopScope:0,
         shopScope:0,
         spuScope:0,
@@ -573,10 +573,10 @@ class AddCoupon extends Component {
                     onChange:this.couponUseScopeChange
                   })(
                     <RadioGroup disabled={isEdit}>
-                      <Radio style={radioStyle} value={4}>全部商品</Radio>
-                      <Radio style={radioStyle} value={1}>一般贸易商品</Radio>
-                      <Radio style={radioStyle} value={2}>保税商品</Radio>
-                      <Radio style={radioStyle} value={5}>指定品牌</Radio>
+                      <Radio style={radioStyle} value='4'>全部商品</Radio>
+                      <Radio style={radioStyle} value='1'>一般贸易商品</Radio>
+                      <Radio style={radioStyle} value='2'>保税商品</Radio>
+                      <Radio style={radioStyle} value='5'>指定品牌</Radio>
                     </RadioGroup>
                   )
                 }
