@@ -197,7 +197,7 @@ class Addactivity extends Component {
   }
   addMd =()=> {
     const {shopList} = this.state;
-    const list={shopId:'',shopName:''};
+    const list={spShopId:'',shopName:''};
     shopList.push(list)
     this.setState({
       shopList
@@ -206,7 +206,7 @@ class Addactivity extends Component {
   deleteMd =(index)=> {
     const {shopList} = this.state;
     shopList.splice(index,1);
-    this.props.form.resetFields([`shopId`+index]);
+    this.props.form.resetFields([`spShopId`+index]);
     this.setState({
       shopList
     });

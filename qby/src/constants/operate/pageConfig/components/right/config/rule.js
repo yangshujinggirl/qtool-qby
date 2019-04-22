@@ -59,7 +59,7 @@ class RuleEditForm extends React.Component{
                     {getFieldDecorator('text', {
                             //initialValue:this.props.currentData.text
                     })(
-                        <TextArea rows={6} onKeyUp={this.showRuleCurrent.bind(this)}/>
+                        <TextArea maxLength='500' rows={6} onKeyUp={this.showRuleCurrent.bind(this)}/>
                     )}
 	            </FormItem>
 	            <FormItem wrapperCol={{offset: 8}}>

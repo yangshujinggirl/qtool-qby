@@ -60,7 +60,7 @@ class TextEditForm extends React.Component{
                 {getFieldDecorator('text', {
                 //   initialValue:this.state.currentData.text
                 })(
-                    <TextArea rows={6} onChange={this.showTextCurrent.bind(this)}/>
+                    <TextArea maxLength='500' rows={6} onChange={this.showTextCurrent.bind(this)}/>
                 )}
 	            </FormItem>
 	            <FormItem wrapperCol={{offset: 8}}>

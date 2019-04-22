@@ -253,7 +253,11 @@ class Coupon extends Component{
     //熔断
     const fuse = rolelists.find((currentValue,index)=>{
       return currentValue.url=="qerp.web.pd.coupon.break"
-    })
+    });
+    //券包管理
+    const qubao = rolelists.find((currentValue,index)=>{
+      return currentValue.url=="qerp.web.pd.coupon.break"
+    });
     dataList.map((item)=>{
       item.injectRecord = injectRecord;
       item.addCoupon = addCoupon;
@@ -280,7 +284,11 @@ class Coupon extends Component{
             fuse &&
             <Button onClick={this.fuseCoupon} type='primary' size='large'>熔断</Button>
           }
-          <Button type='primary' size='large' onClick={this.couponManage}>券包管理</Button>
+          {
+            qubao &&
+            <Button type='primary' size='large' onClick={this.couponManage}>券包管理</Button>
+          }
+
         </div>
         <Modal
             bodyStyle={{'fontSize':'24px','textAlign':'center','padding':'50px'}}
