@@ -256,6 +256,7 @@ class Coupon extends Component{
     })
     dataList.map((item)=>{
       item.injectRecord = injectRecord;
+      item.addCoupon = addCoupon;
     })
     return(
       <div className='qtools-components-pages'>

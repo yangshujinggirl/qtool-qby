@@ -94,7 +94,7 @@ class ExchangeAct extends Component {
     const addAct = rolelists.find((currentValue,index)=>{
       return currentValue.url=="qerp.web.pd.spu.active.save"
     });
-    dataList.map(item=>(item.addAct = addAct));
+    dataList[0]&&dataList.map(item=>(item.addAct = addAct));
     return (
       <div className="qtools-components-pages">
         <FilterForm

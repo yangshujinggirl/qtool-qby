@@ -53,7 +53,7 @@ const Columns = [{
      dataIndex: '',
      render:(text,record,index)=>{
        return(
-         (record.status==1||record.status==2) &&
+         ((record.status==1||record.status==2) && record.addCoupon)&&
          <a className='theme-color' onClick={record.onOperateClick.bind(this,'edit')}>修改</a>
        )
      }

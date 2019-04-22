@@ -170,7 +170,6 @@ class ThemeAct extends Component{
     });
   }
   render(){
-    console.log(this.state)
     const {
       confirmLoading,
       confirmVisible,
@@ -187,7 +186,10 @@ class ThemeAct extends Component{
     //强制失效
     const confirmInval = rolelists.find((currentValue,index)=>{
       return currentValue.url=="qerp.web.theme.activity.invalid"
-    })
+    });
+    dataList[0]&&dataList.map(item=>(
+      item.addtheme = addtheme
+    ));
     return(
       <div className='qtools-components-pages'>
         <FilterForm

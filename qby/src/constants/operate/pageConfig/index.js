@@ -88,7 +88,8 @@ class PageConfig extends Component {
     //新增页面
     const addpage = rolelists.find((currentValue,index)=>{
       return currentValue.url=="qerp.web.pd.configureId.save"
-    })
+    });
+    dataList[0]&&dataList.map(item=>(item.addpage=addpage) )
     return (
       <div className="qtools-components-pages">
         <FilterForm

@@ -40,7 +40,7 @@ const Columns = [{
      dataIndex: '',
      render:(text,record,index)=>{
        return(
-         record.operation==0&&
+         (record.operation==0&&record.addtheme)&&
          <a className='theme-color' onClick={record.onOperateClick.bind(this,'edit')}>修改</a>
        )
      }

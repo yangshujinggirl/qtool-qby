@@ -1,12 +1,9 @@
 const Columns = [{
      title: '活动编号',
      dataIndex: 'no',
-     render:(text, record)=>{
-       return(
-         <div>
-           <a href="javascript:;" className="theme-color" onClick={record.onOperateClick.bind(this,"info")}>{text}</a>
-         </div>
-     )}
+     render:(text, record)=>(
+       <a href="javascript:;" className="theme-color" onClick={record.onOperateClick.bind(this,"info")}>{text}</a>
+     )
    },{
      title: '活动名称',
      dataIndex: 'name'
@@ -25,7 +22,7 @@ const Columns = [{
    },{
      title: '操作',
      render:(text,record,index)=>(
-       record.status == '0' &&
+        (record.status == '0' && record.addbActPrice)&&
        <a href='javascript:;' className='theme-color' onClick={record.onOperateClick.bind(this,'edit')}>修改</a>
      )
    }];

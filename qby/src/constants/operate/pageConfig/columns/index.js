@@ -25,6 +25,7 @@ const Columns = [{
    },{
      title: '操作',
      render:(text, record, index)=> (
+       record.addpage&&
        <a className="theme-color" onClick={()=>record.onOperateClick(record,'edit')}>修改</a>
      )
    }];

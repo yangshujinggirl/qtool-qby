@@ -178,21 +178,23 @@ class Bdown extends Component{
     };
   }
   render(){
-    // const {rolelists} = this.props.data;
     const {confirmVisible,confirmLoading,name,beginTime,endTime} = this.state
     const {dataList} = this.props.bDown;
     const {menus} = this.props;
     const operation = menus.find(item=>(item.type=="operation") );
     const bact = operation.children.find(item=>(item.code=="401200"))
     const rolelists = ( bact.children.find(item=>(item.code=='401500')) ).children;
-    //新增活动进价
+    //增改b端直降
     const addbActPrice = rolelists.find((currentValue,index)=>{
       return currentValue.url=="qerp.web.sp.activity.save"
     })
     //强制失效
     const inject = rolelists.find((currentValue,index)=>{
       return currentValue.url=="qerp.web.sp.activity.invalid"
-    })
+    });
+    dataList[0]&&dataList.map(item=>(
+      item.addbActPrice = addbActPrice
+    ));
     return(
       <div className='qtools-components-pages'>
         <FilterForm

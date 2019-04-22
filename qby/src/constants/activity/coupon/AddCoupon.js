@@ -99,7 +99,7 @@ class AddCoupon extends Component {
       if(!err){
         const {brandList} = this.state;
         if(values.couponUseScope == 5 && !brandList[0]) {
-          message.error('指定品牌为空',.8);
+          message.error('指定品牌为空',1);
           return;
         };
         const _values = this.formatValue(values);
