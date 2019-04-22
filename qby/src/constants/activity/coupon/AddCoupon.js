@@ -98,8 +98,8 @@ class AddCoupon extends Component {
 		this.props.form.validateFieldsAndScroll((err, values) => {
       if(!err){
         const {brandList} = this.state;
-        if(values.couponUseScope==5 && !brandList) {
-          message.error('指定品牌为空');
+        if(values.couponUseScope == 5 && !brandList[0]) {
+          message.error('指定品牌为空',.8);
           return;
         };
         const _values = this.formatValue(values);
