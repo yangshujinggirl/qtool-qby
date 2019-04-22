@@ -74,7 +74,7 @@ class Addactivity extends Component {
   //保存
   handleSubmit = (e) => {
     e.preventDefault();
-    this.props.form.validateFields((err, values) => {
+    this.props.form.validateFieldsAndScroll((err, values) => {
       if(!err){
         const {actTime,warmTime,..._values} = values;
         if(new Date(warmTime).getTime() > new Date(actTime[0]).getTime()){ //if预热时间大于活动时间

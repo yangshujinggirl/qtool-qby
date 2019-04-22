@@ -54,10 +54,11 @@ class NormalForm extends Component{
                     <Input placeholder='请输入联系人' autoComplete="off"/>
                   )}
                 </FormItem>
-              <FormItem label='优惠券场景'>
+              <FormItem label='发放方式'>
                   {getFieldDecorator('couponUseScene')(
-                  <Select allowClear={true} placeholder="请选择订单状态" className='select'>
-                      <Option value='1'>新用户注册</Option>
+                  <Select allowClear={true} placeholder="请选择发放方式" className='select'>
+                      <Option value='1'>注册领取</Option>
+                      <Option value='3'>手动领取</Option>
                       <Option value='2'>注券</Option>
                   </Select>
                   )}

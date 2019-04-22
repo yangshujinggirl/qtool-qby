@@ -93,7 +93,7 @@ class AddCoupon extends Component {
   //保存
   handleSubmit = (e) => {
 		e.preventDefault();
-		this.props.form.validateFields((err, values) => {
+		this.props.form.validateFieldsAndScroll((err, values) => {
       if(!err){
         const _values = this.formatValue(values);
         if(!_values) return;
