@@ -495,7 +495,7 @@ class GoodTable extends Component{
   }
   //导入商品
   onGoodChange =(info)=> {
-    debugger
+    this.props.getFile([]);
     const {type} = this.props;
     this.props.form.resetFields(['pdCode0'])
     if(type==3){ //b端进价
@@ -508,7 +508,7 @@ class GoodTable extends Component{
       this.props.form.resetFields(['specialPrice0'])
     }
     if(info.file.response.code == '0'){
-      if(type==2){
+      if(type==2){ //这是优惠券的导入商品，回来的字段不一样 优惠券 pdList  ,其他商品的导入是pdSpuAsnLists
         const {pdList} = info.file.response;
         this.props.getFile(pdList)
       }else{
@@ -547,6 +547,7 @@ class GoodTable extends Component{
     this.props.add()
   };
   render(){
+    console.log(this.props.dataSource)
     //type:1--->门店ID模板（columns1）   2：--->商品编码模板(column2)  3:b端商品进价商品（column3) 4:b端直降 5:c端直降
     const {dataSource,type,addText} = this.props
     dataSource&&dataSource.map((item,index)=>{
