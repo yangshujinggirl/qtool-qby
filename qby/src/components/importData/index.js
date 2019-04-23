@@ -18,7 +18,7 @@ class GoodTable extends Component{
           return(
            <FormItem>
            {
-             getFieldDecorator('spShopId'+index,{
+             getFieldDecorator(`shops[${index}].spShopId`,{
                initialValue:record.spShopId,
                rules:[{required:true,message:'请输入门店ID'}]
              })(
@@ -53,7 +53,7 @@ class GoodTable extends Component{
           return(
            <FormItem>
            {
-             getFieldDecorator('pdCode'+index,{
+             getFieldDecorator(`goodLists[${index}].pdCode`,{
                initialValue:record.pdCode
              })(
                <Input placeholder='请输入商品编码' onBlur={(e)=>this.getCouponGoodInfo(e,index)} autoComplete='off'/>
@@ -85,7 +85,7 @@ class GoodTable extends Component{
           return(
             <FormItem>
               {
-                getFieldDecorator('pdCode'+index,{
+                getFieldDecorator(`goodLists[${index}].pdCode`,{
                   initialValue:record.pdCode,
                   rules:[
                     {required:true,message:'请输入商品编码'}
@@ -130,7 +130,7 @@ class GoodTable extends Component{
           return(
             <FormItem>
               {
-                getFieldDecorator('activityPrice'+index,{
+                getFieldDecorator(`goodLists[${index}].activityPrice`,{
                   initialValue:record.activityPrice,
                   rules:[
                     {validator:validatePrice},
@@ -162,7 +162,7 @@ class GoodTable extends Component{
           return(
             <FormItem>
               {
-                getFieldDecorator('pdCode'+index,{
+                getFieldDecorator(`goodLists[${index}].pdCode`,{
                   initialValue:record.pdCode,
                   rules:[
                     {required:true,message:'请输入商品编码'}
@@ -215,7 +215,7 @@ class GoodTable extends Component{
           return(
             <FormItem>
               {
-                getFieldDecorator('activitySupplyPrice'+index,{
+                getFieldDecorator(`goodLists[${index}].activitySupplyPrice`,{
                   initialValue:record.activitySupplyPrice,
                   rules:[
                     {required:true,message:'请输入活动供价'},
@@ -247,7 +247,7 @@ class GoodTable extends Component{
           return(
             <FormItem>
               {
-                getFieldDecorator('pdCode'+index,{
+                getFieldDecorator(`goodLists[${index}].pdCode`,{
                   initialValue:record.pdCode,
                   rules:[
                     {required:true,message:'请输入商品编码'},
@@ -309,7 +309,7 @@ class GoodTable extends Component{
           return(
             <FormItem>
               {
-                getFieldDecorator('specialPrice'+index,{
+                getFieldDecorator(`goodLists[${index}].specialPrice`,{
                   initialValue:record.specialPrice,
                   rules:[
                     {required:true,message:'请输入活动特价'},
@@ -386,7 +386,11 @@ class GoodTable extends Component{
                 list.name = res.spShop.name;
                 this.props.changeList(list,index)
               };
-            }
+            }else{
+              const list = {};
+              list.spShopId = value;
+              this.props.changeList(list,index)
+            };
           });
       };
       if(type == 2 ){ //优惠券门店列表模板
@@ -398,7 +402,10 @@ class GoodTable extends Component{
               list.name = res.splist.name;
               this.props.changeList(list,index)
             };
-          }
+          }else{
+            const list = {};
+            this.props.changeList(list,index)
+          };
         });
       };
     }
@@ -425,6 +432,10 @@ class GoodTable extends Component{
             list.pdSpuId = res.pdList.pdSpuId;
             this.props.changeList(list,index)
           };
+        }else{
+          const list = {};
+          list.pdCode = value;
+          this.props.changeList(list,index);
         };
       });
     };
@@ -469,10 +480,9 @@ class GoodTable extends Component{
               if(type==5){
                 list.goldCardPrice='';
                 list.silverCardPrice='';
-              }
+              };
               this.props.changeList(list,index);
-              this.props.form.resetFields(['activityPrice'+index]);
-            }
+            };
           });
         // }else{
         //   message.error('商品编码重复',.8)
@@ -550,7 +560,7 @@ class GoodTable extends Component{
     console.log(this.props.dataSource)
     //type:1--->门店ID模板（columns1）   2：--->商品编码模板(column2)  3:b端商品进价商品（column3) 4:b端直降 5:c端直降
     const {dataSource,type,addText} = this.props
-    dataSource&&dataSource.map((item,index)=>{
+    dataSource[0]&&dataSource.map((item,index)=>{
       item.key=index;
     });
     let [Uploadtype,importCoupongoodData,importCouponSpData]= ['','',''];

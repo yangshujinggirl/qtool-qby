@@ -42,6 +42,7 @@ class Addactivity extends Component {
 		e.preventDefault();
 		this.props.form.validateFieldsAndScroll((err, values) => {
       if(!err){
+        delete values.goodLists;
         const {time,..._values} = values
         if(time && time[0]){
           _values.beginTime = moment(time[0]).format('YYYY-MM-DD HH:mm:ss');
@@ -126,8 +127,10 @@ class Addactivity extends Component {
   //删除商品
   deleteGood =(index)=> {
     const {goodList} = this.state;
+    const allFields = this.props.form.getFieldValue('goodLists');
+    const newFields = allFields.filter((item,oldIndex)=>oldIndex!=index);
     goodList.splice(index,1);
-    this.props.form.resetFields([`pdCode`+index,'activityPrice'+index]);
+    this.props.form.setFieldsValue({goodLists:newFields})
     this.setState({
       goodList
     });

@@ -42,7 +42,8 @@ class Addactivity extends Component {
 		e.preventDefault();
 		this.props.form.validateFieldsAndScroll((err, values) => {
       if(!err){
-        const {time,..._values} = values
+        delete values.goodLists;
+        const {time,..._values} = values;
         if(time && time[0]){
           _values.beginTime = moment(time[0]).format('YYYY-MM-DD HH:mm:ss');
           _values.endTime = moment(time[1]).format('YYYY-MM-DD HH:mm:ss');
@@ -59,7 +60,6 @@ class Addactivity extends Component {
     });
   }
   sendRequest =(values)=> {
-    console.log(this.props)
     if(this.props.data.activityId){ //修改
       updataGoodApi(values).then(res=>{
         if(res.code == '0'){
@@ -127,8 +127,10 @@ class Addactivity extends Component {
   //删除商品
   deleteGood =(index)=> {
     const {goodList} = this.state;
+    const allFields = this.props.form.getFieldValue('goodLists');
+    const newFields = allFields.filter((item,oldIndex)=>oldIndex!=index);
     goodList.splice(index,1);
-    this.props.form.resetFields([`pdCode`+index,'activitySupplyPrice'+index]);
+      this.props.form.setFieldsValue({goodLists:newFields})
     this.setState({
       goodList
     });

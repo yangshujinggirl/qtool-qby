@@ -75,7 +75,10 @@ class Addactivity extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
+      console.log(values)
       if(!err){
+        delete values.goodLists;
+        delete values.shops;
         const {actTime,warmTime,..._values} = values;
         if(new Date(warmTime).getTime() > new Date(actTime[0]).getTime()){ //if预热时间大于活动时间
           message.error('预热时间需早于活动开始时间')
@@ -169,8 +172,10 @@ class Addactivity extends Component {
   //删除商品
   deleteGood =(index)=> {
     const {goodList} = this.state;
+    const allFields = this.props.form.getFieldValue('goodLists');
+    const newFields = allFields.filter((item,oldIndex)=>oldIndex!=index);
     goodList.splice(index,1);
-    this.props.form.resetFields([`pdCode`+index,'activitySupplyPrice'+index]);
+    this.props.form.setFieldsValue({goodLists:newFields})
     this.setState({
       goodList
     });
@@ -205,8 +210,10 @@ class Addactivity extends Component {
   }
   deleteMd =(index)=> {
     const {shopList} = this.state;
+    const allFields = this.props.form.getFieldValue('shops');
+    const newFields = allFields.filter((item,oldIndex)=>oldIndex!=index);
     shopList.splice(index,1);
-    this.props.form.resetFields([`spShopId`+index]);
+    this.props.form.setFieldsValue({shops:newFields})
     this.setState({
       shopList
     });
