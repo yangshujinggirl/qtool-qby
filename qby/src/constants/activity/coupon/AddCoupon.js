@@ -213,8 +213,10 @@ class AddCoupon extends Component {
   //删除商品
   deleteGood =(index)=> {
     const {pdList} = this.state;
+    const allFields = this.props.form.getFieldValue('goodLists');
+    const newFields = allFields.filter((item,oldIndex)=>oldIndex!=index);
     pdList.splice(index,1);
-    this.props.form.resetFields([`pdCode`+index]);
+    this.props.form.setFieldsValue({goodLists:newFields});
     this.setState({
       pdList
     });
@@ -231,8 +233,10 @@ class AddCoupon extends Component {
   //删除门店
   deleteMd =(index)=> {
     const {shopList} = this.state;
+    const allFields = this.props.form.getFieldValue('shops');
+    const newFields = allFields.filter((item,oldIndex)=>oldIndex!=index);
     shopList.splice(index,1);
-    this.props.form.resetFields([`spShopId`+index]);
+      this.props.form.setFieldsValue({shops:newFields});
     this.setState({
       shopList
     });
@@ -338,7 +342,7 @@ class AddCoupon extends Component {
   }
   //适用商品类型发生变化
   couponUseScopeChange =(e)=> {
-    this.props.form.resetFields(['pdCode0']);
+    this.props.form.resetFields([`goodLists[0].pdCode`]);
     let {pdList} = this.state;
     pdList = [{pdCode:'',name:'',displayName:''}];
     this.setState({ //商品列表中的商品要根据适用商品类型来判断---->所以当商品类型变化的时候，要清空商品列表
@@ -353,7 +357,7 @@ class AddCoupon extends Component {
   }
   //适用门店类型发生变化时
   couponShopScopeChange =(e)=> {
-    this.props.form.resetFields(['spShopId0']);
+    this.props.form.resetFields([`shops[0].spShopId`]);
     let {shopList} = this.state;
     shopList = [{spShopId:'',shopName:''}];
     this.setState({ //门店列表中的门店要根据适用门店类型来判断---->所以当门店类型变化的时候，要清空门店列表
