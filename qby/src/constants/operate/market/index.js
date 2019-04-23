@@ -22,7 +22,6 @@ class Market extends Component{
     });
   }
   render(){
-      console.log(this.props)
       return(
         <div className='mark_box'>
           <div className='out_box'>

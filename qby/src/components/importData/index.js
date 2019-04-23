@@ -54,6 +54,9 @@ class GoodTable extends Component{
            <FormItem>
            {
              getFieldDecorator(`goodLists[${index}].pdCode`,{
+               rules:[
+                 {required:true,message:'请输入商品编码'}
+               ],
                initialValue:record.pdCode
              })(
                <Input placeholder='请输入商品编码' onBlur={(e)=>this.getCouponGoodInfo(e,index)} autoComplete='off'/>
@@ -404,6 +407,7 @@ class GoodTable extends Component{
             };
           }else{
             const list = {};
+            this.props.form.resetFields([`shops[${index}].spShopId`])
             this.props.changeList(list,index)
           };
         });
@@ -434,7 +438,7 @@ class GoodTable extends Component{
           };
         }else{
           const list = {};
-          list.pdCode = value;
+          this.props.form.resetFields(`goodLists[${index}].pdCode`);
           this.props.changeList(list,index);
         };
       });

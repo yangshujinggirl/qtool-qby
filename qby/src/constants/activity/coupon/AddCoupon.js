@@ -97,7 +97,9 @@ class AddCoupon extends Component {
 		e.preventDefault();
 		this.props.form.validateFieldsAndScroll((err, values) => {
       if(!err){
-        const {brandList} = this.state;
+        delete values.goodLists
+        delete values.shops
+        const {brandList,} = this.state;
         if(values.couponUseScope == 5 && !brandList[0]) {
           message.error('指定品牌为空',1);
           return;
@@ -143,6 +145,7 @@ class AddCoupon extends Component {
     if(values.couponUseScope=='5'){ //指定品牌
       const {brandList} = this.state;
       const brands = _.cloneDeep(brandList);
+
       brands[0]&&brands.map(item=>{
         item.name = item.text;
         item.pdBrandId = item.value;
@@ -156,10 +159,12 @@ class AddCoupon extends Component {
     };
     if(values.spuScope==1 || values.spuScope==2){
         const {pdList} = this.state;
+        if(!pdList.some(item=>item.pdCode)) return;
         values.pdList = pdList;
     };
-    if(values.shopScope){
+    if(values.shopScope==1 || values.spuScope==2){
         const {shopList} = this.state;
+        if(!shopList.some(item=>item.spShopId)) return;
         values.shopList = shopList;
     };
     values.couponWarningEmail = couponWarningEmail;
