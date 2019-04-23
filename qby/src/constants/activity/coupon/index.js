@@ -256,7 +256,7 @@ class Coupon extends Component{
     });
     //券包管理
     const qubao = rolelists.find((currentValue,index)=>{
-      return currentValue.url=="qerp.web.pd.coupon.break"
+      return currentValue.url=="qerp.web.pd.coupon.package.query"
     });
     dataList.map((item)=>{
       item.injectRecord = injectRecord;
