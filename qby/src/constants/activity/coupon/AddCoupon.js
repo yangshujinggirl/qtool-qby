@@ -140,25 +140,28 @@ class AddCoupon extends Component {
        message.error('剩余优惠券数不可超过当前发放数',.8)
        return
     };
-    const {shopList,pdList,brandList} = this.state;
-    const brands = _.cloneDeep(brandList)
-    values.pdList = pdList;
-    values.spList = shopList;
-    brands&&brands.map(item=>{
-      item.name = item.text;
-      item.pdBrandId = item.value;
-      return item
-    });
-    brands&&brands.map(item=>{
-      delete item.text;
-      delete item.value;
-    });
-    for (var key in values){
-      if(key.includes('pdCode')||key.includes('spShopId')){
-        delete values[key]
-      };
+    if(values.couponUseScope=='5'){ //指定品牌
+      const {brandList} = this.state;
+      const brands = _.cloneDeep(brandList);
+      brands[0]&&brands.map(item=>{
+        item.name = item.text;
+        item.pdBrandId = item.value;
+        return item
+      });
+      brands[0]&&brands.map(item=>{
+        delete item.text;
+        delete item.value;
+      });
+      values.brandList = brands;
     };
-    values.brandList = brands;
+    if(values.spuScope==1 || values.spuScope==2){
+        const {pdList} = this.state;
+        values.pdList = pdList;
+    };
+    if(values.shopScope){
+        const {shopList} = this.state;
+        values.shopList = shopList;
+    };
     values.couponWarningEmail = couponWarningEmail;
     values.couponWarningQty = couponWarningQty;
     const {couponValidDate,..._values} = values;
