@@ -16,6 +16,7 @@ class AddCoupon extends Component {
   constructor(props){
     super(props);
     this.state={
+      isCanSubmit:false,
       couponValidDay:true,
       couponValidDate:false,
       pdList:[{pdCode:'',name:'',displayName:''}],
@@ -44,6 +45,7 @@ class AddCoupon extends Component {
       this.initPage();
     };
   }
+  //
   initPage =()=> {
     const {couponId} = this.props.data;
     getCouponInfoApi({couponId}).then(res=>{
@@ -145,13 +147,12 @@ class AddCoupon extends Component {
     if(values.couponUseScope=='5'){ //指定品牌
       const {brandList} = this.state;
       const brands = _.cloneDeep(brandList);
-
-      brands[0]&&brands.map(item=>{
+      brands&&brands[0]&&brands.map(item=>{
         item.name = item.text;
         item.pdBrandId = item.value;
         return item
       });
-      brands[0]&&brands.map(item=>{
+      brands&&brands[0]&&brands.map(item=>{
         delete item.text;
         delete item.value;
       });
@@ -159,12 +160,12 @@ class AddCoupon extends Component {
     };
     if(values.spuScope==1 || values.spuScope==2){
         const {pdList} = this.state;
-        if(!pdList.some(item=>item.pdCode)) return;
+        if(pdList&&pdList[0]&&!pdList.some(item=>item.pdCode)) return;
         values.pdList = pdList;
     };
-    if(values.shopScope==1 || values.spuScope==2){
+    if(values.shopScope==1 || values.shopScope==2){
         const {shopList} = this.state;
-        if(!shopList.some(item=>item.spShopId)) return;
+        if(shopList&&shopList[0]&&!shopList.some(item=>item.spShopId)) return;
         values.shopList = shopList;
     };
     values.couponWarningEmail = couponWarningEmail;
@@ -243,7 +244,6 @@ class AddCoupon extends Component {
   }
   //导入门店list
   getShopFile=(list,index)=>{
-    debugger
     this.setState({shopList:list});
   }
   //导入商品list
@@ -380,7 +380,6 @@ class AddCoupon extends Component {
     };
   }
   render(){
-    console.log(this.state.brandList)
     const {
       shopList,
       pdList,
@@ -392,7 +391,6 @@ class AddCoupon extends Component {
       couponShopScopeValue,
       coupon,
     } = this.state;
-    console.log(coupon)
     const brandIds = [];
     brandList&&brandList.length>0 && brandList.map(item=>{
       brandIds.push(Number(item.value))

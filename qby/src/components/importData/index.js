@@ -561,7 +561,6 @@ class GoodTable extends Component{
     this.props.add()
   };
   render(){
-    console.log(this.props.dataSource)
     //type:1--->门店ID模板（columns1）   2：--->商品编码模板(column2)  3:b端商品进价商品（column3) 4:b端直降 5:c端直降
     const {dataSource,type,addText} = this.props
     dataSource[0]&&dataSource.map((item,index)=>{
