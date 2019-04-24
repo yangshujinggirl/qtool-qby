@@ -77,6 +77,16 @@ class NormalForm extends Component {
                     </Select>
                   )}
                 </FormItem>
+                <FormItem label='退款渠道'>
+                   {getFieldDecorator('returnStatus')(
+                     <Select allowClear={true} placeholder="请选择退款渠道">
+                       <Option value={10}>微信</Option>
+                       <Option value={50}>支付宝</Option>
+                       <Option value={60}>线下POS</Option>
+                       <Option value={70}>无</Option>
+                     </Select>
+                   )}
+                 </FormItem>
               <FormItem label='用户电话'>
                  {getFieldDecorator('userMoblie')(
                    <Input placeholder="请输入用户电话" autoComplete="off"/>

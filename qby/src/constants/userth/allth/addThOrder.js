@@ -50,7 +50,7 @@ class AddThOrder extends Component{
 								bondedOrderType:2
 							});
 						}
-					}else{ //c端
+					}else{ //c端仓库直邮
 						this.setState({
 							isTax:false,
 							orderSource:0,
