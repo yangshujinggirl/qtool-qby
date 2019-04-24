@@ -101,14 +101,14 @@ class AddCoupon extends Component {
       if(!err){
         delete values.goodLists
         delete values.shops
-        const {brandList,} = this.state;
+        const {brandList} = this.state;
         if(values.couponUseScope == 5 && !brandList[0]) {
           message.error('指定品牌为空',1);
           return;
         };
         const _values = this.formatValue(values);
         if(!_values) return;
-        if(this.state.couponId){//修改优惠券
+        if(this.state.couponId){//修改
           _values.couponId = this.state.couponId;
           const componkey = this.props.componkey+this.state.couponId;
           this.sendRequest(updataCouponPackApi,_values,componkey)
@@ -140,11 +140,13 @@ class AddCoupon extends Component {
   formatValue=(values)=>{
     const {couponWarningEmail,couponWarningQty} = this.state.coupon;
     const {couponCount} = values;
+    values.couponWarningEmail = couponWarningEmail;
+    values.couponWarningQty = couponWarningQty;
     if(Number(couponWarningQty)>Number(couponCount)){
        message.error('剩余优惠券数不可超过当前发放数',.8)
        return
     };
-    if(values.couponUseScope=='5'){ //指定品牌
+    if(values.couponUseScope=='5'){ //适用门店类型为指定品牌--->才传入brandList
       const {brandList} = this.state;
       const brands = _.cloneDeep(brandList);
       brands&&brands[0]&&brands.map(item=>{
@@ -158,21 +160,18 @@ class AddCoupon extends Component {
       });
       values.brandList = brands;
     };
-    if(values.spuScope==1 || values.spuScope==2){
+    if(values.spuScope==1 || values.spuScope==2){//选择商品为指定商品可用或指定商品不可用-->才传入商品列表
         const {pdList} = this.state;
-        if(pdList&&pdList[0]&&pdList.some(item=>!item.name)) return;
+        if(pdList && pdList[0] && pdList.some(item=>!item.name)) return;//不失焦直接点保存的情况--->商品请求还未回来数据不完整不可保存
         values.pdList = pdList;
     };
-    if(values.shopScope==1 || values.shopScope==2){
-        const {shopList} = this.state;
-        if(shopList&&shopList[0]&&shopList.some(item=>!item.name)) return;
-        values.shopList = shopList;
+    if(values.shopScope==1 || values.shopScope==2){//选择门店为指定门店可用或指定门店不可用-->才传入门店列表
+      const {shopList} = this.state;
+      if(shopList&&shopList[0]&&shopList.some(item=>!item.name)) return;
+      values.shopList = shopList;
     };
-    values.couponWarningEmail = couponWarningEmail;
-    values.couponWarningQty = couponWarningQty;
     const {couponValidDate,..._values} = values;
-
-    if(values.couponValid==2&&couponValidDate&&couponValidDate[0]){
+    if(values.couponValid==2 && couponValidDate && couponValidDate[0]){//优惠券有效期为特定时间时
       _values.couponValidDateST = moment(values.couponValidDate[0]).format('YYYY-MM-DD HH:mm:ss');
       _values.couponValidDateET = moment(values.couponValidDate[1]).format('YYYY-MM-DD HH:mm:ss');
     };
