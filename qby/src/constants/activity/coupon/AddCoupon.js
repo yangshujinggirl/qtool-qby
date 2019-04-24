@@ -168,7 +168,7 @@ class AddCoupon extends Component {
     if(values.shopScope==1 || values.shopScope==2){//选择门店为指定门店可用或指定门店不可用-->才传入门店列表
       const {shopList} = this.state;
       if(shopList&&shopList[0]&&shopList.some(item=>!item.name)) return;
-      values.shopList = shopList;
+      values.spList = shopList;
     };
     const {couponValidDate,..._values} = values;
     if(values.couponValid==2 && couponValidDate && couponValidDate[0]){//优惠券有效期为特定时间时
