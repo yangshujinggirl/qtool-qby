@@ -26,7 +26,7 @@ class GoodTable extends Component{
                ?
                 <Input placeholder='请输入门店ID' onBlur={(e)=>this.getIdInfo(e,index,'1')} autoComplete='off'/>
                :
-               <Input placeholder='请输入门店ID' onBlur={(e)=>this.getIdInfo(e,index,'2')} autoComplete='off'/>
+               <Input placeholder='请输入门店ID' onBlur={(e)=>this.getIdInfo(e,index,'2')} onChange={()=>this.couponIdChange(index)} autoComplete='off'/>
              )
            }
           </FormItem>
@@ -59,7 +59,7 @@ class GoodTable extends Component{
                ],
                initialValue:record.pdCode
              })(
-               <Input placeholder='请输入商品编码' onBlur={(e)=>this.getCouponGoodInfo(e,index)} autoComplete='off'/>
+               <Input placeholder='请输入商品编码' onBlur={(e)=>this.getCouponGoodInfo(e,index)} onChange={()=>this.couponGoodChange(index)} autoComplete='off'/>
              )
            }
           </FormItem>
@@ -333,6 +333,15 @@ class GoodTable extends Component{
         )
       },
     ]
+  }
+  //优惠券商品输入框发生变化时
+  couponGoodChange =(index)=> {
+    const list = {};
+    this.props.changeList(list,index);
+  }
+  couponIdChange =(index)=>{
+    const list = {};
+    this.props.changeList(list,index);
   }
   /* ----------------------- 更新商品列表 --------------------- */
   updataList =(e,index)=> {

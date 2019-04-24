@@ -160,18 +160,19 @@ class AddCoupon extends Component {
     };
     if(values.spuScope==1 || values.spuScope==2){
         const {pdList} = this.state;
-        if(pdList&&pdList[0]&&!pdList.some(item=>item.pdCode)) return;
+        if(pdList&&pdList[0]&&pdList.some(item=>!item.name)) return;
         values.pdList = pdList;
     };
     if(values.shopScope==1 || values.shopScope==2){
         const {shopList} = this.state;
-        if(shopList&&shopList[0]&&!shopList.some(item=>item.spShopId)) return;
+        if(shopList&&shopList[0]&&shopList.some(item=>!item.name)) return;
         values.shopList = shopList;
     };
     values.couponWarningEmail = couponWarningEmail;
     values.couponWarningQty = couponWarningQty;
     const {couponValidDate,..._values} = values;
-    if(couponValidDate&&couponValidDate[0]){
+
+    if(values.couponValid==2&&couponValidDate&&couponValidDate[0]){
       _values.couponValidDateST = moment(values.couponValidDate[0]).format('YYYY-MM-DD HH:mm:ss');
       _values.couponValidDateET = moment(values.couponValidDate[1]).format('YYYY-MM-DD HH:mm:ss');
     };
