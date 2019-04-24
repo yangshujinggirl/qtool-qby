@@ -26,7 +26,7 @@ class GoodTable extends Component{
                ?
                 <Input placeholder='请输入门店ID' onBlur={(e)=>this.getIdInfo(e,index,'1')} autoComplete='off'/>
                :
-               <Input placeholder='请输入门店ID' onBlur={(e)=>this.getIdInfo(e,index,'2')} onChange={()=>this.couponIdChange(index)} autoComplete='off'/>
+               <Input placeholder='请输入门店ID' disabled={this.props.isEdit} onBlur={(e)=>this.getIdInfo(e,index,'2')} onChange={()=>this.couponIdChange(index)} autoComplete='off'/>
              )
            }
           </FormItem>
@@ -37,9 +37,10 @@ class GoodTable extends Component{
         key:'name'
       },{
         key:'operate',
-        render:(text,record,index)=>{
+        render:(text,record,index)=>{ //优惠券门店是修改页删除按钮不显示
+          const {type} = this.props;
           return(
-            this.props.dataSource.length>1 &&
+            ( (!(type == 12 && this.props.isEdit)) && this.props.dataSource.length>1) &&
             <a className='theme-color' onClick={()=>this.delete(index)}>删除</a>
           )
         }
@@ -59,7 +60,7 @@ class GoodTable extends Component{
                ],
                initialValue:record.pdCode
              })(
-               <Input placeholder='请输入商品编码' onBlur={(e)=>this.getCouponGoodInfo(e,index)} onChange={()=>this.couponGoodChange(index)} autoComplete='off'/>
+               <Input disabled={this.props.isEdit} placeholder='请输入商品编码' onBlur={(e)=>this.getCouponGoodInfo(e,index)} onChange={()=>this.couponGoodChange(index)} autoComplete='off'/>
              )
            }
           </FormItem>
@@ -73,7 +74,7 @@ class GoodTable extends Component{
       },{
         render:(text,record,index)=>{
           return(
-            this.props.dataSource.length>1 &&
+            (this.props.dataSource.length>1 && !this.props.isEdit)&&
             <a className='theme-color' onClick={()=>this.delete(index)}>删除</a>
           )
         }
@@ -586,7 +587,13 @@ class GoodTable extends Component{
     };
     if(type==12){
       importCouponSpData = { data:JSON.stringify({couponShopScope:this.props.couponShopScope}) }
-    }
+    };
+    let isCouponEdit = false; //优惠券修改页--->要求下载和导入按钮不显示
+    if(type==2||type==12){
+      if(this.props.isEdit){
+        isCouponEdit = true
+      };
+    };
     return(
       <div className='good_table_temp'>
         <Table
@@ -605,7 +612,10 @@ class GoodTable extends Component{
                 )
           }
           dataSource={dataSource}/>
-        <Button onClick={this.add}>{addText}</Button>
+        {
+          !isCouponEdit &&
+          <Button onClick={this.add}>{addText}</Button>
+        }
         <div className='btn_box'>
           {type==11 ? //导入c端直降门店
             <ImportGood
@@ -623,7 +633,7 @@ class GoodTable extends Component{
                  data={uploadData}
                  onChange={this.onGoodChange}
                 />
-              : (type==2 ? //导入优惠券商品
+              : (type==2&&!this.props.isEdit ? //导入优惠券商品
                 <ImportGood
                   title='导入商品'
                   name='mfile'
@@ -631,7 +641,7 @@ class GoodTable extends Component{
                   data={importCoupongoodData}
                   onChange={this.onGoodChange}
                   />
-                : (type==12 ? //导入优惠券门店
+                : (type==12&&!this.props.isEdit ? //导入优惠券门店
                   <ImportGood
                     title='导入门店'
                     name='mfile'
@@ -644,7 +654,10 @@ class GoodTable extends Component{
               )
            )
           }
-          <Button className='down_temp' type='primary' onClick={this.downLoad}>下载导入模板</Button>
+          {
+            !isCouponEdit&&
+            <Button className='down_temp' type='primary' onClick={this.downLoad}>下载导入模板</Button>
+          }
         </div>
       </div>
     )

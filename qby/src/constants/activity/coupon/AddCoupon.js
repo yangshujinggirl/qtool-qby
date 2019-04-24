@@ -653,8 +653,9 @@ class AddCoupon extends Component {
             labelCol={{span:4,offset:1}}
             wrapperCol={{span:10}}>
             {
-              (!isEdit && (coupon.spuScope==1||coupon.spuScope==2) ) &&
+              (coupon.spuScope==1||coupon.spuScope==2)  &&
               <GoodList
+                isEdit={isEdit}
                 form={this.props.form}
                 couponUseScope={coupon.couponUseScope}
                 FormItem={FormItem}
@@ -706,7 +707,7 @@ class AddCoupon extends Component {
             }
           </FormItem>
           {
-            (!isEdit&&(coupon.shopScope==1 || coupon.shopScope==2))&&
+            (coupon.shopScope==1 || coupon.shopScope==2)&&
             <FormItem
               className='table_temp_list coupon_list'
               label=''
@@ -714,6 +715,7 @@ class AddCoupon extends Component {
               wrapperCol={{span:10}}>
               {
                   <ShopList
+                    isEdit={isEdit}
                     form={this.props.form}
                     couponShopScope={coupon.couponShopScope}
                     FormItem={FormItem}
