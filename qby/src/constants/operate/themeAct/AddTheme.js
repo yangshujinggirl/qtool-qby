@@ -72,8 +72,8 @@ class AddTheme extends  Component {
         if(imageUrl){
           const {time,..._values} = values;
           if(time && time[0]){
-            _values.showTimeStart = moment(time[0]).format('YYYY-MM-DD hh:mm:ss')
-            _values.showTimeEnd = moment(time[1]).format('YYYY-MM-DD hh:mm:ss')
+            _values.showTimeStart = moment(time[0]).format('YYYY-MM-DD HH:mm:ss')
+            _values.showTimeEnd = moment(time[1]).format('YYYY-MM-DD HH:mm:ss')
           }
           const tempActivityPdSpuIds = values.activityPdSpuIds.split('\n').filter(item => item);
           for(var i=0;i<tempActivityPdSpuIds.length;i++){
@@ -171,7 +171,7 @@ class AddTheme extends  Component {
       					})(
       						<RangePicker
                     showTime
-                    format='YYYY-MM-DD hh:mm:ss'
+                    format='YYYY-MM-DD HH:mm:ss'
                   />
       					)}
       				</FormItem>
