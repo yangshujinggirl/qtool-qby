@@ -9,6 +9,7 @@ class Market extends Component{
     super(props);
     this.state = {}
   }
+
   togo =(suffix,title)=> {
     const paneitem = {
       title,
@@ -22,31 +23,42 @@ class Market extends Component{
     });
   }
   render(){
+      const {rolelists} = this.props.data;
+      const bdown = rolelists.some(item=>item.urResourceId == 401500)//b端直降
+      const cdown = rolelists.some(item=>item.urResourceId == 401800)//c端直降
+      const bPrice = rolelists.some(item=>item.urResourceId == 401600)//b端进价
+      const coupon = rolelists.some(item=>item.urResourceId == 1003000)//优惠券
       return(
         <div className='mark_box'>
           <div className='out_box'>
             <h1 className='title'>B端</h1>
-            <div className='box' onClick={()=>this.togo('blow','b端限时直降')}>
-              <div className='img_box'>
-                <img className='img' alt="example" src={require('../../../assets/limit_time.png')}/>
+            { bdown &&
+              <div className='box' onClick={()=>this.togo('blow','b端限时直降')}>
+                <div className='img_box'>
+                  <img className='img' alt="example" src={require('../../../assets/limit_time.png')}/>
+                </div>
+                <div className='right'>
+                  <span className='theme'>限时促销</span>
+                  <p className='des'>商品限时打折/特价</p>
+                </div>
               </div>
-              <div className='right'>
-                <span className='theme'>限时促销</span>
-                <p className='des'>商品限时打折/特价</p>
+            }
+            { bPrice &&
+              <div className='box' onClick={()=>this.togo('bact','活动进价')}>
+                <div className='img_box'>
+                  <img className='img' alt="example" src={require('../../../assets/enter_price.png')}/>
+                </div>
+                <div className='right'>
+                  <span className='theme'>活动进价</span>
+                  <p className='des'>采购活动商品前可配置活动进价</p>
+                </div>
               </div>
-            </div>
-            <div className='box' onClick={()=>this.togo('bact','活动进价')}>
-              <div className='img_box'>
-                <img className='img' alt="example" src={require('../../../assets/enter_price.png')}/>
-              </div>
-              <div className='right'>
-                <span className='theme'>活动进价</span>
-                <p className='des'>采购活动商品前可配置活动进价</p>
-              </div>
-            </div>
+            }
+
         </div>
         <div className='out_box'>
           <h1 className='title'>C端</h1>
+          { coupon &&
             <div className='box' onClick={()=>this.togo('coupon','优惠券')}>
               <div className='img_box'>
                 <img className='img' alt="example" src={require('../../../assets/coupon.png')}/>
@@ -56,6 +68,8 @@ class Market extends Component{
                 <p className='des'>向顾客发放优惠券</p>
               </div>
             </div>
+          }
+          { cdown &&
             <div className='box' onClick={()=>this.togo('clow','c端限时直降')}>
               <div className='img_box'>
                 <img className='img' alt="example" src={require('../../../assets/limit_time.png')}/>
@@ -65,6 +79,8 @@ class Market extends Component{
                 <p className='des'>设置商品在活动时间享特殊价格</p>
               </div>
             </div>
+          }
+
           </div>
       </div>
     )

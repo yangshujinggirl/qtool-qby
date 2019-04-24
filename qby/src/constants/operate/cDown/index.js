@@ -45,7 +45,7 @@ class cDown extends Component{
     const {rowSelection}=this.state;
     this.setState({
       rowSelection:Object.assign({},rowSelection,{selectedRowKeys})
-    })
+    });
     if(selectedRows[0]){
       this.setState({
         activityId:selectedRows[0].activityId,
@@ -53,8 +53,8 @@ class cDown extends Component{
         beginTime:selectedRows[0].beginTime,
         endTime:selectedRows[0].endTime,
         selectedRows:selectedRows[0],
-      })
-    }
+      });
+    };
   }
   //点击搜索
   searchData = (values)=> {
