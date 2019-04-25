@@ -36,20 +36,13 @@ class AddThOrder extends Component{
 			.then(res=>{
 				if(res.code == '0'){
 					if(value.slice(0,2) == 'YH'){ //有赞 --->(c端保税  + 有赞)
-						if(res.outNo && res.outNo.slice(0,2) == 'XS'){
 							this.setState({ //c端保税
 								isTax:true,
 								isC:true,
 								orderSource:1,
 								bondedOrderType:1
 							});
-						}else if(res.outNo && res.outNo.slice(0,1) == 'E'){
-							this.setState({ //有赞
-								isC:false,
-								orderSource:1,
-								bondedOrderType:2
-							});
-						}
+
 					}else{ //c端仓库直邮
 						this.setState({
 							isTax:false,
@@ -118,8 +111,8 @@ class AddThOrder extends Component{
 				const goodsList = _.cloneDeep(productList);
 
 				if(this.state.isC){  //如果是c端退单
-					if(values.returnType && values.returnType=='售中退款')values.returnType = 0
-					if(values.returnType && values.returnType=='售后退款')values.returnType = 1
+					if(values.returnType && values.returnType=='售中退款')values.returnType = 1
+					if(values.returnType && values.returnType=='售后退款')values.returnType = 2
 					values.orderId = this.state.orderId;
 					if(this.state.isTax){ //如果是c端保税必须	全退
 						let canReturnList = [];
@@ -249,134 +242,117 @@ class AddThOrder extends Component{
 											<Input onBlur={this.getOrderInfo}  autoComplete="off" placeholder='请输入仓库直邮订单号或保税子单号'/>
                     )}
                 </FormItem>
+								<FormItem
+										label="退款类型"
+										labelCol={{ span: 3,offset: 1 }}
+										wrapperCol={{ span: 6 }}>
+										{getFieldDecorator('returnType', {
+											initialValue:returnType != null ? (returnType==2 ?'售后退款':'售中退款') : null
+										})(
+											<Input placeholder='请输入退款类型'  disabled autoComplete="off"/>
+										)}
+									</FormItem>
 								{
-									isC ?
-										<div>
-											<FormItem
-													label="退款类型"
-													labelCol={{ span: 3,offset: 1 }}
-													wrapperCol={{ span: 6 }}>
-													{getFieldDecorator('returnType', {
-														initialValue:returnType != null ? (returnType ?'售后退款':'售中退款') : null
-													})(
-														<Input placeholder='请输入退款类型'  disabled autoComplete="off"/>
-													)}
-												</FormItem>
-											{
-												returnType||returnType==null?
-													<FormItem
-														label="退款方式"
-														labelCol={{ span: 3,offset: 1 }}
-														wrapperCol={{ span: 6 }}>
-														{getFieldDecorator('returnWay', {
-															onChange:this.onChange,
-															rules: [{ required: true, message: '请输入退款方式'}],
-														})(
-															<RadioGroup>
-												        <Radio style={radioStyle} value={0}>仅退款</Radio>
-												        <Radio style={radioStyle} value={1}>退货退款</Radio>
-												      </RadioGroup>
-														)}
-													</FormItem>
-												:
-													<FormItem
-														label="退款方式"
-														labelCol={{ span: 3,offset: 1 }}
-														wrapperCol={{ span: 6 }}>
-														{getFieldDecorator('returnWay', {
-															rules: [{ required: true, message: '请输入退款方式'}],
-															initialValue:0
-														})(
-															<RadioGroup>
-																<Radio style={radioStyle} value={0}>仅退款</Radio>
-															</RadioGroup>
-														)}
-													</FormItem>
-											}
-											{
-												returnWay?
-												<div>
-													<FormItem
-														label="退货地址"
-														labelCol={{ span: 3,offset: 1}}
-														wrapperCol={{ span: 6 }}>
-														{getFieldDecorator('acceptReturnOrderUserName', {
-															rules: [{ required: true, message: '请输入姓名'}],
-															initialValue:recName && orderType==4 ? recName : ''
-														})(
-															<Input placeholder="请输入姓名" autoComplete="off"/>
-														)}
-													</FormItem>
-													<FormItem
-														wrapperCol={{ span: 6,offset: 4}}>
-														{getFieldDecorator('acceptReturnOrderUserPhone', {
-																rules: [{ required: true, message: '请输入联系电话'}],
-																initialValue:recTelephone && orderType==4 ?recTelephone:''
-														})(
-															<Input placeholder="请输入联系电话" autoComplete="off"/>
-														)}
-													</FormItem>
-													<FormItem
-														wrapperCol={{ span: 16,offset: 4 }}>
-														{getFieldDecorator('returnPdAddress', {
-															rules: [{ required: true, message: '请输入地址'}],
-															initialValue:recAddress && orderType==4 ?recAddress:''
-														})(
-															<Input placeholder="请输入地址" autoComplete="off"/>
-														)}
-													</FormItem>
-												</div>
-												:null
-											}
-			                <FormItem
-												label="商品信息"
-												labelCol={{ span: 3,offset: 1 }}
-												wrapperCol={{ span: 24 }}>
-													<TableList
-														form={this.props.form}
-														FormItem={FormItem}
-														isTax={isTax}
-														productList = {productList}
-														columns={1}
-														returnType={returnType}
-														productListChange={this.productListChange}
-													/>
-											</FormItem>
-											{
-										 		returnType==0&&
-												<FormItem
-												 label="运费"
-												 labelCol={{ span: 3,offset: 1 }}
-												 wrapperCol={{ span: 6 }}>
-												 	{freightQuota}
-												</FormItem>
-											}
-
-			                <FormItem
-			              		label="合计退款"
-			              		labelCol={{ span: 3,offset: 1 }}
-			              		wrapperCol={{ span: 6 }}>
-												{getFieldDecorator('returnSumQuota', {
-													initialValue:this.getReturnSumQuota()
-												})(
-													<Input disabled placeholder="请输入合计退款" autoComplete="off"/>
-			              		)}
-			            		</FormItem>
-										</div>
+									returnType==2||returnType==null?
+										<FormItem
+											label="退款方式"
+											labelCol={{ span: 3,offset: 1 }}
+											wrapperCol={{ span: 6 }}>
+											{getFieldDecorator('returnWay', {
+												onChange:this.onChange,
+												rules: [{ required: true, message: '请输入退款方式'}],
+											})(
+												<RadioGroup>
+									        <Radio style={radioStyle} value={0}>仅退款</Radio>
+									        <Radio style={radioStyle} value={1}>退货退款</Radio>
+									      </RadioGroup>
+											)}
+										</FormItem>
 									:
-											<FormItem
-												label="商品信息"
-												labelCol={{ span: 3,offset: 1 }}
-												wrapperCol={{ span: 16 }}>
-														<TableList
-															form={this.props.form}
-															FormItem={FormItem}
-															productList = {productList}
-															columns={2}
-															returnType={returnType}
-															productListChange={this.productListChange}
-														/>
-											</FormItem>
+										<FormItem
+											label="退款方式"
+											labelCol={{ span: 3,offset: 1 }}
+											wrapperCol={{ span: 6 }}>
+											{getFieldDecorator('returnWay', {
+												rules: [{ required: true, message: '请输入退款方式'}],
+												initialValue:0
+											})(
+												<RadioGroup>
+													<Radio style={radioStyle} value={0}>仅退款</Radio>
+												</RadioGroup>
+											)}
+										</FormItem>
+								}
+								{
+									returnWay?
+									<div>
+										<FormItem
+											label="退货地址"
+											labelCol={{ span: 3,offset: 1}}
+											wrapperCol={{ span: 6 }}>
+											{getFieldDecorator('acceptReturnOrderUserName', {
+												rules: [{ required: true, message: '请输入姓名'}],
+												initialValue:recName && orderType==4 ? recName : ''
+											})(
+												<Input placeholder="请输入姓名" autoComplete="off"/>
+											)}
+										</FormItem>
+										<FormItem
+											wrapperCol={{ span: 6,offset: 4}}>
+											{getFieldDecorator('acceptReturnOrderUserPhone', {
+													rules: [{ required: true, message: '请输入联系电话'}],
+													initialValue:recTelephone && orderType==4 ?recTelephone:''
+											})(
+												<Input placeholder="请输入联系电话" autoComplete="off"/>
+											)}
+										</FormItem>
+										<FormItem
+											wrapperCol={{ span: 16,offset: 4 }}>
+											{getFieldDecorator('returnPdAddress', {
+												rules: [{ required: true, message: '请输入地址'}],
+												initialValue:recAddress && orderType==4 ?recAddress:''
+											})(
+												<Input placeholder="请输入地址" autoComplete="off"/>
+											)}
+										</FormItem>
+									</div>
+									:null
+								}
+                <FormItem
+									label="商品信息"
+									labelCol={{ span: 3,offset: 1 }}
+									wrapperCol={{ span: 24 }}>
+										<TableList
+											form={this.props.form}
+											FormItem={FormItem}
+											isTax={isTax}
+											productList = {productList}
+											columns={1}
+											returnType={returnType}
+											productListChange={this.productListChange}
+										/>
+								</FormItem>
+								{
+							 		(returnType==1||orderType==5)&&
+									<FormItem
+									 label="运费"
+									 labelCol={{ span: 3,offset: 1 }}
+									 wrapperCol={{ span: 6 }}>
+									 	{freightQuota}
+									</FormItem>
+								}
+
+                <FormItem
+              		label="合计退款"
+              		labelCol={{ span: 3,offset: 1 }}
+              		wrapperCol={{ span: 6 }}>
+									{getFieldDecorator('returnSumQuota', {
+										initialValue:this.getReturnSumQuota()
+									})(
+										<Input disabled placeholder="请输入合计退款" autoComplete="off"/>
+              		)}
+            		</FormItem>
+
 								}
 								<FormItem
 									label="退单原因"
