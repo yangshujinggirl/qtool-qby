@@ -99,7 +99,15 @@ class OrderuserInfo extends React.Component{
 	  	},
 			{
 				title: '应付价格',
-				dataIndex: 'amount'
+				dataIndex: 'amount',
+				render:(text,record,index)=>(
+					record.priceType==1
+					?<a>{text}(限时秒杀)</a>
+					:(record.priceType == 2
+						?<a>{text}(限时直降)</a>
+						:<a>{text}</a>
+						)
+				)
 			},
 			{
 				title: '实付价格',
@@ -169,7 +177,15 @@ class OrderuserInfo extends React.Component{
 	  	},
 			{
 				title: '应付价格',
-				dataIndex: 'amount'
+				dataIndex: 'amount',
+				render:(text,record,index)=>(
+					record.priceType==1
+					?<a>{text}(限时秒杀)</a>
+					:(record.priceType == 2
+						?<a>{text}(限时直降)</a>
+						:<a>{text}</a>
+						)
+				)
 			},
 			{
 				title: '实付价格',
