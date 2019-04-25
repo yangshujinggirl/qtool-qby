@@ -17,7 +17,6 @@ class AddThOrder extends Component{
 			returnType:null,
 			productList:[],
 			freightQuota:null,
-			isC:null,
 			loading:false,
 			returnWay:null,
 			uOrderChange:null
@@ -35,23 +34,7 @@ class AddThOrder extends Component{
 			getOrderInfoApi({orderNum:value})
 			.then(res=>{
 				if(res.code == '0'){
-					if(value.slice(0,2) == 'YH'){ //有赞 --->(c端保税  + 有赞)
-							this.setState({ //c端保税
-								isTax:true,
-								isC:true,
-								orderSource:1,
-								bondedOrderType:1
-							});
-
-					}else{ //c端仓库直邮
-						this.setState({
-							isTax:false,
-							orderSource:0,
-							isC:true,
-							returnWay:null
-						});
-					};
-				res.productList&&res.productList.map((item,index)=>{
+				res.productList[0]&&res.productList.map((item,index)=>{
 					item.key = index
 				});
 				this.setState({
@@ -83,7 +66,7 @@ class AddThOrder extends Component{
 				return NP.plus(totalReturnMoney,Number(freightQuota))
 			}else{
 				return null
-			}
+			};
 		}else{
 			if(totalReturnMoney > 0){
 				return totalReturnMoney
@@ -97,11 +80,6 @@ class AddThOrder extends Component{
 		this.props.form.validateFieldsAndScroll((err, values) => {
 			if(!err){
 				this.setState({loading:true})
-				const {orderSource} = this.state;
-				values.orderSource = orderSource;
-				if(orderSource){ //orderSource为1的时候需要填写
-					values.bondedOrderType = this.state.bondedOrderType
-				};
 				for(var key in values){ //去除无用的参数
 					if(key.includes('apply')){
 						delete values[key]
@@ -109,59 +87,27 @@ class AddThOrder extends Component{
 				};
 				const {productList} = this.state;
 				const goodsList = _.cloneDeep(productList);
-
-				if(this.state.isC){  //如果是c端退单
-					if(values.returnType && values.returnType=='售中退款')values.returnType = 1
-					if(values.returnType && values.returnType=='售后退款')values.returnType = 2
-					values.orderId = this.state.orderId;
-					if(this.state.isTax){ //如果是c端保税必须	全退
-						let canReturnList = [];
-						goodsList.map(item=>{ //筛选出所有可退的商品 -----> 购买数量不等于已退数量的
-							if(item.buyCount != item.returnCount){
-								canReturnList.push(item)
-							}else{
-								item.applyReturnCount = 0;
-								item.applyReturnQuota = 0;
-							};
-						});
-						const isAllReturn = canReturnList.every(item=>{ //对可退的订单做判断---->是否已全部退完
-							return item.applyReturnCount+item.returnCount==item.buyCount
-						});
-						if(!isAllReturn){ //如果没有全退
-							message.error('保税订单必须全退')
-							this.setState({loading:false})
-						}else{
-							values.productList = goodsList;
-							this.sendRequest(values);
-						};
-					}else{ //不必全退
-						const newArr = 	goodsList.filter((item,index)=>{//需要检测退款数量有木有输入-->没有输入的数据不向后台输出
-								return Boolean(item.applyReturnCount&&item.applyReturnQuota)
-					 	});
-						if(newArr[0]){ // 数量为0的 金额也为0
-							const isExistZero = newArr.find(item=>(
-								item.applyReturnQuota == 0
-							));
-							if(isExistZero){
-								message.error('退款金额需大于0')
-								this.setState({loading:false})
-							}else{
-								values.productList = newArr;
-								this.sendRequest(values);
-							};
-						}else{
-							message.error('数据不完整，无法创建退单',.8)
-							this.setState({loading:false})
-						};
+				if(values.returnType && values.returnType=='售中退款')values.returnType = 1
+				if(values.returnType && values.returnType=='售后退款')values.returnType = 2
+				values.orderId = this.state.orderId;
+				const newArr = 	goodsList.filter((item,index)=>{//需要检测退款数量有木有输入-->没有输入的数据不向后台输出
+						return Boolean(item.applyReturnCount&&item.applyReturnQuota)
+			 	});
+				if(newArr[0]){ // 数量为0的 金额也为0
+					const isExistZero = newArr.find(item=>(
+						item.applyReturnQuota == 0
+					));
+					if(isExistZero){
+						message.error('退款金额需大于0')
+						this.setState({loading:false})
+					}else{
+						values.productList = newArr;
+						this.sendRequest(values);
 					};
-				}else{ //有赞的退单
-					goodsList.map(item=>{
-						item.applyReturnCount = item.buyCount;
-						item.applyReturnQuota = item.canReturnQuota;
-					});
-					values.productList = goodsList;
-					this.sendRequest(values);
-				}
+				}else{
+					message.error('数据不完整，无法创建退单',.8)
+					this.setState({loading:false})
+				};
 			};
 		})
 	}
@@ -215,13 +161,11 @@ class AddThOrder extends Component{
 				returnType,
 				productList=[],
 				loading,
-				isC,
 				returnWay,
 				freightQuota,
 				recName,
 				recTelephone,
 				recAddress,
-				isTax
 			} = this.state
 			const radioStyle = {
 	      display: 'block',
