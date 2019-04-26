@@ -474,8 +474,7 @@ class AddCoupon extends Component {
               initialValue:coupon.couponMoney,
               rules: [
                 {required: true, message: '请输入优惠券金额'},
-                {pattern:/^(([1-9][0-9]*)|(([0]\.\d{0,2}|[1-9][0-9]*\.\d{0,2})))$/,
-                message: '请输入最多2位小数正数'}
+                {pattern:/^(?:[0-9]{0,4}|10000)$/,message: '0-10000之间的正整数'},
               ],
             })(
               <Input style={{width:'255px'}} placeholder = '请输入优惠券金额' disabled={isEdit} autoComplete="off"/>
