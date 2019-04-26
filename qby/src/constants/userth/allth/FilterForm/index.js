@@ -78,12 +78,12 @@ class NormalForm extends Component {
                   )}
                 </FormItem>
                 <FormItem label='退款渠道'>
-                   {getFieldDecorator('returnStatus')(
+                   {getFieldDecorator('returnChannel')(
                      <Select allowClear={true} placeholder="请选择退款渠道">
-                       <Option value={10}>微信</Option>
-                       <Option value={50}>支付宝</Option>
-                       <Option value={60}>线下POS</Option>
-                       <Option value={70}>无</Option>
+                        <Option value={41}>微信</Option>
+                        <Option value={31}>支付宝</Option>
+                        <Option value={51}>线下POS</Option>
+                        <Option value={0}>无</Option>
                      </Select>
                    )}
                  </FormItem>

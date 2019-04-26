@@ -1,7 +1,7 @@
 import React,{ Component } from 'react';
 import { connect } from 'dva';
 import { Button, message, Modal,Row,Col,Table,Icon} from 'antd'
-import { sureGetApi,forceCancelApi } from '../../../services/orderCenter/userth/allth'
+import { sureGetApi,forceCancelApi,exportDataApi } from '../../../services/orderCenter/userth/allth'
 import {timeForMats} from '../../../utils/meth';
 import Qtable from '../../../components/Qtable/index';
 import Qpagination from '../../../components/Qpagination/index';
@@ -131,9 +131,10 @@ class Allth extends Component {
   }
   //导出数据
   exportData =()=> {
-    const values ={type:12,downloadParam:{...this.state.inputValues}}
+    const values ={...this.state.inputValues}
     exportDataApi(values)
     .then(res => {
+      console.log(res)
       if(res.code == '0'){
         confirm({
 					title: '数据已经进入导出队列',
@@ -287,6 +288,14 @@ class Allth extends Component {
               size='large'
               onClick={this.forceCancel}
             >强制取消
+            </Button>
+          }
+          {
+            <Button
+              type='primary'
+              size='large'
+              onClick={this.exportData}
+            >导出数据
             </Button>
           }
         </div>

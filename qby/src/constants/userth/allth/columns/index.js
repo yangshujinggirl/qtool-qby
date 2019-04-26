@@ -46,6 +46,9 @@ const Columns = [{
      title: '退款状态',
      dataIndex: 'returnStatusStr'
    },{
+     title: '退款渠道',
+     dataIndex: 'returnStatusStr'
+   },{
      title: '创建时间',
      dataIndex: 'createTime'
    },];
