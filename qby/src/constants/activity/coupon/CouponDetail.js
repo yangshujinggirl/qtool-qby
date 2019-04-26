@@ -78,7 +78,14 @@ class CouponDetail extends Component{
           <Card title='基本信息'>
             <div className='cardlist'>
               <div className='cardlist_item'><label>优惠券批次号：</label><span>{couponInfo.couponCode}</span></div>
-              <div className='cardlist_item'><label>优惠券有效日期：自用户领取{couponInfo.couponValidDay}日起</label></div>
+
+              <div className='cardlist_item'>
+                {
+                  couponInfo.couponValidDay
+                  ? <label>优惠券有效日期：自用户领取{couponInfo.couponValidDay}日起</label>
+                  : <label>优惠券有效日期：{couponInfo.couponValidDateST}-{couponInfo.couponValidDateET}</label>
+                }
+              </div>
               <div className='cardlist_item'><label>优惠券状态：</label><span>{couponInfo.statusStr}</span></div>
               <div className='cardlist_item'><label>创建人：</label><span>{couponInfo.creater}</span></div>
               <div className='cardlist_item'><label>创建时间：</label><span>{couponInfo.createTime}</span></div>
