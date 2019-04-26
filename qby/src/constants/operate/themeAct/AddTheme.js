@@ -158,10 +158,10 @@ class AddTheme extends  Component {
           	<div className='head_title'>基础信息</div>
               <FormItem {...formItemLayout}  label="主题活动名称">
       					{getFieldDecorator('themeName', {
-      						rules: [{ required: true, message: '请输入页面名称，50字符以内'}],
+      						rules: [{ required: true, message: '请输入主题活动名称，50字符以内'}],
       						initialValue:themeName
       					})(
-      						<Input placeholder='请输入主题活动名称' maxLength='50' autoComplete="off"/>
+      						<Input placeholder='请输入主题活动名称，50字符以内' maxLength='50' autoComplete="off"/>
       					)}
       				</FormItem>
               <FormItem {...formItemLayout} label="展示时间">
