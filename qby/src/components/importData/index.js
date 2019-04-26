@@ -370,15 +370,17 @@ class GoodTable extends Component{
   }
   //商品编码变化的时候
   pdCodeChange=(index,type)=>{
+    const allFields = this.props.form.getFieldValue('goodLists');
     if(type == 3){
-      this.props.form.resetFields(['activityPrice'+index]);
-    }
+      allFields[index].activityPrice='';
+    };
     if(type == 4){
-      this.props.form.resetFields(['activitySupplyPrice'+index]);
-    }
+      allFields[index].activitySupplyPrice='';
+    };
     if(type == 5){
-      this.props.form.resetFields(['specialPrice'+index]);
-    }
+      allFields[index].specialPrice='';
+    };
+    this.props.form.setFieldsValue({goodLists:allFields})
   }
   /*----------------------------- 根据门店ID请求接口 -------------------------- */
   getIdInfo =(e,index,type)=> {//type:1-->c端降价门店ID，type:2-->优惠券门店ID
@@ -417,7 +419,9 @@ class GoodTable extends Component{
             };
           }else{
             const list = {};
-            this.props.form.resetFields([`shops[${index}].spShopId`])
+            const allFields = this.props.form.getFieldValue('shops');
+            allFields[index].spShopId='';
+            this.props.form.setFieldsValue({shops:allFields})
             this.props.changeList(list,index)
           };
         });
@@ -448,7 +452,9 @@ class GoodTable extends Component{
           };
         }else{
           const list = {};
-          this.props.form.resetFields(`goodLists[${index}].pdCode`);
+          const allFields = this.props.form.getFieldValue('goodLists');
+          allFields[index].pdCode='';
+          this.props.form.setFieldsValue({goodLists:allFields})
           this.props.changeList(list,index);
         };
       });
@@ -466,8 +472,6 @@ class GoodTable extends Component{
         if(type == 5){
           flag = '3';
         };
-        // if(dataSource.length>1){isRepeat = dataSource.find(item=>item.spShopId == value)}
-        // if(!isRepeat){
           getGoodInfoApi({pdCode:value,flag}).then(res=>{
             if(res.code=='0'){
               if(res.pdSpu){
@@ -498,15 +502,14 @@ class GoodTable extends Component{
               this.props.changeList(list,index);
             };
           });
-        // }else{
-        //   message.error('商品编码重复',.8)
-        // };
       };
     };
   }
   //导入门店
   onShopChange =(info)=> {
-    this.props.form.resetFields(['spShopId0']);
+    const allFields = this.props.form.getFieldValue('shops');
+    allFields[0].spShopId='';
+    this.props.form.setFieldsValue({shops:allFields})
     if(info.file.response.code == '0'){
       if(this.props.type == 12){
         const {spList} = info.file.response;
@@ -521,16 +524,18 @@ class GoodTable extends Component{
   onGoodChange =(info)=> {
     this.props.getFile([]);
     const {type} = this.props;
-    this.props.form.resetFields(['pdCode0'])
+    const allFields = this.props.form.getFieldValue('goodLists');
+    allFields[0].pdCode='';
     if(type==3){ //b端进价
-      this.props.form.resetFields(['activityPrice0'])
+      allFields[0].activityPrice='';
     };
     if(type == 4){ //b端直降
-      this.props.form.resetFields(['activitySupplyPrice0'])
-    }
+      allFields[0].activitySupplyPrice='';
+    };
     if(type == 5){ //c端直降
-      this.props.form.resetFields(['specialPrice0'])
-    }
+      allFields[0].specialPrice='';
+    };
+    this.props.form.setFieldsValue({goodLists:allFields});
     if(info.file.response.code == '0'){
       if(type==2){ //这是优惠券的导入商品，回来的字段不一样 优惠券 pdList  ,其他商品的导入是pdSpuAsnLists
         const {pdList} = info.file.response;
