@@ -95,7 +95,7 @@ render(){
 	return(
 			<div>
         <div className='mb10'>
-          <Card title='订单详情'>
+          <Card title='促销信息'>
             <div className='cardlist'>
                <div className='cardlist_item'><label>活动编码：</label><span>{activityInfo.no}</span></div>
                <div className='cardlist_item'><label>活动名称：</label><span>{activityInfo.name}</span></div>
@@ -110,7 +110,7 @@ render(){
         <div className='mb20'>
           <Table
             bordered
-            title={()=>'商品信息'}
+            title={()=>'促销商品'}
             dataSource={goodsInfos}
             columns={columns}
             pagination={false}/>

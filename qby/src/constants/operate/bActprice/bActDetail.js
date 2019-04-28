@@ -83,7 +83,7 @@ render(){
 	return(
 			<div>
         <div className='mb10'>
-          <Card title='订单详情'>
+          <Card title='基本信息'>
             <div className='cardlist'>
               <div className='cardlist_item'><label>批次编号：</label><span>{activityInfo.no}</span></div>
               <div className='cardlist_item'><label>批次名称：</label><span>{activityInfo.name}</span></div>
