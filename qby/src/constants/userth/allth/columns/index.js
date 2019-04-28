@@ -47,7 +47,7 @@ const Columns = [{
      dataIndex: 'returnStatusStr'
    },{
      title: '退款渠道',
-     dataIndex: 'returnStatusStr'
+     dataIndex: 'returnChannelStr'
    },{
      title: '创建时间',
      dataIndex: 'createTime'

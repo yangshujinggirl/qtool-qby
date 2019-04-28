@@ -131,7 +131,7 @@ class Allth extends Component {
   }
   //导出数据
   exportData =()=> {
-    const values ={...this.state.inputValues}
+    const values ={ type: 112, downloadParam: {...this.state.inputValues}};
     exportDataApi(values)
     .then(res => {
       console.log(res)
