@@ -42,6 +42,7 @@ class ThemeAct extends Component{
         showTimeStart:selectedRows[0].showTimeStart,
         themeName:selectedRows[0].themeName,
         themeActivityId:selectedRows[0].themeActivityId,
+        selectedRows:selectedRows[0],
       });
     };
   }
@@ -133,6 +134,12 @@ class ThemeAct extends Component{
   //点击强制失效
   forceCancel=()=>{
     if(this.state.themeActivityId){
+      if(this.state.selectedRows.themeStatus == 2){
+        return message.error('当前状态无法强制失效')
+      };
+      if(this.state.selectedRows.themeStatus == 3){
+        return message.error('当前状态已失效')
+      };
       this.setState({
         confirmVisible:true
       })
