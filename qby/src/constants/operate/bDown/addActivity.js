@@ -18,7 +18,7 @@ class Addactivity extends Component {
     this.state={
       beginTime:moment().format('YYYY-MM-DD HH:mm:ss'),
       endTime:moment().add(1,'days').format('YYYY-MM-DD HH:mm:ss'),
-      goodList:[{pdCode:'',name:'',displayName:'',toBprice:'',costPrice:'',activityPrice:''}]}
+      goodList:[{pdCode:'',name:'',displayName:'',toBprice:'',costPrice:'',activitySupplyPrice:''}]}
   }
   componentDidMount =()=> {
     if(this.props.data.activityId){

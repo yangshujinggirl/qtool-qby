@@ -162,7 +162,8 @@ class GoodTable extends Component{
         title: '商品编码',
         key:'pdCode',
         render:(text,record,index)=>{
-          const {getFieldDecorator,FormItem} = this.props;
+          const { FormItem } = this.props;
+          const { getFieldDecorator } = this.props.form;
           return(
             <FormItem>
               {
@@ -203,7 +204,8 @@ class GoodTable extends Component{
         key:'activitySupplyPrice',
         dataIndex: 'activitySupplyPrice',
         render:(text,record,index)=>{
-          const {getFieldDecorator,FormItem} = this.props;
+          const {FormItem} = this.props;
+          const { getFieldDecorator } = this.props.form;
           const validatePrice=(rule,value,callback)=> {
             if(value){
               if(Number(value) == 0 ){
@@ -489,7 +491,7 @@ class GoodTable extends Component{
                   list.goldCardPrice = res.pdSpu.goldCardPrice;
                   list.silverCardPrice = res.pdSpu.silverCardPrice;
                   list.purchasePrice = res.pdSpu.purchasePrice;
-                }
+                };
                 this.props.changeList(list,index)
               };
             }else{
@@ -507,42 +509,69 @@ class GoodTable extends Component{
   }
   //导入门店
   onShopChange =(info)=> {
-    const allFields = this.props.form.getFieldValue('shops');
-    allFields[0].spShopId='';
-    this.props.form.setFieldsValue({shops:allFields})
     if(info.file.response.code == '0'){
-      if(this.props.type == 12){
+      let [shops,list] = [[],[]]
+      if(this.props.type == 12){ //优惠券
         const {spList} = info.file.response;
-        this.props.getFile(spList)
+        shops = [...spList]
       }else{
         const {shopList} = info.file.response;
-        this.props.getFile(shopList)
+        shops = [...shopList]
       };
+      shops.map((el,index)=>{
+        list.push({
+          spShopId:el.spShopId,
+        });
+      });
+      this.props.form.setFieldsValue({shops:list})
+      this.props.getFile(shops)
     };
   }
   //导入商品
   onGoodChange =(info)=> {
-    this.props.getFile([]);
     const {type} = this.props;
-    const allFields = this.props.form.getFieldValue('goodLists');
-    allFields[0].pdCode='';
-    if(type==3){ //b端进价
-      allFields[0].activityPrice='';
-    };
-    if(type == 4){ //b端直降
-      allFields[0].activitySupplyPrice='';
-    };
-    if(type == 5){ //c端直降
-      allFields[0].specialPrice='';
-    };
-    this.props.form.setFieldsValue({goodLists:allFields});
-    if(info.file.response.code == '0'){
-      if(type==2){ //这是优惠券的导入商品，回来的字段不一样 优惠券 pdList  ,其他商品的导入是pdSpuAsnLists
-        const {pdList} = info.file.response;
-        this.props.getFile(pdList)
-      }else{
-        const {pdSpuAsnLists} = info.file.response;
-        this.props.getFile(pdSpuAsnLists)
+    const form = this.props.form;
+    if(info.file.status == 'done') {
+      if(info.file.response.code == '0'){
+        let [pdData,list]= [[],[]];
+        if(type==2){ //这是优惠券的导入商品，回来的字段不一样 优惠券 pdList  ,其他商品的导入是pdSpuAsnLists
+          const {pdList} = info.file.response;
+          pdData = [...pdList]
+        }else{
+          const {pdSpuAsnLists} = info.file.response;
+          pdData = [...pdSpuAsnLists]
+        };
+        if(type==2){
+          pdData.map((el,index) => {
+            list.push({
+              pdCode:el.pdCode
+            });
+          });
+        }else if(type == 3){
+          pdData.map((el,index) => {
+            list.push({
+              activityPrice:el.activityPrice,
+              pdCode:el.pdCode
+            });
+          });
+        }else if(type==4){
+          pdData.map((el,index) => {
+            list.push({
+              activitySupplyPrice:el.activitySupplyPrice,
+              pdCode:el.pdCode
+            });
+          });
+        }else if(type==5){
+          pdData.map((el,index) => {
+            list.push({
+              activitySupplyPrice:el.specialPrice,
+              pdCode:el.pdCode
+            });
+          });
+        }
+
+        this.props.form.setFieldsValue({ goodLists: list });
+        this.props.getFile(pdData)
       };
     };
   }
