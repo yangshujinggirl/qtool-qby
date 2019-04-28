@@ -11,8 +11,8 @@ const {RangePicker} = DatePicker;
 const CheckboxGroup = Checkbox.Group;
 const RadioGroup = Radio.Group;
 import './index.less'
-import UploadData from './components/Upload'
 import moment from 'moment'
+
 class Addactivity extends Component {
   constructor(props){
     super(props);

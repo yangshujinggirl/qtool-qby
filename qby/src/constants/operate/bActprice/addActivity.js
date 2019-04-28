@@ -1,6 +1,5 @@
 import React,{ Component } from 'react';
 import { Form,Input, Button,message,DatePicker,Row,Col} from 'antd';
-import TableList from './components/Table/index'
 import {getInfoApi,addGoodApi,updataGoodApi} from '../../../services/operate/bActPrice'
 import GoodList from '../../../components/importData/index'
 import moment from 'moment'
@@ -10,7 +9,6 @@ const TextArea = Input.TextArea;
 const {RangePicker} = DatePicker;
 import './index.less'
 
-import UploadData from './components/Upload'
 
 class Addactivity extends Component {
   constructor(props){
