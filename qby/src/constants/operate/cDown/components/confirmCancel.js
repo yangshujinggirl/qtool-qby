@@ -43,10 +43,10 @@ class Cancel extends Component{
       >
         <div>
           <Form>
-            <FormItem {...formItemLayout} label='批次'>
+            <FormItem {...formItemLayout} label='活动名称'>
               <p>{name}</p>
             </FormItem>
-            <FormItem {...formItemLayout} label='生效时间'>
+            <FormItem {...formItemLayout} label='活动时间'>
               <p>{beginTime} ~ {endTime}</p>
             </FormItem>
             <FormItem {...formItemLayout} label='强制失效原因'>
