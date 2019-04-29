@@ -230,8 +230,13 @@ class OrderuserInfo extends React.Component{
 					this.setState({
 						ecOrderId:orderInfos.ecOrderId
 					});
-				}
+				};
 				let orderinfo = [];
+				if(this.props.data.record.channel == 2){
+					if(orderInfos.yzMerOrderNo.slice(0,2) == 'YH'){
+						orderinfo[1] = {lable:'虚拟单号',text:orderInfos.yzMerOrderNo}
+					};
+				};
 				if( this.props.data.record.channel == 1 ){ //有赞订单
 					orderinfo=[
 						{lable:'订单号',text:orderInfos.orderNo},
