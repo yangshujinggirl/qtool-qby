@@ -104,8 +104,8 @@ class CouponDetail extends Component{
                     ))
                   }</span>
               </div>
-              <div className='cardlist_item'><label>剩余数量预警数：</label><span>{couponInfo.couponWarningQty}</span></div>
-              <div className='cardlist_item'><label>预警邮箱：</label><span>{couponInfo.couponWarningEmail}</span></div>
+              <div className='cardlist_item'><label>剩余数量预警数：</label><span>{couponInfo.couponWarningQty||'无'}</span></div>
+              <div className='cardlist_item'><label>预警邮箱：</label><span>{couponInfo.couponWarningEmail||'无'}</span></div>
               <div className='cardlist_item'><label>优惠券说明：</label><span>{couponInfo.couponExplain}</span></div>
               <div className='cardlist_item'><label>优惠券备注：</label><span>{couponInfo.couponRemark}</span></div>
             </div>
@@ -121,8 +121,14 @@ class CouponDetail extends Component{
                   ? '保税商品 '
                   :(couponInfo.couponUseScope == 4
                     ? '全部商品'
-                    :(activityProduct&&activityProduct.brandList&&activityProduct.brandList.map((item,index)=>(
-                        <span key={index}>【{item.name}】、</span>))
+                    :(<span>
+                      指定品牌
+                      {
+                        activityProduct&&activityProduct.brandList&&activityProduct.brandList.map((item,index)=>(
+                          <span key={index}>【{item.name}】、</span>))
+                      }
+
+                    </span>
                     )
                   )
                 )

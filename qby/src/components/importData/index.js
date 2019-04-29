@@ -605,7 +605,7 @@ class GoodTable extends Component{
     this.props.add()
   };
   render(){
-    //type:1--->门店ID模板（columns1）   2：--->商品编码模板(column2)  3:b端商品进价商品（column3) 4:b端直降 5:c端直降
+    //type:1--->门店ID模板（columns1）   2：(优惠券)商品编码模板(column2)  3:b端商品进价商品（column3) 4:b端直降 5:c端直降
     const {dataSource,type,addText} = this.props
     dataSource[0]&&dataSource.map((item,index)=>{
       item.key=index;
@@ -617,7 +617,10 @@ class GoodTable extends Component{
     if(type==5) Uploadtype=3
     const uploadData = { data:JSON.stringify({type:Uploadtype}) }
     if(type == 2){
-      importCoupongoodData = { data:JSON.stringify({couponUseScope:this.props.couponUseScope}) }
+      importCoupongoodData = {data:JSON.stringify({
+        couponUseScope:this.props.couponUseScope,
+        pdBrandIdList:this.props.brandIds
+      })}
     };
     if(type==12){
       importCouponSpData = { data:JSON.stringify({couponShopScope:this.props.couponShopScope}) }
