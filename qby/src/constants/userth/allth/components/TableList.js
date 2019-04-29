@@ -56,7 +56,6 @@ class TableList extends Component {
 								{
 									getFieldDecorator(`applyReturnCount`+index, {
 										rules: [
-											// { required: record.isTax, message: '请输入退款数量'},
 											{	pattern:/^([1-9][0-9]*){1,3}$/,message:'退款数量需大于0'},
 											{ validator: handleReturnCount }
 										],
@@ -88,7 +87,6 @@ class TableList extends Component {
 								{
 									getFieldDecorator(`applyReturnQuota`+index, {
 			 	 					 rules: [
-			 							 // { required: record.isTax, message: '请输入退款金额'},
 			 							 { pattern:/^\d+(\.\d{0,2})?$/,message:'小于等于两位小数的数字'},
 									 	 { validator: handleReturnQuota }
 			 						 ],
@@ -98,42 +96,16 @@ class TableList extends Component {
 						)
 				};
 			},
-			}, {
-				width:'60px',
-			  title: '',
-			  key: 'operate',
-			  render: (text, record, index) => (
-					this.props.productList.length > 1 ?
-			    	<a href="javascript:;" onClick={this.delete.bind(this,index)} className="theme-color">删除</a>
-					:null
-			  ),
-			}];
-			this.columns2=[{
-					width:'100px',
-				  title: '商品编码',
-				  dataIndex: 'pdCode',
-				}, {
-					width:'100px',
-				  title: '商品名称',
-				  dataIndex: 'pdName',
-				}, {
-					width:'70px',
-				  title: '商品规格',
-				  dataIndex: 'displayName',
-				}, {
-					width:'100px',
-				  title: '购买数量',
-					key:2,
-				  dataIndex:'buyCount'
-				}, {
-					width:'100px',
-				  title: '退款数量',
-					key:'1',
-				  dataIndex:'buyCount',
-					render:(text,record)=>{
-						return(<Input disabled value={text}/>)
-					}
-			 },]
+  		}, {
+  			width:'60px',
+  		  title: '',
+  		  key: 'operate',
+  		  render: (text, record, index) => (
+  				this.props.productList.length > 1 ?
+  		    	<a href="javascript:;" onClick={this.delete.bind(this,index)} className="theme-color">删除</a>
+  				:null
+  		  ),
+  		}];
   }
 //得到的退款金额
 	getReturnQuota =(index,e)=> {

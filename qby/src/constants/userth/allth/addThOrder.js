@@ -269,7 +269,6 @@ class AddThOrder extends Component{
 										<TableList
 											form={this.props.form}
 											FormItem={FormItem}
-											isTax={isTax}
 											productList = {productList}
 											columns={1}
 											returnType={returnType}
@@ -296,8 +295,6 @@ class AddThOrder extends Component{
 										<Input disabled placeholder="请输入合计退款" autoComplete="off"/>
               		)}
             		</FormItem>
-
-								}
 								<FormItem
 									label="退单原因"
 									labelCol={{ span: 3,offset: 1}}
