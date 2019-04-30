@@ -29,8 +29,8 @@ class AddCoupon extends Component {
         shopScope:0,
         spuScope:0,
         couponValid:1,
-        couponValidDateST:moment().format('YYYY-MM-DD HH:mm:ss'),
-        couponValidDateET:moment().add(1,'days').format('YYYY-MM-DD HH:mm:ss')
+        couponValidDateST:null,
+        couponValidDateET:null
       },
       couponId:''
     }
@@ -69,10 +69,6 @@ class AddCoupon extends Component {
           delete item.pdBrandId;
         });
         couponInfo.couponUsageLimit = couponUsageLimit;
-        if(!couponInfo.couponValidDateST){
-          couponInfo.couponValidDateST=moment().format('YYYY-MM-DD HH:mm:ss'),
-          couponInfo.couponValidDateET=moment().add(1,'days').format('YYYY-MM-DD HH:mm:ss')
-        };
         if(couponInfo.couponValid==1){
           this.setState({
             couponValidDay:true,
@@ -453,7 +449,7 @@ class AddCoupon extends Component {
                 </FormItem>
                 <FormItem>
                    {getFieldDecorator('couponValidDate',{
-                       initialValue:[moment(coupon.couponValidDateST),moment(coupon.couponValidDateET)],
+                       initialValue:coupon.couponValidDateST?[moment(coupon.couponValidDateST),moment(coupon.couponValidDateET)]:null,
                        rules: [{ required:this.state.couponValidDate , message: '请填写特定时间' }],
                     })(
                       <RangePicker
