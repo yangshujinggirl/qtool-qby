@@ -211,8 +211,8 @@ class GoodTable extends Component{
               if(Number(value) == 0 ){
                  callback('大于0的2位小数')
               }else{
-                if(Number(value) > Number( record.toBPrice ) ){
-                  callback('活动供价超过供价，请谨慎填写');
+                if(Number(value) > Number( record.toBPrice ) || Number(value) == Number( record.toBPrice ) ){
+                  callback('活动供价超过或等于供价，请谨慎填写');
                 };
               };
             };
@@ -306,8 +306,8 @@ class GoodTable extends Component{
               if(Number(value)== 0 ){
                 callback('大于0的2位小数')
               };
-              if(Number(value) > Number(record.toCPrice) ){
-                callback('当前特价超过零售价，请谨慎填写',1)
+              if(Number(value) > Number(record.toCPrice) || Number(value) == Number(record.toCPrice) ){
+                callback('当前特价超过或等于零售价，请谨慎填写',1)
               };
             };
             callback();
