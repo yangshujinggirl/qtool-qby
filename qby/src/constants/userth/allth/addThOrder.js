@@ -90,6 +90,7 @@ class AddThOrder extends Component{
 				if(values.returnType && values.returnType=='售中退款')values.returnType = 1
 				if(values.returnType && values.returnType=='售后退款')values.returnType = 2
 				values.orderId = this.state.orderId;
+				values.orderType = this.state.orderType;
 				const newArr = 	goodsList.filter((item,index)=>{//需要检测退款数量有木有输入-->没有输入的数据不向后台输出
 						return Boolean(item.applyReturnCount&&item.applyReturnQuota)
 			 	});
@@ -154,7 +155,6 @@ class AddThOrder extends Component{
 		console.log(NP.plus(2.3,2.4))
 	}
 	render(){
-
 			const { getFieldDecorator } = this.props.form
 			const {
 				orderType,
