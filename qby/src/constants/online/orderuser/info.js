@@ -232,11 +232,6 @@ class OrderuserInfo extends React.Component{
 					});
 				};
 				let orderinfo = [];
-				if(this.props.data.record.channel == 2){
-					if(orderInfos.yzMerOrderNo.slice(0,2) == 'YH'){
-						orderinfo[1] = {lable:'虚拟单号',text:orderInfos.yzMerOrderNo}
-					};
-				};
 				if( this.props.data.record.channel == 1 ){ //有赞订单
 					orderinfo=[
 						{lable:'订单号',text:orderInfos.orderNo},
@@ -259,6 +254,13 @@ class OrderuserInfo extends React.Component{
 						{lable:'优惠券批次号',text:orderInfos.couponCode},
 						{lable:'来源',text:'c端'},
 					];
+			 };
+			 if(this.props.data.record.channel == 2){
+				 if(orderInfos.yzMerOrderNo.slice(0,2) == 'YH'){
+					 orderinfo[1] = {lable:'虚拟单号',text:orderInfos.yzMerOrderNo}
+				 }else{
+					 orderinfo[1] = {lable:'虚拟单号',text:''}
+				 };
 			 };
 				//收货信息
 				const receiptinfo = [
