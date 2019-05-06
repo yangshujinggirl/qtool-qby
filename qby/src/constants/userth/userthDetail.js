@@ -134,7 +134,6 @@ getCurrentPrice =(e,index)=> {
 }
 //单选按钮 的变化
 onChange = (e) => {
-  console.log('radio checked', e.target.value);
   this.setState({
     value: e.target.value,
   });
