@@ -25,9 +25,6 @@ const Columns = [{
      title: '退款类型',
      dataIndex: 'returnTypeStr'
    },{
-     title: '订单类型',
-     dataIndex: 'orderTypeStr'
-   },{
      title: '退款方式',
      dataIndex: 'returnWayStr'
    },{
