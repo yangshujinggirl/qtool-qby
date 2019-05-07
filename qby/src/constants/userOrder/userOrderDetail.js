@@ -45,6 +45,10 @@ const columns = [{
     title: '应付金额',
     dataIndex: 'payAmount',
     key:'payAmount',
+  },{
+    title: '商品实付金额',
+    dataIndex: 'actualPayAmount',
+    key:'actualPayAmount',
   }];
 const columns2 = [{
     title: '操作',

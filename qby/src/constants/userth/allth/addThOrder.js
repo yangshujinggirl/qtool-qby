@@ -207,8 +207,8 @@ class AddThOrder extends Component{
 												rules: [{ required: true, message: '请输入退款方式'}],
 											})(
 												<RadioGroup>
-									        <Radio style={radioStyle} value={0}>仅退款</Radio>
-									        <Radio style={radioStyle} value={1}>退货退款</Radio>
+									        <Radio style={radioStyle} value={1}>仅退款</Radio>
+													<Radio style={radioStyle} value={2}>退货退款</Radio>
 									      </RadioGroup>
 											)}
 										</FormItem>
