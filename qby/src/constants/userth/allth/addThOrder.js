@@ -219,16 +219,16 @@ class AddThOrder extends Component{
 											wrapperCol={{ span: 6 }}>
 											{getFieldDecorator('returnWay', {
 												rules: [{ required: true, message: '请输入退款方式'}],
-												initialValue:0
+												initialValue:1
 											})(
 												<RadioGroup>
-													<Radio style={radioStyle} value={0}>仅退款</Radio>
+													<Radio style={radioStyle} value={1}>仅退款</Radio>
 												</RadioGroup>
 											)}
 										</FormItem>
 								}
 								{
-									returnWay?
+									returnWay==2?
 									<div>
 										<FormItem
 											label="退货地址"
