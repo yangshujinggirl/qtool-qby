@@ -71,9 +71,9 @@ class AddGood extends  Component {
               type:'exchangeAct/fetchList',
               payload:{}
             });
-            this.setState({isLoading:false})
+            this.setState({isLoading:false});
           }else{
-            this.setState({isLoading:false})
+            this.setState({isLoading:false});
           };
         });
       };
