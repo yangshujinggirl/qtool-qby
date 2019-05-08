@@ -81,31 +81,30 @@ class Addactivity extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
-      console.log(values)
       if(!err){
         delete values.goodLists;
         delete values.shops;
         const {actTime,warmTime,..._values} = values;
-        if(new Date(warmTime).getTime() > new Date(actTime[0]).getTime()){ //if预热时间大于活动时间
-          message.error('预热时间需早于活动开始时间')
+        if(warmTime && actTime && actTime[0]){
+          if(new Date(warmTime).getTime() > new Date(actTime[0]).getTime()){ //if预热时间大于活动时间
+            return message.error('预热时间需早于活动开始时间')
+          };
+          _values.warmTime = moment(warmTime).format('YYYY-MM-DD HH:mm:ss');
+        };
+        if(!warmTime){_values.warmTime = null} ;
+        if(actTime && actTime[0]){
+          _values.beginTime = moment(actTime[0]).format('YYYY-MM-DD HH:mm:ss');
+          _values.endTime = moment(actTime[1]).format('YYYY-MM-DD HH:mm:ss');
+        };
+        _values.productList = this.state.goodList;
+        _values.shopList = this.state.shopList;
+        _values.commodityPic = this.state.imageUrl;
+        _values.type = 3;
+        if(this.props.data.activityId){ //修改
+          _values.activityId = this.props.data.activityId;
+          this.sendRequest(_values)
         }else{
-          if(actTime && actTime[0]){
-            _values.beginTime = moment(actTime[0]).format('YYYY-MM-DD HH:mm:ss');
-            _values.endTime = moment(actTime[1]).format('YYYY-MM-DD HH:mm:ss');
-          };
-          if(warmTime){
-            _values.warmTime = moment(warmTime).format('YYYY-MM-DD HH:mm:ss');
-          };
-          _values.productList = this.state.goodList;
-          _values.shopList = this.state.shopList;
-          _values.commodityPic = this.state.imageUrl;
-          _values.type = 3;
-          if(this.props.data.activityId){ //修改
-            _values.activityId = this.props.data.activityId;
-            this.sendRequest(_values)
-          }else{
-            this.sendRequest(_values)
-          };
+          this.sendRequest(_values)
         };
       };
     });

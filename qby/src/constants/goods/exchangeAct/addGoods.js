@@ -12,6 +12,7 @@ class AddGood extends  Component {
   constructor(props) {
     super(props);
     this.state={
+      isLoading:false,
       imageUrl:'',
       infos:{
         name:'',
@@ -48,6 +49,7 @@ class AddGood extends  Component {
   handleSubmit =()=> {
     this.props.form.validateFieldsAndScroll((err,values)=>{
       if(!err){
+        this.setState({isLoading:true})
         if(this.props.data){
           values.pdSpuActiveId = this.state.infos.pdSpuActiveId;
         };
@@ -69,6 +71,9 @@ class AddGood extends  Component {
               type:'exchangeAct/fetchList',
               payload:{}
             });
+            this.setState({isLoading:false})
+          }else{
+            this.setState({isLoading:false})
           };
         });
       };
@@ -92,6 +97,7 @@ class AddGood extends  Component {
       valueQty,
       convertibleQty,
       leftQty,
+      isLoading
     } = this.state.infos;
     const { getFieldDecorator } = this.props.form;
     const {imageUrl} = this.state;
@@ -110,7 +116,7 @@ class AddGood extends  Component {
       						<Input placeholder='请输入商品名称' maxLength='30' autoComplete="off"/>
       					)}
       				</FormItem>
-              <FormItem {...formItemLayout} label="品牌图片" className='must-pic'>
+              <FormItem {...formItemLayout} label="商品图片" className='must-pic'>
                   <Upload
                     name='imgFile'
                     action='/erpWebRest/qcamp/upload.htm?type=brand'
@@ -158,7 +164,7 @@ class AddGood extends  Component {
                     <Button onClick={this.cancel}>取消</Button>
                   </Col>
                   <Col>
-                    <Button onClick={this.handleSubmit} type="primary">保存</Button>
+                    <Button onClick={this.handleSubmit} loading={isLoading} type="primary">保存</Button>
                   </Col>
                 </Row>
               </FormItem>
