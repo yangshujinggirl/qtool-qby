@@ -18,7 +18,7 @@ class Addactivity extends Component {
     super(props);
     this.state = {
       isLoading:false,
-      warmTime:moment(),
+      warmTime:null,
       activityPlat:[],
       shipmentPlat:[1,2],
       isStoreProfit:1,
@@ -53,13 +53,18 @@ class Addactivity extends Component {
               activityPlat[i] = Number(activityPlat[i])
             };
           };
+          if(activityInfo.warmTime){
+            this.setState({
+              warmTime:activityInfo.warmTime,
+            });
+          };
           this.setState({
             imageUrl:activityInfo.commodityPic,
             name:activityInfo.name,
             beginTime:activityInfo.beginTime,
             endTime:activityInfo.endTime,
             remark:activityInfo.remark,
-            warmTime:activityInfo.warmTime,
+
             activityPlat,
             // shipmentPlat:activityInfo.shipmentPlat&&activityInfo.shipmentPlat.split('-'),
             // isStoreProfit:activityInfo.isStoreProfit,
@@ -330,7 +335,7 @@ class Addactivity extends Component {
               labelCol={{ span:3}}
               wrapperCol={{ span:10}}>
               {getFieldDecorator('warmTime', {
-                  initialValue:moment(warmTime),
+                  initialValue:warmTime?moment(warmTime):null,
                 })(
                    <DatePicker showTime format="YYYY-MM-DD HH:mm:ss"/>
                 )}　<span className='suffix_tips'>预热时间需早于活动开始时间</span>
