@@ -17,6 +17,7 @@ class AddConfig extends  Component {
   constructor(props) {
     super(props);
     this.state={
+      isLoading:false,
       configureCode:'',
       previewLink:'',
       pdConfigureId:''
@@ -107,6 +108,7 @@ class AddConfig extends  Component {
          const newArrPre = this.formatValue(configArrPre);
          values.pdConfigureConfigList =  newArrPre
          if(values.pdConfigureConfigList.length > 0){
+           this.setState({isLoading:true});
            if(this.props.data){ //修改
              const {pdConfigureId,previewLink,configureCode} = this.props.data;
              values.pdConfigureId = pdConfigureId;
@@ -120,6 +122,8 @@ class AddConfig extends  Component {
                      payload:this.props.componkey+this.state.pdConfigureId
                    });
                    this.afterSaveSuccess();
+               }else{
+                 this.setState({isLoading:false});
                };
              });
            }else{ //新增
@@ -131,6 +135,8 @@ class AddConfig extends  Component {
                    payload:this.props.componkey
                  });
                  this.afterSaveSuccess();
+               }else{
+                 this.setState({isLoading:false});
                };
              });
            };
@@ -175,6 +181,7 @@ class AddConfig extends  Component {
       type:'pageConfig/fetchList',
       payload:{}
     });
+    this.setState({isLoading:false});
   }
   beforeUpload =(file)=> {
     const isJPG = file.type === 'image/jpeg'||'image.png';
@@ -204,7 +211,8 @@ class AddConfig extends  Component {
       configureCode,
       previewLink,
       pageName,
-      remark
+      remark,
+      isLoading
     } = this.state
     const { getFieldDecorator } = this.props.form;
     const formItemLayout = {
@@ -265,7 +273,7 @@ class AddConfig extends  Component {
                   <Button onClick={this.cancel}>取消</Button>
                 </Col>
                 <Col>
-                  <Button onClick={this.handleSubmit} type="primary">保存</Button>
+                  <Button onClick={this.handleSubmit} loading={isLoading} type="primary">保存</Button>
                 </Col>
               </Row>
             </FormItem>

@@ -14,6 +14,7 @@ class Addactivity extends Component {
   constructor(props){
     super(props);
     this.state={
+      isLoading:false,
       beginTime:moment().format('YYYY-MM-DD HH:mm:ss'),
       endTime:moment().add(1,'days').format('YYYY-MM-DD HH:mm:ss'),
       goodList:[{pdCode:'',name:'',displayName:'',costPrice:'',activityPrice:''}]}
@@ -58,6 +59,7 @@ class Addactivity extends Component {
     });
   }
   sendRequest =(values)=> {
+    this.setState({isLoading:true});
     if(this.props.data.activityId){
       updataGoodApi(values).then(res=>{
         if(res.code == '0'){
@@ -75,6 +77,9 @@ class Addactivity extends Component {
               currentPage:this.props.bActPrice.currentPage,
             }
           });
+          this.setState({isLoading:false})
+        }else{
+          this.setState({isLoading:false})
         };
       })
     }else{
@@ -94,6 +99,9 @@ class Addactivity extends Component {
               currentPage:this.props.bActPrice.currentPage,
             }
           });
+            this.setState({isLoading:false});
+        }else{
+            this.setState({isLoading:false});
         };
       });
     };
@@ -159,7 +167,8 @@ class Addactivity extends Component {
       goodList,
       beginTime,
       endTime,
-      remark
+      remark,
+      isLoading
     } = this.state;
     const { getFieldDecorator } = this.props.form;
     const { cBanner } = this.props;
@@ -241,7 +250,7 @@ class Addactivity extends Component {
                   <Button onClick={this.cancel}>取消</Button>
                 </Col>
                 <Col>
-                  <Button onClick={this.handleSubmit} type="primary">保存</Button>
+                  <Button loading={isLoading} onClick={this.handleSubmit} type="primary">保存</Button>
                 </Col>
               </Row>
             </FormItem>

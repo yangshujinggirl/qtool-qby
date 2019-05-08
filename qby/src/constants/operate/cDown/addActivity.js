@@ -17,6 +17,7 @@ class Addactivity extends Component {
   constructor(props){
     super(props);
     this.state = {
+      isLoading:false,
       warmTime:moment(),
       activityPlat:[],
       shipmentPlat:[1,2],
@@ -105,6 +106,7 @@ class Addactivity extends Component {
     });
   }
   sendRequest =(values)=> {
+    this.setState({isLoading:true});
     if(this.props.data.activityId){
       updataGoodApi(values).then(res=>{
         if(res.code == '0'){
@@ -122,6 +124,9 @@ class Addactivity extends Component {
               currentPage:this.props.cDown.currentPage
             }
           })
+          this.setState({isLoading:false});
+        }else{
+          this.setState({isLoading:false});
         };
       })
     }else{
@@ -141,7 +146,10 @@ class Addactivity extends Component {
               currentPage:this.props.cDown.currentPage
             }
           })
-        };
+          this.setState({isLoading:false});
+        }else{
+          this.setState({isLoading:false});
+        }
       });
     };
   }
@@ -275,7 +283,8 @@ class Addactivity extends Component {
      options,
      optionsWithDisabled,
      imageUrl,
-     shopType
+     shopType,
+     isLoading
    } = this.state;
     const { getFieldDecorator } = this.props.form;
     const { cBanner } = this.props;
@@ -470,7 +479,7 @@ class Addactivity extends Component {
                   <Button onClick={this.cancel}>取消</Button>
                 </Col>
                 <Col>
-                  <Button onClick={this.handleSubmit} type="primary">保存</Button>
+                  <Button loading={isLoading} onClick={this.handleSubmit} type="primary">保存</Button>
                 </Col>
               </Row>
             </FormItem>

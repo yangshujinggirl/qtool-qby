@@ -16,6 +16,7 @@ class AddCoupon extends Component {
   constructor(props){
     super(props);
     this.state={
+      isLoading:false,
       isCanSubmit:false,
       couponValidDay:true,
       couponValidDate:false,
@@ -95,6 +96,7 @@ class AddCoupon extends Component {
 		e.preventDefault();
 		this.props.form.validateFieldsAndScroll((err, values) => {
       if(!err){
+
         delete values.goodLists
         delete values.shops
         const {brandList} = this.state;
@@ -115,6 +117,7 @@ class AddCoupon extends Component {
     });
   }
   sendRequest =(requestApi,values,componkey)=> {
+    this.setState({isLoading:true})
     requestApi(values).then(res=>{
       if(res.code=='0'){
         this.props.dispatch({
@@ -130,6 +133,9 @@ class AddCoupon extends Component {
             payload:componkey
         });
         message.success(res.message,.8);
+        this.setState({isLoading:false});
+      }else{
+        this.setState({isLoading:false});
       };
     })
   }
@@ -386,6 +392,7 @@ class AddCoupon extends Component {
       couponUseScopeValue,
       couponShopScopeValue,
       coupon,
+      isLoading
     } = this.state;
     const brandIds = [];
     brandList&&brandList.length>0 && brandList.map(item=>{
@@ -727,7 +734,7 @@ class AddCoupon extends Component {
           }
         	<FormItem style={{marginLeft:'140px'}}>
           		<Button style={{marginRight:'100px'}} onClick={this.cancel}>取消</Button>
-          		<Button type="primary" onClick={this.handleSubmit}>保存</Button>
+          		<Button type="primary" loading={isLoading} onClick={this.handleSubmit}>保存</Button>
         	</FormItem>
         	</Form>
       </div>

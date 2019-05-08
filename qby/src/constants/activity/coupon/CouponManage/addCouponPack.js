@@ -9,6 +9,7 @@ class AddCouponPack extends Component {
   constructor(props){
     super(props);
     this.state={
+      isLoading:false,
       couponPackageName:'',
       couponCodes:'',
       updateUserId:'',
@@ -51,7 +52,6 @@ class AddCouponPack extends Component {
     });
   }
   handleSubmit =()=> {
-
     this.props.form.validateFieldsAndScroll((err,values)=>{
       if(!err){
         let {couponCodes} = values;
@@ -71,6 +71,7 @@ class AddCouponPack extends Component {
           values.updateUserName = updateUserName;
           values.couponBatchNo = couponBatchNo;
         };
+        this.setState({isLoading:true})
         addCouponPackApi(values)
         .then(res=>{
           if(res.code == '0'){
@@ -92,7 +93,10 @@ class AddCouponPack extends Component {
                 currentPage:this.props.coupon.data3.currentPage
               }
             })
-          };
+            this.setState({isLoading:false})
+          }else{
+            this.setState({isLoading:false})
+          }
         });
       };
     });
@@ -103,7 +107,7 @@ class AddCouponPack extends Component {
   render(){
     console.log(this.props)
     const {getFieldDecorator} =  this.props.form;
-    const {couponPackageName,couponCodes} = this.state;
+    const {couponPackageName,couponCodes,isLoading} = this.state;
     const tips=`请输入优惠券批次号，回车分隔. \n最多15条.领取方式为手动领取的优惠券`
     return(
       <Form>
@@ -140,7 +144,7 @@ class AddCouponPack extends Component {
               <Button onClick={this.cancel}>取消</Button>
             </Col>
             <Col>
-              <Button onClick={this.handleSubmit} type="primary">保存</Button>
+              <Button onClick={this.handleSubmit} loading={isLoading} type="primary">保存</Button>
             </Col>
           </Row>
         </FormItem>

@@ -14,6 +14,7 @@ class AddTheme extends  Component {
   constructor(props) {
     super(props);
     this.state={
+      isLoading:false,
       infos:{
         themeName:'',
         showTimeStart:moment().format('YYYY-MM-DD HH:mm:ss'),
@@ -81,6 +82,7 @@ class AddTheme extends  Component {
           };
           _values.activityPdSpuIds = tempActivityPdSpuIds;
           _values.pics = imageUrl;
+          this.setState({isLoading:true})
           if(this.props.data.infos){ //修改
             _values.themeActivityId = this.state.infos.themeActivityId;
             updataThemeApi(_values).then(res=>{
@@ -94,6 +96,9 @@ class AddTheme extends  Component {
                   type:'themeAct/fetchList',
                   payload:{...this.props.data.inputValues}
                 });
+                this.setState({isLoading:false})
+              }else{
+                this.setState({isLoading:false})
               };
             })
           }else{
@@ -108,6 +113,9 @@ class AddTheme extends  Component {
                   type:'themeAct/fetchList',
                   payload:{...this.props.data.inputValues}
                 });
+                this.setState({isLoading:false})
+              }else{
+                this.setState({isLoading:false})
               };
             });
           };
@@ -147,7 +155,7 @@ class AddTheme extends  Component {
   }
   render() {
     const { getFieldDecorator } = this.props.form;
-    const {imageUrl} = this.state;
+    const {imageUrl,isLoading} = this.state;
     const {themeName,showTimeStart,showTimeEnd,rank,pageCode,activityPdSpuIds,remark} = this.state.infos;
     const formItemLayout = {
       labelCol: { span:3 },
@@ -227,7 +235,7 @@ class AddTheme extends  Component {
                     <Button onClick={this.cancel}>取消</Button>
                   </Col>
                   <Col>
-                    <Button onClick={this.handleSubmit} type="primary">保存</Button>
+                    <Button loading={isLoading} onClick={this.handleSubmit} type="primary">保存</Button>
                   </Col>
                 </Row>
               </FormItem>
