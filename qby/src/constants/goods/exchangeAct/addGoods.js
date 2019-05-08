@@ -49,7 +49,7 @@ class AddGood extends  Component {
   handleSubmit =()=> {
     this.props.form.validateFieldsAndScroll((err,values)=>{
       if(!err){
-        this.setState({isLoading:true})
+        this.setState({isLoading:true});
         if(this.props.data){
           values.pdSpuActiveId = this.state.infos.pdSpuActiveId;
         };
@@ -97,10 +97,9 @@ class AddGood extends  Component {
       valueQty,
       convertibleQty,
       leftQty,
-      isLoading
     } = this.state.infos;
     const { getFieldDecorator } = this.props.form;
-    const {imageUrl} = this.state;
+    const {imageUrl,isLoading} = this.state;
     const formItemLayout = {
       labelCol: { span:3 },
       wrapperCol: { span:6 },
