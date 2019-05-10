@@ -6,11 +6,12 @@ const Option = Select.Option;
 const CollectionCreateForm = Form.create()(
     class extends React.Component {
         render() {
-            const { visible, onCancel, onCreate, form,modeltit } = this.props;
+            const { visible, onCancel, onCreate, form,modeltit,isLoading } = this.props;
             const { getFieldDecorator } = form;
             return (
                 <Modal
                     visible={visible}
+                    confirmLoading={isLoading}
                     title={modeltit}
                     okText="确定"
                     onCancel={onCancel}
@@ -64,6 +65,7 @@ const CollectionCreateForm = Form.create()(
 class Shipeditmodel extends React.Component {
     state = {
         visible: false,
+        isLoading:false,
     };
     showModal = () => {
         this.setState({ visible: true });
@@ -77,9 +79,13 @@ class Shipeditmodel extends React.Component {
     handleCreate = () => {
         const form = this.formRef.props.form;
         form.validateFields((err, values) => {
+            this.setState({
+              isLoading:true
+            });
             if (err) {
+              this.setState({isLoading:false})
                 return;
-            }
+            };
             values.warehouse='3'
             values.ecSuborderNo=this.props.ecSuborderNo
             values.ecOrderId=this.props.ecOrderId
@@ -92,7 +98,10 @@ class Shipeditmodel extends React.Component {
                     this.setState({ visible: false });
                     this.props.infofetch({ecOrderId:this.props.ecOrderId})
                     form.resetFields();
-                }
+                    this.setState({isLoading:false})
+                }else{
+                    this.setState({isLoading:false})
+                };
             })
         });
     }
@@ -106,6 +115,7 @@ class Shipeditmodel extends React.Component {
                 <CollectionCreateForm
                     wrappedComponentRef={this.saveFormRef}
                     visible={this.state.visible}
+                    isLoading={this.state.isLoading}
                     onCancel={this.handleCancel}
                     onCreate={this.handleCreate}
                     modeltit={this.props.modeltit}
