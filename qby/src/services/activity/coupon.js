@@ -48,3 +48,67 @@ export function InjectRecordApi(values){
       data:values
   })
 }
+//券包列表
+export function getManageListApi(values){
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.pd.coupon.package.query',
+      data:values
+  })
+}
+//新建券包保存
+export function addCouponPackApi(values){
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.pd.coupon.package.save',
+      data:values
+  })
+}
+//修改优惠券保存
+export function updataCouponPackApi(values){
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.pd.coupon.update',
+      data:values
+  })
+}
+//指定品牌列表
+export function getGoodTypeApi(values){
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.pd.coupon.brand.query',
+      data:values
+  })
+}
+//优惠券查询
+export function getCouponInfoApi(values){
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.pd.coupon.detail',
+      data:values
+  })
+}
+//商品查询
+export function getCouponGoodInfoApi(values){
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.pd.coupon.spuQuery',
+      data:values
+  })
+}
+//门店查询
+export function getCouponShopInfoApi(values){
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.pd.coupon.shopQuery',
+      data:values
+  })
+}
+//导出门店明细
+export function exportMdApi(values){
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.sys.doc.task',
+      data:values
+  })
+}

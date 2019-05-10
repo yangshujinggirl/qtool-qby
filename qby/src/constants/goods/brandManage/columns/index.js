@@ -22,6 +22,20 @@ const Columns1 = [{
      title: 'C端品牌馆',
      dataIndex: 'eventStatusStr'
    },{
+     title: '预览链接',
+     dataIndex: 'configureUrl',
+     render:(text, record, index)=> {
+        const currentUrl = window.location.host;
+        const url = 'http://'+currentUrl+'/config.html?pdConfigureId='+record.pdConfigureId;
+        return(
+          <a className="theme-color" target='_blank' href={url}>
+           {text}
+         </a>)
+     }
+   },{
+     title: '跳转页面编码',
+     dataIndex: 'configureCode'
+   },{
      title: '创建时间',
      dataIndex: 'createTime'
    },{
@@ -62,4 +76,4 @@ const Columns1 = [{
       title: '创建时间',
       dataIndex: 'createTime'
     }];
- export {Columns1,Columns2} 
+ export {Columns1,Columns2}

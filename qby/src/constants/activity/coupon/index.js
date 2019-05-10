@@ -86,8 +86,8 @@ class Coupon extends Component{
       key:`${this.state.componkey}edit`,
       componkey:`${this.state.componkey}edit`,
       data:{
-        pdSpuId:null,
-      },
+        inputValues:this.state.inputValues
+      }
     };
     this.props.dispatch({
         type:'tab/firstAddTab',
@@ -180,17 +180,18 @@ class Coupon extends Component{
     if(type == "info"){
       const paneitem = {
         title:'优惠券详情',
-        key:`${this.state.componkey}edit`+record.couponId,
+        key:`${this.state.componkey}editInfo`+record.couponId,
         componkey:`${this.state.componkey}info`,
         data:{
-          pdSpuId:record.couponId,
+          couponId:record.couponId,
+          inputValues:this.state.inputValues
         }
       }
       this.props.dispatch({
         type:'tab/firstAddTab',
         payload:paneitem
       });
-    }else if(type == 'edit'){
+    }else if(type == 'inject'){ //注券记录
       const paneitem = {
         title:'注券记录',
         key:`${this.state.componkey}editconfig`+record.couponId,
@@ -204,13 +205,39 @@ class Coupon extends Component{
           type:'tab/firstAddTab',
           payload:paneitem
       });
-    };
+    }else if(type == 'edit'){
+      const paneitem = {
+        title:'修改优惠券',
+        key:`${this.state.componkey}edit`+record.couponId,
+        componkey:`${this.state.componkey}edit`,
+        data:{
+          couponId:record.couponId,
+        },
+      };
+      this.props.dispatch({
+          type:'tab/firstAddTab',
+          payload:paneitem
+      });
+    }
   }
-
+  //券包管理
+  couponManage=()=>{
+    const paneitem = {
+      title:'券包管理',
+      key:`${this.state.componkey}manage`,
+      componkey:`${this.state.componkey}manage`,
+    };
+    this.props.dispatch({
+      type:'tab/firstAddTab',
+      payload:paneitem
+    });
+  }
   render(){
-    const {rolelists} = this.props.data;
+    const {menus} = this.props;
+    const operation = menus.find(item=>(item.type=="operation") );
+    const bact = operation.children.find(item=>(item.code=="401200"))
+    const rolelists = ( bact.children.find(item=>(item.code=='1003000')) ).children;
     const {dataList} = this.props.coupon.data1;
-
     //创建优惠券
     const addCoupon = rolelists.find((currentValue,index)=>{
       return currentValue.url=="qerp.web.pd.coupon.save"
@@ -226,9 +253,14 @@ class Coupon extends Component{
     //熔断
     const fuse = rolelists.find((currentValue,index)=>{
       return currentValue.url=="qerp.web.pd.coupon.break"
-    })
+    });
+    //券包管理
+    const qubao = rolelists.find((currentValue,index)=>{
+      return currentValue.url=="qerp.web.pd.coupon.package.query"
+    });
     dataList.map((item)=>{
       item.injectRecord = injectRecord;
+      item.addCoupon = addCoupon;
     })
     return(
       <div className='qtools-components-pages'>
@@ -252,6 +284,11 @@ class Coupon extends Component{
             fuse &&
             <Button onClick={this.fuseCoupon} type='primary' size='large'>熔断</Button>
           }
+          {
+            qubao &&
+            <Button type='primary' size='large' onClick={this.couponManage}>券包管理</Button>
+          }
+
         </div>
         <Modal
             bodyStyle={{'fontSize':'24px','textAlign':'center','padding':'50px'}}
@@ -293,6 +330,7 @@ class Coupon extends Component{
 }
 function mapStateToProps(state){
   const {coupon} = state;
-  return {coupon};
+  const {menus} = state.tab;
+  return {coupon,menus};
 }
 export default connect(mapStateToProps)(Coupon);

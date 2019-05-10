@@ -53,8 +53,12 @@ class AddGoodsForm extends Component {
     super(props);
     this.state = {
       loading:false,
-      plainOptions:[]
+      plainOptions:[],
     };
+    this.platformOptions = [
+      {label:'C端app',value:1},
+      {label:'小程序',value:2}
+    ]
   }
   componentWillMount() {
     this.initPage()
@@ -97,7 +101,6 @@ class AddGoodsForm extends Component {
     const { pdSpuId, source } =this.props.data;
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
-      console.log(values)
       if (!err) {
         values = Object.assign(values,{pdSpuId});
         values = this.formtParams(values);
@@ -108,6 +111,7 @@ class AddGoodsForm extends Component {
   //参数格式化
   formtParams(values) {
     values.oname = values.oname.trim();
+    values.platform = values.platform.join(",");
     //处理商品描述参数
     let pdSpuInfo = values.pdSpuInfo;
     if(pdSpuInfo) {
@@ -242,6 +246,16 @@ class AddGoodsForm extends Component {
     							 <CheckboxGroup className='checkBox' options={this.state.plainOptions}/>
     						 )}
     				 </FormItem>
+            </Col>
+            <Col span={24}>
+              <FormItem label='上线平台' {...formItemLayout}>
+                 {getFieldDecorator('platform',{
+                   rules: [{ required: true, message: '请选择上线平台'}],
+                   initialValue:iPdSpu.platform?iPdSpu.platform:[]
+                 })(
+                   <CheckboxGroup options={this.platformOptions} />
+                 )}
+               </FormItem>
             </Col>
             <Col span={24}>
               <FormItem label='商品描述' {...formItemLayout}>

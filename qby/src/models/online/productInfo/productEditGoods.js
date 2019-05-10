@@ -29,6 +29,14 @@ export default {
         let { iPdSpu, fileDomain } = result;
         let pdSkus = [];
         let fileList = [];
+        if(iPdSpu.platform){
+          const platform = iPdSpu.platform.split(',');
+          for(var i=0;i<platform.length;i++){
+            platform[i]=Number( platform[i] );
+          };
+          iPdSpu.platform = platform;
+        };
+        console.log(iPdSpu)
         //格式化商品图片数据
         if(iPdSpu.spuIdPics && iPdSpu.spuIdPics) {
            fileList = iPdSpu.spuIdPics.map(el=>(

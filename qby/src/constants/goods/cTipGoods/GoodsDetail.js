@@ -53,6 +53,7 @@ class GoodsDetail extends Component {
   }
   render() {
     const { pdSpu, fileList } = this.props.cTipAddGoods;
+    console.log(pdSpu)
     return(
       <div className="btip-add-goods-components">
         <Form>
@@ -106,7 +107,16 @@ class GoodsDetail extends Component {
                 <p>{item.name}</p>
               ))
             }
-            <div></div>
+          </FormItem>
+          <FormItem label="上线平台" {...formItemLayout}>
+            {
+              pdSpu.platform&& pdSpu.platform.map(item=>(
+                <div>
+                  {item==1 && <label>c端app</label>}
+                  {item==2 && <label>小程序</label>}
+                </div>
+              ))
+            }
           </FormItem>
           <FormItem label="品牌直供" {...formItemLayout}>
             <label>{pdSpu.brandDirectMail?'是':'否'}</label>

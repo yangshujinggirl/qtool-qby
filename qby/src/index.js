@@ -19,6 +19,7 @@ import cTimer from './models/cTimer/cTimer.js';//c端定时
 import cExplain from './models/goodsCenter/cExplain.js';//c端商品说明
 import bondManage from './models/goodsCenter/bondManage.js';//保税仓管理
 import countryManage from './models/goodsCenter/countryManage.js';//国家管理
+import exchangeAct from './models/goodsCenter/exchangeAct/exchangeAct.js';//国家管理
 //电商中心
 import productGoodsList from './models/online/productInfo/productGoodsList.js'
 import productEditGoods from './models/online/productInfo/productEditGoods.js'
@@ -99,9 +100,15 @@ import supplyinout from './models/operate/supplyinout'
 //提现管理
 import withdraw from './models/operate/withdraw';
 import sellManage from './models/operate/sellManage';
-//B端问答
-import bAnswer from './models/operate/bAnswer'
-import bAddAnswer from './models/operate/bAnswer/bAddAnswer'
+
+import bAnswer from './models/operate/bAnswer'//B端问答
+import bAddAnswer from './models/operate/bAnswer/bAddAnswer'//新增B端问答
+import bActPrice from './models/operate/bActPrice/index'//B端活动进价
+import bDown from './models/operate/bDown/index'//B限时直降
+import cDown from './models/operate/cDown/index'//c限时直降
+import themeAct from './models/operate/themeAct/index'//c限时直降
+import pageConfig from './models/operate/pageConfig/index'//页面配置
+import market from './models/operate/market/index' //页面配置
 //待审核订单
 import onAudit from './models/online/onAudit'
 import freightDetail from './models/datapos/freightDetail';
@@ -199,7 +206,15 @@ const models = [
   shareRate,
   shareTotal,
   shareMail,
-  orderuser
+  orderuser,
+  exchangeAct,
+  //运营中心
+  bActPrice,
+  bDown,
+  cDown,
+  themeAct,
+  pageConfig,
+  market
 ]
 models.forEach(m => {
   return app.model(m)

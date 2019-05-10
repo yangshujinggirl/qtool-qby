@@ -162,6 +162,7 @@ render(){
           <Card title='订单详情'>
             <div className='cardlist'>
               <div className='cardlist_item'><label>订单号：</label><span>{orderInfo.orderNo}</span></div>
+              <div className='cardlist_item'><label>虚拟单号：</label><span>{orderInfo.virtualOrderNo}</span></div>
               <div className='cardlist_item'><label>下单时间：</label><span>{orderInfo.createTime}</span></div>
               <div className='cardlist_item'><label>订单状态：</label><span>{orderInfo.qbOrderStatusStr}</span></div>
               <div className='cardlist_item'><label>流程状态：</label><span>{orderInfo.orderStatusStr}</span></div>

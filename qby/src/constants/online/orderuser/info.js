@@ -99,11 +99,19 @@ class OrderuserInfo extends React.Component{
 	  	},
 			{
 				title: '应付价格',
-				dataIndex: 'amount'
+				dataIndex: 'amount',
+				render:(text,record,index)=>(
+					record.priceType==1
+					?<a>{text}(限时秒杀)</a>
+					:(record.priceType == 2
+						?<a>{text}(限时直降)</a>
+						:<a>{text}</a>
+						)
+				)
 			},
 			{
 				title: '实付价格',
-				dataIndex: 'payAmount'
+				dataIndex: 'payAmount',
 			}
 		];
     this.column2 = [
@@ -169,11 +177,19 @@ class OrderuserInfo extends React.Component{
 	  	},
 			{
 				title: '应付价格',
-				dataIndex: 'amount'
+				dataIndex: 'amount',
+				render:(text,record,index)=>(
+					record.priceType==1
+					?<a>{text}(限时秒杀)</a>
+					:(record.priceType == 2
+						?<a>{text}(限时直降)</a>
+						:<a>{text}</a>
+						)
+				)
 			},
 			{
 				title: '实付价格',
-				dataIndex: 'payAmount'
+				dataIndex: 'payAmount',
 			},{
 				title: '已退数量',
 				dataIndex: 'returnQty'
@@ -214,7 +230,7 @@ class OrderuserInfo extends React.Component{
 					this.setState({
 						ecOrderId:orderInfos.ecOrderId
 					});
-				}
+				};
 				let orderinfo = [];
 				if( this.props.data.record.channel == 1 ){ //有赞订单
 					orderinfo=[
@@ -238,6 +254,13 @@ class OrderuserInfo extends React.Component{
 						{lable:'优惠券批次号',text:orderInfos.couponCode},
 						{lable:'来源',text:'c端'},
 					];
+			 };
+			 if(this.props.data.record.channel == 2){
+				 if(orderInfos.yzMerOrderNo.slice(0,2) == 'YH'){
+					 orderinfo[1] = {lable:'虚拟单号',text:orderInfos.yzMerOrderNo}
+				 }else{
+					 orderinfo[1] = {lable:'虚拟单号',text:''}
+				 };
 			 };
 				//收货信息
 				const receiptinfo = [

@@ -21,8 +21,8 @@ class Uploadimg extends Component {
       return;
     }
     if (info.file.status === 'done') {
-      const imageUrl = info.file.response.data[0];
-      this.props.changeImg(imageUrl)
+      const logoUrl = info.file.response.data[0];
+      this.props.changeLogoImg(logoUrl)
        this.setState({
         loading: false,
       });
@@ -33,11 +33,11 @@ class Uploadimg extends Component {
     const fileDomain = eval(sessionStorage.getItem('fileDomain'));
     const uploadButton = (
       <div>
-        <Icon type={this.state.loading ? 'loading' : 'plus'} />
+        <Icon type={this.state.loading ? 'loading' : 'plus'} /><br/>
+        <p style={{'margin-top':'10px'}}>logo图片</p>
       </div>
     );
-    const {imageUrl,name,action} = this.props;
-    console.log(imageUrl)
+    const {logoUrl,name,action} = this.props;
     return (
       <Upload
         name={name}
@@ -47,7 +47,7 @@ class Uploadimg extends Component {
         beforeUpload={this.beforeUpload}
         onChange={this.handleChange}
       >
-        {imageUrl ? <img style={{'width':'102px','height':'102px'}} src={fileDomain+imageUrl} alt="avatar" /> : uploadButton}
+        {logoUrl ? <img style={{'width':'102px','height':'102px'}} src={fileDomain+logoUrl} alt="avatar" /> : uploadButton}
       </Upload>
     );
   }

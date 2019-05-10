@@ -6,7 +6,6 @@ import { connect } from 'dva';
 import AvatarImg from './avatar';
 const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
-
 //图片edit区
 class EditImgForm extends React.Component{
 	constructor(props) {
@@ -15,7 +14,7 @@ class EditImgForm extends React.Component{
 			code:''
 	    }
 	}
-		
+
 	saveCode = (e) =>{
 		let tempConfigArr = deepcCloneObj(this.props.configArrPre);
 			tempConfigArr[this.props.currentItem].code = e.target.value;
@@ -24,7 +23,6 @@ class EditImgForm extends React.Component{
 					payload:tempConfigArr
 			});
 	}
-
 	handleSubmit = (e) =>{
 		e.preventDefault();
 		this.props.form.validateFields((err, values) => {
@@ -43,7 +41,6 @@ class EditImgForm extends React.Component{
 			}
 		})
 	}
-
 	handCancel = () =>{
 		this.props.form.setFieldsValue({
 			code: this.props.configArr.length?
@@ -60,13 +57,12 @@ class EditImgForm extends React.Component{
 													(this.props.configArr[this.props.currentItem].text?
 													 this.props.configArr[this.props.currentItem].text:
 													 ''):
-													 '';											 
+													 '';
 		this.props.dispatch({
 				type:'h5config/syncConfigArrPre',
 				payload:tempConfigArr
 		});
 	}
-
 	render(){
 		const { getFieldDecorator,getFieldProps } = this.props.form;
 		return (
@@ -79,7 +75,7 @@ class EditImgForm extends React.Component{
 					<AvatarImg data={this.props.configArrPre[this.props.currentItem].text?
 									this.props.configArrPre[this.props.currentItem].text:
 									null}
-									/>  
+									/>
 	            </FormItem>
                 <FormItem
 	              label="链接商品"
@@ -98,7 +94,7 @@ class EditImgForm extends React.Component{
                         style={{marginBottom:'0',marginTop:'-20px'}}
                 >
                 {/* 'banner_message' */}
-                    <p className='banner_message_w'>请输入正确的商品编码</p> 
+                    <p className='banner_message_w'>请输入正确的商品编码</p>
                 </FormItem>
 	            <FormItem
 	                 wrapperCol={{ offset: 8}}
@@ -109,22 +105,18 @@ class EditImgForm extends React.Component{
             </Form>
 		)
 	}
-
 	componentDidUpdate(){
-
 	}
 }
-
 function mapStateToProps(state) {
 	const {configArr,configArrPre,currentItem}= state.h5config;
 	return {configArr,configArrPre,currentItem};
 }
-
 const ImgEdit = Form.create({
 	mapPropsToFields(props) { 
-		return { 
+		return {
 			code:Form.createFormField({value: props.configArrPre[props.currentItem].code?props.configArrPre[props.currentItem].code:''})
-		}; 
+		};
 	}
 })(EditImgForm);
 export default connect(mapStateToProps)(ImgEdit);

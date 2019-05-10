@@ -57,8 +57,12 @@ class AddGoodsForm extends Component {
     super(props);
     this.state = {
       loading:false,
-      plainOptions:[]
+      plainOptions:[],
     }
+    this.platformOptions = [
+      {label:'C端app',value:1},
+      {label:'小程序',value:2}
+    ]
   }
   componentDidMount() {
     this.initPage()
@@ -114,6 +118,7 @@ class AddGoodsForm extends Component {
   }
   //参数格式化
   formtParams(values) {
+    values.platform = values.platform.join(",");
     values.cname = values.cname.trim();
     let { skuStatus, pdSkus:pdSkusData } =this.props.cTipAddGoods.pdSpu;
     let pdSpuInfo = values.pdSpuInfo;
@@ -169,9 +174,7 @@ class AddGoodsForm extends Component {
       console.log(error)
     })
   }
-  onChange =(value)=> {
-    console.log(value)
-  }
+
   render() {
     const { getFieldDecorator } = this.props.form;
     const { pdSpu, fileList } = this.props.cTipAddGoods;
@@ -258,10 +261,20 @@ class AddGoodsForm extends Component {
             <Col span={24}>
               <FormItem label='商品说明' {...formItemLayout}>
                  {getFieldDecorator('pdExplainIds',{
-                   rules: [{ required: true, message: '请输入商品说明'}],
+                   rules: [{ required: true, message: '请选择商品说明'}],
                    initialValue:pdSpu.pdExplains?pdSpu.pdExplains:null
                  })(
-                   <CheckboxGroup className='checkBox' options={this.state.plainOptions} onChange={this.onChange} />
+                   <CheckboxGroup className='checkBox' options={this.state.plainOptions} />
+                 )}
+               </FormItem>
+            </Col>
+            <Col span={24}>
+              <FormItem label='上线平台' {...formItemLayout}>
+                 {getFieldDecorator('platform',{
+                   rules: [{ required: true, message: '请选择上线平台'}],
+                   initialValue:pdSpu.platform?pdSpu.platform:[]
+                 })(
+                   <CheckboxGroup options={this.platformOptions} />
                  )}
                </FormItem>
             </Col>

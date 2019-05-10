@@ -85,6 +85,9 @@ class OperatebannerEditForm extends React.Component{
             if(this.props.data){
                 data.pdBannerId = this.props.data.pdBannerId;
             }
+						if(values.configureCode){
+							values.configureCode = values.configureCode.replace(/\s+/g, "")
+						};
 						data.type = 20;
             GetServerData('qerp.web.pd.cbanner.save',{"pdBanner":data})
             .then((json) => {
@@ -213,6 +216,16 @@ class OperatebannerEditForm extends React.Component{
           )}
         </FormItem>
 				<FormItem
+					label="跳转页面编码"
+					labelCol={{ span: 3,offset: 1 }}
+					wrapperCol={{ span: 6 }}>
+					{getFieldDecorator('configureCode', {
+							initialValue:this.props.formValue.configureCode
+					})(
+							<Input placeholder = '请输入跳转页面编码' autoComplete="off"/>
+					)}
+				</FormItem>
+				<FormItem
             label="展示平台"
             labelCol={{ span: 3,offset: 1 }}
             wrapperCol={{ span: 6 }}>
@@ -238,7 +251,6 @@ class OperatebannerEditForm extends React.Component{
         </FormItem>
       	<FormItem wrapperCol={{ offset: 4}} style = {{marginBottom:0}}>
       		<Button className='mr30' onClick={this.hindCancel.bind(this)}>取消</Button>
-          <Button className='mr30' onClick={this.toConfigureH5.bind(this)}>配置页面</Button>
       		<Button type="primary" onClick={this.handleSubmit.bind(this)}>保存</Button>
       	</FormItem>
     	</Form>

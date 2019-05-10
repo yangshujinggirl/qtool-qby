@@ -107,8 +107,10 @@ handleEnt=(e)=>{
 							type:'onlineStock/stocktableinfo',
 							payload:datasoucedata
 						})
-				})
-			}
+				});
+			}else{
+				this.props.form.resetFields(['code'])
+			};
 		})
 	}
 }

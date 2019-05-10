@@ -821,12 +821,18 @@ class AddGoodsForm extends Component {
                        initialValue:pdSpu.taxRate
                      })(
                        <Select placeholder="请选择" allowClear={false}>
-                         <Option key={0} value='7'>7%</Option>
-                         <Option key={5} value='9.2'>9.2%</Option>
-                         <Option key={1} value='11.2'>11.2%</Option>
-                         <Option key={2} value='20.222'>20.222%</Option>
-                         <Option key={3} value='31.5'>31.5%</Option>
-                         <Option key={4} value='25.529'>25.529%</Option>
+                         <Option key={0} value='6.3'>6.3%</Option>
+                         <Option key={1} value='7'>7%</Option>
+                         <Option key={2} value='9.1'>9.1%</Option>
+                         <Option key={3} value='9.2'>9.2%</Option>
+                         <Option key={4} value='11.2'>11.2%</Option>
+                         <Option key={5} value='17.889'>17.889%</Option>
+                         <Option key={6} value='20.222'>20.222%</Option>
+                         <Option key={7} value='23.059'>23.059%</Option>
+                         <Option key={8} value='25.529'>25.529%</Option>
+                         <Option key={9} value='28.875'>28.875%</Option>
+                         <Option key={10} value='31.5'>31.5%</Option>
+
                        </Select>
                      )}
                    </FormItem>

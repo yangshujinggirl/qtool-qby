@@ -8,13 +8,11 @@ import '../../style/h5_config.css';
 import LeftAddType from './left/index';
 import CenterPreview from './center/index';
 import RightConfig from './right/index';
-
 class H5_configure extends React.Component{
 	constructor(props) {
 	    super(props);
 	    this.state = {};
 	}
-
 	//删除当前tab
 	deleteTab=()=>{
 		const pane = eval(sessionStorage.getItem("pane"));
@@ -33,7 +31,6 @@ class H5_configure extends React.Component{
 			});
 		}
 	}
-
 	//保存总的信息
     saveArrList = () =>{
 		var data = {};
@@ -74,7 +71,6 @@ class H5_configure extends React.Component{
 			message.error('请先填写配置信息',.8);
 		}
 	}
-
 	cancelSave = () =>{
 		this.props.dispatch({
 			type:'h5config/syncConfigArr',
@@ -90,14 +86,13 @@ class H5_configure extends React.Component{
 		});
 		this.deleteTab();
 	}
-
 	render(){
 		return (
 			<div className='content_box h5-wrapper'>
                 <div className='white_box h5-container'>
                    <LeftAddType/>
-				   <CenterPreview/>
-				   <RightConfig/>
+								   <CenterPreview/>
+								   <RightConfig/>
 				   <div className='submit-buttons'>
                         <button className='submit-cancel' onClick={this.cancelSave}>取消</button>
                         <button className='submit-save' onClick={this.saveArrList}>保存</button>
@@ -106,13 +101,12 @@ class H5_configure extends React.Component{
             </div>
 		)
 	}
-
 	componentDidMount(){
 		if(this.props.data){
 			if(!this.props.data.addNew){
 				let data = {
 					'pdBannerId':this.props.data.pdBannerId
-				}
+				};
 				const result=GetServerData('qerp.web.pd.banner.config.info',data);
 				result.then((res) => {
 					return res;
@@ -160,12 +154,9 @@ class H5_configure extends React.Component{
 			}
 		}
 	}
-
 }
-
 function mapStateToProps(state) {
 	const {configArr,configArrPre,currentItem}= state.h5config;
 	return {configArr,configArrPre,currentItem};
 }
-
 export default connect(mapStateToProps)(H5_configure);

@@ -109,8 +109,10 @@ handleEnt=(e)=>{
 						this.props.dispatch({
 							type:'bStock/stocktableinfo',
 							payload:datasoucedata
-						})
+						});
 				})
+			}else{
+				this.props.form.resetFields(['code'])
 			}
 		})
 	}

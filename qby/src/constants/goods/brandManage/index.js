@@ -14,17 +14,17 @@ class Brand extends Component{
       message:'',
       title:'',
       visible:false,
-      imageUrl:"",
+      logoUrl:"",
+      actUrl:"",
       name:"",
       rank:"",
       status:"",
       eventStatus:"",
       pdBrandId:"",
+      configureCode:'',
       mark:null,
-      field:{
-        name:'',
-        status:'',
-        eventStatus:''
+      inputValues:{
+        sortByFlg:1
       }
     }
   }
@@ -34,13 +34,17 @@ class Brand extends Component{
     this.props.dispatch({
       type:'brand/fetchList',
       payload:values
+    });
+    const _values = {...this.state.inputValues,...values};
+    this.setState({
+      inputValues:_values
     })
   }
 
   //点击分页
   changePage =(current)=> {
     const currentPage = current-1;
-    const values = {...this.state.field,currentPage}
+    const values = {...this.state.inputValues,currentPage}
     this.props.dispatch({
       type:'brand/fetchList',
       payload:values
@@ -50,18 +54,18 @@ class Brand extends Component{
   onShowSizeChange =({currentPage,limit})=> {
     this.props.dispatch({
       type:'brand/fetchList',
-      payload:{currentPage,limit,...this.state.field}
+      payload:{currentPage,limit,...this.state.inputValues}
     });
   }
   //搜索框数据发生变化
   searchDataChange =(values)=> {
-    this.setState({field:values});
+    this.setState({inputValues:values});
   }
   //初始化数据
   componentWillMount(){
     this.props.dispatch({
       type:'brand/fetchList',
-      payload:{}
+      payload:{sortByFlg:1}
     })
   }
   //新增品牌
@@ -75,28 +79,31 @@ class Brand extends Component{
 
   //修改
   handleOperateClick =(record)=> {
-    const {url,name,rank,status,eventStatus,pdBrandId} = record;
+    const {url,actUrl,name,rank,status,eventStatus,pdBrandId,configureCode} = record;
     this.setState({
       title:"修改品牌",
       visible:true,
-      imageUrl:url,
+      logoUrl:url,
+      actUrl,
       name,
       rank,
       status,
       eventStatus,
       pdBrandId,
-      mark:true
+      mark:true,
+      configureCode,
     });
   }
   onOk =(values,clearForm)=> {
     const {currentPage,limit} = this.props.brand;
-    const url = this.state.imageUrl;
+    const url = this.state.logoUrl;
+    const actUrl = this.state.actUrl;
     const {mark,pdBrandId} = this.state;
     let pdBrand = {};
     if(mark){ //是修改
-      pdBrand = {pdBrandId,url,...values}
+      pdBrand = {pdBrandId,url,actUrl,...values}
     }else{
-      pdBrand = {url,...values}
+      pdBrand = {url,actUrl,...values}
     };
     brandSaveApi({pdBrand})
     .then(res => {
@@ -108,7 +115,7 @@ class Brand extends Component{
         };
         this.props.dispatch({
           type:'brand/fetchList',
-          payload:{currentPage,limit,...this.state.field}
+          payload:{currentPage,limit,...this.state.inputValues}
         });
         this.setState({
           visible:false,
@@ -116,7 +123,9 @@ class Brand extends Component{
           rank:'',
           status:'',
           eventStatus:'',
-          imageUrl:'',
+          logoUrl:'',
+          actUrl:'',
+          configureCode:''
         },()=>{
           clearForm()
         });
@@ -127,26 +136,35 @@ class Brand extends Component{
   onCancel =(clearForm)=> {
     this.setState({
       visible:false,
-      imageUrl:'',
+      logoUrl:'',
+      actUrl:'',
       name:'',
       rank:'',
       status:'',
       eventStatus:'',
+      configureCode:''
     },()=>{
       clearForm();
     })
   }
-  changeImg =(imageUrl)=> {
+  changeLogoImg =(logoUrl)=> {
     this.setState({
-      imageUrl
+      logoUrl
     })
   }
+  changeActImg =(actUrl)=> {
+    this.setState({
+      actUrl
+    });
+  }
+
   render(){
     //新增修改品牌
     const changeAddBrand=this.props.data.rolelists.find((currentValue,index)=>{
       return currentValue.url=="qerp.web.pd.brand.save"
     })
-    const {visible,title,imageUrl,name,rank,status,eventStatus} = this.state;
+    const {visible,title,logoUrl,actUrl,name,rank,status,eventStatus,configureCode} = this.state;
+    console.log(eventStatus)
     const {dataList} = this.props.brand;
     return(
       <div className="qtools-components-pages">
@@ -183,8 +201,11 @@ class Brand extends Component{
           onOk={this.onOk}
           onCancel={this.onCancel}
           visible={visible}
-          changeImg={this.changeImg}
-          imageUrl={imageUrl}
+          changeLogoImg={this.changeLogoImg}
+          changeActImg={this.changeActImg}
+          actUrl={actUrl}
+          logoUrl={logoUrl}
+          configureCode={configureCode}
         />
       </div>
     )
