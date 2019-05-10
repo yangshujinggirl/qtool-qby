@@ -95,7 +95,7 @@ class BondModal extends Component{
                      {required:true,message:"请选择推送平台"}]
                  })(
                    <RadioGroup>
-                     <Radio value={10}>管家</Radio>
+                     <Radio value={10}>管易</Radio>
                      <Radio value={20}>丰趣</Radio>
                      <Radio value={30}>无</Radio>
                    </RadioGroup>
