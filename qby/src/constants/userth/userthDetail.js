@@ -185,7 +185,7 @@ agree =()=> {
 		values.orderId = this.props.data.orderId;
 		const params = {orderDetails,orderReturnId,opType:1,...values}
 		if(!err){
-			if(this.props.data.type == 1 && values.returnWay===''){ //是售后才会有退款方式才需要校验
+			if(this.props.data.type == 2 && values.returnWay===''){ //是售后才会有退款方式才需要校验
 				message.error('请选择退款方式',.8)
 			}else{
 				confirm({
@@ -209,7 +209,7 @@ render(){
 		});
 	}
   const {getFieldDecorator} = this.props.form;
-	const { type,returnWay} = this.props.data;//type---->  0:审核售中 1：审核售后  detail:单纯的详情
+	const { type,returnWay} = this.props.data;//type---->  1:审核售中 2：审核售后  detail:单纯的详情
 	console.log(this.props.data)
   const radioStyle = {
         display: 'block',
@@ -250,7 +250,7 @@ render(){
             dataSource = { goodInfos }
           />
         </div>
-				{ type == '1' &&
+				{ type == '2' &&
 	        <div style={{padding:'10px 0',border:'1px solid #e8e8e8',margin:'10px 0',marginBottom:"10px"}}>
 						<p style={{borderBottom:'1px solid #e8e8e8',padding:'5px 10px 15px'}}>详细描述</p>
 						<Form className='mt20'>
@@ -285,12 +285,12 @@ render(){
 					</div>
 				}
 				{
-					(type == '1'|| type == '0') &&
+					(type == '1'|| type == '2') &&
 					<div style={{padding:'10px 0',border:'1px solid #e8e8e8',marginBottom:"10px"}}>
 						<p style={{borderBottom:'1px solid #e8e8e8',padding:'5px 10px 15px'}}>退单处理</p>
 						<Form className='mt20'>
 							{
-								type == '1' &&
+								type == '2' &&
 								<div>
 										<FormItem
 											label="退款方式"
@@ -301,12 +301,12 @@ render(){
 					              initialValue:value
 						            })(
 						              <RadioGroup onChange={this.onChange}>
-						                <Radio style={radioStyle} value={0}>仅退款</Radio>
-						                <Radio style={radioStyle} value={1}>退货退款</Radio>
+						                <Radio style={radioStyle} value={1}>仅退款</Radio>
+						                <Radio style={radioStyle} value={2}>退货退款</Radio>
 						              </RadioGroup>
 					            	)}
 										</FormItem>
-										{value == 1 &&
+										{value == 2 &&
 											<div>
 												<FormItem
 													label="退货地址"
@@ -320,7 +320,7 @@ render(){
 													)}
 												</FormItem>
 												<FormItem
-													wrapperCol={{ span: 6,offset: 4}}>
+													wrapperCol={{ span: 6,offset: 4 }}>
 													{getFieldDecorator('returnMobile', {
 															rules: [{ required: true, message: '请输入联系电话'}],
 															initialValue:recTelephone && orderType==4 ?recTelephone:''
