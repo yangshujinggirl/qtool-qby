@@ -61,7 +61,7 @@ class AddThOrder extends Component{
 			if(item.applyReturnCount) applyTotalCount = NP.plus(Number(item.applyReturnCount),applyTotalCount) ;//总的要退的数量
 			if(item.applyReturnQuota) totalReturnMoney = NP.plus(Number(item.applyReturnQuota),totalReturnMoney) ;//总的退款金额
 		});
-		if(totalBuyCount == NP.plus(haveReturnTotalCount,applyTotalCount) && !returnType){ //全退且是售中 + 运费
+		if(totalBuyCount == NP.plus(haveReturnTotalCount,applyTotalCount) && returnType==1){ //全退且是售中 + 运费
 			if(totalReturnMoney > 0){
 				return NP.plus(totalReturnMoney,Number(freightQuota))
 			}else{
