@@ -419,9 +419,9 @@ class AddCoupon extends Component {
                   rules: [{ required: true, message: '请输入优惠券名称'}],
                 })(
                   <Input
-                    placeholder="请输入10字以内优惠券名称"
+                    placeholder="请输入20字以内优惠券名称"
                     style={{width:'280px'}}
-                    maxLength='10'
+                    maxLength='20'
                     autoComplete="off"
                     disabled={isEdit}
                   />　
