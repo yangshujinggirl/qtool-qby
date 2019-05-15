@@ -34,7 +34,11 @@ const DetailSizeColumns = [{ //有图有金银价格
                }
              </div>
      }
- }];
+ },{
+   title: '商品提示',
+   dataIndex: 'tips'
+ },
+];
 const SizeDeliveryColumns = [{ //有图无金银价格
      title: '商品规格',
      dataIndex: 'name',
@@ -62,7 +66,11 @@ const SizeDeliveryColumns = [{ //有图无金银价格
                }
              </div>
      }
- }];
+ },{
+   title: '商品提示',
+   dataIndex: 'tips'
+ }
+];
 const DetailColumns = [{ //无图有金银价格
       title: '商品编码',
       dataIndex: 'code',
@@ -78,6 +86,9 @@ const DetailColumns = [{ //无图有金银价格
     },{
       title: '银卡售价',
       dataIndex: 'silverCardPrice'
+    },{
+      title: '商品提示',
+      dataIndex: 'tips'
     }];
 const DetailDeliveryColumns = [{ //无图无金银价格
       title: '商品编码',
@@ -88,5 +99,8 @@ const DetailDeliveryColumns = [{ //无图无金银价格
     }, {
       title: '零售价',
       dataIndex: 'toCPrice'
+    },{
+      title: '商品提示',
+      dataIndex: 'tips'
     }];
 export default { DetailSizeColumns, DetailColumns, DetailDeliveryColumns, SizeDeliveryColumns };

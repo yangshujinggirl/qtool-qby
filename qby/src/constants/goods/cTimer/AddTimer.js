@@ -1,7 +1,9 @@
 import {modifyTimerApi,invalidTimerApi,createTimerApi} from '../../../services/cTimer/cTimer';
 import { connect } from 'dva';
-import { Form, Input, Button ,message,DatePicker,Checkbox} from 'antd';
+import { Form, Input, Button ,message, DatePicker, Checkbox, Radio} from 'antd';
 import moment from 'moment';
+const RadioGroup = Radio.Group;
+import './index.less'
 
 const CheckboxGroup = Checkbox.Group;
 const FormItem = Form.Item;
@@ -23,12 +25,13 @@ class GoodEditForm extends React.Component{
 			statusnew:null,
 			statushot:null,
 			taskTime:[],
-			taskName:null
+			taskName:null,
+			tipsType:1
 		}
 	}
 	//初始化数据
 	componentWillMount(){
-		if(this.props.data){
+		if(this.props.data.pdTaskTimeId){
 			this.getinfoData()
 		}
 	}
@@ -72,7 +75,7 @@ class GoodEditForm extends React.Component{
 		if(pane.length<=1){
 			return
 		}
-		if(this.props.data){
+		if(this.props.data.pdTaskTimeId){
 			this.props.dispatch({
 				type:'tab/initDeletestate',
 				payload:`${this.props.componkey}`+this.props.data.pdTaskTimeId
@@ -111,7 +114,7 @@ class GoodEditForm extends React.Component{
 						value.statusnew=this.state.statusnew
 						value.statushot=this.state.statushot
 						const codes=value.codes.split(/\s+/).filter(this.kg)
-						if(this.props.data){
+						if(this.props.data.pdTaskTimeId){
 							value.pdTaskTimeId=this.props.data.pdTaskTimeId
 						}
 						const values={
@@ -123,7 +126,7 @@ class GoodEditForm extends React.Component{
 						.then((res) => {
 					  	if(res.code == '0'){
 								this.deleteTab()
-						   	if(this.props.data){
+						   	if(this.props.data.pdTaskTimeId){
 							  	message.success('定时修改成功',.8);
 						   	}else{
 							  	message.success('定时设置成功',.8);
@@ -249,11 +252,23 @@ class GoodEditForm extends React.Component{
 
 		})
 	}
-  	render(){
-		const { getFieldDecorator } = this.props.form;
-     	return(
-          	<Form className="addUser-form addcg-form">
-                <FormItem
+	onTipsChange =(e)=> {
+		const {value} = e.target;
+		this.setState({
+			tipsType:value
+		});
+		if(value == 2){
+			this.props.form.resetFields(['tips'])
+		};
+	}
+	render(){
+		const { getFieldDecorator } = this.props.form
+		const { type } = this.props.data
+		console.log(this.props)
+		const {tipsType} = this.state
+   	return(
+    	<Form className="addUser-form addcg-form">
+        <FormItem
 					label="定时名称"
 					labelCol={{ span: 3,offset: 1 }}
 					wrapperCol={{ span: 6 }}
@@ -277,46 +292,93 @@ class GoodEditForm extends React.Component{
 						<TextArea rows={4} />
 					)}
 				</FormItem>
-                <FormItem
+        <FormItem
 					label="定时时间"
 					labelCol={{ span: 3,offset: 1 }}
 					wrapperCol={{ span:6 }}
 					>
 					{getFieldDecorator('taskTime', {
 						rules: [{ required: true, message: '请选择定时时间' }],
-						initialValue:this.props.data?moment(this.state.taskTime):null
+						initialValue:this.props.data.pdTaskTimeId?moment(this.state.taskTime):null
 					})(
 					<DatePicker  format="YYYY-MM-DD HH:mm" showTime onChange={this.timeChange.bind(this)}/>
 					)}
 				</FormItem>
-                <FormItem
-					label="定时操作"
-					labelCol={{ span: 3,offset: 1 }}
-					wrapperCol={{ span:16 }}
+				{
+					type == 1 &&
+					<FormItem
+						label="定时操作"
+						labelCol={{ span: 3,offset: 1 }}
+						wrapperCol={{ span:16 }}
+						>
+						{getFieldDecorator('codesinitsssss', {
+						})(
+							<div>
+								<Checkbox onChange={this.onChange1.bind(this)} checked={this.state.check1}>售卖</Checkbox>
+								<Checkbox onChange={this.onChange2.bind(this)} checked={this.state.check2}>停售</Checkbox>
+								<Checkbox onChange={this.onChange3.bind(this)} checked={this.state.check3}>上NEW</Checkbox>
+								<Checkbox onChange={this.onChange4.bind(this)} checked={this.state.check4}>下NEW</Checkbox>
+								<Checkbox onChange={this.onChange5.bind(this)} checked={this.state.check5}>上HOT</Checkbox>
+								<Checkbox onChange={this.onChange6.bind(this)} checked={this.state.check6}>下HOT</Checkbox>
+							</div>
+						)}
+	    		</FormItem>
+				}
+				{
+					type == 2 &&
+					<div>
+						<FormItem
+							label="商品提示"
+							labelCol={{ span: 3,offset: 1 }}
+							wrapperCol={{ span: 6 }}
+						>
+							{getFieldDecorator('tipsType', {
+								rules: [{ required: true, message: '请输入商品提示'}],
+								initialValue:this.state.tipsType
+							})(
+								<RadioGroup onChange={this.onTipsChange}>
+					        <Radio value={1}>修改</Radio>
+					        <Radio value={2}>清空</Radio>
+					      </RadioGroup>
+							)}
+						</FormItem>
+						<FormItem
+							wrapperCol={{ span: 6,offset: 4 }}>
+							{getFieldDecorator('tips', {
+								rules: [{ required: true, message: '请输入商品提示'}],
+								initialValue:this.state.taskName
+							})(
+								<TextArea rows={5} placeholder="30字以内，C端展示谨慎填写"  disabled={tipsType == 2} maxLength='30'/>
+							)}
+						</FormItem>
+					</div>
+				}
+				{
+					type == 3 &&
+					<FormItem
+						className='bonded'
+						label="保税分成分润"
+						labelCol={{ span:4}}
+						wrapperCol={{ span: 6 }}
 					>
-					{getFieldDecorator('codesinitsssss', {
-					})(
-						<div>
-							<Checkbox onChange={this.onChange1.bind(this)} checked={this.state.check1}>售卖</Checkbox>
-							<Checkbox onChange={this.onChange2.bind(this)} checked={this.state.check2}>停售</Checkbox>
-							<Checkbox onChange={this.onChange3.bind(this)} checked={this.state.check3}>上NEW</Checkbox>
-							<Checkbox onChange={this.onChange4.bind(this)} checked={this.state.check4}>下NEW</Checkbox>
-							<Checkbox onChange={this.onChange5.bind(this)} checked={this.state.check5}>上HOT</Checkbox>
-							<Checkbox onChange={this.onChange6.bind(this)} checked={this.state.check6}>下HOT</Checkbox>
-						</div>
-					)}
-        		</FormItem>
-            	<FormItem wrapperCol={{ offset: 4}} style = {{marginBottom:0}}>
-            		<Button className='mr30' onClick={this.hindCancel.bind(this)}>取消</Button>
-					  {
-						  this.props.data?<Button htmlType="submit" type="primary" onClick={this.handUse}>强制无效</Button>:null
-					  }
-              	<Button type="primary" onClick={this.handleSubmit} loading={this.state.loading} style={{marginLeft:'30px'}}>保存</Button>
-            	</FormItem>
-          	</Form>
-      	)
-  	}
-
+						{getFieldDecorator('taskName', {
+							rules: [{ required: true, message: '请输入分成比例'}],
+							initialValue:this.state.taskName
+						})(
+							<Input placeholder="请输入分成比例" suffix='%'/>
+						)}
+					</FormItem>
+				}
+      	<FormItem wrapperCol={{ offset: 4}} style = {{marginBottom:0}}>
+      		<Button className='mr30' onClick={this.hindCancel.bind(this)}>取消</Button>
+				  {
+					  this.props.data.pdTaskTimeId?<Button htmlType="submit" type="primary" onClick={this.handUse}>强制无效</Button>:null
+				  }
+        	<Button type="primary" onClick={this.handleSubmit} loading={this.state.loading} style={{marginLeft:'30px'}}>保存</Button>
+      	</FormItem>
+    	</Form>
+  	)
+	}
 }
 function mapStateToProps(state) {
 	const {values} = state.goodtime;

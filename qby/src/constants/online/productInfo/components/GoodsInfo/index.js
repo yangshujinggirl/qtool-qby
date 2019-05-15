@@ -86,6 +86,20 @@ class GoodsInfo extends Component {
                }
              </div>
   }
+  renderTips =(text, record, index)=> {
+    const { pdSpu } = this.props.cTipAddGoods;
+    let name = pdSpu.isSkus?`pdSkus[${index}].tips`:'tips';
+    return   <FormItem className='purchasePrice-input'>
+              {this.props.form.getFieldDecorator(name,{
+                rules:[
+                  { required: true, message: '请输入价格'},
+                ],
+                initialValue:pdSpu.pdSkus[index].silverCardPrice,
+              })(
+                <Input placeholder="请输入银卡价格" autoComplete="off" maxLength='30'/>
+              )}
+            </FormItem>
+  }
   render() {
     const { pdSpu } = this.props.addGoods;
     return(
@@ -105,7 +119,7 @@ class GoodsInfo extends Component {
             this.props.isHasSize&&
             <Table.Column title="上传图片" key ={7} render={this.renderDeliveryPrice}/>
           }
-
+          <Table.Column title="商品提示" dataIndex='tips' key ={8} render={this.renderTips}/>
         </Table>
       </div>
     )

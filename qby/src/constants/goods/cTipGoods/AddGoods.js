@@ -110,7 +110,8 @@ class AddGoodsForm extends Component {
       if (!err) {
         values = Object.assign(values,{
           pdSpuId
-        })
+        });
+        console.log(pdSpuId)
         values = this.formtParams(values);
         this.saveGoods(values)
       }

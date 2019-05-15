@@ -205,6 +205,7 @@ class GoodsInfo extends Component {
   }
   renderDeliveryPrice =(text, record, index)=> {
     const { pdSpu } = this.props.cTipAddGoods;
+    let name = pdSpu.isSkus?`pdSkus[${index}].goodTips`:'goodTips';
     return <div>
              {
                record.picUrl !=''?
@@ -215,6 +216,20 @@ class GoodsInfo extends Component {
               null
             }
           </div>
+  }
+  renderTips =(text, record, index)=> {
+    const { pdSpu } = this.props.cTipAddGoods;
+    let name = pdSpu.isSkus?`pdSkus[${index}].tips`:'tips';
+    return   <FormItem className='purchasePrice-input'>
+              {this.props.form.getFieldDecorator(name,{
+                rules:[
+                  { required: true, message: '请输入价格'},
+                ],
+                initialValue:pdSpu.pdSkus[index].silverCardPrice,
+              })(
+                <Input placeholder="请输入银卡价格" autoComplete="off" maxLength='30'/>
+              )}
+            </FormItem>
   }
   render() {
     const { pdSpu } = this.props.cTipAddGoods;
@@ -243,6 +258,7 @@ class GoodsInfo extends Component {
             pdSpu.isSkus&&
             <Table.Column title="sku图片" key ={7} render={this.renderDeliveryPrice}/>
           }
+          <Table.Column title="商品提示" dataIndex='tips' key ={8} render={this.renderTips}/>
 
         </Table>
     )

@@ -103,6 +103,24 @@ class BondModal extends Component{
                }
            </FormItem>
            <FormItem
+               label="出货方式"
+               labelCol={{ span: 5 }}
+               wrapperCol={{ span: 12 }}>
+               {
+                 getFieldDecorator("chuku",{
+                   initialValue:pushPlatform ? Number(pushPlatform) : null,
+                   rules:[
+                     {required:true,message:"请选择出货方式"}]
+                 })(
+                   <Select allowClear={true} placeholder="请选择状态" className='select'>
+                     <Option value={1}>保税仓发货</Option>
+                     <Option value={0}>海外直邮</Option>
+                     <Option value={3}>虚拟发货</Option>
+                   </Select>
+                 )
+               }
+           </FormItem>
+           <FormItem
              label="状态"
              labelCol={{ span: 5 }}
              wrapperCol={{ span: 12 }}>

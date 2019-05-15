@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Form,Button,Input,Row,Col,message} from 'antd';
+import { Form,Button,Input,Row,Col,message,Radio } from 'antd';
 import {addPageApi,updataPageApi,getConfigDetailApi} from '../../../services/operate/pageConfig/index'
 import {GetServerData} from '../../../services/services';
 import {deepcCloneObj} from '../../../utils/commonFc';
@@ -12,6 +12,7 @@ import RightConfig from './components/right/index';
 const FormItem = Form.Item;
 import './index.less'
 import '../../../style/h5_config.css';
+const RadioGroup = Radio.Group;
 
 class AddConfig extends  Component {
   constructor(props) {
@@ -20,7 +21,8 @@ class AddConfig extends  Component {
       isLoading:false,
       configureCode:'',
       previewLink:'',
-      pdConfigureId:''
+      pdConfigureId:'',
+      share:1
     };
    }
   componentDidMount(){
@@ -30,7 +32,8 @@ class AddConfig extends  Component {
         previewLink,
         pdConfigureId,
         pageName,
-        remark
+        remark,
+        share
       } = this.props.data;
       this.setState({configureCode,previewLink,pdConfigureId,pageName,remark});
       getConfigDetailApi({pdConfigureId}).then(res=>{
@@ -212,7 +215,8 @@ class AddConfig extends  Component {
       previewLink,
       pageName,
       remark,
-      isLoading
+      isLoading,
+      share
     } = this.state
     const { getFieldDecorator } = this.props.form;
     const formItemLayout = {
@@ -257,6 +261,17 @@ class AddConfig extends  Component {
     						initialValue:remark
     					})(
     						<Input placeholder='请输入备注,50字符以内' maxLength='50' autoComplete="off"/>
+    					)}
+    				</FormItem>
+            <FormItem {...formItemLayout} label="c端是否可分享">
+    					{getFieldDecorator('share', {
+                rules: [{ required: true, message: '请输入页面名称,15字符以内'}],
+    						initialValue:share
+    					})(
+                <RadioGroup onChange={this.onChange} value={this.state.value}>
+                  <Radio value={1}>是</Radio>
+                  <Radio value={2}>否</Radio>
+                </RadioGroup>
     					)}
     				</FormItem>
             <div className='head_title'>页面配置</div>

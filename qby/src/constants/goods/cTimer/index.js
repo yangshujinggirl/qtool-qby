@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { Button, message} from 'antd'
+import { Button, message, Menu, Dropdown,} from 'antd'
 import { connect } from 'dva'
 import Columns from './columns/index'
 import Qtable from '../../../components/Qtable/index'; //表单
 import Qpagination from '../../../components/Qpagination/index'; //分页
 import FilterForm from './FilterForm/index'
+import './index.less'
+
 class cTimer extends Component{
   constructor(props){
     super(props);
@@ -14,6 +16,7 @@ class cTimer extends Component{
       inputValues:{},
     }
   }
+
   //初始化数据
   componentWillMount(){
     this.props.dispatch({
@@ -21,6 +24,25 @@ class cTimer extends Component{
       payload:{}
     })
   }
+  menu =()=> (
+    <Menu>
+      <Menu.Item>
+        <a style={{color:'#35bab0'}} onClick={()=>this.addTimer(1)}>
+        定时调整：商品状态
+        </a>
+      </Menu.Item>
+      <Menu.Item>
+        <a style={{color:'#35bab0'}} onClick={()=>this.addTimer(2)}>
+          定时调整：商品提示
+        </a>
+      </Menu.Item>
+      <Menu.Item>
+        <a style={{color:'#35bab0'}} onClick={()=>this.addTimer(3)}>
+          定时调整：保税分润
+        </a>
+      </Menu.Item>
+    </Menu>
+  )
   //点击搜索
   searchData = (values)=> {
     this.props.dispatch({
@@ -49,12 +71,14 @@ class cTimer extends Component{
     });
   }
   //新增定时
-  addTimer(){
+  addTimer(type){
     const paneitem = {
       title:'新增定时',
-      key:`${this.props.componkey}edit`,
+      key:`${this.props.componkey}edit`+type,
       componkey:`${this.props.componkey}edit`,
-      data:null
+      data:{
+        type
+      }
     };
     this.props.dispatch({
         type:'tab/firstAddTab',
@@ -93,12 +117,13 @@ class cTimer extends Component{
       <div className='handel-btn-lists'>
         {
           addTimer?
+          <Dropdown overlay={this.menu()} placement="bottomCenter" overlayClassName='set-time'>
             <Button
               type='primary'
               size='large'
-              onClick={()=>this.addTimer()}
             >新增定时
             </Button>
+          </Dropdown>
           :null
         }
 

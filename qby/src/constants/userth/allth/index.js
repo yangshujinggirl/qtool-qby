@@ -209,7 +209,7 @@ class Allth extends Component {
     if(!selectedRows[0]){
       message.warning('请选择需要操作的保税订单或仓库直邮订单',.8)
     }else{ //只可操作保税仓和仓库直邮的，待收货退单
-      if((selectedRows[0].orderType == 5&&selectedRows[0].returnStatus==50) || (selectedRows[0].orderType==4 && selectedRows[0].returnStatus==50) ){
+      if((selectedRows[0].orderType == 5||selectedRows[0].orderType==4) && (selectedRows[0].returnStatus==20 || selectedRows[0].returnStatus==50) ){
         confirm({
           content:'是否确认此操作',
           onOk:()=>{
