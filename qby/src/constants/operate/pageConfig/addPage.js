@@ -4,6 +4,8 @@ import { Form,Button,Input,Row,Col,message,Radio } from 'antd';
 import {addPageApi,updataPageApi,getConfigDetailApi} from '../../../services/operate/pageConfig/index'
 import {GetServerData} from '../../../services/services';
 import {deepcCloneObj} from '../../../utils/commonFc';
+import FriendCircleImg from './components/FriendCircleImg'
+import FriendImg from './components/FriendImg'
 import moment from 'moment';
 //引入三部分区域
 import LeftAddType from './components/left/index';
@@ -22,7 +24,9 @@ class AddConfig extends  Component {
       configureCode:'',
       previewLink:'',
       pdConfigureId:'',
-      share:1
+      isShare:1,
+      circleUrl:'',
+      friendUrl:''
     };
    }
   componentDidMount(){
@@ -93,8 +97,13 @@ class AddConfig extends  Component {
   handleSubmit =()=> {
     this.props.form.validateFieldsAndScroll((err,values)=>{
       if(!err){
+        const {friendUrl,circleUrl} = this.state;
+        if(String(values.isShare)==0 && !friendUrl) {return message.error('请上传分享微信好友图片',.8)};
+        if(String(values.isShare)==0 && !circleUrl) {return message.error('请上传朋友圈分享图片',.8)};
+        values.friendUrl = friendUrl;
+        values.circleUrl = circleUrl;
         const {configArrPre} = this.props;
-        if(!configArrPre.length) return  message.error('页面配置不可为空',.8)
+        if(!configArrPre.length) return  message.error('页面配置不可为空',.8);
         if(configArrPre.length){
          if(configArrPre.some(item=> item.type==1 && !item.text )){
            message.error('请上传图片',.8)
@@ -197,6 +206,16 @@ class AddConfig extends  Component {
     }
     return isJPG && isLt2M;
   }
+  changeCircleImg =(circleUrl)=> {
+    this.setState({
+      circleUrl
+    });
+  }
+  changeFriendImg =(friendUrl)=> {
+    this.setState({
+      friendUrl
+    });
+  }
   previwPage =()=> {
     const paneitem = {
       title:'新增商品',
@@ -208,15 +227,23 @@ class AddConfig extends  Component {
       payload:paneitem
     });
   }
+  onChange=(e)=>{
+    const {value} = e.target;
+    this.setState({
+      isShare:value
+    })
+  }
   render() {
-    console.log(this.props)
     const {
       configureCode,
       previewLink,
       pageName,
       remark,
       isLoading,
-      share
+      isShare,
+      circleUrl,
+      friendUrl,
+      shareTitle
     } = this.state
     const { getFieldDecorator } = this.props.form;
     const formItemLayout = {
@@ -264,16 +291,57 @@ class AddConfig extends  Component {
     					)}
     				</FormItem>
             <FormItem {...formItemLayout} label="c端是否可分享">
-    					{getFieldDecorator('share', {
-                rules: [{ required: true, message: '请输入页面名称,15字符以内'}],
-    						initialValue:share
+    					{getFieldDecorator('isShare', {
+                rules: [{ required: true, message: '请选择c端是否可分享'}],
+    						initialValue:isShare
     					})(
                 <RadioGroup onChange={this.onChange} value={this.state.value}>
-                  <Radio value={1}>是</Radio>
-                  <Radio value={2}>否</Radio>
+                  <Radio value={0}>是</Radio>
+                  <Radio value={1}>否</Radio>
                 </RadioGroup>
     					)}
     				</FormItem>
+            {
+              String(isShare) == 0 &&
+              <div>
+                <FormItem
+                  labelCol={{span:3}}
+                  wrapperCol={{span:8}}
+                  label="分享微信好友标题">
+        					{getFieldDecorator('shareTitle', {
+                    rules: [{ required: true, message: '请输入分享微信好友标题'}],
+        						initialValue:shareTitle
+        					})(
+        						<Input style={{width:'75%'}} placeholder='请输入分享标题，30字以内' maxLength='30' autoComplete="off"/>
+        					)}<a className='theme-color'>　示例</a>
+        				</FormItem>
+                <FormItem {...formItemLayout} label="分享微信好友图片">
+        					{getFieldDecorator('shareFriendImg', {
+                    rules: [{ required: true, message: '请上传分享微信好友图片'}],
+        						initialValue:remark
+        					})(
+        						<FriendImg
+                      name='imgFile'
+                      action='/erpWebRest/qcamp/upload.htm?type=brand'
+                      friendUrl = {friendUrl}
+                      changeFriendImg = {this.changeFriendImg}/>
+        					)}
+        				</FormItem>
+                <FormItem {...formItemLayout} label="朋友圈分享图片">
+        					{getFieldDecorator('shareFriendCircleImg', {
+                    rules: [{ required: true, message: '请上传分享微信好友图片'}],
+        						initialValue:remark
+        					})(
+        						<FriendCircleImg
+                      name='imgFile'
+                      action='/erpWebRest/qcamp/upload.htm?type=brand'
+                      circleUrl = {circleUrl}
+                      changeCircleImg = {this.changeCircleImg}
+                    />
+        					)}
+        				</FormItem>
+              </div>
+            }
             <div className='head_title'>页面配置</div>
             <div className='content_box h5-wrapper'>
               <div className='white_box h5-container'>

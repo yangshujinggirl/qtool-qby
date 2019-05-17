@@ -308,7 +308,7 @@ class SpInfo extends React.Component{
     					</div>
     				</FormItem>
     				<FormItem
-    					label="微信支付扫码"
+    					label="支付扫码"
     					labelCol={{ span: 3,offset: 1 }}
     					wrapperCol={{ span:6 }}>
       					{
@@ -316,7 +316,7 @@ class SpInfo extends React.Component{
                 }
     				</FormItem>
     				<FormItem
-    					label="支付宝扫码"
+    					label="银联MIS"
     					labelCol={{ span: 3,offset: 1 }}
     					wrapperCol={{ span:6 }}>
               {

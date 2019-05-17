@@ -740,11 +740,11 @@ class SpEditForm extends React.Component{
 						</div>
 					</FormItem>
 					<FormItem
-						label="微信支付扫码"
+						label="支付扫码"
 						labelCol={{ span: 3,offset: 1 }}
 						wrapperCol={{ span:6 }}>
 						{getFieldDecorator('openWechat', {
-							rules: [{ required: true, message: '请选择是否使用微信扫码支付'}],
+							rules: [{ required: true, message: '请选择是否使用支付扫码'}],
 							initialValue:Number(this.state.openWechat)
 						})(
 							<RadioGroup>
@@ -754,11 +754,11 @@ class SpEditForm extends React.Component{
 						)}
 					</FormItem>
 					<FormItem
-						label="支付宝扫码"
+						label="银联MIS"
 						labelCol={{ span: 3,offset: 1 }}
 						wrapperCol={{ span:6 }}>
 						{getFieldDecorator('openAlipay', {
-							rules: [{ required: true, message: '请选择是否使用支付宝扫码'}],
+							rules: [{ required: true, message: '请选择是否使用银联MIS'}],
 							initialValue:Number(this.state.openAlipay)
 						})(
 							<RadioGroup>
