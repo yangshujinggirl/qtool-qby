@@ -303,7 +303,6 @@ class AddThOrder extends Component{
 										rules: [{ required: true, message: '请输入退单原因' }]
 									})(
 										<Input placeholder="请输入退款原因、50字符以内" maxLength='50' autoComplete="off"/>
-
 									)}
 								</FormItem>
 	            	<FormItem wrapperCol={{ offset: 4}} style = {{marginBottom:0}}>
@@ -311,7 +310,6 @@ class AddThOrder extends Component{
 	              		<Button type="primary" onClick={this.handleSubmit} loading={loading}>保存</Button>
 	            	</FormItem>
           	</Form>
-
       	)
   	}
 }
