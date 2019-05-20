@@ -26,7 +26,7 @@ class GoodEditForm extends React.Component{
 			statushot:null,
 			taskTime:[],
 			taskName:null,
-			tipsType:1
+			explainType:1
 		}
 	}
 	//初始化数据
@@ -255,17 +255,16 @@ class GoodEditForm extends React.Component{
 	onTipsChange =(e)=> {
 		const {value} = e.target;
 		this.setState({
-			tipsType:value
+			explainType:value
 		});
 		if(value == 2){
-			this.props.form.resetFields(['tips'])
+			this.props.form.resetFields(['goodsExplain'])
 		};
 	}
 	render(){
 		const { getFieldDecorator } = this.props.form
 		const { type } = this.props.data
-		console.log(this.props)
-		const {tipsType} = this.state
+		const {explainType} = this.state
    	return(
     	<Form className="addUser-form addcg-form">
         <FormItem
@@ -332,23 +331,23 @@ class GoodEditForm extends React.Component{
 							labelCol={{ span: 3,offset: 1 }}
 							wrapperCol={{ span: 6 }}
 						>
-							{getFieldDecorator('tipsType', {
+							{getFieldDecorator('explainType', {
 								rules: [{ required: true, message: '请输入商品提示'}],
-								initialValue:this.state.tipsType
+								initialValue:this.state.explainType
 							})(
 								<RadioGroup onChange={this.onTipsChange}>
 					        <Radio value={1}>修改</Radio>
-					        <Radio value={2}>清空</Radio>
+					        <Radio value={0}>清空</Radio>
 					      </RadioGroup>
 							)}
 						</FormItem>
 						<FormItem
 							wrapperCol={{ span: 6,offset: 4 }}>
-							{getFieldDecorator('tips', {
+							{getFieldDecorator('goodsExplain', {
 								rules: [{ required: true, message: '请输入商品提示'}],
 								initialValue:this.state.taskName
 							})(
-								<TextArea rows={5} placeholder="30字以内，C端展示谨慎填写"  disabled={tipsType == 2} maxLength='30'/>
+								<TextArea rows={5} placeholder="30字以内，C端展示谨慎填写"  disabled={explainType == 0} maxLength='30'/>
 							)}
 						</FormItem>
 					</div>
