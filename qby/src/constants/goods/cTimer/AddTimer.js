@@ -257,7 +257,7 @@ class GoodEditForm extends React.Component{
 		this.setState({
 			explainType:value
 		});
-		if(value == 2){
+		if(value == 0){
 			this.props.form.resetFields(['goodsExplain'])
 		};
 	}
