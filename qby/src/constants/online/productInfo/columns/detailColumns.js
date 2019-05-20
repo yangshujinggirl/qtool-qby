@@ -35,7 +35,7 @@ const DetailSizeColumns = [{
      }
    },{
      title: '商品提示',
-     dataIndex: 'tips'
+     dataIndex: 'goodsExplain'
    }];
 const DetailColumns = [{
      title: '商品编码',
@@ -54,7 +54,7 @@ const DetailColumns = [{
      dataIndex: 'deliveryPrice'
    },{
      title: '商品提示',
-     dataIndex: 'tips'
+     dataIndex: 'goodsExplain'
    }];
 
    export default { DetailSizeColumns, DetailColumns };

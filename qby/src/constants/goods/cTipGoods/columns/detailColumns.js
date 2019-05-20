@@ -36,7 +36,7 @@ const DetailSizeColumns = [{ //有图有金银价格
      }
  },{
    title: '商品提示',
-   dataIndex: 'tips'
+   dataIndex: 'goodsExplain'
  },
 ];
 const SizeDeliveryColumns = [{ //有图无金银价格
@@ -68,7 +68,7 @@ const SizeDeliveryColumns = [{ //有图无金银价格
      }
  },{
    title: '商品提示',
-   dataIndex: 'tips'
+   dataIndex: 'goodsExplain'
  }
 ];
 const DetailColumns = [{ //无图有金银价格
@@ -101,6 +101,6 @@ const DetailDeliveryColumns = [{ //无图无金银价格
       dataIndex: 'toCPrice'
     },{
       title: '商品提示',
-      dataIndex: 'tips'
+      dataIndex: 'goodsExplain'
     }];
 export default { DetailSizeColumns, DetailColumns, DetailDeliveryColumns, SizeDeliveryColumns };

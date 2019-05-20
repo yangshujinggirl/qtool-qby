@@ -88,15 +88,12 @@ class GoodsInfo extends Component {
   }
   renderTips =(text, record, index)=> {
     const { pdSpu } = this.props.cTipAddGoods;
-    let name = pdSpu.isSkus?`pdSkus[${index}].tips`:'tips';
+    let name = pdSpu.isSkus?`pdSkus[${index}].goodsExplain`:'goodsExplain';
     return   <FormItem className='purchasePrice-input'>
               {this.props.form.getFieldDecorator(name,{
-                rules:[
-                  { required: true, message: '请输入价格'},
-                ],
-                initialValue:pdSpu.pdSkus[index].silverCardPrice,
+                initialValue:pdSpu.pdSkus[index].goodsExplain,
               })(
-                <Input placeholder="请输入银卡价格" autoComplete="off" maxLength='30'/>
+                <Input placeholder="30字以内，C端展示谨慎填写" autoComplete="off" maxLength='30'/>
               )}
             </FormItem>
   }
