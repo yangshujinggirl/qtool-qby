@@ -26,7 +26,9 @@ class GoodEditForm extends React.Component{
 			statushot:null,
 			taskTime:[],
 			taskName:null,
-			explainType:1
+			explainType:1,
+			taxRate:'',
+			goodsExplain:''
 		}
 	}
 	//初始化数据
@@ -51,6 +53,9 @@ class GoodEditForm extends React.Component{
 				const salestatus=res.taskTime.salestatus
 				const statusnew=res.taskTime.statusnew
 				const statushot=res.taskTime.statushot
+				const explainType=res.taskTime.explainType
+				const taxRate=res.taskTime.taxRate
+				const goodsExplain=res.taskTime.goodsExplain
 				this.setState({
 					check1:check1,
 					check2:check2,
@@ -105,23 +110,27 @@ class GoodEditForm extends React.Component{
 		e.preventDefault();
 		this.props.form.validateFields((err, value) => {
 		    if (!err) {
-					if(this.state.salestatus == null && this.state.statusnew ==null && this.state.statushot==null){
-						message.error('请选择定时操作',.8);
-					}else{
+						const {type} = this.props.data //1、商品状态；2、商品提示；3、保税分润
+						value.taskType = type
+						if(type == 1){
+							if(this.state.salestatus == null && this.state.statusnew ==null && this.state.statushot==null){
+								return message.error('请选择定时操作',.8);
+							};
+							value.salestatus=this.state.salestatus
+							value.statusnew=this.state.statusnew
+							value.statushot=this.state.statushot
+						};
 						value.taskName = value.taskName.trim();
-						value.taskTime=this.state.taskTime
-						value.salestatus=this.state.salestatus
-						value.statusnew=this.state.statusnew
-						value.statushot=this.state.statushot
-						const codes=value.codes.split(/\s+/).filter(this.kg)
-						if(this.props.data.pdTaskTimeId){
-							value.pdTaskTimeId=this.props.data.pdTaskTimeId
-						}
-						const values={
+						value.taskTime = this.state.taskTime
+						const codes = value.codes.split(/\s+/).filter(this.kg)
+						const values = {
 							taskTime:value,
 							codes:codes
-						}
+						};
 						this.setState({loading:true})
+						if(this.props.data.pdTaskTimeId){
+							value.pdTaskTimeId=this.props.data.pdTaskTimeId
+						};
 						createTimerApi(values)
 						.then((res) => {
 					  	if(res.code == '0'){
@@ -136,7 +145,6 @@ class GoodEditForm extends React.Component{
 								this.setState({loading:false})
 							}
 				  	})
-        };
 			};
     });
 	}
@@ -264,7 +272,7 @@ class GoodEditForm extends React.Component{
 	render(){
 		const { getFieldDecorator } = this.props.form
 		const { type } = this.props.data
-		const {explainType} = this.state
+		const {explainType,taxRate} = this.state
    	return(
     	<Form className="addUser-form addcg-form">
         <FormItem
@@ -344,8 +352,8 @@ class GoodEditForm extends React.Component{
 						<FormItem
 							wrapperCol={{ span: 6,offset: 4 }}>
 							{getFieldDecorator('goodsExplain', {
-								rules: [{ required: true, message: '请输入商品提示'}],
-								initialValue:this.state.taskName
+								rules: [{ required: explainType == 1 ? true : false , message: '请输入商品提示'}],
+								initialValue:this.state.goodsExplain
 							})(
 								<TextArea rows={5} placeholder="30字以内，C端展示谨慎填写"  disabled={explainType == 0} maxLength='30'/>
 							)}
@@ -360,9 +368,9 @@ class GoodEditForm extends React.Component{
 						labelCol={{ span:4}}
 						wrapperCol={{ span: 6 }}
 					>
-						{getFieldDecorator('taskName', {
+						{getFieldDecorator('taxRate', {
 							rules: [{ required: true, message: '请输入分成比例'}],
-							initialValue:this.state.taskName
+							initialValue:this.state.taxRate
 						})(
 							<Input placeholder="请输入分成比例" suffix='%'/>
 						)}
