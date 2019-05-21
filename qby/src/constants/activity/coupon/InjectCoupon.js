@@ -15,29 +15,34 @@ class InjectCoupon extends Component{
   //点击确定
   onOk =()=> {
     this.props.form.validateFieldsAndScroll((err,values)=>{
-      this.props.setConfirmLoading();
+      this.props.setConfirmLoading(true);
       const {userMobiles} = values;
       let mobileArr = [];
       let isTrue = false;
+
+      if(userMobiles.split('\n').length>100){
+        this.props.setConfirmLoading(false);
+        return message.error('最多支持100行')
+      };
       if(userMobiles.indexOf("\n")!=-1){
         mobileArr = userMobiles.split('\n');
         mobileArr.map((item,index)=>{
-          if(item.length>11){
+          if(item.length>11){ //手机号最多11位
             isTrue = true;
           };
           return item;
         });
-      }else{
+      }else{ //只输入一个手机号
         if(userMobiles.length>11){
           isTrue = true;
         };
       };
       if(isTrue){
-        message.error('一行只能输入一个手机号码',.8)
-      }else{
-        if(!err){
-          this.props.onOk && this.props.onOk(values,this.clear);
-        };
+        this.props.setConfirmLoading(false);
+        return message.error('一行只能输入一个手机号码',.8)
+      };
+      if(!err){
+        this.props.onOk && this.props.onOk(values,this.clear);
       };
     })
   }
@@ -74,7 +79,7 @@ class InjectCoupon extends Component{
                 {getFieldDecorator('userMobiles', {
                     rules: [{ required: true, message: '请输入用户手机号' }],
                 })(
-                    <TextArea  rows={5} placeholder='最多支持10行' maxLength='200' autoComplete="off"/>
+                    <TextArea  rows={10} placeholder='最多支持100行'  autoComplete="off"/>
                 )}
             </FormItem>
             <FormItem
