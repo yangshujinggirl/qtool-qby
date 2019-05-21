@@ -123,9 +123,9 @@ class Coupon extends Component{
       };
     };
   }
-  setConfirmLoading =()=> {
+  setConfirmLoading =(value)=> {
     this.setState({
-      confirmLoading:true
+      confirmLoading:value
     });
   }
   //确认熔断
