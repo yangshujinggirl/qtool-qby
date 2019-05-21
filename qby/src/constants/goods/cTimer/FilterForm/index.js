@@ -44,8 +44,8 @@ class NormalForm extends Component{
               <FormItem label='定时操作'>
                   {getFieldDecorator('opstatus')(
                   <Select allowClear={true} placeholder="请选择定时操作" className='select'>
-                      <Option value='1'>商品提示</Option>
-                      <Option value='2'>保税分润</Option>
+                      <Option value='7'>商品提示</Option>
+                      <Option value='8'>保税分润</Option>
                   </Select>
                   )}
               </FormItem>

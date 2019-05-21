@@ -39,7 +39,7 @@
      dataIndex: 'pushPlatformStr'
    },{
      title: '出货方式',
-     dataIndex:'ShipmentType',
+     dataIndex:'shipmentType',
      render:(text,record,index)=>(
        <span>{text==1?'保税仓发货':(text==2?海外直邮:(text==3?'虚拟发货':''))}</span>
      )

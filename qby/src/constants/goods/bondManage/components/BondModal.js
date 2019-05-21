@@ -27,9 +27,7 @@ class BondModal extends Component{
   }
   render(){
     const { getFieldDecorator } = this.props.form;
-    const {title,visible,name,cname,dispExp,pushPlatform,status} = this.props;
-    console.log(status)
-    console.log(typeof(pushPlatform) )
+    const {title,visible,name,cname,dispExp,pushPlatform,status,shipmentType} = this.props;
     return(
       <div>
       <Modal
@@ -107,8 +105,8 @@ class BondModal extends Component{
                labelCol={{ span: 5 }}
                wrapperCol={{ span: 12 }}>
                {
-                 getFieldDecorator("ShipmentType",{
-                   initialValue:ShipmentType ? Number(ShipmentType) : null,
+                 getFieldDecorator("shipmentType",{
+                   initialValue:shipmentType ? Number(shipmentType) : null,
                    rules:[
                      {required:true,message:"请选择出货方式"}]
                  })(

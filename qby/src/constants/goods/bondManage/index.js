@@ -95,6 +95,7 @@ class BondManage extends Component{
       cname:'',
       dispExp:'',
       pushPlatform:'',
+      shipmentType:'',
       status:1
     },()=>{
       clearForm();
@@ -111,6 +112,7 @@ class BondManage extends Component{
       cname:'',
       dispExp:'',
       pushPlatform:'',
+      shipmentType:'',
       status:1
     },()=>{
       clearForm();
@@ -119,7 +121,7 @@ class BondManage extends Component{
 
   //修改
   handleOperateClick =(record)=> {
-    const {name,cname,dispExp,pushPlatform,status,pdTaxWarehouseId} = record;
+    const {name,cname,dispExp,pushPlatform,shipmentType,status,pdTaxWarehouseId} = record;
     this.setState({
       title:"修改仓库",
       visible:true,
@@ -129,6 +131,7 @@ class BondManage extends Component{
       cname,
       dispExp,
       pushPlatform,
+      shipmentType,
       status
     })
   }
@@ -138,7 +141,7 @@ class BondManage extends Component{
       return currentValue.url=="qerp.web.pd.taxWarehouse.save"
     });
     const {dataList} = this.props.bondManage;
-    const {visible,title,name,cname,dispExp,pushPlatform,status} = this.state;
+    const {visible,title,name,cname,dispExp,pushPlatform,shipmentType,status} = this.state;
     return(
       <div className="qtools-components-pages">
         <FilterForm
@@ -173,6 +176,7 @@ class BondManage extends Component{
           cname={cname}
           dispExp={dispExp}
           pushPlatform={pushPlatform}
+          shipmentType={shipmentType}
           status={status}
         />
       </div>
