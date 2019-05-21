@@ -1,5 +1,6 @@
 import React,{Component} from 'react'
 import {Button,Form,Input,Row,Col} from 'antd'
+import {getInfoApi} from '../../../services/cConfig/index.js'
 const FormItem = Form.Item
 const TextArea = Input.TextArea
 import './index.less'
@@ -8,13 +9,34 @@ class TipPage extends Component{
   constructor(props){
     super(props)
     this.state={
-
+      dataSource:[
+        {label:'品牌直供提单页提示'},
+        {label:'国内仓提单页提示'},
+        {label:'保税仓提单页提示'},
+      ]
     }
+  }
+  componentWillMount =()=> {
+    getInfoApi().then(res=>{
+      if(res.code == '0'){
+        const {dataSource} = this.state;
+        const {configurelist} = res;
+        if(configurelist&&configurelist[0]){
+          dataSource.map((item,index)=>{
+            item = Object.assign(item,configurelist[index])
+          });
+          this.setState({
+            dataSource
+          });
+        };
+      };
+    })
   }
   handleSubmit =()=> {
     this.props.form.validateFields((err,values)=>{
       if(!err){
-        this.formate(values);
+        console.log(values)
+        // this.formate(values)
       };
     })
   }
@@ -22,25 +44,22 @@ class TipPage extends Component{
     const newList = _.cloneDeep(values.list);
     newList.map((item,index) => item.type=index+1);
     if(!newList) return;
-    values.configurelist = newList.find(item=>item.text);
+    values.configurelist = newList
     delete values.list;
     return values
   }
   render(){
+    console.log(Object.assign([{}]))
     const FormLayout = {
       labelCol:{ span: 6},
       wrapperCol:{ span: 8 }
     };
     const { getFieldDecorator } = this.props.form;
-    const dataSoure = [
-      {label:'品牌直供提单页提示'},
-      {label:'国内仓提单页提示'},
-      {label:'保税仓提单页提示'},
-    ];
+    const {dataSource} = this.state;
     return(
       <div className='tipsBox'>
         <Form>
-          {dataSoure.map( (item,index) => (
+          {dataSource.map( (item,index) => (
               <FormItem
                 key={index}
                 labelCol={{span:4}}

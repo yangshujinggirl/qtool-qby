@@ -1,4 +1,4 @@
-import ajax from '../utils/req.js'
+import ajax from '../../utils/req.js'
 
 export function getInfoApi(values){
   values = JSON.stringify(values)

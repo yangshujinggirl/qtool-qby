@@ -106,7 +106,7 @@ class BondModal extends Component{
                wrapperCol={{ span: 12 }}>
                {
                  getFieldDecorator("shipmentType",{
-                   initialValue:shipmentType ? Number(shipmentType) : null,
+                   initialValue:shipmentType ? Number(shipmentType) : undefined,
                    rules:[
                      {required:true,message:"请选择出货方式"}]
                  })(
