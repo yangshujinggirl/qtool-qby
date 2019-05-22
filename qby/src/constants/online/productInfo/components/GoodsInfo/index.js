@@ -75,27 +75,27 @@ class GoodsInfo extends Component {
              </div>
   }
   renderDeliveryPrice =(text, record, index)=> {
+  const { pdSpu } = this.props.cTipAddGoods;
+  return <div>
+           {
+             record.picUrl !=''?
+             <div className="table-img-wrap">
+               <Imgmodel picUrl={record.picUrl}/>
+             </div>
+            :
+            null
+          }
+        </div>
+}
+  renderTips =(text, record, index)=> {
     const { pdSpu } = this.props.addGoods;
     return  <div>
-               {
-                 this.props.form.getFieldDecorator(`pdSkus[${index}].deliveryPrice`,{
-                   initialValue:pdSpu.pdSkus[index].deliveryPrice
-                 })(
-                   <Input placeholder="请输入出库价格" />
-                 )
-               }
+               {this.props.form.getFieldDecorator(`pdSkus[${index}].goodsExplain`,{
+                 initialValue:pdSpu.pdSkus[index].goodsExplain
+               })(
+                 <Input placeholder="请输入采购价格" />
+               )}
              </div>
-  }
-  renderTips =(text, record, index)=> {
-    const { pdSpu } = this.props.cTipAddGoods;
-    let name = pdSpu.isSkus?`pdSkus[${index}].goodsExplain`:'goodsExplain';
-    return   <FormItem className='purchasePrice-input'>
-              {this.props.form.getFieldDecorator(name,{
-                initialValue:pdSpu.pdSkus[index].goodsExplain,
-              })(
-                <Input placeholder="30字以内，C端展示谨慎填写" autoComplete="off" maxLength='30'/>
-              )}
-            </FormItem>
   }
   render() {
     const { pdSpu } = this.props.addGoods;
@@ -106,17 +106,16 @@ class GoodsInfo extends Component {
             this.props.isHasSize&&
             <Table.Column title="商品规格" dataIndex='name' key ={0}/>
           }
-          <Table.Column title="商品编码" key ={1} render={this.renderCode}/>
-          <Table.Column title="商品条码" key ={2} render={this.renderBarcode}/>
-          <Table.Column title="售价" key ={3} render={this.renderSalePrice}/>
-          <Table.Column title="采购价格" key ={4} render={this.renderPurchasePricee} />
-          <Table.Column title="到货价格" key ={5} render={this.renderReceivePrice}/>
-          <Table.Column title="出库价格" key ={6} render={this.renderDeliveryPrice}/>
+          <Table.Column title="商品编码" dataIndex='code' key ={1} render={this.renderCode}/>
+          <Table.Column title="商品条码" dataIndex='barcode' key ={2} render={this.renderBarcode}/>
+          <Table.Column title="售价"  dataIndex='salePrice' key={3} render={this.renderSalePrice}/>
+          <Table.Column title="到货价格" dataIndex='receivePrice' key ={5} render={this.renderReceivePrice}/>
+          <Table.Column title="出库价格" dataIndex='deliveryPrice' key ={6} render={this.renderDeliveryPrice}/>
           {
             this.props.isHasSize&&
-            <Table.Column title="上传图片" key ={7} render={this.renderDeliveryPrice}/>
+            <Table.Column title="SKU图片" key ={7} render={this.renderDeliveryPrice}/>
           }
-          <Table.Column title="商品提示" dataIndex='tips' key ={8} render={this.renderTips}/>
+          <Table.Column title="商品提示"  key ={8} render={this.renderTips}/>
         </Table>
       </div>
     )

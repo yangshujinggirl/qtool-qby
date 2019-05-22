@@ -1,5 +1,6 @@
 import Imgmodel from '../../../../components/model/modelimg';
-
+import {Input} from 'antd'
+//sku
 const DetailSizeColumns = [{
      title: '商品规格',
      dataIndex: 'name',
@@ -35,8 +36,15 @@ const DetailSizeColumns = [{
      }
    },{
      title: '商品提示',
-     dataIndex: 'goodsExplain'
+     dataIndex:"goodsExplain",
+     render:(text,record,index)=>{
+       console.log(text)
+       return (
+         <div><Input value={text} maxLength='30' onChange={(e)=>record.onOperateClick(e)}/></div>
+       )
+     }
    }];
+//spu
 const DetailColumns = [{
      title: '商品编码',
      dataIndex: 'code',
@@ -54,7 +62,12 @@ const DetailColumns = [{
      dataIndex: 'deliveryPrice'
    },{
      title: '商品提示',
-     dataIndex: 'goodsExplain'
+     dataIndex:"goodsExplain",
+     render:(text,record,index)=>{
+       return (
+         <div><Input value={text} maxLength='30' onChange={(e)=>record.onOperateClick(e)}/></div>
+       )
+     }
    }];
 
    export default { DetailSizeColumns, DetailColumns };

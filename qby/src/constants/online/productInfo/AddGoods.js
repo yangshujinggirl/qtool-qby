@@ -4,7 +4,7 @@ import {
   Form,Row,Col,
   Input,Button,Icon,
   Select ,AutoComplete,Upload,
-  message,Radio,DatePicker,Checkbox
+  message,Radio,DatePicker,Checkbox,Table
 } from 'antd';
 import moment from 'moment';
 import {
@@ -129,6 +129,19 @@ class AddGoodsForm extends Component {
         return el;
       })
     }
+    const {isSkus,pdSkus} = this.props.productEditGoods.iPdSpu;
+      const skuList = [];
+      pdSkus && pdSkus.map(item=>{
+        if(isSkus){ //sku商品
+          const obj = {};
+          obj.pdSkuId = item.pdSkuId;
+          obj.goodsExplain = item.goodsExplain;
+          skuList.push(obj)
+          values.pdSkus = skuList
+        }else{
+          values.goodsExplain = item.goodsExplain
+        }
+      });
     return values;
   }
   //提交api
@@ -157,10 +170,23 @@ class AddGoodsForm extends Component {
       console.log(error)
     })
   }
+  //商品提示修改
+  handleOperateClick =(record,index,e)=> {
+    const {pdSkus} = this.props.productEditGoods.iPdSpu;
+    pdSkus[index].goodsExplain = e.target.value;
+    this.props.dispatch({
+      type:'productEditGoods/changePdSkus',
+      payload:{pdSkus}
+    });
+  }
 
   render() {
     const { getFieldDecorator } = this.props.form;
     const { iPdSpu, fileList } = this.props.productEditGoods;
+    iPdSpu.pdSkus&&iPdSpu.pdSkus.map((item,index)=>{
+      item.onOperateClick =(e)=> { this.handleOperateClick(item,index,e)}
+    });
+    console.log(iPdSpu)
     const { loading } =this.state;
     return(
       <div className="btip-add-goods-components">
@@ -209,7 +235,9 @@ class AddGoodsForm extends Component {
             </Col>
             <Col span={24}>
               <FormItem label='商品信息' {...formItemLayout2}>
-                 <Qtable
+                 <Table
+                   pagination={false}
+                   bordered={true}
                    columns={iPdSpu.isSkus?DetailSizeColumns:DetailColumns}
                    dataSource={iPdSpu.pdSkus}/>
                </FormItem>

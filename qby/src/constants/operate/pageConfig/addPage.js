@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Form,Button,Input,Row,Col,message,Radio } from 'antd';
+import { Form,Button,Input,Row,Col,message,Radio,Modal } from 'antd';
 import {addPageApi,updataPageApi,getConfigDetailApi} from '../../../services/operate/pageConfig/index'
 import {GetServerData} from '../../../services/services';
 import {deepcCloneObj} from '../../../utils/commonFc';
@@ -26,7 +26,8 @@ class AddConfig extends  Component {
       pdConfigureId:'',
       isShare:1,
       circleUrl:'',
-      friendUrl:''
+      friendUrl:'',
+      visible:false,
     };
    }
   componentDidMount(){
@@ -233,6 +234,18 @@ class AddConfig extends  Component {
       isShare:value
     })
   }
+  //示例
+  displayExample=()=>{
+    this.setState({
+      visible:true
+    })
+  }
+  //关闭示例
+  onCancel=()=>{
+    this.setState({
+      visible:false
+    })
+  }
   render() {
     const {
       configureCode,
@@ -243,7 +256,8 @@ class AddConfig extends  Component {
       isShare,
       circleUrl,
       friendUrl,
-      shareTitle
+      shareTitle,
+      visible
     } = this.state
     const { getFieldDecorator } = this.props.form;
     const formItemLayout = {
@@ -313,32 +327,22 @@ class AddConfig extends  Component {
         						initialValue:shareTitle
         					})(
         						<Input style={{width:'75%'}} placeholder='请输入分享标题，30字以内' maxLength='30' autoComplete="off"/>
-        					)}<a className='theme-color'>　示例</a>
+        					)}<a className='theme-color' onClick={this.displayExample}>　示例</a>
         				</FormItem>
                 <FormItem {...formItemLayout} label="分享微信好友图片">
-        					{getFieldDecorator('shareFriendImg', {
-                    rules: [{ required: true, message: '请上传分享微信好友图片'}],
-        						initialValue:remark
-        					})(
         						<FriendImg
                       name='imgFile'
                       action='/erpWebRest/qcamp/upload.htm?type=brand'
                       friendUrl = {friendUrl}
                       changeFriendImg = {this.changeFriendImg}/>
-        					)}
         				</FormItem>
                 <FormItem {...formItemLayout} label="朋友圈分享图片">
-        					{getFieldDecorator('shareFriendCircleImg', {
-                    rules: [{ required: true, message: '请上传分享微信好友图片'}],
-        						initialValue:remark
-        					})(
         						<FriendCircleImg
                       name='imgFile'
                       action='/erpWebRest/qcamp/upload.htm?type=brand'
                       circleUrl = {circleUrl}
                       changeCircleImg = {this.changeCircleImg}
                     />
-        					)}
         				</FormItem>
               </div>
             }
@@ -361,6 +365,15 @@ class AddConfig extends  Component {
               </Row>
             </FormItem>
         </Form>
+        <Modal
+          width={600}
+          visible={visible}
+          footer={null}
+          onCancel={this.onCancel}
+          className='example'
+        >
+          <img src={require('../../../assets/example.png')}/>
+        </Modal>
       </div>
     )
   }
