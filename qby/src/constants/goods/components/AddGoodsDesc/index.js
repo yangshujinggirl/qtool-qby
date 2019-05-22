@@ -1,11 +1,62 @@
-
+import React,{Component} from 'react'
 import { Table, Input, Icon, Button ,Upload, message} from 'antd';
 import { connect } from 'dva';
-
+import { DragDropContext, DragSource, DropTarget } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
+import update from 'immutability-helper';
 import UpLoadFile from './UpLoadFile.js';
 import './index.less';
 
+let dragingIndex = -1;
 
+class BodyRow extends Component {
+  render() {
+    const { isOver, connectDragSource, connectDropTarget, moveRow, ...restProps } = this.props;
+    const style = { ...restProps.style, cursor: 'move' };
+
+    let className = restProps.className;
+    if (isOver) {
+      if (restProps.index > dragingIndex) {
+        className += ' drop-over-downward';
+      }
+      if (restProps.index < dragingIndex) {
+        className += ' drop-over-upward';
+      }
+    }
+
+    return connectDragSource(
+      connectDropTarget(<tr {...restProps} className={className} style={style} />),
+    );
+  }
+}
+
+const rowSource = {
+  beginDrag(props) {
+    dragingIndex = props.index;
+    return {
+      index: props.index,
+    };
+  },
+};
+const rowTarget = {
+  drop(props, monitor) {
+    const dragIndex = monitor.getItem().index;
+    const hoverIndex = props.index;
+    if (dragIndex === hoverIndex) {
+      return;
+    };
+    props.moveRow(dragIndex, hoverIndex);
+    monitor.getItem().index = hoverIndex;
+  },
+};
+const DragableBodyRow = DropTarget('row', rowTarget, (connect, monitor) => ({
+  connectDropTarget: connect.dropTarget(),
+  isOver: monitor.isOver(),
+}))(
+  DragSource('row', rowSource, connect => ({
+    connectDragSource: connect.dragSource(),
+  }))(BodyRow),
+);
 class AddEditableTable extends React.Component {
 	constructor(props) {
 		super(props);
@@ -14,7 +65,27 @@ class AddEditableTable extends React.Component {
 			key:this.props.dataSource.length
 		};
 	}
-
+	components = {
+    body: {
+      row: DragableBodyRow,
+    },
+  }
+  //拖拽完成
+	moveRow = (dragIndex, hoverIndex) => {
+    const { dataSource } = this.state;
+    const {pdSpuInfo} = this.props.form.getFieldsValue();
+    pdSpuInfo[dragIndex].content = dataSource[hoverIndex].content;
+    pdSpuInfo[hoverIndex].content = dataSource[dragIndex].content;
+    this.props.form.setFieldsValue({pdSpuInfo})
+    const dragRow = dataSource[dragIndex];
+    this.setState(
+      update(this.state, {
+        dataSource: {
+          $splice: [[dragIndex, 1], [hoverIndex, 0, dragRow]],
+        },
+      }),
+    );
+  }
 	handleAdd (val){
 		let { dataSource } = this.state;
 		let type = val=='text'?'1':'2';
@@ -37,15 +108,20 @@ class AddEditableTable extends React.Component {
 			dataSource
 		})
 	}
+	getText=(e,index)=>{
+		const {dataSource} = this.state;
+		const {value} = e.target;
+		dataSource[index].content = value;
+	}
 	renderForm =(text, record, index)=> {
-		const { dataSource } =this.state;
+		const { dataSource } = this.state;
 		if(record.type == '1') {
 			return <div>
 							{
 								this.props.form.getFieldDecorator(`pdSpuInfo[${index}].content`,{
 									initialValue:dataSource[index].content,
 								})(
-									 <Input placeholder="请输入文本" autoComplete="off"/>
+									 <Input placeholder="请输入文本" onBlur={(e)=>this.getText(e,index)}  autoComplete="off"/>
 								)
 							}
 						</div>
@@ -65,7 +141,6 @@ class AddEditableTable extends React.Component {
 	}
 	render() {
 		let { dataSource } = this.state;
-
 		return (
 			<div className='add-text-img'>
 				<Button onClick={()=>this.handleAdd('text')}>添加文本</Button>
@@ -73,8 +148,13 @@ class AddEditableTable extends React.Component {
 				<Table
 					bordered={false}
 					dataSource={dataSource}
+					components={this.components}
 					showHeader={false}
 					pagination={false}
+					onRow={(record, index) => ({
+	          index,
+	          moveRow: this.moveRow,
+	        })}
 					className='adddesc-tables'>
 					<Table.Column title='operation' key={1} render={this.renderForm}/>
 					<Table.Column title='handle' width={100} key={2} render={this.renderDelete}/>
@@ -83,5 +163,5 @@ class AddEditableTable extends React.Component {
 		);
 	}
 }
-
-export default AddEditableTable;
+const AddEditableTables = DragDropContext(HTML5Backend)(AddEditableTable);
+export default AddEditableTables;

@@ -38,7 +38,6 @@ const DetailSizeColumns = [{
      title: '商品提示',
      dataIndex:"goodsExplain",
      render:(text,record,index)=>{
-       console.log(text)
        return (
          <div><Input value={text} maxLength='30' onChange={(e)=>record.onOperateClick(e)}/></div>
        )
