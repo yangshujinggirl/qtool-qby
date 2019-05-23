@@ -106,10 +106,10 @@ class AddEditableTable extends React.Component {
   //渲染列表
 	renderForm =(text, record, index)=> {
 		const { dataSource } = this.props;
-    console.log(dataSource)
 		if(record.type == '1') {
+      console.log(record)
 			return <div>
-							 <Input placeholder="请输入文本" defaultValue={record.content} onBlur={(e)=>this.getText(e,index)} autoComplete="off"/>
+							 <Input placeholder="请输入文本" value={record.content} onChange={(e)=>this.getText(e,index)} autoComplete="off"/>
 						</div>
 		} else {
 			return <UpLoadFile
@@ -125,6 +125,7 @@ class AddEditableTable extends React.Component {
 	}
 	render() {
 		let { dataSource } = this.props;
+    console.log(dataSource)
 		return (
 			<div className='add-text-img'>
 				<Button onClick={()=>this.handleAdd('text')}>添加文本</Button>
