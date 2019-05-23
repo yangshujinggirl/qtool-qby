@@ -174,12 +174,12 @@ class AddGoodsForm extends Component {
   }
   render() {
     const {dataSource} = this.state;
-    dataSource.length>0 && dataSource.map((item,index)=>(
+    dataSource.length>0 && dataSource.map((item,index)=>( //商品描述设置唯一key
       item.key=index
     ));
     const { getFieldDecorator } = this.props.form;
     const { iPdSpu, fileList } = this.props.productEditGoods;
-    iPdSpu.pdSkus&&iPdSpu.pdSkus.map((item,index)=>{
+    iPdSpu.pdSkus&&iPdSpu.pdSkus.map((item,index)=>{ //商品提示更改
       item.onOperateClick =(e)=> { this.handleOperateClick(item,index,e)}
     });
     const { loading } =this.state;

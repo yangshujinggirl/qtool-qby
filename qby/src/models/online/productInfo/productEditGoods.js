@@ -85,7 +85,7 @@ export default {
             iPdSpu,fileList
           }
         });
-        callback(pdSpuInfo)
+        callback(pdSpuInfo) //商品描述
       }
     },
   }

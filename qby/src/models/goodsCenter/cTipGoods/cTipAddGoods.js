@@ -31,7 +31,7 @@ export default {
     },
   },
   effects: {
-    *fetchGoodsInfo({ payload: values },{ call, put ,select}) {
+    *fetchGoodsInfo({ payload: values,callback },{ call, put ,select}) {
       const oldPdSkus = yield select(state => state.addGoods.pdSkus)
       yield put({type:'resetData'})
       yield put({type: 'tab/loding',payload:true});
@@ -89,27 +89,14 @@ export default {
         }
         //处理商品描述
         let pdSpuInfo = iPdSpu.pdSpuInfo?JSON.parse(iPdSpu.pdSpuInfo):[];
-        if(pdSpuInfo.length>0) {
-          pdSpuInfo = pdSpuInfo.map((el,index) => {
-            if(el.type == '2') {
-              el.content = {
-                uid:index,
-                name:el.content,
-                url: `${fileDomain}${el.content}`,
-                status:'done',
-              }
-            }
-            el.key = index
-            return el;
-          })
-        }
         let pdSpu = {...iPdSpu, pdSkus, pdSpuInfo};
         yield put({
           type:'getGoodsInfo',
           payload:{
             pdSpu,fileList
           }
-        })
+        });
+        callback(pdSpuInfo) //商品描述列表
       }
     },
   }
