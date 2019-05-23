@@ -54,6 +54,7 @@ class AddGoodsForm extends Component {
     this.state = {
       loading:false,
       plainOptions:[],
+      dataSource:[]
     };
     this.platformOptions = [
       {label:'C端app',value:1},
@@ -67,7 +68,10 @@ class AddGoodsForm extends Component {
     const { pdSpuId, source } =this.props.data;
     this.props.dispatch({
       type:'productEditGoods/fetchGoodsInfo',
-      payload:{spuId:pdSpuId}
+      payload:{spuId:pdSpuId},
+      callback:(dataSource)=>{
+        this.setState({dataSource})
+      }
     });
     productListApi()
     .then(res => {
@@ -113,22 +117,7 @@ class AddGoodsForm extends Component {
     values.oname = values.oname.trim();
     values.platform = values.platform.join(",");
     //处理商品描述参数
-    let pdSpuInfo = values.pdSpuInfo;
-    if(pdSpuInfo) {
-      pdSpuInfo.map((el) => {
-        if(el.content instanceof Array) {
-          if(el.content[0].response) {
-            el.content = el.content[0].response.data[0]
-          } else {
-            el.content = el.content[0].name
-          }
-          el.type = '2'
-        } else {
-          el.type = '1'
-        }
-        return el;
-      })
-    }
+    values.pdSpuInfo = this.state.dataSource;
     const {isSkus,pdSkus} = this.props.productEditGoods.iPdSpu;
       const skuList = [];
       pdSkus && pdSkus.map(item=>{
@@ -136,11 +125,11 @@ class AddGoodsForm extends Component {
           const obj = {};
           obj.pdSkuId = item.pdSkuId;
           obj.goodsExplain = item.goodsExplain;
-          skuList.push(obj)
-          values.pdSkus = skuList
+          skuList.push(obj);
+          values.pdSkus = skuList;
         }else{
-          values.goodsExplain = item.goodsExplain
-        }
+          values.goodsExplain = item.goodsExplain;
+        };
       });
     return values;
   }
@@ -151,7 +140,7 @@ class AddGoodsForm extends Component {
     })
     goodSaveApi(values)
     .then(res=> {
-      const { code } =res;
+      const { code } = res;
       if(code == '0') {
         this.setState({
           loading:false
@@ -179,14 +168,20 @@ class AddGoodsForm extends Component {
       payload:{pdSkus}
     });
   }
-
+  //修改dataSource
+  changeSource =(dataSource)=> {
+    this.setState({dataSource})
+  }
   render() {
+    const {dataSource} = this.state;
+    dataSource.length>0 && dataSource.map((item,index)=>(
+      item.key=index
+    ));
     const { getFieldDecorator } = this.props.form;
     const { iPdSpu, fileList } = this.props.productEditGoods;
     iPdSpu.pdSkus&&iPdSpu.pdSkus.map((item,index)=>{
       item.onOperateClick =(e)=> { this.handleOperateClick(item,index,e)}
     });
-    console.log(iPdSpu)
     const { loading } =this.state;
     return(
       <div className="btip-add-goods-components">
@@ -290,7 +285,8 @@ class AddGoodsForm extends Component {
                 {
                   iPdSpu.pdSpuInfo&&
                   <AddGoodsDesc
-                    dataSource={iPdSpu.pdSpuInfo}
+                    changeSource={this.changeSource}
+                    dataSource={dataSource}
                     form={this.props.form}/>
                 }
                </FormItem>

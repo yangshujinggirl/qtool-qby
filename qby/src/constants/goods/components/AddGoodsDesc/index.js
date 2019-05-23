@@ -60,10 +60,6 @@ const DragableBodyRow = DropTarget('row', rowTarget, (connect, monitor) => ({
 class AddEditableTable extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {
-			dataSource: this.props.dataSource,
-			key:this.props.dataSource.length
-		};
 	}
 	components = {
     body: {
@@ -72,75 +68,63 @@ class AddEditableTable extends React.Component {
   }
   //拖拽完成
 	moveRow = (dragIndex, hoverIndex) => {
-    const { dataSource } = this.state;
-    const {pdSpuInfo} = this.props.form.getFieldsValue();
-    pdSpuInfo[dragIndex].content = dataSource[hoverIndex].content;
-    pdSpuInfo[hoverIndex].content = dataSource[dragIndex].content;
-    this.props.form.setFieldsValue({pdSpuInfo})
+    const { dataSource } = this.props;
     const dragRow = dataSource[dragIndex];
-    this.setState(
-      update(this.state, {
-        dataSource: {
+    const list = update(this.props.dataSource, {
           $splice: [[dragIndex, 1], [hoverIndex, 0, dragRow]],
-        },
-      }),
-    );
+    });
+    this.props.changeSource(list);
   }
+  //添加
 	handleAdd (val){
-		let { dataSource } = this.state;
+		let { dataSource } = this.props;
 		let type = val=='text'?'1':'2';
-		let {key}=this.state;
-		key++;
 		dataSource.push({
+      content:'',
 			type,
-			content:'',
-			key
-		})
-		this.setState({
-			dataSource,
-			key
-		})
+		});
+    this.props.changeSource(dataSource);
 	}
+  //删除
 	handDelete(index) {
-		let { dataSource } = this.state;
-		dataSource.splice(index,1);
-		this.setState({
-			dataSource
-		})
+		let { dataSource } = this.props;
+    dataSource.splice(index,1);
+		this.props.changeSource(dataSource);
 	}
 	getText=(e,index)=>{
-		const {dataSource} = this.state;
+		const {dataSource} = this.props;
 		const {value} = e.target;
 		dataSource[index].content = value;
+    this.props.changeSource(dataSource);
 	}
+  //修改图片--->更改dataSource
+  changeImg=(pic,index)=>{
+    const {dataSource} = this.props;
+    dataSource[index].content = pic;
+    this.props.changeSource(dataSource);
+  }
+  //渲染列表
 	renderForm =(text, record, index)=> {
-		const { dataSource } = this.state;
+		const { dataSource } = this.props;
+    console.log(dataSource)
 		if(record.type == '1') {
 			return <div>
-							{
-								this.props.form.getFieldDecorator(`pdSpuInfo[${index}].content`,{
-									initialValue:dataSource[index].content,
-								})(
-									 <Input placeholder="请输入文本" onBlur={(e)=>this.getText(e,index)}  autoComplete="off"/>
-								)
-							}
+							 <Input placeholder="请输入文本" defaultValue={record.content} onBlur={(e)=>this.getText(e,index)} autoComplete="off"/>
 						</div>
 		} else {
-			let fileList = [];
-			if(record.content!=='') {
-				fileList.push(record.content);
-			}
 			return <UpLoadFile
-							fileList={fileList}
-							form={this.props.form}
-							index={index}/>
+              changeImg={(pic)=>this.changeImg(pic,index)}
+  						imgUrl={record.content}
+              index={index}
+  						form={this.props.form}/>
+
 		}
 	}
 	renderDelete =(text, record, index)=> {
 		return <p onClick={()=>this.handDelete(index)} className='theme-color delete'>删除</p>
 	}
 	render() {
-		let { dataSource } = this.state;
+		let { dataSource } = this.props;
 		return (
 			<div className='add-text-img'>
 				<Button onClick={()=>this.handleAdd('text')}>添加文本</Button>
