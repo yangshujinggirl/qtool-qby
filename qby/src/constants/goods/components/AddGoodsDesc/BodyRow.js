@@ -22,7 +22,9 @@ class BodyRow extends Component {
   }
 }
 
+//拖动事件
 const rowSource = {
+  //开始拖拽时返回跟props相关的对象即更改props
   beginDrag(props) {
     dragingIndex = props.index;
     return {
@@ -30,6 +32,7 @@ const rowSource = {
     };
   },
 };
+//放置事件
 const rowTarget = {
   drop(props, monitor) {
     const dragIndex = monitor.getItem().index;
