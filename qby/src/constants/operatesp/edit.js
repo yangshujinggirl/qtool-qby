@@ -50,8 +50,8 @@ class SpEditForm extends React.Component{
 			nonfoodShareRatio:null,
 			initfoodShareRatio:null,
 			initnonfoodShareRatio:null,
-			openWechat:0,
-			openAlipay:0,
+			payRadio:0,
+			misRadio:0,
 			onlinetName:null,
 			serverTel:null,
 			bank:null,
@@ -109,8 +109,6 @@ class SpEditForm extends React.Component{
 		e.preventDefault();
 		this.props.form.validateFields((err, value) => {
 	    if (!err) {
-				value.openWechat = String(value.openWechat);
-				value.openAlipay = String(value.openAlipay);
         value.spShopPics=this.props.spShopPics
         value.provinceId=value.shop_city[0]
         value.cityId=value.shop_city[1]
@@ -254,8 +252,8 @@ class SpEditForm extends React.Component{
 							nonfoodShareRatio:json.spShop.nonfoodShareRatio,
 							initfoodShareRatio:json.spShop.foodShareRatio,
 							initnonfoodShareRatio:json.spShop.nonfoodShareRatio,
-							openWechat:(!json.spShop.openWechat||json.spShop.openWechat=="0")?0:json.spShop.openWechat,
-							openAlipay:(!json.spShop.openAlipay||json.spShop.openAlipay=="0")?0:json.spShop.openAlipay,
+							payRadio:(!json.spShop.payRadio||json.spShop.payRadio=="0")?0:json.spShop.payRadio,
+							misRadio:(!json.spShop.misRadio||json.spShop.misRadio=="0")?0:json.spShop.misRadio,
 							serverTel:json.spShop.serverTel,
 							bank:json.spShop.bank,
 							bankNo:json.spShop.bankNo,
@@ -745,7 +743,7 @@ class SpEditForm extends React.Component{
 						wrapperCol={{ span:6 }}>
 						{getFieldDecorator('payRadio', {
 							rules: [{ required: true, message: '请选择是否使用支付扫码'}],
-							initialValue:Number(this.state.openWechat)
+							initialValue:Number(this.state.payRadio)
 						})(
 							<RadioGroup>
 								<Radio value={1}>开启</Radio>
@@ -759,7 +757,7 @@ class SpEditForm extends React.Component{
 						wrapperCol={{ span:6 }}>
 						{getFieldDecorator('misRadio', {
 							rules: [{ required: true, message: '请选择是否使用银联MIS'}],
-							initialValue:Number(this.state.openAlipay)
+							initialValue:Number(this.state.misRadio)
 						})(
 							<RadioGroup>
 								<Radio value={1}>开启</Radio>

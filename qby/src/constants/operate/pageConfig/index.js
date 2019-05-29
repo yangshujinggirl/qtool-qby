@@ -63,7 +63,11 @@ class PageConfig extends Component {
         configureCode:record.configureCode,
         pdConfigureId:record.pdConfigureId,
         pageName:record.pageName,
-        remark:record.remark
+        remark:record.remark,
+        shareFriendCircleImg:record.shareFriendCircleImg,
+        shareFriendImg:record.shareFriendImg,
+        shareTitle:record.shareTitle,
+        isShare:record.isShare
       }
     };
     this.props.dispatch({
