@@ -94,40 +94,41 @@
 				title: '备注',
 				dataIndex: 'remark',
 			}];
-			
 		}
-
-		
+		componentDidMount(){
+			console.log(111)
+			this.infofetch(this.props.data.spOrderId,this.props.data.type)
+		}
 		infofetch=(spOrderId,type)=>{
 			if(type=='1'){
 				//销售
 				this.props.dispatch({
 				type:'orderpos/infofetch1',
 				payload:{code:'qerp.web.qpos.od.order.info',values:{odOrderId:spOrderId}}
-				}) 
-			}
+				})
+			};
 			if(type=='2'){
 				//充值
 				this.props.dispatch({
 				type:'orderpos/infofetch2',
 				payload:{code:'qerp.web.qpos.mb.card.charge.info',values:{mbCardMoneyChargeId:spOrderId}}
-				}) 
-			}
+				})
+			};
 			if(type=='3'){
 				//退货
 				this.props.dispatch({
 				type:'orderpos/infofetch3',
 				payload:{code:'qerp.web.qpos.od.return.info',values:{odReturnId:spOrderId}}
-				}) 
-			}
+				})
+			};
 		}
-		
 		render(){
 			return(
 				<div>
 					<div className='mb10'><Cardlist cardtitle="订单信息" cardlist={this.props.cardlist}/></div>
 					<div className='mb10'>
-			<EditableTable columns={
+						<EditableTable
+								columns = {
 									this.props.data.type == 1
 									?
 									this.column1
@@ -139,15 +140,15 @@
 										:
 										this.column3
 									)
-									} 
-													dataSource={this.props.infoList} 
-							title="订单内容"
-							bordered={true}
-							footer={false}/>
+								}
+								dataSource={this.props.infoList}
+								title="订单内容"
+								bordered={true}
+								footer={false}/>
 					</div>
 			{/* <div className='mb10'>
-			<EditableTable columns={this.columnLogs} 
-							dataSource={this.props.LogsList} 
+			<EditableTable columns={this.columnLogs}
+							dataSource={this.props.LogsList}
 							title="订单日志"
 							bordered={true}
 							footer={false}/>
@@ -155,9 +156,7 @@
 				</div>
 			)
 		}
-		componentDidMount(){
-			this.infofetch(this.props.data.spOrderId,this.props.data.type)
-		}
+
 	}
 
 	function mapStateToProps(state) {
@@ -165,4 +164,3 @@
 		return {cardlist,infoList,LogsList};
 	}
 	export default connect(mapStateToProps)(OrderposInfo);
-

@@ -21,8 +21,8 @@ class Uploadimg extends Component {
       return;
     }
     if (info.file.status === 'done') {
-      const friendUrl = info.file.response.data[0];
-      this.props.changeFriendImg(friendUrl)
+      const shareFriendImg = info.file.response.data[0];
+      this.props.changeFriendImg(shareFriendImg)
        this.setState({
         loading: false,
       });
@@ -37,7 +37,7 @@ class Uploadimg extends Component {
         <p style={{'margin-top':'10px'}}>添加图片</p>
       </div>
     );
-    const {friendUrl,name,action} = this.props;
+    const {shareFriendImg,name,action} = this.props;
     return (
       <Upload
         name={name}
@@ -47,7 +47,7 @@ class Uploadimg extends Component {
         beforeUpload={this.beforeUpload}
         onChange={this.handleChange}
       >
-        {friendUrl ? <img style={{'width':'102px','height':'102px'}} src={fileDomain+friendUrl} alt="avatar" /> : uploadButton}
+        {shareFriendImg ? <img style={{'width':'102px','height':'102px'}} src={fileDomain+shareFriendImg} alt="avatar" /> : uploadButton}
       </Upload>
     );
   }

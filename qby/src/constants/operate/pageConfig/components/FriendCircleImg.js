@@ -21,8 +21,8 @@ class Uploadimg extends Component {
       return;
     }
     if (info.file.status === 'done') {
-      const circleUrl = info.file.response.data[0];
-      this.props.changeCircleImg(circleUrl)
+      const shareFriendCircleImg = info.file.response.data[0];
+      this.props.changeCircleImg(shareFriendCircleImg)
        this.setState({
         loading: false,
       });
@@ -37,7 +37,7 @@ class Uploadimg extends Component {
         <p style={{'margin-top':'10px'}}>添加图片</p>
       </div>
     );
-    const {circleUrl,name,action} = this.props;
+    const {shareFriendCircleImg,name,action} = this.props;
     return (
       <Upload
         name={name}
@@ -47,7 +47,7 @@ class Uploadimg extends Component {
         beforeUpload={this.beforeUpload}
         onChange={this.handleChange}
       >
-        {circleUrl ? <img style={{'width':'102px','height':'102px'}} src={fileDomain+circleUrl} alt="avatar" /> : uploadButton}
+        {shareFriendCircleImg ? <img style={{'width':'102px','height':'102px'}} src={fileDomain+shareFriendCircleImg} alt="avatar" /> : uploadButton}
       </Upload>
     );
   }

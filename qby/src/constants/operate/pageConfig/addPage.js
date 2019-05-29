@@ -25,8 +25,8 @@ class AddConfig extends  Component {
       previewLink:'',
       pdConfigureId:'',
       isShare:1,
-      circleUrl:'',
-      friendUrl:'',
+      shareFriendCircleImg:'',
+      shareFriendImg:'',
       visible:false,
     };
    }
@@ -98,11 +98,11 @@ class AddConfig extends  Component {
   handleSubmit =()=> {
     this.props.form.validateFieldsAndScroll((err,values)=>{
       if(!err){
-        const {friendUrl,circleUrl} = this.state;
-        if(String(values.isShare)==0 && !friendUrl) {return message.error('请上传分享微信好友图片',.8)};
-        if(String(values.isShare)==0 && !circleUrl) {return message.error('请上传朋友圈分享图片',.8)};
-        values.friendUrl = friendUrl;
-        values.circleUrl = circleUrl;
+        const {shareFriendImg,shareFriendCircleImg} = this.state;
+        if(String(values.isShare)==0 && !shareFriendImg) {return message.error('请上传分享微信好友图片',.8)};
+        if(String(values.isShare)==0 && !shareFriendCircleImg) {return message.error('请上传朋友圈分享图片',.8)};
+        values.shareFriendImg = shareFriendImg;
+        values.shareFriendCircleImg = shareFriendCircleImg;
         const {configArrPre} = this.props;
         if(!configArrPre.length) return  message.error('页面配置不可为空',.8);
         if(configArrPre.length){
@@ -207,14 +207,14 @@ class AddConfig extends  Component {
     }
     return isJPG && isLt2M;
   }
-  changeCircleImg =(circleUrl)=> {
+  changeCircleImg =(shareFriendCircleImg)=> {
     this.setState({
-      circleUrl
+      shareFriendCircleImg
     });
   }
-  changeFriendImg =(friendUrl)=> {
+  changeFriendImg =(shareFriendImg)=> {
     this.setState({
-      friendUrl
+      shareFriendImg
     });
   }
   previwPage =()=> {
@@ -254,8 +254,8 @@ class AddConfig extends  Component {
       remark,
       isLoading,
       isShare,
-      circleUrl,
-      friendUrl,
+      shareFriendCircleImg,
+      shareFriendImg,
       shareTitle,
       visible
     } = this.state
@@ -333,14 +333,14 @@ class AddConfig extends  Component {
         						<FriendImg
                       name='imgFile'
                       action='/erpWebRest/qcamp/upload.htm?type=brand'
-                      friendUrl = {friendUrl}
+                      shareFriendImg = {shareFriendImg}
                       changeFriendImg = {this.changeFriendImg}/>
         				</FormItem>
                 <FormItem {...formItemLayout} label="朋友圈分享图片">
         						<FriendCircleImg
                       name='imgFile'
                       action='/erpWebRest/qcamp/upload.htm?type=brand'
-                      circleUrl = {circleUrl}
+                      shareFriendCircleImg = {shareFriendCircleImg}
                       changeCircleImg = {this.changeCircleImg}
                     />
         				</FormItem>

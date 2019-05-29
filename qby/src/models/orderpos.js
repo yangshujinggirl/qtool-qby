@@ -75,7 +75,7 @@ export default {
                                  {lable:'会员姓名', text:spOrder.mbCardName},
                                  {lable:'会员电话', text:spOrder.mbCardMobile},
                                  {lable:'本次积分', text:spOrder.orderPoint},
-                                 {lable:'银联扫码', text:spOrder.mispayAmount},
+                                 {lable:'银联MIS', text:spOrder.mispayAmount},
                                  {lable:'扫码支付', text:spOrder.alipayAmount},
                                ]
                         }else{
@@ -87,7 +87,7 @@ export default {
                                  {lable:'折扣优惠', text:spOrder.discountAmount},
                                  {lable:'抹零优惠', text:spOrder.cutAmount},
                                  {lable:'结算收银', text:spOrder.payAmount+'（'+spOrder.pays[0].typeStr+':'+spOrder.pays[0].amount+'）'},
-                                 {lable:'银联扫码', text:spOrder.mispayAmount},
+                                 {lable:'银联MIS', text:spOrder.mispayAmount},
                                  {lable:'扫码支付', text:spOrder.alipayAmount},
                                ]
                         }
@@ -104,7 +104,7 @@ export default {
                                      {lable:'会员姓名', text:spOrder.mbCardName},
                                      {lable:'会员电话', text:spOrder.mbCardMobile},
                                      {lable:'本次积分', text:spOrder.orderPoint},
-                                     {lable:'银联扫码', text:spOrder.mispayAmount},
+                                     {lable:'银联MIS', text:spOrder.mispayAmount},
                                      {lable:'扫码支付', text:spOrder.alipayAmount},
                                    ]
                           }else{
@@ -116,7 +116,7 @@ export default {
                                     {lable:'折扣优惠', text:spOrder.discountAmount},
                                     {lable:'抹零优惠', text:spOrder.cutAmount},
                                     {lable:'结算收银', text:spOrder.payAmount+'（'+spOrder.pays[0].typeStr+':'+spOrder.pays[0].amount +'  '+spOrder.pays[1].typeStr+':'+spOrder.pays[1].amount+'）'},
-                                    {lable:'银联扫码', text:spOrder.mispayAmount},
+                                    {lable:'银联MIS', text:spOrder.mispayAmount},
                                     {lable:'扫码支付', text:spOrder.alipayAmount},
                                 ]
                           }

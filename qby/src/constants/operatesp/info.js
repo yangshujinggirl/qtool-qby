@@ -50,8 +50,8 @@ class SpInfo extends React.Component{
          shopTypeStr:"",
          foodShareRatio:"",
          nonfoodShareRatio:"",
-         openWechat:null,
-         openAlipay:null,
+         payRadio:null,
+         misRadio:null,
          openApp:null,
        }
 		}
@@ -312,7 +312,7 @@ class SpInfo extends React.Component{
     					labelCol={{ span: 3,offset: 1 }}
     					wrapperCol={{ span:6 }}>
       					{
-                  spShop.openWechat == 1 ? "开启" : "关闭"
+                  spShop.payRadio == 1 ? "开启" : "关闭"
                 }
     				</FormItem>
     				<FormItem
@@ -320,7 +320,7 @@ class SpInfo extends React.Component{
     					labelCol={{ span: 3,offset: 1 }}
     					wrapperCol={{ span:6 }}>
               {
-                spShop.openAlipay == 1 ? "开启" : "关闭"
+                spShop.misRadio == 1 ? "开启" : "关闭"
               }
     				</FormItem>
     				<FormItem

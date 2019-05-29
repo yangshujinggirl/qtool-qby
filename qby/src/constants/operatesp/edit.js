@@ -743,7 +743,7 @@ class SpEditForm extends React.Component{
 						label="支付扫码"
 						labelCol={{ span: 3,offset: 1 }}
 						wrapperCol={{ span:6 }}>
-						{getFieldDecorator('openWechat', {
+						{getFieldDecorator('payRadio', {
 							rules: [{ required: true, message: '请选择是否使用支付扫码'}],
 							initialValue:Number(this.state.openWechat)
 						})(
@@ -757,7 +757,7 @@ class SpEditForm extends React.Component{
 						label="银联MIS"
 						labelCol={{ span: 3,offset: 1 }}
 						wrapperCol={{ span:6 }}>
-						{getFieldDecorator('openAlipay', {
+						{getFieldDecorator('misRadio', {
 							rules: [{ required: true, message: '请选择是否使用银联MIS'}],
 							initialValue:Number(this.state.openAlipay)
 						})(
