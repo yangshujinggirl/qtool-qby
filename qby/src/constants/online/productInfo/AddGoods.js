@@ -124,7 +124,7 @@ class AddGoodsForm extends Component {
         if(isSkus){ //sku商品
           const obj = {};
           // obj.pdSkuId = item.pdSkuId;
-          obj.code = item.pdSkuId;
+          obj.code = item.code;
           obj.goodsExplain = item.goodsExplain;
           skuList.push(obj);
           values.pdSkus = skuList;
