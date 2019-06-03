@@ -38,7 +38,7 @@ class TipPage extends Component{
         const newValues = this.formate(values);
         saveInfoApi(newValues).then(res=>{
           if(res.code == '0'){
-            message.success('保存成功')
+            message.success('保存成功',.8)
           };
         })
       };
