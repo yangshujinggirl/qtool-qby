@@ -27,17 +27,17 @@ class cTimer extends Component{
   menu =()=> (
     <Menu>
       <Menu.Item>
-        <a style={{color:'#35bab0'}} onClick={()=>this.addTimer(1)}>
+        <a style={{color:'#35bab0'}} onClick={()=>this.addTimer(3)}>
         定时调整：商品状态
         </a>
       </Menu.Item>
       <Menu.Item>
-        <a style={{color:'#35bab0'}} onClick={()=>this.addTimer(7)}>
+        <a style={{color:'#35bab0'}} onClick={()=>this.addTimer(1)}>
           定时调整：商品提示
         </a>
       </Menu.Item>
       <Menu.Item>
-        <a style={{color:'#35bab0'}} onClick={()=>this.addTimer(8)}>
+        <a style={{color:'#35bab0'}} onClick={()=>this.addTimer(2)}>
           定时调整：保税分润
         </a>
       </Menu.Item>
@@ -94,7 +94,7 @@ class cTimer extends Component{
       componkey:`${this.props.componkey}edit`,
       data:{
         pdTaskTimeId:record.pdTaskTimeId,
-        type:record.taskType,
+        type:record.proStatus,
       }
     };
     this.props.dispatch({

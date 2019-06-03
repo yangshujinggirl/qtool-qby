@@ -53,9 +53,14 @@ class GoodEditForm extends React.Component{
 				const salestatus=res.taskTime.salestatus
 				const statusnew=res.taskTime.statusnew
 				const statushot=res.taskTime.statushot
-				const explainType=res.taskTime.explainType
 				const taxRate=res.taskTime.taxRate
-				const goodsExplain=res.taskTime.goodsExplain
+				const goodsExplain= res.taskTime.goodsExplain
+				let explainType = null;
+				if(goodsExplain){
+					explainType = 1;
+				}else{
+					explainType = 0;
+				}
 				this.setState({
 					check1:check1,
 					check2:check2,
@@ -68,7 +73,9 @@ class GoodEditForm extends React.Component{
 					statusnew:statusnew,//是否上架
 					statushot:statushot,//是否畅销
 					codes:codes,
-					taskName:taskName
+					taskName:taskName,
+					goodsExplain:goodsExplain,
+					explainType:explainType
 				})
 			}
 		},err=>{
@@ -112,7 +119,7 @@ class GoodEditForm extends React.Component{
 		    if (!err) {
 						const {type} = this.props.data //1、商品状态；2、商品提示；3、保税分润
 						value.taskType = type
-						if(type == 1){
+						if(type == 3){
 							if(this.state.salestatus == null && this.state.statusnew ==null && this.state.statushot==null){
 								return message.error('请选择定时操作',.8);
 							};
@@ -266,13 +273,13 @@ class GoodEditForm extends React.Component{
 			explainType:value
 		});
 		if(value == 0){
-			this.props.form.resetFields(['goodsExplain'])
+			this.props.form.setFieldsValue({'goodsExplain':null})
 		};
 	}
 	render(){
 		const { getFieldDecorator } = this.props.form
 		const { type } = this.props.data
-		const {explainType,taxRate} = this.state
+		const {explainType,taxRate,goodsExplain} = this.state;
    	return(
     	<Form className="addUser-form addcg-form">
         <FormItem
@@ -312,7 +319,7 @@ class GoodEditForm extends React.Component{
 					)}
 				</FormItem>
 				{
-					type == 1 &&
+					type == 3 &&
 					<FormItem
 						label="定时操作"
 						labelCol={{ span: 3,offset: 1 }}
@@ -332,7 +339,7 @@ class GoodEditForm extends React.Component{
 	    		</FormItem>
 				}
 				{
-					type == 2 &&
+					type == 1 &&
 					<div>
 						<FormItem
 							label="商品提示"
@@ -361,7 +368,7 @@ class GoodEditForm extends React.Component{
 					</div>
 				}
 				{
-					type == 3 &&
+					type == 2 &&
 					<FormItem
 						className='bonded'
 						label="保税分成分润"
