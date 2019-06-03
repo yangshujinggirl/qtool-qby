@@ -93,12 +93,13 @@ class GoodsInfo extends Component {
                {this.props.form.getFieldDecorator(`pdSkus[${index}].goodsExplain`,{
                  initialValue:pdSpu.pdSkus[index].goodsExplain
                })(
-                 <Input placeholder="请输入采购价格" />
+                 <Input placeholder="30字以内，C端展示谨慎填写" autoComplete="off" maxLength='30'/>
                )}
              </div>
   }
   render() {
     const { pdSpu } = this.props.addGoods;
+    console.log(pdSpu)
     return(
       <div>
         <Table dataSource={pdSpu.pdSkus} pagination={false} bordered={true}>

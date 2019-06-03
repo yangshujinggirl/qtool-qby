@@ -88,7 +88,7 @@ const DetailColumns = [{ //无图有金银价格
       dataIndex: 'silverCardPrice'
     },{
       title: '商品提示',
-      dataIndex: 'tips'
+      dataIndex: 'goodsExplain'
     }];
 const DetailDeliveryColumns = [{ //无图无金银价格
       title: '商品编码',

@@ -60,7 +60,7 @@ class GoodEditForm extends React.Component{
 					explainType = 1;
 				}else{
 					explainType = 0;
-				}
+				};
 				this.setState({
 					check1:check1,
 					check2:check2,
@@ -75,8 +75,9 @@ class GoodEditForm extends React.Component{
 					codes:codes,
 					taskName:taskName,
 					goodsExplain:goodsExplain,
-					explainType:explainType
-				})
+					explainType:explainType,
+					taxRate:taxRate
+				});
 			}
 		},err=>{
 		})

@@ -38,11 +38,14 @@ const DetailSizeColumns = [{
      title: '商品提示',
      dataIndex:"goodsExplain",
      render:(text,record,index)=>{
+       if(record.type=='detail'){
+        return (<span>{text}</span>)
+       };
        return (
-         <div><Input value={text} maxLength='30' onChange={(e)=>record.onOperateClick(e)}/></div>
+         <div><Input value={text} placeholder="30字以内，C端展示谨慎填写" autoComplete="off" maxLength='30' onChange={(e)=>record.onOperateClick(e)}/></div>
        )
      }
-   }];
+ }];
 //spu
 const DetailColumns = [{
      title: '商品编码',
@@ -63,10 +66,13 @@ const DetailColumns = [{
      title: '商品提示',
      dataIndex:"goodsExplain",
      render:(text,record,index)=>{
-       return (
-         <div><Input value={text} maxLength='30' onChange={(e)=>record.onOperateClick(e)}/></div>
-       )
-     }
+        if(record.type=='detail'){
+         return (<span>{text}</span>)
+        };
+        return (
+          <div><Input value={text} placeholder="30字以内，C端展示谨慎填写" autoComplete="off" maxLength='30' onChange={(e)=>record.onOperateClick(e)}/></div>
+        )
+    }
    }];
 
    export default { DetailSizeColumns, DetailColumns };

@@ -39,11 +39,15 @@ class GoodsDetail extends Component {
     const { pdSpuId, source } =this.props.data;
     this.props.dispatch({
       type:'productEditGoods/fetchGoodsInfo',
-      payload:{spuId:pdSpuId}
+      payload:{spuId:pdSpuId},
+      callback:{}
     })
   }
   render() {
     const { iPdSpu, fileList } = this.props.productEditGoods;
+    const {pdSkus} = iPdSpu;
+    pdSkus&&pdSkus.map(item => item.type ='detail')
+    console.log(pdSkus)
     return(
       <div className="btip-add-goods-components">
         <Form>

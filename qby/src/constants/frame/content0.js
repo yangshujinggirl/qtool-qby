@@ -412,7 +412,7 @@ class Content extends React.Component {
                                     case formDataCode('server32'): return <CserverOrder data={this.props.data} componkey={this.props.componkey}/>//c客服工单
                                     case formDataCode('server32-info'): return <CserverOrderdetail data={this.props.data} componkey={this.props.componkey}/>
                                     /* ------------------------- C端配置中心 ------------------------------*/
-                                    case "110000" : return <TipsPage data={this.props.data}/>
+                                    case "1401000" : return <TipsPage data={this.props.data}/>
                                     default:  return "我是404";
                                 }
                             })()

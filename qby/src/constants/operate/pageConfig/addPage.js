@@ -112,11 +112,22 @@ class AddConfig extends  Component {
   handleSubmit =()=> {
     this.props.form.validateFieldsAndScroll((err,values)=>{
       if(!err){
-        const newValues = this.formatValue(values);
+        const {shareFriendImg,shareFriendCircleImg} = this.state;
+        if(String(values.isShare) == 1 && !shareFriendImg) {return message.error('请上传分享微信好友图片',.8)};
+        if(String(values.isShare) == 1 && !shareFriendCircleImg) {return message.error('请上传朋友圈分享图片',.8)};
+        if(values.isShare){ // ==1
+          values.shareFriendImg = shareFriendImg;
+          values.shareFriendCircleImg = shareFriendCircleImg;
+        }else{
+          values.shareFriendImg = null;
+          values.shareFriendCircleImg = null;
+          values.shareTitle = null;
+        };
+        let newValues = this.formatValue(values);
         if(!newValues) return
-        if(newValues.pdConfigureConfigList.length > 0){
+        if(newValues.pdConfigureConfigList && newValues.pdConfigureConfigList.length > 0){
          this.setState({isLoading:true});
-         this.sendRequest(newValues);
+         this.sendRequest(values);
         }else{
          message.error('页面配置不可为空',.8)
         };
@@ -125,17 +136,6 @@ class AddConfig extends  Component {
   }
   //格式化数据
   formatValue =(values)=> {
-    const {shareFriendImg,shareFriendCircleImg} = this.state;
-    if(String(values.isShare) == 1 && !shareFriendImg) {return message.error('请上传分享微信好友图片',.8)};
-    if(String(values.isShare) == 1 && !shareFriendCircleImg) {return message.error('请上传朋友圈分享图片',.8)};
-    if(values.isShare){ // ==1
-      values.shareFriendImg = shareFriendImg;
-      values.shareFriendCircleImg = shareFriendCircleImg;
-    }else{
-      values.shareFriendImg = null;
-      values.shareFriendCircleImg = null;
-      values.shareTitle = null;
-    };
     const {configArrPre} = this.props;
     if(!configArrPre.length) return  message.error('页面配置不可为空',.8);
     if(configArrPre.some(item=> item.type==1 && !item.text )){

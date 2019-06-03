@@ -97,7 +97,10 @@ export default {
             pdSpu,fileList
           }
         });
-        callback(pdSpuInfo) //商品描述列表
+        console.log(typeof(callback))
+        if(typeof(callback) == 'function'){
+          callback(pdSpuInfo) //商品描述
+        };
       }
     },
   }

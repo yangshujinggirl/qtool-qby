@@ -48,7 +48,8 @@ class GoodsDetail extends Component {
       type:'cTipAddGoods/fetchGoodsInfo',
       payload:{
         spuId:pdSpuId
-      }
+      },
+      callback:null
     })
   }
   render() {

@@ -79,13 +79,16 @@ export default {
         //处理商品描述
         let pdSpuInfo = iPdSpu.pdSpuInfo?JSON.parse(iPdSpu.pdSpuInfo):[];
         iPdSpu = {...iPdSpu, pdSkus, pdSpuInfo};
+        console.log(pdSkus)
         yield put({
           type:'getGoodsInfo',
           payload:{
             iPdSpu,fileList
           }
         });
-        callback(pdSpuInfo) //商品描述
+        if(typeof(callback) == 'function'){
+          callback(pdSpuInfo) //商品描述
+        };
       }
     },
   }
