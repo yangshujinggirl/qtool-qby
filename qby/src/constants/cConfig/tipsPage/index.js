@@ -1,6 +1,6 @@
 import React,{Component} from 'react'
 import {Button,Form,Input,Row,Col} from 'antd'
-import {getInfoApi} from '../../../services/cConfig/index.js'
+import {getInfoApi,saveInfoApi} from '../../../services/cConfig/index.js'
 const FormItem = Form.Item
 const TextArea = Input.TextArea
 import './index.less'
@@ -35,10 +35,14 @@ class TipPage extends Component{
   handleSubmit =()=> {
     this.props.form.validateFields((err,values)=>{
       if(!err){
-        console.log(values)
-        // this.formate(values)
+        const newValues = this.formate(values);
+        saveInfoApi(newValues).then(res=>{
+          if(res.code == '0'){
+            message.success('保存成功')
+          };
+        })
       };
-    })
+    });
   }
   formate =(values)=> {
     const newList = _.cloneDeep(values.list);
@@ -49,7 +53,7 @@ class TipPage extends Component{
     return values
   }
   render(){
-    console.log(Object.assign([{}]))
+    console.log(this.state.dataSource)
     const FormLayout = {
       labelCol:{ span: 6},
       wrapperCol:{ span: 8 }
@@ -67,7 +71,9 @@ class TipPage extends Component{
                 label={item.label}
               >
                 {
-                  getFieldDecorator(`list[${index}].text`)(
+                  getFieldDecorator(`list[${index}].text`,{
+                    initialValue:item.text
+                  })(
                     <TextArea rows={4} placeholder='50字符以内'/>
                   )
                 }

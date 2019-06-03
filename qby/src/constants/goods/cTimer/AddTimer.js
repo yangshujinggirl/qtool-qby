@@ -79,7 +79,7 @@ class GoodEditForm extends React.Component{
 		const pane = eval(sessionStorage.getItem("pane"));
 		if(pane.length<=1){
 			return
-		}
+		};
 		if(this.props.data.pdTaskTimeId){
 			this.props.dispatch({
 				type:'tab/initDeletestate',
@@ -88,7 +88,7 @@ class GoodEditForm extends React.Component{
 		}else{
 			this.props.dispatch({
 				type:'tab/initDeletestate',
-				payload:`${this.props.componkey}`
+				payload:`${this.props.componkey}`+this.props.data.type
 			});
 		}
 		this.refreshList();

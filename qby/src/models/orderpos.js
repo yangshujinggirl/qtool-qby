@@ -7,7 +7,6 @@ export default {
         currentPage:0,
         total:0,
         tableList:[],
-        //
         cardlist:[],
         infoList:[],
         LogsList:[]
@@ -40,9 +39,9 @@ export default {
         },
         //销售
         *infofetch1({ payload: {code,values} }, { call, put ,select}) {
-				const result=yield call(GetServerData,code,values);
-				yield put({type: 'tab/loding',payload:false});
-				if(result.code=='0'){
+    				const result=yield call(GetServerData,code,values);
+    				yield put({type: 'tab/loding',payload:false});
+    				if(result.code=='0'){
                     let infoList=result.orderDetails;
                     if(infoList.length){
                         for(var i=0;i<infoList.length;i++){

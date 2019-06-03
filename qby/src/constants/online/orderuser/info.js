@@ -74,7 +74,9 @@ class OrderuserInfo extends React.Component{
 			recProvince:null,
 			recCity:null,
 			recDistrict:null,
-			recAddress:null
+			recAddress:null,
+			facePicUrl:null,
+			backPicUrl:null,
     }
     this.column1 = [
 			{
@@ -321,7 +323,9 @@ class OrderuserInfo extends React.Component{
 					recProvince:orderInfos.recProvince,
 					recCity:orderInfos.recCity,
 					recDistrict:orderInfos.recDistrict,
-					recAddress:orderInfos.recAddress
+					recAddress:orderInfos.recAddress,
+					facePicUrl:orderInfos.facePicUrl,
+					backPicUrl:orderInfos.backPicUrl,
 		   	})
 			}else{
 				this.setState({
@@ -370,6 +374,8 @@ class OrderuserInfo extends React.Component{
 						recCity={this.state.recCity}
 						recDistrict={this.state.recDistrict}
 						recAddress={this.state.recAddress}
+						facePicUrl={this.state.facePicUrl}
+						backPicUrl={this.state.backPicUrl}
 						infofetch={this.infofetch.bind(this)}
 						editChange={this.props.editChange}
 					/>
