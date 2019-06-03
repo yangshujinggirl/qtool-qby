@@ -273,7 +273,7 @@ class GoodEditForm extends React.Component{
 			explainType:value
 		});
 		if(value == 0){
-			this.props.form.setFieldsValue({'goodsExplain':null})
+			this.props.form.setFieldsValue({'goodsExplain':''})
 		};
 	}
 	render(){

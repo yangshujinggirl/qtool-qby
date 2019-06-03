@@ -230,6 +230,7 @@ class GoodsInfo extends Component {
   }
   render() {
     const { pdSpu } = this.props.cTipAddGoods;
+    console.log(pdSpu)
     return(
         <Table
           className="cGoods-goodsInfo-table"

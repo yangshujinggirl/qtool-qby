@@ -69,7 +69,6 @@ export default {
             el.imgUrl = `${fileDomain}${el.picUrl}`;
             el.silverDisabled = el.goldCardPrice?false:true;
             el.index = index;
-            el.goodsExplain = iPdSpu.goodsExplain;
             iPdSpu.isSkus = iPdSpu.skuStatus?true:false;
             return el
           })
