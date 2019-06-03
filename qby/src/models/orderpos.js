@@ -61,6 +61,16 @@ export default {
                         LogsList=[];
                     }
                     let spOrder=result.order;
+                    // spOrder.scanQr = null;
+                    // spOrder.mis = null;
+                    spOrder.pays && spOrder.pays.map(item=>{
+                      if(item.type == 11){
+                        spOrder.scanQr = item.amount||null;
+                      };
+                      if(item.type == 12){
+                        spOrder.mispayAmount = item.amount||null;
+                      };
+                    })
                     let cardlist = [];
                     if(spOrder.pays.length<2){
                         if(spOrder.mbCardMobile && spOrder.mbCardName){
@@ -76,7 +86,7 @@ export default {
                                  {lable:'会员电话', text:spOrder.mbCardMobile},
                                  {lable:'本次积分', text:spOrder.orderPoint},
                                  {lable:'银联MIS', text:spOrder.mispayAmount},
-                                 {lable:'扫码支付', text:spOrder.alipayAmount},
+                                 {lable:'扫码支付', text:spOrder.scanQr},
                                ]
                         }else{
                             cardlist=[
@@ -88,7 +98,7 @@ export default {
                                  {lable:'抹零优惠', text:spOrder.cutAmount},
                                  {lable:'结算收银', text:spOrder.payAmount+'（'+spOrder.pays[0].typeStr+':'+spOrder.pays[0].amount+'）'},
                                  {lable:'银联MIS', text:spOrder.mispayAmount},
-                                 {lable:'扫码支付', text:spOrder.alipayAmount},
+                                 {lable:'扫码支付', text:spOrder.scanQr},
                                ]
                         }
                       }else{
@@ -105,7 +115,7 @@ export default {
                                      {lable:'会员电话', text:spOrder.mbCardMobile},
                                      {lable:'本次积分', text:spOrder.orderPoint},
                                      {lable:'银联MIS', text:spOrder.mispayAmount},
-                                     {lable:'扫码支付', text:spOrder.alipayAmount},
+                                     {lable:'扫码支付', text:spOrder.scanQr},
                                    ]
                           }else{
                             cardlist=[
@@ -117,7 +127,7 @@ export default {
                                     {lable:'抹零优惠', text:spOrder.cutAmount},
                                     {lable:'结算收银', text:spOrder.payAmount+'（'+spOrder.pays[0].typeStr+':'+spOrder.pays[0].amount +'  '+spOrder.pays[1].typeStr+':'+spOrder.pays[1].amount+'）'},
                                     {lable:'银联MIS', text:spOrder.mispayAmount},
-                                    {lable:'扫码支付', text:spOrder.alipayAmount},
+                                    {lable:'扫码支付', text:spOrder.scanQr},
                                 ]
                           }
                       }
