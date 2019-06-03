@@ -22,6 +22,15 @@ export default{
         const { taskTimes, currentPage, limit, total } = result;
         taskTimes.map((item,index)=>{
           item.key = index;
+          if(item.opstatus==1||item.opstatus==2||item.opstatus==3||item.opstatus==4||item.opstatus==5||item.opstatus==6){
+            item.taskType = 1;
+          };
+          if(item.opstatus == 7){
+            item.taskType = 2;
+          };
+          if(item.opstatus == 8){
+            item.taskType = 3;
+          }
           return item;
         });
         yield put({
