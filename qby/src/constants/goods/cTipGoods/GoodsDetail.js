@@ -53,7 +53,6 @@ class GoodsDetail extends Component {
   }
   render() {
     const { pdSpu, fileList } = this.props.cTipAddGoods;
-    console.log(pdSpu)
     return(
       <div className="btip-add-goods-components">
         <Form>

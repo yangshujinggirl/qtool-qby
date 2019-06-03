@@ -1,5 +1,5 @@
 import React,{Component} from 'react'
-import {Button,Form,Input,Row,Col} from 'antd'
+import {Button,Form,Input,Row,Col,message } from 'antd'
 import {getInfoApi,saveInfoApi} from '../../../services/cConfig/index.js'
 const FormItem = Form.Item
 const TextArea = Input.TextArea
@@ -21,7 +21,7 @@ class TipPage extends Component{
       if(res.code == '0'){
         const {dataSource} = this.state;
         const {configurelist} = res;
-        if(configurelist&&configurelist[0]){
+        if(configurelist && configurelist[0]){
           dataSource.map((item,index)=>{
             item = Object.assign(item,configurelist[index])
           });
@@ -46,7 +46,10 @@ class TipPage extends Component{
   }
   formate =(values)=> {
     const newList = _.cloneDeep(values.list);
-    newList.map((item,index) => item.type=index+1);
+    newList.map((item,index) => {
+      item.type=index+1;
+      item.configureId = this.state.dataSource[index].configureId;
+    });
     if(!newList) return;
     values.configurelist = newList
     delete values.list;
@@ -74,7 +77,7 @@ class TipPage extends Component{
                   getFieldDecorator(`list[${index}].text`,{
                     initialValue:item.text
                   })(
-                    <TextArea rows={4} placeholder='50字符以内'/>
+                    <TextArea rows={4} placeholder='50字符以内' maxLength='50'/>
                   )
                 }
                 <div className='intro'>

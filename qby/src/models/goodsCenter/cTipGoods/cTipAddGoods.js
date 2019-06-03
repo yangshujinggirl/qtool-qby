@@ -69,6 +69,7 @@ export default {
             el.imgUrl = `${fileDomain}${el.picUrl}`;
             el.silverDisabled = el.goldCardPrice?false:true;
             el.index = index;
+            el.goodsExplain = iPdSpu.goodsExplain;
             iPdSpu.isSkus = iPdSpu.skuStatus?true:false;
             return el
           })
@@ -83,7 +84,8 @@ export default {
                   key:iPdSpu.barcode,
                   silverCardPrice:iPdSpu.silverCardPrice,
                   goldCardPrice:iPdSpu.goldCardPrice,
-                  silverDisabled:iPdSpu.goldCardPrice?false:true
+                  goodsExplain:iPdSpu.goodsExplain,
+                  silverDisabled:iPdSpu.goldCardPrice?false:true,
                 }
           pdSkus.push(initPdspuData);
         }

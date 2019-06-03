@@ -74,7 +74,6 @@ class AddGoodsForm extends Component {
       type:'cTipAddGoods/fetchGoodsInfo',
       payload:{spuId:pdSpuId},
       callback:(dataSource)=>{
-        console.log(dataSource)
         this.setState({dataSource})
       }
     });
