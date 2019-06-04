@@ -11,7 +11,6 @@
 			this.state = {
 				type:1
 			}
-
 			this.column1 = [{
 				title: '商品名称',
 				dataIndex: 'name',
@@ -123,6 +122,7 @@
 			};
 		}
 		render(){
+			console.log(this.props.cardlist)
 			return(
 				<div>
 					<div className='mb10'><Cardlist cardtitle="订单信息" cardlist={this.props.cardlist}/></div>

@@ -53,7 +53,9 @@ class GoodsDetail extends Component {
     })
   }
   render() {
+    const fileDomain = sessionStorage.getItem('fileDomain');
     const { pdSpu, fileList } = this.props.cTipAddGoods;
+    console.log(pdSpu)
     return(
       <div className="btip-add-goods-components">
         <Form>
@@ -139,7 +141,7 @@ class GoodsDetail extends Component {
                       el.type == '1'?
                       <span>{el.content}</span>
                       :
-                      <Imgmodel picUrl={el.content.name}/>
+                      <Imgmodel picUrl={el.content}/>
                     }
                   </li>
                 ))

@@ -172,6 +172,7 @@ class AddGoodsForm extends Component {
     dataSource.length>0 && dataSource.map((item,index)=>( //商品描述设置唯一key
       item.key=index
     ));
+    console.log(dataSource)
     const { getFieldDecorator } = this.props.form;
     const { pdSpu, fileList } = this.props.cTipAddGoods;
     const { loading } =this.state;

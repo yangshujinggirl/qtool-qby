@@ -64,10 +64,14 @@ export default {
                     // spOrder.mis = null;
                     spOrder.pays && spOrder.pays.map(item=>{
                       if(item.type == 11){
-                        spOrder.scanQr = item.amount||null;
+                        spOrder.scanQr = item.amount||'0.00';
+                      }else{
+                        spOrder.scanQr = '0.00'
                       };
                       if(item.type == 12){
-                        spOrder.mispayAmount = item.amount||null;
+                        spOrder.mispayAmount = item.amount||'0.00';
+                      }else{
+                        spOrder.mispayAmount = '0.00'
                       };
                     })
                     let cardlist = [];

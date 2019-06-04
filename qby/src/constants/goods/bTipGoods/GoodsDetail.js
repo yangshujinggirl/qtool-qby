@@ -137,7 +137,7 @@ class GoodsDetail extends Component {
                         el.type == '1'?
                         <span>{el.content}</span>
                         :
-                        <Imgmodel picUrl={el.content.name}/>
+                        <Imgmodel picUrl={el.content}/>
                       }
                     </li>
                   ))

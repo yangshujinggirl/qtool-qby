@@ -358,14 +358,14 @@ class AddConfig extends  Component {
         						<Input style={{width:'75%'}} placeholder='请输入分享标题，30字以内' maxLength='30' autoComplete="off"/>
         					)}<a className='theme-color' onClick={this.displayExample}>　示例</a>
         				</FormItem>
-                <FormItem {...formItemLayout} label="分享微信好友图片">
+                <FormItem {...formItemLayout} label="分享微信好友图片" className='must-pic'>
         						<FriendImg
                       name='imgFile'
                       action='/erpWebRest/qcamp/upload.htm?type=brand'
                       shareFriendImg = {shareFriendImg}
                       changeFriendImg = {this.changeFriendImg}/>
         				</FormItem>
-                <FormItem {...formItemLayout} label="朋友圈分享图片">
+                <FormItem {...formItemLayout} label="朋友圈分享图片" className='must-pic'>
         						<FriendCircleImg
                       name='imgFile'
                       action='/erpWebRest/qcamp/upload.htm?type=brand'
