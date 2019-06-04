@@ -22,7 +22,7 @@ class UploadImg extends Component{
          multiple: true,
          onStart:this.onStart,
          onSuccess:this.onSuccess,
-         beforeUpload:this.beforeUpload,       
+         beforeUpload:this.beforeUpload,
          onError:this.onError,
       }
     }
@@ -33,10 +33,12 @@ class UploadImg extends Component{
     const isPNG = file.type === 'image/png';
       if (!isJPG && !isPNG) {
           message.error('仅支持jpg/jpeg/png格式',.8);
+          return false
       };
       const isLt2M = file.size / 1024 / 1024 < 2;
       if (!isLt2M) {
           message.error('上传内容大于2M，请选择2M以内的文件',.8);
+          return false
       };
     return (isJPG || isPNG) && isLt2M;
   }

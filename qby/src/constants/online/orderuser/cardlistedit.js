@@ -64,7 +64,7 @@ class Cardlists extends React.Component {
 			})
 		}
 	render() {
-		const fileDomain = sessionStorage.getItem('fileDomain');
+		const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
 		console.log(fileDomain)
 		return (
 			<Card
@@ -102,8 +102,12 @@ class Cardlists extends React.Component {
 														 footer={null}
 														 wrapClassName='img-box'
 														 onCancel={this.handleCancel}>
-														 	<div className='identified'><img src={fileDomain + this.props.facePicUrl}/></div>
-														 	<div><img src={fileDomain + this.props.backPicUrl}/></div>
+														 	<div className='identified'>
+																<img style={{'width':'400px'}} src={fileDomain + this.props.facePicUrl}/>
+															</div>
+														 	<div>
+																<img style={{'width':'400px'}} src={fileDomain + this.props.backPicUrl}/>
+															</div>
 														</Modal>
 												</div>
 										}
