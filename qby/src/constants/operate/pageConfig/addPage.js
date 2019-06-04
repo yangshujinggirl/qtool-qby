@@ -112,42 +112,52 @@ class AddConfig extends  Component {
   handleSubmit =()=> {
     this.props.form.validateFieldsAndScroll((err,values)=>{
       if(!err){
-        const {shareFriendImg,shareFriendCircleImg} = this.state;
-        if(String(values.isShare) == 1 && !shareFriendImg) {return message.error('请上传分享微信好友图片',.8)};
-        if(String(values.isShare) == 1 && !shareFriendCircleImg) {return message.error('请上传朋友圈分享图片',.8)};
-        if(values.isShare){ // ==1
-          values.shareFriendImg = shareFriendImg;
-          values.shareFriendCircleImg = shareFriendCircleImg;
-        }else{
-          values.shareFriendImg = null;
-          values.shareFriendCircleImg = null;
-          values.shareTitle = null;
-        };
         let newValues = this.formatValue(values);
+        console.log(newValues)
         if(!newValues) return
         if(newValues.pdConfigureConfigList && newValues.pdConfigureConfigList.length > 0){
-         this.setState({isLoading:true});
-         this.sendRequest(values);
+           this.setState({isLoading:true});
+           this.sendRequest(values);
         }else{
-         message.error('页面配置不可为空',.8)
+          message.error('页面配置不可为空',.8)
         };
       };
     });
   }
   //格式化数据
   formatValue =(values)=> {
+    const {shareFriendImg,shareFriendCircleImg} = this.state;
     const {configArrPre} = this.props;
-    if(!configArrPre.length) return  message.error('页面配置不可为空',.8);
+    if(String(values.isShare) == 1 && !shareFriendImg) {
+      message.error('请上传分享微信好友图片',.8);
+      return null
+    };
+    if(String(values.isShare) == 1 && !shareFriendCircleImg) {
+       message.error('请上传朋友圈分享图片',.8);
+       return null
+     };
+    if(values.isShare){ // ==1
+      values.shareFriendImg = shareFriendImg;
+      values.shareFriendCircleImg = shareFriendCircleImg;
+    }else{
+      values.shareFriendImg = null;
+      values.shareFriendCircleImg = null;
+      values.shareTitle = null;
+    };
+    if(!configArrPre.length){
+      message.error('页面配置不可为空',.8)
+      return null
+    };
     if(configArrPre.some(item=> item.type==1 && !item.text )){
-     return null;
+        return null;
     };
     if(configArrPre.some(item=> item.type==2 && item.template==1 && !item.pdCode )){ //单列展示
-     message.error('请填写链接商品编码',.8)
-     return null;
+       message.error('请填写链接商品编码',.8)
+       return null;
     };
     if(configArrPre.some(item=> item.type==2 && item.template==2 && !item.pdCode && !item.rowCode)){ //双列展示
-     message.error('请填写链接商品编码',.8)
-     return null;
+       message.error('请填写链接商品编码',.8)
+       return null;
     };
     const newArrPre = this.formatNewArrPre(configArrPre);
     values.pdConfigureConfigList =  newArrPre;
