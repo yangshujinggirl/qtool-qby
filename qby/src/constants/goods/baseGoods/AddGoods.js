@@ -21,6 +21,8 @@ import GoodsInfo from './components/GoodsInfo/index.js';
 import OutLineGoodsInfo from './components/OutLineGoodsInfo/index.js';
 import EditableCell from './components/EditableCell/index.js';
 import Creatlabel from './components/Creatlabel/index.js';
+import UploadDropImg from '../../../components/UploadDropImg/upload.js';
+
 import {
 NumberOption,
 WarehouseOption,
@@ -64,6 +66,7 @@ class AddGoodsForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      spuIdPics:[],//商品图片
       isBrandDirectMail:false,
       pdTaxWarehouses:[],
       brandDataSource:[],
@@ -82,8 +85,8 @@ class AddGoodsForm extends Component {
     })
   }
   componentDidMount() {
-    this.initGoodslabel();
     this.initPage();
+    this.initGoodslabel();
     this.getWareList();
   }
   componentDidUpdate(props) {
@@ -156,6 +159,11 @@ class AddGoodsForm extends Component {
         payload:{
           pdSpuId,
           source
+        },
+        callback:(spuIdPics)=>{
+          this.setState({
+            spuIdPics
+          });
         }
       });
       this.setState({
@@ -284,7 +292,6 @@ class AddGoodsForm extends Component {
     const { pdSpuId, source } =this.props.data;
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
-      console.log(err)
       if (!err) {
         if(pdSpuId) {
           values = Object.assign(values,{
@@ -308,8 +315,7 @@ class AddGoodsForm extends Component {
     values.pdBrandId = this.props.addGoods.autoComplete.pdBrandId;
     values.pdCountryId = this.props.addGoods.autoComplete.pdCountryId;
     //处理商品图片
-    let spuPics = values.spuPics;
-    spuPics = spuPics.map(el=>el.url?el.name:el.response.data[0]);
+    let spuPics = this.state.spuIdPics;
     //处理商品信息,如果是skus商品
     let pdSkus = values.pdSkus;
     if(pdSkus&&pdSkus.length>0) {
@@ -563,6 +569,12 @@ class AddGoodsForm extends Component {
     };
     callback();
   }
+  //更新商品图片
+  updateSpuIdPics =(spuIdPics)=> {
+    this.setState({
+      spuIdPics
+    });
+  }
   render() {
     const {deliveryExplain} = this.props.addGoods;
     const { getFieldDecorator } = this.props.form;
@@ -575,8 +587,7 @@ class AddGoodsForm extends Component {
       specData,
       linkageLabel,
     } = this.props.addGoods;
-    const { loading,pdTaxWarehouses,isBrandDirectMail} =this.state;
-
+    const { loading,pdTaxWarehouses,isBrandDirectMail,spuIdPics} =this.state;
     return(
       <div className="add-goods-components" >
         <Form className="qtools-form-components">
@@ -722,11 +733,12 @@ class AddGoodsForm extends Component {
             <Col span={24} onClickCapture={(e)=>this.moveItem(e)}>
               <FormItem label='商品图片' {...formItemLayout3}>
                 <div id="goods-pic">
-                   <UpLoadFileModal
-                     onChange={this.goSetFileList}
-                     name="spuPics"
-                     fileList={fileList}
-                     form={this.props.form}/>
+                   <UploadDropImg
+                      name="imgFile"
+                      action='/erpWebRest/qcamp/upload.htm?type=spu'
+                      imgBoxs={spuIdPics}
+                      updatePropsImgbox={this.updateSpuIdPics}
+                   />
                  </div>
                </FormItem>
             </Col>

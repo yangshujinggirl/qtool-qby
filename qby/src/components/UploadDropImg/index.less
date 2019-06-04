@@ -1,0 +1,51 @@
+.upload-img{
+    border: 1px dashed #d9d9d9;
+    width: 104px;
+    height: 104px;
+    border-radius: 0px;
+    background-color: #fafafa;
+    text-align: center;
+    cursor: pointer;
+    vertical-align: top;
+    margin-right: 8px;
+    margin-bottom: 8px;
+    display: table-cell;
+    vertical-align: middle;
+    padding: 8px;
+}
+.img_container{
+  cursor:pointer;
+  position:relative;
+  width:104px;
+  height:104px;
+  text-align:center;
+  border:1px solid #ededed;
+  float:left;
+  margin-right:15px;
+  img{
+    margin-top:8px;
+  }
+  .mask-box{
+    display:none;
+    .mask{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      width:86px;
+      height:86px;
+      background:rgba(0,0,0,0.5);
+      position:absolute;
+      left:8px;
+      bottom:8px;
+      .enlarge{
+        margin-right:15px;
+      }
+    }
+  }
+}
+.img_container:hover>.mask-box{
+  display:block;
+}
+.img-large{
+  text-align:center
+}

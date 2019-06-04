@@ -241,7 +241,7 @@ export default {
         })
       }
     },
-    *fetchGoodsInfo({ payload: values },{ call, put ,select}) {
+    *fetchGoodsInfo({ payload: values,callback },{ call, put ,select}) {
       const { source } =values;
       const oldPdSkus = yield select(state => state.addGoods.pdSkus)
       const linkageLabel = yield select(state => state.addGoods.linkageLabel)
@@ -255,17 +255,7 @@ export default {
         let pdBrandId = pdSpu.pdBrandId;//存入品牌id
         let pdCountryId =pdSpu.pdCountryId;//存入国家id
         let fileList = [];
-        //格式化图片数据
-        if(pdSpu.spuIdPics && pdSpu.spuIdPics) {
-           fileList = pdSpu.spuIdPics.map(el => (
-            {
-              url:`${fileDomain}${el.url}`,
-              uid:el.uid,
-              name: el.url,
-              status: 'done',
-            }
-          ))
-        }
+
         //品牌直供值控制配送说明可不可编辑
         if(pdSpu.brandDirectMail){
           yield put({
@@ -389,8 +379,6 @@ export default {
           }
           pdSkus.push(initPdspuData);
         }
-
-
         //商品详情////////////////////////////////////////////////
         yield put({
           type:'getGoodsInfo',
@@ -409,7 +397,17 @@ export default {
           type:'handelCategory',
           payload:pdSpu
         })
-      }
+        //商品图片
+        if(pdSpu.spuIdPics && pdSpu.spuIdPics.length>0) {
+          let imgBoxes = [];
+            pdSpu.spuIdPics.map(item=>{
+              imgBoxes.push(item.url)
+            });
+           if(typeof(callback) == 'function'){
+             callback(imgBoxes)
+           };
+        }
+      };
     },
     *handelCategory({ payload: pdSpu},{ call, put ,select}) {
       const categoryLevelOne = yield select(state => state.addGoods.categoryData.categoryLevelOne)
