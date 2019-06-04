@@ -22,10 +22,25 @@ class UploadImg extends Component{
          multiple: true,
          onStart:this.onStart,
          onSuccess:this.onSuccess,
+         beforeUpload:this.beforeUpload,       
          onError:this.onError,
       }
     }
   }
+  //上传大小限制
+  beforeUpload = (file) =>{
+    const isJPG = file.type === 'image/jpeg';
+    const isPNG = file.type === 'image/png';
+      if (!isJPG && !isPNG) {
+          message.error('仅支持jpg/jpeg/png格式',.8);
+      };
+      const isLt2M = file.size / 1024 / 1024 < 2;
+      if (!isLt2M) {
+          message.error('上传内容大于2M，请选择2M以内的文件',.8);
+      };
+    return (isJPG || isPNG) && isLt2M;
+  }
+
   onStart=(file)=> {
     console.log('onStart', file, file.name);
   }
@@ -99,7 +114,7 @@ class UploadImg extends Component{
           footer={null}
           onCancel={this.onCancel}
         >
-          <img style={{width:'400px',height:'400px'}} src={fileDomain+img}/>
+          <img style={{width:'400px'}} src={fileDomain+img}/>
         </Modal>
         <Upload {...uploaderProps}>
           {uploadButton}

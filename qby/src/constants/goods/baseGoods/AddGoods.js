@@ -74,6 +74,11 @@ class AddGoodsForm extends Component {
       isEdit:false
     }
   }
+  componentDidMount() {
+    this.initPage();
+    this.initGoodslabel();
+    this.getWareList();
+  }
   getWareList =()=> {
     getWareListApi()
     .then(res=>{
@@ -84,72 +89,6 @@ class AddGoodsForm extends Component {
       }
     })
   }
-  componentDidMount() {
-    this.initPage();
-    this.initGoodslabel();
-    this.getWareList();
-  }
-  componentDidUpdate(props) {
-    this.creatArrow();
-  }
-  creatArrow() {
-    let goodsPicEl = document.getElementById('goods-pic');
-    let arrItem = goodsPicEl.getElementsByClassName('ant-upload-list-item-done');
-    if(arrItem&&arrItem.length>0) {
-      for(var i=0; i<arrItem.length; i++) {
-        let itemElement = arrItem[i];
-        let oldArrowL = itemElement.getElementsByClassName('arrow-left-btn');
-        let oldArrowR = itemElement.getElementsByClassName('arrow-right-btn');
-        if(oldArrowL.length>0) {//存在按钮时先删除
-          itemElement.removeChild(oldArrowL[0]);
-          itemElement.removeChild(oldArrowR[0]);
-        }
-        let arrLeft = document.createElement('span');
-        let arrRight = document.createElement('span');
-        arrLeft.className="arrow-left-btn";
-        arrRight.className="arrow-right-btn";
-        arrLeft.setAttribute('data-index',i);
-        arrRight.setAttribute('data-index',i);
-        itemElement.appendChild(arrLeft);
-        itemElement.appendChild(arrRight);
-      }
-    }
-  }
-  moveItem(e) {
-    e.persist();
-    const currentEle = e.nativeEvent.target;
-    const currentIndex = currentEle.getAttribute('data-index');
-    let hoverIndex = currentIndex;
-    //箭头外的不触发事件
-    if(currentEle.className != 'arrow-left-btn' && currentEle.className != 'arrow-right-btn') {
-      return;
-    }
-    if(currentEle.className == 'arrow-left-btn') {
-      hoverIndex--
-    } else {
-      hoverIndex++
-    }
-    this.handelPicList(currentIndex, hoverIndex);
-  }
-  handelPicList(currentIndex, hoverIndex) {
-    let { fileList } = this.props.addGoods;
-    if(hoverIndex<0 || hoverIndex > (fileList.length-1)) {
-      return;
-    };
-    const currentData = fileList[currentIndex];
-    const hoverData = fileList[hoverIndex];
-    fileList.splice(currentIndex,1);
-    fileList.splice(hoverIndex,0,currentData);
-    this.goSetFileList(fileList);
-  }
-  //上传文件change
-  goSetFileList =(fileList)=> {
-    this.props.dispatch({
-      type:'addGoods/setFileList',
-      payload:fileList
-    })
-  }
-
   //编辑or新增
   initPage() {
     const { pdSpuId, source } = this.props.data;
@@ -730,7 +669,7 @@ class AddGoodsForm extends Component {
                  )}
                </FormItem>
             </Col>
-            <Col span={24} onClickCapture={(e)=>this.moveItem(e)}>
+            <Col span={24}>
               <FormItem label='商品图片' {...formItemLayout3}>
                 <div id="goods-pic">
                    <UploadDropImg
