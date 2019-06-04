@@ -80,7 +80,9 @@ export default {
             fileList
           }
         });
-        callback(pdSpuInfo)
+        if(typeof(callback) == 'function'){
+          callback(pdSpuInfo)
+        };
       }
     },
   }

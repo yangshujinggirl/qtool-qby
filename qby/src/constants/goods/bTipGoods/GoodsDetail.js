@@ -42,9 +42,9 @@ class GoodsDetail extends Component {
       payload:{
         spuId:pdSpuId,
         source
-      }
+      },
+      callback:null
     })
-
   }
 
   render() {
