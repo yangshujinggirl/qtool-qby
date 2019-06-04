@@ -98,6 +98,7 @@ class BondModal extends Component{
                      <Radio value={10}>管家</Radio>
                      <Radio value={20}>丰趣</Radio>
                      <Radio value={30}>无</Radio>
+                    <Radio value={40}>芳星</Radio>
                    </RadioGroup>
                  )
                }

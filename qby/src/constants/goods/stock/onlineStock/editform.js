@@ -20,6 +20,9 @@ class App extends React.Component {
 			},{
 			title: '订单占用库存',
 			dataIndex: 'qtyOnhold'
+			},{
+			title: '芳星库存',
+			dataIndex: 'stock_num'
 			}]
 			this.state = {
 				isinfo:false
