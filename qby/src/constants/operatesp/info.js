@@ -331,6 +331,14 @@ class SpInfo extends React.Component{
                 spShop.openApp == 1 ? "开启" : "关闭"
               }
     				</FormItem>
+            <FormItem
+    					label="C端同城配送"
+    					labelCol={{ span: 3,offset: 1 }}
+    					wrapperCol={{ span:6 }}>
+              {
+                spShop.openCityDistribution == 1 ? "开启" : "关闭"
+              }
+    				</FormItem>
     				<FormItem
     						label="合同信息"
     						labelCol={{ span: 3,offset: 1 }}
