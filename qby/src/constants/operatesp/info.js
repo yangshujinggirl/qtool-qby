@@ -50,8 +50,10 @@ class SpInfo extends React.Component{
          shopTypeStr:"",
          foodShareRatio:"",
          nonfoodShareRatio:"",
-         payRadio:null,
-         misRadio:null,
+         // payRadio:null,
+         // misRadio:null,
+         openAlipay:0,
+ 			   openWechat:0,
          openApp:null,
        }
 		}
@@ -307,20 +309,20 @@ class SpInfo extends React.Component{
     						</div>
     					</div>
     				</FormItem>
-    				<FormItem
-    					label="支付扫码"
+            <FormItem
+    					label="微信支付扫码"
     					labelCol={{ span: 3,offset: 1 }}
     					wrapperCol={{ span:6 }}>
       					{
-                  spShop.payRadio == 1 ? "开启" : "关闭"
+                  spShop.openWechat == 1 ? "开启" : "关闭"
                 }
     				</FormItem>
     				<FormItem
-    					label="银联MIS"
+    					label="支付宝扫码"
     					labelCol={{ span: 3,offset: 1 }}
     					wrapperCol={{ span:6 }}>
               {
-                spShop.misRadio == 1 ? "开启" : "关闭"
+                spShop.openAlipay == 1 ? "开启" : "关闭"
               }
     				</FormItem>
     				<FormItem

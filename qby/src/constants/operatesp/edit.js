@@ -50,8 +50,10 @@ class SpEditForm extends React.Component{
 			nonfoodShareRatio:null,
 			initfoodShareRatio:null,
 			initnonfoodShareRatio:null,
-			payRadio:0,
-			misRadio:0,
+			openAlipay:0,
+			openWechat:0,
+			// misRadio:0,
+			// payRadio:0,
 			onlinetName:null,
 			serverTel:null,
 			bank:null,
@@ -64,7 +66,8 @@ class SpEditForm extends React.Component{
 			spShopContracts:null,
 			lng:null,
 			lat:null,
-			rec_city:null
+			rec_city:null,
+			openAlipay:null,
 		}
 	}
 	componentDidMount(){
@@ -252,8 +255,10 @@ class SpEditForm extends React.Component{
 							nonfoodShareRatio:json.spShop.nonfoodShareRatio,
 							initfoodShareRatio:json.spShop.foodShareRatio,
 							initnonfoodShareRatio:json.spShop.nonfoodShareRatio,
-							payRadio:(!json.spShop.payRadio||json.spShop.payRadio=="0")?0:json.spShop.payRadio,
-							misRadio:(!json.spShop.misRadio||json.spShop.misRadio=="0")?0:json.spShop.misRadio,
+							// payRadio:(!json.spShop.payRadio||json.spShop.payRadio=="0")?0:json.spShop.payRadio,
+							// misRadio:(!json.spShop.misRadio||json.spShop.misRadio=="0")?0:json.spShop.misRadio,
+							openWechat:(!json.spShop.openWechat||json.spShop.openWechat=="0")?0:json.spShop.openWechat,
+							openAlipay:(!json.spShop.openAlipay||json.spShop.openAlipay=="0")?0:json.spShop.openAlipay,
 							serverTel:json.spShop.serverTel,
 							bank:json.spShop.bank,
 							bankNo:json.spShop.bankNo,
@@ -738,12 +743,12 @@ class SpEditForm extends React.Component{
 						</div>
 					</FormItem>
 					<FormItem
-						label="支付扫码"
+						label="微信支付扫码"
 						labelCol={{ span: 3,offset: 1 }}
 						wrapperCol={{ span:6 }}>
-						{getFieldDecorator('payRadio', {
-							rules: [{ required: true, message: '请选择是否使用支付扫码'}],
-							initialValue:Number(this.state.payRadio)
+						{getFieldDecorator('openWechat', {
+							rules: [{ required: true, message: '请选择是否使用微信扫码支付'}],
+							initialValue:Number(this.state.openWechat)
 						})(
 							<RadioGroup>
 								<Radio value={1}>开启</Radio>
@@ -752,12 +757,12 @@ class SpEditForm extends React.Component{
 						)}
 					</FormItem>
 					<FormItem
-						label="银联MIS"
+						label="支付宝扫码"
 						labelCol={{ span: 3,offset: 1 }}
 						wrapperCol={{ span:6 }}>
-						{getFieldDecorator('misRadio', {
-							rules: [{ required: true, message: '请选择是否使用银联MIS'}],
-							initialValue:Number(this.state.misRadio)
+						{getFieldDecorator('openAlipay', {
+							rules: [{ required: true, message: '请选择是否使用支付宝扫码'}],
+							initialValue:Number(this.state.openAlipay)
 						})(
 							<RadioGroup>
 								<Radio value={1}>开启</Radio>
