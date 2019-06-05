@@ -10,9 +10,9 @@ class TipPage extends Component{
     super(props)
     this.state={
       dataSource:[
-        {label:'品牌直供提单页提示'},
         {label:'国内仓提单页提示'},
         {label:'保税仓提单页提示'},
+        {label:'品牌直供提单页提示'},
       ]
     }
   }
@@ -36,16 +36,17 @@ class TipPage extends Component{
     this.props.form.validateFields((err,values)=>{
       if(!err){
         const newValues = this.formate(values);
-        saveInfoApi(newValues).then(res=>{
-          if(res.code == '0'){
-            message.success('保存成功',.8)
-          };
-        })
+        // saveInfoApi(newValues).then(res=>{
+        //   if(res.code == '0'){
+        //     message.success('保存成功',.8)
+        //   };
+        // })
       };
     });
   }
   formate =(values)=> {
     const newList = _.cloneDeep(values.list);
+    console.log(newList)
     newList.map((item,index) => {
       item.type=index+1;
       item.configureId = this.state.dataSource[index].configureId;
