@@ -36,11 +36,11 @@ class TipPage extends Component{
     this.props.form.validateFields((err,values)=>{
       if(!err){
         const newValues = this.formate(values);
-        // saveInfoApi(newValues).then(res=>{
-        //   if(res.code == '0'){
-        //     message.success('保存成功',.8)
-        //   };
-        // })
+        saveInfoApi(newValues).then(res=>{
+          if(res.code == '0'){
+            message.success('保存成功',.8)
+          };
+        })
       };
     });
   }
