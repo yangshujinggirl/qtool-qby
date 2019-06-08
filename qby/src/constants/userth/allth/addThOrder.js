@@ -91,7 +91,6 @@ class AddThOrder extends Component{
 				if(values.returnType && values.returnType=='售后退款')values.returnType = 2
 				values.orderId = this.state.orderId;
 				values.orderType = this.state.orderType;
-				debugger
 				const newArr = 	goodsList.filter((item,index)=>{//需要检测退款数量有木有输入-->没有输入的数据不向后台输出
 						return Boolean(item.applyReturnCount && (String(item.applyReturnQuota)!='') ) //applyReturnQuota可以为0不能为空
 			 	});
