@@ -24,25 +24,6 @@ class cTimer extends Component{
       payload:{}
     })
   }
-  menu =()=> (
-    <Menu>
-      <Menu.Item>
-        <a style={{color:'#35bab0'}} onClick={()=>this.addTimer(3)}>
-        定时调整：商品状态
-        </a>
-      </Menu.Item>
-      <Menu.Item>
-        <a style={{color:'#35bab0'}} onClick={()=>this.addTimer(1)}>
-          定时调整：商品提示
-        </a>
-      </Menu.Item>
-      <Menu.Item>
-        <a style={{color:'#35bab0'}} onClick={()=>this.addTimer(2)}>
-          定时调整：保税分润
-        </a>
-      </Menu.Item>
-    </Menu>
-  )
   //点击搜索
   searchData = (values)=> {
     this.props.dispatch({
@@ -105,29 +86,61 @@ class cTimer extends Component{
   render(){
     //增改权限
     const rolelists = this.props.data.rolelists
-    const addTimer =rolelists.find((currentValue,index)=>{
+    const addStatus=rolelists.some((currentValue,index)=>{
 			return currentValue.url=="qerp.web.pd.task.time.save"
 		})
+    const addTips=rolelists.some((currentValue,index)=>{
+			return currentValue.url=="qerp.web.pd.task.tips.save"
+		})
+    const addProfit=rolelists.some((currentValue,index)=>{
+			return currentValue.url=="qerp.web.pd.task.profit.save"
+		});
+    console.log(addStatus,addTips,addProfit)
     //增改权限
     const {dataList} = this.props.cTimer;
+    dataList&&dataList.map(item=>{
+      item.addStatus = addStatus
+      item.addTips = addTips
+      item.addProfit = addProfit
+    });
     return(
       <div className="qtools-components-pages">
         <FilterForm
           submit={this.searchData}
         />
       <div className='handel-btn-lists'>
-        {
-          addTimer?
-          <Dropdown overlay={this.menu()} placement="bottomCenter" overlayClassName='set-time'>
-            <Button
-              type='primary'
-              size='large'
-            >新增定时
-            </Button>
-          </Dropdown>
-          :null
-        }
-
+        <Dropdown overlay={
+              <Menu>
+                {addStatus&&
+                  <Menu.Item>
+                    <a style={{color:'#35bab0'}} onClick={()=>this.addTimer(3)}>
+                    定时调整：商品状态
+                    </a>
+                  </Menu.Item>
+                }
+                {addTips&&
+                  <Menu.Item>
+                    <a style={{color:'#35bab0'}} onClick={()=>this.addTimer(1)}>
+                      定时调整：商品提示
+                    </a>
+                  </Menu.Item>
+                }
+                {addProfit&&
+                  <Menu.Item>
+                    <a style={{color:'#35bab0'}} onClick={()=>this.addTimer(2)}>
+                      定时调整：保税分润
+                    </a>
+                  </Menu.Item>
+                }
+              </Menu>
+          }
+          placement="bottomCenter" overlayClassName='set-time'>
+          <Button
+            type='primary'
+            size='large'
+          >新增定时
+          </Button>
+        </Dropdown>
         </div>
         <Qtable
           dataSource = {dataList}
