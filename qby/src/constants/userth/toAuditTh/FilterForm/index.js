@@ -50,8 +50,8 @@ class NormalForm extends Component {
                <FormItem label='退款类型'>
                   {getFieldDecorator('returnType')(
                     <Select allowClear={true} placeholder="请选择退款类型">
-                      <Option value={0}>售中退款</Option>
-                      <Option value={1}>售后退款</Option>
+                      <Option value={1}>售中退款</Option>
+                      <Option value={2}>售后退款</Option>
                     </Select>
                   )}
                 </FormItem>

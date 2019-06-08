@@ -46,6 +46,7 @@ class OnAudit extends Component {
       cancelVisible:false,
       iconTypeRemark:"",
       inputValues:{},
+      isLoading:false,
       rowSelection:{
         type:"radio",
         selectedRowKeys:this.props.onAudit.selectedRowKeys,
@@ -105,6 +106,9 @@ class OnAudit extends Component {
   }
   //取消订单或审核通过的请求
   cancelOrder =(obj,clearForm)=> {
+    this.setState({
+      isLoading:true
+    });
     const {limit,currentPage} = this.props.onAudit;
     cancelOrderApi(obj)
     .then(res=>{
@@ -112,13 +116,22 @@ class OnAudit extends Component {
         if(obj.status == 6){
           message.success("审核通过成功",.8);
         }else{
-          this.setState({cancelVisible:false})
+          this.setState({
+            cancelVisible:false,
+          });
           clearForm();
           message.success("取消订单成功",.8);
         };
         this.props.dispatch({
           type:'onAudit/fetchList',
           payload:{...this.state.inputValues,limit,currentPage}
+        });
+        this.setState({
+          isLoading:false
+        });
+      }else{
+        this.setState({
+          isLoading:false
         });
       };
     });
@@ -404,7 +417,8 @@ class OnAudit extends Component {
       iconTypeRemark,
       expandedRowKeys=[],
       cancelVisible,
-      pdTaxWarehouses
+      pdTaxWarehouses,
+      isLoading
     }=this.state;
     const content = (
       <div className='remark_box'>
@@ -420,6 +434,8 @@ class OnAudit extends Component {
           subItem.onOperateClick = (type) => { this.handleOperateClick(item,subItem,type) };
           subItem.auditPass = auditPass;
           subItem.auditCancel = auditCancel;
+          // subItem.isLoading = isLoading;
+
         })
     });
     return (
@@ -506,8 +522,8 @@ class OnAudit extends Component {
           visible={cancelVisible}
           onOk={this.onCancelOk}
           onCancel={this.onCancel}
+          isLoading={isLoading}
         />
-
       </div>
     )
   }

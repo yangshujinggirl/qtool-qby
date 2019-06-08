@@ -52,16 +52,16 @@ class NormalForm extends Component {
                <FormItem label='退款类型'>
                   {getFieldDecorator('returnType')(
                     <Select allowClear={true} placeholder="请选择退款类型">
-                        <Option value={0}>售中退款</Option>
-                        <Option value={1}>售后退款</Option>
+                        <Option value={1}>售中退款</Option>
+                        <Option value={2}>售后退款</Option>
                     </Select>
                   )}
                 </FormItem>
               <FormItem label='退款方式'>
                  {getFieldDecorator('returnWay')(
                    <Select allowClear={true} placeholder="请选择流程状态">
-                     <Option value={0}>仅退款</Option>
-                     <Option value={1}>退货退款</Option>
+                     <Option value={1}>仅退款</Option>
+                     <Option value={2}>退货退款</Option>
                    </Select>
                  )}
                </FormItem>
@@ -77,6 +77,16 @@ class NormalForm extends Component {
                     </Select>
                   )}
                 </FormItem>
+                <FormItem label='退款渠道'>
+                   {getFieldDecorator('returnChannel')(
+                     <Select allowClear={true} placeholder="请选择退款渠道">
+                        <Option value={41}>微信</Option>
+                        <Option value={31}>支付宝</Option>
+                        <Option value={71}>线下POS</Option>
+                        <Option value={0}>无</Option>
+                     </Select>
+                   )}
+                 </FormItem>
               <FormItem label='用户电话'>
                  {getFieldDecorator('userMoblie')(
                    <Input placeholder="请输入用户电话" autoComplete="off"/>
