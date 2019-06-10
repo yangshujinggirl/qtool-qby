@@ -277,6 +277,16 @@ class GoodEditForm extends React.Component{
 			this.props.form.setFieldsValue({'goodsExplain':''})
 		};
 	}
+	//比例自定义校验
+  validatorShareRatio(rule, value, callback) {
+    if(value && value>=100) {
+      callback('分成比例不能大于100');
+    } else if(value && value==0){
+      callback('分成比例不能小于0');
+    }else{
+      callback();
+    }
+  }
 	render(){
 		const { getFieldDecorator } = this.props.form
 		const { type } = this.props.data
@@ -377,10 +387,14 @@ class GoodEditForm extends React.Component{
 						wrapperCol={{ span: 6 }}
 					>
 						{getFieldDecorator('taxRate', {
-							rules: [{ required: true, message: '请输入分成比例'}],
+							rules: [
+								{ required: true, message: '请输入分成比例，0~100的两位小数'},
+								{ pattern:/^\d+(\.\d{0,2})?$/,message:'请输入0~100的两位小数'},
+								{ validator:this.validatorShareRatio }
+							],
 							initialValue:this.state.taxRate
 						})(
-							<Input placeholder="请输入分成比例" suffix='%'/>
+							<Input placeholder="请输入分成比例，0~100的两位小数" suffix='%'/>
 						)}
 					</FormItem>
 				}
