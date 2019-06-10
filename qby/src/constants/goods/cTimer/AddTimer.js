@@ -302,7 +302,7 @@ class GoodEditForm extends React.Component{
 						rules: [{ required: true, message: '请输入定时名称'}],
 						initialValue:this.state.taskName
 					})(
-						<Input placeholder="请输入定时名称"/>
+						<Input placeholder="请输入定时名称" maxLength='15'/>
 					)}
 				</FormItem>
 				<FormItem
