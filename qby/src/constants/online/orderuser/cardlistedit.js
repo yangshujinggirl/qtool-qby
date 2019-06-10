@@ -65,7 +65,7 @@ class Cardlists extends React.Component {
 		}
 	render() {
 		const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
-		console.log(fileDomain)
+		console.log(this.props)
 		return (
 			<Card
         title={
@@ -92,10 +92,13 @@ class Cardlists extends React.Component {
 									　{
 											item.lable == '身份证号' &&
 												<div style={{display:'inline-block'}}>
+													{
+														this.props.identify&&
 														<span
 															style={{color:'#35BAB0',cursor:'pointer'}}
 															onClick={this.onLook}>查看身份证正反面
 														</span>
+													}
 														<Modal
 														 title="身份证正反面"
 														 visible={this.state.visible}

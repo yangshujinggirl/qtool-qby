@@ -378,6 +378,7 @@ class OrderuserInfo extends React.Component{
 						backPicUrl={this.state.backPicUrl}
 						infofetch={this.infofetch.bind(this)}
 						editChange={this.props.editChange}
+						identify={this.props.identify}
 					/>
 				</div>
 				<div className='mb10'>
@@ -481,7 +482,7 @@ class OrderuserInfo extends React.Component{
 function mapStateToProps(state) {
 	const { tab } =state;
   const {headTitle,headTit,details,logs} = state.ordercg;
-	const {editChange} = state.orderuser;
-	return {headTitle,headTit,details,logs,editChange,tab};
+	const {editChange,identify} = state.orderuser;
+	return {headTitle,headTit,details,logs,editChange,identify,tab};
 }
 export default connect(mapStateToProps)(OrderuserInfo);
