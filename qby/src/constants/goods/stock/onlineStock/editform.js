@@ -22,8 +22,21 @@ class App extends React.Component {
 			dataIndex: 'qtyOnhold'
 			},{
 			title: '芳星库存',
-			dataIndex: 'stock_num'
+			dataIndex: 'stock_num',
 			}]
+			this.columns2=[{
+				title: '商品名称',
+				dataIndex: 'name'
+				}, {
+				title: '商品规格',
+				dataIndex: 'displayName'
+				},{
+				title: '在售库存',
+				dataIndex: 'qty'
+				},{
+				title: '订单占用库存',
+				dataIndex: 'qtyOnhold'
+				}]
 			this.state = {
 				isinfo:false
 			}
@@ -86,7 +99,8 @@ handleEnt=(e)=>{
 		}).then((json) => {
 			if(json.code=='0'){
 				this.setState({
-					isinfo:true
+					isinfo:true,
+					stock_num:json.stock_num
 				},function(){
 					const datasoucedata=[]
 					const datasouce={}
@@ -105,6 +119,9 @@ handleEnt=(e)=>{
 						datasouce.qty=json.qty //在售
 						datasouce.qtyOnhold=json.qtyOnhold //占用库存
 						datasouce.displayName=json.displayName //占用库存
+						if(json.stock_num){
+							datasouce.stock_num=json.stock_num;
+						}
 						datasoucedata.push(datasouce)
 						this.props.dispatch({
 							type:'onlineStock/stocktableinfo',
@@ -137,7 +154,7 @@ render() {
 		>
 		{
 			this.state.isinfo?
-			<EditableTable columns={this.columns} dataSource={this.props.datasoucedata} bordered={true}/>
+			<EditableTable columns={this.state.stock_num?this.columns:this.columns2} dataSource={this.props.datasoucedata} bordered={true}/>
 			:null
 		}
 		</FormItem>
