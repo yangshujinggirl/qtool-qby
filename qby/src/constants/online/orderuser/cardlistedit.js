@@ -93,7 +93,7 @@ class Cardlists extends React.Component {
 											item.lable == '身份证号' &&
 												<div style={{display:'inline-block'}}>
 													{
-														this.props.identify&&
+														this.props.identify&&this.props.facePicUrl&&this.props.backPicUrl&&
 														<span
 															style={{color:'#35BAB0',cursor:'pointer'}}
 															onClick={this.onLook}>查看身份证正反面
