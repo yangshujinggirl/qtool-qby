@@ -60,7 +60,7 @@ class NormalForm extends Component{
                   <Select allowClear={true} placeholder="请选择状态" className='select'>
                       <Option value='1'>待执行</Option>
                       <Option value='2'>已执行</Option>
-                      <Option value='3'>无效</Option>
+                      <Option value='0'>无效</Option>
                   </Select>
                   )}
               </FormItem>

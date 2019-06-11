@@ -118,7 +118,7 @@ class GoodEditForm extends React.Component{
 		e.preventDefault();
 		this.props.form.validateFields((err, value) => {
 		    if (!err) {
-						const {type} = this.props.data //1、商品状态；2、商品提示；3、保税分润
+						const {type} = this.props.data //1、商品提示；2、保税分润；3、商品状态
 						value.taskType = type
 						if(type == 3){
 							if(this.state.salestatus == null && this.state.statusnew ==null && this.state.statushot==null){
