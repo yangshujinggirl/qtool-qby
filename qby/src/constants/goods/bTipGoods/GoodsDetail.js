@@ -42,9 +42,9 @@ class GoodsDetail extends Component {
       payload:{
         spuId:pdSpuId,
         source
-      }
+      },
+      callback:null
     })
-
   }
 
   render() {
@@ -137,7 +137,7 @@ class GoodsDetail extends Component {
                         el.type == '1'?
                         <span>{el.content}</span>
                         :
-                        <Imgmodel picUrl={el.content.name}/>
+                        <Imgmodel picUrl={el.content}/>
                       }
                     </li>
                   ))

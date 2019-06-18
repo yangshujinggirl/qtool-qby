@@ -58,6 +58,7 @@ class AddGoodsForm extends Component {
     this.state = {
       loading:false,
       plainOptions:[],
+      dataSource:[],
     }
     this.platformOptions = [
       {label:'C端app',value:1},
@@ -71,8 +72,9 @@ class AddGoodsForm extends Component {
     const { pdSpuId, source } =this.props.data;
     this.props.dispatch({
       type:'cTipAddGoods/fetchGoodsInfo',
-      payload:{
-        spuId:pdSpuId
+      payload:{spuId:pdSpuId},
+      callback:(dataSource)=>{
+        this.setState({dataSource})
       }
     });
     productListApi()
@@ -110,7 +112,8 @@ class AddGoodsForm extends Component {
       if (!err) {
         values = Object.assign(values,{
           pdSpuId
-        })
+        });
+        console.log(pdSpuId)
         values = this.formtParams(values);
         this.saveGoods(values)
       }
@@ -121,29 +124,15 @@ class AddGoodsForm extends Component {
     values.platform = values.platform.join(",");
     values.cname = values.cname.trim();
     let { skuStatus, pdSkus:pdSkusData } =this.props.cTipAddGoods.pdSpu;
-    let pdSpuInfo = values.pdSpuInfo;
     let pdSkus = values.pdSkus;
-    if(pdSpuInfo) {
-      pdSpuInfo.map((el) => {
-        if(el.content instanceof Array) {
-          if(el.content[0].response) {
-            el.content = el.content[0].response.data[0]
-          } else {
-            el.content = el.content[0].name
-          }
-          el.type = '2'
-        } else {
-          el.type = '1'
-        }
-        return el;
-      })
-    }
     if(skuStatus == 1&&pdSkus&&pdSkus.length>0) {
       pdSkus.map((el,index) => {
         el.code = pdSkusData[index].code
       })
       pdSkus = pdSkus.filter((el,index) =>  el);
     }
+    //处理商品描述参数
+    values.pdSpuInfo = this.state.dataSource;
     values = {...values,pdSkus};
     return values;
   }
@@ -174,8 +163,16 @@ class AddGoodsForm extends Component {
       console.log(error)
     })
   }
-
+  //修改dataSource
+  changeSource =(dataSource)=> {
+    this.setState({dataSource})
+  }
   render() {
+    const {dataSource} = this.state;
+    dataSource.length>0 && dataSource.map((item,index)=>( //商品描述设置唯一key
+      item.key=index
+    ));
+    console.log(dataSource)
     const { getFieldDecorator } = this.props.form;
     const { pdSpu, fileList } = this.props.cTipAddGoods;
     const { loading } =this.state;
@@ -296,7 +293,8 @@ class AddGoodsForm extends Component {
                 {
                   pdSpu.pdSpuInfo &&
                   <AddGoodsDesc
-                    dataSource={pdSpu.pdSpuInfo}
+                    changeSource={this.changeSource}
+                    dataSource={dataSource}
                     form={this.props.form}/>
                 }
                </FormItem>

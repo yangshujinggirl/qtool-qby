@@ -39,11 +39,15 @@ class GoodsDetail extends Component {
     const { pdSpuId, source } =this.props.data;
     this.props.dispatch({
       type:'productEditGoods/fetchGoodsInfo',
-      payload:{spuId:pdSpuId}
+      payload:{spuId:pdSpuId},
+      callback:{}
     })
   }
   render() {
     const { iPdSpu, fileList } = this.props.productEditGoods;
+    const {pdSkus} = iPdSpu;
+    pdSkus&&pdSkus.map(item => item.type ='detail')
+    console.log(pdSkus)
     return(
       <div className="btip-add-goods-components">
         <Form>
@@ -112,7 +116,7 @@ class GoodsDetail extends Component {
                       el.type == 1?
                       <span>{el.content}</span>
                       :
-                      <img src={el.content.url} style={{'width':'100px','height':'100px'}}/>
+                      <Imgmodel picUrl={el.content}/>
                     }
                   </li>
                 ))

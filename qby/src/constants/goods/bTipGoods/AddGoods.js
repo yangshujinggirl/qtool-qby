@@ -53,6 +53,7 @@ class AddGoodsForm extends Component {
     super(props);
     this.state = {
       loading:false,
+      dataSource:[]
     }
   }
   componentDidMount() {
@@ -64,6 +65,9 @@ class AddGoodsForm extends Component {
       type:'bTipAddGoods/fetchGoodsInfo',
       payload:{
         spuId:pdSpuId,
+      },
+      callback:(dataSource)=>{
+        this.setState({dataSource})
       }
     })
   }
@@ -98,22 +102,8 @@ class AddGoodsForm extends Component {
   //参数格式化
   formtParams(values) {
     values.bname = values.bname.trim();
-    let pdSpuInfo = values.pdSpuInfo;
-    if(pdSpuInfo) {
-      pdSpuInfo.map((el) => {
-        if(el.content instanceof Array) {
-          if(el.content[0].response) {
-            el.content = el.content[0].response.data[0]
-          } else {
-            el.content = el.content[0].name
-          }
-          el.type = '2'
-        } else {
-          el.type = '1'
-        }
-        return el;
-      })
-    }
+    //处理商品描述参数
+    values.pdSpuInfo = this.state.dataSource;
     return values;
   }
   //提交api
@@ -143,8 +133,12 @@ class AddGoodsForm extends Component {
       console.log(error)
     })
   }
-
+  //修改dataSource
+  changeSource =(dataSource)=> {
+    this.setState({dataSource})
+  }
   render() {
+    const {dataSource} = this.state;
     const { getFieldDecorator } = this.props.form;
     const { pdSpu, fileList } = this.props.bTipAddGoods;
     const { loading } =this.state;
@@ -327,9 +321,10 @@ class AddGoodsForm extends Component {
             <Col span={24}>
               <FormItem label='商品描述' {...formItemLayout}>
                 {
-                  pdSpu.pdSpuInfo&&
+                  dataSource&&
                   <AddGoodsDesc
-                    dataSource={pdSpu.pdSpuInfo}
+                    changeSource={this.changeSource}
+                    dataSource={dataSource}
                     form={this.props.form}/>
                 }
                </FormItem>

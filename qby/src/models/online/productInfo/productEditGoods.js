@@ -19,9 +19,14 @@ export default {
     getGoodsInfo(state, { payload : { iPdSpu, fileList } }) {
       return { ...state, iPdSpu, fileList }
     },
+    changePdSkus(state,{payload:{pdSkus}}){
+      const {iPdSpu} = state;
+      const list = Object.assign(iPdSpu,{pdSkus})
+      return {...state,iPdSpu:list}
+    }
   },
   effects: {
-    *fetchGoodsInfo({ payload: values },{ call, put ,select}) {
+    *fetchGoodsInfo({ payload: values,callback },{ call, put ,select}) {
       const oldPdSkus = yield select(state => state.addGoods.pdSkus)
       yield put({type:'resetData'})
       const result = yield call(goodsInfoApi,values);
@@ -36,7 +41,6 @@ export default {
           };
           iPdSpu.platform = platform;
         };
-        console.log(iPdSpu)
         //格式化商品图片数据
         if(iPdSpu.spuIdPics && iPdSpu.spuIdPics) {
            fileList = iPdSpu.spuIdPics.map(el=>(
@@ -46,10 +50,10 @@ export default {
               name: el.url,
               status: 'done',
             }
-          ))
-        }
+          ));
+        };
         //处理商品信息
-        if(iPdSpu.pdSkus.length>0) {
+        if(iPdSpu.pdSkus.length>0) { //pku商品
           pdSkus = iPdSpu.pdSkus.map((el) => {
             let name1 = el.pdType1Val&&el.pdType1Val.name;
             let name2 = el.pdType2Val&&el.pdType2Val.name;
@@ -59,7 +63,7 @@ export default {
             iPdSpu.isSkus = el.pdType1Val?true:false;
             return el
           })
-        } else {
+        } else {//spu商品
           let initPdspuData = {
                   code:iPdSpu.code,
                   barcode:iPdSpu.barcode,
@@ -67,33 +71,24 @@ export default {
                   purchasePrice:iPdSpu.purchasePrice,
                   receivePrice:iPdSpu.receivePrice,
                   deliveryPrice:iPdSpu.deliveryPrice,
-                  key:iPdSpu.barcode
+                  key:iPdSpu.barcode,
+                  goodsExplain:iPdSpu.goodsExplain
                 }
           pdSkus.push(initPdspuData);
         }
         //处理商品描述
         let pdSpuInfo = iPdSpu.pdSpuInfo?JSON.parse(iPdSpu.pdSpuInfo):[];
-        if(pdSpuInfo.length>0) {
-          pdSpuInfo = pdSpuInfo.map((el,index) => {
-            if(el.type == '2') {
-              el.content = {
-                uid:index,
-                name:el.content,
-                url: `${fileDomain}${el.content}`,
-                status:'done',
-              }
-            }
-            el.key = index
-            return el;
-          })
-        }
         iPdSpu = {...iPdSpu, pdSkus, pdSpuInfo};
+        console.log(pdSkus)
         yield put({
           type:'getGoodsInfo',
           payload:{
             iPdSpu,fileList
           }
-        })
+        });
+        if(typeof(callback) == 'function'){
+          callback(pdSpuInfo) //商品描述
+        };
       }
     },
   }

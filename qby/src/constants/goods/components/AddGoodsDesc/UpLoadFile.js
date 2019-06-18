@@ -6,11 +6,7 @@ import { Upload,Icon, Modal, Button } from 'antd';
 class UpLoadFile extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      fileList:this.props.fileList
-    }
   }
-
   beforeUpload(file){
   	const isJPG = file.type === 'image/jpeg';
   	const isPNG = file.type === 'image/png';
@@ -24,40 +20,35 @@ class UpLoadFile extends Component {
 
     return (isJPG || isPNG) && isLt2M;
   }
-	handleChange = ({fileList}) => {
-    this.setState({
-      fileList
-    })
-	}
-  normFile = (e) => {
-    if (Array.isArray(e)) {
-      return e;
+
+	handleChange = ({file}) => {
+    if(file.status=='done'){
+      if(file.response.code == '0'){
+        this.props.changeImg(file.response.data[0]);
+      };
     }
-    return e && e.fileList;
-  }
+	}
+
   render() {
-   const { fileList } = this.state;
+   const { imgUrl } = this.props;
+   const fileDomain = eval(sessionStorage.getItem('fileDomain'));
+   const uploadButton = (
+     <div>
+       <Icon type='plus'/>
+     </div>
+   );
    return(
       <div style={{'display':'inline-block'}}>
        {
-         this.props.form.getFieldDecorator(`pdSpuInfo[${this.props.index}].content`,{
-           getValueFromEvent: this.normFile,
-           initialValue:fileList,
-           valuePropName:'fileList',
-         })(
-             <Upload
-              className="avatar-uploader"
-              name="imgFile"
-              listType="picture-card"
-              className="avatar-uploader"
-              action="/erpWebRest/qcamp/upload.htm?type=spuDetail"
-              beforeUpload={this.beforeUpload}
-              onChange={this.handleChange}>
-              {
-                fileList.length >0 ? null : <Icon type="plus" className="avatar-uploader-trigger" />
-              }
-            </Upload>
-         )
+         <Upload
+          name="imgFile"
+          listType="picture-card"
+          showUploadList={false}
+          action="/erpWebRest/qcamp/upload.htm?type=spuDetail"
+          beforeUpload={this.beforeUpload}
+          onChange={this.handleChange}>
+          {imgUrl ? <img style={{'width':'102px','height':'102px'}} src={fileDomain+imgUrl} alt="avatar" /> : uploadButton}
+        </Upload>
        }
      </div>
     )

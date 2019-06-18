@@ -45,7 +45,7 @@ class Tabletitle extends React.Component {
 					<div className='cardlist_item fl'><label>子单号：</label><span>{this.props.ecSuborderNo}</span></div>
 					<div className='cardlist_item fl'><label>保税仓库：</label><span>{this.props.warehouseStr}</span></div>
 					<div className='cardlist_item fl'><label>子单状态：</label><span>{this.props.statusStr}</span></div>
-					{ (this.props.pushPlatform == 10 || this.props.pushPlatform == 40) && (this.props.status == 2 || this.props.status == 6 || this.props.status == 8)
+					{ (this.props.pushPlatform == 10 || this.props.pushPlatform == 40) && (this.props.status == 2 || this.props.status == 6 || this.props.status == 8 || this.props.status == 9)
 							? <Button type="primary" className="dismiss_audit" onClick={this.dismissAudit}>驳回审核</Button>
 							: null
 					}
@@ -74,7 +74,9 @@ class OrderuserInfo extends React.Component{
 			recProvince:null,
 			recCity:null,
 			recDistrict:null,
-			recAddress:null
+			recAddress:null,
+			facePicUrl:null,
+			backPicUrl:null,
     }
     this.column1 = [
 			{
@@ -321,7 +323,9 @@ class OrderuserInfo extends React.Component{
 					recProvince:orderInfos.recProvince,
 					recCity:orderInfos.recCity,
 					recDistrict:orderInfos.recDistrict,
-					recAddress:orderInfos.recAddress
+					recAddress:orderInfos.recAddress,
+					facePicUrl:orderInfos.facePicUrl,
+					backPicUrl:orderInfos.backPicUrl,
 		   	})
 			}else{
 				this.setState({
@@ -370,8 +374,11 @@ class OrderuserInfo extends React.Component{
 						recCity={this.state.recCity}
 						recDistrict={this.state.recDistrict}
 						recAddress={this.state.recAddress}
+						facePicUrl={this.state.facePicUrl}
+						backPicUrl={this.state.backPicUrl}
 						infofetch={this.infofetch.bind(this)}
 						editChange={this.props.editChange}
+						identify={this.props.identify}
 					/>
 				</div>
 				<div className='mb10'>
@@ -475,7 +482,7 @@ class OrderuserInfo extends React.Component{
 function mapStateToProps(state) {
 	const { tab } =state;
   const {headTitle,headTit,details,logs} = state.ordercg;
-	const {editChange} = state.orderuser;
-	return {headTitle,headTit,details,logs,editChange,tab};
+	const {editChange,identify} = state.orderuser;
+	return {headTitle,headTit,details,logs,editChange,identify,tab};
 }
 export default connect(mapStateToProps)(OrderuserInfo);

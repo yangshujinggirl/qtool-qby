@@ -50,6 +50,8 @@ class NormalForm extends Component{
                       <Option value='4'>下NEW</Option>
                       <Option value='5'>HOT</Option>
                       <Option value='6'>下HOT</Option>
+                      <Option value='7'>商品提示</Option>
+                      <Option value='8'>保税分润</Option>
                   </Select>
                   )}
               </FormItem>
@@ -58,7 +60,7 @@ class NormalForm extends Component{
                   <Select allowClear={true} placeholder="请选择状态" className='select'>
                       <Option value='1'>待执行</Option>
                       <Option value='2'>已执行</Option>
-                      <Option value='3'>无效</Option>
+                      <Option value='0'>无效</Option>
                   </Select>
                   )}
               </FormItem>

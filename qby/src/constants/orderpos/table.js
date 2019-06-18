@@ -41,11 +41,16 @@ class OrderposTable extends React.Component {
     //点击表格上的修改按钮操作
     editInfo = (record) =>{
        const spOrderId=String(record.orderId);
-       const paneitem={title:'订单详情',key:'205000edit'+spOrderId+'info',data:{spOrderId:spOrderId,type:record.orderType},componkey:'205000info'}
+       const paneitem = {
+				 title:'订单详情',
+				 key:'205000edit'+spOrderId+'info',
+				 data:{spOrderId:spOrderId,type:record.orderType},
+				 componkey:'205000info'
+			 };
        this.props.dispatch({
          type:'tab/firstAddTab',
          payload:paneitem
-       })
+       });
     }
 
     //分页方法

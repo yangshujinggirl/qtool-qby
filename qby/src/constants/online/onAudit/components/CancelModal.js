@@ -26,7 +26,7 @@ class Cancel extends Component{
 
   render(){
     const { getFieldDecorator } = this.props.form;
-    const {visible} = this.props;
+    const {visible,isLoading} = this.props;
     const formItemLayout = {
       labelCol: {span:7},
       wrapperCol: {span:13},
@@ -36,6 +36,7 @@ class Cancel extends Component{
         width={420}
         title='取消原因'
         visible={visible}
+        confirmLoading={isLoading}
         onOk={this.onOk}
         onCancel={this.onCancel}
       >

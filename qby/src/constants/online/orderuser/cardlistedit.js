@@ -1,6 +1,6 @@
-import { Card ,Button} from 'antd';
+import { Card,Button,Modal} from 'antd';
 import WrappedApp from './form_edit';
-
+import './orderuser.css'
 class Cardtitles extends React.Component {
 
 	render() {
@@ -24,7 +24,8 @@ class Cardtitles extends React.Component {
 
 class Cardlists extends React.Component {
     state={
-        editopen:false
+        editopen:false,
+				visible:false
     }
     hindlistClick=()=>{
         this.setState({
@@ -52,7 +53,19 @@ class Cardlists extends React.Component {
     saveFormRef = (formRef) => {
         this.formRef = formRef;
     }
+		onLook =()=> {
+			this.setState({
+				visible:true
+			})
+		}
+		handleCancel =()=> {
+			this.setState({
+				visible:false
+			})
+		}
 	render() {
+		const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
+		console.log(this.props)
 		return (
 			<Card
         title={
@@ -72,7 +85,37 @@ class Cardlists extends React.Component {
               infofetch={this.props.infofetch}
               />:
             this.props.cardlist.map((item,index)=>{
-                return (<div className='cardlist_item' key={index}><label>{item.lable}：</label><span>{item.text}</span></div>)
+                return (
+									<div className='cardlist_item' key={index}>
+										<label>{item.lable}：</label>
+										<span>{item.text}</span>
+									　{
+											item.lable == '身份证号' &&
+												<div style={{display:'inline-block'}}>
+													{
+														this.props.identify&&this.props.facePicUrl&&this.props.backPicUrl&&
+														<span
+															style={{color:'#35BAB0',cursor:'pointer'}}
+															onClick={this.onLook}>查看身份证正反面
+														</span>
+													}
+														<Modal
+														 title="身份证正反面"
+														 visible={this.state.visible}
+														 footer={null}
+														 wrapClassName='img-box'
+														 onCancel={this.handleCancel}>
+														 	<div className='identified'>
+																<img style={{'width':'400px'}} src={fileDomain + this.props.facePicUrl}/>
+															</div>
+														 	<div>
+																<img style={{'width':'400px'}} src={fileDomain + this.props.backPicUrl}/>
+															</div>
+														</Modal>
+												</div>
+										}
+									</div>
+								)
             })
           }
 				</div>

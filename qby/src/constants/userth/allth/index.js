@@ -1,7 +1,7 @@
 import React,{ Component } from 'react';
 import { connect } from 'dva';
 import { Button, message, Modal,Row,Col,Table,Icon} from 'antd'
-import { sureGetApi,forceCancelApi } from '../../../services/orderCenter/userth/allth'
+import { sureGetApi,forceCancelApi,exportDataApi } from '../../../services/orderCenter/userth/allth'
 import {timeForMats} from '../../../utils/meth';
 import Qtable from '../../../components/Qtable/index';
 import Qpagination from '../../../components/Qpagination/index';
@@ -53,6 +53,7 @@ class Allth extends Component {
     })
   }
   onChange =(selectedRowKeys,selectedRows)=> {
+    console.log(selectedRowKeys)
     const {rowSelection}=this.state;
     this.setState({
       rowSelection:Object.assign({},rowSelection,{selectedRowKeys}),
@@ -131,9 +132,10 @@ class Allth extends Component {
   }
   //导出数据
   exportData =()=> {
-    const values ={type:12,downloadParam:{...this.state.inputValues}}
+    const values ={ type: 112, downloadParam: {...this.state.inputValues}};
     exportDataApi(values)
     .then(res => {
+      console.log(res)
       if(res.code == '0'){
         confirm({
 					title: '数据已经进入导出队列',
@@ -188,18 +190,53 @@ class Allth extends Component {
       message.warning('请选择需要操作的保税订单',.8)
     }else{//只可操作保税仓的待收货订单
       if(selectedRows[0].orderType != 5 || selectedRows[0].returnStatusStr != '待收货' ){
-        message.error('只可操作保税仓的待收货订单')
+        message.error('只可操作保税仓的待收货订单',.8)
       }else{
-        sureGetApi( {orderReturnId})
-        .then(res => {
-          if(res.code == '0'){
-            message.success('已确认收货')
+        confirm({
+          content:'是否确认此操作',
+          onOk:()=>{
+            let isCanClick = true;
+            if(isCanClick){
+              isCanClick = false;
+              sureGetApi( {orderReturnId} )
+              .then(res => {
+                if(res.code == '0'){
+                  message.success('已确认收货',.8)
+                  this.props.dispatch({
+                    type:'allth/clearSelect',
+                    payload:{selectedRowKeys:null}
+                  });
+                  this.props.dispatch({
+                    type:'allth/fetchList',
+                    payload:this.state.inputValues
+                  });
+                  this.setState({
+                    selectedRows:[]
+                  });
+                  isCanClick=true;
+                }else{
+                  isCanClick=true;
+                  this.setState({
+                    selectedRows:[]
+                  });
+                  this.props.dispatch({
+                    type:'allth/clearSelect',
+                    payload:{selectedRowKeys:null}
+                  });
+                };
+              })
+            };
+          },
+          onCancel:()=>{
+            this.setState({
+              selectedRows:[]
+            });
             this.props.dispatch({
               type:'allth/clearSelect',
               payload:{selectedRowKeys:null}
             });
-          };
-        })
+          },
+        });
       };
     };
   }
@@ -209,23 +246,47 @@ class Allth extends Component {
     if(!selectedRows[0]){
       message.warning('请选择需要操作的保税订单或仓库直邮订单',.8)
     }else{ //只可操作保税仓和仓库直邮的，待收货退单
-      if((selectedRows[0].orderType == 5&&selectedRows[0].returnStatus==50) || (selectedRows[0].orderType==4 && selectedRows[0].returnStatus==50) ){
+      if((selectedRows[0].orderType == 5||selectedRows[0].orderType==4) && (selectedRows[0].returnStatus==20 || selectedRows[0].returnStatus==50) ){
         confirm({
           content:'是否确认此操作',
           onOk:()=>{
-            const {orderReturnId} = this.state;
-            forceCancelApi( {orderReturnId})
-            .then(res => {
-              if(res.code == '0'){
-                message.success('强制取消成功')
-                this.props.dispatch({
-                  type:'allth/clearSelect',
-                  payload:{selectedRowKeys:null}
-                });
-              };
-            })
+            let isCanClick = true;
+            if(isCanClick){
+              isCanClick = false;
+              const {orderReturnId} = this.state;
+              forceCancelApi( {orderReturnId})
+              .then(res => {
+                if(res.code == '0'){
+                  message.success('强制取消成功',.8)
+                  this.props.dispatch({
+                    type:'allth/clearSelect',
+                    payload:{selectedRowKeys:null}
+                  });
+                  this.props.dispatch({
+                    type:'allth/fetchList',
+                    payload:this.state.inputValues
+                  });
+                  this.setState({
+                    selectedRows:[]
+                  });
+                  isCanClick = true;
+                }else{
+                  isCanClick = true;
+                  this.setState({
+                    selectedRows:[]
+                  });
+                  this.props.dispatch({
+                    type:'allth/clearSelect',
+                    payload:{selectedRowKeys:null}
+                  });
+                };
+              })
+            };
           },
           onCancel:()=>{
+            this.setState({
+              selectedRows:[]
+            });
             this.props.dispatch({
               type:'allth/clearSelect',
               payload:{selectedRowKeys:null}
@@ -233,7 +294,7 @@ class Allth extends Component {
           },
         });
       }else{
-        message.error('只可操作保税订单或仓库直邮订单的待收货状态的订单')
+        message.error('只可操作保税订单或仓库直邮订单的待收货状态的订单',.8)
       };
     };
   }
@@ -287,6 +348,14 @@ class Allth extends Component {
               size='large'
               onClick={this.forceCancel}
             >强制取消
+            </Button>
+          }
+          {
+            <Button
+              type='primary'
+              size='large'
+              onClick={this.exportData}
+            >导出退单
             </Button>
           }
         </div>

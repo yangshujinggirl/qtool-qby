@@ -48,10 +48,12 @@ class GoodsDetail extends Component {
       type:'cTipAddGoods/fetchGoodsInfo',
       payload:{
         spuId:pdSpuId
-      }
+      },
+      callback:null
     })
   }
   render() {
+    const fileDomain = sessionStorage.getItem('fileDomain');
     const { pdSpu, fileList } = this.props.cTipAddGoods;
     console.log(pdSpu)
     return(
@@ -139,7 +141,7 @@ class GoodsDetail extends Component {
                       el.type == '1'?
                       <span>{el.content}</span>
                       :
-                      <Imgmodel picUrl={el.content.name}/>
+                      <Imgmodel picUrl={el.content}/>
                     }
                   </li>
                 ))

@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Form,Button,Input,Row,Col,message} from 'antd';
+import { Form,Button,Input,Row,Col,message,Radio,Modal } from 'antd';
 import {addPageApi,updataPageApi,getConfigDetailApi} from '../../../services/operate/pageConfig/index'
 import {GetServerData} from '../../../services/services';
 import {deepcCloneObj} from '../../../utils/commonFc';
+import FriendCircleImg from './components/FriendCircleImg'
+import FriendImg from './components/FriendImg'
 import moment from 'moment';
 //引入三部分区域
 import LeftAddType from './components/left/index';
@@ -12,6 +14,7 @@ import RightConfig from './components/right/index';
 const FormItem = Form.Item;
 import './index.less'
 import '../../../style/h5_config.css';
+const RadioGroup = Radio.Group;
 
 class AddConfig extends  Component {
   constructor(props) {
@@ -20,7 +23,11 @@ class AddConfig extends  Component {
       isLoading:false,
       configureCode:'',
       previewLink:'',
-      pdConfigureId:''
+      pdConfigureId:'',
+      isShare:0,
+      shareFriendCircleImg:'',
+      shareFriendImg:'',
+      visible:false,
     };
    }
   componentDidMount(){
@@ -30,9 +37,24 @@ class AddConfig extends  Component {
         previewLink,
         pdConfigureId,
         pageName,
-        remark
+        remark,
+        share,
+        shareFriendCircleImg,
+        shareFriendImg,
+        shareTitle,
+        isShare
       } = this.props.data;
-      this.setState({configureCode,previewLink,pdConfigureId,pageName,remark});
+      this.setState({
+        configureCode,
+        previewLink,
+        pdConfigureId,
+        pageName,
+        remark,
+        shareFriendCircleImg,
+        shareFriendImg,
+        shareTitle,
+        isShare
+      });
       getConfigDetailApi({pdConfigureId}).then(res=>{
         if(res.code == '0'){
           let initdataArr=[];
@@ -43,8 +65,8 @@ class AddConfig extends  Component {
                 pdBannerConfig[i].text=pdBannerConfig[i].text
               }else{
                 pdBannerConfig[i].text=pdBannerConfig[i].text.replace(/#&#/g,"\n")
-              }
-            }
+              };
+            };
           };
           initdataArr = pdBannerConfig;
           this.props.dispatch({
@@ -74,7 +96,7 @@ class AddConfig extends  Component {
         type:'h5config/syncCurrentItem',
         payload:0
       });
-    }
+    };
   }
   cancel =()=> {
     let {componkey} = this.props;
@@ -90,70 +112,65 @@ class AddConfig extends  Component {
   handleSubmit =()=> {
     this.props.form.validateFieldsAndScroll((err,values)=>{
       if(!err){
-        const {configArrPre} = this.props;
-        if(!configArrPre.length) return  message.error('页面配置不可为空',.8)
-        if(configArrPre.length){
-         if(configArrPre.some(item=> item.type==1 && !item.text )){
-           message.error('请上传图片',.8)
-           return ;
-         };
-         if(configArrPre.some(item=> item.type==2 && item.template==1 && !item.pdCode )){
-           message.error('请填写链接商品编码',.8)
-           return ;
-         };
-         if(configArrPre.some(item=> item.type==2 && item.template==2 && !item.pdCode && !item.rowCode)){
-           message.error('请填写链接商品编码',.8)
-           return ;
-         };
-         const newArrPre = this.formatValue(configArrPre);
-         values.pdConfigureConfigList =  newArrPre
-         if(values.pdConfigureConfigList.length > 0){
+        let newValues = this.formatValue(values);
+        console.log(newValues)
+        if(!newValues) return
+        if(newValues.pdConfigureConfigList && newValues.pdConfigureConfigList.length > 0){
            this.setState({isLoading:true});
-           if(this.props.data){ //修改
-             const {pdConfigureId,previewLink,configureCode} = this.props.data;
-             values.pdConfigureId = pdConfigureId;
-             values.previewLink = previewLink;
-             values.configureCode = configureCode;
-             updataPageApi(values).then(res=>{
-               if(res.code=='0'){
-                   message.success('修改成功');
-                   this.props.dispatch({
-                     type:'tab/initDeletestate',
-                     payload:this.props.componkey+this.state.pdConfigureId
-                   });
-                   this.afterSaveSuccess();
-               }else{
-                 this.setState({isLoading:false});
-               };
-             });
-           }else{ //新增
-             addPageApi(values).then(res=>{
-               if(res.code=='0'){
-                 message.success('新建成功');
-                 this.props.dispatch({
-                   type:'tab/initDeletestate',
-                   payload:this.props.componkey
-                 });
-                 this.afterSaveSuccess();
-               }else{
-                 this.setState({isLoading:false});
-               };
-             });
-           };
-         }else{
-           message.error('页面配置不可为空',.8)
-         };
-       }
+           this.sendRequest(values);
+        }else{
+          message.error('页面配置不可为空',.8)
+        };
       };
     });
   }
-  formatValue =(value)=> {
+  //格式化数据
+  formatValue =(values)=> {
+    const {shareFriendImg,shareFriendCircleImg} = this.state;
+    const {configArrPre} = this.props;
+    if(String(values.isShare) == 1 && !shareFriendImg) {
+      message.error('请上传分享微信好友图片',.8);
+      return null
+    };
+    if(String(values.isShare) == 1 && !shareFriendCircleImg) {
+       message.error('请上传朋友圈分享图片',.8);
+       return null
+     };
+    if(values.isShare){ // ==1
+      values.shareFriendImg = shareFriendImg;
+      values.shareFriendCircleImg = shareFriendCircleImg;
+    }else{
+      values.shareFriendImg = null;
+      values.shareFriendCircleImg = null;
+      values.shareTitle = null;
+    };
+    if(!configArrPre.length){
+      message.error('页面配置不可为空',.8)
+      return null
+    };
+    if(configArrPre.some(item=> item.type==1 && !item.text )){
+        return null;
+    };
+    if(configArrPre.some(item=> item.type==2 && item.template==1 && !item.pdCode )){ //单列展示
+       message.error('请填写链接商品编码',.8)
+       return null;
+    };
+    if(configArrPre.some(item=> item.type==2 && item.template==2 && !item.pdCode && !item.rowCode)){ //双列展示
+       message.error('请填写链接商品编码',.8)
+       return null;
+    };
+    const newArrPre = this.formatNewArrPre(configArrPre);
+    values.pdConfigureConfigList =  newArrPre;
+    return values;
+  }
+  //格式化页面配置部分的数据
+  formatNewArrPre =(value)=> {
     const newArrPre = _.cloneDeep(value);
     newArrPre.length && newArrPre.map((item,index) => {
       if(item.type == '4'){
         if(!item.text){
           newArrPre[index].text = item.text.replace(/\n/g,"#&#")
-        }
+        };
       };
       if(item.type == '2'){ //后端要求的数据格式不能有这两个
         delete newArrPre[index]['pdSpu'];
@@ -162,6 +179,40 @@ class AddConfig extends  Component {
     });
     const newValue = newArrPre.filter(item=>item.type==2||item.text);
     return newValue;
+  }
+  //请求接口
+  sendRequest=(values)=>{
+    if(this.props.data){ //修改
+      const {pdConfigureId,previewLink,configureCode} = this.props.data;
+      values.pdConfigureId = pdConfigureId;
+      values.previewLink = previewLink;
+      values.configureCode = configureCode;
+      updataPageApi(values).then(res=>{
+        if(res.code=='0'){
+            message.success('修改成功');
+            this.props.dispatch({
+              type:'tab/initDeletestate',
+              payload:this.props.componkey+this.state.pdConfigureId
+            });
+            this.afterSaveSuccess();
+        }else{
+          this.setState({isLoading:false});
+        };
+      });
+    }else{ //新增
+      addPageApi(values).then(res=>{
+        if(res.code=='0'){
+          message.success('新建成功');
+          this.props.dispatch({
+            type:'tab/initDeletestate',
+            payload:this.props.componkey
+          });
+          this.afterSaveSuccess();
+        }else{
+          this.setState({isLoading:false});
+        };
+      });
+    };
   }
   //成功之后
   afterSaveSuccess =()=> {
@@ -183,6 +234,7 @@ class AddConfig extends  Component {
     });
     this.setState({isLoading:false});
   }
+  //上传图片之前
   beforeUpload =(file)=> {
     const isJPG = file.type === 'image/jpeg'||'image.png';
     if (!isJPG) {
@@ -193,6 +245,16 @@ class AddConfig extends  Component {
       message.error('上传内容大于2M，请选择2M以内的文件',.8);
     }
     return isJPG && isLt2M;
+  }
+  changeCircleImg =(shareFriendCircleImg)=> {
+    this.setState({
+      shareFriendCircleImg
+    });
+  }
+  changeFriendImg =(shareFriendImg)=> {
+    this.setState({
+      shareFriendImg
+    });
   }
   previwPage =()=> {
     const paneitem = {
@@ -205,14 +267,36 @@ class AddConfig extends  Component {
       payload:paneitem
     });
   }
+  onChange=(e)=>{
+    const {value} = e.target;
+    this.setState({
+      isShare:value
+    })
+  }
+  //示例
+  displayExample=()=>{
+    this.setState({
+      visible:true
+    })
+  }
+  //关闭示例
+  onCancel=()=>{
+    this.setState({
+      visible:false
+    })
+  }
   render() {
-    console.log(this.props)
     const {
       configureCode,
       previewLink,
       pageName,
       remark,
-      isLoading
+      isLoading,
+      isShare,
+      shareFriendCircleImg,
+      shareFriendImg,
+      shareTitle,
+      visible,
     } = this.state
     const { getFieldDecorator } = this.props.form;
     const formItemLayout = {
@@ -259,6 +343,48 @@ class AddConfig extends  Component {
     						<Input placeholder='请输入备注,50字符以内' maxLength='50' autoComplete="off"/>
     					)}
     				</FormItem>
+            <FormItem {...formItemLayout} label="c端是否可分享">
+    					{getFieldDecorator('isShare', {
+                rules: [{ required: true, message: '请选择c端是否可分享'}],
+    						initialValue:isShare
+    					})(
+                <RadioGroup onChange={this.onChange} value={this.state.value}>
+                  <Radio value={1}>是</Radio>
+                  <Radio value={0}>否</Radio>
+                </RadioGroup>
+    					)}
+    				</FormItem>
+            {
+              String(isShare) == 1 &&
+              <div>
+                <FormItem
+                  labelCol={{span:3}}
+                  wrapperCol={{span:8}}
+                  label="分享微信好友标题">
+        					{getFieldDecorator('shareTitle', {
+                    rules: [{ required: true, message: '请输入分享微信好友标题'}],
+        						initialValue:shareTitle
+        					})(
+        						<Input style={{width:'75%'}} placeholder='请输入分享标题，30字以内' maxLength='30' autoComplete="off"/>
+        					)}<a className='theme-color' onClick={this.displayExample}>　示例</a>
+        				</FormItem>
+                <FormItem {...formItemLayout} label="分享微信好友图片" className='must-pic'>
+        						<FriendImg
+                      name='imgFile'
+                      action='/erpWebRest/qcamp/upload.htm?type=brand'
+                      shareFriendImg = {shareFriendImg}
+                      changeFriendImg = {this.changeFriendImg}/>
+        				</FormItem>
+                <FormItem {...formItemLayout} label="朋友圈分享图片" className='must-pic'>
+        						<FriendCircleImg
+                      name='imgFile'
+                      action='/erpWebRest/qcamp/upload.htm?type=brand'
+                      shareFriendCircleImg = {shareFriendCircleImg}
+                      changeCircleImg = {this.changeCircleImg}
+                    />
+        				</FormItem>
+              </div>
+            }
             <div className='head_title'>页面配置</div>
             <div className='content_box h5-wrapper'>
               <div className='white_box h5-container'>
@@ -278,6 +404,15 @@ class AddConfig extends  Component {
               </Row>
             </FormItem>
         </Form>
+        <Modal
+          width={600}
+          visible={visible}
+          footer={null}
+          onCancel={this.onCancel}
+          className='example'
+        >
+          <img src={require('../../../assets/example.png')}/>
+        </Modal>
       </div>
     )
   }

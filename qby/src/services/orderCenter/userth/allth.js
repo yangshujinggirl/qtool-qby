@@ -49,3 +49,11 @@ export function saveThApi(values) {
       data:values
   })
 }
+//导出数据
+export function exportDataApi(values) {
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.sys.doc.task',
+      data:values
+  })
+}

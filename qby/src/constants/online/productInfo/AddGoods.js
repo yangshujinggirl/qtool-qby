@@ -4,7 +4,7 @@ import {
   Form,Row,Col,
   Input,Button,Icon,
   Select ,AutoComplete,Upload,
-  message,Radio,DatePicker,Checkbox
+  message,Radio,DatePicker,Checkbox,Table
 } from 'antd';
 import moment from 'moment';
 import {
@@ -54,6 +54,7 @@ class AddGoodsForm extends Component {
     this.state = {
       loading:false,
       plainOptions:[],
+      dataSource:[]
     };
     this.platformOptions = [
       {label:'C端app',value:1},
@@ -67,7 +68,10 @@ class AddGoodsForm extends Component {
     const { pdSpuId, source } =this.props.data;
     this.props.dispatch({
       type:'productEditGoods/fetchGoodsInfo',
-      payload:{spuId:pdSpuId}
+      payload:{spuId:pdSpuId},
+      callback:(dataSource)=>{
+        this.setState({dataSource})
+      }
     });
     productListApi()
     .then(res => {
@@ -113,22 +117,21 @@ class AddGoodsForm extends Component {
     values.oname = values.oname.trim();
     values.platform = values.platform.join(",");
     //处理商品描述参数
-    let pdSpuInfo = values.pdSpuInfo;
-    if(pdSpuInfo) {
-      pdSpuInfo.map((el) => {
-        if(el.content instanceof Array) {
-          if(el.content[0].response) {
-            el.content = el.content[0].response.data[0]
-          } else {
-            el.content = el.content[0].name
-          }
-          el.type = '2'
-        } else {
-          el.type = '1'
-        }
-        return el;
-      })
-    }
+    values.pdSpuInfo = this.state.dataSource;
+    const {isSkus,pdSkus} = this.props.productEditGoods.iPdSpu;
+      const skuList = [];
+      pdSkus && pdSkus.map(item=>{
+        if(isSkus){ //sku商品
+          const obj = {};
+          // obj.pdSkuId = item.pdSkuId;
+          obj.code = item.code;
+          obj.goodsExplain = item.goodsExplain;
+          skuList.push(obj);
+          values.pdSkus = skuList;
+        }else{
+          values.goodsExplain = item.goodsExplain;
+        };
+      });
     return values;
   }
   //提交api
@@ -138,7 +141,7 @@ class AddGoodsForm extends Component {
     })
     goodSaveApi(values)
     .then(res=> {
-      const { code } =res;
+      const { code } = res;
       if(code == '0') {
         this.setState({
           loading:false
@@ -157,10 +160,29 @@ class AddGoodsForm extends Component {
       console.log(error)
     })
   }
-
+  //商品提示修改
+  handleOperateClick =(record,index,e)=> {
+    const {pdSkus} = this.props.productEditGoods.iPdSpu;
+    pdSkus[index].goodsExplain = e.target.value;
+    this.props.dispatch({
+      type:'productEditGoods/changePdSkus',
+      payload:{pdSkus}
+    });
+  }
+  //修改dataSource
+  changeSource =(dataSource)=> {
+    this.setState({dataSource})
+  }
   render() {
+    const {dataSource} = this.state;
+    dataSource.length>0 && dataSource.map((item,index)=>( //商品描述设置唯一key
+      item.key=index
+    ));
     const { getFieldDecorator } = this.props.form;
     const { iPdSpu, fileList } = this.props.productEditGoods;
+    iPdSpu.pdSkus&&iPdSpu.pdSkus.map((item,index)=>{ //商品提示更改
+      item.onOperateClick =(e)=> { this.handleOperateClick(item,index,e)}
+    });
     const { loading } =this.state;
     return(
       <div className="btip-add-goods-components">
@@ -209,7 +231,9 @@ class AddGoodsForm extends Component {
             </Col>
             <Col span={24}>
               <FormItem label='商品信息' {...formItemLayout2}>
-                 <Qtable
+                 <Table
+                   pagination={false}
+                   bordered={true}
                    columns={iPdSpu.isSkus?DetailSizeColumns:DetailColumns}
                    dataSource={iPdSpu.pdSkus}/>
                </FormItem>
@@ -262,7 +286,8 @@ class AddGoodsForm extends Component {
                 {
                   iPdSpu.pdSpuInfo&&
                   <AddGoodsDesc
-                    dataSource={iPdSpu.pdSpuInfo}
+                    changeSource={this.changeSource}
+                    dataSource={dataSource}
                     form={this.props.form}/>
                 }
                </FormItem>

@@ -27,9 +27,7 @@ class BondModal extends Component{
   }
   render(){
     const { getFieldDecorator } = this.props.form;
-    const {title,visible,name,cname,dispExp,pushPlatform,status} = this.props;
-    console.log(status)
-    console.log(typeof(pushPlatform) )
+    const {title,visible,name,cname,dispExp,pushPlatform,status,shipmentType} = this.props;
     return(
       <div>
       <Modal
@@ -95,11 +93,29 @@ class BondModal extends Component{
                      {required:true,message:"请选择推送平台"}]
                  })(
                    <RadioGroup>
-                     <Radio value={10}>管家</Radio>
+                     <Radio value={10}>管易</Radio>
                      <Radio value={20}>丰趣</Radio>
                      <Radio value={30}>无</Radio>
                     <Radio value={40}>芳星</Radio>
                    </RadioGroup>
+                 )
+               }
+           </FormItem>
+           <FormItem
+               label="出货方式"
+               labelCol={{ span: 5 }}
+               wrapperCol={{ span: 12 }}>
+               {
+                 getFieldDecorator("shipmentType",{
+                   initialValue:shipmentType ? Number(shipmentType) : undefined,
+                   rules:[
+                     {required:true,message:"请选择出货方式"}]
+                 })(
+                   <Select allowClear={true} placeholder="请选择出货方式" className='select'>
+                     <Option value={1}>保税仓发货</Option>
+                     <Option value={2}>海外直邮</Option>
+                     <Option value={3}>虚拟发货</Option>
+                   </Select>
                  )
                }
            </FormItem>

@@ -115,6 +115,8 @@ export default {
                         menus[i].type = 'activity'
                     }else if(menus[i].urResourceId == 1100000){
                         menus[i].type = 'server'
+                    }else if(menus[i].urResourceId == 1400000){
+                        menus[i].type = 'cConfig'
                     }
                 }
                 /* ------展示不同的logo-------- */

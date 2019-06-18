@@ -203,6 +203,9 @@ import DataDistribute from '../datasp/dataspcun/dataDistribution/index'
 //用户中心
 import CuserManage from '../userCenter/cUserManage/index'//c端用户管理
 
+/* ---------------------------------- c端配置中心 -------------------------- */
+import TipsPage from '../cConfig/tipsPage/index'
+
 
 
 class Content extends React.Component {
@@ -408,8 +411,8 @@ class Content extends React.Component {
                                     case formDataCode('server03-edit') : return <HandleBill data={this.props.data} componkey={this.props.componkey}/>
                                     case formDataCode('server32'): return <CserverOrder data={this.props.data} componkey={this.props.componkey}/>//c客服工单
                                     case formDataCode('server32-info'): return <CserverOrderdetail data={this.props.data} componkey={this.props.componkey}/>
-
-
+                                    /* ------------------------- C端配置中心 ------------------------------*/
+                                    case "1401000" : return <TipsPage data={this.props.data}/>
                                     default:  return "我是404";
                                 }
                             })()

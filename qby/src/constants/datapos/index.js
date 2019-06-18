@@ -9,7 +9,7 @@ import DailyBill from './dailyBill/index';
 import HotSellGoods from './hotSellGoods';
 import ClerkSale from './clerkSale';
 import ShReport from './shReport/index';
-import ProfitReport from './profitReport';
+// import ProfitReport from './profitReport';
 import InOutReport from './inoutReport';
 import AdjustLogIndex from './adjustLog';
 import InventorydiffLogIndex from './inventorydiffLog';
@@ -124,9 +124,7 @@ class DataposIndexForm extends React.Component{
             <TabPane tab="在途库存" key="9">
                 {this.state.key == 9 && <Onwayingindex shopId={this.state.sureShopId}/>}
             </TabPane>
-            <TabPane tab="利润报表" key="5">
-                {this.state.key == 5 && <ProfitReport shopId={this.state.sureShopId} resetShopId={this.resetShopId.bind(this)}/>}
-            </TabPane>
+            
             <TabPane tab="进销存报表" key="6">
                 {this.state.key == 6 && <InOutReport shopId={this.state.sureShopId} resetShopId={this.resetShopId.bind(this)}/>}
             </TabPane>
