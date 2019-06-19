@@ -15,6 +15,7 @@ import './orderuser.css';
 class Tabletitle extends React.Component {
 	// 驳回审核
 	dismissAudit =()=> {
+		console.log(this.props)
 		const {ecSuborderId} = this.props;
 		dismissAuditApi({status:4,ecSuborderId})
 		.then(res => {
@@ -77,6 +78,7 @@ class OrderuserInfo extends React.Component{
 			recAddress:null,
 			facePicUrl:null,
 			backPicUrl:null,
+			ecOrderId:null,
     }
     this.column1 = [
 			{
@@ -416,7 +418,7 @@ class OrderuserInfo extends React.Component{
 											ecOrderId={item.ecOrderId}
 											infofetch={this.infofetch.bind(this)}
 											editChange={this.props.editChange}
-											id={this.props.data.id}
+											id={ecOrderId}
 											ecSuborderId={item.ecSuborderId}
 											/>}
 									bordered={true}
