@@ -15,6 +15,7 @@ import './orderuser.css';
 class Tabletitle extends React.Component {
 	// 驳回审核
 	dismissAudit =()=> {
+		console.log(this.props)
 		const {ecSuborderId} = this.props;
 		dismissAuditApi({status:4,ecSuborderId})
 		.then(res => {
@@ -45,7 +46,7 @@ class Tabletitle extends React.Component {
 					<div className='cardlist_item fl'><label>子单号：</label><span>{this.props.ecSuborderNo}</span></div>
 					<div className='cardlist_item fl'><label>保税仓库：</label><span>{this.props.warehouseStr}</span></div>
 					<div className='cardlist_item fl'><label>子单状态：</label><span>{this.props.statusStr}</span></div>
-					{ (this.props.pushPlatform == 10) && (this.props.status == 2 || this.props.status == 6 || this.props.status == 8 || this.props.status == 9)
+					{ (this.props.pushPlatform == 10 || this.props.pushPlatform == 40) && (this.props.status == 2 || this.props.status == 6 || this.props.status == 8 || this.props.status == 9 || this.props.status == 14 || this.props.status == 15)
 							? <Button type="primary" className="dismiss_audit" onClick={this.dismissAudit}>驳回审核</Button>
 							: null
 					}
@@ -77,6 +78,7 @@ class OrderuserInfo extends React.Component{
 			recAddress:null,
 			facePicUrl:null,
 			backPicUrl:null,
+			ecOrderId:null,
     }
     this.column1 = [
 			{
@@ -416,7 +418,7 @@ class OrderuserInfo extends React.Component{
 											ecOrderId={item.ecOrderId}
 											infofetch={this.infofetch.bind(this)}
 											editChange={this.props.editChange}
-											id={this.props.data.id}
+											id={ecOrderId}
 											ecSuborderId={item.ecSuborderId}
 											/>}
 									bordered={true}
