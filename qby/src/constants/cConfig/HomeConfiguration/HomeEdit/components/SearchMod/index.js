@@ -1,5 +1,5 @@
 import react, { Component } from 'react';
-import { Input, Icon } from 'antd';
+import { Input, Icon, Button } from 'antd';
 import './index.less'
 
 class SearchMod extends Component {
@@ -10,6 +10,10 @@ class SearchMod extends Component {
           addonBefore={<Icon type="search" />}
           addonAfter={<Icon type="scan" />}
           placeholder="input search text"/>
+        <div className="handle-btn-action">
+          <Button>查看</Button>
+          <Button>编辑</Button>
+        </div>
       </div>
     )
   }

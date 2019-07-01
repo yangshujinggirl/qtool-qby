@@ -1,0 +1,55 @@
+@import "../../variates.less";
+.classify-mod {
+  .classify-item {
+    width: 85%;
+    overflow: hidden;
+    .classify-name {
+      cursor: pointer;
+    }
+  }
+  .mod-content {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    .item-icon {
+      width: 49%;
+      font-size: 12px;
+      margin-bottom: 16px;
+    }
+    .pic-wrap {
+      height: 200px;
+      border: 1px solid @line;
+      margin-bottom: 6px;
+    }
+    .title-level-one {
+      margin-bottom: 6px;
+      min-height: 28px;
+      position: relative;
+      .icon-flag {
+        width: 14px;
+        height: 10px;
+        display: inline-block;
+        background: red;
+        margin-right: 2px;
+      }
+    }
+    .label-action {
+      padding-top: 6px;
+      .lab-item {
+        display: inline-block;
+        vertical-align: middle;
+        width: 40px;
+        height: 20px;
+        line-height: 20px;
+        border-radius: 10px;
+        border: 1px solid @line;
+        color: #ccc;
+        text-align: center;
+        &:not(:last-child) {
+          margin-right: 2px;
+        }
+      }
+    }
+  }
+}

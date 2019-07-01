@@ -1,6 +1,15 @@
-@black:#ccc;
-@line:#f4f4f4;
+@import "./variates.less";
 .home-configuration-edit-pages {
+  .textTwoLine {
+    text-align: left;
+    text-overflow: -o-ellipsis-lastline;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
   .part-head {
     display: flex;
     justify-content: space-between;
@@ -15,13 +24,39 @@
   .part-mods {
     width: 375px;
     border: 1px solid @line;
+
     margin-top: 30px;
   }
+  //模块公共样式
   .common-sty {
     width: 100%;
-    border-bottom: 1px solid @line;
     padding:10px;
     box-sizing: border-box;
+    position: relative;
+    &:not(:last-child) {
+      border-bottom: 1px solid @line;
+    }
+    //按钮处理区
+    .handle-btn-action {
+      position: absolute;
+      right:0;
+      top: 0;
+      transform: translateX(100%);
+      button {
+        margin-right: 10px;
+      }
+    }
+    //模块标题
+    .mod-common-head {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      .hd-item {
+        flex-shrink: 0;
+      }
+    }
   }
 }
 .home-configuration-menu {

@@ -207,6 +207,8 @@ import CuserManage from '../userCenter/cUserManage/index'//c端用户管理
 import TipsPage from '../cConfig/tipsPage/index';
 import ConfigurationList from '../cConfig/HomeConfiguration/ConfigurationList';//配置列表页
 import HomeEdit from '../cConfig/HomeConfiguration/HomeEdit';//配置页
+import CommodityFlow from '../cConfig/HomeConfiguration/CommodityFlow';//商品流配置
+import BannerSet from '../cConfig/HomeConfiguration/BannerSet';//banner配置
 
 
 
@@ -414,7 +416,12 @@ class Content extends React.Component {
                                     case formDataCode('server32'): return <CserverOrder data={this.props.data} componkey={this.props.componkey}/>//c客服工单
                                     case formDataCode('server32-info'): return <CserverOrderdetail data={this.props.data} componkey={this.props.componkey}/>
                                     /* ------------------------- C端配置中心 ------------------------------*/
-                                    case "1401000" : return <HomeEdit data={this.props.data}/>
+                                    case "1401000" : return <TipsPage data={this.props.data} componkey={this.props.componkey}/>
+
+                                    case "1402000" : return <ConfigurationList data={this.props.data} componkey={this.props.componkey}/>
+                                    case "1402000home" : return <HomeEdit data={this.props.data} componkey={this.props.componkey}/>
+                                    case "1402000homeedit-commodity" : return <CommodityFlow data={this.props.data} componkey={this.props.componkey}/>
+                                    case "1402000homeedit-banner" : return <BannerSet data={this.props.data} componkey={this.props.componkey}/>
                                     default:  return "我是404";
                                 }
                             })()

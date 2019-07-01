@@ -150,7 +150,7 @@ export default {
             const activeKey = sessionStorage.getItem('activeKey');
             const result=isInArray(pane,paneitem.key);
             if(!result){
-                const itemkey=paneitem.key.search('edit')
+                const itemkey=paneitem.key.search('edit');
                 if(itemkey!=-1){
                     //二级
                     const arr=pane.filter((pane)=>{
