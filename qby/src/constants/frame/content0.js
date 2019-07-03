@@ -422,6 +422,7 @@ class Content extends React.Component {
                                     case "1402000home" : return <HomeEdit data={this.props.data} componkey={this.props.componkey}/>
                                     case "1402000homeedit-commodity" : return <CommodityFlow data={this.props.data} componkey={this.props.componkey}/>
                                     case "1402000homeedit-banner" : return <BannerSet data={this.props.data} componkey={this.props.componkey}/>
+                                    case "1402000homeinfo-search" : return <SearchInfo data={this.props.data} componkey={this.props.componkey}/>
                                     default:  return "我是404";
                                 }
                             })()
