@@ -2,6 +2,7 @@ import React , { Component } from 'react';
 import { Input, Form, Select, Button } from 'antd';
 import UpLoadImg from '../UpLoadImg';
 import BaseEditTable from '../../../../../../components/BaseEditTable';
+import {columns} from '../../columns';
 import './index.less';
 
 const FormItem = Form.Item;
@@ -25,11 +26,12 @@ class ModForm extends Component {
         key: 'SpuId',
         align:'center',
         width:'10%',
-        // render:(text,record,index)=> {
-        //   return <UpLoadImg
-        //           form={this.props.form}
-        //           index={index}/>
-        // }
+        render:(text,record,index)=> {
+          return <UpLoadImg
+                  fileList={[]}
+                  form={this.props.form}
+                  index={index}/>
+        }
       }, {
         title: 'bannerID',
         dataIndex: 'name',
@@ -89,6 +91,7 @@ class ModForm extends Component {
         width:'15%',
         render:(text,record,index)=> {
           const { getFieldDecorator } =this.props.form;
+          // console.log(this.props.form.getFieldValue('goods'));
           return <FormItem>
              {getFieldDecorator(`goods[${index}].link`)(
                <Select
@@ -143,21 +146,17 @@ class ModForm extends Component {
         }
       }];
   }
-  componentWillReceiveProps(props) {
-    console.log(props);
-    console.log(this.props.form.getFieldValue('goods'));
-    console.log('componentWillReceiveProps')
-  }
   //重置表单
   resetGoodsForm=(index,dataSource)=> {
     let goods = this.props.form.getFieldValue('goods');
     let dd = goods.filter((item,key) => {
       return key != index
     });
-    this.props.form.setFieldsValue({
-      goods:dd
-    });
-    console.log(dd)
+    setTimeout(()=> {
+      this.props.form.setFieldsValue({
+        goods:dd
+      });
+    },0)
   }
   submit=()=> {
     this.props.form.validateFields((err, values) => {
@@ -168,7 +167,7 @@ class ModForm extends Component {
   }
   render() {
     let { goodsList } =this.props;
-
+    const { form } =this.props;
     return(
       <Form className="banner-set-tables">
         <BaseEditTable
@@ -186,5 +185,11 @@ class ModForm extends Component {
     )
   }
 }
-const Mod = Form.create()(ModForm);
+const Mod = Form.create({
+  // mapPropsToFields(props) {
+  //   return {
+  //     goods: Form.createFormField(props.goodsList),
+  //   };
+  // }
+})(ModForm);
 export default Mod;

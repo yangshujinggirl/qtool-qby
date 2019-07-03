@@ -7,12 +7,12 @@ class UpLoadImg extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      imageUrl:this.props.imageUrl,
+      fileList:this.props.fileList,
     }
   }
   componentWillReceiveProps(props) {
     this.setState({
-      imageUrl:props.picUrl,
+      fileList:props.fileList,
     })
   }
   beforeUpload(file){
@@ -45,14 +45,14 @@ class UpLoadImg extends Component {
       // }),
     }
   };
-  // normFile = (e) => {
-  //   if (Array.isArray(e)) {
-  //     return e;
-  //   };
-  //   if((e.fileList[0] && e.fileList[0].status) || !e.fileList[0]){
-  //     return e && e.fileList;
-  //   };
-  // }
+  normFile = (e) => {
+    if (Array.isArray(e)) {
+      return e;
+    };
+    if((e.fileList[0] && e.fileList[0].status) || !e.fileList[0]){
+      return e && e.fileList;
+    };
+  }
   render() {
     const uploadButton = (
        <div>
@@ -60,12 +60,15 @@ class UpLoadImg extends Component {
          <div className="ant-upload-text">添加图片</div>
        </div>
      );
-     const { imageUrl } = this.state;
+     let { fileList } = this.state;
      return(
         <div style={{textAlign:'left'}}>
          {
            this.props.form.getFieldDecorator(`goods[${this.props.index}].picUrl`,{
              onChange:this.handleChange,
+             valuePropName: 'fileList',
+             getValueFromEvent: this.normFile,
+             initialValue:fileList
            })(
               <Upload
                 name="avatar"
@@ -74,9 +77,8 @@ class UpLoadImg extends Component {
                 showUploadList={false}
                 action="/erpWebRest/qcamp/upload.htm?type=spu"
                 beforeUpload={this.beforeUpload}>
-                {imageUrl ? <img src={imageUrl} alt="avatar" /> : uploadButton}
+                {fileList.length>0 ? <img src={fileList[0]} alt="avatar" /> : uploadButton}
               </Upload>
-
            )
          }
        </div>
