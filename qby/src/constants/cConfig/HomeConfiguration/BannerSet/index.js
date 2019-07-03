@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Tabs, Button, Form } from 'antd';
 import { connect } from 'dva';
 import Mod from './components/Mod';
+// import Mod from './components/MainMod';
 import './index.less';
 
 const FormItem = Form.Item;

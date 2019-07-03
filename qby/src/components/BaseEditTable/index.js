@@ -28,7 +28,6 @@ class BaseEditTable extends Component {
   }
   //删除
   handleDelete=(index)=> {
-    debugger
     let { dataSource, key } =this.state;
     dataSource.splice(index,1);
     if(dataSource.length==0) {
@@ -82,6 +81,7 @@ class BaseEditTable extends Component {
   render() {
     const { dataSource } =this.state;
     const { btnText } =this.props;
+
     return (
       <Table
         className="edit-table-component"
