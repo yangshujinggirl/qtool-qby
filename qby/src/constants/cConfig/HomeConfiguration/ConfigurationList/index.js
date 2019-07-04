@@ -1,158 +1,182 @@
-import React, { Component } from 'react';
-import { Button } from 'antd';
-import { connect } from 'dva';
-import Qtable from '../../../../components/Qtable';
-import Qpagination from '../../../../components/Qpagination';
-import FilterForm from './components/FilterForm';
-import AddModal from './components/AddModal';
-import { IndexColumns } from './columns';
+import React, { Component } from "react";
+import { Button, Modal, message } from "antd";
+import { connect } from "dva";
+import Qtable from "../../../../components/Qtable";
+import Qpagination from "../../../../components/Qpagination";
+import { addVersionApi,versionBanApi } from "../../../../services/cConfig/homeConfiguration/configurationList";
+import FilterForm from "./components/FilterForm";
+import AddModal from "./components/AddModal";
+import { IndexColumns } from "./columns";
 
-import './index.less'
+import "./index.less";
 class ConfigurationList extends Component {
   constructor(props) {
     super(props);
-    this.state={
-      visible:false,
-      dataSource:[],
-      versionList:[],
-    }
+    this.state = {
+      visible: false,
+      dataSource: [],
+      versionList: [],
+      inputValues: {},
+      doubleVisible: false
+    };
   }
   componentDidMount() {
-    this.getList()
+    this.getList();
   }
   getList() {
-    const dataSource=[{
-      name:'520要发的首页',
-      auth:'yj',
-      code:'v2019053101',
-      stime:'2017-08-31 23:17:52',
-      etime:'2017-08-31 23:17:52',
-      status:0,
-      key:0,
-      btnList:[
-        {
-          type:'info',
-          name:'查看'
-        },{
-          type:'edit',
-          name:'编辑'
-        },{
-          type:'ban',
-          name:'禁用'
-        },{
-          type:'log',
-          name:'日志'
-        }]
-    },{
-      name:'520要发的首页',
-      auth:'yj',
-      code:'v2019053101',
-      stime:'2017-08-31 23:17:52',
-      etime:'2017-08-31 23:17:52',
-      status:0,
-      key:1,
-      btnList:[{
-        type:'info',
-        name:'查看'
-      },{
-        type:'ban',
-        name:'禁用'
-      },{
-        type:'log',
-        name:'日志'
-      }]
-    }]
-    this.setState({ dataSource });
+    this.props.dispatch({
+      type: "homeConfig/fetchList",
+      payload: {}
+    });
   }
+  //点击搜索
+  searchData = values => {
+    console.log(this.props);
+    this.props.dispatch({
+      type: "homeConfig/fetchList",
+      payload: values
+    });
+    this.setState({
+      inputValues: values
+    });
+  };
   //操作区
-  onOperateClick=(record,type)=> {
-    switch(type) {
-      case 'info':
+  onOperateClick = (record, type) => {
+    switch (type) {
+      case "info":
         this.goInfo(record);
         break;
-      case 'edit':
+      case "edit":
         this.goEdit(record.key);
         break;
-      case 'ban':
+      case "ban":
         this.goBan(record);
         break;
-      case 'log':
+      case "log":
         this.goLog(record);
         break;
     }
-  }
+  };
   //查看详情
   goInfo(record) {
-    console.log(record)
-  }
-  //编辑
-  goEdit=(key)=> {
     const { componkey } = this.props;
-    const paneitem={
-      title:'商品编辑',
-      key:`${componkey}home`,
-      componkey:`${componkey}home`,
-      data:{}
+    const paneitem = {
+      title: "详情",
+      key: `${componkey}homeinfo-search`,
+      data: {}
     };
     this.props.dispatch({
-        type:'tab/firstAddTab',
-        payload:paneitem
-    })
+      type: "tab/firstAddTab",
+      payload: paneitem
+    });
   }
+  //编辑
+  goEdit = key => {
+    const { componkey } = this.props;
+    const paneitem = {
+      title: "商品编辑",
+      key: `${componkey}home`,
+      componkey: `${componkey}home`,
+      data: {}
+    };
+    this.props.dispatch({
+      type: "tab/firstAddTab",
+      payload: paneitem
+    });
+  };
   //禁用
   goBan(record) {
-    console.log(record)
+    this.setState({
+      doubleVisible:true,
+      status:record.status,
+      homepageId:record.homepageId
+    });
+  }
+  //确定禁用
+  onBanOk =(record)=> {
+    const {homepageId} = this.state;
+    versionBanApi({homepageId}).then(res=>{
+      if(res.code == 0){
+        this.setState({
+          doubleVisible:false
+        });
+        this.props.dispatch({
+          type: "homeConfig/fetchList",
+          payload: {...this.state.inputValues}
+        });
+      };
+    })
+  }
+  onBanCancel =()=> {
+    this.setState({
+      doubleVisible:false
+    })
   }
   //日志
   goLog(record) {
-    console.log(record)
+    console.log(record);
   }
   //新建
-  goAdd=()=> {
-    let versionList=[{
-      key:0,
-      value:'版本001'
-    },{
-      key:1,
-      value:'版本002'
-    },{
-      key:2,
-      value:'版本003'
-    }]
-    this.setState({ visible:true, versionList })
-  }
-  onOk=()=>{
-    this.setState({ visible:false })
-  }
-  onCancel=()=>{
-    this.setState({ visible:false })
-  }
+  goAdd = () => {
+    this.setState({ visible: true });
+  };
+  //新增首页版本
+  onOk = (values, resetForm) => {
+    addVersionApi(values).then(res => {
+      console.log(values);
+      if (res.code == "0") {
+        this.setState({ visible: false });
+        resetForm();
+      }
+    });
+  };
+  //取消新增首页版本
+  onCancel = resetForm => {
+    resetForm();
+    this.setState({ visible: false });
+  };
   render() {
-    const { dataSource, visible, versionList } =this.state;
-    return(
+    const { status,visible, versionList, doubleVisible } = this.state;
+    const { dataList } = this.props;
+    return (
       <div className="qtools-components-pages configuration-List-pages">
-        <FilterForm />
+        <FilterForm submit={this.searchData} />
         <div className="handel-btn-lists">
-          <Button
-            size="large"
-            type="primary"
-            onClick={this.goAdd}>新增首页版本</Button>
+          <Button size="large" type="primary" onClick={this.goAdd}>
+            新增首页版本
+          </Button>
         </div>
         <Qtable
           onOperateClick={this.onOperateClick}
-          dataSource={dataSource}
-          columns={IndexColumns}/>
+          dataSource={dataList}
+          columns={IndexColumns}
+        />
         <AddModal
           versionList={versionList}
-          onOk={this.goEdit}
+          onOk={this.onOk}
           onCancel={this.onCancel}
           visible={visible}
         />
+        <Modal 
+          wrapClassName='model_center'
+          title='版本禁用'
+          visible={doubleVisible} 
+          onOk={this.onBanOk} 
+          onCancel={this.onBanCancel}>
+          {status == 2 ? (
+            <span>
+              当前版本处于待发布状态，禁用后将不会发布到线上，您确定禁用此版本么？
+            </span>
+          ) : (
+            <span>当前版本禁用后将不继续编辑，您确定禁用此版本么？</span>
+          )}
+        </Modal>
       </div>
-    )
+    );
   }
 }
 function mapStateToProps(state) {
-  return state;
+  const { homeConfig } = state;
+  return homeConfig;
 }
 export default connect(mapStateToProps)(ConfigurationList);

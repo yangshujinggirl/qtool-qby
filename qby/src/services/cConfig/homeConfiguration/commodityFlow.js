@@ -1,4 +1,4 @@
-import ajax from '../../utils/req.js';
+import ajax from '../../../utils/req.js';
 
 
 

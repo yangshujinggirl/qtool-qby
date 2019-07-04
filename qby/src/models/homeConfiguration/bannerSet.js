@@ -1,7 +1,7 @@
 import { message } from 'antd';
 import {
   getCategoryApi
-} from '../../services/contentCenter/bannerSet.js';
+} from '../../services/cConfig/homeConfiguration/bannerSet.js';
 
 export default {
   namespace:'bannerSet',

@@ -1,7 +1,7 @@
 import { message } from 'antd';
 import {
   getCategoryApi
-} from '../../services/contentCenter/commodityFlow.js';
+} from '../../services/cConfig/homeConfiguration/commodityFlow.js';
 
 export default {
   namespace:'commodityFlow',
