@@ -1,24 +1,28 @@
 import React, { Component } from "react";
-import { Modal, message } from "antd";
-import CommonUpload from "../Components/UploadImg";
+import { Modal} from "antd";
+import UploadImg from "../Components/UploadImg";
 
-class Search extends Component {
+class BrandBg extends Component {
+    constructor(props){
+    super(props)
+
+    }
   render() {
     const { visible, imageUrl, changeImg, onCancel, onOk } = this.props;
     return (
       <Modal width='500' visible={visible} okText="保存" onCancel={onCancel} onOk={onOk}>
-        <CommonUpload
-          title="设置背景图片"
-          describe="背景图尺寸为750*199px，格式为png、大小在2m以内"
+        <UploadImg
+          title="设置内容图片"
+          describe="内容图尺寸为750*32px，格式为png、大小在2m以内"
           imageUrl={imageUrl}
           changeImg={changeImg}
           exampleImg=""
           width={750}
-          height={199}
+          height={32}
         />
       </Modal>
     );
   }
 }
 
-export default Search;
+export default BrandBg;

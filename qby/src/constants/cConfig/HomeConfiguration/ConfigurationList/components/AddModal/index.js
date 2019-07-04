@@ -18,21 +18,22 @@ class AddModalForm extends Component {
     let value = e.target.value;
     this.setState({ radioVal: value });
   };
-  submit() {
-    this.props.onOk("1");
-    this.onCancel();
+  resetForm=()=>{
+    this.setState({ radioVal: 1 });
+    this.props.form.resetFields();
+  }
+  submit(values) {
+    this.props.onOk(values,this.resetForm);
   }
   onOk = () => {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        this.submit();
+        this.props.onOk(values);
       }
     });
   };
   onCancel = () => {
-    this.setState({ radioVal: 1 });
-    this.props.form.resetFields();
-    this.props.onCancel();
+    this.props.onCancel(this.resetForm);
   };
   render() {
     const { visible, versionList } = this.props;
@@ -48,7 +49,7 @@ class AddModalForm extends Component {
       >
         <Form>
           <FormItem {...formItemLayout}>
-            {getFieldDecorator("code", {
+            {getFieldDecorator("type", {
               initialValue: 1,
               onChange: this.onChange
             })(
@@ -59,20 +60,24 @@ class AddModalForm extends Component {
             )}
           </FormItem>
           {radioVal == 2 && (
-            <FormItem label="选择你要复制的版本" {...formItemLayout}>
-              {getFieldDecorator("status")(
-                <Select placeholder="选择你要复制的版本" allowClear={true}>
-                  {versionList.map(el => (
-                    <Select.Option value={el.value} key={el.key}>
-                      {el.value}
-                    </Select.Option>
-                  ))}
-                </Select>
-              )}
-            </FormItem>
+            <FormItem label="请输入版本编号" {...formItemLayout}>
+            {getFieldDecorator("versionCodename", {
+              rules: [
+                {
+                  required: true,
+                  message: "请输入版本编号"
+                }
+              ]
+            })(
+              <Input
+                placeholder="请输入版本编号"
+                autoComplete="off"
+              />
+            )}
+          </FormItem>
           )}
           <FormItem label="版本名称" {...formItemLayout}>
-            {getFieldDecorator("name", {
+            {getFieldDecorator("versionName", {
               rules: [
                 {
                   required: true,
@@ -83,6 +88,7 @@ class AddModalForm extends Component {
               <Input
                 placeholder="仅供内部参考使用，15个字符以内"
                 autoComplete="off"
+                maxLength='15'
               />
             )}
           </FormItem>

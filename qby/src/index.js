@@ -118,7 +118,7 @@ import homeEdit from "./models/contentCenter/homeEdit.js";
 import commodityFlow from "./models/contentCenter/commodityFlow.js";
 import bannerSet from "./models/contentCenter/bannerSet.js";
 //内容中心
-import homeConfig from "./models/cConfig/homeConfig";
+import homeConfig from "./models/contentCenter/configurationList";
 // 1. Initialize
 const app = dva({
   history: useRouterHistory(createHashHistory)({ queryKey: false })

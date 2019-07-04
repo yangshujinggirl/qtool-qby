@@ -1,4 +1,4 @@
-import { Button } from "antd";
+import TdPop from "../../../../../components/TdPop";
 
 const IndexColumns = [
   {
@@ -23,7 +23,19 @@ const IndexColumns = [
     dataIndex: "lastUpdateUser"
   },
   {
-    title: "当前版本状态",
+    title: (
+      <TdPop
+        title="当前版本状态"
+        des={
+          <div>
+            <p>线上版本：即为当前C端线上展示的版本</p>
+            <p>待发布版本：被设定好发布时间，等待发布的版本</p>
+            <p>草稿版本：不会对线上产生影响的版本。</p>
+            <p>已下线：曾在线上，后被迭代替换下来的版本。</p>
+          </div>
+        }
+      />
+    ),
     dataIndex: "statusStr"
   },
   {

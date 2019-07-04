@@ -1,4 +1,4 @@
-import { getListApi } from '../../services/cConfig/HomeConfig'
+import { getListApi } from '../../services/cConfig/homeConfiguration/configurationList'
 export default{
   namespace:'homeConfig',
   state:{
@@ -6,6 +6,8 @@ export default{
   },
   reducers:{
     getList(state,{payload:{dataList, currentPage, limit, total}}){
+      dataList=[...dataList]
+      console.log({ ...state, dataList, currentPage, limit, total})
       return { ...state, dataList, currentPage, limit, total}
     },
   },
@@ -25,8 +27,9 @@ export default{
           releaseTime:'2017-08-31 23:17:52',
           updateTime:'2017-08-31 23:17:52',
           lastUpdateUser:'zhouhongye',
+          statusStr:'线上',
           status:0,
-          statusStr:'上线',
+          homepageId:1
         },{
           versionName:'520要发的首页',
           versionCode:'v2019053101',
@@ -35,6 +38,7 @@ export default{
           lastUpdateUser:'zhouhongye',
           status:1,
           statusStr:'草稿',
+          homepageId:2
         },{
           versionName:'520要发的首页',
           versionCode:'v2019053101',
@@ -43,6 +47,7 @@ export default{
           lastUpdateUser:'zhouhongye',
           status:2,
           statusStr:'待发布',
+          homepageId:3
         },{
           versionName:'520要发的首页',
           versionCode:'v2019053101',
@@ -51,12 +56,13 @@ export default{
           lastUpdateUser:'zhouhongye',
           status:3,
           statusStr:'下线',
+          homepageId:4
         }]
       }
       if(result.code == '0'){
         const { homepageList, currentPage, limit, total } = result;
         homepageList.map((item,index) => {
-          item.key = item.homepageId;
+          item.key = index;
           return item;
         })
         yield put({
