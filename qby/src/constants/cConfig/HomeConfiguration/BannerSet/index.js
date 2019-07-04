@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { Tabs, Button, Form } from 'antd';
+import { Tabs, Button, Form, Modal } from 'antd';
 import { connect } from 'dva';
 import Mod from './components/Mod';
-// import Mod from './components/MainMod';
 import './index.less';
 
 const FormItem = Form.Item;
@@ -17,32 +16,39 @@ const panes = [
 class BannerSet extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      activeKey: panes[0].key,
-      goodsList:[]
-    };
   }
-  onChange = activeKey => {
-    this.setState({ activeKey });
-    activeKey++;
+  componentDidMount() {
     this.props.dispatch({
       type:'bannerSet/fetchList',
       payload:{
-        position:activeKey,
+        position:0,
         homepageModuleId:20,
       }
     })
-  };
-  submit=()=> {
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-        console.log('Received values of form: ', values);
-      }
+  }
+  onChange = activiKey => {
+    Modal.confirm({
+      title: '请离开页面前保存当前操作?',
+      content: 'Some descriptions',
+      onOk:()=>{
+        this.modDom.submit(()=>this.upDateData(activiKey))
+      },
+      onCancel:()=> {
+        this.upDateData(activiKey)
+      },
     });
+  };
+  upDateData=(activiKey)=> {
+    this.props.dispatch({
+      type:'bannerSet/fetchList',
+      payload:{
+        position:activiKey,
+        homepageModuleId:20,
+      }
+    })
   }
   render() {
-    const { activeKey } =this.state;
-    const { goodsList } =this.props;
+    const { activiKey } =this.props;
     return(
       <div className="banner-set-pages">
         <div className="part-tabs">
@@ -50,15 +56,12 @@ class BannerSet extends Component {
             panes.map((el,index) => (
               <p
                 key={index}
-                className={`tab-bar-item ${index==activeKey?'tab-bar-activity':''}`}
+                className={`tab-bar-item ${index==activiKey?'tab-bar-activity':''}`}
                 onClick={()=>this.onChange(index)}>{el.title}</p>
             ))
           }
         </div>
-        <Mod
-          submit={this.submit}
-          activeKey={activeKey}
-          goodsList={goodsList}/>
+        <Mod onRef={(mod)=>{this.modDom = mod}} activiKey={activiKey}/>
       </div>
     )
   }
@@ -68,4 +71,3 @@ function mapStateToProps(state) {
   return bannerSet;
 }
 export default connect(mapStateToProps)(BannerSet);
-// export default BannerSet;

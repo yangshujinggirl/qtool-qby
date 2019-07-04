@@ -1,48 +1,43 @@
 import React ,{ Component } from 'react';
 import { connect } from 'dva';
-import { Upload,Icon, Modal, Button, message } from 'antd';
+import { Upload,Icon, Form, Modal, Button, message } from 'antd';
+import './index.less';
 
-
+const FormItem = Form.Item;
 class UpLoadImg extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      fileList:this.props.fileList,
+      loading:false
     }
   }
-  componentWillReceiveProps(props) {
-    this.setState({
-      fileList:props.fileList,
-    })
-  }
-  beforeUpload(file){
-    let isJPG = true;
-    let isPNG = true;
-    let isLt2M = true;
-    if(file.type){ //一进页面就删除的时候type不存在
-       isJPG = file.type === 'image/jpeg';
-    	 isPNG = file.type === 'image/png';
-       isLt2M = file.size / 1024 / 1024 < 2;
-    };
-  	if (!isJPG && !isPNG) {
-    	message.error('仅支持jpg/jpeg/png格式',.8);
-    }else if (!isLt2M) {
-    	message.error('上传内容大于2M，请选择2M以内的文件',.8);
+  beforeUpload(file) {
+    const isJPG = file.type === 'image/jpeg';
+    if (!isJPG) {
+      message.error('You can only upload JPG file!');
     }
-    return (isJPG || isPNG) && isLt2M;
+    const isLt2M = file.size / 1024 / 1024 < 2;
+    if (!isLt2M) {
+      message.error('Image must smaller than 2MB!');
+    }
+    return isJPG && isLt2M;
   }
   handleChange = info => {
+    this.setState({
+      loading: false,
+    })
     if (info.file.status === 'uploading') {
       this.setState({ loading: true });
       return;
     }
     if (info.file.status === 'done') {
-      console.log(info)
-      // Get this url from response in real world.
-      // this.setState({
-      //   imageUrl,
-      //   loading: false,
-      // }),
+      const { response } =info.file;
+      if(response.code == 0) {
+        this.setState({
+          loading: false,
+        })
+        this.props.onChange(`${response.data[0]}`)
+      }
     }
   };
   normFile = (e) => {
@@ -53,43 +48,38 @@ class UpLoadImg extends Component {
       return e && e.fileList;
     };
   }
+  uploadButton = (
+     <div>
+       <Icon type='plus' />
+       <div className="ant-upload-text">添加图片</div>
+     </div>
+   );
   render() {
-    const uploadButton = (
-       <div>
-         <Icon type='plus' />
-         <div className="ant-upload-text">添加图片</div>
-       </div>
-     );
-     let { fileList } = this.state;
+     const { getFieldDecorator } =this.props.form;
+     let { fileList,index } = this.props;
+     let fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
+     let fileListArr = (fileList&&fileList!='')?[`${fileList}`]:[];
      return(
-        <div style={{textAlign:'left'}}>
-         {
-           this.props.form.getFieldDecorator(`goods[${this.props.index}].picUrl`,{
-             onChange:this.handleChange,
-             valuePropName: 'fileList',
-             getValueFromEvent: this.normFile,
-             initialValue:fileList
+       <FormItem className="banner-upload-wrap">
+         {getFieldDecorator(`goods[${index}].picUrl`,{
+            initialValue:fileListArr,
+            valuePropName: 'fileList',
+            getValueFromEvent: this.normFile,
+            rules:[{required:true,message:'请上传图片'}],
+            onChange:this.handleChange
            })(
-              <Upload
-                name="avatar"
-                listType="picture-card"
-                className="avatar-uploader"
-                showUploadList={false}
-                action="/erpWebRest/qcamp/upload.htm?type=spu"
-                beforeUpload={this.beforeUpload}>
-                {fileList.length>0 ? <img src={fileList[0]} alt="avatar" /> : uploadButton}
-              </Upload>
-           )
-         }
-       </div>
+             <Upload
+              name="imgFile"
+              listType="picture-card"
+              className="avatar-uploader"
+              showUploadList={false}
+              action="/erpWebRest/qcamp/upload.htm?type=spu"
+              beforeUpload={this.beforeUpload}>
+              {fileListArr&&fileListArr.length>0 ? <img src={`${fileDomain}${fileList}`} alt="avatar" /> : this.uploadButton}
+            </Upload>
+          )}
+       </FormItem>
       )
-    }
+  }
 }
-
-// function mapStateToProps(state) {
-//   const { addGoods } =state;
-//   return {addGoods };
-// }
-
 export default UpLoadImg;
-// export default connect(mapStateToProps)(UpLoadFile);

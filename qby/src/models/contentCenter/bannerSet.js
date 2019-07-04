@@ -1,50 +1,89 @@
 import { message } from 'antd';
 import {
   getCategoryApi
-} from '../../services/contentCenter/commodityFlow.js';
+} from '../../services/contentCenter/bannerSet.js';
 
 export default {
   namespace:'bannerSet',
   state: {
-    goodsList:[{
-      key:1,
-      SpuId:'55',
-      name:'MORPHY RICHARDS摩飞 便携榨汁杯',
-      displayName:'奶粉辅食',
-      price:'¥4.00-9.00',
-      qty:'B端在售库存',
-      shop:'200',
-      position:1,
-    },{
-      key:2,
-      SpuId:'52',
-      name:'MORPHY便携榨汁杯',
-      displayName:'奶粉辅食',
-      price:'¥4.00-9.00',
-      qty:'B端在售库存',
-      shop:'200',
-      position:1,
-    }]
+    activiKey:0,
+    goodsList:[],
   },
   reducers: {
     //重置store
-    resetData(state, { payload : source }) {
+    resetData(state) {
+      const goodsList=[];
+      const activiKey = 0;
       return {
-        ...state,
+        ...state,goodsList, activiKey
        }
     },
+    getActiviKey(state, { payload:activiKey }) {
+      return { ...state,activiKey };
+    },
     getGoodsList(state, { payload:goodsList }) {
-      goodsList.map((el,index) => {
-        index++;
-        el.key= index
-      });
-      return { ...state,...goodsList };
+      return { ...state,goodsList };
     },
   },
   effects: {
     *fetchList({ payload: values },{ call, put ,select}) {
+      let { position } =values;
       yield put({type: 'tab/loding',payload:true});
-      const result = yield call(getCategoryApi,values);
+      // const result = yield call(getCategoryApi,values);
+      let goodsList1=[
+        {
+        key:0,
+        picUrl:'',
+        platform:1,
+        title:'MORPHY RICHARDS摩飞 便携榨汁杯',
+        linkInfoType:1,
+        linkInfo:'',
+        beginTime:''
+      },{
+        key:1,
+        picUrl:'',
+        platform:1,
+        title:'MORPHY RICHARDS摩飞',
+        linkInfoType:2,
+        linkInfo:'',
+        beginTime:''
+      },{
+        key:2,
+        picUrl:'',
+        platform:1,
+        title:'MORPHY RICHARDS摩飞哥',
+        linkInfoType:null,
+        linkInfo:'',
+        beginTime:''
+      }]
+      let goodsList2=[
+        {
+        key:0,
+        picUrl:'',
+        platform:2,
+        title:'MORPHY RICHARDS摩飞 便携榨汁杯',
+        linkInfoType:1,
+        linkInfo:'',
+        beginTime:'',
+      },{
+        key:1,
+        picUrl:'',
+        platform:1,
+        title:'MORPHY RICHARDS摩飞',
+        linkInfoType:2,
+        linkInfo:'',
+        beginTime:''
+      }]
+      yield put({type: 'getActiviKey',payload:position});
+      yield put({type: 'getGoodsList',payload:goodsList2});
+      yield put({type: 'tab/loding',payload:false});
+    },
+    *fetchFrame({ payload: values },{ call, put ,select}) {
+      let { position } =values;
+      yield put({type: 'tab/loding',payload:true});
+      // const result = yield call(getCategoryApi,values);
+      yield put({type: 'getActiviKey',payload:position});
+      yield put({type: 'getGoodsList',payload:[goodsList1]});
       yield put({type: 'tab/loding',payload:false});
     },
   }

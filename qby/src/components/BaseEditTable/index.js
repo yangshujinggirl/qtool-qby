@@ -51,7 +51,7 @@ class BaseEditTable extends Component {
         render:(text,record,index)=> {
           return <span
                   className="brandColor handle-delete"
-                  onClick={()=>this.handleDelete(index)}>
+                  onClick={()=>this.handleDelete(record.key)}>
                     删除
                  </span>
         }
