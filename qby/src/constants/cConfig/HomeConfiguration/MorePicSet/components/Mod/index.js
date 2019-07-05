@@ -2,7 +2,7 @@ import React , { Component } from 'react';
 import { Input, InputNumber, Form, Select, Button, DatePicker, Modal } from 'antd';
 import { connect } from 'dva';
 import moment from 'moment';
-import BaseEditTable from '../BaseEditTable';
+import BaseDelTable from '../../../components/BaseDelTable';
 import FrameModal from '../../../components/FrameModal';
 import {
   getChangeFrameApi, getSaveApi
@@ -104,9 +104,8 @@ class ModForm extends Component {
     let columnsTable = columns(form,this.handleChange);
     return(
       <div className="banner-set-mod">
-        <BaseEditTable
+        <BaseDelTable
           callback={this.handleCallback}
-          form={form}
           columns={columnsTable}
           dataSource={goodsList}/>
         <div className="handle-btn-action">

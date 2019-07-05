@@ -54,7 +54,7 @@ export function columns(form, handleChange){
         return <span>{index}</span>
       }
     }, {
-      title: 'banner图片',
+      title: '图片',
       dataIndex: 'picUrl',
       key: 'picUrl',
       align:'center',
