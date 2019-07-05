@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'dva';
 import { Button } from 'antd';
 import Swiper from 'swiper/dist/js/swiper.js';
 import './index.less';
@@ -11,8 +12,8 @@ class MoreGoodsMod extends Component {
     const { componkey } = this.props;
     const paneitem={
       title:'2行3列商品模块配置',
-      key:`${componkey}edit-moregood`,
-      componkey:`${componkey}edit-moregood`,
+      key:`${componkey}edit-more-goods`,
+      componkey:`${componkey}edit-more-goods`,
       data:{}
     };
     this.props.dispatch({
@@ -57,7 +58,7 @@ class MoreGoodsMod extends Component {
         </div>
         <div className="handle-btn-action">
           <Button>查看</Button>
-        <Button onClick={this.goEdit}>编辑</Button>
+          <Button onClick={this.goEdit}>编辑</Button>
           <Button>隐藏</Button>
         </div>
       </div>
@@ -65,5 +66,8 @@ class MoreGoodsMod extends Component {
   }
 }
 
-
-export default MoreGoodsMod;
+function mapStateToProps(state) {
+  const { homeEdit } =state;
+  return homeEdit;
+}
+export default connect(mapStateToProps)(MoreGoodsMod);

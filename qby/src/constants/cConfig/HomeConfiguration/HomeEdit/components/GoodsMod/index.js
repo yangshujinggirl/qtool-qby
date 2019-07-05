@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'dva';
 import { Button } from 'antd';
 import Swiper from 'swiper/dist/js/swiper.js';
 import './index.less';
@@ -15,6 +16,19 @@ class GoodsMod extends Component {
         clickable: true,
       },
     });
+  }
+  goEdit=()=> {
+    const { componkey } = this.props;
+    const paneitem={
+      title:'单行商品设置',
+      key:`${componkey}edit-goods`,
+      componkey:`${componkey}edit-goods`,
+      data:{}
+    };
+    this.props.dispatch({
+        type:'tab/firstAddTab',
+        payload:paneitem
+    })
   }
   render() {
     const dataList=[{
@@ -67,7 +81,7 @@ class GoodsMod extends Component {
         </div>
         <div className="handle-btn-action">
           <Button>查看</Button>
-          <Button>编辑</Button>
+          <Button onClick={this.goEdit}>编辑</Button>
           <Button>隐藏</Button>
         </div>
       </div>
@@ -75,5 +89,8 @@ class GoodsMod extends Component {
   }
 }
 
-
-export default GoodsMod;
+function mapStateToProps(state) {
+  const { homeEdit } =state;
+  return homeEdit;
+}
+export default connect(mapStateToProps)(GoodsMod);

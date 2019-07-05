@@ -207,8 +207,14 @@ import CuserManage from '../userCenter/cUserManage/index'//c端用户管理
 import TipsPage from '../cConfig/tipsPage/index';
 import ConfigurationList from '../cConfig/HomeConfiguration/ConfigurationList';//配置列表页
 import HomeEdit from '../cConfig/HomeConfiguration/HomeEdit';//配置页
-import CommodityFlow from '../cConfig/HomeConfiguration/CommodityFlow';//商品流配置
+import CommodityFlow from '../cConfig/HomeConfiguration/CommodityFlow/CommodityFlow';//商品流配置
 import BannerSet from '../cConfig/HomeConfiguration/BannerSet';//banner配置
+import IconSet from '../cConfig/HomeConfiguration/IconSet';//icon配置
+import GoodsSet from '../cConfig/HomeConfiguration/GoodsSet';//单行商品配置
+import ThemeSet from '../cConfig/HomeConfiguration/ThemeSet';//主题配置
+import NewUserSet from '../cConfig/HomeConfiguration/NewUserSet';//新人礼配置
+import MoreGoodsSet from '../cConfig/HomeConfiguration/MoreGoodsSet';//两行三列商品配置
+import MorePicSet from '../cConfig/HomeConfiguration/MorePicSet';//多图片配置
 
 
 
@@ -422,6 +428,12 @@ class Content extends React.Component {
                                     case "1402000home" : return <HomeEdit data={this.props.data} componkey={this.props.componkey}/>
                                     case "1402000homeedit-commodity" : return <CommodityFlow data={this.props.data} componkey={this.props.componkey}/>
                                     case "1402000homeedit-banner" : return <BannerSet data={this.props.data} componkey={this.props.componkey}/>
+                                    case "1402000homeedit-icon" : return <IconSet data={this.props.data} componkey={this.props.componkey}/>
+                                    case "1402000homeedit-goods" : return <GoodsSet data={this.props.data} componkey={this.props.componkey}/>
+                                    case "1402000homeedit-theme" : return <ThemeSet data={this.props.data} componkey={this.props.componkey}/>
+                                    case "1402000homeedit-new-user" : return <NewUserSet data={this.props.data} componkey={this.props.componkey}/>
+                                    case "1402000homeedit-more-goods" : return <MoreGoodsSet data={this.props.data} componkey={this.props.componkey}/>
+                                    case "1402000homeedit-more-pic" : return <MorePicSet data={this.props.data} componkey={this.props.componkey}/>
                                     case "1402000homeinfo-search" : return <SearchInfo data={this.props.data} componkey={this.props.componkey}/>
                                     default:  return "我是404";
                                 }

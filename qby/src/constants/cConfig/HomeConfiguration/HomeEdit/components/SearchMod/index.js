@@ -1,4 +1,5 @@
 import react, { Component } from "react";
+import { connect } from 'dva';
 import { Input, Icon, Button, message } from "antd";
 import "./index.less";
 import { savePicApi } from "../../../../../../services/cConfig/homeConfiguration/search";
@@ -72,4 +73,8 @@ class SearchMod extends Component {
     );
   }
 }
-export default SearchMod;
+function mapStateToProps(state) {
+  const { homeEdit } = state;
+  return homeEdit;
+}
+export default connect(mapStateToProps)(SearchMod);

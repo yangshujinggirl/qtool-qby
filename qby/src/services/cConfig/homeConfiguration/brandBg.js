@@ -1,10 +1,9 @@
 import ajax from "../../../utils/req.js";
 
-//商品分类
-export function getCategoryApi(values) {
+export function saveBgPicApi(values) {
   values = JSON.stringify(values);
   return ajax.post("/webrest.htm", {
-    code: "qerp.web.pd.category.list",
+    code: "qerp.web.config.module.brand.save",
     data: values
   });
 }
