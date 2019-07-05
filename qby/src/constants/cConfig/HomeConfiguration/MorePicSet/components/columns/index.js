@@ -232,31 +232,5 @@ export function columns(form, handleChange){
       render:()=> {
         return <span>结束时间为下一张开始时间</span>
       }
-    },{
-      title:'操作',
-      key:'operation',
-      width:'12%',
-      align:'center',
-      render:(text,record,index)=> {
-        let disabled;
-        if(record.linkInfoType==1||record.linkInfoType==2||record.linkInfoType==3) {
-          disabled=!!record.picUrl&&!!record.title&&!!record.beginTime&&!!record.platform&&!!record.linkInfoType&&!!record.linkInfo;
-        } else {
-          disabled=!!record.picUrl&&!!record.title&&!!record.beginTime&&!!record.platform&&!!record.linkInfoType;
-        }
-        return <div className="handle-item-btn-list">
-                <Button
-                  disabled={!disabled}
-                  type="primary"
-                  onClick={()=>record.onOperateClick('frame')}>
-                  变帧
-                </Button>
-                <Button
-                  type="primary"
-                  onClick={()=>record.onOperateClick('delete')}>
-                  删除
-                </Button>
-              </div>
-      }
     }];
 }

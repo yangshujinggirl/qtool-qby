@@ -11,53 +11,50 @@ class BaseEditTable extends Component {
       key:this.props.dataSource.length+1,
     }
   }
-  //绑定方法
-  processData(data) {
-    if(!this.props.onOperateClick) {
-      return data;
-    }
-    data && data.map((item, i) => {
-        item.onOperateClick = (type) => { this.props.onOperateClick(item, type) };
-    })
-    return data;
+  componentWillReceiveProps(props) {
+    this.setState({ key: props.dataSource.length+1 })
   }
   //新增
   handleAdd=()=> {
     let { key } =this.state;
-    let { dataSource} =this.props;
+    let { dataSource } =this.props;
     dataSource.push({
       key,
-      isFrame:true
     });
     this.setState({ key:key+1 });
-    this.props.handleCallback(dataSource)
+    this.props.callback(dataSource)
   }
-  //表单change
-  handleChange=(type,name,e,index)=> {
-    let value;
-    switch(type) {
-      case 'input':
-        value = e.target.value;
-        break;
-      case 'select':
-        value = e;
-        break;
-      case 'fileList':
-        value = e;
-        break;
-    }
+  //删除
+  handleDelete=(key)=> {
     let { dataSource } =this.props;
-    if(!value) {
-      dataSource[index][name]=null;
-    } else {
-      dataSource[index][name]=value;
+    dataSource = dataSource.filter(item => item.key !== key)
+    this.props.callback(dataSource)
+  }
+  //初始化删除columns
+  initColumns=()=> {
+    let columns = this.props.columns;
+    let index = columns.findIndex((value,index) => {
+      return value.key == 'delete';
+    })
+    if(index == -1) {
+      columns.push({
+        title:'操作',
+        key:'delete',
+        width:'10%',
+        align:'center',
+        render:(text,record,index)=> {
+          return <span
+                  className="handle-delete"
+                  onClick={()=>this.handleDelete(record.key)}>
+                    删除
+                 </span>
+        }
+      })
     }
-    this.props.handleCallback(dataSource)
+    return columns;
   }
   render() {
-    let columnsTable = this.props.columns(this.props.form,this.handleChange);
     let { dataSource } =this.props;
-    dataSource = this.processData(dataSource);
     return (
       <Table
         className="banner-set-tables"
@@ -69,7 +66,7 @@ class BaseEditTable extends Component {
             'data-row-key':record.key
           }
         }}
-        columns={columnsTable}
+        columns={this.initColumns()}
         dataSource={dataSource}>
       </Table>
     )

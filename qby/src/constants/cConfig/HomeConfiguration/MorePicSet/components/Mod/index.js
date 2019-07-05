@@ -23,28 +23,7 @@ class ModForm extends Component {
   }
   //回调
   handleCallback=(dataSource)=> {
-    this.props.dispatch({ type:'moreGoodsSet/getGoodsList',payload:dataSource})
-  }
-  //表单事件
-  onOperateClick=(record,type)=> {
-    switch(type) {
-      case 'frame':
-        this.changeFrame(record);
-        break;
-      case 'delete':
-        this.handleDelete(record);
-        break;
-    }
-  }
-  //删除
-  handleDelete=(record)=> {
-    let { goodsList } =this.props;
-    goodsList = goodsList.filter(item => item.key !== record.key)
-    this.handleCallback(goodsList)
-  }
-  //变帖
-  changeFrame=(record)=> {
-    this.setState({ visible:true, currentItem:record })
+    this.props.dispatch({ type:'morePicSet/getGoodsList',payload:dataSource})
   }
   //提交变帧
   submitFrame=(position)=> {
@@ -96,17 +75,39 @@ class ModForm extends Component {
     })
     return goods;
   }
+  //表单change
+  handleChange=(type,name,e,index)=> {
+    let value;
+    switch(type) {
+      case 'input':
+        value = e.target.value;
+        break;
+      case 'select':
+        value = e;
+        break;
+      case 'fileList':
+        value = e;
+        break;
+    }
+    let { goodsList } =this.props;
+    if(!value) {
+      goodsList[index][name]=null;
+    } else {
+      goodsList[index][name]=value;
+    }
+    this.handleCallback(goodsList)
+  }
   render() {
     let { goodsList, activiKey } =this.props;
     const { visible, confirmLoading } =this.state;
     const { form }= this.props;
+    let columnsTable = columns(form,this.handleChange);
     return(
       <div className="banner-set-mod">
         <BaseEditTable
-          onOperateClick={this.onOperateClick}
           callback={this.handleCallback}
           form={form}
-          columns={columns}
+          columns={columnsTable}
           dataSource={goodsList}/>
         <div className="handle-btn-action">
           <Button
@@ -116,13 +117,6 @@ class ModForm extends Component {
               保存
           </Button>
         </div>
-        <FrameModal
-          modName='banner'
-          {...this.props}
-          onOk={this.submitFrame}
-          onCancel={this.onCancel}
-          visible={visible}
-          confirmLoading={confirmLoading}/>
       </div>
     )
   }
@@ -135,7 +129,7 @@ const Mod = Form.create({
   }
 })(ModForm);
 function mapStateToProps(state) {
-  const { bannerSet } =state;
-  return bannerSet;
+  const { morePicSet } =state;
+  return morePicSet;
 }
 export default connect(mapStateToProps)(Mod);

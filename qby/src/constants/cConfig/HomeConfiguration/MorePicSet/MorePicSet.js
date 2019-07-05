@@ -19,7 +19,7 @@ class BannerSet extends Component {
   }
   componentDidMount() {
     this.props.dispatch({
-      type:'bannerSet/fetchList',
+      type:'morePicSet/fetchList',
       payload:{
         position:1,
         homepageModuleId:20,
