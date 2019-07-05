@@ -1,22 +1,26 @@
 import { message } from 'antd';
 import {
-  getCategoryApi
+  getListApi
 } from '../../services/cConfig/homeConfiguration/bannerSet.js';
 
 export default {
   namespace:'bannerSet',
   state: {
-    activiKey:0,
+    activiKey:1,
     goodsList:[],
+    homepageModuleId:''
   },
   reducers: {
-    //重置store
     resetData(state) {
       const goodsList=[];
-      const activiKey = 0;
+      const activiKey = 1;
+      const homepageModuleId='';
       return {
         ...state,goodsList, activiKey
        }
+    },
+    getHomeModuleId(state, { payload:homepageModuleId }) {
+      return { ...state,homepageModuleId };
     },
     getActiviKey(state, { payload:activiKey }) {
       return { ...state,activiKey };
@@ -27,9 +31,10 @@ export default {
   },
   effects: {
     *fetchList({ payload: values },{ call, put ,select}) {
-      let { position } =values;
+      yield put({ type: 'resetData',payload:{} });
+      let { position, homepageModuleId } =values;
       yield put({type: 'tab/loding',payload:true});
-      // const result = yield call(getCategoryApi,values);
+      const result = yield call(getListApi,values);
       let goodsList1=[
         {
         key:0,
@@ -75,15 +80,8 @@ export default {
         beginTime:''
       }]
       yield put({type: 'getActiviKey',payload:position});
+      yield put({type: 'getHomeModuleId',payload:homepageModuleId});
       yield put({type: 'getGoodsList',payload:goodsList2});
-      yield put({type: 'tab/loding',payload:false});
-    },
-    *fetchFrame({ payload: values },{ call, put ,select}) {
-      let { position } =values;
-      yield put({type: 'tab/loding',payload:true});
-      // const result = yield call(getCategoryApi,values);
-      yield put({type: 'getActiviKey',payload:position});
-      yield put({type: 'getGoodsList',payload:[goodsList1]});
       yield put({type: 'tab/loding',payload:false});
     },
   }

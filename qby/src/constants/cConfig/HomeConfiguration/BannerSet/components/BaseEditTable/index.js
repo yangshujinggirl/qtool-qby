@@ -3,6 +3,8 @@ import { Table, Input, Button, Form, InputNumber, Modal  } from 'antd';
 import {columns} from '../columns';
 import './index.less';
 
+const FormItem = Form.Item;
+
 class BaseEditTable extends Component {
   constructor(props) {
     super(props);
@@ -12,11 +14,11 @@ class BaseEditTable extends Component {
   }
   //绑定方法
   processData(data) {
-    if(!this.onOperateClick) {
+    if(!this.props.onOperateClick) {
       return data;
     }
     data && data.map((item, i) => {
-        item.onOperateClick = (type) => { this.onOperateClick(item, type) };
+        item.onOperateClick = (type) => { this.props.onOperateClick(item, type) };
     })
     return data;
   }
@@ -30,43 +32,6 @@ class BaseEditTable extends Component {
     });
     this.setState({ key:key+1 });
     this.props.handleCallback(dataSource)
-  }
-  //删除
-  handleDelete=(record)=> {
-    let { dataSource } =this.props;
-    dataSource = dataSource.filter(item => item.key !== record.key)
-    this.props.handleCallback(dataSource)
-  }
-  //变帖
-  changeFrame=()=> {
-    let content=(
-      <div>
-        将当前banner调整至第
-        <InputNumber
-          min={1}
-          max={5}/>
-      </div>
-    )
-    Modal.confirm({
-      content: content,
-      onOk:()=>{
-
-      },
-      onCancel:()=> {
-
-      },
-    });
-  }
-  //表单事件
-  onOperateClick=(record,type)=> {
-    switch(type) {
-      case 'frame':
-        this.changeFrame(record);
-        break;
-      case 'delete':
-        this.handleDelete(record);
-        break;
-    }
   }
   //表单change
   handleChange=(type,name,e,index)=> {
@@ -91,14 +56,14 @@ class BaseEditTable extends Component {
     this.props.handleCallback(dataSource)
   }
   render() {
+    let columnsTable = columns(this.props.form,this.handleChange);
     let { dataSource } =this.props;
-    const { btnText, form } =this.props;
     dataSource = this.processData(dataSource);
-    let columnsTable = columns(form,this.handleChange);
+
     return (
       <Table
         className="banner-set-tables"
-        footer={()=><Button type="default" onClick={this.handleAdd}>+{btnText}</Button>}
+        footer={()=><Button type="default" onClick={this.handleAdd}>+新增</Button>}
         bordered
         pagination={false}
         onRow={(record)=> {

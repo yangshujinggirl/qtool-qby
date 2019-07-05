@@ -3,11 +3,19 @@ import { Input, InputNumber, Form, Select, Button, DatePicker, Modal } from 'ant
 import { connect } from 'dva';
 import moment from 'moment';
 import BaseEditTable from '../BaseEditTable';
+import FrameModal from '../FrameModal';
+import {
+  getChangeFrameApi, getSaveApi
+ } from '../../../../../../services/cConfig/homeConfiguration/bannerSet';
 import './index.less';
 
 class ModForm extends Component {
   constructor(props) {
     super(props);
+    this.state={
+      visible:false,
+      confirmLoading:false
+    }
   }
   componentDidMount() {
     this.props.onRef(this);
@@ -16,18 +24,61 @@ class ModForm extends Component {
   handleCallback=(dataSource)=> {
     this.props.dispatch({ type:'bannerSet/getGoodsList',payload:dataSource})
   }
-  //提交
+  //表单事件
+  onOperateClick=(record,type)=> {
+    switch(type) {
+      case 'frame':
+        this.changeFrame(record);
+        break;
+      case 'delete':
+        this.handleDelete(record);
+        break;
+    }
+  }
+  //删除
+  handleDelete=(record)=> {
+    let { goodsList } =this.props;
+    goodsList = goodsList.filter(item => item.key !== record.key)
+    this.handleCallback(goodsList)
+  }
+  //变帖
+  changeFrame=(record)=> {
+    this.setState({ visible:true, currentItem:record })
+  }
+  //提交变帧
+  submitFrame=(position)=> {
+    const { currentItem } =this.state;
+    const { activiKey } =this.props;
+    let params = {
+      ...currentItem,
+      oldPosition:activiKey,
+      newPosition:position,
+      homepageModuleId:this.props.homepageModuleId
+    }
+    getChangeFrameApi(params)
+    .then((res) => {
+      console.log(res)
+    })
+    this.onCancel()
+  }
+  onCancel=()=>{
+    this.props.form.resetFields('frameNum');
+    this.setState({ visible:false })
+  }
   submit=(func)=> {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         values = this.formatParams(values);
         let params={
-          homepageModuleId:'0',
+          homepageModuleId:this.props.homepageModuleId,
           position:this.props.activiKey,
           dataList:values
         }
-        console.log(params)
-        func&&typeof func == 'function'&&func()
+        func&&typeof func == 'function'&&func();
+        getSaveApi()
+        .then((res)=> {
+          func&&typeof func == 'function'&&func()
+        })
       }
     });
   }
@@ -45,13 +96,15 @@ class ModForm extends Component {
     return goods;
   }
   render() {
-    let { goodsList } =this.props;
+    let { goodsList, activiKey } =this.props;
+    const { visible, confirmLoading } =this.state;
+    const { form }= this.props;
     return(
       <div className="banner-set-mod">
         <BaseEditTable
-          btnText="商品"
+          onOperateClick={this.onOperateClick}
           handleCallback={this.handleCallback}
-          form={this.props.form}
+          form={form}
           dataSource={goodsList}/>
         <div className="handle-btn-action">
           <Button
@@ -61,20 +114,15 @@ class ModForm extends Component {
               保存
           </Button>
         </div>
-
+        <FrameModal
+          {...this.props}
+          onOk={this.submitFrame}
+          onCancel={this.onCancel}
+          visible={visible}
+          confirmLoading={confirmLoading}/>
       </div>
     )
   }
 }
-const Mod = Form.create({
-  mapPropsToFields(props) {
-    return {
-      goods: Form.createFormField(props.goodsList),
-    };
-  }
-})(ModForm);
-function mapStateToProps(state) {
-  const { bannerSet } =state;
-  return bannerSet;
-}
-export default connect(mapStateToProps)(Mod);
+
+export default ModForm;

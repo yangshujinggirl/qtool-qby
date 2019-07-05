@@ -79,9 +79,9 @@ export function columns(form, handleChange){
                   rules:[{
                     required:true,message:'请输入banner名称'
                   }],
+                  onChange:(e)=>handleChange('input','title',e,index)
                 })(
                   <Input
-                    onChange={(e)=>handleChange('input','title',e,index)}
                     maxLength='15'
                     placeholder="请输入名称"
                     autoComplete="off"/>
@@ -193,10 +193,10 @@ export function columns(form, handleChange){
           return <FormItem>
                   {getFieldDecorator(`goods[${index}].linkInfo`,{
                     initialValue:record.linkInfo,
-                    rules:linkAgeObj.rules
+                    rules:linkAgeObj.rules,
+                    onChange:(e)=>handleChange('input','linkInfo',e,index)
                     })(
                       <Input
-                        onChange={(e)=>handleChange('input','linkInfo',e,index)}
                         disabled={linkAgeObj.disabled}
                         placeholder={linkAgeObj.placeholder}
                         autoComplete="off"/>
@@ -237,7 +237,12 @@ export function columns(form, handleChange){
       width:'12%',
       align:'center',
       render:(text,record,index)=> {
-        let disabled=!!record.picUrl&&!!record.title&&!!record.beginTime&&!!record.platform&&!!record.linkInfoType;
+        let disabled;
+        if(record.linkInfoType==1||record.linkInfoType==2||record.linkInfoType==3) {
+          disabled=!!record.picUrl&&!!record.title&&!!record.beginTime&&!!record.platform&&!!record.linkInfoType&&!!record.linkInfo;
+        } else {
+          disabled=!!record.picUrl&&!!record.title&&!!record.beginTime&&!!record.platform&&!!record.linkInfoType;
+        }
         return <div className="handle-item-btn-list">
                 <Button
                   disabled={!disabled}

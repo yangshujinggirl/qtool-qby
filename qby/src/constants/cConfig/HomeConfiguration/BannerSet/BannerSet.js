@@ -2,16 +2,17 @@ import React, { Component } from 'react';
 import { Tabs, Button, Form, Modal } from 'antd';
 import { connect } from 'dva';
 import Mod from './components/Mod';
+import TabsMod from './components/TabsMod';
 import './BannerSet.less';
 
 const FormItem = Form.Item;
 const { TabPane } = Tabs;
 const panes = [
-  { title: '第一帧', key: '0' },
-  { title: '第二帧', key: '1' },
-  { title: '第三帧', key: '2'},
-  { title: '第四帧', key: '3'},
-  { title: '第五帧', key: '4'},
+  { title: '第一帧', key: '1' },
+  { title: '第二帧', key: '2' },
+  { title: '第三帧', key: '3'},
+  { title: '第四帧', key: '4'},
+  { title: '第五帧', key: '5'},
 ];
 class BannerSet extends Component {
   constructor(props) {
@@ -21,24 +22,15 @@ class BannerSet extends Component {
     this.props.dispatch({
       type:'bannerSet/fetchList',
       payload:{
-        position:0,
+        position:1,
         homepageModuleId:20,
       }
     })
   }
-  onChange = activiKey => {
-    Modal.confirm({
-      title: '请离开页面前保存当前操作?',
-      content: 'Some descriptions',
-      onOk:()=>{
-        this.modDom.submit(()=>this.upDateData(activiKey))
-      },
-      onCancel:()=> {
-        this.upDateData(activiKey)
-      },
-    });
-  };
-  upDateData=(activiKey)=> {
+  onOkToggle=(activiKey)=> {
+    this.modDom.submit(()=>this.onCancel(activiKey));
+  }
+  onCancelToggle=(activiKey)=> {
     this.props.dispatch({
       type:'bannerSet/fetchList',
       payload:{
@@ -48,27 +40,29 @@ class BannerSet extends Component {
     })
   }
   render() {
-    const { activiKey } =this.props;
     return(
       <div className="banner-set-pages">
-        <div className="part-tabs">
-          {
-            panes.map((el,index) => (
-              <p
-                key={index}
-                className={`tab-bar-item ${index==activiKey?'tab-bar-activity':''}`}
-                onClick={()=>this.onChange(index)}>{el.title}</p>
-            ))
-          }
-        </div>
-        <Mod onRef={(mod)=>{this.modDom = mod}} activiKey={activiKey}/>
+        <TabsMod
+          activiKey={this.props.activiKey}
+          panes={panes}
+          onOk={this.onOkToggle}
+          onCancel ={this.onCancelToggle}/>
+        <Mod
+          {...this.props}
+          onRef={(mod)=>{this.modDom = mod}}/>
       </div>
     )
   }
 }
+const BannerSetF = Form.create({
+  mapPropsToFields(props) {
+    return {
+      goods: Form.createFormField(props.goodsList),
+    };
+  }
+})(BannerSet);
 function mapStateToProps(state) {
   const { bannerSet } =state;
   return bannerSet;
 }
-export default connect(mapStateToProps)(BannerSet);
-// export default BannerSet;
+export default connect(mapStateToProps)(BannerSetF);
