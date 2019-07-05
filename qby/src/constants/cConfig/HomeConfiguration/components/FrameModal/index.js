@@ -14,8 +14,18 @@ class App extends React.Component {
     });
   }
   render() {
-    const { visible, confirmLoading } = this.props;
+    const { visible, confirmLoading, modName } = this.props;
     const { getFieldDecorator } =this.props.form;
+    let text, max, unit;
+    if(modName=='icon') {
+      text='将当前icon调整至第';
+      max = 4;
+      unit="坑"
+    } else {
+      text='将当前banner调整至第';
+      max = 5;
+      unit="帧"
+    }
     return (
       <Modal
         confirmLoading={confirmLoading}
@@ -25,15 +35,15 @@ class App extends React.Component {
         confirmLoading={confirmLoading}
         onCancel={this.props.onCancel}>
         <div>
-          将当前banner调整至第
+          {text}
           <Form.Item className="frame-item">
             {getFieldDecorator('frameNum', {
               initialValue: 1
             })(
-              <InputNumber min={1} max={5} />
+              <InputNumber min={1} max={max}/>
             )}
           </Form.Item>
-          帧
+          {unit}
         </div>
       </Modal>
     );

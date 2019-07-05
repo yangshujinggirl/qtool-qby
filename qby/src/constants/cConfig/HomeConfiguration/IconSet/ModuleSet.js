@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Form, Button, Input, Radio, Row, Col, Modal, message } from "antd";
-import { saveModuleApi } from "../../../../services/cConfig/homeConfiguration/iconSet/module";
+import { getSaveModuleApi } from "../../../../services/cConfig/homeConfiguration/iconSet";
 const FormItem = Form.Item;
 
 class ModuleSet extends Component {
@@ -16,7 +16,7 @@ class ModuleSet extends Component {
     });
   };
   sendRequest = values => {
-    saveModuleApi(values).then(res => {
+    getSaveModuleApi(values).then(res => {
       if (res.code == "0") {
         message.success("保存成功");
       }

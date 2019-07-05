@@ -2,12 +2,13 @@ import React , { Component } from 'react';
 import { Input, InputNumber, Form, Select, Button, DatePicker, Modal } from 'antd';
 import { connect } from 'dva';
 import moment from 'moment';
-import BaseEditTable from '../../../components/BaseEditTable0';
+import BaseEditTable from '../BaseEditTable';
 import FrameModal from '../../../components/FrameModal';
 import {
   getChangeFrameApi, getSaveApi
- } from '../../../../../../services/cConfig/homeConfiguration/bannerSet';
+ } from '../../../../../../services/cConfig/homeConfiguration/moreGoodsSet';
 import './index.less';
+import { columns } from '../columns';
 
 class ModForm extends Component {
   constructor(props) {
@@ -22,7 +23,7 @@ class ModForm extends Component {
   }
   //回调
   handleCallback=(dataSource)=> {
-    this.props.dispatch({ type:'bannerSet/getGoodsList',payload:dataSource})
+    this.props.dispatch({ type:'moreGoodsSet/getGoodsList',payload:dataSource})
   }
   //表单事件
   onOperateClick=(record,type)=> {
@@ -105,7 +106,7 @@ class ModForm extends Component {
           onOperateClick={this.onOperateClick}
           callback={this.handleCallback}
           form={form}
-          modName="banner"
+          columns={columns}
           dataSource={goodsList}/>
         <div className="handle-btn-action">
           <Button

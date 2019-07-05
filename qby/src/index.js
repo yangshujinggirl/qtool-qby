@@ -117,6 +117,8 @@ import cUserManage from "./models/userCenter/cUserManage";
 import homeEdit from "./models/homeConfiguration/homeEdit.js";
 import commodityFlow from "./models/homeConfiguration/commodityFlow.js";
 import bannerSet from "./models/homeConfiguration/bannerSet.js";
+import iconSet from "./models/homeConfiguration/iconSet.js";
+import morePicSet from "./models/homeConfiguration/morePicSet.js";
 //内容中心
 import homeConfig from "./models/homeConfiguration/configurationList";
 // 1. Initialize
@@ -222,7 +224,7 @@ const models = [
   market,
   homeEdit,
   commodityFlow,
-  bannerSet,
+  bannerSet,iconSet,morePicSet,
   //内容中心
   homeConfig
 ];

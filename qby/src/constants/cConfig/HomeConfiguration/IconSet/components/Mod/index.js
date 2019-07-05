@@ -6,7 +6,7 @@ import BaseEditTable from '../../../components/BaseEditTable0';
 import FrameModal from '../../../components/FrameModal';
 import {
   getChangeFrameApi, getSaveApi
- } from '../../../../../../services/cConfig/homeConfiguration/bannerSet';
+ } from '../../../../../../services/cConfig/homeConfiguration/iconSet';
 import './index.less';
 
 class ModForm extends Component {
@@ -22,7 +22,7 @@ class ModForm extends Component {
   }
   //回调
   handleCallback=(dataSource)=> {
-    this.props.dispatch({ type:'bannerSet/getGoodsList',payload:dataSource})
+    this.props.dispatch({ type:'iconSet/getGoodsList',payload:dataSource})
   }
   //表单事件
   onOperateClick=(record,type)=> {
@@ -105,7 +105,7 @@ class ModForm extends Component {
           onOperateClick={this.onOperateClick}
           callback={this.handleCallback}
           form={form}
-          modName="banner"
+          modName="icon"
           dataSource={goodsList}/>
         <div className="handle-btn-action">
           <Button
@@ -116,11 +116,11 @@ class ModForm extends Component {
           </Button>
         </div>
         <FrameModal
-          modName='banner'
           {...this.props}
           onOk={this.submitFrame}
           onCancel={this.onCancel}
           visible={visible}
+          modName="icon"
           confirmLoading={confirmLoading}/>
       </div>
     )
@@ -134,7 +134,7 @@ const Mod = Form.create({
   }
 })(ModForm);
 function mapStateToProps(state) {
-  const { bannerSet } =state;
-  return bannerSet;
+  const { iconSet } =state;
+  return iconSet;
 }
-export default connect(mapStateToProps)(Mod);
+export default connect(mapStateToProps)(Mod);;

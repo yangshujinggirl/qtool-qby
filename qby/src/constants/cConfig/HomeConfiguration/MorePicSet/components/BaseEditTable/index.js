@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Table, Input, Button, Form, InputNumber, Modal  } from 'antd';
-import {columns} from '../columns';
 import './index.less';
 
 const FormItem = Form.Item;
@@ -56,10 +55,9 @@ class BaseEditTable extends Component {
     this.props.handleCallback(dataSource)
   }
   render() {
-    let columnsTable = columns(this.props.form,this.handleChange);
+    let columnsTable = this.props.columns(this.props.form,this.handleChange);
     let { dataSource } =this.props;
     dataSource = this.processData(dataSource);
-
     return (
       <Table
         className="banner-set-tables"

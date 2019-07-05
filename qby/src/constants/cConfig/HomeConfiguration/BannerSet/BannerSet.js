@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { Tabs, Button, Form, Modal } from 'antd';
 import { connect } from 'dva';
 import Mod from './components/Mod';
-import TabsMod from './components/TabsMod';
-import './BannerSet.less';
+import TabsMod from '../components/TabsMod';
+// import './BannerSet.less';
 
 const FormItem = Form.Item;
 const { TabPane } = Tabs;
@@ -48,21 +48,13 @@ class BannerSet extends Component {
           onOk={this.onOkToggle}
           onCancel ={this.onCancelToggle}/>
         <Mod
-          {...this.props}
           onRef={(mod)=>{this.modDom = mod}}/>
       </div>
     )
   }
 }
-const BannerSetF = Form.create({
-  mapPropsToFields(props) {
-    return {
-      goods: Form.createFormField(props.goodsList),
-    };
-  }
-})(BannerSet);
 function mapStateToProps(state) {
   const { bannerSet } =state;
   return bannerSet;
 }
-export default connect(mapStateToProps)(BannerSetF);
+export default connect(mapStateToProps)(BannerSet);
