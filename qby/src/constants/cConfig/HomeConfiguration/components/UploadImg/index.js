@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import { Modal, Upload, Icon, message } from "antd";
-import "./UploadImg.less";
+import { Modal, Upload, Icon, message, Form } from "antd";
+const FormItem = Form.Item;
+import "./index.less";
 class CommonUpload extends Component {
   constructor(props) {
     super(props);
@@ -46,10 +47,10 @@ class CommonUpload extends Component {
       message.error(file.name + "图片大小超出限制，请修改后重新上传", 0.8);
       return isLt2M;
     }
-    //检测尺寸
     const isSize = this.isSize(file);
-    return isPNG && isLt2M
+    return isPNG && isLt2M;
   };
+  //检测尺寸
   isSize = file => {
     return new Promise((resolve, reject) => {
       let width = this.props.width;
@@ -79,21 +80,10 @@ class CommonUpload extends Component {
       </div>
     );
     const { visible } = this.state;
-    const { title, describe, imageUrl, exampleImg, width, height } = this.props;
+    const { describe, imageUrl, exampleImg } = this.props;
     return (
       <div className="home_upload">
-        <div>
-          <p className="text">
-            {title}
-            <a
-              style={{ "text-decoration": "underline" }}
-              className="theme-color"
-              onClick={this.lookExample}
-            >
-              查看示例
-            </a>
-          </p>
-          <p className="text">{describe}</p>
+        <div className="outer_wrapper">
           <Upload
             name="imgFile"
             action="/erpWebRest/qcamp/upload.htm?type=brand"
@@ -104,7 +94,7 @@ class CommonUpload extends Component {
           >
             {imageUrl ? (
               <img
-                style={{ width: "290px", height: "105px" }}
+                style={{ width: "102", height: "102px" }}
                 src={fileDomain + imageUrl}
                 alt="avatar"
               />
@@ -112,9 +102,17 @@ class CommonUpload extends Component {
               uploadButton
             )}
           </Upload>
+          <div>
+            <a className="look_exam" onClick={this.lookExample}>
+              查看示例
+            </a>
+            <p className="suffix_tips">
+              图片尺寸为{describe}px，格式为png、大小在2m以内
+            </p>
+          </div>
         </div>
         <Modal visible={visible} onCancel={this.onCancel} footer={null}>
-          <img src={fileDomain + exampleImg} />
+          <img src={exampleImg} style={{ width: "472px" }} />
         </Modal>
       </div>
     );
