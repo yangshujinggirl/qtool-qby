@@ -1,6 +1,4 @@
-import ajax from '../../../utils/req.js';
-
-
+import ajax from "../../../utils/req.js";
 
 //info
 export function getListApi(values) {

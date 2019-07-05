@@ -1,8 +1,22 @@
 import React, { Component } from 'react';
+import { connect } from 'dva';
 import { Button } from 'antd';
 import './index.less';
 
 class IconMod extends Component {
+  goEdit=()=> {
+    const { componkey } = this.props;
+    const paneitem={
+      title:'icon模块',
+      key:`${componkey}edit-icon`,
+      componkey:`${componkey}edit-icon`,
+      data:{}
+    };
+    this.props.dispatch({
+        type:'tab/firstAddTab',
+        payload:paneitem
+    })
+  }
   render() {
     return(
       <div className="common-sty icon-mod">
@@ -26,7 +40,7 @@ class IconMod extends Component {
         </div>
         <div className="handle-btn-action">
           <Button>查看</Button>
-          <Button>编辑</Button>
+          <Button onClick={this.goEdit}>编辑</Button>
           <Button>隐藏</Button>
         </div>
       </div>
@@ -34,5 +48,8 @@ class IconMod extends Component {
   }
 }
 
-
-export default IconMod;
+function mapStateToProps(state) {
+  const { homeEdit } =state;
+  return homeEdit;
+}
+export default connect(mapStateToProps)(IconMod);
