@@ -120,7 +120,7 @@ class BaseEditTable extends Component {
            }]
          })(
            <Select
-             placeholder="请选择平台">
+             placeholder="请选择跳转链接">
              <Select.Option
                value={1}
                key={1}>去配置页面</Select.Option>

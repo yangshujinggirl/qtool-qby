@@ -19,7 +19,7 @@ class TabsMod extends Component {
   render() {
     const { activiKey } =this.props;
     return(
-      <div className="banner-set-part-tabs">
+      <div className="part-tabs">
         {
           this.props.panes.map((el,index) => (
             <p
