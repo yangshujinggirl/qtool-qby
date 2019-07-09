@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import GoodsSet from "./GoodsSet";
 import ModuleSet from "./ModuleSet";
+import Config from './Config'
 import { Tabs } from "antd";
 const { TabPane } = Tabs;
 class Index extends Component {
@@ -12,7 +13,7 @@ class Index extends Component {
             <GoodsSet />
           </TabPane>
           <TabPane tab="配置商品" key="2">
-            <ModuleSet />
+            <Config />
           </TabPane>
           <TabPane tab="模块设置" key="3">
             <ModuleSet />

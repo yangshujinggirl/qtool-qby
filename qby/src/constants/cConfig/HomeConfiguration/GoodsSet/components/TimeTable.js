@@ -30,7 +30,7 @@ class TimeTable extends Component {
                   initialValue: record.beginTime
                     ? [moment(record.beginTime), moment(moment(record.endTime))]
                     : null
-                })(<RangePicker format="YYYY-MM-DD HH:mm" />)}
+                })(<RangePicker showTime format="YYYY-MM-DD HH:mm" />)}
               </FormItem>
             </Form>
           );
@@ -41,15 +41,31 @@ class TimeTable extends Component {
         width: 400,
         key: "delete",
         render: (text, record, index) => {
+          const time = this.props.form.getFieldsValue()
+          console.log(time)
+          // console.log(moment(time[index][0]))
+          console.log(index)
+          console.log(time[index])
+          console.log(time[index] === null)
           return (
             <div>
               {record.completed && (
-                <Button onClick={() => this.onEdit(record.pdDisplayCfgId,false)}>
+                <Button
+                  onClick={() =>
+                    this.onEdit(record.pdDisplayCfgId, false, index)
+                  }
+                >
                   编辑时间
                 </Button>
               )}
               {!record.completed && (
-                <Button onClick={()=>{this.onEdit(record.pdDisplayCfgId,true)}} style={{ marginLeft: "15px" }}>
+                <Button
+                  disabled={time[index] == null}
+                  onClick={() => {
+                    this.onSure(record.pdDisplayCfgId, true);
+                  }}
+                  style={{ marginLeft: "15px" }}
+                >
                   确认
                 </Button>
               )}
@@ -60,7 +76,6 @@ class TimeTable extends Component {
               >
                 配置商品
               </Button>
-
               <Button
                 style={{ marginLeft: "15px" }}
                 onClick={() => this.delete(record.pdDisplayCfgId)}
@@ -73,17 +88,28 @@ class TimeTable extends Component {
       }
     ];
   }
-  onEdit = (id,status) => {
+  onEdit = id => {
     const { timeSlots } = this.props;
     const list = timeSlots.map(item => {
       if (item.pdDisplayCfgId == id) {
-        item.completed = status;
+        item.completed = false;
       }
-      return item
+      return item;
     });
     this.props.callback(list);
   };
-  
+  onSure = id => {
+    
+    const { timeSlots } = this.props;
+    const list = timeSlots.map(item => {
+      if (item.pdDisplayCfgId == id) {
+        item.completed = true;
+      }
+      return item;
+    });
+    this.props.callback(list);
+  };
+
   delete = id => {
     const { timeSlots } = this.props;
     const list = timeSlots.filter(item => item.pdDisplayCfgId != id);
@@ -94,7 +120,7 @@ class TimeTable extends Component {
   };
   render() {
     const { timeSlots } = this.props;
-    console.log(timeSlots)
+    console.log(timeSlots);
     return (
       <div className="time-list">
         <BaseDelTable
