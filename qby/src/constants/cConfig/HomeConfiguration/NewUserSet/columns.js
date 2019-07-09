@@ -17,14 +17,15 @@ export function getColumns(form, couponList) {
       render: (text, record, index) => {
         return (
           <FormItem>
-            {getFieldDecorator(`couponIds${index}`, {
-              initialValue: 1
+            {getFieldDecorator(`couponIds[${index}]`, {
+              initialValue: text
             })(
               <Select>
                 {couponList.map(item => (
                   <Option
                     placeholder="请选择你要发放的优惠券"
                     key={item.couponId}
+                    value={item.couponId}
                   >
                     {item.couponName}
                   </Option>

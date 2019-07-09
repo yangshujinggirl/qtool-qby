@@ -1,12 +1,22 @@
 import React, { Component } from "react";
-import { Button, Form, Select, Input, DatePicker, Tooltip, Icon } from "antd";
+import {
+  Button,
+  Form,
+  Select,
+  Input,
+  DatePicker,
+  Tooltip,
+  Icon,
+  message
+} from "antd";
 import UploadNew from "../components/UploadImg";
 import UploadCoupon from "../components/UploadImg";
 import BaseDelTable from "../components/BaseDelTable";
-import { saveApi } from "../../../../services/cConfig/homeConfiguration/newUser";
-import { getListApi, getInfoApi } from "../../../../services/activity/coupon";
+import {saveApi,getInfoApi} from "../../../../services/cConfig/homeConfiguration/newUser";
+import { getListApi } from "../../../../services/activity/coupon";
 import { getColumns } from "./columns";
 const { RangePicker } = DatePicker;
+import moment from "moment";
 const FormItem = Form.Item;
 const Option = Select.Option;
 import "./index.less";
@@ -37,55 +47,55 @@ class Index extends Component {
   };
   //初始化数据
   getCouponList = () => {
-    // getInfoApi({homepageModuleId}).then(res=>{
-
-    //   if(res.code=='0'){}
-    // })
-    const res = {
-      newUserGiftVo: {
-        couponList: [
-          {
-            couponId: 1,
-            couponName: "gesd",
-            couponFullAmount: 11,
-            couponMoney: 11,
-            couponGiveCount: 1
-          },
-          {
-            couponId: 1,
-            couponName: "gesd",
-            couponFullAmount: 11,
-            couponMoney: 11,
-            couponGiveCount: 1
-          }
-        ],
-        newComerPicUrl: "1",
-        backgroupColor: "1",
-        couponPopUpPicUrl: "1",
-        receiveTimeInterval: 7,
-        beginTime: "2018-09-08 12:45:45",
-        endTime: "2018-09-08 12:45:45"
+    getInfoApi({ homepageModuleId: 3 }).then(res => {
+      if (res.code == "0") {
+        const {
+          couponList,
+          newComerPicUrl,
+          backgroupColor,
+          couponPopUpPicUrl,
+          receiveTimeInterval,
+          beginTime,
+          endTime
+        } = res.newUserGiftVo;
+        couponList.map((item, index) => (item.key = index));
+        this.setState({
+          couponList,
+          newComerPicUrl,
+          backgroupColor,
+          couponPopUpPicUrl,
+          receiveTimeInterval,
+          beginTime,
+          endTime
+        });
       }
-    };
-    const {
-      couponList,
-      newComerPicUrl,
-      backgroupColor,
-      couponPopUpPicUrl,
-      receiveTimeInterval,
-      beginTime,
-      endTime
-    } = res.newUserGiftVo;
-    couponList.map((item, index) => (item.key = index));
-    this.setState({
-      couponList,
-      newComerPicUrl,
-      backgroupColor,
-      couponPopUpPicUrl,
-      receiveTimeInterval,
-      beginTime,
-      endTime
     });
+    // const res = {
+    //   newUserGiftVo: {
+    //     couponList: [
+    //       {
+    //         couponId: 182,
+    //         couponName: "gesd",
+    //         couponFullAmount: 11,
+    //         couponMoney: 11,
+    //         couponGiveCount: 1
+    //       },
+    //       {
+    //         couponId: 155,
+    //         couponName: "gesd",
+    //         couponFullAmount: 11,
+    //         couponMoney: 11,
+    //         couponGiveCount: 1
+    //       }
+    //     ],
+    //     newComerPicUrl: "qtltest/brand/1904/02/1554204148336.png",
+    //     backgroupColor: "#333",
+    //     couponPopUpPicUrl: "qtltest/brand/1904/02/1554204148336.png",
+    //     receiveTimeInterval: 7,
+    //     beginTime: "2018-09-08 12:45",
+    //     endTime: "2018-09-08 12:45"
+    //   }
+    // };
   };
   //修改新人礼图片
   changeUserImg = newComerPicUrl => {
@@ -100,8 +110,8 @@ class Index extends Component {
     });
   };
   //发送保存请求
-  sendRequest = () => {
-    saveApi().then(res => {
+  sendRequest = values => {
+    saveApi(values).then(res => {
       if (res.code == "0") {
         message.success("保存成功");
       }
@@ -110,9 +120,33 @@ class Index extends Component {
   handleSubmit = () => {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        this.sendRequest(values);
+        const _values = this.formateValues(values);
+        console.log(_values);
+        if (_values) {
+          this.sendRequest(_values);
+        }
       }
     });
+  };
+  //格式化数据
+  formateValues = values => {
+    const { newComerPicUrl, couponPopUpPicUrl } = this.state;
+    if (!newComerPicUrl) {
+      message.error("请先上传新人礼图片", 0.8);
+      return null;
+    }
+    if (!couponPopUpPicUrl) {
+      message.error("请先上传优惠券弹窗背景图", 0.8);
+      return null;
+    }
+    const { time, ..._values } = values;
+    _values.couponPopUpPicUrl = couponPopUpPicUrl;
+    _values.newComerPicUrl = newComerPicUrl;
+    if (time && time[0]) {
+      _values.beginTime = moment(time[0]).format("YYYY-MM-DD HH:mm");
+      _values.endTime = moment(time[1]).format("YYYY-MM-DD HH:mm");
+    }
+    return _values;
   };
   //更改优惠券列表
   handleCallback = couponList => {
@@ -129,7 +163,11 @@ class Index extends Component {
       newComerPicUrl,
       couponPopUpPicUrl,
       optionList,
-      couponList
+      couponList,
+      backgroupColor,
+      receiveTimeInterval,
+      beginTime,
+      endTime
     } = this.state;
     const { getFieldDecorator } = this.props.form;
     const columns = getColumns(this.props.form, optionList);
@@ -163,11 +201,13 @@ class Index extends Component {
           </FormItem>
           <FormItem {...formLayout} label={timeTips}>
             {getFieldDecorator("time", {
+              initialValue:beginTime? [moment(beginTime), moment(endTime)]:null,
               rules: [{ required: true, message: "请选择展示时间" }]
             })(<RangePicker showTime format="YYYY-MM-DD HH:mm" />)}
           </FormItem>
           <FormItem {...formLayout} label={liquTips}>
             {getFieldDecorator("receiveTimeInterval", {
+              initialValue: receiveTimeInterval,
               rules: [{ required: true, message: "请填写领取间隔" }]
             })(<Input style={{ width: "80px" }} />)}
             　天
@@ -182,6 +222,7 @@ class Index extends Component {
           <div className="title">模块设置</div>
           <FormItem label="设置模块背景色号" {...formLayout}>
             {getFieldDecorator("backgroupColor", {
+              initialValue: backgroupColor,
               rules: [{ required: true, message: "请填写领取间隔" }]
             })(
               <Input
