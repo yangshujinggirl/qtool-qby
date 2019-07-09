@@ -8,32 +8,32 @@ class BaseEditTable extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      firstIn:true,
+      dataSource:this.props.dataSource,
       key:this.props.dataSource.length,
     }
   }
   componentWillReceiveProps(props) {
-    if(this.state.firstIn) {
-      this.setState({ key: props.dataSource.length })
-    }
+    this.setState({
+      key: props.dataSource.length,
+      dataSource: props.dataSource,
+    })
   }
   //新增
   handleAdd=()=> {
     let { key } =this.state;
-    key++;
-    let { dataSource } =this.props;
+    let { dataSource } =this.state;
     dataSource.push({
       key,
     });
-    this.setState({ key:key, firstIn:false  });
-    this.props.callback(dataSource)
+    this.setState({ key:key+1, dataSource });
+    // this.props.callback(dataSource)
   }
   //删除
   handleDelete=(key)=> {
     debugger
-    let { dataSource } =this.props;
+    let { dataSource } =this.state;
     dataSource = dataSource.filter(item => item.key !== key)
-    this.props.callback(dataSource)
+    this.setState({ dataSource });
   }
   //初始化删除columns
   initColumns=()=> {
@@ -60,7 +60,7 @@ class BaseEditTable extends Component {
     return columns;
   }
   render() {
-    let { dataSource } =this.props;
+    let { dataSource } =this.state;
     return (
       <Table
         className="delete-set-tables"

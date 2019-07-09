@@ -4,7 +4,7 @@ import ajax from "../../../utils/req.js";
 export function getListApi(values) {
   values = JSON.stringify(values)
   return ajax.post('/webrest.htm',{
-      code:'qerp.web.config.module.icon.query',
+      code:'qqerp.web.config.module.picture.query',
       data:values
   })
 }
@@ -12,14 +12,7 @@ export function getListApi(values) {
 export function getSaveApi(values) {
   values = JSON.stringify(values)
   return ajax.post('/webrest.htm',{
-      code:'qerp.web.config.module.banner.save',
-      data:values
-  })
-}
-export function getChangeFrameApi(values) {
-  values = JSON.stringify(values)
-  return ajax.post('/webrest.htm',{
-      code:'qerp.web.config.module.iconr.change',
+      code:'qerp.web.config.module.picture.save',
       data:values
   })
 }
@@ -27,7 +20,7 @@ export function getChangeFrameApi(values) {
 export function getSaveModuleApi(values) {
   values = JSON.stringify(values);
   return ajax.post("/webrest.htm", {
-    code: "qerp.web.config.module.icon.setting",
+    code: "qerp.web.config.module.picture.setting",
     data: values
   });
 }

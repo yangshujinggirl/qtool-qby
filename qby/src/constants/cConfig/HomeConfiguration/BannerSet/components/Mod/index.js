@@ -2,7 +2,7 @@ import React , { Component } from 'react';
 import { Input, InputNumber, Form, Select, Button, DatePicker, Modal } from 'antd';
 import { connect } from 'dva';
 import moment from 'moment';
-import BaseEditTable from '../../../components/BaseEditTable0';
+import MoreEditTable from '../../../components/MoreEditTable';
 import FrameModal from '../../../components/FrameModal';
 import {
   getChangeFrameApi, getSaveApi
@@ -101,7 +101,7 @@ class ModForm extends Component {
     const { form }= this.props;
     return(
       <div className="banner-set-mod">
-        <BaseEditTable
+        <MoreEditTable
           onOperateClick={this.onOperateClick}
           callback={this.handleCallback}
           form={form}

@@ -1,6 +1,5 @@
 
 import UpLoadImg from '../../../components/UpLoadImgMod';
-// import UpLoadImg from '../UpLoadImg';
 import { Input, Form, Select, Button, DatePicker } from 'antd';
 import moment from 'moment';
 const FormItem = Form.Item;
@@ -67,7 +66,7 @@ export function columns(form, handleChange){
                 index={index}/>
       }
     },{
-      title: 'banner名称',
+      title: '图片名称',
       dataIndex: 'title',
       key: 'title',
       align:'center',
@@ -89,38 +88,7 @@ export function columns(form, handleChange){
                 )}
               </FormItem>
       }
-    }, {
-      title: '适用端*',
-      dataIndex: 'platform',
-      key: 'platform',
-      align:'center',
-      width:'10%',
-      render:(text,record,index)=> {
-        const { getFieldDecorator } =form;
-        return <FormItem>
-           {getFieldDecorator(`goods[${index}].platform`,{
-             initialValue:record.platform,
-             rules:[{
-               required:true,message:'请选择平台'
-             }],
-             onChange:(e)=>handleChange('select','platform',e,index),
-           })(
-             <Select
-               placeholder="请选择平台">
-               <Select.Option
-                 value={1}
-                 key={1}>小程序</Select.Option>
-               <Select.Option
-                 value={2}
-                 key={2}>App</Select.Option>
-               <Select.Option
-                 value={3}
-                 key={3}>小程序+App</Select.Option>
-             </Select>
-           )}
-           </FormItem>
-      }
-    }, {
+    },{
       title: '跳转链接',
       dataIndex: 'linkInfoType',
       key: 'linkInfoType',
@@ -137,7 +105,7 @@ export function columns(form, handleChange){
                }]
              })(
                <Select
-                 placeholder="请选择平台">
+                 placeholder="请选择跳转链接">
                  <Select.Option
                    value={1}
                    key={1}>去配置页面</Select.Option>

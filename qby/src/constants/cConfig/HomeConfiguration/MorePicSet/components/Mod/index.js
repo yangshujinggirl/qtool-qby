@@ -1,22 +1,17 @@
 import React , { Component } from 'react';
-import { Input, InputNumber, Form, Select, Button, DatePicker, Modal } from 'antd';
+import { Form, Button, Modal } from 'antd';
 import { connect } from 'dva';
 import moment from 'moment';
 import BaseDelTable from '../../../components/BaseDelTable';
-import FrameModal from '../../../components/FrameModal';
 import {
-  getChangeFrameApi, getSaveApi
- } from '../../../../../../services/cConfig/homeConfiguration/moreGoodsSet';
+  getSaveApi
+ } from '../../../../../../services/cConfig/homeConfiguration/morePicSet';
 import './index.less';
 import { columns } from '../columns';
 
 class ModForm extends Component {
   constructor(props) {
     super(props);
-    this.state={
-      visible:false,
-      confirmLoading:false
-    }
   }
   componentDidMount() {
     this.props.onRef(this);
@@ -25,27 +20,7 @@ class ModForm extends Component {
   handleCallback=(dataSource)=> {
     this.props.dispatch({ type:'morePicSet/getGoodsList',payload:dataSource})
   }
-  //提交变帧
-  submitFrame=(position)=> {
-    const { currentItem } =this.state;
-    const { activiKey } =this.props;
-    let params = {
-      ...currentItem,
-      oldPosition:activiKey,
-      newPosition:position,
-      homepageModuleId:this.props.homepageModuleId
-    }
-    getChangeFrameApi(params)
-    .then((res) => {
-      console.log(res)
-    })
-    this.onCancel()
-  }
-  onCancel=()=>{
-    this.props.form.resetFields('frameNum');
-    this.setState({ visible:false })
-  }
-  submit=(func)=> {
+  submit=()=> {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         values = this.formatParams(values);
@@ -54,26 +29,22 @@ class ModForm extends Component {
           position:this.props.activiKey,
           dataList:values
         }
-        func&&typeof func == 'function'&&func();
-        getSaveApi()
+        getSaveApi(params)
         .then((res)=> {
-          func&&typeof func == 'function'&&func()
+
         })
       }
     });
   }
   //格式化
-  formatParams(values) {
-    let { goods } =values;
-    goods.map((el,index) => {
-      if(el.picUrl&&el.picUrl.length>0) {
-        el.picUrl = el.picUrl[0];
-      }
+  formatParams() {
+    const { goodsList } =this.props;
+    goodsList.map((el,index) => {
       if(el.beginTime) {
         el.beginTime = moment(el.beginTime).format("YYYY-MM-DD");
       }
     })
-    return goods;
+    return goodsList;
   }
   //表单change
   handleChange=(type,name,e,index)=> {
@@ -99,7 +70,6 @@ class ModForm extends Component {
   }
   render() {
     let { goodsList, activiKey } =this.props;
-    const { visible, confirmLoading } =this.state;
     const { form }= this.props;
     let columnsTable = columns(form,this.handleChange);
     return(
