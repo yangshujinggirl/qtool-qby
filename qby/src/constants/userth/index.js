@@ -13,7 +13,10 @@ class Userth extends React.Component {
       <div className="content_box stock-tabs">
         <Tabs defaultActiveKey="1">
           {rolelists.map((item, index) => (
-            <TabPane tab={item.name} key={index + 1}>
+            <TabPane
+              tab={item.name == "待运营审核" ? "待运营审核退单" : item.name}
+              key={index + 1}
+            >
               {item.urResourceId == 208100 && (
                 <AllthIndex
                   rolelists={item.children}
