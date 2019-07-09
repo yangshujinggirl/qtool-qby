@@ -1,9 +1,9 @@
-import { Input, Form, Select, Button, DatePicker } from 'antd';
+import { Input, Form, Select, Button } from 'antd';
 import moment from 'moment';
 import UpLoadImg from '../../../components/UpLoadImgMod';
 const FormItem = Form.Item;
 
-export function columnsFun(form, handleChange){
+export function columnsFun(form, handleChange, handleBlur){
   return [
     {
       title: '序号',
@@ -18,22 +18,22 @@ export function columnsFun(form, handleChange){
     },
     {
       title: 'Spuid',
-      dataIndex: 'Spuid',
-      key: 'Spuid',
+      dataIndex: 'pdSpuId',
+      key: 'pdSpuId',
       width:'10%',
       render:(text,record,index)=> {
         const { getFieldDecorator } =form;
         return <FormItem>
-                {getFieldDecorator(`goods[${index}].title`,{
-                  initialValue:record.title,
+                {getFieldDecorator(`listOne[${index}].pdSpuId`,{
+                  initialValue:record.pdSpuId,
                   rules:[{
-                    required:true,message:'请输入banner名称'
+                    required:true,message:'请输入Spuid'
                   }],
-                  onChange:(e)=>handleChange('input','title',e,index)
                 })(
                   <Input
+                    onBlur={(e)=>handleBlur('listOne',e,index)}
                     maxLength='15'
-                    placeholder="请输入名称"
+                    placeholder="请输入Spuid"
                     autoComplete="off"/>
                 )}
               </FormItem>
@@ -51,58 +51,56 @@ export function columnsFun(form, handleChange){
    },
    {
       title: '商品名称',
-      dataIndex: 'name',
-      key: 'name',
+      dataIndex: 'pdSpuName',
+      key: 'pdSpuName',
       width:'8%',
     },
     {
       title: '商品分类',
-      dataIndex: 'classify',
-      key: 'classify',
+      dataIndex: 'pdCategory',
+      key: 'pdCategory',
       width:'8%',
     },
     {
       title: '商品卖点',
-      dataIndex: 'point',
-      key: 'point',
+      dataIndex: 'sellingPoints',
+      key: 'sellingPoints',
       align:'center',
       width:'10%',
       render:(text,record,index)=> {
         const { getFieldDecorator } =form;
         return <FormItem>
-                {getFieldDecorator(`goods[${index}].title`,{
-                  initialValue:record.title,
-                  rules:[{
-                    required:true,message:'请输入banner名称'
-                  }],
-                  onChange:(e)=>handleChange('input','title',e,index)
+                {getFieldDecorator(`listOne[${index}].sellingPoints`,{
+                  initialValue:record.sellingPoints,
+                  rules:[],
+                  onChange:(e)=>handleChange('listOne','sellingPoints',e,index)
                 })(
                   <Input
                     maxLength='15'
-                    placeholder="请输入名称"
+                    placeholder="请输入商品卖点"
                     autoComplete="off"/>
                 )}
               </FormItem>
       }
     },{
       title: '商品标签',
-      dataIndex: 'label',
-      key: 'label',
+      dataIndex: 'tags',
+      key: 'tags',
       align:'center',
       width:'10%',
       render:(text,record,index)=> {
         const { getFieldDecorator } =form;
         return <FormItem>
-                {getFieldDecorator(`goods[${index}].title`,{
-                  initialValue:record.title,
+                {getFieldDecorator(`listOne[${index}].tags`,{
+                  initialValue:record.tags,
                   rules:[{
-                    required:true,message:'请输入banner名称'
+                    required:true,message:'请输入商品标签'
                   }],
-                  onChange:(e)=>handleChange('input','title',e,index)
+                  onChange:(e)=>handleChange('listOne','tags',e,index)
                 })(
                   <Input
                     maxLength='15'
-                    placeholder="请输入名称"
+                    placeholder="请输入商品标签"
                     autoComplete="off"/>
                 )}
               </FormItem>
@@ -110,34 +108,34 @@ export function columnsFun(form, handleChange){
     },
     {
       title: '商品价格',
-      dataIndex:'price',
-      key: 'price',
+      dataIndex:'pdSpuPrice',
+      key: 'pdSpuPrice',
       width:'10%',
     },
     {
       title: 'B端在售库存',
-      dataIndex: 'qty',
-      key: 'qty',
+      dataIndex: 'wsInv',
+      key: 'wsInv',
       width:'6%',
     },
     {
       title: '缺货门店',
-      dataIndex: 'shop',
-      key: 'shop',
-      width:'4%',
+      dataIndex: 'outOfStockShopNum',
+      key: 'outOfStockShopNum',
+      width:'6%',
     },
     {
       title: '操作',
       dataIndex: 'operation',
       key: 'operation',
-      width:'8%',
+      width:'4%',
       render:(text,record,index) => {
-        return <span onClick={()=>record.onOperation('delete')} className="cr">删除</span>
+        return <span onClick={()=>record.onOperateClick('listOne','delete')} className="cr">删除</span>
       }
     },
   ];
 }
-export function columnsTwoFun(form, handleChange){
+export function columnsTwoFun(form, handleChange, handleBlur){
   return [
     {
       title: '以下为替补商品',
@@ -154,22 +152,22 @@ export function columnsTwoFun(form, handleChange){
     {
       colSpan:0,
       title: 'Spuid',
-      dataIndex: 'Spuid',
-      key: 'Spuid',
+      dataIndex: 'pdSpuId',
+      key: 'pdSpuId',
       width:'10%',
       render:(text,record,index)=> {
         const { getFieldDecorator } =form;
         return <FormItem>
-                {getFieldDecorator(`goods[${index}].title`,{
-                  initialValue:record.title,
+                {getFieldDecorator(`listTwo[${index}].pdSpuId`,{
+                  initialValue:record.pdSpuId,
                   rules:[{
-                    required:true,message:'请输入banner名称'
+                    required:true,message:'请输入Spuid'
                   }],
-                  onChange:(e)=>handleChange('input','title',e,index)
                 })(
                   <Input
+                    onBlur={(e)=>handleBlur('listTwo',e,index)}
                     maxLength='15'
-                    placeholder="请输入名称"
+                    placeholder="请输入Spuid"
                     autoComplete="off"/>
                 )}
               </FormItem>
@@ -178,8 +176,8 @@ export function columnsTwoFun(form, handleChange){
     {
       colSpan:0,
       title: '商品图片',
-      dataIndex: 'picUrl',
-      key: 'picUrl',
+      dataIndex: 'pdSpuPic',
+      key: 'pdSpuPic',
       align:'center',
       width:'8%',
       render:(text,record,index)=> {
@@ -187,62 +185,58 @@ export function columnsTwoFun(form, handleChange){
       }
     },{
       title: '商品名称',
-      dataIndex: 'name',
-      key: 'name',
+      dataIndex: 'pdSpuName',
+      key: 'pdSpuName',
       colSpan:0,
       width:'8%',
     },
     {
       title: '商品分类',
-      dataIndex: 'classify',
-      key: 'classify',
+      dataIndex: 'pdCategory',
+      key: 'pdCategory',
       colSpan:0,
       width:'8%',
     },
     {
       title: '商品卖点',
-      dataIndex: 'point',
-      key: 'point',
+      dataIndex: 'sellingPoints',
+      key: 'sellingPoints',
       align:'center',
-      width:'10%',
+      width:'8%',
       colSpan:0,
       render:(text,record,index)=> {
         const { getFieldDecorator } =form;
         return <FormItem>
-                {getFieldDecorator(`goods[${index}].title`,{
-                  initialValue:record.title,
-                  rules:[{
-                    required:true,message:'请输入banner名称'
-                  }],
-                  onChange:(e)=>handleChange('input','title',e,index)
+                {getFieldDecorator(`listTwo[${index}].sellingPoints`,{
+                  initialValue:record.sellingPoints,
+                  rules:[],
+                  onChange:(e)=>handleChange('listTwo','sellingPoints',e,index)
                 })(
                   <Input
-                    maxLength='15'
-                    placeholder="请输入名称"
+                    maxLength='8'
+                    placeholder="请输入商品卖点"
                     autoComplete="off"/>
                 )}
               </FormItem>
       }
     },{
       title: '商品标签',
-      dataIndex: 'label',
-      key: 'label',
+      dataIndex: 'tags',
+      key: 'tags',
       align:'center',
       width:'10%',
       colSpan:0,
       render:(text,record,index)=> {
         const { getFieldDecorator } =form;
         return <FormItem>
-                {getFieldDecorator(`goods[${index}].title`,{
-                  initialValue:record.title,
-                  rules:[{
-                    required:true,message:'请输入banner名称'
-                  }],
-                  onChange:(e)=>handleChange('input','title',e,index)
+                {getFieldDecorator(`listTwo[${index}].tags`,{
+                  initialValue:record.tags,
+                  rules:[],
+                  onChange:(e)=>handleChange('listTwo','tags',e,index)
                 })(
                   <Input
-                    maxLength='15'
-                    placeholder="请输入名称"
+                    maxLength='8'
+                    placeholder="请输入商品标签"
                     autoComplete="off"/>
                 )}
               </FormItem>
@@ -250,24 +244,24 @@ export function columnsTwoFun(form, handleChange){
     },
     {
       title: '商品价格',
-      dataIndex:'price',
-      key: 'price',
+      dataIndex:'pdSpuPrice',
+      key: 'pdSpuPrice',
       colSpan:0,
       width:'10%',
     },
     {
       title: 'B端在售库存',
-      dataIndex: 'qty',
-      key: 'qty',
+      dataIndex: 'wsInv',
+      key: 'wsInv',
       colSpan:0,
       width:'6%',
     },
     {
       title: '缺货门店',
-      dataIndex: 'shop',
-      key: 'shop',
+      dataIndex: 'outOfStockShopNum',
+      key: 'outOfStockShopNum',
       colSpan:0,
-      width:'4%',
+      width:'6%',
     },
     {
       title: '操作',
@@ -276,7 +270,7 @@ export function columnsTwoFun(form, handleChange){
       colSpan:0,
       width:'4%',
       render:(text,record,index) => {
-        return <span onClick={()=>record.onOperation('delete')} className="cr">删除</span>
+        return <span onClick={()=>record.onOperateClick('listTwo','delete')} className="cr">删除</span>
       }
     },
   ];

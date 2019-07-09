@@ -11,6 +11,7 @@ let dragingIndex = -1;
 class BodyRow extends React.Component {
   render() {
     const { isOver, connectDragSource, connectDropTarget, moveRow, ...restProps } = this.props;
+
     const style = { ...restProps.style, cursor: 'move' };
 
     let { className } = restProps;
@@ -30,10 +31,11 @@ class BodyRow extends React.Component {
 
 const rowSource = {
   beginDrag(props) {
-    dragingIndex = props.index;
+    let dragingIndex = props['data-row-index'];
+    let dragingParent = props['data-row-parent'];
     return {
-      index: props.index,
-      parent:props.parent
+      index: dragingIndex,
+      parent:dragingParent
     };
   },
 };
@@ -41,10 +43,9 @@ const rowSource = {
 const rowTarget = {
   drop(props, monitor) {
     const dragIndex = monitor.getItem().index;
-    const hoverIndex = props.index;
-    const hoverParent = props.parent;
+    const hoverIndex = props['data-row-index'];
+    const hoverParent = props['data-row-parent'];
     const dragParent = monitor.getItem().parent;
-
     // Don't replace items with themselves
     if (dragIndex === hoverIndex&&dragParent===hoverParent) {
       return;
@@ -78,35 +79,48 @@ class Field extends Component {
       row: DragableBodyRow,
     },
   };
+  //绑定方法
+  processData(data) {
+    if(!this.props.onOperateClick) {
+      return data;
+    }
+    data && data.map((item, i) => {
+        item.onOperateClick = (listType,type) => { this.props.onOperateClick(item,listType, type) };
+    })
+    return data;
+  }
   render() {
-    const { data, columnsTwo, columnsOne } =this.props;
+    const { goods, columnsTwo, columnsOne } =this.props;
+    let listTwo = this.processData(goods.listTwo)
+    let listOne = this.processData(goods.listOne)
     return (
       <div className="drag-tables-component">
-      <Table
-        bordered
-        pagination={false}
-        columns={columnsOne}
-        dataSource={data.data0}
-        components={this.components}
-        onRow={(record, index) => ({
-          parent:'data0',
-          index,
-          moveRow: this.props.moveRow,
-        })}/>
-      <Table
-        bordered
-        pagination={false}
-        columns={columnsTwo}
-        dataSource={data.data1}
-        components={this.components}
-        footer={()=><Button type="default" onClick={this.props.handleAdd}>+新增</Button>}
-        onRow={(record, index) => ({
-          parent:'data1',
-          index,
-          moveRow: this.props.moveRow,
-        })}/>
+        <Table
+          bordered
+          pagination={false}
+          columns={columnsOne}
+          dataSource={listOne}
+          components={this.components}
+          onRow={(record, index) => ({
+            'data-row-key':`listOne${record.key}`,
+            'data-row-parent':'listOne',
+            'data-row-index':index,
+            moveRow: this.props.moveRow,
+          })}/>
+        <Table
+          bordered
+          pagination={false}
+          columns={columnsTwo}
+          dataSource={listTwo}
+          components={this.components}
+          footer={()=><Button type="default" onClick={this.props.handleAdd}>+新增</Button>}
+          onRow={(record, index) => ({
+            'data-row-key':`listTwo{record.key}`,
+            'data-row-index':index,
+            'data-row-parent':'listTwo',
+            moveRow: this.props.moveRow,
+          })}/>
       </div>
-
     );
   }
 }
