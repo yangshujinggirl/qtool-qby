@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { Form, Radio, DatePicker } from "antd";
-import TimeTable from './components/TimeTable'
+import { Form, Radio, DatePicker, Button, Row, Col } from "antd";
+import TimeTable from "./components/TimeTable";
 const { RangePicker } = DatePicker;
 const FormItem = Form.Item;
 
@@ -35,21 +35,28 @@ class GoodsSet extends Component {
       timeSlots: this.formatList(res.timeSlots)
     });
   };
-  handleCallback = (timeSlots) => {
+  handleCallback = timeSlots => {
     this.setState({
       timeSlots
-    })
-  };
-  formatList=(timeSlots)=>{
-    const newList = timeSlots.map((item,index)=>{
-      item.completed = true
-      return item
     });
-    return newList
+  };
+  formatList = timeSlots => {
+    const newList = timeSlots.map((item, index) => {
+      item.completed = true;
+      return item;
+    });
+    return newList;
+  };
+  //添加时间
+  addTime=()=>{
+    
   }
   render() {
     const { timeSlots } = this.state;
-    const newTimeSlots = timeSlots.map((item,index)=>item.index = index);
+    const newTimeSlots = timeSlots.map((item, index) => {
+      item.index = index;
+      return item;
+    });
     const { getFieldDecorator } = this.props.form;
     const formLayout = {
       labelCol: { span: 2 },
@@ -69,16 +76,22 @@ class GoodsSet extends Component {
               </Radio.Group>
             )}
           </FormItem>
-          <FormItem {...formLayout} label="时间列表">
-            {getFieldDecorator("type1", {
-              initialValue: 1,
-              onChange: this.onChange
-            })(
-              <TimeTable
-                callback={this.handleCallback}
-                timeSlots={newTimeSlots}
-              />
+          <FormItem {...formLayout} label="新增时间段">
+            {getFieldDecorator("time")(
+              <RangePicker format="YYYY-MM-DD HH:mm" />
             )}
+            <Button 
+              onClick={this.addTime}
+              style={{ marginLeft: "15px" }} 
+              type="primary">
+              确定
+            </Button>
+          </FormItem>
+          <FormItem {...formLayout} label="时间列表">
+            <TimeTable
+              callback={this.handleCallback}
+              timeSlots={newTimeSlots}
+            />
           </FormItem>
         </Form>
       </div>
