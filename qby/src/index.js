@@ -119,6 +119,7 @@ import commodityFlow from "./models/homeConfiguration/commodityFlow.js";
 import bannerSet from "./models/homeConfiguration/bannerSet.js";
 import iconSet from "./models/homeConfiguration/iconSet.js";
 import morePicSet from "./models/homeConfiguration/morePicSet.js";
+import moreGoodsSet from "./models/homeConfiguration/moreGoodsSet.js";
 //内容中心
 import homeConfig from "./models/homeConfiguration/configurationList";
 import goodsSet from './models/homeConfiguration/goodsSet'
@@ -225,7 +226,7 @@ const models = [
   market,
   homeEdit,
   commodityFlow,
-  bannerSet,iconSet,morePicSet,
+  bannerSet,iconSet,morePicSet,moreGoodsSet,
   //内容中心
   homeConfig,
   goodsSet

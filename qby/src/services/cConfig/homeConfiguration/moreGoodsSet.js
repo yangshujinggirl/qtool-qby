@@ -4,7 +4,7 @@ import ajax from "../../../utils/req.js";
 export function getListApi(values) {
   values = JSON.stringify(values)
   return ajax.post('/webrest.htm',{
-      code:'qerp.web.config.module.icon.query',
+      code:'qerp.web.config.multilineSpu.query',
       data:values
   })
 }
@@ -12,22 +12,15 @@ export function getListApi(values) {
 export function getSaveApi(values) {
   values = JSON.stringify(values)
   return ajax.post('/webrest.htm',{
-      code:'qerp.web.config.module.banner.save',
+      code:'qerp.web.config.multilineSpu.save',
       data:values
   })
 }
-export function getChangeFrameApi(values) {
+//导入
+export function getExportApi(values) {
   values = JSON.stringify(values)
   return ajax.post('/webrest.htm',{
-      code:'qerp.web.config.module.iconr.change',
+      code:'qerp.web.config.mulitilinespu.import',
       data:values
   })
-}
-//模块保存
-export function getSaveModuleApi(values) {
-  values = JSON.stringify(values);
-  return ajax.post("/webrest.htm", {
-    code: "qerp.web.config.module.icon.setting",
-    data: values
-  });
 }
