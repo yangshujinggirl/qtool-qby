@@ -40,3 +40,35 @@ export function getPdSpuListApi(values) {
       data:values
   })
 }
+//模块保存
+export function saveModuleApi(values) {
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.config.singleline.module.save',
+      data:values
+  })
+}
+//模块查询
+export function getModuleApi(values) {
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.config.module.query',
+      data:values
+  })
+}
+//图片模块保存
+export function getSavePicModuleApi(values) {
+  values = JSON.stringify(values);
+  return ajax.post("/webrest.htm", {
+    code: "qerp.web.config.module.picture.setting",
+    data: values
+  });
+}
+//主题模块保存
+export function getSaveTheModuleApi(values) {
+  values = JSON.stringify(values);
+  return ajax.post("/webrest.htm", {
+    code: "qerp.web.config.module.theme.save",
+    data: values
+  });
+}

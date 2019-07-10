@@ -16,11 +16,4 @@ export function getSaveApi(values) {
       data:values
   })
 }
-//模块保存
-export function getSaveModuleApi(values) {
-  values = JSON.stringify(values);
-  return ajax.post("/webrest.htm", {
-    code: "qerp.web.config.module.picture.setting",
-    data: values
-  });
-}
+
