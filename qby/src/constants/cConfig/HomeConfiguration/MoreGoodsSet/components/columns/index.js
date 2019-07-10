@@ -3,7 +3,7 @@ import moment from 'moment';
 import UpLoadImg from '../../../components/UpLoadImgMod';
 const FormItem = Form.Item;
 
-export function columnsFun(form, handleChange, handleBlur){
+export function columnsFun(form,handleBlur){
   return [
     {
       title: '序号',
@@ -24,7 +24,7 @@ export function columnsFun(form, handleChange, handleBlur){
       render:(text,record,index)=> {
         const { getFieldDecorator } =form;
         return <FormItem>
-                {getFieldDecorator(`listOne[${index}].pdSpuId`,{
+                {getFieldDecorator(`fieldsOne[${index}].pdSpuId`,{
                   initialValue:record.pdSpuId,
                   rules:[{
                     required:true,message:'请输入Spuid'
@@ -70,10 +70,9 @@ export function columnsFun(form, handleChange, handleBlur){
       render:(text,record,index)=> {
         const { getFieldDecorator } =form;
         return <FormItem>
-                {getFieldDecorator(`listOne[${index}].sellingPoints`,{
+                {getFieldDecorator(`fieldsOne[${index}].sellingPoints`,{
                   initialValue:record.sellingPoints,
                   rules:[],
-                  onChange:(e)=>handleChange('listOne','sellingPoints',e,index)
                 })(
                   <Input
                     maxLength='15'
@@ -91,12 +90,11 @@ export function columnsFun(form, handleChange, handleBlur){
       render:(text,record,index)=> {
         const { getFieldDecorator } =form;
         return <FormItem>
-                {getFieldDecorator(`listOne[${index}].tags`,{
+                {getFieldDecorator(`fieldsOne[${index}].tags`,{
                   initialValue:record.tags,
                   rules:[{
                     required:true,message:'请输入商品标签'
                   }],
-                  onChange:(e)=>handleChange('listOne','tags',e,index)
                 })(
                   <Input
                     maxLength='15'
@@ -158,14 +156,14 @@ export function columnsTwoFun(form, handleChange, handleBlur){
       render:(text,record,index)=> {
         const { getFieldDecorator } =form;
         return <FormItem>
-                {getFieldDecorator(`listTwo[${index}].pdSpuId`,{
+                {getFieldDecorator(`fieldsTwo[${index}].pdSpuId`,{
                   initialValue:record.pdSpuId,
                   rules:[{
                     required:true,message:'请输入Spuid'
                   }],
                 })(
                   <Input
-                    onBlur={(e)=>handleBlur('listTwo',e,index)}
+                    onBlur={(e)=>this.handleBlur('listTwo',e,index)}
                     maxLength='15'
                     placeholder="请输入Spuid"
                     autoComplete="off"/>
@@ -207,10 +205,9 @@ export function columnsTwoFun(form, handleChange, handleBlur){
       render:(text,record,index)=> {
         const { getFieldDecorator } =form;
         return <FormItem>
-                {getFieldDecorator(`listTwo[${index}].sellingPoints`,{
+                {getFieldDecorator(`fieldsTwo[${index}].sellingPoints`,{
                   initialValue:record.sellingPoints,
                   rules:[],
-                  onChange:(e)=>handleChange('listTwo','sellingPoints',e,index)
                 })(
                   <Input
                     maxLength='8'
@@ -229,10 +226,9 @@ export function columnsTwoFun(form, handleChange, handleBlur){
       render:(text,record,index)=> {
         const { getFieldDecorator } =form;
         return <FormItem>
-                {getFieldDecorator(`listTwo[${index}].tags`,{
+                {getFieldDecorator(`fieldsTwo[${index}].tags`,{
                   initialValue:record.tags,
                   rules:[],
-                  onChange:(e)=>handleChange('listTwo','tags',e,index)
                 })(
                   <Input
                     maxLength='8'
