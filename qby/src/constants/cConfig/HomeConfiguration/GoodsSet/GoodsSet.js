@@ -1,8 +1,11 @@
 import React, { Component } from "react";
-import { Form, Radio, DatePicker, Button} from "antd";
-import {addTimeApi,getTimeListApi} from '../../../../services/cConfig/homeConfiguration/goodSet'
+import { Form, Radio, DatePicker, Button } from "antd";
+import {
+  addTimeApi,
+  getTimeListApi
+} from "../../../../services/cConfig/homeConfiguration/goodSet";
 import TimeTable from "./components/TimeTable";
-import moment from 'moment'
+import moment from "moment";
 const { RangePicker } = DatePicker;
 const FormItem = Form.Item;
 
@@ -11,7 +14,7 @@ class GoodsSet extends Component {
     super(props);
     this.state = {
       timeSlots: [],
-      type:''
+      type: 1
     };
   }
   componentDidMount = () => {
@@ -51,44 +54,45 @@ class GoodsSet extends Component {
     return newList;
   };
   //请求文档的列表
-  getTimeListApi=()=>{
+  getTimeListApi = () => {
     const values = {
-      homePageModuleId:1,
-      type:this.state.type
+      homePageModuleId: 1,
+      type: this.state.type
     };
-    getTimeListApi(values).then(res=>{
-      if(res.code == '0'){
+    getTimeListApi(values).then(res => {
+      if (res.code == "0") {
         this.setState({
           timeSlots
         });
       }
-    })
-  }
-  //添加时间
-  addTime=()=>{
-    this.props.form.validateFieldsAndScroll((err,values)=>{
-      if(!err){
-        const {time,..._values} = values;
-        if(time&&time[0]){
-          _values.beginTime = moment(time[0]).format('YYYY-MM-DD HH:mm')
-          _values.endTime = moment(time[1]).format('YYYY-MM-DD HH:mm')
-        }
-        addTimeApi(_values).then(res=>{
-          if(res.code == '0'){
-            this.getTimeListApi()
-          }
-        })
-      };
-    })
-  }
-  //商品分类的值
-  onTypeChange =(e)=> {
-    this.setState({
-      type:e.target.value
     });
-  }
+  };
+  //添加时间
+  addTime = () => {
+    this.props.form.validateFieldsAndScroll((err, values) => {
+      if (!err) {
+        const { time, ..._values } = values;
+        if (time && time[0]) {
+          _values.beginTime = moment(time[0]).format("YYYY-MM-DD HH:mm");
+          _values.endTime = moment(time[1]).format("YYYY-MM-DD HH:mm");
+        }
+        addTimeApi(_values).then(res => {
+          if (res.code == "0") {
+            this.getTimeListApi();
+          }
+        });
+      }
+    });
+  };
+  //商品分类的值
+  onTypeChange = e => {
+    this.setState({
+      type: e.target.value
+    });
+  };
   render() {
-    const { timeSlots } = this.state;
+    const { timeSlots, type } = this.state;
+    const {homePageModuleId} = this.props
     const newTimeSlots = timeSlots.map((item, index) => {
       item.index = index;
       return item;
@@ -103,8 +107,8 @@ class GoodsSet extends Component {
         <Form>
           <FormItem {...formLayout} label="属性商品选择">
             {getFieldDecorator("type", {
-              rules:[{required:true,message:'请选择商品属性'}],
-              initialValue: 1,
+              rules: [{ required: true, message: "请选择商品属性" }],
+              initialValue: type,
               onChange: this.onTypeChange
             })(
               <Radio.Group>
@@ -115,6 +119,8 @@ class GoodsSet extends Component {
           </FormItem>
           <FormItem {...formLayout} label="时间列表">
             <TimeTable
+              type={type}
+              homePageModuleId={homePageModuleId}
               callback={this.handleCallback}
               timeSlots={newTimeSlots}
             />
