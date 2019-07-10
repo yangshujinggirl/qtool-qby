@@ -122,6 +122,7 @@ import morePicSet from "./models/homeConfiguration/morePicSet.js";
 import moreGoodsSet from "./models/homeConfiguration/moreGoodsSet.js";
 //内容中心
 import homeConfig from "./models/homeConfiguration/configurationList";
+import goodsSet from './models/homeConfiguration/goodsSet'
 // 1. Initialize
 const app = dva({
   history: useRouterHistory(createHashHistory)({ queryKey: false })
@@ -227,7 +228,8 @@ const models = [
   commodityFlow,
   bannerSet,iconSet,morePicSet,moreGoodsSet,
   //内容中心
-  homeConfig
+  homeConfig,
+  goodsSet
 ];
 models.forEach(m => {
   return app.model(m);
