@@ -18,7 +18,6 @@ class GoodsSet extends Component {
     };
   }
   componentDidMount = () => {
-    // getTimeListApi().then()
     const res = {
       timeSlots: [
         {
@@ -49,6 +48,7 @@ class GoodsSet extends Component {
   formatList = timeSlots => {
     const newList = timeSlots.map((item, index) => {
       item.completed = true;
+      item.key = index
       return item;
     });
     return newList;

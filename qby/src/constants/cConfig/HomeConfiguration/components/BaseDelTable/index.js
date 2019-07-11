@@ -58,16 +58,29 @@ class BaseEditTable extends Component {
     }
     return columns;
   }
+  getRow =(isCanDrag,record,index)=> {
+    if(isCanDrag){
+      return{
+        'data-row-key':record.key,
+        index,
+        moveRow: this.moveRow
+      }
+    }else{
+      return {
+        'data-row-key':record.key
+      }
+    }
+  }
   render() {
-    let { dataSource } =this.props;
+    let { dataSource,isCanDrag } =this.props;
     return (
       <Table
         className="delete-set-tables"
         footer={()=><Button type="default" onClick={this.handleAdd}>+新增</Button>}
         bordered
         pagination={false}
-        onRow={(record)=> {
-          return{
+        onRow={(record,index)=> {
+          return {
             'data-row-key':record.key
           }
         }}

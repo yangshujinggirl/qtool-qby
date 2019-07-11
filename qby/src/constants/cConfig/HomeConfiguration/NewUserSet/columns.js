@@ -18,7 +18,7 @@ export function getColumns(form, couponList) {
         return (
           <FormItem>
             {getFieldDecorator(`couponIds[${index}]`, {
-              initialValue: text
+              initialValue: text,
             })(
               <Select>
                 {couponList.map(item => (
