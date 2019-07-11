@@ -115,6 +115,7 @@ class TimeTable extends Component {
     ];
   }
   goToSet=(id)=>{
+    console.log(id)
     this.props.dispatch({
       type:'goodsSet/getpdListDisplayCfgId',
       payload:{pdListDisplayCfgId:id}

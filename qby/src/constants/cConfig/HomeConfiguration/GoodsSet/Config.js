@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "dva";
 import { Form, Button, Select } from "antd";
-import Mod from "./components/Mod";
+import ModDis from './components/MainMod';
 import {
   getActivityListApi,
   getdataApi
@@ -17,36 +17,49 @@ class Config extends Component {
     this.state = {
       activitys: [],
       data: {
-        data0:[],
-        data1:[]
+        data0: [],
+        data1: []
       }
     };
   }
   componentDidMount = () => {
     const { pdListDisplayCfgId } = this.props;
+    console.log(pdListDisplayCfgId);
     if (pdListDisplayCfgId) {
       this.getActivityList(pdListDisplayCfgId);
       this.getdata(pdListDisplayCfgId);
     }
   };
   //请求活动列表
-  getActivityList = homePageModuleId => {
-    getActivityListApi({ pdListDisplayCfgId, homePageModuleId, type: 1 }).then(
-      res => {
-        if (res.code == "0") {
-          this.setState({
-            activitys: res.activitys
-          });
-        }
+  getActivityList = pdListDisplayCfgId => {
+    getActivityListApi({ pdListDisplayCfgId }).then(res => {
+      if (res.code == "0") {
+        this.setState({
+          activitys: res.activitys
+        });
       }
-    );
+    });
   };
   //请求商品列表
   getdata = pdListDisplayCfgId => {
-    getdataApi({ pdListDisplayCfgId }).then(res => {});
+    // getdataApi({ pdListDisplayCfgId }).then(res => {});
     const res = {
       code: "0",
       data: [
+        {
+          pdListId: 1,
+          pdSpuId: "pdSpuID",
+          pdCode: "商品code",
+          sellingPoints: "卖",
+          tags: "标",
+          pdSpuPic: "qtltest/spu/1907/10/1562746280028.jpg",
+          pdSpuName: "名称",
+          pdCategory: "分类",
+          pdSpuPrice: "价格",
+          activityName: "活动名称",
+          pdSpuInv: "在售库存",
+          outOfStockShopNum: "缺货门店"
+        },
         {
           pdListId: 1,
           pdSpuId: "pdSpuID",
@@ -163,11 +176,11 @@ class Config extends Component {
     };
     if (res.code == "0") {
       const { data } = res;
-      data.map((item,index)=>{ 
-        item.key = index+1;
+      data.map((item, index) => {
+        item.key = index + 1;
         return item;
       });
-      const data0 = data.slice(0, 9);
+      const data0 = data.slice(0,8);
       const data1 = data.slice(8);
       console.log(data0);
       console.log(data1);
@@ -185,11 +198,11 @@ class Config extends Component {
       payload: { activeKey: "1" }
     });
   };
-  changedata=(data)=>{
+  callBack = data => {
     this.setState({
       data
-    })
-  }
+    });
+  };
   render() {
     console.log(this.props.pdListDisplayCfgId);
     const { getFieldDecorator } = this.props.form;
@@ -237,7 +250,9 @@ class Config extends Component {
               注：首页单行横划商品模块固定展示8件商品，按照以下顺序展示，售罄或下架商品不展示，由后位商品按照顺序补充
             </div>
             <div>
-              <Mod data={data} callback={this.changedata}/>
+            <ModDis
+              callBack={this.callBack}
+              form={this.props.form}/>
             </div>
           </div>
         ) : (

@@ -1,7 +1,6 @@
 import { Form, Button, Select } from "antd";
 const FormItem = Form.Item;
 const Option = Select.Option;
-
 export function getColumns(form, handleDelete, themeList,onSelectChange) {
   const { getFieldDecorator } = form;
   const columns = [
@@ -20,7 +19,7 @@ export function getColumns(form, handleDelete, themeList,onSelectChange) {
       render: (text, record, index) => {
         return (
           <FormItem>
-            {getFieldDecorator('showThemeId',{
+            {getFieldDecorator(`showThemeId${index}`,{
               initialValue:record.showThemeId,
               onChange:(id)=>{onSelectChange(id,index)}
             })(

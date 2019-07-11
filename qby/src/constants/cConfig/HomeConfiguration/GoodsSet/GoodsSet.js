@@ -21,14 +21,14 @@ class GoodsSet extends Component {
     const res = {
       timeSlots: [
         {
-          pdDisplayCfgId: 1,
+          pdListDisplayCfgId: 1,
           beginTime: "2019-08-09 12:54:43",
           endTime: "2019-08-09 12:54:43",
           activityId: 1,
           type: 1
         },
         {
-          pdDisplayCfgId: 2,
+          pdListDisplayCfgId: 2,
           beginTime: "2019-08-09 12:54:43",
           endTime: "2019-08-09 12:54:43",
           activityId: 1,
@@ -91,13 +91,13 @@ class GoodsSet extends Component {
     });
   };
   render() {
+    const { getFieldDecorator } = this.props.form;
     const { timeSlots, type } = this.state;
-    const {homePageModuleId} = this.props
+    const {homePageModuleId} = this.props;
     const newTimeSlots = timeSlots.map((item, index) => {
       item.index = index;
       return item;
     });
-    const { getFieldDecorator } = this.props.form;
     const formLayout = {
       labelCol: { span: 3 },
       wrapperCol: { span: 20 }

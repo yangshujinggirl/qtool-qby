@@ -1,7 +1,7 @@
 import { Select, Form } from "antd";
 const FormItem = Form.Item;
 const Option = Select.Option;
-export function getColumns(form, couponList) {
+export function getColumns(form, couponList,onSelectChange) {
   const { getFieldDecorator } = form;
   const columns = [
     {
@@ -19,6 +19,7 @@ export function getColumns(form, couponList) {
           <FormItem>
             {getFieldDecorator(`couponIds[${index}]`, {
               initialValue: text,
+              onChange:(couponId)=>onSelectChange(couponId,record.key)
             })(
               <Select>
                 {couponList.map(item => (

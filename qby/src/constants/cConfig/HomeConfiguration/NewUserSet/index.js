@@ -13,7 +13,7 @@ import UploadNew from "../components/UploadImg";
 import UploadCoupon from "../components/UploadImg";
 import BaseDelTable from "../components/BaseDelTable";
 import {saveApi,getInfoApi} from "../../../../services/cConfig/homeConfiguration/newUser";
-import { getListApi } from "../../../../services/activity/coupon";
+import { getListApi,getCouponInfoApi } from "../../../../services/activity/coupon";
 import { getColumns } from "./columns";
 const { RangePicker } = DatePicker;
 import moment from "moment";
@@ -47,7 +47,7 @@ class Index extends Component {
   };
   //初始化数据
   getCouponList = () => {
-    getInfoApi({ homepageModuleId: 3 }).then(res => {
+    getInfoApi({ homepageModuleId: 1 }).then(res => {
       if (res.code == "0") {
         const {
           couponList,
@@ -70,32 +70,6 @@ class Index extends Component {
         });
       }
     });
-    // const res = {
-    //   newUserGiftVo: {
-    //     couponList: [
-    //       {
-    //         couponId: 182,
-    //         couponName: "gesd",
-    //         couponFullAmount: 11,
-    //         couponMoney: 11,
-    //         couponGiveCount: 1
-    //       },
-    //       {
-    //         couponId: 155,
-    //         couponName: "gesd",
-    //         couponFullAmount: 11,
-    //         couponMoney: 11,
-    //         couponGiveCount: 1
-    //       }
-    //     ],
-    //     newComerPicUrl: "qtltest/brand/1904/02/1554204148336.png",
-    //     backgroupColor: "#333",
-    //     couponPopUpPicUrl: "qtltest/brand/1904/02/1554204148336.png",
-    //     receiveTimeInterval: 7,
-    //     beginTime: "2018-09-08 12:45",
-    //     endTime: "2018-09-08 12:45"
-    //   }
-    // };
   };
   //修改新人礼图片
   changeUserImg = newComerPicUrl => {
@@ -121,7 +95,6 @@ class Index extends Component {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         const _values = this.formateValues(values);
-        console.log(_values);
         if (_values) {
           this.sendRequest(_values);
         }
@@ -142,6 +115,7 @@ class Index extends Component {
     const { time, ..._values } = values;
     _values.couponPopUpPicUrl = couponPopUpPicUrl;
     _values.newComerPicUrl = newComerPicUrl;
+    _values.couponIds = _values.couponIds.join(',')
     if (time && time[0]) {
       _values.beginTime = moment(time[0]).format("YYYY-MM-DD HH:mm");
       _values.endTime = moment(time[1]).format("YYYY-MM-DD HH:mm");
@@ -154,6 +128,22 @@ class Index extends Component {
       couponList
     });
   };
+  onSelectChange =(couponId,key)=> {
+    const {couponList} = this.state;
+    const index = couponList.findIndex(item=>item.key == key)
+    couponList[index].couponId = couponId;
+    getCouponInfoApi({couponId}).then(res=>{
+      if(res.code == '0'){
+        couponList[index].couponId = couponId;
+        couponList[index].couponName = res.couponName;
+        couponList[index].couponMoney = res.couponMoney;
+        couponList[index].couponGiveCount = res.couponGiveCount;
+      }
+    })
+    this.setState({
+      couponList
+    })
+  }
   render() {
     const formLayout = {
       labelCol: { span: 4 },
@@ -170,7 +160,8 @@ class Index extends Component {
       endTime
     } = this.state;
     const { getFieldDecorator } = this.props.form;
-    const columns = getColumns(this.props.form, optionList);
+    const columns = getColumns(this.props.form, optionList,this.onSelectChange);
+    console.log(couponList)
     return (
       <div className="new_user">
         <div className="title">新人礼设置</div>

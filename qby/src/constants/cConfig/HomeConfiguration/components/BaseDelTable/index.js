@@ -58,19 +58,6 @@ class BaseEditTable extends Component {
     }
     return columns;
   }
-  getRow =(isCanDrag,record,index)=> {
-    if(isCanDrag){
-      return{
-        'data-row-key':record.key,
-        index,
-        moveRow: this.moveRow
-      }
-    }else{
-      return {
-        'data-row-key':record.key
-      }
-    }
-  }
   render() {
     let { dataSource,isCanDrag } =this.props;
     return (
