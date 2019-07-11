@@ -10,9 +10,10 @@ const FormItem = Form.Item;
 class Mod extends Component {
   //新增
   handleAdd=()=> {
-    let { goods, addkey } =this.props;
-    let { listOne, listTwo } =goods;
-    if(listOne.length>=6) {
+    console.log(this.props)
+    let { goods, addkey } = this.props;
+    let { listOne, listTwo } = goods;
+    if(listOne.length>=8) {
       listTwo.push({ key:addkey })
     }  else {
       listOne.push({ key:addkey })
@@ -34,6 +35,7 @@ class Mod extends Component {
     this.props.callBack(goods);
   }
   moveRow = (dragParent, hoverParent, dragIndex, hoverIndex) => {
+    console.log(dragParent, hoverParent)
     let { goods } =this.props;
     let tempHover = goods[dragParent][dragIndex];
     let tempDrag = goods[hoverParent][hoverIndex];
@@ -55,7 +57,7 @@ class Mod extends Component {
     let { goods } =this.props;
     let res={
       pdSpuName: '奶粉',
-      Spuid:'3456',
+      pdSpuId:'3456',
       pdCategory:'3级商品分类',
       pdSpuPrice:'¥200-¥999.33',
       wsInv:'1290',
@@ -70,9 +72,10 @@ class Mod extends Component {
     this.props.callBack(goods);
   }
   render() {
-    const { goods, form } =this.props;
+    const { goods, form } = this.props;
     let columnsOne = columnsFun(form,this.handleBlur);
     let columnsTwo = columnsTwoFun(form,this.handleBlur);
+
     return (
       <DragField
         columnsOne={columnsOne}
@@ -86,7 +89,7 @@ class Mod extends Component {
 }
 
 function mapStateToProps(state) {
-  const { moreGoodsSet } = state;
-  return moreGoodsSet;
+  const { goodsSet } = state;
+  return goodsSet;
 }
 export default connect(mapStateToProps)(Mod);

@@ -1,6 +1,5 @@
 import { Input, Form, Select, Button } from 'antd';
 import moment from 'moment';
-import UpLoadImg from '../../../components/UpLoadImgMod';
 const FormItem = Form.Item;
 
 export function columnsFun(form,handleBlur){
@@ -133,7 +132,7 @@ export function columnsFun(form,handleBlur){
     },
   ];
 }
-export function columnsTwoFun(form, handleChange, handleBlur){
+export function columnsTwoFun(form,handleBlur){
   return [
     {
       title: '以下为替补商品',
@@ -163,7 +162,7 @@ export function columnsTwoFun(form, handleChange, handleBlur){
                   }],
                 })(
                   <Input
-                    onBlur={(e)=>this.handleBlur('listTwo',e,index)}
+                    onBlur={(e)=>handleBlur('listTwo',e,index)}
                     maxLength='15'
                     placeholder="请输入Spuid"
                     autoComplete="off"/>

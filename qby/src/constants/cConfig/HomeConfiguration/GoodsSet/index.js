@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "dva";
 import GoodsSet from "./GoodsSet";
 import ModuleSet from "./ModuleSet";
-import Config from "./Config";
+import GoodsConfig from "./GoodsConfig";
 import { Tabs } from "antd";
 const { TabPane } = Tabs;
 class Index extends Component {
@@ -28,7 +28,7 @@ class Index extends Component {
             <GoodsSet homePageModuleId={homePageModuleId}/>
           </TabPane>
           <TabPane tab="配置商品" key="2">
-            <Config homePageModuleId={homePageModuleId}/>
+            <GoodsConfig homePageModuleId={homePageModuleId}/>
           </TabPane>
           <TabPane tab="模块设置" key="3">
             <ModuleSet homePageModuleId={homePageModuleId}/>

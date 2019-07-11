@@ -40,7 +40,15 @@ export function getPdSpuListApi(values) {
       data:values
   })
 }
-//模块保存
+//商品配置保存
+export function getSaveApi(values) {
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.config.naspu.save',
+      data:values
+  })
+}
+//商品模块保存
 export function saveModuleApi(values) {
   values = JSON.stringify(values)
   return ajax.post('/webrest.htm',{
@@ -56,6 +64,7 @@ export function getModuleApi(values) {
       data:values
   })
 }
+
 //图片模块保存
 export function getSavePicModuleApi(values) {
   values = JSON.stringify(values);
