@@ -28,7 +28,7 @@ class Siders extends React.Component {
       })
     }
     render() {
-      // const menus = SiderBarData;
+    //   const menus = SiderBarData;
         const menus = this.props.menus;
         return (
     		<div className='sidebox'>

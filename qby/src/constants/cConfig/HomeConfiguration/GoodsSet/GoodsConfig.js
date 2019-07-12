@@ -16,10 +16,6 @@ class GoodsConfig extends Component {
     super(props);
     this.state = {
       activitys: [],
-      data: {
-        data0: [],
-        data1: []
-      }
     };
   }
   componentDidMount = () => {

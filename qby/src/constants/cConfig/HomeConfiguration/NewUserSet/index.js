@@ -128,6 +128,7 @@ class Index extends Component {
       couponList
     });
   };
+  //优惠券发生变化
   onSelectChange =(couponId,key)=> {
     const {couponList} = this.state;
     const index = couponList.findIndex(item=>item.key == key)
@@ -142,7 +143,7 @@ class Index extends Component {
     })
     this.setState({
       couponList
-    })
+    });
   }
   render() {
     const formLayout = {
@@ -161,7 +162,6 @@ class Index extends Component {
     } = this.state;
     const { getFieldDecorator } = this.props.form;
     const columns = getColumns(this.props.form, optionList,this.onSelectChange);
-    console.log(couponList)
     return (
       <div className="new_user">
         <div className="title">新人礼设置</div>
@@ -236,7 +236,6 @@ class Index extends Component {
     );
   }
 }
-
 const timeTips = (
   <span>
     <span style={{ paddingRight: "5px" }}>模块展示时间</span>
@@ -245,7 +244,6 @@ const timeTips = (
     </Tooltip>
   </span>
 );
-
 const liquTips = (
   <span>
     <span style={{ paddingRight: "5px" }}>新人每次领取时间间隔</span>
