@@ -62,9 +62,12 @@ class BrandMod extends Component {
   };
   render() {
     const { visible, imageUrl, color } = this.state;
+    const { brandDisplay } =this.props.info;
+    let { backgroundPicUrl } =brandDisplay;
+    const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
+    backgroundPicUrl = `${fileDomain}${backgroundPicUrl}`;
     return (
-      <div className="common-sty search-mod">
-        <p>品版背书</p>
+      <div className="common-sty search-mod" style={{'background':`#fff url(${backgroundPicUrl})`}}>
         <div className="handle-btn-action">
           <Button>查看</Button>
           <Button onClick={this.onEdit}>编辑</Button>

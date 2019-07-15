@@ -1,5 +1,5 @@
 import React , { Component } from 'react';
-import { Input, InputNumber, Form, Select, Button, DatePicker, Modal } from 'antd';
+import { Input, InputNumber, Form, Select, Button, DatePicker, Modal, message } from 'antd';
 import { connect } from 'dva';
 import moment from 'moment';
 import MoreEditTable from '../../../components/MoreEditTable';
@@ -14,6 +14,7 @@ class ModForm extends Component {
     super(props);
     this.state={
       visible:false,
+      loading:false,
       confirmLoading:false
     }
   }
@@ -48,17 +49,23 @@ class ModForm extends Component {
   }
   //提交变帧
   submitFrame=(position)=> {
+    this.setState({ confirmLoading:true })
     const { currentItem } =this.state;
-    const { activiKey } =this.props;
+    const { activiKey, homepageModuleId } =this.props;
     let params = {
       ...currentItem,
       oldPosition:activiKey,
       newPosition:position,
-      homepageModuleId:this.props.homepageModuleId
+      homepageModuleId:homepageModuleId
     }
     getChangeFrameApi(params)
     .then((res) => {
-      console.log(res)
+      if(res.code == 0) {
+        this.successCallback();
+      } else {
+        message.error(res.message)
+      }
+      this.setState({ confirmLoading:false })
     })
     this.onCancel()
   }
@@ -67,6 +74,7 @@ class ModForm extends Component {
     this.setState({ visible:false })
   }
   submit=(func)=> {
+    this.setState({ confirmLoading:true })
     this.props.form.validateFields((err, values) => {
       if (!err) {
         values = this.formatParams(values);
@@ -75,32 +83,46 @@ class ModForm extends Component {
           position:this.props.activiKey,
           dataList:values
         }
-        func&&typeof func == 'function'&&func();
-        getSaveApi()
+        this.props.dispatch({ type: 'tab/loding', payload:true});
+        getSaveApi(params)
         .then((res)=> {
-          func&&typeof func == 'function'&&func()
+          const { code } =res;
+          if(code == 0) {
+            this.successCallback();
+            func&&typeof func == 'function'&&func();
+          } else {
+            message.error(res.message)
+          }
+          this.setState({ confirmLoading:false })
+          this.props.dispatch({ type: 'tab/loding', payload:false});
         })
       }
     });
   }
+  successCallback() {
+    const { homepageModuleId, activiKey } =this.props;
+    this.props.dispatch({
+      type:'bannerSet/fetchList',
+      payload:{
+        position:activiKey,
+        homepageModuleId:homepageModuleId,
+      }
+    })
+  }
   //格式化
   formatParams(values) {
-    let { goods } =values;
-    goods.map((el,index) => {
-      if(el.picUrl&&el.picUrl.length>0) {
-        el.picUrl = el.picUrl[0];
-      }
+    let { goodsList } =this.props;
+    goodsList.map((el,index) => {
       if(el.beginTime) {
         el.beginTime = moment(el.beginTime).format("YYYY-MM-DD");
       }
     })
-    return goods;
+    return goodsList;
   }
   render() {
     let { goodsList, activiKey, categoryList } =this.props;
-    const { visible, confirmLoading } =this.state;
+    const { visible, confirmLoading, loading } =this.state;
     const { form }= this.props;
-    console.log(goodsList)
     return(
       <div className="banner-set-mod">
         <MoreEditTable
@@ -112,6 +134,7 @@ class ModForm extends Component {
           dataSource={goodsList}/>
         <div className="handle-btn-action">
           <Button
+            loading={loading}
             onClick={this.submit}
             size="large"
             type="primary">
@@ -136,12 +159,13 @@ const Mod = Form.create({
     goodsList = goodsList.map((el,index) => {
       goods.map((item,idx) => {
         if(index == idx) {
-          if(item.picUrl&&item.picUrl.length>0) {
-            let file = item.picUrl[0];
+          if(item.picUrl&&item.picUrl.response) {
+            let file = item.picUrl;
             if(file.status == 'done') {
               item.picUrl = file.response.data[0];
             }
-            item.picUrl =[...item.picUrl];
+          } else if(item.picUrl instanceof Array) {
+            item.picUrl = item.picUrl[0];
           }
           el ={...el,...item}
         }

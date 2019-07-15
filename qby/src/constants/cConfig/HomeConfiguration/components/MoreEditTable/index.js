@@ -10,7 +10,7 @@ class BaseEditTable extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      key:this.props.dataSource.length+1,
+      key:this.props.dataSource.length,
     }
   }
   //绑定方法
@@ -27,13 +27,13 @@ class BaseEditTable extends Component {
   handleAdd=()=> {
     let { key } =this.state;
     let { dataSource} =this.props;
+    key++;
     dataSource.push({
       key,
       isFrame:true
     });
     this.setState({ key:key+1 });
-    // this.props.callback(dataSource);
-    this.props.form.resetFields()
+    this.props.callback(dataSource);
   }
   renderCode=(text, record, index)=> {
     index++;
@@ -245,15 +245,15 @@ class BaseEditTable extends Component {
           }
         }}
         dataSource={dataSource}>
-        <Table.Column title="序号" key ='key' dataIndex="key" render={this.renderCode}/>
-        <Table.Column title={`${modName}图片`} key ='picUrl' dataIndex="picUrl" render={this.renderPicUrl}/>
-        <Table.Column title={`${modName}名称`} key ='title' dataIndex="title" render={this.renderTitle}/>
-        <Table.Column title="适用端" key ='platform' dataIndex="platform" render={this.renderPlatForm}/>
-        <Table.Column title="跳转链接" key ='linkInfoType' dataIndex="linkInfoType" render={this.renderLinkType}/>
-        <Table.Column title="URL链接" key ='linkInfo' dataIndex="linkInfo" render={this.renderLinkInfo}/>
-        <Table.Column title="开始时间" key ='beginTime' dataIndex="beginTime" render={this.renderStartTime}/>
-        <Table.Column title="结束时间" key ='etime' dataIndex="etime" render={this.renderEndTime}/>
-        <Table.Column title="操作" key ='action' dataIndex="action" render={this.renderHandle}/>
+        <Table.Column title="序号" key ='key' dataIndex="key" width="4%"  render={this.renderCode}/>
+        <Table.Column title={`${modName}图片`} key ='picUrl' width="8%"  dataIndex="picUrl" render={this.renderPicUrl}/>
+        <Table.Column title={`${modName}名称`} key ='title' width="14%" dataIndex="title" render={this.renderTitle}/>
+        <Table.Column title="适用端" key ='platform' width="10%" dataIndex="platform" render={this.renderPlatForm}/>
+        <Table.Column title="跳转链接" key ='linkInfoType' width="10%" dataIndex="linkInfoType" render={this.renderLinkType}/>
+        <Table.Column title="URL链接" key ='linkInfo' width="16%" dataIndex="linkInfo" render={this.renderLinkInfo}/>
+        <Table.Column title="开始时间" key ='beginTime' width="10%" dataIndex="beginTime" render={this.renderStartTime}/>
+        <Table.Column title="结束时间" key ='etime' dataIndex="etime" width="8%" render={this.renderEndTime}/>
+        <Table.Column title="操作" key ='action' width="10%" dataIndex="action" render={this.renderHandle}/>
       </Table>
     )
   }

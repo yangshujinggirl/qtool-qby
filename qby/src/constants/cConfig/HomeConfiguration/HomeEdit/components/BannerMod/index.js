@@ -48,9 +48,9 @@ class BannerMod extends Component {
           <div className="swiper-container banner-swiper-container" style={{'background':`#fff url(${backgroundPicUrl})`}}>
             <div className="swiper-wrapper">
               {
-                list.map((el,index) => (
-                  <div className="swiper-slide" key={index}>
-                    <img src={require('../../../../../../assets/goods.jpg')}/>
+                moduleContent.map((el,index) => (
+                  <div className="swiper-slide" key={el.bannerId}>
+                    <img src={`${fileDomain}${el.bannerPic}`}/>
                   </div>
                 ))
               }
