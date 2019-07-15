@@ -5,9 +5,9 @@ import CommonUpload from "../components/UploadImg";
 
 class Search extends Component {
   render() {
-    const { visible, fileList, changeImg, onCancel, onOk } = this.props;
+    const { visible, fileList, changeImg, onCancel, onOk,loading } = this.props;
     return (
-      <Modal width='500' visible={visible} okText="保存" onCancel={onCancel} onOk={onOk}>
+      <Modal width='500' confirmLoading={loading} visible={visible} okText="保存" onCancel={onCancel} onOk={onOk}>
         <FormItem label='设置背景图片'>
           <CommonUpload
             describe="750*199"

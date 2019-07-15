@@ -23,7 +23,9 @@ class GoodsMod extends Component {
       title:'单行商品设置',
       key:`${componkey}edit-goods`,
       componkey:`${componkey}edit-goods`,
-      data:{}
+      data:{
+        homepageModuleId:this.props.info.productDisplay.homepageModuleId
+      }
     };
     this.props.dispatch({
         type:'tab/firstAddTab',

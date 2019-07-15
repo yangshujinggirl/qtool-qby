@@ -5,15 +5,16 @@ import { Tabs } from "antd";
 const { TabPane } = Tabs;
 class Index extends Component {
   render() {
-    const {homepageModuleId} = this.props.data
+    console.log(this.props)
+    const {homepageModuleId,homepageId} = this.props.data
     return (
       <div className="content_box stock-tabs">
         <Tabs>
           <TabPane tab="设置icon" key="1">
-            <IconSet homepageModuleId={homepageModuleId}/>
+            <IconSet homepageModuleId={homepageModuleId} />
           </TabPane>
           <TabPane tab="模块设置" key="2">
-            <ModuleSet homepageModuleId={homepageModuleId}/>
+            <ModuleSet homepageModuleId={homepageModuleId} homepageId={homepageId}/>
           </TabPane>
         </Tabs>
       </div>
