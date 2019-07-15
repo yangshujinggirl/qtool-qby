@@ -58,7 +58,7 @@ class SearchMod extends Component {
     let imageUrl = ''
     if (fileList[0] && fileList[0].status == "done" && fileList[0].response.code == "0") {
       imageUrl = fileList[0].response.data[0];
-    }; 
+    };
     this.setState({
       fileList,
       imageUrl
@@ -86,7 +86,7 @@ class SearchMod extends Component {
           visible: false,
           loading: false
         });
-        this.props.callback()
+        this.props.callback();
       }
     });
   };
@@ -97,16 +97,12 @@ class SearchMod extends Component {
     });
   };
   render() {
-    console.log(this.props)
     const { visible, fileList, loading } = this.state;
-    const fileDomain = JSON.parse(sessionStorage.getItem("fileDomain"));
+    const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
     let { backgroundPicUrl } = this.props.info.search;
     backgroundPicUrl = `${fileDomain}${backgroundPicUrl}`;
     return (
-      <div
-        className="common-sty search-mod"
-        style={{ background: `#fff url(${backgroundPicUrl})` }}
-      >
+      <div className="common-sty search-mod" style={{'background':`#fff url(${backgroundPicUrl}) center`}}>
         <Input
           addonBefore={<Icon type="search" />}
           addonAfter={<Icon type="scan" />}

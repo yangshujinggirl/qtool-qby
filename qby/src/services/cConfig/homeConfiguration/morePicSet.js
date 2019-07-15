@@ -4,7 +4,7 @@ import ajax from "../../../utils/req.js";
 export function getListApi(values) {
   values = JSON.stringify(values)
   return ajax.post('/webrest.htm',{
-      code:'qqerp.web.config.module.picture.query',
+      code:'qerp.web.config.module.picture.query',
       data:values
   })
 }
@@ -16,4 +16,3 @@ export function getSaveApi(values) {
       data:values
   })
 }
-

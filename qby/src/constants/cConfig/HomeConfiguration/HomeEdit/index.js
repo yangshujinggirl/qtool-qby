@@ -15,6 +15,12 @@ import "./index.less";
 
 class HomeEdit extends Component {
   componentDidMount() {
+    this.fetchInfo()
+  }
+  componentWillReceiveProps(props) {
+    console.log(props)
+  }
+  fetchInfo=()=> {
     const { homepageId } = this.props.data;
     this.props.dispatch({
       type: "homeEdit/fetchInfo",
@@ -24,7 +30,6 @@ class HomeEdit extends Component {
     });
   }
   render() {
-    console.log(this.props)
     const menu = (
       <Menu className="home-configuration-menu">
         <Menu.Item key="0">
@@ -46,16 +51,16 @@ class HomeEdit extends Component {
           </div>
         </div>
         <div className="part-mods">
-          <SearchMod {...this.props} />
-          <BannerMod {...this.props} />
-          <BrandMod {...this.props} />
-          <IconMod {...this.props} />
-          <NewUserMod {...this.props} />
-          <GoodsMod {...this.props} />
-          <MorePicMod {...this.props} />
-          <MoreGoodsMod {...this.props} />
-          <ThemeMod {...this.props} />
-          <ClassifyMod {...this.props} />
+          <SearchMod {...this.props} callback={this.fetchInfo}/>
+          <BannerMod {...this.props} callback={this.fetchInfo}/>
+          <BrandMod {...this.props} callback={this.fetchInfo}/>
+          <IconMod {...this.props} callback={this.fetchInfo}/>
+          <NewUserMod {...this.props} callback={this.fetchInfo}/>
+          <GoodsMod {...this.props} callback={this.fetchInfo}/>
+          <MorePicMod {...this.props} callback={this.fetchInfo}/>
+          <MoreGoodsMod {...this.props} callback={this.fetchInfo}/>
+          <ThemeMod {...this.props} callback={this.fetchInfo}/>
+          <ClassifyMod {...this.props} callback={this.fetchInfo}/>
         </div>
       </div>
     );

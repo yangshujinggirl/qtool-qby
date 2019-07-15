@@ -3,6 +3,7 @@ import { connect } from 'dva';
 import { Button, message } from "antd";
 import BrandBgModal from "../../../BrandBg";
 import { saveBgPicApi,searchBgPicApi} from "../../../../../../services/cConfig/homeConfiguration/brandBg";
+import './index.less';
 
 class BrandMod extends Component {
   constructor(props) {
@@ -105,10 +106,21 @@ class BrandMod extends Component {
     }
   };
   render() {
-    const { visible, fileList, color,loading } = this.state;
+    const { visible, fileList, color, loading } = this.state;
+    const { brandDisplay } =this.props.info;
+    let { backgroundPicUrl, contentPicUrl } =brandDisplay;
+    const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
+    backgroundPicUrl = `${fileDomain}${backgroundPicUrl}`;
     return (
-      <div className="common-sty search-mod">
-        <p>品版背书</p>
+      <div className="common-sty search-mod" style={{'background':`#fff url(${backgroundPicUrl})`}}>
+        <div className="content-wrap">
+        {
+          contentPicUrl?
+          <img src={`${fileDomain}${contentPicUrl}`}/>
+          :
+          <div className="no-module-data"></div>
+        }
+        </div>
         <div className="handle-btn-action">
           <Button>查看</Button>
           <Button onClick={this.onEdit}>编辑</Button>

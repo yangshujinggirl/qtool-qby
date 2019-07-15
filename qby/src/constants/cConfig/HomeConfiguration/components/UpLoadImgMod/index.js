@@ -63,7 +63,7 @@ class UpLoadImg extends Component {
        <FormItem className="banner-upload-wrap">
          {getFieldDecorator(`goods[${index}].picUrl`,{
             initialValue:fileListArr,
-            valuePropName: 'fileList',
+            valuePropName: 'file',
             getValueFromEvent: this.normFile,
             rules:[{required:true,message:'请上传图片'}],
             onChange:this.handleChange
