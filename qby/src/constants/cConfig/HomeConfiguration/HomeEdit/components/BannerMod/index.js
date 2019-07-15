@@ -60,7 +60,6 @@ class BannerMod extends Component {
           :
           <div className="no-module-data"></div>
         }
-
         <div className="handle-btn-action">
           <Button>查看</Button>
           <Button onClick={this.goEdit}>编辑</Button>
