@@ -15,11 +15,11 @@ import "./index.less";
 
 class HomeEdit extends Component {
   componentDidMount() {
-    const { homepageModuleId } = this.props.data;
+    const { homepageId } = this.props.data;
     this.props.dispatch({
       type: "homeEdit/fetchInfo",
       payload: {
-        homepageId: homepageModuleId
+        homepageId: homepageId
       }
     });
   }

@@ -22,7 +22,7 @@ class ModuleSet extends Component {
     getModuleApi({ homepageModuleId }).then(res => {
       if (res.code == "0") {
         const fileDomain = JSON.parse(sessionStorage.getItem("fileDomain"));
-        const { backgroundPicUrl } = res.searchQueryVo;
+        const { backgroundPicUrl } = res.homepageModuleVo;
         let fileList = [];
         if (backgroundPicUrl) {
           fileList = [
@@ -33,7 +33,7 @@ class ModuleSet extends Component {
             }
           ];
         }
-        this.setState({ fileList });
+        this.setState({ fileList,imageUrl:backgroundPicUrl });
       }
     });
   };
@@ -44,6 +44,10 @@ class ModuleSet extends Component {
     if (fileList[0] && fileList[0].status == "done" && fileList[0].response.code == "0") {
       this.setState({
         imageUrl: fileList[0].response.data[0]
+      });
+    }else{
+      this.setState({
+        imageUrl: ''
       });
     }
   };

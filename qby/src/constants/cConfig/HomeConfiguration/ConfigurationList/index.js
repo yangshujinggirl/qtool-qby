@@ -82,7 +82,7 @@ class ConfigurationList extends Component {
       key: `${componkey}home`,
       componkey: `${componkey}home`,
       data: {
-        homepageModuleId:record.homepageId
+        homepageId:record.homepageId
       }
     };
     this.props.dispatch({

@@ -32,13 +32,14 @@ class Index extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      newComerPicUrl: "",
-      couponPopUpPicUrl: "",
+      fileList1: [],
+      fileList2: [],
       optionList: [],
       couponList: []
     };
   }
   componentDidMount = () => {
+    console.log(this.props)
     this.getOptionList();
     this.getCouponList();
   };
@@ -54,7 +55,7 @@ class Index extends Component {
   };
   //初始化数据
   getCouponList = () => {
-    getInfoApi({ homepageModuleId: 1 }).then(res => {
+    getInfoApi({ homepageModuleId: this.props.data.homepageModuleId}).then(res => {
       if (res.code == "0") {
         const {
           couponList,
@@ -66,6 +67,22 @@ class Index extends Component {
           endTime
         } = res.newUserGiftVo;
         couponList.map((item, index) => (item.key = index));
+        const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'))
+        let [fileList1,fileList2] = [[],[]];
+        if(newComerPicUrl){
+          fileList1=[{
+            uid: "-1",
+            status: "done",
+            url: fileDomain + newComerPicUrl
+          }]
+        };
+        if(couponPopUpPicUrl){
+          fileList2 = [{
+            uid: "-1",
+            status: "done",
+            url: fileDomain + couponPopUpPicUrl
+          }]
+        }
         this.setState({
           couponList,
           newComerPicUrl,
@@ -73,22 +90,34 @@ class Index extends Component {
           couponPopUpPicUrl,
           receiveTimeInterval,
           beginTime,
-          endTime
+          endTime,
+          fileList1,
+          fileList2
         });
       }
     });
   };
   //修改新人礼图片
-  changeUserImg = newComerPicUrl => {
+  changeUserImg = fileList => {
+    let newComerPicUrl = ''
+    if( fileList[0] &&fileList[0].status == "done" &&fileList[0].response.code == "0"){
+      newComerPicUrl=fileList[0].response.data[0]
+    };
     this.setState({
-      newComerPicUrl
-    });
+      newComerPicUrl,
+      fileList1:fileList
+    })
   };
   //修改优惠券图片
-  changeCouponImg = couponPopUpPicUrl => {
+  changeCouponImg = fileList => {
+    let couponPopUpPicUrl = ''
+    if( fileList[0] &&fileList[0].status == "done" &&fileList[0].response.code == "0"){
+      couponPopUpPicUrl=fileList[0].response.data[0]
+    };
     this.setState({
-      couponPopUpPicUrl
-    });
+      couponPopUpPicUrl,
+      fileList2:fileList
+    })
   };
   //发送保存请求
   sendRequest = values => {
@@ -120,6 +149,7 @@ class Index extends Component {
       return null;
     }
     const { time, ..._values } = values;
+    _values.homepageModuleId = this.props.data.homepageModuleId;
     _values.couponPopUpPicUrl = couponPopUpPicUrl;
     _values.newComerPicUrl = newComerPicUrl;
     _values.couponIds = _values.couponIds.join(",");
@@ -168,8 +198,8 @@ class Index extends Component {
       wrapperCol: { span: 12 }
     };
     const {
-      newComerPicUrl,
-      couponPopUpPicUrl,
+      fileList1,
+      fileList2,
       optionList,
       couponList,
       backgroupColor,
@@ -191,7 +221,7 @@ class Index extends Component {
           <FormItem className="must-pic" label="新人礼图片" {...formLayout}>
             <UploadNew
               describe="686*114"
-              imageUrl={newComerPicUrl}
+              fileList={fileList1}
               changeImg={this.changeUserImg}
               exampleImg={require("../../../../assets/1.jpg")}
               width={686}
@@ -205,12 +235,12 @@ class Index extends Component {
           >
             <div className='coupon-img'>
               <UploadCoupon
-                describe="686*114"
-                imageUrl={couponPopUpPicUrl}
+                describe="690*700"
+                fileList={fileList2}
                 changeImg={this.changeCouponImg}
                 exampleImg={require("../../../../assets/bg.png")}
-                width={686}
-                height={114}
+                width={690}
+                height={700}
               />
               <a onClick={this.lookExa} className="look-exa">查看示例</a>
             </div>

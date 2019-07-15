@@ -2,23 +2,30 @@ import React, { Component } from "react";
 import { Form, Button, Input, Radio, Row, Col, Modal, message } from "antd";
 import { getSaveModuleApi } from "../../../../services/cConfig/homeConfiguration/iconSet";
 import { getModuleApi } from "../../../../services/cConfig/homeConfiguration/goodSet";
+import { connect } from "dva";
 const FormItem = Form.Item;
 
 class ModuleSet extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      visible: false
+      visible: false,
+      moduleBackColor:'',
+      titleColor:0
     };
   }
   componentDidMount=()=>{
     this.initPage()
   }
   initPage =()=> {
-    const {homepageModuleId} = this.props
+    const {homepageModuleId} = this.props;
     getModuleApi({homepageModuleId}).then(res=>{
       if(res.code == '0'){
-        const {} = res
+        const {moduleBackColor,titleColor} = res.homepageModuleVo;
+        this.setState({
+          moduleBackColor,
+          titleColor:Number(titleColor)
+        })
       }
     })
   }
@@ -31,13 +38,20 @@ class ModuleSet extends Component {
     getSaveModuleApi(values).then(res => {
       if (res.code == "0") {
         message.success("保存成功");
+        this.setState({
+          loading:false
+        });
+        this.props.callback()
       }
     });
   };
   handleSubmit = () => {
+    this.setState({
+      loading:true
+    });
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        values.homepageModuleId = 1;
+        values.homepageModuleId = this.props.homepageModuleId;
         this.sendRequest(values);
       }
     });
@@ -48,7 +62,8 @@ class ModuleSet extends Component {
     });
   };
   render() {
-    const { visible } = this.state;
+    console.log(this.props)
+    const { visible,titleColor,moduleBackColor,loading } = this.state;
     const { getFieldDecorator } = this.props.form;
     return (
       <div>
@@ -59,7 +74,7 @@ class ModuleSet extends Component {
             label="设置模块背景色号"
           >
             {getFieldDecorator("moduleBackColor", {
-              initialValue: "#eee"
+              initialValue: moduleBackColor
             })(
               <Input
                 style={{ width: "400px" }}
@@ -68,10 +83,10 @@ class ModuleSet extends Component {
             )}
             <p>请填写#+六位数字</p>
           </FormItem>
-          <FormItem labelCol={{ span: 3 }} label="标题栏样式">
+          <FormItem labelCol={{ span: 3 }} label="icon名称样式">
             {getFieldDecorator("titleColor", {
-              rules: [{ required: true, message: "请选择标题栏样式" }],
-              initialValue: 0
+              rules: [{ required: true, message: "icon名称样式" }],
+              initialValue: titleColor?titleColor:0
             })(
               <Radio.Group>
                 <Radio value={0}>黑色</Radio>
@@ -84,18 +99,22 @@ class ModuleSet extends Component {
           </FormItem>
           <Row>
             <Col offset={3}>
-              <Button type="primary" onClick={this.handleSubmit}>
+              <Button type="primary" loading={loading} onClick={this.handleSubmit}>
                 保存设置
               </Button>
             </Col>
           </Row>
         </Form>
         <Modal visible={visible} onCancel={this.onCancel} footer={null}>
-          <img src="" />
+          <img src={require('../../../../assets/ex1.png')} style={{width:'470px'}} />
         </Modal>
       </div>
     );
   }
 }
-
-export default Form.create({})(ModuleSet);
+function mapStateToProps(state) {
+  const { tab } = state;
+  return tab;
+}
+const ModuleSets = Form.create({})(ModuleSet)
+export default connect(mapStateToProps)(ModuleSets);

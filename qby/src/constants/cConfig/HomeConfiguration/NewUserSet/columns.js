@@ -13,7 +13,7 @@ export function getColumns(form, couponList,onSelectChange) {
     },
     {
       title: "选择优惠券",
-      dataIndex: "couponId",
+      dataIndex: "couponName",
       render: (text, record, index) => {
         return (
           <FormItem>

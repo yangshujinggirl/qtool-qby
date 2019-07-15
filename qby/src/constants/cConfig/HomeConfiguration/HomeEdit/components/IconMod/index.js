@@ -10,7 +10,10 @@ class IconMod extends Component {
       title:'icon模块',
       key:`${componkey}edit-icon`,
       componkey:`${componkey}edit-icon`,
-      data:{}
+      data:{
+        homepageModuleId:this.props.info.icon.homepageModuleId,
+        homepageId:this.props.data.homepageId
+      }
     };
     this.props.dispatch({
         type:'tab/firstAddTab',

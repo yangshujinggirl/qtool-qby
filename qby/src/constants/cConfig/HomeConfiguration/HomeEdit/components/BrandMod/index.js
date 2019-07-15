@@ -11,7 +11,8 @@ class BrandMod extends Component {
       visible: false,
       fileList:[],
       imageUrl: "",
-      color: ""
+      color: "",
+      loading:false
     };
   }
   onEdit = () => {
@@ -36,13 +37,14 @@ class BrandMod extends Component {
         status: "done",
         url: fileDomain + contentPicUrl
       }]
-    };
+    }
     this.setState({
       fileList,
-      color:backgroundPicUrl
+      color:backgroundPicUrl,
+      imageUrl:contentPicUrl
     },() => {
       this.setState({
-        visible: true
+        visible: true,
       });
     });
   }
@@ -52,8 +54,11 @@ class BrandMod extends Component {
     if (!imageUrl) {
       return message.error("请先上传图片", 0.8);
     }
+    this.setState({
+      loading:true
+    });
     const values = {
-      homepageModuleId:this.props.info.brandDisplay,
+      homepageModuleId:this.props.info.brandDisplay.homepageModuleId,
       backgroundPicUrl: color,
       contentPicUrl: imageUrl
     };
@@ -63,8 +68,10 @@ class BrandMod extends Component {
         this.setState({
           visible: false,
           fileList:[],
-          color: ""
+          color: "",
+          loading:false
         });
+        this.props.callback()
       }
     });
   };
@@ -98,8 +105,7 @@ class BrandMod extends Component {
     }
   };
   render() {
-    console.log(this.props)
-    const { visible, fileList, color } = this.state;
+    const { visible, fileList, color,loading } = this.state;
     return (
       <div className="common-sty search-mod">
         <p>品版背书</p>
@@ -116,6 +122,7 @@ class BrandMod extends Component {
           changeImg={this.changeImg}
           onOk={this.onOk}
           onCancel={this.onCancel}
+          loading={loading}
         />
       </div>
     );

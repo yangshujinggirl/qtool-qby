@@ -18,28 +18,38 @@ class GoodsSet extends Component {
     };
   }
   componentDidMount = () => {
-    const res = {
-      timeSlots: [
-        {
-          pdListDisplayCfgId: 1,
-          beginTime: "2019-08-09 12:54:43",
-          endTime: "2019-08-09 12:54:43",
-          activityId: 1,
-          type: 1
-        },
-        {
-          pdListDisplayCfgId: 2,
-          beginTime: "2019-08-09 12:54:43",
-          endTime: "2019-08-09 12:54:43",
-          activityId: 1,
-          type: 1
-        }
-      ]
-    };
-    this.setState({
-      timeSlots: this.formatList(res.timeSlots)
-    });
+    this.initPage()
+   
+    // const res = {
+    //   timeSlots: [
+    //     {
+    //       pdListDisplayCfgId: 1,
+    //       beginTime: "2019-08-09 12:54:43",
+    //       endTime: "2019-08-09 12:54:43",
+    //       activityId: 1,
+    //       type: 1
+    //     },
+    //     {
+    //       pdListDisplayCfgId: 2,
+    //       beginTime: "2019-08-09 12:54:43",
+    //       endTime: "2019-08-09 12:54:43",
+    //       activityId: 1,
+    //       type: 1
+    //     }
+    //   ]
+    // };
+    
   };
+  initPage=()=>{
+    const {} = this.props;
+    getTimeListApi().then(res=>{
+      if(res.code == '0'){
+        this.setState({
+          timeSlots: this.formatList(res.timeSlots)
+        });
+      }
+    })
+  }
   handleCallback = timeSlots => {
     this.setState({
       timeSlots

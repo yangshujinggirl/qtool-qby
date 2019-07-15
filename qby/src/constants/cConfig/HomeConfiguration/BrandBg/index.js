@@ -15,7 +15,8 @@ class BrandBg extends Component {
       onCancel,
       onOk,
       colorChange,
-      color
+      color,
+      loading
     } = this.props;
     return (
       <div>
@@ -25,6 +26,7 @@ class BrandBg extends Component {
           okText="保存"
           onCancel={onCancel}
           onOk={onOk}
+          confirmLoading={loading}
         >
           <FormItem
             className="must-pic"

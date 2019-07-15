@@ -59,7 +59,6 @@ class UpLoadImg extends Component {
      let { fileList,index } = this.props;
      let fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
      let fileListArr = (fileList&&fileList!='')?[`${fileList}`]:[];
-     console.log(fileList)
      return(
        <FormItem className="banner-upload-wrap">
          {getFieldDecorator(`goods[${index}].picUrl`,{

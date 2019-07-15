@@ -20,7 +20,8 @@ class Index extends Component {
     });
   };
   render() {
-    const { activeKey,homePageModuleId} = this.props;
+    const { activeKey} = this.props;
+    const {homePageModuleId} = this.props.data;
     return (
       <div className="content_box stock-tabs">
         <Tabs activeKey={activeKey} onChange={this.callback}>
