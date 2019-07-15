@@ -19,6 +19,7 @@ class BannerSet extends Component {
     super(props);
   }
   componentDidMount() {
+    console.log(this.props)
     this.props.dispatch({
       type:'bannerSet/fetchList',
       payload:{

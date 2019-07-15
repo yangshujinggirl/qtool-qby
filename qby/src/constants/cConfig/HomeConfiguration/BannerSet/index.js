@@ -6,6 +6,7 @@ const { TabPane } = Tabs;
 
 class Index extends Component {
   render() {
+    console.log(this.props)
     const {homepageModuleId} = this.props.data;
     return (
       <div className="content_box stock-tabs">

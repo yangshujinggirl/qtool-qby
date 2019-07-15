@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { DatePicker, Form, Select, Col, Row, Input, Button, Radio } from 'antd';
 import { connect } from 'dva';
 import lodash from 'lodash';
-import BaseEditTable from '../../../../../../components/BaseEditTable';
 import GoodsTable from '../GoodsTable';
+import ClassifyMod from '../ClassifyMod';
 import './index.less';
 
 const RangePicker = DatePicker.RangePicker;
@@ -27,66 +27,6 @@ class ModForm extends Component {
       sortVal:0
     }
   }
-  componentDidMount(props) {
-    this.props.dispatch({
-      type:'commodityFlow/fetchCategory',
-      payload:{
-        level:1,
-        parentId:null
-			}
-    })
-  }
-  //分类change事件
-  handleChangeLevel (level,selected) {
-    level++;
-    this.props.dispatch({
-      type:'commodityFlow/fetchCategory',
-      payload:{
-        level,
-        parentId:selected
-      }
-    })
-    //请空表单中的value值
-    switch(level) {
-      case 2:
-        this.props.form.resetFields(["pdCategory2Id","pdCategory3Id","pdCategory4Id"])
-        break;
-      case 3:
-        this.props.form.resetFields(["pdCategory3Id","pdCategory4Id"])
-        break;
-      case 4:
-        this.props.form.resetFields(["pdCategory4Id"])
-        break;
-    }
-  }
-  //添加
-  handleAdd=()=> {
-    console.log(this.props.form.getFieldsValue())
-    const { categoryData } =this.props;
-    const { pdCategory1Id, pdCategory2Id, pdCategory3Id, pdCategory4Id } =this.props.form.getFieldsValue();
-    let pdCategory = {
-      pdCategory1Id, pdCategory2Id, pdCategory3Id, pdCategory4Id
-    }
-    let paramsStr=null;
-    for( let key in pdCategory) {
-      if(pdCategory[key]) {
-        paramsStr = paramsStr?`${paramsStr}/`:'';
-        paramsStr+= pdCategory[key];
-      }
-    }
-    if(!paramsStr) {
-      return;
-    }
-    console.log(paramsStr)
-  }
-  //导入
-  exportGds=()=> {
-    console.log('批量导入')
-  }
-  //下载
-  downLoad=()=> {
-    console.log('下载')
-  }
   //排序类型
   changeRadio=(e)=> {
     let value = e.target.value;
@@ -96,147 +36,48 @@ class ModForm extends Component {
   selectSaleSort=(e)=> {
     this.setState({ sortVal:e })
   }
+  //提交
+  submit=(func)=> {
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        console.log(values)
+        // let { fieldsTwo, fieldsOne  } =values;
+        // let params = {
+        //   homePageModuleId:20,
+        //   pdSpuList:[...fieldsOne,...fieldsTwo]
+        // };
+        // getSaveApi(params)
+        // .then((res) => {
+        //   console.log(res)
+        // })
+      }
+    });
+  }
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { categoryData, goodsList } =this.props;
-    const {
-      categoryLevelOne,
-      categoryLevelTwo,
-      categoryLevelThr,
-      categoryLevelFour,
-      isLevelTwo,isLevelThr,isLevelFour
-     } =categoryData;
-     const { radioVal, sortVal } =this.state;
+    const { categoryData, goodsList, totalData } =this.props;
+    const { radioVal, sortVal } =this.state;
+    console.log(totalData)
     return(
       <div className="commodity-main-mod">
         <Form>
-          <div className="part-one part-same">
-            <p className="part-head">选择商品</p>
-            <Row gutter={24}>
-              <Col span={6}>
-                <FormItem label='一级分类'>
-                {
-                  getFieldDecorator('pdCategory1Id',{
-                    onChange:(select)=>this.handleChangeLevel(1,select)
-                  })(
-                   <Select placeholder="请选择商品分类">
-                     {
-                       categoryLevelOne.map((ele,index) => (
-                         <Option
-                           value={ele.pdCategoryId}
-                           key={ele.pdCategoryId}>{ele.name}</Option>
-                       ))
-                     }
-                   </Select>
-                  )
-                }
-                </FormItem>
-              </Col>
-              <Col span={6}>
-                <FormItem label='二级分类'>
-                {
-                  getFieldDecorator('pdCategory2Id',{
-                    onChange:(select)=>this.handleChangeLevel(2,select)
-                  })(
-                    <Select
-                      placeholder="请选择商品类型"
-                      disabled={categoryData.isLevelTwo}
-                      autoComplete="off">
-                      {
-                        categoryLevelTwo.map((ele,index) => (
-                          <Option
-                            value={ele.pdCategoryId}
-                            key={ele.pdCategoryId}>{ele.name}</Option>
-                        ))
-                      }
-                    </Select>
-                  )
-                }
-                </FormItem>
-              </Col>
-              <Col span={6}>
-                <FormItem label='三级分类'>
-                {
-                  getFieldDecorator('pdCategory3Id',{
-                    onChange:(select)=>this.handleChangeLevel(3,select)
-                  })(
-                    <Select
-                      placeholder="请选择商品类型"
-                      disabled={categoryData.isLevelThr}
-                      autoComplete="off">
-                      {
-                        categoryLevelThr.map((ele,index) => (
-                          <Option
-                            value={ele.pdCategoryId}
-                            key={ele.pdCategoryId}>{ele.name}</Option>
-                        ))
-                      }
-                    </Select>
-                  )
-                }
-                </FormItem>
-              </Col>
-              <Col span={6}>
-                <FormItem label='四级分类'>
-                {
-                  getFieldDecorator('pdCategory4Id')(
-                    <Select
-                      placeholder="请选择商品类型"
-                      disabled={categoryData.isLevelFour}
-                      autoComplete="off">
-                      {
-                        categoryData.categoryLevelFour.map((ele,index) => (
-                          <Option
-                            value={ele.pdCategoryId}
-                            key={ele.pdCategoryId}>{ele.name}</Option>
-                        ))
-                      }
-                    </Select>
-                  )
-                }
-                </FormItem>
-              </Col>
-            </Row>
-            <div className="handle-add-btn-list">
-              <Button
-                size="large"
-                type="primary"
-                className="btn-item"
-                onClick={this.handleAdd}>
-                  确定添加
-              </Button>
-              <Button
-                size="large"
-                type="primary"
-                className="btn-item"
-                onClick={this.exportGds}>
-                  批量导入
-              </Button>
-              <Button
-                size="large"
-                type="primary"
-                className="btn-item"
-                onClick={this.downLoad}>
-                  下载导入模板
-              </Button>
-            </div>
-          </div>
+          <ClassifyMod form={this.props.form}/>
           <div className="part-two part-same">
             <p className="part-head">商品排序规则</p>
             <FormItem label="优先顺序" className="sort-formItem-wrap">
             {
-              getFieldDecorator('ruleType',{
-                initialValue:1,
+              getFieldDecorator('sortType',{
+                initialValue:totalData.sortType?totalData.sortType:10,
                 onChange:this.changeRadio
               })(
                 <Radio.Group>
-                  <Radio style={radioStyle} value={1}>
+                  <Radio style={radioStyle} value={10}>
                     按上架时间倒序排列
                   </Radio>
-                  <Radio style={radioStyle} value={2}>
+                  <Radio style={radioStyle} value={20}>
                     按销量排序
                   </Radio>
-                  <Radio style={radioStyle} value={3}>
+                  <Radio style={radioStyle} value={30}>
                     自定义排序
                   </Radio>
                 </Radio.Group>
@@ -244,12 +85,12 @@ class ModForm extends Component {
             }
             </FormItem>
             {
-              radioVal==2&&
+              totalData.sortType==20&&
               <Row className="sort-row">
                 <Col span={6}>
                   <FormItem>
                   {
-                    getFieldDecorator('sortType',{
+                    getFieldDecorator('ruleType',{
                       initialValue:0,
                       onChange:(select)=>this.selectSaleSort(select)
                     })(
@@ -310,16 +151,40 @@ class ModForm extends Component {
             </div>
             <GoodsTable form={this.props.form}/>
           </div>
+          <div className="handle-btn-footer">
+            <Button
+              onClick={this.submit}
+              size="large"
+              type="primary">
+                保存
+            </Button>
+          </div>
         </Form>
       </div>
     )
   }
 }
 const Mod = Form.create({
+  onValuesChange(props, changedFields, allFields) {
+    let { goodsList } =props;
+    let { spuList } =allFields;
+    goodsList = goodsList.map((el,index) => {
+      spuList.map((item,idx) => {
+        if(index == idx) {
+          el = {...el,...item}
+        }
+      })
+      return el;
+    })
+    props.dispatch({
+      type:'commodityFlow/getGoodsList',
+      payload:goodsList
+    })
+  },
   // mapPropsToFields(props) {
   //   return {
-  //     // goodsList:Form.createFormField(props.goodsList),
-  //   }
+  //     spuList: Form.createFormField(props.goodsList),
+  //   };
   // }
 })(ModForm);
 function mapStateToProps(state) {

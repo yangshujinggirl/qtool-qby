@@ -1,6 +1,6 @@
 import { message } from 'antd';
 import {
-  getCategoryApi
+  getCategoryApi,getSearchTabApi,getSearchGoodApi
 } from '../../services/cConfig/homeConfiguration/commodityFlow.js';
 
 export default {
@@ -15,29 +15,34 @@ export default {
       isLevelThr:true,
       isLevelFour:true,
     },
+    tabs:[{key:0,tabName:'商品分类',tabId:1},{key:1,tabName:'tab2',tabId:2}],
+    selectkey:0,
     goodsList:[{
-      key:1,
-      SpuId:'55',
-      name:'MORPHY RICHARDS摩飞 便携榨汁杯',
-      displayName:'奶粉辅食',
+      key:0,
+      pdSpuId:'55',
+      cname:'MORPHY RICHARDS摩飞 便携榨汁杯',
+      classifyName:'奶粉辅食',
       price:'¥4.00-9.00',
-      qty:'B端在售库存',
-      shop:'200',
-      position:1,
+      pdInvQty:'1290',
+      outOfStackQty:'200',
+      isFixed:1,
     },{
-      key:2,
-      SpuId:'52',
-      name:'MORPHY便携榨汁杯',
-      displayName:'奶粉辅食',
+      key:1,
+      pdSpuId:'40',
+      cname:'MORPHY RICHARDS摩飞 便携榨汁杯',
+      classifyName:'奶粉辅食',
       price:'¥4.00-9.00',
-      qty:'B端在售库存',
-      shop:'200',
-      position:1,
-    }]
+      pdInvQty:'B端在售库存',
+      outOfStackQty:'1290',
+      isFixed:1,
+    }],
+    totalData:{
+      sortType:10,
+    }
   },
   reducers: {
     //重置store
-    resetData(state, { payload : source }) {
+    resetData(state, { payload :{} }) {
       const categoryData = {
         categoryLevelOne:[],//商品分类1列表
         categoryLevelTwo:[],//商品分类2列表
@@ -47,20 +52,29 @@ export default {
         isLevelThr:true,
         isLevelFour:true,
       }
+      const goodsList = [];
+      const totalData = {};
       return {
         ...state,
-        categoryData,
+        categoryData,goodsList,totalData
        }
     },
     getCategory(state, { payload:categoryData }) {
       return { ...state,...categoryData };
     },
     getGoodsList(state, { payload:goodsList }) {
-      goodsList.map((el,index) => {
-        index++;
-        el.key= index
-      });
-      return { ...state,...goodsList };
+      goodsList = [...goodsList];
+      return { ...state, goodsList };
+    },
+    getTotalData(state, { payload:totalData }) {
+      return { ...state,totalData };
+    },
+    getSelectkey(state, { payload:selectkey }) {
+      return { ...state,selectkey };
+    },
+    getTabs(state, { payload:tabs }) {
+      tabs =[...tabs];
+      return { ...state, tabs };
     },
   },
   effects: {
@@ -140,5 +154,54 @@ export default {
         })
       }
     },
-  }
+    *fetchTabList({ payload: values },{ call, put ,select}) {
+      yield put({type: 'tab/loding',payload:true});
+      const res = yield call(getSearchTabApi,values);
+      //处理分类数据，disabled状态
+      if(res.code == '0') {
+        let { pdFlowTabList } =res;
+        if(pdFlowTabList&&pdFlowTabList.length>0) {
+          pdFlowTabList.map((el,index) => {
+            el.key = index
+          })
+          yield put({
+            type:'fetchGoodsList',
+            payload:{tabId:pdFlowTabList[0].tabId, selectkey:0}
+          })
+        } else {
+          pdFlowTabList = [];
+        }
+        yield put({type: 'getTabs',payload:pdFlowTabList});
+      } else {
+        message.error(res.message)
+      }
+      yield put({type: 'tab/loding',payload:false});
+    },
+    *fetchGoodsList({ payload: values },{ call, put ,select}) {
+      yield put({type: 'resetData',payload:{}});
+      let { selectkey, tabId } =values;
+      let params = { tabId };
+      yield put({type: 'tab/loding',payload:true});
+      const res = yield call(getSearchGoodApi,params);
+      //处理分类数据，disabled状态
+      if(res.code == '0') {
+        if(res.pdFlowSp) {
+          const { spuList, sortRule, sortType } =res.pdFlowSpu;
+          let totalData = {...sortRule,sortType };
+          yield put({type: 'getGoodsList',payload:spuList});
+          yield put({
+            type: 'getTotalData',
+            payload:totalData
+          });
+        }
+        yield put({
+          type: 'getSelectkey',
+          payload:selectkey
+        });
+      } else {
+        message.error(res.message)
+      }
+      yield put({type: 'tab/loding',payload:false});
+    },
+ }
 }

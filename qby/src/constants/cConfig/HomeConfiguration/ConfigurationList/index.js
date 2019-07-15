@@ -3,7 +3,10 @@ import { Button, Modal, message } from "antd";
 import { connect } from "dva";
 import Qtable from "../../../../components/Qtable";
 import Qpagination from "../../../../components/Qpagination";
-import { addVersionApi,versionBanApi } from "../../../../services/cConfig/homeConfiguration/configurationList";
+import {
+  addVersionApi,
+  versionBanApi
+} from "../../../../services/cConfig/homeConfiguration/configurationList";
 import FilterForm from "./components/FilterForm";
 import AddModal from "./components/AddModal";
 import { IndexColumns } from "./columns";
@@ -17,7 +20,8 @@ class ConfigurationList extends Component {
       dataSource: [],
       versionList: [],
       inputValues: {},
-      doubleVisible: false
+      doubleVisible: false,
+      loading: false
     };
   }
   componentDidMount() {
@@ -47,7 +51,7 @@ class ConfigurationList extends Component {
         this.goInfo(record);
         break;
       case "edit":
-        this.goEdit(record.key);
+        this.goEdit(record);
         break;
       case "ban":
         this.goBan(record);
@@ -71,13 +75,15 @@ class ConfigurationList extends Component {
     });
   }
   //编辑
-  goEdit = key => {
+  goEdit = record => {
     const { componkey } = this.props;
     const paneitem = {
       title: "商品编辑",
       key: `${componkey}home`,
       componkey: `${componkey}home`,
-      data: {}
+      data: {
+        homepageModuleId:record.homepageId
+      }
     };
     this.props.dispatch({
       type: "tab/firstAddTab",
@@ -87,31 +93,31 @@ class ConfigurationList extends Component {
   //禁用
   goBan(record) {
     this.setState({
-      doubleVisible:true,
-      status:record.status,
-      homepageId:record.homepageId
+      doubleVisible: true,
+      status: record.status,
+      homepageId: record.homepageId
     });
   }
   //确定禁用
-  onBanOk =(record)=> {
-    const {homepageId} = this.state;
-    versionBanApi({homepageId}).then(res=>{
-      if(res.code == 0){
+  onBanOk = record => {
+    const { homepageId } = this.state;
+    versionBanApi({ homepageId }).then(res => {
+      if (res.code == 0) {
         this.setState({
-          doubleVisible:false
+          doubleVisible: false
         });
         this.props.dispatch({
           type: "homeConfig/fetchList",
-          payload: {...this.state.inputValues}
+          payload: { ...this.state.inputValues }
         });
-      };
-    })
-  }
-  onBanCancel =()=> {
+      }
+    });
+  };
+  onBanCancel = () => {
     this.setState({
-      doubleVisible:false
-    })
-  }
+      doubleVisible: false
+    });
+  };
   //日志
   goLog(record) {
     console.log(record);
@@ -121,10 +127,29 @@ class ConfigurationList extends Component {
     this.setState({ visible: true });
   };
   //新增首页版本
-  onOk = (values,resetForm) => {
+
+  onOk = (values, resetForm) => {
     addVersionApi(values).then(res => {
       if (res.code == "0") {
-        this.setState({ visible: false });
+        const { homepageId } = res;
+        const { componkey } = this.props;
+        const paneitem = {
+          title: "商品编辑",
+          key: `${componkey}home`,
+          componkey: `${componkey}home`,
+          data: {
+            homepageId: homepageId
+          }
+        };
+        this.props.dispatch({
+          type: "homeConfig/fetchList",
+          payload: { ...this.state.inputValues }
+        });
+        this.props.dispatch({
+          type: "tab/firstAddTab",
+          payload: paneitem
+        });
+        this.setState({ visible: false, loading: false });
         resetForm();
       }
     });
@@ -134,8 +159,13 @@ class ConfigurationList extends Component {
     resetForm();
     this.setState({ visible: false });
   };
+  changeLoading = loading => {
+    this.setState({
+      loading
+    });
+  };
   render() {
-    const { status,visible, versionList, doubleVisible } = this.state;
+    const { status, visible, versionList, doubleVisible, loading } = this.state;
     const { dataList } = this.props;
     return (
       <div className="qtools-components-pages configuration-List-pages">
@@ -153,15 +183,18 @@ class ConfigurationList extends Component {
         <AddModal
           versionList={versionList}
           onOk={this.onOk}
+          loading={loading}
           onCancel={this.onCancel}
           visible={visible}
+          changeLoading={this.changeLoading}
         />
-        <Modal 
-          wrapClassName='model_center'
-          title='版本禁用'
-          visible={doubleVisible} 
-          onOk={this.onBanOk} 
-          onCancel={this.onBanCancel}>
+        <Modal
+          wrapClassName="model_center"
+          title="版本禁用"
+          visible={doubleVisible}
+          onOk={this.onBanOk}
+          onCancel={this.onBanCancel}
+        >
           {status == 2 ? (
             <span>
               当前版本处于待发布状态，禁用后将不会发布到线上，您确定禁用此版本么？

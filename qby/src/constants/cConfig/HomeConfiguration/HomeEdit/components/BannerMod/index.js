@@ -16,17 +16,18 @@ class BannerMod extends Component {
           },
           pagination: {  //分页器
             el: '.swiper-pagination'
-          }
+          } 
         })
   }
   goEdit=()=> {
     const { componkey } = this.props;
+    const { homepageModuleId } = this.props.info.banner;
     const paneitem={
       title:'banner设置',
       key:`${componkey}edit-banner`,
       componkey:`${componkey}edit-banner`,
       data:{
-        homepageModuleId:this.props.homepageModuleId
+        homepageModuleId
       }
     };
     this.props.dispatch({
@@ -42,20 +43,31 @@ class BannerMod extends Component {
       name:'13',
       pic:'../../../../../../assets/eye.png'
     }]
+    const { banner } =this.props.info;
+    const { moduleContent } =banner;
+    let { backgroundPicUrl } =banner;
+    const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
+    backgroundPicUrl = `${fileDomain}${backgroundPicUrl}`;
     return(
       <div className="common-sty banner-mod">
-        <div className="swiper-container banner-swiper-container">
-          <div className="swiper-wrapper">
-            {
-              list.map((el,index) => (
-                <div className="swiper-slide" key={index}>
-                  <img src={require('../../../../../../assets/goods.jpg')}/>
-                </div>
-              ))
-            }
+        {
+          moduleContent&&moduleContent.length>0?
+          <div className="swiper-container banner-swiper-container" style={{'background':`#fff url(${backgroundPicUrl})`}}>
+            <div className="swiper-wrapper">
+              {
+                list.map((el,index) => (
+                  <div className="swiper-slide" key={index}>
+                    <img src={require('../../../../../../assets/goods.jpg')}/>
+                  </div>
+                ))
+              }
+            </div>
+            <div className="swiper-pagination"></div>
           </div>
-          <div className="swiper-pagination"></div>
-        </div>
+          :
+          <div className="no-module-data"></div>
+        }
+
         <div className="handle-btn-action">
           <Button>查看</Button>
           <Button onClick={this.goEdit}>编辑</Button>

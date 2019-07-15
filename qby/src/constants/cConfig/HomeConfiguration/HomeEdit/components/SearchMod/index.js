@@ -15,7 +15,7 @@ class SearchMod extends Component {
   }
   //编辑
   onEdit = () => {
-    const { homepageModuleId } = this.props;
+    const { homepageModuleId } = this.props.info.search;
     searchPicApi({ homepageModuleId }).then(res => { //查询
       if (res.code == "0") {
         const fileDomain = JSON.parse(sessionStorage.getItem("fileDomain"));
@@ -58,8 +58,12 @@ class SearchMod extends Component {
   //背景图片保存
   onOk = () => {
     const { imageUrl } = this.state;
+    const { homepageModuleId } = this.props.info.search
+    if (!imageUrl) {
+      return message.error("请先上传图片", 0.8);
+    }
     const values = {
-      homepageModuleId: 1,
+      homepageModuleId,
       backgroundPicUrl: imageUrl
     };
     savePicApi(values).then(res => {
@@ -69,6 +73,12 @@ class SearchMod extends Component {
           fileList: [],
           visible: false
         });
+        this.props.dispatch({
+          type:'homeEdit/fetchInfo',
+          payload:{
+            homepageId:homepageModuleId
+          }
+        })
       }
     });
   };
@@ -79,19 +89,16 @@ class SearchMod extends Component {
     });
   };
   render() {
+    console.log(this.props)
     const { visible, fileList } = this.state;
-    const fileDomain = JSON.parse(sessionStorage.getItem("fileDomain"));
-    const backgroundPicUrl = fileDomain + this.props.backgroundPicUrl;
+    const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
+    let { backgroundPicUrl } = this.props.info.search;
+    backgroundPicUrl = `${fileDomain}${backgroundPicUrl}`;
     return (
-      <div
-        style={{ background: backgroundPicUrl }}
-        className="common-sty search-mod"
-      >
+      <div className="common-sty search-mod" style={{'background':`#fff url(${backgroundPicUrl})`}}>
         <Input
           addonBefore={<Icon type="search" />}
-          addonAfter={<Icon type="scan" />}
-          placeholder="input search text"
-        />
+          addonAfter={<Icon type="scan" />}/>
         <div className="handle-btn-action">
           <Button>查看</Button>
           <Button onClick={this.onEdit}>编辑</Button>
@@ -101,8 +108,7 @@ class SearchMod extends Component {
           fileList={fileList}
           visible={visible}
           onOk={this.onOk}
-          onCancel={this.onCancel}
-        />
+          onCancel={this.onCancel}/>
       </div>
     );
   }

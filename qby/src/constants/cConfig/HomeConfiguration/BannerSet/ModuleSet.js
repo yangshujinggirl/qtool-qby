@@ -10,7 +10,8 @@ class ModuleSet extends Component {
     super(props);
     this.state = {
       imageUrl: "",
-      fileList: []
+      fileList: [],
+      loading:false,
     };
   }
   componentDidMount = () => {
@@ -47,16 +48,22 @@ class ModuleSet extends Component {
     }
   };
   handleSubmit =()=> {
+    this.setState({
+      loading:true
+    });
     const {imageUrl} = this.state;
     const {homepageModuleId} = this.props
     saveModuleApi({homepageModuleId,backgroupPicUrl:imageUrl}).then(res => {
       if(res.code == '0'){
         message.success('保存成功')
-      }
+        this.setState({
+          loading:false
+        })
+      };
     })
   }
   render() {
-    const { fileList } = this.state;
+    const { fileList,loading } = this.state;
     return (
       <FormItem labelCol={{ span: 2 }} label="模块背景图">
         <UploadImg
@@ -67,7 +74,7 @@ class ModuleSet extends Component {
           width={750}
           height={392}
         />
-        <Button style={{margin:'50px 100px'}} type="primary" onClick={this.handleSubmit}>
+        <Button style={{margin:'50px 100px'}} loading={loading}  type="primary" onClick={this.handleSubmit}>
           保存设置
         </Button>
       </FormItem>
