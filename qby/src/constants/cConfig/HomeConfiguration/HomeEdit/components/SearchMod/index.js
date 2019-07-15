@@ -26,11 +26,12 @@ class SearchMod extends Component {
   //背景图片保存
   onOk = () => {
     const { imageUrl } = this.state;
+    const { homepageModuleId } =this.props.info.search
     if (!imageUrl) {
       return message.error("请先上传图片", 0.8);
     }
     const values = {
-      homepageModuleId: 1,
+      homepageModuleId,
       backgroundPicUrl: imageUrl
     };
     savePicApi(values).then(res => {
@@ -51,13 +52,14 @@ class SearchMod extends Component {
   };
   render() {
     const { visible, imageUrl } = this.state;
+    const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
+    let { backgroundPicUrl } =this.props.info.search;
+    backgroundPicUrl = `${fileDomain}${backgroundPicUrl}`;
     return (
-      <div className="common-sty search-mod">
+      <div className="common-sty search-mod" style={{'background':`#fff url(${backgroundPicUrl})`}}>
         <Input
           addonBefore={<Icon type="search" />}
-          addonAfter={<Icon type="scan" />}
-          placeholder="input search text"
-        />
+          addonAfter={<Icon type="scan" />}/>
         <div className="handle-btn-action">
           <Button>查看</Button>
           <Button onClick={this.onEdit}>编辑</Button>
@@ -67,8 +69,7 @@ class SearchMod extends Component {
           imageUrl={imageUrl}
           visible={visible}
           onOk={this.onOk}
-          onCancel={this.onCancel}
-        />
+          onCancel={this.onCancel}/>
       </div>
     );
   }

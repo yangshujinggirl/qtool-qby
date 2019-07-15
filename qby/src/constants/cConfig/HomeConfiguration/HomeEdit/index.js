@@ -1,5 +1,6 @@
 import react, { Component } from 'react';
 import { Dropdown, Menu } from 'antd';
+import { connect } from 'dva';
 import SearchMod from './components/SearchMod';
 import BannerMod from './components/BannerMod';
 import BrandMod from './components/BrandMod';
@@ -14,6 +15,15 @@ import './index.less';
 
 
 class HomeEdit extends Component {
+  componentDidMount() {
+    const { homepageId } =this.props.data;
+    this.props.dispatch({
+      type:'homeEdit/fetchInfo',
+      payload:{
+        homepageId:homepageId
+      }
+    })
+  }
   render() {
     const menu = (
       <Menu className='home-configuration-menu'>
@@ -26,7 +36,6 @@ class HomeEdit extends Component {
       </Menu>
     );
     const { componkey } =this.props;
-
     return(
       <div className="home-configuration-edit-pages">
         <div className="part-head">
@@ -38,8 +47,8 @@ class HomeEdit extends Component {
           </div>
         </div>
         <div className="part-mods">
-          <SearchMod componkey={componkey}/>
-          <BannerMod  componkey={componkey}/>
+          <SearchMod {...this.props}/>
+          <BannerMod  {...this.props}/>
           <BrandMod  componkey={componkey}/>
           <IconMod  componkey={componkey}/>
           <NewUserMod  componkey={componkey}/>
@@ -53,4 +62,8 @@ class HomeEdit extends Component {
     )
   }
 }
-export default HomeEdit;
+function mapStateToProps(state) {
+  const { moreGoodsSet } =state;
+  return moreGoodsSet;
+}
+export default connect(mapStateToProps)(HomeEdit);

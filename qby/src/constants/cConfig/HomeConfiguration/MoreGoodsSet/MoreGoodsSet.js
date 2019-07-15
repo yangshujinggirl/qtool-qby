@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import { Table, Button, Form, Input } from 'antd';
 import { connect } from 'dva';
-import { DndProvider, DragSource, DropTarget } from 'react-dnd';
-import HTML5Backend from 'react-dnd-html5-backend';
-import update from 'immutability-helper';
 import ModDis from './components/MainMod';
 import ImportBtn from './components/ImportBtn';
 import {

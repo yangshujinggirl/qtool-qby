@@ -122,11 +122,26 @@ class ConfigurationList extends Component {
   };
   //新增首页版本
   onOk = (values, resetForm) => {
-    addVersionApi(values).then(res => {
-      console.log(values);
+    addVersionApi(values)
+    .then(res => {
       if (res.code == "0") {
+        debugger
+        const { homepageId } =res;
+        const { componkey } = this.props;
+        const paneitem = {
+          title: "商品编辑",
+          key: `${componkey}home`,
+          componkey: `${componkey}home`,
+          data: {
+            homepageId:homepageId
+          }
+        };
+        this.props.dispatch({
+          type: "tab/firstAddTab",
+          payload: paneitem
+        });
         this.setState({ visible: false });
-        resetForm();
+        // resetForm();//报错
       }
     });
   };
@@ -157,11 +172,11 @@ class ConfigurationList extends Component {
           onCancel={this.onCancel}
           visible={visible}
         />
-        <Modal 
+        <Modal
           wrapClassName='model_center'
           title='版本禁用'
-          visible={doubleVisible} 
-          onOk={this.onBanOk} 
+          visible={doubleVisible}
+          onOk={this.onBanOk}
           onCancel={this.onBanCancel}>
           {status == 2 ? (
             <span>
