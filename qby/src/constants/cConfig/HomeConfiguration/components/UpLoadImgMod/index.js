@@ -12,19 +12,19 @@ class UpLoadImg extends Component {
     }
   }
   beforeUpload(file) {
-    const isJPG = file.type === 'image/jpeg';
-    if (!isJPG) {
-      message.error('You can only upload JPG file!');
-    }
+    // const isJPG = file.type === 'image/jpeg';
+    // if (!isJPG) {
+    //   message.error('You can only upload JPG file!');
+    // }
     const isLt2M = file.size / 1024 / 1024 < 2;
     if (!isLt2M) {
       message.error('Image must smaller than 2MB!');
     }
-    return isJPG && isLt2M;
+    return isLt2M;
   }
   handleChange = info => {
     this.setState({
-      loading: false,
+      loading: true,
     })
     if (info.file.status === 'uploading') {
       this.setState({ loading: true });
@@ -36,7 +36,7 @@ class UpLoadImg extends Component {
         this.setState({
           loading: false,
         })
-        this.props.onChange(`${response.data[0]}`)
+        // this.props.onChange(`${response.data[0]}`)
       }
     }
   };
@@ -45,7 +45,7 @@ class UpLoadImg extends Component {
       return e;
     };
     if((e.fileList[0] && e.fileList[0].status) || !e.fileList[0]){
-      return e && e.fileList;
+      return e && e.file;
     };
   }
   uploadButton = (
@@ -59,6 +59,7 @@ class UpLoadImg extends Component {
      let { fileList,index } = this.props;
      let fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
      let fileListArr = (fileList&&fileList!='')?[`${fileList}`]:[];
+     console.log(fileList)
      return(
        <FormItem className="banner-upload-wrap">
          {getFieldDecorator(`goods[${index}].picUrl`,{

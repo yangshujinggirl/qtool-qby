@@ -36,13 +36,6 @@ class BannerMod extends Component {
     })
   }
   render() {
-    const list=[{
-      name:'12',
-      pic:'../../../../../../assets/goods.jpg'
-    },{
-      name:'13',
-      pic:'../../../../../../assets/eye.png'
-    }]
     const { banner } =this.props.info;
     const { moduleContent } =banner;
     let { backgroundPicUrl } =banner;

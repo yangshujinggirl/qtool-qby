@@ -15,7 +15,7 @@ class BrandMod extends Component {
     };
   }
   onEdit = () => {
-    const {homepageModuleId} = this.props;
+    const {homepageModuleId} = this.props.info.brandDisplay;
     searchBgPicApi({homepageModuleId}).then(res=>{
       if(res.code == '0'){
         const fileDomain = JSON.parse(sessionStorage.getItem("fileDomain"));
@@ -53,7 +53,7 @@ class BrandMod extends Component {
       return message.error("请先上传图片", 0.8);
     }
     const values = {
-      homepageModuleId: 1,
+      homepageModuleId:this.props.info.brandDisplay,
       backgroundPicUrl: color,
       contentPicUrl: imageUrl
     };
@@ -98,6 +98,7 @@ class BrandMod extends Component {
     }
   };
   render() {
+    console.log(this.props)
     const { visible, fileList, color } = this.state;
     return (
       <div className="common-sty search-mod">

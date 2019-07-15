@@ -18,7 +18,7 @@ class ModuleSet extends Component {
     this.initPage();
   };
   initPage = () => {
-    const { homepageModuleId } = this.props;
+    const { homepageModuleId } = this.props.data
     getModuleApi({ homepageModuleId }).then(res => {
       if (res.code == "0") {
         const fileDomain = JSON.parse(sessionStorage.getItem("fileDomain"));
@@ -52,7 +52,7 @@ class ModuleSet extends Component {
       loading:true
     });
     const {imageUrl} = this.state;
-    const {homepageModuleId} = this.props
+    const {homepageModuleId} = this.props.data
     saveModuleApi({homepageModuleId,backgroupPicUrl:imageUrl}).then(res => {
       if(res.code == '0'){
         message.success('保存成功')
