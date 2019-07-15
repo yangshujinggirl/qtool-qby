@@ -19,12 +19,12 @@ class BannerSet extends Component {
     super(props);
   }
   componentDidMount() {
-    console.log(this.props)
+    const { homepageModuleId } =this.props.data;
     this.props.dispatch({
       type:'bannerSet/fetchList',
       payload:{
         position:1,
-        homepageModuleId:20,
+        homepageModuleId:homepageModuleId,
       }
     })
   }
@@ -32,11 +32,12 @@ class BannerSet extends Component {
     this.modDom.submit(()=>this.onCancel(activiKey));
   }
   onCancelToggle=(activiKey)=> {
+    const { homepageModuleId } =this.props.data;
     this.props.dispatch({
       type:'bannerSet/fetchList',
       payload:{
         position:activiKey,
-        homepageModuleId:20,
+        homepageModuleId:homepageModuleId,
       }
     })
   }

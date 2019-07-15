@@ -22,7 +22,8 @@ class ModForm extends Component {
   }
   //回调
   handleCallback=(dataSource)=> {
-    this.props.dispatch({ type:'bannerSet/getGoodsList',payload:dataSource})
+    this.props.dispatch({ type:'bannerSet/getGoodsList',payload:dataSource});
+    this.props.form.resetFields()
   }
   //表单事件
   onOperateClick=(record,type)=> {
@@ -96,9 +97,10 @@ class ModForm extends Component {
     return goods;
   }
   render() {
-    let { goodsList, activiKey } =this.props;
+    let { goodsList, activiKey, categoryList } =this.props;
     const { visible, confirmLoading } =this.state;
     const { form }= this.props;
+    console.log(goodsList)
     return(
       <div className="banner-set-mod">
         <MoreEditTable
@@ -106,6 +108,7 @@ class ModForm extends Component {
           callback={this.handleCallback}
           form={form}
           modName="banner"
+          categoryList={categoryList}
           dataSource={goodsList}/>
         <div className="handle-btn-action">
           <Button
@@ -127,11 +130,34 @@ class ModForm extends Component {
   }
 }
 const Mod = Form.create({
-  mapPropsToFields(props) {
-    return {
-      goods: Form.createFormField(props.goodsList),
-    };
-  }
+  onValuesChange(props, changedFields, allFields) {
+    let { goods } =allFields;
+    let { goodsList } =props;
+    goodsList = goodsList.map((el,index) => {
+      goods.map((item,idx) => {
+        if(index == idx) {
+          if(item.picUrl&&item.picUrl.length>0) {
+            let file = item.picUrl[0];
+            if(file.status == 'done') {
+              item.picUrl = file.response.data[0];
+            }
+            item.picUrl =[...item.picUrl];
+          }
+          el ={...el,...item}
+        }
+      })
+      return el;
+    })
+    props.dispatch({
+      type:'bannerSet/getGoodsList',
+      payload:goodsList
+    })
+  },
+  // mapPropsToFields(props) {
+  //   return {
+  //     goods: Form.createFormField(props.goodsList),
+  //   };
+  // }
 })(ModForm);
 function mapStateToProps(state) {
   const { bannerSet } =state;

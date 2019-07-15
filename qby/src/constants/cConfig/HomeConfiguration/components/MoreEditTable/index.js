@@ -32,29 +32,8 @@ class BaseEditTable extends Component {
       isFrame:true
     });
     this.setState({ key:key+1 });
-    this.props.callback(dataSource)
-  }
-  //表单change
-  handleChange=(type,name,e,index)=> {
-    let value;
-    switch(type) {
-      case 'input':
-        value = e.target.value;
-        break;
-      case 'select':
-        value = e;
-        break;
-      case 'fileList':
-        value = e;
-        break;
-    }
-    let { dataSource } =this.props;
-    if(!value) {
-      dataSource[index][name]=null;
-    } else {
-      dataSource[index][name]=value;
-    }
-    this.props.callback(dataSource)
+    // this.props.callback(dataSource);
+    this.props.form.resetFields()
   }
   renderCode=(text, record, index)=> {
     index++;
@@ -64,7 +43,6 @@ class BaseEditTable extends Component {
     return <UpLoadImg
             fileList={record.picUrl}
             form={this.props.form}
-            onChange={(fileList)=>this.handleChange('fileList','picUrl',fileList,index)}
             index={index}/>
   }
   renderTitle=(text,record,index)=> {
@@ -75,7 +53,6 @@ class BaseEditTable extends Component {
               rules:[{
                 required:true,message:'请输入banner名称'
               }],
-              onChange:(e)=>this.handleChange('input','title',e,index)
             })(
               <Input
                 maxLength='15'
@@ -92,7 +69,6 @@ class BaseEditTable extends Component {
          rules:[{
            required:true,message:'请选择平台'
          }],
-         onChange:(e)=>this.handleChange('select','platform',e,index),
        })(
          <Select
            placeholder="请选择平台">
@@ -114,7 +90,6 @@ class BaseEditTable extends Component {
     return <FormItem>
        {getFieldDecorator(`goods[${index}].linkInfoType`,{
            initialValue:record.linkInfoType,
-           onChange:(e)=>this.handleChange('select','linkInfoType',e,index),
            rules:[{
              required:true,message:'请选择跳转链接'
            }]
@@ -151,19 +126,23 @@ class BaseEditTable extends Component {
   }
   renderLinkInfo=(text,record,index)=> {
     const { getFieldDecorator } =this.props.form;
+    const { categoryList } =this.props;
     let linkAgeObj= this.contactLinkInfo(record);
     if(record.linkInfoType&&record.linkInfoType==8){
       return <FormItem>
               {getFieldDecorator(`goods[${index}].linkInfo`,{
                 initialValue:record.linkInfo,
                 rules:[{ required:true, message:'请选择分类'}],
-                onChange:(e)=>this.handleChange('select','linkInfo',e,index),
                 })(
                   <Select
                     placeholder={linkAgeObj.placeholder}>
-                    <Select.Option
-                      value={1}
-                      key={1}>去配置页面</Select.Option>
+                    {
+                      categoryList.map((el) => (
+                        <Select.Option
+                          value={el.categoryId}
+                          key={el.categoryId}>{el.categoryName}</Select.Option>
+                      ))
+                    }
                   </Select>
               )}
             </FormItem>
@@ -172,7 +151,6 @@ class BaseEditTable extends Component {
               {getFieldDecorator(`goods[${index}].linkInfo`,{
                 initialValue:record.linkInfo,
                 rules:linkAgeObj.rules,
-                onChange:(e)=>this.handleChange('input','linkInfo',e,index)
                 })(
                   <Input
                     disabled={linkAgeObj.disabled}
@@ -188,7 +166,6 @@ class BaseEditTable extends Component {
             {getFieldDecorator(`goods[${index}].beginTime`,{
               initialValue:record.beginTime?moment(record.beginTime,"YYYY-MM-DD"):null,
               rules:[{ required:true, message:'请选择分类'}],
-              onChange:(e)=>this.handleChange('select','beginTime',e,index)
               })(
                 <DatePicker format="YYYY-MM-DD" allowClear={false}/>
             )}
