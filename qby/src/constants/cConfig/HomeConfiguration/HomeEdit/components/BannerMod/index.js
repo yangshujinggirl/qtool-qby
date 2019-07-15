@@ -25,7 +25,9 @@ class BannerMod extends Component {
       title:'banner设置',
       key:`${componkey}edit-banner`,
       componkey:`${componkey}edit-banner`,
-      data:{}
+      data:{
+        homepageModuleId:this.props.homepageModuleId
+      }
     };
     this.props.dispatch({
         type:'tab/firstAddTab',

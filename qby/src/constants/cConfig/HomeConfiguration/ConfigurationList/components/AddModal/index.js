@@ -22,13 +22,10 @@ class AddModalForm extends Component {
     this.setState({ radioVal: 1 });
     this.props.form.resetFields();
   }
-  submit(values) {
-    this.props.onOk(values,this.resetForm);
-  }
   onOk = () => {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        this.props.onOk(values);
+        this.props.onOk(values,this.resetForm);
       }
     });
   };

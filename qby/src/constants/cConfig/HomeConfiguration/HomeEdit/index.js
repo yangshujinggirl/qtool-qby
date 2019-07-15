@@ -38,16 +38,16 @@ class HomeEdit extends Component {
           </div>
         </div>
         <div className="part-mods">
-          <SearchMod componkey={componkey}/>
-          <BannerMod  componkey={componkey}/>
-          <BrandMod  componkey={componkey}/>
-          <IconMod  componkey={componkey}/>
-          <NewUserMod  componkey={componkey}/>
-          <GoodsMod  componkey={componkey}/>
-          <MorePicMod  componkey={componkey}/>
-          <MoreGoodsMod  componkey={componkey}/>
-          <ThemeMod  componkey={componkey}/>
-          <ClassifyMod  componkey={componkey}/>
+          <SearchMod homepageModuleId={1} componkey={componkey}/>
+          <BannerMod homepageModuleId={1}  componkey={componkey}/>
+          <BrandMod homepageModuleId={1}  componkey={componkey}/>
+          <IconMod homepageModuleId={1}  componkey={componkey}/>
+          <NewUserMod homepageModuleId={1}  componkey={componkey}/>
+          <GoodsMod homepageModuleId={1}  componkey={componkey}/>
+          <MorePicMod homepageModuleId={1}  componkey={componkey}/>
+          <MoreGoodsMod homepageModuleId={1}  componkey={componkey}/>
+          <ThemeMod homepageModuleId={1}  componkey={componkey}/>
+          <ClassifyMod homepageModuleId={1}  componkey={componkey}/>
         </div>
       </div>
     )

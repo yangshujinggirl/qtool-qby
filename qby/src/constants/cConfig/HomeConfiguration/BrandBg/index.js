@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { Modal, Input } from "antd";
+import { Modal, Input, Form } from "antd";
+const FormItem = Form.Item;
 import UploadImg from "../components/UploadImg";
 
 class BrandBg extends Component {
@@ -9,7 +10,7 @@ class BrandBg extends Component {
   render() {
     const {
       visible,
-      imageUrl,
+      fileList,
       changeImg,
       onCancel,
       onOk,
@@ -19,29 +20,34 @@ class BrandBg extends Component {
     return (
       <div>
         <Modal
-          width="500"
+          width="600"
           visible={visible}
           okText="保存"
           onCancel={onCancel}
           onOk={onOk}
         >
-          <UploadImg
-            title="设置内容图片"
-            describe="内容图尺寸为750*32px，格式为png、大小在2m以内"
-            imageUrl={imageUrl}
-            changeImg={changeImg}
-            exampleImg=""
-            width={750}
-            height={32}
-          />
-          <p style={{margin:'15px 0'}}>设置模块背景色号</p>
-          <Input
-            style={{width:'290px'}}
-            value={color}
-            onChange={colorChange}
-            placeholder="标题颜色的色号，常用色号可在示例中查看"
-          />
-          <p style={{margin:'15px 0'}}>请填写#+六位数字</p>
+          <FormItem
+            className="must-pic"
+            labelCol={{ span: 5 }}
+            label="设置内容图片"
+          >
+            <UploadImg
+              describe="750*32"
+              fileList={fileList}
+              changeImg={changeImg}
+              exampleImg=""
+              width={750}
+              height={32}
+            />
+          </FormItem>
+          <FormItem labelCol={{ span: 5 }} label="设置模块背景色号">
+            <Input
+              style={{ width: "260px" }}
+              value={color}
+              onChange={colorChange}
+              placeholder="标题颜色的色号，常用色号可在示例中查看"
+            /><span className='suffix_tips'>请填写#+六位数字</span>
+          </FormItem>
         </Modal>
       </div>
     );

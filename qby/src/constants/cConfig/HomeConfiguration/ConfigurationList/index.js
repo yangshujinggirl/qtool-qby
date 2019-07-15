@@ -121,9 +121,8 @@ class ConfigurationList extends Component {
     this.setState({ visible: true });
   };
   //新增首页版本
-  onOk = (values, resetForm) => {
+  onOk = (values,resetForm) => {
     addVersionApi(values).then(res => {
-      console.log(values);
       if (res.code == "0") {
         this.setState({ visible: false });
         resetForm();

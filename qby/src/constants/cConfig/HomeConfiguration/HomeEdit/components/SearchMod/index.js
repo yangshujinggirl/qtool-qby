@@ -1,8 +1,8 @@
 import react, { Component } from "react";
-import { connect } from 'dva';
+import { connect } from "dva";
 import { Input, Icon, Button, message } from "antd";
 import "./index.less";
-import { savePicApi } from "../../../../../../services/cConfig/homeConfiguration/search";
+import { savePicApi,searchPicApi } from "../../../../../../services/cConfig/homeConfiguration/search";
 import SearchUpload from "../../../Search/index";
 
 class SearchMod extends Component {
@@ -10,25 +10,54 @@ class SearchMod extends Component {
     super(props);
     this.state = {
       visible: false,
-      imageUrl: ""
+      fileList: []
     };
   }
+  //编辑
   onEdit = () => {
-    this.setState({
-      visible: true
+    const { homepageModuleId } = this.props;
+    searchPicApi({ homepageModuleId }).then(res => { //查询
+      if (res.code == "0") {
+        const fileDomain = JSON.parse(sessionStorage.getItem("fileDomain"));
+        const {backgroundPicUrl} = res.searchQueryVo
+        this.handleResult(fileDomain,backgroundPicUrl)
+      }
     });
   };
-  changeImg = imageUrl => {
-    this.setState({
-      imageUrl
+  //结果数据处理
+  handleResult=(fileDomain,backgroundPicUrl)=>{
+    let fileList = [];
+    if(backgroundPicUrl){
+      fileList=[{
+        uid: "-1",
+        status: "done",
+        url: fileDomain + backgroundPicUrl
+      }]
+    };
+    this.setState({fileList},() => {
+      this.setState({
+        visible: true
+      });
     });
+  }
+  //图片发生变化时
+  changeImg = fileList => {
+    this.setState({
+      fileList
+    });
+    if (fileList[0] &&fileList[0].status == "done" &&fileList[0].response.code == "0") {
+      this.setState({
+        imageUrl: fileList[0].response.data[0]
+      });
+    }else{
+      this.setState({
+        imageUrl:''
+      });
+    }
   };
   //背景图片保存
   onOk = () => {
     const { imageUrl } = this.state;
-    if (!imageUrl) {
-      return message.error("请先上传图片", 0.8);
-    }
     const values = {
       homepageModuleId: 1,
       backgroundPicUrl: imageUrl
@@ -37,7 +66,7 @@ class SearchMod extends Component {
       if (res.code == "0") {
         message.success("设置成功");
         this.setState({
-          imageUrl: "",
+          fileList: [],
           visible: false
         });
       }
@@ -45,14 +74,19 @@ class SearchMod extends Component {
   };
   onCancel = () => {
     this.setState({
-      imageUrl: "",
+      fileList: [],
       visible: false
     });
   };
   render() {
-    const { visible, imageUrl } = this.state;
+    const { visible, fileList } = this.state;
+    const fileDomain = JSON.parse(sessionStorage.getItem("fileDomain"));
+    const backgroundPicUrl = fileDomain + this.props.backgroundPicUrl;
     return (
-      <div className="common-sty search-mod">
+      <div
+        style={{ background: backgroundPicUrl }}
+        className="common-sty search-mod"
+      >
         <Input
           addonBefore={<Icon type="search" />}
           addonAfter={<Icon type="scan" />}
@@ -64,7 +98,7 @@ class SearchMod extends Component {
         </div>
         <SearchUpload
           changeImg={this.changeImg}
-          imageUrl={imageUrl}
+          fileList={fileList}
           visible={visible}
           onOk={this.onOk}
           onCancel={this.onCancel}

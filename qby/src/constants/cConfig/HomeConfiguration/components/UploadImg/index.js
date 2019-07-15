@@ -6,16 +6,10 @@ class CommonUpload extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      visible: false,
-      loading: false
+      previewVisible: false,
+      previewImage: ""
     };
   }
-  //查看示例
-  lookExample = () => {
-    this.setState({
-      visible: true
-    });
-  };
   //关闭示例
   onCancel = () => {
     this.setState({
@@ -23,17 +17,9 @@ class CommonUpload extends Component {
     });
   };
   //更改图片
-  handleChange = info => {
-    if (info.file.status === "uploading") {
-      this.setState({ loading: true });
-      return;
-    }
-    if (info.file.status === "done") {
-      const imageUrl = info.file.response.data[0];
-      this.props.changeImg(imageUrl);
-      this.setState({
-        loading: false
-      });
+  handleChange = ({ fileList }) => {
+    if (!fileList[0] || (fileList[0] && fileList[0].status)) {
+      this.props.changeImg(fileList);
     }
   };
   beforeUpload = file => {
@@ -48,7 +34,7 @@ class CommonUpload extends Component {
       return isLt2M;
     }
     const isSize = this.isSize(file);
-    return isPNG && isLt2M;
+    return isPNG && isLt2M && isSize;
   };
   //检测尺寸
   isSize = file => {
@@ -72,15 +58,22 @@ class CommonUpload extends Component {
       }
     );
   };
+  handleCancel = () => this.setState({ previewVisible: false });
+  handlePreview = file => {
+    this.setState({
+      previewImage: file.url || file.thumbUrl,
+      previewVisible: true
+    });
+  };
   render() {
-    const fileDomain = JSON.parse(sessionStorage.getItem("fileDomain"));
     const uploadButton = (
       <div>
-        <Icon type={this.state.loading ? "loading" : "plus"} />
+        <Icon type="plus" />
+        <div className="ant-upload-text">上传图片</div>
       </div>
     );
-    const { visible } = this.state;
-    const { describe, imageUrl, exampleImg } = this.props;
+    const { describe, fileList } = this.props;
+    const { previewVisible, previewImage } = this.state;
     return (
       <div className="home_upload">
         <div className="outer_wrapper">
@@ -88,32 +81,26 @@ class CommonUpload extends Component {
             name="imgFile"
             action="/erpWebRest/qcamp/upload.htm?type=brand"
             listType="picture-card"
-            showUploadList={false}
+            fileList={fileList}
+            onPreview={this.handlePreview}
             beforeUpload={this.beforeUpload}
             onChange={this.handleChange}
           >
-            {imageUrl ? (
-              <img
-                style={{ width: "102", height: "102px" }}
-                src={fileDomain + imageUrl}
-                alt="avatar"
-              />
-            ) : (
-              uploadButton
-            )}
+            {fileList.length >= 1 ? null : uploadButton}
           </Upload>
+          <Modal
+            visible={previewVisible}
+            footer={null}
+            onCancel={this.handleCancel}
+          >
+            <img alt="example" style={{ width: "100%" }} src={previewImage} />
+          </Modal>
           <div>
-            <a className="look_exam" onClick={this.lookExample}>
-              查看示例
-            </a>
             <p className="suffix_tips">
               图片尺寸为{describe}px，格式为png、大小在2m以内
             </p>
           </div>
         </div>
-        <Modal visible={visible} onCancel={this.onCancel} footer={null}>
-          <img src={exampleImg} style={{ width: "472px" }} />
-        </Modal>
       </div>
     );
   }

@@ -23,3 +23,11 @@ export function getChangeFrameApi(values) {
       data:values
   })
 }
+export function saveModuleApi(values) {
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.config.module.banner.setting',
+      data:values
+  })
+}
+
