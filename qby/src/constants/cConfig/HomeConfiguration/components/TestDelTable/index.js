@@ -30,7 +30,6 @@ class BaseEditTable extends Component {
   }
   //删除
   handleDelete=(key)=> {
-    debugger
     let { dataSource } =this.state;
     dataSource = dataSource.filter(item => item.key !== key)
     this.setState({ dataSource });

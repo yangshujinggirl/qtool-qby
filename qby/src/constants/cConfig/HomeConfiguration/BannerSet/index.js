@@ -15,7 +15,7 @@ class Index extends Component {
     this.setState({ activeKey })
   }
   render() {
-    const { activeKey } =this.state;
+    const { activeKey } = this.state;
     return (
       <div className="content_box stock-tabs" >
         <Tabs activeKey={activeKey} onChange={this.onChange}>

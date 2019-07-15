@@ -6,11 +6,14 @@ import "./index.less";
 class MorePicMod extends Component {
   goEdit = () => {
     const { componkey } = this.props;
+    const { homepageModuleId } = this.props.info.picMix;
     const paneitem = {
       title: "多图片组合",
       key: `${componkey}edit-more-pic`,
       componkey: `${componkey}edit-more-pic`,
-      data: {}
+      data: {
+        homepageModuleId
+      }
     };
     this.props.dispatch({
       type: "tab/firstAddTab",

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Form, Button, Input, Radio, Row, Col, Modal, message } from "antd";
 import { getSaveModuleApi } from "../../../../services/cConfig/homeConfiguration/iconSet";
+import { getModuleApi } from "../../../../services/cConfig/homeConfiguration/goodSet";
 const FormItem = Form.Item;
 
 class ModuleSet extends Component {
@@ -9,6 +10,17 @@ class ModuleSet extends Component {
     this.state = {
       visible: false
     };
+  }
+  componentDidMount=()=>{
+    this.initPage()
+  }
+  initPage =()=> {
+    const {homepageModuleId} = this.props
+    getModuleApi({homepageModuleId}).then(res=>{
+      if(res.code == '0'){
+        const {} = res
+      }
+    })
   }
   lookExample = () => {
     this.setState({

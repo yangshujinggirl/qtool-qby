@@ -11,7 +11,7 @@ class AddModalForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      radioVal: 1
+      radioVal: 1,
     };
   }
   onChange = e => {
@@ -22,13 +22,12 @@ class AddModalForm extends Component {
     this.setState({ radioVal: 1 });
     this.props.form.resetFields();
   }
-  submit(values) {
-    this.props.onOk(values,this.resetForm);
-  }
   onOk = () => {
     this.props.form.validateFieldsAndScroll((err, values) => {
+      console.log(this.props)
       if (!err) {
-        this.props.onOk(values);
+        this.props.changeLoading(true)
+        this.props.onOk(values,this.resetForm);
       }
     });
   };
@@ -36,9 +35,9 @@ class AddModalForm extends Component {
     this.props.onCancel(this.resetForm);
   };
   render() {
-    const { visible, versionList } = this.props;
+    const { visible, versionList,loading } = this.props;
     const { getFieldDecorator } = this.props.form;
-    const { radioVal } = this.state;
+    const { radioVal} = this.state;
     return (
       <Modal
         className="add-version-modal"
@@ -46,6 +45,7 @@ class AddModalForm extends Component {
         visible={visible}
         onOk={this.onOk}
         onCancel={this.onCancel}
+        confirmLoading={loading}
       >
         <Form>
           <FormItem {...formItemLayout}>

@@ -21,7 +21,7 @@ class BannerMod extends Component {
   }
   goEdit=()=> {
     const { componkey } = this.props;
-    const { homepageModuleId } =this.props.info.banner;
+    const { homepageModuleId } = this.props.info.banner;
     const paneitem={
       title:'banner设置',
       key:`${componkey}edit-banner`,
@@ -41,6 +41,7 @@ class BannerMod extends Component {
     let { backgroundPicUrl } =banner;
     const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
     backgroundPicUrl = `${fileDomain}${backgroundPicUrl}`;
+    console.log(moduleContent)
     return(
       <div className="common-sty banner-mod">
         {

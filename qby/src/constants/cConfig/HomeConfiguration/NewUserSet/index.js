@@ -7,13 +7,20 @@ import {
   DatePicker,
   Tooltip,
   Icon,
-  message
+  message,
+  Modal
 } from "antd";
 import UploadNew from "../components/UploadImg";
 import UploadCoupon from "../components/UploadImg";
 import BaseDelTable from "../components/BaseDelTable";
-import {saveApi,getInfoApi} from "../../../../services/cConfig/homeConfiguration/newUser";
-import { getListApi,getCouponInfoApi } from "../../../../services/activity/coupon";
+import {
+  saveApi,
+  getInfoApi
+} from "../../../../services/cConfig/homeConfiguration/newUser";
+import {
+  getListApi,
+  getCouponInfoApi
+} from "../../../../services/activity/coupon";
 import { getColumns } from "./columns";
 const { RangePicker } = DatePicker;
 import moment from "moment";
@@ -115,7 +122,7 @@ class Index extends Component {
     const { time, ..._values } = values;
     _values.couponPopUpPicUrl = couponPopUpPicUrl;
     _values.newComerPicUrl = newComerPicUrl;
-    _values.couponIds = _values.couponIds.join(',')
+    _values.couponIds = _values.couponIds.join(",");
     if (time && time[0]) {
       _values.beginTime = moment(time[0]).format("YYYY-MM-DD HH:mm");
       _values.endTime = moment(time[1]).format("YYYY-MM-DD HH:mm");
@@ -129,21 +136,31 @@ class Index extends Component {
     });
   };
   //优惠券发生变化
-  onSelectChange =(couponId,key)=> {
-    const {couponList} = this.state;
-    const index = couponList.findIndex(item=>item.key == key)
+  onSelectChange = (couponId, key) => {
+    const { couponList } = this.state;
+    const index = couponList.findIndex(item => item.key == key);
     couponList[index].couponId = couponId;
-    getCouponInfoApi({couponId}).then(res=>{
-      if(res.code == '0'){
+    getCouponInfoApi({ couponId }).then(res => {
+      if (res.code == "0") {
         couponList[index].couponId = couponId;
         couponList[index].couponName = res.couponName;
         couponList[index].couponMoney = res.couponMoney;
         couponList[index].couponGiveCount = res.couponGiveCount;
       }
-    })
+    });
     this.setState({
       couponList
     });
+  };
+  onCancel = () => {
+    this.setState({
+      visible: false
+    });
+  };
+  lookExa=()=>{
+    this.setState({
+      visible:true
+    })
   }
   render() {
     const formLayout = {
@@ -158,10 +175,15 @@ class Index extends Component {
       backgroupColor,
       receiveTimeInterval,
       beginTime,
-      endTime
+      endTime,
+      visible
     } = this.state;
     const { getFieldDecorator } = this.props.form;
-    const columns = getColumns(this.props.form, optionList,this.onSelectChange);
+    const columns = getColumns(
+      this.props.form,
+      optionList,
+      this.onSelectChange
+    );
     return (
       <div className="new_user">
         <div className="title">新人礼设置</div>
@@ -181,18 +203,23 @@ class Index extends Component {
             label="优惠券弹窗背景图"
             {...formLayout}
           >
-            <UploadCoupon
-              describe="686*114"
-              imageUrl={couponPopUpPicUrl}
-              changeImg={this.changeCouponImg}
-              exampleImg={require("../../../../assets/bg.png")}
-              width={686}
-              height={114}
-            />
+            <div className='coupon-img'>
+              <UploadCoupon
+                describe="686*114"
+                imageUrl={couponPopUpPicUrl}
+                changeImg={this.changeCouponImg}
+                exampleImg={require("../../../../assets/bg.png")}
+                width={686}
+                height={114}
+              />
+              <a onClick={this.lookExa} className="look-exa">查看示例</a>
+            </div>
           </FormItem>
           <FormItem {...formLayout} label={timeTips}>
             {getFieldDecorator("time", {
-              initialValue:beginTime? [moment(beginTime), moment(endTime)]:null,
+              initialValue: beginTime
+                ? [moment(beginTime), moment(endTime)]
+                : null,
               rules: [{ required: true, message: "请选择展示时间" }]
             })(<RangePicker showTime format="YYYY-MM-DD HH:mm" />)}
           </FormItem>
@@ -231,6 +258,12 @@ class Index extends Component {
           >
             保存
           </Button>
+          <Modal visible={visible} onCancel={this.onCancel} footer={null}>
+            <img
+              src={require("../../../../assets/ex4.png")}
+              style={{ width: "472px" }}
+            />
+          </Modal>
         </Form>
       </div>
     );

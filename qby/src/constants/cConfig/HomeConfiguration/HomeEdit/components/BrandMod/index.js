@@ -2,22 +2,50 @@ import react, { Component } from "react";
 import { connect } from 'dva';
 import { Button, message } from "antd";
 import BrandBgModal from "../../../BrandBg";
-import { saveBgPicApi } from "../../../../../../services/cConfig/homeConfiguration/brandBg";
+import { saveBgPicApi,searchBgPicApi} from "../../../../../../services/cConfig/homeConfiguration/brandBg";
 
 class BrandMod extends Component {
   constructor(props) {
     super(props);
     this.state = {
       visible: false,
+      fileList:[],
       imageUrl: "",
       color: ""
     };
   }
   onEdit = () => {
+    const {homepageModuleId} = this.props.info.brandDisplay;
+    searchBgPicApi({homepageModuleId}).then(res=>{
+      if(res.code == '0'){
+        const fileDomain = JSON.parse(sessionStorage.getItem("fileDomain"));
+        const {backgroundPicUrl,contentPicUrl} = res.searchQueryVo
+        this.handleResult(fileDomain,backgroundPicUrl,contentPicUrl)
+      }
+    })
     this.setState({
       visible: true
     });
   };
+  //结果数据处理
+  handleResult=(fileDomain,backgroundPicUrl,contentPicUrl)=>{
+    let fileList = [];
+    if(contentPicUrl){
+      fileList=[{
+        uid: "-1",
+        status: "done",
+        url: fileDomain + contentPicUrl
+      }]
+    };
+    this.setState({
+      fileList,
+      color:backgroundPicUrl
+    },() => {
+      this.setState({
+        visible: true
+      });
+    });
+  }
   //保存
   onOk = () => {
     const { imageUrl, color } = this.state;
@@ -25,7 +53,7 @@ class BrandMod extends Component {
       return message.error("请先上传图片", 0.8);
     }
     const values = {
-      homepageModuleId: 1,
+      homepageModuleId:this.props.info.brandDisplay,
       backgroundPicUrl: color,
       contentPicUrl: imageUrl
     };
@@ -34,7 +62,7 @@ class BrandMod extends Component {
         message.success("保存成功");
         this.setState({
           visible: false,
-          imageUrl: "",
+          fileList:[],
           color: ""
         });
       }
@@ -44,7 +72,7 @@ class BrandMod extends Component {
   onCancel = () => {
     this.setState({
       visible: false,
-      imageUrl: "",
+      fileList:[],
       color: ""
     });
   };
@@ -55,13 +83,22 @@ class BrandMod extends Component {
     });
   };
   //修改图片
-  changeImg = imageUrl => {
+  changeImg = fileList => {
     this.setState({
-      imageUrl
+      fileList
     });
+    if (fileList[0] &&fileList[0].status == "done" && fileList[0].response.code == "0") {
+      this.setState({
+        imageUrl: fileList[0].response.data[0]
+      });
+    }else{
+      this.setState({
+        imageUrl:''
+      });
+    }
   };
   render() {
-    const { visible, imageUrl, color } = this.state;
+    const { visible, fileList, color } = this.state;
     const { brandDisplay } =this.props.info;
     let { backgroundPicUrl } =brandDisplay;
     const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
@@ -75,7 +112,7 @@ class BrandMod extends Component {
         </div>
         <BrandBgModal
           visible={visible}
-          imageUrl={imageUrl}
+          fileList={fileList}
           color={color}
           colorChange={this.colorChange}
           changeImg={this.changeImg}
