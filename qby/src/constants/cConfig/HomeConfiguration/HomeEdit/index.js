@@ -11,6 +11,7 @@ import MorePicMod from "./components/MorePicMod";
 import MoreGoodsMod from "./components/MoreGoodsMod";
 import ThemeMod from "./components/ThemeMod";
 import ClassifyMod from "./components/ClassifyMod";
+import { getStatusApi } from "../../../../services/cConfig/homeConfiguration/homeEdit";
 import "./index.less";
 
 class HomeEdit extends Component {
@@ -18,7 +19,7 @@ class HomeEdit extends Component {
     this.fetchInfo()
   }
   componentWillReceiveProps(props) {
-    console.log(props)
+    // console.log(props)
   }
   fetchInfo=()=> {
     const { homepageId } = this.props.data;
@@ -28,6 +29,15 @@ class HomeEdit extends Component {
         homepageId: homepageId
       }
     });
+  }
+  toggleShow=(homepageModuleId,isDisplay)=> {
+    isDisplay=isDisplay?0:1;
+    getStatusApi({homepageModuleId,isDisplay})
+    .then((res) => {
+      if(res.code == 0) {
+        this.fetchInfo()
+      }
+    })
   }
   render() {
     const menu = (
@@ -53,14 +63,14 @@ class HomeEdit extends Component {
         <div className="part-mods">
           <SearchMod {...this.props} callback={this.fetchInfo}/>
           <BannerMod {...this.props} callback={this.fetchInfo}/>
-          <BrandMod {...this.props} callback={this.fetchInfo}/>
-          <IconMod {...this.props} callback={this.fetchInfo}/>
-          <NewUserMod {...this.props} callback={this.fetchInfo}/>
-          <GoodsMod {...this.props} callback={this.fetchInfo}/>
-          <MorePicMod {...this.props} callback={this.fetchInfo}/>
-          <MoreGoodsMod {...this.props} callback={this.fetchInfo}/>
-          <ThemeMod {...this.props} callback={this.fetchInfo}/>
-          <ClassifyMod {...this.props} callback={this.fetchInfo}/>
+          <BrandMod {...this.props} callback={this.fetchInfo} toggleShow={this.toggleShow}/>
+          <IconMod {...this.props} callback={this.fetchInfo} toggleShow={this.toggleShow}/>
+          <NewUserMod {...this.props} callback={this.fetchInfo} toggleShow={this.toggleShow}/>
+          <GoodsMod {...this.props} callback={this.fetchInfo} toggleShow={this.toggleShow}/>
+          <MorePicMod {...this.props} callback={this.fetchInfo} toggleShow={this.toggleShow}/>
+          <MoreGoodsMod {...this.props} callback={this.fetchInfo} toggleShow={this.toggleShow}/>
+          <ThemeMod {...this.props} callback={this.fetchInfo} toggleShow={this.toggleShow}/>
+          <ClassifyMod {...this.props} callback={this.fetchInfo} toggleShow={this.toggleShow}/>
         </div>
       </div>
     );

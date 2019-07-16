@@ -3,6 +3,7 @@ import { connect } from 'dva';
 import { Button, message } from "antd";
 import BrandBgModal from "../../../BrandBg";
 import { saveBgPicApi,searchBgPicApi} from "../../../../../../services/cConfig/homeConfiguration/brandBg";
+
 import './index.less';
 
 class BrandMod extends Component {
@@ -107,12 +108,12 @@ class BrandMod extends Component {
   };
   render() {
     const { visible, fileList, color, loading } = this.state;
-    const { brandDisplay } =this.props.info;
-    let { backgroundPicUrl, contentPicUrl } =brandDisplay;
+    let { homepageModuleId,backgroundPicUrl, contentPicUrl,isDisplay } =this.props.info.brandDisplay;
     const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
     backgroundPicUrl = `${fileDomain}${backgroundPicUrl}`;
+
     return (
-      <div className="common-sty search-mod" style={{'background':`#fff url(${backgroundPicUrl})`}}>
+      <div className={`common-sty brand-mod ${!isDisplay?'hiddle-module':''}`} style={{'background':`#fff url(${backgroundPicUrl})`}}>
         <div className="content-wrap">
         {
           contentPicUrl?
@@ -122,9 +123,8 @@ class BrandMod extends Component {
         }
         </div>
         <div className="handle-btn-action">
-          <Button>查看</Button>
           <Button onClick={this.onEdit}>编辑</Button>
-          <Button>隐藏</Button>
+          <Button onClick={()=>this.props.toggleShow(homepageModuleId,isDisplay)}>{isDisplay?'隐藏':'展开'}</Button>
         </div>
         <BrandBgModal
           visible={visible}

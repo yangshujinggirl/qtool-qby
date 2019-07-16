@@ -62,7 +62,6 @@ export function columns(form, handleChange){
         return <UpLoadImg
                 fileList={record.picUrl}
                 form={form}
-                onChange={(fileList)=>handleChange('fileList','picUrl',fileList,index)}
                 index={index}/>
       }
     },{
@@ -79,7 +78,6 @@ export function columns(form, handleChange){
                   rules:[{
                     required:true,message:'请输入banner名称'
                   }],
-                  onChange:(e)=>handleChange('input','title',e,index)
                 })(
                   <Input
                     maxLength='15'
@@ -99,7 +97,6 @@ export function columns(form, handleChange){
         return <FormItem>
            {getFieldDecorator(`goods[${index}].linkInfoType`,{
                initialValue:record.linkInfoType,
-               onChange:(e)=>handleChange('select','linkInfoType',e,index),
                rules:[{
                  required:true,message:'请选择跳转链接'
                }]
@@ -148,7 +145,6 @@ export function columns(form, handleChange){
                   {getFieldDecorator(`goods[${index}].linkInfo`,{
                     initialValue:record.linkInfo,
                     rules:[{ required:true, message:'请选择分类'}],
-                    onChange:(e)=>handleChange('select','linkInfo',e,index),
                     })(
                       <Select
                         placeholder={linkAgeObj.placeholder}>
@@ -163,7 +159,6 @@ export function columns(form, handleChange){
                   {getFieldDecorator(`goods[${index}].linkInfo`,{
                     initialValue:record.linkInfo,
                     rules:linkAgeObj.rules,
-                    onChange:(e)=>handleChange('input','linkInfo',e,index)
                     })(
                       <Input
                         disabled={linkAgeObj.disabled}
@@ -183,11 +178,10 @@ export function columns(form, handleChange){
         const { getFieldDecorator } =form;
         return <FormItem>
                 {getFieldDecorator(`goods[${index}].beginTime`,{
-                  initialValue:record.beginTime?moment(record.beginTime,"YYYY-MM-DD"):null,
+                  initialValue:record.beginTime?moment(record.beginTime,"YYYY-MM-DD HH:mm"):null,
                   rules:[{ required:true, message:'请选择分类'}],
-                  onChange:(e)=>handleChange('select','beginTime',e,index)
                   })(
-                    <DatePicker format="YYYY-MM-DD" allowClear={false}/>
+                    <DatePicker format="YYYY-MM-DD HH:mm" allowClear={false}/>
                 )}
               </FormItem>
       }

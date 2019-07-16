@@ -12,14 +12,14 @@ export function getListApi(values) {
 export function getSaveApi(values) {
   values = JSON.stringify(values)
   return ajax.post('/webrest.htm',{
-      code:'qerp.web.config.module.banner.save',
+      code:'qerp.web.config.module.icon.save',
       data:values
   })
 }
 export function getChangeFrameApi(values) {
   values = JSON.stringify(values)
   return ajax.post('/webrest.htm',{
-      code:'qerp.web.config.module.iconr.change',
+      code:'qerp.web.config.module.icon.change',
       data:values
   })
 }

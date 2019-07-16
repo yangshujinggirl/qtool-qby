@@ -4,17 +4,31 @@ import ModuleSet from "./ModuleSet";
 import { Tabs } from "antd";
 const { TabPane } = Tabs;
 class Index extends Component {
+  constructor(props) {
+    super(props);
+    this.state={
+      activeKey:'1'
+    }
+  }
+  onChange=(activeKey)=> {
+    this.setState({ activeKey })
+  }
   render() {
-    console.log(this.props)
-    const {homepageModuleId,homepageId} = this.props.data
+    const { activeKey } = this.state;
     return (
-      <div className="content_box stock-tabs">
-        <Tabs>
-          <TabPane tab="设置icon" key="1">
-            <IconSet homepageModuleId={homepageModuleId} />
+      <div className="content_box stock-tabs" >
+        <Tabs activeKey={activeKey} onChange={this.onChange}>
+          <TabPane tab="设置Icon" key="1">
+            {
+              activeKey=='1'&&
+              <IconSet {...this.props}/>
+            }
           </TabPane>
           <TabPane tab="模块设置" key="2">
-            <ModuleSet homepageModuleId={homepageModuleId} homepageId={homepageId}/>
+            {
+              activeKey=='2'&&
+              <ModuleSet {...this.props}/>
+            }
           </TabPane>
         </Tabs>
       </div>

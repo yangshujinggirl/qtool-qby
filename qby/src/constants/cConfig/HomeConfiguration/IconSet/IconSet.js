@@ -18,11 +18,12 @@ class IconSet extends Component {
     super(props);
   }
   componentDidMount() {
+    const { homepageModuleId } =this.props.data;
     this.props.dispatch({
       type:'iconSet/fetchList',
       payload:{
         position:1,
-        homepageModuleId:20,
+        homepageModuleId:homepageModuleId,
       }
     })
   }
@@ -30,11 +31,12 @@ class IconSet extends Component {
     this.modDom.submit(()=>this.onCancel(activiKey));
   }
   onCancelToggle=(activiKey)=> {
+    const { homepageModuleId } =this.props.data;
     this.props.dispatch({
       type:'iconSet/fetchList',
       payload:{
         position:activiKey,
-        homepageModuleId:20,
+        homepageModuleId:homepageModuleId,
       }
     })
   }

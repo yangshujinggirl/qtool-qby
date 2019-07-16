@@ -36,12 +36,9 @@ class BannerMod extends Component {
     })
   }
   render() {
-    const { banner } =this.props.info;
-    const { moduleContent } =banner;
-    let { backgroundPicUrl } =banner;
+    let { moduleContent, backgroundPicUrl,isDisplay } =this.props.info.banner;
     const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
     backgroundPicUrl = `${fileDomain}${backgroundPicUrl}`;
-    console.log(moduleContent)
     return(
       <div className="common-sty banner-mod">
         {
@@ -59,7 +56,7 @@ class BannerMod extends Component {
             <div className="swiper-pagination"></div>
           </div>
           :
-          <div className="no-module-data"></div>
+          <div className="no-module-data banner-no-module">Banner模块</div>
         }
         <div className="handle-btn-action">
           <Button>查看</Button>

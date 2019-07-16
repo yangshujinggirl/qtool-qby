@@ -74,7 +74,6 @@ class ModForm extends Component {
     this.setState({ visible:false })
   }
   submit=(func)=> {
-    this.setState({ confirmLoading:true })
     this.props.form.validateFields((err, values) => {
       if (!err) {
         values = this.formatParams(values);
@@ -83,17 +82,15 @@ class ModForm extends Component {
           position:this.props.activiKey,
           dataList:values
         }
+        this.setState({ loading:true })
         this.props.dispatch({ type: 'tab/loding', payload:true});
         getSaveApi(params)
         .then((res)=> {
           const { code } =res;
           if(code == 0) {
-            this.successCallback();
-            func&&typeof func == 'function'&&func();
-          } else {
-            message.error(res.message)
+            func&&typeof func == 'function'?func():this.successCallback();
           }
-          this.setState({ confirmLoading:false })
+          this.setState({ loading:false })
           this.props.dispatch({ type: 'tab/loding', payload:false});
         })
       }

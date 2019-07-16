@@ -7,23 +7,22 @@ class Index extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      key:'1'
+      activeKey:'1'
     }
   }
-  callback=(key)=> {
-    this.setState({ key })
+  callback=(activeKey)=> {
+    this.setState({ activeKey })
   }
   render() {
-    const { key } =this.state;
-    const {homePageModuleId} = this.props
+    const { activeKey } =this.state;
     return (
       <div className="content_box stock-tabs">
-        <Tabs defaultActiveKey={key} onChange={this.callback}>
+        <Tabs activeKey={activeKey} onChange={this.callback}>
           <TabPane tab="图片设置" key="1">
-            {key=='1'&& <MorePicSet homePageModuleId={homePageModuleId}/>}
+            {activeKey=='1'&& <MorePicSet {...this.props}/>}
           </TabPane>
           <TabPane tab="模块设置" key="2">
-            {key == '2' && <ModuleSet homePageModuleId={homePageModuleId}/>}
+            {activeKey == '2' && <ModuleSet {...this.props}/>}
           </TabPane>
         </Tabs>
       </div>
