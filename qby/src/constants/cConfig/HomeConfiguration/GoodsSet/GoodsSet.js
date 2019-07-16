@@ -67,7 +67,7 @@ class GoodsSet extends Component {
   //请求文档的列表
   getTimeListApi = () => {
     const values = {
-      homePageModuleId: 1,
+      homepageModuleId: 1,
       type: this.state.type
     };
     getTimeListApi(values).then(res => {
@@ -104,7 +104,7 @@ class GoodsSet extends Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     const { timeSlots, type } = this.state;
-    const {homePageModuleId} = this.props;
+    const {homepageModuleId} = this.props;
     const newTimeSlots = timeSlots.map((item, index) => {
       item.index = index;
       return item;
@@ -131,7 +131,7 @@ class GoodsSet extends Component {
           <FormItem {...formLayout} label="时间列表">
             <TimeTable
               type={type}
-              homePageModuleId={homePageModuleId}
+              homepageModuleId={homepageModuleId}
               callback={this.handleCallback}
               timeSlots={newTimeSlots}
             />

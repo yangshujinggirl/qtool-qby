@@ -36,7 +36,6 @@ class Index extends Component {
     };
   }
   componentDidMount = () => {
-    console.log(this.props);
     this.getCouponList();
   };
   //选择框的优惠券
@@ -54,7 +53,7 @@ class Index extends Component {
     getInfoApi({ homepageModuleId: this.props.data.homepageModuleId }).then(
       res => {
         if (res.code == "0") {
-          const {
+          let {
             couponList,
             newComerPicUrl,
             backgroupColor,
@@ -64,7 +63,6 @@ class Index extends Component {
             endTime
           } = res.newUserGiftVo;
           const optionList = _.cloneDeep(couponList);
-          couponList.map((item, index) => (item.key = index));
           const fileDomain = JSON.parse(sessionStorage.getItem("fileDomain"));
           let [fileList1, fileList2] = [[], []];
           if (newComerPicUrl) {
@@ -75,7 +73,7 @@ class Index extends Component {
                 url: fileDomain + newComerPicUrl
               }
             ];
-          }
+          };
           if (couponPopUpPicUrl) {
             fileList2 = [
               {
@@ -85,6 +83,10 @@ class Index extends Component {
               }
             ];
           }
+          if(!res.newUserGiftId){//如果是第一次就为空
+            couponList = []
+          };
+          couponList[0] && couponList.map((item, index) => (item.key = index));
           this.setState({
             optionList,
             couponList,
@@ -329,12 +331,5 @@ const liquTips = (
   </span>
 );
 
-const NewUser = Form.create({
-  mapPropsToFields(props) {
-    console.log(props)
-    return {
-      couponIds:Form.createFormField(props.couponList),
-    };
-  },
-})(Index);
+const NewUser = Form.create({})(Index);
 export default NewUser;

@@ -19,7 +19,7 @@ export function getColumns(form, handleDelete, themeList,onSelectChange) {
       render: (text, record, index) => {
         return (
           <FormItem>
-            {getFieldDecorator(`showThemeId${index}`,{
+            {getFieldDecorator(`showThemeId[${index}]`,{
               initialValue:record.showThemeId,
               onChange:(id)=>{onSelectChange(id,index)}
             })(

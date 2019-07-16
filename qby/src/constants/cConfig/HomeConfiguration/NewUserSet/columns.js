@@ -14,6 +14,7 @@ export function getColumns(form, couponList,onSelectChange) {
     {
       title: "选择优惠券",
       dataIndex: "couponId",
+      width:'30%',
       render: (text, record, index) => {
         return (
           <FormItem>

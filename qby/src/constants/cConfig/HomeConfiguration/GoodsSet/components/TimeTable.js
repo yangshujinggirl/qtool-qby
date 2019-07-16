@@ -142,22 +142,22 @@ class TimeTable extends Component {
     this.addTime(beginTime, endTime);
   };
   addTime = (beginTime, endTime) => {
-    const { type,homePageModuledId } = this.props;
+    const { type,homepageModuleId } = this.props;
     const values = {
-      homePageModuledId,
+      homepageModuleId,
       type,
       beginTime,
       endTime,
     };
     addTimeApi(values).then(res => {
       if (res.code == "0") {
-        this.getTimeList(type,homePageModuledId)
+        this.getTimeList(type,homepageModuleId)
       }
     });
   };
   //请求时间列表
-  getTimeList=(type,homePageModuledId)=>{
-    getTimeListApi({ type, homePageModuledId }).then(res => {
+  getTimeList=(type,homepageModuleId)=>{
+    getTimeListApi({ type, homepageModuleId }).then(res => {
       if (res.code == "0") {
         const { timeSlots } = res;
         const list = timeSlots.map(item => {
@@ -174,7 +174,7 @@ class TimeTable extends Component {
   delete = id => {
     deleteTimeApi({pdListDisplayCfgId:id}).then(res=>{
       if(res.code == '0'){
-        this.getTimeList(this.props.type,this.props.homePageModuledId)
+        this.getTimeList(this.props.type,this.props.homepageModuleId)
       }
     })
     const { timeSlots } = this.props;
