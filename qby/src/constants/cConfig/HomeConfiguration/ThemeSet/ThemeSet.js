@@ -56,7 +56,9 @@ class ThemeSet extends Component {
       })
     );
   };
+  //删除
   handleDelete = key => {
+    this.props.form.resetFields(['showThemeId'])
     const showThemeList = [...this.state.showThemeList];
     this.setState({
       showThemeList: showThemeList.filter(item => item.key !== key)
@@ -77,6 +79,7 @@ class ThemeSet extends Component {
       count: count + 1
     });
   };
+  //下拉框发生变化
   onSelectChange = (id, index) => {
     const { themeList, showThemeList } = this.state;
     const newList = themeList.filter(item => item.themeId == id);
@@ -95,6 +98,7 @@ class ThemeSet extends Component {
       showThemeList
     });
   };
+  //保存
   handleSubmit = () => {
     this.setState({
       loading:true
@@ -128,7 +132,6 @@ class ThemeSet extends Component {
       themeList,
       this.onSelectChange
     );
-    console.log(showThemeList);
     return (
       <div className="theme-list">
         <Table
@@ -141,7 +144,6 @@ class ThemeSet extends Component {
           onRow={(record, index) => ({
             index,
             moveRow: this.moveRow,
-            "data-row-key": record.key
           })}
           footer={
             showThemeList.length < 4
@@ -162,11 +164,5 @@ class ThemeSet extends Component {
     );
   }
 }
-const ThemeSets = Form.create({
-  mapPropsToFields(props) {
-    return {
-      showThemeId:Form.createFormField(props.showThemeList),
-    };
-  }
-})(ThemeSet);
+const ThemeSets = Form.create({})(ThemeSet);
 export default DragDropContext(HTML5Backend)(ThemeSets);
