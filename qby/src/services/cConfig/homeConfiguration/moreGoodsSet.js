@@ -9,6 +9,14 @@ export function getListApi(values) {
   })
 }
 //保存
+export function getSearchIdApi(values) {
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.app.mlspu.query',
+      data:values
+  })
+}
+//保存
 export function getSaveApi(values) {
   values = JSON.stringify(values)
   return ajax.post('/webrest.htm',{

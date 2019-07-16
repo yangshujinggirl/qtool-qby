@@ -21,7 +21,9 @@ class ClassifyMod extends Component {
       title:'商品流设置',
       key:`${componkey}edit-commodity`,
       componkey:`${componkey}edit-commodity`,
-      data:{}
+      data:{
+        homepageModuleId:this.props.info.flowProduct.homepageModuleId
+      }
     };
     this.props.dispatch({
         type:'tab/firstAddTab',
@@ -63,49 +65,60 @@ class ClassifyMod extends Component {
       },{
         name:'分类10',
       }]
+      let { moduleContent, backgroundPicUrl,isDisplay } =this.props.info.flowProduct;
+      let { flowProductList } =this.props;
+      const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
+      backgroundPicUrl = `${fileDomain}${backgroundPicUrl}`;
     return(
-      <div className="common-sty classify-mod">
-        <div className="mod-wrap">
-          <div className="mod-common-head">
-            <div className="hd-item">
-              推荐
-            </div>
-            <div className="hd-item classify-item">
-              <div className="swiper-container classify-swiper-container">
-                <div className="swiper-wrapper">
-                  {
-                    fl.map((el,index) => (
-                      <div className="swiper-slide" key={index}>
-                        <span className="classify-name">{el.name}</span>
-                      </div>
-                    ))
-                  }
+      <div className="common-sty classify-mod" style={{'background':`#fff url(${backgroundPicUrl})`}}>
+        {
+          moduleContent&&moduleContent.length>0?
+          <div className="mod-wrap">
+            <div className="mod-common-head">
+              <div className="hd-item">
+                推荐
+              </div>
+              <div className="hd-item classify-item">
+                <div className="swiper-container classify-swiper-container">
+                  <div className="swiper-wrapper">
+                    {
+                      moduleContent.map((el,index) => (
+                        <div className="swiper-slide" key={el.pdFlowTabId}>
+                          <span className="classify-name">{el.tabName}</span>
+                        </div>
+                      ))
+                    }
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div className="mod-content">
             {
-              dataList.map((el,index) => (
-                <div className="item-icon" key={index}>
-                  <div className="pic-wrap"><img src=''/></div>
-                  <p className="title-level-one textTwoLine">
-                    <span className="icon-flag"></span>
-                    {el.name}
-                  </p>
-                  <p className="price">¥999.0</p>
-                  <p className="label-action">
-                    <span className="lab-item">热销</span>
-                    <span className="lab-item">上新</span>
-                    <span className="lab-item">上新</span>
-                  </p>
-                </div>
-              ))
+              flowProductList.length>0&&
+              <div className="mod-content">
+                {
+                  flowProductList.map((el,index) => (
+                    <div className="item-icon" key={index}>
+                      <div className="pic-wrap"><img src=''/></div>
+                      <p className="title-level-one textTwoLine">
+                        <span className="icon-flag"></span>
+                        {el.name}
+                      </p>
+                      <p className="price">¥999.0</p>
+                      <p className="label-action">
+                        <span className="lab-item">热销</span>
+                        <span className="lab-item">上新</span>
+                        <span className="lab-item">上新</span>
+                      </p>
+                    </div>
+                  ))
+                }
+              </div>
             }
           </div>
-        </div>
+          :
+          <div className="no-module-data classify-noData">商品流模块</div>
+        }
         <div className="handle-btn-action">
-          <Button>查看</Button>
           <Button onClick={this.goEdit}>编辑</Button>
         </div>
       </div>

@@ -1,6 +1,7 @@
 import react, { Component } from "react";
 import { connect } from 'dva';
 import { Button } from "antd";
+import './index.less'
 
 class NewUserMod extends Component {
   goEdit = () => {
@@ -19,13 +20,22 @@ class NewUserMod extends Component {
     });
   };
   render() {
+    let { homepageModuleId,backgroundPicUrl, contentPicUrl,isDisplay } =this.props.info.coupon;
+    const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
+    backgroundPicUrl = `${fileDomain}${backgroundPicUrl}`;
     return (
-      <div className="common-sty search-mod">
-        <p>新人礼</p>
+      <div className={`common-sty new-user-mod ${!isDisplay?'hiddle-module':''}`} style={{'background':`#fff url(${backgroundPicUrl})`}}>
+        {
+          contentPicUrl?
+          <div className="content-wrap">
+            <img src={`${fileDomain}${contentPicUrl}`}/>
+          </div>
+          :
+          <div className="no-module-data new-user-noData">新人礼</div>
+        }
         <div className="handle-btn-action">
-          <Button>查看</Button>
           <Button onClick={this.goEdit}>编辑</Button>
-          <Button>隐藏</Button>
+          <Button onClick={()=>this.props.toggleShow(homepageModuleId,isDisplay)}>{isDisplay?'隐藏':'展开'}</Button>
         </div>
       </div>
     );

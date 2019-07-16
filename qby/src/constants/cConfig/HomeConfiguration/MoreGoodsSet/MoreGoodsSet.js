@@ -4,7 +4,7 @@ import { connect } from 'dva';
 import ModDis from './components/MainMod';
 import ImportBtn from './components/ImportBtn';
 import {
-  getSaveApi,getListApi
+  getSaveApi,getListApi,getSearchIdApi
 } from '../../../../services/cConfig/homeConfiguration/moreGoodsSet';
 import './MoreGoodsSet.less';
 
@@ -19,12 +19,10 @@ class Mod extends Component {
   }
   //查询
   getList() {
-    let params={
-      homepageModuleId:20,
-    }
+    const { homepageModuleId } =this.props.data;
     this.props.dispatch({
       type:'moreGoodsSet/fetchList',
-      payload:params
+      payload:{homepageModuleId}
     })
   }
   //提交
@@ -32,9 +30,18 @@ class Mod extends Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         let { fieldsTwo, fieldsOne  } =values;
+        let pdSpuList;
+        if(fieldsOne&&fieldsTwo) {
+          pdSpuList =[...fieldsOne,...fieldsTwo]
+        } else if(fieldsOne) {
+          pdSpuList = fieldsOne;
+        } else if(fieldsTwo) {
+          fieldsOne = fieldsTwo;
+        }
+        const { homepageModuleId } =this.props.data;
         let params = {
-          homePageModuleId:20,
-          pdSpuList:[...fieldsOne,...fieldsTwo]
+          homePageModuleId:homepageModuleId,
+          pdSpuList:pdSpuList
         };
         getSaveApi(params)
         .then((res) => {
@@ -51,15 +58,8 @@ class Mod extends Component {
   downLoadTep=()=>{
 		window.open('../../static/order.xlsx');
 	}
-  callBack=(goods)=> {
-    this.props.dispatch({
-      type:'moreGoodsSet/getGoodsList',
-      payload:goods
-    })
-  }
   render() {
-    const { goods } =this.props;
-    const { form } =this.props;
+    const { goods, totalList } =this.props;
 
     return (
       <div className="more-goods-set-mod">
@@ -74,12 +74,11 @@ class Mod extends Component {
             </Button>
           </div>
           <div>
-            已选6/100
+            已选{totalList.length}/100
           </div>
         </div>
         <p className="tips">注：首页单行横划商品模块固定展示8件商品，按照以下顺序展示，售罄或下架商品不展示，由后位商品按照顺序补充</p>
         <ModDis
-          callBack={this.callBack}
           form={this.props.form}/>
         <div className="handle-btn-footer">
           <Button
@@ -120,12 +119,12 @@ const MoreGoodsSet = Form.create({
       payload:goods
     })
   },
-  mapPropsToFields(props) {
-    return {
-      fieldsOne: Form.createFormField(props.listOne),
-      fieldsTwo: Form.createFormField(props.listtwo),
-    };
-  }
+  // mapPropsToFields(props) {
+  //   return {
+  //     fieldsOne: Form.createFormField(props.listOne),
+  //     fieldsTwo: Form.createFormField(props.listtwo),
+  //   };
+  // }
 })(Mod);
 
 function mapStateToProps(state) {

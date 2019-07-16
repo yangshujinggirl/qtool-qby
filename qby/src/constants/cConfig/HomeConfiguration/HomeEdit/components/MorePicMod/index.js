@@ -48,9 +48,7 @@ class MorePicMod extends Component {
           </div>
         </div>
         <div className="handle-btn-action">
-          <Button>查看</Button>
           <Button onClick={this.goEdit}>编辑</Button>
-          <Button>隐藏</Button>
         </div>
       </div>
     );

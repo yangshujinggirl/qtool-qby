@@ -16,8 +16,9 @@ export default {
       picMix:{},
       productDisplay:{},
       search:{},
-      themActivity:{}
+      themeActivity:{}
     },//商品列表
+    flowProductList:[]
   },
   reducers: {
     getInfo( state, { payload : info }) {
