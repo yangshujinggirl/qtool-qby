@@ -34,15 +34,16 @@ class ModuleSet extends Component {
       isDisplayMore: 0,
       moreLinkType: 1,
       timeSlots: [],
-      visible: false
+      visible: false,
+      loading:false
     };
   }
   componentDidMount = () => {
     this.getModule();
   };
   getModule = () => {
-    const { homePageModuleId } = this.props;
-    getModuleApi({ homePageModuleId }).then(res => {
+    const { homepageModuleId } = this.props;
+    getModuleApi({ homepageModuleId:homepageModuleId }).then(res => {
       if (res.code == "0") {
         const {
           title,
@@ -53,7 +54,7 @@ class ModuleSet extends Component {
           moduleBackColor,
           isDisplayMore,
           moreLinkType
-        } = res;
+        } = res.homepageModuleVo;
         this.setState({
           title,
           isDisplaySplitLine,
@@ -90,8 +91,11 @@ class ModuleSet extends Component {
   handleSubmit = () => {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        const { type,homePageModuleId } = this.props;
-        _values.homePageModuleId = homePageModuleId
+        this.setState({
+          loading:true
+        });
+        const { type,homepageModuleId } = this.props;
+        values.homepageModuleId = homepageModuleId
         if (type == 40) {
           //多图片
           this.sendRequest2(values);
@@ -112,11 +116,14 @@ class ModuleSet extends Component {
       _values.isDisplayCountdown = 1;
     } else {
       _values.isDisplayCountdown = 0;
-    }
+    };
     _values.type = this.props.type;
-    saveModuleApi(values).then(res => {
+    saveModuleApi(_values).then(res => {
       if (res.code == 0) {
         message.success("保存成功");
+        this.setState({
+          loading:false
+        });
       }
     });
   };
@@ -124,6 +131,9 @@ class ModuleSet extends Component {
     getSavePicModuleApi(values).then(res => {
       if (res.code == 0) {
         message.success("保存成功");
+        this.setState({
+          loading:false
+        });
       }
     });
   };
@@ -131,6 +141,9 @@ class ModuleSet extends Component {
     getSaveTheModuleApi(values).then(res => {
       if (res.code == 0) {
         message.success("保存成功");
+        this.setState({
+          loading:false
+        });
       }
     });
   };
@@ -152,7 +165,8 @@ class ModuleSet extends Component {
       moduleBackColor,
       isDisplayMore,
       moreLinkType,
-      visible
+      visible,
+      loading
     } = this.state;
     const formLayout = {
       labelCol: { span: 3 },
@@ -175,6 +189,7 @@ class ModuleSet extends Component {
                 minLength="2"
                 maxLength="4"
                 placeholder="请输入模块名称，2-4个字符"
+                autoComplete='off'
               />
             )}
             <span className="suffix_tips">
@@ -183,7 +198,7 @@ class ModuleSet extends Component {
           </FormItem>
           <FormItem {...formLayout} label="标题栏样式">
             {getFieldDecorator("titleColor", {
-              initialValue: titleColor,
+              initialValue: titleColor ? titleColor : 0,
               rules: [{ required: true, message: "请选择标题栏样式" }]
             })(
               <Radio.Group>
@@ -206,7 +221,7 @@ class ModuleSet extends Component {
                   rules: [
                     { required: true, message: "请选择是否展示查看更多" }
                   ],
-                  initialValue: isDisplayMore,
+                  initialValue: isDisplayMore ? isDisplayMore : 0,
                   onChange: this.onChange
                 })(
                   <Radio.Group>
@@ -243,6 +258,7 @@ class ModuleSet extends Component {
                               : placeholderText[1]
                           }
                           style={{ width: "200px" }}
+                          autoComplete='off'
                         />
                       )}
                     </FormItem>
@@ -255,7 +271,7 @@ class ModuleSet extends Component {
             <FormItem {...formLayout} label="是否展示查看更多">
               {getFieldDecorator("isDisplayMore", {
                 rules: [{ required: true, message: "请选择是否展示查看更多" }],
-                initialValue: isDisplayMore,
+                initialValue: isDisplayMore ? isDisplayMore : 0,
                 onChange: this.onChange
               })(
                 <Radio.Group>
@@ -267,7 +283,7 @@ class ModuleSet extends Component {
           )}
           <FormItem {...formLayout} label="是否隐藏模块分割线">
             {getFieldDecorator("isDisplaySplitLine", {
-              initialValue: isDisplaySplitLine,
+              initialValue: isDisplaySplitLine ? isDisplaySplitLine : 0,
               rules: [{ required: true, message: "请选择是否隐藏模块分割线" }]
             })(
               <Radio.Group>
@@ -293,6 +309,7 @@ class ModuleSet extends Component {
               <Input
                 style={{ width: "300px" }}
                 placeholder="请输入模块背景色号，例#333333"
+                autoComplete='off'
               />
             )}
             <span className="suffix_tips">请填写#+六位数字</span>
@@ -304,6 +321,7 @@ class ModuleSet extends Component {
                 className="save-btn"
                 type="primary"
                 size="large"
+                loading={loading}
               >
                 保存
               </Button>

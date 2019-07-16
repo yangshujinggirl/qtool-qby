@@ -30,10 +30,10 @@ class Index extends Component {
             <GoodsSet homepageModuleId={homepageModuleId}/>
           </TabPane>
           <TabPane tab="配置商品" key="2">
-            <GoodsConfig homepageModuleId={homepageModuleId}/>
+            <GoodsConfig homepageModuleId={homepageModuleId} callback={this.props.callback}/>
           </TabPane>
           <TabPane tab="模块设置" key="3">
-            <ModuleSet homepageModuleId={homepageModuleId}/>
+            <ModuleSet homepageModuleId={homepageModuleId} callback={this.props.callback}/>
           </TabPane>
         </Tabs>
       </div>

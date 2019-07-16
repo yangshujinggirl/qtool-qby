@@ -11,7 +11,7 @@ class ThemeMod extends Component {
       title: "主题模块",
       key: `${componkey}edit-theme`,
       componkey: `${componkey}edit-theme`,
-      data: {}
+      data: {homepageModuleId:this.props.info.themeActivity.homepageModuleId}
     };
     this.props.dispatch({
       type: "tab/firstAddTab",

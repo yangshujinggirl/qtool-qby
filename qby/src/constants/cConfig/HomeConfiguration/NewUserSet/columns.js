@@ -19,7 +19,7 @@ export function getColumns(form, couponList,onSelectChange) {
           <FormItem>
             {getFieldDecorator(`couponIds[${index}]`, {
               initialValue:record.couponId,
-              onChange:(couponId)=>onSelectChange(couponId,record.key)
+              onChange:(couponId)=>onSelectChange(couponId,index)
             })(
               <Select>
                 {couponList && couponList.map(item => (

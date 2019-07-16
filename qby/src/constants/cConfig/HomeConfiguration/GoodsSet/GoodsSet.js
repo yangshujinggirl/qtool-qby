@@ -42,8 +42,8 @@ class GoodsSet extends Component {
     
   };
   initPage=()=>{
-    const {homePageModuleId} = this.props;
-    getTimeListApi({homePageModuleId}).then(res=>{
+    const {homepageModuleId} = this.props;
+    getTimeListApi({homepageModuleId,type:1}).then(res=>{
       if(res.code == '0'){
         this.setState({
           timeSlots: this.formatList(res.timeSlots)

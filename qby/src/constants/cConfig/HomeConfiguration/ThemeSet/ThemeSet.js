@@ -5,7 +5,10 @@ import HTML5Backend from "react-dnd-html5-backend";
 import update from "immutability-helper";
 import DragableBodyRow from "./components/BodyRow";
 import { getColumns } from "./columns";
-import { searchThemeApi,saveThemeApi } from "../../../../services/cConfig/homeConfiguration/themeSet";
+import {
+  searchThemeApi,
+  saveThemeApi
+} from "../../../../services/cConfig/homeConfiguration/themeSet";
 import "./index.less";
 class ThemeSet extends Component {
   constructor(props) {
@@ -13,7 +16,8 @@ class ThemeSet extends Component {
     this.state = {
       themeList: [],
       showThemeList: [],
-      count: 0
+      count: 0,
+      loading:false,
     };
     this.components = {
       body: {
@@ -25,62 +29,20 @@ class ThemeSet extends Component {
     const { homepageModuleId } = this.props;
     searchThemeApi({ homepageModuleId }).then(res => {
       if (res.code == "0") {
-        if (res.code == "0") {
-          const showThemeList = this.formatList(res.showThemeList);
-          this.setState({
-            showThemeList,
-            themeList: res.themeList,
-            count: showThemeList.length
-          });
-        }
+        const showThemeList = this.formatList(res.themeListVo.showThemeList);
+        this.setState({
+          showThemeList,
+          themeList: res.themeListVo.themeList,
+          count: showThemeList.length
+        });
       }
     });
-    // const res = {
-    //   code: "0",
-    //   themeList: [
-    //     { themeId: 1, title: "skdjfld", subtitle: "范文芳", statusStr: "上线" },
-    //     { themeId: 2, title: "skdjfld", subtitle: "范文芳", statusStr: "上线" },
-    //     { themeId: 3, title: "skdjfld", subtitle: "范文芳", statusStr: "上线" },
-    //     { themeId: 4, title: "skdjfld", subtitle: "范文芳", statusStr: "上线" }
-    //   ],
-    //   showThemeList: [
-    //     {
-    //       frameDetailId: 1,
-    //       showThemeId: 1,
-    //       showThemeTitle: "主标题",
-    //       showSubtitle: "标题",
-    //       showThemeStatusStr: "线"
-    //     },
-    //     {
-    //       frameDetailId: 2,
-    //       showThemeId: 2,
-    //       showThemeTitle: "主题",
-    //       showSubtitle: "标题",
-    //       showThemeStatusStr: "上线"
-    //     },
-    //     {
-    //       frameDetailId: 3,
-    //       showThemeId: 3,
-    //       showThemeTitle: "主标题",
-    //       showSubtitle: "标题",
-    //       showThemeStatusStr: "上"
-    //     },
-    //     {
-    //       frameDetailId: 4,
-    //       showThemeId: 4,
-    //       showThemeTitle: "主题",
-    //       showSubtitle: "标题",
-    //       showThemeStatusStr: "上线"
-    //     }
-    //   ]
-    // };
-    
-   
   };
   formatList = showThemeList => {
-    showThemeList.map((item, index) => {
-      item.key = index;
-    });
+    showThemeList &&
+      showThemeList.map((item, index) => {
+        item.key = index;
+      });
     return showThemeList;
   };
   moveRow = (dragIndex, hoverIndex) => {
@@ -134,29 +96,32 @@ class ThemeSet extends Component {
     });
   };
   handleSubmit = () => {
-    const { showThemeList } = this.state;
-    const {homepageModuleId} = this.props
-    const list = [];
-    const themeList = showThemeList.map(item => {
-      return [
-        ...list,
-        {
-          themeId: item.showThemeId,
-          frameDetailId: item.frameDetailId ? item.frameDetailId : null
-        }
-      ];
+    this.setState({
+      loading:true
     });
-    this.sendRequest(themeList,homepageModuleId)
+    const { showThemeList } = this.state;
+    const { homepageModuleId } = this.props;
+    const list = [];
+    showThemeList.map((item, index) => {
+      list.push({
+        themeId: item.showThemeId,
+        frameDetailId: item.frameDetailId ? item.frameDetailId : null
+      });
+    });
+    this.sendRequest(list, homepageModuleId);
   };
-  sendRequest=(themeList)=>{
-    saveThemeApi({homepageModuleId,themeList}).then(res=>{
-      if(res.code == '0'){
-        message.success('保存成功')
+  sendRequest = (themeList, homepageModuleId) => {
+    saveThemeApi({ homepageModuleId, themeList }).then(res => {
+      if (res.code == "0") {
+        message.success("保存成功");
+        this.setState({
+          loading:false
+        });
       }
-    })
-  }
+    });
+  };
   render() {
-    const { themeList, showThemeList } = this.state;
+    const { themeList, showThemeList,loading } = this.state;
     const columns = getColumns(
       this.props.form,
       this.handleDelete,
@@ -178,18 +143,30 @@ class ThemeSet extends Component {
             moveRow: this.moveRow,
             "data-row-key": record.key
           })}
-          footer={() => (
-            <Button type="default" onClick={this.handleAdd}>
-              +新增
-            </Button>
-          )}
+          footer={
+            showThemeList.length < 4
+              ? () => (
+                  <Button type="default" onClick={this.handleAdd}>
+                    +新增
+                  </Button>
+                )
+              : null
+          }
         />
         <div className="save-btn">
-          <Button type="primary" onClick={this.handleSubmit}>保存</Button>
+          <Button loading={loading} type="primary" onClick={this.handleSubmit}>
+            保存
+          </Button>
         </div>
       </div>
     );
   }
 }
-const ThemeSets = Form.create({})(ThemeSet);
+const ThemeSets = Form.create({
+  mapPropsToFields(props) {
+    return {
+      showThemeId:Form.createFormField(props.showThemeList),
+    };
+  }
+})(ThemeSet);
 export default DragDropContext(HTML5Backend)(ThemeSets);
