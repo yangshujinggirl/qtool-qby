@@ -13,16 +13,16 @@ export function getColumns(form, couponList,onSelectChange) {
     },
     {
       title: "选择优惠券",
-      dataIndex: "couponName",
+      dataIndex: "couponId",
       render: (text, record, index) => {
         return (
           <FormItem>
             {getFieldDecorator(`couponIds[${index}]`, {
-              initialValue: text,
-              onChange:(couponId)=>onSelectChange(couponId,record.key)
+              initialValue:record.couponId,
+              onChange:(couponId)=>onSelectChange(couponId,index)
             })(
               <Select>
-                {couponList.map(item => (
+                {couponList && couponList.map(item => (
                   <Option
                     placeholder="请选择你要发放的优惠券"
                     key={item.couponId}

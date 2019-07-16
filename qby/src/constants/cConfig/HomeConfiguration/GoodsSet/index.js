@@ -20,19 +20,20 @@ class Index extends Component {
     });
   };
   render() {
+    console.log(this.props)
     const { activeKey} = this.props;
-    const {homePageModuleId} = this.props.data;
+    const {homepageModuleId} = this.props.data;
     return (
       <div className="content_box stock-tabs">
         <Tabs activeKey={activeKey} onChange={this.callback}>
           <TabPane tab="设置时段" key="1">
-            <GoodsSet homePageModuleId={homePageModuleId}/>
+            <GoodsSet homepageModuleId={homepageModuleId}/>
           </TabPane>
           <TabPane tab="配置商品" key="2">
-            <GoodsConfig homePageModuleId={homePageModuleId}/>
+            <GoodsConfig homepageModuleId={homepageModuleId} callback={this.props.callback}/>
           </TabPane>
           <TabPane tab="模块设置" key="3">
-            <ModuleSet homePageModuleId={homePageModuleId}/>
+            <ModuleSet homepageModuleId={homepageModuleId} callback={this.props.callback}/>
           </TabPane>
         </Tabs>
       </div>

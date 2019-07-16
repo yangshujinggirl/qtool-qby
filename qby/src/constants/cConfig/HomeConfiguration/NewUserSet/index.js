@@ -17,10 +17,7 @@ import {
   saveApi,
   getInfoApi
 } from "../../../../services/cConfig/homeConfiguration/newUser";
-import {
-  getListApi,
-  getCouponInfoApi
-} from "../../../../services/activity/coupon";
+import { getCouponInfoApi } from "../../../../services/activity/coupon";
 import { getColumns } from "./columns";
 const { RangePicker } = DatePicker;
 import moment from "moment";
@@ -39,8 +36,7 @@ class Index extends Component {
     };
   }
   componentDidMount = () => {
-    console.log(this.props)
-    this.getOptionList();
+    console.log(this.props);
     this.getCouponList();
   };
   //选择框的优惠券
@@ -55,69 +51,85 @@ class Index extends Component {
   };
   //初始化数据
   getCouponList = () => {
-    getInfoApi({ homepageModuleId: this.props.data.homepageModuleId}).then(res => {
-      if (res.code == "0") {
-        const {
-          couponList,
-          newComerPicUrl,
-          backgroupColor,
-          couponPopUpPicUrl,
-          receiveTimeInterval,
-          beginTime,
-          endTime
-        } = res.newUserGiftVo;
-        couponList.map((item, index) => (item.key = index));
-        const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'))
-        let [fileList1,fileList2] = [[],[]];
-        if(newComerPicUrl){
-          fileList1=[{
-            uid: "-1",
-            status: "done",
-            url: fileDomain + newComerPicUrl
-          }]
-        };
-        if(couponPopUpPicUrl){
-          fileList2 = [{
-            uid: "-1",
-            status: "done",
-            url: fileDomain + couponPopUpPicUrl
-          }]
+    getInfoApi({ homepageModuleId: this.props.data.homepageModuleId }).then(
+      res => {
+        if (res.code == "0") {
+          const {
+            couponList,
+            newComerPicUrl,
+            backgroupColor,
+            couponPopUpPicUrl,
+            receiveTimeInterval,
+            beginTime,
+            endTime
+          } = res.newUserGiftVo;
+          const optionList = _.cloneDeep(couponList);
+          couponList.map((item, index) => (item.key = index));
+          const fileDomain = JSON.parse(sessionStorage.getItem("fileDomain"));
+          let [fileList1, fileList2] = [[], []];
+          if (newComerPicUrl) {
+            fileList1 = [
+              {
+                uid: "-1",
+                status: "done",
+                url: fileDomain + newComerPicUrl
+              }
+            ];
+          }
+          if (couponPopUpPicUrl) {
+            fileList2 = [
+              {
+                uid: "-1",
+                status: "done",
+                url: fileDomain + couponPopUpPicUrl
+              }
+            ];
+          }
+          this.setState({
+            optionList,
+            couponList,
+            newComerPicUrl,
+            backgroupColor,
+            couponPopUpPicUrl,
+            receiveTimeInterval,
+            beginTime,
+            endTime,
+            fileList1,
+            fileList2
+          });
         }
-        this.setState({
-          couponList,
-          newComerPicUrl,
-          backgroupColor,
-          couponPopUpPicUrl,
-          receiveTimeInterval,
-          beginTime,
-          endTime,
-          fileList1,
-          fileList2
-        });
       }
-    });
+    );
   };
   //修改新人礼图片
   changeUserImg = fileList => {
-    let newComerPicUrl = ''
-    if( fileList[0] &&fileList[0].status == "done" &&fileList[0].response.code == "0"){
-      newComerPicUrl=fileList[0].response.data[0]
-    };
+    let newComerPicUrl = "";
+    if (
+      fileList[0] &&
+      fileList[0].status == "done" &&
+      fileList[0].response.code == "0"
+    ) {
+      newComerPicUrl = fileList[0].response.data[0];
+    }
     this.setState({
       newComerPicUrl,
-      fileList1:fileList
-    })
+      fileList1: fileList
+    });
   };
   //修改优惠券图片
   changeCouponImg = fileList => {
-    let couponPopUpPicUrl = ''
-    if( fileList[0] &&fileList[0].status == "done" &&fileList[0].response.code == "0"){
-      couponPopUpPicUrl=fileList[0].response.data[0]
-    };
+    let couponPopUpPicUrl = "";
+    if (
+      fileList[0] &&
+      fileList[0].status == "done" &&
+      fileList[0].response.code == "0"
+    ) {
+      couponPopUpPicUrl = fileList[0].response.data[0];
+    }
     this.setState({
       couponPopUpPicUrl,
-      fileList2:fileList
-    })
+      fileList2: fileList
+    });
   };
   //发送保存请求
   sendRequest = values => {
@@ -166,16 +178,15 @@ class Index extends Component {
     });
   };
   //优惠券发生变化
-  onSelectChange = (couponId, key) => {
-    const { couponList } = this.state;
-    const index = couponList.findIndex(item => item.key == key);
-    couponList[index].couponId = couponId;
-    getCouponInfoApi({ couponId }).then(res => {
-      if (res.code == "0") {
-        couponList[index].couponId = couponId;
-        couponList[index].couponName = res.couponName;
-        couponList[index].couponMoney = res.couponMoney;
-        couponList[index].couponGiveCount = res.couponGiveCount;
+  onSelectChange = (couponId, currentIndex) => {
+    const { optionList, couponList } = this.state;
+    optionList.map((item, index) => {
+      if (item.couponId == couponId) {
+        couponList[currentIndex].couponId = optionList[index].couponId;
+        couponList[currentIndex].couponName = optionList[index].couponName;
+        couponList[currentIndex].couponMoney = optionList[index].couponMoney;
+        couponList[currentIndex].couponGiveCount = optionList[index].couponGiveCount;
+        couponList[currentIndex].couponFullAmount = optionList[index].couponFullAmount;
       }
     });
     this.setState({
@@ -187,11 +198,11 @@ class Index extends Component {
       visible: false
     });
   };
-  lookExa=()=>{
+  lookExa = () => {
     this.setState({
-      visible:true
-    })
-  }
+      visible: true
+    });
+  };
   render() {
     const formLayout = {
       labelCol: { span: 4 },
@@ -233,7 +244,7 @@ class Index extends Component {
             label="优惠券弹窗背景图"
             {...formLayout}
           >
-            <div className='coupon-img'>
+            <div className="coupon-img">
               <UploadCoupon
                 describe="690*700"
                 fileList={fileList2}
@@ -242,7 +253,9 @@ class Index extends Component {
                 width={690}
                 height={700}
               />
-              <a onClick={this.lookExa} className="look-exa">查看示例</a>
+              <a onClick={this.lookExa} className="look-exa">
+                查看示例
+              </a>
             </div>
           </FormItem>
           <FormItem {...formLayout} label={timeTips}>
@@ -316,5 +329,12 @@ const liquTips = (
   </span>
 );
 
-const NewUser = Form.create({})(Index);
+const NewUser = Form.create({
+  mapPropsToFields(props) {
+    console.log(props)
+    return {
+      couponIds:Form.createFormField(props.couponList),
+    };
+  },
+})(Index);
 export default NewUser;

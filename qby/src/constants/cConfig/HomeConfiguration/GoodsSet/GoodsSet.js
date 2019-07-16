@@ -18,6 +18,7 @@ class GoodsSet extends Component {
     };
   }
   componentDidMount = () => {
+    console.log(this.props)
     this.initPage()
    
     // const res = {
@@ -41,8 +42,8 @@ class GoodsSet extends Component {
     
   };
   initPage=()=>{
-    const {} = this.props;
-    getTimeListApi().then(res=>{
+    const {homepageModuleId} = this.props;
+    getTimeListApi({homepageModuleId,type:1}).then(res=>{
       if(res.code == '0'){
         this.setState({
           timeSlots: this.formatList(res.timeSlots)

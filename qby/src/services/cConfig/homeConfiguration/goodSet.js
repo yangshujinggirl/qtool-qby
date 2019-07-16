@@ -77,7 +77,7 @@ export function getSavePicModuleApi(values) {
 export function getSaveTheModuleApi(values) {
   values = JSON.stringify(values);
   return ajax.post("/webrest.htm", {
-    code: "qerp.web.config.module.theme.save",
+    code: "qerp.web.config.module.theme.setting",
     data: values
   });
 }

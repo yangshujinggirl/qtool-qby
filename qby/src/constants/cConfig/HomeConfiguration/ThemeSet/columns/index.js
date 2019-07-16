@@ -26,7 +26,7 @@ export function getColumns(form, handleDelete, themeList,onSelectChange) {
               <Select>
                 {themeList.map(item => (
                   <Option key={item.themeId} value={item.themeId}>
-                    {item.themeId}+{item.title}
+                    {item.themeId}{item.title}
                   </Option>
                 ))}
               </Select>
