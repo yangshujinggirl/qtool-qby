@@ -1,5 +1,5 @@
 import React , { Component } from 'react';
-import { Input, InputNumber, Form, Select, Button, DatePicker, Modal } from 'antd';
+import { Input, InputNumber, Form, Select, Button, DatePicker, Modal, message } from 'antd';
 import { connect } from 'dva';
 import moment from 'moment';
 import MoreEditTable from '../../../components/MoreEditTable';
@@ -22,7 +22,8 @@ class ModForm extends Component {
   }
   //回调
   handleCallback=(dataSource)=> {
-    this.props.dispatch({ type:'iconSet/getGoodsList',payload:dataSource})
+    this.props.dispatch({ type:'iconSet/getGoodsList',payload:dataSource});
+    this.props.form.resetFields()
   }
   //表单事件
   onOperateClick=(record,type)=> {
@@ -47,17 +48,21 @@ class ModForm extends Component {
   }
   //提交变帧
   submitFrame=(position)=> {
+    this.setState({ confirmLoading:true })
     const { currentItem } =this.state;
-    const { activiKey } =this.props;
+    const { activiKey, homepageModuleId } =this.props;
     let params = {
       ...currentItem,
       oldPosition:activiKey,
       newPosition:position,
-      homepageModuleId:this.props.homepageModuleId
+      homepageModuleId:homepageModuleId
     }
     getChangeFrameApi(params)
     .then((res) => {
-      console.log(res)
+      if(res.code == 0) {
+        this.successCallback();
+      }
+      this.setState({ confirmLoading:false })
     })
     this.onCancel()
   }
@@ -74,34 +79,49 @@ class ModForm extends Component {
           position:this.props.activiKey,
           dataList:values
         }
-        func&&typeof func == 'function'&&func();
-        getSaveApi()
+        this.setState({ loading:true })
+        this.props.dispatch({ type: 'tab/loding', payload:true});
+        getSaveApi(params)
         .then((res)=> {
-          func&&typeof func == 'function'&&func()
+          const { code } =res;
+          if(code == 0) {
+            this.successCallback();
+            func&&typeof func == 'function'&&func();
+          }
+          this.setState({ loading:false })
+          this.props.dispatch({ type: 'tab/loding', payload:false});
         })
       }
     });
   }
+  successCallback() {
+    const { homepageModuleId, activiKey } =this.props;
+    this.props.dispatch({
+      type:'iconSet/fetchList',
+      payload:{
+        position:activiKey,
+        homepageModuleId:homepageModuleId,
+      }
+    })
+  }
   //格式化
   formatParams(values) {
-    let { goods } =values;
-    goods.map((el,index) => {
-      if(el.picUrl&&el.picUrl.length>0) {
-        el.picUrl = el.picUrl[0];
-      }
+    let { goodsList } =this.props;
+    goodsList.map((el,index) => {
       if(el.beginTime) {
         el.beginTime = moment(el.beginTime).format("YYYY-MM-DD");
       }
     })
-    return goods;
+    return goodsList;
   }
   render() {
-    let { goodsList, activiKey } =this.props;
-    const { visible, confirmLoading } =this.state;
+    let { goodsList, activiKey, categoryList } =this.props;
+    const { visible, confirmLoading, loading } =this.state;
     const { form }= this.props;
     return(
       <div className="banner-set-mod">
         <MoreEditTable
+          categoryList={categoryList}
           onOperateClick={this.onOperateClick}
           callback={this.handleCallback}
           form={form}
@@ -109,6 +129,7 @@ class ModForm extends Component {
           dataSource={goodsList}/>
         <div className="handle-btn-action">
           <Button
+            loading={loading}
             onClick={this.submit}
             size="large"
             type="primary">
@@ -127,11 +148,35 @@ class ModForm extends Component {
   }
 }
 const Mod = Form.create({
-  mapPropsToFields(props) {
-    return {
-      goods: Form.createFormField(props.goodsList),
-    };
-  }
+  onValuesChange(props, changedFields, allFields) {
+    let { goods } =allFields;
+    let { goodsList } =props;
+    goodsList = goodsList.map((el,index) => {
+      goods.map((item,idx) => {
+        if(index == idx) {
+          if(item.picUrl&&item.picUrl.response) {
+            let file = item.picUrl;
+            if(file.status == 'done') {
+              item.picUrl = file.response.data[0];
+            }
+          } else if(item.picUrl instanceof Array) {
+            item.picUrl = item.picUrl[0];
+          }
+          el ={...el,...item}
+        }
+      })
+      return el;
+    })
+    props.dispatch({
+      type:'iconSet/getGoodsList',
+      payload:goodsList
+    })
+  },
+  // mapPropsToFields(props) {
+  //   return {
+  //     goods: Form.createFormField(props.goodsList),
+  //   };
+  // }
 })(ModForm);
 function mapStateToProps(state) {
   const { iconSet } =state;

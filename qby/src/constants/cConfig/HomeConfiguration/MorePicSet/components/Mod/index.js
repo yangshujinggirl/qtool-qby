@@ -12,15 +12,19 @@ import { columns } from '../columns';
 class ModForm extends Component {
   constructor(props) {
     super(props);
+    this.state={
+      loading:false
+    }
   }
   componentDidMount() {
     this.props.onRef(this);
   }
   //回调
   handleCallback=(dataSource)=> {
-    this.props.dispatch({ type:'morePicSet/getGoodsList',payload:dataSource})
+    this.props.dispatch({ type:'morePicSet/getGoodsList',payload:dataSource});
+    this.props.form.resetFields()
   }
-  submit=()=> {
+  submit=(func)=> {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         values = this.formatParams(values);
@@ -29,16 +33,22 @@ class ModForm extends Component {
           position:this.props.activiKey,
           dataList:values
         }
+        this.setState({ loading:true });
+        this.props.dispatch({ type: 'tab/loding', payload:true});
         getSaveApi(params)
         .then((res)=> {
-
+          if(res.code == 0) {
+            func&&typeof func == 'function'?func():this.successCallback();
+          }
+          this.setState({ loading:false });
+          this.props.dispatch({ type: 'tab/loding', payload:false});
         })
       }
     });
   }
   //格式化
   formatParams() {
-    const { goodsList } =this.props;
+    let { goodsList } =this.props;
     goodsList.map((el,index) => {
       if(el.beginTime) {
         el.beginTime = moment(el.beginTime).format("YYYY-MM-DD");
@@ -46,32 +56,20 @@ class ModForm extends Component {
     })
     return goodsList;
   }
-  //表单change
-  handleChange=(type,name,e,index)=> {
-    let value;
-    switch(type) {
-      case 'input':
-        value = e.target.value;
-        break;
-      case 'select':
-        value = e;
-        break;
-      case 'fileList':
-        value = e;
-        break;
-    }
-    let { goodsList } =this.props;
-    if(!value) {
-      goodsList[index][name]=null;
-    } else {
-      goodsList[index][name]=value;
-    }
-    this.handleCallback(goodsList)
+  successCallback() {
+    const { homepageModuleId, activiKey } =this.props;
+    this.props.dispatch({
+      type:'morePicSet/fetchList',
+      payload:{
+        position:activiKey,
+        homepageModuleId:homepageModuleId,
+      }
+    })
   }
   render() {
     let { goodsList, activiKey } =this.props;
     const { form }= this.props;
-    let columnsTable = columns(form,this.handleChange);
+    let columnsTable = columns(form);
     return(
       <div className="banner-set-mod">
         <BaseDelTable
@@ -80,6 +78,7 @@ class ModForm extends Component {
           dataSource={goodsList}/>
         <div className="handle-btn-action">
           <Button
+            loading={this.state.loading}
             onClick={this.submit}
             size="large"
             type="primary">
@@ -91,11 +90,35 @@ class ModForm extends Component {
   }
 }
 const Mod = Form.create({
-  mapPropsToFields(props) {
-    return {
-      goods: Form.createFormField(props.goodsList),
-    };
-  }
+  onValuesChange(props, changedFields, allFields) {
+    let { goods } =allFields;
+    let { goodsList } =props;
+    goodsList = goodsList.map((el,index) => {
+      goods.map((item,idx) => {
+        if(index == idx) {
+          if(item.picUrl&&item.picUrl.response) {
+            let file = item.picUrl;
+            if(file.status == 'done') {
+              item.picUrl = file.response.data[0];
+            }
+          } else if(item.picUrl instanceof Array) {
+            item.picUrl = item.picUrl[0];
+          }
+          el ={...el,...item}
+        }
+      })
+      return el;
+    })
+    props.dispatch({
+      type:'morePicSet/getGoodsList',
+      payload:goodsList
+    })
+  },
+  // mapPropsToFields(props) {
+  //   return {
+  //     goods: Form.createFormField(props.goodsList),
+  //   };
+  // }
 })(ModForm);
 function mapStateToProps(state) {
   const { morePicSet } =state;

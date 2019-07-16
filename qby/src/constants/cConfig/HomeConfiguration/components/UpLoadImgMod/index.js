@@ -11,17 +11,39 @@ class UpLoadImg extends Component {
       loading:false
     }
   }
-  beforeUpload(file) {
-    // const isJPG = file.type === 'image/jpeg';
-    // if (!isJPG) {
-    //   message.error('You can only upload JPG file!');
-    // }
+  beforeUpload=(file)=> {
+    let regExp = /image\/[jpeg|jpg|gif]/ig;
+    let isImg = regExp.test(file.type);
+    if (!isImg) {
+      message.error('请上传格式为jpg、png、gif的图片');
+    }
     const isLt2M = file.size / 1024 / 1024 < 2;
     if (!isLt2M) {
-      message.error('Image must smaller than 2MB!');
+      message.error('图片大小超出限制，请修改后重新上传!');
     }
-    return isLt2M;
+    const isSize = this.checkSize(file)
+    return isImg  && isLt2M ;
+    // return isImg  && isLt2M &&isSize;
   }
+  //检测尺寸
+  checkSize=(file)=>{
+    return new Promise((resolve, reject) => {
+      let width = this.props.width;
+      let height = this.props.height;
+      let _URL = window.URL || window.webkitURL;
+      let img = new Image();
+      img.onload = function() {
+        let valid = img.width == width && img.height == height;
+        valid ? resolve() : reject();
+      };
+      img.src = _URL.createObjectURL(file);
+    }).then(() => {
+        return file;
+    },() => {
+        message.error("图片尺寸不符合要求，请修改后重新上传！");
+        return Promise.reject();
+    });
+  };
   handleChange = info => {
     this.setState({
       loading: true,

@@ -11,11 +11,12 @@ class MorePicSet extends Component {
     super(props);
   }
   componentDidMount() {
+    const { homepageModuleId } =this.props.data;
     this.props.dispatch({
       type:'morePicSet/fetchList',
       payload:{
         position:1,
-        homepageModuleId:20,
+        homepageModuleId:homepageModuleId,
       }
     })
   }
@@ -34,14 +35,15 @@ class MorePicSet extends Component {
     });
   }
   onOkToggle=(activiKey)=> {
-    this.modDom.submit(()=>this.onCancel(activiKey));
+    this.modDom.submit(()=>this.onCancelToggle(activiKey));
   }
   onCancelToggle=(activiKey)=> {
+    const { homepageModuleId } =this.props.data;
     this.props.dispatch({
       type:'morePicSet/fetchList',
       payload:{
         position:activiKey,
-        homepageModuleId:20,
+        homepageModuleId:homepageModuleId,
       }
     })
   }

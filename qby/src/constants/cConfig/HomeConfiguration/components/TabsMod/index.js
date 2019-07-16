@@ -7,7 +7,7 @@ class TabsMod extends Component {
   onChange = activiKey => {
     Modal.confirm({
       title: '请离开页面前保存当前操作?',
-      content: 'Some descriptions',
+      content: '请保存当前页面配置',
       onOk:()=>{
         this.props.onOk(activiKey);
       },

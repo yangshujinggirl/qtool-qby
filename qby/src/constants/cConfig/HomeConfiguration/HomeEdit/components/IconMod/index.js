@@ -21,30 +21,32 @@ class IconMod extends Component {
     })
   }
   render() {
+    let { moduleContent, backgroundPicUrl, isDisplay } =this.props.info.icon;
+    const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
+    backgroundPicUrl = `${fileDomain}${backgroundPicUrl}`;
     return(
-      <div className="common-sty icon-mod">
-        <div className="mod-wrap">
-          <div className="item-icon">
-            <div className="pic-wrap"><img src=''/></div>
-            <p>奶粉辅食</p>
+      <div className="common-sty icon-mod" style={{'background':`#fff url(${backgroundPicUrl})`}}>
+        {
+          moduleContent&&moduleContent.length>0?
+          <div className="mod-wrap">
+            {
+              moduleContent&&moduleContent.map((el,index) => (
+                <div className="item-icon" key={el.iconId}>
+                  <div className="pic-wrap"><img src={`${fileDomain}${el.iconPic}`}/></div>
+                  <p>{el.iconName}</p>
+                </div>
+              ))
+            }
           </div>
-          <div className="item-icon">
-            <div className="pic-wrap"><img src=''/></div>
-            <p>奶粉辅食</p>
-          </div>
-          <div className="item-icon">
-            <div className="pic-wrap"><img src=''/></div>
-            <p>奶粉辅食</p>
-          </div>
-          <div className="item-icon">
-            <div className="pic-wrap"><img src=''/></div>
-            <p>奶粉辅食</p>
-          </div>
-        </div>
+          :
+          <div className="no-module-data icon-no-data">Icon 模块</div>
+        }
+        {
+          !isDisplay&&<div className="hiddle-module"></div>
+        }
         <div className="handle-btn-action">
-          <Button>查看</Button>
           <Button onClick={this.goEdit}>编辑</Button>
-          <Button>隐藏</Button>
+          <Button onClick={()=>this.props.toggleShow(homepageModuleId,isDisplay)}>{isDisplay?'隐藏':'展开'}</Button>
         </div>
       </div>
     )

@@ -41,6 +41,8 @@ class BaseEditTable extends Component {
   }
   renderPicUrl=(text,record,index)=> {
     return <UpLoadImg
+            width={686}
+            height={356}
             fileList={record.picUrl}
             form={this.props.form}
             index={index}/>
@@ -164,10 +166,10 @@ class BaseEditTable extends Component {
     const { getFieldDecorator } =this.props.form;
     return <FormItem>
             {getFieldDecorator(`goods[${index}].beginTime`,{
-              initialValue:record.beginTime?moment(record.beginTime,"YYYY-MM-DD"):null,
+              initialValue:record.beginTime?moment(record.beginTime,"YYYY-MM-DD HH:mm"):null,
               rules:[{ required:true, message:'请选择分类'}],
               })(
-                <DatePicker format="YYYY-MM-DD" allowClear={false}/>
+                <DatePicker format="YYYY-MM-DD HH:mm" allowClear={false}/>
             )}
           </FormItem>
   }
@@ -251,7 +253,7 @@ class BaseEditTable extends Component {
         <Table.Column title="适用端" key ='platform' width="10%" dataIndex="platform" render={this.renderPlatForm}/>
         <Table.Column title="跳转链接" key ='linkInfoType' width="10%" dataIndex="linkInfoType" render={this.renderLinkType}/>
         <Table.Column title="URL链接" key ='linkInfo' width="16%" dataIndex="linkInfo" render={this.renderLinkInfo}/>
-        <Table.Column title="开始时间" key ='beginTime' width="10%" dataIndex="beginTime" render={this.renderStartTime}/>
+        <Table.Column title="开始时间" key ='beginTime' width="16%" dataIndex="beginTime" render={this.renderStartTime}/>
         <Table.Column title="结束时间" key ='etime' dataIndex="etime" width="8%" render={this.renderEndTime}/>
         <Table.Column title="操作" key ='action' width="10%" dataIndex="action" render={this.renderHandle}/>
       </Table>
