@@ -24,6 +24,21 @@ class MorePicMod extends Component {
     let { moduleContent, backgroundPicUrl, isDisplay } =this.props.info.picMix;
     const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
     backgroundPicUrl = `${fileDomain}${backgroundPicUrl}`;
+    let mapDex={
+      41:'0',
+      42:'1',
+      43:'2'
+    }
+    let lImg,tImg,bImg;
+    moduleContent&&moduleContent.map((el,index) => {
+      if(el.position==41) {
+        lImg = el.picUrl;
+      } else if(el.position==42) {
+        tImg = el.picUrl;
+      } else if(el.position==43) {
+        bImg = el.picUrl;
+      }
+    })
     return (
       <div className="common-sty morePic-mod" style={{'background':`#fff url(${backgroundPicUrl})`}}>
         <div className="mod-wrap">
@@ -33,16 +48,14 @@ class MorePicMod extends Component {
           </div>
           <div className="main-layout">
             <div className="layout-l">
-              {
-                moduleContent&&moduleContent[0]&&<img src={`${fileDomain}${moduleContent[0].picUrl}`}/>
-              }
+              {lImg&&<img src={`${fileDomain}${lImg}`}/>}
             </div>
             <div className="layout-r">
               <div className="lay-t">
-                {moduleContent&&moduleContent[1]&&<img src={`${fileDomain}${moduleContent[1].picUrl}`}/>}
+                {tImg&&<img src={`${fileDomain}${tImg}`}/>}
               </div>
               <div className="lay-b">
-                {moduleContent&&moduleContent[2]&&<img src={`${fileDomain}${moduleContent[2].picUrl}`}/>}
+                {bImg&&<img src={`${fileDomain}${bImg}`}/>}
               </div>
             </div>
           </div>

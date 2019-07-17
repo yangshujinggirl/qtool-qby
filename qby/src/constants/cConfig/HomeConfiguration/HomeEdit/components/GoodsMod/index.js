@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import { Button } from 'antd';
+import Countdown from 'react-count-down'
 import Swiper from 'swiper/dist/js/swiper.js';
 import './index.less';
 
@@ -36,19 +37,25 @@ class GoodsMod extends Component {
     let { homepageModuleId, moduleContent, backgroundPicUrl,isDisplay } =this.props.info.productDisplay;
     const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
     backgroundPicUrl = `${fileDomain}${backgroundPicUrl}`;
+    const endDate = new Date('2019-8-24') // Christmas, yay
+
+    const OPTIONS = {
+      endDate: endDate,
+    }
     return(
       <div className={`common-sty goods-mod ${!isDisplay?'hiddle-module':''}`} style={{'background':`#fff url(${backgroundPicUrl})`}}>
         <div className="mod-wrap">
           <div className="mod-common-head">
             <div className="hd-item">
               商品模块
-              <span className="count-times">
+              <Countdown options={OPTIONS} />
+              {/*<span className="count-times">
                 <span className="time-num">24</span>
                 :
                 <span className="time-num">13</span>
                 :
                 <span className="time-num">13</span>
-              </span>
+              </span>*/}
             </div>
             <p className="hd-item">查看更多</p>
           </div>
