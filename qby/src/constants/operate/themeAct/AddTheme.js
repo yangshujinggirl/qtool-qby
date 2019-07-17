@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Form,Button,Input,Row,Col,DatePicker,message} from 'antd';
+import { Form,Button,Input,Row,Col,DatePicker,message,Select} from 'antd';
 import moment from 'moment';
 import Upload from '../../../components/UploadImg/onlyOneImg';
 import {addThemeApi,updataThemeApi} from '../../../services/operate/themeAct/index'
 const FormItem = Form.Item;
 const TextArea = Input.TextArea;
-const RangePicker = DatePicker.RangePicker
-import './index.css'
+const Option = Select.Option
+import './index.less'
 
 
 class AddTheme extends  Component {
@@ -136,27 +136,10 @@ class AddTheme extends  Component {
     }
     return isJPG && isLt2M;
   }
-  validateQty =(rule,value,callback)=> {
-    if(value){
-      const temp = value.split('\n').filter(item=>item);
-      const isRepeat = temp.filter((item,index,self)=>self.indexOf(item) != index);
-      if(isRepeat[0]){
-        callback(+isRepeat[0]+'商品重复')
-      }else{
-        if(temp.length < 4){
-          callback('活动商品不可少于4条')
-        };
-        if(temp.length > 10){
-          callback('活动商品不可多于10条')
-        };
-      };
-    };
-    callback();
-  }
   render() {
     const { getFieldDecorator } = this.props.form;
     const {imageUrl,isLoading} = this.state;
-    const {themeName,showTimeStart,showTimeEnd,rank,pageCode,activityPdSpuIds,remark} = this.state.infos;
+    const {themeName,pageCode,remark} = this.state.infos;
     const formItemLayout = {
       labelCol: { span:3 },
       wrapperCol: { span:6 },
@@ -166,42 +149,59 @@ class AddTheme extends  Component {
           	<div className='head_title'>基础信息</div>
               <FormItem {...formItemLayout}  label="主题活动名称">
       					{getFieldDecorator('themeName', {
-      						rules: [{ required: true, message: '请输入主题活动名称，50字符以内'}],
+      						rules: [{ required: true, message: '请输入主题活动名称，15字符以内'}],
       						initialValue:themeName
       					})(
-      						<Input placeholder='请输入主题活动名称，50字符以内' maxLength='50' autoComplete="off"/>
+      						<Input placeholder='请输入主题活动名称，15字符以内' maxLength='15' autoComplete="off"/>
       					)}
       				</FormItem>
-              <FormItem {...formItemLayout} label="展示时间">
-      					{getFieldDecorator('time', {
-                  initialValue: [moment(showTimeStart, 'YYYY-MM-DD HH:mm:ss'), moment(showTimeEnd, 'YYYY-MM-DD HH:mm:ss')],
-      						rules: [{ required: true, message: '请选择展示时间'}],
+              <FormItem {...formItemLayout}  label="主题活动副标题">
+      					{getFieldDecorator('themeName2', {
+      						rules: [{ required: true, message: '请输入主题活动副标题，15字符以内'}],
+      						initialValue:themeName
       					})(
-      						<RangePicker
-                    showTime
-                    format='YYYY-MM-DD HH:mm:ss'
-                  />
+      						<Input placeholder='请输入主题活动副标题，15字符以内' maxLength='15' autoComplete="off"/>
       					)}
       				</FormItem>
-              <FormItem {...formItemLayout}  label="展示权重">
-                {getFieldDecorator('rank', {
-                  rules: [
-                    { required: true, message: '请输入展示权重'},
-                    {pattern:/^(?:[0-9]{0,2}|100)$/,message:"请输入0-100整数"},
-                ],
-                  initialValue:rank
-                })(
-                  <Input placeholder='请输入0-100整数，数值越高，权重越大' autoComplete="off"/>
-                )}
-              </FormItem>
+              <FormItem {...formItemLayout}  label="主题活动状态">
+      					{getFieldDecorator('themeName1', {
+      						rules: [{ required: true, message: '请选择主题活动状态'}],
+      						initialValue:themeName
+      					})(
+      						<Select>
+                    <Option value={1}>上线</Option>
+                    <Option value={2}>下线</Option>
+                  </Select>
+      					)}
+      				</FormItem>    
+              <FormItem {...formItemLayout} label="主题活动描述">
+      					{getFieldDecorator('remark', {
+                  initialValue:remark
+      					})(
+      						<TextArea rows='3' maxLength='50' placeholder='请输入主题活动名称，50字符以内'/>
+      					)}
+      				</FormItem>
               <FormItem {...formItemLayout} label="活动图片" className='must-pic'>
-                <Upload
-                  name='imgFile'
-                  action='/erpWebRest/qcamp/upload.htm?type=brand'
-                  imageUrl = {imageUrl}
-                  changeImg = {this.changeImg}
-                  beforeUpload={this.beforeUpload}
-                />
+                <div className='home_pic'>
+                  <Upload
+                    name='imgFile'
+                    action='/erpWebRest/qcamp/upload.htm?type=brand'
+                    imageUrl = {imageUrl}
+                    changeImg = {this.changeImg}
+                    beforeUpload={this.beforeUpload}
+                  />
+                  <span>首页展示图片，图片尺寸为366*339，格式为jpg</span>
+                </div>
+                <div className='list_pic'>
+                  <Upload
+                    name='imgFile'
+                    action='/erpWebRest/qcamp/upload.htm?type=brand'
+                    imageUrl = {imageUrl}
+                    changeImg = {this.changeImg}
+                    beforeUpload={this.beforeUpload}
+                  />
+                  <span>列表页展示图片，图片尺寸为686*365，格式为jpg</span>
+                </div>
               </FormItem>
               <FormItem {...formItemLayout}  label="跳转页面编码">
                 {getFieldDecorator('pageCode', {
@@ -211,24 +211,6 @@ class AddTheme extends  Component {
                   <Input placeholder='请输入跳转页面编码' autoComplete="off"/>
                 )}
               </FormItem>
-              <FormItem {...formItemLayout} label="活动spuid">
-      					{getFieldDecorator('activityPdSpuIds', {
-                  initialValue:activityPdSpuIds,
-                  rules: [
-                    { required: true, message: '请输入活动spuid'},
-                    { validator:this.validateQty }
-                  ],
-      					})(
-      						<TextArea rows='5' placeholder='请输入活动商品的spu-id，4-10个'/>
-      					)}
-      				</FormItem>
-              <FormItem {...formItemLayout} label="备注">
-      					{getFieldDecorator('remark', {
-                  initialValue:remark
-      					})(
-      						<TextArea rows='3' maxLength='50' placeholder='请输入备注，50字符以内'/>
-      					)}
-      				</FormItem>
               <FormItem {...formItemLayout} className='btn_cancel_save'>
                 <Row type="flex" justify="space-around">
                   <Col offset={4}>

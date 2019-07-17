@@ -10,7 +10,7 @@ import {
   DatePicker
 }from 'antd'
 import {removeSpace} from '../../../../utils/meth';
-import '../index.css'
+import '../index.less'
 const FormItem = Form.Item;
 const Option = Select.Option;
 const RangePicker = DatePicker.RangePicker
