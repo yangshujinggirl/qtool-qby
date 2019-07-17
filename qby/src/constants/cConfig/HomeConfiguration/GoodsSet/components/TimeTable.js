@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "dva";
-import { Form, DatePicker, Button } from "antd";
+import { Form, DatePicker, Button, Modal } from "antd";
 import moment from "moment";
 import BaseDelTable from "../../components/BaseDelTable";
 import {
@@ -11,7 +11,6 @@ import {
 const FormItem = Form.Item;
 const { RangePicker } = DatePicker;
 import "../index.less";
-
 
 const disabledDate = current => {
   return current < moment().endOf("second");
@@ -33,6 +32,9 @@ const disabledDateTime = () => {
 class TimeTable extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      visible: false
+    };
     this.columns = [
       {
         title: "序号",
@@ -40,7 +42,7 @@ class TimeTable extends Component {
       },
       {
         title: "展示时间段",
-        width: "300",
+        width: "40%",
         render: (text, record, index) => {
           const { getFieldDecorator } = this.props.form;
           return record.completed ? (
@@ -48,7 +50,6 @@ class TimeTable extends Component {
               {record.beginTime}~{record.endTime}
             </span>
           ) : (
-            <Form>
               <FormItem>
                 {getFieldDecorator(`time[${index}]`, {
                   initialValue: record.beginTime
@@ -64,13 +65,12 @@ class TimeTable extends Component {
                   />
                 )}
               </FormItem>
-            </Form>
           );
         }
       },
       {
         title: "操作",
-        width: 400,
+        width: "40%",
         key: "delete",
         render: (text, record, index) => {
           let times = this.props.form.getFieldsValue().time;
@@ -114,17 +114,17 @@ class TimeTable extends Component {
       }
     ];
   }
-  goToSet=(id)=>{
-    console.log(id)
+  goToSet = id => {
+    console.log(id);
     this.props.dispatch({
-      type:'goodsSet/getpdListDisplayCfgId',
-      payload:{pdListDisplayCfgId:id}
+      type: "goodsSet/getpdListDisplayCfgId",
+      payload: { pdListDisplayCfgId: id }
     });
     this.props.dispatch({
-      type:'goodsSet/changeKey',
-      payload:{activeKey:"2"}
-    })
-  }
+      type: "goodsSet/changeKey",
+      payload: { activeKey: "2" }
+    });
+  };
   onEdit = id => {
     const { timeSlots } = this.props;
     const list = timeSlots.map(item => {
@@ -136,27 +136,27 @@ class TimeTable extends Component {
     this.props.callback(list);
   };
   //确认
-  onSure = (times) => {
+  onSure = times => {
     const beginTime = moment(times[0]).format("YYYY-MM-DD HH:mm");
     const endTime = moment(times[1]).format("YYYY-MM-DD HH:mm");
     this.addTime(beginTime, endTime);
   };
   addTime = (beginTime, endTime) => {
-    const { type,homepageModuleId } = this.props;
+    const { type, homepageModuleId } = this.props;
     const values = {
       homepageModuleId,
       type,
       beginTime,
-      endTime,
+      endTime
     };
     addTimeApi(values).then(res => {
       if (res.code == "0") {
-        this.getTimeList(type,homepageModuleId)
+        this.getTimeList(type, homepageModuleId);
       }
     });
   };
   //请求时间列表
-  getTimeList=(type,homepageModuleId)=>{
+  getTimeList = (type, homepageModuleId) => {
     getTimeListApi({ type, homepageModuleId }).then(res => {
       if (res.code == "0") {
         const { timeSlots } = res;
@@ -169,24 +169,34 @@ class TimeTable extends Component {
         this.props.callback(list);
       }
     });
-  }
+  };
   //删除
   delete = id => {
-    deleteTimeApi({pdListDisplayCfgId:id}).then(res=>{
-      if(res.code == '0'){
-        this.getTimeList(this.props.type,this.props.homepageModuleId)
-      }
-    })
-    const { timeSlots } = this.props;
-    const list = timeSlots.filter(item => item.pdListDisplayCfgId != id);
-    this.props.callback(list);
+    this.setState({
+      pdListDisplayCfgId: id,
+      visible: true
+    });
   };
   //更改时段list
   handleCallback = timeSlots => {
     this.props.callback(timeSlots);
   };
+  onOk = () => {
+    const { pdListDisplayCfgId } = this.state;
+    deleteTimeApi({ pdListDisplayCfgId }).then(res => {
+      if (res.code == "0") {
+        this.getTimeList(this.props.type, this.props.homepageModuleId);
+      }
+    });
+  };
+  onCancel = () => {
+    this.setState({
+      visible: false
+    });
+  };
   render() {
     const { timeSlots } = this.props;
+    const { visible } = this.state;
     return (
       <div className="time-list">
         <BaseDelTable
@@ -194,13 +204,16 @@ class TimeTable extends Component {
           columns={this.columns}
           dataSource={timeSlots}
         />
+        <Modal visible={visible} onOk={this.onOk} onCancel={this.onCancel}>
+          <p>确认删除该时间段么?</p>
+        </Modal>
       </div>
     );
   }
 }
-function mapStateToProps(state){
-  const {goodsSet} = state;
-  return goodsSet
+function mapStateToProps(state) {
+  const { goodsSet } = state;
+  return goodsSet;
 }
-const TimeTables = Form.create({})(TimeTable)
-export default connect(mapStateToProps)(TimeTables)
+const TimeTables = Form.create({})(TimeTable);
+export default connect(mapStateToProps)(TimeTables);

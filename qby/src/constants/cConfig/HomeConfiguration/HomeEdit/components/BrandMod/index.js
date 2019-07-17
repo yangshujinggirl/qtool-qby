@@ -22,8 +22,8 @@ class BrandMod extends Component {
     searchBgPicApi({homepageModuleId}).then(res=>{
       if(res.code == '0'){
         const fileDomain = JSON.parse(sessionStorage.getItem("fileDomain"));
-        const {backgroundPicUrl,contentPicUrl} = res.searchQueryVo
-        this.handleResult(fileDomain,backgroundPicUrl,contentPicUrl)
+        const {moduleBackColor,contentPicUrl} = res.searchQueryVo
+        this.handleResult(fileDomain,moduleBackColor,contentPicUrl)
       }
     })
     this.setState({
@@ -31,7 +31,7 @@ class BrandMod extends Component {
     });
   };
   //结果数据处理
-  handleResult=(fileDomain,backgroundPicUrl,contentPicUrl)=>{
+  handleResult=(fileDomain,moduleBackColor,contentPicUrl)=>{
     let fileList = [];
     if(contentPicUrl){
       fileList=[{
@@ -42,7 +42,7 @@ class BrandMod extends Component {
     }
     this.setState({
       fileList,
-      color:backgroundPicUrl,
+      color:moduleBackColor,
       imageUrl:contentPicUrl
     },() => {
       this.setState({
@@ -61,7 +61,7 @@ class BrandMod extends Component {
     });
     const values = {
       homepageModuleId:this.props.info.brandDisplay.homepageModuleId,
-      backgroundPicUrl: color,
+      moduleBackColor: color,
       contentPicUrl: imageUrl
     };
     saveBgPicApi(values).then(res => {
@@ -108,11 +108,11 @@ class BrandMod extends Component {
   };
   render() {
     const { visible, fileList, color, loading } = this.state;
-    let { homepageModuleId,backgroundPicUrl, contentPicUrl,isDisplay } =this.props.info.brandDisplay;
+    let { homepageModuleId,moduleBackColor, contentPicUrl,isDisplay } = this.props.info.brandDisplay;
     const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
-    backgroundPicUrl = `${fileDomain}${backgroundPicUrl}`;
+    moduleBackColor = `${fileDomain}${moduleBackColor}`;
     return (
-      <div className={`common-sty brand-mod ${!isDisplay?'hiddle-module':''}`} style={{'background':`#fff url(${backgroundPicUrl})`}}>
+      <div className={`common-sty brand-mod ${!isDisplay?'hiddle-module':''}`} style={{'background':`#fff url(${moduleBackColor})`}}>
         {
           contentPicUrl?
           <div className="content-wrap">
