@@ -46,6 +46,7 @@ class ThemeSet extends Component {
     return showThemeList;
   };
   moveRow = (dragIndex, hoverIndex) => {
+    this.props.form.resetFields(['showThemeId']);
     const { showThemeList } = this.state;
     const dragRow = showThemeList[dragIndex];
     this.setState(
@@ -117,10 +118,10 @@ class ThemeSet extends Component {
   sendRequest = (themeList, homepageModuleId) => {
     saveThemeApi({ homepageModuleId, themeList }).then(res => {
       if (res.code == "0") {
-        message.success("保存成功");
         this.setState({
           loading:false
         });
+        message.success("保存成功");
       }
     });
   };

@@ -1,30 +1,8 @@
 import React, { Component } from "react";
-import {
-  Button,
-  Form,
-  Select,
-  Input,
-  DatePicker,
-  Tooltip,
-  Icon,
-  message,
-  Modal
-} from "antd";
-import UploadNew from "../components/UploadImg";
-import UploadCoupon from "../components/UploadImg";
-import BaseDelTable from "../components/BaseDelTable";
-import {
-  saveApi,
-  getInfoApi
-} from "../../../../services/cConfig/homeConfiguration/newUser";
-import { getCouponInfoApi } from "../../../../services/activity/coupon";
-import { getColumns } from "./columns";
-const { RangePicker } = DatePicker;
+import {message} from 'antd'
+import {saveApi,getInfoApi} from "../../../../services/cConfig/homeConfiguration/newUser";
+import Content from './components/NewUserSet'
 import moment from "moment";
-const FormItem = Form.Item;
-const Option = Select.Option;
-import "./index.less";
-
 class Index extends Component {
   constructor(props) {
     super(props);
@@ -141,8 +119,8 @@ class Index extends Component {
       }
     });
   };
-  handleSubmit = () => {
-    this.props.form.validateFieldsAndScroll((err, values) => {
+  handleSubmit = (form) => {
+    form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         const _values = this.formateValues(values);
         if (_values) {
@@ -206,10 +184,6 @@ class Index extends Component {
     });
   };
   render() {
-    const formLayout = {
-      labelCol: { span: 4 },
-      wrapperCol: { span: 12 }
-    };
     const {
       fileList1,
       fileList2,
@@ -221,115 +195,27 @@ class Index extends Component {
       endTime,
       visible
     } = this.state;
-    const { getFieldDecorator } = this.props.form;
-    const columns = getColumns(
-      this.props.form,
-      optionList,
-      this.onSelectChange
-    );
     return (
-      <div className="new_user">
-        <div className="title">新人礼设置</div>
-        <Form>
-          <FormItem className="must-pic" label="新人礼图片" {...formLayout}>
-            <UploadNew
-              describe="686*114"
-              fileList={fileList1}
-              changeImg={this.changeUserImg}
-              exampleImg={require("../../../../assets/1.jpg")}
-              width={686}
-              height={114}
-            />
-          </FormItem>
-          <FormItem
-            className="must-pic"
-            label="优惠券弹窗背景图"
-            {...formLayout}
-          >
-            <div className="coupon-img">
-              <UploadCoupon
-                describe="690*700"
-                fileList={fileList2}
-                changeImg={this.changeCouponImg}
-                exampleImg={require("../../../../assets/bg.png")}
-                width={690}
-                height={700}
-              />
-              <a onClick={this.lookExa} className="look-exa">
-                查看示例
-              </a>
-            </div>
-          </FormItem>
-          <FormItem {...formLayout} label={timeTips}>
-            {getFieldDecorator("time", {
-              initialValue: beginTime
-                ? [moment(beginTime), moment(endTime)]
-                : null,
-              rules: [{ required: true, message: "请选择展示时间" }]
-            })(<RangePicker showTime format="YYYY-MM-DD HH:mm" />)}
-          </FormItem>
-          <FormItem {...formLayout} label={liquTips}>
-            {getFieldDecorator("receiveTimeInterval", {
-              initialValue: receiveTimeInterval,
-              rules: [{ required: true, message: "请填写领取间隔" }]
-            })(<Input style={{ width: "80px" }} />)}
-            　天
-          </FormItem>
-          <FormItem className="must-pic" {...formLayout} label="选择优惠券">
-            <BaseDelTable
-              callback={this.handleCallback}
-              columns={columns}
-              dataSource={couponList}
-            />
-          </FormItem>
-          <div className="title">模块设置</div>
-          <FormItem label="设置模块背景色号" {...formLayout}>
-            {getFieldDecorator("backgroupColor", {
-              initialValue: backgroupColor,
-              rules: [{ required: true, message: "请填写领取间隔" }]
-            })(
-              <Input
-                placeholder="标题颜色的色号，常用色号可在示例中查看"
-                style={{ width: "266px" }}
-              />
-            )}
-            　<span className="suffix_tips">请填写#+六位数字</span>
-          </FormItem>
-          <Button
-            className="btn"
-            size="large"
-            type="primary"
-            onClick={this.handleSubmit}
-          >
-            保存
-          </Button>
-          <Modal visible={visible} onCancel={this.onCancel} footer={null}>
-            <img
-              src={require("../../../../assets/ex4.png")}
-              style={{ width: "472px" }}
-            />
-          </Modal>
-        </Form>
-      </div>
-    );
+     <Content 
+      fileList1={fileList1}
+      fileList2={fileList2}
+      optionList={optionList}
+      couponList={couponList}
+      backgroupColor={backgroupColor}
+      receiveTimeInterval={receiveTimeInterval}
+      beginTime={beginTime}
+      endTime={endTime}
+      visible={visible}
+      changeUserImg={this.changeUserImg}
+      changeCouponImg={this.changeCouponImg}
+      lookExa={this.lookExa}
+      handleCallback={this.handleCallback}
+      handleSubmit={this.handleSubmit}
+      onCancel={this.onCancel}
+      onSelectChange={this.onSelectChange}
+     />
+    )
   }
 }
-const timeTips = (
-  <span>
-    <span style={{ paddingRight: "5px" }}>模块展示时间</span>
-    <Tooltip title="在模块展示时间内，新用户首页将出现领取优惠券的入口">
-      <Icon style={{ color: "#35BAB0" }} type="question-circle" />
-    </Tooltip>
-  </span>
-);
-const liquTips = (
-  <span>
-    <span style={{ paddingRight: "5px" }}>新人每次领取时间间隔</span>
-    <Tooltip title="新人领取时间间隔为，新用户两次领取新人礼之间的间隔，间隔期内，新用户将无法领取新人优惠券。">
-      <Icon style={{ color: "#35BAB0" }} type="question-circle" />
-    </Tooltip>
-  </span>
-);
 
-const NewUser = Form.create({})(Index);
-export default NewUser;
+export default Index;
