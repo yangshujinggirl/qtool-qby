@@ -29,6 +29,9 @@ export function columnsFun(form,handleBlur){
                   rules:[{
                     required:true,message:'请输入Spuid'
                   }],
+                  onChange:(e)=>{
+                    e.stopPropagation()
+                  }
                 })(
                   <Input
                     onBlur={(e)=>handleBlur(e,index)}

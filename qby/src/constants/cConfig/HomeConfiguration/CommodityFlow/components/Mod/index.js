@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import { DatePicker, Form, Select, Col, Row, Input, Button, Radio } from 'antd';
 import { connect } from 'dva';
 import lodash from 'lodash';
+import NP from 'number-precision';
 import GoodsTable from '../GoodsTable';
 import ClassifyMod from '../ClassifyMod';
+import { getSaveApi } from '../../../../../../services/cConfig/homeConfiguration/commodityFlow';
 import './index.less';
 
 const RangePicker = DatePicker.RangePicker;
@@ -23,14 +25,18 @@ class ModForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      radioVal:1,
       sortVal:0
     }
   }
   //排序类型
   changeRadio=(e)=> {
     let value = e.target.value;
-    this.setState({ radioVal:value })
+    let { totalData } =this.props;
+    totalData = { ...totalData, sortType: value }
+    this.props.dispatch({
+      type:'commodityFlow/getTotalData',
+      payload:totalData
+    })
   }
   //天数排数
   selectSaleSort=(e)=> {
@@ -40,24 +46,53 @@ class ModForm extends Component {
   submit=(func)=> {
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log(values)
-        // let { fieldsTwo, fieldsOne  } =values;
-        // let params = {
-        //   homePageModuleId:20,
-        //   pdSpuList:[...fieldsOne,...fieldsTwo]
-        // };
-        // getSaveApi(params)
-        // .then((res) => {
-        //   console.log(res)
-        // })
+        let sortRule;
+        const { sortType, ruleType } =values;
+        if(sortType==20) {
+          sortRule={
+            ruleType:values.ruleType,
+          };
+          if(ruleType==0) {
+            sortRule = { ...sortRule,day:values.day}
+          } else if(ruleType==1) {
+            sortRule = { ...sortRule,day:values.time}
+          }
+        } else if(sortType == 30) {
+            sortRule= {
+               sortArray:[]
+            }
+        }
+        const { selectkey, tabs, homePageModuleId } =this.props;
+        let params={
+              homePageModuleId:homePageModuleId,
+              tabName:tabs[selectkey].tabName,
+              tabId:tabs[selectkey].tabId,
+              sortType:values.sortType,
+              tabList:tabs,
+              sortRule:sortRule,
+              spuList:values.spuList
+            }
+        this.props.dispatch({ type: 'tab/loding', payload:true});
+        getSaveApi(params)
+        .then((res) => {
+          if(res.code == 0) {
+            this.props.dispatch({
+              type:'commodityFlow/fetchGoodsList',
+              payload:{
+                tabId:tabs[selectkey].tabId
+              }
+            })
+          }
+          this.props.dispatch({ type: 'tab/loding', payload:false});
+        })
       }
     });
   }
   render() {
     const { getFieldDecorator } = this.props.form;
     const { categoryData, goodsList, totalData } =this.props;
-    const { radioVal, sortVal } =this.state;
-    console.log(totalData)
+    const { sortVal } =this.state;
+
     return(
       <div className="commodity-main-mod">
         <Form>
@@ -91,7 +126,7 @@ class ModForm extends Component {
                   <FormItem>
                   {
                     getFieldDecorator('ruleType',{
-                      initialValue:0,
+                      initialValue:totalData.ruleType?totalData.ruleType:0,
                       onChange:(select)=>this.selectSaleSort(select)
                     })(
                       <Select
@@ -118,7 +153,9 @@ class ModForm extends Component {
                   <FormItem className="fixed-days-formItem">
                     最近
                     {
-                      getFieldDecorator('day')(
+                      getFieldDecorator('day',{
+                        initialValue:30
+                      })(
                         <Input placeholder="请输入" autoComplete="off"/>
                       )
                     }
@@ -129,7 +166,13 @@ class ModForm extends Component {
                   sortVal==1&&
                   <FormItem className="fixed-dateTime-formItem">
                     {
-                      getFieldDecorator('creatTime')(
+                      getFieldDecorator('time',{
+                        initialValue:totalData.time?moment(totalData.time,'YYYY-MM-DD HH:mm:ss'):null,
+                        rules:[{
+                          required:true,message:'请选择时间'
+                        }]
+
+                      })(
                         <RangePicker
                           format="YYYY-MM-DD HH:mm:ss"/>
                       )
@@ -140,13 +183,18 @@ class ModForm extends Component {
               </Row>
             }
             {
-              radioVal ==3&&
+              totalData.sortType==30&&
               <div className="sort-row">按顺序选择你要排列的属性商品，若存在一个商品有多个属性，则具有多重属性的商品排名靠前，属性越多排名越靠前。</div>
             }
           </div>
           <div className="part-thr part-same">
             <div className="tables-info-desc">
-              <p>已添加6件商品，每个tab固定展示40件商品，请再添加34个商品</p>
+              {
+                goodsList.length>40?
+                <p>已添加{goodsList.length}件商品，每个tab固定展示40件商品，41及以后的商品为替补商品。</p>
+                :
+                <p>已添加{goodsList.length}件商品，每个tab固定展示40件商品，请再添加{NP.minus(40,goodsList.length)}个商品</p>
+              }
               <p>已选 {goodsList.length}/100</p>
             </div>
             <GoodsTable form={this.props.form}/>

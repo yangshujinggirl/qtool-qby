@@ -33,7 +33,7 @@ class Card extends React.Component {
     const { getFieldDecorator } =this.props.form;
     return connectDragSource(
       connectDropTarget(
-        <div className={`item-tabs ${selectkey==item.key?'selectkey':''}`} onClick={()=>handleToggle(item)}>
+        <div className={`item-tabs ${selectkey==item.key?'selectkey':''}`} onClick={(e)=>handleToggle(e,item)}>
           <FormItem>
             {getFieldDecorator(`tabsField[${index}].tabName`,{
               initialValue:item.tabName,

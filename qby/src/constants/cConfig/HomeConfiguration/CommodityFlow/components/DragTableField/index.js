@@ -86,7 +86,7 @@ class Field extends Component {
         columns={columns}
         dataSource={goodsList}
         components={this.components}
-        footer={()=><Button type="default" onClick={this.props.handleAdd}>+新增</Button>}
+        footer={()=><Button type="default" disabled={goodsList.length>=100?true:false} onClick={this.props.handleAdd}>+新增</Button>}
         onRow={(record, index) => ({
           'data-row-key':record.key,
           'data-row-index':index,

@@ -24,8 +24,10 @@ class Field extends Component {
     }
   }
   //切换查详情
-  handleToggle =(value)=> {
+  handleToggle =(e,value)=> {
+    e.stopPropagation()
     const { tabId, key } =value;
+    debugger
     this.props.dispatch({
       type:'commodityFlow/fetchGoodsList',
       payload:{tabId,selectkey:key}

@@ -15,30 +15,13 @@ export default {
       isLevelThr:true,
       isLevelFour:true,
     },
-    tabs:[{key:0,tabName:'商品分类',tabId:1},{key:1,tabName:'tab2',tabId:2}],
+    tabs:[],
     selectkey:0,
-    goodsList:[{
-      key:0,
-      pdSpuId:'55',
-      cname:'MORPHY RICHARDS摩飞 便携榨汁杯',
-      classifyName:'奶粉辅食',
-      price:'¥4.00-9.00',
-      pdInvQty:'1290',
-      outOfStackQty:'200',
-      isFixed:1,
-    },{
-      key:1,
-      pdSpuId:'40',
-      cname:'MORPHY RICHARDS摩飞 便携榨汁杯',
-      classifyName:'奶粉辅食',
-      price:'¥4.00-9.00',
-      pdInvQty:'B端在售库存',
-      outOfStackQty:'1290',
-      isFixed:1,
-    }],
+    goodsList:[],
     totalData:{
       sortType:10,
-    }
+    },
+    homePageModuleId:'',
   },
   reducers: {
     //重置store
@@ -71,6 +54,9 @@ export default {
     },
     getSelectkey(state, { payload:selectkey }) {
       return { ...state,selectkey };
+    },
+    getHomePageModuleId(state, { payload:homePageModuleId }) {
+      return { ...state,homePageModuleId };
     },
     getTabs(state, { payload:tabs }) {
       tabs =[...tabs];
@@ -175,6 +161,7 @@ export default {
       } else {
         message.error(res.message)
       }
+      yield put({type: 'getHomePageModuleId',payload:values.homePageModuleId});
       yield put({type: 'tab/loding',payload:false});
     },
     *fetchGoodsList({ payload: values },{ call, put ,select}) {
@@ -185,9 +172,10 @@ export default {
       const res = yield call(getSearchGoodApi,params);
       //处理分类数据，disabled状态
       if(res.code == '0') {
-        if(res.pdFlowSp) {
-          const { spuList, sortRule, sortType } =res.pdFlowSpu;
+        if(res.pdFlowSpu) {
+          let { spuList, sortRule, sortType } =res.pdFlowSpu;
           let totalData = {...sortRule,sortType };
+          spuList.length>0&&spuList.map((el,index) => el.key =index)
           yield put({type: 'getGoodsList',payload:spuList});
           yield put({
             type: 'getTotalData',

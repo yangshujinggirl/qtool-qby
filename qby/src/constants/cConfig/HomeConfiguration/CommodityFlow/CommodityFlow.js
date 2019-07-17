@@ -12,10 +12,11 @@ class CommodityFlow extends Component {
     super(props);
   }
   componentDidMount() {
+    const { homepageModuleId } =this.props.data;
     this.props.dispatch({
       type:'commodityFlow/fetchTabList',
       payload:{
-        homePageModuleId:20
+        homePageModuleId:homepageModuleId
       }
     })
   }
