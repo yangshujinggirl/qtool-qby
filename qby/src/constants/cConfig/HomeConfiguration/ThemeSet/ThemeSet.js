@@ -121,13 +121,12 @@ class ThemeSet extends Component {
         this.setState({
           loading:false
         });
-        // message.success("保存成功");
+        message.success("保存成功");
       }
     });
   };
   render() {
     const { themeList, showThemeList,loading } = this.state;
-    console.log(showThemeList)
     const columns = getColumns(
       this.props.form,
       this.handleDelete,
