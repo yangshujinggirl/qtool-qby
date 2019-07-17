@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table, Button, Form, Input } from 'antd';
+import { Table, Button, Form, Input, message } from 'antd';
 import { connect } from 'dva';
 import DragField from '../DragField';
 import { getSearchIdApi } from '../../../../../../services/cConfig/homeConfiguration/moreGoodsSet';
@@ -49,17 +49,26 @@ class Mod extends Component {
     if(!value) {
       return;
     }
-    let { goods } =this.props;
+    let { goods, totalList } =this.props;
+    this.props.dispatch({ type: 'tab/loding', payload:true});
     getSearchIdApi({pdSpuId:value})
     .then((res) => {
-      let { spuInfo } =res;
-      goods[listType] = goods[listType].map((el,idx) => {
-        if(index == idx) {
-          el = {...el,...spuInfo}
-        };
-        return el
-      });
-      this.callBack(goods);
+      if(res.code==0) {
+        let { spuInfo } =res;
+        let idx = totalList.map((el) => el.pdSpuId == spuInfo.pdSpuId);
+        if(idx != -1) {
+          message.error('商品重复，请重新添加');
+        } else {
+          goods[listType] = goods[listType].map((el,idx) => {
+            if(index == idx) {
+              el = {...el,...spuInfo}
+            };
+            return el
+          });
+          this.callBack(goods);
+        }
+      }
+      this.props.dispatch({ type: 'tab/loding', payload:false});
     })
   }
   callBack=(goods)=> {

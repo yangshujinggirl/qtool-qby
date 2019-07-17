@@ -47,7 +47,6 @@ class ClassifyMod extends Component {
   }
   //添加
   handleAdd=()=> {
-    console.log(this.props.form.getFieldsValue())
     const { categoryData } =this.props;
     const { pdCategory1Id, pdCategory2Id, pdCategory3Id, pdCategory4Id } =this.props.form.getFieldsValue();
     let pdCategory = {
@@ -63,6 +62,7 @@ class ClassifyMod extends Component {
     if(!paramsStr) {
       return;
     }
+    this.props.dispatch({ type: 'tab/loding', payload:true});
     getAddApi({catalogListStr:paramsStr})
     .then((res) => {
       const { spuList, code } =res;
@@ -75,6 +75,7 @@ class ClassifyMod extends Component {
           payload:spuList
         })
       }
+      this.props.dispatch({ type: 'tab/loding', payload:false});
     })
   }
   //下载

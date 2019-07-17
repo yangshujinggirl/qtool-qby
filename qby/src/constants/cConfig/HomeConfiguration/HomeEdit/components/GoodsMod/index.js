@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import { Button } from 'antd';
-import Countdown from 'react-count-down'
+import Countdown from 'react-countdown-now';
 import Swiper from 'swiper/dist/js/swiper.js';
 import './index.less';
 
@@ -38,17 +38,13 @@ class GoodsMod extends Component {
     const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
     backgroundPicUrl = `${fileDomain}${backgroundPicUrl}`;
     const endDate = new Date('2019-8-24') // Christmas, yay
-
-    const OPTIONS = {
-      endDate: endDate,
-    }
     return(
       <div className={`common-sty goods-mod ${!isDisplay?'hiddle-module':''}`} style={{'background':`#fff url(${backgroundPicUrl})`}}>
         <div className="mod-wrap">
           <div className="mod-common-head">
             <div className="hd-item">
               商品模块
-              <Countdown options={OPTIONS} />
+              <Countdown date={endDate} />
               {/*<span className="count-times">
                 <span className="time-num">24</span>
                 :

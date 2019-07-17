@@ -55,12 +55,6 @@ export function columnsFun(form,handleBlur){
       width:'8%',
     },
     {
-      title: '商品价格',
-      dataIndex:'price',
-      key: 'price',
-      width:'10%',
-    },
-    {
       title: 'B端在售库存',
       dataIndex: 'pdInvQty',
       key: 'pdInvQty',

@@ -3,7 +3,8 @@ import { Tabs, Button, Form, Input, Icon } from 'antd';
 import { DragSource, DropTarget } from 'react-dnd';
 import { connect } from 'dva';
 import update from 'immutability-helper';
-
+import MyTagControlContext from '../MyTagControlContext';
+import './index.less';
 
 
 const FormItem = Form.Item;
@@ -29,29 +30,13 @@ const rowTarget = {
 class Card extends React.Component {
   render() {
     const { isOver, connectDragSource, connectDropTarget } = this.props;
-    const { index, handleToggle, handleDelete, item,  selectkey } =this.props;
-    const { getFieldDecorator } =this.props.form;
+    let { index, item } =this.props;
+    index++
     return connectDragSource(
       connectDropTarget(
-        <div
-          className={`item-tabs ${selectkey==item.key?'selectkey':''}`}
-          onClick={(e)=>handleToggle(e,item)}>
-          <FormItem>
-            {getFieldDecorator(`tabsField[${index}].tabName`,{
-              initialValue:item.tabName,
-              rules:[{
-                required: true,message:'请输入请输入名称'
-              },{
-                validator:this.props.validator
-              }],
-            })(
-              <Input
-                maxLength='4'
-                placeholder="请输入请输入名称"
-                autoComplete="off"/>
-            )}
-          </FormItem>
-          <Icon type="close" className="close-btn" onClick={(e)=>handleDelete(e,item)}/>
+        <div key={index} className="item-sort">
+          {item.title}
+          <span className="icon-idx">{index}</span>
         </div>
       ),
     );
@@ -67,4 +52,25 @@ DragableCard = DragSource('row', rowSource, connect => ({
   connectDragSource: connect.dragSource(),
 }))(DragableCard);
 
-export default DragableCard;
+
+class Sort extends Component {
+  render() {
+    const { sortArr } =this.props;
+    return(
+      <div className="sort-arr-action">
+        {
+          sortArr.map((el,index)=> (
+            <DragableCard
+              key={index}
+              item={el}
+              index={index}
+              moveRow={this.props.moveRow}/>
+          ))
+        }
+      </div>
+    )
+  }
+}
+Sort = MyTagControlContext(Sort);
+
+export default Sort;

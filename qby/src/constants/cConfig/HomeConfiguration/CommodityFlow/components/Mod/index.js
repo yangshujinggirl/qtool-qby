@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { DatePicker, Form, Select, Col, Row, Input, Button, Radio } from 'antd';
+import { DatePicker, Form, Select, Col, Row, Input, Button, Radio, message } from 'antd';
 import { connect } from 'dva';
 import lodash from 'lodash';
+import moment from 'moment';
 import NP from 'number-precision';
 import GoodsTable from '../GoodsTable';
 import ClassifyMod from '../ClassifyMod';
+import DragTabSort from '../DragTabSort';
 import { getSaveApi } from '../../../../../../services/cConfig/homeConfiguration/commodityFlow';
 import './index.less';
 
@@ -40,46 +42,37 @@ class ModForm extends Component {
   }
   //天数排数
   selectSaleSort=(e)=> {
-    this.setState({ sortVal:e })
+    let { totalData } =this.props;
+    totalData = { ...totalData, ruleType: e }
+    this.props.dispatch({
+      type:'commodityFlow/getTotalData',
+      payload:totalData
+    })
   }
   //提交
   submit=(func)=> {
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        let sortRule;
-        const { sortType, ruleType } =values;
-        if(sortType==20) {
-          sortRule={
-            ruleType:values.ruleType,
-          };
-          if(ruleType==0) {
-            sortRule = { ...sortRule,day:values.day}
-          } else if(ruleType==1) {
-            sortRule = { ...sortRule,day:values.time}
+        let { selectkey, tabs, homePageModuleId } =this.props;
+        let isEmpty;
+        tabs.map((el,index) => {
+          if(!el.tabName) {
+            message.error('tab名称不能为空');
+            isEmpty = true;
           }
-        } else if(sortType == 30) {
-            sortRule= {
-               sortArray:[]
-            }
+        })
+        if(isEmpty) {
+          return;
         }
-        const { selectkey, tabs, homePageModuleId } =this.props;
-        let params={
-              homePageModuleId:homePageModuleId,
-              tabName:tabs[selectkey].tabName,
-              tabId:tabs[selectkey].tabId,
-              sortType:values.sortType,
-              tabList:tabs,
-              sortRule:sortRule,
-              spuList:values.spuList
-            }
+        let  params = this.formatData(values);
         this.props.dispatch({ type: 'tab/loding', payload:true});
         getSaveApi(params)
         .then((res) => {
           if(res.code == 0) {
             this.props.dispatch({
-              type:'commodityFlow/fetchGoodsList',
+              type:'commodityFlow/fetchTabList',
               payload:{
-                tabId:tabs[selectkey].tabId
+                homePageModuleId:homePageModuleId
               }
             })
           }
@@ -88,10 +81,54 @@ class ModForm extends Component {
       }
     });
   }
+  formatData(values) {
+    let sortRule;
+    const { sortType, ruleType } =values;
+    let { selectkey, tabs, homePageModuleId, sortArr } =this.props;
+    if(sortType==20) {
+      sortRule={
+        ruleType:values.ruleType,
+      };
+      if(ruleType==0) {
+        sortRule = { ...sortRule,day:values.day}
+      } else if(ruleType==2) {
+        let time = values.time.map((el) =>{
+          el = moment(el).format('YYYY-MM-DD HH:mm:ss')
+          return el;
+        })
+        sortRule = { ...sortRule,time:time}
+      }
+    } else if(sortType == 30) {
+        sortRule= {
+           sortObjArray:sortArr
+        }
+    }
+    let selectItem = tabs.find((el) => el.key== selectkey);
+    let params={
+          homePageModuleId:homePageModuleId,
+          tabName:selectItem.tabName,
+          tabId:selectItem.tabId,
+          sortType:values.sortType,
+          tabList:tabs,
+          sortRule:sortRule,
+          spuList:values.spuList
+        }
+    return params
+  }
+  moveRow = (dragIndex, hoverIndex) => {
+    let { sortArr } =this.props;
+    let tempHover = sortArr[dragIndex];
+    let tempDrag = sortArr[hoverIndex];
+    sortArr.splice(hoverIndex, 1, tempHover);
+    sortArr.splice(dragIndex, 1, tempDrag);
+    this.props.dispatch({
+      type:'commodityFlow/getSortArr',
+      payload:sortArr
+    })
+  };
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { categoryData, goodsList, totalData } =this.props;
-    const { sortVal } =this.state;
+    const { categoryData, goodsList, totalData, sortArr } =this.props;
 
     return(
       <div className="commodity-main-mod">
@@ -137,11 +174,11 @@ class ModForm extends Component {
                           value={0}
                           key={0}>固定天数销量</Option>
                         <Option
-                          value={1}
-                          key={1}>固定时间段销量</Option>
-                        <Option
                           value={2}
-                          key={2}>累计销量</Option>
+                          key={2}>固定时间段销量</Option>
+                        <Option
+                          value={1}
+                          key={1}>累计销量</Option>
                       </Select>
                     )
                   }
@@ -149,7 +186,7 @@ class ModForm extends Component {
                 </Col>
                 <Col span={8} >
                 {
-                  sortVal==0&&
+                  totalData.ruleType==0&&
                   <FormItem className="fixed-days-formItem">
                     最近
                     {
@@ -163,11 +200,11 @@ class ModForm extends Component {
                   </FormItem>
                 }
                 {
-                  sortVal==1&&
+                  totalData.ruleType==2&&
                   <FormItem className="fixed-dateTime-formItem">
                     {
                       getFieldDecorator('time',{
-                        initialValue:totalData.time?moment(totalData.time,'YYYY-MM-DD HH:mm:ss'):null,
+                        initialValue:totalData.time?[moment(totalData.time[0],'YYYY-MM-DD HH:mm:ss'),moment(totalData.time[1],'YYYY-MM-DD HH:mm:ss')]:null,
                         rules:[{
                           required:true,message:'请选择时间'
                         }]
@@ -184,7 +221,12 @@ class ModForm extends Component {
             }
             {
               totalData.sortType==30&&
-              <div className="sort-row">按顺序选择你要排列的属性商品，若存在一个商品有多个属性，则具有多重属性的商品排名靠前，属性越多排名越靠前。</div>
+              <div className="sort-row">
+                <p className="sort-tips">按顺序拖拽你要排列的属性商品，若存在一个商品有多个属性，则具有多重属性的商品排名靠前，属性越多排名越靠前。</p>
+                <DragTabSort
+                  moveRow={this.moveRow}
+                  sortArr={sortArr}/>
+              </div>
             }
           </div>
           <div className="part-thr part-same">

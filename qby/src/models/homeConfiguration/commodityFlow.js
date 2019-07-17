@@ -22,6 +22,19 @@ export default {
       sortType:10,
     },
     homePageModuleId:'',
+    sortArr:[{
+        title:'新品',
+        key:'a'
+      },{
+        title:'热卖商品',
+        key:'b'
+      },{
+        title:'促销商品',
+        key:'c'
+      },{
+        title:'普通商品',
+        key:'d'
+      }]
   },
   reducers: {
     //重置store
@@ -37,10 +50,29 @@ export default {
       }
       const goodsList = [];
       const totalData = {};
+      const tabs = [];
+      const selectkey = 0;
+      const sortArr =[
+        {
+          title:'新品',
+          key:'a'
+        },{
+          title:'热卖商品',
+          key:'b'
+        },{
+          title:'促销商品',
+          key:'c'
+        },{
+          title:'普通商品',
+          key:'d'
+        }]
       return {
         ...state,
-        categoryData,goodsList,totalData
+        categoryData,goodsList,totalData,sortArr,tabs,selectkey
        }
+    },
+    getSortArr(state, { payload:sortArr }) {
+      return { ...state,...sortArr };
     },
     getCategory(state, { payload:categoryData }) {
       return { ...state,...categoryData };
@@ -147,9 +179,7 @@ export default {
       if(res.code == '0') {
         let { pdFlowTabList } =res;
         if(pdFlowTabList&&pdFlowTabList.length>0) {
-          pdFlowTabList.map((el,index) => {
-            el.key = index
-          })
+          pdFlowTabList.map((el,index) => el.key = index)
           yield put({
             type:'fetchGoodsList',
             payload:{tabId:pdFlowTabList[0].tabId, selectkey:0}
@@ -165,7 +195,7 @@ export default {
       yield put({type: 'tab/loding',payload:false});
     },
     *fetchGoodsList({ payload: values },{ call, put ,select}) {
-      yield put({type: 'resetData',payload:{}});
+      // yield put({type: 'resetData',payload:{}});
       let { selectkey, tabId } =values;
       let params = { tabId };
       yield put({type: 'tab/loding',payload:true});

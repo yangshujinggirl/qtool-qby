@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 import { Tabs, Button, Form, Input, Icon } from 'antd';
-import { DragDropContext } from 'react-dnd';
-import HTML5Backend from 'react-dnd-html5-backend';
 import { connect } from 'dva';
 import DragTabCard from '../DragTabCard';
 import MyTagControlContext from '../MyTagControlContext';
-// import { MyTagControlContext } from '../MyTagControlContext';
 import './index.less';
 
 
@@ -26,8 +23,10 @@ class Field extends Component {
   //切换查详情
   handleToggle =(e,value)=> {
     e.stopPropagation()
+    if(e.target.tagName=='INPUT') {
+      return;
+    }
     const { tabId, key } =value;
-    debugger
     this.props.dispatch({
       type:'commodityFlow/fetchGoodsList',
       payload:{tabId,selectkey:key}
@@ -39,13 +38,33 @@ class Field extends Component {
     let { key } =this.state;
     key++;
     tabs.push({ key, tabId:null, firstIn:false });
+    if(tabs.length == 1) {
+      this.props.dispatch({
+        type:'commodityFlow/getSelectkey',
+        payload:key
+      })
+    }
     this.updateTabs(tabs)
   }
   //删除
   handleDelete=(e,record)=> {
     e.stopPropagation()
-    let { tabs } =this.props;
-    tabs = tabs.filter(item => item.key !== record.key)
+    let { tabs, selectkey } =this.props;
+    tabs = tabs.filter(item => item.key !== record.key);
+    if(tabs.length==0) {
+      this.props.dispatch({
+        type:'commodityFlow/resetData',
+        payload:{}
+      })
+      return;
+    }
+    if(selectkey==record.key&&tabs.length>0) {
+      selectkey = tabs[0].key;
+      this.props.dispatch({
+        type:'commodityFlow/fetchGoodsList',
+        payload:{tabId:tabs[0].tabId,selectkey}
+      })
+    }
     this.updateTabs(tabs)
   }
   validator = (rule, value, callback) => {
@@ -77,6 +96,8 @@ class Field extends Component {
   }
   render() {
     const { tabs, selectkey } =this.props;
+    console.log(selectkey)
+    console.log(tabs)
     return (
       <div className="part-same tabs-mod-wrap">
         <p className="part-head">设置商品流tab</p>

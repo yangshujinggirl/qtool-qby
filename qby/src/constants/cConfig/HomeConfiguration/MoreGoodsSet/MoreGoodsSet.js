@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table, Button, Form, Input } from 'antd';
+import { Table, Button, Form, Input, message } from 'antd';
 import { connect } from 'dva';
 import ModDis from './components/MainMod';
 import ImportBtn from './components/ImportBtn';
@@ -39,6 +39,11 @@ class Mod extends Component {
           fieldsOne = fieldsTwo;
         }
         const { homepageModuleId } =this.props.data;
+        const { totalList } =this.props;
+        if(totalList.length<6) {
+          message.error('请至少配置6个商品');
+          return;
+        }
         let params = {
           homePageModuleId:homepageModuleId,
           pdSpuList:pdSpuList
@@ -51,8 +56,18 @@ class Mod extends Component {
     });
   }
   //导入更新
-  uploadData(data) {
-    console.log(data)
+  callback=(list)=> {
+    let goods,listOne=[],listTwo=[];
+    if(list.length>=6) {
+      listOne = list.slice(0,6);
+      listTwo = list.slice(7);
+    }
+    goods = { listOne, listTwo };
+    this.props.dispatch({
+      type:'moreGoodsSet/getGoodsList',
+      payload:goods
+    });
+    this.props.form.resetFields()
   }
   //下载
   downLoadTep=()=>{
@@ -65,7 +80,7 @@ class Mod extends Component {
       <div className="more-goods-set-mod">
         <div className="part-top">
           <div className="row-btn">
-            <ImportBtn uploadData={this.uploadData}/>
+            <ImportBtn callback={this.callback}/>
             <Button
               onClick={this.downLoadTep}
               size="large"

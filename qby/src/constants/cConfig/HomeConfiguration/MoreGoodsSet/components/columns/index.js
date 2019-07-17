@@ -133,7 +133,7 @@ export function columnsFun(form,handleBlur){
     },
   ];
 }
-export function columnsTwoFun(form, handleChange, handleBlur){
+export function columnsTwoFun(form, handleBlur){
   return [
     {
       title: '以下为替补商品',
@@ -158,12 +158,10 @@ export function columnsTwoFun(form, handleChange, handleBlur){
         return <FormItem>
                 {getFieldDecorator(`fieldsTwo[${index}].pdSpuId`,{
                   initialValue:record.pdSpuId,
-                  rules:[{
-                    required:true,message:'请输入Spuid'
-                  }],
+                  rules:[],
                 })(
                   <Input
-                    onBlur={(e)=>this.handleBlur('listTwo',e,index)}
+                    onBlur={(e)=>handleBlur('listTwo',e,index)}
                     maxLength='15'
                     placeholder="请输入Spuid"
                     autoComplete="off"/>
