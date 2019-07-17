@@ -5,6 +5,16 @@ import Swiper from "swiper/dist/js/swiper.js";
 import "./index.less";
 
 class ThemeMod extends Component {
+  componentDidMount() {
+    new Swiper(".theme-swiper-container", {
+      slidesPerView: 3,
+      spaceBetween: 10,
+      pagination: {
+        el: ".swiper-pagination",
+        clickable: true
+      }
+    });
+  }
   goEdit = () => {
     const { componkey } = this.props;
     const paneitem = {
@@ -18,73 +28,39 @@ class ThemeMod extends Component {
       payload: paneitem
     });
   };
-  componentDidMount() {
-    new Swiper(".theme-swiper-container", {
-      slidesPerView: 3,
-      spaceBetween: 10,
-      pagination: {
-        el: ".swiper-pagination",
-        clickable: true
-      }
-    });
-  }
   render() {
-    const dataList = [
-      {
-        name:
-          "这是主题主题的标题两行商品喂乳用品名称最多两行商品名称最多两行商品名称最多两行",
-        desc: "这是主题主题的副标题"
-      },
-      {
-        name: "喂乳用品",
-        desc: "这是主题主题的副标题"
-      },
-      {
-        name: "婴幼玩具",
-        desc: "这是主题主题的副标题"
-      },
-      {
-        name: "尿裤湿巾",
-        desc: "这是主题主题的副标题"
-      },
-      {
-        name: "衣衣",
-        desc: "这是主题主题的副标题"
-      },
-      {
-        name: "奶嘴",
-        desc: "这是主题主题的副标题"
-      },
-      {
-        name: "奶瓶",
-        desc: "这是主题主题的副标题"
-      }
-    ];
+    let { moduleContent, backgroundPicUrl } =this.props.info.themeActivity;
+    const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
+    backgroundPicUrl = `${fileDomain}${backgroundPicUrl}`;
     return (
-      <div className="common-sty theme-mod">
+      <div className="common-sty theme-mod" style={{'background':`#fff url(${backgroundPicUrl})`}}>
         <div className="mod-wrap">
           <div className="mod-common-head">
             <div className="hd-item">主题模块</div>
             <p className="hd-item">查看更多</p>
           </div>
-          <div className="swiper-container theme-swiper-container">
-            <div className="swiper-wrapper">
-              {dataList.map((el, index) => (
-                <div className="swiper-slide" key={index}>
-                  <div className="item-icon">
-                    <div className="pic-wrap">
-                      <img src="" />
+          {
+            moduleContent&&moduleContent.length>0?
+            <div className="swiper-container theme-swiper-container">
+              <div className="swiper-wrapper">
+                {moduleContent.map((el, index) => (
+                  <div className="swiper-slide" key={index}>
+                    <div className="item-icon">
+                      <div className="pic-wrap">
+                        <img src={el.themePic} />
+                      </div>
+                      <p className="title-level-one">{el.themeTitle}</p>
+                      <p className="price">{el.subtitle}</p>
                     </div>
-                    <p className="title-level-one">{el.name}</p>
-                    <p className="price">{el.desc}</p>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
+            :
+            <div className="no-module-data theme-noData">主题模块</div>
+          }
         </div>
         <div className="handle-btn-action">
-          <Button>查看</Button>
           <Button onClick={this.goEdit}>编辑</Button>
         </div>
       </div>

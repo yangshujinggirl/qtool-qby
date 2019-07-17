@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Table, Button, Form, Input } from 'antd';
 import { connect } from 'dva';
 import DragField from '../DragField';
+import { getSearchIdApi } from '../../../../../../services/cConfig/homeConfiguration/moreGoodsSet';
 import { columnsFun, columnsTwoFun } from '../columns/index';
 // import './index.less';
 
@@ -18,7 +19,7 @@ class Mod extends Component {
       listOne.push({ key:addkey })
     }
     goods={ ...goods,listOne, listTwo};
-    this.props.callBack(goods);
+    this.callBack(goods);
   }
   //表单事件
   onOperateClick=(record,listType,type)=> {
@@ -31,7 +32,7 @@ class Mod extends Component {
   handleDelete=(listType,record)=> {
     let { goods } =this.props;
     goods[listType] = goods[listType].filter(item => item.key !== record.key)
-    this.props.callBack(goods);
+    this.callBack(goods);
   }
   moveRow = (dragParent, hoverParent, dragIndex, hoverIndex) => {
     let { goods } =this.props;
@@ -39,7 +40,7 @@ class Mod extends Component {
     let tempDrag = goods[hoverParent][hoverIndex];
     goods[hoverParent].splice(hoverIndex, 1, tempHover);
     goods[dragParent].splice(dragIndex, 1, tempDrag);
-    this.props.callBack(goods);
+    this.callBack(goods);
   };
   //code
   handleBlur=(listType,e,index)=> {
@@ -48,26 +49,25 @@ class Mod extends Component {
     if(!value) {
       return;
     }
-    this.getSearch(listType,value,index)
-  }
-  //code查询商品
-  getSearch(listType,value,index) {
     let { goods } =this.props;
-    let res={
-      pdSpuName: '奶粉',
-      Spuid:'3456',
-      pdCategory:'3级商品分类',
-      pdSpuPrice:'¥200-¥999.33',
-      wsInv:'1290',
-      outOfStockShopNum:'2家',
-    };
-    goods[listType] = goods[listType].map((el,idx) => {
-      if(index == idx) {
-        el = {...el,...res}
-      };
-      return el
+    getSearchIdApi({pdSpuId:value})
+    .then((res) => {
+      let { spuInfo } =res;
+      goods[listType] = goods[listType].map((el,idx) => {
+        if(index == idx) {
+          el = {...el,...spuInfo}
+        };
+        return el
+      });
+      this.callBack(goods);
+    })
+  }
+  callBack=(goods)=> {
+    this.props.dispatch({
+      type:'moreGoodsSet/getGoodsList',
+      payload:goods
     });
-    this.props.callBack(goods);
+    this.props.form.resetFields()
   }
   render() {
     const { goods, form } =this.props;

@@ -111,17 +111,16 @@ class BrandMod extends Component {
     let { homepageModuleId,backgroundPicUrl, contentPicUrl,isDisplay } =this.props.info.brandDisplay;
     const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
     backgroundPicUrl = `${fileDomain}${backgroundPicUrl}`;
-
     return (
       <div className={`common-sty brand-mod ${!isDisplay?'hiddle-module':''}`} style={{'background':`#fff url(${backgroundPicUrl})`}}>
-        <div className="content-wrap">
         {
           contentPicUrl?
-          <img src={`${fileDomain}${contentPicUrl}`}/>
+          <div className="content-wrap">
+            <img src={`${fileDomain}${contentPicUrl}`}/>
+          </div>
           :
-          <div className="no-module-data"></div>
+          <div className="no-module-data brand-mod-no-data">品牌背书</div>
         }
-        </div>
         <div className="handle-btn-action">
           <Button onClick={this.onEdit}>编辑</Button>
           <Button onClick={()=>this.props.toggleShow(homepageModuleId,isDisplay)}>{isDisplay?'隐藏':'展开'}</Button>

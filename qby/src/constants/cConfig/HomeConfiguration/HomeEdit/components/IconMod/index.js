@@ -24,8 +24,9 @@ class IconMod extends Component {
     let { moduleContent, backgroundPicUrl, isDisplay } =this.props.info.icon;
     const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
     backgroundPicUrl = `${fileDomain}${backgroundPicUrl}`;
+
     return(
-      <div className="common-sty icon-mod" style={{'background':`#fff url(${backgroundPicUrl})`}}>
+      <div className={`common-sty icon-mod ${!isDisplay?'hiddle-module':''}`} style={{'background':`#fff url(${backgroundPicUrl})`}}>
         {
           moduleContent&&moduleContent.length>0?
           <div className="mod-wrap">
@@ -40,9 +41,6 @@ class IconMod extends Component {
           </div>
           :
           <div className="no-module-data icon-no-data">Icon 模块</div>
-        }
-        {
-          !isDisplay&&<div className="hiddle-module"></div>
         }
         <div className="handle-btn-action">
           <Button onClick={this.goEdit}>编辑</Button>

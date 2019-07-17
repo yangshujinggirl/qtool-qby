@@ -67,10 +67,10 @@ class HomeEdit extends Component {
           <IconMod {...this.props} callback={this.fetchInfo} toggleShow={this.toggleShow}/>
           <NewUserMod {...this.props} callback={this.fetchInfo} toggleShow={this.toggleShow}/>
           <GoodsMod {...this.props} callback={this.fetchInfo} toggleShow={this.toggleShow}/>
-          <MorePicMod {...this.props} callback={this.fetchInfo} toggleShow={this.toggleShow}/>
-          <MoreGoodsMod {...this.props} callback={this.fetchInfo} toggleShow={this.toggleShow}/>
-          <ThemeMod {...this.props} callback={this.fetchInfo} toggleShow={this.toggleShow}/>
-          <ClassifyMod {...this.props} callback={this.fetchInfo} toggleShow={this.toggleShow}/>
+          <MorePicMod {...this.props} callback={this.fetchInfo} />
+          <MoreGoodsMod {...this.props} callback={this.fetchInfo} />
+          <ThemeMod {...this.props} callback={this.fetchInfo} />
+          <ClassifyMod {...this.props} callback={this.fetchInfo} />
         </div>
       </div>
     );

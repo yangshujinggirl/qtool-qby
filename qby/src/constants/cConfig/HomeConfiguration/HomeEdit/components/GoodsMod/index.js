@@ -33,23 +33,11 @@ class GoodsMod extends Component {
     })
   }
   render() {
-    const dataList=[{
-      name:'商品名称最多两行商品喂乳用品名称最多两行商品名称最多两行商品名称最多两行',
-    },{
-      name:'喂乳用品',
-    },{
-      name:'婴幼玩具',
-    },{
-      name:'尿裤湿巾',
-    },{
-      name:'衣衣',
-    },{
-      name:'奶嘴',
-    },{
-      name:'奶瓶',
-    }]
+    let { homepageModuleId, moduleContent, backgroundPicUrl,isDisplay } =this.props.info.productDisplay;
+    const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
+    backgroundPicUrl = `${fileDomain}${backgroundPicUrl}`;
     return(
-      <div className="common-sty goods-mod">
+      <div className={`common-sty goods-mod ${!isDisplay?'hiddle-module':''}`} style={{'background':`#fff url(${backgroundPicUrl})`}}>
         <div className="mod-wrap">
           <div className="mod-common-head">
             <div className="hd-item">
@@ -64,27 +52,30 @@ class GoodsMod extends Component {
             </div>
             <p className="hd-item">查看更多</p>
           </div>
-          <div className="swiper-container goods-swiper-container">
-            <div className="swiper-wrapper">
-              {
-                dataList.map((el,index) => (
-                  <div className="swiper-slide" key={index}>
-                    <div className="item-icon">
-                      <div className="pic-wrap"><img src=''/></div>
-                      <p className="title-level-one textTwoLine">{el.name}</p>
-                      <p className="price">¥999.0</p>
+          {
+            moduleContent&&moduleContent.length>0?
+            <div className="swiper-container goods-swiper-container">
+              <div className="swiper-wrapper">
+                {
+                  moduleContent.map((el,index) => (
+                    <div className="swiper-slide" key={index}>
+                      <div className="item-icon">
+                        <div className="pic-wrap"><img src={`${fileDomain}${pdPic}`}/></div>
+                        <p className="title-level-one textTwoLine">{el.name}</p>
+                        <p className="price">¥999.0</p>
+                      </div>
                     </div>
-                  </div>
-                ))
-              }
+                  ))
+                }
+              </div>
             </div>
-            {/* <div className="swiper-pagination"></div> */}
-          </div>
+            :
+            <div className="no-module-data goods-no-module">商品模块</div>
+          }
         </div>
         <div className="handle-btn-action">
-          <Button>查看</Button>
           <Button onClick={this.goEdit}>编辑</Button>
-          <Button>隐藏</Button>
+          <Button onClick={()=>this.props.toggleShow(homepageModuleId,isDisplay)}>{isDisplay?'隐藏':'展开'}</Button>
         </div>
       </div>
     )
