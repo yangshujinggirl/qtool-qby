@@ -1,5 +1,5 @@
 import react, { Component } from "react";
-import { Dropdown, Menu, Modal, Popover, Button } from "antd";
+import { Dropdown, Menu, Modal, Popover, Button, message } from "antd";
 import { connect } from "dva";
 import QRCode from 'qrcode';
 import SearchMod from "./components/SearchMod";
@@ -12,7 +12,11 @@ import MorePicMod from "./components/MorePicMod";
 import MoreGoodsMod from "./components/MoreGoodsMod";
 import ThemeMod from "./components/ThemeMod";
 import ClassifyMod from "./components/ClassifyMod";
-import { getStatusApi } from "../../../../services/cConfig/homeConfiguration/homeEdit";
+import ReleaseModal from './components/ReleaseModal';
+import {
+  getStatusApi,
+  getReleaseApi
+} from "../../../../services/cConfig/homeConfiguration/homeEdit";
 import "./index.less";
 
 class HomeEdit extends Component {
@@ -20,7 +24,8 @@ class HomeEdit extends Component {
     super(props);
     this.state = {
       urlCode:'',
-      visible:false
+      visible:false,
+      params:{}
     }
   }
   componentDidMount() {
@@ -53,7 +58,7 @@ class HomeEdit extends Component {
     let urlCode = `https://www.baidu.com/homepageId=${homepageId}`
     QRCode.toDataURL(urlCode)
     .then(url => {
-      this.setState({ urlCode:url, visible:true })
+      this.setState({ urlCode:url })
     })
     .catch(err => {
       // console.error(err)
@@ -62,18 +67,47 @@ class HomeEdit extends Component {
   handleCancel=()=>{
     this.setState({ visible:false })
   }
+  releaseHome=(value)=>{
+    const { homepageId } = this.props.data;
+    let params = {
+        type:value.key,
+        homepageId
+      }
+    if(value.key == '1') {
+      this.getSaveRelease(params);
+    } else {
+      this.setState({ visible:true, params })
+    }
+  }
+  getSaveRelease=(value)=> {
+    const { params } =this.state;
+    value = {...value,...params};
+    getReleaseApi(value)
+    .then((res) => {
+      const { checkResult, code } =res;
+      let msg = values.type=='1'?'发布成功':'立即发布设置成功';
+      if(res.code=='0') {
+        message.success(msg)
+      } else {
+        console.log(checkResult)
+      }
+    })
+  }
+  onOk=(value)=>{
+    this.getSaveRelease(value)
+  }
   render() {
     const menu = (
-      <Menu className="home-configuration-menu">
-        <Menu.Item key="0">
+      <Menu className="home-configuration-menu" onClick={this.releaseHome}>
+        <Menu.Item key="1">
           <p>立即发布</p>
         </Menu.Item>
-        <Menu.Item key="1">
+        <Menu.Item key="2">
           <p>定时发布</p>
         </Menu.Item>
       </Menu>
     );
-    const { urlCode } =this.state;
+    const { urlCode, visible } =this.state;
     return (
       <div className="home-configuration-edit-pages">
         <div className="part-head">
@@ -99,6 +133,9 @@ class HomeEdit extends Component {
           <ThemeMod {...this.props} callback={this.fetchInfo} />
           <ClassifyMod {...this.props} callback={this.fetchInfo} />
         </div>
+        <ReleaseModal
+          visible={visible}
+          onOk={this.onOk}/>
       </div>
     );
   }

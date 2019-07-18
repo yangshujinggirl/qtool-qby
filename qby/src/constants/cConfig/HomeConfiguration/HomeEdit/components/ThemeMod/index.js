@@ -53,7 +53,7 @@ class ThemeMod extends Component {
                     <div className="swiper-slide" key={index}>
                       <div className="item-icon">
                         <div className="pic-wrap">
-                          <img src={el.themePic} />
+                          <img src={`${fileDomain}${el.themePic}`} />
                         </div>
                         <p className="title-level-one">{el.themeTitle}</p>
                         <p className="price">{el.subtitle}</p>

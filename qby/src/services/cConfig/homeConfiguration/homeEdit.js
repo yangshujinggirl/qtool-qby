@@ -8,7 +8,7 @@ export function getInfoApi(values) {
       data:values
   })
 }
-//保存
+//切换
 export function getStatusApi(values) {
   values = JSON.stringify(values)
   return ajax.post('/webrest.htm',{
@@ -16,11 +16,19 @@ export function getStatusApi(values) {
       data:values
   })
 }
-//保存
+//商品流商品
 export function getSearchGoodsApi(values) {
   values = JSON.stringify(values)
   return ajax.post('/webrest.htm',{
       code:'qerp.web.homePage.config.flowProduct',
+      data:values
+  })
+}
+//发布
+export function getReleaseApi(values) {
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.homePage.config.release',
       data:values
   })
 }
