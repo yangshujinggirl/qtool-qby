@@ -14,7 +14,7 @@ class Index extends Component {
     this.setState({ activeKey })
   }
   render() {
-    const {homePageModuleId} = this.props;
+    const {homepageModuleId} = this.props.data;
     const { activeKey } = this.state;
     return (
       <div className="content_box stock-tabs" >
@@ -28,7 +28,7 @@ class Index extends Component {
           <TabPane tab="模块设置" key="2">
             {
               activeKey=='2'&&
-              <ModuleSet {...this.props}/>
+              <ModuleSet {...this.props} homepageModuleId={homepageModuleId}/>
             }
           </TabPane>
         </Tabs>
