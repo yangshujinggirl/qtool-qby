@@ -30,10 +30,10 @@ class GoodsConfig extends Component {
     }
   };
   getList() {
-    const { homepageModuleId } = this.props;
+    const { pdListDisplayCfgId } = this.props;
     this.props.dispatch({
       type: "goodsSet/fetchList",
-      payload: { homepageModuleId }
+      payload: { pdListDisplayCfgId }
     });
   }
   //请求活动列表

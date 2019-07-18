@@ -125,6 +125,7 @@ class TimeTable extends Component {
         activityId:record.activityId
        }
     });
+    debugger
     this.props.dispatch({
       type: "goodsSet/changeKey",
       payload: { activeKey: "2" }

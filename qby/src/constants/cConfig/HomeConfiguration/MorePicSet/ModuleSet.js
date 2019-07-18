@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import ModuleSets from '../GoodsSet/components/ModuleSet'
 class ModuleSet extends Component {
   render() {
-    const { homePageModuleId } = this.props;
+    const { homepageModuleId } = this.props;
     return (
       <div>
-        <ModuleSets type={40} homePageModuleId={homePageModuleId}/>
+        <ModuleSets type={40} homepageModuleId={homepageModuleId}/>
       </div>
     );
   }

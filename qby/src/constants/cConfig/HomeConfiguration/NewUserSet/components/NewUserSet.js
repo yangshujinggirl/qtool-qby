@@ -33,6 +33,7 @@ class NewUserSet extends Component {
       optionList,
       this.props.onSelectChange
     );
+    console.log(couponList)
     return (
       <div className="new_user">
         <div className="title">新人礼设置</div>

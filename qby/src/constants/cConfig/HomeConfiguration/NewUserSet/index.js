@@ -61,7 +61,7 @@ class Index extends Component {
               }
             ];
           }
-          if(!res.newUserGiftId){//如果是第一次就为空
+          if(!res.newUserGiftVo.newUserGiftId){//如果是第一次就为空
             couponList = []
           };
           couponList[0] && couponList.map((item, index) => (item.key = index));
