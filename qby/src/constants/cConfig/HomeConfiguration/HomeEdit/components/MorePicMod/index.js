@@ -1,6 +1,7 @@
 import react, { Component } from "react";
 import { connect } from 'dva';
 import { Button } from "antd";
+import TitleM from '../TitleM';
 import "./index.less";
 
 class MorePicMod extends Component {
@@ -21,9 +22,10 @@ class MorePicMod extends Component {
     });
   };
   render() {
-    let { moduleContent, backgroundPicUrl, isDisplay } =this.props.info.picMix;
+    let { picMix } =this.props.info;
+    let { moduleContent, moduleBackColor, isDisplay } =picMix;
     const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
-    backgroundPicUrl = `${fileDomain}${backgroundPicUrl}`;
+
     let mapDex={
       41:'0',
       42:'1',
@@ -40,10 +42,10 @@ class MorePicMod extends Component {
       }
     })
     return (
-      <div className="common-sty morePic-mod" style={{'background':`#fff url(${backgroundPicUrl})`}}>
+      <div className="common-sty morePic-mod" style={{'background':`#${moduleBackColor}`}}>
         <div className="mod-wrap">
           <div className="mod-common-head">
-            <div className="hd-item">多商品组合</div>
+            <TitleM title={picMix.title} type={picMix.titleColor}/>
             <p className="hd-item">查看更多</p>
           </div>
           <div className="main-layout">

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import { Button } from 'antd';
 import Countdown from 'react-countdown-now';
+import TitleM from '../TitleM';
+import Line from '../Line';
 import Swiper from 'swiper/dist/js/swiper.js';
 import './index.less';
 
@@ -34,53 +36,54 @@ class GoodsMod extends Component {
     })
   }
   render() {
-    let { homepageModuleId, moduleContent, backgroundPicUrl,isDisplay } =this.props.info.productDisplay;
+    let { productDisplay } =this.props.info;
+    let { homepageModuleId, moduleContent, moduleBackColor,isDisplay } =productDisplay;
     const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
-    backgroundPicUrl = `${fileDomain}${backgroundPicUrl}`;
     const endDate = new Date('2019-8-24') // Christmas, yay
     return(
-      <div className={`common-sty goods-mod ${!isDisplay?'hiddle-module':''}`} style={{'background':`#fff url(${backgroundPicUrl})`}}>
-        <div className="mod-wrap">
-          <div className="mod-common-head">
-            <div className="hd-item">
-              商品模块
-              <Countdown date={endDate} />
-              {/*<span className="count-times">
-                <span className="time-num">24</span>
-                :
-                <span className="time-num">13</span>
-                :
-                <span className="time-num">13</span>
-              </span>*/}
-            </div>
-            <p className="hd-item">查看更多</p>
-          </div>
-          {
-            moduleContent&&moduleContent.length>0?
-            <div className="swiper-container goods-swiper-container">
-              <div className="swiper-wrapper">
-                {
-                  moduleContent.map((el,index) => (
-                    <div className="swiper-slide" key={index}>
-                      <div className="item-icon">
-                        <div className="pic-wrap"><img src={`${fileDomain}${pdPic}`}/></div>
-                        <p className="title-level-one textTwoLine">{el.name}</p>
-                        <p className="price">¥999.0</p>
-                      </div>
-                    </div>
-                  ))
-                }
+      <div>
+        {
+          productDisplay.isDisplaySplitLine&&<Line />
+        }
+        <div className={`common-sty goods-mod ${!isDisplay?'hiddle-module':''}`} style={{'background':`#${moduleBackColor}`}}>
+          <div className="mod-wrap">
+            <div className="mod-common-head">
+              <div className="hd-item">
+                <TitleM title={productDisplay.title} type={productDisplay.titleColor}/>
+                { productDisplay.isDisplayCountdown&&<Countdown date={endDate} />}
               </div>
+              {
+                productDisplay.isDisplayMore&&<p className="hd-item">查看更多</p>
+              }
             </div>
-            :
-            <div className="no-module-data goods-no-module">商品模块</div>
-          }
-        </div>
-        <div className="handle-btn-action">
-          <Button onClick={this.goEdit}>编辑</Button>
-          <Button onClick={()=>this.props.toggleShow(homepageModuleId,isDisplay)}>{isDisplay?'隐藏':'展开'}</Button>
+            {
+              moduleContent&&moduleContent.length>0?
+              <div className="swiper-container goods-swiper-container">
+                <div className="swiper-wrapper">
+                  {
+                    moduleContent.map((el,index) => (
+                      <div className="swiper-slide" key={index}>
+                        <div className="item-icon">
+                          <div className="pic-wrap"><img src={`${fileDomain}${pdPic}`}/></div>
+                          <p className="title-level-one textTwoLine">{el.name}</p>
+                          <p className="price">¥999.0</p>
+                        </div>
+                      </div>
+                    ))
+                  }
+                </div>
+              </div>
+              :
+              <div className="no-module-data goods-no-module">商品模块</div>
+            }
+          </div>
+          <div className="handle-btn-action">
+            <Button onClick={this.goEdit}>编辑</Button>
+            <Button onClick={()=>this.props.toggleShow(homepageModuleId,isDisplay)}>{isDisplay?'隐藏':'展开'}</Button>
+          </div>
         </div>
       </div>
+
     )
   }
 }

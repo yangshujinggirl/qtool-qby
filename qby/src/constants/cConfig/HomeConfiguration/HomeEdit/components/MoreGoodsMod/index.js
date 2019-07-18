@@ -24,7 +24,8 @@ class MoreGoodsMod extends Component {
     })
   }
   render() {
-    let { homepageModuleId, moduleContent, backgroundPicUrl } =this.props.info.multilineProduct;
+    let { multilineProduct } =this.props.info;
+    let { homepageModuleId, moduleContent, backgroundPicUrl } =multilineProduct;
     const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
     backgroundPicUrl = `${fileDomain}${backgroundPicUrl}`;
     return(
@@ -32,9 +33,12 @@ class MoreGoodsMod extends Component {
         <div className="mod-wrap">
           <div className="mod-common-head">
             <div className="hd-item">
-              2行3列商品模块
+              {multilineProduct.title}
             </div>
-            <p className="hd-item">查看更多</p>
+            {
+              multilineProduct.isDisplayMore==1&&
+              <p className="hd-item">查看更多</p>
+            }
           </div>
           {
             moduleContent&&moduleContent.length>0?
@@ -42,9 +46,12 @@ class MoreGoodsMod extends Component {
               {
                 moduleContent.map((el,index) => (
                   <div className="item-icon" key={index}>
-                    <div className="pic-wrap"><img src={`${fileDomain}${el.pdPic}`}/></div>
+                    <div className="pic-wrap">
+                      <img src={`${fileDomain}${el.pdPic}`}/>
+                      {el.tags&&<span className="tags-icon">{el.tags}</span>}
+                    </div>
                     <p className="title-level-one textTwoLine">{el.name}</p>
-                    <p className="price">¥999.0</p>
+                  <p className="price">¥{el.showPrice}</p>
                   </div>
                 ))
               }

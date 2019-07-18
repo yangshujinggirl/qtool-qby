@@ -1,6 +1,7 @@
 import react, { Component } from "react";
 import { connect } from 'dva';
 import { Button } from "antd";
+
 import './index.less'
 
 class NewUserMod extends Component {
@@ -20,15 +21,15 @@ class NewUserMod extends Component {
     });
   };
   render() {
-    let { homepageModuleId,backgroundPicUrl, contentPicUrl,isDisplay } =this.props.info.coupon;
+    let { coupon } =this.props.info;
+    let { homepageModuleId,moduleBackColor,isDisplay, moduleContent } =coupon;
     const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
-    backgroundPicUrl = `${fileDomain}${backgroundPicUrl}`;
     return (
-      <div className={`common-sty new-user-mod ${!isDisplay?'hiddle-module':''}`} style={{'background':`#fff url(${backgroundPicUrl})`}}>
+      <div className={`common-sty new-user-mod ${!isDisplay?'hiddle-module':''}`} style={{'background':`#${moduleBackColor}`}}>
         {
-          contentPicUrl?
+          moduleContent&&moduleContent.couponPopUpPicUrl?
           <div className="content-wrap">
-            <img src={`${fileDomain}${contentPicUrl}`}/>
+            <img src={`${fileDomain}${moduleContent.couponPopUpPicUrl}`}/>
           </div>
           :
           <div className="no-module-data new-user-noData">新人礼</div>
