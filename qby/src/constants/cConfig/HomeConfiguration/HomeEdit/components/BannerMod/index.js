@@ -40,10 +40,10 @@ class BannerMod extends Component {
     const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
     backgroundPicUrl = `${fileDomain}${backgroundPicUrl}`;
     return(
-      <div className="common-sty banner-mod">
+      <div className="common-sty banner-mod" style={{'background':`#fff url(${backgroundPicUrl}) center`}}>
         {
           moduleContent&&moduleContent.length>0?
-          <div className="swiper-container banner-swiper-container" style={{'background':`#fff url(${backgroundPicUrl})`}}>
+          <div className="swiper-container banner-swiper-container">
             <div className="swiper-wrapper">
               {
                 moduleContent.map((el,index) => (

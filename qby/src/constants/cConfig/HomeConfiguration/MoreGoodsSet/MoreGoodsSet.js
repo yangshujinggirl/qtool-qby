@@ -83,7 +83,7 @@ class Mod extends Component {
 	}
   render() {
     const { goods, totalList } =this.props;
-    console.log(this.props)
+
     return (
       <div className="more-goods-set-mod">
         <div className="part-top">

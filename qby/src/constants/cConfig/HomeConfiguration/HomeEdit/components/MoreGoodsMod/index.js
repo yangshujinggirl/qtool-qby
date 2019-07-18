@@ -27,9 +27,8 @@ class MoreGoodsMod extends Component {
     let { homepageModuleId, moduleContent, backgroundPicUrl } =this.props.info.multilineProduct;
     const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
     backgroundPicUrl = `${fileDomain}${backgroundPicUrl}`;
-    console.log(moduleContent)
     return(
-      <div className="common-sty more-goods-mod" style={{'background':`#fff url(${backgroundPicUrl})`}}>
+      <div className="common-sty more-goods-mod" style={{'background':`#${backgroundPicUrl})`}}>
         <div className="mod-wrap">
           <div className="mod-common-head">
             <div className="hd-item">
