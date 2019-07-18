@@ -19,6 +19,10 @@ class Mod extends Component {
       listOne.push({ key:addkey })
     }
     goods={ ...goods,listOne, listTwo};
+    this.props.dispatch({
+      type:'moreGoodsSet/getAddkey',
+      payload:addkey
+    });
     this.callBack(goods);
   }
   //表单事件
@@ -55,13 +59,14 @@ class Mod extends Component {
     .then((res) => {
       if(res.code==0) {
         let { spuInfo } =res;
-        let idx = totalList.map((el) => el.pdSpuId == spuInfo.pdSpuId);
+        let idx = totalList.findIndex((el) => el.FixedPdSpuId == spuInfo.pdSpuId);
         if(idx != -1) {
           message.error('商品重复，请重新添加');
         } else {
           goods[listType] = goods[listType].map((el,idx) => {
             if(index == idx) {
-              el = {...el,...spuInfo}
+              el.FixedPdSpuId = spuInfo.pdSpuId;
+              el = {...el,...spuInfo};
             };
             return el
           });

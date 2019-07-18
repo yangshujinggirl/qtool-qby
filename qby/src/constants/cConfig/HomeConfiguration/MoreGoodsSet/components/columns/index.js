@@ -1,8 +1,25 @@
-import { Input, Form, Select, Button } from 'antd';
+import { Input, Form, Select, Button, Tooltip, Icon } from 'antd';
 import moment from 'moment';
 import UpLoadImg from '../../../components/UpLoadImgMod';
 const FormItem = Form.Item;
 
+let tagsTit = <span>
+  选填项，如填写则前端将会展示标签。效果如下：
+  <img src={require('../../../../../../assets/menu_logo.png')} style={{'width':'80px'}}/>
+</span>;
+
+const sellingPoints = <Tooltip placement="top" title='选填项，如填写则前端将会展示卖点，而不是商品名称'>
+                商品卖点&nbsp;<Icon type="exclamation-circle-o" />
+              </Tooltip>;
+const pdSpuInv = <Tooltip placement="top" title='即为仓库库存。若库存不为0，则所有用户都可以买这个商品。'>
+                B端在售库存&nbsp;<Icon type="exclamation-circle-o" />
+              </Tooltip>;
+const outOfStockShopNum = <Tooltip placement="top" title='即为该门店没有此商品，若B端在售库存为0，则选择此门店的用户会看到补货中'>
+              缺货门店&nbsp;<Icon type="exclamation-circle-o" />
+              </Tooltip>;
+const tags = <Tooltip placement="top" title={tagsTit}>
+              商品标签&nbsp;<Icon type="exclamation-circle-o" />
+              </Tooltip>;
 export function columnsFun(form,handleBlur){
   return [
     {
@@ -20,7 +37,7 @@ export function columnsFun(form,handleBlur){
       title: 'Spuid',
       dataIndex: 'pdSpuId',
       key: 'pdSpuId',
-      width:'10%',
+      width:'8%',
       render:(text,record,index)=> {
         const { getFieldDecorator } =form;
         return <FormItem>
@@ -46,7 +63,13 @@ export function columnsFun(form,handleBlur){
      align:'center',
      width:'8%',
      render:(text,record,index)=> {
-       return <img src=""/>
+       const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
+       return <div className="img-wrap">
+                {
+                  record.pdSpuPic&&
+                  <img src={`${fileDomain}${record.pdSpuPic}`}/>
+                }
+             </div>
      }
    },
    {
@@ -62,11 +85,11 @@ export function columnsFun(form,handleBlur){
       width:'8%',
     },
     {
-      title: '商品卖点',
+      title: sellingPoints,
       dataIndex: 'sellingPoints',
       key: 'sellingPoints',
       align:'center',
-      width:'10%',
+      width:'8%',
       render:(text,record,index)=> {
         const { getFieldDecorator } =form;
         return <FormItem>
@@ -75,29 +98,27 @@ export function columnsFun(form,handleBlur){
                   rules:[],
                 })(
                   <Input
-                    maxLength='15'
+                    maxLength='8'
                     placeholder="请输入商品卖点"
                     autoComplete="off"/>
                 )}
               </FormItem>
       }
     },{
-      title: '商品标签',
+      title: tags,
       dataIndex: 'tags',
       key: 'tags',
       align:'center',
-      width:'10%',
+      width:'8%',
       render:(text,record,index)=> {
         const { getFieldDecorator } =form;
         return <FormItem>
                 {getFieldDecorator(`fieldsOne[${index}].tags`,{
                   initialValue:record.tags,
-                  rules:[{
-                    required:true,message:'请输入商品标签'
-                  }],
+                  rules:[],
                 })(
                   <Input
-                    maxLength='15'
+                    maxLength='8'
                     placeholder="请输入商品标签"
                     autoComplete="off"/>
                 )}
@@ -105,22 +126,16 @@ export function columnsFun(form,handleBlur){
       }
     },
     {
-      title: '商品价格',
-      dataIndex:'pdSpuPrice',
-      key: 'pdSpuPrice',
+      title: pdSpuInv,
+      dataIndex: 'pdSpuInv',
+      key: 'pdSpuInv',
       width:'10%',
     },
     {
-      title: 'B端在售库存',
-      dataIndex: 'wsInv',
-      key: 'wsInv',
-      width:'6%',
-    },
-    {
-      title: '缺货门店',
+      title: outOfStockShopNum,
       dataIndex: 'outOfStockShopNum',
       key: 'outOfStockShopNum',
-      width:'6%',
+      width:'8%',
     },
     {
       title: '操作',
@@ -152,7 +167,7 @@ export function columnsTwoFun(form, handleBlur){
       title: 'Spuid',
       dataIndex: 'pdSpuId',
       key: 'pdSpuId',
-      width:'10%',
+      width:'8%',
       render:(text,record,index)=> {
         const { getFieldDecorator } =form;
         return <FormItem>
@@ -177,7 +192,13 @@ export function columnsTwoFun(form, handleBlur){
       align:'center',
       width:'8%',
       render:(text,record,index)=> {
-        return <img src=""/>
+        const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
+        return <div className="img-wrap">
+                 {
+                   record.pdSpuPic&&
+                   <img src={`${fileDomain}${record.pdSpuPic}`}/>
+                 }
+              </div>
       }
     },{
       title: '商品名称',
@@ -219,7 +240,7 @@ export function columnsTwoFun(form, handleBlur){
       dataIndex: 'tags',
       key: 'tags',
       align:'center',
-      width:'10%',
+      width:'8%',
       colSpan:0,
       render:(text,record,index)=> {
         const { getFieldDecorator } =form;
@@ -237,25 +258,18 @@ export function columnsTwoFun(form, handleBlur){
       }
     },
     {
-      title: '商品价格',
-      dataIndex:'pdSpuPrice',
-      key: 'pdSpuPrice',
+      title: 'B端在售库存',
+      dataIndex: 'pdSpuInv',
+      key: 'pdSpuInv',
       colSpan:0,
       width:'10%',
-    },
-    {
-      title: 'B端在售库存',
-      dataIndex: 'wsInv',
-      key: 'wsInv',
-      colSpan:0,
-      width:'6%',
     },
     {
       title: '缺货门店',
       dataIndex: 'outOfStockShopNum',
       key: 'outOfStockShopNum',
       colSpan:0,
-      width:'6%',
+      width:'8%',
     },
     {
       title: '操作',

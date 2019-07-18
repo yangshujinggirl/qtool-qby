@@ -48,9 +48,13 @@ class Mod extends Component {
           homePageModuleId:homepageModuleId,
           pdSpuList:pdSpuList
         };
+        this.props.dispatch({ type: 'tab/loding', payload:true});
         getSaveApi(params)
         .then((res) => {
-          console.log(res)
+          if(res.code == 0) {
+            this.getList()
+          }
+          this.props.dispatch({ type: 'tab/loding', payload:false});
         })
       }
     });
@@ -67,15 +71,19 @@ class Mod extends Component {
       type:'moreGoodsSet/getGoodsList',
       payload:goods
     });
+    this.props.dispatch({
+      type:'moreGoodsSet/getAddkey',
+      payload:list.length
+    });
     this.props.form.resetFields()
   }
   //下载
   downLoadTep=()=>{
-		window.open('../../static/order.xlsx');
+		window.open('../../static/MultilLine_In.xlsx');
 	}
   render() {
     const { goods, totalList } =this.props;
-
+    console.log(this.props)
     return (
       <div className="more-goods-set-mod">
         <div className="part-top">

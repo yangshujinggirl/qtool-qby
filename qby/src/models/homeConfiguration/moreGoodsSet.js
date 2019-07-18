@@ -29,13 +29,17 @@ export default {
     getHomeModuleId(state, { payload:homepageModuleId }) {
       return { ...state,homepageModuleId };
     },
+    getAddkey(state, { payload:addkey }) {
+      addkey++;
+      return { ...state,addkey };
+    },
     getGoodsList(state, { payload: goods }) {
       goods = {...goods};
       const { listOne, listTwo } =goods;
       let totalList = [...listOne, ...listTwo];
       let addkey = totalList.length;
-      addkey++;
-      return { ...state, goods, totalList, addkey };
+      // addkey++;
+      return { ...state, goods, totalList };
     },
   },
   effects: {
@@ -46,15 +50,19 @@ export default {
       const res = yield call(getListApi,values);
       if(res.code == 0) {
         const { pdSpuList } =res;
-        let goods={};
+        let goods={},listOne=[],listTwo=[];
         if(pdSpuList.length>0) {
-
+          pdSpuList.map((el,index) => el.key = index)
+          if(pdSpuList.length>=6) {
+            listOne = pdSpuList.slice(0,6);
+            listTwo = pdSpuList.slice(6);
+          }
+          goods = { listOne, listTwo };
         } else {
-          goods={
-            listOne:[],
-            listTwo:[],
-          };
+          goods={ listOne, listTwo };
         }
+        let len = pdSpuList.length;
+        yield put({type: 'getAddkey',payload:len});
         yield put({type: 'getGoodsList',payload:goods});
       }
       yield put({type: 'getHomeModuleId',payload:homepageModuleId});

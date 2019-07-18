@@ -27,6 +27,7 @@ class MoreGoodsMod extends Component {
     let { homepageModuleId, moduleContent, backgroundPicUrl } =this.props.info.multilineProduct;
     const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
     backgroundPicUrl = `${fileDomain}${backgroundPicUrl}`;
+    console.log(moduleContent)
     return(
       <div className="common-sty more-goods-mod" style={{'background':`#fff url(${backgroundPicUrl})`}}>
         <div className="mod-wrap">
@@ -42,7 +43,7 @@ class MoreGoodsMod extends Component {
               {
                 moduleContent.map((el,index) => (
                   <div className="item-icon" key={index}>
-                    <div className="pic-wrap"><img src={`${fileDomain}${pdPic}`}/></div>
+                    <div className="pic-wrap"><img src={`${fileDomain}${el.pdPic}`}/></div>
                     <p className="title-level-one textTwoLine">{el.name}</p>
                     <p className="price">¥999.0</p>
                   </div>
