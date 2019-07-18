@@ -37,11 +37,14 @@ class ModuleSet extends Component {
   sendRequest = values => {
     getSaveModuleApi(values).then(res => {
       if (res.code == "0") {
-        message.success("保存成功");
         this.setState({
           loading:false
         });
-        this.props.callback()
+        message.success("保存成功");
+      }else{
+        this.setState({
+          loading:false
+        });
       }
     });
   };
