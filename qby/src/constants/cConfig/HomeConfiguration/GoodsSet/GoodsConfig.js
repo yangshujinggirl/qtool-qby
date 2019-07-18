@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "dva";
 import { Form, Button, Select } from "antd";
 import ModDis from "./components/MainMod";
+import ImportBtn from "./components/ImportBtn";
 import {
   getActivityListApi,
   getSaveApi
@@ -15,16 +16,26 @@ class GoodsConfig extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activitys: [],
+      activitys: []
     };
   }
   componentDidMount = () => {
+    this.initPage();
+  };
+  initPage = () => {
     const { pdListDisplayCfgId } = this.props;
     if (pdListDisplayCfgId) {
       this.getActivityList(pdListDisplayCfgId);
-      this.getdata(pdListDisplayCfgId);
+      this.getList();
     }
   };
+  getList() {
+    const { homepageModuleId } = this.props;
+    this.props.dispatch({
+      type: "goodsSet/fetchList",
+      payload: { homepageModuleId }
+    });
+  }
   //请求活动列表
   getActivityList = pdListDisplayCfgId => {
     getActivityListApi({ pdListDisplayCfgId }).then(res => {
@@ -59,9 +70,13 @@ class GoodsConfig extends Component {
       payload: goods
     });
   };
+  //导入更新
+  uploadData(data) {
+    console.log(data);
+  }
   //下载
   downLoadTep = () => {
-    window.open("../../static/order.xlsx");
+    window.open("../../../../static/order.xlsx");
   };
   //提交
   submit = func => {
@@ -72,29 +87,32 @@ class GoodsConfig extends Component {
           homePageModuleId: 20,
           pdSpuList: [...fieldsOne, ...fieldsTwo]
         };
-        getSaveApi(params).then(res => {
-          console.log(res);
-        });
+        getSaveApi(params).then(res => {});
       }
     });
   };
+
   render() {
     const { getFieldDecorator } = this.props.form;
     const { activitys } = this.state;
+    const { endTime, beginTime, activityId, pdListDisplayCfgId } = this.props;
     const formLayout = {
       labelCol: { span: 2 },
       wrapperCol: { span: 20 }
     };
     return (
       <p className="good_config">
-        {this.props.pdListDisplayCfgId ? (
+        {pdListDisplayCfgId ? (
           <div>
             <Form>
               <FormItem label="时间段" {...formLayout}>
-                <span>2018-09-08 12:20 ~ 2018-09-09 14:34</span>
+                <span>
+                  {beginTime} ~ {endTime}
+                </span>
               </FormItem>
               <FormItem label="选择活动" {...formLayout}>
                 {getFieldDecorator("activityId", {
+                  initialValue: activityId,
                   rules: [{ required: true, message: "请选择时间段" }]
                 })(
                   <Select>
@@ -113,11 +131,13 @@ class GoodsConfig extends Component {
             <div className="good-title">
               <div>已选商品</div>
               <div>
-                <span>已选6/100</span>
-                <Button className="center-btn" type="primary">
-                  上传附件
-                </Button>
-                <Button type="primary" onClik={this.downLoadTep}>
+                <span>已选{}/100</span>
+                <ImportBtn uploadData={this.uploadData} />
+                <Button
+                  className="down_load_btn"
+                  type="primary"
+                  onClik={this.downLoadTep}
+                >
                   下载附件模板
                 </Button>
               </div>
@@ -129,7 +149,7 @@ class GoodsConfig extends Component {
               <ModDis callBack={this.callBack} form={this.props.form} />
             </div>
             <div className="handle-btn-footer">
-              <Button onClick={this.submit} size="large" type="primary">
+              <Button onClick={this.submit} type="primary" size="large">
                 保存
               </Button>
             </div>

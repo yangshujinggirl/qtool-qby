@@ -93,7 +93,6 @@ class Field extends Component {
     const { goods, columnsTwo, columnsOne } = this.props;
     let listTwo = this.processData(goods.listTwo)
     let listOne = this.processData(goods.listOne)
-    console.log(listOne)
     return (
       <div className="drag-tables-component">
         <Table

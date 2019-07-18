@@ -10,7 +10,6 @@ const FormItem = Form.Item;
 class Mod extends Component {
   //新增
   handleAdd=()=> {
-    console.log(this.props)
     let { goods, addkey } = this.props;
     let { listOne, listTwo } = goods;
     if(listOne.length>=8) {
@@ -35,7 +34,6 @@ class Mod extends Component {
     this.props.callBack(goods);
   }
   moveRow = (dragParent, hoverParent, dragIndex, hoverIndex) => {
-    console.log(dragParent, hoverParent)
     let { goods } =this.props;
     let tempHover = goods[dragParent][dragIndex];
     let tempDrag = goods[hoverParent][hoverIndex];
