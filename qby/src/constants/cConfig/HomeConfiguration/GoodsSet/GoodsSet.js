@@ -18,32 +18,12 @@ class GoodsSet extends Component {
     };
   }
   componentDidMount = () => {
-    console.log(this.props)
     this.initPage()
-   
-    // const res = {
-    //   timeSlots: [
-    //     {
-    //       pdListDisplayCfgId: 1,
-    //       beginTime: "2019-08-09 12:54:43",
-    //       endTime: "2019-08-09 12:54:43",
-    //       activityId: 1,
-    //       type: 1
-    //     },
-    //     {
-    //       pdListDisplayCfgId: 2,
-    //       beginTime: "2019-08-09 12:54:43",
-    //       endTime: "2019-08-09 12:54:43",
-    //       activityId: 1,
-    //       type: 1
-    //     }
-    //   ]
-    // };
-    
   };
   initPage=()=>{
     const {homepageModuleId} = this.props;
-    getTimeListApi({homepageModuleId,type:1}).then(res=>{
+    const {type} = this.state;
+    getTimeListApi({homepageModuleId,type}).then(res=>{
       if(res.code == '0'){
         this.setState({
           timeSlots: this.formatList(res.timeSlots)
@@ -99,6 +79,8 @@ class GoodsSet extends Component {
   onTypeChange = e => {
     this.setState({
       type: e.target.value
+    },()=>{
+      this.initPage()
     });
   };
   render() {

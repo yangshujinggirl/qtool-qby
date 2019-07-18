@@ -88,7 +88,7 @@ class TimeTable extends Component {
                 <Button
                   disabled={!Boolean(times)}
                   onClick={() => {
-                    this.onSure(times);
+                    this.onSure(times,record);
                   }}
                   style={{ marginLeft: "15px" }}
                 >
@@ -97,7 +97,7 @@ class TimeTable extends Component {
               )}
               <Button
                 disabled={!record.completed}
-                onClick={() => this.goToSet(record.pdListDisplayCfgId)}
+                onClick={() => this.goToSet(record)}
                 style={{ marginLeft: "15px" }}
               >
                 配置商品
@@ -114,40 +114,50 @@ class TimeTable extends Component {
       }
     ];
   }
-  goToSet = id => {
-    console.log(id);
+  //点击配置商品
+  goToSet = record => {
     this.props.dispatch({
-      type: "goodsSet/getpdListDisplayCfgId",
-      payload: { pdListDisplayCfgId: id }
+      type: "goodsSet/getTimeInfo",
+      payload: { 
+        pdListDisplayCfgId: record.pdListDisplayCfgId,
+        endTime:record.endTime,
+        beginTime:record.beginTime,
+        activityId:record.activityId
+       }
     });
     this.props.dispatch({
       type: "goodsSet/changeKey",
       payload: { activeKey: "2" }
     });
   };
+  //点击编辑时间
   onEdit = id => {
     const { timeSlots } = this.props;
     const list = timeSlots.map(item => {
       if (item.pdListDisplayCfgId == id) {
         item.completed = false;
-      }
+      };
       return item;
     });
     this.props.callback(list);
   };
   //确认
-  onSure = times => {
+  onSure = (times,record) => {
     const beginTime = moment(times[0]).format("YYYY-MM-DD HH:mm");
     const endTime = moment(times[1]).format("YYYY-MM-DD HH:mm");
-    this.addTime(beginTime, endTime);
+    
+    this.addTime(beginTime, endTime,record);
   };
-  addTime = (beginTime, endTime) => {
+  addTime = (beginTime, endTime,record) => {
     const { type, homepageModuleId } = this.props;
     const values = {
       homepageModuleId,
       type,
       beginTime,
       endTime
+    };
+    if(record.pdListDisplayCfgId){
+      values.pdListDisplayCfgId = record.pdListDisplayCfgId
     };
     addTimeApi(values).then(res => {
       if (res.code == "0") {
@@ -161,9 +171,9 @@ class TimeTable extends Component {
       if (res.code == "0") {
         const { timeSlots } = res;
         const list = timeSlots.map(item => {
-          if (item.pdListDisplayCfgId == id) {
+          if (item.pdListDisplayCfgId) {
             item.completed = true;
-          }
+          };
           return item;
         });
         this.props.callback(list);
@@ -186,6 +196,9 @@ class TimeTable extends Component {
     deleteTimeApi({ pdListDisplayCfgId }).then(res => {
       if (res.code == "0") {
         this.getTimeList(this.props.type, this.props.homepageModuleId);
+        this.setState({
+          visible:false
+        });
       }
     });
   };

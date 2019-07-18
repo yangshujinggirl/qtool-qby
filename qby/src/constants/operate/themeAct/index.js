@@ -114,14 +114,13 @@ class ThemeAct extends Component{
           inputValues,
           infos:{
             themeName:record.themeName,
-            showTimeStart:record.showTimeStart,
-            showTimeEnd:record.showTimeEnd,
-            rank:record.rank,
-            pics:record.pics,
             pageCode:record.pageCode,
-            pdThemeActivityDetail:record.pdThemeActivityDetail,
-            remark:record.remark,
-            themeActivityId:record.themeActivityId,
+            subtitle:record.subtitle,
+            description:record.description,
+            themeStatus:record.themeStatus,
+            indexPicUrl:record.indexPicUrl,
+            listPagePicUrl:record.listPagePicUrl,
+            themeActivityId:record.themeActivityId
           }
         },
       };

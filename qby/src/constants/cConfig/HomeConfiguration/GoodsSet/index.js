@@ -14,13 +14,17 @@ class Index extends Component {
       type: "goodsSet/changeKey",
       payload: { activeKey: key }
     });
-    this.props.dispatch({
-      type:'goodsSet/getpdListDisplayCfgId',
-      payload:{pdListDisplayCfgId:''}
+    this.props.dispatch({//重置props数据
+      type:'goodsSet/getTimeInfo',
+      payload:{ 
+        pdListDisplayCfgId:'',
+        endTime:'',
+        beginTime:'',
+        activityId:''
+      }
     });
   };
   render() {
-    console.log(this.props)
     const { activeKey} = this.props;
     const {homepageModuleId} = this.props.data;
     return (
@@ -30,10 +34,10 @@ class Index extends Component {
             <GoodsSet homepageModuleId={homepageModuleId}/>
           </TabPane>
           <TabPane tab="配置商品" key="2">
-            <GoodsConfig homepageModuleId={homepageModuleId} callback={this.props.callback}/>
+            <GoodsConfig homepageModuleId={homepageModuleId}/>
           </TabPane>
           <TabPane tab="模块设置" key="3">
-            <ModuleSet homepageModuleId={homepageModuleId} callback={this.props.callback}/>
+            <ModuleSet homepageModuleId={homepageModuleId}/>
           </TabPane>
         </Tabs>
       </div>
