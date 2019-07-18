@@ -16,3 +16,11 @@ export function getStatusApi(values) {
       data:values
   })
 }
+//保存
+export function getSearchGoodsApi(values) {
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.homePage.config.flowProduct',
+      data:values
+  })
+}

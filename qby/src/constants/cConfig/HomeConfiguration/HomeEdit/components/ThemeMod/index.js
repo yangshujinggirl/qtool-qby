@@ -43,7 +43,7 @@ class ThemeMod extends Component {
           <div className="mod-wrap">
             <div className="mod-common-head">
               <TitleM title={themeActivity.title} type={themeActivity.titleColor}/>
-              <p className="hd-item">查看更多</p>
+              {!!themeActivity.isDisplayMore&&<p className="hd-item">查看更多</p>}
             </div>
             {
               moduleContent&&moduleContent.length>0?

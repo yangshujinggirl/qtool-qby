@@ -1,6 +1,7 @@
 import react, { Component } from "react";
-import { Dropdown, Menu } from "antd";
+import { Dropdown, Menu, Modal, Popover, Button } from "antd";
 import { connect } from "dva";
+import QRCode from 'qrcode';
 import SearchMod from "./components/SearchMod";
 import BannerMod from "./components/BannerMod";
 import BrandMod from "./components/BrandMod";
@@ -15,8 +16,16 @@ import { getStatusApi } from "../../../../services/cConfig/homeConfiguration/hom
 import "./index.less";
 
 class HomeEdit extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      urlCode:'',
+      visible:false
+    }
+  }
   componentDidMount() {
-    this.fetchInfo()
+    this.fetchInfo();
+    this.goPreview()
   }
   componentWillReceiveProps(props) {
     // console.log(props)
@@ -39,6 +48,20 @@ class HomeEdit extends Component {
       }
     })
   }
+  goPreview=()=> {
+    const { homepageId } = this.props.data;
+    let urlCode = `https://www.baidu.com/homepageId=${homepageId}`
+    QRCode.toDataURL(urlCode)
+    .then(url => {
+      this.setState({ urlCode:url, visible:true })
+    })
+    .catch(err => {
+      // console.error(err)
+    })
+  }
+  handleCancel=()=>{
+    this.setState({ visible:false })
+  }
   render() {
     const menu = (
       <Menu className="home-configuration-menu">
@@ -50,13 +73,17 @@ class HomeEdit extends Component {
         </Menu.Item>
       </Menu>
     );
+    const { urlCode } =this.state;
     return (
       <div className="home-configuration-edit-pages">
         <div className="part-head">
           <p className="pl">520要发的首页</p>
           <div className="pr">
+            <Popover content={<img src={urlCode}/>} title={null} trigger="click">
+              <p className="preview" onClick={this.goPreview}>预览</p>
+            </Popover>
             <Dropdown overlay={menu} trigger={["click"]}>
-              <p>预览|保存并发布</p>
+              <p>|保存并发布</p>
             </Dropdown>
           </div>
         </div>
