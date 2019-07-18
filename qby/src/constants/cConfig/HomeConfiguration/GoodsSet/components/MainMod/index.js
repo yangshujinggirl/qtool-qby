@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Table, Button, Form, Input } from 'antd';
+import { Table, Button, Form, Input, message } from 'antd';
 import { connect } from 'dva';
 import DragField from '../DragField';
+import { getSearchIdApi } from '../../../../../../services/cConfig/homeConfiguration/goodSet';
 import { columnsFun, columnsTwoFun } from '../columns/index';
 // import './index.less';
 
@@ -18,7 +19,11 @@ class Mod extends Component {
       listOne.push({ key:addkey })
     }
     goods={ ...goods,listOne, listTwo};
-    this.props.callBack(goods);
+    this.props.dispatch({
+      type:'goodsSet/getAddkey',
+      payload:addkey
+    });
+    this.callBack(goods);
   }
   //表单事件
   onOperateClick=(record,listType,type)=> {
@@ -31,7 +36,7 @@ class Mod extends Component {
   handleDelete=(listType,record)=> {
     let { goods } =this.props;
     goods[listType] = goods[listType].filter(item => item.key !== record.key)
-    this.props.callBack(goods);
+    this.callBack(goods);
   }
   moveRow = (dragParent, hoverParent, dragIndex, hoverIndex) => {
     let { goods } =this.props;
@@ -39,7 +44,7 @@ class Mod extends Component {
     let tempDrag = goods[hoverParent][hoverIndex];
     goods[hoverParent].splice(hoverIndex, 1, tempHover);
     goods[dragParent].splice(dragIndex, 1, tempDrag);
-    this.props.callBack(goods);
+    this.callBack(goods);
   };
   //code
   handleBlur=(listType,e,index)=> {
@@ -48,29 +53,39 @@ class Mod extends Component {
     if(!value) {
       return;
     }
-    this.getSearch(listType,value,index)
+    let { goods, totalList } =this.props;
+    this.props.dispatch({ type: 'tab/loding', payload:true});
+    getSearchIdApi({pdSpuId:value,activityId:this.props.activityId})
+    .then((res) => {
+      if(res.code==0) {
+        let { spuInfo } =res;
+        let idx = totalList.findIndex((el) => el.FixedPdSpuId == spuInfo.pdSpuId);
+        if(idx != -1) {
+          message.error('商品重复，请重新添加');
+        } else {
+          goods[listType] = goods[listType].map((el,idx) => {
+            if(index == idx) {
+              el.FixedPdSpuId = spuInfo.pdSpuId;
+              el = {...el,...spuInfo};
+            };
+            return el
+          });
+          this.callBack(goods);
+        }
+      }
+      this.props.dispatch({ type: 'tab/loding', payload:false});
+    })
   }
-  //code查询商品
-  getSearch(listType,value,index) {
-    let { goods } =this.props;
-    let res={
-      pdSpuName: '奶粉',
-      pdSpuId:'3456',
-      pdCategory:'3级商品分类',
-      pdSpuPrice:'¥200-¥999.33',
-      wsInv:'1290',
-      outOfStockShopNum:'2家',
-    };
-    goods[listType] = goods[listType].map((el,idx) => {
-      if(index == idx) {
-        el = {...el,...res}
-      };
-      return el
+  callBack=(goods)=> {
+    this.props.dispatch({
+      type:'goodsSet/getGoodsList',
+      payload:goods
     });
-    this.props.callBack(goods);
+    this.props.form.resetFields()
   }
   render() {
-    const { goods, form } = this.props;
+    console.log(this.props)
+    const { goods, form } =this.props;
     let columnsOne = columnsFun(form,this.handleBlur);
     let columnsTwo = columnsTwoFun(form,this.handleBlur);
 
@@ -87,7 +102,7 @@ class Mod extends Component {
 }
 
 function mapStateToProps(state) {
-  const { goodsSet } = state;
+  const { goodsSet } =state;
   return goodsSet;
 }
 export default connect(mapStateToProps)(Mod);

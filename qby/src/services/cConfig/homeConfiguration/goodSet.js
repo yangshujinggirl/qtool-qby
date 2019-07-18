@@ -40,6 +40,14 @@ export function getPdSpuListApi(values) {
       data:values
   })
 }
+//根据商品id或code查询
+export function getSearchIdApi(values) {
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.app.slspu.query',
+      data:values
+  })
+}
 //商品配置保存
 export function getSaveApi(values) {
   values = JSON.stringify(values)

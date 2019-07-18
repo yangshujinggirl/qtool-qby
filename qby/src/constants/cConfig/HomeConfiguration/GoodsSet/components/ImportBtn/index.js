@@ -21,60 +21,31 @@ class ImportBtn extends React.Component {
     }
   }
   handleChange = (info) => {
-    let fileList = info.fileList;
-    fileList = fileList.slice(-1);
-    fileList = fileList.filter((file) => {
-      if (file.response) {
-        if(file.response.code=='0'){
-            if(file.response.warningmessage){
-                let message = file.response.warningmessage.split('\r\n')
-                let m = []
-                for(let i=0;i<message.length;i++){
-                  m.push(<p>{message[i]}</p>)
-                }
-                Modal.warning({
-                    content:(
-                      <div>
-                        {m}
-                      </div>
-                    )
-                  });
-            }
-            let goodsInfo = [];
-            for(var i=0;i<file.response.pdSpuAsnLists.length;i++){
-                let json = {};
-                json.pdCode = file.response.pdSpuAsnLists[i].pdCode;
-                json.price = file.response.pdSpuAsnLists[i].price;
-                json.qty = file.response.pdSpuAsnLists[i].qty;
-                json.name = file.response.pdSpuAsnLists[i].name;
-                json.createTime = file.response.pdSpuAsnLists[i].createTime;
-                json.displayName = file.response.pdSpuAsnLists[i].displayName;
-                json.key = i;
-                json.isDetail = false //是否是导入
-                goodsInfo.push(json);
-            }
-            // this.props.mdopdermeth.funct(goodsInfo)
+    let file = info.file;
+    const { response } =file;
+    if(file.status == 'done') {
+      if (response) {
+        if(response.code=='0'){
+          let pdSpuList= response.pdSpuList?response.pdSpuList:[];
+          pdSpuList.map((el,index) => el.key = index)
+          this.props.callback(pdSpuList)
         }else{
-            message.error(file.response.message,.8);
+          message.error(file.response.message,.8);
         }
         return file.response.status === 'success';
       }
-      return true;
-    });
-    this.setState({ fileList });
+    }
   }
   render() {
     const props = {
       action: '/erpWebRest/webrest.htm?code=qerp.web.config.mulitilinespu.import',
       onChange: this.handleChange,
       beforeUpload:this.beforeUpload,
-      name:'mfile'
+      name:'mfile',
+      showUploadList:false,
     };
     return (
-      <Upload{...props}
-        showUploadList={false}
-        fileList={this.state.fileList}
-        className="upload-file-btn">
+      <Upload {...props} className="upload-file-btn">
           <Button type="primary" size="large">
             上传附件
           </Button>
