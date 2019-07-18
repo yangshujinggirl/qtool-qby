@@ -287,8 +287,8 @@ class ModuleSet extends Component {
               rules: [{ required: true, message: "请选择是否隐藏模块分割线" }]
             })(
               <Radio.Group>
-                <Radio value={0}>不隐藏</Radio>
-                <Radio value={1}>隐藏</Radio>
+                <Radio value={1}>不隐藏</Radio>
+                <Radio value={0}>隐藏</Radio>
               </Radio.Group>
             )}
           </FormItem>
