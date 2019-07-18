@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import { Button } from 'antd';
 import Swiper from 'swiper/dist/js/swiper.js';
+import TitleM from '../TitleM';
+import Line from '../Line';
 import './index.less';
 
 class MoreGoodsMod extends Component {
@@ -25,43 +27,45 @@ class MoreGoodsMod extends Component {
   }
   render() {
     let { multilineProduct } =this.props.info;
-    let { homepageModuleId, moduleContent, backgroundPicUrl } =multilineProduct;
+    let { homepageModuleId, moduleContent, moduleBackColor } =multilineProduct;
     const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
-    backgroundPicUrl = `${fileDomain}${backgroundPicUrl}`;
     return(
-      <div className="common-sty more-goods-mod" style={{'background':`#${backgroundPicUrl})`}}>
-        <div className="mod-wrap">
-          <div className="mod-common-head">
-            <div className="hd-item">
-              {multilineProduct.title}
-            </div>
-            {
-              multilineProduct.isDisplayMore==1&&
-              <p className="hd-item">查看更多</p>
-            }
-          </div>
-          {
-            moduleContent&&moduleContent.length>0?
-            <div className="mod-content">
+      <div>
+        {
+          !!multilineProduct.isDisplaySplitLine&&<Line />
+        }
+        <div className="common-sty more-goods-mod" style={{'background':`#${moduleBackColor}`}}>
+          <div className="mod-wrap">
+            <div className="mod-common-head">
+              <TitleM title={multilineProduct.title} type={multilineProduct.titleColor}/>
               {
-                moduleContent.map((el,index) => (
-                  <div className="item-icon" key={index}>
-                    <div className="pic-wrap">
-                      <img src={`${fileDomain}${el.pdPic}`}/>
-                      {el.tags&&<span className="tags-icon">{el.tags}</span>}
-                    </div>
-                    <p className="title-level-one textTwoLine">{el.name}</p>
-                  <p className="price">¥{el.showPrice}</p>
-                  </div>
-                ))
+                multilineProduct.isDisplayMore==1&&
+                <p className="hd-item">查看更多</p>
               }
             </div>
-            :
-            <div className="no-module-data more-goods-noData">商品模块</div>
-          }
-        </div>
-        <div className="handle-btn-action">
-          <Button onClick={this.goEdit}>编辑</Button>
+            {
+              moduleContent&&moduleContent.length>0?
+              <div className="mod-content">
+                {
+                  moduleContent.map((el,index) => (
+                    <div className="item-icon" key={index}>
+                      <div className="pic-wrap">
+                        <img src={`${fileDomain}${el.pdPic}`}/>
+                        {el.tags&&<span className="tags-icon">{el.tags}</span>}
+                      </div>
+                      <p className="title-level-one textTwoLine">{el.name}</p>
+                    <p className="price">¥{el.showPrice}</p>
+                    </div>
+                  ))
+                }
+              </div>
+              :
+              <div className="no-module-data more-goods-noData">商品模块</div>
+            }
+          </div>
+          <div className="handle-btn-action">
+            <Button onClick={this.goEdit}>编辑</Button>
+          </div>
         </div>
       </div>
     )
