@@ -9,19 +9,20 @@ class Index extends Component {
   constructor(props) {
     super(props);
   }
+  componentDidMount =()=> {
+    this.props.dispatch({
+      type:'goods/resetData2',
+    })
+  }
+
   callback = key => {
     this.props.dispatch({
       type: "goodsSet/changeKey",
       payload: { activeKey: key }
     });
-    this.props.dispatch({//重置props数据
-      type:'goodsSet/getTimeInfo',
-      payload:{ 
-        pdListDisplayCfgId:'',
-        endTime:'',
-        beginTime:'',
-        activityId:''
-      }
+    this.props.dispatch({
+      type: "goodsSet/setMark",
+      payload: { mark: false }
     });
   };
   render() {

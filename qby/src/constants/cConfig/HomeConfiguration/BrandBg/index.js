@@ -48,8 +48,8 @@ class BrandBg extends Component {
               style={{ width: "260px" }}
               value={color}
               onChange={colorChange}
-              placeholder="标题颜色的色号，常用色号可在示例中查看"
-            /><span className='suffix_tips'>请填写六位数字</span>
+              placeholder="请填写六位数字+字母组合"
+            />
           </FormItem>
         </Modal>
       </div>

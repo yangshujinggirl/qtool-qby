@@ -38,7 +38,10 @@ class TimeTable extends Component {
     this.columns = [
       {
         title: "序号",
-        dataIndex: "index"
+        dataIndex: "index",
+        render:(text,record,index)=>(
+          <span>{++index}</span>
+        )
       },
       {
         title: "展示时间段",
@@ -122,13 +125,19 @@ class TimeTable extends Component {
         pdListDisplayCfgId: record.pdListDisplayCfgId,
         endTime:record.endTime,
         beginTime:record.beginTime,
-        activityId:record.activityId
+        activityId:record.activityId,
+        mark: true,
+        activeKey:'2'
        }
     });
-    this.props.dispatch({
-      type: "goodsSet/changeKey",
-      payload: { activeKey: "2" }
-    });
+    // this.props.dispatch({ //标识是从tab跳转 还是页面配置跳转
+    //   type: "goodsSet/setMark",
+    //   payload: { mark: true }
+    // });
+    // this.props.dispatch({
+    //   type: "goodsSet/changeKey",
+    //   payload: { activeKey: "2" }
+    // });
   };
   //点击编辑时间
   onEdit = id => {

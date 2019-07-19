@@ -37,11 +37,13 @@ class ImportBtn extends React.Component {
     }
   }
   render() {
+    const params = JSON.stringify({type:this.props.type})
     const props = {
       action: '/erpWebRest/webrest.htm?code=qerp.web.config.singlelinespu.import',
       onChange: this.handleChange,
       beforeUpload:this.beforeUpload,
       name:'mfile',
+      data:{data:params},
       showUploadList:false,
     };
     return (

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import {connect} from 'dva'
 import {
   Form,
   Button,
@@ -39,10 +40,10 @@ class ModuleSet extends Component {
     };
   }
   componentDidMount = () => {
-    this.getModule();
-  };
-  getModule = () => {
     const { homepageModuleId } = this.props;
+    this.getModule(homepageModuleId);
+  };
+  getModule = (homepageModuleId) => {
     getModuleApi({ homepageModuleId:homepageModuleId }).then(res => {
       if (res.code == "0") {
         const {
@@ -161,7 +162,7 @@ class ModuleSet extends Component {
     callback()
   }
   render() {
-    const { type } = this.props;
+    const { type,goodType } = this.props; //goodType --> 1活动 2上新
     const {
       title,
       isDisplaySplitLine,
@@ -174,6 +175,8 @@ class ModuleSet extends Component {
       visible,
       loading
     } = this.state;
+    console.log(this.state)
+    console.log('重新render了')
     const formLayout = {
       labelCol: { span: 3 },
       wrapperCol: { span: 20 }
@@ -298,7 +301,7 @@ class ModuleSet extends Component {
               </Radio.Group>
             )}
           </FormItem>
-          {type == 35 && (
+          {(type == 35 && goodType == 1)&& (
             <FormItem {...formLayout} label="插件">
               {getFieldDecorator("isDisplayCountdown", {
                 initialValue: isDisplayCountdown
@@ -317,12 +320,11 @@ class ModuleSet extends Component {
             })(
               <Input
                 style={{ width: "300px" }}
-                placeholder="请输入模块背景色号，例#333333"
+                placeholder="请填写六位数字+字母组合"
                 autoComplete='off'
                 maxLength='6'
               />
             )}
-            <span className="suffix_tips">请填写六位数字</span>
           </FormItem>
           <Row>
             <Col offset={4}>
@@ -353,5 +355,9 @@ class ModuleSet extends Component {
     );
   }
 }
+function mapStateToProps(state){
+  const {goodsSet} = state;
+  return goodsSet;
+}
 const ModuleSets = Form.create({})(ModuleSet);
-export default ModuleSets;
+export default connect(mapStateToProps)(ModuleSets);

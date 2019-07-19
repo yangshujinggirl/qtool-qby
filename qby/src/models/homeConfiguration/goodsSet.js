@@ -6,30 +6,43 @@ export default {
     pdListDisplayCfgId: "",
     endTime: "",
     beginTime: "",
-    activityId: "",
+    activityId:null,
     totalList: [],
     addkey: 0,
     goods: {
       listOne: [],
       listTwo: []
-    }
+    },
+    goodType:1,
+    mark:false
   },
   reducers: {
-    changeKey(
-      state,
-      {
-        payload: { activeKey }
-      }
-    ) {
+    setMark(state,{payload:{mark}}){ //区分 tab切换 还是 列表中切换过去 
+      return {...state,mark}
+    },
+    changeKey(state,{payload: { activeKey }}) {
       return { ...state, activeKey };
     },
-    getTimeInfo(
-      state,
-      {
-        payload: { pdListDisplayCfgId, beginTime, endTime, activityId }
+    getTimeInfo(state,{payload: { pdListDisplayCfgId, beginTime, endTime, activityId,mark,activeKey }}) {
+      return { ...state, pdListDisplayCfgId, beginTime, endTime, activityId,mark,activeKey };
+    },
+    changeActivityId(state,{payload:{activityId}}){
+      return { ...state, activityId}
+    },
+    getGoodType(state,{payload: {goodType }}) {
+      return { ...state, goodType};
+    },
+    resetData2(state){
+      return{
+        ...state,
+        activeKey: "1",
+        pdListDisplayCfgId: "",
+        endTime: "",
+        beginTime: "",
+        activityId:null,
+        goodType:1,
+        mark:false
       }
-    ) {
-      return { ...state, pdListDisplayCfgId, beginTime, endTime, activityId };
     },
     resetData(state) {
       const goods = {
@@ -46,16 +59,6 @@ export default {
     getGoodsList(state, { payload: goods }) {
       goods = { ...goods };
       const { listOne, listTwo } = goods;
-      // (function resetData(listOne,listTwo){
-      //   console.log(listOne)
-      //   console.log(listOne.length)
-      //   const listOneLen = listOne.length;
-      //   const arr = listTwo.slice(0,1);
-      //   listOne.push(arr)
-      //   if(listOneLen<8){
-      //     resetData(listOne,listTwo);
-      //   }
-      // })(listOne,listTwo)
       let totalList = [...listOne, ...listTwo];
       let addkey = totalList.length;
       addkey++;
@@ -87,6 +90,7 @@ export default {
         yield put({ type: "getGoodsList", payload: goods });
       }
       yield put({ type: "tab/loding", payload: false });
-    }
+    },
+   
   }
 };

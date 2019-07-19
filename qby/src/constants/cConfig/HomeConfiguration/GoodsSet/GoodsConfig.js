@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "dva";
-import { Form, Button, Select } from "antd";
+import { Form, Button, Select,message } from "antd";
 import ModDis from "./components/MainMod";
 import ImportBtn from "./components/ImportBtn";
 import {
@@ -22,18 +22,23 @@ class GoodsConfig extends Component {
   componentDidMount = () => {
     this.initPage();
   };
+  componentWillReceiveProps =(props)=> {
+    if(props.pdListDisplayCfgId != this.props.pdListDisplayCfgId){
+      this.getActivityList(props.pdListDisplayCfgId)
+      this.getList(props.pdListDisplayCfgId)
+    }
+  }
   initPage = () => {
-    const { pdListDisplayCfgId } = this.props;
+    const {pdListDisplayCfgId} = this.props
     if (pdListDisplayCfgId) {
       this.getActivityList(pdListDisplayCfgId);
-      this.getList();
+      this.getList(pdListDisplayCfgId);
     }
   };
-  getList() {
-    const { pdListDisplayCfgId } = this.props;
+  getList(id) {
     this.props.dispatch({
       type: "goodsSet/fetchList",
-      payload: { pdListDisplayCfgId }
+      payload: { pdListDisplayCfgId:id }
     });
   }
   //请求活动列表
@@ -72,37 +77,80 @@ class GoodsConfig extends Component {
   };
   //导入更新
   uploadData(data) {
-    console.log(data);
+    this.props.dispatch({
+      type: "goodsSet/getGoodsList",
+      payload: data
+    });
   }
   //下载
   downLoadTep = () => {
     window.open("../../../../static/order.xlsx");
   };
   //提交
-  submit = func => {
+  submit=()=> {
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        let { fieldsTwo, fieldsOne } = values;
-        let params = {
-          homePageModuleId: 20,
-          pdSpuList: [...fieldsOne, ...fieldsTwo]
+        let { fieldsTwo, fieldsOne  } =values;
+        let pdSpuList;
+        if(fieldsOne&&fieldsTwo) {
+          pdSpuList =[...fieldsOne,...fieldsTwo]
+        } else if(fieldsOne) {
+          pdSpuList = fieldsOne;
+        } else if(fieldsTwo) {
+          fieldsOne = fieldsTwo;
+        }
+        const { homepageModuleId,pdListDisplayCfgId,goodType,activityId } =this.props;
+        const { totalList } =this.props;
+        if(totalList.length<8) {
+          message.error('请至少配置8个商品');
+          return;
         };
-        getSaveApi(params).then(res => {});
+        let params
+        if(goodType == 1){
+          params = {
+            activityId,
+            homepageModuleId,
+            pdListDisplayCfgId,
+            type:goodType,
+            pdSpuList
+          };
+        }else{
+          params = {
+            homepageModuleId,
+            pdListDisplayCfgId,
+            type:goodType,
+            pdSpuList
+          };
+        }
+        this.props.dispatch({ type: 'tab/loding', payload:true});
+        getSaveApi(params)
+        .then((res) => {
+          if(res.code == 0) {
+            this.getList();
+          };
+          this.props.dispatch({ type: 'tab/loding', payload:false});
+        })
       }
     });
-  };
-
+  }
+  onChange =(value)=> {
+    debugger
+    this.props.dispatch({
+      type: "goodsSet/changeActivityId",
+      payload:{activityId:value}
+    });
+  }
   render() {
     const { getFieldDecorator } = this.props.form;
     const { activitys } = this.state;
-    const { endTime, beginTime, activityId, pdListDisplayCfgId,totalList } = this.props;
+    const { endTime, beginTime, activityId, mark,totalList,goodType } = this.props;
     const formLayout = {
       labelCol: { span: 2 },
       wrapperCol: { span: 20 }
     };
     return (
       <p className="good_config">
-        {pdListDisplayCfgId ? (
+        {mark ? (
           <div>
             <Form>
               <FormItem label="时间段" {...formLayout}>
@@ -110,29 +158,33 @@ class GoodsConfig extends Component {
                   {beginTime} ~ {endTime}
                 </span>
               </FormItem>
-              <FormItem label="选择活动" {...formLayout}>
-                {getFieldDecorator("activityId", {
-                  initialValue: activityId,
-                  rules: [{ required: true, message: "请选择时间段" }]
-                })(
-                  <Select>
-                    {activitys.map(item => (
-                      <Option value={item.activityId}>
-                        {item.activityName}
-                      </Option>
-                    ))}
-                  </Select>
-                )}
-                <span className="suffix_tips">
-                  请先选择你要展示的商品所在的活动
-                </span>
-              </FormItem>
+              {
+                goodType == 1 &&
+                <FormItem label="选择活动" {...formLayout}>
+                  {getFieldDecorator("activityId", {
+                    initialValue: activityId ? activityId : undefined,
+                    rules: [{ required: true, message: "请选择时间段" }],
+                    onChange:this.onChange
+                  })(
+                    <Select>
+                      {activitys.map(item => (
+                        <Option value={item.activityId}>
+                          {item.activityName}
+                        </Option>
+                      ))}
+                    </Select>
+                  )}
+                  <span className="suffix_tips">
+                    请先选择你要展示的商品所在的活动
+                  </span>
+                </FormItem>
+              }
             </Form>
             <div className="good-title">
               <div>已选商品</div>
               <div>
                 <span>已选{totalList.length}/100</span>
-                <ImportBtn uploadData={this.uploadData} />
+                <ImportBtn uploadData={this.uploadData} type={goodType} />
                 <Button
                   className="down_load_btn"
                   type="primary"
