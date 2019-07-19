@@ -136,10 +136,11 @@ const MoreGoodsSet = Form.create({
       })
       return el;
     })
-    let goods = { listTwo, listOne };
+    // let goods = { listTwo, listOne };
+    let totalList = [...listOne, ...listTwo]
     props.dispatch({
       type:'moreGoodsSet/getGoodsList',
-      payload:goods
+      payload:totalList
     })
   },
   // mapPropsToFields(props) {

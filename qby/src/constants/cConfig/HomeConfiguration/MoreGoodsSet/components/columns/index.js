@@ -48,7 +48,7 @@ export function columnsFun(form,handleBlur){
                   }],
                 })(
                   <Input
-                    onBlur={(e)=>handleBlur('listOne',e,index)}
+                    onBlur={(e)=>handleBlur('listOne',e,record)}
                     maxLength='15'
                     placeholder="请输入Spuid"
                     autoComplete="off"/>
@@ -176,7 +176,7 @@ export function columnsTwoFun(form, handleBlur){
                   rules:[],
                 })(
                   <Input
-                    onBlur={(e)=>handleBlur('listTwo',e,index)}
+                    onBlur={(e)=>handleBlur('listTwo',e,record)}
                     maxLength='15'
                     placeholder="请输入Spuid"
                     autoComplete="off"/>

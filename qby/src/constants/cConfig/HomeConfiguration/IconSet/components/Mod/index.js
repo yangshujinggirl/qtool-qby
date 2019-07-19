@@ -60,7 +60,8 @@ class ModForm extends Component {
     getChangeFrameApi(params)
     .then((res) => {
       if(res.code == 0) {
-        this.successCallback();
+        message.success('变坑成功',1);
+        this.handleDelete(currentItem);
       }
       this.setState({ confirmLoading:false })
     })
@@ -111,7 +112,7 @@ class ModForm extends Component {
     let { goodsList } =this.props;
     goodsList.map((el,index) => {
       if(el.beginTime) {
-        el.beginTime = moment(el.beginTime).format("YYYY-MM-DD");
+        el.beginTime = moment(el.beginTime).format("YYYY-MM-DD HH:mm");
       }
     })
     return goodsList;
