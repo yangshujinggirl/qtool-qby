@@ -108,8 +108,11 @@ class SearchMod extends Component {
           addonAfter={<Icon type="scan" />}
         />
         <div className="handle-btn-action">
-          <Button>查看</Button>
-          <Button onClick={this.onEdit}>编辑</Button>
+          {
+            !this.props.data.info&&
+            <Button onClick={this.onEdit}>编辑</Button>
+          }
+         
         </div>
         <SearchUpload
           changeImg={this.changeImg}

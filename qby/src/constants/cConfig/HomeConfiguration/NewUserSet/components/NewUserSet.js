@@ -21,7 +21,7 @@ class NewUserSet extends Component {
       fileList2,
       optionList,
       couponList,
-      backgroupColor,
+      moduleBackColor,
       receiveTimeInterval,
       beginTime,
       endTime,
@@ -91,8 +91,8 @@ class NewUserSet extends Component {
           </FormItem>
           <div className="title">模块设置</div>
           <FormItem label="设置模块背景色号" {...formLayout}>
-            {getFieldDecorator("backgroupColor", {
-              initialValue: backgroupColor,
+            {getFieldDecorator("moduleBackColor", {
+              initialValue: moduleBackColor,
               rules: [{ required: true, message: "请填写领取间隔" }]
             })(
               <Input

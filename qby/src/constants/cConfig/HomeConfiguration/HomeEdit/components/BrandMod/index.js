@@ -121,8 +121,13 @@ class BrandMod extends Component {
           <div className="no-module-data brand-mod-no-data">品牌背书</div>
         }
         <div className="handle-btn-action">
-          <Button onClick={this.onEdit}>编辑</Button>
-          <Button onClick={()=>this.props.toggleShow(homepageModuleId,isDisplay)}>{isDisplay?'隐藏':'展开'}</Button>
+          {
+            !this.props.data.info&&
+            <div>
+              <Button onClick={this.onEdit}>编辑</Button>
+              <Button onClick={()=>this.props.toggleShow(homepageModuleId,isDisplay)}>{isDisplay?'隐藏':'展开'}</Button>
+            </div>
+          }
         </div>
         <BrandBgModal
           visible={visible}

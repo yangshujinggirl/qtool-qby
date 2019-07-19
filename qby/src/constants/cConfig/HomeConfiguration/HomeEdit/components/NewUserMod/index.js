@@ -35,8 +35,15 @@ class NewUserMod extends Component {
           <div className="no-module-data new-user-noData">新人礼</div>
         }
         <div className="handle-btn-action">
-          <Button onClick={this.goEdit}>编辑</Button>
-          <Button onClick={()=>this.props.toggleShow(homepageModuleId,isDisplay)}>{isDisplay?'隐藏':'展开'}</Button>
+          
+          {
+             !this.props.data.info&&
+             <div>
+              <Button onClick={this.goEdit}>编辑</Button>
+              <Button onClick={()=>this.props.toggleShow(homepageModuleId,isDisplay)}>{isDisplay?'隐藏':'展开'}</Button>
+            </div>
+          }
+          
         </div>
       </div>
     );

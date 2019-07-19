@@ -37,20 +37,25 @@ export default {
         listTwo: []
       };
       const addkey = 0;
-      const homepageModuleId = "";
       return {
         ...state,
         goods,
-        homepageModuleId,
         addkey
       };
-    },
-    getHomeModuleId(state, { payload: homepageModuleId }) {
-      return { ...state, homepageModuleId };
     },
     getGoodsList(state, { payload: goods }) {
       goods = { ...goods };
       const { listOne, listTwo } = goods;
+      // (function resetData(listOne,listTwo){
+      //   console.log(listOne)
+      //   console.log(listOne.length)
+      //   const listOneLen = listOne.length;
+      //   const arr = listTwo.slice(0,1);
+      //   listOne.push(arr)
+      //   if(listOneLen<8){
+      //     resetData(listOne,listTwo);
+      //   }
+      // })(listOne,listTwo)
       let totalList = [...listOne, ...listTwo];
       let addkey = totalList.length;
       addkey++;

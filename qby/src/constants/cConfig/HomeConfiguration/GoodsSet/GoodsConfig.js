@@ -95,7 +95,7 @@ class GoodsConfig extends Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     const { activitys } = this.state;
-    const { endTime, beginTime, activityId, pdListDisplayCfgId } = this.props;
+    const { endTime, beginTime, activityId, pdListDisplayCfgId,totalList } = this.props;
     const formLayout = {
       labelCol: { span: 2 },
       wrapperCol: { span: 20 }
@@ -131,7 +131,7 @@ class GoodsConfig extends Component {
             <div className="good-title">
               <div>已选商品</div>
               <div>
-                <span>已选{}/100</span>
+                <span>已选{totalList.length}/100</span>
                 <ImportBtn uploadData={this.uploadData} />
                 <Button
                   className="down_load_btn"

@@ -24,3 +24,11 @@ export function versionBanApi(values) {
     data: values
   });
 }
+//
+export function logListApi(values) {
+  values = JSON.stringify(values);
+  return ajax.post("/webrest.htm", {
+    code: "qerp.web.homePage.config.loge",
+    data: values
+  });
+}

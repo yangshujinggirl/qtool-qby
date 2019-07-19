@@ -95,6 +95,7 @@ class GoodsSet extends Component {
       labelCol: { span: 3 },
       wrapperCol: { span: 20 }
     };
+    console.log(homepageModuleId)
     return (
       <div>
         <Form>
