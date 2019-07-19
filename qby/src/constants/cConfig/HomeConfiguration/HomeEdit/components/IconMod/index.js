@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import { Button } from 'antd';
+import CommonMod from '../CommonMod';
 import './index.less';
 
 class IconMod extends Component {
@@ -21,11 +22,13 @@ class IconMod extends Component {
     })
   }
   render() {
-    let { moduleContent, moduleBackColor, isDisplay } =this.props.info.icon;
+    let { homepageModuleId, moduleContent, moduleBackColor, isDisplay } =this.props.info.icon;
     const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
 
     return(
-      <div className={`common-sty icon-mod ${!isDisplay?'hiddle-module':''}`} style={{'background':`#${moduleBackColor}`}}>
+      <CommonMod
+        homepageModuleId={homepageModuleId}
+        className={`common-sty icon-mod ${!isDisplay?'hiddle-module':''}`} style={{'background':`#${moduleBackColor}`}}>
         {
           moduleContent&&moduleContent.length>0?
           <div className="mod-wrap">
@@ -42,7 +45,7 @@ class IconMod extends Component {
           <div className="no-module-data icon-no-data">Icon 模块</div>
         }
         <div className="handle-btn-action">
-          
+
           {
             !this.props.data.info&&
             <div>
@@ -51,7 +54,7 @@ class IconMod extends Component {
             </div>
           }
         </div>
-      </div>
+      </CommonMod>
     )
   }
 }

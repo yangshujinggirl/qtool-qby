@@ -6,8 +6,8 @@ import './index.less';
 class TabsMod extends Component {
   onChange = activiKey => {
     Modal.confirm({
-      title: '请离开页面前保存当前操作?',
-      content: '请保存当前页面配置',
+      title: '温馨提示',
+      content: '切换页面请确认保存',
       onOk:()=>{
         this.props.onOk(activiKey);
       },
@@ -19,7 +19,7 @@ class TabsMod extends Component {
   render() {
     const { activiKey } =this.props;
     return(
-      <div className="part-tabs">
+      <div className={`part-tabs ${this.props.className}`}>
         {
           this.props.panes.map((el,index) => (
             <p

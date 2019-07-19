@@ -27,6 +27,10 @@ class ModForm extends Component {
   submit=(func)=> {
     this.props.form.validateFields((err, values) => {
       if (!err) {
+        if(!values.goods) {//空页面不进行保存
+          func&&typeof func == 'function'?func():this.successCallback();
+          return;
+        }
         values = this.formatParams(values);
         let params={
           homepageModuleId:this.props.homepageModuleId,
@@ -34,14 +38,12 @@ class ModForm extends Component {
           dataList:values
         }
         this.setState({ loading:true });
-        this.props.dispatch({ type: 'tab/loding', payload:true});
         getSaveApi(params)
         .then((res)=> {
           if(res.code == 0) {
             func&&typeof func == 'function'?func():this.successCallback();
           }
           this.setState({ loading:false });
-          this.props.dispatch({ type: 'tab/loding', payload:false});
         })
       }
     });

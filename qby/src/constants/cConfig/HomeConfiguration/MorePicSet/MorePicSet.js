@@ -24,8 +24,8 @@ class MorePicSet extends Component {
     let dom = e.target;
     let activiKey = dom.getAttribute("data-key");
     Modal.confirm({
-      title: '请离开页面前保存当前操作?',
-      content: 'Some descriptions',
+      title: '温馨提示',
+      content: '切换页面请确认保存',
       onOk:()=>{
         this.onOkToggle(activiKey);
       },
@@ -67,12 +67,12 @@ class MorePicSet extends Component {
               图片尺寸为313*400px，格式为png、jpg。大小不能超过2m。只能上传一张。
             </p>
             <p className="r-item">
-              <span className="label">左一大图</span><br />
-              图片尺寸为313*400px，格式为png、jpg。大小不能超过2m。只能上传一张。
+              <span className="label">右上小图</span><br />
+              图片尺寸为357*144px，格式为png、jpg。大小不能超过2m。只能上传一张。
             </p>
             <p className="r-item">
-              <span className="label">左一大图</span><br />
-              图片尺寸为313*400px，格式为png、jpg。大小不能超过2m。只能上传一张。
+              <span className="label">右上小图</span><br />
+              图片尺寸为357*144px，格式为png、jpg。大小不能超过2m。只能上传一张。
             </p>
           </div>
         </div>

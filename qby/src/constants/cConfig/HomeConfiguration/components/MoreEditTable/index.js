@@ -46,9 +46,17 @@ class BaseEditTable extends Component {
     return <span>{index}</span>
   }
   renderPicUrl=(text,record,index)=> {
+    let width,height;
+    if(this.props.modName == 'icon') {
+      width = 686;
+      height =356;
+    } else if(this.props.modName == 'banner') {
+      width = 120;
+      height =120;
+    }
     return <UpLoadImg
-            width={686}
-            height={356}
+            width={width}
+            height={height}
             fileList={record.picUrl}
             form={this.props.form}
             index={index}/>
@@ -87,8 +95,8 @@ class BaseEditTable extends Component {
              value={2}
              key={2}>App</Select.Option>
            <Select.Option
-             value={3}
-             key={3}>小程序+App</Select.Option>
+             value={0}
+             key={0}>小程序+App</Select.Option>
          </Select>
        )}
        </FormItem>
@@ -255,6 +263,7 @@ class BaseEditTable extends Component {
         dataSource={dataSource}>
         <Table.Column title="序号" key ='key' dataIndex="key" width="4%"  render={this.renderCode}/>
         <Table.Column title={`${modName}图片`} key ='picUrl' width="8%"  dataIndex="picUrl" render={this.renderPicUrl}/>
+        <Table.Column title="ID" key ='frameDetailId' dataIndex="frameDetailId" width="6%"/>
         <Table.Column title={`${modName}名称`} key ='title' width="14%" dataIndex="title" render={this.renderTitle}/>
         <Table.Column title="适用端" key ='platform' width="10%" dataIndex="platform" render={this.renderPlatForm}/>
         <Table.Column title="跳转链接" key ='linkInfoType' width="10%" dataIndex="linkInfoType" render={this.renderLinkType}/>

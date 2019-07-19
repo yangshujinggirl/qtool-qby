@@ -13,6 +13,7 @@ import MoreGoodsMod from "./components/MoreGoodsMod";
 import ThemeMod from "./components/ThemeMod";
 import ClassifyMod from "./components/ClassifyMod";
 import ReleaseModal from './components/ReleaseModal';
+import Line from './components/Line';
 import {
   getStatusApi,
   getReleaseApi
@@ -74,11 +75,6 @@ class HomeEdit extends Component {
         type:value.key,
         homepageId
       }
-    // if(value.key == '1') {
-    //   this.getSaveRelease(params);
-    // } else {
-    //   this.setState({ visible:true, params })
-    // }
     this.setState({ visible:true, params })
   }
   getSaveRelease=(value)=> {
@@ -91,8 +87,11 @@ class HomeEdit extends Component {
       let msg = value.type=='1'?'发布成功':'立即发布设置成功';
       if(res.code=='0') {
         message.success(msg)
-      } else {
-        console.log(checkResult)
+      } else if(res.code=='260'){
+        this.props.dispatch({
+          type:'homeEdit/getCheckResult',
+          payload:checkResult
+        })
       }
       this.setState({ visible:false, params:{}, confirmLoading:false })
     })
@@ -115,7 +114,7 @@ class HomeEdit extends Component {
       </Menu>
     );
     const { urlCode, visible, params, confirmLoading } =this.state;
-    console.log(visible,confirmLoading)
+    let { productDisplay, multilineProduct, picMix, themeActivity } =this.props.info;
     return (
       <div className="home-configuration-edit-pages">
         <div className="part-head">
@@ -135,10 +134,23 @@ class HomeEdit extends Component {
           <BrandMod {...this.props} callback={this.fetchInfo} toggleShow={this.toggleShow}/>
           <IconMod {...this.props} callback={this.fetchInfo} toggleShow={this.toggleShow}/>
           <NewUserMod {...this.props} callback={this.fetchInfo} toggleShow={this.toggleShow}/>
+          {
+            !!productDisplay.isDisplaySplitLine&&<Line />
+          }
           <GoodsMod {...this.props} callback={this.fetchInfo} toggleShow={this.toggleShow}/>
+          {
+            !!picMix.isDisplaySplitLine&&<Line />
+          }
           <MorePicMod {...this.props} callback={this.fetchInfo} />
+          {
+            !!multilineProduct.isDisplaySplitLine&&<Line />
+          }
           <MoreGoodsMod {...this.props} callback={this.fetchInfo} />
+          {
+            !!themeActivity.isDisplaySplitLine&&<Line />
+          }
           <ThemeMod {...this.props} callback={this.fetchInfo} />
+          <Line />
           <ClassifyMod {...this.props} callback={this.fetchInfo} />
         </div>
         <ReleaseModal

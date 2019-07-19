@@ -4,6 +4,7 @@ import { Button } from 'antd';
 import Swiper from 'swiper/dist/js/swiper.js';
 import TitleM from '../TitleM';
 import Line from '../Line';
+import CommonMod from '../CommonMod';
 import './index.less';
 
 class MoreGoodsMod extends Component {
@@ -30,11 +31,11 @@ class MoreGoodsMod extends Component {
     let { homepageModuleId, moduleContent, moduleBackColor } =multilineProduct;
     const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
     return(
-      <div>
-        {
-          !!multilineProduct.isDisplaySplitLine&&<Line />
-        }
-        <div className="common-sty more-goods-mod" style={{'background':`#${moduleBackColor}`}}>
+      <CommonMod
+        homepageModuleId={homepageModuleId}
+        className="more-goods-mod"
+        style={{'background':`#${moduleBackColor}`}}>
+        <div>
           <div className="mod-wrap">
             <div className="mod-common-head">
               <TitleM title={multilineProduct.title} type={multilineProduct.titleColor}/>
@@ -70,7 +71,7 @@ class MoreGoodsMod extends Component {
             }
           </div>
         </div>
-      </div>
+      </CommonMod>
     )
   }
 }

@@ -18,7 +18,8 @@ export default {
       search:{},
       themeActivity:{}
     },//商品列表
-    flowProductList:[]
+    flowProductList:[],
+    checkResult:[],
   },
   reducers: {
     getflowProductList( state, { payload : flowProductList }) {
@@ -27,8 +28,13 @@ export default {
     getInfo( state, { payload : info }) {
       return { ...state, info }
     },
+    getCheckResult( state, { payload : checkResult }) {
+      // checkResult=[...checkResult]
+      return { ...state, checkResult }
+    },
     reSetData(state) {
       const info= {};
+      const checkResult = [];
       return { ...state, info }
     }
   },

@@ -13,8 +13,12 @@ class ReleaseModalF extends Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        let timingReleaseTime = values.timingReleaseTime?moment(values.timingReleaseTime).format(dateFormat):null;
-        this.props.onOk({timingReleaseTime});
+        let timingReleaseTime = values.timingReleaseTime&&moment(values.timingReleaseTime).format(dateFormat);
+        if(timingReleaseTime) {
+          this.props.onOk({timingReleaseTime});
+        } else {
+          this.props.onOk();
+        }
         this.props.form.resetFields()
       }
     });
@@ -26,7 +30,7 @@ class ReleaseModalF extends Component {
   render() {
     const { getFieldDecorator } =this.props.form;
     const { confirmLoading, type } =this.props;
-    console.log(type)
+
     return(
       <Modal
         title="定时发布"

@@ -4,6 +4,7 @@ import { Button } from "antd";
 import Swiper from "swiper/dist/js/swiper.js";
 import TitleM from '../TitleM';
 import Line from '../Line';
+import CommonMod from '../CommonMod';
 import "./index.less";
 
 class ThemeMod extends Component {
@@ -11,6 +12,8 @@ class ThemeMod extends Component {
     new Swiper(".theme-swiper-container", {
       slidesPerView: 3,
       spaceBetween: 10,
+      observer: true,
+      observeParents:true,
       pagination: {
         el: ".swiper-pagination",
         clickable: true
@@ -32,14 +35,14 @@ class ThemeMod extends Component {
   };
   render() {
     let { themeActivity } =this.props.info;
-    let { moduleContent, moduleBackColor } =themeActivity;
+    let { moduleContent, moduleBackColor, homepageModuleId } =themeActivity;
     const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
     return (
-      <div>
-        {
-          !!themeActivity.isDisplaySplitLine&&<Line />
-        }
-        <div className="common-sty theme-mod" style={{'background':`#${moduleBackColor}`}}>
+      <CommonMod
+        homepageModuleId={homepageModuleId}
+        className="theme-mod"
+        style={{'background':`#${moduleBackColor}`}}>
+        <div>
           <div className="mod-wrap">
             <div className="mod-common-head">
               <TitleM title={themeActivity.title} type={themeActivity.titleColor}/>
@@ -73,7 +76,7 @@ class ThemeMod extends Component {
             }
           </div>
         </div>
-      </div>
+      </CommonMod>
     );
   }
 }

@@ -18,36 +18,40 @@ class IconSet extends Component {
     super(props);
   }
   componentDidMount() {
+    this.getList();
+  }
+  getList=(activiKey)=> {
     const { homepageModuleId } =this.props.data;
     this.props.dispatch({
       type:'iconSet/fetchList',
       payload:{
-        position:1,
+        position:activiKey?activiKey:1,
         homepageModuleId:homepageModuleId,
       }
     })
   }
   onOkToggle=(activiKey)=> {
-    this.modDom.submit(()=>this.onCancelToggle(activiKey));
+    this.modDom.submit(()=>this.getList(activiKey));
   }
-  onCancelToggle=(activiKey)=> {
-    const { homepageModuleId } =this.props.data;
-    this.props.dispatch({
-      type:'iconSet/fetchList',
-      payload:{
-        position:activiKey,
-        homepageModuleId:homepageModuleId,
-      }
-    })
-  }
+  // onCancelToggle=(activiKey)=> {
+  //   const { homepageModuleId } =this.props.data;
+  //   this.props.dispatch({
+  //     type:'iconSet/fetchList',
+  //     payload:{
+  //       position:activiKey,
+  //       homepageModuleId:homepageModuleId,
+  //     }
+  //   })
+  // }
   render() {
     return(
       <div className="banner-set-pages">
         <TabsMod
+          className="icon-part-tabs"
           activiKey={this.props.activiKey}
           panes={panes}
           onOk={this.onOkToggle}
-          onCancel ={this.onCancelToggle}/>
+          onCancel ={this.getList}/>
         <Mod
           onRef={(mod)=>{this.modDom = mod}}/>
       </div>

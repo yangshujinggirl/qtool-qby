@@ -2,6 +2,7 @@ import react, { Component } from "react";
 import { connect } from 'dva';
 import { Button, message } from "antd";
 import BrandBgModal from "../../../BrandBg";
+import CommonMod from '../CommonMod';
 import { saveBgPicApi,searchBgPicApi} from "../../../../../../services/cConfig/homeConfiguration/brandBg";
 
 import './index.less';
@@ -118,7 +119,9 @@ class BrandMod extends Component {
     let { homepageModuleId,moduleBackColor, contentPicUrl,isDisplay } = this.props.info.brandDisplay;
     const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
     return (
-      <div className={`common-sty brand-mod ${!isDisplay?'hiddle-module':''}`} style={{'background':`#${moduleBackColor}`}}>
+      <CommonMod
+        homepageModuleId={homepageModuleId}
+        className={`brand-mod ${!isDisplay?'hiddle-module':''}`} style={{'background':`#${moduleBackColor}`}}>
         {
           contentPicUrl?
           <div className="content-wrap">
@@ -132,7 +135,10 @@ class BrandMod extends Component {
             !this.props.data.info&&
             <div>
               <Button onClick={this.onEdit}>编辑</Button>
-              <Button onClick={()=>this.props.toggleShow(homepageModuleId,isDisplay)}>{isDisplay?'隐藏':'展开'}</Button>
+              <Button
+                onClick={()=>this.props.toggleShow(homepageModuleId,isDisplay)}>
+                {isDisplay?'隐藏':'展开'}
+              </Button>
             </div>
           }
         </div>
@@ -146,7 +152,7 @@ class BrandMod extends Component {
           onCancel={this.onCancel}
           loading={loading}
         />
-      </div>
+      </CommonMod>
     );
   }
 }

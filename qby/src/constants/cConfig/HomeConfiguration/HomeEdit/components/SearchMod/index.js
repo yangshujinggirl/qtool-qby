@@ -1,6 +1,7 @@
 import react, { Component } from "react";
 import { connect } from "dva";
 import { Input, Icon, Button, message } from "antd";
+import CommonMod from '../CommonMod';
 import "./index.less";
 import {
   savePicApi,
@@ -99,30 +100,35 @@ class SearchMod extends Component {
   render() {
     const { visible, fileList, loading } = this.state;
     const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
-    let { backgroundPicUrl } = this.props.info.search;
+    let { backgroundPicUrl, homepageModuleId } = this.props.info.search;
     backgroundPicUrl = `${fileDomain}${backgroundPicUrl}`;
     return (
-      <div className="common-sty search-mod" style={{'background':`#fff url(${backgroundPicUrl}) center`}}>
-        <Input
-          addonBefore={<Icon type="search" />}
-          addonAfter={<Icon type="scan" />}
-        />
-        <div className="handle-btn-action">
-          {
-            !this.props.data.info&&
-            <Button onClick={this.onEdit}>编辑</Button>
-          }
-         
+      <CommonMod
+        homepageModuleId={homepageModuleId}
+        className="search-mod"
+        style={{'background':`#fff url(${backgroundPicUrl}) center`}}>
+        <div>
+          <Input
+            addonBefore={<Icon type="search" />}
+            addonAfter={<Icon type="scan" />}
+          />
+          <div className="handle-btn-action">
+            {
+              !this.props.data.info&&
+              <Button onClick={this.onEdit}>编辑</Button>
+            }
+
+          </div>
+          <SearchUpload
+            changeImg={this.changeImg}
+            fileList={fileList}
+            visible={visible}
+            loading={loading}
+            onOk={this.onOk}
+            onCancel={this.onCancel}
+          />
         </div>
-        <SearchUpload
-          changeImg={this.changeImg}
-          fileList={fileList}
-          visible={visible}
-          loading={loading}
-          onOk={this.onOk}
-          onCancel={this.onCancel}
-        />
-      </div>
+      </CommonMod>
     );
   }
 }

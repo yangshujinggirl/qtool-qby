@@ -1,6 +1,7 @@
 import react, { Component } from "react";
 import { connect } from 'dva';
 import { Button } from "antd";
+import CommonMod from '../CommonMod';
 
 import './index.less'
 
@@ -22,30 +23,35 @@ class NewUserMod extends Component {
   };
   render() {
     let { coupon } =this.props.info;
-    let { homepageModuleId,moduleBackColor,isDisplay, moduleContent } =coupon;
+    let { homepageModuleId, moduleBackColor,isDisplay, moduleContent } =coupon;
     const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
     return (
-      <div className={`common-sty new-user-mod ${!isDisplay?'hiddle-module':''}`} style={{'background':`#${moduleBackColor}`}}>
-        {
-          moduleContent&&moduleContent.couponPopUpPicUrl?
-          <div className="content-wrap">
-            <img src={`${fileDomain}${moduleContent.couponPopUpPicUrl}`}/>
-          </div>
-          :
-          <div className="no-module-data new-user-noData">新人礼</div>
-        }
-        <div className="handle-btn-action">
-          
+      <CommonMod
+        homepageModuleId={ homepageModuleId }
+        className={`new-user-mod ${!isDisplay?'hiddle-module':''}`}
+        style={{'background':`#${moduleBackColor}`}}>
+        <div>
           {
-             !this.props.data.info&&
-             <div>
-              <Button onClick={this.goEdit}>编辑</Button>
-              <Button onClick={()=>this.props.toggleShow(homepageModuleId,isDisplay)}>{isDisplay?'隐藏':'展开'}</Button>
+            moduleContent&&moduleContent.couponPopUpPicUrl?
+            <div className="content-wrap">
+              <img src={`${fileDomain}${moduleContent.couponPopUpPicUrl}`}/>
             </div>
+            :
+            <div className="no-module-data new-user-noData">新人礼</div>
           }
-          
+          <div className="handle-btn-action">
+
+            {
+               !this.props.data.info&&
+               <div>
+                <Button onClick={this.goEdit}>编辑</Button>
+                <Button onClick={()=>this.props.toggleShow(homepageModuleId,isDisplay)}>{isDisplay?'隐藏':'展开'}</Button>
+              </div>
+            }
+
+          </div>
         </div>
-      </div>
+      </CommonMod>
     );
   }
 }
