@@ -83,7 +83,6 @@ class ModForm extends Component {
           dataList:values
         }
         this.setState({ loading:true })
-        this.props.dispatch({ type: 'tab/loding', payload:true});
         getSaveApi(params)
         .then((res)=> {
           const { code } =res;
@@ -91,7 +90,6 @@ class ModForm extends Component {
             func&&typeof func == 'function'?func():this.successCallback();
           }
           this.setState({ loading:false })
-          this.props.dispatch({ type: 'tab/loding', payload:false});
         })
       }
     });

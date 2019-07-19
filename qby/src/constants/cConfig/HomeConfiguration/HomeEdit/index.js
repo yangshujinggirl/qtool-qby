@@ -25,7 +25,8 @@ class HomeEdit extends Component {
     this.state = {
       urlCode:'',
       visible:false,
-      params:{}
+      params:{},
+      confirmLoading:false
     }
   }
   componentDidMount() {
@@ -44,6 +45,7 @@ class HomeEdit extends Component {
       }
     });
   }
+  //隐藏
   toggleShow=(homepageModuleId,isDisplay)=> {
     isDisplay=isDisplay?0:1;
     getStatusApi({homepageModuleId,isDisplay})
@@ -53,6 +55,7 @@ class HomeEdit extends Component {
       }
     })
   }
+  //二维码生成
   goPreview=()=> {
     const { homepageId } = this.props.data;
     let urlCode = `https://www.baidu.com/homepageId=${homepageId}`
@@ -64,37 +67,41 @@ class HomeEdit extends Component {
       // console.error(err)
     })
   }
-  handleCancel=()=>{
-    this.setState({ visible:false })
-  }
+
   releaseHome=(value)=>{
     const { homepageId } = this.props.data;
     let params = {
         type:value.key,
         homepageId
       }
-    if(value.key == '1') {
-      this.getSaveRelease(params);
-    } else {
-      this.setState({ visible:true, params })
-    }
+    // if(value.key == '1') {
+    //   this.getSaveRelease(params);
+    // } else {
+    //   this.setState({ visible:true, params })
+    // }
+    this.setState({ visible:true, params })
   }
   getSaveRelease=(value)=> {
     const { params } =this.state;
     value = {...value,...params};
+    this.setState({ confirmLoading:true })
     getReleaseApi(value)
     .then((res) => {
       const { checkResult, code } =res;
-      let msg = values.type=='1'?'发布成功':'立即发布设置成功';
+      let msg = value.type=='1'?'发布成功':'立即发布设置成功';
       if(res.code=='0') {
         message.success(msg)
       } else {
         console.log(checkResult)
       }
+      this.setState({ visible:false, params:{}, confirmLoading:false })
     })
   }
   onOk=(value)=>{
     this.getSaveRelease(value)
+  }
+  onCancel=()=>{
+    this.setState({ visible:false })
   }
   render() {
     const menu = (
@@ -107,7 +114,8 @@ class HomeEdit extends Component {
         </Menu.Item>
       </Menu>
     );
-    const { urlCode, visible } =this.state;
+    const { urlCode, visible, params, confirmLoading } =this.state;
+    console.log(visible,confirmLoading)
     return (
       <div className="home-configuration-edit-pages">
         <div className="part-head">
@@ -134,7 +142,10 @@ class HomeEdit extends Component {
           <ClassifyMod {...this.props} callback={this.fetchInfo} />
         </div>
         <ReleaseModal
+          confirmLoading={confirmLoading}
+          type={params.type}
           visible={visible}
+          onCancel={this.onCancel}
           onOk={this.onOk}/>
       </div>
     );

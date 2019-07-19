@@ -10,7 +10,13 @@ class BaseEditTable extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      firstIn:true,
       key:this.props.dataSource.length,
+    }
+  }
+  componentWillReceiveProps(props) {
+    if(this.state.firstIn) {
+      this.setState({ key: props.dataSource.length })
     }
   }
   //绑定方法
@@ -32,7 +38,7 @@ class BaseEditTable extends Component {
       key,
       isFrame:true
     });
-    this.setState({ key:key+1 });
+    this.setState({ key, firstIn:false });
     this.props.callback(dataSource);
   }
   renderCode=(text, record, index)=> {

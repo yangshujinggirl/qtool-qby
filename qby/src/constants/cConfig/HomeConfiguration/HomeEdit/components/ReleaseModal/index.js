@@ -13,31 +13,47 @@ class ReleaseModalF extends Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        let timingReleaseTime = moment(values.timingReleaseTime).format(dateFormat);
-        console.log(timingReleaseTime);
-        this.props.onOk({timingReleaseTime})
+        let timingReleaseTime = values.timingReleaseTime?moment(values.timingReleaseTime).format(dateFormat):null;
+        this.props.onOk({timingReleaseTime});
+        this.props.form.resetFields()
       }
     });
   }
   handleCancel=()=> {
-
+    this.props.onCancel();
+    this.props.form.resetFields()
   }
   render() {
     const { getFieldDecorator } =this.props.form;
-
+    const { confirmLoading, type } =this.props;
+    console.log(type)
     return(
       <Modal
         title="定时发布"
+        confirmLoading={confirmLoading}
         visible={this.props.visible}
         onOk={this.handleOk}
         onCancel={this.handleCancel}>
         <div>
-          <Form.Item label="定时发布时间" {...formItemLayout}>
-            {getFieldDecorator('timingReleaseTime')(
-              <DatePicker  format={dateFormat}/>
-            )}
-          </Form.Item>
-          <p>亲，建议定时发布时间避开流量高峰哦</p>
+          {
+            type == '2'?
+            <div>
+              <Form.Item label="定时发布时间" {...formItemLayout}>
+                {getFieldDecorator('timingReleaseTime',{
+                  rules:[{
+                    required:true,message:'请设定发布时间'
+                  }]
+                })(
+                  <DatePicker  format={dateFormat}/>
+                )}
+              </Form.Item>
+              <p>亲，建议定时发布时间避开流量高峰哦</p>
+            </div>
+            :
+            <p>
+              您确定立即发布吗？发布成功后此次设置将同步到C端首页，不可撤销
+            </p>
+          }
         </div>
       </Modal>
     )
