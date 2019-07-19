@@ -21,12 +21,11 @@ class IconMod extends Component {
     })
   }
   render() {
-    let { moduleContent, backgroundPicUrl, isDisplay } =this.props.info.icon;
+    let { moduleContent, moduleBackColor, isDisplay } =this.props.info.icon;
     const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
-    backgroundPicUrl = `${fileDomain}${backgroundPicUrl}`;
 
     return(
-      <div className={`common-sty icon-mod ${!isDisplay?'hiddle-module':''}`} style={{'background':`#fff url(${backgroundPicUrl})`}}>
+      <div className={`common-sty icon-mod ${!isDisplay?'hiddle-module':''}`} style={{'background':`#${moduleBackColor}`}}>
         {
           moduleContent&&moduleContent.length>0?
           <div className="mod-wrap">
