@@ -11,6 +11,12 @@ const FormItem = Form.Item;
 const Option = Select.Option;
 
 class NewUserSet extends Component {
+  validator=(rule,value,callback)=>{
+    if(value&&value.length<6){
+      callback('请输入六位颜色色号')
+    };
+    callback()
+  }
   render() {
     const formLayout = {
       labelCol: { span: 4 },
@@ -93,14 +99,19 @@ class NewUserSet extends Component {
           <FormItem label="设置模块背景色号" {...formLayout}>
             {getFieldDecorator("moduleBackColor", {
               initialValue: moduleBackColor,
-              rules: [{ required: true, message: "请填写领取间隔" }]
+              rules: [
+                { required: true, message: "请设置模块背景色号" },
+                { validator: this.validator}
+              ]
             })(
               <Input
                 placeholder="标题颜色的色号，常用色号可在示例中查看"
                 style={{ width: "266px" }}
+                autoComplete='off'
+                maxLength='6'
               />
             )}
-            　<span className="suffix_tips">请填写#+六位数字</span>
+            　<span className="suffix_tips">请填写六位数字</span>
           </FormItem>
           <Button
             className="btn"

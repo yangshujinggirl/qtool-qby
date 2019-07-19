@@ -64,6 +64,12 @@ class ModuleSet extends Component {
       visible: false
     });
   };
+  validator=(rule,value,callback)=>{
+    if(value&&value.length<6){
+      callback('请输入六位颜色色号')
+    };
+    callback()
+  }
   render() {
     console.log(this.props)
     const { visible,titleColor,moduleBackColor,loading } = this.state;
@@ -73,18 +79,21 @@ class ModuleSet extends Component {
         <Form>
           <FormItem
             labelCol={{ span: 3 }}
-            wrapperCol={{ span: 5 }}
+            wrapperCol={{ span: 12 }}
             label="设置模块背景色号"
           >
             {getFieldDecorator("moduleBackColor", {
-              initialValue: moduleBackColor
+              initialValue: moduleBackColor,
+              rules:[{
+                validator:this.validator
+              }]
             })(
               <Input
-                style={{ width: "400px" }}
+                style={{ width: "200px" }}
                 placeholder="标题颜色的色号，常用色号可在示例中查看"
+                maxLength='6'
               />
-            )}
-            <p>请填写#+六位数字</p>
+            )}<span className='suffix_tips'>请填写六位数字</span>
           </FormItem>
           <FormItem labelCol={{ span: 3 }} label="icon名称样式">
             {getFieldDecorator("titleColor", {
