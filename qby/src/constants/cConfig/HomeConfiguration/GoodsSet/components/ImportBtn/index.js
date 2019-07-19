@@ -38,7 +38,7 @@ class ImportBtn extends React.Component {
   }
   render() {
     const props = {
-      action: '/erpWebRest/webrest.htm?code=qerp.web.config.mulitilinespu.import',
+      action: '/erpWebRest/webrest.htm?code=qerp.web.config.singlelinespu.import',
       onChange: this.handleChange,
       beforeUpload:this.beforeUpload,
       name:'mfile',

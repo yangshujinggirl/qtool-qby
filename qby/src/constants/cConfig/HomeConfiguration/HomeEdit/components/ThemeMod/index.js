@@ -61,7 +61,10 @@ class ThemeMod extends Component {
           }
         </div>
         <div className="handle-btn-action">
-          <Button onClick={this.goEdit}>编辑</Button>
+          {
+            !this.props.data.info&&
+            <Button onClick={this.goEdit}>编辑</Button>
+          }
         </div>
       </div>
     );

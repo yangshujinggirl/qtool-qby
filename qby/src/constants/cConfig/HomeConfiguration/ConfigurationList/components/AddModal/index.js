@@ -61,7 +61,7 @@ class AddModalForm extends Component {
           </FormItem>
           {radioVal == 2 && (
             <FormItem label="请输入版本编号" {...formItemLayout}>
-            {getFieldDecorator("versionCodename", {
+            {getFieldDecorator("versionCode", {
               rules: [
                 {
                   required: true,

@@ -65,9 +65,13 @@ class ConfigurationList extends Component {
   goInfo(record) {
     const { componkey } = this.props;
     const paneitem = {
-      title: "详情",
-      key: `${componkey}homeinfo-search`,
-      data: {}
+      title: "首页详情",
+      key: `${componkey}editinfo`+record.homepageId,
+      componkey: `${componkey}editinfo`,
+      data: {
+        homepageId:record.homepageId,
+        info:true
+      }
     };
     this.props.dispatch({
       type: "tab/firstAddTab",
@@ -78,7 +82,7 @@ class ConfigurationList extends Component {
   goEdit = record => {
     const { componkey } = this.props;
     const paneitem = {
-      title: "商品编辑",
+      title: "编辑首页",
       key: `${componkey}home`,
       componkey: `${componkey}home`,
       data: {
@@ -120,7 +124,19 @@ class ConfigurationList extends Component {
   };
   //日志
   goLog(record) {
-    console.log(record);
+    const { componkey } = this.props;
+    const paneitem = {
+      title: "日志",
+      key: `${componkey}edit`+record.homepageId,
+      componkey: `${componkey}edit`,
+      data: {
+        homepageId:record.homepageId
+      }
+    };
+    this.props.dispatch({
+      type: "tab/firstAddTab",
+      payload: paneitem
+    });
   }
   //新建
   goAdd = () => {
@@ -151,8 +167,10 @@ class ConfigurationList extends Component {
         });
         this.setState({ visible: false, loading: false });
         resetForm();
+      }else{
+        this.setState({ loading: false });
       }
-    });
+    })
   };
   //取消新增首页版本
   onCancel = resetForm => {

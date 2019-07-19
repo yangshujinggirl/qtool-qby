@@ -119,7 +119,10 @@ class ClassifyMod extends Component {
           <div className="no-module-data classify-noData">商品流模块</div>
         }
         <div className="handle-btn-action">
-          <Button onClick={this.goEdit}>编辑</Button>
+          {
+            !this.props.data.info&&
+            <Button onClick={this.goEdit}>编辑</Button>
+          }
         </div>
       </div>
     )

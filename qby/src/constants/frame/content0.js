@@ -206,6 +206,7 @@ import CuserManage from '../userCenter/cUserManage/index'//c端用户管理
 /* ---------------------------------- 内容中心 -------------------------- */
 import TipsPage from '../cConfig/tipsPage/index';
 import ConfigurationList from '../cConfig/HomeConfiguration/ConfigurationList';//配置列表页
+import ConfigLogList from '../cConfig/HomeConfiguration/ConfigurationList/logList';//配置列表页
 import HomeEdit from '../cConfig/HomeConfiguration/HomeEdit';//配置页
 import CommodityFlow from '../cConfig/HomeConfiguration/CommodityFlow/CommodityFlow';//商品流配置
 import BannerSet from '../cConfig/HomeConfiguration/BannerSet';//banner配置
@@ -425,6 +426,8 @@ class Content extends React.Component {
                                     case "1401000" : return <TipsPage data={this.props.data} componkey={this.props.componkey}/>
 
                                     case "1402000" : return <ConfigurationList data={this.props.data} componkey={this.props.componkey}/>
+                                    case "1402000edit" : return <ConfigLogList data={this.props.data} componkey={this.props.componkey}/>
+                                    case "1402000editinfo" : return <HomeEdit data={this.props.data} componkey={this.props.componkey}/>
                                     case "1402000home" : return <HomeEdit data={this.props.data} componkey={this.props.componkey}/>
                                     case "1402000homeedit-commodity" : return <CommodityFlow data={this.props.data} componkey={this.props.componkey}/>
                                     case "1402000homeedit-banner" : return <BannerSet data={this.props.data} componkey={this.props.componkey}/>
