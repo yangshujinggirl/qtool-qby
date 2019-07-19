@@ -147,13 +147,19 @@ class ModuleSet extends Component {
       }
     });
   };
-
   validate = (rule, value, callback) => {
     if (value.length < 2) {
       callback("2-4个字符");
     }
     callback();
   };
+
+  validator=(rule,value,callback)=>{
+    if(value&&value.length<6){
+      callback('请输入六位颜色色号')
+    };
+    callback()
+  }
   render() {
     const { type } = this.props;
     const {
@@ -304,15 +310,19 @@ class ModuleSet extends Component {
           )}
           <FormItem {...formLayout} label="设置模块背景色号">
             {getFieldDecorator("moduleBackColor", {
-              initialValue: moduleBackColor
+              initialValue: moduleBackColor,
+              rules:[{
+                validator: this.validator
+              }]
             })(
               <Input
                 style={{ width: "300px" }}
                 placeholder="请输入模块背景色号，例#333333"
                 autoComplete='off'
+                maxLength='6'
               />
             )}
-            <span className="suffix_tips">请填写#+六位数字</span>
+            <span className="suffix_tips">请填写六位数字</span>
           </FormItem>
           <Row>
             <Col offset={4}>

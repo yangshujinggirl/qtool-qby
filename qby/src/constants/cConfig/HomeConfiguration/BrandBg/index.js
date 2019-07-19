@@ -44,11 +44,12 @@ class BrandBg extends Component {
           </FormItem>
           <FormItem labelCol={{ span: 5 }} label="设置模块背景色号">
             <Input
+              maxLength='6'
               style={{ width: "260px" }}
               value={color}
               onChange={colorChange}
               placeholder="标题颜色的色号，常用色号可在示例中查看"
-            /><span className='suffix_tips'>请填写#+六位数字</span>
+            /><span className='suffix_tips'>请填写六位数字</span>
           </FormItem>
         </Modal>
       </div>
