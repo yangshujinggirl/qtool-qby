@@ -28,7 +28,7 @@ class IconSet extends Component {
     })
   }
   onOkToggle=(activiKey)=> {
-    this.modDom.submit(()=>this.onCancel(activiKey));
+    this.modDom.submit(()=>this.onCancelToggle(activiKey));
   }
   onCancelToggle=(activiKey)=> {
     const { homepageModuleId } =this.props.data;

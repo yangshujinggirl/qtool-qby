@@ -6,8 +6,9 @@ class App extends React.Component {
   onOk=()=> {
     this.props.form.validateFields(['frameNum'],(err, values) => {
       const { frameNum } =values;
+      let tx =this.props.modName=='icon'?'坑位':'帧位';
       if(frameNum == this.props.activiKey) {
-        message.error('不可选择当前帧位')
+        message.error(`不可选择当前${tx}`)
         return;
       }
       this.props.onOk(frameNum);

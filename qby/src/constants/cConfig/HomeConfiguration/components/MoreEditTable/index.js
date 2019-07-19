@@ -59,7 +59,7 @@ class BaseEditTable extends Component {
             {getFieldDecorator(`goods[${index}].title`,{
               initialValue:record.title,
               rules:[{
-                required:true,message:'请输入banner名称'
+                required:true,message:'请输入名称'
               }],
             })(
               <Input
@@ -258,7 +258,7 @@ class BaseEditTable extends Component {
         <Table.Column title={`${modName}名称`} key ='title' width="14%" dataIndex="title" render={this.renderTitle}/>
         <Table.Column title="适用端" key ='platform' width="10%" dataIndex="platform" render={this.renderPlatForm}/>
         <Table.Column title="跳转链接" key ='linkInfoType' width="10%" dataIndex="linkInfoType" render={this.renderLinkType}/>
-        <Table.Column title="URL链接" key ='linkInfo' width="16%" dataIndex="linkInfo" render={this.renderLinkInfo}/>
+        <Table.Column title="跳转内容" key ='linkInfo' width="16%" dataIndex="linkInfo" render={this.renderLinkInfo}/>
         <Table.Column title="开始时间" key ='beginTime' width="16%" dataIndex="beginTime" render={this.renderStartTime}/>
         <Table.Column title="结束时间" key ='etime' dataIndex="etime" width="8%" render={this.renderEndTime}/>
         <Table.Column title="操作" key ='action' width="10%" dataIndex="action" render={this.renderHandle}/>
