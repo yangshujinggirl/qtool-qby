@@ -32,10 +32,7 @@ class Index extends Component {
       <div className="content_box stock-tabs">
         <Tabs activeKey={activeKey} onChange={this.callback}>
           <TabPane tab="设置时段" key="1">
-            {
-              activeKey=='1'&&
-              <GoodsSet homepageModuleId={homepageModuleId}/>
-            }
+            <GoodsSet homepageModuleId={homepageModuleId}/>
           </TabPane>
           <TabPane tab="配置商品" key="2">
             {
