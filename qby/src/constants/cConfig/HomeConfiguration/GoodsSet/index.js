@@ -10,11 +10,11 @@ class Index extends Component {
     super(props);
   }
   componentDidMount =()=> {
+    debugger
     this.props.dispatch({
       type:'goods/resetData2',
     })
   }
-
   callback = key => {
     this.props.dispatch({
       type: "goodsSet/changeKey",

@@ -206,11 +206,6 @@ class ThemeAct extends Component{
             addtheme&&
             <Button onClick={this.addTheme}  size='large' type='primary'>新增主题</Button>
           }
-          {
-            confirmInval&&
-            <Button type='primary' size='large' onClick={this.forceCancel}>强制失效</Button>
-          }
-
         </div>
         <Qtable
           onOperateClick = {this.handleOperateClick.bind(this)}

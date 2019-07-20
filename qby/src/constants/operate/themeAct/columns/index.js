@@ -5,14 +5,6 @@ const Columns = [{
    },{
      title: '主题状态',
      dataIndex: 'themeStatusStr'
-   }, {
-     title: '权重',
-     dataIndex: 'rank'
-   },{
-     title: '展示时间',
-     render:(text,record,index)=> (
-       <span>{record.showTimeStart}~{record.showTimeEnd}</span>
-     )
    },{
      title: '预览链接',
      dataIndex: 'previewLink',
