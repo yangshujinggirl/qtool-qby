@@ -52,6 +52,7 @@ class Mod extends Component {
         getSaveApi(params)
         .then((res) => {
           if(res.code == 0) {
+            message.success('保存成功');
             this.getList()
           }
           this.props.dispatch({ type: 'tab/loding', payload:false});
@@ -83,7 +84,7 @@ class Mod extends Component {
 	}
   render() {
     const { goods, totalList } =this.props;
-
+    console.log(this.props)
     return (
       <div className="more-goods-set-mod">
         <div className="part-top">
@@ -136,19 +137,12 @@ const MoreGoodsSet = Form.create({
       })
       return el;
     })
-    // let goods = { listTwo, listOne };
     let totalList = [...listOne, ...listTwo]
     props.dispatch({
       type:'moreGoodsSet/getGoodsList',
       payload:totalList
     })
   },
-  // mapPropsToFields(props) {
-  //   return {
-  //     fieldsOne: Form.createFormField(props.listOne),
-  //     fieldsTwo: Form.createFormField(props.listtwo),
-  //   };
-  // }
 })(Mod);
 
 function mapStateToProps(state) {

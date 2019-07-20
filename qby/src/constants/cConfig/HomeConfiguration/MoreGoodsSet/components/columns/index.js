@@ -48,7 +48,7 @@ export function columnsFun(form,handleBlur){
                   }],
                 })(
                   <Input
-                    onBlur={(e)=>handleBlur('listOne',e,record)}
+                    onBlur={(e)=>handleBlur(e,record)}
                     maxLength='15'
                     placeholder="请输入Spuid"
                     autoComplete="off"/>
@@ -138,12 +138,21 @@ export function columnsFun(form,handleBlur){
       width:'8%',
     },
     {
+      title: '上架状态',
+      dataIndex: 'isLine',
+      key: 'isLine',
+      width:'8%',
+      render:(text,record,index) => {
+        return <span>{record.isLine==20?'下架':'上架'}</span>
+      }
+    },
+    {
       title: '操作',
       dataIndex: 'operation',
       key: 'operation',
       width:'4%',
       render:(text,record,index) => {
-        return <span onClick={()=>record.onOperateClick('listOne','delete')} className="cr">删除</span>
+        return <span onClick={()=>record.onOperateClick('delete')} className="cr">删除</span>
       }
     },
   ];
@@ -176,7 +185,7 @@ export function columnsTwoFun(form, handleBlur){
                   rules:[],
                 })(
                   <Input
-                    onBlur={(e)=>handleBlur('listTwo',e,record)}
+                    onBlur={(e)=>handleBlur(e,record)}
                     maxLength='15'
                     placeholder="请输入Spuid"
                     autoComplete="off"/>
@@ -272,13 +281,23 @@ export function columnsTwoFun(form, handleBlur){
       width:'8%',
     },
     {
+      title: '上架状态',
+      dataIndex: 'isLine',
+      key: 'isLine',
+      width:'8%',
+      colSpan:0,
+      render:(text,record,index) => {
+        return <span>{record.isLine==20?'下架':'上架'}</span>
+      }
+    },
+    {
       title: '操作',
       dataIndex: 'operation',
       key: 'operation',
       colSpan:0,
       width:'4%',
       render:(text,record,index) => {
-        return <span onClick={()=>record.onOperateClick('listTwo','delete')} className="cr">删除</span>
+        return <span onClick={()=>record.onOperateClick('delete')} className="cr">删除</span>
       }
     },
   ];

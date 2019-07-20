@@ -27,8 +27,11 @@ class ModForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      sortVal:0
+      loading:false
     }
+  }
+  componentDidMount() {
+    this.props.onRef(this);
   }
   //排序类型
   changeRadio=(e)=> {
@@ -53,7 +56,7 @@ class ModForm extends Component {
   submit=(func)=> {
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        let { selectkey, tabs, homePageModuleId } =this.props;
+        let { selectkey, tabs } =this.props;
         let isEmpty;
         tabs.map((el,index) => {
           if(!el.tabName) {
@@ -65,21 +68,26 @@ class ModForm extends Component {
           return;
         }
         let  params = this.formatData(values);
-        this.props.dispatch({ type: 'tab/loding', payload:true});
+        this.setState({ loading:true })
         getSaveApi(params)
         .then((res) => {
           if(res.code == 0) {
-            this.props.dispatch({
-              type:'commodityFlow/fetchTabList',
-              payload:{
-                homePageModuleId:homePageModuleId
-              }
-            })
+            message.success('保存成功',1);
+            func&&typeof func == 'function'?func():this.successCallback();
           }
-          this.props.dispatch({ type: 'tab/loding', payload:false});
+          this.setState({ loading:false })
         })
       }
     });
+  }
+  successCallback() {
+    const { homepageModuleId } =this.props;
+    this.props.dispatch({
+      type:'commodityFlow/fetchTabList',
+      payload:{
+        homePageModuleId:homePageModuleId
+      }
+    })
   }
   formatData(values) {
     let sortRule;
@@ -271,11 +279,6 @@ const Mod = Form.create({
       payload:goodsList
     })
   },
-  // mapPropsToFields(props) {
-  //   return {
-  //     spuList: Form.createFormField(props.goodsList),
-  //   };
-  // }
 })(ModForm);
 function mapStateToProps(state) {
   const { commodityFlow } =state;

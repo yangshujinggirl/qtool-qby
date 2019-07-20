@@ -29,7 +29,7 @@ const rowTarget = {
 class Card extends React.Component {
   render() {
     const { isOver, connectDragSource, connectDropTarget } = this.props;
-    const { index, handleToggle, handleDelete, item,  selectkey } =this.props;
+    const { index, handleToggle, handleDelete, item,  selectkey, tabs } =this.props;
     const { getFieldDecorator } =this.props.form;
     return connectDragSource(
       connectDropTarget(
@@ -51,7 +51,10 @@ class Card extends React.Component {
                 autoComplete="off"/>
             )}
           </FormItem>
-          <Icon type="close" className="close-btn" onClick={(e)=>handleDelete(e,item)}/>
+          {
+            tabs.length>1&&
+            <Icon type="close" className="close-btn" onClick={(e)=>handleDelete(e,item)}/>
+          }
         </div>
       ),
     );

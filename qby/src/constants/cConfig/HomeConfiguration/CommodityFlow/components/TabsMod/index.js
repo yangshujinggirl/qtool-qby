@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Tabs, Button, Form, Input, Icon } from 'antd';
+import { Tabs, Button, Form, Input, Icon, Modal } from 'antd';
 import { connect } from 'dva';
 import DragTabCard from '../DragTabCard';
 import MyTagControlContext from '../MyTagControlContext';
@@ -22,15 +22,29 @@ class Field extends Component {
   }
   //切换查详情
   handleToggle =(e,value)=> {
+    const { selectkey } =this.props;
     e.stopPropagation()
     if(e.target.tagName=='INPUT') {
       return;
     }
-    const { tabId, key } =value;
-    this.props.dispatch({
-      type:'commodityFlow/fetchGoodsList',
-      payload:{tabId,selectkey:key}
-    })
+    if(selectkey==value.key) {
+      return;
+    }
+    Modal.confirm({
+      title: '温馨提示',
+      content: '切换页面请确认保存',
+      onOk:()=>{
+        this.props.onOk(value);
+      },
+      onCancel:()=> {
+        this.props.onCancel(value);
+      },
+    });
+    // const { tabId, key } =value;
+    // this.props.dispatch({
+    //   type:'commodityFlow/fetchGoodsList',
+    //   payload:{tabId,selectkey:key}
+    // })
   }
   //新增
   handleAdd=()=> {
@@ -96,14 +110,13 @@ class Field extends Component {
   }
   render() {
     const { tabs, selectkey } =this.props;
-    console.log(selectkey)
-    console.log(tabs)
     return (
       <div className="part-same tabs-mod-wrap">
         <p className="part-head">设置商品流tab</p>
         {
           tabs.map((el,index)=> (
             <DragTabCard
+              tabs={tabs}
               selectkey={selectkey}
               key={index}
               item={el}

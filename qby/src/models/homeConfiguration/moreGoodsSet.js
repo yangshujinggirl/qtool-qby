@@ -37,7 +37,6 @@ export default {
       pdSpuList = [...pdSpuList];
       let listOne=[], listTwo=[], goods;
       if(pdSpuList.length>0) {
-        // pdSpuList.map((el,index) => el.key = index)
         if(pdSpuList.length>=6) {
           listOne = pdSpuList.slice(0,6);
           listTwo = pdSpuList.slice(6);
@@ -48,11 +47,9 @@ export default {
       } else {
         goods = { listOne, listTwo };
       }
-      let addkey = pdSpuList.length;
-      // addkey++;
       return { ...state, goods, totalList:pdSpuList };
     },
-    getMove(state, { payload: goods }) {
+    getMoveList(state, { payload: goods }) {
       goods = {...goods};
       const { listOne, listTwo } =goods;
       let totalList = [...listOne, ...listTwo];
@@ -83,19 +80,6 @@ export default {
         let len = pdSpuList.length;
         yield put({type: 'getAddkey',payload:len});
         yield put({type: 'getGoodsList',payload:pdSpuList});
-        // if(pdSpuList.length>0) {
-        //   pdSpuList.map((el,index) => el.key = index)
-        //   if(pdSpuList.length>=6) {
-        //     listOne = pdSpuList.slice(0,6);
-        //     listTwo = pdSpuList.slice(6);
-        //   }
-        //   goods = { listOne, listTwo };
-        // } else {
-        //   goods={ listOne, listTwo };
-        // }
-        // let len = pdSpuList.length;
-        // yield put({type: 'getAddkey',payload:len});
-        // yield put({type: 'getGoodsList',payload:goods});
       }
       yield put({type: 'getHomeModuleId',payload:homepageModuleId});
       yield put({type: 'tab/loding',payload:false});

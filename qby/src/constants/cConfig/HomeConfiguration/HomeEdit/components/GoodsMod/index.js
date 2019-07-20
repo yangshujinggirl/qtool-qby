@@ -50,7 +50,7 @@ class GoodsMod extends Component {
           <div className="mod-common-head">
             <div className="hd-item">
               <TitleM title={productDisplay.title} type={productDisplay.titleColor}/>
-              { productDisplay.isDisplayCountdown&&<Countdown date={endDate} />}
+            { productDisplay.isDisplayCountdown&&<Countdown date={productDisplay.displayEndTime} />}
             </div>
             {
               productDisplay.isDisplayMore&&<p className="hd-item">查看更多</p>
@@ -64,7 +64,7 @@ class GoodsMod extends Component {
                   moduleContent.map((el,index) => (
                     <div className="swiper-slide" key={index}>
                       <div className="item-icon">
-                        <div className="pic-wrap"><img src={`${fileDomain}${pdPic}`}/></div>
+                        <div className="pic-wrap"><img src={`${fileDomain}${el.pdPic}`}/></div>
                         <p className="title-level-one textTwoLine">{el.name}</p>
                         <p className="price">¥999.0</p>
                       </div>

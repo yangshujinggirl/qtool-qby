@@ -17,37 +17,20 @@ class Mod extends Component {
       type:'moreGoodsSet/getAddkey',
       payload:addkey
     });
-    // let { goods, addkey } =this.props;
-    // let { listOne, listTwo } =goods;
-    // if(listOne.length>=6) {
-    //   listTwo.push({ key:addkey })
-    // }  else {
-    //   listOne.push({ key:addkey })
-    // }
-    // goods={ ...goods,listOne, listTwo};
-    this.props.dispatch({
-      type:'moreGoodsSet/getAddkey',
-      payload:addkey
-    });
-    this.callBack2(totalList);
+    this.callBack(totalList);
   }
   //表单事件
-  onOperateClick=(record,listType,type)=> {
+  onOperateClick=(record,type)=> {
     switch(type) {
       case 'delete':
-        this.handleDelete(listType,record);
+        this.handleDelete(record);
         break;
     }
   }
-  handleDelete=(listType,record)=> {
-    // let { goods } =this.props;
-    // goods[listType] = goods[listType].filter(item => item.key !== record.key);
-    // if(listType == 'listOne'&&goods['listTwo'].length>0) {
-    //   goods[listType].push(goods['listTwo'][0]);
-    // }
+  handleDelete=(record)=> {
     let { totalList } =this.props;
     totalList = totalList.filter(item => item.key !== record.key);
-    this.callBack2(totalList);
+    this.callBack(totalList);
   }
   moveRow = (dragParent, hoverParent, dragIndex, hoverIndex) => {
     let { goods } =this.props;
@@ -55,10 +38,14 @@ class Mod extends Component {
     let tempDrag = goods[hoverParent][hoverIndex];
     goods[hoverParent].splice(hoverIndex, 1, tempHover);
     goods[dragParent].splice(dragIndex, 1, tempDrag);
-    this.callBack(goods);
+    this.props.dispatch({
+      type:'moreGoodsSet/getMoveList',
+      payload:goods
+    });
+    this.props.form.resetFields()
   };
   //code
-  handleBlur=(listType,e,record)=> {
+  handleBlur=(e,record)=> {
     let value;
     value = e.target.value;
     if(!value) {
@@ -81,31 +68,13 @@ class Mod extends Component {
             };
             return el
           });
-          // goods[listType] = goods[listType].map((el,idx) => {
-          //   if(index == idx) {
-          //     el.FixedPdSpuId = spuInfo.pdSpuId;
-          //     el = {...el,...spuInfo};
-          //   };
-          //   return el
-          // });
-          this.callBack2(totalList);
+          this.callBack(totalList);
         }
       }
       this.props.dispatch({ type: 'tab/loding', payload:false});
     })
   }
   callBack=(goods)=> {
-    this.props.dispatch({
-      type:'moreGoodsSet/getMove',
-      payload:goods
-    });
-    // this.props.dispatch({
-    //   type:'moreGoodsSet/getGoodsList',
-    //   payload:goods
-    // });
-    this.props.form.resetFields()
-  }
-  callBack2=(goods)=> {
     this.props.dispatch({
       type:'moreGoodsSet/getGoodsList',
       payload:goods
