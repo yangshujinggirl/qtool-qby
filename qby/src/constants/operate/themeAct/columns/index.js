@@ -34,8 +34,14 @@ const Columns = [{
        return(
          <div>
           <a className='theme-color' onClick={record.onOperateClick.bind(this,'edit')}>修改</a>
-          <a className='theme-color' onClick={record.onOperateClick.bind(this,'online')}>上线</a>
-          <a className='theme-color' onClick={record.onOperateClick.bind(this,'offline')}>下线</a>
+          {
+            record.themeStatus != '4' &&
+             <a className='theme-color' onClick={record.onOperateClick.bind(this,'online')}>上线</a>
+          }
+          {
+            record.themeStatus != '5' &&
+            <a className='theme-color' onClick={record.onOperateClick.bind(this,'offline')}>下线</a>
+          }
          </div>
        )
      }

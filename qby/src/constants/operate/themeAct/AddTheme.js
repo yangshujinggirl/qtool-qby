@@ -185,17 +185,6 @@ class AddTheme extends Component {
               />
             )}
           </FormItem>
-          <FormItem {...formItemLayout} label="主题活动状态">
-            {getFieldDecorator("themeStatus", {
-              rules: [{ required: true, message: "请选择主题活动状态" }],
-              initialValue: themeStatus
-            })(
-              <Select>
-                <Option value={4}>上线</Option>
-                <Option value={5}>下线</Option>
-              </Select>
-            )}
-          </FormItem>
           <FormItem {...formItemLayout} label="主题活动描述">
             {getFieldDecorator("description", {
               rules: [{ required: true, message: "请输入主题活动描述" }],

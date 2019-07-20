@@ -12,10 +12,11 @@ const FormItem = Form.Item;
 class Mod extends Component {
   //新增
   handleAdd=()=> {
+    debugger
     let { totalList, addkey } =this.props;
     totalList.push({ key:addkey })
     this.props.dispatch({
-      type:'moreGoodsSet/getAddkey',
+      type:'goodsSet/getAddkey',
       payload:addkey
     });
     this.callBack(totalList);
@@ -40,7 +41,7 @@ class Mod extends Component {
     goods[hoverParent].splice(hoverIndex, 1, tempHover);
     goods[dragParent].splice(dragIndex, 1, tempDrag);
     this.props.dispatch({
-      type:'moreGoodsSet/getMoveList',
+      type:'goodsSet/getMoveList',
       payload:goods
     });
     this.props.form.resetFields()
@@ -53,25 +54,28 @@ class Mod extends Component {
       return;
     }
     let { goods, totalList } =this.props;
+    const invalid = totalList.findIndex(item=>{ //本行修改无效
+      return (item.key == record.key)&&(item.FixedPdSpuId == value)
+    });
+    if(invalid!=-1) return
     this.props.dispatch({ type: 'tab/loding', payload:true});
     let params = {activityId:this.props.activityId}
     if(valueType == 'pdCode'){
       params.pdcode = value
     }else{
       params.pdSpuId = value;
-    }
+    };
     getSearchIdApi(params)
     .then((res) => {
       if(res.code==0) {
         let { spuInfo } = res;
-        let surplusList = totalList.filter((item)=>item.key != record.key)
-        let idx = surplusList.findIndex((el) => el.pdSpuId == spuInfo.pdSpuId);
+        let idx = totalList.findIndex((el) => el.FixedPdSpuId == spuInfo.pdSpuId);
         if(idx != -1) {
           message.error('商品重复，请重新添加');
         } else {
           totalList = totalList.map((el,idx) => {
             if(el.key == record.key) {
-              el.pdSpuId = spuInfo.pdSpuId;
+              el.FixedPdSpuId = spuInfo.pdSpuId;
               el = {...el,...spuInfo};
             };
             return el

@@ -108,6 +108,7 @@ export default {
         pdSpuList = pdSpuList?pdSpuList:[];
         pdSpuList.map((el,index) =>{
            el.key = index;
+           el.FixedPdSpuId = el.pdSpuId;
         })
         let len = pdSpuList.length;
         yield put({type: 'getAddkey',payload:len});

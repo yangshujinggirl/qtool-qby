@@ -24,7 +24,6 @@ class AddModalForm extends Component {
   }
   onOk = () => {
     this.props.form.validateFieldsAndScroll((err, values) => {
-      console.log(this.props)
       if (!err) {
         this.props.changeLoading(true)
         this.props.onOk(values,this.resetForm);
