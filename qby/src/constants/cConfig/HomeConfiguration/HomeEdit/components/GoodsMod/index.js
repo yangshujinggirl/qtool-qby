@@ -50,10 +50,10 @@ class GoodsMod extends Component {
           <div className="mod-common-head">
             <div className="hd-item">
               <TitleM title={productDisplay.title} type={productDisplay.titleColor}/>
-            { productDisplay.isDisplayCountdown&&<Countdown date={productDisplay.displayEndTime} />}
+            { !!productDisplay.isDisplayCountdown&&<Countdown date={productDisplay.displayEndTime} />}
             </div>
             {
-              productDisplay.isDisplayMore&&<p className="hd-item">查看更多</p>
+              !!productDisplay.isDisplayMore&&<p className="hd-item">查看更多</p>
             }
           </div>
           {

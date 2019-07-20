@@ -93,6 +93,7 @@ class Field extends Component {
     const { goods, columnsTwo, columnsOne } =this.props;
     let listTwo = this.processData(goods.listTwo)
     let listOne = this.processData(goods.listOne)
+    let len = [...listOne,...listTwo].length;
     // let { listTwo, listOne }=goods;
     return (
       <div className="drag-tables-component">
@@ -114,7 +115,7 @@ class Field extends Component {
           columns={columnsTwo}
           dataSource={listTwo}
           components={this.components}
-          footer={()=><Button type="default" onClick={this.props.handleAdd}>+新增</Button>}
+          footer={()=><Button type="default" disabled={len>=100?true:false} onClick={this.props.handleAdd}>+新增</Button>}
           onRow={(record, index) => ({
             'data-row-key':record.key,
             'data-row-index':index,

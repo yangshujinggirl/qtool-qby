@@ -53,7 +53,7 @@ class ModForm extends Component {
     let { goodsList } =this.props;
     goodsList.map((el,index) => {
       if(el.beginTime) {
-        el.beginTime = moment(el.beginTime).format("YYYY-MM-DD");
+        el.beginTime = moment(el.beginTime).format("YYYY-MM-DD HH:mm");
       }
     })
     return goodsList;

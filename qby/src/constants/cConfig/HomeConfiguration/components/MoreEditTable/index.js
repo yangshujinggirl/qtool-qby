@@ -108,7 +108,8 @@ class BaseEditTable extends Component {
            initialValue:record.linkInfoType,
            rules:[{
              required:true,message:'请选择跳转链接'
-           }]
+           }],
+           onChange:()=>this.linkChange(index)
          })(
            <Select
              placeholder="请选择跳转链接">
@@ -189,6 +190,18 @@ class BaseEditTable extends Component {
   }
   renderEndTime=(text,record,index)=> {
     return <span>结束时间为下一张开始时间</span>
+  }
+  //联动清空表单中的值
+  linkChange=(index)=> {
+    let goodVal = this.props.form.getFieldsValue(['goods']);
+    let { goods } =goodVal;
+    goods = goods.map((el,idx) => {
+      if(index == idx) {
+        el.linkInfo = null;
+      }
+      return el;
+    })
+    this.props.form.setFieldsValue({ goods: goods })
   }
   renderHandle=(text,record,index)=> {
     let disabled;
