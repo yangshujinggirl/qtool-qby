@@ -154,7 +154,7 @@ export function columnsNewFun(form,handleBlur){
       width:'10%',
       render:(text,record,index)=>{
         return(
-            record.activitys.map((item)=>
+            record.activitys&&record.activitys.map((item)=>
               <p>{item.activityName},</p>
             )
           )
@@ -313,6 +313,19 @@ export function columnsNewTwoFun(form, handleBlur){
                     autoComplete="off"/>
                 )}
               </FormItem>
+      }
+    },
+    {
+      title: '参与活动',
+      dataIndex: 'activitys',
+      key: 'activitys',
+      width:'10%',
+      render:(text,record,index)=>{
+        return(
+            record.activitys&&record.activitys.map((item)=>
+              <p>{item.activityName},</p>
+            )
+          )
       }
     },
     {
