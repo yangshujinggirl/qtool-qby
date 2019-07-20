@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import {connect} from 'dva'
 import { Table, Form, Button, message } from "antd";
 import { DragDropContext } from "react-dnd";
 import HTML5Backend from "react-dnd-html5-backend";
@@ -129,6 +130,10 @@ class ThemeSet extends Component {
           loading:false
         });
         message.success("保存成功");
+      }else{
+        this.setState({
+          loading:false
+        });
       }
     });
   };
@@ -172,5 +177,9 @@ class ThemeSet extends Component {
     );
   }
 }
+const mapStateToProps=(state)=>{
+  const {tab} = state
+  return tab
+}
 const ThemeSets = Form.create({})(ThemeSet);
-export default DragDropContext(HTML5Backend)(ThemeSets);
+export default connect(mapStateToProps)(DragDropContext(HTML5Backend)(ThemeSets));

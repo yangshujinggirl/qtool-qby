@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "dva";
-import { Form, Button, Select,message } from "antd";
+import { Form, Button, Select, message } from "antd";
 import ModDis from "./components/MainMod";
 import ImportBtn from "./components/ImportBtn";
 import {
@@ -20,18 +20,18 @@ class GoodsConfig extends Component {
     };
   }
   componentDidMount = () => {
-    if(this.props.mark){
+    if (this.props.mark) {
       this.initPage();
     }
   };
-  componentWillReceiveProps =(props)=> {
-    if(props.pdListDisplayCfgId != this.props.pdListDisplayCfgId){
-      this.getActivityList(props.pdListDisplayCfgId)
-      this.getList(props.pdListDisplayCfgId)
+  componentWillReceiveProps = props => {
+    if (props.pdListDisplayCfgId != this.props.pdListDisplayCfgId) {
+      this.getActivityList(props.pdListDisplayCfgId);
+      this.getList(props.pdListDisplayCfgId);
     }
-  }
+  };
   initPage = () => {
-    const {pdListDisplayCfgId} = this.props
+    const { pdListDisplayCfgId } = this.props;
     if (pdListDisplayCfgId) {
       this.getActivityList(pdListDisplayCfgId);
       this.getList(pdListDisplayCfgId);
@@ -40,7 +40,7 @@ class GoodsConfig extends Component {
   getList(id) {
     this.props.dispatch({
       type: "goodsSet/fetchList",
-      payload: { pdListDisplayCfgId:id }
+      payload: { pdListDisplayCfgId: id }
     });
   }
   //请求活动列表
@@ -82,62 +82,73 @@ class GoodsConfig extends Component {
     window.open("../../../../static/order.xlsx");
   };
   //提交
-  submit=()=> {
+  submit = () => {
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        let { fieldsTwo, fieldsOne  } =values;
+        let { fieldsTwo, fieldsOne } = values;
         let pdSpuList;
-        if(fieldsOne&&fieldsTwo) {
-          pdSpuList =[...fieldsOne,...fieldsTwo]
-        } else if(fieldsOne) {
+        if (fieldsOne && fieldsTwo) {
+          pdSpuList = [...fieldsOne, ...fieldsTwo];
+        } else if (fieldsOne) {
           pdSpuList = fieldsOne;
-        } else if(fieldsTwo) {
+        } else if (fieldsTwo) {
           fieldsOne = fieldsTwo;
         }
-        const { homepageModuleId,pdListDisplayCfgId,goodType,activityId } =this.props;
-        const { totalList } =this.props;
-        if(totalList.length<8) {
-          message.error('请至少配置8个商品');
+        const {
+          homepageModuleId,
+          pdListDisplayCfgId,
+          goodType,
+          activityId
+        } = this.props;
+        const { totalList } = this.props;
+        if (totalList.length < 8) {
+          message.error("请至少配置8个商品");
           return;
-        };
-        let params
-        if(goodType == 1){
+        }
+        let params;
+        if (goodType == 1) {
           params = {
             activityId,
             homepageModuleId,
             pdListDisplayCfgId,
-            type:goodType,
+            type: goodType,
             pdSpuList
           };
-        }else{
+        } else {
           params = {
             homepageModuleId,
             pdListDisplayCfgId,
-            type:goodType,
+            type: goodType,
             pdSpuList
           };
         }
-        this.props.dispatch({ type: 'tab/loding', payload:true});
-        getSaveApi(params)
-        .then((res) => {
-          if(res.code == 0) {
+        this.props.dispatch({ type: "tab/loding", payload: true });
+        getSaveApi(params).then(res => {
+          if (res.code == 0) {
             this.getList();
-          };
-          this.props.dispatch({ type: 'tab/loding', payload:false});
-        })
+          }
+          this.props.dispatch({ type: "tab/loding", payload: false });
+        });
       }
     });
-  }
-  onChange =(value)=> {
+  };
+  onChange = value => {
     this.props.dispatch({
       type: "goodsSet/changeActivityId",
-      payload:{activityId:value}
+      payload: { activityId: value }
     });
-  }
+  };
   render() {
     const { getFieldDecorator } = this.props.form;
     const { activitys } = this.state;
-    const { endTime, beginTime, activityId, mark,totalList,goodType } = this.props;
+    const {
+      endTime,
+      beginTime,
+      activityId,
+      mark,
+      totalList,
+      goodType
+    } = this.props;
     const formLayout = {
       labelCol: { span: 2 },
       wrapperCol: { span: 20 }
@@ -152,17 +163,17 @@ class GoodsConfig extends Component {
                   {beginTime} ~ {endTime}
                 </span>
               </FormItem>
-              {
-                goodType == 1 &&
+              {goodType == 1 && (
+                <div>
                 <FormItem label="选择活动" {...formLayout}>
                   {getFieldDecorator("activityId", {
                     initialValue: activityId ? activityId : undefined,
                     rules: [{ required: true, message: "请选择时间段" }],
-                    onChange:this.onChange
+                    onChange: this.onChange
                   })(
-                    <Select>
-                      {activitys.map(item => (
-                        <Option value={item.activityId}>
+                    <Select  placeholder="请选择正在进行的活动">
+                      {activitys&&activitys.map(item => (
+                        <Option value = {item.activityId}>
                           {item.activityName}
                         </Option>
                       ))}
@@ -172,33 +183,75 @@ class GoodsConfig extends Component {
                     请先选择你要展示的商品所在的活动
                   </span>
                 </FormItem>
-              }
+                {activityId &&
+                  <div>
+                    <div className="good-title">
+                      <div>已选商品设置</div>
+                      <div>
+                        <span>已选{totalList.length}/100</span>
+                        <ImportBtn
+                          callBack={this.callBack}
+                          type={goodType}
+                          activityId={activityId}
+                        />
+                        <Button
+                          className="down_load_btn"
+                          type="primary"
+                          onClik={this.downLoadTep}
+                        >
+                          下载附件模板
+                        </Button>
+                      </div>
+                    </div>
+                    <div className="tips">
+                      注：首页单行横划商品模块固定展示8件商品，按照以下顺序展示，售罄或下架商品不展示，由后位商品按照顺序补充
+                    </div>
+                    <div>
+                      <ModDis callBack={this.callBack} form={this.props.form} />
+                    </div>
+                    <div className="handle-btn-footer">
+                      <Button onClick={this.submit} type="primary" size="large">
+                        保存
+                      </Button>
+                    </div>
+                  </div>
+                }
+                </div>
+              )}
             </Form>
-            <div className="good-title">
-              <div>已选商品</div>
+            {goodType == 2 &&
               <div>
-                <span>已选{totalList.length}/100</span>
-                <ImportBtn callBack={this.callBack} type={goodType} activityId={activityId} />
-                <Button
-                  className="down_load_btn"
-                  type="primary"
-                  onClik={this.downLoadTep}
-                >
-                  下载附件模板
-                </Button>
+                <div className="good-title">
+                  <div>已选商品设置</div>
+                  <div>
+                    <span>已选{totalList.length}/100</span>
+                    <ImportBtn
+                      callBack={this.callBack}
+                      type={goodType}
+                      activityId={activityId}
+                    />
+                    <Button
+                      className="down_load_btn"
+                      type="primary"
+                      onClik={this.downLoadTep}
+                    >
+                      下载附件模板
+                    </Button>
+                  </div>
+                </div>
+                <div className="tips">
+                  注：首页单行横划商品模块固定展示8件商品，按照以下顺序展示，售罄或下架商品不展示，由后位商品按照顺序补充
+                </div>
+                <div>
+                  <ModDis callBack={this.callBack} form={this.props.form} />
+                </div>
+                <div className="handle-btn-footer">
+                  <Button onClick={this.submit} type="primary" size="large">
+                    保存
+                  </Button>
+                </div>
               </div>
-            </div>
-            <div className="tips">
-              注：首页单行横划商品模块固定展示8件商品，按照以下顺序展示，售罄或下架商品不展示，由后位商品按照顺序补充
-            </div>
-            <div>
-              <ModDis callBack={this.callBack} form={this.props.form} />
-            </div>
-            <div className="handle-btn-footer">
-              <Button onClick={this.submit} type="primary" size="large">
-                保存
-              </Button>
-            </div>
+            }
           </div>
         ) : (
           <p className="no-data">

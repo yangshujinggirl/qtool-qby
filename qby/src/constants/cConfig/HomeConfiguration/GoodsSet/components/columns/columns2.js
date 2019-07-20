@@ -148,6 +148,19 @@ export function columnsNewFun(form,handleBlur){
       }
     },
     {
+      title: '参与活动',
+      dataIndex: 'activitys',
+      key: 'activitys',
+      width:'10%',
+      render:(text,record,index)=>{
+        return(
+            record.activitys.map((item)=>
+              <p>{item.activityName},</p>
+            )
+          )
+      }
+    },
+    {
       title: pdSpuInv,
       dataIndex: 'pdSpuInv',
       key: 'pdSpuInv',
