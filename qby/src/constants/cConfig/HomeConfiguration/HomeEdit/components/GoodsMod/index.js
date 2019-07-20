@@ -25,7 +25,7 @@ class GoodsMod extends Component {
     const { componkey } = this.props;
     const paneitem={
       title:'单行商品设置',
-      key:`${componkey}edit-goods`,
+      key:`${componkey}edit-goods`+this.props.info.productDisplay.homepageModuleId,
       componkey:`${componkey}edit-goods`,
       data:{
         homepageModuleId:this.props.info.productDisplay.homepageModuleId

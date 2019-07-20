@@ -33,7 +33,6 @@ export default {
       return { ...state, goodType};
     },
     resetData2(state){
-      debugger
       return{
         ...state,
         activeKey: "1",
