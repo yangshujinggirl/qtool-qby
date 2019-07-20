@@ -23,18 +23,8 @@ class CommodityFlow extends Component {
       }
     })
   }
-  onOkToggle=(value)=> {
-    this.modDom.submit(()=>this.onOkTogCallback(value));
-  }
-  onOkTogCallback=(value)=> {
-    this.getList(value);
-  }
-  onCancelToggle=(value)=> {
-    const { tabId, key } =value;
-    this.props.dispatch({
-      type:'commodityFlow/fetchGoodsList',
-      payload:{tabId,selectkey:key}
-    })
+  onOkToggle=()=> {
+    this.modDom.submit(()=>this.getList());
   }
   render() {
     const { tabs } =this.props;
@@ -42,8 +32,7 @@ class CommodityFlow extends Component {
       <div className="commodity-flow-pages">
         <div className="main-content-action">
           <TabsMod
-            onOk={this.onOkToggle}
-            onCancel={this.onCancelToggle}/>
+            onOk={this.onOkToggle}/>
           {
             tabs.length>0&&
             <Mod onRef={(mod)=>{this.modDom = mod}}/>

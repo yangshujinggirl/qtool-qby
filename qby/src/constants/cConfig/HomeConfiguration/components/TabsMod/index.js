@@ -4,15 +4,18 @@ import './index.less';
 
 
 class TabsMod extends Component {
-  onChange = activiKey => {
+  onChange = (el,activiKey) => {
+    if(el.key == activiKey) {
+      return;
+    }
     Modal.confirm({
       title: '温馨提示',
       content: '切换页面请确认保存',
       onOk:()=>{
-        this.props.onOk(activiKey);
+        this.props.onOk(el.key);
       },
       onCancel:()=> {
-        this.props.onCancel(activiKey);
+        this.props.onCancel(el.key);
       },
     });
   };
@@ -25,7 +28,7 @@ class TabsMod extends Component {
             <p
               key={el.key}
               className={`tab-bar-item ${el.key==activiKey?'tab-bar-activity':''}`}
-              onClick={()=>this.onChange(el.key)}>{el.title}</p>
+              onClick={()=>this.onChange(el,activiKey)}>{el.title}</p>
           ))
         }
       </div>

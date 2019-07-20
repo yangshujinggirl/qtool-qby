@@ -34,17 +34,20 @@ class Field extends Component {
       title: '温馨提示',
       content: '切换页面请确认保存',
       onOk:()=>{
+        this.props.dispatch({
+          type:'commodityFlow/getSelectkey',
+          payload:value.key
+        })
         this.props.onOk(value);
       },
       onCancel:()=> {
-        this.props.onCancel(value);
+        const { tabId, key } =value;
+        this.props.dispatch({
+          type:'commodityFlow/fetchGoodsList',
+          payload:{tabId,selectkey:key}
+        })
       },
     });
-    // const { tabId, key } =value;
-    // this.props.dispatch({
-    //   type:'commodityFlow/fetchGoodsList',
-    //   payload:{tabId,selectkey:key}
-    // })
   }
   //新增
   handleAdd=()=> {
