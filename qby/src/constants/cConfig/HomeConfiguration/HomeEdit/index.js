@@ -123,9 +123,12 @@ class HomeEdit extends Component {
             <Popover content={<img src={urlCode}/>} title={null} trigger="click">
               <p className="preview" onClick={this.goPreview}>预览</p>
             </Popover>
-            <Dropdown overlay={menu} trigger={["click"]}>
-              <p>|保存并发布</p>
-            </Dropdown>
+            { !this.props.data.info&&
+              <Dropdown overlay={menu} trigger={["click"]}>
+                <p>|保存并发布</p>
+              </Dropdown>
+            }
+            
           </div>
         </div>
         <div className="part-mods">

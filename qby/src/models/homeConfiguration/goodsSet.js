@@ -50,9 +50,8 @@ export default {
         listTwo:[],
       };
       const addkey=0;
-      const homepageModuleId='';
       return {
-        ...state,goods,homepageModuleId,addkey
+        ...state,goods,addkey
        }
     },
     getAddkey(state, { payload:addkey }) {

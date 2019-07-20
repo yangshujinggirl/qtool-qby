@@ -23,6 +23,7 @@ class GoodsSet extends Component {
   };
   initPage=()=>{
     const {homepageModuleId} = this.props;
+    console.log()
     const {type} = this.state;
     getTimeListApi({homepageModuleId,type}).then(res=>{
       if(res.code == '0'){

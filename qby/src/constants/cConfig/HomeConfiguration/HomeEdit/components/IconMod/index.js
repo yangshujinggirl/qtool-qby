@@ -7,12 +7,13 @@ import './index.less';
 class IconMod extends Component {
   goEdit=()=> {
     const { componkey } = this.props;
+    const {homepageModuleId} = this.props.info.icon
     const paneitem={
       title:'icon模块',
-      key:`${componkey}edit-icon`,
+      key:`${componkey}edit-icon`+homepageModuleId,
       componkey:`${componkey}edit-icon`,
       data:{
-        homepageModuleId:this.props.info.icon.homepageModuleId,
+        homepageModuleId,
         homepageId:this.props.data.homepageId
       }
     };

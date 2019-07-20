@@ -21,12 +21,13 @@ class ClassifyMod extends Component {
   //编辑
   goEdit=()=> {
     const { componkey } =this.props;
+    const {homepageModuleId} = this.props.info.flowProduct
     const paneitem={
       title:'商品流设置',
-      key:`${componkey}edit-commodity`,
+      key:`${componkey}edit-commodity`+homepageModuleId,
       componkey:`${componkey}edit-commodity`,
       data:{
-        homepageModuleId:this.props.info.flowProduct.homepageModuleId
+        homepageModuleId
       }
     };
     this.props.dispatch({
