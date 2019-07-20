@@ -1,14 +1,20 @@
 import React, { Component } from 'react';
+import {connect} from 'dva'
 import ModuleSets from './components/ModuleSet'
 class ModuleSet extends Component {
   render() {
-    const { homepageModuleId } = this.props;
+    const { homepageModuleId,goodType} = this.props;
+    console.log(this.props)
     return (
       <div>
-        <ModuleSets type={35} homepageModuleId={homepageModuleId} callback={this.props.callback}/>
+        <ModuleSets type={35} homepageModuleId={homepageModuleId} goodType={goodType}/>
       </div>
     );
   }
 }
 
-export default ModuleSet;
+function mapStateToProps(state){
+  const {goodsSet} = state;
+  return goodsSet
+}
+export default connect(mapStateToProps)(ModuleSet);

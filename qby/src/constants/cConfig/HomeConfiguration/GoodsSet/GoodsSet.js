@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Form, Radio, DatePicker, Button } from "antd";
+import {connect} from 'dva'
 import {
   addTimeApi,
   getTimeListApi
@@ -77,6 +78,12 @@ class GoodsSet extends Component {
   };
   //商品分类的值
   onTypeChange = e => {
+    this.props.dispatch({
+      type:'goodsSet/getGoodType',
+      payload:{
+        goodType:e.target.value
+      }
+    });
     this.setState({
       type: e.target.value
     },()=>{
@@ -84,6 +91,7 @@ class GoodsSet extends Component {
     });
   };
   render() {
+    console.log(this.props)
     const { getFieldDecorator } = this.props.form;
     const { timeSlots, type } = this.state;
     const {homepageModuleId} = this.props;
@@ -95,7 +103,6 @@ class GoodsSet extends Component {
       labelCol: { span: 3 },
       wrapperCol: { span: 20 }
     };
-    console.log(homepageModuleId)
     return (
       <div>
         <Form>
@@ -124,5 +131,9 @@ class GoodsSet extends Component {
     );
   }
 }
+function mapStateToProps(state){
+  const {goodsSet} = state;
+  return goodsSet
+}
 const GoodsSets = Form.create({})(GoodsSet);
-export default GoodsSets;
+export default connect(mapStateToProps)(GoodsSets);

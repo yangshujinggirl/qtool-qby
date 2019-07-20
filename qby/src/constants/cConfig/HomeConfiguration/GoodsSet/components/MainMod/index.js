@@ -4,6 +4,7 @@ import { connect } from 'dva';
 import DragField from '../DragField';
 import { getSearchIdApi } from '../../../../../../services/cConfig/homeConfiguration/goodSet';
 import { columnsFun, columnsTwoFun } from '../columns/index';
+import {columnsNewFun,columnsNewTwoFun} from  '../columns/columns2'
 // import './index.less';
 
 //dispatch 更新数据源
@@ -84,15 +85,16 @@ class Mod extends Component {
     this.props.form.resetFields()
   }
   render() {
-    console.log(this.props)
+    console.log(this.props.goodType)
     const { goods, form } =this.props;
     let columnsOne = columnsFun(form,this.handleBlur);
     let columnsTwo = columnsTwoFun(form,this.handleBlur);
-
+    let columnsNewOne = columnsNewFun(form,this.handleBlur)
+    let columnsNewTwo = columnsNewTwoFun(form,this.handleBlur)
     return (
       <DragField
-        columnsOne={columnsOne}
-        columnsTwo={columnsTwo}
+        columnsOne={this.props.goodType==2 ? columnsOne : columnsNewOne}
+        columnsTwo={this.props.goodType==2 ? columnsTwo : columnsNewTwo}
         handleAdd={this.handleAdd}
         goods={goods}
         onOperateClick={this.onOperateClick}
