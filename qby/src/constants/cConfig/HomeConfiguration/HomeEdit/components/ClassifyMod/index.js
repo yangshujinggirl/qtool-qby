@@ -26,6 +26,7 @@ class ClassifyMod extends Component {
       title:'商品流设置',
       key:`${componkey}edit-commodity`+homepageModuleId,
       componkey:`${componkey}edit-commodity`,
+      parentKey:componkey,
       data:{
         homepageModuleId
       }

@@ -8,7 +8,7 @@ import CommonMod from '../CommonMod';
 import "./index.less";
 
 class ThemeMod extends Component {
-  componentDidMount() {
+  componentDidUpdate() {
     new Swiper(".theme-swiper-container", {
       slidesPerView: 3,
       spaceBetween: 10,
@@ -27,7 +27,8 @@ class ThemeMod extends Component {
       title: "主题模块",
       key: `${componkey}edit-theme`+homepageModuleId,
       componkey: `${componkey}edit-theme`,
-      data: {homepageModuleId}
+      parentKey:componkey,
+      data: {homepageModuleId:this.props.info.themeActivity.homepageModuleId}
     };
     this.props.dispatch({
       type: "tab/firstAddTab",

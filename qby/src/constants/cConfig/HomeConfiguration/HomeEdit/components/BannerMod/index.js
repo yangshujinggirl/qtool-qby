@@ -29,6 +29,7 @@ class BannerMod extends Component {
       title:'banner设置',
       key:`${componkey}edit-banner`,
       componkey:`${componkey}edit-banner`,
+      parentKey:componkey,
       data:{
         homepageModuleId
       }

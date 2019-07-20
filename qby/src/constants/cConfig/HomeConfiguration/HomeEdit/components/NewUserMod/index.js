@@ -13,6 +13,7 @@ class NewUserMod extends Component {
       title: "新人礼模块",
       key: `${componkey}edit-new-user`+homepageModuleId,
       componkey: `${componkey}edit-new-user`,
+      parentKey:componkey,
       data: {
         homepageModuleId
       }

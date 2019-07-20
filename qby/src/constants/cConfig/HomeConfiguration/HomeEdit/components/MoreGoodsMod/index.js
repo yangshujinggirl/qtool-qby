@@ -18,6 +18,7 @@ class MoreGoodsMod extends Component {
       title:'2行3列商品模块配置',
       key:`${componkey}edit-more-goods`+homepageModuleId,
       componkey:`${componkey}edit-more-goods`,
+      parentKey:componkey,
       data:{
         homepageModuleId
       }

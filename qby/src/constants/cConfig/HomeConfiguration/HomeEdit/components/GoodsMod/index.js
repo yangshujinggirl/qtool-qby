@@ -9,7 +9,7 @@ import Swiper from 'swiper/dist/js/swiper.js';
 import './index.less';
 
 class GoodsMod extends Component {
-  componentDidMount() {
+  componentDidUpdate() {
     new Swiper('.goods-swiper-container', {
       slidesPerView: 3,
       spaceBetween: 10,
@@ -28,6 +28,7 @@ class GoodsMod extends Component {
       title:'单行商品设置',
       key:`${componkey}edit-goods`+homepageModuleId,
       componkey:`${componkey}edit-goods`,
+      parentKey:componkey,
       data:{
         homepageModuleId
       }
@@ -51,7 +52,8 @@ class GoodsMod extends Component {
           <div className="mod-common-head">
             <div className="hd-item">
               <TitleM title={productDisplay.title} type={productDisplay.titleColor}/>
-            { !!productDisplay.isDisplayCountdown&&<Countdown date={productDisplay.displayEndTime} />}
+            { !!productDisplay.isDisplayCountdown&&productDisplay.displayEndTime&&
+              <Countdown date={productDisplay.displayEndTime} />}
             </div>
             {
               !!productDisplay.isDisplayMore&&<p className="hd-item">查看更多</p>
