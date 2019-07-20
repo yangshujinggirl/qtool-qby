@@ -18,6 +18,7 @@ class ModuleSet extends Component {
     this.initPage()
   }
   initPage =()=> {
+    this.props.dispatch({type: 'tab/loding',payload:true})
     const {homepageModuleId} = this.props;
     getModuleApi({homepageModuleId}).then(res=>{
       if(res.code == '0'){
@@ -25,9 +26,13 @@ class ModuleSet extends Component {
         this.setState({
           moduleBackColor,
           titleColor:Number(titleColor)
-        })
+        });
+        this.props.dispatch({type: 'tab/loding',payload:false})
+      }else{
+        this.props.dispatch({type: 'tab/loding',payload:false})
       }
-    })
+    });
+    
   }
   lookExample = () => {
     this.setState({
@@ -65,10 +70,11 @@ class ModuleSet extends Component {
     });
   };
   validator=(rule,value,callback)=>{
-    if(value&&value.length<6){
+    if(value && value.length<6){
       callback('请输入六位颜色色号')
     };
     callback()
+    
   }
   render() {
     console.log(this.props)

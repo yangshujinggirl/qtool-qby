@@ -32,9 +32,11 @@ const Columns = [{
      dataIndex: '',
      render:(text,record,index)=>{
        return(
-        //  (record.operation==0&&record.addtheme)&&
-         (record.addtheme)&&
-         <a className='theme-color' onClick={record.onOperateClick.bind(this,'edit')}>修改</a>
+         <div>
+          <a className='theme-color' onClick={record.onOperateClick.bind(this,'edit')}>修改</a>
+          <a className='theme-color' onClick={record.onOperateClick.bind(this,'online')}>上线</a>
+          <a className='theme-color' onClick={record.onOperateClick.bind(this,'offline')}>下线</a>
+         </div>
        )
      }
    }];

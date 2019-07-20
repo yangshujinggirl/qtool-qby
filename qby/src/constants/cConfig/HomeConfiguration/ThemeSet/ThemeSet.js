@@ -26,6 +26,10 @@ class ThemeSet extends Component {
     };
   }
   componentDidMount = () => {
+   this.initPage()
+  };
+  initPage =()=> {
+    this.props.dispatch({type: 'tab/loding',payload:true})
     const { homepageModuleId } = this.props;
     searchThemeApi({ homepageModuleId }).then(res => {
       if (res.code == "0") {
@@ -35,9 +39,12 @@ class ThemeSet extends Component {
           themeList: res.themeListVo.themeList,
           count: showThemeList.length
         });
-      }
+        this.props.dispatch({type: 'tab/loding',payload:false})
+      }else{
+        this.props.dispatch({type: 'tab/loding',payload:false})
+      };
     });
-  };
+  }
   formatList = showThemeList => {
     showThemeList &&
       showThemeList.map((item, index) => {

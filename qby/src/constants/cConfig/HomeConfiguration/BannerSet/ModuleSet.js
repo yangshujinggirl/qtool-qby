@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Form, message, Button } from "antd";
+import {connect} from 'dva'
 import UploadImg from "../components/UploadImg";
 import { getModuleApi } from "../../../../services/cConfig/homeConfiguration/goodSet";
 import { saveModuleApi } from "../../../../services/cConfig/homeConfiguration/bannerSet";
@@ -18,6 +19,7 @@ class ModuleSet extends Component {
     this.initPage();
   };
   initPage = () => {
+    this.props.dispatch({type: 'tab/loding',payload:true})
     const { homepageModuleId } = this.props.data
     getModuleApi({ homepageModuleId }).then(res => {
       if (res.code == "0") {
@@ -34,6 +36,9 @@ class ModuleSet extends Component {
           ];
         }
         this.setState({ fileList,imageUrl:backgroundPicUrl });
+        this.props.dispatch({type: 'tab/loding',payload:false})
+      }else{
+        this.props.dispatch({type: 'tab/loding',payload:false})
       }
     });
   };
@@ -89,5 +94,8 @@ class ModuleSet extends Component {
     );
   }
 }
-
-export default ModuleSet;
+function mapStateToProps(state){
+  const {tab} = state;
+  return tab
+}
+export default  connect(mapStateToProps)(ModuleSet);

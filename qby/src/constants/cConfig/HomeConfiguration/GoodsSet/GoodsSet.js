@@ -22,14 +22,17 @@ class GoodsSet extends Component {
     this.initPage()
   };
   initPage=()=>{
+    this.props.dispatch({type: 'tab/loding',payload:true})
     const {homepageModuleId} = this.props;
-    console.log()
     const {type} = this.state;
     getTimeListApi({homepageModuleId,type}).then(res=>{
       if(res.code == '0'){
         this.setState({
           timeSlots: this.formatList(res.timeSlots)
         });
+        this.props.dispatch({type: 'tab/loding',payload:false})
+      }else{
+        this.props.dispatch({type: 'tab/loding',payload:false})
       }
     })
   }
