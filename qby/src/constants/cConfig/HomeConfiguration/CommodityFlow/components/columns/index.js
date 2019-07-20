@@ -4,6 +4,14 @@ import UpLoadImg from '../../../components/UpLoadImgMod';
 const FormItem = Form.Item;
 
 export function columnsFun(form,handleBlur){
+  let linkage=(record,index)=> {
+    let placeholder='',disabled=true, rules=[];
+    if(record.fixPosition) {
+      disabled=false;
+      rules=[{ required:true, message:'请输入'}]
+    }
+    return { placeholder, disabled, rules };
+  }
   return [
     {
       title: '序号',
@@ -61,6 +69,15 @@ export function columnsFun(form,handleBlur){
       width:'6%',
     },
     {
+      title: '上架状态',
+      dataIndex: 'shelfStatus',
+      key: 'shelfStatus',
+      width:'6%',
+      render:(text,record,index) => {
+        return <span>{!!record.shelfStatus?'下架':'上架'}</span>
+      }
+    },
+    {
       title: '缺货门店',
       dataIndex: 'outOfStackQty',
       key: 'outOfStackQty',
@@ -74,6 +91,7 @@ export function columnsFun(form,handleBlur){
       render:(text,record,index)=> {
         const { getFieldDecorator } =form;
         let mod;
+        let linkageObj = linkage(record);
         if(record.isFixed) {
           mod = <span onClick={()=>record.onOperateClick('toggle')} className="cr">解除固定</span>
         } else {
@@ -87,7 +105,7 @@ export function columnsFun(form,handleBlur){
                       })(
                         <Input
                           maxLength='2'
-                          placeholder="请输入Spuid"
+                          placeholder="请输入"
                           autoComplete="off"/>
                       )}
                     </FormItem>
@@ -95,11 +113,12 @@ export function columnsFun(form,handleBlur){
                     <FormItem className="row-input-item">
                       {getFieldDecorator(`spuList[${index}].fixDay`,{
                         initialValue:record.fixDay,
-                        rules:[],
+                        rules:linkageObj.rules,
                       })(
                         <Input
                           maxLength='15'
-                          placeholder="请输入Spuid"
+                          disabled={linkageObj.disabled}
+                          placeholder="请输入"
                           autoComplete="off"/>
                       )}
                     </FormItem>

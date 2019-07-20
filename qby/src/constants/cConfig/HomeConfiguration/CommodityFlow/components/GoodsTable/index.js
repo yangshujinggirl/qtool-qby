@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table, Button, Form, Input } from 'antd';
+import { Table, Button, Form, Input, message } from 'antd';
 import { connect } from 'dva';
 import DragTableField from '../DragTableField';
 import { columnsFun } from '../columns/index';
@@ -83,7 +83,12 @@ class GoodsTable extends Component {
     .then((res) => {
       const { spuInfo, code }=res;
       if(code == '0') {
-        goodsList[index]={...goodsList[index],spuInfo};
+        let idx = goodsList.findIndex((el) => el.FixedPdSpuId == spuInfo.pdSpuId);
+        if(idx != -1) {
+          message.error('商品重复，请重新添加');
+        } else {
+          goodsList[index]={...goodsList[index],spuInfo};
+        }
       }
     });
     this.updateData(goodsList);
