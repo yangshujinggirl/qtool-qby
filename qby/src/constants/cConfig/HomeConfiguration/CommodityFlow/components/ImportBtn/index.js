@@ -27,7 +27,10 @@ class ImportBtn extends React.Component {
       if (response) {
         if(response.code=='0'){
           let spuList= response.spuList?response.spuList:[];
-          spuList.map((el,index) => el.key = index)
+          spuList.map((el,index) =>{
+            el.key = index;
+            el.FixedPdSpuId = el.pdSpuId;
+          })
           this.props.callback(spuList)
         }else{
           message.error(file.response.message,.8);

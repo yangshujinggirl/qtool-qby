@@ -16,7 +16,8 @@ export default {
       picMix:{},
       productDisplay:{},
       search:{},
-      themeActivity:{}
+      themeActivity:{},
+      homepageInfoVo:{}
     },//商品列表
     flowProductList:[],
     checkResult:[],

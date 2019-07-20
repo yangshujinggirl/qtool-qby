@@ -114,11 +114,11 @@ class HomeEdit extends Component {
       </Menu>
     );
     const { urlCode, visible, params, confirmLoading } =this.state;
-    let { productDisplay, multilineProduct, picMix, themeActivity } =this.props.info;
+    let { productDisplay, multilineProduct, picMix, themeActivity, homepageInfoVo } =this.props.info;
     return (
       <div className="home-configuration-edit-pages">
         <div className="part-head">
-          <p className="pl">520要发的首页</p>
+          <p className="pl">{homepageInfoVo.versionName}</p>
           <div className="pr">
             <Popover content={<img src={urlCode}/>} title={null} trigger="click">
               <p className="preview" onClick={this.goPreview}>预览</p>
@@ -128,7 +128,7 @@ class HomeEdit extends Component {
                 <p>|保存并发布</p>
               </Dropdown>
             }
-            
+
           </div>
         </div>
         <div className="part-mods">

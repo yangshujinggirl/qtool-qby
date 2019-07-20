@@ -202,17 +202,19 @@ export default {
       yield put({type: 'tab/loding',payload:false});
     },
     *fetchGoodsList({ payload: values },{ call, put ,select}) {
-      // yield put({type: 'resetData',payload:{}});
+      let totalData = yield select(state => state.commodityFlow.totalData);
       let { selectkey, tabId } =values;
       let params = { tabId };
       yield put({type: 'tab/loding',payload:true});
       const res = yield call(getSearchGoodApi,params);
-      //处理分类数据，disabled状态
       if(res.code == '0') {
         if(res.pdFlowSpu) {
           let { spuList, sortRule, sortType } =res.pdFlowSpu;
-          let totalData = {...sortRule,sortType };
-          spuList.length>0&&spuList.map((el,index) => el.key =index)
+          let totalData = {...totalData,...sortRule,sortType };
+          spuList.length>0&&spuList.map((el,index) =>{
+            el.key =index;
+            el.FixedPdSpuId = el.pdSpuId;
+          })
           yield put({type: 'getGoodsList',payload:spuList});
           yield put({
             type: 'getTotalData',
