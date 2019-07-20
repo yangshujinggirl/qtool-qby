@@ -22,13 +22,13 @@ class ImportBtn extends React.Component {
   }
   handleChange = (info) => {
     let file = info.file;
-    const { response } =file;
+    const { response } = file;
     if(file.status == 'done') {
       if (response) {
         if(response.code=='0'){
           let pdSpuList= response.pdSpuList?response.pdSpuList:[];
           pdSpuList.map((el,index) => el.key = index)
-          this.props.callback(pdSpuList)
+          this.props.callBack(pdSpuList)
         }else{
           message.error(file.response.message,.8);
         }
@@ -37,7 +37,8 @@ class ImportBtn extends React.Component {
     }
   }
   render() {
-    const params = JSON.stringify({type:this.props.type})
+    const {type,activityId} = this.props;
+    const params = JSON.stringify({type,activityId})
     const props = {
       action: '/erpWebRest/webrest.htm?code=qerp.web.config.singlelinespu.import',
       onChange: this.handleChange,

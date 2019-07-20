@@ -45,52 +45,77 @@ export default {
       }
     },
     resetData(state) {
-      const goods = {
-        listOne: [],
-        listTwo: []
+      const goods={
+        listOne:[],
+        listTwo:[],
       };
-      const addkey = 0;
+      const addkey=0;
+      const homepageModuleId='';
       return {
-        ...state,
-        goods,
-        addkey
-      };
+        ...state,goods,homepageModuleId,addkey
+       }
     },
-    getGoodsList(state, { payload: goods }) {
-      goods = { ...goods };
+    getAddkey(state, { payload:addkey }) {
+      addkey++;
+      return { ...state,addkey };
+    },
+    getGoodsList(state, { payload: pdSpuList }) {
+      const diferAttrLight=(arr,attri)=>{ //高亮重复spuId
+        const obj = {};
+        for(var i=0;i<arr.length;i++){
+          if(arr[i][attri]){
+            obj[arr[i][attri]] = (obj[arr[i][attri]]+1) || 1 
+          };
+        };
+        arr.map((item,index)=>{
+          if(obj[item[attri]]>=2){
+            arr[index].highlight = true
+          }else{
+            arr[index].highlight = false
+          };
+        });
+        return arr;
+      };
+      pdSpuList = [...pdSpuList];
+      pdSpuList = diferAttrLight(pdSpuList,'pdSpuId')
+      let listOne=[], listTwo=[], goods;
+      if(pdSpuList.length>0) {
+        if(pdSpuList.length>=8) {
+          listOne = pdSpuList.slice(0,8);
+          listTwo = pdSpuList.slice(8);
+        } else {
+          listOne = pdSpuList;
+        }
+        goods = { listOne, listTwo };
+      } else {
+        goods = { listOne, listTwo };
+      }
+      return { ...state, goods, totalList:pdSpuList };
+    },
+    getMoveList(state, { payload: goods }) {
+      goods = {...goods};
       const { listOne, listTwo } = goods;
       let totalList = [...listOne, ...listTwo];
-      let addkey = totalList.length;
-      addkey++;
-      return { ...state, goods, totalList, addkey };
-    }
+      return { ...state, goods, totalList };
+    },
   },
   effects: {
-    *fetchList({ payload: values }, { call, put, select }) {
-      yield put({ type: "resetData", payload: {} });
-      yield put({ type: "tab/loding", payload: true });
-      const res = yield call(getPdSpuListApi, values);
-      if (res.code == 0) {
-        const { pdSpuList } = res;
-        let goods = {},
-          listOne = [],
-          listTwo = [];
-        if (pdSpuList.length > 0) {
-          pdSpuList.map((el, index) => (el.key = index));
-          if (pdSpuList.length >= 8) {
-            listOne = pdSpuList.slice(0, 8);
-            listTwo = pdSpuList.slice(8);
-          }
-          goods = { listOne, listTwo };
-        } else {
-          goods = { listOne, listTwo };
-        }
+    *fetchList({ payload: values },{ call, put ,select}) {
+      yield put({ type: 'resetData',payload:{} });
+      yield put({type: 'tab/loding',payload:true});
+      const res = yield call(getPdSpuListApi,values);
+      if(res.code == 0) {
+        let { pdSpuList } =res;
+        pdSpuList = pdSpuList?pdSpuList:[];
+        pdSpuList.map((el,index) =>{
+           el.key = index;
+           el.FixedPdSpuId = el.pdSpuId;
+        })
         let len = pdSpuList.length;
-        yield put({ type: "getAddkey", payload: len });
-        yield put({ type: "getGoodsList", payload: goods });
+        yield put({type: 'getAddkey',payload:len});
+        yield put({type: 'getGoodsList',payload:pdSpuList});
       }
-      yield put({ type: "tab/loding", payload: false });
+      yield put({type: 'tab/loding',payload:false});
     },
-   
   }
 };

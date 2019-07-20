@@ -182,6 +182,22 @@ class ConfigurationList extends Component {
       loading
     });
   };
+   //点击分页
+   changePage =(current,limit)=> {
+    const currentPage = current-1;
+    const values = {...this.state.inputValues,currentPage,limit}
+    this.props.dispatch({
+      type:'homeConfig/fetchList',
+      payload:values
+    });
+  }
+    //pageSize改变时的回调
+    onShowSizeChange =({currentPage,limit})=> {
+      this.props.dispatch({
+        type:'homeConfig/fetchList',
+        payload:{currentPage,limit,...this.state.inputValues}
+      });
+    }
   render() {
     const { status, visible, versionList, doubleVisible, loading } = this.state;
     const { dataList } = this.props;
@@ -198,6 +214,14 @@ class ConfigurationList extends Component {
           dataSource={dataList}
           columns={IndexColumns}
         />
+        {
+          dataList.length>0?
+          <Qpagination
+            data={this.props}
+            onChange={this.changePage}
+            onShowSizeChange = {this.onShowSizeChange}
+          />:null
+        }
         <AddModal
           versionList={versionList}
           onOk={this.onOk}

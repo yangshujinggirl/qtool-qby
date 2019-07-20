@@ -88,7 +88,11 @@ class SearchMod extends Component {
           loading: false
         });
         this.props.callback();
-      }
+      }else{
+        this.setState({
+          loading:false
+        });
+      };
     });
   };
   onCancel = () => {

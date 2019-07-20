@@ -12,32 +12,26 @@ const FormItem = Form.Item;
 class Mod extends Component {
   //新增
   handleAdd=()=> {
-    let { goods, addkey } = this.props;
-    let { listOne, listTwo } = goods;
-    if(listOne.length>=8) {
-      listTwo.push({ key:addkey })
-    }  else {
-      listOne.push({ key:addkey })
-    }
-    goods={ ...goods,listOne, listTwo};
+    let { totalList, addkey } =this.props;
+    totalList.push({ key:addkey })
     this.props.dispatch({
-      type:'goodsSet/getAddkey',
+      type:'moreGoodsSet/getAddkey',
       payload:addkey
     });
-    this.callBack(goods);
+    this.callBack(totalList);
   }
   //表单事件
-  onOperateClick=(record,listType,type)=> {
+  onOperateClick=(record,type)=> {
     switch(type) {
       case 'delete':
-        this.handleDelete(listType,record);
+        this.handleDelete(record);
         break;
     }
   }
-  handleDelete=(listType,record)=> {
-    let { goods } =this.props;
-    goods[listType] = goods[listType].filter(item => item.key !== record.key)
-    this.callBack(goods);
+  handleDelete=(record)=> {
+    let { totalList } =this.props;
+    totalList = totalList.filter(item => item.key !== record.key);
+    this.callBack(totalList);
   }
   moveRow = (dragParent, hoverParent, dragIndex, hoverIndex) => {
     let { goods } =this.props;
@@ -45,10 +39,14 @@ class Mod extends Component {
     let tempDrag = goods[hoverParent][hoverIndex];
     goods[hoverParent].splice(hoverIndex, 1, tempHover);
     goods[dragParent].splice(dragIndex, 1, tempDrag);
-    this.callBack(goods);
+    this.props.dispatch({
+      type:'moreGoodsSet/getMoveList',
+      payload:goods
+    });
+    this.props.form.resetFields()
   };
   //code
-  handleBlur=(listType,e,index)=> {
+  handleBlur=(e,record,valueType)=> {
     let value;
     value = e.target.value;
     if(!value) {
@@ -56,22 +54,29 @@ class Mod extends Component {
     }
     let { goods, totalList } =this.props;
     this.props.dispatch({ type: 'tab/loding', payload:true});
-    getSearchIdApi({pdSpuId:value,activityId:this.props.activityId})
+    let params = {activityId:this.props.activityId}
+    if(valueType == 'pdCode'){
+      params.pdcode = value
+    }else{
+      params.pdSpuId = value;
+    }
+    getSearchIdApi(params)
     .then((res) => {
       if(res.code==0) {
-        let { spuInfo } =res;
-        let idx = totalList.findIndex((el) => el.FixedPdSpuId == spuInfo.pdSpuId);
+        let { spuInfo } = res;
+        let surplusList = totalList.filter((item)=>item.key != record.key)
+        let idx = surplusList.findIndex((el) => el.FixedPdSpuId == spuInfo.pdSpuId);
         if(idx != -1) {
           message.error('商品重复，请重新添加');
         } else {
-          goods[listType] = goods[listType].map((el,idx) => {
-            if(index == idx) {
+          totalList = totalList.map((el,idx) => {
+            if(el.key == record.key) {
               el.FixedPdSpuId = spuInfo.pdSpuId;
               el = {...el,...spuInfo};
             };
             return el
           });
-          this.callBack(goods);
+          this.callBack(totalList);
         }
       }
       this.props.dispatch({ type: 'tab/loding', payload:false});
@@ -85,7 +90,6 @@ class Mod extends Component {
     this.props.form.resetFields()
   }
   render() {
-    console.log(this.props.goodType)
     const { goods, form } =this.props;
     let columnsOne = columnsFun(form,this.handleBlur);
     let columnsTwo = columnsTwoFun(form,this.handleBlur);

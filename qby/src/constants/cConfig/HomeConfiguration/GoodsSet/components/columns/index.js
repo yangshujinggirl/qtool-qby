@@ -48,7 +48,7 @@ export function columnsFun(form,handleBlur){
                   }],
                 })(
                   <Input
-                    onBlur={(e)=>handleBlur('listOne',e,index)}
+                    onBlur={(e)=>handleBlur(e,record)}
                     maxLength='15'
                     placeholder="请输入Spuid"
                     autoComplete="off"/>
@@ -143,7 +143,7 @@ export function columnsFun(form,handleBlur){
       key: 'operation',
       width:'4%',
       render:(text,record,index) => {
-        return <span onClick={()=>record.onOperateClick('listOne','delete')} className="cr">删除</span>
+        return <span onClick={()=>record.onOperateClick('delete')} className="cr">删除</span>
       }
     },
   ];
@@ -176,7 +176,7 @@ export function columnsTwoFun(form, handleBlur){
                   rules:[],
                 })(
                   <Input
-                    onBlur={(e)=>handleBlur('listTwo',e,index)}
+                    onBlur={(e)=>handleBlur(e,record)}
                     maxLength='15'
                     placeholder="请输入Spuid"
                     autoComplete="off"/>
@@ -278,7 +278,7 @@ export function columnsTwoFun(form, handleBlur){
       colSpan:0,
       width:'4%',
       render:(text,record,index) => {
-        return <span onClick={()=>record.onOperateClick('listTwo','delete')} className="cr">删除</span>
+        return <span onClick={()=>record.onOperateClick('delete')} className="cr">删除</span>
       }
     },
   ];

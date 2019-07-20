@@ -26,6 +26,7 @@ class Index extends Component {
     });
   };
   render() {
+    console.log(this.props)
     const { activeKey} = this.props;
     const {homepageModuleId} = this.props.data;
     return (

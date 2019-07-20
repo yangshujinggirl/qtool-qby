@@ -85,7 +85,7 @@ class Field extends Component {
       return data;
     }
     data && data.map((item, i) => {
-        item.onOperateClick = (listType,type) => { this.props.onOperateClick(item,listType, type) };
+        item.onOperateClick = (type) => { this.props.onOperateClick(item,type) };
     })
     return data;
   }
