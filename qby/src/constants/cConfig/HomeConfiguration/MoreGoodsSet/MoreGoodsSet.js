@@ -62,15 +62,9 @@ class Mod extends Component {
   }
   //导入更新
   callback=(list)=> {
-    let goods,listOne=[],listTwo=[];
-    if(list.length>=6) {
-      listOne = list.slice(0,6);
-      listTwo = list.slice(7);
-    }
-    goods = { listOne, listTwo };
     this.props.dispatch({
       type:'moreGoodsSet/getGoodsList',
-      payload:goods
+      payload:list
     });
     this.props.dispatch({
       type:'moreGoodsSet/getAddkey',
@@ -84,7 +78,6 @@ class Mod extends Component {
 	}
   render() {
     const { goods, totalList } =this.props;
-    console.log(this.props)
     return (
       <div className="more-goods-set-mod">
         <div className="part-top">

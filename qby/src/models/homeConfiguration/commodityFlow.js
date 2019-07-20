@@ -50,7 +50,10 @@ export default {
         isLevelFour:true,
       }
       const goodsList = [];
-      const totalData = {};
+      const totalData = {
+        sortType:10,
+        ruleType:0
+      };
       const tabs = [{key:0}];
       const selectkey = 0;
       const sortArr =[

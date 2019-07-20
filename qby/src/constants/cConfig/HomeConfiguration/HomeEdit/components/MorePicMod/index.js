@@ -14,6 +14,7 @@ class MorePicMod extends Component {
       title: "多图片组合",
       key: `${componkey}edit-more-pic`,
       componkey: `${componkey}edit-more-pic`,
+      parentKey:componkey,
       data: {
         homepageModuleId
       }

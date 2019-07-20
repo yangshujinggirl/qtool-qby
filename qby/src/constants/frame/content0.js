@@ -428,16 +428,17 @@ class Content extends React.Component {
                                     case "1402000" : return <ConfigurationList data={this.props.data} componkey={this.props.componkey}/>
                                     case "1402000edit" : return <ConfigLogList data={this.props.data} componkey={this.props.componkey}/>
                                     case "1402000editinfo" : return <HomeEdit data={this.props.data} componkey={this.props.componkey}/>
-                                    case "1402000home" : return <HomeEdit data={this.props.data} componkey={this.props.componkey}/>
-                                    case "1402000homeedit-commodity" : return <CommodityFlow data={this.props.data} componkey={this.props.componkey}/>
-                                    case "1402000homeedit-banner" : return <BannerSet data={this.props.data} componkey={this.props.componkey}/>
-                                    case "1402000homeedit-icon" : return <IconSet data={this.props.data} componkey={this.props.componkey}/>
-                                    case "1402000homeedit-goods" : return <GoodsSet data={this.props.data} componkey={this.props.componkey}/>
-                                    case "1402000homeedit-theme" : return <ThemeSet data={this.props.data} componkey={this.props.componkey}/>
-                                    case "1402000homeedit-new-user" : return <NewUserSet data={this.props.data} componkey={this.props.componkey}/>
-                                    case "1402000homeedit-more-goods" : return <MoreGoodsSet data={this.props.data} componkey={this.props.componkey}/>
-                                    case "1402000homeedit-more-pic" : return <MorePicSet data={this.props.data} componkey={this.props.componkey}/>
-                                    case "1402000homeinfo-search" : return <SearchInfo data={this.props.data} componkey={this.props.componkey}/>
+                                    case "1402000levelTwo" : return <HomeEdit data={this.props.data} componkey={this.props.componkey}/>
+                                    // case "1402000home" : return <HomeEdit data={this.props.data} componkey={this.props.componkey}/>
+                                    case "1402000levelTwoedit-commodity" : return <CommodityFlow data={this.props.data} componkey={this.props.componkey}/>
+                                    case "1402000levelTwoedit-banner" : return <BannerSet data={this.props.data} componkey={this.props.componkey}/>
+                                    case "1402000levelTwoedit-icon" : return <IconSet data={this.props.data} componkey={this.props.componkey}/>
+                                    case "1402000levelTwoedit-goods" : return <GoodsSet data={this.props.data} componkey={this.props.componkey}/>
+                                    case "1402000levelTwoedit-theme" : return <ThemeSet data={this.props.data} componkey={this.props.componkey}/>
+                                    case "1402000levelTwoedit-new-user" : return <NewUserSet data={this.props.data} componkey={this.props.componkey}/>
+                                    case "1402000levelTwoedit-more-goods" : return <MoreGoodsSet data={this.props.data} componkey={this.props.componkey}/>
+                                    case "1402000levelTwoedit-more-pic" : return <MorePicSet data={this.props.data} componkey={this.props.componkey}/>
+                                    case "1402000levelTwoinfo-search" : return <SearchInfo data={this.props.data} componkey={this.props.componkey}/>
                                     default:  return "我是404";
                                 }
                             })()

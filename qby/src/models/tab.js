@@ -146,13 +146,23 @@ export default {
 
         //新增前的处理事项
         *firstAddTab({ payload: paneitem }, { call, put }) {
-          debugger
-            const pane = eval(sessionStorage.getItem("pane"));
+            let pane = eval(sessionStorage.getItem("pane"));
             const activeKey = sessionStorage.getItem('activeKey');
             const result=isInArray(pane,paneitem.key);
-            if(!result){
+            if(!result){//不存在
                 const itemkey=paneitem.key.search('edit');
-                if(itemkey!=-1){
+                let isLevelTwo = paneitem.key.search('levelTwo');
+                if(isLevelTwo!=-1) {//新增二级标记levelTwo
+                  let currentIndex = pane.findIndex((el) => {return el.parentKey == paneitem.parentKey});
+                  if(currentIndex!=-1) {
+                    pane.splice(currentIndex,1,paneitem)
+                  } else {
+                    pane.push(paneitem)
+                  }
+                  const arr = pane;
+                  const NewactiveKey=paneitem.key
+                  yield put({ type: 'addNewTab', payload:{ arr,NewactiveKey }});
+                }else if(itemkey!=-1){
                     //二级
                     const arr=pane.filter((pane)=>{
                         const pankeyindex=pane.key.search('edit')

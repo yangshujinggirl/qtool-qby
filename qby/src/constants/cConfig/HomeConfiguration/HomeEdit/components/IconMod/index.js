@@ -11,6 +11,7 @@ class IconMod extends Component {
       title:'icon模块',
       key:`${componkey}edit-icon`,
       componkey:`${componkey}edit-icon`,
+      parentKey:componkey,
       data:{
         homepageModuleId:this.props.info.icon.homepageModuleId,
         homepageId:this.props.data.homepageId
