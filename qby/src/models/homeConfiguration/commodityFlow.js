@@ -20,6 +20,7 @@ export default {
     goodsList:[],
     totalData:{
       sortType:10,
+      ruleType:0
     },
     homePageModuleId:'',
     sortArr:[{
@@ -174,6 +175,7 @@ export default {
     },
     *fetchTabList({ payload: values },{ call, put ,select}) {
       yield put({type: 'tab/loding',payload:true});
+      yield put({type: 'resetData',payload:{} });
       const selectkey = yield select(state => state.commodityFlow.selectkey);
       const res = yield call(getSearchTabApi,values);
       //处理分类数据，disabled状态
@@ -181,10 +183,10 @@ export default {
         let { pdFlowTabList } =res;
         if(pdFlowTabList&&pdFlowTabList.length>0) {
           pdFlowTabList.map((el,index) => el.key = index);
-          let currentItem = pdFlowTabList.find((el) => el.selectkey == selectkey);
+          let currentItem = pdFlowTabList.find((el) => el.key == selectkey);
           yield put({
             type:'fetchGoodsList',
-            payload:{tabId:pdFlowTabList[0].tabId, selectkey:0}
+            payload:{ tabId:currentItem.tabId, selectkey:selectkey }
           })
         } else {
           pdFlowTabList = [{key:0}];

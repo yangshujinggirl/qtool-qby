@@ -193,9 +193,9 @@ class BaseEditTable extends Component {
   renderHandle=(text,record,index)=> {
     let disabled;
     if(record.linkInfoType==1||record.linkInfoType==2||record.linkInfoType==3) {
-      disabled=!!record.picUrl&&!!record.title&&!!record.beginTime&&!!record.platform&&!!record.linkInfoType&&!!record.linkInfo;
+      disabled=!!record.picUrl&&!!record.title&&!!record.beginTime&&(record.platform!=undefined)&&!!record.linkInfoType&&!!record.linkInfo;
     } else {
-      disabled=!!record.picUrl&&!!record.title&&!!record.beginTime&&!!record.platform&&!!record.linkInfoType;
+      disabled=!!record.picUrl&&!!record.title&&!!record.beginTime&&(record.platform!=undefined)&&!!record.linkInfoType;
     }
     const { modName } =this.props;
     return <div className="handle-item-btn-list">

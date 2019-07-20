@@ -81,7 +81,7 @@ class ModForm extends Component {
     });
   }
   successCallback() {
-    const { homepageModuleId } =this.props;
+    const { homePageModuleId } =this.props;
     this.props.dispatch({
       type:'commodityFlow/fetchTabList',
       payload:{
@@ -199,7 +199,10 @@ class ModForm extends Component {
                     最近
                     {
                       getFieldDecorator('day',{
-                        initialValue:30
+                        initialValue:totalData.day,
+                        rules:[{
+                          required:true,message:'请输入'
+                        }]
                       })(
                         <Input placeholder="请输入" autoComplete="off"/>
                       )
@@ -251,6 +254,7 @@ class ModForm extends Component {
           </div>
           <div className="handle-btn-footer">
             <Button
+              loading={this.state.loading}
               onClick={this.submit}
               size="large"
               type="primary">
