@@ -75,13 +75,6 @@ class GoodsConfig extends Component {
       payload: goods
     });
   };
-  //导入更新
-  uploadData(data) {
-    this.props.dispatch({
-      type: "goodsSet/getGoodsList",
-      payload: data
-    });
-  }
   //下载
   downLoadTep = () => {
     window.open("../../../../static/order.xlsx");
@@ -134,7 +127,6 @@ class GoodsConfig extends Component {
     });
   }
   onChange =(value)=> {
-    debugger
     this.props.dispatch({
       type: "goodsSet/changeActivityId",
       payload:{activityId:value}
@@ -184,7 +176,7 @@ class GoodsConfig extends Component {
               <div>已选商品</div>
               <div>
                 <span>已选{totalList.length}/100</span>
-                <ImportBtn uploadData={this.uploadData} type={goodType} />
+                <ImportBtn callBack={this.callBack} type={goodType} activityId={activityId} />
                 <Button
                   className="down_load_btn"
                   type="primary"

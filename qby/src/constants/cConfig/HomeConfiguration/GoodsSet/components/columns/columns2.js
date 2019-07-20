@@ -40,7 +40,6 @@ export function columnsNewFun(form,handleBlur){
       width:'8%',
       render:(text,record,index)=> {
         const { getFieldDecorator } =form;
-        console.log(form.getFieldsValue())
         return <FormItem>
                 {getFieldDecorator(`fieldsOne[${index}].pdSpuId`,{
                   initialValue:record.pdSpuId,
@@ -49,7 +48,8 @@ export function columnsNewFun(form,handleBlur){
                   }],
                 })(
                   <Input
-                    onBlur={(e)=>handleBlur('listOne',e,index)}
+                    style={record.highlight?{color:'red'}:{color:'#555'} }
+                    onBlur={(e)=>handleBlur(e,record,'pdSpuId')}
                     maxLength='15'
                     placeholder="请输入Spuid"
                     autoComplete="off"/>
@@ -63,15 +63,14 @@ export function columnsNewFun(form,handleBlur){
         key: 'pdCode',
         width:'8%',
         render:(text,record,index)=> {
-          const { getFieldDecorator } =form;
-          const fieldsOneList = (form.getFieldsValue('fieldsOne'))
+          const { getFieldDecorator } = form;
           return <FormItem>
                   {getFieldDecorator(`fieldsOne[${index}].pdCode`,{
                     initialValue:record.pdCode,
                     rules:[],
                   })(
                     <Input
-                      onBlur={(e)=>handleBlur('listOne',e,index)}
+                      onBlur={(e)=>handleBlur(e,record,'pdCode')}
                       maxLength='15'
                       placeholder="请输入pdCode"
                       autoComplete="off"/>
@@ -166,7 +165,7 @@ export function columnsNewFun(form,handleBlur){
       key: 'operation',
       width:'4%',
       render:(text,record,index) => {
-        return <span onClick={()=>record.onOperateClick('listOne','delete')} className="cr">删除</span>
+        return <span onClick={()=>record.onOperateClick('delete')} className="cr">删除</span>
       }
     },
   ];
@@ -199,7 +198,8 @@ export function columnsNewTwoFun(form, handleBlur){
                   rules:[],
                 })(
                   <Input
-                    onBlur={(e)=>handleBlur('listTwo',e,index)}
+                    style={record.highlight?{color:'red'}:{color:'#555'} }
+                    onBlur={(e)=>handleBlur(e,record,'pdSpuId')}
                     maxLength='15'
                     placeholder="请输入Spuid"
                     autoComplete="off"/>
@@ -221,7 +221,7 @@ export function columnsNewTwoFun(form, handleBlur){
                     rules:[],
                   })(
                     <Input
-                      onBlur={(e)=>handleBlur('listTwo',e,index)}
+                      onBlur={(e)=>handleBlur(e,record,'pdCode')}
                       maxLength='15'
                       placeholder="请输入pdCode"
                       autoComplete="off"/>
@@ -323,7 +323,7 @@ export function columnsNewTwoFun(form, handleBlur){
       colSpan:0,
       width:'4%',
       render:(text,record,index) => {
-        return <span onClick={()=>record.onOperateClick('listTwo','delete')} className="cr">删除</span>
+        return <span onClick={()=>record.onOperateClick('delete')} className="cr">删除</span>
       }
     },
   ];

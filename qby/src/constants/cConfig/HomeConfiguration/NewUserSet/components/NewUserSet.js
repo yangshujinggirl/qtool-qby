@@ -31,7 +31,8 @@ class NewUserSet extends Component {
       receiveTimeInterval,
       beginTime,
       endTime,
-      visible
+      visible,
+      loading
     } = this.props;
     const { getFieldDecorator } = this.props.form;
     const columns = getColumns(
@@ -39,7 +40,6 @@ class NewUserSet extends Component {
       optionList,
       this.props.onSelectChange
     );
-    console.log(couponList)
     return (
       <div className="new_user">
         <div className="title">新人礼设置</div>
@@ -117,6 +117,7 @@ class NewUserSet extends Component {
             className="btn"
             size="large"
             type="primary"
+            loading={loading}
             onClick={()=>this.props.handleSubmit(this.props.form)}
           >
             保存

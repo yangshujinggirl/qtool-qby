@@ -2,7 +2,9 @@ import { getListApi } from '../../services/cConfig/homeConfiguration/configurati
 export default{
   namespace:'homeConfig',
   state:{
-    dataList:[]
+    dataList:[],
+    limit:15,
+    currentPage:0,
   },
   reducers:{
     getList(state,{payload:{dataList, currentPage, limit, total}}){

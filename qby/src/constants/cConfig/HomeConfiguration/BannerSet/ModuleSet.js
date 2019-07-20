@@ -62,8 +62,12 @@ class ModuleSet extends Component {
         message.success('保存成功')
         this.setState({
           loading:false
-        })
-      };
+        });
+      }else{
+        this.setState({
+          loading:false
+        });
+      }
     })
   }
   render() {

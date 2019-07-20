@@ -10,21 +10,13 @@ class Index extends Component {
       fileList1: [],
       fileList2: [],
       optionList: [],
-      couponList: []
+      couponList: [],
+      loading:false,
+      moduleBackColor:''
     };
   }
   componentDidMount = () => {
     this.getCouponList();
-  };
-  //选择框的优惠券
-  getOptionList = () => {
-    getListApi({ couponUseScene: 3, status: 1 }).then(res => {
-      if (res.code == 0) {
-        this.setState({
-          optionList: res.iPdCoupon
-        });
-      }
-    });
   };
   //初始化数据
   getCouponList = () => {
@@ -34,7 +26,7 @@ class Index extends Component {
           let {
             couponList,
             newComerPicUrl,
-            backgroupColor,
+            moduleBackColor,
             couponPopUpPicUrl,
             receiveTimeInterval,
             beginTime,
@@ -69,7 +61,7 @@ class Index extends Component {
             optionList,
             couponList,
             newComerPicUrl,
-            backgroupColor,
+            moduleBackColor,
             couponPopUpPicUrl,
             receiveTimeInterval,
             beginTime,
@@ -113,9 +105,20 @@ class Index extends Component {
   };
   //发送保存请求
   sendRequest = values => {
+    this.setState({
+      loading:true
+    });
     saveApi(values).then(res => {
       if (res.code == "0") {
         message.success("保存成功");
+        this.getCouponList()
+        this.setState({
+          loading:false
+        });
+      }else{
+        this.setState({
+          loading:false
+        });
       }
     });
   };
@@ -160,18 +163,24 @@ class Index extends Component {
   //优惠券发生变化
   onSelectChange = (couponId, currentIndex) => {
     const { optionList, couponList } = this.state;
-    optionList.map((item, index) => {
-      if (item.couponId == couponId) {
-        couponList[currentIndex].couponId = optionList[index].couponId;
-        couponList[currentIndex].couponName = optionList[index].couponName;
-        couponList[currentIndex].couponMoney = optionList[index].couponMoney;
-        couponList[currentIndex].couponGiveCount = optionList[index].couponGiveCount;
-        couponList[currentIndex].couponFullAmount = optionList[index].couponFullAmount;
-      }
-    });
+    if(couponList.findIndex(item=>item.couponId == couponId)!==-1){//已经存在则去重
+      message.error('该优惠券重复',.8)
+      couponList.splice(currentIndex,1)
+    }else{
+      optionList.map((item, index) => {
+        if (item.couponId == couponId) {
+          couponList[currentIndex].couponId = optionList[index].couponId;
+          couponList[currentIndex].couponName = optionList[index].couponName;
+          couponList[currentIndex].couponMoney = optionList[index].couponMoney;
+          couponList[currentIndex].couponGiveCount = optionList[index].couponGiveCount;
+          couponList[currentIndex].couponFullAmount = optionList[index].couponFullAmount;
+        }
+      });
+    };
     this.setState({
       couponList
     });
+    
   };
   onCancel = () => {
     this.setState({
@@ -189,7 +198,7 @@ class Index extends Component {
       fileList2,
       optionList,
       couponList,
-      backgroupColor,
+      moduleBackColor,
       receiveTimeInterval,
       beginTime,
       endTime,
@@ -201,7 +210,7 @@ class Index extends Component {
       fileList2={fileList2}
       optionList={optionList}
       couponList={couponList}
-      backgroupColor={backgroupColor}
+      moduleBackColor={moduleBackColor}
       receiveTimeInterval={receiveTimeInterval}
       beginTime={beginTime}
       endTime={endTime}
