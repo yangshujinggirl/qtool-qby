@@ -58,10 +58,10 @@ class MorePicSet extends Component {
         <div className="pic-tabs-wrap">
           <div className="lev-one-l">
             <div className="content-wrap">
-              <div className={`lev-two-l ${activiKey==1?'activikey':''}`} data-key='1' onClick={this.onChange}>左1大图</div>
+              <div className={`lev-two-l ${activiKey==1?'activikey':''}`} data-key='1' onClick={this.onChange}>左一大图</div>
               <div className="lev-two-r">
-                <p className={`con ${activiKey == 2?'activikey':''}`} data-key='2' onClick={this.onChange}>右1大图</p>
-                <p className={`con ${activiKey == 3?'activikey':''}`} data-key='3' onClick={this.onChange}>右2大图</p>
+                <p className={`con ${activiKey == 2?'activikey':''}`} data-key='2' onClick={this.onChange}>右上小图</p>
+              <p className={`con ${activiKey == 3?'activikey':''}`} data-key='3' onClick={this.onChange}>右下小图</p>
               </div>
             </div>
           </div>
@@ -75,7 +75,7 @@ class MorePicSet extends Component {
               图片尺寸为357*144px，格式为png、jpg。大小不能超过2m。只能上传一张。
             </p>
             <p className="r-item">
-              <span className="label">右上小图</span><br />
+              <span className="label">右下小图</span><br />
               图片尺寸为357*144px，格式为png、jpg。大小不能超过2m。只能上传一张。
             </p>
           </div>
