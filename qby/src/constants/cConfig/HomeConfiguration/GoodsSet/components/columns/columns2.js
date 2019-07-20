@@ -40,13 +40,6 @@ export function columnsNewFun(form,handleBlur){
       width:'8%',
       render:(text,record,index)=> {
         const { getFieldDecorator } =form;
-        let isHaveValue = false;
-        const fieldsValues = (form.getFieldsValue());
-        if(fieldsValues && fieldsValues.fieldsOne && fieldsValues.fieldsOne[index]){
-          if(fieldsValues.fieldsOne[index].pdCode){
-            isHaveValue = true
-          };
-        };
         return <FormItem>
                 {getFieldDecorator(`fieldsOne[${index}].pdSpuId`,{
                   initialValue:record.pdSpuId,
@@ -71,13 +64,6 @@ export function columnsNewFun(form,handleBlur){
         width:'8%',
         render:(text,record,index)=> {
           const { getFieldDecorator } = form;
-          let isHaveValue = false;
-          const fieldsValues = (form.getFieldsValue());
-          if(fieldsValues && fieldsValues.fieldsOne && fieldsValues.fieldsOne[index]){
-            if(fieldsValues.fieldsOne[index].pdSpuId){
-              isHaveValue = true
-            };
-          };
           return <FormItem>
                   {getFieldDecorator(`fieldsOne[${index}].pdCode`,{
                     initialValue:record.pdCode,

@@ -65,13 +65,13 @@ class Mod extends Component {
       if(res.code==0) {
         let { spuInfo } = res;
         let surplusList = totalList.filter((item)=>item.key != record.key)
-        let idx = surplusList.findIndex((el) => el.FixedPdSpuId == spuInfo.pdSpuId);
+        let idx = surplusList.findIndex((el) => el.pdSpuId == spuInfo.pdSpuId);
         if(idx != -1) {
           message.error('商品重复，请重新添加');
         } else {
           totalList = totalList.map((el,idx) => {
             if(el.key == record.key) {
-              el.FixedPdSpuId = spuInfo.pdSpuId;
+              el.pdSpuId = spuInfo.pdSpuId;
               el = {...el,...spuInfo};
             };
             return el
