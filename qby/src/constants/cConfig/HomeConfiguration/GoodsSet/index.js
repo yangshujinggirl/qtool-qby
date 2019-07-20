@@ -9,12 +9,11 @@ class Index extends Component {
   constructor(props) {
     super(props);
   }
-  componentDidMount =()=> {
+  componentWillMount =()=> {
     this.props.dispatch({
-      type:'goods/resetData2',
+      type:'goodsSet/resetData2',
     })
   }
-
   callback = key => {
     this.props.dispatch({
       type: "goodsSet/changeKey",
@@ -33,13 +32,22 @@ class Index extends Component {
       <div className="content_box stock-tabs">
         <Tabs activeKey={activeKey} onChange={this.callback}>
           <TabPane tab="设置时段" key="1">
-            <GoodsSet homepageModuleId={homepageModuleId}/>
+            {
+              activeKey=='1'&&
+              <GoodsSet homepageModuleId={homepageModuleId}/>
+            }
           </TabPane>
           <TabPane tab="配置商品" key="2">
-            <GoodsConfig homepageModuleId={homepageModuleId}/>
+            {
+              activeKey=='2'&&
+              <GoodsConfig homepageModuleId={homepageModuleId}/>
+            }
           </TabPane>
           <TabPane tab="模块设置" key="3">
-            <ModuleSet homepageModuleId={homepageModuleId}/>
+            {
+              activeKey=='3'&&
+              <ModuleSet homepageModuleId={homepageModuleId}/>
+            }
           </TabPane>
         </Tabs>
       </div>

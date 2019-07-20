@@ -32,3 +32,11 @@ export function forceInvalidApi(values){
       data:values
   })
 }
+//主题上下线
+export function activityOnlineApi(values){
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.theme.activity.online',
+      data:values
+  })
+}

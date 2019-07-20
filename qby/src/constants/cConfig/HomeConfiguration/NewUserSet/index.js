@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import {connect} from 'dva'
 import {message} from 'antd'
 import {saveApi,getInfoApi} from "../../../../services/cConfig/homeConfiguration/newUser";
 import Content from './components/NewUserSet'
@@ -20,6 +21,7 @@ class Index extends Component {
   };
   //初始化数据
   getCouponList = () => {
+    this.props.dispatch({type: 'tab/loding',payload:true})
     getInfoApi({ homepageModuleId: this.props.data.homepageModuleId }).then(
       res => {
         if (res.code == "0") {
@@ -69,7 +71,10 @@ class Index extends Component {
             fileList1,
             fileList2
           });
-        }
+          this.props.dispatch({type: 'tab/loding',payload:false});
+        }else{
+          this.props.dispatch({type: 'tab/loding',payload:false});
+        };
       }
     );
   };
@@ -226,5 +231,8 @@ class Index extends Component {
     )
   }
 }
-
-export default Index;
+const mapStateToProps=(state)=>{
+  const {tab} = state;
+  return tab
+}
+export default connect(mapStateToProps)(Index);

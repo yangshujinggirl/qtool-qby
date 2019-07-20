@@ -44,6 +44,7 @@ class ModuleSet extends Component {
     this.getModule(homepageModuleId);
   };
   getModule = (homepageModuleId) => {
+    this.props.dispatch({type: 'tab/loding',payload:true})
     getModuleApi({ homepageModuleId:homepageModuleId }).then(res => {
       if (res.code == "0") {
         const {
@@ -66,6 +67,9 @@ class ModuleSet extends Component {
           isDisplayMore,
           moreLinkType
         });
+        this.props.dispatch({type: 'tab/loding',payload:false})
+      }else{
+        this.props.dispatch({type: 'tab/loding',payload:false})
       }
     });
   };
@@ -149,14 +153,14 @@ class ModuleSet extends Component {
     });
   };
   validate = (rule, value, callback) => {
-    if (value.length < 2) {
+    if (value && value.length < 2) {
       callback("2-4个字符");
     }
     callback();
   };
 
   validator=(rule,value,callback)=>{
-    if(value&&value.length<6){
+    if(value && value.length<6){
       callback('请输入六位颜色色号')
     };
     callback()

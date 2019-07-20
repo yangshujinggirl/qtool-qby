@@ -22,9 +22,10 @@ class ThemeMod extends Component {
   }
   goEdit = () => {
     const { componkey } = this.props;
+    const {homepageModuleId} = this.props.info.themeActivity
     const paneitem = {
       title: "主题模块",
-      key: `${componkey}edit-theme`,
+      key: `${componkey}edit-theme`+homepageModuleId,
       componkey: `${componkey}edit-theme`,
       parentKey:componkey,
       data: {homepageModuleId:this.props.info.themeActivity.homepageModuleId}

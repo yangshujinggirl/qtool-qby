@@ -12,7 +12,7 @@ class MorePicMod extends Component {
     const { homepageModuleId } = this.props.info.picMix;
     const paneitem = {
       title: "多图片组合",
-      key: `${componkey}edit-more-pic`,
+      key: `${componkey}edit-more-pic`+homepageModuleId,
       componkey: `${componkey}edit-more-pic`,
       parentKey:componkey,
       data: {

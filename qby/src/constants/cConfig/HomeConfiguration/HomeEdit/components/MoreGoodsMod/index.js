@@ -13,13 +13,14 @@ class MoreGoodsMod extends Component {
   }
   goEdit=()=> {
     const { componkey } = this.props;
+    const {homepageModuleId} = this.props.info.multilineProduct
     const paneitem={
       title:'2行3列商品模块配置',
-      key:`${componkey}edit-more-goods`,
+      key:`${componkey}edit-more-goods`+homepageModuleId,
       componkey:`${componkey}edit-more-goods`,
       parentKey:componkey,
       data:{
-        homepageModuleId:this.props.info.multilineProduct.homepageModuleId
+        homepageModuleId
       }
     };
     this.props.dispatch({

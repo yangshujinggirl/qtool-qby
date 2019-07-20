@@ -23,13 +23,14 @@ class GoodsMod extends Component {
   }
   goEdit=()=> {
     const { componkey } = this.props;
+    const {homepageModuleId} = this.props.info.productDisplay
     const paneitem={
       title:'单行商品设置',
-      key:`${componkey}edit-goods`,
+      key:`${componkey}edit-goods`+homepageModuleId,
       componkey:`${componkey}edit-goods`,
       parentKey:componkey,
       data:{
-        homepageModuleId:this.props.info.productDisplay.homepageModuleId
+        homepageModuleId
       }
     };
     this.props.dispatch({
@@ -39,7 +40,7 @@ class GoodsMod extends Component {
   }
   render() {
     let { productDisplay } =this.props.info;
-    let { homepageModuleId, moduleContent, moduleBackColor,isDisplay } =productDisplay;
+    let { homepageModuleId, moduleContent, moduleBackColor,isDisplay } = productDisplay;
     const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
     const endDate = new Date('2019-8-24') // Christmas, yay
     return(

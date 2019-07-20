@@ -8,13 +8,14 @@ import './index.less'
 class NewUserMod extends Component {
   goEdit = () => {
     const { componkey } = this.props;
+    const {homepageModuleId} = this.props.info.coupon
     const paneitem = {
       title: "新人礼模块",
-      key: `${componkey}edit-new-user`,
+      key: `${componkey}edit-new-user`+homepageModuleId,
       componkey: `${componkey}edit-new-user`,
       parentKey:componkey,
       data: {
-        homepageModuleId:this.props.info.coupon.homepageModuleId
+        homepageModuleId
       }
     };
     this.props.dispatch({

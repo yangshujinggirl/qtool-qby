@@ -22,6 +22,7 @@ class GoodsSet extends Component {
     this.initPage()
   };
   initPage=()=>{
+    this.props.dispatch({type: 'tab/loding',payload:true})
     const {homepageModuleId} = this.props;
     const {type} = this.state;
     getTimeListApi({homepageModuleId,type}).then(res=>{
@@ -29,6 +30,9 @@ class GoodsSet extends Component {
         this.setState({
           timeSlots: this.formatList(res.timeSlots)
         });
+        this.props.dispatch({type: 'tab/loding',payload:false})
+      }else{
+        this.props.dispatch({type: 'tab/loding',payload:false})
       }
     })
   }

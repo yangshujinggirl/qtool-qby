@@ -45,7 +45,7 @@ class LogList extends Component {
       const {homepageLogeList} = this.state;
     return (
       <div>
-        <Table dataSource={homepageLogeList} columns={this.columns} />;
+        <Table dataSource={homepageLogeList} columns={this.columns} pagination={false} bordered/>;
       </div>
     );
   }

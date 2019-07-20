@@ -20,7 +20,9 @@ class GoodsConfig extends Component {
     };
   }
   componentDidMount = () => {
-    this.initPage();
+    if(this.props.mark){
+      this.initPage();
+    }
   };
   componentWillReceiveProps =(props)=> {
     if(props.pdListDisplayCfgId != this.props.pdListDisplayCfgId){

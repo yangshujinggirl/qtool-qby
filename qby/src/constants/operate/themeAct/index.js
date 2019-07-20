@@ -6,7 +6,7 @@ import Qtable from '../../../components/Qtable/index'; //表单
 import Qpagination from '../../../components/Qpagination/index'; //分页
 import FilterForm from './FilterForm/index'
 import ConfirmCancel from './components/confirmCancel.js'
-import {forceInvalidApi} from '../../../services/operate/themeAct/index'
+import {forceInvalidApi,activityOnlineApi} from '../../../services/operate/themeAct/index'
 
 class ThemeAct extends Component{
   constructor(props){
@@ -128,7 +128,21 @@ class ThemeAct extends Component{
           type:'tab/firstAddTab',
           payload:paneitem
       });
-    }
+    }else{
+      let themeStatus = 4;
+      const {themeActivityId} = record;
+      if(type == 'offline'){
+        themeStatus = 5;
+      };
+      activityOnlineApi({themeActivityId,themeStatus}).then(res=>{
+        if(res.code =='0'){
+          this.props.dispatch({
+            type:'themeAct/fetchList',
+            payload:{...this.state.inputValues}
+          });
+        };
+      })
+    };
   }
   //点击强制失效
   forceCancel=()=>{
@@ -206,11 +220,6 @@ class ThemeAct extends Component{
             addtheme&&
             <Button onClick={this.addTheme}  size='large' type='primary'>新增主题</Button>
           }
-          {
-            confirmInval&&
-            <Button type='primary' size='large' onClick={this.forceCancel}>强制失效</Button>
-          }
-
         </div>
         <Qtable
           onOperateClick = {this.handleOperateClick.bind(this)}
