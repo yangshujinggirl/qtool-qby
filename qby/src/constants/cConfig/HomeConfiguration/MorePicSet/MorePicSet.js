@@ -22,15 +22,19 @@ class MorePicSet extends Component {
   }
   onChange=(e)=> {
     let dom = e.target;
-    let activiKey = dom.getAttribute("data-key");
+    const { activiKey } =this.props;
+    let keys = dom.getAttribute("data-key");
+    if( activiKey == keys ) {
+      return;
+    }
     Modal.confirm({
       title: '温馨提示',
       content: '切换页面请确认保存',
       onOk:()=>{
-        this.onOkToggle(activiKey);
+        this.onOkToggle(keys);
       },
       onCancel:()=> {
-        this.onCancelToggle(activiKey);
+        this.onCancelToggle(keys);
       },
     });
   }

@@ -146,6 +146,7 @@ export default {
 
         //新增前的处理事项
         *firstAddTab({ payload: paneitem }, { call, put }) {
+          debugger
             const pane = eval(sessionStorage.getItem("pane"));
             const activeKey = sessionStorage.getItem('activeKey');
             const result=isInArray(pane,paneitem.key);

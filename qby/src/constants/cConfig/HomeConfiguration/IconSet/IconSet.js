@@ -33,16 +33,6 @@ class IconSet extends Component {
   onOkToggle=(activiKey)=> {
     this.modDom.submit(()=>this.getList(activiKey));
   }
-  // onCancelToggle=(activiKey)=> {
-  //   const { homepageModuleId } =this.props.data;
-  //   this.props.dispatch({
-  //     type:'iconSet/fetchList',
-  //     payload:{
-  //       position:activiKey,
-  //       homepageModuleId:homepageModuleId,
-  //     }
-  //   })
-  // }
   render() {
     return(
       <div className="banner-set-pages">

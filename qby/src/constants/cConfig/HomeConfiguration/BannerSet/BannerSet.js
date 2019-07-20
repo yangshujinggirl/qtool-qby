@@ -19,24 +19,17 @@ class BannerSet extends Component {
     super(props);
   }
   componentDidMount() {
-    const { homepageModuleId } =this.props.data;
-    this.props.dispatch({
-      type:'bannerSet/fetchList',
-      payload:{
-        position:1,
-        homepageModuleId:homepageModuleId,
-      }
-    })
+    this.getList()
   }
   onOkToggle=(activiKey)=> {
-    this.modDom.submit(()=>this.onCancelToggle(activiKey));
+    this.modDom.submit(()=>this.getList(activiKey));
   }
-  onCancelToggle=(activiKey)=> {
+  getList=(activiKey)=> {
     const { homepageModuleId } =this.props.data;
     this.props.dispatch({
       type:'bannerSet/fetchList',
       payload:{
-        position:activiKey,
+        position:activiKey?activiKey:1,
         homepageModuleId:homepageModuleId,
       }
     })
@@ -48,7 +41,7 @@ class BannerSet extends Component {
           activiKey={this.props.activiKey}
           panes={panes}
           onOk={this.onOkToggle}
-          onCancel ={this.onCancelToggle}/>
+          onCancel ={this.getList}/>
         <Mod
           onRef={(mod)=>{this.modDom = mod}}/>
       </div>
