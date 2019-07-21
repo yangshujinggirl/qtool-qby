@@ -126,7 +126,7 @@ class GoodsConfig extends Component {
         this.props.dispatch({ type: "tab/loding", payload: true });
         getSaveApi(params).then(res => {
           if (res.code == 0) {
-            this.getList();
+            this.getList(this.props.pdListDisplayCfgId);
           }
           this.props.dispatch({ type: "tab/loding", payload: false });
         });

@@ -43,9 +43,6 @@ export function columnsNewFun(form,handleBlur){
         return <FormItem>
                 {getFieldDecorator(`fieldsOne[${index}].pdSpuId`,{
                   initialValue:record.pdSpuId,
-                  rules:[{
-                    required:true,message:'请输入Spuid'
-                  }],
                 })(
                   <Input
                     style={record.highlight?{color:'red'}:{color:'#555'} }
@@ -208,7 +205,6 @@ export function columnsNewTwoFun(form, handleBlur){
         return <FormItem>
                 {getFieldDecorator(`fieldsTwo[${index}].pdSpuId`,{
                   initialValue:record.pdSpuId,
-                  rules:[{required:true,message:'请输入Spuid'}],
                 })(
                   <Input
                     style={record.highlight?{color:'red'}:{color:'#555'} }

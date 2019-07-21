@@ -76,7 +76,9 @@ export default {
         return arr;
       };
       pdSpuList = [...pdSpuList];
-      pdSpuList = diferAttrLight(pdSpuList,'pdSpuId')
+      if(state.goodType == 1){//只有活动商品才需要高亮显示
+        pdSpuList = diferAttrLight(pdSpuList,'pdSpuId')
+      };
       let listOne=[], listTwo=[], goods;
       if(pdSpuList.length>0) {
         if(pdSpuList.length>=8) {
@@ -108,7 +110,6 @@ export default {
         pdSpuList = pdSpuList?pdSpuList:[];
         pdSpuList.map((el,index) =>{
            el.key = index;
-           el.FixedPdSpuId = el.pdSpuId;
         })
         let len = pdSpuList.length;
         yield put({type: 'getAddkey',payload:len});

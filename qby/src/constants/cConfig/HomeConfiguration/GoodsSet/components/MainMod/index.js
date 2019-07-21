@@ -13,7 +13,9 @@ class Mod extends Component {
   //新增
   handleAdd=()=> {
     let { totalList, addkey } =this.props;
-    totalList.push({ key:addkey })
+    totalList.push({
+      key:addkey,
+    })
     this.props.dispatch({
       type:'goodsSet/getAddkey',
       payload:addkey
@@ -47,41 +49,76 @@ class Mod extends Component {
   };
   //code
   handleBlur=(e,record,valueType)=> {
-    let value;
-    value = e.target.value;
-    if(!value) {
-      return;
-    }
-    let { goods, totalList } =this.props;
-    const invalid = totalList.findIndex(item=>{ //本行修改无效
-      return (item.key == record.key)&&(item.FixedPdSpuId == value)
-    });
-    if(invalid!=-1) return
-    this.props.dispatch({ type: 'tab/loding', payload:true});
-    let params = {activityId:this.props.activityId}
-    if(valueType == 'pdCode'){
-      params.pdcode = value
-    }else{
-      params.pdSpuId = value;
+    console.log(record)
+    // debugger
+    let value = e.target.value;
+    if(!value) {return}
+    let { totalList,goodType } =this.props;
+    let params = {};
+    if(goodType == 2){ //上新商品
+      const isValid = this.removeRepeat(totalList,value,'pdSpuId',record);
+      if(isValid){
+        params.pdSpuId = value
+      }else{
+        return 
+      };
+    }else{//活动商品
+      params.activityId = this.props.activityId;
+      if(valueType == 'pdCode'){ // 填写的是pdCode
+        const isValid = this.removeRepeat(totalList,value,'pdCode',record);
+        if(isValid){
+          params.pdcode = value;
+        }else{
+          return 
+        }
+      }else{//填写的是pdSpuId
+        const invalid = totalList.findIndex(item=>{ //本行修改无效
+          return (item.key == record.key)&&(item.pdSpuId == value)
+        });
+        if(invalid!=-1){ return null }
+        params.pdSpuId = value;
+      };
     };
+    this.sendRequest(params,totalList,record);
+  }
+  //对数据做去重
+  removeRepeat =(totalList,value,inputType,record)=> {
+    const invalid = totalList.findIndex(item=>{ //本行修改无效
+      return (item.key == record.key)&&(item[inputType] == value)
+    });
+    if(invalid!=-1){ return null }
+    const isRepeat = totalList.findIndex(item=>item[inputType] == value);
+    if(isRepeat !== -1){
+      if(inputType == 'pdCode'){
+        message.error('商品编码'+value+'重复');
+      }else{
+        message.error('pdSpuid'+value+'重复')
+      };
+      return null
+    };
+    return true;
+  }
+  //请求
+  sendRequest =(params,totalList,record)=>{
+    this.props.dispatch({ type: 'tab/loding', payload:true});
     getSearchIdApi(params)
     .then((res) => {
-      if(res.code==0) {
+      if(res.code == 0) {
         let { spuInfo } = res;
-        let idx = totalList.findIndex((el) => el.FixedPdSpuId == spuInfo.pdSpuId);
-        if(idx != -1) {
-          message.error('商品重复，请重新添加');
-        } else {
+        const idx = totalList.findIndex((item)=>item.pdCode == spuInfo.pdCode && item.pdSpuId == spuInfo.pdSpuId);
+        if(idx != -1){
+          message.error('商品重复,请重新添加');
+        }else{
           totalList = totalList.map((el,idx) => {
             if(el.key == record.key) {
-              el.FixedPdSpuId = spuInfo.pdSpuId;
+              el.pdSpuId = spuInfo.pdSpuId;
               el = {...el,...spuInfo};
             };
             return el
           });
           this.callBack(totalList);
-        }
-      }
+       };
+      };
       this.props.dispatch({ type: 'tab/loding', payload:false});
     })
   }
@@ -93,7 +130,8 @@ class Mod extends Component {
     this.props.form.resetFields()
   }
   render() {
-    const { goods, form } =this.props;
+    console.log(this.props.totalList)
+    const { goods, form } = this.props;
     let columnsOne = columnsFun(form,this.handleBlur);
     let columnsTwo = columnsTwoFun(form,this.handleBlur);
     let columnsNewOne = columnsNewFun(form,this.handleBlur)
