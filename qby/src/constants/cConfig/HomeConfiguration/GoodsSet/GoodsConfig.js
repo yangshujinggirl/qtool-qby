@@ -154,7 +154,7 @@ class GoodsConfig extends Component {
       wrapperCol: { span: 20 }
     };
     return (
-      <p className="good_config">
+      <div className="good_config">
         {mark ? (
           <div>
             <Form>
@@ -254,7 +254,7 @@ class GoodsConfig extends Component {
             }
           </div>
         ) : (
-          <p className="no-data">
+          <div className="no-data">
             <p>请先设置时段</p>
             <Button
               className="go_set_btn"
@@ -263,9 +263,9 @@ class GoodsConfig extends Component {
             >
               去设置
             </Button>
-          </p>
+          </div>
         )}
-      </p>
+      </div>
     );
   }
 }

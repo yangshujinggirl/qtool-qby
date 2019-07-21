@@ -95,7 +95,6 @@ class GoodsSet extends Component {
     });
   };
   render() {
-    console.log(this.props)
     const { getFieldDecorator } = this.props.form;
     const { timeSlots, type } = this.state;
     const {homepageModuleId} = this.props;
