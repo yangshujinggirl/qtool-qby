@@ -56,6 +56,7 @@ export default {
     },
     getAddkey(state, { payload:addkey }) {
       addkey++;
+      console.log({ ...state,addkey })
       return { ...state,addkey };
     },
     getGoodsList(state, { payload: pdSpuList }) {

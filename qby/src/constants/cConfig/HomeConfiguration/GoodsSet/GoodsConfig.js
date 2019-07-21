@@ -17,7 +17,8 @@ class GoodsConfig extends Component {
     super(props);
     this.state = {
       activitys: [],
-      visible:false
+      visible:false,
+      loading:false
     };
   }
   componentDidMount = () => {
@@ -78,6 +79,17 @@ class GoodsConfig extends Component {
       payload: goods
     });
   };
+  //上传成功之后的回调
+  updataList = goods => {
+    this.props.dispatch({
+      type: "goodsSet/getGoodsList",
+      payload: goods
+    });
+    this.props.dispatch({
+      type: "goodsSet/getAddkey",
+      payload: goods.length-1
+    });
+  }
   //下载
   downLoadTep = () => {
     window.open("../../../../static/order.xlsx");
@@ -106,6 +118,10 @@ class GoodsConfig extends Component {
           message.error("请至少配置8个商品");
           return;
         }
+        if(pdSpuList.find(item=>!item.pdSpuId)){
+          message.error('pdSpuId'+'不能为空')
+          return 
+        }
         let params;
         if (goodType == 1) {
           params = {
@@ -123,11 +139,14 @@ class GoodsConfig extends Component {
             pdSpuList
           };
         }
+        this.setState({loading:true})
         this.props.dispatch({ type: "tab/loding", payload: true });
         getSaveApi(params).then(res => {
           if (res.code == 0) {
+            message.success('保存成功')
             this.getList(this.props.pdListDisplayCfgId);
           }
+          this.setState({loading:false})
           this.props.dispatch({ type: "tab/loding", payload: false });
         });
       }
@@ -165,8 +184,9 @@ class GoodsConfig extends Component {
     });
   }
   render() {
+    console.log(this.props)
     const { getFieldDecorator } = this.props.form;
-    const { activitys,visible } = this.state;
+    const { activitys,visible,loading} = this.state;
     const {
       endTime,
       beginTime,
@@ -216,7 +236,7 @@ class GoodsConfig extends Component {
                       <div>
                         <span>已选{totalList.length}/100</span>
                         <ImportBtn
-                          callBack={this.callBack}
+                          callBack={this.updataList}
                           type={goodType}
                           activityId={activityId}
                         />
@@ -252,7 +272,7 @@ class GoodsConfig extends Component {
                   <div>
                     <span>已选{totalList.length}/100</span>
                     <ImportBtn
-                      callBack={this.callBack}
+                      callBack={this.updataList}
                       type={goodType}
                       activityId={activityId}
                     />
@@ -272,7 +292,7 @@ class GoodsConfig extends Component {
                   <ModDis callBack={this.callBack} form={this.props.form} />
                 </div>
                 <div className="handle-btn-footer">
-                  <Button onClick={this.submit} type="primary" size="large">
+                  <Button loading={loading} onClick={this.submit} type="primary" size="large">
                     保存
                   </Button>
                 </div>
