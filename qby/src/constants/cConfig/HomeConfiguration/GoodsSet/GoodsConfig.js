@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "dva";
-import { Form, Button, Select, message } from "antd";
+import { Form, Button, Select, message,Modal } from "antd";
 import ModDis from "./components/MainMod";
 import ImportBtn from "./components/ImportBtn";
 import {
@@ -16,7 +16,8 @@ class GoodsConfig extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activitys: []
+      activitys: [],
+      visible:false
     };
   }
   componentDidMount = () => {
@@ -133,14 +134,39 @@ class GoodsConfig extends Component {
     });
   };
   onChange = value => {
+    if( this.props.activityId && this.props.totalList.length>0 ){
+      this.setState({
+        visible:true
+      });
+      this.setState({
+        activityId:value
+      });
+    }else{
+      this.props.dispatch({
+        type: "goodsSet/changeActivityId",
+        payload: { activityId: value }
+      });
+    }
+  };
+  onCancel=()=>{
+    this.setState({
+      visible:false
+    });
+    this.props.form.resetFields(['activityId'])
+  }
+  onOk=()=>{
     this.props.dispatch({
       type: "goodsSet/changeActivityId",
-      payload: { activityId: value }
+      payload: { activityId: this.state.activityId }
     });
-  };
+    this.callBack([])
+    this.setState({
+      visible:false
+    });
+  }
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { activitys } = this.state;
+    const { activitys,visible } = this.state;
     const {
       endTime,
       beginTime,
@@ -197,7 +223,7 @@ class GoodsConfig extends Component {
                         <Button
                           className="down_load_btn"
                           type="primary"
-                          onClik={this.downLoadTep}
+                          onClick={this.downLoadTep}
                         >
                           下载附件模板
                         </Button>
@@ -265,6 +291,10 @@ class GoodsConfig extends Component {
             </Button>
           </div>
         )}
+        <Modal visible={visible} onOk={this.onOk} onCancel={this.onCancel}>
+          <p>切换活动后，你选择的商品将清空</p>
+          <p>是否确认切换活动？</p>
+        </Modal>
       </div>
     );
   }

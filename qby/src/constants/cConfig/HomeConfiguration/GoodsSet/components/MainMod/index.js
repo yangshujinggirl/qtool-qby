@@ -12,7 +12,6 @@ const FormItem = Form.Item;
 class Mod extends Component {
   //新增
   handleAdd=()=> {
-    debugger
     let { totalList, addkey } =this.props;
     totalList.push({ key:addkey })
     this.props.dispatch({
