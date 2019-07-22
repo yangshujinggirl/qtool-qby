@@ -16,13 +16,14 @@ class UpLoadImg extends Component {
     let isImg = regExp.test(file.type);
     if (!isImg) {
       message.error('请上传格式为jpg、png、gif的图片');
+      return false;
     }
     const isLt2M = file.size / 1024 / 1024 < 2;
     if (!isLt2M) {
       message.error('图片大小超出限制，请修改后重新上传!');
+      return false;
     }
     const isSize = this.checkSize(file)
-    // return isImg  && isLt2M ;
     return isImg  && isLt2M &&isSize;
   }
   //检测尺寸
@@ -48,6 +49,7 @@ class UpLoadImg extends Component {
     this.setState({
       loading: true,
     })
+    debugger
     if (info.file.status === 'uploading') {
       this.setState({ loading: true });
       return;
