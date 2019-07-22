@@ -26,6 +26,16 @@ class ImportBtn extends React.Component {
     if(file.status == 'done') {
       if (response) {
         if(response.code=='0'){
+          const { noImportSpu } =response;
+          if(noImportSpu&&noImportSpu.length>0) {
+            let content = <span>
+            以下商品导入失败<br/>
+              {
+                noImportSpu.map((el) => el = `${el}/`)
+              }
+            </span>
+            message.error(content)
+          }
           let pdSpuList= response.pdSpuList?response.pdSpuList:[];
           pdSpuList.map((el,index) => el.key = index)
           this.props.callback(pdSpuList)
