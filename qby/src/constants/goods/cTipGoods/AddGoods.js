@@ -266,16 +266,6 @@ class AddGoodsForm extends Component {
                </FormItem>
             </Col>
             <Col span={24}>
-              <FormItem label='上线平台' {...formItemLayout}>
-                 {getFieldDecorator('platform',{
-                   rules: [{ required: true, message: '请选择上线平台'}],
-                   initialValue:pdSpu.platform?pdSpu.platform:[]
-                 })(
-                   <CheckboxGroup options={this.platformOptions} />
-                 )}
-               </FormItem>
-            </Col>
-            <Col span={24}>
               <FormItem label="品牌直供" {...formItemLayout}>
                 <label>{pdSpu.brandDirectMail?'是':'否'}</label>
               </FormItem>

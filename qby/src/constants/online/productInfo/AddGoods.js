@@ -272,16 +272,6 @@ class AddGoodsForm extends Component {
     				 </FormItem>
             </Col>
             <Col span={24}>
-              <FormItem label='上线平台' {...formItemLayout}>
-                 {getFieldDecorator('platform',{
-                   rules: [{ required: true, message: '请选择上线平台'}],
-                   initialValue:iPdSpu.platform?iPdSpu.platform:[]
-                 })(
-                   <CheckboxGroup options={this.platformOptions} />
-                 )}
-               </FormItem>
-            </Col>
-            <Col span={24}>
               <FormItem label='商品描述' {...formItemLayout}>
                 {
                   iPdSpu.pdSpuInfo&&
