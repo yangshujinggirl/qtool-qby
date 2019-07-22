@@ -67,9 +67,12 @@ class ClassifyMod extends Component {
     .then((res) => {
       const { spuList, code } =res;
       if(code == 0) {
-        spuList.length>0&&spuList.map((el,index) => {
-          el.key = index;
-        })
+        // spuList.length>0&&spuList.map((el,index) => {
+        //   el.key = index;
+        // })
+        let { goodsList } =this.props;
+        let ss = lodash.difference(goodsList,spuList);
+        console.log(goodsList)
         this.props.dispatch({
           type:'commodityFlow/getGoodsList',
           payload:spuList

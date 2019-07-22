@@ -17,14 +17,28 @@ class CommodityFlow extends Component {
   getList() {
     const { homepageModuleId } =this.props.data;
     this.props.dispatch({
+      type:'commodityFlow/resetPage',
+      payload:{}
+    })
+    this.props.dispatch({
       type:'commodityFlow/fetchTabList',
       payload:{
         homePageModuleId:homepageModuleId
       }
     })
   }
-  onOkToggle=()=> {
-    this.modDom.submit(()=>this.getList());
+  onOkToggle=(value)=> {
+    this.modDom.submit(()=>this.onOkCallback(value));
+  }
+  onOkCallback=(value)=> {
+    this.props.dispatch({
+      type:'commodityFlow/getSelectkey',
+      payload:value.key
+    })
+    this.getList();
+  }
+  onCancel=(value)=> {
+    this.modDom.onCanceCallback(value);
   }
   render() {
     const { tabs } =this.props;
@@ -32,6 +46,7 @@ class CommodityFlow extends Component {
       <div className="commodity-flow-pages">
         <div className="main-content-action">
           <TabsMod
+            onCancel={this.onCancel}
             onOk={this.onOkToggle}/>
           {
             tabs.length>0&&

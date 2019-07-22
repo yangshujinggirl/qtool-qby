@@ -22,7 +22,7 @@ const radioStyle = {
       height: '30px',
       lineHeight: '30px',
     };
-
+let dateForm = 'YYYY-MM-DD';
 class ModForm extends Component {
   constructor(props) {
     super(props);
@@ -88,6 +88,15 @@ class ModForm extends Component {
         homePageModuleId:homePageModuleId
       }
     })
+    this.props.form.resetFields()
+  }
+  onCanceCallback(value) {
+    const { tabId, key } =value;
+    this.props.dispatch({
+      type:'commodityFlow/fetchGoodsList',
+      payload:{tabId,selectkey:key}
+    })
+    this.props.form.resetFields()
   }
   formatData(values) {
     let sortRule;
@@ -110,6 +119,18 @@ class ModForm extends Component {
         sortRule= {
            sortObjArray:sortArr
         }
+    }
+    const { goodsList }=this.props;
+    if(values.spuList) {
+      values.spuList =values.spuList.map((item) => {
+        goodsList.map((el) => {
+          if(item.pdSpuId == el.pdSpuId&&el.isFixed) {
+            item.fixPosition = el.fixPosition;
+            item.fixDay = el.fixDay;
+          }
+        })
+        return item;
+      })
     }
     let selectItem = tabs.find((el) => el.key== selectkey);
     let params={
@@ -137,7 +158,7 @@ class ModForm extends Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     const { categoryData, goodsList, totalData, sortArr } =this.props;
-
+    // console.log(this.props)
     return(
       <div className="commodity-main-mod">
         <Form>
@@ -147,7 +168,7 @@ class ModForm extends Component {
             <FormItem label="优先顺序" className="sort-formItem-wrap">
             {
               getFieldDecorator('sortType',{
-                initialValue:totalData.sortType?totalData.sortType:10,
+                initialValue:totalData.sortType,
                 onChange:this.changeRadio
               })(
                 <Radio.Group>
@@ -199,7 +220,7 @@ class ModForm extends Component {
                     最近
                     {
                       getFieldDecorator('day',{
-                        initialValue:totalData.day,
+                        initialValue:totalData.day||30,
                         rules:[{
                           required:true,message:'请输入'
                         }]
@@ -215,14 +236,14 @@ class ModForm extends Component {
                   <FormItem className="fixed-dateTime-formItem">
                     {
                       getFieldDecorator('time',{
-                        initialValue:totalData.time?[moment(totalData.time[0],'YYYY-MM-DD HH:mm:ss'),moment(totalData.time[1],'YYYY-MM-DD HH:mm:ss')]:null,
+                        initialValue:totalData.time?[moment(totalData.time[0],dateForm),moment(totalData.time[1],dateForm)]:null,
                         rules:[{
                           required:true,message:'请选择时间'
                         }]
 
                       })(
                         <RangePicker
-                          format="YYYY-MM-DD HH:mm:ss"/>
+                          format={dateForm}/>
                       )
                     }
                   </FormItem>

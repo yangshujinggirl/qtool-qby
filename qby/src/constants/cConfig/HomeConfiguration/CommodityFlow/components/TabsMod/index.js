@@ -17,7 +17,9 @@ class Field extends Component {
   }
   componentWillReceiveProps(props) {
     if(this.state.firstIn) {
-      this.setState({ key: props.tabs.length })
+      let keys = props.tabs.length;
+      keys--;
+      this.setState({ key: keys })
     }
   }
   //切换查详情
@@ -34,33 +36,22 @@ class Field extends Component {
       title: '温馨提示',
       content: '切换页面请确认保存',
       onOk:()=>{
-        this.props.dispatch({
-          type:'commodityFlow/getSelectkey',
-          payload:value.key
-        })
         this.props.onOk(value);
       },
       onCancel:()=> {
-        const { tabId, key } =value;
-        this.props.dispatch({
-          type:'commodityFlow/fetchGoodsList',
-          payload:{tabId,selectkey:key}
-        })
+        this.props.onCancel(value);
       },
     });
   }
   //新增
   handleAdd=()=> {
-    let { tabs } =this.props;
-    let { key } =this.state;
-    key++;
-    tabs.push({ key, tabId:null, firstIn:false });
-    if(tabs.length == 1) {
-      this.props.dispatch({
-        type:'commodityFlow/getSelectkey',
-        payload:key
-      })
-    }
+    let { tabs, addKey } =this.props;
+    tabs.push({ key:addKey, tabId:null, firstIn:false });
+    addKey++;
+    this.props.dispatch({
+      type:'commodityFlow/getAddKey',
+      payload:addKey
+    });
     this.updateTabs(tabs)
   }
   //删除

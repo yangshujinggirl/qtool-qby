@@ -24,7 +24,8 @@ class IconMod extends Component {
     })
   }
   render() {
-    let { homepageModuleId, moduleContent, moduleBackColor, isDisplay } =this.props.info.icon;
+    const { icon } =this.props.info;
+    let { homepageModuleId, moduleContent, moduleBackColor, isDisplay } =icon;
     const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
 
     return(
@@ -38,7 +39,7 @@ class IconMod extends Component {
               moduleContent&&moduleContent.map((el,index) => (
                 <div className="item-icon" key={el.iconId}>
                   <div className="pic-wrap"><img src={`${fileDomain}${el.iconPic}`}/></div>
-                  <p>{el.iconName}</p>
+                  <p className={!!icon.titleColor?'white-title':'black-title'}>{el.iconName}</p>
                 </div>
               ))
             }

@@ -1,5 +1,5 @@
 import React , { Component } from 'react';
-import { Form, Button, Modal } from 'antd';
+import { Form, Button, Modal, message } from 'antd';
 import { connect } from 'dva';
 import moment from 'moment';
 import BaseDelTable from '../../../components/BaseDelTable';
@@ -37,6 +37,7 @@ class ModForm extends Component {
         getSaveApi(params)
         .then((res)=> {
           if(res.code == 0) {
+            message.success('保存成功',1)
             func&&typeof func == 'function'?func():this.successCallback();
           }
           this.setState({ loading:false });
@@ -65,9 +66,9 @@ class ModForm extends Component {
     })
   }
   render() {
-    let { goodsList, activiKey } =this.props;
+    let { goodsList, activiKey, categoryList } =this.props;
     const { form }= this.props;
-    let columnsTable = columns(form);
+    let columnsTable = columns(form, categoryList, activiKey);
     return(
       <div className="banner-set-mod">
         <BaseDelTable
