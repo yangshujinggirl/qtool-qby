@@ -1,7 +1,7 @@
-import { Select, Form } from "antd";
+import { Select, Form, Button } from "antd";
 const FormItem = Form.Item;
 const Option = Select.Option;
-export function getColumns(form, couponList,onSelectChange) {
+export function getColumns(form, couponList,onSelectChange,handleDelete) {
   const { getFieldDecorator } = form;
   const columns = [
     {
@@ -49,6 +49,19 @@ export function getColumns(form, couponList,onSelectChange) {
     {
       title: "已发放数量",
       dataIndex: "couponGiveCount"
+    },{
+      title: "操作",
+      dataIndex: "delete",
+      key: "delete",
+      render: (text, record, index) => {
+        return (
+          <Button
+            onClick={() => handleDelete(record.key)}
+          >
+            删除
+          </Button>
+        );
+      }
     }
   ];
   return columns;

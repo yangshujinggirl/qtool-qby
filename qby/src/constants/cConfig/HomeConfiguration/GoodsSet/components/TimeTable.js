@@ -130,14 +130,6 @@ class TimeTable extends Component {
         activeKey:'2'
        }
     });
-    // this.props.dispatch({ //标识是从tab跳转 还是页面配置跳转
-    //   type: "goodsSet/setMark",
-    //   payload: { mark: true }
-    // });
-    // this.props.dispatch({
-    //   type: "goodsSet/changeKey",
-    //   payload: { activeKey: "2" }
-    // });
   };
   //点击编辑时间
   onEdit = id => {
