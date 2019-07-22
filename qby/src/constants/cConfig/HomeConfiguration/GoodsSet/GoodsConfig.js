@@ -92,7 +92,11 @@ class GoodsConfig extends Component {
   }
   //下载
   downLoadTep = () => {
-    window.open("../../../../static/order.xlsx");
+    if(this.props.goodType == 1){
+      window.open("../../../../static/home_add_goods.xlsx");
+    }else{
+      window.open("../../../../static/MultilLine_In.xlsx");
+    };
   };
   //提交
   submit = () => {

@@ -107,7 +107,7 @@ class TimeTable extends Component {
               </Button>
               <Button
                 style={{ marginLeft: "15px" }}
-                onClick={() => this.delete(record.pdListDisplayCfgId)}
+                onClick={() => this.delete(record,index)}
               >
                 删除
               </Button>
@@ -157,6 +157,7 @@ class TimeTable extends Component {
     
     this.addTime(beginTime, endTime,record);
   };
+  //添加
   addTime = (beginTime, endTime,record) => {
     const { type, homepageModuleId } = this.props;
     const values = {
@@ -186,15 +187,22 @@ class TimeTable extends Component {
           return item;
         });
         this.props.callback(list);
-      }
+      };
     });
   };
   //删除
-  delete = id => {
-    this.setState({
-      pdListDisplayCfgId: id,
-      visible: true
-    });
+  delete = (record,index) => {
+    const {pdListDisplayCfgId,completed} = record;
+    if(completed){
+      this.setState({
+        pdListDisplayCfgId,
+        visible: true
+      });
+    }else{
+      const {timeSlots} = this.props;
+      timeSlots.splice(index,1);
+      this.props.callback(timeSlots);
+    };
   };
   //更改时段list
   handleCallback = timeSlots => {
@@ -208,7 +216,7 @@ class TimeTable extends Component {
         this.setState({
           visible:false
         });
-      }
+      };
     });
   };
   onCancel = () => {
@@ -226,7 +234,11 @@ class TimeTable extends Component {
           columns={this.columns}
           dataSource={timeSlots}
         />
-        <Modal visible={visible} onOk={this.onOk} onCancel={this.onCancel}>
+        <Modal  
+          wrapClassName='model_center'
+          visible={visible} 
+          onOk={this.onOk} 
+          onCancel={this.onCancel}>
           <p>确认删除该时间段么?</p>
         </Modal>
       </div>
@@ -237,5 +249,35 @@ function mapStateToProps(state) {
   const { goodsSet } = state;
   return goodsSet;
 }
-const TimeTables = Form.create({})(TimeTable);
+const TimeTables = Form.create({
+  onValuesChange(props, values, allFields) {
+    const {time} = allFields;
+    const {timeSlots} = props;
+    const newSlots = time && time.map((item,index)=>{
+      if(item){
+        item = {
+          beginTime:moment(item[0]).format('YYYY-MM-DD HH:mm'),
+          endTime:moment(item[1]).format('YYYY-MM-DD HH:mm')
+        };
+      }
+      return item;
+    });
+    const newArr = timeSlots.map((item,index)=>{
+      newSlots.map((subItem,subIndex)=>{
+        if(subIndex == index){
+          item = {...item,...subItem}
+          console.log(item)
+          
+        };
+      });
+      return item;
+    });
+    props.callback(newArr)
+  },
+  mapPropsToFields(props) {
+    return {
+      time: Form.createFormField(props.timeSlots),
+    };
+  },
+})(TimeTable);
 export default connect(mapStateToProps)(TimeTables);

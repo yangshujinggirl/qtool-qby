@@ -151,8 +151,8 @@ class ConfigurationList extends Component {
         const { componkey } = this.props;
         const paneitem = {
           title: "商品编辑",
-          key: `${componkey}home`,
-          componkey: `${componkey}home`,
+          key: `${componkey}levelTwo`+homepageId,
+          componkey: `${componkey}levelTwo`,
           data: {
             homepageId: homepageId
           }
