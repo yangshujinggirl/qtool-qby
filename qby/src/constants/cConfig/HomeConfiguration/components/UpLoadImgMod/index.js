@@ -13,43 +13,46 @@ class UpLoadImg extends Component {
   }
   beforeUpload=(file)=> {
     let regExp = /image\/[jpeg|jpg|gif]/ig;
-    let isImg = regExp.test(file.type);
-    if (!isImg) {
-      message.error('请上传格式为jpg、png、gif的图片');
-      return false;
-    }
-    const isLt2M = file.size / 1024 / 1024 < 2;
-    if (!isLt2M) {
-      message.error('图片大小超出限制，请修改后重新上传!');
-      return false;
-    }
-    const isSize = this.checkSize(file)
+    let isImg = new Promise((resolve, reject) => {
+        let valid = regExp.test(file.type);
+        valid ? resolve() : reject();
+      }).then(() => {
+          return file;
+      },() => {
+          message.error("请上传格式为jpg、png、gif的图片");
+          return Promise.reject();
+      });
+    let isLt2M = new Promise((resolve, reject) => {
+        let valid = file.size / 1024 / 1024 < 2;
+        valid ? resolve() : reject();
+      }).then(() => {
+          return file;
+      },() => {
+          message.error("图片大小超出限制，请修改后重新上传");
+          return Promise.reject();
+      });
+    let isSize = new Promise((resolve, reject) => {
+        let width = this.props.width;
+        let height = this.props.height;
+        let _URL = window.URL || window.webkitURL;
+        let img = new Image();
+        img.onload = function() {
+          let valid = img.width == width && img.height == height;
+          valid ? resolve() : reject();
+        };
+        img.src = _URL.createObjectURL(file);
+      }).then(() => {
+          return file;
+      },() => {
+          message.error("图片尺寸不符合要求，请修改后重新上传！");
+          return Promise.reject();
+      });
     return isImg  && isLt2M &&isSize;
   }
-  //检测尺寸
-  checkSize=(file)=>{
-    return new Promise((resolve, reject) => {
-      let width = this.props.width;
-      let height = this.props.height;
-      let _URL = window.URL || window.webkitURL;
-      let img = new Image();
-      img.onload = function() {
-        let valid = img.width == width && img.height == height;
-        valid ? resolve() : reject();
-      };
-      img.src = _URL.createObjectURL(file);
-    }).then(() => {
-        return file;
-    },() => {
-        message.error("图片尺寸不符合要求，请修改后重新上传！");
-        return Promise.reject();
-    });
-  };
   handleChange = info => {
     this.setState({
       loading: true,
     })
-    debugger
     if (info.file.status === 'uploading') {
       this.setState({ loading: true });
       return;
@@ -60,7 +63,6 @@ class UpLoadImg extends Component {
         this.setState({
           loading: false,
         })
-        // this.props.onChange(`${response.data[0]}`)
       }
     }
   };
