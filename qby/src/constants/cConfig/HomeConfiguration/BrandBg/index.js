@@ -34,11 +34,11 @@ class BrandBg extends Component {
             label="设置内容图片"
           >
             <UploadImg
-              describe="750*32"
+              describe="686*32"
               fileList={fileList}
               changeImg={changeImg}
               exampleImg=""
-              width={750}
+              width={686}
               height={32}
             />
           </FormItem>
