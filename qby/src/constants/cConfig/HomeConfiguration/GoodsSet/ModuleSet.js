@@ -4,7 +4,6 @@ import ModuleSets from './components/ModuleSet'
 class ModuleSet extends Component {
   render() {
     const { homepageModuleId,goodType} = this.props;
-    console.log(this.props)
     return (
       <div>
         <ModuleSets type={35} homepageModuleId={homepageModuleId} goodType={goodType}/>

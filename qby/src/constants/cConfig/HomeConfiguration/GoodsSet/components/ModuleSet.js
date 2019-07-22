@@ -179,8 +179,6 @@ class ModuleSet extends Component {
       visible,
       loading
     } = this.state;
-    console.log(this.state)
-    console.log('重新render了')
     const formLayout = {
       labelCol: { span: 3 },
       wrapperCol: { span: 20 }

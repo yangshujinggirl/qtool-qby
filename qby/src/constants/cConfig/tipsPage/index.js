@@ -46,7 +46,6 @@ class TipPage extends Component{
   }
   formate =(values)=> {
     const newList = _.cloneDeep(values.list);
-    console.log(newList)
     newList.map((item,index) => {
       item.type=index+1;
       item.configureId = this.state.dataSource[index].configureId;
@@ -57,7 +56,6 @@ class TipPage extends Component{
     return values
   }
   render(){
-    console.log(this.state.dataSource)
     const FormLayout = {
       labelCol:{ span: 6},
       wrapperCol:{ span: 8 }

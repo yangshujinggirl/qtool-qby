@@ -173,7 +173,7 @@ export function columnsTwoFun(form, handleBlur){
         return <FormItem>
                 {getFieldDecorator(`fieldsTwo[${index}].pdSpuId`,{
                   initialValue:record.pdSpuId,
-                  rules:[],
+                  rules:[{required:true,message:'请输入Spuid'}],
                 })(
                   <Input
                     onBlur={(e)=>handleBlur(e,record)}

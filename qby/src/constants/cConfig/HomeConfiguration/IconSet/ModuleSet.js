@@ -77,7 +77,6 @@ class ModuleSet extends Component {
     
   }
   render() {
-    console.log(this.props)
     const { visible,titleColor,moduleBackColor,loading } = this.state;
     const { getFieldDecorator } = this.props.form;
     return (

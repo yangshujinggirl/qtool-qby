@@ -56,6 +56,7 @@ export default {
     },
     getAddkey(state, { payload:addkey }) {
       addkey++;
+      console.log({ ...state,addkey })
       return { ...state,addkey };
     },
     getGoodsList(state, { payload: pdSpuList }) {
@@ -76,7 +77,9 @@ export default {
         return arr;
       };
       pdSpuList = [...pdSpuList];
-      pdSpuList = diferAttrLight(pdSpuList,'pdSpuId')
+      if(state.goodType == 1){//只有活动商品才需要高亮显示
+        pdSpuList = diferAttrLight(pdSpuList,'pdSpuId')
+      };
       let listOne=[], listTwo=[], goods;
       if(pdSpuList.length>0) {
         if(pdSpuList.length>=8) {

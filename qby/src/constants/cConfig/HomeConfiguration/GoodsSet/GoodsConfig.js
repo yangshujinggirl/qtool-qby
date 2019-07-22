@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "dva";
-import { Form, Button, Select, message } from "antd";
+import { Form, Button, Select, message,Modal } from "antd";
 import ModDis from "./components/MainMod";
 import ImportBtn from "./components/ImportBtn";
 import {
@@ -16,7 +16,9 @@ class GoodsConfig extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activitys: []
+      activitys: [],
+      visible:false,
+      loading:false
     };
   }
   componentDidMount = () => {
@@ -77,9 +79,24 @@ class GoodsConfig extends Component {
       payload: goods
     });
   };
+  //上传成功之后的回调
+  updataList = goods => {
+    this.props.dispatch({
+      type: "goodsSet/getGoodsList",
+      payload: goods
+    });
+    this.props.dispatch({
+      type: "goodsSet/getAddkey",
+      payload: goods.length-1
+    });
+  }
   //下载
   downLoadTep = () => {
-    window.open("../../../../static/order.xlsx");
+    if(this.props.goodType == 1){
+      window.open("../../../../static/home_add_goods.xlsx");
+    }else{
+      window.open("../../../../static/MultilLine_In.xlsx");
+    };
   };
   //提交
   submit = () => {
@@ -105,6 +122,10 @@ class GoodsConfig extends Component {
           message.error("请至少配置8个商品");
           return;
         }
+        if(pdSpuList.find(item=>!item.pdSpuId)){
+          message.error('pdSpuId'+'不能为空')
+          return 
+        }
         let params;
         if (goodType == 1) {
           params = {
@@ -122,25 +143,54 @@ class GoodsConfig extends Component {
             pdSpuList
           };
         }
+        this.setState({loading:true})
         this.props.dispatch({ type: "tab/loding", payload: true });
         getSaveApi(params).then(res => {
           if (res.code == 0) {
-            this.getList();
+            message.success('保存成功')
+            this.getList(this.props.pdListDisplayCfgId);
           }
+          this.setState({loading:false})
           this.props.dispatch({ type: "tab/loding", payload: false });
         });
       }
     });
   };
   onChange = value => {
+    if( this.props.activityId && this.props.totalList.length>0 ){
+      this.setState({
+        visible:true
+      });
+      this.setState({
+        activityId:value
+      });
+    }else{
+      this.props.dispatch({
+        type: "goodsSet/changeActivityId",
+        payload: { activityId: value }
+      });
+    }
+  };
+  onCancel=()=>{
+    this.setState({
+      visible:false
+    });
+    this.props.form.resetFields(['activityId'])
+  }
+  onOk=()=>{
     this.props.dispatch({
       type: "goodsSet/changeActivityId",
-      payload: { activityId: value }
+      payload: { activityId: this.state.activityId }
     });
-  };
+    this.callBack([])
+    this.setState({
+      visible:false
+    });
+  }
   render() {
+    console.log(this.props)
     const { getFieldDecorator } = this.props.form;
-    const { activitys } = this.state;
+    const { activitys,visible,loading} = this.state;
     const {
       endTime,
       beginTime,
@@ -154,7 +204,7 @@ class GoodsConfig extends Component {
       wrapperCol: { span: 20 }
     };
     return (
-      <p className="good_config">
+      <div className="good_config">
         {mark ? (
           <div>
             <Form>
@@ -190,14 +240,14 @@ class GoodsConfig extends Component {
                       <div>
                         <span>已选{totalList.length}/100</span>
                         <ImportBtn
-                          callBack={this.callBack}
+                          callBack={this.updataList}
                           type={goodType}
                           activityId={activityId}
                         />
                         <Button
                           className="down_load_btn"
                           type="primary"
-                          onClik={this.downLoadTep}
+                          onClick={this.downLoadTep}
                         >
                           下载附件模板
                         </Button>
@@ -226,7 +276,7 @@ class GoodsConfig extends Component {
                   <div>
                     <span>已选{totalList.length}/100</span>
                     <ImportBtn
-                      callBack={this.callBack}
+                      callBack={this.updataList}
                       type={goodType}
                       activityId={activityId}
                     />
@@ -246,7 +296,7 @@ class GoodsConfig extends Component {
                   <ModDis callBack={this.callBack} form={this.props.form} />
                 </div>
                 <div className="handle-btn-footer">
-                  <Button onClick={this.submit} type="primary" size="large">
+                  <Button loading={loading} onClick={this.submit} type="primary" size="large">
                     保存
                   </Button>
                 </div>
@@ -254,7 +304,7 @@ class GoodsConfig extends Component {
             }
           </div>
         ) : (
-          <p className="no-data">
+          <div className="no-data">
             <p>请先设置时段</p>
             <Button
               className="go_set_btn"
@@ -263,9 +313,13 @@ class GoodsConfig extends Component {
             >
               去设置
             </Button>
-          </p>
+          </div>
         )}
-      </p>
+        <Modal visible={visible} onOk={this.onOk} onCancel={this.onCancel}>
+          <p>切换活动后，你选择的商品将清空</p>
+          <p>是否确认切换活动？</p>
+        </Modal>
+      </div>
     );
   }
 }

@@ -14,6 +14,8 @@ class ThemeAct extends Component{
     this.state = {
       confirmVisible:false,
       confirmLoading:false,
+      onlineVisible:false,
+      lineLoading:false,
       inputValues:{},
       rowSelection:{
         selectedRowKeys:this.props.themeAct.selectedRowKeys,
@@ -129,19 +131,15 @@ class ThemeAct extends Component{
           payload:paneitem
       });
     }else{
-      let themeStatus = 4;
-      const {themeActivityId} = record;
-      if(type == 'offline'){
-        themeStatus = 5;
+      if(record.themeStatus<4){
+        message.error('此数据为首页改版前的旧数据，不可上线');
+      }else{
+        this.setState({
+          onlineVisible:true,
+          onlineType:type,
+          themeActivityId:record.themeActivityId
+        });
       };
-      activityOnlineApi({themeActivityId,themeStatus}).then(res=>{
-        if(res.code =='0'){
-          this.props.dispatch({
-            type:'themeAct/fetchList',
-            payload:{...this.state.inputValues}
-          });
-        };
-      })
     };
   }
   //点击强制失效
@@ -155,7 +153,7 @@ class ThemeAct extends Component{
       };
       this.setState({
         confirmVisible:true
-      })
+      });
     }else{
       message.error('请选择要失效的选项',.8)
     };
@@ -189,6 +187,34 @@ class ThemeAct extends Component{
       };
     });
   }
+  //上下线的ok
+  onLineOK=()=>{
+    this.setState({
+      lineLoading:true
+    });
+    const {onlineType,themeActivityId} = this.state;
+    let themeStatus = 4;
+    if(onlineType == 'offline'){
+      themeStatus = 5;
+    };
+    activityOnlineApi({themeActivityId,themeStatus}).then(res=>{
+      if(res.code =='0'){
+        this.props.dispatch({
+          type:'themeAct/fetchList',
+          payload:{...this.state.inputValues}
+        });
+        this.setState({
+          onlineVisible:false,
+          lineLoading:false
+        });
+      };
+    })
+  }
+  onLineCancel=()=>{
+    this.setState({
+      onlineVisible:false
+    });
+  }
   render(){
     const {
       confirmLoading,
@@ -196,6 +222,9 @@ class ThemeAct extends Component{
       themeName,
       showTimeStart,
       showTimeEnd,
+      onlineVisible,
+      lineLoading,
+      onlineType
     } = this.state;
     const {dataList} = this.props.themeAct;
     const {rolelists} = this.props.data
@@ -246,6 +275,23 @@ class ThemeAct extends Component{
           onOk={this.onOk}
           onCancel={this.onCancel}
         />
+        <Modal
+          wrapClassName='model_center'
+          visible={onlineVisible}
+          onOk={this.onLineOK}
+          confirmLoading={lineLoading}
+          onCancel={this.onLineCancel}
+          okText={onlineType=='online'?'确认上线':'确认下线'}
+        >
+          {
+            onlineType=='online'
+            ?
+            <p>是否确认上线该主题</p>
+            :
+            <p>是否确认下线该主题</p>
+          }
+          
+        </Modal>
       </div>
     )
   }

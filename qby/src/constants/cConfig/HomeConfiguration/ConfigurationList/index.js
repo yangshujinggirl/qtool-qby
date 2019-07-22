@@ -35,7 +35,6 @@ class ConfigurationList extends Component {
   }
   //点击搜索
   searchData = values => {
-    console.log(this.props);
     this.props.dispatch({
       type: "homeConfig/fetchList",
       payload: values

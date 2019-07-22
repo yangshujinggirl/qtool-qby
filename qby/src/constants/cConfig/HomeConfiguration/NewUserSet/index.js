@@ -34,7 +34,7 @@ class Index extends Component {
             beginTime,
             endTime
           } = res.newUserGiftVo;
-          const optionList = _.cloneDeep(couponList);
+          const optionList = res.newUserGiftVo.couponSourceList;
           const fileDomain = JSON.parse(sessionStorage.getItem("fileDomain"));
           let [fileList1, fileList2] = [[], []];
           if (newComerPicUrl) {

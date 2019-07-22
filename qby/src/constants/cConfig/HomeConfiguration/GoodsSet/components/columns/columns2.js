@@ -43,9 +43,6 @@ export function columnsNewFun(form,handleBlur){
         return <FormItem>
                 {getFieldDecorator(`fieldsOne[${index}].pdSpuId`,{
                   initialValue:record.pdSpuId,
-                  rules:[{
-                    required:true,message:'请输入Spuid'
-                  }],
                 })(
                   <Input
                     style={record.highlight?{color:'red'}:{color:'#555'} }
@@ -191,7 +188,7 @@ export function columnsNewTwoFun(form, handleBlur){
       key: 'key',
       align:'center',
       width:'3%',
-      colSpan:11,
+      colSpan:12,
       render:(text,record,index)=> {
         index++;
         return <span>{index}</span>
@@ -208,7 +205,6 @@ export function columnsNewTwoFun(form, handleBlur){
         return <FormItem>
                 {getFieldDecorator(`fieldsTwo[${index}].pdSpuId`,{
                   initialValue:record.pdSpuId,
-                  rules:[],
                 })(
                   <Input
                     style={record.highlight?{color:'red'}:{color:'#555'} }
@@ -316,6 +312,7 @@ export function columnsNewTwoFun(form, handleBlur){
       }
     },
     {
+      colSpan:0,
       title: '参与活动',
       dataIndex: 'activitys',
       key: 'activitys',
