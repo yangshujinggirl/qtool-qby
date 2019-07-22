@@ -99,9 +99,13 @@ class ClassifyMod extends Component {
                         }
                       </p>
                       {
-                        el.tags&&
+                        el.iconList&&
                         <p className="label-action">
-                          <span className="lab-item">{el.tags}</span>
+                          {
+                            el.iconList.map((el,index) =>(
+                              <span className="lab-item" key={index}>{el.iconName}</span>
+                            ))
+                          }
                         </p>
                       }
                     </div>
