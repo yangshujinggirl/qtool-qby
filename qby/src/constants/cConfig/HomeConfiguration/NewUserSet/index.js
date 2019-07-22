@@ -266,12 +266,12 @@ class Index extends Component {
         <Form>
           <FormItem className="must-pic" label="新人礼图片" {...formLayout}>
             <UploadNew
-              describe="686*114"
+              describe="686*142"
               fileList={fileList1}
               changeImg={this.changeUserImg}
               exampleImg={require("../../../../assets/1.jpg")}
               width={686}
-              height={114}
+              height={142}
             />
           </FormItem>
           <FormItem
