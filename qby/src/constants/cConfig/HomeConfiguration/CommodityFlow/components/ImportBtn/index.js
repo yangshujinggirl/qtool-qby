@@ -26,6 +26,16 @@ class ImportBtn extends React.Component {
     if(file.status == 'done') {
       if (response) {
         if(response.code=='0'){
+          const { unImportSpuArr }=response;
+          if(unImportSpuArr&&unImportSpuArr.length>0) {
+            let content = <span>
+            商品已导入超过100个，以下商品导入失败<br/>
+              {
+                unImportSpuArr.map((el) => el = `${el}/`)
+              }
+            </span>
+            message.error(content)
+          }
           let spuList= response.spuList?response.spuList:[];
           spuList.map((el,index) =>{
             el.key = index;

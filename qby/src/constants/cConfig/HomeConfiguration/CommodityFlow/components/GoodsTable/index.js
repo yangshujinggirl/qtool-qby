@@ -10,18 +10,6 @@ import './index.less';
 //dispatch 更新数据源
 const FormItem = Form.Item;
 class GoodsTable extends Component {
-  constructor(props) {
-    super(props);
-    this.state={
-      firstIn:true,
-      key:this.props.goodsList.length
-    }
-  }
-  componentWillReceiveProps(props) {
-    if(this.state.firstIn) {
-      this.setState({ key: props.goodsList.length })
-    }
-  }
   updateData(goodsList) {
     this.props.dispatch({
       type:'commodityFlow/getGoodsList',
@@ -31,11 +19,13 @@ class GoodsTable extends Component {
   }
   //新增
   handleAdd=()=> {
-    let { goodsList, addkey } =this.props;
-    let { key } =this.state;
-    key++
-    this.setState({ key, firstIn:false });
-    goodsList.push({ key, isFixed:0 });
+    let { goodsList, gdAddKey } =this.props;
+    goodsList.push({ key:gdAddKey, isFixed:0 });
+    gdAddKey++
+    this.props.dispatch({
+      type:'commodityFlow/getGdAddKey',
+      payload:gdAddKey
+    })
     this.updateData(goodsList);
   }
   //表单事件
@@ -95,9 +85,8 @@ class GoodsTable extends Component {
     });
   }
   render() {
-    const { goodsList, form } =this.props;
+    const { goodsList, form, gdAddKey } =this.props;
     let columns = columnsFun(form,this.handleBlur);
-
     return (
       <div className="commodity-flow-goods-table-component">
         <DragTableField

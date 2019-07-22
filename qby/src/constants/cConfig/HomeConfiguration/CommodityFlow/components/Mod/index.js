@@ -67,6 +67,10 @@ class ModForm extends Component {
         if(isEmpty) {
           return;
         }
+        // if(this.props.goodsList.length<40) {
+        //   message.error('商品数量至少40个');
+        //   return;
+        // }
         let  params = this.formatData(values);
         this.setState({ loading:true })
         getSaveApi(params)
@@ -158,7 +162,7 @@ class ModForm extends Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     const { categoryData, goodsList, totalData, sortArr } =this.props;
-    // console.log(this.props)
+    console.log(goodsList)
     return(
       <div className="commodity-main-mod">
         <Form>

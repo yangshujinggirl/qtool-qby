@@ -90,9 +90,14 @@ class ClassifyMod extends Component {
                             }
                           </span>
                         }
-                        {el.name}
+                        {el.sellingPoints?el.sellingPoints:el.name}
                       </p>
-                      <p className="price">¥{el.showPrice}</p>
+                      <p className="price">
+                        ¥{el.showPrice}
+                        {el.hiddenPrice&&
+                          <span className="hiddle-price">¥{el.hiddenPrice}</span>
+                        }
+                      </p>
                       {
                         el.tags&&
                         <p className="label-action">

@@ -18,6 +18,7 @@ export default {
     tabs:[{key:0, tabId:null }],
     selectkey:0,
     addKey:0,
+    gdAddKey:0,
     goodsList:[],
     totalData:{
       sortType:20,
@@ -130,6 +131,9 @@ export default {
     },
     getAddKey(state, { payload:addKey }) {
       return { ...state,addKey };
+    },
+    getGdAddKey(state, { payload:gdAddKey }) {
+      return { ...state,gdAddKey };
     },
     getHomePageModuleId(state, { payload:homePageModuleId }) {
       return { ...state,homePageModuleId };
@@ -256,6 +260,7 @@ export default {
             el.key =index;
             el.FixedPdSpuId = el.pdSpuId;
           })
+          yield put({type: 'getGdAddKey',payload:spuList.length});
           yield put({type: 'getGoodsList',payload:spuList});
           yield put({ type: 'getTotalData', payload:totalData });
         }

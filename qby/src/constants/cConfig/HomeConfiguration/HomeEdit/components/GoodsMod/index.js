@@ -68,8 +68,13 @@ class GoodsMod extends Component {
                     <div className="swiper-slide" key={index}>
                       <div className="item-icon">
                         <div className="pic-wrap"><img src={`${fileDomain}${el.pdPic}`}/></div>
-                        <p className="title-level-one textTwoLine">{el.name}</p>
-                        <p className="price">¥999.0</p>
+                        <p className="title-level-one textTwoLine">{el.sellingPoints?el.sellingPoints:el.name}</p>
+                        <p className="price">
+                          ¥{el.showPrice}
+                          {el.hiddenPrice&&
+                            <span className="hiddle-price">¥{el.hiddenPrice}</span>
+                          }
+                        </p>
                       </div>
                     </div>
                   ))

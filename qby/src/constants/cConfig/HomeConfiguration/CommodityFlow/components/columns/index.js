@@ -75,7 +75,7 @@ export function columnsFun(form,handleBlur){
       width:'6%',
       render:(text,record,index) => {
         return <span>
-          {record.shelfStatus&&
+          {record.shelfStatus!=undefined&&
             <span>
             {!!record.shelfStatus?'上架':'下架'}
             </span>
