@@ -48,7 +48,7 @@ class MorePicMod extends Component {
           <div className="mod-wrap">
             <div className="mod-common-head">
               <TitleM title={picMix.title} type={picMix.titleColor}/>
-              <p className="hd-item">查看更多</p>
+              {!!picMix.isDisplayMore&&<p className="hd-item">查看更多</p>}
             </div>
             <div className="main-layout">
               <div className="layout-l">

@@ -22,8 +22,8 @@ class UpLoadImg extends Component {
       message.error('图片大小超出限制，请修改后重新上传!');
     }
     const isSize = this.checkSize(file)
-    return isImg  && isLt2M ;
-    // return isImg  && isLt2M &&isSize;
+    // return isImg  && isLt2M ;
+    return isImg  && isLt2M &&isSize;
   }
   //检测尺寸
   checkSize=(file)=>{

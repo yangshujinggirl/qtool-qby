@@ -144,16 +144,15 @@ class ConfigurationList extends Component {
     this.setState({ visible: true });
   };
   //新增首页版本
-
   onOk = (values, resetForm) => {
     addVersionApi(values).then(res => {
       if (res.code == "0") {
         const { homepageId } = res;
         const { componkey } = this.props;
         const paneitem = {
-          title: "商品编辑",
-          key: `${componkey}home`,
-          componkey: `${componkey}home`,
+          title: "编辑首页",
+          key: `${componkey}levelTwo${record.homepageId}`,
+          componkey: `${componkey}levelTwo`,
           data: {
             homepageId: homepageId
           }

@@ -4,7 +4,18 @@ import { Input, Form, Select, Button, DatePicker } from 'antd';
 import moment from 'moment';
 const FormItem = Form.Item;
 
-export function columns(form, handleChange){
+export function columns(form, categoryList, activiKey){
+  const linkChange=(index)=> {
+    let goodVal = form.getFieldsValue(['goods']);
+    let { goods } =goodVal;
+    goods = goods.map((el,idx) => {
+      if(index == idx) {
+        el.linkInfo = null;
+      }
+      return el;
+    })
+    form.setFieldsValue({ goods: goods })
+  }
   //url地址
   const renderUrl=(record,index)=> {
     let placeholder='',disabled, rules=[];
@@ -59,7 +70,17 @@ export function columns(form, handleChange){
       align:'center',
       width:'10%',
       render:(text,record,index)=> {
+        let width,height;
+        if(activiKey == 1) {
+          width = 313;
+          height = 400;
+        } else {
+          width = 357;
+          height = 192;
+        }
         return <UpLoadImg
+                width={width}
+                height={height}
                 fileList={record.picUrl}
                 form={form}
                 index={index}/>
@@ -99,7 +120,8 @@ export function columns(form, handleChange){
                initialValue:record.linkInfoType,
                rules:[{
                  required:true,message:'请选择跳转链接'
-               }]
+               }],
+               onChange:()=>linkChange(index)
              })(
                <Select
                  placeholder="请选择跳转链接">
@@ -148,9 +170,13 @@ export function columns(form, handleChange){
                     })(
                       <Select
                         placeholder={linkAgeObj.placeholder}>
-                        <Select.Option
-                          value={1}
-                          key={1}>去配置页面</Select.Option>
+                        {
+                          categoryList.map((el) => (
+                            <Select.Option
+                              value={el.categoryId}
+                              key={el.categoryId}>{el.categoryName}</Select.Option>
+                          ))
+                        }
                       </Select>
                   )}
                 </FormItem>
@@ -181,7 +207,13 @@ export function columns(form, handleChange){
                   initialValue:record.beginTime?moment(record.beginTime,"YYYY-MM-DD HH:mm"):null,
                   rules:[{ required:true, message:'请选择分类'}],
                   })(
-                    <DatePicker format="YYYY-MM-DD HH:mm" allowClear={false}/>
+                    <DatePicker
+                    format="YYYY-MM-DD HH:mm"
+                    allowClear={false}
+                    showTime={{
+                      hideDisabledOptions: true,
+                      defaultValue: moment('00:00:00', 'HH:mm:ss'),
+                    }}/>
                 )}
               </FormItem>
       }

@@ -47,10 +47,10 @@ class BaseEditTable extends Component {
   }
   renderPicUrl=(text,record,index)=> {
     let width,height;
-    if(this.props.modName == 'icon') {
+    if(this.props.modName == 'banner') {
       width = 686;
       height =356;
-    } else if(this.props.modName == 'banner') {
+    } else if(this.props.modName == 'icon') {
       width = 120;
       height =120;
     }
@@ -184,7 +184,13 @@ class BaseEditTable extends Component {
               initialValue:record.beginTime?moment(record.beginTime,"YYYY-MM-DD HH:mm"):null,
               rules:[{ required:true, message:'请选择分类'}],
               })(
-                <DatePicker format="YYYY-MM-DD HH:mm" allowClear={false}/>
+                <DatePicker
+                  format="YYYY-MM-DD HH:mm"
+                  allowClear={false}
+                  showTime={{
+                    hideDisabledOptions: true,
+                    defaultValue: moment('00:00:00', 'HH:mm:ss'),
+                  }}/>
             )}
           </FormItem>
   }

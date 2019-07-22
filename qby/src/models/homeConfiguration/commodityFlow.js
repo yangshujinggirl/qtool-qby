@@ -15,11 +15,12 @@ export default {
       isLevelThr:true,
       isLevelFour:true,
     },
-    tabs:[{key:0}],
+    tabs:[{key:0, tabId:null }],
     selectkey:0,
+    addKey:0,
     goodsList:[],
     totalData:{
-      sortType:10,
+      sortType:20,
       ruleType:0
     },
     homePageModuleId:'',
@@ -51,10 +52,46 @@ export default {
       }
       const goodsList = [];
       const totalData = {
-        sortType:10,
+        sortType:20,
         ruleType:0
       };
-      const tabs = [{key:0}];
+      const tabs = [{key:0, tabId:null }];
+      const selectkey = 0;
+      const sortArr =[
+        {
+          title:'新品',
+          key:'a'
+        },{
+          title:'热卖商品',
+          key:'b'
+        },{
+          title:'促销商品',
+          key:'c'
+        },{
+          title:'普通商品',
+          key:'d'
+        }]
+      return {
+        ...state,
+        goodsList,totalData,sortArr
+       }
+    },
+    resetPage(state, { payload :{} }) {
+      const categoryData = {
+        categoryLevelOne:[],//商品分类1列表
+        categoryLevelTwo:[],//商品分类2列表
+        categoryLevelThr:[],//商品分类3列表
+        categoryLevelFour:[],//商品分类4列表
+        isLevelTwo:true,
+        isLevelThr:true,
+        isLevelFour:true,
+      }
+      const goodsList = [];
+      const totalData = {
+        sortType:20,
+        ruleType:0
+      };
+      const tabs = [{key:0, tabId:null }];
       const selectkey = 0;
       const sortArr =[
         {
@@ -90,6 +127,9 @@ export default {
     },
     getSelectkey(state, { payload:selectkey }) {
       return { ...state,selectkey };
+    },
+    getAddKey(state, { payload:addKey }) {
+      return { ...state,addKey };
     },
     getHomePageModuleId(state, { payload:homePageModuleId }) {
       return { ...state,homePageModuleId };
@@ -178,7 +218,6 @@ export default {
     },
     *fetchTabList({ payload: values },{ call, put ,select}) {
       yield put({type: 'tab/loding',payload:true});
-      yield put({type: 'resetData',payload:{} });
       const selectkey = yield select(state => state.commodityFlow.selectkey);
       const res = yield call(getSearchTabApi,values);
       //处理分类数据，disabled状态
@@ -195,13 +234,15 @@ export default {
           pdFlowTabList = [{key:0}];
         }
         yield put({type: 'getTabs',payload:pdFlowTabList});
+        yield put({type: 'getAddKey',payload:pdFlowTabList.length});
       } else {
-        message.error(res.message)
+        message.error(res.message);
+        yield put({type: 'tab/loding',payload:false});
       }
       yield put({type: 'getHomePageModuleId',payload:values.homePageModuleId});
-      yield put({type: 'tab/loding',payload:false});
     },
     *fetchGoodsList({ payload: values },{ call, put ,select}) {
+      yield put({type: 'resetData',payload:{}});
       let totalData = yield select(state => state.commodityFlow.totalData);
       let { selectkey, tabId } =values;
       let params = { tabId };
@@ -216,15 +257,9 @@ export default {
             el.FixedPdSpuId = el.pdSpuId;
           })
           yield put({type: 'getGoodsList',payload:spuList});
-          yield put({
-            type: 'getTotalData',
-            payload:totalData
-          });
+          yield put({ type: 'getTotalData', payload:totalData });
         }
-        yield put({
-          type: 'getSelectkey',
-          payload:selectkey
-        });
+        yield put({ type: 'getSelectkey', payload:selectkey });
       } else {
         message.error(res.message)
       }

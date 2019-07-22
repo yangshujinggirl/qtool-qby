@@ -87,15 +87,17 @@ class GoodsTable extends Component {
         if(idx != -1) {
           message.error('商品重复，请重新添加');
         } else {
-          goodsList[index]={...goodsList[index],spuInfo};
+          goodsList[index]={...goodsList[index],...spuInfo};
+          goodsList[index].FixedPdSpuId= spuInfo.pdSpuId;
         }
+        this.updateData(goodsList);
       }
     });
-    this.updateData(goodsList);
   }
   render() {
     const { goodsList, form } =this.props;
     let columns = columnsFun(form,this.handleBlur);
+
     return (
       <div className="commodity-flow-goods-table-component">
         <DragTableField

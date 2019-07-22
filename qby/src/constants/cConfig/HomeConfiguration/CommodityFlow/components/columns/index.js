@@ -74,7 +74,13 @@ export function columnsFun(form,handleBlur){
       key: 'shelfStatus',
       width:'6%',
       render:(text,record,index) => {
-        return <span>{!!record.shelfStatus?'下架':'上架'}</span>
+        return <span>
+          {record.shelfStatus&&
+            <span>
+            {!!record.shelfStatus?'上架':'下架'}
+            </span>
+          }
+        </span>
       }
     },
     {
@@ -98,7 +104,6 @@ export function columnsFun(form,handleBlur){
           mod = <div>该商品固定在
                     <FormItem className="row-input-item">
                       {getFieldDecorator(`spuList[${index}].fixPosition`,{
-                        initialValue:record.fixPosition,
                         rules:[{
                           pattern:/^([1-9]$)|(^[1-3][0-9]$)|(^[4][0-5]$)/,message:'请输入1-40'
                         }],
@@ -112,7 +117,6 @@ export function columnsFun(form,handleBlur){
                     位置
                     <FormItem className="row-input-item">
                       {getFieldDecorator(`spuList[${index}].fixDay`,{
-                        initialValue:record.fixDay,
                         rules:linkageObj.rules,
                       })(
                         <Input

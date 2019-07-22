@@ -61,11 +61,8 @@ class ModForm extends Component {
     getChangeFrameApi(params)
     .then((res) => {
       if(res.code == 0) {
-        // this.successCallback();
         message.success('变帧成功',1);
         this.handleDelete(currentItem);
-      } else {
-        message.error(res.message)
       }
       this.setState({ confirmLoading:false })
     })

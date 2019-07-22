@@ -8,15 +8,17 @@ export default {
   state: {
     activiKey:1,
     goodsList:[],
+    categoryList:[],
     homepageModuleId:''
   },
   reducers: {
     resetData(state) {
       const goodsList=[];
+      const categoryList=[];
       const activiKey = 1;
       const homepageModuleId='';
       return {
-        ...state,goodsList, activiKey
+        ...state,goodsList, activiKey, categoryList
        }
     },
     getHomeModuleId(state, { payload:homepageModuleId }) {
