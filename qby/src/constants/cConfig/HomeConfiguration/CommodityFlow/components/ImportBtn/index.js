@@ -29,7 +29,7 @@ class ImportBtn extends React.Component {
           const { unImportSpuArr }=response;
           if(unImportSpuArr&&unImportSpuArr.length>0) {
             let content = <span>
-            以下商品导入失败<br/>
+            商品已导入超过100个，以下商品导入失败<br/>
               {
                 unImportSpuArr.map((el) => el = `${el}/`)
               }
