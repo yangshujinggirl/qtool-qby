@@ -86,7 +86,7 @@ class CommonUpload extends Component {
             beforeUpload={this.beforeUpload}
             onChange={this.handleChange}
           >
-            {fileList.length >= 1 ? null : uploadButton}
+            {fileList&&fileList.length >= 1 ? null : uploadButton}
           </Upload>
           <Modal
             visible={previewVisible}

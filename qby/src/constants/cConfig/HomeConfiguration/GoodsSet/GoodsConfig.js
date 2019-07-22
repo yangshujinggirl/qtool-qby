@@ -118,7 +118,7 @@ class GoodsConfig extends Component {
           activityId
         } = this.props;
         const { totalList } = this.props;
-        if (totalList.length < 8) {
+        if (totalList&&totalList.length < 8) {
           message.error("请至少配置8个商品");
           return;
         }

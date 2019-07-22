@@ -214,7 +214,7 @@ class ConfigurationList extends Component {
           columns={IndexColumns}
         />
         {
-          dataList.length>0?
+          dataList&&dataList.length>0?
           <Qpagination
             data={this.props}
             onChange={this.changePage}
