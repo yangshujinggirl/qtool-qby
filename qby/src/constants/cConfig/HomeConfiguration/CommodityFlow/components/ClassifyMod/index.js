@@ -67,15 +67,27 @@ class ClassifyMod extends Component {
     .then((res) => {
       const { spuList, code } =res;
       if(code == 0) {
-        // spuList.length>0&&spuList.map((el,index) => {
-        //   el.key = index;
-        // })
         let { goodsList } =this.props;
-        let ss = lodash.difference(goodsList,spuList);
-        console.log(goodsList)
+        for(var i=0;i<goodsList.length;i++){
+            for(var j = 0;j<spuList.length;j++){
+              if(goodsList[i].pdSpuId == spuList[j].pdSpuId) {
+                spuList.splice(j,1);
+              }
+            }
+        }
+        goodsList =[...goodsList,...spuList]
+        goodsList.map((el,index) => {
+          if(!el.key) {
+            el.key = index
+          }
+        })
         this.props.dispatch({
           type:'commodityFlow/getGoodsList',
-          payload:spuList
+          payload:goodsList
+        })
+        this.props.dispatch({
+          type:'commodityFlow/getGdAddKey',
+          payload:goodsList.length
         })
       }
       this.props.dispatch({ type: 'tab/loding', payload:false});
