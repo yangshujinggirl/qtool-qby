@@ -22,22 +22,23 @@ export default {
     goodsList:[],
     totalData:{
       sortType:20,
-      ruleType:0
+      ruleType:0,
+      sortObjArray:[
+        {
+          title:'新品',
+          key:'a'
+        },{
+          title:'热卖商品',
+          key:'b'
+        },{
+          title:'促销商品',
+          key:'c'
+        },{
+          title:'普通商品',
+          key:'d'
+        }]
     },
     homePageModuleId:'',
-    sortArr:[{
-        title:'新品',
-        key:'a'
-      },{
-        title:'热卖商品',
-        key:'b'
-      },{
-        title:'促销商品',
-        key:'c'
-      },{
-        title:'普通商品',
-        key:'d'
-      }]
   },
   reducers: {
     //重置store
@@ -54,27 +55,41 @@ export default {
       const goodsList = [];
       const totalData = {
         sortType:20,
-        ruleType:0
+        ruleType:0,
+        sortObjArray:[
+          {
+            title:'新品',
+            key:'a'
+          },{
+            title:'热卖商品',
+            key:'b'
+          },{
+            title:'促销商品',
+            key:'c'
+          },{
+            title:'普通商品',
+            key:'d'
+          }]
       };
       const tabs = [{key:0, tabId:null }];
       const selectkey = 0;
-      const sortArr =[
-        {
-          title:'新品',
-          key:'a'
-        },{
-          title:'热卖商品',
-          key:'b'
-        },{
-          title:'促销商品',
-          key:'c'
-        },{
-          title:'普通商品',
-          key:'d'
-        }]
+      // const sortArr =[
+      //   {
+      //     title:'新品',
+      //     key:'a'
+      //   },{
+      //     title:'热卖商品',
+      //     key:'b'
+      //   },{
+      //     title:'促销商品',
+      //     key:'c'
+      //   },{
+      //     title:'普通商品',
+      //     key:'d'
+      //   }]
       return {
         ...state,
-        goodsList,totalData,sortArr
+        goodsList,totalData
        }
     },
     resetPage(state, { payload :{} }) {
@@ -90,31 +105,28 @@ export default {
       const goodsList = [];
       const totalData = {
         sortType:20,
-        ruleType:0
+        ruleType:0,
+        sortObjArray:[
+          {
+            title:'新品',
+            key:'a'
+          },{
+            title:'热卖商品',
+            key:'b'
+          },{
+            title:'促销商品',
+            key:'c'
+          },{
+            title:'普通商品',
+            key:'d'
+          }]
       };
       const tabs = [{key:0, tabId:null }];
       const selectkey = 0;
-      const sortArr =[
-        {
-          title:'新品',
-          key:'a'
-        },{
-          title:'热卖商品',
-          key:'b'
-        },{
-          title:'促销商品',
-          key:'c'
-        },{
-          title:'普通商品',
-          key:'d'
-        }]
       return {
         ...state,
-        categoryData,goodsList,totalData,sortArr,tabs,selectkey
+        categoryData,goodsList,totalData,tabs,selectkey
        }
-    },
-    getSortArr(state, { payload:sortArr }) {
-      return { ...state,...sortArr };
     },
     getCategory(state, { payload:categoryData }) {
       return { ...state,...categoryData };

@@ -49,10 +49,10 @@ class GoodsMod extends Component {
         className={`goods-mod ${!isDisplay?'hiddle-module':''}`}
         style={{'background':`#${moduleBackColor}`}}>
         <div className="mod-wrap">
-          <div className="mod-common-head">
+          <div className={productDisplay.titleColor == 0?'black-title mod-common-head':'white-title mod-common-head'}>
             <div className="hd-item">
-              <TitleM title={productDisplay.title} type={productDisplay.titleColor}/>
-            { !!productDisplay.isDisplayCountdown&&productDisplay.displayEndTime&&
+              <span>{productDisplay.title}</span>
+              { !!productDisplay.isDisplayCountdown&&productDisplay.displayEndTime&&
               <Countdown date={productDisplay.displayEndTime} />}
             </div>
             {

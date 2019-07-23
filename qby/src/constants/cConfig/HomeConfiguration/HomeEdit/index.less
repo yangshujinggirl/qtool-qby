@@ -47,15 +47,15 @@
     margin-top: 30px;
     background: #fff;
   }
+  .hasLine {
+    border-bottom: 1px solid @line;
+  }
   //模块公共样式
   .common-sty {
     width: 100%;
     padding:10px;
     box-sizing: border-box;
     position: relative;
-    &:not(:last-child) {
-      border-bottom: 1px solid @line;
-    }
     &.hiddle-module {
       &:after{
         content:'';

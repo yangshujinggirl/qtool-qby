@@ -46,8 +46,10 @@ class ThemeMod extends Component {
         style={{'background':`#${moduleBackColor}`}}>
         <div>
           <div className="mod-wrap">
-            <div className="mod-common-head">
-              <TitleM title={themeActivity.title} type={themeActivity.titleColor}/>
+            <div className={themeActivity.titleColor == 0?'black-title mod-common-head':'white-title mod-common-head'}>
+              <div className="hd-item">
+                <span>{themeActivity.title}</span>
+              </div>
               {!!themeActivity.isDisplayMore&&<p className="hd-item">查看更多</p>}
             </div>
             {

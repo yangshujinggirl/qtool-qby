@@ -109,7 +109,7 @@ class SearchMod extends Component {
     return (
       <CommonMod
         homepageModuleId={homepageModuleId}
-        className="search-mod"
+        className="search-mod hasLine"
         style={{'background':`#fff url(${backgroundPicUrl}) center`}}>
         <div>
           <Input

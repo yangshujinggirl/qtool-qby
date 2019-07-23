@@ -46,9 +46,8 @@ class MorePicMod extends Component {
         style={{'background':`#${moduleBackColor}`}}>
         <div>
           <div className="mod-wrap">
-            <div className="mod-common-head">
-              <TitleM title={picMix.title} type={picMix.titleColor}/>
-              {!!picMix.isDisplayMore&&<p className="hd-item">查看更多</p>}
+            <div className={picMix.titleColor == 0?'black-title mod-common-head':'white-title mod-common-head'}>
+              <spa>{picMix.title}</spa>
             </div>
             <div className="main-layout">
               <div className="layout-l">
