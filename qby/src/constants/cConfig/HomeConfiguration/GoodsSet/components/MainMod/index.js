@@ -71,7 +71,7 @@ class Mod extends Component {
         };
       }else{//填写的是pdSpuId
         const invalid = totalList.findIndex(item=>{ //本行修改无效
-          return (item.key == record.key)&&(item.pdSpuId == value)
+          return (item.key == record.key)&&(item.FixedPdSpuId == value)
         });
         if(invalid!=-1){ return null }
         params.pdSpuId = value;
@@ -109,7 +109,7 @@ class Mod extends Component {
         }else{
           totalList = totalList.map((el,idx) => {
             if(el.key == record.key) {
-              el.pdSpuId = spuInfo.pdSpuId;
+              el.FixedPdSpuId = spuInfo.pdSpuId;
               el = {...el,...spuInfo};
             };
             return el
