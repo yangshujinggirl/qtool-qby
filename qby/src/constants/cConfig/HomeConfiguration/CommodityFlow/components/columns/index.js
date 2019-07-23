@@ -4,7 +4,7 @@ import UpLoadImg from '../../../components/UpLoadImgMod';
 const FormItem = Form.Item;
 
 export function columnsFun(form,handleBlur){
-  let linkage=(record,index)=> {
+  let linkage=(record)=> {
     let placeholder='',disabled=true, rules=[];
     if(record.fixPosition) {
       disabled=false;
@@ -17,7 +17,9 @@ export function columnsFun(form,handleBlur){
   //联动清空表单中的值
   const linkChange=(index)=> {
     let spuListVal = form.getFieldsValue(['spuList']);
+    let err = form.getFieldsError(['spuList']);
     let { spuList } =spuListVal;
+    // form.setFieldsValue({spuList})
     form.resetFields(['spuList'])
   }
   return [
@@ -106,7 +108,6 @@ export function columnsFun(form,handleBlur){
         const { getFieldDecorator } =form;
         let mod;
         let linkageObj = linkage(record);
-        console.log(linkageObj)
         if(record.isFixed) {
           mod = <span onClick={()=>record.onOperateClick('toggle')} className="cr">解除固定</span>
         } else {
@@ -116,6 +117,7 @@ export function columnsFun(form,handleBlur){
                         rules:[{
                           pattern:/^([1-9]$)|(^[1-3][0-9]$)|(^[4][0-5]$)/,message:'请输入1-40'
                         }],
+                        onChange:linkChange
                       })(
                         <Input
                           maxLength='2'

@@ -8,7 +8,7 @@ import CommonMod from '../CommonMod';
 import './index.less';
 
 class ClassifyMod extends Component {
-  componentDidMount() {
+  componentDidUpdate() {
     new Swiper ('.classify-swiper-container', {
             slidesPerView: 5,
             spaceBetween: 8,

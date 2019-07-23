@@ -105,7 +105,7 @@ class ModForm extends Component {
   formatData(values) {
     let sortRule;
     const { sortType, ruleType } =values;
-    let { selectkey, tabs, homePageModuleId, sortArr } =this.props;
+    let { selectkey, tabs, homePageModuleId, totalData } =this.props;
     if(sortType==20) {
       sortRule={
         ruleType:values.ruleType,
@@ -121,7 +121,7 @@ class ModForm extends Component {
       }
     } else if(sortType == 30) {
         sortRule= {
-           sortObjArray:sortArr
+           sortObjArray:totalData.sortObjArray
         }
     }
     const { goodsList }=this.props;

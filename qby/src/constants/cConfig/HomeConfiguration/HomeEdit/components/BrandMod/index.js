@@ -118,6 +118,7 @@ class BrandMod extends Component {
     const { visible, fileList, color, loading } = this.state;
     let { homepageModuleId,moduleBackColor, contentPicUrl,isDisplay } = this.props.info.brandDisplay;
     const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
+    console.log(this.props.info.brandDisplay)
     return (
       <CommonMod
         homepageModuleId={homepageModuleId}

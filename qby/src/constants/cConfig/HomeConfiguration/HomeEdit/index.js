@@ -31,14 +31,20 @@ class HomeEdit extends Component {
     }
   }
   componentDidMount() {
-    this.fetchInfo();
+    console.log('componentDidMount')
+    this.getInfo();
     this.goPreview()
   }
   componentWillReceiveProps(props) {
     // console.log(props)
   }
-  fetchInfo=()=> {
+  getInfo=()=> {
+    debugger
     const { homepageId } = this.props.data;
+    this.props.dispatch({
+      type: "homeEdit/reSetData",
+      payload: {}
+    });
     this.props.dispatch({
       type: "homeEdit/fetchInfo",
       payload: {
@@ -52,7 +58,7 @@ class HomeEdit extends Component {
     getStatusApi({homepageModuleId,isDisplay})
     .then((res) => {
       if(res.code == 0) {
-        this.fetchInfo()
+        this.getInfo()
       }
     })
   }
@@ -132,29 +138,29 @@ class HomeEdit extends Component {
           </div>
         </div>
         <div className="part-mods">
-          <SearchMod {...this.props} callback={this.fetchInfo}/>
-          <BannerMod {...this.props} callback={this.fetchInfo}/>
-          <BrandMod {...this.props} callback={this.fetchInfo} toggleShow={this.toggleShow}/>
-          <IconMod {...this.props} callback={this.fetchInfo} toggleShow={this.toggleShow}/>
-          <NewUserMod {...this.props} callback={this.fetchInfo} toggleShow={this.toggleShow}/>
+          <SearchMod {...this.props} callback={this.getInfo}/>
+          <BannerMod {...this.props} callback={this.getInfo}/>
+          <BrandMod {...this.props} callback={this.getInfo} toggleShow={this.toggleShow}/>
+          <IconMod {...this.props} callback={this.getInfo} toggleShow={this.toggleShow}/>
+          <NewUserMod {...this.props} callback={this.getInfo} toggleShow={this.toggleShow}/>
           {
             !!productDisplay.isDisplaySplitLine&&<Line />
           }
-          <GoodsMod {...this.props} callback={this.fetchInfo} toggleShow={this.toggleShow}/>
+          <GoodsMod {...this.props} callback={this.getInfo} toggleShow={this.toggleShow}/>
           {
             !!picMix.isDisplaySplitLine&&<Line />
           }
-          <MorePicMod {...this.props} callback={this.fetchInfo} />
+          <MorePicMod {...this.props} callback={this.getInfo} />
           {
             !!multilineProduct.isDisplaySplitLine&&<Line />
           }
-          <MoreGoodsMod {...this.props} callback={this.fetchInfo} />
+          <MoreGoodsMod {...this.props} callback={this.getInfo} />
           {
             !!themeActivity.isDisplaySplitLine&&<Line />
           }
-          <ThemeMod {...this.props} callback={this.fetchInfo} />
+          <ThemeMod {...this.props} callback={this.getInfo} />
           <Line />
-          <ClassifyMod {...this.props} callback={this.fetchInfo} />
+          <ClassifyMod {...this.props} callback={this.getInfo} />
         </div>
         <ReleaseModal
           confirmLoading={confirmLoading}

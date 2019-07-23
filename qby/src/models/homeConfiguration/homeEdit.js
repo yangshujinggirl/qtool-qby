@@ -34,9 +34,22 @@ export default {
       return { ...state, checkResult }
     },
     reSetData(state) {
-      const info= {};
+      let info={
+        banner:{},
+        brandDisplay:{},
+        coupon:{},
+        flowProduct:{},
+        icon:{},
+        multilineProduct:{},
+        picMix:{},
+        productDisplay:{},
+        search:{},
+        themeActivity:{},
+        homepageInfoVo:{}
+      }
       const checkResult = [];
-      return { ...state, info }
+      const flowProductList = [];
+      return { ...state, info, checkResult, flowProductList }
     }
   },
   effects: {
