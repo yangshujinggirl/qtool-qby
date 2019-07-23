@@ -58,7 +58,7 @@ class MoreGoodsMod extends Component {
                         <img src={`${fileDomain}${el.pdPic}`}/>
                         {el.tags&&<span className="tags-icon">{el.tags}</span>}
                       </div>
-                      <p className="title-level-one textTwoLine">{el.sellingPoints?el.sellingPoints:el.name}</p>
+                      <p className="title-level-one textOneLine">{el.sellingPoints?el.sellingPoints:el.name}</p>
                       <p className="price">
                         ¥{el.showPrice}
                         {el.hiddenPrice&&

@@ -11,12 +11,12 @@ class BaseEditTable extends Component {
     super(props);
     this.state = {
       firstIn:true,
-      key:this.props.dataSource.length,
+      key:this.props.addKey,
     }
   }
   componentWillReceiveProps(props) {
     if(this.state.firstIn) {
-      this.setState({ key: props.dataSource.length })
+      this.setState({ key: props.addKey })
     }
   }
   //绑定方法
@@ -33,11 +33,11 @@ class BaseEditTable extends Component {
   handleAdd=()=> {
     let { key } =this.state;
     let { dataSource} =this.props;
-    key++;
     dataSource.push({
       key,
       isFrame:true
     });
+    key++;
     this.setState({ key, firstIn:false });
     this.props.callback(dataSource);
   }
