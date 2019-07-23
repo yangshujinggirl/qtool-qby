@@ -57,7 +57,7 @@ class BrandMod extends Component {
     if (!imageUrl) {
       return message.error("请先上传图片", 0.8);
     }
-    if(color.length <6 ){
+    if(color&&color.length <6 ){
       return message.error('请输入六位颜色色号',.8)
     }
     this.setState({
