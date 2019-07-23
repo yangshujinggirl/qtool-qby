@@ -66,10 +66,10 @@ class GoodsMod extends Component {
               <div className="swiper-wrapper">
                 {
                   moduleContent.map((el,index) => (
-                    <div className="swiper-slide" key={el.pdSpuId}>
+                    <div className="swiper-slide" key={`${el.pdSpuId}/${index}`}>
                       <div className="item-icon">
                         <div className="pic-wrap"><img src={`${fileDomain}${el.pdPic}`}/></div>
-                        <p className="title-level-one textTwoLine">{el.sellingPoints?el.sellingPoints:el.name}</p>
+                        <p className="title-level-one textOneLine">{el.sellingPoints?el.sellingPoints:el.name}</p>
                         <p className="price">
                           ¥{el.showPrice}
                           {el.hiddenPrice&&

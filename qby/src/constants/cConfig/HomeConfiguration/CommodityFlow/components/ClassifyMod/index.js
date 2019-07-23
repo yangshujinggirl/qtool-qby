@@ -96,7 +96,7 @@ class ClassifyMod extends Component {
   }
   //下载
   downLoad=()=> {
-    console.log('下载')
+    window.open('../../static/pdSpuFlow.xlsx');
   }
   callback=(goodsList)=> {
     this.props.dispatch({
@@ -212,6 +212,7 @@ class ClassifyMod extends Component {
               确定添加
           </Button>
           <ImportBtn
+            dispatch={this.props.dispatch}
             callback={this.callback}/>
           <Button
             size="large"

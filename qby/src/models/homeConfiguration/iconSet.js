@@ -9,7 +9,8 @@ export default {
     activiKey:1,
     goodsList:[],
     categoryList:[],
-    homepageModuleId:''
+    homepageModuleId:'',
+    addKey:0
   },
   reducers: {
     resetData(state) {
@@ -25,6 +26,9 @@ export default {
     },
     getActiviKey(state, { payload:activiKey }) {
       return { ...state,activiKey };
+    },
+    getAddKey(state, { payload:addKey }) {
+      return { ...state,addKey };
     },
     getGoodsList(state, { payload:goodsList }) {
       return { ...state,goodsList };
@@ -45,6 +49,7 @@ export default {
         dataList = dataList?dataList:[];
         dataList.map((el,index) =>el.key = index);
         yield put({type: 'getGoodsList',payload:dataList});
+        yield put({type: 'getAddKey',payload:dataList.length});
         yield put({type: 'getCategoryList',payload:categoryList});
       }
       yield put({type: 'getActiviKey',payload:position});

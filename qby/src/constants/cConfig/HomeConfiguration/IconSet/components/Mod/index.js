@@ -114,12 +114,13 @@ class ModForm extends Component {
     return goodsList;
   }
   render() {
-    let { goodsList, activiKey, categoryList } =this.props;
+    let { goodsList, activiKey, categoryList, addKey } =this.props;
     const { visible, confirmLoading, loading } =this.state;
     const { form }= this.props;
     return(
       <div className="banner-set-mod">
         <MoreEditTable
+          addKey={addKey}
           categoryList={categoryList}
           onOperateClick={this.onOperateClick}
           callback={this.handleCallback}
