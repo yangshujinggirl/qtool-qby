@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Tabs, Button, Form, Input, Icon, Modal } from 'antd';
 import { connect } from 'dva';
 import DragTabCard from '../DragTabCard';
-import MyTagControlContext from '../MyTagControlContext';
+import MyTagControlContext from '../../../components/MyTagControlContext';
 import './index.less';
 
 

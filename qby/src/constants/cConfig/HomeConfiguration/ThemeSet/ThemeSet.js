@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import {connect} from 'dva'
 import { Table, Form, Button, message } from "antd";
 import { DragDropContext } from "react-dnd";
-import HTML5Backend from "react-dnd-html5-backend";
 import update from "immutability-helper";
 import DragableBodyRow from "./components/BodyRow";
 import { getColumns } from "./columns";
@@ -10,7 +9,10 @@ import {
   searchThemeApi,
   saveThemeApi
 } from "../../../../services/cConfig/homeConfiguration/themeSet";
+import MyTagControlContext from '../components/MyTagControlContext';
 import "./index.less";
+
+
 class ThemeSet extends Component {
   constructor(props) {
     super(props);
@@ -182,4 +184,4 @@ const mapStateToProps=(state)=>{
   return tab
 }
 const ThemeSets = Form.create({})(ThemeSet);
-export default connect(mapStateToProps)(DragDropContext(HTML5Backend)(ThemeSets));
+export default connect(mapStateToProps)(MyTagControlContext(ThemeSets));

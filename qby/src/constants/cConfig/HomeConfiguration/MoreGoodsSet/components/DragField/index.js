@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Table, Button } from 'antd';
 import { DragDropContext, DragSource, DropTarget } from 'react-dnd';
-import HTML5Backend from 'react-dnd-html5-backend';
 import update from 'immutability-helper';
+import MyTagControlContext from '../../../components/MyTagControlContext';
 import './index.less';
 
 
@@ -127,4 +127,4 @@ class Field extends Component {
   }
 }
 
-export default DragDropContext(HTML5Backend)(Field);
+export default MyTagControlContext(Field);
