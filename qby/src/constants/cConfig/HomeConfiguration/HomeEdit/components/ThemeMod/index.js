@@ -57,7 +57,7 @@ class ThemeMod extends Component {
               <div className="swiper-container theme-swiper-container">
                 <div className="swiper-wrapper">
                   {moduleContent.map((el, index) => (
-                    <div className="swiper-slide" key={index}>
+                    <div className="swiper-slide" key={el.themeId}>
                       <div className="item-icon">
                         <div className="pic-wrap">
                           <img src={`${fileDomain}${el.themePic}`} />

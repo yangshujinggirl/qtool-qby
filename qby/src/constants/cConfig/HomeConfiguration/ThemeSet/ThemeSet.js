@@ -148,7 +148,7 @@ class ThemeSet extends Component {
       this.onSelectChange
     );
     return (
-      <div className="theme-list">
+      <div className="theme-list common-modal-set-component">
         <Table
           className="theme-list-table"
           bordered

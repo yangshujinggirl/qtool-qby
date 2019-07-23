@@ -43,7 +43,7 @@ class CommodityFlow extends Component {
   render() {
     const { tabs } =this.props;
     return(
-      <div className="commodity-flow-pages">
+      <div className="commodity-flow-pages common-modal-set-component">
         <div className="main-content-action">
           <TabsMod
             onCancel={this.onCancel}

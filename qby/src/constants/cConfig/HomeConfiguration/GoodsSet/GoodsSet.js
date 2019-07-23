@@ -107,7 +107,7 @@ class GoodsSet extends Component {
       wrapperCol: { span: 20 }
     };
     return (
-      <div>
+      <div className="common-modal-set-component">
         <Form>
           <FormItem {...formLayout} label="属性商品选择">
             {getFieldDecorator("type", {

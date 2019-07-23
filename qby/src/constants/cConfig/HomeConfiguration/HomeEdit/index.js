@@ -60,7 +60,8 @@ class HomeEdit extends Component {
   //二维码生成
   goPreview=()=> {
     const { homepageId } = this.props.data;
-    let urlCode = `https://www.baidu.com/homepageId=${homepageId}`
+    let url ='http://v5.qby.testin.qtoolsbaby.net:81/home/index.html';
+    let urlCode = `${url}?homepageId=${homepageId}`
     QRCode.toDataURL(urlCode)
     .then(url => {
       this.setState({ urlCode:url })

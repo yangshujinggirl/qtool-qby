@@ -257,6 +257,7 @@ class BaseEditTable extends Component {
         break;
       case 8:
         disabled=false;
+        rules=[{ required:true, message:'请选择分类'}]
         placeholder = '请选择分类'
         break;
       default:

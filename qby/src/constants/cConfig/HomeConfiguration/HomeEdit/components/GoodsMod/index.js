@@ -5,6 +5,7 @@ import Countdown from 'react-countdown-now';
 import Line from '../Line';
 import CommonMod from '../CommonMod';
 import Swiper from 'swiper/dist/js/swiper.js';
+import moment from 'moment';
 import './index.less';
 
 class GoodsMod extends Component {
@@ -65,7 +66,7 @@ class GoodsMod extends Component {
               <div className="swiper-wrapper">
                 {
                   moduleContent.map((el,index) => (
-                    <div className="swiper-slide" key={index}>
+                    <div className="swiper-slide" key={el.pdSpuId}>
                       <div className="item-icon">
                         <div className="pic-wrap"><img src={`${fileDomain}${el.pdPic}`}/></div>
                         <p className="title-level-one textTwoLine">{el.sellingPoints?el.sellingPoints:el.name}</p>
