@@ -7,6 +7,9 @@ import FrameModal from '../../../components/FrameModal';
 import {
   getChangeFrameApi, getSaveApi
  } from '../../../../../../services/cConfig/homeConfiguration/iconSet';
+ import {
+   linkOption,
+ } from '../../../components/optionMap.js';
 import './index.less';
 
 class ModForm extends Component {
@@ -121,6 +124,7 @@ class ModForm extends Component {
       <div className="banner-set-mod">
         <MoreEditTable
           addKey={addKey}
+          optionSource={linkOption}
           categoryList={categoryList}
           onOperateClick={this.onOperateClick}
           callback={this.handleCallback}

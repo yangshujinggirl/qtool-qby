@@ -113,30 +113,13 @@ class BaseEditTable extends Component {
          })(
            <Select
              placeholder="请选择跳转链接">
-             <Select.Option
-               value={1}
-               key={1}>去配置页面</Select.Option>
-             <Select.Option
-               value={2}
-               key={2}>去H5页面</Select.Option>
-             <Select.Option
-               value={3}
-               key={3}>去商品详情页</Select.Option>
-             <Select.Option
-               value={4}
-               key={4}>去上新尖货页</Select.Option>
-             <Select.Option
-               value={5}
-               key={5}>去热卖爆款页</Select.Option>
-             <Select.Option
-               value={6}
-               key={6}>去保税专区页</Select.Option>
-             <Select.Option
-               value={7}
-               key={7}>去品牌馆页</Select.Option>
-             <Select.Option
-               value={8}
-               key={8}>去商品分类</Select.Option>
+             {
+               this.props.optionSource.map((el,index) => (
+                 <Select.Option
+                   value={el.key}
+                   key={el.key}>{el.value}</Select.Option>
+               ))
+             }
            </Select>
        )}
        </FormItem>
