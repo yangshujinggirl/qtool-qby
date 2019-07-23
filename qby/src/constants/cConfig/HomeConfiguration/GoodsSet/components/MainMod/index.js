@@ -128,12 +128,13 @@ class Mod extends Component {
     this.props.form.resetFields()
   }
   render() {
-    
     const { goods, form } = this.props;
     let columnsOne = columnsFun(form,this.handleBlur);
     let columnsTwo = columnsTwoFun(form,this.handleBlur);
     let columnsNewOne = columnsNewFun(form,this.handleBlur)
     let columnsNewTwo = columnsNewTwoFun(form,this.handleBlur)
+    console.log(goods)
+    console.log(this.props.totalList)
     return (
       <DragField
         columnsOne={this.props.goodType==2 ? columnsOne : columnsNewOne}

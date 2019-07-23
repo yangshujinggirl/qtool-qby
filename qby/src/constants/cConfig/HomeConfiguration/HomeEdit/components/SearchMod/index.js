@@ -69,9 +69,6 @@ class SearchMod extends Component {
   onOk = () => {
     const { imageUrl } = this.state;
     const { homepageModuleId } = this.props.info.search;
-    if (!imageUrl) {
-      return message.error("请先上传图片", 0.8);
-    }
     const values = {
       homepageModuleId,
       backgroundPicUrl: imageUrl
