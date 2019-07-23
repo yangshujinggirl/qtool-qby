@@ -39,7 +39,7 @@ export function columnsNewFun(form,handleBlur){
       key: 'pdSpuId',
       width:'8%',
       render:(text,record,index)=> {
-        const { getFieldDecorator } =form;
+        const { getFieldDecorator } = form;
         return <FormItem>
                 {getFieldDecorator(`fieldsOne[${index}].pdSpuId`,{
                   initialValue:record.pdSpuId,
@@ -118,7 +118,7 @@ export function columnsNewFun(form,handleBlur){
                 })(
                   <Input
                     maxLength='8'
-                    placeholder="请输入商品卖点"
+                    placeholder="8个字符以内"
                     autoComplete="off"/>
                 )}
               </FormItem>
@@ -138,7 +138,7 @@ export function columnsNewFun(form,handleBlur){
                 })(
                   <Input
                     maxLength='8'
-                    placeholder="请输入商品标签"
+                    placeholder="8个字符以内"
                     autoComplete="off"/>
                 )}
               </FormItem>
@@ -284,7 +284,7 @@ export function columnsNewTwoFun(form, handleBlur){
                 })(
                   <Input
                     maxLength='8'
-                    placeholder="请输入商品卖点"
+                    placeholder="8个字符以内"
                     autoComplete="off"/>
                 )}
               </FormItem>
@@ -305,7 +305,7 @@ export function columnsNewTwoFun(form, handleBlur){
                 })(
                   <Input
                     maxLength='8'
-                    placeholder="请输入商品标签"
+                    placeholder="8个字符以内"
                     autoComplete="off"/>
                 )}
               </FormItem>

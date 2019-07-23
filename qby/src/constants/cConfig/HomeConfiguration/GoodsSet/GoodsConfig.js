@@ -188,7 +188,6 @@ class GoodsConfig extends Component {
     });
   }
   render() {
-    console.log(this.props)
     const { getFieldDecorator } = this.props.form;
     const { activitys,visible,loading} = this.state;
     const {
@@ -283,7 +282,7 @@ class GoodsConfig extends Component {
                     <Button
                       className="down_load_btn"
                       type="primary"
-                      onClik={this.downLoadTep}
+                      onClick={this.downLoadTep}
                     >
                       下载附件模板
                     </Button>

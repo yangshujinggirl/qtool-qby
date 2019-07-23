@@ -258,8 +258,6 @@ const TimeTables = Form.create({
       newSlots.map((subItem,subIndex)=>{
         if(subIndex == index){
           item = {...item,...subItem}
-          console.log(item)
-          
         };
       });
       return item;
