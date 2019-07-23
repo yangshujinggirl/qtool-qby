@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { connect } from 'dva';
 import { Button } from "antd";
 import Swiper from "swiper/dist/js/swiper.js";
-import TitleM from '../TitleM';
 import Line from '../Line';
 import CommonMod from '../CommonMod';
 import "./index.less";
@@ -39,11 +38,12 @@ class ThemeMod extends Component {
     let { themeActivity } =this.props.info;
     let { moduleContent, moduleBackColor, homepageModuleId } =themeActivity;
     const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
+    moduleBackColor = moduleBackColor?`#${moduleBackColor}`:null;
     return (
       <CommonMod
         homepageModuleId={homepageModuleId}
         className="theme-mod"
-        style={{'background':`#${moduleBackColor}`}}>
+        style={{'background':moduleBackColor}}>
         <div>
           <div className="mod-wrap">
             <div className={themeActivity.titleColor == 0?'black-title mod-common-head':'white-title mod-common-head'}>
@@ -57,7 +57,7 @@ class ThemeMod extends Component {
               <div className="swiper-container theme-swiper-container">
                 <div className="swiper-wrapper">
                   {moduleContent.map((el, index) => (
-                    <div className="swiper-slide" key={index}>
+                    <div className="swiper-slide" key={el.themeId}>
                       <div className="item-icon">
                         <div className="pic-wrap">
                           <img src={`${fileDomain}${el.themePic}`} />

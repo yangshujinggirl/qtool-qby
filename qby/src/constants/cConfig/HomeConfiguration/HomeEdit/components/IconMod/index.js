@@ -27,11 +27,12 @@ class IconMod extends Component {
     const { icon } =this.props.info;
     let { homepageModuleId, moduleContent, moduleBackColor, isDisplay } =icon;
     const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
-
+    moduleBackColor = moduleBackColor?`#${moduleBackColor}`:null;
     return(
       <CommonMod
         homepageModuleId={homepageModuleId}
-        className={`icon-mod hasLine ${!isDisplay?'hiddle-module':''}`} style={{'background':`#${moduleBackColor}`}}>
+        className={`icon-mod hasLine ${!isDisplay?'hiddle-module':''}`}
+        style={{'background':moduleBackColor}}>
         {
           moduleContent&&moduleContent.length>0?
           <div className="mod-wrap">

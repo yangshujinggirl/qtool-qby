@@ -54,7 +54,7 @@ class MorePicSet extends Component {
   render() {
     const { activiKey } =this.props;
     return(
-      <div className="more-pic-set-pages">
+      <div className="more-pic-set-pages common-modal-set-component">
         <div className="pic-tabs-wrap">
           <div className="lev-one-l">
             <div className="content-wrap">

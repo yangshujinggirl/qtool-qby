@@ -27,11 +27,12 @@ class NewUserMod extends Component {
     let { coupon } =this.props.info;
     let { homepageModuleId, moduleBackColor,isDisplay, moduleContent } =coupon;
     const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
+    moduleBackColor = moduleBackColor?`#${moduleBackColor}`:null;
     return (
       <CommonMod
         homepageModuleId={ homepageModuleId }
         className={`new-user-mod ${!isDisplay?'hiddle-module':''}`}
-        style={{'background':`#${moduleBackColor}`}}>
+        style={{'background':moduleBackColor}}>
         <div>
           {
             moduleContent&&moduleContent.couponPopUpPicUrl?

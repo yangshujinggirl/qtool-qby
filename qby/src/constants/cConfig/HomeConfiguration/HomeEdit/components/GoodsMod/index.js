@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import { Button } from 'antd';
 import Countdown from 'react-countdown-now';
-import TitleM from '../TitleM';
 import Line from '../Line';
 import CommonMod from '../CommonMod';
 import Swiper from 'swiper/dist/js/swiper.js';
+import moment from 'moment';
 import './index.less';
 
 class GoodsMod extends Component {
@@ -43,11 +43,12 @@ class GoodsMod extends Component {
     let { homepageModuleId, moduleContent, moduleBackColor,isDisplay } = productDisplay;
     const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
     const endDate = new Date('2019-8-24') // Christmas, yay
+    moduleBackColor = moduleBackColor?`#${moduleBackColor}`:null;
     return(
       <CommonMod
         homepageModuleId={homepageModuleId}
         className={`goods-mod ${!isDisplay?'hiddle-module':''}`}
-        style={{'background':`#${moduleBackColor}`}}>
+        style={{'background':moduleBackColor}}>
         <div className="mod-wrap">
           <div className={productDisplay.titleColor == 0?'black-title mod-common-head':'white-title mod-common-head'}>
             <div className="hd-item">
@@ -65,7 +66,7 @@ class GoodsMod extends Component {
               <div className="swiper-wrapper">
                 {
                   moduleContent.map((el,index) => (
-                    <div className="swiper-slide" key={index}>
+                    <div className="swiper-slide" key={el.pdSpuId}>
                       <div className="item-icon">
                         <div className="pic-wrap"><img src={`${fileDomain}${el.pdPic}`}/></div>
                         <p className="title-level-one textTwoLine">{el.sellingPoints?el.sellingPoints:el.name}</p>

@@ -3,7 +3,7 @@ import { Tabs, Button, Form, Modal } from 'antd';
 import { connect } from 'dva';
 import Mod from './components/Mod';
 import TabsMod from '../components/TabsMod';
-// import './BannerSet.less';
+import '../common.less';
 
 const FormItem = Form.Item;
 const { TabPane } = Tabs;
@@ -36,7 +36,7 @@ class BannerSet extends Component {
   }
   render() {
     return(
-      <div className="banner-set-pages">
+      <div className="banner-set-pages common-modal-set-component">
         <TabsMod
           activiKey={this.props.activiKey}
           panes={panes}

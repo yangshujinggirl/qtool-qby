@@ -34,9 +34,6 @@ class HomeEdit extends Component {
     this.getInfo();
     this.goPreview()
   }
-  componentWillReceiveProps(props) {
-    // console.log(props)
-  }
   getInfo=()=> {
     const { homepageId } = this.props.data;
     this.props.dispatch({
@@ -63,7 +60,8 @@ class HomeEdit extends Component {
   //二维码生成
   goPreview=()=> {
     const { homepageId } = this.props.data;
-    let urlCode = `https://www.baidu.com/homepageId=${homepageId}`
+    let url ='http://v5.qby.testin.qtoolsbaby.net:81/home/index.html';
+    let urlCode = `${url}?homepageId=${homepageId}`
     QRCode.toDataURL(urlCode)
     .then(url => {
       this.setState({ urlCode:url })
@@ -92,6 +90,7 @@ class HomeEdit extends Component {
       if(res.code=='0') {
         message.success(msg)
       } else if(res.code=='260'){
+        message.success('校验失败',1)
         this.props.dispatch({
           type:'homeEdit/getCheckResult',
           payload:checkResult

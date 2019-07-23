@@ -35,7 +35,7 @@ class IconSet extends Component {
   }
   render() {
     return(
-      <div className="banner-set-pages">
+      <div className="banner-set-pages common-modal-set-component">
         <TabsMod
           className="icon-part-tabs"
           activiKey={this.props.activiKey}

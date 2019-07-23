@@ -25,5 +25,4 @@ function mapStateToProps(state) {
   const { homeEdit } =state;
   return homeEdit;
 }
-// export default BannerMod;
 export default connect(mapStateToProps)(CommonMod);

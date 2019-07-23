@@ -79,7 +79,7 @@ class Mod extends Component {
   render() {
     const { goods, totalList } =this.props;
     return (
-      <div className="more-goods-set-mod">
+      <div className="more-goods-pages common-modal-set-component">
         <div className="part-top">
           <div className="row-btn">
             <ImportBtn callback={this.callback}/>

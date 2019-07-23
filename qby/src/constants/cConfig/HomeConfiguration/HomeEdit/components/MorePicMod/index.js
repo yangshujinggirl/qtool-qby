@@ -1,7 +1,6 @@
 import react, { Component } from "react";
 import { connect } from 'dva';
 import { Button } from "antd";
-import TitleM from '../TitleM';
 import Line from '../Line';
 import CommonMod from '../CommonMod';
 import "./index.less";
@@ -38,12 +37,12 @@ class MorePicMod extends Component {
         bImg = el.picUrl;
       }
     })
-
+    moduleBackColor = moduleBackColor?`#${moduleBackColor}`:null;
     return (
       <CommonMod
         homepageModuleId={homepageModuleId}
         className="common-sty morePic-mod"
-        style={{'background':`#${moduleBackColor}`}}>
+        style={{'background':moduleBackColor}}>
         <div>
           <div className="mod-wrap">
             <div className={picMix.titleColor == 0?'black-title mod-common-head':'white-title mod-common-head'}>

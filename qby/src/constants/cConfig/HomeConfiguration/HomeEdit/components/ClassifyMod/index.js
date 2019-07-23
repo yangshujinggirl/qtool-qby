@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Button } from 'antd';
 import { connect } from 'dva';
 import Swiper from 'swiper/dist/js/swiper.js';
-import TitleM from '../TitleM';
 import Line from '../Line';
 import CommonMod from '../CommonMod';
 import './index.less';
