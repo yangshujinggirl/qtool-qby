@@ -121,7 +121,7 @@ class BrandMod extends Component {
     return (
       <CommonMod
         homepageModuleId={homepageModuleId}
-        className={`brand-mod ${!isDisplay?'hiddle-module':''}`} style={{'background':`#${moduleBackColor}`}}>
+        className={`brand-mod hasLine ${!isDisplay?'hiddle-module':''}`} style={{'background':`#${moduleBackColor}`}}>
         {
           contentPicUrl?
           <div className="content-wrap">

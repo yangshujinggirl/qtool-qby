@@ -6,11 +6,21 @@ const FormItem = Form.Item;
 export function columnsFun(form,handleBlur){
   let linkage=(record,index)=> {
     let placeholder='',disabled=true, rules=[];
+    console.log(record.fixPosition)
     if(record.fixPosition) {
       disabled=false;
-      rules=[{ required:true, message:'请输入'}]
+      rules=[{ required:true, message:'请输入'},{
+          pattern:/^\d{1,3}$/,message:'请输入数字'
+        }]
     }
     return { placeholder, disabled, rules };
+  }
+  //联动清空表单中的值
+  const linkChange=(index)=> {
+    console.log(index)
+    let spuListVal = form.getFieldsValue(['spuList']);
+    let { spuList } =spuListVal;
+    form.resetFields(['spuList'])
   }
   return [
     {
@@ -98,6 +108,7 @@ export function columnsFun(form,handleBlur){
         const { getFieldDecorator } =form;
         let mod;
         let linkageObj = linkage(record);
+        console.log(linkageObj)
         if(record.isFixed) {
           mod = <span onClick={()=>record.onOperateClick('toggle')} className="cr">解除固定</span>
         } else {
@@ -117,10 +128,11 @@ export function columnsFun(form,handleBlur){
                     位置
                     <FormItem className="row-input-item">
                       {getFieldDecorator(`spuList[${index}].fixDay`,{
+                        initialValue:'',
                         rules:linkageObj.rules,
                       })(
                         <Input
-                          maxLength='15'
+                          maxLength='3'
                           disabled={linkageObj.disabled}
                           placeholder="请输入"
                           autoComplete="off"/>

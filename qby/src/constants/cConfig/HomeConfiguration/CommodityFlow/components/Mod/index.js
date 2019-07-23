@@ -149,20 +149,22 @@ class ModForm extends Component {
     return params
   }
   moveRow = (dragIndex, hoverIndex) => {
-    let { sortArr } =this.props;
-    let tempHover = sortArr[dragIndex];
-    let tempDrag = sortArr[hoverIndex];
-    sortArr.splice(hoverIndex, 1, tempHover);
-    sortArr.splice(dragIndex, 1, tempDrag);
+    let { totalData } =this.props;
+    let { sortObjArray } =totalData;
+    let tempHover = sortObjArray[dragIndex];
+    let tempDrag = sortObjArray[hoverIndex];
+    sortObjArray.splice(hoverIndex, 1, tempHover);
+    sortObjArray.splice(dragIndex, 1, tempDrag);
+    totalData = {...totalData,sortObjArray}
     this.props.dispatch({
-      type:'commodityFlow/getSortArr',
-      payload:sortArr
+      type:'commodityFlow/getTotalData',
+      payload:totalData
     })
   };
   render() {
     const { getFieldDecorator } = this.props.form;
     const { categoryData, goodsList, totalData, sortArr } =this.props;
-    console.log(goodsList)
+
     return(
       <div className="commodity-main-mod">
         <Form>
@@ -261,7 +263,7 @@ class ModForm extends Component {
                 <p className="sort-tips">按顺序拖拽你要排列的属性商品，若存在一个商品有多个属性，则具有多重属性的商品排名靠前，属性越多排名越靠前。</p>
                 <DragTabSort
                   moveRow={this.moveRow}
-                  sortArr={sortArr}/>
+                  sortArr={totalData.sortObjArray}/>
               </div>
             }
           </div>

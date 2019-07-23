@@ -47,7 +47,7 @@ class BannerMod extends Component {
     return(
       <CommonMod
         homepageModuleId={homepageModuleId}
-        className="banner-mod"
+        className="banner-mod hasLine"
         style={{'background':`#fff url(${backgroundPicUrl}) center`}}>
         <div>
           {

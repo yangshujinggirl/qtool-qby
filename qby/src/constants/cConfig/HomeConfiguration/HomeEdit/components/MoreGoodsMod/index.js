@@ -39,8 +39,10 @@ class MoreGoodsMod extends Component {
         style={{'background':`#${moduleBackColor}`}}>
         <div>
           <div className="mod-wrap">
-            <div className="mod-common-head">
-              <TitleM title={multilineProduct.title} type={multilineProduct.titleColor}/>
+            <div className={multilineProduct.titleColor == 0?'black-title mod-common-head':'white-title mod-common-head'}>
+              <div className="hd-item">
+                <spa>{multilineProduct.title}</spa>
+              </div>
               {
                 multilineProduct.isDisplayMore==1&&
                 <p className="hd-item">查看更多</p>
