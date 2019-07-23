@@ -67,10 +67,10 @@ class ModForm extends Component {
         if(isEmpty) {
           return;
         }
-        // if(this.props.goodsList.length<40) {
-        //   message.error('商品数量至少40个');
-        //   return;
-        // }
+        if(this.props.goodsList.length<40) {
+          message.error('商品数量至少40个');
+          return;
+        }
         let  params = this.formatData(values);
         this.setState({ loading:true })
         getSaveApi(params)

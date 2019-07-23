@@ -7,6 +7,10 @@ import FrameModal from '../../../components/FrameModal';
 import {
   getChangeFrameApi, getSaveApi
  } from '../../../../../../services/cConfig/homeConfiguration/bannerSet';
+ import {
+   linkOption,
+   linkOptionTwo
+ } from '../../../components/optionMap.js';
 import './index.less';
 
 class ModForm extends Component {
@@ -74,6 +78,7 @@ class ModForm extends Component {
   }
   submit=(func)=> {
     this.props.form.validateFields((err, values) => {
+      console.log(values)
       if (!err) {
         values = this.formatParams(values);
         let params={
@@ -118,6 +123,8 @@ class ModForm extends Component {
     let { goodsList, activiKey, categoryList, addKey } =this.props;
     const { visible, confirmLoading, loading } =this.state;
     const { form }= this.props;
+    console.log(activiKey)
+    let optionSource = activiKey==1?linkOptionTwo:linkOption;
     return(
       <div className="banner-set-mod">
         <MoreEditTable
@@ -126,6 +133,7 @@ class ModForm extends Component {
           callback={this.handleCallback}
           form={form}
           modName="banner"
+          optionSource={optionSource}
           categoryList={categoryList}
           dataSource={goodsList}/>
         <div className="handle-btn-action">
