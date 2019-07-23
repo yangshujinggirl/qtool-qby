@@ -82,7 +82,9 @@ class Mod extends Component {
       <div className="more-goods-pages common-modal-set-component">
         <div className="part-top">
           <div className="row-btn">
-            <ImportBtn callback={this.callback}/>
+            <ImportBtn
+              dispatch={this.props.dispatch} 
+              callback={this.callback}/>
             <Button
               onClick={this.downLoadTep}
               size="large"

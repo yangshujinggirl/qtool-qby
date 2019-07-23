@@ -23,6 +23,7 @@ class ImportBtn extends React.Component {
   handleChange = (info) => {
     let file = info.file;
     const { response } =file;
+    this.props.dispatch({ type: 'tab/loding', payload:true});
     if(file.status == 'done') {
       if (response) {
         if(response.code=='0'){
@@ -42,6 +43,7 @@ class ImportBtn extends React.Component {
         }else{
           message.error(file.response.message,.8);
         }
+        this.props.dispatch({ type: 'tab/loding', payload:false});
         return file.response.status === 'success';
       }
     }

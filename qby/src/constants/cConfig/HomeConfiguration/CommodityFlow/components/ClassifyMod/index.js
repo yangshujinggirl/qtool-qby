@@ -212,6 +212,7 @@ class ClassifyMod extends Component {
               确定添加
           </Button>
           <ImportBtn
+            dispatch={this.props.dispatch}
             callback={this.callback}/>
           <Button
             size="large"
