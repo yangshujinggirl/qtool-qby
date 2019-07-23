@@ -52,11 +52,10 @@ export default {
       const addkey=0;
       return {
         ...state,goods,addkey
-       }
+      }
     },
     getAddkey(state, { payload:addkey }) {
       addkey++;
-      console.log({ ...state,addkey })
       return { ...state,addkey };
     },
     getGoodsList(state, { payload: pdSpuList }) {
@@ -110,8 +109,8 @@ export default {
         let { pdSpuList } =res;
         pdSpuList = pdSpuList?pdSpuList:[];
         pdSpuList.map((el,index) =>{
-           el.key = index;
-        })
+          el.key = index;
+        });
         let len = pdSpuList.length;
         yield put({type: 'getAddkey',payload:len});
         yield put({type: 'getGoodsList',payload:pdSpuList});

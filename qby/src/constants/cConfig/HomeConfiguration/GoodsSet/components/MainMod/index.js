@@ -128,6 +128,7 @@ class Mod extends Component {
     this.props.form.resetFields()
   }
   render() {
+    
     const { goods, form } = this.props;
     let columnsOne = columnsFun(form,this.handleBlur);
     let columnsTwo = columnsTwoFun(form,this.handleBlur);

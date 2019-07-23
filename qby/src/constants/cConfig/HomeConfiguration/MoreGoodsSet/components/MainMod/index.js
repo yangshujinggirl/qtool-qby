@@ -85,7 +85,6 @@ class Mod extends Component {
     const { goods, form } =this.props;
     let columnsOne = columnsFun(form,this.handleBlur);
     let columnsTwo = columnsTwoFun(form,this.handleBlur);
-
     return (
       <DragField
         columnsOne={columnsOne}
