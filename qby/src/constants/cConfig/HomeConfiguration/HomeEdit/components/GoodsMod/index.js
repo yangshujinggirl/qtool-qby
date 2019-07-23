@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import { Button } from 'antd';
 import Countdown from 'react-countdown-now';
-import TitleM from '../TitleM';
 import Line from '../Line';
 import CommonMod from '../CommonMod';
 import Swiper from 'swiper/dist/js/swiper.js';
@@ -43,11 +42,12 @@ class GoodsMod extends Component {
     let { homepageModuleId, moduleContent, moduleBackColor,isDisplay } = productDisplay;
     const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
     const endDate = new Date('2019-8-24') // Christmas, yay
+    moduleBackColor = moduleBackColor?`#${moduleBackColor}`:null;
     return(
       <CommonMod
         homepageModuleId={homepageModuleId}
         className={`goods-mod ${!isDisplay?'hiddle-module':''}`}
-        style={{'background':`#${moduleBackColor}`}}>
+        style={{'background':moduleBackColor}}>
         <div className="mod-wrap">
           <div className={productDisplay.titleColor == 0?'black-title mod-common-head':'white-title mod-common-head'}>
             <div className="hd-item">

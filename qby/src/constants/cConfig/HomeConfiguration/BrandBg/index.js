@@ -21,7 +21,7 @@ class BrandBg extends Component {
     return (
       <div>
         <Modal
-          width="600"
+          width={600}
           visible={visible}
           okText="保存"
           onCancel={onCancel}

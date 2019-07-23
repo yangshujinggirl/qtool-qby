@@ -89,6 +89,7 @@ class HomeEdit extends Component {
       if(res.code=='0') {
         message.success(msg)
       } else if(res.code=='260'){
+        message.success('校验失败',1)
         this.props.dispatch({
           type:'homeEdit/getCheckResult',
           payload:checkResult
