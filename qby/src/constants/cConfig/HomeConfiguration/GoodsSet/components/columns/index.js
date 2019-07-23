@@ -99,7 +99,7 @@ export function columnsFun(form,handleBlur){
                 })(
                   <Input
                     maxLength='8'
-                    placeholder="请输入商品卖点"
+                    placeholder="8个字符以内"
                     autoComplete="off"/>
                 )}
               </FormItem>
@@ -230,7 +230,7 @@ export function columnsTwoFun(form, handleBlur){
                 })(
                   <Input
                     maxLength='8'
-                    placeholder="请输入商品卖点"
+                    placeholder="8个字符以内"
                     autoComplete="off"/>
                 )}
               </FormItem>

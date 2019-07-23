@@ -12,7 +12,7 @@ const FormItem = Form.Item;
 class Mod extends Component {
   //新增
   handleAdd=()=> {
-    let { totalList, addkey } =this.props;
+    let { totalList, addkey } = this.props;
     totalList.push({
       key:addkey,
     })
@@ -49,11 +49,9 @@ class Mod extends Component {
   };
   //code
   handleBlur=(e,record,valueType)=> {
-    console.log(record)
-    // debugger
     let value = e.target.value;
     if(!value) {return}
-    let { totalList,goodType } =this.props;
+    let { totalList,goodType } = this.props;
     let params = {};
     if(goodType == 2){ //上新商品
       const isValid = this.removeRepeat(totalList,value,'pdSpuId',record);
@@ -70,7 +68,7 @@ class Mod extends Component {
           params.pdcode = value;
         }else{
           return 
-        }
+        };
       }else{//填写的是pdSpuId
         const invalid = totalList.findIndex(item=>{ //本行修改无效
           return (item.key == record.key)&&(item.pdSpuId == value)
@@ -130,7 +128,6 @@ class Mod extends Component {
     this.props.form.resetFields()
   }
   render() {
-    console.log(this.props.totalList)
     const { goods, form } = this.props;
     let columnsOne = columnsFun(form,this.handleBlur);
     let columnsTwo = columnsTwoFun(form,this.handleBlur);
