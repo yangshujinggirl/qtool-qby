@@ -11,8 +11,9 @@ class CommonMod extends Component {
     let { style, homepageModuleId } =this.props;
     let currentItem = checkResult.find((el) => el.homepageModuleId == this.props.homepageModuleId);
     currentItem=currentItem?currentItem:{};
+    style={...style};
     return(
-      <div className={`common-sty ${this.props.className}`} style={style}>
+      <div className={`common-sty ${this.props.className}`} {...style}>
         {
           this.props.children
         }

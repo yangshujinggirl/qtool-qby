@@ -118,12 +118,11 @@ class BrandMod extends Component {
     const { visible, fileList, color, loading } = this.state;
     let { homepageModuleId,moduleBackColor, contentPicUrl,isDisplay } = this.props.info.brandDisplay;
     const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
-    console.log(this.props.info.brandDisplay)
-    moduleBackColor=moduleBackColor?moduleBackColor:'rgba(0,0,0,0)'
+    let style = {'background':`#${moduleBackColor}`}
     return (
       <CommonMod
         homepageModuleId={homepageModuleId}
-        className={`brand-mod hasLine ${!isDisplay?'hiddle-module':''}`} style={{'background':`#${moduleBackColor}`}}>
+        className={`brand-mod hasLine ${!isDisplay?'hiddle-module':''}`} style={style}>
         {
           contentPicUrl?
           <div className="content-wrap">
