@@ -322,9 +322,35 @@ class GoodsConfig extends Component {
     );
   }
 }
+const GoodsConfigs = Form.create({
+  onValuesChange(props, changedFields, allFields) {
+    let { fieldsTwo, fieldsOne } = allFields;
+    let { listTwo, listOne } = props.goods;
+    listTwo = listTwo.map((el,index) => {
+      fieldsTwo.map((item,idx)=> {
+        if(index == idx) {
+          el = {...el,...item};
+        }
+      })
+      return el;
+    })
+    listOne = listOne.map((el,index) => {
+      fieldsOne.map((item,idx)=> {
+        if(index == idx) {
+          el = {...el,...item};
+        }
+      })
+      return el;
+    })
+    let totalList = [...listOne, ...listTwo]
+    props.dispatch({
+      type:'goodsSet/getGoodsList',
+      payload:totalList
+    })
+  },
+})(GoodsConfig);
 function mapStateToProps(state) {
   const { goodsSet } = state;
   return goodsSet;
 }
-const GoodsConfigs = Form.create({})(GoodsConfig);
 export default connect(mapStateToProps)(GoodsConfigs);

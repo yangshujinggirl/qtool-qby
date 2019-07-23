@@ -185,7 +185,7 @@ class TimeTable extends Component {
   //删除
   delete = (record,index) => {
     const {pdListDisplayCfgId,completed} = record;
-    if(completed){
+    if(pdListDisplayCfgId){
       this.setState({
         pdListDisplayCfgId,
         visible: true

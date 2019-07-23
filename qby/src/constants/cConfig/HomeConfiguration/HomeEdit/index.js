@@ -31,7 +31,6 @@ class HomeEdit extends Component {
     }
   }
   componentDidMount() {
-    console.log('componentDidMount')
     this.getInfo();
     this.goPreview()
   }
@@ -39,7 +38,6 @@ class HomeEdit extends Component {
     // console.log(props)
   }
   getInfo=()=> {
-    debugger
     const { homepageId } = this.props.data;
     this.props.dispatch({
       type: "homeEdit/reSetData",

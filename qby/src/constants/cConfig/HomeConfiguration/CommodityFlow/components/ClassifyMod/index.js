@@ -68,7 +68,6 @@ class ClassifyMod extends Component {
       const { spuList, code } =res;
       if(code == 0) {
         let { goodsList } =this.props;
-        console.log(goodsList)
         for(var i=0;i<goodsList.length;i++){
             for(var j = 0;j<spuList.length;j++){
               if(goodsList[i].pdSpuId == spuList[j].pdSpuId) {
