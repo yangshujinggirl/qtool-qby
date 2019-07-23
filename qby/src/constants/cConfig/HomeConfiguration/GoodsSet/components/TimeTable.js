@@ -13,7 +13,7 @@ const { RangePicker } = DatePicker;
 import "../index.less";
 
 const disabledDate = current => {
-  return current < moment().endOf("second");
+  return current && current < moment().subtract(1,'days');
 };
 const range = (start, end) => {
   const result = [];
