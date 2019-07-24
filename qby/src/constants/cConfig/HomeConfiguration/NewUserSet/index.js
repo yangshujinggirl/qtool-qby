@@ -325,13 +325,12 @@ class Index extends Component {
               ]
             })(
               <Input
-                placeholder="标题颜色的色号，常用色号可在示例中查看"
+                placeholder="请填写六位数字+字母组合"
                 style={{ width: "266px" }}
                 autoComplete='off'
                 maxLength='6'
               />
             )}
-            　<span className="suffix_tips">请填写六位数字</span>
           </FormItem>
           <Button
             className="btn"

@@ -97,6 +97,7 @@ class ModuleSet extends Component {
                 style={{ width: "200px" }}
                 placeholder="请填写六位数字+字母组合"
                 maxLength='6'
+                autoComplete='off'
               />
             )}
           </FormItem>
