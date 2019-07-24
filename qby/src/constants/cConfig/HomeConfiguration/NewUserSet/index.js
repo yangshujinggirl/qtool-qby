@@ -320,7 +320,6 @@ class Index extends Component {
             {getFieldDecorator("moduleBackColor", {
               initialValue: moduleBackColor,
               rules: [
-                { required: true, message: "请设置模块背景色号" },
                 { validator: this.validator}
               ]
             })(

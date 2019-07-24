@@ -81,8 +81,11 @@ class ModuleSet extends Component {
   onLinkChange = value => {
     this.setState({
       moreLinkType: value
+    },()=>{
+      if(value==1||value==2){
+        this.props.form.setFieldsValue({'moreLinkInfo':''})
+      }
     });
-    this.props.form.setFieldsValue({'moreLinkInfo':''})
   };
   onCancel = () => {
     this.setState({
@@ -130,6 +133,11 @@ class ModuleSet extends Component {
         this.setState({
           loading:false
         });
+        this.getModule(this.props.homepageModuleId)
+      }else{
+        this.setState({
+          loading:false
+        });
       }
     });
   };
@@ -140,6 +148,11 @@ class ModuleSet extends Component {
         this.setState({
           loading:false
         });
+        this.getModule(this.props.homepageModuleId)
+      }else{
+        this.setState({
+          loading:false
+        });
       }
     });
   };
@@ -147,6 +160,11 @@ class ModuleSet extends Component {
     getSaveTheModuleApi(values).then(res => {
       if (res.code == 0) {
         message.success("保存成功");
+        this.setState({
+          loading:false
+        });
+        this.getModule(this.props.homepageModuleId)
+      }else{
         this.setState({
           loading:false
         });
@@ -261,7 +279,7 @@ class ModuleSet extends Component {
                     <FormItem wrapperCol={{ offset: 3 }}>
                       {getFieldDecorator("moreLinkInfo", {
                         rules: [{ required: true, message: "请填写配置页面" }],
-                        initialValue: moreLinkInfo
+                        initialValue: moreLinkInfo?moreLinkInfo:''
                       })(
                         <Input
                           placeholder={
