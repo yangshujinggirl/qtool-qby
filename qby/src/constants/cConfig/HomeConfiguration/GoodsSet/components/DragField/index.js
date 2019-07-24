@@ -115,7 +115,7 @@ class Field extends Component {
           dataSource={listTwo}
           components={this.components}
           footer={()=>{
-            totalList.length <= 100 &&
+            totalList&&totalList.length <= 100 &&
             <Button type="default" onClick={this.props.handleAdd}>+新增</Button>
           }}
           onRow={(record, index) => ({
