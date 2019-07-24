@@ -35,6 +35,7 @@ class Field extends Component {
     Modal.confirm({
       title: '温馨提示',
       content: '切换页面请确认保存',
+      okText:'保存',
       onOk:()=>{
         this.props.onOk(value);
       },
@@ -71,6 +72,13 @@ class Field extends Component {
       this.props.dispatch({
         type:'commodityFlow/fetchGoodsList',
         payload:{tabId:tabs[0].tabId,selectkey}
+      })
+      this.props.dispatch({
+        type:'commodityFlow/fetchCategory',
+        payload:{
+          level:1,
+          parentId:null
+  			}
       })
     }
     this.updateTabs(tabs)
