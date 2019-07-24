@@ -8,20 +8,6 @@ import './index.less';
 
 
 class Field extends Component {
-  constructor(props) {
-    super(props);
-    this.state={
-      firstIn:true,
-      key:this.props.tabs.length
-    }
-  }
-  componentWillReceiveProps(props) {
-    if(this.state.firstIn) {
-      let keys = props.tabs.length;
-      keys--;
-      this.setState({ key: keys })
-    }
-  }
   //切换查详情
   handleToggle =(e,value)=> {
     const { selectkey } =this.props;
@@ -47,7 +33,7 @@ class Field extends Component {
   //新增
   handleAdd=()=> {
     let { tabs, addKey } =this.props;
-    tabs.push({ key:addKey, tabId:null, firstIn:false });
+    tabs.push({ key:addKey, tabId:null });
     addKey++;
     this.props.dispatch({
       type:'commodityFlow/getAddKey',
@@ -97,7 +83,7 @@ class Field extends Component {
     })
   }
   render() {
-    const { tabs, selectkey } =this.props;
+    const { tabs, selectkey, addKey } =this.props;
     return (
       <div className="part-same tabs-mod-wrap">
         <p className="part-head">设置商品流tab</p>

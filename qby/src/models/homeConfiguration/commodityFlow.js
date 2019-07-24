@@ -277,20 +277,7 @@ export default {
       yield put({type: 'resetToggleData',payload:{}});
       let totalData = yield select(state => state.commodityFlow.totalData);
       let { selectkey, tabId } =values;
-      let sortObjArray=[
-        {
-          title:'新品',
-          key:'a'
-        },{
-          title:'热卖商品',
-          key:'b'
-        },{
-          title:'促销商品',
-          key:'c'
-        },{
-          title:'普通商品',
-          key:'d'
-        }]
+      let sortObjArray=totalData.sortObjArray;
       let params = { tabId };
       yield put({type: 'tab/loding',payload:true});
       const res = yield call(getSearchGoodApi,params);
