@@ -89,6 +89,15 @@ export function columns(form, categoryList, activiKey){
                 index={index}/>
       }
     },{
+      title: '图片ID',
+      dataIndex: 'frameDetailId',
+      key: 'frameDetailId',
+      align:'center',
+      width:'4%',
+      render:(text,record,index)=> {
+        return <span>{record.frameDetailId?record.frameDetailId:''}</span>
+      }
+    }, {
       title: '图片名称',
       dataIndex: 'title',
       key: 'title',
@@ -99,9 +108,6 @@ export function columns(form, categoryList, activiKey){
         return <FormItem>
                 {getFieldDecorator(`goods[${index}].title`,{
                   initialValue:record.title,
-                  rules:[{
-                    required:true,message:'请输入banner名称'
-                  }],
                 })(
                   <Input
                     maxLength='15'
@@ -191,7 +197,7 @@ export function columns(form, categoryList, activiKey){
         return <FormItem>
                 {getFieldDecorator(`goods[${index}].beginTime`,{
                   initialValue:record.beginTime?moment(record.beginTime,"YYYY-MM-DD HH:mm"):null,
-                  rules:[{ required:true, message:'请选择分类'}],
+                  rules:[{ required:true, message:'请选择开始时间'}],
                   })(
                     <DatePicker
                     format="YYYY-MM-DD HH:mm"

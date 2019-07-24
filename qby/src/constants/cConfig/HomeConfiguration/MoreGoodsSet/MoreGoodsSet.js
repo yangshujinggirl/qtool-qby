@@ -74,16 +74,17 @@ class Mod extends Component {
   }
   //下载
   downLoadTep=()=>{
-		window.open('../../static/MultilLine_In.xlsx');
+		window.open('../../../../static/MultilLine_In.xlsx');
 	}
   render() {
     const { goods, totalList } =this.props;
+
     return (
       <div className="more-goods-pages common-modal-set-component">
         <div className="part-top">
           <div className="row-btn">
             <ImportBtn
-              dispatch={this.props.dispatch} 
+              dispatch={this.props.dispatch}
               callback={this.callback}/>
             <Button
               onClick={this.downLoadTep}

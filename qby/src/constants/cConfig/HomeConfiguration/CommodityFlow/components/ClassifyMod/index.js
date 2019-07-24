@@ -47,7 +47,7 @@ class ClassifyMod extends Component {
   }
   //添加
   handleAdd=()=> {
-    const { categoryData } =this.props;
+    let { categoryData, goodsList } =this.props;
     const { pdCategory1Id, pdCategory2Id, pdCategory3Id, pdCategory4Id } =this.props.form.getFieldsValue();
     let pdCategory = {
       pdCategory1Id, pdCategory2Id, pdCategory3Id, pdCategory4Id
@@ -62,12 +62,15 @@ class ClassifyMod extends Component {
     if(!paramsStr) {
       return;
     }
+    if(goodsList.length==100) {
+      message.error('商品数量已满100，请删除后再添加');
+      return;
+    }
     this.props.dispatch({ type: 'tab/loding', payload:true});
     getAddApi({catalogListStr:paramsStr})
     .then((res) => {
       const { spuList, code } =res;
       if(code == 0) {
-        let { goodsList } =this.props;
         for(var i=0;i<goodsList.length;i++){
             for(var j = 0;j<spuList.length;j++){
               if(goodsList[i].pdSpuId == spuList[j].pdSpuId) {
@@ -96,7 +99,7 @@ class ClassifyMod extends Component {
   }
   //下载
   downLoad=()=> {
-    window.open('../../static/pdSpuFlow.xlsx');
+    window.open('../../../../../../static/pdSpuFlow.xlsx');
   }
   callback=(goodsList)=> {
     this.props.dispatch({

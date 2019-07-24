@@ -143,7 +143,13 @@ export function columnsFun(form,handleBlur){
       key: 'isLine',
       width:'8%',
       render:(text,record,index) => {
-        return <span>{record.isLine==20?'下架':'上架'}</span>
+        return  <span>
+            {
+              !record.isLine?''
+            :
+              <span>{record.isLine==20?'下架':'上架'}</span>
+            }
+            </span>
       }
     },
     {
@@ -287,7 +293,13 @@ export function columnsTwoFun(form, handleBlur){
       width:'8%',
       colSpan:0,
       render:(text,record,index) => {
-        return <span>{record.isLine==20?'下架':'上架'}</span>
+        return  <span>
+            {
+              !record.isLine?''
+            :
+              <span>{record.isLine==20?'下架':'上架'}</span>
+            }
+            </span>
       }
     },
     {
