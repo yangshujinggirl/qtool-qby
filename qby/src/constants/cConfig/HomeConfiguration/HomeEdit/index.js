@@ -94,7 +94,22 @@ class HomeEdit extends Component {
       }
     this.setState({ visible:true, params })
   }
+  //取消
+  goMainPage(){
+    const { key } = this.props.data;
+    const pane = eval(sessionStorage.getItem("pane"));
+    if(pane.length<=1){return}
+    this.props.dispatch({
+      type:'addGoods/resetData'
+    });
+    this.props.dispatch({
+      type:'tab/initDeletestate',
+      payload:key
+    });
+
+  }
   getSaveRelease=(value)=> {
+
     const { params } =this.state;
     value = {...value,...params};
     this.setState({ confirmLoading:true })
@@ -103,7 +118,8 @@ class HomeEdit extends Component {
       const { checkResult, code } =res;
       let msg = value.type=='1'?'发布成功':'立即发布设置成功';
       if(res.code=='0') {
-        message.success(msg)
+        message.success(msg);
+        this.goMainPage()
       } else if(res.code=='260'){
         this.props.dispatch({
           type:'homeEdit/getCheckResult',

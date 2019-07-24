@@ -86,7 +86,8 @@ class ConfigurationList extends Component {
       componkey: `${componkey}levelTwo`,
       parentKey:componkey,
       data: {
-        homepageId:record.homepageId
+        homepageId:record.homepageId,
+        key: `${componkey}levelTwo${record.homepageId}`,
       }
     };
     this.props.dispatch({
@@ -154,7 +155,8 @@ class ConfigurationList extends Component {
           componkey: `${componkey}levelTwo`,
           parentKey:componkey,
           data: {
-            homepageId: homepageId
+            homepageId: homepageId,
+            key: `${componkey}levelTwo${homepageId}`,
           }
         };
         this.props.dispatch({
@@ -214,7 +216,7 @@ class ConfigurationList extends Component {
               新增首页版本
             </Button>
           }
-          
+
         </div>
         <Qtable
           onOperateClick={this.onOperateClick}

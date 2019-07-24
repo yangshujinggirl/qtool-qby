@@ -35,9 +35,9 @@ class NewUserMod extends Component {
         style={{'background':moduleBackColor}}>
         <div>
           {
-            moduleContent&&moduleContent.couponPopUpPicUrl?
+            moduleContent&&moduleContent.newComerPicUrl?
             <div className="content-wrap">
-              <img src={`${fileDomain}${moduleContent.couponPopUpPicUrl}`}/>
+              <img src={`${fileDomain}${moduleContent.newComerPicUrl}`}/>
             </div>
             :
             <div className="no-module-data new-user-noData">新人礼</div>
