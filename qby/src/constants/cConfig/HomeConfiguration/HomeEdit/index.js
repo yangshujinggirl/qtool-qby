@@ -109,7 +109,6 @@ class HomeEdit extends Component {
 
   }
   getSaveRelease=(value)=> {
-
     const { params } =this.state;
     value = {...value,...params};
     this.setState({ confirmLoading:true })

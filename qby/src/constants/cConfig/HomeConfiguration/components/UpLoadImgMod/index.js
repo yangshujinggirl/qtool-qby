@@ -12,7 +12,7 @@ class UpLoadImg extends Component {
     }
   }
   beforeUpload=(file)=> {
-    let regExp = /image\/[jpeg|jpg|gif]/ig;
+    let regExp = /image\/(jpeg|jpg|gif|png)/ig;
     let isImg = new Promise((resolve, reject) => {
         let valid = regExp.test(file.type);
         valid ? resolve() : reject();

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Select, Col, Row, Input, Button, Radio } from 'antd';
+import { Form, Select, Col, Row, Input, Button, Radio, message } from 'antd';
 import { connect } from 'dva';
 import lodash from 'lodash';
 import { getAddApi } from '../../../../../../services/cConfig/homeConfiguration/commodityFlow';
@@ -35,7 +35,7 @@ class ClassifyMod extends Component {
   }
   //添加
   handleAdd=()=> {
-    let { categoryData, goodsList } =this.props;
+    let { goodsList } =this.props;
     const { pdCategory1Id, pdCategory2Id, pdCategory3Id, pdCategory4Id } =this.props.form.getFieldsValue();
     let pdCategory = {
       pdCategory1Id, pdCategory2Id, pdCategory3Id, pdCategory4Id
@@ -101,15 +101,12 @@ class ClassifyMod extends Component {
   }
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { categoryData } =this.props;
+    const { categoryData, categoryIdList } =this.props;
+    const { categoryLevelOne, categoryLevelTwo, categoryLevelThr, categoryLevelFour} =categoryData;
     const {
-      categoryLevelOne,
-      categoryLevelTwo,
-      categoryLevelThr,
-      categoryLevelFour,
-      isLevelTwo,isLevelThr,isLevelFour
-     } =categoryData;
-
+      isLevelTwo,isLevelThr,isLevelFour,
+      pdCategory1Id, pdCategory2Id, pdCategory3Id, pdCategory4Id
+     } =categoryIdList;
     return(
       <div className="part-one part-same">
         <p className="part-head">选择商品</p>
@@ -118,7 +115,7 @@ class ClassifyMod extends Component {
             <FormItem label='一级分类'>
             {
               getFieldDecorator('pdCategory1Id',{
-                initialValue:categoryData.pdCategory1Id?categoryData.pdCategory1Id:undefined,
+                initialValue:pdCategory1Id?pdCategory1Id:undefined,
                 onChange:(select)=>this.handleChangeLevel(1,select)
               })(
                <Select placeholder="请选择一级分类">
@@ -138,12 +135,12 @@ class ClassifyMod extends Component {
             <FormItem label='二级分类'>
             {
               getFieldDecorator('pdCategory2Id',{
-                initialValue:categoryData.pdCategory2Id?categoryData.pdCategory2Id:undefined,
+                initialValue:pdCategory2Id?pdCategory2Id:undefined,
                 onChange:(select)=>this.handleChangeLevel(2,select)
               })(
                 <Select
                   placeholder="请选择二级分类"
-                  disabled={categoryData.isLevelTwo}
+                  disabled={isLevelTwo}
                   autoComplete="off">
                   {
                     categoryLevelTwo.map((ele,index) => (
@@ -161,12 +158,12 @@ class ClassifyMod extends Component {
             <FormItem label='三级分类'>
             {
               getFieldDecorator('pdCategory3Id',{
-                initialValue:categoryData.pdCategory3Id?categoryData.pdCategory3Id:undefined,
+                initialValue:pdCategory3Id?pdCategory3Id:undefined,
                 onChange:(select)=>this.handleChangeLevel(3,select)
               })(
                 <Select
                   placeholder="请选择三级分类"
-                  disabled={categoryData.isLevelThr}
+                  disabled={isLevelThr}
                   autoComplete="off">
                   {
                     categoryLevelThr.map((ele,index) => (
@@ -184,14 +181,14 @@ class ClassifyMod extends Component {
             <FormItem label='四级分类'>
             {
               getFieldDecorator('pdCategory4Id',{
-                initialValue:categoryData.pdCategory4Id?categoryData.pdCategory4Id:undefined,
+                initialValue:pdCategory4Id?pdCategory4Id:undefined,
               })(
                 <Select
                   placeholder="请选择四级分类"
-                  disabled={categoryData.isLevelFour}
+                  disabled={isLevelFour}
                   autoComplete="off">
                   {
-                    categoryData.categoryLevelFour.map((ele,index) => (
+                    categoryLevelFour.map((ele,index) => (
                       <Option
                         value={ele.pdCategoryId}
                         key={ele.pdCategoryId}>{ele.name}</Option>

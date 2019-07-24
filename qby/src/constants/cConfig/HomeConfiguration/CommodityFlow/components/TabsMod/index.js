@@ -60,25 +60,11 @@ class Field extends Component {
     e.stopPropagation()
     let { tabs, selectkey } =this.props;
     tabs = tabs.filter(item => item.key !== record.key);
-    if(tabs.length==0) {
-      this.props.dispatch({
-        type:'commodityFlow/resetData',
-        payload:{}
-      })
-      return;
-    }
     if(selectkey==record.key&&tabs.length>0) {
       selectkey = tabs[0].key;
       this.props.dispatch({
         type:'commodityFlow/fetchGoodsList',
         payload:{tabId:tabs[0].tabId,selectkey}
-      })
-      this.props.dispatch({
-        type:'commodityFlow/fetchCategory',
-        payload:{
-          level:1,
-          parentId:null
-  			}
       })
     }
     this.updateTabs(tabs)

@@ -12,6 +12,10 @@ class CommodityFlow extends Component {
     super(props);
   }
   componentDidMount() {
+    this.props.dispatch({
+      type:'commodityFlow/resetPage',
+      payload:{}
+    })
     this.getList()
   }
   getList() {
@@ -24,13 +28,6 @@ class CommodityFlow extends Component {
     })
   }
   onOkCallback=(value)=> {
-    this.props.dispatch({
-      type:'commodityFlow/fetchCategory',
-      payload:{
-        level:1,
-        parentId:null
-			}
-    })
     this.props.dispatch({
       type:'commodityFlow/getSelectkey',
       payload:value.key
@@ -45,13 +42,6 @@ class CommodityFlow extends Component {
     this.props.dispatch({
       type:'commodityFlow/fetchGoodsList',
       payload:{tabId,selectkey:key}
-    })
-    this.props.dispatch({
-      type:'commodityFlow/fetchCategory',
-      payload:{
-        level:1,
-        parentId:null
-			}
     })
   }
   render() {

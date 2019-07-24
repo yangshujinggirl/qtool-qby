@@ -11,6 +11,8 @@ export default {
       categoryLevelTwo:[],//商品分类2列表
       categoryLevelThr:[],//商品分类3列表
       categoryLevelFour:[],//商品分类4列表
+    },
+    categoryIdList:{
       isLevelTwo:true,
       isLevelThr:true,
       isLevelFour:true,
@@ -45,13 +47,9 @@ export default {
     homePageModuleId:'',
   },
   reducers: {
-    //重置store
-    resetData(state, { payload :{} }) {
-      const categoryData ={//商品分类
-        categoryLevelOne:[],//商品分类1列表
-        categoryLevelTwo:[],//商品分类2列表
-        categoryLevelThr:[],//商品分类3列表
-        categoryLevelFour:[],//商品分类4列表
+    //重置store,切换table
+    resetToggleData(state, { payload :{} }) {
+      const categoryIdList ={
         isLevelTwo:true,
         isLevelThr:true,
         isLevelFour:true,
@@ -79,19 +77,14 @@ export default {
             key:'d'
           }]
       };
-      const tabs = [{key:0, tabId:null }];
-      const selectkey = 0;
       return {
         ...state,
-        goodsList,totalData, categoryData
+        goodsList,totalData, categoryIdList
        }
     },
     resetPage(state, { payload :{} }) {
-      const categoryData ={//商品分类
-        categoryLevelOne:[],//商品分类1列表
-        categoryLevelTwo:[],//商品分类2列表
-        categoryLevelThr:[],//商品分类3列表
-        categoryLevelFour:[],//商品分类4列表
+      const addKey =0, gdAddKey = 0, homePageModuleId='';
+      const categoryIdList ={
         isLevelTwo:true,
         isLevelThr:true,
         isLevelFour:true,
@@ -119,15 +112,24 @@ export default {
             key:'d'
           }]
       };
+      const categoryData= {//商品分类
+        categoryLevelOne:[],//商品分类1列表
+        categoryLevelTwo:[],//商品分类2列表
+        categoryLevelThr:[],//商品分类3列表
+        categoryLevelFour:[],//商品分类4列表
+      }
       const tabs = [{key:0, tabId:null }];
       const selectkey = 0;
       return {
-        ...state,
-        categoryData,goodsList,totalData,tabs,selectkey
-       }
+        ...state, addKey, gdAddKey, categoryIdList,homePageModuleId,
+         goodsList, totalData, categoryData, tabs, selectkey
+      }
     },
     getCategory(state, { payload:categoryData }) {
       return { ...state,...categoryData };
+    },
+    getCategoryIdList(state, { payload:categoryIdList }) {
+      return { ...state, categoryIdList };
     },
     getGoodsList(state, { payload:goodsList }) {
       goodsList = [...goodsList];
@@ -159,10 +161,10 @@ export default {
       let categoryLevelTwo = yield select(state => state.commodityFlow.categoryData.categoryLevelTwo);
       let categoryLevelThr = yield select(state => state.commodityFlow.categoryData.categoryLevelThr);
       let categoryLevelFour = yield select(state => state.commodityFlow.categoryData.categoryLevelFour);
-      let pdCategory1Id = yield select(state => state.commodityFlow.categoryData.pdCategory1Id);
-      let pdCategory2Id = yield select(state => state.commodityFlow.categoryData.pdCategory2Id);
-      let pdCategory3Id = yield select(state => state.commodityFlow.categoryData.pdCategory3Id);
-      let pdCategory4Id = yield select(state => state.commodityFlow.categoryData.pdCategory4Id);
+      let pdCategory1Id = yield select(state => state.commodityFlow.categoryIdList.pdCategory1Id);
+      let pdCategory2Id = yield select(state => state.commodityFlow.categoryIdList.pdCategory2Id);
+      let pdCategory3Id = yield select(state => state.commodityFlow.categoryIdList.pdCategory3Id);
+      let pdCategory4Id = yield select(state => state.commodityFlow.categoryIdList.pdCategory4Id);
 
       let isLevelTwo;
       let isLevelThr;
@@ -229,20 +231,24 @@ export default {
               categoryLevelTwo,
               categoryLevelThr,
               categoryLevelFour,
-              isLevelTwo,
-              isLevelThr,
-              isLevelFour,
-              pdCategory1Id,
-              pdCategory2Id,
-              pdCategory3Id,
-              pdCategory4Id
             }
+          }
+        })
+        yield put({
+          type:'getCategoryIdList',
+          payload:{
+            isLevelTwo,
+            isLevelThr,
+            isLevelFour,
+            pdCategory1Id,
+            pdCategory2Id,
+            pdCategory3Id,
+            pdCategory4Id
           }
         })
       }
     },
     *fetchTabList({ payload: values },{ call, put ,select}) {
-      yield put({type: 'resetPage',payload:{}});
       yield put({type: 'tab/loding',payload:true});
       const selectkey = yield select(state => state.commodityFlow.selectkey);
       const res = yield call(getSearchTabApi,values);
@@ -268,7 +274,7 @@ export default {
       yield put({type: 'getHomePageModuleId',payload:values.homePageModuleId});
     },
     *fetchGoodsList({ payload: values },{ call, put ,select}) {
-      yield put({type: 'resetData',payload:{}});
+      yield put({type: 'resetToggleData',payload:{}});
       let totalData = yield select(state => state.commodityFlow.totalData);
       let { selectkey, tabId } =values;
       let sortObjArray=[

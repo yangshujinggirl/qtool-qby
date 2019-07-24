@@ -284,28 +284,12 @@ class ModForm extends Component {
   }
 }
 const Mod = Form.create({
-  // onValuesChange(props, changedFields, allFields) {
-  //   let { goodsList } =props;
-  //   let { spuList } =allFields;
-  //   goodsList = goodsList.map((el,index) => {
-  //     spuList.map((item,idx) => {
-  //       if(index == idx) {
-  //         el = {...el,...item}
-  //       }
-  //     })
-  //     return el;
-  //   })
-  //   props.dispatch({
-  //     type:'commodityFlow/getGoodsList',
-  //     payload:goodsList
-  //   })
-  // },
   mapPropsToFields(props) {
     return {
-      pdCategory1Id: Form.createFormField(props.categoryData.pdCategory1Id),
-      pdCategory2Id: Form.createFormField(props.categoryData.pdCategory2Id),
-      pdCategory3Id: Form.createFormField(props.categoryData.pdCategory3Id),
-      pdCategory4Id: Form.createFormField(props.categoryData.pdCategory4Id),
+      pdCategory1Id: Form.createFormField(props.categoryIdList.pdCategory1Id),
+      pdCategory2Id: Form.createFormField(props.categoryIdList.pdCategory2Id),
+      pdCategory3Id: Form.createFormField(props.categoryIdList.pdCategory3Id),
+      pdCategory4Id: Form.createFormField(props.categoryIdList.pdCategory4Id),
       spuList: Form.createFormField(props.goodsList),
       sortType:Form.createFormField(props.totalData.sortType),
     };
