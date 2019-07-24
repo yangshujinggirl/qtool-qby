@@ -313,7 +313,7 @@ class ModuleSet extends Component {
           )}
           <FormItem {...formLayout} label="是否隐藏模块分割线">
             {getFieldDecorator("isDisplaySplitLine", {
-              initialValue: isDisplaySplitLine ? isDisplaySplitLine : 0,
+              initialValue: isDisplaySplitLine ? isDisplaySplitLine : 1,
               rules: [{ required: true, message: "请选择是否隐藏模块分割线" }]
             })(
               <Radio.Group>
