@@ -19,13 +19,12 @@ export function getColumns(form, couponList,onSelectChange,handleDelete) {
         return (
           <FormItem>
             {getFieldDecorator(`couponIds[${index}]`, {
-              initialValue:record.couponId,
+              initialValue:record.couponId ? record.couponId : undefined,
               onChange:(couponId)=>onSelectChange(couponId,index)
             })(
-              <Select>
+              <Select placeholder="请选择你要发放的优惠券">
                 {couponList && couponList.map(item => (
                   <Option
-                    placeholder="请选择你要发放的优惠券"
                     key={item.couponId}
                     value={item.couponId}
                   >
@@ -40,11 +39,25 @@ export function getColumns(form, couponList,onSelectChange,handleDelete) {
     },
     {
       title: "使用门槛",
-      dataIndex: "couponFullAmount"
+      dataIndex: "couponFullAmount",
+      render:(text,record,index)=>{
+        return <p>
+          {
+            text ? <span>￥{text}</span> : ''
+          }
+        </p>
+      }
     },
     {
       title: "优惠金额",
-      dataIndex: "couponMoney"
+      dataIndex: "couponMoney",
+      render:(text,record,index)=>{
+        return <p>
+          {
+            text ? <span>￥{text}</span> : ''
+          }
+        </p>
+      }
     },
     {
       title: "已发放数量",

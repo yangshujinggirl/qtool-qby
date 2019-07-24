@@ -301,13 +301,6 @@ class Index extends Component {
               rules: [{ required: true, message: "请选择展示时间" }]
             })(<RangePicker showTime format="YYYY-MM-DD HH:mm" />)}
           </FormItem>
-          <FormItem {...formLayout} label={liquTips}>
-            {getFieldDecorator("receiveTimeInterval", {
-              initialValue: receiveTimeInterval,
-              rules: [{ required: true, message: "请填写领取间隔" }]
-            })(<Input style={{ width: "80px" }} autoComplete='off'/>)}
-            　天
-          </FormItem>
           <FormItem className="must-pic" {...formLayout} label="选择优惠券">
             <Table
                 className="theme-list-table"
@@ -327,18 +320,16 @@ class Index extends Component {
             {getFieldDecorator("moduleBackColor", {
               initialValue: moduleBackColor,
               rules: [
-                { required: true, message: "请设置模块背景色号" },
                 { validator: this.validator}
               ]
             })(
               <Input
-                placeholder="标题颜色的色号，常用色号可在示例中查看"
+                placeholder="请填写六位数字+字母组合"
                 style={{ width: "266px" }}
                 autoComplete='off'
                 maxLength='6'
               />
             )}
-            　<span className="suffix_tips">请填写六位数字</span>
           </FormItem>
           <Button
             className="btn"

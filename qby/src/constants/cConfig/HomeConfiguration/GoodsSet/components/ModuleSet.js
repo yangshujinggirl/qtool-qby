@@ -81,6 +81,10 @@ class ModuleSet extends Component {
   onLinkChange = value => {
     this.setState({
       moreLinkType: value
+    },()=>{
+      if(value==1||value==2){
+        this.props.form.setFieldsValue({'moreLinkInfo':''}) 
+      }
     });
   };
   onCancel = () => {
@@ -129,6 +133,11 @@ class ModuleSet extends Component {
         this.setState({
           loading:false
         });
+        this.getModule(this.props.homepageModuleId)
+      }else{
+        this.setState({
+          loading:false
+        });
       }
     });
   };
@@ -139,6 +148,11 @@ class ModuleSet extends Component {
         this.setState({
           loading:false
         });
+        this.getModule(this.props.homepageModuleId)
+      }else{
+        this.setState({
+          loading:false
+        });
       }
     });
   };
@@ -146,6 +160,11 @@ class ModuleSet extends Component {
     getSaveTheModuleApi(values).then(res => {
       if (res.code == 0) {
         message.success("保存成功");
+        this.setState({
+          loading:false
+        });
+        this.getModule(this.props.homepageModuleId)
+      }else{
         this.setState({
           loading:false
         });
@@ -191,7 +210,7 @@ class ModuleSet extends Component {
             {getFieldDecorator("title", {
               initialValue: title,
               rules: [
-                { required: true, message: "请选择标题栏样式" },
+                { required: true, message: "请输入模块名称，2-4个字符" },
                 { validator: this.validate }
               ]
             })(
@@ -246,10 +265,10 @@ class ModuleSet extends Component {
                   <FormItem {...formLayout} label="配置跳转页面">
                     {getFieldDecorator("moreLinkType", {
                       rules: [{ required: true, message: "请选择配置页面" }],
-                      initialValue: moreLinkType,
+                      initialValue: moreLinkType?moreLinkType:undefined,
                       onChange: this.onLinkChange
                     })(
-                      <Select>
+                      <Select placeholder='请选择配置页面'>
                         <Option value={1}>去配置页面</Option>
                         <Option value={2}>去H5页面</Option>
                         <Option value={3}>去已选商品列表页</Option>
@@ -260,7 +279,7 @@ class ModuleSet extends Component {
                     <FormItem wrapperCol={{ offset: 3 }}>
                       {getFieldDecorator("moreLinkInfo", {
                         rules: [{ required: true, message: "请填写配置页面" }],
-                        initialValue: moreLinkInfo
+                        initialValue: moreLinkInfo?moreLinkInfo:''
                       })(
                         <Input
                           placeholder={
@@ -294,7 +313,7 @@ class ModuleSet extends Component {
           )}
           <FormItem {...formLayout} label="是否隐藏模块分割线">
             {getFieldDecorator("isDisplaySplitLine", {
-              initialValue: isDisplaySplitLine ? isDisplaySplitLine : 0,
+              initialValue: isDisplaySplitLine ? isDisplaySplitLine : 1,
               rules: [{ required: true, message: "请选择是否隐藏模块分割线" }]
             })(
               <Radio.Group>
