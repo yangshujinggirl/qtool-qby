@@ -17,28 +17,42 @@ class CommodityFlow extends Component {
   getList() {
     const { homepageModuleId } =this.props.data;
     this.props.dispatch({
-      type:'commodityFlow/resetPage',
-      payload:{}
-    })
-    this.props.dispatch({
       type:'commodityFlow/fetchTabList',
       payload:{
         homePageModuleId:homepageModuleId
       }
     })
   }
-  onOkToggle=(value)=> {
-    this.modDom.submit(()=>this.onOkCallback(value));
-  }
   onOkCallback=(value)=> {
+    this.props.dispatch({
+      type:'commodityFlow/fetchCategory',
+      payload:{
+        level:1,
+        parentId:null
+			}
+    })
     this.props.dispatch({
       type:'commodityFlow/getSelectkey',
       payload:value.key
     })
     this.getList();
   }
+  onOkToggle=(value)=> {
+    this.modDom.submit(()=>this.onOkCallback(value));
+  }
   onCancel=(value)=> {
-    this.modDom.onCanceCallback(value);
+    const { tabId, key } =value;
+    this.props.dispatch({
+      type:'commodityFlow/fetchGoodsList',
+      payload:{tabId,selectkey:key}
+    })
+    this.props.dispatch({
+      type:'commodityFlow/fetchCategory',
+      payload:{
+        level:1,
+        parentId:null
+			}
+    })
   }
   render() {
     const { tabs } =this.props;

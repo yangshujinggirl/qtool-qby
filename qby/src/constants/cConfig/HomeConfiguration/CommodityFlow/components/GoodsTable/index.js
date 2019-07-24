@@ -15,7 +15,6 @@ class GoodsTable extends Component {
       type:'commodityFlow/getGoodsList',
       payload:goodsList
     })
-    this.props.form.resetFields();
   }
   //新增
   handleAdd=()=> {
@@ -48,6 +47,8 @@ class GoodsTable extends Component {
     let { goodsList } =this.props;
     goodsList.map((el,index) => {
       if(el.pdSpuId == record.pdSpuId) {
+        el.fixPosition = null;
+        el.fixDay = null;
         el.isFixed = 0;
       }
     })
@@ -62,10 +63,13 @@ class GoodsTable extends Component {
     this.updateData(goodsList);
   };
   //code
-  handleBlur=(e,index)=> {
+  handleBlur=(e,record)=> {
     let value;
     value = e.target.value;
     if(!value) {
+      return;
+    }
+    if(value == record.FixedPdSpuId) {
       return;
     }
     let { goodsList } =this.props;
@@ -77,16 +81,31 @@ class GoodsTable extends Component {
         if(idx != -1) {
           message.error('商品重复，请重新添加');
         } else {
-          goodsList[index]={...goodsList[index],...spuInfo};
-          goodsList[index].FixedPdSpuId= spuInfo.pdSpuId;
+          goodsList = goodsList.map((el,idx) => {
+            if(el.key == record.key) {
+              el.FixedPdSpuId = spuInfo.pdSpuId;
+              el = {...el,...spuInfo};
+            };
+            return el
+          });
         }
         this.updateData(goodsList);
       }
     });
   }
+  handleChange=(name,e,index)=> {
+    let value = e.target.value;
+    if(!value) {
+      return;
+    }
+    let { goodsList } =this.props;
+    goodsList[index][name] = value;
+    this.updateData(goodsList)
+  }
   render() {
     const { goodsList, form, gdAddKey } =this.props;
-    let columns = columnsFun(form,this.handleBlur);
+    let columns = columnsFun(form,this.handleBlur,this.handleChange);
+
     return (
       <div className="commodity-flow-goods-table-component">
         <DragTableField

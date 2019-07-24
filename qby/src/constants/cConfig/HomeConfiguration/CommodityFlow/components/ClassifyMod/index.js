@@ -32,18 +32,6 @@ class ClassifyMod extends Component {
         parentId:selected
       }
     })
-    //请空表单中的value值
-    switch(level) {
-      case 2:
-        this.props.form.resetFields(["pdCategory2Id","pdCategory3Id","pdCategory4Id"])
-        break;
-      case 3:
-        this.props.form.resetFields(["pdCategory3Id","pdCategory4Id"])
-        break;
-      case 4:
-        this.props.form.resetFields(["pdCategory4Id"])
-        break;
-    }
   }
   //添加
   handleAdd=()=> {
@@ -106,6 +94,10 @@ class ClassifyMod extends Component {
       type:'commodityFlow/getGoodsList',
       payload:goodsList
     })
+    this.props.dispatch({
+      type:'commodityFlow/getGdAddKey',
+      payload:goodsList.length
+    })
   }
   render() {
     const { getFieldDecorator } = this.props.form;
@@ -126,9 +118,10 @@ class ClassifyMod extends Component {
             <FormItem label='一级分类'>
             {
               getFieldDecorator('pdCategory1Id',{
+                initialValue:categoryData.pdCategory1Id?categoryData.pdCategory1Id:undefined,
                 onChange:(select)=>this.handleChangeLevel(1,select)
               })(
-               <Select placeholder="请选择商品分类">
+               <Select placeholder="请选择一级分类">
                  {
                    categoryLevelOne.map((ele,index) => (
                      <Option
@@ -145,10 +138,11 @@ class ClassifyMod extends Component {
             <FormItem label='二级分类'>
             {
               getFieldDecorator('pdCategory2Id',{
+                initialValue:categoryData.pdCategory2Id?categoryData.pdCategory2Id:undefined,
                 onChange:(select)=>this.handleChangeLevel(2,select)
               })(
                 <Select
-                  placeholder="请选择商品类型"
+                  placeholder="请选择二级分类"
                   disabled={categoryData.isLevelTwo}
                   autoComplete="off">
                   {
@@ -167,10 +161,11 @@ class ClassifyMod extends Component {
             <FormItem label='三级分类'>
             {
               getFieldDecorator('pdCategory3Id',{
+                initialValue:categoryData.pdCategory3Id?categoryData.pdCategory3Id:undefined,
                 onChange:(select)=>this.handleChangeLevel(3,select)
               })(
                 <Select
-                  placeholder="请选择商品类型"
+                  placeholder="请选择三级分类"
                   disabled={categoryData.isLevelThr}
                   autoComplete="off">
                   {
@@ -188,9 +183,11 @@ class ClassifyMod extends Component {
           <Col span={6}>
             <FormItem label='四级分类'>
             {
-              getFieldDecorator('pdCategory4Id')(
+              getFieldDecorator('pdCategory4Id',{
+                initialValue:categoryData.pdCategory4Id?categoryData.pdCategory4Id:undefined,
+              })(
                 <Select
-                  placeholder="请选择商品类型"
+                  placeholder="请选择四级分类"
                   disabled={categoryData.isLevelFour}
                   autoComplete="off">
                   {

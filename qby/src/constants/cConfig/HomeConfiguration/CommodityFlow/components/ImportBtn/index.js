@@ -29,13 +29,13 @@ class ImportBtn extends React.Component {
         if(response.code=='0'){
           const { unImportSpuArr }=response;
           if(unImportSpuArr&&unImportSpuArr.length>0) {
-            let content = <span>
+            let content = <div className="import-error-modal">
             商品已导入超过100个，以下商品导入失败<br/>
               {
                 unImportSpuArr.map((el) => el = `${el}/`)
               }
-            </span>
-            message.error(content)
+            </div>
+            message.error(content,5)
           }
           let spuList= response.spuList?response.spuList:[];
           spuList.map((el,index) =>{

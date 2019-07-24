@@ -51,6 +51,9 @@ class Mod extends Component {
     if(!value) {
       return;
     }
+    if(value == record.FixedPdSpuId) {
+      return;
+    }
     let { goods, totalList } =this.props;
     this.props.dispatch({ type: 'tab/loding', payload:true});
     getSearchIdApi({pdSpuId:value})
