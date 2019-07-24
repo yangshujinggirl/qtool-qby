@@ -114,7 +114,7 @@ class GoodsConfig extends Component {
           pdSpuList = fieldsOne;
         } else if (fieldsTwo) {
           fieldsOne = fieldsTwo;
-        }
+        };
         const {
           homepageModuleId,
           pdListDisplayCfgId,
@@ -123,9 +123,9 @@ class GoodsConfig extends Component {
         } = this.props;
         const { totalList } = this.props;
         if (totalList&&totalList.length < 8) {
-          message.error("请至少配置8个商品");
+          message.error("保存失败，请至少配置8个商品，上线状态且B端在售库存不为0.");
           return;
-        }
+        };
         if(pdSpuList.find(item=>!item.pdSpuId)){
           message.error('pdSpuId'+'不能为空')
           return 
