@@ -72,11 +72,11 @@ class MorePicSet extends Component {
             </p>
             <p className="r-item">
               <span className="label">右上小图</span><br />
-              图片尺寸为357*144px，格式为png、jpg。大小不能超过2m。只能上传一张。
+              图片尺寸为357*192px，格式为png、jpg。大小不能超过2m。只能上传一张。
             </p>
             <p className="r-item">
               <span className="label">右下小图</span><br />
-              图片尺寸为357*144px，格式为png、jpg。大小不能超过2m。只能上传一张。
+              图片尺寸为357*192px，格式为png、jpg。大小不能超过2m。只能上传一张。
             </p>
           </div>
         </div>

@@ -165,7 +165,7 @@ class BaseEditTable extends Component {
     return <FormItem>
             {getFieldDecorator(`goods[${index}].beginTime`,{
               initialValue:record.beginTime?moment(record.beginTime,"YYYY-MM-DD HH:mm"):null,
-              rules:[{ required:true, message:'请选择分类'}],
+              rules:[{ required:true, message:'请选择开始时间'}],
               })(
                 <DatePicker
                   format="YYYY-MM-DD HH:mm"
