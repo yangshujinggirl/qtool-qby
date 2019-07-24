@@ -81,6 +81,10 @@ class GoodsConfig extends Component {
   };
   //上传成功之后的回调
   updataList = goods => {
+    goods.map(item=>{
+      item.FixedPdSpuId=item.pdSpuId
+      return item;
+    });
     this.props.dispatch({
       type: "goodsSet/getGoodsList",
       payload: goods
