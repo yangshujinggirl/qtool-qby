@@ -231,7 +231,7 @@ class TimeTable extends Component {
           visible={visible} 
           onOk={this.onOk} 
           onCancel={this.onCancel}>
-          <p>确认删除该时间段么?</p>
+          <p style={{'margin':'40px',fontSize:'14px'}}>确认删除该时间段么?</p>
         </Modal>
       </div>
     );

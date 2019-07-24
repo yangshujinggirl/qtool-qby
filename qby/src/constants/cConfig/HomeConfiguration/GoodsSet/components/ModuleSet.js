@@ -82,7 +82,7 @@ class ModuleSet extends Component {
     this.setState({
       moreLinkType: value
     });
-    this.props.form.resetFields(['moreLinkInfo'])
+    this.props.form.setFieldsValue({'moreLinkInfo':''})
   };
   onCancel = () => {
     this.setState({
@@ -247,10 +247,10 @@ class ModuleSet extends Component {
                   <FormItem {...formLayout} label="配置跳转页面">
                     {getFieldDecorator("moreLinkType", {
                       rules: [{ required: true, message: "请选择配置页面" }],
-                      initialValue: moreLinkType,
+                      initialValue: moreLinkType?moreLinkType:undefined,
                       onChange: this.onLinkChange
                     })(
-                      <Select>
+                      <Select placeholder='请选择配置页面'>
                         <Option value={1}>去配置页面</Option>
                         <Option value={2}>去H5页面</Option>
                         <Option value={3}>去已选商品列表页</Option>
