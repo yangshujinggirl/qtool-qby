@@ -46,6 +46,9 @@ export function columnsFun(form,handleBlur){
                   rules:[{
                     required:true,message:'请输入Spuid'
                   }],
+                  getValueFromEvent:(event)=>{
+                    return event.target.value.replace(/\D/g,'')
+                  }
                 })(
                   <Input
                     onBlur={(e)=>handleBlur(e,record)}
@@ -174,6 +177,9 @@ export function columnsTwoFun(form, handleBlur){
                 {getFieldDecorator(`fieldsTwo[${index}].pdSpuId`,{
                   initialValue:record.pdSpuId,
                   rules:[{required:true,message:'请输入Spuid'}],
+                  getValueFormEvent:(event)=>{
+                    return event.target.value.replace(/\D/g,'')
+                  }
                 })(
                   <Input
                     onBlur={(e)=>handleBlur(e,record)}

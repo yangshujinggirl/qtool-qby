@@ -43,6 +43,9 @@ export function columnsNewFun(form,handleBlur){
         return <FormItem>
                 {getFieldDecorator(`fieldsOne[${index}].pdSpuId`,{
                   initialValue:record.pdSpuId,
+                  getValueFromEvent: (event) => {
+                    return event.target.value.replace(/\D/g,'')
+                  },
                 })(
                   <Input
                     style={record.highlight?{color:'red'}:{color:'#555'} }
@@ -205,6 +208,9 @@ export function columnsNewTwoFun(form, handleBlur){
         return <FormItem>
                 {getFieldDecorator(`fieldsTwo[${index}].pdSpuId`,{
                   initialValue:record.pdSpuId,
+                  getValueFromEvent:(event)=>{
+                    return event.target.value.replace(/\D/g,'')
+                  }
                 })(
                   <Input
                     style={record.highlight?{color:'red'}:{color:'#555'} }

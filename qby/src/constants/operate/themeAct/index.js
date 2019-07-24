@@ -207,6 +207,10 @@ class ThemeAct extends Component{
           onlineVisible:false,
           lineLoading:false
         });
+      }else{
+        this.setState({
+          lineLoading:false
+        });
       };
     })
   }
