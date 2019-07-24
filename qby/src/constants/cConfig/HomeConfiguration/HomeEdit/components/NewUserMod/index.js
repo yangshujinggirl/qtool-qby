@@ -35,9 +35,9 @@ class NewUserMod extends Component {
         style={{'background':moduleBackColor}}>
         <div>
           {
-            moduleContent&&moduleContent.couponPopUpPicUrl?
+            moduleContent&&moduleContent.newComerPicUrl?
             <div className="content-wrap">
-              <img src={`${fileDomain}${moduleContent.couponPopUpPicUrl}`}/>
+              <img src={`${fileDomain}${moduleContent.newComerPicUrl}`}/>
             </div>
             :
             <div className="no-module-data new-user-noData">新人礼</div>
@@ -48,7 +48,7 @@ class NewUserMod extends Component {
                !this.props.data.info&&
                <div>
                 <Button onClick={this.goEdit}>编辑</Button>
-                <Button onClick={()=>this.props.toggleShow(homepageModuleId,isDisplay)}>{isDisplay?'隐藏':'展开'}</Button>
+              <Button onClick={()=>this.props.toggleShow(homepageModuleId,isDisplay)}>{isDisplay?'隐藏':'显示'}</Button>
               </div>
             }
 

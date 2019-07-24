@@ -50,6 +50,21 @@ class HomeEdit extends Component {
   //隐藏
   toggleShow=(homepageModuleId,isDisplay)=> {
     isDisplay=isDisplay?0:1;
+    let message = !isDisplay?'确认要隐藏此模块么，确认隐藏，此模块将不会在C端App和小程序中显示':'确认要显示此模块么，确认显示，此模块将会在C端App和小程序中显示'
+    Modal.confirm({
+      title: '温馨提示',
+      content: message,
+      onOk:()=>{
+        this.onOkCallback(homepageModuleId,isDisplay);
+      },
+      onCancel:()=> {
+
+      },
+    });
+
+  }
+  onOkCallback=(homepageModuleId,isDisplay)=> {
+    // let message = isDisplay?'':''
     getStatusApi({homepageModuleId,isDisplay})
     .then((res) => {
       if(res.code == 0) {
@@ -79,7 +94,22 @@ class HomeEdit extends Component {
       }
     this.setState({ visible:true, params })
   }
+  //取消
+  goMainPage(){
+    const { key } = this.props.data;
+    const pane = eval(sessionStorage.getItem("pane"));
+    if(pane.length<=1){return}
+    this.props.dispatch({
+      type:'addGoods/resetData'
+    });
+    this.props.dispatch({
+      type:'tab/initDeletestate',
+      payload:key
+    });
+
+  }
   getSaveRelease=(value)=> {
+
     const { params } =this.state;
     value = {...value,...params};
     this.setState({ confirmLoading:true })
@@ -88,9 +118,9 @@ class HomeEdit extends Component {
       const { checkResult, code } =res;
       let msg = value.type=='1'?'发布成功':'立即发布设置成功';
       if(res.code=='0') {
-        message.success(msg)
+        message.success(msg);
+        this.goMainPage()
       } else if(res.code=='260'){
-        message.success('校验失败',1)
         this.props.dispatch({
           type:'homeEdit/getCheckResult',
           payload:checkResult
