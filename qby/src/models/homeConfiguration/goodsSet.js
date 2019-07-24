@@ -17,7 +17,7 @@ export default {
     mark:false
   },
   reducers: {
-    setMark(state,{payload:{mark}}){ //区分 tab切换 还是 列表中切换过去 
+    setMark(state,{payload:{mark}}){ //区分 tab切换 还是 列表中切换过去
       return {...state,mark}
     },
     changeKey(state,{payload: { activeKey }}) {
@@ -86,7 +86,7 @@ export default {
           listTwo = pdSpuList.slice(8);
         } else {
           listOne = pdSpuList;
-        }
+        };
         goods = { listOne, listTwo };
       } else {
         goods = { listOne, listTwo };
@@ -111,6 +111,7 @@ export default {
         pdSpuList.map((el,index) =>{
           el.key = index;
           el.FixedPdSpuId = el.pdSpuId;
+          el.FixedPdCode = el.pdCode;
         });
         let len = pdSpuList.length;
         yield put({type: 'getAddkey',payload:len});
