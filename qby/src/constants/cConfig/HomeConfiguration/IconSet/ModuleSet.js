@@ -95,7 +95,7 @@ class ModuleSet extends Component {
             })(
               <Input
                 style={{ width: "200px" }}
-                placeholder="标题颜色的色号，常用色号可在示例中查看"
+                placeholder="请填写六位数字+字母组合"
                 maxLength='6'
               />
             )}<span className='suffix_tips'>请填写六位数字</span>

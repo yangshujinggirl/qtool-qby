@@ -39,11 +39,25 @@ export function getColumns(form, couponList,onSelectChange,handleDelete) {
     },
     {
       title: "使用门槛",
-      dataIndex: "couponFullAmount"
+      dataIndex: "couponFullAmount",
+      render:(text,record,index)=>{
+        return <p>
+          {
+            text ? <span>￥{text}</span> : ''
+          }
+        </p>
+      }
     },
     {
       title: "优惠金额",
-      dataIndex: "couponMoney"
+      dataIndex: "couponMoney",
+      render:(text,record,index)=>{
+        return <p>
+          {
+            text ? <span>￥{text}</span> : ''
+          }
+        </p>
+      }
     },
     {
       title: "已发放数量",
