@@ -83,7 +83,7 @@ class ModuleSet extends Component {
       moreLinkType: value
     },()=>{
       if(value==1||value==2){
-        this.props.form.setFieldsValue({'moreLinkInfo':''})
+        this.props.form.setFieldsValue({'moreLinkInfo':''}) 
       }
     });
   };

@@ -9,7 +9,7 @@ import {
 } from "../../../../services/cConfig/homeConfiguration/configurationList";
 import FilterForm from "./components/FilterForm";
 import AddModal from "./components/AddModal";
-import { IndexColumns } from "./columns";
+import  IndexColumns  from "./columns";
 
 import "./index.less";
 class ConfigurationList extends Component {
@@ -199,20 +199,27 @@ class ConfigurationList extends Component {
       });
     }
   render() {
+    const {rolelists} = this.props.data;
     const { status, visible, versionList, doubleVisible, loading } = this.state;
     const { dataList } = this.props;
+    const Look = rolelists.find(item=>item.urResourceId=='1402100')
+    const Edit = rolelists.find(item=>item.urResourceId=='1402200')
+    const Columns = IndexColumns(Look,Edit)
     return (
       <div className="qtools-components-pages configuration-List-pages">
         <FilterForm submit={this.searchData} />
         <div className="handel-btn-lists">
-          <Button size="large" type="primary" onClick={this.goAdd}>
-            新增首页版本
-          </Button>
+          {Edit &&
+            <Button size="large" type="primary" onClick={this.goAdd}>
+              新增首页版本
+            </Button>
+          }
+          
         </div>
         <Qtable
           onOperateClick={this.onOperateClick}
           dataSource={dataList}
-          columns={IndexColumns}
+          columns={Columns}
         />
         {
           dataList&&dataList.length>0?
