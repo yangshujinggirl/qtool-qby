@@ -54,7 +54,7 @@ class Mod extends Component {
     let { totalList,goodType } = this.props;
     let params = {};
     if(goodType == 2){ //上新商品
-      const isValid = this.removeRepeat(totalList,value,'pdSpuId',record);
+      const isValid = this.removeRepeat(totalList,value,'FixedPdSpuId',record);
       if(isValid){
         params.pdSpuId = value
       }else{
@@ -63,7 +63,7 @@ class Mod extends Component {
     }else{//活动商品
       params.activityId = this.props.activityId;
       if(valueType == 'pdCode'){ // 填写的是pdCode
-        const isValid = this.removeRepeat(totalList,value,'pdCode',record);
+        const isValid = this.removeRepeat(totalList,value,'FixedPdCode',record);
         if(isValid){
           params.pdcode = value;
         }else{
@@ -87,7 +87,7 @@ class Mod extends Component {
     if(invalid!=-1){ return null }
     const isRepeat = totalList.findIndex(item=>item[inputType] == value);
     if(isRepeat !== -1){
-      if(inputType == 'pdCode'){
+      if(inputType == 'FixedPdCode'){
         message.error('商品编码'+value+'重复');
       }else{
         message.error('pdSpuid'+value+'重复')
@@ -103,13 +103,14 @@ class Mod extends Component {
     .then((res) => {
       if(res.code == 0) {
         let { spuInfo } = res;
-        const idx = totalList.findIndex((item)=>item.pdCode == spuInfo.pdCode && item.pdSpuId == spuInfo.pdSpuId);
+        const idx = totalList.findIndex((item)=>item.FixedPdCode == spuInfo.pdCode && item.FixedPdSpuId == spuInfo.pdSpuId);
         if(idx != -1){
           message.error('商品重复,请重新添加');
         }else{
           totalList = totalList.map((el,idx) => {
             if(el.key == record.key) {
               el.FixedPdSpuId = spuInfo.pdSpuId;
+              el.FixedPdCode = spuInfo.pdCode;
               el = {...el,...spuInfo};
             };
             return el
