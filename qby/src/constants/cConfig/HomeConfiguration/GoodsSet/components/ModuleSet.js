@@ -82,6 +82,7 @@ class ModuleSet extends Component {
     this.setState({
       moreLinkType: value
     });
+    this.props.form.resetFields(['moreLinkInfo'])
   };
   onCancel = () => {
     this.setState({
@@ -191,7 +192,7 @@ class ModuleSet extends Component {
             {getFieldDecorator("title", {
               initialValue: title,
               rules: [
-                { required: true, message: "请选择标题栏样式" },
+                { required: true, message: "请输入模块名称，2-4个字符" },
                 { validator: this.validate }
               ]
             })(

@@ -301,13 +301,6 @@ class Index extends Component {
               rules: [{ required: true, message: "请选择展示时间" }]
             })(<RangePicker showTime format="YYYY-MM-DD HH:mm" />)}
           </FormItem>
-          <FormItem {...formLayout} label={liquTips}>
-            {getFieldDecorator("receiveTimeInterval", {
-              initialValue: receiveTimeInterval,
-              rules: [{ required: true, message: "请填写领取间隔" }]
-            })(<Input style={{ width: "80px" }} autoComplete='off'/>)}
-            　天
-          </FormItem>
           <FormItem className="must-pic" {...formLayout} label="选择优惠券">
             <Table
                 className="theme-list-table"
