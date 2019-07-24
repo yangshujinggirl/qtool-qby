@@ -81,20 +81,6 @@ export default {
       };
       const tabs = [{key:0, tabId:null }];
       const selectkey = 0;
-      // const sortArr =[
-      //   {
-      //     title:'新品',
-      //     key:'a'
-      //   },{
-      //     title:'热卖商品',
-      //     key:'b'
-      //   },{
-      //     title:'促销商品',
-      //     key:'c'
-      //   },{
-      //     title:'普通商品',
-      //     key:'d'
-      //   }]
       return {
         ...state,
         goodsList,totalData, categoryData
@@ -285,6 +271,20 @@ export default {
       yield put({type: 'resetData',payload:{}});
       let totalData = yield select(state => state.commodityFlow.totalData);
       let { selectkey, tabId } =values;
+      let sortObjArray=[
+        {
+          title:'新品',
+          key:'a'
+        },{
+          title:'热卖商品',
+          key:'b'
+        },{
+          title:'促销商品',
+          key:'c'
+        },{
+          title:'普通商品',
+          key:'d'
+        }]
       let params = { tabId };
       yield put({type: 'tab/loding',payload:true});
       const res = yield call(getSearchGoodApi,params);
@@ -292,6 +292,7 @@ export default {
         if(res.pdFlowSpu) {
           let { spuList, sortRule, sortType } =res.pdFlowSpu;
           let totalData = {...totalData,...sortRule,sortType };
+          totalData.sortObjArray = totalData.sortObjArray?totalData.sortObjArray:sortObjArray;
           spuList.length>0&&spuList.map((el,index) =>{
             el.key =index;
             el.FixedPdSpuId = el.pdSpuId;

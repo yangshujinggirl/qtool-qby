@@ -35,6 +35,7 @@ class Field extends Component {
     Modal.confirm({
       title: '温馨提示',
       content: '切换页面请确认保存',
+      okText:'保存',
       onOk:()=>{
         this.props.onOk(value);
       },
