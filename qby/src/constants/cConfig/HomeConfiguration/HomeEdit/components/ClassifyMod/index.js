@@ -56,9 +56,6 @@ class ClassifyMod extends Component {
           moduleContent&&moduleContent.length>0?
           <div className="mod-wrap">
             <div className="mod-common-head">
-              <div className="hd-item">
-                推荐
-              </div>
               <div className="hd-item classify-item">
                 <div className="swiper-container classify-swiper-container">
                   <div className="swiper-wrapper">

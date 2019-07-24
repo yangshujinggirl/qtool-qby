@@ -14,6 +14,10 @@ export default {
       isLevelTwo:true,
       isLevelThr:true,
       isLevelFour:true,
+      pdCategory1Id:null,
+      pdCategory2Id:null,
+      pdCategory3Id:null,
+      pdCategory4Id:null,
     },
     tabs:[{key:0, tabId:null }],
     selectkey:0,
@@ -43,7 +47,7 @@ export default {
   reducers: {
     //重置store
     resetData(state, { payload :{} }) {
-      const categoryData = {
+      const categoryData ={//商品分类
         categoryLevelOne:[],//商品分类1列表
         categoryLevelTwo:[],//商品分类2列表
         categoryLevelThr:[],//商品分类3列表
@@ -51,6 +55,10 @@ export default {
         isLevelTwo:true,
         isLevelThr:true,
         isLevelFour:true,
+        pdCategory1Id:null,
+        pdCategory2Id:null,
+        pdCategory3Id:null,
+        pdCategory4Id:null,
       }
       const goodsList = [];
       const totalData = {
@@ -89,11 +97,11 @@ export default {
       //   }]
       return {
         ...state,
-        goodsList,totalData
+        goodsList,totalData, categoryData
        }
     },
     resetPage(state, { payload :{} }) {
-      const categoryData = {
+      const categoryData ={//商品分类
         categoryLevelOne:[],//商品分类1列表
         categoryLevelTwo:[],//商品分类2列表
         categoryLevelThr:[],//商品分类3列表
@@ -101,6 +109,10 @@ export default {
         isLevelTwo:true,
         isLevelThr:true,
         isLevelFour:true,
+        pdCategory1Id:null,
+        pdCategory2Id:null,
+        pdCategory3Id:null,
+        pdCategory4Id:null,
       }
       const goodsList = [];
       const totalData = {
@@ -157,15 +169,15 @@ export default {
   },
   effects: {
     *fetchCategory({ payload: values },{ call, put ,select}) {
-      const levelOne = yield select(state => state.commodityFlow.categoryData.categoryLevelOne);
-      const levelTwo = yield select(state => state.commodityFlow.categoryData.categoryLevelTwo);
-      const levelThr = yield select(state => state.commodityFlow.categoryData.categoryLevelThr);
-      const levelFour = yield select(state => state.commodityFlow.categoryData.categoryLevelFour);
+      let categoryLevelOne = yield select(state => state.commodityFlow.categoryData.categoryLevelOne);
+      let categoryLevelTwo = yield select(state => state.commodityFlow.categoryData.categoryLevelTwo);
+      let categoryLevelThr = yield select(state => state.commodityFlow.categoryData.categoryLevelThr);
+      let categoryLevelFour = yield select(state => state.commodityFlow.categoryData.categoryLevelFour);
+      let pdCategory1Id = yield select(state => state.commodityFlow.categoryData.pdCategory1Id);
+      let pdCategory2Id = yield select(state => state.commodityFlow.categoryData.pdCategory2Id);
+      let pdCategory3Id = yield select(state => state.commodityFlow.categoryData.pdCategory3Id);
+      let pdCategory4Id = yield select(state => state.commodityFlow.categoryData.pdCategory4Id);
 
-      let categoryLevelOne=[];
-      let categoryLevelTwo=[];
-      let categoryLevelThr=[];
-      let categoryLevelFour=[];
       let isLevelTwo;
       let isLevelThr;
       let isLevelFour;
@@ -187,33 +199,40 @@ export default {
             isLevelTwo = true;
             isLevelThr =true;
             isLevelFour =true;
+            pdCategory1Id = null;
+            pdCategory2Id = null;
+            pdCategory3Id = null;
+            pdCategory4Id = null;
             break;
           case 2:
             categoryLevelTwo = pdCategory;
-            categoryLevelOne = levelOne;
             categoryLevelThr = [];
             categoryLevelFour = [];
             isLevelTwo = false;
             isLevelThr =true;
             isLevelFour =true;
+            pdCategory1Id = parentId;
+            pdCategory2Id = null;
+            pdCategory3Id = null;
+            pdCategory4Id = null;
             break;
           case 3:
             categoryLevelThr = pdCategory;
-            categoryLevelOne = levelOne;
-            categoryLevelTwo = levelTwo;
             categoryLevelFour = [];
             isLevelTwo = false;
             isLevelThr =false;
             isLevelFour =true;
+            pdCategory2Id = parentId;
+            pdCategory3Id = null;
+            pdCategory4Id = null;
             break;
           case 4:
             categoryLevelFour = pdCategory;
-            categoryLevelOne = levelOne;
-            categoryLevelTwo = levelTwo;
-            categoryLevelThr = levelThr;
             isLevelTwo = false;
             isLevelThr =false;
             isLevelFour =false;
+            pdCategory3Id = parentId;
+            pdCategory4Id = null;
             break;
         }
         yield put({
@@ -227,12 +246,17 @@ export default {
               isLevelTwo,
               isLevelThr,
               isLevelFour,
+              pdCategory1Id,
+              pdCategory2Id,
+              pdCategory3Id,
+              pdCategory4Id
             }
           }
         })
       }
     },
     *fetchTabList({ payload: values },{ call, put ,select}) {
+      yield put({type: 'resetPage',payload:{}});
       yield put({type: 'tab/loding',payload:true});
       const selectkey = yield select(state => state.commodityFlow.selectkey);
       const res = yield call(getSearchTabApi,values);

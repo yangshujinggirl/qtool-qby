@@ -3,7 +3,7 @@ import moment from 'moment';
 import UpLoadImg from '../../../components/UpLoadImgMod';
 const FormItem = Form.Item;
 
-export function columnsFun(form,handleBlur){
+export function columnsFun(form,handleBlur,handleChange){
   let linkage=(record)=> {
     let placeholder='',disabled=true, rules=[];
     if(record.fixPosition) {
@@ -16,11 +16,10 @@ export function columnsFun(form,handleBlur){
   }
   //联动清空表单中的值
   const linkChange=(index)=> {
-    let spuListVal = form.getFieldsValue(['spuList']);
-    let err = form.getFieldsError(['spuList']);
-    let { spuList } =spuListVal;
+    // let spuListVal = form.getFieldsValue(['spuList']);
+    // let err = form.getFieldsError(['spuList']);
+    // let { spuList } =spuListVal;
     // form.setFieldsValue({spuList})
-    form.resetFields(['spuList'])
   }
   return [
     {
@@ -52,7 +51,7 @@ export function columnsFun(form,handleBlur){
                   }
                 })(
                   <Input
-                    onBlur={(e)=>handleBlur(e,index)}
+                    onBlur={(e)=>handleBlur(e,record)}
                     maxLength='15'
                     placeholder="请输入Spuid"
                     autoComplete="off"/>
@@ -114,10 +113,11 @@ export function columnsFun(form,handleBlur){
           mod = <div>该商品固定在
                     <FormItem className="row-input-item">
                       {getFieldDecorator(`spuList[${index}].fixPosition`,{
+                        initialValue:record.fixPosition,
                         rules:[{
                           pattern:/^([1-9]$)|(^[1-3][0-9]$)|(^[4][0-5]$)/,message:'请输入1-40'
                         }],
-                        onChange:linkChange
+                        onChange:(e)=>handleChange('fixPosition',e,index)
                       })(
                         <Input
                           maxLength='2'
@@ -128,7 +128,9 @@ export function columnsFun(form,handleBlur){
                     位置
                     <FormItem className="row-input-item">
                       {getFieldDecorator(`spuList[${index}].fixDay`,{
+                        initialValue:record.fixDay,
                         rules:linkageObj.rules,
+                        onChange:(e)=>handleChange('fixDay',e,index)
                       })(
                         <Input
                           maxLength='3'

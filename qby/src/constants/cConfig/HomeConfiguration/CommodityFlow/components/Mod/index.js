@@ -60,11 +60,11 @@ class ModForm extends Component {
         let isEmpty;
         tabs.map((el,index) => {
           if(!el.tabName) {
-            message.error('tab名称不能为空');
             isEmpty = true;
           }
         })
         if(isEmpty) {
+          message.error('tab名称不能为空');
           return;
         }
         if(this.props.goodsList.length<40) {
@@ -92,15 +92,6 @@ class ModForm extends Component {
         homePageModuleId:homePageModuleId
       }
     })
-    this.props.form.resetFields()
-  }
-  onCanceCallback(value) {
-    const { tabId, key } =value;
-    this.props.dispatch({
-      type:'commodityFlow/fetchGoodsList',
-      payload:{tabId,selectkey:key}
-    })
-    this.props.form.resetFields()
   }
   formatData(values) {
     let sortRule;
@@ -164,7 +155,6 @@ class ModForm extends Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     const { categoryData, goodsList, totalData, sortArr } =this.props;
-
     return(
       <div className="commodity-main-mod">
         <Form>
@@ -294,22 +284,32 @@ class ModForm extends Component {
   }
 }
 const Mod = Form.create({
-  onValuesChange(props, changedFields, allFields) {
-    let { goodsList } =props;
-    let { spuList } =allFields;
-    goodsList = goodsList.map((el,index) => {
-      spuList.map((item,idx) => {
-        if(index == idx) {
-          el = {...el,...item}
-        }
-      })
-      return el;
-    })
-    props.dispatch({
-      type:'commodityFlow/getGoodsList',
-      payload:goodsList
-    })
-  },
+  // onValuesChange(props, changedFields, allFields) {
+  //   let { goodsList } =props;
+  //   let { spuList } =allFields;
+  //   goodsList = goodsList.map((el,index) => {
+  //     spuList.map((item,idx) => {
+  //       if(index == idx) {
+  //         el = {...el,...item}
+  //       }
+  //     })
+  //     return el;
+  //   })
+  //   props.dispatch({
+  //     type:'commodityFlow/getGoodsList',
+  //     payload:goodsList
+  //   })
+  // },
+  mapPropsToFields(props) {
+    return {
+      pdCategory1Id: Form.createFormField(props.categoryData.pdCategory1Id),
+      pdCategory2Id: Form.createFormField(props.categoryData.pdCategory2Id),
+      pdCategory3Id: Form.createFormField(props.categoryData.pdCategory3Id),
+      pdCategory4Id: Form.createFormField(props.categoryData.pdCategory4Id),
+      spuList: Form.createFormField(props.goodsList),
+      sortType:Form.createFormField(props.totalData.sortType),
+    };
+  }
 })(ModForm);
 function mapStateToProps(state) {
   const { commodityFlow } =state;
