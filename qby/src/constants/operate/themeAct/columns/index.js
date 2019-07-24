@@ -3,6 +3,9 @@ const Columns = [{
      dataIndex: 'themeName',
 
    },{
+    title: '主题活动ID',
+    dataIndex: 'themeActivityId'
+   },{
      title: '主题状态',
      dataIndex: 'themeStatusStr'
    },{
