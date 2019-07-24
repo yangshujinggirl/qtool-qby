@@ -98,7 +98,7 @@ class ModuleSet extends Component {
                 placeholder="请填写六位数字+字母组合"
                 maxLength='6'
               />
-            )}<span className='suffix_tips'>请填写六位数字</span>
+            )}
           </FormItem>
           <FormItem labelCol={{ span: 3 }} label="icon名称样式">
             {getFieldDecorator("titleColor", {
