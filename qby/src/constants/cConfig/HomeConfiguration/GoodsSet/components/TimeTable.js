@@ -63,7 +63,7 @@ class TimeTable extends Component {
                     disabledDate={disabledDate}
                     disabledTime={disabledDateTime}
                     allowClear={false}
-                    showTime
+                    showTime={{ defaultValue: [moment('00:00:00', 'HH:mm:ss'),moment('00:00:00', 'HH:mm:ss')] }}
                     format="YYYY-MM-DD HH:mm"
                   />
                 )}
