@@ -90,7 +90,7 @@ class Field extends Component {
     return data;
   }
   render() {
-    const { goods, columnsTwo, columnsOne } =this.props;
+    const { goods, columnsTwo, columnsOne,totalList } =this.props;
     let listTwo = this.processData(goods.listTwo)
     let listOne = this.processData(goods.listOne)
     // let { listTwo, listOne }=goods;
@@ -114,7 +114,10 @@ class Field extends Component {
           columns={columnsTwo}
           dataSource={listTwo}
           components={this.components}
-          footer={()=><Button type="default" onClick={this.props.handleAdd}>+新增</Button>}
+          footer={()=>{
+            totalList.length <= 100 &&
+            <Button type="default" onClick={this.props.handleAdd}>+新增</Button>
+          }}
           onRow={(record, index) => ({
             'data-row-key':record.key,
             'data-row-index':index,
