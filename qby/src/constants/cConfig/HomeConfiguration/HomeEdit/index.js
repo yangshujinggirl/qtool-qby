@@ -50,6 +50,21 @@ class HomeEdit extends Component {
   //隐藏
   toggleShow=(homepageModuleId,isDisplay)=> {
     isDisplay=isDisplay?0:1;
+    let message = !isDisplay?'确认要隐藏此模块么，确认隐藏，此模块将不会在C端App和小程序中显示':'确认要显示此模块么，确认显示，此模块将会在C端App和小程序中显示'
+    Modal.confirm({
+      title: '温馨提示',
+      content: message,
+      onOk:()=>{
+        this.onOkCallback(homepageModuleId,isDisplay);
+      },
+      onCancel:()=> {
+
+      },
+    });
+
+  }
+  onOkCallback=(homepageModuleId,isDisplay)=> {
+    // let message = isDisplay?'':''
     getStatusApi({homepageModuleId,isDisplay})
     .then((res) => {
       if(res.code == 0) {
@@ -90,7 +105,6 @@ class HomeEdit extends Component {
       if(res.code=='0') {
         message.success(msg)
       } else if(res.code=='260'){
-        message.success('校验失败',1)
         this.props.dispatch({
           type:'homeEdit/getCheckResult',
           payload:checkResult

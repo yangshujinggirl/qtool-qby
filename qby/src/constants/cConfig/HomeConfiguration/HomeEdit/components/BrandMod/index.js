@@ -139,7 +139,7 @@ class BrandMod extends Component {
               <Button onClick={this.onEdit}>编辑</Button>
               <Button
                 onClick={()=>this.props.toggleShow(homepageModuleId,isDisplay)}>
-                {isDisplay?'隐藏':'展开'}
+                {isDisplay?'隐藏':'显示'}
               </Button>
             </div>
           }

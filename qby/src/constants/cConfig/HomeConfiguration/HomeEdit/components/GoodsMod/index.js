@@ -91,7 +91,7 @@ class GoodsMod extends Component {
             !this.props.data.info&&
             <div>
               <Button onClick={this.goEdit}>编辑</Button>
-              <Button onClick={()=>this.props.toggleShow(homepageModuleId,isDisplay)}>{isDisplay?'隐藏':'展开'}</Button>
+            <Button onClick={()=>this.props.toggleShow(homepageModuleId,isDisplay)}>{isDisplay?'隐藏':'显示'}</Button>
             </div>
           }
         </div>
