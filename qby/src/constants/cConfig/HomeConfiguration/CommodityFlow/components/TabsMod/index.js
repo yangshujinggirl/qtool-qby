@@ -73,6 +73,13 @@ class Field extends Component {
         type:'commodityFlow/fetchGoodsList',
         payload:{tabId:tabs[0].tabId,selectkey}
       })
+      this.props.dispatch({
+        type:'commodityFlow/fetchCategory',
+        payload:{
+          level:1,
+          parentId:null
+  			}
+      })
     }
     this.updateTabs(tabs)
   }

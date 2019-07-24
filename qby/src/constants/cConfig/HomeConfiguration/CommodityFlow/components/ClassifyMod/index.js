@@ -87,7 +87,7 @@ class ClassifyMod extends Component {
   }
   //下载
   downLoad=()=> {
-    window.open('../../../../../../static/pdSpuFlow.xlsx');
+    window.open('../../../../../../static/pdSpuFlow.xls');
   }
   callback=(goodsList)=> {
     this.props.dispatch({
