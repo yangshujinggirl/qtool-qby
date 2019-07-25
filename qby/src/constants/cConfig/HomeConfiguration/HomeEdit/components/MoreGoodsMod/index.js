@@ -70,7 +70,7 @@ class MoreGoodsMod extends Component {
                 }
               </div>
               :
-              <div className="no-module-data more-goods-noData">商品模块</div>
+              <div className="no-module-data more-goods-noData">二行三列商品模块</div>
             }
           </div>
           <div className="handle-btn-action">
