@@ -3,10 +3,27 @@ import React, { Component } from 'react';
 import moment from 'moment';
 
 const formItemLayout = {
-  labelCol: { span: 4 },
+  labelCol: { span: 5 },
   wrapperCol: { span: 16 },
 };
 const dateFormat = 'YYYY-MM-DD HH:mm';
+const disabledDate = current => {
+  return current && current < moment().subtract(1,'days');
+};
+const range = (start, end) => {
+  const result = [];
+  for (let i = start; i <= end; i++) {
+    if (i != 30 && i != 0) {
+      result.push(i);
+    }
+  }
+  return result;
+};
+const disabledDateTime = () => {
+  return {
+    disabledMinutes: () => range(0, 60)
+  };
+};
 
 class ReleaseModalF extends Component {
   handleOk=(e)=> {
@@ -33,7 +50,7 @@ class ReleaseModalF extends Component {
 
     return(
       <Modal
-        title="定时发布"
+        title={type==2?'定时发布':'立即发布'}
         confirmLoading={confirmLoading}
         visible={this.props.visible}
         onOk={this.handleOk}
@@ -48,7 +65,16 @@ class ReleaseModalF extends Component {
                     required:true,message:'请设定发布时间'
                   }]
                 })(
-                  <DatePicker  format={dateFormat}/>
+                  <DatePicker
+                    format={dateFormat}
+                    disabledDate={disabledDate}
+                    disabledTime={disabledDateTime}
+                    allowClear={false}
+                    showTime={{
+                      hideDisabledOptions: true,
+                      defaultValue: moment('00:00:00', 'HH:mm:ss'),
+                    }}
+                    />
                 )}
               </Form.Item>
               <p>亲，建议定时发布时间避开流量高峰哦</p>

@@ -57,8 +57,13 @@ class ClassifyMod extends Component {
     this.props.dispatch({ type: 'tab/loding', payload:true});
     getAddApi({catalogListStr:paramsStr})
     .then((res) => {
-      const { spuList, code } =res;
+      let { spuList, code } =res;
       if(code == 0) {
+        let differenceLen = Number(100)-Number(goodsList.length);
+        if(spuList.length>differenceLen) {
+          // message.error('表格仅支持添加100个商品，超出的商品添加失败')
+          spuList = spuList.slice(0,differenceLen+1)
+        }
         for(var i=0;i<goodsList.length;i++){
             for(var j = 0;j<spuList.length;j++){
               if(goodsList[i].pdSpuId == spuList[j].pdSpuId) {

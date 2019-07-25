@@ -123,7 +123,6 @@ class ModForm extends Component {
     let { goodsList, activiKey, categoryList, addKey } =this.props;
     const { visible, confirmLoading, loading } =this.state;
     const { form }= this.props;
-    console.log(activiKey)
     let optionSource = activiKey==1?linkOptionTwo:linkOption;
     return(
       <div className="banner-set-mod">

@@ -5,6 +5,23 @@ import UpLoadImg from '../UpLoadImgMod';
 import './index.less';
 
 const FormItem = Form.Item;
+const disabledDate = current => {
+  return current && current < moment().subtract(1,'days');
+};
+const range = (start, end) => {
+  const result = [];
+  for (let i = start; i <= end; i++) {
+    if (i != 30 && i != 0) {
+      result.push(i);
+    }
+  }
+  return result;
+};
+const disabledDateTime = () => {
+  return {
+    disabledMinutes: () => range(0, 60)
+  };
+};
 
 class BaseEditTable extends Component {
   constructor(props) {
@@ -128,36 +145,43 @@ class BaseEditTable extends Component {
     const { getFieldDecorator } =this.props.form;
     const { categoryList } =this.props;
     let linkAgeObj= this.contactLinkInfo(record);
-    if(record.linkInfoType&&record.linkInfoType==8){
-      return <FormItem>
-              {getFieldDecorator(`goods[${index}].linkInfo`,{
-                initialValue:record.linkInfo,
-                rules:[{ required:true, message:'请选择分类'}],
-                })(
-                  <Select
-                    placeholder={linkAgeObj.placeholder}>
-                    {
-                      categoryList.map((el) => (
-                        <Select.Option
-                          value={el.categoryId}
-                          key={el.categoryId}>{el.categoryName}</Select.Option>
-                      ))
-                    }
-                  </Select>
-              )}
-            </FormItem>
-    } else {
-      return <FormItem>
-              {getFieldDecorator(`goods[${index}].linkInfo`,{
-                initialValue:record.linkInfo,
-                rules:linkAgeObj.rules,
-                })(
-                  <Input
-                    disabled={linkAgeObj.disabled}
-                    placeholder={linkAgeObj.placeholder}
-                    autoComplete="off"/>
-              )}
-            </FormItem>
+    switch(record.linkInfoType) {
+      case 8:
+        return <FormItem>
+                {getFieldDecorator(`goods[${index}].linkInfo`,{
+                  initialValue:record.linkInfo,
+                  rules:[{ required:true, message:'请选择分类'}],
+                  })(
+                    <Select
+                      placeholder={linkAgeObj.placeholder}>
+                      {
+                        categoryList.map((el) => (
+                          <Select.Option
+                            value={el.categoryId}
+                            key={el.categoryId}>{el.categoryName}</Select.Option>
+                        ))
+                      }
+                    </Select>
+                )}
+        </FormItem>
+        break;
+      case 1:
+      case 2:
+      case 3:
+        return <FormItem>
+                {getFieldDecorator(`goods[${index}].linkInfo`,{
+                  initialValue:record.linkInfo,
+                  rules:linkAgeObj.rules,
+                  })(
+                    <Input
+                      disabled={linkAgeObj.disabled}
+                      placeholder={linkAgeObj.placeholder}
+                      autoComplete="off"/>
+                )}
+          </FormItem>
+        break;
+      default:
+        return <span></span>
     }
   }
   renderStartTime=(text,record,index)=> {
@@ -168,6 +192,8 @@ class BaseEditTable extends Component {
               rules:[{ required:true, message:'请选择开始时间'}],
               })(
                 <DatePicker
+                  disabledDate={disabledDate}
+                  disabledTime={disabledDateTime}
                   format="YYYY-MM-DD HH:mm"
                   allowClear={false}
                   showTime={{
@@ -185,7 +211,7 @@ class BaseEditTable extends Component {
     let goodVal = this.props.form.getFieldsValue(['goods']);
     let { goods } =goodVal;
     goods = goods.map((el,idx) => {
-      if(index == idx) {
+      if(index == idx&&el.linkInfo) {
         el.linkInfo = null;
       }
       return el;

@@ -19,7 +19,7 @@ class UpLoadImg extends Component {
       }).then(() => {
           return file;
       },() => {
-          message.error("请上传格式为jpg、png、gif的图片");
+          message.error("格式不正确，请修改后重新上传！");
           return Promise.reject();
       });
     let isLt2M = new Promise((resolve, reject) => {
@@ -44,7 +44,7 @@ class UpLoadImg extends Component {
       }).then(() => {
           return file;
       },() => {
-          message.error("图片尺寸不符合要求，请修改后重新上传！");
+          message.error(`图片尺寸为${this.props.width}*${this.props.height}px，大小不符合要求，请修改后重新上传！`);
           return Promise.reject();
       });
     return isImg  && isLt2M &&isSize;

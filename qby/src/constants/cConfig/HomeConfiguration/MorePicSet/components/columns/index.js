@@ -7,12 +7,30 @@ import {
   linkIconOption,
 } from '../../../components/optionMap.js';
 
+const disabledDate = current => {
+  return current && current < moment().subtract(1,'days');
+};
+const range = (start, end) => {
+  const result = [];
+  for (let i = start; i <= end; i++) {
+    if (i != 30 && i != 0) {
+      result.push(i);
+    }
+  }
+  return result;
+};
+const disabledDateTime = () => {
+  return {
+    disabledMinutes: () => range(0, 60)
+  };
+};
+
 export function columns(form, categoryList, activiKey){
   const linkChange=(index)=> {
     let goodVal = form.getFieldsValue(['goods']);
     let { goods } =goodVal;
     goods = goods.map((el,idx) => {
-      if(index == idx) {
+      if(index == idx&&el.linkInfo) {
         el.linkInfo = null;
       }
       return el;
@@ -67,7 +85,7 @@ export function columns(form, categoryList, activiKey){
         return <span>{index}</span>
       }
     }, {
-      title: '图片',
+      title: '图片*',
       dataIndex: 'picUrl',
       key: 'picUrl',
       align:'center',
@@ -117,7 +135,7 @@ export function columns(form, categoryList, activiKey){
               </FormItem>
       }
     },{
-      title: '跳转链接',
+      title: '跳转链接*',
       dataIndex: 'linkInfoType',
       key: 'linkInfoType',
       align:'center',
@@ -146,7 +164,7 @@ export function columns(form, categoryList, activiKey){
            </FormItem>
       }
     },  {
-      title: 'URL链接',
+      title: '跳转内容*',
       dataIndex: 'linkInfo',
       key: 'linkInfo',
       align:'center',
@@ -154,40 +172,47 @@ export function columns(form, categoryList, activiKey){
       render:(text,record,index)=> {
         const { getFieldDecorator } =form;
         let linkAgeObj= renderUrl(record);
-        if(record.linkInfoType&&record.linkInfoType==8){
-          return <FormItem>
-                  {getFieldDecorator(`goods[${index}].linkInfo`,{
-                    initialValue:record.linkInfo,
-                    rules:[{ required:true, message:'请选择分类'}],
-                    })(
-                      <Select
-                        placeholder={linkAgeObj.placeholder}>
-                        {
-                          categoryList.map((el) => (
-                            <Select.Option
-                              value={el.categoryId}
-                              key={el.categoryId}>{el.categoryName}</Select.Option>
-                          ))
-                        }
-                      </Select>
-                  )}
-                </FormItem>
-        } else {
-          return <FormItem>
-                  {getFieldDecorator(`goods[${index}].linkInfo`,{
-                    initialValue:record.linkInfo,
-                    rules:linkAgeObj.rules,
-                    })(
-                      <Input
-                        disabled={linkAgeObj.disabled}
-                        placeholder={linkAgeObj.placeholder}
-                        autoComplete="off"/>
-                  )}
-                </FormItem>
+        switch(record.linkInfoType) {
+          case 8:
+            return <FormItem>
+                    {getFieldDecorator(`goods[${index}].linkInfo`,{
+                      initialValue:record.linkInfo,
+                      rules:[{ required:true, message:'请选择分类'}],
+                      })(
+                        <Select
+                          placeholder={linkAgeObj.placeholder}>
+                          {
+                            categoryList.map((el) => (
+                              <Select.Option
+                                value={el.categoryId}
+                                key={el.categoryId}>{el.categoryName}</Select.Option>
+                            ))
+                          }
+                        </Select>
+                    )}
+            </FormItem>
+            break;
+          case 1:
+          case 2:
+          case 3:
+            return <FormItem>
+                    {getFieldDecorator(`goods[${index}].linkInfo`,{
+                      initialValue:record.linkInfo,
+                      rules:linkAgeObj.rules,
+                      })(
+                        <Input
+                          disabled={linkAgeObj.disabled}
+                          placeholder={linkAgeObj.placeholder}
+                          autoComplete="off"/>
+                    )}
+              </FormItem>
+                break;
+          default:
+           return <span></span>
         }
       }
     }, {
-      title: '开始时间',
+      title: '开始时间*',
       dataIndex: 'beginTime',
       key: 'beginTime',
       align:'center',
@@ -200,12 +225,14 @@ export function columns(form, categoryList, activiKey){
                   rules:[{ required:true, message:'请选择开始时间'}],
                   })(
                     <DatePicker
-                    format="YYYY-MM-DD HH:mm"
-                    allowClear={false}
-                    showTime={{
-                      hideDisabledOptions: true,
-                      defaultValue: moment('00:00:00', 'HH:mm:ss'),
-                    }}/>
+                      disabledDate={disabledDate}
+                      disabledDateTime={disabledDateTime}
+                      format="YYYY-MM-DD HH:mm"
+                      allowClear={false}
+                      showTime={{
+                        hideDisabledOptions: true,
+                        defaultValue: moment('00:00:00', 'HH:mm:ss'),
+                      }}/>
                 )}
               </FormItem>
       }

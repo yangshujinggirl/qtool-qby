@@ -24,7 +24,8 @@ class HomeEdit extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      urlCode:'',
+      urlCodeApp:'',
+      urlCodeWx:'',
       visible:false,
       params:{},
       confirmLoading:false
@@ -76,10 +77,18 @@ class HomeEdit extends Component {
   goPreview=()=> {
     const { homepageId } = this.props.data;
     let url ='http://v2.qby.testin.qtoolsbaby.net:81/home/index.html';
-    let urlCode = `${url}?homepageId=${homepageId}`
-    QRCode.toDataURL(urlCode)
+    let urlCodeWx = `${url}?homepageId=${homepageId}&platform=1`
+    let urlCodeApp = `${url}?homepageId=${homepageId}&platform=2`
+    QRCode.toDataURL(urlCodeWx)
     .then(url => {
-      this.setState({ urlCode:url })
+      this.setState({ urlCodeWx:url })
+    })
+    .catch(err => {
+      // console.error(err)
+    })
+    QRCode.toDataURL(urlCodeApp)
+    .then(url => {
+      this.setState({ urlCodeApp:url })
     })
     .catch(err => {
       // console.error(err)
@@ -134,33 +143,44 @@ class HomeEdit extends Component {
   onCancel=()=>{
     this.setState({ visible:false })
   }
+  menu = (
+   <Menu className="home-configuration-menu" onClick={this.releaseHome}>
+     <Menu.Item key="1">
+       <p>立即发布</p>
+     </Menu.Item>
+     <Menu.Item key="2">
+       <p>定时发布</p>
+     </Menu.Item>
+   </Menu>
+  );
   render() {
-    const menu = (
-      <Menu className="home-configuration-menu" onClick={this.releaseHome}>
-        <Menu.Item key="1">
-          <p>立即发布</p>
-        </Menu.Item>
-        <Menu.Item key="2">
-          <p>定时发布</p>
-        </Menu.Item>
-      </Menu>
-    );
-    const { urlCode, visible, params, confirmLoading } =this.state;
+    const { urlCodeApp, urlCodeWx, visible, params, confirmLoading } =this.state;
     let { productDisplay, multilineProduct, picMix, themeActivity, homepageInfoVo } =this.props.info;
+    const urlContent = (
+      <div className="urlCode-arr">
+        <div className="code-item">
+          <img src={urlCodeApp}/>
+          扫码查看App首页内容
+        </div>
+        <div className="code-item">
+          <img src={urlCodeWx}/>
+          扫码查看小程序首页内容
+        </div>
+      </div>
+    )
     return (
       <div className="home-configuration-edit-pages">
         <div className="part-head">
           <p className="pl">{homepageInfoVo.versionName}</p>
           <div className="pr">
-            <Popover content={<img src={urlCode}/>} title={null} trigger="click">
+            <Popover content={urlContent} title={null} trigger="click">
               <p className="preview" onClick={this.goPreview}>预览</p>
             </Popover>
             { !this.props.data.info&&
-              <Dropdown overlay={menu} trigger={["click"]}>
+              <Dropdown overlay={this.menu} trigger={["click"]}>
                 <p>|保存并发布</p>
               </Dropdown>
             }
-
           </div>
         </div>
         <div className="part-mods">
