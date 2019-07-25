@@ -177,13 +177,7 @@ class ModuleSet extends Component {
     }
     callback();
   };
-
-  validator=(rule,value,callback)=>{
-    if(value && value.length<6){
-      callback('请输入六位颜色色号')
-    };
-    callback()
-  }
+ 
   render() {
     const { type,goodType } = this.props; //goodType --> 1活动 2上新
     const {
@@ -322,7 +316,7 @@ class ModuleSet extends Component {
               </Radio.Group>
             )}
           </FormItem>
-          {(type == 35 && goodType == 1)&& (
+          {(type == 35)&& (
             <FormItem {...formLayout} label="插件">
               {getFieldDecorator("isDisplayCountdown", {
                 initialValue: isDisplayCountdown
@@ -335,9 +329,9 @@ class ModuleSet extends Component {
           <FormItem {...formLayout} label="设置模块背景色号">
             {getFieldDecorator("moduleBackColor", {
               initialValue: moduleBackColor,
-              rules:[{
-                validator: this.validator
-              }]
+              rules:[
+                {pattern:/^[a-zA-Z\d]+$/,message:'格式错误，请填写六位数字+字母组合'},
+              ]
             })(
               <Input
                 style={{ width: "300px" }}

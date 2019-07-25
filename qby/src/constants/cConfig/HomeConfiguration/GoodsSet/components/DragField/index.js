@@ -100,7 +100,7 @@ class Field extends Component {
     return data;
   }
   render() {
-    const { goods, columnsTwo, columnsOne, totalList = [] } = this.props;
+    const { goods, columnsTwo, columnsOne, totalList=[]} = this.props;
     let listTwo = this.processData(goods.listTwo);
     let listOne = this.processData(goods.listOne);
     return (
@@ -126,7 +126,7 @@ class Field extends Component {
           components={this.components}
           footer={() => {
             return (
-              !!totalList.length <= 100 && (
+              totalList.length < 100 && (
                 <Button type="default" onClick={this.props.handleAdd}>
                   +新增
                 </Button>

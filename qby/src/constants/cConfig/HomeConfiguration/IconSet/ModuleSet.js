@@ -69,13 +69,6 @@ class ModuleSet extends Component {
       visible: false
     });
   };
-  validator=(rule,value,callback)=>{
-    if(value && value.length<6){
-      callback('请输入六位颜色色号')
-    };
-    callback()
-    
-  }
   render() {
     const { visible,titleColor,moduleBackColor,loading } = this.state;
     const { getFieldDecorator } = this.props.form;
@@ -89,9 +82,9 @@ class ModuleSet extends Component {
           >
             {getFieldDecorator("moduleBackColor", {
               initialValue: moduleBackColor,
-              rules:[{
-                validator:this.validator
-              }]
+              rules:[
+                {pattern:/^[a-zA-Z\d]+$/,message:'格式错误，请填写六位数字+字母组合'}
+              ]
             })(
               <Input
                 style={{ width: "200px" }}

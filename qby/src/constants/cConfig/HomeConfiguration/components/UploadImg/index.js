@@ -26,12 +26,12 @@ class CommonUpload extends Component {
     const isPNG = file.type === "image/png";
     if (!isPNG) {
       message.error("图片格式不正确，请修改后重新上传！", 0.8);
-      return isPNG;
+      return isPNG
     }
     const isLt2M = file.size / 1024 / 1024 < 2;
     if (!isLt2M) {
       message.error(file.name + "图片大小超出限制，请修改后重新上传", 0.8);
-      return isLt2M;
+      return isLt2M
     }
     const isSize = this.isSize(file);
     return isPNG && isLt2M && isSize;

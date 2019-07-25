@@ -229,13 +229,6 @@ class Index extends Component {
       couponList: couponList.filter(item => item.key !== key)
     });
   };
-  validator=(rule,value,callback)=>{
-    if(value && value.length < 6){
-      callback('请输入六位颜色色号')
-    };
-    callback()
-  }
-  
   render() {
     const formLayout = {
       labelCol: { span: 4 },
@@ -320,7 +313,7 @@ class Index extends Component {
             {getFieldDecorator("moduleBackColor", {
               initialValue: moduleBackColor,
               rules: [
-                { validator: this.validator}
+                {pattern:/^[a-zA-Z\d]+$/,message:'格式错误，请填写六位数字+字母组合'},
               ]
             })(
               <Input
