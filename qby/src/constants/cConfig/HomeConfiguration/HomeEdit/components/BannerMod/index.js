@@ -52,18 +52,24 @@ class BannerMod extends Component {
         <div>
           {
             moduleContent&&moduleContent.length>0?
-            <div className="swiper-container banner-swiper-container">
-              <div className="swiper-wrapper">
-                {
-                  moduleContent.map((el,index) => (
-                    <div className="swiper-slide" key={el.bannerId}>
-                      <img src={`${fileDomain}${el.bannerPic}`}/>
-                    </div>
-                  ))
-                }
+            ( moduleContent.length==1?
+              <div className="swiper-slide" key={moduleContent[0].bannerId}>
+                <img src={`${fileDomain}${moduleContent[0].bannerPic}`}/>
               </div>
-              <div className="swiper-pagination"></div>
-            </div>
+              :
+              <div className="swiper-container banner-swiper-container">
+                <div className="swiper-wrapper">
+                  {
+                    moduleContent.map((el,index) => (
+                      <div className="swiper-slide" key={el.bannerId}>
+                        <img src={`${fileDomain}${el.bannerPic}`}/>
+                      </div>
+                    ))
+                  }
+                </div>
+                <div className="swiper-pagination"></div>
+              </div>
+            )
             :
             <div className="no-module-data banner-no-module">Banner模块</div>
           }
