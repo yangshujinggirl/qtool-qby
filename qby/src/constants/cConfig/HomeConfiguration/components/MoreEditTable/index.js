@@ -19,7 +19,8 @@ const range = (start, end) => {
 };
 const disabledDateTime = () => {
   return {
-    disabledMinutes: () => range(0, 60)
+    disabledHours: () => range(0, 60).splice(20, 4),
+    disabledMinutes: () => range(0, 31)
   };
 };
 
