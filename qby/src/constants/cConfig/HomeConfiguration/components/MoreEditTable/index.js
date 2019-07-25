@@ -6,6 +6,8 @@ import './index.less';
 
 const FormItem = Form.Item;
 const disabledDate = current => {
+  console.log(moment(current).date())
+  console.log(moment().subtract(1,'days').date())
   return current && current < moment().subtract(1,'days');
 };
 const range = (start, end) => {
@@ -17,13 +19,23 @@ const range = (start, end) => {
   }
   return result;
 };
-const disabledDateTime = () => {
+const formatHours =(date)=> {
+  let hour = moment().hour();
+  let selDat = moment(date).date();
+  let currDat = moment().date();
+  let disabledHours;
+  if(selDat>currDat) {
+    disabledHours = range(0, 60).splice(24, 1)
+  } else {
+    disabledHours = range(0, 60).splice(0, hour)
+  }
+  return disabledHours;
+}
+const disabledDateTime = (date) => {
   return {
-    disabledHours: () => range(0, 60).splice(20, 4),
-    disabledMinutes: () => range(0, 31)
+    disabledHours: ()=> formatHours(date),
   };
 };
-
 class BaseEditTable extends Component {
   constructor(props) {
     super(props);
@@ -199,7 +211,7 @@ class BaseEditTable extends Component {
                   allowClear={false}
                   showTime={{
                     hideDisabledOptions: true,
-                    defaultValue: moment('00:00:00', 'HH:mm:ss'),
+                    defaultValue: moment('00:00', 'HH:mm'),
                   }}/>
             )}
           </FormItem>
