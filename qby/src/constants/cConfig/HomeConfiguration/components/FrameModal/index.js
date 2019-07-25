@@ -14,6 +14,17 @@ class App extends React.Component {
       this.props.onOk(frameNum);
     });
   }
+  changeNum=(value)=> {
+    let max;
+    if(this.props.modName=='icon') {
+      max = 4;
+    } else {
+      max = 5;
+    }
+    if(value > max) {
+      this.props.form.setFieldsValue({frameNum:max})
+    }
+  }
   render() {
     const { visible, confirmLoading, modName } = this.props;
     const { getFieldDecorator } =this.props.form;
@@ -39,7 +50,8 @@ class App extends React.Component {
           {text}
           <Form.Item className="frame-item">
             {getFieldDecorator('frameNum', {
-              initialValue: 1
+              initialValue: 1,
+              onChange:this.changeNum
             })(
               <InputNumber min={1} max={max}/>
             )}
