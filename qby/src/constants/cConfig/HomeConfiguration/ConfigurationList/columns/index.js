@@ -62,7 +62,7 @@ const IndexColumns = function(Look, Edit) {
                 编辑
               </span>
             )}
-            {((record.status == 1 || record.status == 2) && Look) && (
+            {((record.status == 1 || record.status == 2) && Edit) && (
               <span
                 className="action-btn"
                 onClick={() => record.onOperateClick("ban")}
