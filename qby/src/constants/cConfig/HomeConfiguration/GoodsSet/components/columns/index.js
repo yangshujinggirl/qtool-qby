@@ -107,14 +107,17 @@ export function columnsFun(form,handleBlur){
                 )}
               </FormItem>
       }
-    }, 
-    {
+    },{
       title: '商品状态',
       dataIndex: 'isLineStr',
       key: 'isLineStr',
       width:'10%',
-    },
-    {
+    },{
+      title: '是否预售',
+      dataIndex: 'isPresellStr',
+      key: 'isPresellStr',
+      width:'10%',
+    },{
       title: tags,
       dataIndex: 'tags',
       key: 'tags',
@@ -166,7 +169,7 @@ export function columnsTwoFun(form, handleBlur){
       key: 'key',
       align:'center',
       width:'3%',
-      colSpan:11,
+      colSpan:14,
       render:(text,record,index)=> {
         index++;
         return <span>{index}</span>
@@ -273,6 +276,13 @@ export function columnsTwoFun(form, handleBlur){
       title: '商品状态',
       dataIndex: 'isLineStr',
       key: 'isLineStr',
+      colSpan:0,
+      width:'10%',
+    },{
+      title: '是否预售',
+      dataIndex: 'isPresellStr',
+      key: 'isPresellStr',
+      colSpan:0,
       width:'10%',
     },{
       title: 'B端在售库存',

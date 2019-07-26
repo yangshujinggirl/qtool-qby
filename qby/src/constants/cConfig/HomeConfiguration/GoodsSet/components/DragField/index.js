@@ -16,8 +16,8 @@ class BodyRow extends React.Component {
       moveRow,
       ...restProps
     } = this.props;
-
-    const style = { ...restProps.style, cursor: "move" };
+    
+    const style = { ...restProps.style, cursor: "move"};
 
     let { className } = restProps;
     if (isOver) {
@@ -104,7 +104,7 @@ class Field extends Component {
     let listTwo = this.processData(goods.listTwo);
     let listOne = this.processData(goods.listOne);
     return (
-      <div className="drag-tables-component">
+      <div className="drag-tables-component single_goods">
         <Table
           bordered
           pagination={false}
@@ -117,6 +117,9 @@ class Field extends Component {
             "data-row-index": index,
             moveRow: this.props.moveRow
           })}
+          rowClassName={(record,index)=>(
+            record.isLine==20?'haveBackColor':null
+          )}
         />
         <Table
           bordered
@@ -139,6 +142,9 @@ class Field extends Component {
             "data-row-parent": "listTwo",
             moveRow: this.props.moveRow
           })}
+          rowClassName={(record,index)=>(
+            record.isLine==20?'haveBackColor':null
+          )}
         />
       </div>
     );

@@ -154,6 +154,12 @@ export function columnsNewFun(form,handleBlur){
       width:'10%',
     },
     {
+      title: '是否预售',
+      dataIndex: 'isPresellStr',
+      key: 'isPresellStr',
+      width:'10%',
+    },
+    {
       title: '参与活动',
       dataIndex: 'activitys',
       key: 'activitys',
@@ -197,7 +203,7 @@ export function columnsNewTwoFun(form, handleBlur){
       key: 'key',
       align:'center',
       width:'3%',
-      colSpan:13,
+      colSpan:14,
       render:(text,record,index)=> {
         index++;
         return <span>{index}</span>
@@ -327,6 +333,13 @@ export function columnsNewTwoFun(form, handleBlur){
       title: '商品状态',
       dataIndex: 'isLineStr',
       key: 'isLineStr',
+      colSpan:0,
+      width:'10%',
+    },
+    {
+      title: '是否预售',
+      dataIndex: 'isPresellStr',
+      key: 'isPresellStr',
       colSpan:0,
       width:'10%',
     },

@@ -54,7 +54,7 @@ const IndexColumns = function(Look, Edit) {
               </span>
             )}
 
-            {((record.status == 1 || record.status == 2) && Edit ) && (
+            {((record.status == 1) && Edit ) && (
               <span
                 className="action-btn"
                 onClick={() => record.onOperateClick("edit")}
