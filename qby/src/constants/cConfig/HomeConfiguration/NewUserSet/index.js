@@ -312,15 +312,10 @@ class Index extends Component {
           <FormItem label="设置模块背景色号" {...formLayout}>
             {getFieldDecorator("moduleBackColor", {
               initialValue: moduleBackColor,
-              rules: [
-                {pattern:/^[a-zA-Z\d]+$/,message:'格式错误，请填写六位数字+字母组合'},
-              ]
             })(
               <Input
-                placeholder="请填写六位数字+字母组合"
-                style={{ width: "266px" }}
-                autoComplete='off'
-                maxLength='6'
+                type='color'
+                style={{ width: "60px" }}
               />
             )}
           </FormItem>

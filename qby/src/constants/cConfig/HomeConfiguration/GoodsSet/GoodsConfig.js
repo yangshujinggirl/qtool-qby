@@ -253,7 +253,7 @@ class GoodsConfig extends Component {
                       </div>
                     </div>
                     <div className="tips">
-                      注：首页单行横划商品模块固定展示8件商品，按照以下顺序展示，售罄或下架商品不展示，由后位商品按照顺序补充
+                    注：首页单行横划商品模块固定展示8件商品，按照以下顺序展示，B端在售库存为0或下架商品不展示，由后位商品按照顺序补充
                     </div>
                     <div>
                       <ModDis callBack={this.callBack} form={this.props.form} />

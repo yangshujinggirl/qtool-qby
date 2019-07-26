@@ -48,14 +48,10 @@ class BrandBg extends Component {
               getFieldDecorator('bg',{
                 initialValue:color,
                 onChange:colorChange,
-                rules:[
-                  {pattern:/^[a-zA-Z\d]+$/,message:'格式错误，请填写六位数字+字母组合'}
-                ]
               })(
                 <Input
-                  maxLength='6'
-                  style={{ width: "260px" }}
-                  placeholder="请填写六位数字+字母组合"
+                  style={{ width: "60px" }}
+                  type='color'
                 />
               )
             }

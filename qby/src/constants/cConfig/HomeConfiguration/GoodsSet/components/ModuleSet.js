@@ -265,7 +265,6 @@ class ModuleSet extends Component {
                       <Select placeholder='请选择配置页面'>
                         <Option value={1}>去配置页面</Option>
                         <Option value={2}>去H5页面</Option>
-                        <Option value={3}>去已选商品列表页</Option>
                       </Select>
                     )}
                   </FormItem>
@@ -334,10 +333,8 @@ class ModuleSet extends Component {
               ]
             })(
               <Input
-                style={{ width: "300px" }}
-                placeholder="请填写六位数字+字母组合"
-                autoComplete='off'
-                maxLength='6'
+                style={{ width: "60px" }}
+                type='color'
               />
             )}
           </FormItem>

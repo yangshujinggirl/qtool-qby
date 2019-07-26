@@ -16,7 +16,9 @@ class ThemeAct extends Component{
       confirmLoading:false,
       onlineVisible:false,
       lineLoading:false,
-      inputValues:{},
+      inputValues:{
+        themeStatus:4
+      },
       rowSelection:{
         selectedRowKeys:this.props.themeAct.selectedRowKeys,
         type:'radio',
@@ -78,7 +80,7 @@ class ThemeAct extends Component{
   componentWillMount(){
     this.props.dispatch({
       type:'themeAct/fetchList',
-      payload:{}
+      payload:{themeStatus:4}
     })
   }
   //新增主题
