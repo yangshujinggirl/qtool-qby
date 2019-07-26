@@ -38,7 +38,7 @@ class ThemeMod extends Component {
     let { themeActivity } =this.props.info;
     let { moduleContent, moduleBackColor, homepageModuleId } =themeActivity;
     const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
-    moduleBackColor = moduleBackColor?`#${moduleBackColor}`:null;
+    moduleBackColor = moduleBackColor?`${moduleBackColor}`:null;
     return (
       <CommonMod
         homepageModuleId={homepageModuleId}

@@ -328,9 +328,6 @@ class ModuleSet extends Component {
           <FormItem {...formLayout} label="设置模块背景色号">
             {getFieldDecorator("moduleBackColor", {
               initialValue: moduleBackColor,
-              rules:[
-                {pattern:/^[a-zA-Z\d]+$/,message:'格式错误，请填写六位数字+字母组合'},
-              ]
             })(
               <Input
                 style={{ width: "60px" }}

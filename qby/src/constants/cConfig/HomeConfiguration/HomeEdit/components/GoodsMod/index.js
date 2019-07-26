@@ -43,7 +43,7 @@ class GoodsMod extends Component {
     let { homepageModuleId, moduleContent, moduleBackColor,isDisplay } = productDisplay;
     const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
     const endDate = new Date('2019-8-24') // Christmas, yay
-    moduleBackColor = moduleBackColor?`#${moduleBackColor}`:null;
+    moduleBackColor = moduleBackColor?`${moduleBackColor}`:null;
     return(
       <CommonMod
         homepageModuleId={homepageModuleId}

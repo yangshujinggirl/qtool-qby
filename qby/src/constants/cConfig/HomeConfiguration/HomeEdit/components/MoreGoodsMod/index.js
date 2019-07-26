@@ -31,7 +31,7 @@ class MoreGoodsMod extends Component {
     let { multilineProduct } =this.props.info;
     let { homepageModuleId, moduleContent, moduleBackColor } =multilineProduct;
     const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
-    moduleBackColor = moduleBackColor?`#${moduleBackColor}`:null;
+    moduleBackColor = moduleBackColor?`${moduleBackColor}`:null;
     return(
       <CommonMod
         homepageModuleId={homepageModuleId}

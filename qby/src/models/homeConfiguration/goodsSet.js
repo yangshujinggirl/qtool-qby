@@ -23,6 +23,9 @@ export default {
     changeKey(state,{payload: { activeKey }}) {
       return { ...state, activeKey };
     },
+    activeKeyLists(state,{payload: { activeKeyLists }}) {
+      return { ...state, activeKeyLists };
+    },
     getTimeInfo(state,{payload: { pdListDisplayCfgId, beginTime, endTime, activityId,activeKeyLists,activeKey }}) {
       return { ...state, pdListDisplayCfgId, beginTime, endTime, activityId,activeKeyLists,activeKey };
     },

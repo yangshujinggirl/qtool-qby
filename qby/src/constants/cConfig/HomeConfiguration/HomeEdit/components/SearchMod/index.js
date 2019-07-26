@@ -25,14 +25,14 @@ class SearchMod extends Component {
       //查询
       if (res.code == "0") {
         const fileDomain = JSON.parse(sessionStorage.getItem("fileDomain"));
-        const { backgroundPicUrl } = res.searchQueryVo;
-        this.handleResult(fileDomain, backgroundPicUrl);
+        const { backgroundPicUrl,contentPicUrl,noFullScreenBackGroundPic } = res.searchQueryVo;
+        this.handleResult(fileDomain, backgroundPicUrl,contentPicUrl,noFullScreenBackGroundPic);
       }
     });
   };
   //结果数据处理
-  handleResult = (fileDomain, backgroundPicUrl) => {
-    let fileList = [];
+  handleResult = (fileDomain, backgroundPicUrl,contentPicUrl,noFullScreenBackGroundPic) => {
+    let [fileList,fileList2,fileList3] = [[],[],[]]
     if (backgroundPicUrl) {
       fileList = [
         {
@@ -42,10 +42,32 @@ class SearchMod extends Component {
         }
       ];
     }
+    if (contentPicUrl) {//小程序
+      fileList3 = [
+        {
+          uid: "-1",
+          status: "done",
+          url: fileDomain + contentPicUrl
+        }
+      ];
+    }
+    if (noFullScreenBackGroundPic) {//非全面屏
+      fileList2 = [
+        {
+          uid: "-1",
+          status: "done",
+          url: fileDomain + noFullScreenBackGroundPic
+        }
+      ];
+    }
     this.setState(
       {
         fileList,
-        imageUrl: backgroundPicUrl
+        fileList2,
+        fileList3,
+        imageUrl: backgroundPicUrl,
+        imageUrl2: noFullScreenBackGroundPic,
+        imageUrl3: contentPicUrl,
       },
       () => {
         this.setState({
@@ -54,7 +76,7 @@ class SearchMod extends Component {
       }
     );
   };
-  //图片发生变化时
+  //全面屏发生变化时
   changeImg = fileList => {
     let imageUrl = ''
     if (fileList[0] && fileList[0].status == "done" && fileList[0].response.code == "0") {
@@ -65,13 +87,38 @@ class SearchMod extends Component {
       imageUrl
     });
   };
+  //非全面屏发生变化时
+  changeImg2 = fileList => {
+    let imageUrl2 = ''
+    if (fileList[0] && fileList[0].status == "done" && fileList[0].response.code == "0") {
+      imageUrl2 = fileList[0].response.data[0];
+    };
+    this.setState({
+      fileList2:fileList,
+      imageUrl2
+    });
+  };
+  //小程序发生变化时
+  changeImg3 = fileList => {
+    let imageUrl3 = ''
+    if (fileList[0] && fileList[0].status == "done" && fileList[0].response.code == "0") {
+      imageUrl3 = fileList[0].response.data[0];
+    };
+    this.setState({
+      fileList3:fileList,
+      imageUrl3
+    });
+  };
   //背景图片保存
   onOk = () => {
-    const { imageUrl } = this.state;
+    const { imageUrl,imageUrl2,imageUrl3 } = this.state;
     const { homepageModuleId } = this.props.info.search;
     const values = {
       homepageModuleId,
-      backgroundPicUrl: imageUrl
+      backgroundPicUrl: imageUrl,
+      noFullScreenBackGroundPic: imageUrl2,
+      contentPicUrl: imageUrl3,
+      
     };
     this.setState({
       loading: true
@@ -99,7 +146,7 @@ class SearchMod extends Component {
     });
   };
   render() {
-    const { visible, fileList, loading } = this.state;
+    const { visible, fileList,fileList2,fileList3, loading } = this.state;
     const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
     let { backgroundPicUrl, homepageModuleId } = this.props.info.search;
     backgroundPicUrl = `${fileDomain}${backgroundPicUrl}`;
@@ -121,8 +168,12 @@ class SearchMod extends Component {
 
           </div>
           <SearchUpload
-            changeImg={this.changeImg}
             fileList={fileList}
+            fileList2={fileList2}
+            fileList3={fileList3}
+            changeImg={this.changeImg}
+            changeImg2={this.changeImg2}
+            changeImg3={this.changeImg3}
             visible={visible}
             loading={loading}
             onOk={this.onOk}

@@ -115,7 +115,7 @@ class AddGoodsForm extends Component {
   //参数格式化
   formtParams(values) {
     values.oname = values.oname.trim();
-    values.platform = values.platform.join(",");
+    values.platform = "1,2";
     //处理商品描述参数
     values.pdSpuInfo = this.state.dataSource;
     const {isSkus,pdSkus} = this.props.productEditGoods.iPdSpu;

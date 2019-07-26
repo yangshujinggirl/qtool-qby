@@ -82,15 +82,10 @@ class ModuleSet extends Component {
           >
             {getFieldDecorator("moduleBackColor", {
               initialValue: moduleBackColor,
-              rules:[
-                {pattern:/^[a-zA-Z\d]+$/,message:'格式错误，请填写六位数字+字母组合'}
-              ]
             })(
               <Input
-                style={{ width: "200px" }}
-                placeholder="请填写六位数字+字母组合"
-                maxLength='6'
-                autoComplete='off'
+                style={{ width: "60px" }}
+                type='color'
               />
             )}
           </FormItem>
