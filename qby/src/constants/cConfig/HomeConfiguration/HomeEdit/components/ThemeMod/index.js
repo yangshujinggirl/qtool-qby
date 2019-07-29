@@ -8,15 +8,11 @@ import "./index.less";
 
 class ThemeMod extends Component {
   componentDidUpdate() {
-    new Swiper(".theme-swiper-container", {
+    var themeSwiper = new Swiper(".theme-swiper-container", {
       slidesPerView: 3,
       spaceBetween: 10,
       observer: true,
       observeParents:true,
-      pagination: {
-        el: ".swiper-pagination",
-        clickable: true
-      }
     });
   }
   goEdit = () => {

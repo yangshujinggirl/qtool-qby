@@ -10,7 +10,6 @@ import './index.less';
 class BannerMod extends Component {
   componentDidUpdate() {
     new Swiper ('.banner-swiper-container', {
-          loop: true,  //循环
           speed:200,
           observer: true,
           observeParents:true,
@@ -18,7 +17,7 @@ class BannerMod extends Component {
             disableOnInteraction: false,
           },
           pagination: {  //分页器
-            el: '.swiper-pagination'
+            el: '.banner-swiper-pagination'
           }
         })
   }
@@ -67,7 +66,7 @@ class BannerMod extends Component {
                     ))
                   }
                 </div>
-                <div className="swiper-pagination"></div>
+                <div className="banner-swiper-pagination swiper-pagination"></div>
               </div>
             )
             :
