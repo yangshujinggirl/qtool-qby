@@ -115,7 +115,10 @@ class HomeEdit extends Component {
       type:'tab/initDeletestate',
       payload:key
     });
-
+    this.props.dispatch({
+      type: "homeConfig/fetchList",
+      payload: {}
+    });
   }
   getSaveRelease=(value)=> {
     const { params } =this.state;
