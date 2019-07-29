@@ -5,7 +5,7 @@ const FormItem = Form.Item;
 
 let tagsTit = <span>
   选填项，如填写则前端将会展示标签。效果如下：
-  <img src={require('../../../../../../assets/menu_logo.png')} style={{'width':'80px'}}/>
+  <img src={require('../../../../../../assets/tag.png')} style={{'width':'80px'}}/>
 </span>;
 
 const sellingPoints = <Tooltip placement="top" title='选填项，如填写则前端将会展示卖点，而不是商品名称'>
@@ -108,6 +108,16 @@ export function columnsFun(form,handleBlur){
               </FormItem>
       }
     },{
+      title: '商品状态',
+      dataIndex: 'isLineStr',
+      key: 'isLineStr',
+      width:'10%',
+    },{
+      title: '是否预售',
+      dataIndex: 'isPresellStr',
+      key: 'isPresellStr',
+      width:'10%',
+    },{
       title: tags,
       dataIndex: 'tags',
       key: 'tags',
@@ -159,7 +169,7 @@ export function columnsTwoFun(form, handleBlur){
       key: 'key',
       align:'center',
       width:'3%',
-      colSpan:11,
+      colSpan:14,
       render:(text,record,index)=> {
         index++;
         return <span>{index}</span>
@@ -262,8 +272,19 @@ export function columnsTwoFun(form, handleBlur){
                 )}
               </FormItem>
       }
-    },
-    {
+    },{
+      title: '商品状态',
+      dataIndex: 'isLineStr',
+      key: 'isLineStr',
+      colSpan:0,
+      width:'10%',
+    },{
+      title: '是否预售',
+      dataIndex: 'isPresellStr',
+      key: 'isPresellStr',
+      colSpan:0,
+      width:'10%',
+    },{
       title: 'B端在售库存',
       dataIndex: 'pdSpuInv',
       key: 'pdSpuInv',

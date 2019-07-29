@@ -65,11 +65,13 @@ class ConfigurationList extends Component {
     const { componkey } = this.props;
     const paneitem = {
       title: "首页详情",
-      key: `${componkey}editinfo`+record.homepageId,
-      componkey: `${componkey}editinfo`,
+      key: `${componkey}levelTwoinfo${record.homepageId}`,
+      componkey: `${componkey}levelTwo`,
+      parentKey:componkey,
       data: {
         homepageId:record.homepageId,
-        info:true
+        info:true,
+        key: `${componkey}levelTwo${record.homepageId}`,
       }
     };
     this.props.dispatch({

@@ -5,7 +5,7 @@ const FormItem = Form.Item;
 
 let tagsTit = <span>
   选填项，如填写则前端将会展示标签。效果如下：
-  <img src={require('../../../../../../assets/menu_logo.png')} style={{'width':'80px'}}/>
+  <img src={require('../../../../../../assets/tag.png')} style={{'width':'80px'}}/>
 </span>;
 
 const sellingPoints = <Tooltip placement="top" title='选填项，如填写则前端将会展示卖点，而不是商品名称'>
@@ -113,7 +113,7 @@ export function columnsNewFun(form,handleBlur){
       align:'center',
       width:'8%',
       render:(text,record,index)=> {
-        const { getFieldDecorator } =form;
+        const { getFieldDecorator } = form;
         return <FormItem>
                 {getFieldDecorator(`fieldsOne[${index}].sellingPoints`,{
                   initialValue:record.sellingPoints,
@@ -146,6 +146,18 @@ export function columnsNewFun(form,handleBlur){
                 )}
               </FormItem>
       }
+    },
+    {
+      title: '商品状态',
+      dataIndex: 'isLineStr',
+      key: 'isLineStr',
+      width:'10%',
+    },
+    {
+      title: '是否预售',
+      dataIndex: 'isPresellStr',
+      key: 'isPresellStr',
+      width:'10%',
     },
     {
       title: '参与活动',
@@ -191,7 +203,7 @@ export function columnsNewTwoFun(form, handleBlur){
       key: 'key',
       align:'center',
       width:'3%',
-      colSpan:12,
+      colSpan:14,
       render:(text,record,index)=> {
         index++;
         return <span>{index}</span>
@@ -316,6 +328,20 @@ export function columnsNewTwoFun(form, handleBlur){
                 )}
               </FormItem>
       }
+    },
+    {
+      title: '商品状态',
+      dataIndex: 'isLineStr',
+      key: 'isLineStr',
+      colSpan:0,
+      width:'10%',
+    },
+    {
+      title: '是否预售',
+      dataIndex: 'isPresellStr',
+      key: 'isPresellStr',
+      colSpan:0,
+      width:'10%',
     },
     {
       colSpan:0,

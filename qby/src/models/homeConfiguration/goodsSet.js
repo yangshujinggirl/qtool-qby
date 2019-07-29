@@ -2,7 +2,11 @@ import { getPdSpuListApi } from "../../services/cConfig/homeConfiguration/goodSe
 export default {
   namespace: "goodsSet",
   state: {
-    activeKey: "1",
+    activeKeyLists:[
+      {tab:'设置时段',key:'1'},
+      {tab:'模块设置',key:'2'},
+    ],
+    activeKey:'1',
     pdListDisplayCfgId: "",
     endTime: "",
     beginTime: "",
@@ -14,17 +18,16 @@ export default {
       listTwo: []
     },
     goodType:1,
-    mark:false
   },
   reducers: {
-    setMark(state,{payload:{mark}}){ //区分 tab切换 还是 列表中切换过去
-      return {...state,mark}
-    },
     changeKey(state,{payload: { activeKey }}) {
       return { ...state, activeKey };
     },
-    getTimeInfo(state,{payload: { pdListDisplayCfgId, beginTime, endTime, activityId,mark,activeKey }}) {
-      return { ...state, pdListDisplayCfgId, beginTime, endTime, activityId,mark,activeKey };
+    activeKeyLists(state,{payload: { activeKeyLists }}) {
+      return { ...state, activeKeyLists };
+    },
+    getTimeInfo(state,{payload: { pdListDisplayCfgId, beginTime, endTime, activityId,activeKeyLists,activeKey }}) {
+      return { ...state, pdListDisplayCfgId, beginTime, endTime, activityId,activeKeyLists,activeKey };
     },
     changeActivityId(state,{payload:{activityId}}){
       return { ...state, activityId}
@@ -36,12 +39,15 @@ export default {
       return{
         ...state,
         activeKey: "1",
+        activeKeyLists:[
+          {tab:'设置时段',key:'1'},
+          {tab:'模块设置',key:'2'},
+        ],
         pdListDisplayCfgId: "",
         endTime: "",
         beginTime: "",
         activityId:null,
         goodType:1,
-        mark:false
       }
     },
     resetData(state) {

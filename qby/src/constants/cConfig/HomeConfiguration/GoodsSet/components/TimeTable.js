@@ -126,8 +126,12 @@ class TimeTable extends Component {
         endTime:record.endTime,
         beginTime:record.beginTime,
         activityId:record.activityId,
-        mark: true,
-        activeKey:'2'
+        activeKey:'3',
+        activeKeyLists:[
+          {tab:'设置时段',key:'1'},
+          {tab:'模块设置',key:'2'},
+          {tab:'配置商品',key:'3'},
+        ]
        }
     });
   };
@@ -217,6 +221,7 @@ class TimeTable extends Component {
     });
   };
   render() {
+    console.log(this.props)
     const { timeSlots } = this.props;
     const { visible } = this.state;
     return (

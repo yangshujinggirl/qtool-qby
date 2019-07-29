@@ -27,7 +27,7 @@ class IconMod extends Component {
     const { icon } =this.props.info;
     let { homepageModuleId, moduleContent, moduleBackColor, isDisplay } =icon;
     const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
-    moduleBackColor = moduleBackColor?`#${moduleBackColor}`:null;
+    moduleBackColor = moduleBackColor?`${moduleBackColor}`:null;
     return(
       <CommonMod
         homepageModuleId={homepageModuleId}

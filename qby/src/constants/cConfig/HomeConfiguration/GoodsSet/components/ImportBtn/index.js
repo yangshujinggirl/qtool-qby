@@ -4,7 +4,9 @@ import './index.less';
 
 class ImportBtn extends React.Component {
   state = {
-    fileList: []
+    fileList: [],
+    noImportSpuCode:'',
+    visible:false
   }
   beforeUpload(file) {
     const isSize = file.size / 1024 / 1024 < 1;
@@ -17,8 +19,8 @@ class ImportBtn extends React.Component {
       if (!isSize) {
         message.error('导入文件不得大于1M');
         return false;
-      }
-    }
+      };
+    };
   }
   handleChange = (info) => {
     let file = info.file;
@@ -26,18 +28,30 @@ class ImportBtn extends React.Component {
     if(file.status == 'done') {
       if (response) {
         if(response.code=='0'){
+          const {noImportSpu,noImportSpuCode} = response;
+          this.setState({
+            noImportSpu,
+            noImportSpuCode,
+            visible:!!(noImportSpu||noImportSpuCode)
+          });
           let pdSpuList= response.pdSpuList?response.pdSpuList:[];
           pdSpuList.map((el,index) => el.key = index)
           this.props.callBack(pdSpuList)
         }else{
           message.error(file.response.message,.8);
-        }
+        };
         return file.response.status === 'success';
-      }
+      };
     }
+  }
+  onCancel=()=>{
+    this.setState({
+      visible:false
+    });
   }
   render() {
     const {type,activityId} = this.props;
+    const {noImportSpu,noImportSpuCode,visible} = this.state;
     const params = JSON.stringify({type,activityId})
     const props = {
       action: '/erpWebRest/webrest.htm?code=qerp.web.config.singlelinespu.import',
@@ -48,11 +62,29 @@ class ImportBtn extends React.Component {
       showUploadList:false,
     };
     return (
-      <Upload {...props} className="upload-file-btn">
-          <Button type="primary" size="large">
-            上传附件
-          </Button>
-      </Upload>
+      <div style={{'display':'inline-block'}}>
+        <Upload {...props} className="upload-file-btn">
+            <Button type="primary" size="large">
+              上传附件
+            </Button>
+        </Upload>
+        <Modal
+          onCancel={this.onCancel}
+          footer={null}
+          wrapClassName='error_msg'
+          visible={visible}
+        >
+          <p>商品已导入超过100个，已下商品导入失败</p>
+          {noImportSpu&&
+            <p style={{width:'450px','word-wrap':'break-word'}}>
+              SPUID:{noImportSpu.map(item=>(<span>{item}，</span>))}
+            </p>
+          }
+          {noImportSpuCode&&
+            <p>商品编码:{noImportSpuCode.map(item=>(<span>{item}</span>))}</p>
+          }
+        </Modal>
+      </div>
     );
   }
 }

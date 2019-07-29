@@ -177,13 +177,7 @@ class ModuleSet extends Component {
     }
     callback();
   };
-
-  validator=(rule,value,callback)=>{
-    if(value && value.length<6){
-      callback('请输入六位颜色色号')
-    };
-    callback()
-  }
+ 
   render() {
     const { type,goodType } = this.props; //goodType --> 1活动 2上新
     const {
@@ -271,7 +265,6 @@ class ModuleSet extends Component {
                       <Select placeholder='请选择配置页面'>
                         <Option value={1}>去配置页面</Option>
                         <Option value={2}>去H5页面</Option>
-                        <Option value={3}>去已选商品列表页</Option>
                       </Select>
                     )}
                   </FormItem>
@@ -322,7 +315,7 @@ class ModuleSet extends Component {
               </Radio.Group>
             )}
           </FormItem>
-          {(type == 35 && goodType == 1)&& (
+          {(type == 35)&& (
             <FormItem {...formLayout} label="插件">
               {getFieldDecorator("isDisplayCountdown", {
                 initialValue: isDisplayCountdown
@@ -335,15 +328,10 @@ class ModuleSet extends Component {
           <FormItem {...formLayout} label="设置模块背景色号">
             {getFieldDecorator("moduleBackColor", {
               initialValue: moduleBackColor,
-              rules:[{
-                validator: this.validator
-              }]
             })(
               <Input
-                style={{ width: "300px" }}
-                placeholder="请填写六位数字+字母组合"
-                autoComplete='off'
-                maxLength='6'
+                style={{ width: "60px" }}
+                type='color'
               />
             )}
           </FormItem>

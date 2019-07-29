@@ -88,6 +88,15 @@ class GoodsSet extends Component {
         goodType:e.target.value
       }
     });
+    this.props.dispatch({
+      type:'goodsSet/activeKeyLists',
+      payload:{
+        activeKeyLists:[
+          {tab:'设置时段',key:'1'},
+          {tab:'模块设置',key:'2'},
+        ],
+      }
+    });
     this.setState({
       type: e.target.value
     },()=>{

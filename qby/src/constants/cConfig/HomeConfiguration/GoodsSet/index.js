@@ -19,25 +19,36 @@ class Index extends Component {
       type: "goodsSet/changeKey",
       payload: { activeKey: key }
     });
-    this.props.dispatch({
-      type: "goodsSet/setMark",
-      payload: { mark: false }
-    });
   };
   render() {
-    const { activeKey} = this.props;
+    const {activeKeyLists,activeKey} = this.props;
     const {homepageModuleId} = this.props.data;
     return (
       <div className="content_box stock-tabs">
         <Tabs activeKey={activeKey} onChange={this.callback}>
-          <TabPane tab="设置时段" key="1">
+          {
+            activeKeyLists.map(item=>{
+              return (
+              <TabPane tab={item.tab} key={item.key}>
+                {
+                  item.key == 1&&
+                  <GoodsSet homepageModuleId={homepageModuleId}/>
+                }
+                {
+                  item.key == 2&&
+                  <ModuleSet homepageModuleId={homepageModuleId}/>
+                }
+                {
+                  (item.key == 3&&activeKey==3)&&
+                  <GoodsConfig homepageModuleId={homepageModuleId}/>
+                }
+                
+              </TabPane>
+              )
+            })
+          }
+          {/* <TabPane tab="设置时段" key="1">
             <GoodsSet homepageModuleId={homepageModuleId}/>
-          </TabPane>
-          <TabPane tab="配置商品" key="2">
-            {
-              activeKey=='2'&&
-              <GoodsConfig homepageModuleId={homepageModuleId}/>
-            }
           </TabPane>
           <TabPane tab="模块设置" key="3">
             {
@@ -45,6 +56,12 @@ class Index extends Component {
               <ModuleSet homepageModuleId={homepageModuleId}/>
             }
           </TabPane>
+          {
+            activeKey=='2'&&
+            <TabPane tab="配置商品" key="2">
+                <GoodsConfig homepageModuleId={homepageModuleId}/>
+            </TabPane>
+          } */}
         </Tabs>
       </div>
     );

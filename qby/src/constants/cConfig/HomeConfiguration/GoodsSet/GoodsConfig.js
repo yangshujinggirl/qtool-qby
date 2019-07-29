@@ -22,9 +22,7 @@ class GoodsConfig extends Component {
     };
   }
   componentDidMount = () => {
-    if (this.props.mark) {
-      this.initPage();
-    }
+    this.initPage();
   };
   componentWillReceiveProps = props => {
     if (props.pdListDisplayCfgId != this.props.pdListDisplayCfgId) {
@@ -198,7 +196,6 @@ class GoodsConfig extends Component {
       endTime,
       beginTime,
       activityId,
-      mark,
       totalList,
       goodType
     } = this.props;
@@ -208,7 +205,6 @@ class GoodsConfig extends Component {
     };
     return (
       <div className="good_config">
-        {mark ? (
           <div>
             <Form>
               <FormItem label="时间段" {...formLayout}>
@@ -257,7 +253,7 @@ class GoodsConfig extends Component {
                       </div>
                     </div>
                     <div className="tips">
-                      注：首页单行横划商品模块固定展示8件商品，按照以下顺序展示，售罄或下架商品不展示，由后位商品按照顺序补充
+                    注：首页单行横划商品模块固定展示8件商品，按照以下顺序展示，B端在售库存为0或下架商品不展示，由后位商品按照顺序补充
                     </div>
                     <div>
                       <ModDis callBack={this.callBack} form={this.props.form} />
@@ -306,18 +302,6 @@ class GoodsConfig extends Component {
               </div>
             }
           </div>
-        ) : (
-          <div className="no-data">
-            <p>请先设置时段</p>
-            <Button
-              className="go_set_btn"
-              type="primary"
-              onClick={this.gotoSet}
-            >
-              去设置
-            </Button>
-          </div>
-        )}
         <Modal visible={visible} onOk={this.onOk} onCancel={this.onCancel}>
           <p>切换活动后，你选择的商品将清空</p>
           <p>是否确认切换活动？</p>

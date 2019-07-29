@@ -37,7 +37,7 @@ class MorePicMod extends Component {
         bImg = el.picUrl;
       }
     })
-    moduleBackColor = moduleBackColor?`#${moduleBackColor}`:null;
+    moduleBackColor = moduleBackColor?`${moduleBackColor}`:null;
     return (
       <CommonMod
         homepageModuleId={homepageModuleId}

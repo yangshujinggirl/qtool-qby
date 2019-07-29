@@ -18,6 +18,7 @@ class BrandBg extends Component {
       color,
       loading
     } = this.props;
+    const {getFieldDecorator} = this.props.form
     return (
       <div>
         <Modal
@@ -43,18 +44,22 @@ class BrandBg extends Component {
             />
           </FormItem>
           <FormItem labelCol={{ span: 5 }} label="设置模块背景色号">
-            <Input
-              maxLength='6'
-              style={{ width: "260px" }}
-              value={color}
-              onChange={colorChange}
-              placeholder="请填写六位数字+字母组合"
-            />
+            {
+              getFieldDecorator('bg',{
+                initialValue:color,
+                onChange:colorChange,
+              })(
+                <Input
+                  style={{ width: "60px" }}
+                  type='color'
+                />
+              )
+            }
           </FormItem>
         </Modal>
       </div>
     );
   }
 }
-
-export default BrandBg;
+const BrandBgs = Form.create({})(BrandBg)
+export default BrandBgs;

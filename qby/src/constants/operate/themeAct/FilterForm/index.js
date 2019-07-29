@@ -42,12 +42,12 @@ class NormalForm extends Component{
                 )}
               </FormItem>
               <FormItem label='主题状态'>
-                  {getFieldDecorator('themeStatus')(
+                  {getFieldDecorator('themeStatus',{
+                    initialValue:4
+                  })(
                   <Select allowClear={true} placeholder="请选择发放方式">
-                      <Option value={0}>未开始</Option>
-                      <Option value={1}>进行中</Option>
-                      <Option value={2}>已结束</Option>
-                      <Option value={3}>已失效</Option>
+                      <Option value={4}>上线</Option>
+                      <Option value={5}>下线</Option>
                   </Select>
                   )}
               </FormItem>

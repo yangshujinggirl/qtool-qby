@@ -427,7 +427,6 @@ class Content extends React.Component {
 
                                     case "1402000" : return <ConfigurationList data={this.props.data} componkey={this.props.componkey}/>
                                     case "1402000edit" : return <ConfigLogList data={this.props.data} componkey={this.props.componkey}/>
-                                    case "1402000editinfo" : return <HomeEdit data={this.props.data} componkey={this.props.componkey}/>
                                     case "1402000levelTwo" : return <HomeEdit data={this.props.data} componkey={this.props.componkey}/>
                                     // case "1402000home" : return <HomeEdit data={this.props.data} componkey={this.props.componkey}/>
                                     case "1402000levelTwoedit-commodity" : return <CommodityFlow data={this.props.data} componkey={this.props.componkey}/>
