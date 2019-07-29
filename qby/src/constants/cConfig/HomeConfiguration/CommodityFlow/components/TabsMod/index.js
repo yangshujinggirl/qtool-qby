@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Tabs, Button, Form, Input, Icon, Modal } from 'antd';
+import { Tabs, Button, Form, Input, Icon, Modal, message } from 'antd';
 import { connect } from 'dva';
 import DragTabCard from '../DragTabCard';
 import MyTagControlContext from '../../../components/MyTagControlContext';
@@ -9,13 +9,13 @@ import './index.less';
 
 class Field extends Component {
   //切换查详情
-  handleToggle =(e,value)=> {
+  handleToggle =(e,record)=> {
     const { selectkey } =this.props;
     e.stopPropagation()
     if(e.target.tagName=='INPUT') {
       return;
     }
-    if(selectkey==value.key) {
+    if(selectkey==record.key) {
       return;
     }
     Modal.confirm({
@@ -23,10 +23,10 @@ class Field extends Component {
       content: '切换页面请确认保存',
       okText:'保存',
       onOk:()=>{
-        this.props.onOk(value);
+        this.props.onOk(record);
       },
       onCancel:()=> {
-        this.props.onCancel(value);
+        this.props.onCancel(record);
       },
     });
   }
@@ -55,15 +55,20 @@ class Field extends Component {
     }
     this.updateTabs(tabs)
   }
-  validator = (rule, value, callback) => {
-    const { tabs } =this.props;
-    let index = tabs.findIndex((el) => {
-      return el.name == value
+  handleBlur = (e,currentIndex) => {
+    let value = e.target.value;
+    let { tabs } =this.props;
+    let idx = tabs.findIndex((el) => {
+      return el.tabName == value
     })
-    if (index!='-1') {
-      callback('Tab名称不可重复')
-    }else {
-      callback()
+    if (idx!='-1'&&currentIndex!=idx) {
+      tabs.map((el,index) => {
+        if(index==currentIndex) {
+          el.tabName = null;
+        }
+      })
+      this.updateTabs(tabs);
+      message.error('Tab名称不可重复')
     }
   }
   moveRow = (dragIndex, hoverIndex) => {
@@ -96,9 +101,9 @@ class Field extends Component {
               item={el}
               index={index}
               form={this.props.form}
-              validator={this.validator}
-              handleToggle={this.handleToggle}
-              handleDelete={this.handleDelete}
+              handleBlur={(e)=>this.handleBlur(e,index)}
+              handleToggle={(e)=>this.handleToggle(e,el)}
+              handleDelete={(e)=>this.handleDelete(e,el)}
               moveRow={this.moveRow}/>
           ))
         }

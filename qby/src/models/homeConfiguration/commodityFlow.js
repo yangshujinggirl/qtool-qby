@@ -256,7 +256,6 @@ export default {
       if(res.code == '0') {
         let { pdFlowTabList } =res;
         if(pdFlowTabList&&pdFlowTabList.length>0) {
-          pdFlowTabList.map((el,index) => el.key = index);
           let currentItem = pdFlowTabList.find((el) => el.key == selectkey);
           yield put({
             type:'fetchGoodsList',
@@ -265,8 +264,13 @@ export default {
         } else {
           pdFlowTabList = [{key:0}];
         }
+        let maxKeyItem = pdFlowTabList.reduce((num1, num2) => {
+            return num1 > num2 ? num1 : num2}
+        )
+        //找出最大key
+        let addKey = maxKeyItem.key;addKey++;
         yield put({type: 'getTabs',payload:pdFlowTabList});
-        yield put({type: 'getAddKey',payload:pdFlowTabList.length});
+        yield put({type: 'getAddKey',payload:addKey});
       } else {
         message.error(res.message);
         yield put({type: 'tab/loding',payload:false});

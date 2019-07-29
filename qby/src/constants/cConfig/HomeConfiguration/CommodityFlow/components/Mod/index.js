@@ -72,6 +72,7 @@ class ModForm extends Component {
           return;
         }
         let  params = this.formatData(values);
+        this.props.dispatch({type:'tab/loding',payload:true})
         this.setState({ loading:true })
         getSaveApi(params)
         .then((res) => {
@@ -79,7 +80,8 @@ class ModForm extends Component {
             message.success('保存成功',1);
             func&&typeof func == 'function'?func():this.successCallback();
           }
-          this.setState({ loading:false })
+          this.setState({ loading:false });
+          this.props.dispatch({type:'tab/loding',payload:false})
         })
       }
     });

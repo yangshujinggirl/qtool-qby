@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Tabs, Button, Form, Input, Icon } from 'antd';
+import { Tabs, Button, Form, Input, Icon, message } from 'antd';
 import { DragSource, DropTarget } from 'react-dnd';
 import { connect } from 'dva';
 import update from 'immutability-helper';
@@ -27,6 +27,7 @@ const rowTarget = {
   },
 };
 class Card extends React.Component {
+
   render() {
     const { isOver, connectDragSource, connectDropTarget } = this.props;
     const { index, handleToggle, handleDelete, item,  selectkey, tabs } =this.props;
@@ -35,17 +36,16 @@ class Card extends React.Component {
       connectDropTarget(
         <div
           className={`item-tabs ${selectkey==item.key?'selectkey':''}`}
-          onClick={(e)=>handleToggle(e,item)}>
+          onClick={(e)=>handleToggle(e)}>
           <FormItem>
             {getFieldDecorator(`tabsField[${index}].tabName`,{
               initialValue:item.tabName,
               rules:[{
                 required: true,message:'请输入请输入名称'
-              },{
-                validator:this.props.validator
               }],
             })(
               <Input
+                onBlur={this.props.handleBlur}
                 maxLength='4'
                 placeholder="请输入请输入名称"
                 autoComplete="off"/>
@@ -53,7 +53,7 @@ class Card extends React.Component {
           </FormItem>
           {
             tabs.length>1&&
-            <Icon type="close" className="close-btn" onClick={(e)=>handleDelete(e,item)}/>
+            <Icon type="close" className="close-btn" onClick={(e)=>handleDelete(e)}/>
           }
         </div>
       ),
