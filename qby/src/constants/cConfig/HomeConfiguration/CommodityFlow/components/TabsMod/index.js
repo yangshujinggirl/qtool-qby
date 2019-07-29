@@ -61,7 +61,7 @@ class Field extends Component {
     let idx = tabs.findIndex((el) => {
       return el.tabName == value
     })
-    if (idx!='-1') {
+    if (idx!='-1'&&currentIndex!=idx) {
       tabs.map((el,index) => {
         if(index==currentIndex) {
           el.tabName = null;
