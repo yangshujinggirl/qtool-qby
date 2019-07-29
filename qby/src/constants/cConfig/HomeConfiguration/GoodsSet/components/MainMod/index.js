@@ -88,9 +88,11 @@ class Mod extends Component {
     const isRepeat = totalList.findIndex(item=>item[inputType] == value);
     if(isRepeat !== -1){
       if(inputType == 'FixedPdCode'){
-        message.error('商品编码'+value+'重复');
+        // message.error('商品编码'+value+'重复');
+        message.error('商品已存在')
       }else{
-        message.error('pdSpuid'+value+'重复')
+        // message.error('pdSpuid'+value+'重复')
+        message.error('商品已存在')
       };
       return null
     };
