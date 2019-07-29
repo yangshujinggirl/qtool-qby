@@ -43,7 +43,7 @@ class ThemeMod extends Component {
       <CommonMod
         homepageModuleId={homepageModuleId}
         className="theme-mod"
-        style={{'background':moduleBackColor}}>
+        style={{'backgroundColor':moduleBackColor}}>
         <div>
           <div className="mod-wrap">
             <div className={themeActivity.titleColor == 0?'black-title mod-common-head':'white-title mod-common-head'}>

@@ -3,12 +3,15 @@
   .mod-content {
     display: flex;
     align-items: flex-start;
-    justify-content: space-between;
     flex-wrap: wrap;
     .item-icon {
       width: 100px;
       font-size: 12px;
       margin-bottom: 10px;
+      margin-right: 20px;
+      &:nth-child(3n) {
+        margin-right: 0;
+      }
       .hiddle-price {
         text-decoration: line-through;
         padding-left: 4px;

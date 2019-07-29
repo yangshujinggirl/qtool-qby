@@ -36,7 +36,7 @@ class MoreGoodsMod extends Component {
       <CommonMod
         homepageModuleId={homepageModuleId}
         className="more-goods-mod"
-        style={{'background':moduleBackColor}}>
+        style={{'backgroundColor':moduleBackColor}}>
         <div>
           <div className="mod-wrap">
             <div className={multilineProduct.titleColor == 0?'black-title mod-common-head':'white-title mod-common-head'}>

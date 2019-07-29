@@ -60,10 +60,6 @@ class ClassifyMod extends Component {
       let { spuList, code } =res;
       if(code == 0) {
         let differenceLen = Number(100)-Number(goodsList.length);
-        if(spuList.length>differenceLen) {
-          // message.error('表格仅支持添加100个商品，超出的商品添加失败')
-          spuList = spuList.slice(0,differenceLen+1)
-        }
         for(var i=0;i<goodsList.length;i++){
             for(var j = 0;j<spuList.length;j++){
               if(goodsList[i].pdSpuId == spuList[j].pdSpuId) {
@@ -71,12 +67,14 @@ class ClassifyMod extends Component {
               }
             }
         }
+        if(spuList.length>differenceLen) {
+          message.error('表格仅支持添加100个商品，超出的商品添加失败',4);
+          spuList = spuList.slice(0,differenceLen)
+        }
         goodsList =[...goodsList,...spuList]
         goodsList.map((el,index) => {
           el.FixedPdSpuId = el.pdSpuId;
-          if(!el.key) {
-            el.key = index
-          }
+          el.key = index;
         })
         this.props.dispatch({
           type:'commodityFlow/getGoodsList',

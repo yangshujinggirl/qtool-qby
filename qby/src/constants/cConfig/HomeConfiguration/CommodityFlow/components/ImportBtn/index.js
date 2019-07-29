@@ -27,12 +27,23 @@ class ImportBtn extends React.Component {
     if(file.status == 'done') {
       if (response) {
         if(response.code=='0'){
-          const { unImportSpuArr }=response;
+          const { unImportSpuArr,notExistSpuArr }=response;
           if(unImportSpuArr&&unImportSpuArr.length>0) {
             let content = <div className="import-error-modal">
             商品已导入超过100个，以下商品导入失败<br/>
+            SPUID:
               {
-                unImportSpuArr.map((el) => el = `${el}/`)
+                unImportSpuArr.map((el,index) => el = `${el}${index==(unImportSpuArr.length-1)?'':'/'}`)
+              }
+            </div>
+            message.error(content,5)
+          }
+          if(notExistSpuArr&&notExistSpuArr.length>0) {
+            let content = <div className="import-error-modal">
+            以下商品不存在，导入失败<br/>
+            SPUID:
+              {
+                notExistSpuArr.map((el,index) => el = `${el}${index==(notExistSpuArr.length-1)?'':'/'}`)
               }
             </div>
             message.error(content,5)

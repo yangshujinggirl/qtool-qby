@@ -6,14 +6,12 @@ import './index.less';
 
 const FormItem = Form.Item;
 const disabledDate = current => {
-  console.log(moment(current).date())
-  console.log(moment().subtract(1,'days').date())
   return current && current < moment().subtract(1,'days');
 };
 const range = (start, end) => {
   const result = [];
   for (let i = start; i <= end; i++) {
-    if (i != 30 && i != 0) {
+    if (i != 0) {
       result.push(i);
     }
   }
@@ -25,9 +23,9 @@ const formatHours =(date)=> {
   let currDat = moment().date();
   let disabledHours;
   if(selDat>currDat) {
-    disabledHours = range(0, 60).splice(24, 1)
-  } else {
-    disabledHours = range(0, 60).splice(0, hour)
+    disabledHours = [];
+  } else if(selDat == currDat) {
+    disabledHours = range(0, 24).splice(0,hour);
   }
   return disabledHours;
 }

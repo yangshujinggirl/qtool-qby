@@ -31,8 +31,9 @@ class ImportBtn extends React.Component {
           if(noImportSpu&&noImportSpu.length>0) {
             let content = <div className="import-error-modal">
             商品已导入超过100个，以下商品导入失败<br/>
+            SPUID:
               {
-                noImportSpu.map((el) => el = `${el}/`)
+                noImportSpu.map((el,index) => el = `${el}${index==(noImportSpu.length-1)?'':'/'}`)
               }
             </div>
             message.error(content,5)

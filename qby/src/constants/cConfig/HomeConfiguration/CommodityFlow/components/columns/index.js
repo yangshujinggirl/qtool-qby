@@ -78,7 +78,7 @@ export function columnsFun(form,handleBlur,handleChange){
       width:'6%',
     },
     {
-      title: '上架状态',
+      title: '商品状态',
       dataIndex: 'shelfStatus',
       key: 'shelfStatus',
       width:'6%',
@@ -89,6 +89,21 @@ export function columnsFun(form,handleBlur,handleChange){
             {!!record.shelfStatus?'上架':'下架'}
             </span>
           }
+        </span>
+      }
+    },{
+      title: '是否预售',
+      dataIndex: 'isPresell',
+      key: 'isPresell',
+      width:'6%',
+      render:(text,record,index)=> {
+        return <span>
+        {
+          record.shelfStatus!=undefined&&
+          <span>
+          {!!record.isPresell?'非预售':'预售'}
+          </span>
+        }
         </span>
       }
     },
