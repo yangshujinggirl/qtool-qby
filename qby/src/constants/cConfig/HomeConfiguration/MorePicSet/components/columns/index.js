@@ -13,9 +13,7 @@ const disabledDate = current => {
 const range = (start, end) => {
   const result = [];
   for (let i = start; i <= end; i++) {
-    if (i != 0) {
-      result.push(i);
-    }
+    result.push(i);
   }
   return result;
 };
@@ -31,42 +29,34 @@ const formatHours =(date)=> {
   }
   return disabledHours;
 }
+const formatMinutes =(date)=> {
+  let minute = moment().minute();
+  let selDat = moment(date).date();
+  let currDat = moment().date();
+  let selMinute = moment(date).hour();
+  let currMinute = moment().hour();
+  let disabledMinutes;
+  if(selDat>currDat) {
+    disabledMinutes = [];
+  } else if(selDat == currDat) {
+    if(selMinute>currMinute) {
+      disabledMinutes = [];
+    } else if(selMinute == currMinute){
+      disabledMinutes = range(0, 60).splice(0,minute+1);
+    } else {
+      disabledMinutes = [];
+    }
+  }
+  return disabledMinutes;
+}
 const disabledDateTime = (date) => {
   return {
     disabledHours: ()=> formatHours(date),
+    disabledMinutes: ()=> formatMinutes(date),
   };
 };
 
 export function columns(form, categoryList, activiKey){
-  const disabledDate = current => {
-    return current && current < moment().subtract(1,'days');
-  };
-  const range = (start, end) => {
-    const result = [];
-    for (let i = start; i <= end; i++) {
-      if (i != 0) {
-        result.push(i);
-      }
-    }
-    return result;
-  };
-  const formatHours =(date)=> {
-    let hour = moment().hour();
-    let selDat = moment(date).date();
-    let currDat = moment().date();
-    let disabledHours;
-    if(selDat>currDat) {
-      disabledHours = [];
-    } else if(selDat == currDat) {
-      disabledHours = range(0, 24).splice(0,hour);
-    }
-    return disabledHours;
-  }
-  const disabledDateTime = (date) => {
-    return {
-      disabledHours: ()=> formatHours(date),
-    };
-  };
   const linkChange=(index)=> {
     let goodVal = form.getFieldsValue(['goods']);
     let { goods } =goodVal;

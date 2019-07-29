@@ -11,9 +11,7 @@ const disabledDate = current => {
 const range = (start, end) => {
   const result = [];
   for (let i = start; i <= end; i++) {
-    if (i != 0) {
-      result.push(i);
-    }
+    result.push(i);
   }
   return result;
 };
@@ -29,9 +27,30 @@ const formatHours =(date)=> {
   }
   return disabledHours;
 }
+const formatMinutes =(date)=> {
+  let minute = moment().minute();
+  let selDat = moment(date).date();
+  let currDat = moment().date();
+  let selMinute = moment(date).hour();
+  let currMinute = moment().hour();
+  let disabledMinutes;
+  if(selDat>currDat) {
+    disabledMinutes = [];
+  } else if(selDat == currDat) {
+    if(selMinute>currMinute) {
+      disabledMinutes = [];
+    } else if(selMinute == currMinute){
+      disabledMinutes = range(0, 60).splice(0,minute+1);
+    } else {
+      disabledMinutes = [];
+    }
+  }
+  return disabledMinutes;
+}
 const disabledDateTime = (date) => {
   return {
     disabledHours: ()=> formatHours(date),
+    disabledMinutes: ()=> formatMinutes(date),
   };
 };
 class BaseEditTable extends Component {
