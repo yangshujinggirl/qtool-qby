@@ -8,13 +8,13 @@ export default {
   state: {
     info:{
       banner:{},
-      brandDisplay:{},
-      coupon:{},
+      brandDisplay:{isDisplay:1},
+      coupon:{isDisplay:1},
       flowProduct:{},
-      icon:{},
+      icon:{isDisplay:1},
       multilineProduct:{},
       picMix:{},
-      productDisplay:{},
+      productDisplay:{isDisplay:1},
       search:{},
       themeActivity:{},
       homepageInfoVo:{}
@@ -36,13 +36,13 @@ export default {
     reSetData(state) {
       let info={
         banner:{},
-        brandDisplay:{},
-        coupon:{},
+        brandDisplay:{isDisplay:1},
+        coupon:{isDisplay:1},
         flowProduct:{},
-        icon:{},
+        icon:{isDisplay:1},
         multilineProduct:{},
         picMix:{},
-        productDisplay:{},
+        productDisplay:{isDisplay:1},
         search:{},
         themeActivity:{},
         homepageInfoVo:{}

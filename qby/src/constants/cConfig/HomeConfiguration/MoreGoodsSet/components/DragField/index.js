@@ -99,6 +99,9 @@ class Field extends Component {
       <div className="drag-tables-component">
         <Table
           bordered
+          rowClassName={(record,index)=>(
+            record.isLine==20?'haveBackColor':null
+          )}
           pagination={false}
           columns={columnsOne}
           dataSource={listOne}
@@ -111,6 +114,9 @@ class Field extends Component {
           })}/>
         <Table
           bordered
+          rowClassName={(record,index)=>(
+            record.isLine==20?'haveBackColor':null
+          )}
           pagination={false}
           columns={columnsTwo}
           dataSource={listTwo}

@@ -13,15 +13,27 @@ const disabledDate = current => {
 const range = (start, end) => {
   const result = [];
   for (let i = start; i <= end; i++) {
-    if (i != 30 && i != 0) {
+    if (i != 0) {
       result.push(i);
     }
   }
   return result;
 };
-const disabledDateTime = () => {
+const formatHours =(date)=> {
+  let hour = moment().hour();
+  let selDat = moment(date).date();
+  let currDat = moment().date();
+  let disabledHours;
+  if(selDat>currDat) {
+    disabledHours = [];
+  } else if(selDat == currDat) {
+    disabledHours = range(0, 24).splice(0,hour);
+  }
+  return disabledHours;
+}
+const disabledDateTime = (date) => {
   return {
-    disabledMinutes: () => range(0, 60)
+    disabledHours: ()=> formatHours(date),
   };
 };
 

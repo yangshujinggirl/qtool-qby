@@ -151,6 +151,11 @@ export function columnsFun(form,handleBlur){
             }
             </span>
       }
+    },{
+      title: '是否预售',
+      dataIndex: 'isPresellStr',
+      key: 'isPresellStr',
+      width:'10%',
     },
     {
       title: '操作',
@@ -171,7 +176,7 @@ export function columnsTwoFun(form, handleBlur){
       key: 'key',
       align:'center',
       width:'3%',
-      colSpan:11,
+      colSpan:12,
       render:(text,record,index)=> {
         index++;
         return <span>{index}</span>
@@ -301,6 +306,12 @@ export function columnsTwoFun(form, handleBlur){
             }
             </span>
       }
+    },{
+      title: '是否预售',
+      dataIndex: 'isPresellStr',
+      key: 'isPresellStr',
+      colSpan:0,
+      width:'10%',
     },
     {
       title: '操作',

@@ -32,7 +32,7 @@ class IconMod extends Component {
       <CommonMod
         homepageModuleId={homepageModuleId}
         className={`icon-mod hasLine ${!isDisplay?'hiddle-module':''}`}
-        style={{'background':moduleBackColor}}>
+        style={{'backgroundColor':moduleBackColor}}>
         {
           moduleContent&&moduleContent.length>0?
           <div className="mod-wrap">

@@ -42,7 +42,7 @@ class MorePicMod extends Component {
       <CommonMod
         homepageModuleId={homepageModuleId}
         className="common-sty morePic-mod"
-        style={{'background':moduleBackColor}}>
+        style={{'backgroundColor':moduleBackColor}}>
         <div>
           <div className="mod-wrap">
             <div className={picMix.titleColor == 0?'black-title mod-common-head':'white-title mod-common-head'}>

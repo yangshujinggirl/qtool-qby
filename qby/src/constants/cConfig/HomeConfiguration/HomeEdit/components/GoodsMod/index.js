@@ -48,7 +48,7 @@ class GoodsMod extends Component {
       <CommonMod
         homepageModuleId={homepageModuleId}
         className={`goods-mod ${!isDisplay?'hiddle-module':''}`}
-        style={{'background':moduleBackColor}}>
+        style={{'backgroundColor':moduleBackColor}}>
         <div className="mod-wrap">
           <div className={productDisplay.titleColor == 0?'black-title mod-common-head':'white-title mod-common-head'}>
             <div className="hd-item">
@@ -68,7 +68,10 @@ class GoodsMod extends Component {
                   moduleContent.map((el,index) => (
                     <div className="swiper-slide" key={`${el.pdSpuId}/${index}`}>
                       <div className="item-icon">
-                        <div className="pic-wrap"><img src={`${fileDomain}${el.pdPic}`}/></div>
+                        <div className="pic-wrap">
+                          <img src={`${fileDomain}${el.pdPic}`}/>
+                          {el.tags&&<span className="tags-icon">{el.tags}</span>}
+                        </div>
                         <p className="title-level-one textOneLine">{el.sellingPoints?el.sellingPoints:el.name}</p>
                         <p className="price">
                           ¥{el.showPrice}

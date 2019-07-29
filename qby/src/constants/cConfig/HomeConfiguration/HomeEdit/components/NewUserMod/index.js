@@ -32,7 +32,7 @@ class NewUserMod extends Component {
       <CommonMod
         homepageModuleId={ homepageModuleId }
         className={`new-user-mod ${!isDisplay?'hiddle-module':''}`}
-        style={{'background':moduleBackColor}}>
+        style={{'backgroundColor':moduleBackColor}}>
         <div>
           {
             moduleContent&&moduleContent.newComerPicUrl?
