@@ -6,7 +6,8 @@ import './index.less';
 
 const FormItem = Form.Item;
 const disabledDate = current => {
-  return current && current < moment().subtract(1,'days');
+  // return current && current < moment().subtract(1,'days');
+  return current && current < moment().endOf('day').subtract(1,'days');
 };
 const range = (start, end) => {
   const result = [];
@@ -17,33 +18,47 @@ const range = (start, end) => {
 };
 const formatHours =(date)=> {
   let hour = moment().hour();
-  let selDat = moment(date).date();
-  let currDat = moment().date();
+  let selDat = moment(date).date();//设置日
+  let currDat = moment().date();//当前日
+  let selMon = moment(date).month();//设置月
+  let currMon = moment().month();//当前月
   let disabledHours;
-  if(selDat>currDat) {
+  if(selMon > currMon) {
+    disabledHours = [];
+    return disabledHours;
+  }
+  if(selDat > currDat) {
     disabledHours = [];
   } else if(selDat == currDat) {
     disabledHours = range(0, 24).splice(0,hour);
+  } else {
+    disabledHours = range(0, 24);
   }
   return disabledHours;
 }
 const formatMinutes =(date)=> {
   let minute = moment().minute();
-  let selDat = moment(date).date();
-  let currDat = moment().date();
-  let selMinute = moment(date).hour();
-  let currMinute = moment().hour();
+  let selMon = moment(date).month();//设置月
+  let currMon = moment().month();//当前月
+  let selDat = moment(date).date();//设置日
+  let currDat = moment().date();//当前日
+  let selHour = moment(date).hour();//设置时
+  let currHour = moment().hour();//当前时
   let disabledMinutes;
-  if(selDat>currDat) {
+  if(selDat > currDat || selHour > currHour || selMon > currMon) {
     disabledMinutes = [];
-  } else if(selDat == currDat) {
-    if(selMinute>currMinute) {
+    return disabledMinutes;
+  }
+  if(selDat == currDat) {
+    if(selHour > currHour) {
       disabledMinutes = [];
-    } else if(selMinute == currMinute){
-      disabledMinutes = range(0, 60).splice(0,minute+1);
+    } else if(selHour == currHour){
+      disabledMinutes = range(0, 60).splice(0, minute+1);
     } else {
       disabledMinutes = [];
     }
+  } else {
+    disabledMinutes = range(0, 60);
   }
   return disabledMinutes;
 }
