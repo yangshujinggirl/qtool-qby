@@ -2,6 +2,7 @@ import React , { Component } from 'react';
 import { Input, InputNumber, Form, Select, Button, DatePicker, Modal, message } from 'antd';
 import { connect } from 'dva';
 import moment from 'moment';
+import lodash from 'lodash';
 import MoreEditTable from '../../../components/MoreEditTable';
 import FrameModal from '../../../components/FrameModal';
 import {
@@ -155,6 +156,13 @@ const Mod = Form.create({
   onValuesChange(props, changedFields, allFields) {
     let { goods } =allFields;
     let { goodsList } =props;
+    goods.map((el,index) => {
+      for(var key in el) {
+        if(el[key]&&typeof el[key] == 'string') {
+          el[key] = lodash.trim(el[key]);
+        }
+      }
+    })
     goodsList = goodsList.map((el,index) => {
       goods.map((item,idx) => {
         if(index == idx) {
@@ -176,11 +184,6 @@ const Mod = Form.create({
       payload:goodsList
     })
   },
-  // mapPropsToFields(props) {
-  //   return {
-  //     goods: Form.createFormField(props.goodsList),
-  //   };
-  // }
 })(ModForm);
 function mapStateToProps(state) {
   const { iconSet } =state;

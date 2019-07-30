@@ -2,6 +2,7 @@ import React , { Component } from 'react';
 import { Form, Button, Modal, message } from 'antd';
 import { connect } from 'dva';
 import moment from 'moment';
+import lodash from 'lodash';
 import BaseDelTable from '../../../components/BaseDelTable';
 import {
   getSaveApi
@@ -92,6 +93,13 @@ const Mod = Form.create({
   onValuesChange(props, changedFields, allFields) {
     let { goods } =allFields;
     let { goodsList } =props;
+    goods.map((el,index) => {
+      for(var key in el) {
+        if(el[key]&&typeof el[key] == 'string') {
+          el[key] = lodash.trim(el[key]);
+        }
+      }
+    })
     goodsList = goodsList.map((el,index) => {
       goods.map((item,idx) => {
         if(index == idx) {
