@@ -8,11 +8,14 @@ import 'swiper/dist/css/swiper.min.css';
 import './index.less';
 
 class BannerMod extends Component {
+  componentDidMount() {
+    console.log('componentDidMount')
+  }
   componentDidUpdate() {
     new Swiper ('.banner-swiper-container', {
           speed:200,
           observer: true,
-          observeParents:true,
+          // observeParents:true,
           autoplay: {   //滑动后继续播放（不写官方默认暂停）
             disableOnInteraction: false,
           },

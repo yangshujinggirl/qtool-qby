@@ -73,7 +73,7 @@ class GoodsTable extends Component {
       return;
     }
     let { goodsList } =this.props;
-    getSearchIdApi({pdSpuId:value})
+    getSearchIdApi({pdSpuId:value,type:1})
     .then((res) => {
       const { spuInfo, code }=res;
       if(code == '0') {

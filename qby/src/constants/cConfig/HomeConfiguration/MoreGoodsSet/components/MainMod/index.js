@@ -56,7 +56,7 @@ class Mod extends Component {
     }
     let { goods, totalList } =this.props;
     this.props.dispatch({ type: 'tab/loding', payload:true});
-    getSearchIdApi({pdSpuId:value})
+    getSearchIdApi({pdSpuId:value,type:0})
     .then((res) => {
       if(res.code==0) {
         let { spuInfo } =res;
