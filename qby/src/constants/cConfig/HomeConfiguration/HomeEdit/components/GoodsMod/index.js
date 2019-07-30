@@ -10,15 +10,11 @@ import './index.less';
 
 class GoodsMod extends Component {
   componentDidUpdate() {
-    new Swiper('.goods-swiper-container', {
+    var goodsSwiper = new Swiper('.goods-swiper-container', {
       slidesPerView: 3,
       spaceBetween: 10,
       slidesPerGroup: 3,
       loopFillGroupWithBlank: true,
-      pagination: {
-        el: '.swiper-pagination',
-        clickable: true,
-      },
     });
   }
   goEdit=()=> {

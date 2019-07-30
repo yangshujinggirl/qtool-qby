@@ -8,17 +8,19 @@ import 'swiper/dist/css/swiper.min.css';
 import './index.less';
 
 class BannerMod extends Component {
+  componentDidMount() {
+    console.log('componentDidMount')
+  }
   componentDidUpdate() {
     new Swiper ('.banner-swiper-container', {
-          loop: true,  //循环
           speed:200,
           observer: true,
-          observeParents:true,
+          // observeParents:true,
           autoplay: {   //滑动后继续播放（不写官方默认暂停）
             disableOnInteraction: false,
           },
           pagination: {  //分页器
-            el: '.swiper-pagination'
+            el: '.banner-swiper-pagination'
           }
         })
   }
@@ -67,7 +69,7 @@ class BannerMod extends Component {
                     ))
                   }
                 </div>
-                <div className="swiper-pagination"></div>
+                <div className="banner-swiper-pagination swiper-pagination"></div>
               </div>
             )
             :

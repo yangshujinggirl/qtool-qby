@@ -101,7 +101,7 @@ export function columnsFun(form,handleBlur,handleChange){
         {
           record.shelfStatus!=undefined&&
           <span>
-          {!!record.isPresell?'非预售':'预售'}
+          {!!record.isPresell?'预售':'非预售'}
           </span>
         }
         </span>
