@@ -89,8 +89,8 @@ class GoodsTable extends Component {
             return el
           });
         }
-        this.updateData(goodsList);
       }
+      this.updateData(goodsList);
     });
   }
   handleChange=(name,e,index)=> {

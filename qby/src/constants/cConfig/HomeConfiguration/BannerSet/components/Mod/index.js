@@ -78,7 +78,6 @@ class ModForm extends Component {
   }
   submit=(func)=> {
     this.props.form.validateFields((err, values) => {
-      console.log(values)
       if (!err) {
         values = this.formatParams(values);
         let params={

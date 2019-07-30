@@ -288,8 +288,10 @@ export default {
       if(res.code == '0') {
         if(res.pdFlowSpu) {
           let { spuList, sortRule, sortType } =res.pdFlowSpu;
-          let totalData = {...totalData,...sortRule,sortType };
-          totalData.sortObjArray = totalData.sortObjArray?totalData.sortObjArray:sortObjArray;
+          let resTotalData = {...sortRule,sortType };
+          resTotalData.sortObjArray = resTotalData.sortObjArray?resTotalData.sortObjArray:totalData.sortObjArray;
+          resTotalData.ruleType = resTotalData.ruleType?resTotalData.ruleType:totalData.ruleType;
+          totalData = {...totalData,...resTotalData };
           spuList.length>0&&spuList.map((el,index) =>{
             el.key =index;
             el.FixedPdSpuId = el.pdSpuId;

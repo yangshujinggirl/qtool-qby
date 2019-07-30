@@ -154,10 +154,12 @@ export default {
                 let isLevelTwo = paneitem.key.search('levelTwo');
                 if(isLevelTwo!=-1) {//新增二级标记levelTwo
                   let currentIndex = pane.findIndex((el) => {return el.parentKey == paneitem.parentKey});
+                  let parentKeyIndex = pane.findIndex((el) => {return el.key == paneitem.parentKey});//插入位置
                   if(currentIndex!=-1) {
                     pane.splice(currentIndex,1,paneitem)
                   } else {
-                    pane.push(paneitem)
+                    parentKeyIndex++;
+                    pane.splice(parentKeyIndex,0,paneitem)
                   }
                   const arr = pane;
                   const NewactiveKey=paneitem.key
