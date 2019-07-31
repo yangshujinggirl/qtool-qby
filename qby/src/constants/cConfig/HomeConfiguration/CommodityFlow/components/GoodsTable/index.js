@@ -95,9 +95,9 @@ class GoodsTable extends Component {
   }
   handleChange=(name,e,index)=> {
     let value = e.target.value;
-    if(!value) {
-      return;
-    }
+    // if(!value) {
+    //   return;
+    // }
     let { goodsList } =this.props;
     goodsList[index][name] = value;
     this.updateData(goodsList)
