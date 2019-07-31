@@ -70,6 +70,7 @@ class ModForm extends Component {
     let { goodsList, activiKey, categoryList } =this.props;
     const { form }= this.props;
     let columnsTable = columns(form, categoryList, activiKey);
+
     return(
       <div className="banner-set-mod">
         <BaseDelTable

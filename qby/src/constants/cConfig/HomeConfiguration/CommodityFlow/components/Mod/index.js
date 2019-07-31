@@ -293,6 +293,7 @@ const Mod = Form.create({
       pdCategory3Id: Form.createFormField(props.categoryIdList.pdCategory3Id),
       pdCategory4Id: Form.createFormField(props.categoryIdList.pdCategory4Id),
       spuList: Form.createFormField(props.goodsList),
+      // time: Form.createFormField(props.totalData.time),
       sortType:Form.createFormField(props.totalData.sortType),
     };
   }
