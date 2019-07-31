@@ -75,7 +75,7 @@ class ImportBtn extends React.Component {
           wrapClassName="error_msg"
           visible={visible}
         >
-          <p>商品已导入超过100个，已下商品导入失败</p>
+          <p>以下商品导入失败</p>
           {noImportSpu && (
             <p style={{ width: "450px", "word-wrap": "break-word" }}>
               SPUID:
