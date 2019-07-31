@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Table, Button } from "antd";
 import { DragDropContext, DragSource, DropTarget } from "react-dnd";
 import update from "immutability-helper";
-import MyTagControlContext from "../../../components/MyTagControlContext";
+import MyTagControlContext from "../../../../../../components/MyTagControlContext";
 import "./index.less";
 
 let dragingIndex = -1;

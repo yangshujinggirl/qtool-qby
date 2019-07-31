@@ -80,7 +80,7 @@ class ImportBtn extends React.Component {
             <p style={{ width: "450px", "word-wrap": "break-word" }}>
               SPUID:
               {noImportSpu.map(item => (
-                <span>{item}，</span>
+                <span>{item}/</span>
               ))}
             </p>
           )}
@@ -88,7 +88,7 @@ class ImportBtn extends React.Component {
             <p style={{ width: "450px", "word-wrap": "break-word" }}>
               商品编码:
               {noImportSpuCode.map(item => (
-                <span>{item}</span>
+                <span>{item}/</span>
               ))}
             </p>
           )}

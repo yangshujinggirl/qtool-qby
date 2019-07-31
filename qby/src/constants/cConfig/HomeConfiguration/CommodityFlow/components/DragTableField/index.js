@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Table, Button } from 'antd';
 import { DragSource, DropTarget } from 'react-dnd';
-import MyTagControlContext from '../../../components/MyTagControlContext';
+import MyTagControlContext from '../../../../../../components/MyTagControlContext';
 
 
 
