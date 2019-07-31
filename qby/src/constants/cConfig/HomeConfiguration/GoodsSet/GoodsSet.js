@@ -7,7 +7,6 @@ import {
 } from "../../../../services/cConfig/homeConfiguration/goodSet";
 import TimeTable from "./components/TimeTable";
 import moment from "moment";
-const { RangePicker } = DatePicker;
 const FormItem = Form.Item;
 
 class GoodsSet extends Component {

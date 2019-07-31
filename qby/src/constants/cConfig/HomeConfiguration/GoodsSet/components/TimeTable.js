@@ -15,20 +15,19 @@ import "../index.less";
 const disabledDate = current => {
   return current && current < moment().subtract(1,'days');
 };
-const range = (start, end) => {
+function range(start, end) {
   const result = [];
-  for (let i = start; i <= end; i++) {
-    if (i != 30 && i != 0) {
-      result.push(i);
-    }
+  for (let i = start; i < end; i++) {
+    result.push(i);
   }
   return result;
-};
-const disabledDateTime = () => {
+}
+function disabledDateTime() {
   return {
-    disabledMinutes: () => range(0, 60)
+    disabledHours: () => range(0, 60).splice(0,moment().hours()),
+    disabledMinutes: () => range(1,30).concat(range(31,60)),
   };
-};
+}
 class TimeTable extends Component {
   constructor(props) {
     super(props);
@@ -63,7 +62,7 @@ class TimeTable extends Component {
                     disabledDate={disabledDate}
                     disabledTime={disabledDateTime}
                     allowClear={false}
-                    showTime={{ defaultValue: [moment('00:00:00', 'HH:mm:ss'),moment('00:00:00', 'HH:mm:ss')] }}
+                    showTime={{hideDisabledOptions: true, defaultValue: [moment('00:00', 'HH:mm'),moment('00:00', 'HH:mm')] }}
                     format="YYYY-MM-DD HH:mm"
                   />
                 )}
