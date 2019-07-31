@@ -35,22 +35,22 @@ class ModForm extends Component {
   }
   //排序类型
   changeRadio=(e)=> {
-    let value = e.target.value;
-    let { totalData } =this.props;
-    totalData = { ...totalData, sortType: value }
-    this.props.dispatch({
-      type:'commodityFlow/getTotalData',
-      payload:totalData
-    })
+    // let value = e.target.value;
+    // let { totalData } =this.props;
+    // totalData = { ...totalData, sortType: value }
+    // this.props.dispatch({
+    //   type:'commodityFlow/getTotalData',
+    //   payload:totalData
+    // })
   }
   //天数排数
   selectSaleSort=(e)=> {
-    let { totalData } =this.props;
-    totalData = { ...totalData, ruleType: e }
-    this.props.dispatch({
-      type:'commodityFlow/getTotalData',
-      payload:totalData
-    })
+    // let { totalData } =this.props;
+    // totalData = { ...totalData, ruleType: e }
+    // this.props.dispatch({
+    //   type:'commodityFlow/getTotalData',
+    //   payload:totalData
+    // })
   }
   //提交
   submit=(func)=> {
@@ -218,7 +218,7 @@ class ModForm extends Component {
                     最近
                     {
                       getFieldDecorator('day',{
-                        initialValue:totalData.day||30,
+                        initialValue:totalData.day,
                         rules:[{
                           required:true,message:'请输入'
                         }]
@@ -286,6 +286,16 @@ class ModForm extends Component {
   }
 }
 const Mod = Form.create({
+  onValuesChange(props, changedFields, allFields) {
+    let { time, day, ruleType, sortType } =allFields;
+    let { totalData } =props;
+    ruleType = ruleType?ruleType:0;
+    totalData = {...totalData,time, day, ruleType, sortType};
+    props.dispatch({
+      type:'commodityFlow/getTotalData',
+      payload:totalData
+    })
+  },
   mapPropsToFields(props) {
     return {
       pdCategory1Id: Form.createFormField(props.categoryIdList.pdCategory1Id),
@@ -293,6 +303,9 @@ const Mod = Form.create({
       pdCategory3Id: Form.createFormField(props.categoryIdList.pdCategory3Id),
       pdCategory4Id: Form.createFormField(props.categoryIdList.pdCategory4Id),
       spuList: Form.createFormField(props.goodsList),
+      day: Form.createFormField(props.totalData.day),
+      time: Form.createFormField(props.totalData.time),
+      ruleType: Form.createFormField(props.totalData.ruleType),
       sortType:Form.createFormField(props.totalData.sortType),
     };
   }

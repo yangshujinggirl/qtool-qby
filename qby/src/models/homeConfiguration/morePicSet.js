@@ -15,10 +15,9 @@ export default {
     resetData(state) {
       const goodsList=[];
       const categoryList=[];
-      const activiKey = 1;
       const homepageModuleId='';
       return {
-        ...state,goodsList, activiKey, categoryList
+        ...state,goodsList, categoryList
        }
     },
     getHomeModuleId(state, { payload:homepageModuleId }) {
