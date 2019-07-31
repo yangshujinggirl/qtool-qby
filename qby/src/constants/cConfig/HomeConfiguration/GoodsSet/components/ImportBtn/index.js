@@ -28,13 +28,13 @@ class ImportBtn extends React.Component {
     if (file.status == "done") {
       if (response) {
         if (response.code == "0") {
-          const { noImportSpu, noImportSpuCode } = response;
+          const { noImportSpu, noImportSpuCode } = response.naSpuVo;
           this.setState({
             noImportSpu,
             noImportSpuCode,
             visible: !!(noImportSpu || noImportSpuCode)
           });
-          let pdSpuList = response.pdSpuList ? response.pdSpuList : [];
+          let pdSpuList = response.naSpuVo.pdSpuList ? response.naSpuVo.pdSpuList : [];
           pdSpuList.map((el, index) => (el.key = index));
           this.props.callBack(pdSpuList);
         } else {

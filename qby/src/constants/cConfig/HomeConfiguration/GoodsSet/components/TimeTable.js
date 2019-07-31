@@ -83,7 +83,7 @@ class TimeTable extends Component {
           return (
             <div>
               {record.completed && (
-                <Button onClick={() => this.onEdit(record.pdListDisplayCfgId)}>
+                <Button disabled={record.status == 0} onClick={() => this.onEdit(record.pdListDisplayCfgId)}>
                   编辑时间
                 </Button>
               )}
@@ -99,7 +99,7 @@ class TimeTable extends Component {
                 </Button>
               )}
               <Button
-                disabled={!record.completed}
+                disabled={!record.completed || record.status == 0}
                 onClick={() => this.goToSet(record)}
                 style={{ marginLeft: "15px" }}
               >
