@@ -78,17 +78,17 @@ class ImportBtn extends React.Component {
           <p>以下商品导入失败</p>
           {noImportSpu && (
             <p style={{ width: "450px", "word-wrap": "break-word" }}>
-              SPUID:
-              {noImportSpu.map(item => (
-                <span>{item}/</span>
+              SPUID:　
+              {noImportSpu.map((item,index) => (
+                `${item}${index==noImportSpu.length-1?'':'/'}`
               ))}
             </p>
           )}
           {noImportSpuCode && (
             <p style={{ width: "450px", "word-wrap": "break-word" }}>
-              商品编码:
-              {noImportSpuCode.map(item => (
-                <span>{item}/</span>
+              商品编码:　
+              {noImportSpuCode.map((item,index) => (
+                `${item}${index==noImportSpuCode.length-1?'':'/'}`
               ))}
             </p>
           )}
