@@ -27,17 +27,17 @@ class CommodityFlow extends Component {
       }
     })
   }
-  onOkCallback=(value)=> {
+  onOkCallback=(value,index)=> {
     this.props.dispatch({
       type:'commodityFlow/getSelectkey',
-      payload:value.key
+      payload:index
     })
     this.getList();
   }
-  onOkToggle=(value)=> {
-    this.modDom.submit(()=>this.onOkCallback(value));
+  onOkToggle=(value,index)=> {
+    this.modDom.submit(()=>this.onOkCallback(value,index));
   }
-  onCancel=(value)=> {
+  onCancel=(value,index)=> {
     const { tabId, key } =value;
     this.props.dispatch({
       type:'commodityFlow/fetchGoodsList',

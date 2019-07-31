@@ -9,7 +9,7 @@ import './index.less';
 
 class Field extends Component {
   //切换查详情
-  handleToggle =(e,record)=> {
+  handleToggle =(e,record,index)=> {
     const { selectkey } =this.props;
     e.stopPropagation()
     if(e.target.tagName=='INPUT') {
@@ -23,10 +23,10 @@ class Field extends Component {
       content: '切换页面请确认保存',
       okText:'保存',
       onOk:()=>{
-        this.props.onOk(record);
+        this.props.onOk(record,index);
       },
       onCancel:()=> {
-        this.props.onCancel(record);
+        this.props.onCancel(record,index);
       },
     });
   }
@@ -102,8 +102,8 @@ class Field extends Component {
               index={index}
               form={this.props.form}
               handleBlur={(e)=>this.handleBlur(e,index)}
-              handleToggle={(e)=>this.handleToggle(e,el)}
-              handleDelete={(e)=>this.handleDelete(e,el)}
+              handleToggle={(e)=>this.handleToggle(e,el,index)}
+              handleDelete={(e)=>this.handleDelete(e,el,index)}
               moveRow={this.moveRow}/>
           ))
         }
