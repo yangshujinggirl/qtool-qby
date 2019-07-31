@@ -28,13 +28,13 @@ class ImportBtn extends React.Component {
     if (file.status == "done") {
       if (response) {
         if (response.code == "0") {
-          const { noImportSpu, noImportSpuCode } = response;
+          const { noImportSpu, noImportSpuCode } = response.naSpuVo;
           this.setState({
             noImportSpu,
             noImportSpuCode,
             visible: !!(noImportSpu || noImportSpuCode)
           });
-          let pdSpuList = response.pdSpuList ? response.pdSpuList : [];
+          let pdSpuList = response.naSpuVo.pdSpuList ? response.naSpuVo.pdSpuList : [];
           pdSpuList.map((el, index) => (el.key = index));
           this.props.callBack(pdSpuList);
         } else {
@@ -75,12 +75,12 @@ class ImportBtn extends React.Component {
           wrapClassName="error_msg"
           visible={visible}
         >
-          <p>商品已导入超过100个，已下商品导入失败</p>
+          <p>以下商品导入失败</p>
           {noImportSpu && (
             <p style={{ width: "450px", "word-wrap": "break-word" }}>
               SPUID:
               {noImportSpu.map(item => (
-                <span>{item}，</span>
+                <span>{item}/</span>
               ))}
             </p>
           )}
@@ -88,7 +88,7 @@ class ImportBtn extends React.Component {
             <p style={{ width: "450px", "word-wrap": "break-word" }}>
               商品编码:
               {noImportSpuCode.map(item => (
-                <span>{item}</span>
+                <span>{item}/</span>
               ))}
             </p>
           )}

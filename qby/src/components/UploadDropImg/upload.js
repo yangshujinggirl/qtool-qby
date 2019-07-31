@@ -2,8 +2,7 @@
 import React,{Component} from 'react'
 import {Icon,Modal,message} from 'antd'
 import Upload from 'rc-upload';
-import {DragDropContext} from 'react-dnd'
-import HTML5Backend from 'react-dnd-html5-backend'
+import MyTagControlContext from '../MyTagControlContext';
 import update from 'immutability-helper'
 import Img from './img'
 import './index.less'
@@ -125,4 +124,4 @@ class UploadImg extends Component{
     )
   }
 }
-export default DragDropContext(HTML5Backend)(UploadImg)
+export default MyTagControlContext(UploadImg)

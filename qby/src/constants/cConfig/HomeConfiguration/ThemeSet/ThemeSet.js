@@ -9,7 +9,7 @@ import {
   searchThemeApi,
   saveThemeApi
 } from "../../../../services/cConfig/homeConfiguration/themeSet";
-import MyTagControlContext from '../components/MyTagControlContext';
+import MyTagControlContext from '../../../../components/MyTagControlContext';
 import "./index.less";
 
 

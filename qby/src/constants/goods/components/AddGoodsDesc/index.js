@@ -1,8 +1,8 @@
 import React,{Component} from 'react'
 import { Table, Input, Icon, Button ,Upload, message} from 'antd';
 import { connect } from 'dva';
-import { DragDropContext, DragSource, DropTarget } from 'react-dnd';
-import HTML5Backend from 'react-dnd-html5-backend';
+import { DragSource, DropTarget } from 'react-dnd';
+import MyTagControlContext from '../../../../components/MyTagControlContext';
 import update from 'immutability-helper';
 import UpLoadFile from './UpLoadFile.js';
 import './index.less';
@@ -148,5 +148,5 @@ class AddEditableTable extends React.Component {
 		);
 	}
 }
-const AddEditableTables = DragDropContext(HTML5Backend)(AddEditableTable);
+const AddEditableTables = MyTagControlContext(AddEditableTable);
 export default AddEditableTables;

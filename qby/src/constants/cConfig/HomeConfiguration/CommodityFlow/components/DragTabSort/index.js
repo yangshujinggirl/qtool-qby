@@ -3,7 +3,7 @@ import { Tabs, Button, Form, Input, Icon } from 'antd';
 import { DragSource, DropTarget } from 'react-dnd';
 import { connect } from 'dva';
 import update from 'immutability-helper';
-import MyTagControlContext from '../../../components/MyTagControlContext';
+import MyTagControlContext from '../../../../../../components/MyTagControlContext';
 import './index.less';
 
 
