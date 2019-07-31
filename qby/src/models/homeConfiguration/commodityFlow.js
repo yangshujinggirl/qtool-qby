@@ -256,7 +256,12 @@ export default {
       if(res.code == '0') {
         let { pdFlowTabList } =res;
         if(pdFlowTabList&&pdFlowTabList.length>0) {
-          let currentItem = pdFlowTabList.find((el) => el.key == selectkey);
+          let currentItem;
+          if(pdFlowTabList.length == 1) {
+            currentItem = pdFlowTabList[0];
+          } else {
+            currentItem = pdFlowTabList.find((el) => el.key == selectkey);
+          }
           yield put({
             type:'fetchGoodsList',
             payload:{ tabId:currentItem.tabId, selectkey:selectkey }

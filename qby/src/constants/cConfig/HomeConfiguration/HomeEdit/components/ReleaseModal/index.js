@@ -72,24 +72,6 @@ const disabledDateTime = (date) => {
 };
 
 class ReleaseModalF extends Component {
-  handleOk=(e)=> {
-    e.preventDefault();
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-        let timingReleaseTime = values.timingReleaseTime&&moment(values.timingReleaseTime).format(dateFormat);
-        if(timingReleaseTime) {
-          this.props.onOk({timingReleaseTime});
-        } else {
-          this.props.onOk();
-        }
-        this.props.form.resetFields()
-      }
-    });
-  }
-  handleCancel=()=> {
-    this.props.onCancel();
-    this.props.form.resetFields()
-  }
   render() {
     const { getFieldDecorator } =this.props.form;
     const { confirmLoading, type } =this.props;
@@ -99,8 +81,8 @@ class ReleaseModalF extends Component {
         title={type==2?'定时发布':'立即发布'}
         confirmLoading={confirmLoading}
         visible={this.props.visible}
-        onOk={this.handleOk}
-        onCancel={this.handleCancel}>
+        onOk={this.props.onOk}
+        onCancel={this.props.onCancel}>
         <div>
           {
             type == '2'?
@@ -135,5 +117,5 @@ class ReleaseModalF extends Component {
     )
   }
 }
-const ReleaseModal = Form.create()(ReleaseModalF);
-export default ReleaseModal;
+// const ReleaseModal = Form.create()(ReleaseModalF);
+export default ReleaseModalF;

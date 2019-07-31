@@ -1,7 +1,8 @@
 import react, { Component } from "react";
-import { Dropdown, Menu, Modal, Popover, Button, message } from "antd";
+import { Dropdown, Menu, Modal, Popover, Button, message, Form } from "antd";
 import { connect } from "dva";
 import QRCode from 'qrcode';
+import moment from 'moment'
 import SearchMod from "./components/SearchMod";
 import BannerMod from "./components/BannerMod";
 import BrandMod from "./components/BrandMod";
@@ -120,7 +121,7 @@ class HomeEdit extends Component {
       payload: {}
     });
   }
-  getSaveRelease=(value)=> {
+  getSaveRelease=(value,form)=> {
     const { params } =this.state;
     value = {...value,...params};
     this.setState({ confirmLoading:true })
@@ -137,13 +138,25 @@ class HomeEdit extends Component {
           payload:checkResult
         })
       }
-      this.setState({ visible:false, params:{}, confirmLoading:false })
+      this.onCancel();
+      this.setState({ params:{}, confirmLoading:false })
     })
   }
-  onOk=(value)=>{
-    this.getSaveRelease(value)
+  onOk=()=>{
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        let timingReleaseTime = values.timingReleaseTime&&moment(values.timingReleaseTime).format('YYYY-MM-DD HH:mm');
+        if(timingReleaseTime) {
+          this.getSaveRelease({timingReleaseTime})
+        } else {
+          this.getSaveRelease();
+        }
+      }
+    });
+
   }
   onCancel=()=>{
+    this.props.form.resetFields();
     this.setState({ visible:false })
   }
   menu = (
@@ -212,6 +225,7 @@ class HomeEdit extends Component {
           <ClassifyMod {...this.props} callback={this.getInfo} />
         </div>
         <ReleaseModal
+          form={this.props.form}
           confirmLoading={confirmLoading}
           type={params.type}
           visible={visible}
@@ -225,4 +239,5 @@ function mapStateToProps(state) {
   const { homeEdit } = state;
   return homeEdit;
 }
-export default connect(mapStateToProps)(HomeEdit);
+const HomeEditF = Form.create()(HomeEdit);
+export default connect(mapStateToProps)(HomeEditF);

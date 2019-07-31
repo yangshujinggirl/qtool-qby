@@ -27,10 +27,11 @@ class ImportBtn extends React.Component {
     if(file.status == 'done') {
       if (response) {
         if(response.code=='0'){
-          const { noImportSpu } =response;
+          const { mlSpuVo } =response;
+          const { noImportSpu } =mlSpuVo;
           if(noImportSpu&&noImportSpu.length>0) {
             let content = <div className="import-error-modal">
-            商品已导入超过100个，以下商品导入失败<br/>
+            以下商品导入失败<br/>
             SPUID:
               {
                 noImportSpu.map((el,index) => el = `${el}${index==(noImportSpu.length-1)?'':'/'}`)
@@ -38,7 +39,7 @@ class ImportBtn extends React.Component {
             </div>
             message.error(content,5)
           }
-          let pdSpuList= response.pdSpuList?response.pdSpuList:[];
+          let pdSpuList= mlSpuVo.pdSpuList?mlSpuVo.pdSpuList:[];
           pdSpuList.map((el,index) =>{
             el.key = index;
             el.FixedPdSpuId = el.pdSpuId;

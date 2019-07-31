@@ -157,6 +157,7 @@ class ModForm extends Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     const { categoryData, goodsList, totalData, sortArr } =this.props;
+    console.log(this.props.selectkey,this.props.tabs)
     return(
       <div className="commodity-main-mod">
         <Form>
