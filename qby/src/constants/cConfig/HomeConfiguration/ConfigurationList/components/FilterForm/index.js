@@ -50,7 +50,7 @@ class NormalForm extends Component {
               {getFieldDecorator("versionName")(
                 <Input
                   placeholder="版本名称"
-                  maxLength="10"
+                  maxLength="15"
                   autoComplete="off"
                 />
               )}
