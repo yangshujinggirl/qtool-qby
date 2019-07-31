@@ -218,7 +218,7 @@ class ModForm extends Component {
                     最近
                     {
                       getFieldDecorator('day',{
-                        initialValue:totalData.day||30,
+                        initialValue:totalData.day,
                         rules:[{
                           required:true,message:'请输入'
                         }]
@@ -303,6 +303,7 @@ const Mod = Form.create({
       pdCategory3Id: Form.createFormField(props.categoryIdList.pdCategory3Id),
       pdCategory4Id: Form.createFormField(props.categoryIdList.pdCategory4Id),
       spuList: Form.createFormField(props.goodsList),
+      day: Form.createFormField(props.totalData.day),
       time: Form.createFormField(props.totalData.time),
       ruleType: Form.createFormField(props.totalData.ruleType),
       sortType:Form.createFormField(props.totalData.sortType),
