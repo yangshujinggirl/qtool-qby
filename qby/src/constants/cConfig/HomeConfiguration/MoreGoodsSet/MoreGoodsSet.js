@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Table, Button, Form, Input, message } from 'antd';
 import { connect } from 'dva';
+import lodash from 'lodash';
 import ModDis from './components/MainMod';
 import ImportBtn from './components/ImportBtn';
 import {
@@ -35,9 +36,14 @@ class Mod extends Component {
           pdSpuList =[...fieldsOne,...fieldsTwo]
         } else if(fieldsOne) {
           pdSpuList = fieldsOne;
-        } else if(fieldsTwo) {
-          fieldsOne = fieldsTwo;
         }
+        pdSpuList.map((el,index) => {
+          for(var key in el) {
+            if(el[key]&&typeof el[key] == 'string') {
+              el[key] = lodash.trim(el[key]);
+            }
+          }
+        })
         const { homepageModuleId } =this.props.data;
         const { totalList } =this.props;
         if(totalList.length<6) {
