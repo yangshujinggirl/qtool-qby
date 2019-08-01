@@ -175,7 +175,7 @@ class ConfigurationList extends Component {
         resetForm();
       }else{
         this.setState({ loading: false });
-      }
+      };
     })
   };
   //取消新增首页版本
@@ -189,7 +189,7 @@ class ConfigurationList extends Component {
     });
   };
    //点击分页
-   changePage =(current,limit)=> {
+  changePage =(current,limit)=> {
     const currentPage = current-1;
     const values = {...this.state.inputValues,currentPage,limit}
     this.props.dispatch({
@@ -198,12 +198,12 @@ class ConfigurationList extends Component {
     });
   }
     //pageSize改变时的回调
-    onShowSizeChange =({currentPage,limit})=> {
-      this.props.dispatch({
-        type:'homeConfig/fetchList',
-        payload:{currentPage,limit,...this.state.inputValues}
-      });
-    }
+  onShowSizeChange =({currentPage,limit})=> {
+    this.props.dispatch({
+      type:'homeConfig/fetchList',
+      payload:{currentPage,limit,...this.state.inputValues}
+    });
+  }
   render() {
     const {rolelists} = this.props.data;
     const { status, visible, versionList, doubleVisible, loading } = this.state;

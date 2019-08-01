@@ -27,7 +27,7 @@ class ModuleSet extends Component {
     super(props);
     this.state = {
       title: "qwdqef",
-      isDisplaySplitLine: 0,
+      isDisplaySplitLine: 1,
       isDisplayCountdown: 0,
       titleColor: 0,
       moreLinkInfo: "",
@@ -197,6 +197,7 @@ class ModuleSet extends Component {
       wrapperCol: { span: 20 }
     };
     const { getFieldDecorator } = this.props.form;
+    console.log(isDisplaySplitLine)
     return (
       <div className="single-line-set">
         <Form>
@@ -306,7 +307,7 @@ class ModuleSet extends Component {
           )}
           <FormItem {...formLayout} label="是否隐藏模块分割线">
             {getFieldDecorator("isDisplaySplitLine", {
-              initialValue: String(isDisplaySplitLine) ? isDisplaySplitLine : 1,
+              initialValue: isDisplaySplitLine==0 ? 0 : 1,
               rules: [{ required: true, message: "请选择是否隐藏模块分割线" }]
             })(
               <Radio.Group>
