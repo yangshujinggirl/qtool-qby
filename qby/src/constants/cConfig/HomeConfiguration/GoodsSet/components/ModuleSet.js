@@ -306,7 +306,7 @@ class ModuleSet extends Component {
           )}
           <FormItem {...formLayout} label="是否隐藏模块分割线">
             {getFieldDecorator("isDisplaySplitLine", {
-              initialValue: isDisplaySplitLine ? isDisplaySplitLine : 1,
+              initialValue: String(isDisplaySplitLine) ? isDisplaySplitLine : 1,
               rules: [{ required: true, message: "请选择是否隐藏模块分割线" }]
             })(
               <Radio.Group>
@@ -321,7 +321,7 @@ class ModuleSet extends Component {
                 initialValue: isDisplayCountdown
               })(<Checkbox>展示倒计时插件</Checkbox>)}
               <span className="suffix_tips">
-                注：仅促销商品支持倒计时插件，倒计时计算首页发布时间-活动结束时间
+                注：仅活动商品支持倒计时插件，倒计时计算当前时间-活动结束时间
               </span>
             </FormItem>
           )}
