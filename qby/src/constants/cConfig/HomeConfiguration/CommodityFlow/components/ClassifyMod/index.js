@@ -24,6 +24,17 @@ class ClassifyMod extends Component {
   }
   //分类change事件
   handleChangeLevel (level,selected) {
+    const { categoryIdList } =this.props;
+    if(level == 4) {
+      this.props.dispatch({
+        type:'commodityFlow/getCategoryIdList',
+        payload:{
+          ...categoryIdList,
+          pdCategory4Id:selected
+        }
+      })
+      return;
+    }
     level++;
     this.props.dispatch({
       type:'commodityFlow/fetchCategory',
@@ -185,6 +196,7 @@ class ClassifyMod extends Component {
             {
               getFieldDecorator('pdCategory4Id',{
                 initialValue:pdCategory4Id?pdCategory4Id:undefined,
+                onChange:(select)=>this.handleChangeLevel(4,select)
               })(
                 <Select
                   placeholder="请选择四级分类"
