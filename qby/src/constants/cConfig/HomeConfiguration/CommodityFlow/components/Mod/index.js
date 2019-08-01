@@ -130,6 +130,13 @@ class ModForm extends Component {
       })
     }
     let selectItem = tabs.find((el) => el.key== selectkey);
+    values.spuList.map((el,index) => {
+      for(var key in el) {
+        if(el[key]&&typeof el[key] == 'string') {
+          el[key] = lodash.trim(el[key]);
+        }
+      }
+    })
     let params={
           homePageModuleId:homePageModuleId,
           tabName:selectItem.tabName,
