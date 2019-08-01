@@ -118,7 +118,7 @@ class SearchMod extends Component {
       backgroundPicUrl: imageUrl,
       noFullScreenBackGroundPic: imageUrl2,
       contentPicUrl: imageUrl3,
-      
+
     };
     this.setState({
       loading: true
@@ -149,6 +149,7 @@ class SearchMod extends Component {
     const { visible, fileList,fileList2,fileList3, loading } = this.state;
     const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
     let { backgroundPicUrl, homepageModuleId } = this.props.info.search;
+    const { homepageInfoVo } =this.props.info;
     backgroundPicUrl = `${fileDomain}${backgroundPicUrl}`;
     return (
       <CommonMod
@@ -162,7 +163,7 @@ class SearchMod extends Component {
           />
           <div className="handle-btn-action">
             {
-              !this.props.data.info&&
+              !this.props.data.info&&homepageInfoVo&&!!homepageInfoVo.releasable&&
               <Button onClick={this.onEdit}>编辑</Button>
             }
 

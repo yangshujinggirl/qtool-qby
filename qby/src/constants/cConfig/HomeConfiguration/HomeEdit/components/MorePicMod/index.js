@@ -24,7 +24,7 @@ class MorePicMod extends Component {
     });
   };
   render() {
-    let { picMix } =this.props.info;
+    let { picMix, homepageInfoVo } =this.props.info;
     let { moduleContent, moduleBackColor, isDisplay, homepageModuleId } =picMix;
     const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
     let lImg,tImg,bImg;
@@ -64,7 +64,7 @@ class MorePicMod extends Component {
           </div>
           <div className="handle-btn-action">
             {
-              !this.props.data.info&&
+              !this.props.data.info&&homepageInfoVo&&!!homepageInfoVo.releasable&&
               <Button onClick={this.goEdit}>编辑</Button>
             }
           </div>

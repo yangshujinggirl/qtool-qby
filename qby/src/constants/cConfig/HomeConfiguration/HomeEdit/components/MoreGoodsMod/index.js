@@ -28,7 +28,7 @@ class MoreGoodsMod extends Component {
     })
   }
   render() {
-    let { multilineProduct } =this.props.info;
+    let { multilineProduct, homepageInfoVo } =this.props.info;
     let { homepageModuleId, moduleContent, moduleBackColor } =multilineProduct;
     const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
     moduleBackColor = moduleBackColor?`${moduleBackColor}`:null;
@@ -75,7 +75,7 @@ class MoreGoodsMod extends Component {
           </div>
           <div className="handle-btn-action">
             {
-              !this.props.data.info&&
+              !this.props.data.info&&homepageInfoVo&&!!homepageInfoVo.releasable&&
               <Button onClick={this.goEdit}>编辑</Button>
             }
           </div>

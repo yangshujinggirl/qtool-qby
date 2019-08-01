@@ -52,6 +52,14 @@ class ModForm extends Component {
     //   payload:totalData
     // })
   }
+  changeDay=(type,e)=> {
+    // let { totalData } =this.props;
+    // totalData = { ...totalData, type: e }
+    // this.props.dispatch({
+    //   type:'commodityFlow/getTotalData',
+    //   payload:totalData
+    // })
+  }
   //提交
   submit=(func)=> {
     this.props.form.validateFields((err, values) => {
@@ -130,6 +138,13 @@ class ModForm extends Component {
       })
     }
     let selectItem = tabs.find((el) => el.key== selectkey);
+    values.spuList.map((el,index) => {
+      for(var key in el) {
+        if(el[key]&&typeof el[key] == 'string') {
+          el[key] = lodash.trim(el[key]);
+        }
+      }
+    })
     let params={
           homePageModuleId:homePageModuleId,
           tabName:selectItem.tabName,
@@ -222,7 +237,8 @@ class ModForm extends Component {
                         initialValue:totalData.day,
                         rules:[{
                           required:true,message:'请输入'
-                        }]
+                        }],
+                        onChange:(e)=>this.changeDay('day',e)
                       })(
                         <Input placeholder="请输入" autoComplete="off"/>
                       )
@@ -238,8 +254,8 @@ class ModForm extends Component {
                         initialValue:totalData.time?[moment(totalData.time[0],dateForm),moment(totalData.time[1],dateForm)]:null,
                         rules:[{
                           required:true,message:'请选择时间'
-                        }]
-
+                        }],
+                        onChange:(e)=>this.changeDay('time',e)
                       })(
                         <RangePicker
                           format={dateForm}/>

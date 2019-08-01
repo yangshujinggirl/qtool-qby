@@ -116,6 +116,7 @@ class BrandMod extends Component {
   };
   render() {
     const { visible, fileList, color, loading } = this.state;
+    const { homepageInfoVo } =this.props.info;
     let { homepageModuleId,moduleBackColor, contentPicUrl,isDisplay } = this.props.info.brandDisplay;
     const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
     moduleBackColor = moduleBackColor?`${moduleBackColor}`:null;
@@ -134,7 +135,7 @@ class BrandMod extends Component {
         }
         <div className="handle-btn-action">
           {
-            !this.props.data.info&&
+            !this.props.data.info&&homepageInfoVo&&!!homepageInfoVo.releasable&&
             <div>
               <Button onClick={this.onEdit}>编辑</Button>
               <Button

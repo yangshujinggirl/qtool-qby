@@ -24,7 +24,7 @@ class IconMod extends Component {
     })
   }
   render() {
-    const { icon } =this.props.info;
+    const { icon, homepageInfoVo } =this.props.info;
     let { homepageModuleId, moduleContent, moduleBackColor, isDisplay } =icon;
     const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
     moduleBackColor = moduleBackColor?`${moduleBackColor}`:null;
@@ -51,7 +51,7 @@ class IconMod extends Component {
         <div className="handle-btn-action">
 
           {
-            !this.props.data.info&&
+            !this.props.data.info&&homepageInfoVo&&!!homepageInfoVo.releasable&&
             <div>
               <Button onClick={this.goEdit}>编辑</Button>
               <Button onClick={()=>this.props.toggleShow(homepageModuleId,isDisplay)}>{isDisplay?'隐藏':'显示'}</Button>
