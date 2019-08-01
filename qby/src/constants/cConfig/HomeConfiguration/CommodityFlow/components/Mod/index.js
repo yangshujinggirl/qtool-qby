@@ -157,6 +157,7 @@ class ModForm extends Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     const { categoryData, goodsList, totalData, sortArr } =this.props;
+
     return(
       <div className="commodity-main-mod">
         <Form>
@@ -287,13 +288,25 @@ class ModForm extends Component {
 }
 const Mod = Form.create({
   onValuesChange(props, changedFields, allFields) {
-    let { time, day, ruleType, sortType } =allFields;
-    let { totalData } =props;
+    let { time, day, ruleType, sortType, spuList } =allFields;
+    let { totalData, goodsList } =props;
     ruleType = ruleType?ruleType:0;
     totalData = {...totalData,time, day, ruleType, sortType};
+    goodsList = goodsList.map((el,index) => {
+      spuList.map((item,idx) => {
+        if(index == idx) {
+          el = {...el,...item}
+        }
+      })
+      return el;
+    })
     props.dispatch({
       type:'commodityFlow/getTotalData',
       payload:totalData
+    })
+    props.dispatch({
+      type:'commodityFlow/getGoodsList',
+      payload:goodsList
     })
   },
   mapPropsToFields(props) {
