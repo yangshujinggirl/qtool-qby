@@ -197,7 +197,6 @@ class ModuleSet extends Component {
       wrapperCol: { span: 20 }
     };
     const { getFieldDecorator } = this.props.form;
-    console.log(isDisplaySplitLine)
     return (
       <div className="single-line-set">
         <Form>

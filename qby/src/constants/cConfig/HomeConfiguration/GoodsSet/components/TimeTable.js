@@ -241,7 +241,6 @@ class TimeTable extends Component {
     });
   };
   render() {
-    // console.log(this.state.isCurrent)
     const { timeSlots } = this.props;
     const { visible } = this.state;
     return (

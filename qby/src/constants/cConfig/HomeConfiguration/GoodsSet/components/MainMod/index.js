@@ -49,7 +49,7 @@ class Mod extends Component {
   };
   //code
   handleBlur=(e,record,valueType)=> {
-    let value = e.target.value;
+    let value = e.target.value.trim();
     if(!value) {return}
     let { totalList,goodType } = this.props;
     let params = {};

@@ -3,6 +3,7 @@ import { connect } from "dva";
 import { Form, Button, Select, message,Modal } from "antd";
 import ModDis from "./components/MainMod";
 import ImportBtn from "./components/ImportBtn";
+import {removeSpace} from '../../../../utils/meth'
 import {
   getActivityListApi,
   getSaveApi
@@ -113,6 +114,10 @@ class GoodsConfig extends Component {
         } else if (fieldsTwo) {
           fieldsOne = fieldsTwo;
         };
+        pdSpuList = pdSpuList.map(item=>{
+          item = removeSpace(item)
+          return item;
+        });
         const {
           homepageModuleId,
           pdListDisplayCfgId,
@@ -318,8 +323,8 @@ const GoodsConfigs = Form.create({
       fieldsTwo.map((item,idx)=> {
         if(index == idx) {
           el = {...el,...item};
-        }
-      })
+        };
+      });
       return el;
     })
     listOne = listOne.map((el,index) => {
@@ -327,7 +332,7 @@ const GoodsConfigs = Form.create({
         if(index == idx) {
           el = {...el,...item};
         }
-      })
+      });
       return el;
     })
     let totalList = [...listOne, ...listTwo]
