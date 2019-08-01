@@ -125,7 +125,7 @@ class Index extends Component {
     saveApi(values).then(res => {
       if (res.code == "0") {
         message.success("保存成功");
-        this.getCouponList()
+        // this.getCouponList()
         this.setState({
           loading:false
         });
@@ -133,7 +133,7 @@ class Index extends Component {
         this.setState({
           loading:false
         });
-      }
+      };
     });
   };
   handleSubmit = () => {
@@ -142,8 +142,8 @@ class Index extends Component {
         const _values = this.formateValues(values);
         if (_values) {
           this.sendRequest(_values);
-        }
-      }
+        };
+      };
     });
   };
   //格式化数据
@@ -198,7 +198,6 @@ class Index extends Component {
     this.setState({
       couponList
     });
-    
   };
   onCancel = () => {
     this.setState({
