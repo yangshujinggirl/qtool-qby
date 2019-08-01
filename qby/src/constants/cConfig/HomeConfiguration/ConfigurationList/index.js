@@ -161,13 +161,15 @@ class ConfigurationList extends Component {
             key: `${componkey}levelTwo${homepageId}`,
           }
         };
+        if(values.type == 1){ //新增页面
+          this.props.dispatch({
+            type: "tab/firstAddTab",
+            payload: paneitem
+          });
+        };
         this.props.dispatch({
           type: "homeConfig/fetchList",
           payload: { ...this.state.inputValues }
-        });
-        this.props.dispatch({
-          type: "tab/firstAddTab",
-          payload: paneitem
         });
         this.setState({ visible: false, loading: false });
         resetForm();
