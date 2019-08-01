@@ -31,37 +31,21 @@ class Index extends Component {
               return (
               <TabPane tab={item.tab} key={item.key}>
                 {
-                  item.key == 1&&
+                  (item.key==1 && activeKey==1)&&
                   <GoodsSet homepageModuleId={homepageModuleId}/>
                 }
                 {
-                  item.key == 2&&
+                  (item.key==2 && activeKey==2)&&
                   <ModuleSet homepageModuleId={homepageModuleId}/>
                 }
                 {
-                  (item.key == 3&&activeKey==3)&&
+                  (item.key==3 && activeKey==3)&&
                   <GoodsConfig homepageModuleId={homepageModuleId}/>
                 }
-                
               </TabPane>
               )
             })
           }
-          {/* <TabPane tab="设置时段" key="1">
-            <GoodsSet homepageModuleId={homepageModuleId}/>
-          </TabPane>
-          <TabPane tab="模块设置" key="3">
-            {
-              activeKey=='3'&&
-              <ModuleSet homepageModuleId={homepageModuleId}/>
-            }
-          </TabPane>
-          {
-            activeKey=='2'&&
-            <TabPane tab="配置商品" key="2">
-                <GoodsConfig homepageModuleId={homepageModuleId}/>
-            </TabPane>
-          } */}
         </Tabs>
       </div>
     );

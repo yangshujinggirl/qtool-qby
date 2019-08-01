@@ -8,31 +8,42 @@ import {
   getTimeListApi,
   deleteTimeApi
 } from "../../../../../services/cConfig/homeConfiguration/goodSet";
+import "../index.less";
 const FormItem = Form.Item;
 const { RangePicker } = DatePicker;
-import "../index.less";
 
 const disabledDate = current => {
   return current && current < moment().subtract(1,'days');
 };
-function range(start, end) {
+const range=(start, end)=> {
   const result = [];
   for (let i = start; i < end; i++) {
     result.push(i);
-  }
+  };
   return result;
-}
-function disabledDateTime() {
+};
+const disabledRangeTime=(_, type)=> { //当天过去的时间不可选
+  if (type === 'start') {
+    return {
+      disabledHours: () => range(0, 60).splice(0,moment().hours()),
+      disabledMinutes: () => range(1,30).concat(range(31,60)),
+    };
+  };
   return {
-    disabledHours: () => range(0, 60).splice(0,moment().hours()),
     disabledMinutes: () => range(1,30).concat(range(31,60)),
   };
-}
+};
+const disabledTime=(_, type)=> {
+  return {
+    disabledMinutes: () => range(1,30).concat(range(31,60)),
+  };
+};
 class TimeTable extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      visible: false
+      visible: false,
+      isCurrent:false
     };
     this.columns = [
       {
@@ -59,8 +70,9 @@ class TimeTable extends Component {
                     : null
                 })(
                   <RangePicker
+                    onChange={this.onChange}
                     disabledDate={disabledDate}
-                    disabledTime={disabledDateTime}
+                    disabledTime={this.state.isCurrent?disabledRangeTime:disabledTime}
                     allowClear={false}
                     showTime={{hideDisabledOptions: true, defaultValue: [moment('00:00', 'HH:mm'),moment('00:00', 'HH:mm')] }}
                     format="YYYY-MM-DD HH:mm"
@@ -115,6 +127,15 @@ class TimeTable extends Component {
         }
       }
     ];
+  }
+  onChange=(value)=>{
+    const currentDate = moment().format('YYYY-MM-DD');
+    const valueDate = moment(value[0]).format('YYYY-MM-DD')
+    if(currentDate == valueDate){
+      this.setState({isCurrent:true})
+    }else{
+      this.setState({isCurrent:false})
+    };
   }
   //点击配置商品
   goToSet = record => {
@@ -220,7 +241,6 @@ class TimeTable extends Component {
     });
   };
   render() {
-    console.log(this.props)
     const { timeSlots } = this.props;
     const { visible } = this.state;
     return (
