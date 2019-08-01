@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Table, Button, Form, Input, message } from 'antd';
 import { connect } from 'dva';
+import lodash from 'lodash';
 import DragTableField from '../DragTableField';
 import { columnsFun } from '../columns/index';
 import { getSearchIdApi } from '../../../../../../services/cConfig/homeConfiguration/commodityFlow';
@@ -65,7 +66,8 @@ class GoodsTable extends Component {
   //code
   handleBlur=(e,record)=> {
     let value;
-    value = e.target.value;
+    // value = e.target.value;
+    value = lodash.trim(e.target.value)
     if(!value) {
       return;
     }

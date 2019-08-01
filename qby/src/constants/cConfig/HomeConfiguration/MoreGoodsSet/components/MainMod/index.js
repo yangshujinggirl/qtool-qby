@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Table, Button, Form, Input, message } from 'antd';
 import { connect } from 'dva';
+import lodash from 'lodash';
 import DragField from '../DragField';
 import { getSearchIdApi } from '../../../../../../services/cConfig/homeConfiguration/moreGoodsSet';
 import { columnsFun, columnsTwoFun } from '../columns/index';
@@ -47,7 +48,8 @@ class Mod extends Component {
   //code
   handleBlur=(e,record)=> {
     let value;
-    value = e.target.value;
+    // value = e.target.value;
+    value = lodash.trim(e.target.value)
     if(!value) {
       return;
     }
