@@ -24,7 +24,7 @@ class NewUserMod extends Component {
     });
   };
   render() {
-    let { coupon } =this.props.info;
+    let { coupon, homepageInfoVo } =this.props.info;
     let { homepageModuleId, moduleBackColor,isDisplay, moduleContent } =coupon;
     const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
     moduleBackColor = moduleBackColor?`${moduleBackColor}`:null;
@@ -45,7 +45,7 @@ class NewUserMod extends Component {
           <div className="handle-btn-action">
 
             {
-               !this.props.data.info&&
+               !this.props.data.info&&homepageInfoVo&&!!homepageInfoVo.releasable&&
                <div>
                 <Button onClick={this.goEdit}>编辑</Button>
               <Button onClick={()=>this.props.toggleShow(homepageModuleId,isDisplay)}>{isDisplay?'隐藏':'显示'}</Button>

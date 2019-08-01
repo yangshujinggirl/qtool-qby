@@ -42,7 +42,7 @@ class ClassifyMod extends Component {
     })
   }
   render() {
-    let { flowProduct } =this.props.info;
+    let { flowProduct, homepageInfoVo } =this.props.info;
     let { moduleContent, moduleBackColor, isDisplay, homepageModuleId } =flowProduct;
     let { flowProductList } =this.props;
     const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
@@ -115,7 +115,7 @@ class ClassifyMod extends Component {
         }
           <div className="handle-btn-action">
             {
-              !this.props.data.info&&
+              !this.props.data.info&&homepageInfoVo&&!!homepageInfoVo.releasable&&
               <Button onClick={this.goEdit}>编辑</Button>
             }
 

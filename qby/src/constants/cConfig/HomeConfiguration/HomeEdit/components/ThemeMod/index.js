@@ -31,7 +31,7 @@ class ThemeMod extends Component {
     });
   };
   render() {
-    let { themeActivity } =this.props.info;
+    let { themeActivity, homepageInfoVo } =this.props.info;
     let { moduleContent, moduleBackColor, homepageModuleId } =themeActivity;
     const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
     moduleBackColor = moduleBackColor?`${moduleBackColor}`:null;
@@ -71,7 +71,7 @@ class ThemeMod extends Component {
           </div>
           <div className="handle-btn-action">
             {
-              !this.props.data.info&&
+              !this.props.data.info&&homepageInfoVo&&!!homepageInfoVo.releasable&&
               <Button onClick={this.goEdit}>编辑</Button>
             }
           </div>

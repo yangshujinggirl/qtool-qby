@@ -42,7 +42,7 @@ class BannerMod extends Component {
     })
   }
   render() {
-    let { checkResult } =this.props;
+    let { homepageInfoVo } =this.props.info;
     let { moduleContent, backgroundPicUrl,isDisplay, homepageModuleId } =this.props.info.banner;
     const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
     backgroundPicUrl = `${fileDomain}${backgroundPicUrl}`;
@@ -77,7 +77,7 @@ class BannerMod extends Component {
           }
           <div className="handle-btn-action">
             {
-              !this.props.data.info&&
+              !this.props.data.info&&homepageInfoVo&&!!homepageInfoVo.releasable&&
               <Button onClick={this.goEdit}>编辑</Button>
             }
           </div>

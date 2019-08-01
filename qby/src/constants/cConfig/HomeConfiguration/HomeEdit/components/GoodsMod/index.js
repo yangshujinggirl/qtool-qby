@@ -35,7 +35,7 @@ class GoodsMod extends Component {
     })
   }
   render() {
-    let { productDisplay } =this.props.info;
+    let { productDisplay, homepageInfoVo } =this.props.info;
     let { homepageModuleId, moduleContent, moduleBackColor,isDisplay } = productDisplay;
     const fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
     const endDate = new Date('2019-8-24') // Christmas, yay
@@ -87,7 +87,7 @@ class GoodsMod extends Component {
         </div>
         <div className="handle-btn-action">
           {
-            !this.props.data.info&&
+            !this.props.data.info&&homepageInfoVo&&!!homepageInfoVo.releasable&&
             <div>
               <Button onClick={this.goEdit}>编辑</Button>
             <Button onClick={()=>this.props.toggleShow(homepageModuleId,isDisplay)}>{isDisplay?'隐藏':'显示'}</Button>
