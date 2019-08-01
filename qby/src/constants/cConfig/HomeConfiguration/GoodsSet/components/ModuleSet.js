@@ -47,7 +47,7 @@ class ModuleSet extends Component {
     this.props.dispatch({type: 'tab/loding',payload:true})
     getModuleApi({ homepageModuleId:homepageModuleId }).then(res => {
       if (res.code == "0") {
-        const {
+        let {
           title,
           isDisplaySplitLine,
           isDisplayCountdown,
@@ -57,6 +57,9 @@ class ModuleSet extends Component {
           isDisplayMore,
           moreLinkType
         } = res.homepageModuleVo;
+        if(isDisplayCountdown){
+          isDisplayCountdown = true
+        };
         this.setState({
           title,
           isDisplaySplitLine,
@@ -192,6 +195,7 @@ class ModuleSet extends Component {
       visible,
       loading
     } = this.state;
+    console.log(isDisplayCountdown)
     const formLayout = {
       labelCol: { span: 3 },
       wrapperCol: { span: 20 }
@@ -318,6 +322,7 @@ class ModuleSet extends Component {
           {(type == 35)&& (
             <FormItem {...formLayout} label="插件">
               {getFieldDecorator("isDisplayCountdown", {
+                valuePropName: 'checked',
                 initialValue: isDisplayCountdown
               })(<Checkbox>展示倒计时插件</Checkbox>)}
               <span className="suffix_tips">
