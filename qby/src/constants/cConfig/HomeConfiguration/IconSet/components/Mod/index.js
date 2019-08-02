@@ -156,13 +156,6 @@ const Mod = Form.create({
   onValuesChange(props, changedFields, allFields) {
     let { goods } =allFields;
     let { goodsList } =props;
-    goods.map((el,index) => {
-      for(var key in el) {
-        if(el[key]&&typeof el[key] == 'string') {
-          el[key] = lodash.trim(el[key]);
-        }
-      }
-    })
     goodsList = goodsList.map((el,index) => {
       goods.map((item,idx) => {
         if(index == idx) {

@@ -45,6 +45,8 @@ export function columnsFun(form,handleBlur){
                   initialValue:record.pdSpuId,
                   rules:[{
                     required:true,message:'请输入Spuid'
+                  },{
+                    pattern:/^\S+$/g,message:'不可输入空格'
                   }],
                 })(
                   <Input
@@ -95,7 +97,7 @@ export function columnsFun(form,handleBlur){
         return <FormItem>
                 {getFieldDecorator(`fieldsOne[${index}].sellingPoints`,{
                   initialValue:record.sellingPoints,
-                  rules:[],
+                  rules:[{pattern:/^\S+$/g,message:'不可输入空格'}]
                 })(
                   <Input
                     maxLength='8'
@@ -115,7 +117,7 @@ export function columnsFun(form,handleBlur){
         return <FormItem>
                 {getFieldDecorator(`fieldsOne[${index}].tags`,{
                   initialValue:record.tags,
-                  rules:[],
+                  rules:[{pattern:/^\S+$/g,message:'不可输入空格'}]
                 })(
                   <Input
                     maxLength='8'
@@ -193,7 +195,9 @@ export function columnsTwoFun(form, handleBlur){
         return <FormItem>
                 {getFieldDecorator(`fieldsTwo[${index}].pdSpuId`,{
                   initialValue:record.pdSpuId,
-                  rules:[{required:true,message:'请输入Spuid'}],
+                  rules:[{required:true,message:'请输入Spuid'},{
+                    pattern:/^\S+$/g,message:'不可输入空格'
+                  }],
                 })(
                   <Input
                     onBlur={(e)=>handleBlur(e,record)}
@@ -246,7 +250,9 @@ export function columnsTwoFun(form, handleBlur){
         return <FormItem>
                 {getFieldDecorator(`fieldsTwo[${index}].sellingPoints`,{
                   initialValue:record.sellingPoints,
-                  rules:[],
+                  rules:[{
+                    pattern:/^\S+$/g,message:'不可输入空格'
+                  }],
                 })(
                   <Input
                     maxLength='8'
@@ -267,7 +273,9 @@ export function columnsTwoFun(form, handleBlur){
         return <FormItem>
                 {getFieldDecorator(`fieldsTwo[${index}].tags`,{
                   initialValue:record.tags,
-                  rules:[],
+                  rules:[{
+                    pattern:/^\S+$/g,message:'不可输入空格'
+                  }]
                 })(
                   <Input
                     maxLength='8'
