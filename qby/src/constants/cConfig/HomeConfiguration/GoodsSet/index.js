@@ -31,11 +31,11 @@ class Index extends Component {
               return (
               <TabPane tab={item.tab} key={item.key}>
                 {
-                  (item.key==1 && activeKey==1)&&
+                  (item.key==1)&&
                   <GoodsSet homepageModuleId={homepageModuleId}/>
                 }
                 {
-                  (item.key==2 && activeKey==2)&&
+                  (item.key==2)&&
                   <ModuleSet homepageModuleId={homepageModuleId}/>
                 }
                 {
