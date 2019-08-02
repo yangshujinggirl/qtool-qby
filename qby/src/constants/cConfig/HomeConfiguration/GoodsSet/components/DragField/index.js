@@ -118,7 +118,7 @@ class Field extends Component {
             moveRow: this.props.moveRow
           })}
           rowClassName={(record,index)=>(
-            record.isLine==20?'haveBackColor':null
+            record.isLine==20||record.isPresell==1||record.pdSpuInv==0?'haveBackColor':null
           )}
         />
         <Table
@@ -143,7 +143,7 @@ class Field extends Component {
             moveRow: this.props.moveRow
           })}
           rowClassName={(record,index)=>(
-            record.isLine==20?'haveBackColor':null
+            record.isLine==20||record.isPresell==1||record.pdSpuInv==0?'haveBackColor':null
           )}
         />
       </div>

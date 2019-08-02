@@ -166,8 +166,8 @@ export function columnsNewFun(form,handleBlur){
       width:'10%',
       render:(text,record,index)=>{
         return(
-            record.activitys&&record.activitys.map((item)=>
-              <p>{item.activityName},</p>
+            record.activitys&&record.activitys.map((item,index)=>
+              <p>{item.activityName}{record.activitys.length-1==index?'':'、'}</p>
             )
           )
       }
