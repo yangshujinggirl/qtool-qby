@@ -204,6 +204,7 @@ class GoodsConfig extends Component {
       totalList,
       goodType
     } = this.props;
+    console.log(goodType)
     const formLayout = {
       labelCol: { span: 2 },
       wrapperCol: { span: 20 }
