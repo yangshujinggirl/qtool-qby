@@ -92,7 +92,7 @@ export function columnsFun(form,handleBlur,handleChange){
       render:(text,record,index)=> {
         return <span>
         {
-          record.shelfStatus!=undefined&&
+          record.isPresell!=undefined&&
           <span>
           {!!record.isPresell?'预售':'非预售'}
           </span>

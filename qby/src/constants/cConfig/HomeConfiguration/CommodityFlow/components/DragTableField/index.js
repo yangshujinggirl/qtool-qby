@@ -85,6 +85,9 @@ class Field extends Component {
         pagination={false}
         columns={columns}
         dataSource={goodsList}
+        rowClassName={(record,index)=>(
+          !!record.isPresell||!record.shelfStatus||record.pdInvQty=='0'?'haveBackColor':null
+        )}
         components={this.components}
         footer={()=><Button type="default" disabled={goodsList.length>=100?true:false} onClick={this.props.handleAdd}>+新增</Button>}
         onRow={(record, index) => ({
