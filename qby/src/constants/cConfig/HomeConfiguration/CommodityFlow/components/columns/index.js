@@ -14,13 +14,6 @@ export function columnsFun(form,handleBlur,handleChange){
     }
     return { placeholder, disabled, rules };
   }
-  //联动清空表单中的值
-  const linkChange=(index)=> {
-    // let spuListVal = form.getFieldsValue(['spuList']);
-    // let err = form.getFieldsError(['spuList']);
-    // let { spuList } =spuListVal;
-    // form.setFieldsValue({spuList})
-  }
   return [
     {
       title: '序号',

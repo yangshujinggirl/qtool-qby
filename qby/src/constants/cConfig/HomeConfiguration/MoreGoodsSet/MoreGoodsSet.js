@@ -37,13 +37,6 @@ class Mod extends Component {
         } else if(fieldsOne) {
           pdSpuList = fieldsOne;
         }
-        pdSpuList.map((el,index) => {
-          for(var key in el) {
-            if(el[key]&&typeof el[key] == 'string') {
-              el[key] = lodash.trim(el[key]);
-            }
-          }
-        })
         const { homepageModuleId } =this.props.data;
         const { totalList } =this.props;
         if(totalList.length<6) {

@@ -90,17 +90,17 @@ export function columns(form, categoryList, activiKey){
       case 1:
         disabled=false;
         placeholder = '请输入页面编码';
-        rules=[{ required:true, message:'请输入页面编码'}]
+        rules=[{ required:true, message:'请输入页面编码'},{ pattern:/^\S+$/g,message:'不可输入空格'}]
         break;
       case 2:
         disabled=false;
         placeholder = '请输入URL链接';
-        rules=[{ required:true, message:'请输入URL链接'}]
+        rules=[{ required:true, message:'请输入URL链接'},{ pattern:/^\S+$/g,message:'不可输入空格'}]
         break;
       case 3:
         disabled=false;
         placeholder = '请输入商品SPUID';
-        rules=[{ required:true, message:'请输入商品SPUID'}]
+        rules=[{ required:true, message:'请输入商品SPUID'},{ pattern:/^\S+$/g,message:'不可输入空格'}]
         break;
       case 4:
       case 5:
