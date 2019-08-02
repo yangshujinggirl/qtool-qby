@@ -130,7 +130,7 @@ class GoodsConfig extends Component {
           return;
         };
         if(pdSpuList.find(item=>!item.pdSpuId)){
-          message.error('pdSpuId'+'不能为空')
+          message.error('pdSpuId不能为空')
           return 
         }
         let params;
@@ -204,7 +204,6 @@ class GoodsConfig extends Component {
       totalList,
       goodType
     } = this.props;
-    console.log(goodType)
     const formLayout = {
       labelCol: { span: 2 },
       wrapperCol: { span: 20 }
