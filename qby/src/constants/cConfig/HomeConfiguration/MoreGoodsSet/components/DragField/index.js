@@ -100,7 +100,7 @@ class Field extends Component {
         <Table
           bordered
           rowClassName={(record,index)=>(
-            record.isLine==20?'haveBackColor':null
+            record.isLine==20||record.isPresell||record.pdSpuInv==0?'haveBackColor':null
           )}
           pagination={false}
           columns={columnsOne}
@@ -115,7 +115,7 @@ class Field extends Component {
         <Table
           bordered
           rowClassName={(record,index)=>(
-            record.isLine==20?'haveBackColor':null
+            record.isLine==20||record.isPresell||record.pdSpuInv==0?'haveBackColor':null
           )}
           pagination={false}
           columns={columnsTwo}
