@@ -262,7 +262,9 @@ class ModuleSet extends Component {
                 <div>
                   <FormItem {...formLayout} label="配置跳转页面">
                     {getFieldDecorator("moreLinkType", {
-                      rules: [{ required: true, message: "请选择配置页面" }],
+                      rules: [
+                        { required: true, message: "请选择配置页面" },
+                      ],
                       initialValue: moreLinkType?moreLinkType:undefined,
                       onChange: this.onLinkChange
                     })(
@@ -275,7 +277,10 @@ class ModuleSet extends Component {
                   {(moreLinkType == 1 || moreLinkType == 2) && (
                     <FormItem wrapperCol={{ offset: 3 }}>
                       {getFieldDecorator("moreLinkInfo", {
-                        rules: [{ required: true, message: "请填写配置页面" }],
+                        rules: [
+                          { required: true, message: "请填写配置页面" },
+                          { pattern:/^\S+$/g,message:'不可输入空格' }
+                        ],
                         initialValue: moreLinkInfo?moreLinkInfo:''
                       })(
                         <Input
