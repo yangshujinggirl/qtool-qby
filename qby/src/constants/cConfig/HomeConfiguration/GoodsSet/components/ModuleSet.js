@@ -195,7 +195,6 @@ class ModuleSet extends Component {
       visible,
       loading
     } = this.state;
-    console.log(isDisplayCountdown)
     const formLayout = {
       labelCol: { span: 3 },
       wrapperCol: { span: 20 }
