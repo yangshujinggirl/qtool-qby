@@ -20,10 +20,10 @@ export function getColumns(form, handleDelete, themeList,onSelectChange) {
         return (
           <FormItem>
             {getFieldDecorator(`showThemeId[${index}]`,{
-              initialValue:record.showThemeId,
+              initialValue:record.showThemeId?record.showThemeId:undefined,
               onChange:(id)=>{onSelectChange(id,index)}
             })(
-              <Select>
+              <Select placeholder='请选择主题'>
                 {themeList.map(item => (
                   <Option key={item.themeId} value={item.themeId}>
                     {item.themeId}{item.title}
