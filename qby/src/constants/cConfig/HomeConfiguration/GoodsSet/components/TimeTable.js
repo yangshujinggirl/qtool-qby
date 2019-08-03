@@ -143,8 +143,6 @@ class TimeTable extends Component {
       type: "goodsSet/getTimeInfo",
       payload: { 
         pdListDisplayCfgId: record.pdListDisplayCfgId,
-        endTime:record.endTime,
-        beginTime:record.beginTime,
         activityId:record.activityId,
         activeKey:'3',
         activeKeyLists:[

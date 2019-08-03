@@ -29,13 +29,13 @@ export default {
     getTime(state,{payload:  beginTime, endTime }) {
       return { ...state, beginTime, endTime };
     },
-    getTimeInfo(state,{payload: { pdListDisplayCfgId, beginTime, endTime, activityId,activeKeyLists,activeKey }}) {
-      return { ...state, pdListDisplayCfgId, beginTime, endTime, activityId,activeKeyLists,activeKey };
+    getTimeInfo(state,{payload: { pdListDisplayCfgId,activityId,activeKeyLists,activeKey }}) {
+      return { ...state, pdListDisplayCfgId,activityId,activeKeyLists,activeKey };
     },
     changeActivityId(state,{payload:{activityId}}){
       return { ...state, activityId}
     },
-    getGoodType(state,{payload: {goodType }}) {
+    getGoodType(state,{payload: { goodType }}) {
       return { ...state, goodType};
     },
     resetData2(state){
@@ -66,9 +66,6 @@ export default {
     getAddkey(state, { payload:addkey }) {
       addkey++;
       return { ...state,addkey };
-    },
-    getAddkey(state, { payload:beginTime,endTime }) {
-      return { ...state,beginTime,endTime };
     },
     getGoodsList(state, { payload: pdSpuList }) {
       const diferAttrLight=(arr,attri)=>{ //高亮重复spuId

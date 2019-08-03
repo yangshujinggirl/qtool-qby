@@ -195,6 +195,7 @@ class GoodsConfig extends Component {
     });
   }
   render() {
+    console.log(this.props)
     const { getFieldDecorator } = this.props.form;
     const { activitys,visible,loading } = this.state;
     const {
