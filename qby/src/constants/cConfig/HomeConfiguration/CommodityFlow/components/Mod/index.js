@@ -304,9 +304,9 @@ class ModForm extends Component {
 }
 const Mod = Form.create({
   onValuesChange(props, changedFields, allFields) {
-    let { time, day, ruleType, sortType, spuList } =allFields;
+    let { time, day=30, ruleType=0, sortType, spuList } =allFields;
     let { totalData, goodsList } =props;
-    ruleType = ruleType?ruleType:0;
+    // ruleType = ruleType?ruleType:0;
     totalData = {...totalData,time, day, ruleType, sortType};
     goodsList = goodsList.map((el,index) => {
       spuList.map((item,idx) => {
