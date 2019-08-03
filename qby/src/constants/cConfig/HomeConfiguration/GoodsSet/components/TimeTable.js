@@ -225,8 +225,9 @@ class TimeTable extends Component {
     this.props.callback(timeSlots);
   };
   onOk = () => {
+    const {homepageModuleId} = this.props;
     const { pdListDisplayCfgId } = this.state;
-    deleteTimeApi({ pdListDisplayCfgId }).then(res => {
+    deleteTimeApi({ pdListDisplayCfgId,homepageModuleId }).then(res => {
       if (res.code == "0") {
         this.getTimeList(this.props.type, this.props.homepageModuleId);
         this.setState({
