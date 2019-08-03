@@ -29,6 +29,7 @@ export default {
     totalData:{
       sortType:20,
       ruleType:0,
+      day:30,
       sortObjArray:[
         {
           title:'新品',
@@ -62,6 +63,7 @@ export default {
       const totalData = {
         sortType:20,
         ruleType:0,
+        day:30,
         sortObjArray:[
           {
             title:'新品',
@@ -97,6 +99,7 @@ export default {
       const totalData = {
         sortType:20,
         ruleType:0,
+        day:30,
         sortObjArray:[
           {
             title:'新品',
@@ -299,6 +302,7 @@ export default {
           let resTotalData = {...sortRule,sortType };
           resTotalData.sortObjArray = resTotalData.sortObjArray?resTotalData.sortObjArray:totalData.sortObjArray;
           resTotalData.ruleType = resTotalData.ruleType?resTotalData.ruleType:totalData.ruleType;
+          resTotalData.day = resTotalData.day?resTotalData.day:totalData.day;
           totalData = {...totalData,...resTotalData };
           spuList.length>0&&spuList.map((el,index) =>{
             el.key =index;
