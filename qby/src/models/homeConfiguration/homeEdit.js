@@ -72,8 +72,6 @@ export default {
           type: 'getInfo',
           payload:homeContent
         })
-      } else {
-        message.error(res.message)
       }
     },
     *fetchGoodsInfo({ payload: values }, { call, put ,select}) {
