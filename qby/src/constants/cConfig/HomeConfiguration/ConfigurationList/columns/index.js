@@ -7,7 +7,7 @@ const IndexColumns = function(Look, Edit) {
       dataIndex: "versionName"
     },
     {
-      title: "版本编码",
+      title: "版本编号",
       dataIndex: "versionCode",
       width: "15%"
     },
