@@ -26,13 +26,16 @@ export default {
     activeKeyLists(state,{payload: { activeKeyLists }}) {
       return { ...state, activeKeyLists };
     },
-    getTimeInfo(state,{payload: { pdListDisplayCfgId, beginTime, endTime, activityId,activeKeyLists,activeKey }}) {
-      return { ...state, pdListDisplayCfgId, beginTime, endTime, activityId,activeKeyLists,activeKey };
+    getTime(state,{payload:  beginTime, endTime }) {
+      return { ...state, beginTime, endTime };
+    },
+    getTimeInfo(state,{payload: { pdListDisplayCfgId,activityId,activeKeyLists,activeKey }}) {
+      return { ...state, pdListDisplayCfgId,activityId,activeKeyLists,activeKey };
     },
     changeActivityId(state,{payload:{activityId}}){
       return { ...state, activityId}
     },
-    getGoodType(state,{payload: {goodType }}) {
+    getGoodType(state,{payload: { goodType }}) {
       return { ...state, goodType};
     },
     resetData2(state){
@@ -112,7 +115,7 @@ export default {
       yield put({type: 'tab/loding',payload:true});
       const res = yield call(getPdSpuListApi,values);
       if(res.code == 0) {
-        let { pdSpuList } =res;
+        let { pdSpuList,beginTime,endTime } = res;
         pdSpuList = pdSpuList?pdSpuList:[];
         pdSpuList.map((el,index) =>{
           el.key = index;
@@ -122,6 +125,7 @@ export default {
         let len = pdSpuList.length;
         yield put({type: 'getAddkey',payload:len});
         yield put({type: 'getGoodsList',payload:pdSpuList});
+        yield put({type: 'getTime',payload:beginTime,endTime});
       }
       yield put({type: 'tab/loding',payload:false});
     },

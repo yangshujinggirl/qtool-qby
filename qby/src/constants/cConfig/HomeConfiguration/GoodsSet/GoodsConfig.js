@@ -32,7 +32,7 @@ class GoodsConfig extends Component {
     }
   };
   initPage = () => {
-    const { pdListDisplayCfgId } = this.props;
+    const { pdListDisplayCfgId} = this.props;
     if (pdListDisplayCfgId) {
       this.getActivityList(pdListDisplayCfgId);
       this.getList(pdListDisplayCfgId);
@@ -41,7 +41,7 @@ class GoodsConfig extends Component {
   getList(id) {
     this.props.dispatch({
       type: "goodsSet/fetchList",
-      payload: { pdListDisplayCfgId: id }
+      payload: { pdListDisplayCfgId: id,homepageModuleId:this.props.homepageModuleId }
     });
   }
   //请求活动列表
@@ -195,8 +195,9 @@ class GoodsConfig extends Component {
     });
   }
   render() {
+    console.log(this.props)
     const { getFieldDecorator } = this.props.form;
-    const { activitys,visible,loading} = this.state;
+    const { activitys,visible,loading } = this.state;
     const {
       endTime,
       beginTime,
