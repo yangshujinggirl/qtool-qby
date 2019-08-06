@@ -135,7 +135,7 @@ export function columns(form, categoryList, activiKey){
       dataIndex: 'picUrl',
       key: 'picUrl',
       align:'center',
-      width:'10%',
+      width:'8%',
       render:(text,record,index)=> {
         let width,height;
         if(activiKey == 1) {
@@ -157,7 +157,7 @@ export function columns(form, categoryList, activiKey){
       dataIndex: 'frameDetailId',
       key: 'frameDetailId',
       align:'center',
-      width:'4%',
+      width:'6%',
       render:(text,record,index)=> {
         return <span>{record.frameDetailId?record.frameDetailId:''}</span>
       }
@@ -166,7 +166,7 @@ export function columns(form, categoryList, activiKey){
       dataIndex: 'title',
       key: 'title',
       align:'center',
-      width:'15%',
+      width:'14%',
       render:(text,record,index)=> {
         const { getFieldDecorator } =form;
         return <FormItem>
@@ -185,7 +185,7 @@ export function columns(form, categoryList, activiKey){
       dataIndex: 'linkInfoType',
       key: 'linkInfoType',
       align:'center',
-      width:'12%',
+      width:'16%',
       render:(text,record,index)=> {
         const { getFieldDecorator } =form;
         return <FormItem>
@@ -214,7 +214,7 @@ export function columns(form, categoryList, activiKey){
       dataIndex: 'linkInfo',
       key: 'linkInfo',
       align:'center',
-      width:'15%',
+      width:'16%',
       render:(text,record,index)=> {
         const { getFieldDecorator } =form;
         let linkAgeObj= renderUrl(record);
@@ -262,7 +262,7 @@ export function columns(form, categoryList, activiKey){
       dataIndex: 'beginTime',
       key: 'beginTime',
       align:'center',
-      width:'14%',
+      width:'16%',
       render:(text,record,index)=> {
         const { getFieldDecorator } =form;
         return <FormItem>
@@ -287,7 +287,7 @@ export function columns(form, categoryList, activiKey){
       dataIndex: 'etime',
       key: 'etime',
       align:'center',
-      width:'6%',
+      width:'10%',
       render:()=> {
         return <span>结束时间为下一张开始时间</span>
       }
