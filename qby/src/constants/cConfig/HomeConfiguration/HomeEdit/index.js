@@ -78,7 +78,10 @@ class HomeEdit extends Component {
   goPreview=()=> {
     const { homepageId } = this.props.data;
     // let url ='http://vx.qby.testin.qtoolsbaby.net:81/home/index.html';
-    let url ='http://qtoolsapp-hd.qtoolsbaby.cn/home/index.html';
+    const baseUrl = window.location.hostname;
+    console.log(baseUrl)
+    let url =baseUrl+'home/index.html';
+    console.log(url)
     let urlCodeWx = `${url}?homepageId=${homepageId}&platform=1`
     let urlCodeApp = `${url}?homepageId=${homepageId}&platform=2`
     QRCode.toDataURL(urlCodeWx)
