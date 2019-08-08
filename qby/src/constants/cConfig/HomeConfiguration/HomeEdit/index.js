@@ -78,9 +78,14 @@ class HomeEdit extends Component {
   goPreview=()=> {
     const { homepageId } = this.props.data;
     // let url ='http://vx.qby.testin.qtoolsbaby.net:81/home/index.html';
-    const baseUrl = window.location.hostname;
+    let baseUrl = window.location.href;
     console.log(baseUrl)
-    let url =baseUrl+'home/index.html';
+    let url = '';
+    if(baseUrl.indexOf('https') !== -1){//表示线上
+      url ='https://'+ window.location.hostname+'home/index.html';
+    }else{//测试环境
+      url ='http://'+ window.location.host+'home/index.html';
+    };
     console.log(url)
     let urlCodeWx = `${url}?homepageId=${homepageId}&platform=1`
     let urlCodeApp = `${url}?homepageId=${homepageId}&platform=2`
