@@ -77,6 +77,7 @@ class HomeEdit extends Component {
   //二维码生成
   goPreview=()=> {
     const { homepageId } = this.props.data;
+    // let url ='http://vx.qby.testin.qtoolsbaby.net:81/home/index.html';
     let url ='http://qtoolsapp-hd.qtoolsbaby.cn/home/index.html';
     let urlCodeWx = `${url}?homepageId=${homepageId}&platform=1`
     let urlCodeApp = `${url}?homepageId=${homepageId}&platform=2`
