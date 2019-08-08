@@ -77,16 +77,13 @@ class HomeEdit extends Component {
   //二维码生成
   goPreview=()=> {
     const { homepageId } = this.props.data;
-    // let url ='http://vx.qby.testin.qtoolsbaby.net:81/home/index.html';
     let baseUrl = window.location.href;
-    console.log(baseUrl)
     let url = '';
     if(baseUrl.indexOf('https') !== -1){//表示线上
-      url ='https://'+ window.location.hostname+'/home/index.html';
+      url ='http://qtoolsapp-hd.qtoolsbaby.cn/home/index.html';
     }else{//测试环境
       url ='http://'+ window.location.host+'/home/index.html';
     };
-    console.log(window.location.hostname)
     console.log(url)
     let urlCodeWx = `${url}?homepageId=${homepageId}&platform=1`
     let urlCodeApp = `${url}?homepageId=${homepageId}&platform=2`
