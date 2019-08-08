@@ -86,6 +86,7 @@ class HomeEdit extends Component {
     }else{//测试环境
       url ='http://'+ window.location.host+'/home/index.html';
     };
+    console.log(window.location.hostname)
     console.log(url)
     let urlCodeWx = `${url}?homepageId=${homepageId}&platform=1`
     let urlCodeApp = `${url}?homepageId=${homepageId}&platform=2`
