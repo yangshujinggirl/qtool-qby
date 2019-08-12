@@ -56,6 +56,7 @@ const Columns = [{
          <div>
            {((record.status==1||record.status==2) && record.addCoupon)&&
            <a className='theme-color' onClick={record.onOperateClick.bind(this,'edit')}>修改</a>}
+           &nbsp;
            <a className='theme-color' onClick={record.onOperateClick.bind(this,'supplyAgain')}>补发</a>
          </div>
        )
