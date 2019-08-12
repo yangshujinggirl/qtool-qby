@@ -112,7 +112,7 @@ class AddCoupon extends Component {
         }else if(this.props.data.srcCouponId) {//补发优惠券
           _values.srcCouponId = this.props.data.srcCouponId;
           const componkey = this.props.componkey+this.props.data.srcCouponId;
-          this.sendRequest(updataCouponPackApi,_values,componkey)
+          this.sendRequest(addCouponApi,_values,componkey)
         }else { //新增
           this.sendRequest(addCouponApi,_values,this.props.componkey)
         };
