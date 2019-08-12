@@ -96,7 +96,6 @@ class AddCoupon extends Component {
 		e.preventDefault();
 		this.props.form.validateFieldsAndScroll((err, values) => {
       if(!err){
-
         delete values.goodLists
         delete values.shops
         const {brandList} = this.state;
@@ -110,7 +109,11 @@ class AddCoupon extends Component {
           _values.couponId = this.state.couponId;
           const componkey = this.props.componkey+this.state.couponId;
           this.sendRequest(updataCouponPackApi,_values,componkey)
-        }else{ //新增
+        }else if(this.props.data.srcCouponId) {//补发优惠券
+          _values.srcCouponId = this.props.data.srcCouponId;
+          const componkey = this.props.componkey+this.props.data.srcCouponId;
+          this.sendRequest(updataCouponPackApi,_values,componkey)
+        }else { //新增
           this.sendRequest(addCouponApi,_values,this.props.componkey)
         };
       };
@@ -512,7 +515,9 @@ class AddCoupon extends Component {
                     {validator:isEdit&&this.validataCouponCount}
                   ],
               })(
-                <Input placeholder='请输入0-10000的正整数' style={{width:'255px'}} autoComplete="off"/>
+                <Input
+                  disabled={isEdit}
+                  placeholder='请输入0-10000的正整数' style={{width:'255px'}} autoComplete="off"/>
               )
             }　张{isEdit&&<span className='suffix_tips'>修改优惠券总量时只能增加不能减少，请谨慎设置</span>}
             </FormItem>
@@ -552,8 +557,17 @@ class AddCoupon extends Component {
             >
               <div>
                 <span>剩余　</span>
-                <Input value={coupon.couponWarningQty} onChange={this.getCouponQty} style={{width:'100px'}} autoComplete="off"/>　张优惠券时预警，预警邮箱　　
-                <Input value={coupon.couponWarningEmail} onChange={this.getCouponEmail} style={{width:'200px'}} autoComplete="off"/>
+                <Input
+                  disabled={isEdit}
+                  value={coupon.couponWarningQty}
+                  onChange={this.getCouponQty}
+                  style={{width:'100px'}}
+                  autoComplete="off"/>　张优惠券时预警，预警邮箱　　
+                <Input
+                  disabled={isEdit}
+                  value={coupon.couponWarningEmail}
+                  onChange={this.getCouponEmail}
+                  style={{width:'200px'}} autoComplete="off"/>
             </div>
             </FormItem>
             <FormItem
@@ -565,7 +579,11 @@ class AddCoupon extends Component {
               initialValue:coupon.couponExplain,
               rules:[{required: true, message: '请输入优惠券说明'}]
             })(
-                <TextArea style={{width:'255px'}} placeholder='请输入优惠券说明，50字以内' maxLength='50' rows={6} disabled={isEdit}/>
+                <TextArea
+                  style={{width:'255px'}}
+                  placeholder='请输入优惠券说明，50字以内'
+                  maxLength='50' rows={6}
+                  disabled={isEdit}/>
             )}<span className='suffix_tips'>该名称将在前端给用户展示，请谨慎填写</span>
           </FormItem>
           <FormItem
@@ -576,7 +594,9 @@ class AddCoupon extends Component {
           {getFieldDecorator('couponRemark', {
             initialValue:coupon.couponRemark,
           })(
-              <TextArea style={{width:'255px'}} placeholder='请输入300字以下优惠券备注' maxLength='300' rows={6} />
+              <TextArea
+                disabled={isEdit}
+                style={{width:'255px'}} placeholder='请输入300字以下优惠券备注' maxLength='300' rows={6} />
           )}
           </FormItem>
           <div className='title'>使用范围</div>

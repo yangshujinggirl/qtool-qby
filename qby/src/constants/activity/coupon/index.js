@@ -177,48 +177,120 @@ class Coupon extends Component{
   }
   //操作
   handleOperateClick(record,type) {
-    if(type == "info"){
-      const paneitem = {
-        title:'优惠券详情',
-        key:`${this.state.componkey}editInfo`+record.couponId,
-        componkey:`${this.state.componkey}info`,
-        data:{
-          couponId:record.couponId,
-          inputValues:this.state.inputValues
-        }
+    switch(type) {
+      case "info":
+        this.goInfo(record);
+        break;
+      case "inject":
+        this.goInject(record);
+        break;
+      case "edit":
+        this.goEdit(record);
+        break;
+      case "supplyAgain":
+        this.goSupplyAgain(record);
+        break;
+    }
+    // if(type == "info"){
+    //   const paneitem = {
+    //     title:'优惠券详情',
+    //     key:`${this.state.componkey}editInfo`+record.couponId,
+    //     componkey:`${this.state.componkey}info`,
+    //     data:{
+    //       couponId:record.couponId,
+    //       inputValues:this.state.inputValues
+    //     }
+    //   }
+    //   this.props.dispatch({
+    //     type:'tab/firstAddTab',
+    //     payload:paneitem
+    //   });
+    // }else if(type == 'inject'){ //注券记录
+    //   const paneitem = {
+    //     title:'注券记录',
+    //     key:`${this.state.componkey}editconfig`+record.couponId,
+    //     componkey:`${this.state.componkey}editconfig`,
+    //     data:{
+    //       pdSpuId:record.couponId,
+    //       couponCode:record.couponCode
+    //     },
+    //   };
+    //   this.props.dispatch({
+    //       type:'tab/firstAddTab',
+    //       payload:paneitem
+    //   });
+    // }else if(type == 'edit'){
+    //   const paneitem = {
+    //     title:'修改优惠券',
+    //     key:`${this.state.componkey}edit`+record.couponId,
+    //     componkey:`${this.state.componkey}edit`,
+    //     data:{
+    //       couponId:record.couponId,
+    //     },
+    //   };
+    //   this.props.dispatch({
+    //       type:'tab/firstAddTab',
+    //       payload:paneitem
+    //   });
+    // }
+  }
+  goInfo(record) {
+    const paneitem = {
+      title:'优惠券详情',
+      key:`${this.state.componkey}editInfo`+record.couponId,
+      componkey:`${this.state.componkey}info`,
+      data:{
+        couponId:record.couponId,
+        inputValues:this.state.inputValues
       }
-      this.props.dispatch({
+    }
+    this.props.dispatch({
+      type:'tab/firstAddTab',
+      payload:paneitem
+    });
+  }
+  goInject(record) {
+    const paneitem = {
+      title:'注券记录',
+      key:`${this.state.componkey}editconfig`+record.couponId,
+      componkey:`${this.state.componkey}editconfig`,
+      data:{
+        pdSpuId:record.couponId,
+        couponCode:record.couponCode
+      },
+    };
+    this.props.dispatch({
         type:'tab/firstAddTab',
         payload:paneitem
-      });
-    }else if(type == 'inject'){ //注券记录
-      const paneitem = {
-        title:'注券记录',
-        key:`${this.state.componkey}editconfig`+record.couponId,
-        componkey:`${this.state.componkey}editconfig`,
-        data:{
-          pdSpuId:record.couponId,
-          couponCode:record.couponCode
-        },
-      };
-      this.props.dispatch({
-          type:'tab/firstAddTab',
-          payload:paneitem
-      });
-    }else if(type == 'edit'){
-      const paneitem = {
-        title:'修改优惠券',
-        key:`${this.state.componkey}edit`+record.couponId,
-        componkey:`${this.state.componkey}edit`,
-        data:{
-          couponId:record.couponId,
-        },
-      };
-      this.props.dispatch({
-          type:'tab/firstAddTab',
-          payload:paneitem
-      });
-    }
+    });
+  }
+  goEdit(record) {
+    const paneitem = {
+      title:'修改优惠券',
+      key:`${this.state.componkey}edit`+record.couponId,
+      componkey:`${this.state.componkey}edit`,
+      data:{
+        couponId:record.couponId,
+      },
+    };
+    this.props.dispatch({
+        type:'tab/firstAddTab',
+        payload:paneitem
+    });
+  }
+  goSupplyAgain(record) {
+    const paneitem = {
+      title:'补发优惠券',
+      key:`${this.state.componkey}edit`+record.couponId,
+      componkey:`${this.state.componkey}edit`,
+      data:{
+        srcCouponId:record.couponId,
+      },
+    };
+    this.props.dispatch({
+        type:'tab/firstAddTab',
+        payload:paneitem
+    });
   }
   //券包管理
   couponManage=()=>{
