@@ -80,7 +80,7 @@ class HomeEdit extends Component {
     let baseUrl = window.location.href;
     let url = '';
     if(baseUrl.indexOf('https') !== -1){//表示线上
-      url ='http://qtoolsapp-hd.qtoolsbaby.cn/home/index.html';
+      url ='https://qtoolsapp-hd.qtoolsbaby.cn/home/index.html';
     }else{//测试环境
       url ='http://'+ window.location.host+'/home/index.html';
     };
