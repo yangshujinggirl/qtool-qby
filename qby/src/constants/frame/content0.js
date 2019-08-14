@@ -216,6 +216,7 @@ import ThemeSet from '../cConfig/HomeConfiguration/ThemeSet';//主题配置
 import NewUserSet from '../cConfig/HomeConfiguration/NewUserSet';//新人礼配置
 import MoreGoodsSet from '../cConfig/HomeConfiguration/MoreGoodsSet';//两行三列商品配置
 import MorePicSet from '../cConfig/HomeConfiguration/MorePicSet';//多图片配置
+import CtipActivity from '../MarketActivities/CtipActivity';//多图片配置
 
 
 
@@ -438,6 +439,7 @@ class Content extends React.Component {
                                     case "1402000levelTwoedit-more-goods" : return <MoreGoodsSet data={this.props.data} componkey={this.props.componkey}/>
                                     case "1402000levelTwoedit-more-pic" : return <MorePicSet data={this.props.data} componkey={this.props.componkey}/>
                                     case "1402000levelTwoinfo-search" : return <SearchInfo data={this.props.data} componkey={this.props.componkey}/>
+                                    case "150100000" : return <CtipActivity data={this.props.data} componkey={this.props.componkey}/>
                                     default:  return "我是404";
                                 }
                             })()

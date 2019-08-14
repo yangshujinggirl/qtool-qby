@@ -3289,9 +3289,9 @@ const SiderBarData = [
         }
       ]
     },{
-      "urResourceId": 100000,
+      "urResourceId": 1500000,
       "name": "营销中心",
-      "code": "1200000",
+      "code": "1500000",
       "url": "",
       "remark": null,
       "status": 1,
@@ -3301,9 +3301,9 @@ const SiderBarData = [
       "rank": 3,
       "children": [
         {
-          "urResourceId": 101000,
+          "urResourceId": 150100000,
           "name": "C端活动",
-          "code": "1201000",
+          "code": "150100000",
           "url": "",
           "remark": null,
           "status": 1,
@@ -3314,9 +3314,9 @@ const SiderBarData = [
           "children": []
         },
         {
-          "urResourceId": 102000,
+          "urResourceId": 150200000,
           "name": "C端活动审核",
-          "code": "803000",
+          "code": "150200000",
           "url": "",
           "remark": null,
           "status": 1,
@@ -3327,9 +3327,9 @@ const SiderBarData = [
           "children": []
         },
         {
-          "urResourceId": 103000,
+          "urResourceId": 150300000,
           "name": "B端活动",
-          "code": "402500",
+          "code": "150300000",
           "url": "",
           "remark": null,
           "status": 1,
@@ -3340,9 +3340,9 @@ const SiderBarData = [
           "children": []
         },
         {
-          "urResourceId": 104000,
+          "urResourceId": 150400000,
           "name": "B端活动审核",
-          "code": "402500",
+          "code": "150400000",
           "url": "",
           "remark": null,
           "status": 1,
