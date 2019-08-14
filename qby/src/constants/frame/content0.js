@@ -217,7 +217,10 @@ import NewUserSet from '../cConfig/HomeConfiguration/NewUserSet';//新人礼配�
 import MoreGoodsSet from '../cConfig/HomeConfiguration/MoreGoodsSet';//两行三列商品配置
 import MorePicSet from '../cConfig/HomeConfiguration/MorePicSet';//多图片配置
 //营销中心
-import CtipActivity from '../MarketActivities/CtipActivity';
+import CtipActivity from '../MarketActivities/CtipActivity';//C端活动
+import CtipActivityAddOne from '../MarketActivities/CtipActivity/CtipActivityAddOne';//创建C端活动
+import CtipActivityAddTwo from '../MarketActivities/CtipActivity/CtipActivityAddTwo';//创建C端活动
+import CtipDetail from '../MarketActivities/CtipActivity/CtipDetail';//C端活动详情
 import Caudit from '../MarketActivities/cAudit';
 import CAuditDetail from '../MarketActivities/cAudit/info.js';
 
@@ -441,6 +444,9 @@ class Content extends React.Component {
                                     case "1402000levelTwoedit-more-pic" : return <MorePicSet data={this.props.data} componkey={this.props.componkey}/>
                                     case "1402000levelTwoinfo-search" : return <SearchInfo data={this.props.data} componkey={this.props.componkey}/>
                                     case "150100000" : return <CtipActivity data={this.props.data} componkey={this.props.componkey}/>
+                                    case "150100000levelTwoOne" : return <CtipActivityAddOne data={this.props.data} componkey={this.props.componkey}/>
+                                    case "150100000levelTwoSecond" : return <CtipActivityAddTwo data={this.props.data} componkey={this.props.componkey}/>
+                                    case "150100000levelTwoInfo" : return <CtipDetail data={this.props.data} componkey={this.props.componkey}/>
                                     case "150200000" : return <Caudit data={this.props.data} componkey={this.props.componkey}/>
                                     case "150200000info" : return <CAuditDetail data={this.props.data} componkey={this.props.componkey}/>
                                     default:  return "我是404";
