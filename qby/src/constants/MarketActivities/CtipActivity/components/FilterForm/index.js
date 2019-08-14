@@ -1,0 +1,89 @@
+import React, { Component } from 'react';
+import {
+  Form,
+  Row,
+  Col,
+  Input,
+  Button,
+  Icon,
+  Select ,
+  DatePicker
+} from 'antd';
+const { RangePicker } = DatePicker;
+const FormItem = Form.Item;
+const Option =  Select.Option;
+class NormalForm extends Component {
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.props.form.validateFieldsAndScroll((err, values) => {
+      this.props.submit && this.props.submit(values)
+    });
+  }
+
+  render() {
+    const { getFieldDecorator } = this.props.form;
+    return(
+        <Form className="qtools-condition-form">
+          <div className='search-form-outwrap'>
+            <div className="search-form-wrap">
+              <FormItem label='活动ID'>
+                 {getFieldDecorator('id')(
+                   <Input placeholder="请输入活动ID" maxLength='10' autoComplete="off"/>
+                 )}
+              </FormItem>
+              <FormItem label='活动名称'>
+                 {getFieldDecorator('code')(
+                   <Input placeholder="请输入活动名称" autoComplete="off"/>
+                 )}
+               </FormItem>
+              <FormItem label='活动状态'>
+                 {getFieldDecorator('name')(
+                   <Select allowClear={true} placeholder="请选择活动状态">
+                     <Option value={0} key={0}>全部</Option>
+                     <Option value={1} value={1}>待提交</Option>
+                     <Option value={2} value={2}>审核中</Option>
+                     <Option value={3} value={3}>待开始</Option>
+                     <Option value={4} value={4}>进行中</Option>
+                     <Option value={5} value={5}>已结束</Option>
+                   </Select>
+                 )}
+               </FormItem>
+              <FormItem label='活动类型'>
+                 {getFieldDecorator('type')(
+                   <Select allowClear={true} placeholder="请选择活动类型">
+                     <Option value={0} key={0}>全部</Option>
+                     <Option value={1} value={1}>单品直降</Option>
+                     <Option value={2} value={2}>单品多级满件折</Option>
+                     <Option value={3} value={3}>单品阶梯满件赠</Option>
+                     <Option value={4} value={4}>专区阶梯满件折</Option>
+                     <Option value={5} value={5}>专区阶梯满元减</Option>
+                     <Option value={6} value={6}>专区阶梯满赠</Option>
+                   </Select>
+                 )}
+               </FormItem>
+              <FormItem label='发起人'>
+                 {getFieldDecorator('user')(
+                   <Input placeholder="请输入发起人" autoComplete="off"/>
+                 )}
+               </FormItem>
+              <FormItem label='活动时间'>
+                 {getFieldDecorator('time')(
+                   <RangePicker format="YYYY-MM-DD HH:mm:ss"/>
+                 )}
+               </FormItem>
+             </div>
+          </div>
+          <div className="search-submit-btn">
+             <Button
+               type="primary"
+               htmlType="submit"
+               size='large'
+               onClick={this.handleSubmit.bind(this)}>搜索</Button>
+          </div>
+        </Form>
+    )
+  }
+}
+const FilterForm = Form.create({})(NormalForm);
+
+export default FilterForm;
