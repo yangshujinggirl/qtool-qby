@@ -1651,7 +1651,7 @@ const SiderBarData = [
           "code": "1002000",
           "url": "",
           "remark": null,
-          "status": 1,
+          "status": 0,
           "statusStr": null,
           "menu": 1,
           "menuStr": null,
@@ -3258,9 +3258,101 @@ const SiderBarData = [
           "menu": 1,
           "menuStr": null,
           "rank": null,
+          "children": [
+            {
+              "urResourceId": 1402100,
+              "name": "查看",
+              "code": "1402100",
+              "url": "请求路径code",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            },
+            {
+              "urResourceId": 1402200,
+              "name": "编辑",
+              "code": "1402200",
+              "url": "请求路径code",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": null,
+              "children": []
+            }
+          ]
+        }
+      ]
+    },{
+      "urResourceId": 100000,
+      "name": "营销中心",
+      "code": "1200000",
+      "url": "",
+      "remark": null,
+      "status": 1,
+      "statusStr": null,
+      "menu": 1,
+      "menuStr": null,
+      "rank": 3,
+      "children": [
+        {
+          "urResourceId": 101000,
+          "name": "C端活动",
+          "code": "1201000",
+          "url": "",
+          "remark": null,
+          "status": 1,
+          "statusStr": null,
+          "menu": 1,
+          "menuStr": null,
+          "rank": 1,
+          "children": []
+        },
+        {
+          "urResourceId": 102000,
+          "name": "C端活动审核",
+          "code": "803000",
+          "url": "",
+          "remark": null,
+          "status": 1,
+          "statusStr": null,
+          "menu": 1,
+          "menuStr": null,
+          "rank": 2,
+          "children": []
+        },
+        {
+          "urResourceId": 103000,
+          "name": "B端活动",
+          "code": "402500",
+          "url": "",
+          "remark": null,
+          "status": 1,
+          "statusStr": null,
+          "menu": 1,
+          "menuStr": null,
+          "rank": 3,
+          "children": []
+        },
+        {
+          "urResourceId": 104000,
+          "name": "B端活动审核",
+          "code": "402500",
+          "url": "",
+          "remark": null,
+          "status": 1,
+          "statusStr": null,
+          "menu": 1,
+          "menuStr": null,
+          "rank": 3,
           "children": []
         }
       ]
-    }
+    },
   ]
   export default SiderBarData
