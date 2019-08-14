@@ -7,7 +7,7 @@ import Qpagination from '../../../components/Qpagination/index'; //分页
 import FilterForm from './FilterForm/index'
 import moment from 'moment';
 
-class cPromotion extends Component{
+class cAudit extends Component{
   constructor(props){
     super(props);
     this.state = {
@@ -17,7 +17,7 @@ class cPromotion extends Component{
   //点击搜索
   searchData = (values)=> {
     this.props.dispatch({
-      type:'cPromotion/fetchList',
+      type:'cAudit/fetchList',
       payload:values
     });
     this.setState({
@@ -29,26 +29,40 @@ class cPromotion extends Component{
     const currentPage = current-1;
     const values = {...this.state.inputValues,currentPage,limit}
     this.props.dispatch({
-      type:'cPromotion/fetchList',
+      type:'cAudit/fetchList',
       payload:values
     });
   }
   //pageSize改变时的回调
   onShowSizeChange =({currentPage,limit})=> {
     this.props.dispatch({
-      type:'cPromotion/fetchList',
+      type:'cAudit/fetchList',
       payload:{currentPage,limit,...this.state.inputValues}
     });
   }
   //初始化数据
   componentWillMount(){
     this.props.dispatch({
-      type:'cPromotion/fetchList',
+      type:'cAudit/fetchList',
       payload:{}
     })
   }
+  handleOperateClick=(record,type)=>{
+    const paneitem = {
+      title:'活动审核',
+      key:`${this.props.componkey}edit`+record.spOrderId,
+      componkey:`${this.props.componkey}info`,
+      data:{
+        type,
+      }
+    }
+    this.props.dispatch({
+      type:'tab/firstAddTab',
+      payload:paneitem
+    })
+  }
   render(){
-    const dataList = []
+    const {dataLists} = this.props;
     return(
       <div className='qtools-components-pages'>
         <FilterForm
@@ -64,14 +78,14 @@ class cPromotion extends Component{
           }
         </div>
         <Qtable
-          dataSource = {dataList}
+          dataSource = {dataLists}
           columns = {Columns}
           onOperateClick = {this.handleOperateClick}
         />
         {
-          dataList.length>0?
+          dataLists.length>0?
           <Qpagination
-            data={this.props.cPromotion}
+            data={this.props}
             onChange={this.changePage}
             onShowSizeChange = {this.onShowSizeChange}
           />:null
@@ -81,7 +95,7 @@ class cPromotion extends Component{
   }
 }
 function mapStateToProps(state){
-  const {cPromotion} = state;
-  return {cPromotion};
+  const {cAudit} = state;
+  return cAudit
 }
-export default connect(mapStateToProps)(cPromotion);
+export default connect(mapStateToProps)(cAudit);

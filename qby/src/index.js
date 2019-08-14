@@ -123,6 +123,9 @@ import moreGoodsSet from "./models/homeConfiguration/moreGoodsSet.js";
 //内容中心
 import homeConfig from "./models/homeConfiguration/configurationList";
 import goodsSet from './models/homeConfiguration/goodsSet'
+//营销中心
+import bAudit from './models/MarketActivities/bAudit'
+import cAudit from './models/MarketActivities/cAudit'
 // 1. Initialize
 const app = dva({
   history: useRouterHistory(createHashHistory)({ queryKey: false })
@@ -229,7 +232,10 @@ const models = [
   bannerSet,iconSet,morePicSet,moreGoodsSet,
   //内容中心
   homeConfig,
-  goodsSet
+  goodsSet,
+  //营销中心
+  bAudit,
+  cAudit
 ];
 models.forEach(m => {
   return app.model(m);

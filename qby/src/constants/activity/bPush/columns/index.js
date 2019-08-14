@@ -29,7 +29,7 @@ const Columns = [{
      dataIndex: 'pushTime'
    },{
      title: '操作',
-     dataIndex: '',
+     dataIndex:'cancelReason',
      render:(text, record)=>{
        return(
          <div>

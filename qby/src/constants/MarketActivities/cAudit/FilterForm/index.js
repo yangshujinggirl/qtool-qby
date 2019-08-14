@@ -36,32 +36,37 @@ class NormalForm extends Component{
             <div className="search-form-wrap">
               <FormItem label='活动ID'>
                 {getFieldDecorator('title')(
-                  <Input placeholder='活动ID' autoComplete="off"/>
+                  <Input placeholder='请输入活动ID' autoComplete="off"/>
                 )}
               </FormItem>
-              <FormItem label='活动名称'>
+              <FormItem label='活动ID'>
+                {getFieldDecorator('title')(
+                  <Input placeholder='请输入活动ID' autoComplete="off"/>
+                )}
+              </FormItem>
+              <FormItem label='审核名称'>
                 {getFieldDecorator('creater')(
-                  <Input placeholder='请输入活动名称' autoComplete="off"/>
+                  <Input placeholder='请输入审核名称' autoComplete="off"/>
                 )}
               </FormItem>
-              <FormItem label='活动状态'>
+              <FormItem label='审核状态'>
                   {getFieldDecorator('status')(
-                  <Select allowClear={true} placeholder="请选择活动状态">
-                    <Option value={1}>待推送</Option>
-                    <Option value={2}>已推送</Option>
-                    <Option value={3}>已撤销</Option>
+                  <Select allowClear={true} placeholder="请选择审核状态">
+                    <Option value={1}>待审核</Option>
+                    <Option value={2}>审核通过</Option>
+                    <Option value={3}>审核不通过</Option>
                   </Select>
                   )}
               </FormItem>
-              <FormItem label='活动类型'>
-                  {getFieldDecorator('alertType')(
-                  <Select allowClear={true} placeholder="请选择活动类型" className='select'>
-                    <Option value={1}>banner</Option>
-                    <Option value={2}>商品</Option>
-                    <Option value={3}>url</Option>
-                    <Option value={4}>文本</Option>
-                  </Select>
-                  )}
+              <FormItem label='活动创建人'>
+                {getFieldDecorator('title')(
+                  <Input placeholder='请输入活动创建人' autoComplete="off"/>
+                )}
+              </FormItem>
+              <FormItem label='审核人'>
+                {getFieldDecorator('title')(
+                  <Input placeholder='请输入审核人' autoComplete="off"/>
+                )}
               </FormItem>
               <FormItem label="活动时间">
                 {getFieldDecorator('rangePicker')(
