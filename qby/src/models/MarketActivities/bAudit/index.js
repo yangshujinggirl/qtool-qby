@@ -1,4 +1,4 @@
-import {getListApi} from '../../../services/MarketActivities/bAudit'
+import {getListApi} from '../../../services/marketActivities/bAudit'
 export default {
     namespace:'bAudit',
     state:{

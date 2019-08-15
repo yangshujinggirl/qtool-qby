@@ -1,37 +1,18 @@
 import React, { Component } from "react";
 import { Card, Form, Table, Radio, Input, Button, Collapse } from "antd";
-import "./index.less";
+import "../index.less";
+import * as Columns from './columns' 
 const FormItem = Form.Item;
 const TextArea = Input.TextArea;
 const { Panel } = Collapse;
 
-const columns = [
-  {
-    title: "操作类型",
-    dataIndex: "pdCode",
-    key: "1"
-  },
-  {
-    title: "操作描述",
-    dataIndex: "name",
-    key: "2"
-  },
-  {
-    title: "操作时间",
-    dataIndex: "displayName",
-    key: "3"
-  },
-  {
-    title: "操作人",
-    dataIndex: "toCPrice",
-    key: "4"
-  }
-];
+
 class activityDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      expandIconPosition: "right"
+      expandIconPosition: "right",
+      audit:0
     };
   }
   componentDidMount() {
@@ -72,7 +53,16 @@ class activityDetail extends Component {
       }
     );
   };
+  onChange=(e)=>{
+    const {value} = e.target;
+    if(value){
+      this.setState({
+        audit:value
+      });
+    };
+  }
   render() {
+    const {type} = this.props//从列表中获取应该是哪种促销
     const { getFieldDecorator } = this.props.form;
     const formItemLayout = {
       labelCol: { span: 3 },
@@ -90,13 +80,20 @@ class activityDetail extends Component {
                 <FormItem label="活动ID">111</FormItem>
                 <FormItem label="活动状态">111</FormItem>
                 <FormItem label="活动名称">111</FormItem>
-                <FormItem label="活动时间">111</FormItem>
+                <FormItem label="活动时间">2017-8-19  00:00 至 2017-9-20  00:00</FormItem>
                 <FormItem label="活动目的">111</FormItem>
                 <FormItem label="活动级别">111</FormItem>
                 <FormItem label="活动端">111</FormItem>
                 <FormItem label="活动门店">111</FormItem>
                 <FormItem label="活动成本承担方">111</FormItem>
-                <FormItem label="活动成本分摊比例">111</FormItem>
+                <FormItem label="活动成本分摊比例">
+                  <Table
+                    bordered
+                    dataSource={[]}
+                    columns={Columns.columns2}
+                    pagination={false}
+                  />
+                </FormItem>
                 <FormItem label="促销范围">111</FormItem>
                 <FormItem label="促销类型">111</FormItem>
                 <FormItem label="请选择可同享的专区促销类型">111</FormItem>
@@ -124,7 +121,7 @@ class activityDetail extends Component {
                   bordered
                   title={() => <p>阶梯：单笔订单满200元，送以下商品</p>}
                   dataSource={[]}
-                  columns={columns}
+                  columns={Columns.columns3}
                   pagination={false}
                 />
               </div>
@@ -133,7 +130,7 @@ class activityDetail extends Component {
                   bordered
                   title={() => <p>阶梯：单笔订单满200元，送以下商品</p>}
                   dataSource={[]}
-                  columns={columns}
+                  columns={Columns.columns3}
                   pagination={false}
                 />
               </div>
@@ -151,7 +148,7 @@ class activityDetail extends Component {
             <Table
               bordered
               dataSource={[]}
-              columns={columns}
+              columns={Columns.columns3}
               pagination={false}
             />
           </Panel>
@@ -160,7 +157,7 @@ class activityDetail extends Component {
               <Table
                 bordered
                 dataSource={[]}
-                columns={columns}
+                columns={Columns.columns2}
                 pagination={false}
               />
             </div>
@@ -171,6 +168,7 @@ class activityDetail extends Component {
             <Form>
               <FormItem label="审核结果">
                 {getFieldDecorator("status", {
+                  onChange:this.onChange,
                   initialValue: 1
                 })(
                   <Radio.Group>
