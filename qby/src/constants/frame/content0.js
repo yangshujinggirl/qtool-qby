@@ -222,7 +222,7 @@ import CtipActivityAddOne from '../MarketActivities/CtipActivity/CtipActivityAdd
 import CtipActivityAddTwo from '../MarketActivities/CtipActivity/CtipActivityAddTwo';//创建C端活动
 import CtipDetail from '../MarketActivities/CtipActivity/CtipDetail';//C端活动详情
 import Caudit from '../MarketActivities/cAudit';
-import CAuditDetail from '../MarketActivities/cAudit/info.js';
+import CAuditDetail from '../MarketActivities/cAudit/info';
 
 class Content extends React.Component {
     render() {

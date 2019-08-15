@@ -1,4 +1,4 @@
-import {getListApi} from '../../../services/MarketActivities/cAudit'
+import {getListApi} from '../../../services/marketActivities/cAudit'
 export default {
     namespace:'cAudit',
     state:{
