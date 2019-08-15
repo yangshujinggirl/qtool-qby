@@ -1,3 +1,6 @@
+import { Input, Form, Select, Button, DatePicker } from 'antd';
+const FormItem = Form.Item;
+
 const columnsIndex=[
   {
     title: '序号',
@@ -44,7 +47,81 @@ const columnsIndex=[
       )
     }
   },];
+const columnsCreat =(form,validator)=>{
+  return [{
+      title: '活动预算',
+      dataIndex: 'budget',
+      width:'20%',
+      render:(text,record,index) => {
+        const { getFieldDecorator } =form;
+        let chldrnDom = <FormItem>
+                {getFieldDecorator(`cost[${index}].budget`,{
+                  initialValue:record.budget,
+                  rules:[{pattern:/^\d+$/,message:'请输入数字'}]
+                })(
+                  <Input
+                    maxLength='15'
+                    placeholder="请输入活动预算"
+                    autoComplete="off"/>
+                )}
+              </FormItem>
+        const obj = {
+          children: chldrnDom,
+          props: {},
+        };
+        if (index === 0) {
+          obj.props.rowSpan = 2;
+        } else {
+          obj.props.rowSpan = 0;
+        }
+        return obj;
+      }
+    },{
+      title: '承担方',
+      dataIndex: 'bearer',
+      width:'10%',
+    },{
+      title: '承担比例',
+      dataIndex: 'ratio',
+      width:'30%',
+      render:(text,record,index) => {
+        const { getFieldDecorator } =form;
+        return <FormItem>
+                {getFieldDecorator(`cost[${index}].ratio`,{
+                  initialValue:record.ratio,
+                  rules:[{pattern:/^\d+$/,message:'请输入数字'},{
+                    validator:validator
+                  }]
+                })(
+                  <Input
+                    maxLength='15'
+                    placeholder="请输入活动预算"
+                    autoComplete="off"/>
+                )}
+              </FormItem>
+      }
+    },{
+      title: '备注说明',
+      dataIndex: 'remark',
+      width:'40%',
+      render:(text,record,index) => {
+        const { getFieldDecorator } =form;
+        return <FormItem>
+                {getFieldDecorator(`cost[${index}].remark`,{
+                  initialValue:record.title,
+                })(
+                  <Input
+                    maxLength='30'
+                    placeholder="请输入备注说明"
+                    autoComplete="off"/>
+                )}
+              </FormItem>
+      }
+    },
+  ]
+}
 
 export {
-  columnsIndex
+  columnsIndex,
+  columnsCreat
 }

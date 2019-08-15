@@ -6,7 +6,8 @@ import {
 export default {
   namespace:'ctipActivityAddOne',
   state: {
-    activityInfo:{}
+    activityInfo:{},
+    ratioList:[],
   },
   reducers: {
     resetData(state) {
@@ -16,7 +17,20 @@ export default {
        }
     },
     getActivityInfo(state, { payload:activityInfo }) {
-      return { ...state,activityInfo };
+      let ratioList=[];
+      activityInfo.bearer&&activityInfo.bearer.map((el,index) => {
+        if(el!='C') {
+          let item={}
+          item.bearer = el;
+          item.key = index;
+          ratioList.push(item)
+        }
+      })
+      return { ...state,activityInfo, ratioList };
+    },
+    getRatioList(state, { payload:ratioList }) {
+      ratioList = [...ratioList];
+      return { ...state,ratioList };
     },
   },
   effects: {
