@@ -19,7 +19,6 @@ const formatHours =(date)=> {
 const formatMinutes =(date)=> {
   let minute = moment().minute();
   let disabledMinutes = range(0, 60).splice(0, minute+1);
-  console.log(disabledMinutes)
   return disabledMinutes;
 }
 const disabledDateTime = (date,type) => {
