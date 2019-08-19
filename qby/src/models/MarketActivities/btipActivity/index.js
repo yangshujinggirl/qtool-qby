@@ -4,7 +4,7 @@ import {
 } from '../../../services/marketActivities/ctipActivity.js';
 
 export default {
-  namespace:'ctipActivity',
+  namespace:'btipActivity',
   state: {
     dataList:[{
       ke:1,

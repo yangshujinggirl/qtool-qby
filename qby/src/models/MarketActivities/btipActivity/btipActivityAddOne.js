@@ -4,12 +4,9 @@ import {
 } from '../../../services/cConfig/homeConfiguration/bannerSet.js';
 
 export default {
-  namespace:'ctipActivityAddOne',
+  namespace:'btipActivityAddOne',
   state: {
-    activityInfo:{
-      promotionScope:1,
-      isWarmUp:1
-    },
+    activityInfo:{},
     ratioList:[],
   },
   reducers: {
