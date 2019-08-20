@@ -55,6 +55,15 @@ class CtipActivity extends CommonActivityIndex {
         promotionId:record.promotionId,
       }
     };
+    // const paneitem = {
+    //   title: "编辑C端活动",
+    //   key: `${componkey}levelTwoSecond${record.homepageId}`,
+    //   componkey: `${componkey}levelTwoSecond`,
+    //   parentKey:componkey,
+    //   data: {
+    //     parentKey:componkey,
+    //   }
+    // };
     this.props.dispatch({
       type: "tab/firstAddTab",
       payload: paneitem

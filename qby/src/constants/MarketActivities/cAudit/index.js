@@ -47,14 +47,15 @@ class cAudit extends Component{
       payload:{}
     })
   }
-  handleOperateClick=(record,type)=>{
+  handleOperateClick=(record,type)=>{ //type：'edit':审核 'detail':查看
     const paneitem = {
-      title:'活动审核',
-      key:`${this.props.componkey}edit`+record.spOrderId,
+      title:'查看',
+      key:`${this.props.componkey}edit`+record.promotionId,
       componkey:`${this.props.componkey}info`,
       data:{
         type,
-      }
+        promotionId:record.promotionId
+      },
     }
     this.props.dispatch({
       type:'tab/firstAddTab',
@@ -68,15 +69,6 @@ class cAudit extends Component{
         <FilterForm
           submit={this.searchData}
         />
-        <div className="handel-btn-lists">
-          {
-            <Button
-              onClick={this.addPush}
-              size='large'
-              type='primary'>新增推送
-            </Button>
-          }
-        </div>
         <Qtable
           dataSource = {dataLists}
           columns = {Columns}
