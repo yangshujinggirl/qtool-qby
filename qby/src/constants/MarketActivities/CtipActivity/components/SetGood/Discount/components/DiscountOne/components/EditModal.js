@@ -18,13 +18,13 @@ class EditModal extends Component {
   };
 
   render() {
-    const { visible, status, editType, pdCode, max } = this.props;
+    const { visible, editType, pdCode, max } = this.props;
     const { getFieldDecorator } = this.props.form;
     return (
       <div>
         <Modal
           width="600"
-          title={status == 1 ? "新增赠品" : "编辑赠品"}
+          title={editType == "edit" ? "编辑赠品" : "新增赠品"}
           visible={visible}
           onOk={this.handleOk}
           onCancel={this.handleCancel}

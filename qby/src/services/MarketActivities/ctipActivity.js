@@ -24,3 +24,20 @@ export function getEnableApi(values) {
       data:values
   })
 }
+//查询c端商品设置
+export function getDiscountInfoApi(values) {
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.promotion.query',
+      data:values
+  })
+}
+//优惠内容新增赠品根据编码查询单条数据
+export function getComplimentaryApi(values) {
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.promotion.query',
+      data:values
+  })
+}
+

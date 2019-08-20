@@ -29,7 +29,7 @@ class setModal extends Component {
         obj = {...obj,...values};
         goodLists[this.props.currentIndex] = obj;
         this.props.dispatch({
-          type:'setGoods/refreshLists',
+          type:'ctipActivityAddTwo/refreshLists',
           payload:{goodLists}
         });
         this.props.onVisible();
@@ -88,8 +88,6 @@ class setModal extends Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     const { visible,currentRecord } = this.props;
-    console.log(this.props)
-    console.log(this.state)
     return (
       <div>
         <Modal
@@ -187,8 +185,8 @@ class setModal extends Component {
   }
 }
 function mapStateToProps(state){
-  const {setGoods} = state;
-  return setGoods
+  const {ctipActivityAddTwo} = state;
+  return ctipActivityAddTwo
 }
 const setModals = Form.create()(setModal);
 export default connect(mapStateToProps)(setModals);

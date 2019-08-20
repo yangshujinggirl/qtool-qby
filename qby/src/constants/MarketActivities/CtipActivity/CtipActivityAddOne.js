@@ -43,6 +43,24 @@ class CtipActivityAddOneF extends Component {
     }
     return paramsVal;
   }
+  // jump=()=>{
+  //   const { data } = this.props;
+  //   const paneitem = {
+  //     title: "编辑C端活动",
+  //     key: `${data.parentKey}levelTwoSecond${Math.random()}`,
+  //     componkey: `${data.parentKey}levelTwoSecond`,
+  //     parentKey:data.parentKey,
+  //     data: {
+  //       parentKey:data.parentKey,
+  //       promotionId:Math.random(),
+  //       promotionType:23
+  //     }
+  //   };
+  //   this.props.dispatch({
+  //     type: "tab/firstAddTab",
+  //     payload: paneitem
+  //   });
+  // }
   successCallback=(res)=> {
     const { data } = this.props;
     const paneitem = {
@@ -52,7 +70,7 @@ class CtipActivityAddOneF extends Component {
       parentKey:data.parentKey,
       data: {
         parentKey:data.parentKey,
-        promotionId:res.promotionId
+        promotionId:res.promotionId,
       }
     };
     this.props.dispatch({

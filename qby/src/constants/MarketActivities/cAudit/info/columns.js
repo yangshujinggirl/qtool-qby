@@ -1,23 +1,23 @@
 const columns1 = [
   {
     title: "活动预算",
-    dataIndex: "pdCode",
+    dataIndex: "budget",
     key: "1",
     colSpan: 2
   },
   {
     title: "承担方",
-    dataIndex: "name",
+    dataIndex: "bearer",
     key: "2"
   },
   {
     title: "承担比例",
-    dataIndex: "displayName",
+    dataIndex: "proportion",
     key: "3"
   },
   {
     title: "备注说明",
-    dataIndex: "toCPrice",
+    dataIndex: "remark",
     key: "4"
   }
 ];

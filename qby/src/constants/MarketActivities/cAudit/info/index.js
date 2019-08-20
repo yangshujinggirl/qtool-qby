@@ -1,8 +1,11 @@
 import React, { Component } from "react";
 import { Card, Form, Table, Radio, Input, Button, Collapse } from "antd";
-import {baseInfoApi,goodsInfoApi} from '../../../../services/marketActivities/cAudit'
+import {
+  baseInfoApi,
+  goodsInfoApi
+} from "../../../../services/marketActivities/cAudit";
 import "../index.less";
-import * as Columns from './columns' 
+import * as Columns from "./columns";
 const FormItem = Form.Item;
 const TextArea = Input.TextArea;
 const { Panel } = Collapse;
@@ -11,25 +14,33 @@ class activityDetail extends Component {
     super(props);
     this.state = {
       expandIconPosition: "right",
-      audit:0
+      audit: 0,
+      infos: {}
     };
   }
   componentDidMount() {
     this.getDetail();
   }
-  getDetail(){
+  getDetail() {
     //基本信息请求
-    const {promotionId} = this.props.data;
-    baseInfoApi({promotionId}).then(res=>{
-      if(res.code == '0'){
-
-      };
-    })
-    //商品信息
-    goodsInfoApi({promotionId}).then(res=>{
-
+    const { promotionId } = this.props.data;
+    const res = {
+      code: 0,
+      data: {}
+    };
+    baseInfoApi({ promotionId }).then(res => {
+      if (res.code == "0") {
+        res.data.bearers = res.data.bearers.map((item, index) => {
+          item.budget = res.data.budget;
+          item.key = index;
+        });
+        this.setState({
+          infos: res.data
+        });
+      }
     });
-    
+    //商品信息
+    goodsInfoApi({ promotionId }).then(res => {});
   }
   exportShop = () => {
     const { shopType, activityId } = this.state.activityInfo;
@@ -65,16 +76,17 @@ class activityDetail extends Component {
       }
     );
   };
-  onChange=(e)=>{
-    const {value} = e.target;
-    if(value){
+  onChange = e => {
+    const { value } = e.target;
+    if (value) {
       this.setState({
-        audit:value
+        audit: value
       });
-    };
-  }
+    }
+  };
   render() {
-    const {type} = this.props//从列表中获取应该是哪种促销
+    const { infos } = this.state;
+    const { type } = this.props.data; //'edit':审核，'detail'查看
     const { getFieldDecorator } = this.props.form;
     const formItemLayout = {
       labelCol: { span: 3 },
@@ -89,26 +101,68 @@ class activityDetail extends Component {
           <Panel header="活动信息" key="1">
             <div className="mb10">
               <Form className="base-info">
-                <FormItem label="活动ID">111</FormItem>
-                <FormItem label="活动状态">111</FormItem>
-                <FormItem label="活动名称">111</FormItem>
-                <FormItem label="活动时间">2017-8-19  00:00 至 2017-9-20  00:00</FormItem>
-                <FormItem label="活动目的">111</FormItem>
-                <FormItem label="活动级别">111</FormItem>
-                <FormItem label="活动端">111</FormItem>
-                <FormItem label="活动门店">111</FormItem>
-                <FormItem label="活动成本承担方">111</FormItem>
+                <FormItem label="活动ID">{infos.promotionId}</FormItem>
+                <FormItem label="活动状态">{infos.statusStr}</FormItem>
+                <FormItem label="活动名称">{infos.name}</FormItem>
+                <FormItem label="活动时间">
+                  {infos.beginTime} 至 {infos.endTime}
+                </FormItem>
+                <FormItem label="活动目的">{infos.otherPurpose}</FormItem>
+                <FormItem label="活动级别">
+                  {infos.level == 1
+                    ? S
+                    : infos.level == 2
+                    ? A
+                    : infos.level == 3
+                    ? B
+                    : C}
+                </FormItem>
+                <FormItem label="活动端">
+                  {infos.platform == 1 ? "app" : "小程序"}
+                </FormItem>
+                <FormItem label="活动门店">{infos.shopType}</FormItem>
+                <FormItem label="活动成本承担方">
+                  {infos.bearers.map(item => (
+                    <span>{item.bearer}</span>
+                  ))}
+                </FormItem>
                 <FormItem label="活动成本分摊比例">
                   <Table
                     bordered
-                    dataSource={[]}
-                    columns={Columns.columns2}
+                    dataSource={infos.bearers}
+                    columns={Columns.columns1}
                     pagination={false}
                   />
                 </FormItem>
-                <FormItem label="促销范围">111</FormItem>
-                <FormItem label="促销类型">111</FormItem>
-                <FormItem label="请选择可同享的专区促销类型">111</FormItem>
+                <FormItem label="促销范围">
+                  {promotionScope == 1 ? "单品促销" : "专区促销"}
+                </FormItem>
+                <FormItem label="促销类型">
+                  {promotionType == 10
+                    ? "单品直降"
+                    : promotionType == 11
+                    ? "单品多级满赠"
+                    : promotionType == 20
+                    ? "专区多级满元赠"
+                    : promotionType == 21
+                    ? "专区多级满件赠"
+                    : promotionType == 22
+                    ? "专区多级满元减"
+                    : "专区满件减免"}
+                </FormItem>
+                <FormItem label="请选择可同享的专区促销类型">
+                  {sharedPromotionType == 10
+                    ? "单品直降"
+                    : sharedPromotionType == 11
+                    ? "单品多级满赠"
+                    : sharedPromotionType == 20
+                    ? "专区多级满元赠"
+                    : sharedPromotionType == 21
+                    ? "专区多级满件赠"
+                    : sharedPromotionType == 22
+                    ? "专区多级满元减"
+                    : "专区满件减免"}
+                </FormItem>
               </Form>
             </div>
           </Panel>
@@ -180,7 +234,7 @@ class activityDetail extends Component {
             <Form>
               <FormItem label="审核结果">
                 {getFieldDecorator("status", {
-                  onChange:this.onChange,
+                  onChange: this.onChange,
                   initialValue: 1
                 })(
                   <Radio.Group>

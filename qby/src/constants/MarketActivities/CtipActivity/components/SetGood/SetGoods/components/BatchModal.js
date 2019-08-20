@@ -86,8 +86,8 @@ class BatchModal extends Component {
   }
 }
 function mapStateToProps(state) {
-  const { setGoods } = state;
-  return setGoods;
+  const { ctipActivityAddTwo } = state;
+  return ctipActivityAddTwo;
 }
 const BatchModals = Form.create()(BatchModal);
 export default connect(mapStateToProps)(BatchModals);

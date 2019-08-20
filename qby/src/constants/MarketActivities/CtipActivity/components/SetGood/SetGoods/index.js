@@ -43,7 +43,7 @@ class index extends Component {
     const goodLists = [...this.props.goodLists];
     goodLists.splice(index, 1);
     this.props.dispatch({
-      type: "setGoods/refreshLists",
+      type: "ctipActivityAddTwo/refreshLists",
       payload: goodLists
     });
     this.setState({
@@ -138,7 +138,7 @@ class index extends Component {
   }
 }
 function mapStateToProps(state) {
-  const { setGoods } = state;
-  return setGoods;
+  const { ctipActivityAddTwo } = state;
+  return ctipActivityAddTwo;
 }
 export default connect(mapStateToProps)(index);
