@@ -3,7 +3,6 @@ import { connect } from "dva";
 import { Button, Form, Input, DatePicker, Radio, Checkbox, AutoComplete, } from 'antd';
 import moment from 'moment';
 import StepMod from './components/StepMod';
-import BlTable from './components/BlTable';
 import InfoSet from './components/InfoSet';
 import WebSet from './components/WebSet';
 import './CtipActivityAddOne.less'
@@ -27,8 +26,8 @@ class CtipActivityAddOneF extends Component {
   handleSubmit= e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
-      console.log('Received values of form: ', values);
       values = this.formatParams(values);
+      console.log(values);
       if (!err) {
         values = this.formatParams(values);
         this.successCallback()
@@ -37,9 +36,15 @@ class CtipActivityAddOneF extends Component {
   };
   formatParams=(values)=> {
     let { time ,...paramsVal} =values;
+    const { activityInfo, ratioList } =this.props;
+
     if(time&&time.length>0) {
       paramsVal.beginTime = moment(time[0]).format('YYYY-MM-DD HH:mm:ss');
       paramsVal.endTime = moment(time[1]).format('YYYY-MM-DD HH:mm:ss');
+    }
+    if(paramsVal.bearers&&paramsVal.bearers.length>0) {
+      paramsVal.bearers = paramsVal.bearers.filter(x => true);
+      // paramsVal.bearers = paramsVal.bearers.filter((el) => el.budget == true);
     }
     return paramsVal;
   }
@@ -80,6 +85,7 @@ class CtipActivityAddOneF extends Component {
   }
   render() {
     const { getFieldDecorator } = this.props.form;
+    const { ratioList } =this.props;
     return(
       <div className="cTip-activity-creat-wrap">
         <StepMod step={0}/>
@@ -97,25 +103,50 @@ class CtipActivityAddOneF extends Component {
     )
   }
 }
+const bearMap={
+  'A':'Qtools',
+  'B':'门店',
+  'C':'供应商',
+}
 const CtipActivityAddOne = Form.create({
   onValuesChange(props, changedFields, allFields) {
-    const { ratio=[],...valFileds } = allFields;
-    props.dispatch({
-      type:'ctipActivityAddOne/getRatioList',
-      payload:ratio
-    })
-    if(valFileds.promotionScope == 2 && valFileds.promotionType == 24) {
+    const { bearers=[],...valFileds } = allFields;
+    if(valFileds.promotionScope == 2 && valFileds.promotionType == '23') {
       valFileds.pdScope =2;
       valFileds.pdKind =null;
+    }
+    let ratioList=[];
+    valFileds.bearerActivity&&valFileds.bearerActivity.map((el,index) => {
+      if(el!='C') {
+        let item={}
+        item.bearer = bearMap[el];
+        item.key = index;
+        ratioList.push(item)
+      }
+    });
+    if(bearers.length>0) {
+      ratioList = ratioList.map((el) => {
+        bearers.map((item) => {
+          if(el.bearer == item.bearer) {
+            el = {...el, ...item};
+          }
+        })
+        return el;
+      })
     }
     props.dispatch({
       type:'ctipActivityAddOne/getActivityInfo',
       payload:valFileds
     })
+    props.dispatch({
+      type:'ctipActivityAddOne/getRatioList',
+      payload:ratioList
+    })
   },
   // mapPropsToFields(props) {
+  //   console.log(props)
   //   return {
-  //     goods: Form.createFormField(props.goodsList),
+  //     bearers: Form.createFormField(props.ratioList),
   //   };
   // }
 })(CtipActivityAddOneF);

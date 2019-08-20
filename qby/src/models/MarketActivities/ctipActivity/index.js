@@ -9,11 +9,11 @@ export default {
     dataList:[{
       ke:1,
       name:'wq',
-      mktActivityId:'2001'
+      promotionId:'2001'
     },{
       ke:2,
       name:'wqer',
-      mktActivityId:'2002'
+      promotionId:'2002'
     }],
     dataPag:{
       currentPage:0,

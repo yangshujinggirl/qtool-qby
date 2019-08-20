@@ -1,9 +1,11 @@
 import React , { Component } from 'react';
 import { connect } from "dva";
 import moment from 'moment';
-import { Button, Form, Input, DatePicker, Radio, Checkbox, AutoComplete, } from 'antd';
-import BlTable from '../BlTable';
+import NP from 'number-precision';
+import { Button, Form, Input, DatePicker, Radio, Checkbox, AutoComplete, Table} from 'antd';
 import { disabledDate, disabledDateTimeRange } from '../dateSet.js';
+import { columnsCreat } from '../../columns';
+import { pdScopeOption,singleOption,prefectureOption, purposeTypesOption, levelOption } from '../optionMap.js';
 
 const { RangePicker } = DatePicker;
 const FormItem = Form.Item;
@@ -17,36 +19,7 @@ const formItemLayout = {
     span: 19
   }
 };
-const pdScopeOption=[
-  {
-    key:1,
-    value:'全场'
-  },{
-    key:2,
-    value:'自选商品'
-}]
-const singleOption=[
-  {
-    key:10,
-    value:'单品直降'
-  },{
-    key:12,
-    value:'单品多级满赠（例：A商品买3送1）'
-}]
-const prefectureOption=[
-  {
-    key:21,
-    value:'专区多级满元赠（例：满AB减C）'
-  },{
-    key:22,
-    value:'专区多级满件赠（例：满AB减C）'
-  },{
-    key:23,
-    value:'专区多级满元减（例：满300减30）'
-  },{
-    key:24,
-    value:'专区满件减免商品'
-  }]
+
 
 class InfoSet extends Component {
   handleSearch=(value)=> {
@@ -54,10 +27,11 @@ class InfoSet extends Component {
   }
   //分成校验
   validatorRatio=(rule, value, callback)=> {
-    const ss = [{ratio:50},{ratio:40}];
-    let total = ss.reduce((prev,curr)=> {
-      return prev.ratio+curr.ratio
-    })
+    const ss = [{proportion:50}];
+    let { activityInfo, ratioList } =this.props;
+    let { bearers } =this.props.form.getFieldsValue(['bearers']);
+    let total =0;
+    bearers.forEach((el)=> { total+=Number(el.proportion); })
     if(total>100) {
       callback('分成比例不能超过100%');
     }else {
@@ -70,12 +44,16 @@ class InfoSet extends Component {
   changePromotion=(e)=>{
     this.props.form.resetFields(['pdScope','pdKind'])
   }
+  changeBearActi=(e)=>{
+    // console.log('bearers')
+    // this.props.form.resetFields(['bearers'])
+  }
   render() {
     const { activityInfo, ratioList } =this.props;
     const { getFieldDecorator } = this.props.form;
-    console.log(activityInfo);
+    let blColumns = columnsCreat(this.props.form,this.validatorRatio);
     let otherIndex = activityInfo.purposeTypes&&activityInfo.purposeTypes.findIndex((el)=>el == '5');
-    let providerIndex = activityInfo.bearer&&activityInfo.bearer.findIndex((el)=>el == 'C');
+    let providerIndex = activityInfo.bearerActivity&&activityInfo.bearerActivity.findIndex((el)=>el == 'C');
     let rangeOption = activityInfo.promotionScope==1?singleOption:prefectureOption;
     let linkAgeOption = activityInfo.promotionScope==1?prefectureOption:singleOption;
     return(
@@ -129,11 +107,11 @@ class InfoSet extends Component {
              initialValue:activityInfo.purposeTypes
            })(
              <Checkbox.Group style={{ width: '100%' }}>
-                <Checkbox value="1">拉新</Checkbox>
-                <Checkbox value="2">促活</Checkbox>
-                <Checkbox value="3">提升订单量</Checkbox>
-                <Checkbox value="4">清库存</Checkbox>
-                <Checkbox value="5">其他</Checkbox>
+               {
+                 purposeTypesOption.map((el) => (
+                   <Checkbox value={el.key} key={el.key}>{el.value}</Checkbox>
+                 ))
+               }
             </Checkbox.Group>
            )
          }
@@ -163,27 +141,18 @@ class InfoSet extends Component {
                 initialValue:activityInfo.level
               })(
                 <Radio.Group >
-                 <Radio value={1}>S级</Radio>
-                 <Radio value={2}>A级</Radio>
-                 <Radio value={3}>B级</Radio>
-                 <Radio value={4}>C级</Radio>
+                  {
+                    levelOption.map((el) => (
+                      <Radio value={el.key} key={el.key}>{el.value}</Radio>
+                    ))
+                  }
                </Radio.Group>
               )
             }
             <p className="tips-info">S、A级活动：总费用&#62;&#61;5万元且折扣率&#62;5&#37;，B、C级活动：总费用小于等于5万元且折扣率&#60;5&#37;</p>
         </FormItem>
         <FormItem label='活动端' {...formItemLayout}>
-          {
-            getFieldDecorator('platform', {
-              rules: [{ required: true, message: '请选择活动端'}],
-              initialValue:activityInfo.platform
-            })(
-              <Checkbox.Group style={{ width: '100%' }}>
-                 <Checkbox value="1">线上App/小程序</Checkbox>
-                 <Checkbox value="2">线下POS</Checkbox>
-             </Checkbox.Group>
-            )
-          }
+          线上App/小程序
         </FormItem>
         <FormItem label='活动门店' {...formItemLayout}>
           全部门店
@@ -191,9 +160,10 @@ class InfoSet extends Component {
         <div className="one-line-wrap">
             <FormItem label='活动成本承担方' {...formItemLayout}>
                {
-                 getFieldDecorator('bearer', {
+                 getFieldDecorator('bearerActivity', {
                    rules: [{ required: true, message: '请选择活动成本承担方'}],
-                   initialValue:activityInfo.bearer
+                   initialValue:activityInfo.bearer,
+                   onChange:this.changeBearActi
                  })(
                    <Checkbox.Group style={{ width: '100%' }}>
                       <Checkbox value="A">Qtools</Checkbox>
@@ -221,10 +191,12 @@ class InfoSet extends Component {
           }
         </div>
         <FormItem label='活动成本分摊比例' {...formItemLayout}>
-          <BlTable
-            dataSource={ratioList}
-            form={this.props.form}
-            validator={this.validatorRatio}/>
+          <Table
+            className="bl-table-wrap"
+            bordered
+            pagination={false}
+            columns={blColumns}
+            dataSource={ratioList}/>
         </FormItem>
         <FormItem label='促销范围' {...formItemLayout}>
           {
@@ -272,9 +244,8 @@ class InfoSet extends Component {
                    {
                      pdScopeOption.map((el,index) => (
                        <Radio
-                         value={el.key}
-                         key={el.key}
-                         disabled={activityInfo.promotionType=='24'?true:false}>{el.value}</Radio>
+                         value={el.key} key={el.key}
+                         disabled={activityInfo.promotionType=='23'?true:false}>{el.value}</Radio>
                      ))
                    }
                 </Radio.Group>
@@ -287,13 +258,13 @@ class InfoSet extends Component {
           <FormItem label='商品种类' {...formItemLayout}>
              {
                getFieldDecorator('pdKind', {
-                 rules: [{ required: true, message: '请输入商品名称'}],
+                 rules: [{ required: true, message: '请选择商品种类'}],
                  initialValue:activityInfo.pdKind
                })(
                  <Radio.Group >
                   <Radio value={1}>一般贸易商品（除品牌直供）</Radio>
                   <Radio value={2}>品牌直供商品</Radio>
-                  <Radio value={3} disabled={activityInfo.promotionType=='24'?true:false}>保税商品</Radio>
+                  <Radio value={3} disabled={activityInfo.promotionType=='23'?true:false}>保税商品</Radio>
                 </Radio.Group>
                )
              }
@@ -305,7 +276,7 @@ class InfoSet extends Component {
           <FormItem label='可同享的促销类型' {...formItemLayout}>
             {
               getFieldDecorator('sharedPromotionType', {
-                rules: [{ required: true, message: '请输入商品名称'}],
+                rules: [{ required: true, message: '请选择可同享的促销类型'}],
                 initialValue:activityInfo.sharedPromotionType
               })(
                 <Radio.Group >
