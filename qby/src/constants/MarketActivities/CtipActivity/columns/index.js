@@ -1,52 +1,6 @@
 import { Input, Form, Select, Button, DatePicker } from 'antd';
 const FormItem = Form.Item;
 
-const columnsIndex=[
-  {
-    title: '序号',
-    dataIndex: 'key',
-    key: 'key',
-  },{
-    title: '活动ID',
-    dataIndex: 'mktActivityId',
-    key: 'mktActivityId',
-  },{
-    title: '活动名称',
-    dataIndex: 'name',
-    key: 'name',
-  },{
-    title: '活动类型',
-    dataIndex: 'type',
-    key: 'type',
-  },{
-    title: '活动时间',
-    dataIndex: 'time',
-    key: 'time',
-  },{
-    title: '活动状态',
-    dataIndex: 'status',
-    key: 'status',
-  },{
-    title: '发起人',
-    dataIndex: 'createUser',
-    key: 'createUser',
-  },{
-    title: '操作',
-    dataIndex: 'opreation',
-    key: 'opreation',
-    render:(text,record,index) => {
-      return(
-        <div className="list-handle-opreation">
-          <span className="theme-color table-btn-item" onClick={()=>record.onOperateClick('info')}>查看</span>
-          <span className="theme-color table-btn-item" onClick={()=>record.onOperateClick('edit')}>编辑</span>
-          <span className="theme-color table-btn-item" onClick={()=>record.onOperateClick('delete')}>删除</span>
-          <span className="theme-color table-btn-item" onClick={()=>record.onOperateClick('cancel')}>撤销审核</span>
-          <span className="theme-color table-btn-item" onClick={()=>record.onOperateClick('zuofei')}>作废</span>
-          <span className="theme-color table-btn-item" onClick={()=>record.onOperateClick('forcedEnd')}>强制结束</span>
-        </div>
-      )
-    }
-  },];
 const columnsCreat =(form,validator)=>{
   return [{
       title: '活动预算',
@@ -60,6 +14,7 @@ const columnsCreat =(form,validator)=>{
                   rules:[{pattern:/^\d+$/,message:'请输入数字'}]
                 })(
                   <Input
+                    suffix="万元"
                     maxLength='15'
                     placeholder="请输入活动预算"
                     autoComplete="off"/>
@@ -80,8 +35,20 @@ const columnsCreat =(form,validator)=>{
       title: '承担方',
       dataIndex: 'bearer',
       width:'10%',
+      render:(text,record,index) => {
+        const { getFieldDecorator } =form;
+        return <FormItem>
+                {getFieldDecorator(`bearers[${index}].bearer`,{
+                  initialValue:record.bearer,
+                })(
+                  <Input
+                    disabled
+                    autoComplete="off"/>
+                )}
+              </FormItem>
+      }
     },{
-      title: '承担比例',
+      title: '*承担比例',
       dataIndex: 'ratio',
       width:'30%',
       render:(text,record,index) => {
@@ -89,11 +56,14 @@ const columnsCreat =(form,validator)=>{
         return <FormItem>
                 {getFieldDecorator(`bearers[${index}].proportion`,{
                   initialValue:record.ratio,
-                  rules:[{pattern:/^\d+$/,message:'请输入数字'},{
+                  rules:[{ required: true, message: '请输入承担比例'},{
+                    pattern:/^\d+$/,message:'请输入数字'
+                  },{
                     validator:validator
                   }]
                 })(
                   <Input
+                    suffix="%"
                     maxLength='15'
                     placeholder="请输入活动预算"
                     autoComplete="off"/>
@@ -120,8 +90,43 @@ const columnsCreat =(form,validator)=>{
     },
   ]
 }
+const columnsCreatInfo =(len)=>{
+  return [{
+      title: '活动预算',
+      dataIndex: 'budget',
+      width:'20%',
+      render:(text,record,index) => {
+        let chldrnDom = <span> 3万元 </span>
+        const obj = {
+          children: chldrnDom,
+          props: {},
+        };
+        if (index === 0) {
+          obj.props.rowSpan = len;
+        } else {
+          obj.props.rowSpan = 0;
+        }
+        return obj;
+      }
+    },{
+      title: '承担方',
+      dataIndex: 'bearer',
+      width:'10%',
+    },{
+      title: '*承担比例',
+      dataIndex: 'ratio',
+      width:'30%',
+      render:(text,record,index) => {
+        return <span>20%</span>
+      }
+    },{
+      title: '备注说明',
+      dataIndex: 'remark',
+      width:'40%',
+    },
+  ]
+}
 
 export {
-  columnsIndex,
-  columnsCreat
+  columnsCreat,columnsCreatInfo
 }

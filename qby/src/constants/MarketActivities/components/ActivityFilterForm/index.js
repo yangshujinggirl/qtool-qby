@@ -26,8 +26,18 @@ class NormalForm extends Component {
         <Form className="qtools-condition-form">
           <div className='search-form-outwrap'>
             <div className="search-form-wrap">
+              <FormItem label='商品编码'>
+                 {getFieldDecorator('pdCode')(
+                   <Input placeholder="请输入商品编码" maxLength='10' autoComplete="off"/>
+                 )}
+              </FormItem>
+              <FormItem label='商品名称'>
+                 {getFieldDecorator('pdName')(
+                   <Input placeholder="请输入商品名称" maxLength='10' autoComplete="off"/>
+                 )}
+              </FormItem>
               <FormItem label='活动ID'>
-                 {getFieldDecorator('mktActivityId')(
+                 {getFieldDecorator('promotionId')(
                    <Input placeholder="请输入活动ID" maxLength='10' autoComplete="off"/>
                  )}
               </FormItem>
@@ -48,16 +58,16 @@ class NormalForm extends Component {
                    </Select>
                  )}
                </FormItem>
-              <FormItem label='活动类型'>
+              <FormItem label='促销类型'>
                  {getFieldDecorator('type')(
-                   <Select allowClear={true} placeholder="请选择活动类型">
+                   <Select allowClear={true} placeholder="请选择促销类型">
                      <Option value={0} key={0}>全部</Option>
                      <Option value={1} value={1}>单品直降</Option>
-                     <Option value={2} value={2}>单品多级满件折</Option>
                      <Option value={3} value={3}>单品阶梯满件赠</Option>
-                     <Option value={4} value={4}>专区阶梯满件折</Option>
+                     <Option value={4} value={4}>专区阶梯满元赠</Option>
+                     <Option value={4} value={4}>专区阶梯满件赠</Option>
                      <Option value={5} value={5}>专区阶梯满元减</Option>
-                     <Option value={6} value={6}>专区阶梯满赠</Option>
+                     <Option value={6} value={6}>专区满件减免商品</Option>
                    </Select>
                  )}
                </FormItem>
@@ -66,11 +76,11 @@ class NormalForm extends Component {
                    <Input placeholder="请输入发起人" autoComplete="off"/>
                  )}
                </FormItem>
-              <FormItem label='活动时间'>
+              {/*<FormItem label='活动时间'>
                  {getFieldDecorator('time')(
                    <RangePicker format="YYYY-MM-DD HH:mm:ss"/>
                  )}
-               </FormItem>
+               </FormItem>*/}
              </div>
           </div>
           <div className="search-submit-btn">

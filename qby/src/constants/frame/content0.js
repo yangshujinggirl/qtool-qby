@@ -450,6 +450,7 @@ class Content extends React.Component {
                                     case "1402000levelTwoedit-more-pic" : return <MorePicSet data={this.props.data} componkey={this.props.componkey}/>
                                     case "1402000levelTwoinfo-search" : return <SearchInfo data={this.props.data} componkey={this.props.componkey}/>
                                     case "150100000" : return <CtipActivity data={this.props.data} componkey={this.props.componkey}/>
+                                    case "150100000levelTwoInfo" : return <CtipDetail data={this.props.data} componkey={this.props.componkey}/>
                                     case "150100000levelTwoOne" : return <CtipActivityAddOne data={this.props.data} componkey={this.props.componkey}/>
                                     case "150100000levelTwoSecond" : return <CtipActivityAddTwo data={this.props.data} componkey={this.props.componkey}/>
                                     case "150300000" : return <BtipActivity data={this.props.data} componkey={this.props.componkey}/>

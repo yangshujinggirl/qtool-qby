@@ -2,13 +2,17 @@ import { message } from 'antd';
 import {
   getListApi
 } from '../../../services/cConfig/homeConfiguration/bannerSet.js';
-
+const bearMap={
+  'A':'Qtools',
+  'B':'门店',
+  'C':'供应商',
+}
 export default {
   namespace:'ctipActivityAddOne',
   state: {
     activityInfo:{
       promotionScope:1,
-      isWarmUp:1
+      isWarmUp:0
     },
     ratioList:[],
   },
@@ -20,16 +24,7 @@ export default {
        }
     },
     getActivityInfo(state, { payload:activityInfo }) {
-      let ratioList=[];
-      activityInfo.bearer&&activityInfo.bearer.map((el,index) => {
-        if(el!='C') {
-          let item={}
-          item.bearer = el;
-          item.key = index;
-          ratioList.push(item)
-        }
-      })
-      return { ...state,activityInfo, ratioList };
+      return { ...state,activityInfo };
     },
     getRatioList(state, { payload:ratioList }) {
       ratioList = [...ratioList];
