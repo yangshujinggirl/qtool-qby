@@ -1,41 +1,52 @@
 const Columns = [
   {
     title: "序号",
-    dataIndex: "amountSum"
+    dataIndex: "amountSum",
+    render:(text,record,index)=>{
+      return <span>{++index}</span>
+    }
   },
   {
-    title: "活动ID",
-    dataIndex: "createTime"
+    title: "审核ID",
+    dataIndex: "approvalNo"
   },
   {
     title: "审核名称",
-    dataIndex: "shopName"
+    dataIndex: "approvalName"
   },
   {
-    title: "审核人",
-    dataIndex: "urUserId"
-  },
-  {
-    title: "活动名称",
+    title: "审核状态",
     dataIndex: "statusStr"
   },
   {
+    title: "审核人",
+    dataIndex: "approvalUser"
+  },
+  {
+    title: "活动ID",
+    dataIndex: "promotionId"
+  },
+  {
+    title: "活动名称",
+    dataIndex: "name"
+  },
+  {
     title: "活动时间",
-    dataIndex: "pushTime"
+    dataIndex: "activityTime"
   },
   {
     title: "活动创建人",
-    dataIndex: "recName"
+    dataIndex: "createUser"
   },
   {
     title: "操作",
     dataIndex: "",
-    render: (text,record,index) => {
-      return record.status == "0" ? (
+    render: (text, record, index) => {
+      return record.status == 0 ? (
         <a
           href="javascript:;"
           className="theme-color"
-          onClick={()=>record.onOperateClick("edit")}
+          onClick={() => record.onOperateClick("edit")}
         >
           审核
         </a>
@@ -43,7 +54,7 @@ const Columns = [
         <a
           href="javascript:;"
           className="theme-color"
-          onClick={()=>record.onOperateClick("detail")}
+          onClick={() => record.onOperateClick("detail")}
         >
           查看
         </a>

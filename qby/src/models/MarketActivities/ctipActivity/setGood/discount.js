@@ -28,9 +28,19 @@ export default {
           }
         ]
       }
+    ],
+    dataLists:[
+      {price1:'200',price2:'300',id:0},
+      {price1:'300',price2:'400',id:1},
+      {price1:'300',price2:'400',id:2},
+      {price1:'300',price2:'400',id:3},
     ]
   },
-  reducers: {},
+  reducers: {
+    refreshDataLists(state,{payload:{dataLists} }){
+      return {...state,dataLists}
+    }
+  },
   effects: {
     *fetchDiscountList({ payload: values }, { call, put }) {
       //获取优惠内容列表

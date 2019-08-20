@@ -1,12 +1,11 @@
 import React, { Component } from "react";
 import { Card, Form, Table, Radio, Input, Button, Collapse } from "antd";
+import {baseInfoApi,goodsInfoApi} from '../../../../services/marketActivities/cAudit'
 import "../index.less";
 import * as Columns from './columns' 
 const FormItem = Form.Item;
 const TextArea = Input.TextArea;
 const { Panel } = Collapse;
-
-
 class activityDetail extends Component {
   constructor(props) {
     super(props);
@@ -18,7 +17,20 @@ class activityDetail extends Component {
   componentDidMount() {
     this.getDetail();
   }
-  getDetail() {}
+  getDetail(){
+    //基本信息请求
+    const {promotionId} = this.props.data;
+    baseInfoApi({promotionId}).then(res=>{
+      if(res.code == '0'){
+
+      };
+    })
+    //商品信息
+    goodsInfoApi({promotionId}).then(res=>{
+
+    });
+    
+  }
   exportShop = () => {
     const { shopType, activityId } = this.state.activityInfo;
     exportMdApi({ downloadParam: { shopType, activityId }, type: 110 }).then(

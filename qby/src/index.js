@@ -130,6 +130,7 @@ import ctipActivity from './models/marketActivities/ctipActivity';
 import ctipActivityAddOne from './models/marketActivities/ctipActivity/ctipActivityAddOne';
 import ctipActivityAddTwo from './models/marketActivities/ctipActivity/ctipActivityAddTwo';
 import discount from './models/marketActivities/ctipActivity/setGood/discount';//活动优惠内容
+import setGoods from './models/marketActivities/ctipActivity/setGood/setGoods';//选择商品内容
 // 1. Initialize
 const app = dva({
   history: useRouterHistory(createHashHistory)({ queryKey: false })
@@ -239,7 +240,7 @@ const models = [
   goodsSet,
   //营销中心
   bAudit,
-  cAudit,ctipActivity,ctipActivityAddOne,ctipActivityAddTwo,discount
+  cAudit,ctipActivity,ctipActivityAddOne,ctipActivityAddTwo,discount,setGoods
 ];
 models.forEach(m => {
   return app.model(m);
