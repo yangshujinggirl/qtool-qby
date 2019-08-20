@@ -1,7 +1,9 @@
 import React , { Component } from 'react';
 import { connect } from "dva";
+import moment from 'moment';
 import { Button, Form, Input, DatePicker, Radio, Checkbox, AutoComplete, } from 'antd';
 import UpLoadImgMod from '../UpLoadImgMod';
+import { disabledDate, disabledDateTime } from '../dateSet.js';
 
 const formItemLayout = {
   labelCol: {
@@ -15,16 +17,16 @@ const { RangePicker } = DatePicker;
 const FormItem = Form.Item;
 class WebSet extends Component {
   render() {
-    const { activityInfo, ratioList } =this.props;
+    const { activityInfo } =this.props;
     const { getFieldDecorator } = this.props.form;
     return(
       <div>
         <p className="info-title">前端展示</p>
         <FormItem label='是否需要预热' {...formItemLayout}>
          {
-           getFieldDecorator('hf', {
-             rules: [{ required: true, message: '请输入商品名称'}],
-             // initialValue:pdSpu.name
+           getFieldDecorator('isWarmUp', {
+             rules: [{ required: true, message: '请选择是否需要预热'}],
+             initialValue:activityInfo.isWarmUp
            })(
              <Radio.Group >
               <Radio value={1}>是</Radio>
@@ -34,24 +36,31 @@ class WebSet extends Component {
          }
         </FormItem>
         {
-          !!activityInfo.hf&&
+          !!activityInfo.isWarmUp&&
           <div>
             <FormItem label='设置预热时间' {...formItemLayout}>
               {
-                getFieldDecorator('hftime', {
-                  rules: [{ required: true, message: '请输入商品名称'}],
-                  // initialValue:pdSpu.name
+                getFieldDecorator('warmUpBeginTime', {
+                  rules: [{ required: true, message: '请设置预热时间'}],
+                  initialValue:activityInfo.warmUpBeginTime?moment(activityInfo.warmUpBeginTime).format('YYYY-MM-DD HH:mm:ss'):null
                 })(
-                  <RangePicker />
+                  <DatePicker
+                    disabledDate={disabledDate}
+                    disabledTime={disabledDateTime}
+                    showTime={{
+                      hideDisabledOptions: true,
+                      defaultValue: moment('00:00', 'HH:mm'),
+                    }}
+                    format ="YYYY-MM-DD HH:mm:ss"/>
                 )
               }
             </FormItem>
             {
-              activityInfo.range==1&&
+              activityInfo.promotionScope==1&&
               <UpLoadImgMod
                 rules={[{required:true,message:'请上传图片'}]}
                 formItemLayout={formItemLayout}
-                name="infobg"
+                name="pdDetailBannerPic"
                 label="配置商品详情页横幅条背景图"
                 width={400}
                 height={200}
@@ -59,9 +68,9 @@ class WebSet extends Component {
                 form={this.props.form}/>
             }
             <UpLoadImgMod
-              rules={[{ required: activityInfo.range==1?false:true, message: '请输入商品名称'}]}
+              rules={[{ required: activityInfo.promotionScope==1?false:true, message: '请上传图片'}]}
               formItemLayout={formItemLayout}
-              name="logoBg"
+              name="logoPic"
               label="配置活动主题logo图"
               width={400}
               height={200}

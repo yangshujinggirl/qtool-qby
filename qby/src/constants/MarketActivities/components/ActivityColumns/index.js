@@ -55,7 +55,7 @@ const columnsCreat =(form,validator)=>{
       render:(text,record,index) => {
         const { getFieldDecorator } =form;
         let chldrnDom = <FormItem>
-                {getFieldDecorator(`bearers[${index}].budget`,{
+                {getFieldDecorator(`cost[${index}].budget`,{
                   initialValue:record.budget,
                   rules:[{pattern:/^\d+$/,message:'请输入数字'}]
                 })(
@@ -87,7 +87,7 @@ const columnsCreat =(form,validator)=>{
       render:(text,record,index) => {
         const { getFieldDecorator } =form;
         return <FormItem>
-                {getFieldDecorator(`bearers[${index}].proportion`,{
+                {getFieldDecorator(`cost[${index}].ratio`,{
                   initialValue:record.ratio,
                   rules:[{pattern:/^\d+$/,message:'请输入数字'},{
                     validator:validator
@@ -107,7 +107,7 @@ const columnsCreat =(form,validator)=>{
       render:(text,record,index) => {
         const { getFieldDecorator } =form;
         return <FormItem>
-                {getFieldDecorator(`bearers[${index}].remark`,{
+                {getFieldDecorator(`cost[${index}].remark`,{
                   initialValue:record.title,
                 })(
                   <Input

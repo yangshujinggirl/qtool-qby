@@ -1,0 +1,26 @@
+import ajax from '../../utils/req.js';
+
+//c端活动列表
+export function getListApi(values) {
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.promotion.activityList',
+      data:values
+  })
+}
+//c端活动列表删除
+export function getDeleteApi(values) {
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.promotion.activity.delete',
+      data:values
+  })
+}
+//c端活动列表作废，强制结束
+export function getEnableApi(values) {
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.promotion.activity.enable',
+      data:values
+  })
+}
