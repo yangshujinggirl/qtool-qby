@@ -94,7 +94,8 @@ class ShareTotal extends Component {
         inputValues[i] = ''
       };
     };
-    const values = {type:100,downloadParam:inputValues}
+    const {limit,currentPage} = this.props.shareTotal;
+    const values = {type:100,downloadParam:{limit,currentPage,...inputValues} }
     exportDataApi(values)
     .then(res => {
       if(res.code == '0'){
