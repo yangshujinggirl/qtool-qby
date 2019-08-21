@@ -24,15 +24,16 @@ class CtipActivityAddOneF extends Component {
     }
   }
   handleSubmit= e => {
-    e.preventDefault();
-    this.props.form.validateFields((err, values) => {
-      values = this.formatParams(values);
-      console.log(values);
-      if (!err) {
-        values = this.formatParams(values);
-        this.successCallback()
-      }
-    });
+    this.jump()
+    // e.preventDefault();
+    // this.props.form.validateFields((err, values) => {
+    //   values = this.formatParams(values);
+    //   console.log(values);
+    //   if (!err) {
+    //     values = this.formatParams(values);
+    //     this.successCallback()
+    //   }
+    // });
   };
   formatParams=(values)=> {
     let { time ,...paramsVal} =values;
@@ -48,24 +49,24 @@ class CtipActivityAddOneF extends Component {
     }
     return paramsVal;
   }
-  // jump=()=>{
-  //   const { data } = this.props;
-  //   const paneitem = {
-  //     title: "编辑C端活动",
-  //     key: `${data.parentKey}levelTwoSecond${Math.random()}`,
-  //     componkey: `${data.parentKey}levelTwoSecond`,
-  //     parentKey:data.parentKey,
-  //     data: {
-  //       parentKey:data.parentKey,
-  //       promotionId:Math.random(),
-  //       promotionType:23
-  //     }
-  //   };
-  //   this.props.dispatch({
-  //     type: "tab/firstAddTab",
-  //     payload: paneitem
-  //   });
-  // }
+  jump=()=>{
+    const { data } = this.props;
+    const paneitem = {
+      title: "编辑C端活动",
+      key: `${data.parentKey}levelTwoSecond${Math.random()}`,
+      componkey: `${data.parentKey}levelTwoSecond`,
+      parentKey:data.parentKey,
+      data: {
+        parentKey:data.parentKey,
+        promotionId:Math.random(),
+        promotionType:data.promotionType
+      }
+    };
+    this.props.dispatch({
+      type: "tab/firstAddTab",
+      payload: paneitem
+    });
+  }
   successCallback=(res)=> {
     const { data } = this.props;
     const paneitem = {

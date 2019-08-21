@@ -247,6 +247,7 @@ class DiscountOne extends Component {
           {dataSource.map((item, index) => (
             <div>
               <Table
+                key={index}
                 className="discount_table"
                 title={() => (
                   <div className="discount_title">

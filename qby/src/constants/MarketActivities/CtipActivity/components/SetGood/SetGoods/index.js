@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "dva";
-import { Table,Modal } from "antd";
+import { Table, Modal } from "antd";
 import SetModal from "./components/SetModal";
 import BatchModal from "./components/BatchModal";
 import "./index.less";
@@ -33,11 +33,11 @@ class index extends Component {
     });
   };
   //删除
-  delt=()=>{
+  delt = () => {
     this.setState({
-      delVisible:true
+      delVisible: true
     });
-  }
+  };
   //确认删除
   onDelOk = index => {
     const goodLists = [...this.props.goodLists];
@@ -47,7 +47,7 @@ class index extends Component {
       payload: goodLists
     });
     this.setState({
-      delVisible:false
+      delVisible: false
     });
   };
   onVisible = () => {
@@ -60,11 +60,11 @@ class index extends Component {
       batchVisible: false
     });
   };
-  onDelCancel=()=>{
+  onDelCancel = () => {
     this.setState({
       delVisible: false
     });
-  }
+  };
   setQty = batchType => {
     this.setState({
       batchType,
@@ -72,7 +72,7 @@ class index extends Component {
     });
   };
   render() {
-    const { goodLists } = this.props;
+    const { goodLists, promotionType } = this.props;
     const {
       visible,
       batchVisible,
@@ -82,24 +82,43 @@ class index extends Component {
       currentRecord
     } = this.state;
     const type = 1;
-    const columns = getColumns(type, this.edit, this.delt);
+    const Columns = getColumns(type, this.edit, this.delt);
+    let columns = [];
+    if(promotionType==10){
+      columns = Columns.columns1;
+    };
+    if(promotionType==11){
+      columns = Columns.columns2;
+    };
+    if(promotionType == 20 ||promotionType == 21 ||promotionType == 23){
+      columns = Columns.columns3;
+    };
+    if(promotionType == 22){
+      columns = Columns.columns4;
+    }
     return (
       <div className="act_setGoods">
-        <div className='batch_set_box'>
+        <div className="batch_set_box">
           <div>
             批量设置：
-            <a className="batch_set" onClick={() => this.setQty(1)}>
-              活动最大可售卖数量
-            </a>
-            <a className="batch_set" onClick={() => this.setQty(2)}>
-              每账号每单限购
-            </a>
-            <a className="batch_set" onClick={() => this.setQty(3)}>
-              每账号每天限购
-            </a>
-            <a className="batch_set" onClick={() => this.setQty(4)}>
-              每账号总限购
-            </a>
+            {promotionType != 11 && (
+              <a className="batch_set" onClick={() => this.setQty(1)}>
+                活动最大可售卖数量
+              </a>
+            )}
+            {(promotionType == 10 || promotionType == 11) && (
+              <span>
+                <a className="batch_set" onClick={() => this.setQty(2)}>
+                  每账号每单限购
+                </a>
+                <a className="batch_set" onClick={() => this.setQty(3)}>
+                  每账号每天限购
+                </a>
+                <a className="batch_set" onClick={() => this.setQty(4)}>
+                  每账号总限购
+                </a>
+              </span>
+            )}
           </div>
           <div>共{goodLists.length}条数据</div>
         </div>
@@ -108,6 +127,9 @@ class index extends Component {
             pagination={false}
             bordered
             columns={columns}
+            scroll={{
+              x: promotionType == 10 || promotionType == 11 ? "140%" : ""
+            }}
             dataSource={goodLists}
           />
           <SetModal
@@ -122,8 +144,8 @@ class index extends Component {
             setBatchVisible={this.setBatchVisible}
           />
           <Modal
-            wrapClassName='setGood_del_model'
-            width='400'
+            wrapClassName="setGood_del_model"
+            width="400"
             okText="确认删除"
             cancelText="暂不删除"
             visible={delVisible}

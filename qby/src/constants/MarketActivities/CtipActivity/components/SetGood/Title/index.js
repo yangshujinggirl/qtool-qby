@@ -8,7 +8,6 @@ const des = {
   scene23: `<p><span>多级优惠最多可设置三级，每级优惠力度逐层递增。若用户购买数量在两级优惠门槛之间，则按照较低优惠门槛参与活动。<span><br/><span>若用户购买超过最高等级，则超出门槛数量的商品不享受优惠</span><span>买X免Y活动用户提单时自动减免金额较低的商品</span></p>`
 };
 function SetTitle({ type = 10 }) {
-  console.log(type)
   return (
     <div
       className="goods_title"

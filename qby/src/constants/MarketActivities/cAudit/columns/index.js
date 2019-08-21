@@ -10,10 +10,7 @@ const Columns = [
     title: "审核ID",
     dataIndex: "approvalNo"
   },
-  {
-    title: "审核名称",
-    dataIndex: "approvalName"
-  },
+ 
   {
     title: "审核状态",
     dataIndex: "statusStr"
@@ -29,6 +26,10 @@ const Columns = [
   {
     title: "活动名称",
     dataIndex: "name"
+  }, 
+  {
+    title: "促销类型",
+    dataIndex: "promotionTypeStr"
   },
   {
     title: "活动时间",
