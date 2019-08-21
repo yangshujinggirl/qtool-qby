@@ -5,7 +5,7 @@ import DetailDiscount from './components/DetailDiscount';
 import DetailLog from './components/DetailLog';
 import DetailGoods from './components/DetailGoods';
 import DetailWebShow from './components/DetailWebShow';
-import { getBaseInfoApi, getMainActivInfoApi } from '../../../services/marketActivities/ctipActivity';
+import { getBaseInfoApi, getDiscountInfoApi } from '../../../services/marketActivities/ctipActivity';
 
 const formItemLayout = {
      labelCol: 3,
@@ -79,7 +79,7 @@ class CtipDetail extends Component {
     .then((res) => {
       console.log(res)
     })
-    getMainActivInfoApi({promotionId})
+    getDiscountInfoApi({promotionId})
     .then((res) => {
       console.log(res)
     })

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Input, Table, Button, Modal, Form } from "antd";
 import { connect } from "dva";
+import { getComplimentaryApi } from "../../../../../../../../services/marketActivities/ctipActivity";
 import EditModal from "./components/EditModal";
 import "./index.less";
 const FormItem = Form.Item;
@@ -20,7 +21,15 @@ class DiscountOne extends Component {
     };
   }
   componentDidMount = () => {
+    console.log(this.props);
     //拿到初始的列表信息--->放在model中拿
+  };
+  componentWillReceiveProps = nextProps => {
+    if (!_.isEqual(nextProps.dataSource, this.props.dataSource)) {
+      this.setState({
+        dataSource: nextProps.dataSource
+      });
+    }
   };
   getColumns = currentParentIndex => {
     const columns = [
@@ -31,27 +40,27 @@ class DiscountOne extends Component {
       },
       {
         title: "赠品名称",
-        dataIndex: "name",
+        dataIndex: "pdName",
         key: "2"
       },
       {
         title: "赠品B端售价",
-        dataIndex: "bPrice",
+        dataIndex: "sellPrice",
         key: "3"
       },
       {
         title: "最多可参与活动的赠品数",
-        dataIndex: "max",
+        dataIndex: "maxQty",
         key: "4"
       },
       {
         title: "赠品B端在售库存",
-        dataIndex: "bStock",
+        dataIndex: "toBQty",
         key: "5"
       },
       {
         title: "赠品C端在售库存",
-        dataIndex: "cStock",
+        dataIndex: "toCQty",
         key: "6"
       },
       {
@@ -71,7 +80,7 @@ class DiscountOne extends Component {
                 onClick={() =>
                   this.edit(
                     record.pdCode,
-                    record.max,
+                    record.maxQty,
                     "edit",
                     currentParentIndex,
                     index
@@ -88,7 +97,7 @@ class DiscountOne extends Component {
     ];
     return columns;
   };
-  //编辑
+  //子级编辑
   edit = (pdCode, max, editType, currentParentIndex, currentChildIndex) => {
     this.setState({
       pdCode,
@@ -99,7 +108,7 @@ class DiscountOne extends Component {
       currentChildIndex
     });
   };
-  //删除
+  //子集删除
   delete = (currentParentIndex, currentChildIndex) => {
     this.setState({
       currentParentIndex,
@@ -108,7 +117,7 @@ class DiscountOne extends Component {
       level: false
     });
   };
-  //新增
+  //子级新增
   add = (currentParentIndex, editType) => {
     this.setState({
       visible: true,
@@ -120,7 +129,12 @@ class DiscountOne extends Component {
   onChange = (e, index) => {
     const { value } = e.target;
     const { dataSource } = this.state;
-    dataSource[index].price = Number(value);
+    if (this.props.promotionType == 20) {
+      //20满元曾21满件赠
+      dataSource[index].param.leastAmount = Number(value);
+    } else {
+      dataSource[index].param.leastQty = Number(value);
+    }
     this.setState({
       dataSource
     });
@@ -129,7 +143,7 @@ class DiscountOne extends Component {
     this.props.form.setFieldsValue(m);
     console.log(this.props.form.getFieldsValue());
   };
-  //确认
+  //新增赠品确认
   handleOk = (values, resetFields) => {
     let {
       dataSource,
@@ -137,20 +151,25 @@ class DiscountOne extends Component {
       currentChildIndex,
       editType
     } = this.state;
-    const list = {
-      pdCode: values.pdCode,
-      name: "zengpin",
-      bPrice: "12.00",
-      max: values.max,
-      bStock: 12,
-      cStock: 14
-    };
     if (editType == "add") {
       //判断是新增还是编辑
-      dataSource[currentParentIndex].lists.push(list);
+      getComplimentaryApi({ pdCode: values.pdCode }).then(res => {
+        if (res.code == 0) {
+        }
+      });
+      const product = {
+        pdCode: "233",
+        pdName: "zengpin",
+        sellPrice: "12.00",
+        toBQty: 12,
+        toCQty: 14
+      };
+      let list = { ...product, maxQty: values.max };
+      dataSource[currentParentIndex].promotionGifts.push(list);
     } else {
-      const lists = dataSource[currentParentIndex].lists;
-      lists[currentChildIndex] = list;
+      const promotionGifts = dataSource[currentParentIndex].promotionGifts;
+      const list = promotionGifts[currentChildIndex];
+      promotionGifts[currentChildIndex] = { ...list, maxQty: values.max };
     }
     this.setState({
       visible: false,
@@ -169,13 +188,16 @@ class DiscountOne extends Component {
   deleteParent = index => {
     this.setState({
       currentParentIndex: index,
-      deletVisible:true,
-      level:true
+      deletVisible: true,
+      level: true
     });
   };
   //新增等级
   addLevel = () => {
-    const list = { price: "", lists: [] };
+    const list = {
+      param: { leastAmount: "", leastQty: "" },
+      promotionGifts: []
+    };
     const { dataSource } = this.state;
     dataSource.push(list);
     this.setState(dataSource);
@@ -186,20 +208,27 @@ class DiscountOne extends Component {
     });
   };
   onOk = () => {
-    const { dataSource, currentParentIndex, currentChildIndex,level} = this.state;
+    const {
+      dataSource,
+      currentParentIndex,
+      currentChildIndex,
+      level
+    } = this.state;
     if (level) {
+      this.props.form.resetFields();
       //是等级删除
-      dataSource.splice(currentParentIndex,1);
+      dataSource.splice(currentParentIndex, 1);
     } else {
-      const lists = dataSource[currentParentIndex].lists;
-      lists.splice(currentChildIndex, 1);
-    };
+      const promotionGifts = dataSource[currentParentIndex].promotionGifts;
+      promotionGifts.splice(currentChildIndex, 1);
+    }
     this.setState({
-      deletVisible:false
+      deletVisible: false
     });
   };
   render() {
     const { getFieldDecorator } = this.props.form;
+    const { promotionType } = this.props;
     const {
       dataSource,
       status,
@@ -222,63 +251,86 @@ class DiscountOne extends Component {
                 title={() => (
                   <div className="discount_title">
                     <div>
-                      <FormItem>
-                        阶梯{index + 1}：*单笔订单满　
-                        {getFieldDecorator(`price${index}`, {
-                          rules: [
-                            { required: "请输入价格" },
-                            {
-                              validator: (rule, value, callback) => {
-                                if (index == 0) {
-                                  return callback();
-                                }
-                                if (value <= dataSource[index - 1].price) {
-                                  callback(
-                                    "此阶梯优惠门槛需大于上一阶梯的优惠门槛"
-                                  );
-                                }
-                                if (value > 99999) {
-                                  callback("不可超过99999");
-                                }
-                                callback();
+                      {promotionType == 20 && (
+                        <FormItem>
+                          阶梯{index + 1}：<span style={{color:'red'}}>*</span>单笔订单满　
+                          {getFieldDecorator(`price${index}`, {
+                            rules: [
+                              { required: true, message: "请填写优惠内容" },
+                              {
+                                validator: (rule, value, callback) => {
+                                  if (index > 0 &&value &&value <=dataSource[index - 1].param.leastAmount) {
+                                    callback("此阶梯优惠门槛需大于上一阶梯的优惠门槛");
+                                  };
+                                  if (value > 99999) {
+                                    callback("不可超过99999");
+                                  };
+                                  callback();
+                                },
+                              },
+                            ],
+                            initialValue: item.param.leastAmount,
+                            onChange: e => this.onChange(e, index)
+                          })(
+                            <Input
+                              autoComplete="off"
+                              style={{ width: "100px" }}
+                            />
+                          )}　元，送以下商品
+                        </FormItem>
+                      )}
+                      {promotionType == 21 && (
+                        <FormItem>
+                          阶梯{index + 1}：*单笔订单满　
+                          {getFieldDecorator(`price${index}`, {
+                            rules: [
+                              { required: true, message: "请填写优惠内容" },
+                              {
+                                validator: (rule, value, callback) => {
+                                  if (index > 0 &&value &&value <=dataSource[index - 1].param.leastQty) {
+                                    callback("此阶梯优惠门槛需大于上一阶梯的优惠门槛");
+                                  };
+                                  if (value > 99) {
+                                    callback("不可超过99");
+                                  };
+                                  callback();
+                                },
                               }
-                            }
-                          ],
-                          initialValue: item.price,
-                          onChange: e => this.onChange(e, index)
-                        })(
-                          <Input
-                            maxLength={5}
-                            autoComplete="off"
-                            style={{ width: "100px" }}
-                          />
-                        )}
-                        　 元，送以下商品
-                      </FormItem>
-                      　 　
+                            ],
+                            initialValue: item.param.leastQty,
+                            onChange: e => this.onChange(e, index)
+                          })(
+                            <Input
+                              autoComplete="off"
+                              style={{ width: "100px" }}
+                            />
+                          )}　件，送以下商品
+                        </FormItem>
+                      )}
                     </div>
-                    <a
-                      onClick={() => this.deleteParent(index)}
-                      className="theme-color"
-                    >
-                      删除此级
-                    </a>
+                    {dataSource.length > 1 && (
+                      <a
+                        onClick={() => this.deleteParent(index)}
+                        className="theme-color"
+                      >
+                        删除此级
+                      </a>
+                    )}
                   </div>
                 )}
                 footer={() => (
                   <div className="discount_footer">
                     <Button
-                      disabled={item.lists.length == 20}
+                      disabled={item.promotionGifts.length == 20}
                       onClick={() => this.add(index, "add")}
                       type="primary"
-                    >
-                      +赠品
+                    >+赠品
                     </Button>
                   </div>
                 )}
                 pagination={false}
                 bordered
-                dataSource={item.lists}
+                dataSource={item.promotionGifts}
                 columns={this.getColumns(index)}
                 size="middle"
               />
@@ -304,7 +356,7 @@ class DiscountOne extends Component {
           handleOk={this.handleOk}
         />
         <Modal
-          wrapClassName='discount_delet_modal'
+          wrapClassName="discount_delet_modal"
           okText="确认删除"
           cancelText="暂不删除"
           visible={deletVisible}
@@ -318,8 +370,7 @@ class DiscountOne extends Component {
   }
 }
 function mapStateToProps(state) {
-  const { discount } = state;
-  return discount;
+  const { ctipActivityAddTwo } = state;
+  return ctipActivityAddTwo;
 }
-const DiscountOnes = Form.create({})(DiscountOne);
-export default connect(mapStateToProps)(DiscountOnes);
+export default connect(mapStateToProps)(DiscountOne);
