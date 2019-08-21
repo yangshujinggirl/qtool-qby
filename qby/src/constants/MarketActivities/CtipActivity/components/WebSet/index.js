@@ -64,7 +64,7 @@ class WebSet extends Component {
                 label="配置商品详情页横幅条背景图"
                 width={400}
                 height={200}
-                fileList={null}
+                fileList={activityInfo.pdDetailBannerPic}
                 form={this.props.form}/>
             }
             <UpLoadImgMod
@@ -74,7 +74,7 @@ class WebSet extends Component {
               label="配置活动主题logo图"
               width={400}
               height={200}
-              fileList={null}
+              fileList={activityInfo.logoPic}
               form={this.props.form}/>
           </div>
         }

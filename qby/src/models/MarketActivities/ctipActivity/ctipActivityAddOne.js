@@ -1,7 +1,7 @@
 import { message } from 'antd';
 import {
-  getListApi
-} from '../../../services/cConfig/homeConfiguration/bannerSet.js';
+  getBaseInfoApi
+} from '../../../services/marketActivities/ctipActivity.js';
 const bearMap={
   'A':'Qtools',
   'B':'门店',
@@ -18,7 +18,10 @@ export default {
   },
   reducers: {
     resetData(state) {
-      const activityInfo={};
+      const activityInfo={
+        promotionScope:1,
+        isWarmUp:0
+      };
       return {
         ...state,activityInfo
        }
@@ -36,7 +39,7 @@ export default {
       yield put({ type: 'resetData',payload:{} });
       let { position, homepageModuleId } =values;
       yield put({type: 'tab/loding',payload:true});
-      const res = yield call(getListApi,values);
+      const res = yield call(getBaseInfoApi,values);
       if(res.code == 0) {
         yield put({type: 'getActivityInfo',payload:{}});
       }

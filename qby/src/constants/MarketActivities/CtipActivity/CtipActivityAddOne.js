@@ -5,7 +5,8 @@ import moment from 'moment';
 import StepMod from './components/StepMod';
 import InfoSet from './components/InfoSet';
 import WebSet from './components/WebSet';
-import './CtipActivityAddOne.less'
+import { getSaveActivApi } from '../../../services/marketActivities/ctipActivity.js';
+import './CtipActivityAddOne.less';
 
 const { RangePicker } = DatePicker;
 const FormItem = Form.Item;
@@ -19,7 +20,7 @@ class CtipActivityAddOneF extends Component {
     if(data.promotionId) {
       this.props.dispatch({
         type:'ctipActivityAddOne/fetchInfo',
-        payload:data.promotionId
+        payload:{promotionId:data.promotionId}
       })
     }
   }
@@ -86,7 +87,7 @@ class CtipActivityAddOneF extends Component {
   }
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { ratioList } =this.props;
+    const { ratioList, activityInfo } =this.props;
     return(
       <div className="cTip-activity-creat-wrap">
         <StepMod step={0}/>

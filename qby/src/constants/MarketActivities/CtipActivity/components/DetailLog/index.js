@@ -1,19 +1,21 @@
 import { Row, Col, Table, Button } from 'antd';
-let colLabel = "3";
-let colField = "19";
+
 const columns = [
   {
-    title: 'Name',
+    title: '操作类型',
     dataIndex: 'name',
-    render: text => <a href="javascript:;">{text}</a>,
   },
   {
-    title: 'Cash Assets',
+    title: '操作描述',
     className: 'column-money',
     dataIndex: 'money',
   },
   {
-    title: 'Address',
+    title: '操作时间',
+    dataIndex: 'address',
+  },
+  {
+    title: '操作人',
     dataIndex: 'address',
   },
 ];
