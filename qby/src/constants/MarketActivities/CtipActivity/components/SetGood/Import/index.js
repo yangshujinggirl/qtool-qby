@@ -1,24 +1,58 @@
 import React, { Component } from "react";
 import { Upload, Button } from "antd";
-import './index.less'
+import { connect } from "dva";
+import "./index.less";
 class index extends Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
   downLoadTemp = () => {
-
+    window.open("");
   };
-  handleChange = () => {
-
+  handleChange = info => {
+    // let file = info.file;
+    // const { response } = file;
+    // if (file.status == "done") {
+    //   if (response) {
+    //     if (response.code == "0") {
+    //       const { promotionProducts } = response;
+    //       this.props.dispatch({
+    //         type:'ctipActivityAddTwo/refreshLists',
+    //         payload:{goodLists:promotionProducts}
+    //       });
+    //     } else {
+    //       message.error(file.response.message, 0.8);
+    //     };
+    //     return file.response.status === "success";
+    //   };
+    // };
+    const promotionProducts = [{
+      pdCode: "",
+      maxQty: 100,
+      activityPrice: 10,
+      perOrderLimit: 1,
+      perDayLimit: 2,
+      perUserLimit: 3,
+      pdName: "1",
+      pdSpec: "2",
+      pdKind: "3",
+      sellPrice: 10,
+      goldCardPrice: 10,
+      silverCardPrice: 10
+    }];
+    this.props.dispatch({
+      type: "ctipActivityAddTwo/refreshLists",
+      payload: { goodLists: promotionProducts }
+    });
   };
-  beforeUpload=()=>{
-
-  }
+  beforeUpload = () => {
+    
+  };
   render() {
-    const params = JSON.stringify({type:1});
+    const params = JSON.stringify({ type: this.props.promotionType });
     const props = {
-      action:"/erpWebRest/webrest.htm?code=qerp.web.config.singlelinespu.import",
+      action: "/erpWebRest/webrest.htm?code=qerp.web.promotion.activity.import",
       onChange: this.handleChange,
       beforeUpload: this.beforeUpload,
       name: "mfile",
@@ -30,13 +64,20 @@ class index extends Component {
         <div>
           请导入商品：
           <Upload {...props}>
-            <Button type="primary" size="large">导入商品</Button>
+            <Button type="primary" size="large">
+              导入商品
+            </Button>
           </Upload>
-          <a className='act_down' onClick={this.downLoadTemp}>下载导入模板</a>
+          <a className="act_down" onClick={this.downLoadTemp}>
+            下载导入模板
+          </a>
         </div>
       </div>
     );
   }
 }
-
-export default index;
+function mapStateToProps(state) {
+  const { ctipActivityAddTwo } = state;
+  return ctipActivityAddTwo;
+}
+export default connect(mapStateToProps)(index);
