@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { connect } from "dva";
 import { Table, Modal } from "antd";
 import SetModal from "./components/SetModal";
-import BatchModal from "./components/BatchModal";
 import "./index.less";
 import getColumns from "./columns";
 class index extends Component {
@@ -10,9 +9,7 @@ class index extends Component {
     super(props);
     this.state = {
       visible: false,
-      batchVisible: false,
       delVisible: false,
-      batchType: 1,
       currentIndex: 0,
       currentRecord: {
         pdCode: "",
@@ -44,7 +41,7 @@ class index extends Component {
     goodLists.splice(index, 1);
     this.props.dispatch({
       type: "ctipActivityAddTwo/refreshLists",
-      payload: goodLists
+      payload: {goodLists}
     });
     this.setState({
       delVisible: false
@@ -55,29 +52,16 @@ class index extends Component {
       visible: false
     });
   };
-  setBatchVisible = () => {
-    this.setState({
-      batchVisible: false
-    });
-  };
   onDelCancel = () => {
     this.setState({
       delVisible: false
-    });
-  };
-  setQty = batchType => {
-    this.setState({
-      batchType,
-      batchVisible: true
     });
   };
   render() {
     const { goodLists, promotionType } = this.props;
     const {
       visible,
-      batchVisible,
       delVisible,
-      batchType,
       currentIndex,
       currentRecord
     } = this.state;
@@ -95,32 +79,11 @@ class index extends Component {
     };
     if(promotionType == 22){
       columns = Columns.columns4;
-    }
+    };
     return (
       <div className="act_setGoods">
         <div className="batch_set_box">
-          <div>
-            批量设置：
-            {promotionType != 11 && (
-              <a className="batch_set" onClick={() => this.setQty(1)}>
-                活动最大可售卖数量
-              </a>
-            )}
-            {(promotionType == 10 || promotionType == 11) && (
-              <span>
-                <a className="batch_set" onClick={() => this.setQty(2)}>
-                  每账号每单限购
-                </a>
-                <a className="batch_set" onClick={() => this.setQty(3)}>
-                  每账号每天限购
-                </a>
-                <a className="batch_set" onClick={() => this.setQty(4)}>
-                  每账号总限购
-                </a>
-              </span>
-            )}
-          </div>
-          <div>共{goodLists.length}条数据</div>
+          共{goodLists.length}条数据
         </div>
         <div className="good_table">
           <Table
@@ -137,11 +100,6 @@ class index extends Component {
             currentIndex={currentIndex}
             currentRecord={currentRecord}
             onVisible={this.onVisible}
-          />
-          <BatchModal
-            visible={batchVisible}
-            type={batchType}
-            setBatchVisible={this.setBatchVisible}
           />
           <Modal
             wrapClassName="setGood_del_model"

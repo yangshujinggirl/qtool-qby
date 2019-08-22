@@ -22,14 +22,26 @@ export default {
           {
             approvalNo: 111,
             approvalName: "daisff",
-            status: 1,
+            status:0,
             statusStr: "待审核",
-            approvalUser: "dwd",
-            promotionId: 123,
-            name: "fwef",
+            approvalUserStr: "审核人",
+            promotionTypeStr:'直降',
+            promotionId: 1,
+            name: "活动名称",
             activityTime: "20190909",
-            createUser: "fff"
-          }
+            createUserStr: "活动创建人"
+          }, {
+            approvalNo: 111,
+            approvalName: "daisff",
+            status:1,
+            statusStr: "审核通过",
+            approvalUserStr: "审核人",
+            promotionTypeStr:'直降',
+            promotionId: 2,
+            name: "活动名称",
+            activityTime: "20190909",
+            createUserStr: "活动创建人"
+          },
         ],
         limit: 15,
         total: 10,

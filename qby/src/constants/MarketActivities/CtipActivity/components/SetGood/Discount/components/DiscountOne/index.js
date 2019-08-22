@@ -239,12 +239,11 @@ class DiscountOne extends Component {
       deletVisible,
       level
     } = this.state;
-    console.log(dataSource);
     return (
       <div className="discount-good">
         <div>赠送方式: 每种赠品均送</div>
         <div className="content">
-          {dataSource.map((item, index) => (
+          {dataSource.length>0&&dataSource.map((item, index) => (
             <div>
               <Table
                 key={index}

@@ -35,14 +35,11 @@ class DiscountTwo extends Component {
   };
   render() {
     const { dataSource,promotionType } = this.props;
-    dataSource.map(item => {
-      item.key = item.id;
-    });
     const { getFieldDecorator } = this.props.form;
     return (
       <div className="discountTwo">
         <Form>
-          {dataSource.map((item, index) => (
+          {dataSource.length>0&&dataSource.map((item, index) => (
             <div className="step" key={index}>
               <div>
                 {promotionType == 22 &&

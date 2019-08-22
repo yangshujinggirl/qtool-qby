@@ -66,18 +66,20 @@ class index extends Component {
       showUploadList: false
     };
     return (
-      <div>
+      <div className='c_act_import'>
         <div>
           请导入商品：
           <Upload {...props}>
             <Button type="primary" size="large">
               导入商品
             </Button>
+            
           </Upload>
           <a className="act_down" onClick={this.downLoadTemp}>
             下载导入模板
           </a>
         </div>
+        <div className='tips'>注：导入为覆盖导入，即第二次导入的商品将覆盖前一次导入的所有商品</div>
       </div>
     );
   }

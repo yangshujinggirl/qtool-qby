@@ -16,11 +16,11 @@ export function baseInfoApi(values) {
       data:values
   })
 }
-//商品页面详情
-export function goodsInfoApi(values) {
+//审核保存
+export function saveAuditApi(values) {
   values = JSON.stringify(values)
   return ajax.post('/webrest.htm',{
-      code:'qerp.web.promotion.activity.rule.modify',
+      code:'qerp.web.promotion.approvals.Opinions',
       data:values
   })
 }

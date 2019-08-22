@@ -14,29 +14,47 @@ class BatchModal extends Component {
   onOk = () => {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
+        const goodLists= [...this.props.goodLists];
+        if(goodLists.length>0){
+          if(this.props.type==1){//活动最大可售卖数量
+            goodLists.map(item=>{
+              item.maxQty = values.maxQty;
+            });
+          };
+          if(this.props.type==2){//每账号每单限购
+            goodLists.map(item=>{
+              item.perOrderLimit = values.maxQty;
+            });
+            
+          };
+          if(this.props.type==3){//每账号每天限购
+            goodLists.map(item=>{
+              item.perDayLimit = values.maxQty;
+            });
+          };
+          if(this.props.type==4){//每账号总限购
+            goodLists.map(item=>{
+              item.perUserLimit = values.maxQty;
+            });
+          };
+          this.props.dispatch({
+            type:'ctipActivityAddTwo/refreshLists',
+            payload:{goodLists}
+          });
+          this.onCancel();
+        };
       }
     });
   };
-  onCancel = () => {
-    this.props.onVisible();
-    this.props.form.resetFields();
-  };
-  setTitle = type => {};
   onChange = e => {
     const { value } = e.target;
     this.setState({
       radioValue: value
     });
   };
-  onOk = () => {
-    this.props.form.validateFieldsAndScroll((err,value)=>{
-      if(!err){
-        
-      }
-    })
-  };
   onCancel = () => {
     this.props.setBatchVisible();
+    this.props.form.resetFields();
   };
   render() {
     const { getFieldDecorator } = this.props.form;

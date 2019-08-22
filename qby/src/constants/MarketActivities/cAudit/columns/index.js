@@ -17,7 +17,7 @@ const Columns = [
   },
   {
     title: "审核人",
-    dataIndex: "approvalUser"
+    dataIndex: "approvalUserStr"
   },
   {
     title: "活动ID",
@@ -37,7 +37,7 @@ const Columns = [
   },
   {
     title: "活动创建人",
-    dataIndex: "createUser"
+    dataIndex: "createUserStr"
   },
   {
     title: "操作",

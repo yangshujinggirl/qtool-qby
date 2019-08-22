@@ -30,7 +30,7 @@ class NormalForm extends Component {
               </FormItem>
               <FormItem label="促销类型">
                 {getFieldDecorator("promotionType")(
-                  <Select allowClear={true} placeholder="请选择审核状态">
+                  <Select allowClear={true} placeholder="请选择促销类型">
                     <Option value={10}>单品直降</Option>
                     <Option value={11}>单品多级满赠</Option>
                     <Option value={20}>专区多级满元赠</Option>

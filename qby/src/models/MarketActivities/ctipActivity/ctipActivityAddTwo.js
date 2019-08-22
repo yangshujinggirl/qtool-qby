@@ -7,6 +7,9 @@ export default {
     goodLists:[]
   },
   reducers: {
+    resetData(state){
+      return {...state,promotionType:'',dataSource:[],goodLists:[]}
+    },
     refreshdataSource(state,{payload: { dataSource }}) {
       dataSource.map((item,index)=>{
         item.key = index
@@ -14,14 +17,14 @@ export default {
       return { ...state, dataSource };
     },
     refreshLists(state,{payload: { goodLists }}) {
-      goodLists.map((item,index)=>{
+      goodLists&&goodLists.length>0&&goodLists.map((item,index)=>{
         item.key = index;
       });
       if(state.promotionType == 10){//单品直降
-        goodLists.map(item=>{
+        goodLists&&goodLists.length>0&&goodLists.map(item=>{
           //一般贸易商品（包括品牌直供商品）：C端活动单品毛利率=（活动价-B端活动售价）/ 活动价
           if(item.pdKind == 1||item.pdKind == 2){//一般贸易和直供
-            item.profitRate = ((item.activityPrice-item.eventPrice)/item.activityPrice).toFixed(2)*100;
+            item.profitRate = (((item.activityPrice-item.eventPrice)/item.activityPrice)*100).toFixed(2);
           };
           //保税商品：C端毛利率=活动价*分成比例 / 活动价
           if(item.pdKind == 3){//保税
@@ -30,13 +33,13 @@ export default {
         });
       };
       if(state.promotionType == 11){//单品满件赠
-        goodLists.map(item=>{
+        goodLists&&goodLists.length>0&&goodLists.map(item=>{
           let [arr1,arr2] = [[],[]];
-          item.promotionRules.map(subItem=>{
+          item.promotionRules&&item.promotionRules.length>0&&item.promotionRules.map(subItem=>{
             //预计到手价=C端售价*优惠门槛/（优惠门槛+赠品数量）
             const price = (Number(item.sellPrice)*(Number(subItem.param.leastQty))/(Number(subItem.param.leastQty)+Number(subItem.param.reduceQty))).toFixed(2);
             //毛利率=（到手价-B端活动售价）/ 到手价
-            const rate = ((Number(price)-Number(item.eventPrice))/Number(price)).toFixed(2)*100;
+            const rate = (((Number(price)-Number(item.eventPrice))/Number(price))*100).toFixed(2);
             let obj = {color:'#000'}
             if(rate<0){
               obj={color:'red'}
@@ -49,9 +52,9 @@ export default {
         });
       };
       if(state.promotionType == 22){//专区满元减
-        goodLists.map(item=>{
+        goodLists&&goodLists.length>0&&goodLists.map(item=>{
           let [arr1,arr2] = [[],[]];
-          item.promotionRules.map(subItem=>{
+          item.promotionRules&&item.promotionRules.length>0&&item.promotionRules.map(subItem=>{
             //预计到手价=C端售价*减钱/优惠门槛
             const price = (Number(item.sellPrice)*(1-Number(subItem.param.reduceAmount)/Number(subItem.param.leastAmount))).toFixed(2);
             //毛利率= 
@@ -59,7 +62,7 @@ export default {
             //保税商品：C端毛利=分成比率
             let rate = '';
             if(item.pdKind == 1||item.pdKind == 2){//一般贸易和直供
-              rate = ((Number(price)-Number(item.eventPrice))/Number(price)).toFixed(2)*100;
+              rate = (((Number(price)-Number(item.eventPrice))/Number(price))*100).toFixed(2);
             };
             if(item.pdKind == 3){//保税
               rate = Number(item.shareRatio);

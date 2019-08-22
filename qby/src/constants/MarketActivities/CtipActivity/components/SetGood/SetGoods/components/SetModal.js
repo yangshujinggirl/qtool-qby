@@ -47,23 +47,36 @@ class setModal extends Component {
     }
     callback();
   };
+  //每单限购校验
   valideOrder = (rule, value, callback) => {
     const { perDayLimit, perUserLimit } = this.state;
-    if (value && (value >= perDayLimit || value >= perUserLimit)) {
-      callback("每单限购小于每天限购小于每账号限购，请重新填写");
-    }
+    if(value && perDayLimit){
+      if(+value >= +perDayLimit){
+        callback("每单限购小于每天限购小于每账号限购，请重新填写");
+      };
+    };
+    if(value && perUserLimit){
+      if(+value >= +perUserLimit){
+        callback("每单限购小于每天限购小于每账号限购，请重新填写");
+      };
+    };
     callback();
   };
+  //每天限购校验
   valideDay = (rule, value, callback) => {
-    const { perUserLimit } = this.state;
-    if (value && value >= perUserLimit) {
+    const { perUserLimit,perOrderLimit } = this.state;
+    if (value && perOrderLimit && +value <= +perOrderLimit) {
       callback("每单限购小于每天限购小于每账号限购，请重新填写");
-    }
+    };
+    if (value && perUserLimit && +value >= +perUserLimit) {
+      callback("每单限购小于每天限购小于每账号限购，请重新填写");
+    };
     callback();
   };
+  //每账号限购校验
   valideUser = (rule, value, callback) => {
     const { perDayLimit, perOrderLimit } = this.state;
-    if (value && (value <= perDayLimit || value <= perOrderLimit)) {
+    if (value && (+value <= +perDayLimit || +value <= +perOrderLimit)) {
       callback("每账号限购大于每天限购大于每单限购，请重新填写");
     }
     callback();
@@ -107,16 +120,18 @@ class setModal extends Component {
             >
               <span>{currentRecord.pdCode}</span>
             </FormItem>
-            <FormItem
-              className='must-pic'
-              label="优惠内容"
-              labelCol={{ span: 8 }}
-              wrapperCol={{ span: 16 }}
-            >
-              {promotionType == 11 && (
-                <Discount promotionRules={currentRecord.promotionRules} />
-              )}
-            </FormItem>
+            {promotionType == 11 && (
+              <FormItem
+                className="must-pic"
+                label="优惠内容"
+                labelCol={{ span: 8 }}
+                wrapperCol={{ span: 16 }}
+              >
+                {promotionType == 11 && (
+                  <Discount promotionRules={currentRecord.promotionRules} />
+                )}
+              </FormItem>
+            )}
             {promotionType == 10 && (
               <FormItem
                 label="活动价"

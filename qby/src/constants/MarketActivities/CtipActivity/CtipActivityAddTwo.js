@@ -14,6 +14,11 @@ class CtipActivityAddTwo extends Component {
     super(props);
   }
   componentDidMount = () => {
+    this.props.dispatch({//清空历史数据
+      //活动所有设置的详情
+      type: "ctipActivityAddTwo/resetData",
+      payload: {}
+    });
     const { promotionId, promotionType } = this.props.data;
     this.props.dispatch({
       //活动所有设置的详情
@@ -27,16 +32,40 @@ class CtipActivityAddTwo extends Component {
   };
   //上一步
   goback=()=>{
-    const {promotionId} = this.props.data;
+    const {promotionId,promotionType} = this.props.data;
     const { componkey } = this.props;
     const paneitem = {
       title: "编辑C端活动",
-      key: `${componkey}levelTwoOne${promotionId}`,
-      componkey: `${componkey}levelTwoOne`,
-      parentKey:componkey,
+      key:  `1501000levelTwoOne${promotionId}`,
+      componkey: '1501000levelTwoOne',
+      parentKey:'1501000level',
       data: {
-        parentKey:componkey,
+        parentKey:'1501000level',
         promotionId:promotionId,
+        promotionType:promotionType
+      }
+    };
+    this.props.dispatch({
+      type: "tab/firstAddTab",
+      payload: paneitem
+    });
+  };
+  gobackToList=()=>{
+    const componkey = `1501000levelTwoSecond${this.props.data.promotionId}`
+    this.props.dispatch({
+      type: "tab/initDeletestate",
+      payload: componkey
+    });
+  };
+  goInfo=()=> {
+    const {promotionId} = this.props;
+    const paneitem = {
+      title: "C端活动详情",
+      key: `1501000levelTwoInfo${promotionId}`,
+      componkey: '1501000levelTwoInfo',
+      parentKey:'1501000level',
+      data: {
+        promotionId:promotionId
       }
     };
     this.props.dispatch({
@@ -47,6 +76,7 @@ class CtipActivityAddTwo extends Component {
   //保存并预览
   handSubmit=()=>{
     this.props.form.validateFieldsAndScroll((err, values) => {
+      this.goInfo()
       if (!err) {
         this.sendQequest('save')
       };
@@ -55,6 +85,7 @@ class CtipActivityAddTwo extends Component {
   //保存并审核
   audit = () => {
     this.props.form.validateFieldsAndScroll((err, values) => {
+      this.gobackToList()//回到列表页
       if (!err) {
         this.sendQequest('audit')
       };
@@ -76,9 +107,10 @@ class CtipActivityAddTwo extends Component {
           if(res.code == '0'){
             if(type=='audit'){
               message.success('提交审核成功');
+              this.gobackToList()//回到列表页
             };
-            if(type=='save'){
-              this.goback()
+            if(type=='save'){//回到查看页
+              this.goInfo()
             };
           };
         });

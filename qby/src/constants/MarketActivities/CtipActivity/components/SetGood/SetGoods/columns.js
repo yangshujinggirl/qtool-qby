@@ -3,7 +3,7 @@ function getColumns(type, edit, delt) {
     //单品直降
     {
       title: "序号",
-      dataIndex: "a",
+      dataIndex: "index",
       render: (text, record, index) => {
         return <span>{++index}</span>;
       },
@@ -11,7 +11,7 @@ function getColumns(type, edit, delt) {
     },
     {
       title: "操作",
-      dataIndex: "b",
+      dataIndex: "operate",
       render: (text, record, index) => {
         return (
           <div>
@@ -42,15 +42,22 @@ function getColumns(type, edit, delt) {
           : "保税商品";
       }
     },
-    { title: "C端售价", dataIndex: "sellPrice", key: "7" },
+    {
+      title: "C端售价",
+      dataIndex: "sellPrice",
+      key: "7",
+      render: (text, record, index) => {
+        return <span>￥{Number(text).toFixed(2)}元</span>;
+      }
+    },
     {
       title: "活动价",
       dataIndex: "activityPrice",
       key: "8",
       render: (text, record, index) => {
         return (
-          <span style={{ color: +record.profitRate < 0 ? "red" : "#000" }}>
-            {text}
+          <span style={{ color: +record.profitRate < 0 ? "red" : "#35bab0" }}>
+            ￥{Number(text).toFixed(2)}元
           </span>
         );
       }
@@ -61,16 +68,52 @@ function getColumns(type, edit, delt) {
       key: "9",
       render: (text, record, index) => {
         return (
-          <span style={{ color: +text < 0 ? "red" : "#000" }}>{text}%</span>
+          <span style={{ color: +text < 0 ? "red" : "#000000a6" }}>
+            {text}%
+          </span>
         );
       }
     },
-    { title: "金卡价", dataIndex: "goldCardPrice", key: "10" },
-    { title: "银卡价", dataIndex: "silverCardPrice", key: "11" },
-    { title: "活动最大可售卖数量", dataIndex: "maxQty", key: "12" },
-    { title: "活动期间每人每单限购", dataIndex: "perOrderLimit", key: "13" },
-    { title: "活动期间每人每天限购", dataIndex: "perDayLimit", key: "14" },
-    { title: "活动期间每人每账号限购", dataIndex: "perUserLimit", key: "15" }
+    {
+      title: "金卡价",
+      dataIndex: "goldCardPrice",
+      key: "10",
+      render: (text, record, index) => {
+        return <span>￥{Number(text).toFixed(2)}元</span>;
+      }
+    },
+    {
+      title: "银卡价",
+      dataIndex: "silverCardPrice",
+      key: "11",
+      render: (text, record, index) => {
+        return <span>￥{Number(text).toFixed(2)}元</span>;
+      }
+    },
+    {
+      title: "活动最大可售卖数量",
+      dataIndex: "maxQty",
+      key: "12",
+      className: "green"
+    },
+    {
+      title: "活动期间每人每单限购",
+      dataIndex: "perOrderLimit",
+      key: "13",
+      className: "green"
+    },
+    {
+      title: "活动期间每人每天限购",
+      dataIndex: "perDayLimit",
+      key: "14",
+      className: "green"
+    },
+    {
+      title: "活动期间每人每账号限购",
+      dataIndex: "perUserLimit",
+      key: "15",
+      className: "green"
+    }
   ];
   const columns2 = [
     //单品满件赠
@@ -122,8 +165,9 @@ function getColumns(type, edit, delt) {
       render: (text, record, index) => {
         return (
           <div>
-            {record.promotionRules&&record.promotionRules.length > 0 &&
-              record.promotionRules.map((item,index) => (
+            {record.promotionRules &&
+              record.promotionRules.length > 0 &&
+              record.promotionRules.map((item, index) => (
                 <p key={index} style={{ "margin-bottom": "5px" }}>
                   满{item.param.leastQty}件，送{item.param.reduceQty}件
                 </p>
@@ -132,7 +176,14 @@ function getColumns(type, edit, delt) {
         );
       }
     },
-    { title: "商品C端售价", dataIndex: "sellPrice", key: "8" },
+    {
+      title: "商品C端售价",
+      dataIndex: "sellPrice",
+      key: "8",
+      render: (text, record, index) => {
+        return <span>￥{Number(text).toFixed(2)}元</span>;
+      }
+    },
     {
       title: "预计到手价",
       dataIndex: "handsPrice",
@@ -140,9 +191,13 @@ function getColumns(type, edit, delt) {
       render: (text, record, index) => {
         return (
           <div>
-            {text&&text.length > 0 &&
-              text.map((item, subIndex) => (
-                <p key={subIndex} style={{ "margin-bottom": "5px", color: item.color }}>
+            {record.handsPrice &&
+              record.handsPrice.length > 0 &&
+              record.handsPrice.map((item, subIndex) => (
+                <p
+                  key={subIndex}
+                  style={{ "margin-bottom": "5px", color: item.color }}
+                >
                   {++subIndex}级：￥{item.price}元
                 </p>
               ))}
@@ -157,9 +212,13 @@ function getColumns(type, edit, delt) {
       render: (text, record, index) => {
         return (
           <div>
-            {text&&text.length > 0 &&
-              text.map((item, subIndex) => (
-                <p key={subIndex} style={{ "margin-bottom": "5px", color: item.color }}>
+            {record.profitRate &&
+              record.profitRate.length > 0 &&
+              record.profitRate.map((item, subIndex) => (
+                <p
+                  key={subIndex}
+                  style={{ "margin-bottom": "5px", color: item.color }}
+                >
                   {++subIndex}级：{item.rate}%
                 </p>
               ))}
@@ -171,25 +230,29 @@ function getColumns(type, edit, delt) {
       title: "活动最大可售卖数量",
       width: "5%",
       dataIndex: "maxQty",
-      key: "11"
+      key: "11",
+      className: "green"
     },
     {
       title: "活动期间每人每单限购",
       width: "5%",
       dataIndex: "perOrderLimit",
-      key: "12"
+      key: "12",
+      className: "green"
     },
     {
       title: "活动期间每人每天限购",
       width: "5%",
       dataIndex: "perDayLimit",
-      key: "13"
+      key: "13",
+      className: "green"
     },
     {
       title: "活动期间每人每账号限购",
       width: "5%",
       dataIndex: "perUserLimit",
-      key: "14"
+      key: "14",
+      className: "green"
     }
   ];
   const columns3 = [
@@ -235,8 +298,20 @@ function getColumns(type, edit, delt) {
           : "保税商品";
       }
     },
-    { title: "C端售价", dataIndex: "sellPrice", key: "7" },
-    { title: "活动最大可售卖数量", dataIndex: "maxQty", key: "8" }
+    {
+      title: "C端售价",
+      dataIndex: "sellPrice",
+      key: "7",
+      render: (text, record, index) => {
+        return <span>￥{Number(text).toFixed(2)}元</span>;
+      }
+    },
+    {
+      title: "活动最大可售卖数量",
+      dataIndex: "maxQty",
+      key: "8",
+      className: "green"
+    }
   ];
   const columns4 = [
     //专区多级满元减
@@ -281,7 +356,14 @@ function getColumns(type, edit, delt) {
           : "保税商品";
       }
     },
-    { title: "C端售价", dataIndex: "sellPrice", key: "7" },
+    {
+      title: "C端售价",
+      dataIndex: "sellPrice",
+      key: "7",
+      render: (text, record, index) => {
+        return <span>￥{Number(text).toFixed(2)}元</span>;
+      }
+    },
     {
       title: "预计最低到手价",
       dataIndex: "handsPrice",
@@ -289,9 +371,13 @@ function getColumns(type, edit, delt) {
       render: (text, record, index) => {
         return (
           <div>
-            {text&&text.length > 0 &&
-              text.map((item, subIndex) => (
-                <p key={subIndex} style={{ "margin-bottom": "5px", color: item.color }}>
+            {record.handsPrice &&
+              record.handsPrice.length > 0 &&
+              record.handsPrice.map((item, subIndex) => (
+                <p
+                  key={subIndex}
+                  style={{ "margin-bottom": "5px", color: item.color }}
+                >
                   {++subIndex}级：￥{item.price}元
                 </p>
               ))}
@@ -306,9 +392,13 @@ function getColumns(type, edit, delt) {
       render: (text, record, index) => {
         return (
           <div>
-            {text&&text.length > 0 &&
-              text.map((item, subIndex) => (
-                <p key={subIndex} style={{ "margin-bottom": "5px", color: item.color }}>
+            {record.profitRate &&
+              record.profitRate.length > 0 &&
+              record.profitRate.map((item, subIndex) => (
+                <p
+                  key={subIndex}
+                  style={{ "margin-bottom": "5px", color: item.color }}
+                >
                   {++subIndex}级：{item.rate}%
                 </p>
               ))}
@@ -316,7 +406,12 @@ function getColumns(type, edit, delt) {
         );
       }
     },
-    { title: "活动最大可售卖数量", dataIndex: "maxQty", key: "10" }
+    {
+      title: "活动最大可售卖数量",
+      dataIndex: "maxQty",
+      key: "10",
+      className: "green"
+    }
   ];
   return { columns1, columns2, columns3, columns4 };
 }

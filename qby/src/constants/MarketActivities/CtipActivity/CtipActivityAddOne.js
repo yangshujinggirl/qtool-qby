@@ -54,8 +54,8 @@ class CtipActivityAddOneF extends Component {
     const { data } = this.props;
     const paneitem = {
       title: "编辑C端活动",
-      key: `${data.parentKey}levelTwoSecond${Math.random()}`,
-      componkey: `${data.parentKey}levelTwoSecond`,
+      key: `${data.parentKey}TwoSecond${Math.random()}`,
+      componkey: `${data.parentKey}TwoSecond`,
       parentKey:data.parentKey,
       data: {
         parentKey:data.parentKey,
@@ -72,8 +72,8 @@ class CtipActivityAddOneF extends Component {
     const { data } = this.props;
     const paneitem = {
       title: "编辑C端活动",
-      key: `${data.parentKey}levelTwoSecond${res.promotionId}`,
-      componkey: `${data.parentKey}levelTwoSecond`,
+      key: `${data.parentKey}TwoSecond${res.promotionId}`,
+      componkey: `${data.parentKey}TwoSecond`,
       parentKey:data.parentKey,
       data: {
         parentKey:data.parentKey,
