@@ -1,271 +1,139 @@
 import React, { Component } from "react";
-import { Card, Form, Table, Radio, Input, Button, Collapse } from "antd";
+import { Collapse } from "antd";
+import DetailBase from "../../CtipActivity/components/DetailBase";
+import DetailDiscount from "../../CtipActivity/components/DetailDiscount";
+import DetailLog from "../../CtipActivity/components/DetailLog";
+import DetailGoods from "../../CtipActivity/components/DetailGoods";
+import DetailWebShow from "../../CtipActivity/components/DetailWebShow";
+import DetailAudit from "../components/Audit";
 import {
-  baseInfoApi,
-  goodsInfoApi
-} from "../../../../services/marketActivities/cAudit";
-import "../index.less";
-import * as Columns from "./columns";
-const FormItem = Form.Item;
-const TextArea = Input.TextArea;
+  getBaseInfoApi,
+  getDiscountInfoApi
+} from "../../../../services/marketActivities/ctipActivity";
+
+const formItemLayout = {
+  labelCol: 3,
+  wrapperCol: 20
+};
 const { Panel } = Collapse;
-class activityDetail extends Component {
+
+class CtipDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      expandIconPosition: "right",
-      audit: 0,
-      infos: {}
+      baseInfo: {},
+      goodsInfo: {
+        promotionType: 20, //10.单品直降 11.单品多级满赠 20.专区多级满元赠 21.专区多级满件赠 22专区多级满元减 23.专区满件减免
+        promotionRules: [
+          {
+            params: {
+              leastAmount: 10 //20
+            },
+            promotionGifts: [
+              {
+                pdCode: 1,
+                maxQty: 1,
+                pdName: "qwer",
+                sellPrice: 102,
+                toBQty: 1,
+                toCQty: 1
+              }
+            ]
+          },
+          {
+            params: {
+              leastAmount: 20
+            },
+            promotionGifts: [
+              {
+                pdCode: 2,
+                maxQty: 3,
+                pdName: "wq",
+                sellPrice: 10,
+                toBQty: 10,
+                toCQty: 30
+              }
+            ]
+          }
+        ],
+        // promotionRules:[{
+        //   params:{
+        //     leastQty:10,//22
+        //     reduceQty:12,
+        //   },
+        // },{
+        //   params:{
+        //     leastQty:20,
+        //     reduceQty:22,
+        //   },
+        // }],
+        // promotionRules:[{//23
+        //   params:{
+        //     leastAmount:10,
+        //     reduceAmount:12,
+        //   },
+        // },{
+        //   params:{
+        //     leastAmount:20,
+        //     reduceAmount:22,
+        //   },
+        // }],
+        promotionProducts: []
+      }
     };
   }
   componentDidMount() {
-    this.getDetail();
+    this.getInfo(this.props.data.promotionId);
   }
-  getDetail() {
-    //基本信息请求
-    const { promotionId } = this.props.data;
-    const res = {
-      code: 0,
-      data: {}
-    };
-    baseInfoApi({ promotionId }).then(res => {
-      if (res.code == "0") {
-        res.data.bearers = res.data.bearers.map((item, index) => {
-          item.budget = res.data.budget;
-          item.key = index;
-        });
-        this.setState({
-          infos: res.data
-        });
-      }
+  getInfo(promotionId) {
+    getBaseInfoApi({ promotionId }).then(res => {
+      console.log(res);
     });
-    //商品信息
-    goodsInfoApi({ promotionId }).then(res => {});
+    getDiscountInfoApi({ promotionId }).then(res => {
+      console.log(res);
+    });
   }
-  exportShop = () => {
-    const { shopType, activityId } = this.state.activityInfo;
-    exportMdApi({ downloadParam: { shopType, activityId }, type: 110 }).then(
-      res => {
-        if (res.code == "0") {
-          confirm({
-            title: "数据已经进入导出队列",
-            content: "请前往下载中心查看导出进度",
-            cancelText: "稍后去",
-            okText: "去看看",
-            onOk: () => {
-              const paneitem = {
-                title: "下载中心",
-                key: "000001",
-                componkey: "000001",
-                data: null
-              };
-              this.props.dispatch({
-                type: "tab/firstAddTab",
-                payload: paneitem
-              });
-              this.props.dispatch({
-                type: "downlaod/fetch",
-                payload: {
-                  code: "qerp.web.sys.doc.list",
-                  values: { limit: 15, currentPage: 0 }
-                }
-              });
-            }
-          });
-        }
-      }
-    );
-  };
-  onChange = e => {
-    const { value } = e.target;
-    if (value) {
-      this.setState({
-        audit: value
-      });
-    }
-  };
+  exportData = () => {};
   render() {
-    const { infos } = this.state;
-    const { type } = this.props.data; //'edit':审核，'detail'查看
-    const { getFieldDecorator } = this.props.form;
-    const formItemLayout = {
-      labelCol: { span: 3 },
-      wrapperCol: { span: 14 }
-    };
+    const { data } = this.props;
+    const { type } = this.props.data;
+    console.log(type);
+    const { baseInfo, goodsInfo } = this.state;
     return (
-      <div className="audit-info">
-        <Collapse
-          defaultActiveKey={["1"]}
-          expandIconPosition={this.state.expandIconPosition}
-        >
+      <div>
+        <Collapse accordion defaultActiveKey={["1"]}>
           <Panel header="活动信息" key="1">
-            <div className="mb10">
-              <Form className="base-info">
-                <FormItem label="活动ID">{infos.promotionId}</FormItem>
-                <FormItem label="活动状态">{infos.statusStr}</FormItem>
-                <FormItem label="活动名称">{infos.name}</FormItem>
-                <FormItem label="活动时间">
-                  {infos.beginTime} 至 {infos.endTime}
-                </FormItem>
-                <FormItem label="活动目的">{infos.otherPurpose}</FormItem>
-                <FormItem label="活动级别">
-                  {infos.level == 1
-                    ? S
-                    : infos.level == 2
-                    ? A
-                    : infos.level == 3
-                    ? B
-                    : C}
-                </FormItem>
-                <FormItem label="活动端">
-                  {infos.platform == 1 ? "app" : "小程序"}
-                </FormItem>
-                <FormItem label="活动门店">{infos.shopType}</FormItem>
-                <FormItem label="活动成本承担方">
-                  {infos.bearers.map(item => (
-                    <span>{item.bearer}</span>
-                  ))}
-                </FormItem>
-                <FormItem label="活动成本分摊比例">
-                  <Table
-                    bordered
-                    dataSource={infos.bearers}
-                    columns={Columns.columns1}
-                    pagination={false}
-                  />
-                </FormItem>
-                <FormItem label="促销范围">
-                  {promotionScope == 1 ? "单品促销" : "专区促销"}
-                </FormItem>
-                <FormItem label="促销类型">
-                  {promotionType == 10
-                    ? "单品直降"
-                    : promotionType == 11
-                    ? "单品多级满赠"
-                    : promotionType == 20
-                    ? "专区多级满元赠"
-                    : promotionType == 21
-                    ? "专区多级满件赠"
-                    : promotionType == 22
-                    ? "专区多级满元减"
-                    : "专区满件减免"}
-                </FormItem>
-                <FormItem label="请选择可同享的专区促销类型">
-                  {sharedPromotionType == 10
-                    ? "单品直降"
-                    : sharedPromotionType == 11
-                    ? "单品多级满赠"
-                    : sharedPromotionType == 20
-                    ? "专区多级满元赠"
-                    : sharedPromotionType == 21
-                    ? "专区多级满件赠"
-                    : sharedPromotionType == 22
-                    ? "专区多级满元减"
-                    : "专区满件减免"}
-                </FormItem>
-              </Form>
-            </div>
+            <DetailBase {...formItemLayout} info={baseInfo} />
           </Panel>
           <Panel header="前端展示" key="2">
-            <div>
-              <div className="mb10">
-                <Form>
-                  <FormItem label="是否展示商品横幅">111</FormItem>
-                  <FormItem label="设置横幅条开始展示的时间">111</FormItem>
-                  <FormItem label="配置商品详情页横幅条背景图片">111</FormItem>
-                  <FormItem label="配置活动主题logo图">111</FormItem>
-                </Form>
-              </div>
-            </div>
+            <DetailWebShow {...formItemLayout} info={baseInfo} />
           </Panel>
-          <Panel header="优惠内容" key="3">
-            <FormItem label="优惠条件">111</FormItem>
-            <FormItem label="赠送方式">每种赠品均送</FormItem>
-            <div>
-              <div className="mb20">
-                <Table
-                  bordered
-                  title={() => <p>阶梯：单笔订单满200元，送以下商品</p>}
-                  dataSource={[]}
-                  columns={Columns.columns3}
-                  pagination={false}
-                />
-              </div>
-              <div className="mb20">
-                <Table
-                  bordered
-                  title={() => <p>阶梯：单笔订单满200元，送以下商品</p>}
-                  dataSource={[]}
-                  columns={Columns.columns3}
-                  pagination={false}
-                />
-              </div>
-            </div>
-          </Panel>
-          <Panel header="活动商品" key="4">
-            <div className="export-title">
-              <div>
-                <span>共6条数据</span>　
-                <Button onClick={this.exportShop} type="primary">
-                  导出活动商品明细
-                </Button>
-              </div>
-            </div>
-            <Table
-              bordered
-              dataSource={[]}
-              columns={Columns.columns3}
-              pagination={false}
-            />
-          </Panel>
-          <Panel header="审核日志" key="5">
-            <div className="mb20">
-              <Table
-                bordered
-                dataSource={[]}
-                columns={Columns.columns2}
-                pagination={false}
+          {goodsInfo.promotionType != 10 && goodsInfo.promotionType != 11 && (
+            <Panel header="优惠内容" key="3">
+              <DetailDiscount
+                {...formItemLayout}
+                info={goodsInfo}
+                exportData={this.exportData}
               />
-            </div>
+            </Panel>
+          )}
+          <Panel header="活动商品" key="4">
+            <DetailGoods {...formItemLayout} info={goodsInfo} />
           </Panel>
+          {type == "detail" && (
+            <Panel header="日志" key="5">
+              <DetailLog {...formItemLayout} promotionId={data.promotionId} />
+            </Panel>
+          )}
+          {type == "edit" && (
+            <Panel header="审核结果" key="6">
+              <DetailAudit {...formItemLayout} promotionId={data.promotionId} />
+            </Panel>
+          )}
         </Collapse>
-        <div className="mb20">
-          <Card title="">
-            <Form>
-              <FormItem label="审核结果">
-                {getFieldDecorator("status", {
-                  onChange: this.onChange,
-                  initialValue: 1
-                })(
-                  <Radio.Group>
-                    <Radio value={1}>审核通过</Radio>
-                    <Radio value={2}>审核不通过</Radio>
-                  </Radio.Group>
-                )}
-              </FormItem>
-              <FormItem label="不通过原因">
-                {getFieldDecorator("reason", {
-                  initialValue: ""
-                })(
-                  <TextArea
-                    rows={3}
-                    style={{ width: "300px" }}
-                    placeholder="请输入不通过理由，100字以内"
-                    maxLength="100"
-                  />
-                )}
-              </FormItem>
-            </Form>
-          </Card>
-        </div>
-        <div style={{ "text-align": "center" }}>
-          <Button type="primary" size="large">
-            审核完成
-          </Button>
-        </div>
       </div>
     );
   }
 }
-const activityDetails = Form.create({})(activityDetail);
-export default activityDetails;
+
+export default CtipDetail;

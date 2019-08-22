@@ -217,6 +217,7 @@ import NewUserSet from '../cConfig/HomeConfiguration/NewUserSet';//新人礼配�
 import MoreGoodsSet from '../cConfig/HomeConfiguration/MoreGoodsSet';//两行三列商品配置
 import MorePicSet from '../cConfig/HomeConfiguration/MorePicSet';//多图片配置
 //营销中心
+import DiscountMarket from '../marketActivities/mark'//优惠促销
 import CtipActivity from '../marketActivities/CtipActivity';//C端活动
 import CtipActivityAddOne from '../marketActivities/CtipActivity/CtipActivityAddOne';//创建C端活动
 import CtipActivityAddTwo from '../marketActivities/CtipActivity/CtipActivityAddTwo';//创建C端活动
@@ -449,16 +450,17 @@ class Content extends React.Component {
                                     case "1402000levelTwoedit-more-goods" : return <MoreGoodsSet data={this.props.data} componkey={this.props.componkey}/>
                                     case "1402000levelTwoedit-more-pic" : return <MorePicSet data={this.props.data} componkey={this.props.componkey}/>
                                     case "1402000levelTwoinfo-search" : return <SearchInfo data={this.props.data} componkey={this.props.componkey}/>
-                                    case "150100000" : return <CtipActivity data={this.props.data} componkey={this.props.componkey}/>
-                                    case "150100000levelTwoInfo" : return <CtipDetail data={this.props.data} componkey={this.props.componkey}/>
-                                    case "150100000levelTwoOne" : return <CtipActivityAddOne data={this.props.data} componkey={this.props.componkey}/>
-                                    case "150100000levelTwoSecond" : return <CtipActivityAddTwo data={this.props.data} componkey={this.props.componkey}/>
-                                    case "150300000" : return <BtipActivity data={this.props.data} componkey={this.props.componkey}/>
-                                    case "150300000levelTwoOne" : return <BtipActivityAddOne data={this.props.data} componkey={this.props.componkey}/>
-                                    case "150300000levelTwoSecond" : return <BtipActivityAddTwo data={this.props.data} componkey={this.props.componkey}/>
-                                    case "150300000levelTwoInfo" : return <BtipDetail data={this.props.data} componkey={this.props.componkey}/>
-                                    case "150200000" : return <Caudit data={this.props.data} componkey={this.props.componkey}/>
-                                    case "150200000info" : return <CAuditDetail data={this.props.data} componkey={this.props.componkey}/>
+                                    case "1501000" : return <DiscountMarket data={this.props.data} componkey={this.props.componkey}/>
+                                    case "1501000level" : return <CtipActivity data={this.props.data} componkey={this.props.componkey}/>
+                                    case "1501000levelTwoInfo" : return <CtipDetail data={this.props.data} componkey={this.props.componkey}/>
+                                    case "1501000levelTwoOne" : return <CtipActivityAddOne data={this.props.data} componkey={this.props.componkey}/>
+                                    case "1501000levelTwoSecond" : return <CtipActivityAddTwo data={this.props.data} componkey={this.props.componkey}/>
+                                    // case "150300000" : return <BtipActivity data={this.props.data} componkey={this.props.componkey}/>
+                                    // case "150300000levelTwoOne" : return <BtipActivityAddOne data={this.props.data} componkey={this.props.componkey}/>
+                                    // case "150300000levelTwoSecond" : return <BtipActivityAddTwo data={this.props.data} componkey={this.props.componkey}/>
+                                    // case "150300000levelTwoInfo" : return <BtipDetail data={this.props.data} componkey={this.props.componkey}/>
+                                    case "1501000audit" : return <Caudit data={this.props.data} componkey={this.props.componkey}/>
+                                    case "1501000auditeditInfo" : return <CAuditDetail data={this.props.data} componkey={this.props.componkey}/>
                                     default:  return "我是404";
                                 }
                             })()

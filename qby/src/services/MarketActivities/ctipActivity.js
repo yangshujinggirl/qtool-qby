@@ -73,3 +73,12 @@ export function getComplimentaryApi(values) {
       data:values
   })
 }
+//商品设置页面的保存
+export function saveGoodsetApi(values) {
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.promotion.activity.rule.modify',
+      data:values
+  })
+}
+

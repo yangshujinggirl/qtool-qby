@@ -3301,9 +3301,9 @@ const SiderBarData = [
       "rank": 3,
       "children": [
         {
-          "urResourceId": 150100000,
-          "name": "C端活动",
-          "code": "150100000",
+          "urResourceId": 1501000,
+          "name": "优惠促销",
+          "code": "1501000",
           "url": "",
           "remark": null,
           "status": 1,
@@ -3311,47 +3311,35 @@ const SiderBarData = [
           "menu": 1,
           "menuStr": null,
           "rank": 1,
-          "children": []
+          "children": [
+            {
+              "urResourceId": 1501100,
+              "name": "C端活动",
+              "code": "150100000",
+              "url": "",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": 1,
+              "children": []
+            },
+            {
+              "urResourceId": 1501200,
+              "name": "C端活动审核",
+              "code": "150200000",
+              "url": "",
+              "remark": null,
+              "status": 1,
+              "statusStr": null,
+              "menu": 1,
+              "menuStr": null,
+              "rank": 2,
+              "children": []
+            },
+          ]
         },
-        {
-          "urResourceId": 150200000,
-          "name": "C端活动审核",
-          "code": "150200000",
-          "url": "",
-          "remark": null,
-          "status": 1,
-          "statusStr": null,
-          "menu": 1,
-          "menuStr": null,
-          "rank": 2,
-          "children": []
-        },
-        {
-          "urResourceId": 150300000,
-          "name": "B端活动",
-          "code": "150300000",
-          "url": "",
-          "remark": null,
-          "status": 1,
-          "statusStr": null,
-          "menu": 1,
-          "menuStr": null,
-          "rank": 3,
-          "children": []
-        },
-        {
-          "urResourceId": 150400000,
-          "name": "B端活动审核",
-          "code": "150400000",
-          "url": "",
-          "remark": null,
-          "status": 1,
-          "statusStr": null,
-          "menu": 1,
-          "menuStr": null,
-          "rank": 3,
-          "children": []
-        }
       ]
     },
   ]

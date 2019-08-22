@@ -31,8 +31,8 @@ class CtipActivity extends CommonActivityIndex {
     const { componkey } = this.props;
     const paneitem = {
       title: "C端活动详情",
-      key: `${componkey}levelTwoInfo${record.promotionId}`,
-      componkey: `${componkey}levelTwoInfo`,
+      key: `${componkey}TwoInfo${record.promotionId}`,
+      componkey: `${componkey}TwoInfo`,
       parentKey:componkey,
       data: {
         promotionId:record.promotionId
@@ -47,23 +47,16 @@ class CtipActivity extends CommonActivityIndex {
     const { componkey } = this.props;
     const paneitem = {
       title: "编辑C端活动",
-      key: `${componkey}levelTwoOne${record.promotionId}`,
-      componkey: `${componkey}levelTwoOne`,
+      key: `${componkey}TwoOne${record.promotionId}`,
+      componkey: `${componkey}TwoOne`,
       parentKey:componkey,
       data: {
         parentKey:componkey,
         promotionId:record.promotionId,
+        promotionType:record.promotionType,
       }
     };
-    // const paneitem = {
-    //   title: "编辑C端活动",
-    //   key: `${componkey}levelTwoSecond${record.homepageId}`,
-    //   componkey: `${componkey}levelTwoSecond`,
-    //   parentKey:componkey,
-    //   data: {
-    //     parentKey:componkey,
-    //   }
-    // };
+    console.log(paneitem)
     this.props.dispatch({
       type: "tab/firstAddTab",
       payload: paneitem
@@ -141,8 +134,8 @@ class CtipActivity extends CommonActivityIndex {
     const { componkey } = this.props;
     const paneitem = {
       title: "新建C端活动",
-      key: `${componkey}levelTwoOne`,
-      componkey: `${componkey}levelTwoOne`,
+      key: `${componkey}TwoOne`,
+      componkey: `${componkey}TwoOne`,
       parentKey:componkey,
       data: {
         parentKey:componkey,

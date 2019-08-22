@@ -10,17 +10,14 @@ const Columns = [
     title: "审核ID",
     dataIndex: "approvalNo"
   },
-  {
-    title: "审核名称",
-    dataIndex: "approvalName"
-  },
+ 
   {
     title: "审核状态",
     dataIndex: "statusStr"
   },
   {
     title: "审核人",
-    dataIndex: "approvalUser"
+    dataIndex: "approvalUserStr"
   },
   {
     title: "活动ID",
@@ -29,6 +26,10 @@ const Columns = [
   {
     title: "活动名称",
     dataIndex: "name"
+  }, 
+  {
+    title: "促销类型",
+    dataIndex: "promotionTypeStr"
   },
   {
     title: "活动时间",
@@ -36,7 +37,7 @@ const Columns = [
   },
   {
     title: "活动创建人",
-    dataIndex: "createUser"
+    dataIndex: "createUserStr"
   },
   {
     title: "操作",

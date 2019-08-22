@@ -35,15 +35,12 @@ class DiscountTwo extends Component {
   };
   render() {
     const { dataSource,promotionType } = this.props;
-    dataSource.map(item => {
-      item.key = item.id;
-    });
     const { getFieldDecorator } = this.props.form;
     return (
       <div className="discountTwo">
         <Form>
-          {dataSource.map((item, index) => (
-            <div className="step">
+          {dataSource.length>0&&dataSource.map((item, index) => (
+            <div className="step" key={index}>
               <div>
                 {promotionType == 22 &&
                   <FormItem className="satified_price">
@@ -84,7 +81,7 @@ class DiscountTwo extends Component {
                 }
                 {promotionType == 23 &&
                   <FormItem className="satified_price">
-                    阶梯{index + 1}：<span style={{ color: "red" }}>*</span> 买满　
+                    阶梯{index + 1}：<span style={{ color: "red" }}>*</span> 单笔买满　
                     {getFieldDecorator(`fieldValues[${index}].leastQty`, {
                       initialValue: item.param.leastQty,
                       onChange: e => {
