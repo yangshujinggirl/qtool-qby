@@ -111,38 +111,43 @@ const bearMap={
 }
 const CtipActivityAddOne = Form.create({
   onValuesChange(props, changedFields, allFields) {
-    const { bearers=[],...valFileds } = allFields;
-    if(valFileds.promotionScope == 2 && valFileds.promotionType == '23') {
-      valFileds.pdScope =2;
-      valFileds.pdKind =null;
-    }
-    let ratioList=[];
-    valFileds.bearerActivity&&valFileds.bearerActivity.map((el,index) => {
-      if(el!='C') {
-        let item={}
-        item.bearer = bearMap[el];
-        item.key = index;
-        ratioList.push(item)
-      }
-    });
-    if(bearers.length>0) {
-      ratioList = ratioList.map((el) => {
-        bearers.map((item) => {
-          if(el.bearer == item.bearer) {
-            el = {...el, ...item};
-          }
-        })
-        return el;
-      })
-    }
-    props.dispatch({
-      type:'ctipActivityAddOne/getActivityInfo',
-      payload:valFileds
-    })
-    props.dispatch({
-      type:'ctipActivityAddOne/getRatioList',
-      payload:ratioList
-    })
+    // const { bearers=[],...valFileds } = allFields;
+    // let currentKey = Object.keys(changedFields)[0];
+    // if(currentKey == 'bearers') {
+    //     console.log(changedFields);
+    // }
+    // if(valFileds.promotionScope == 2 && valFileds.promotionType == '23') {
+    //   valFileds.pdScope =2;
+    //   valFileds.pdKind =null;
+    // }
+    // // let { ratioList }=props;
+    // // valFileds.bearerActivity&&valFileds.bearerActivity.map((el,index) => {
+    // //   if(el!='C') {
+    // //     let item={}
+    // //     item.bearer = bearMap[el];
+    // //     item.bearerType = el;
+    // //     item.key = index;
+    // //     ratioList.push(item)
+    // //   }
+    // // });
+    // // if(bearers.length>0) {
+    // //   ratioList = ratioList.map((el) => {
+    // //     bearers.map((item) => {
+    // //       if(el.bearer == item.bearer) {
+    // //         el = {...el, ...item};
+    // //       }
+    // //     })
+    // //     return el;
+    // //   })
+    // // }
+    // props.dispatch({
+    //   type:'ctipActivityAddOne/getActivityInfo',
+    //   payload:valFileds
+    // })
+    // props.dispatch({
+    //   type:'ctipActivityAddOne/getRatioList',
+    //   payload:ratioList
+    // })
   },
   // mapPropsToFields(props) {
   //   console.log(props)

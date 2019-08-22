@@ -41,6 +41,14 @@ export function getSaveActivApi(values) {
   })
 }
 //c端活动信息查询
+export function getSuppliApi(values) {
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.pd.supplier.query',
+      data:values
+  })
+}
+//c端活动信息查询
 export function getBaseInfoApi(values) {
   values = JSON.stringify(values)
   return ajax.post('/webrest.htm',{

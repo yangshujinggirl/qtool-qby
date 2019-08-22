@@ -15,6 +15,7 @@ export default {
       isWarmUp:0
     },
     ratioList:[],
+    tagsList:[]
   },
   reducers: {
     resetData(state) {
@@ -32,6 +33,13 @@ export default {
     getRatioList(state, { payload:ratioList }) {
       ratioList = [...ratioList];
       return { ...state,ratioList };
+    },
+    getTagList(state, { payload:tagsList }) {
+      tagsList = [...tagsList];
+      let ratioList = state.ratioList;
+      let fixedList = ratioList.filter(el => el.bearerType!=='C');
+      ratioList=[...fixedList,...tagsList];
+      return { ...state,tagsList, ratioList };
     },
   },
   effects: {

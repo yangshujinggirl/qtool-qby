@@ -1,7 +1,7 @@
 import { Input, Form, Select, Button, DatePicker } from 'antd';
 const FormItem = Form.Item;
 
-const columnsCreat =(form,validator)=>{
+const columnsCreat =(form,validator,dataSource)=>{
   return [{
       title: '活动预算',
       dataIndex: 'budget',
@@ -25,7 +25,7 @@ const columnsCreat =(form,validator)=>{
           props: {},
         };
         if (index === 0) {
-          obj.props.rowSpan = 2;
+          obj.props.rowSpan = dataSource.length;
         } else {
           obj.props.rowSpan = 0;
         }
