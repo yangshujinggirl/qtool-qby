@@ -28,12 +28,11 @@ class UpLoadImg extends Component {
   }
   checkSize=(file)=> {
     let isSize = new Promise((resolve, reject) => {
-        let width = this.props.width;
-        let height = this.props.height;
+        let percent = this.props.percent;
         let _URL = window.URL || window.webkitURL;
         let img = new Image();
         img.onload = function() {
-          let valid = img.width == width && img.height == height;
+          let valid = img.width/img.height == percent;
           valid ? resolve(true) : reject(`图片尺寸为${width}*${height}px，大小不符合要求，请修改后重新上传！`);
         };
         img.src = _URL.createObjectURL(file);
@@ -85,6 +84,7 @@ class UpLoadImg extends Component {
      let { fileList,name, formItemLayout, label, rules } = this.props;
      let fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
      let fileListArr = (fileList&&fileList!=''&&(typeof fileList == 'string'))?[`${fileList}`]:[];
+
      return(
        <div>
          <FormItem label={label} {...formItemLayout}>

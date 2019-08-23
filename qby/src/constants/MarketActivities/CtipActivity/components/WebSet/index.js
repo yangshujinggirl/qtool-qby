@@ -19,6 +19,7 @@ class WebSet extends Component {
   render() {
     const { activityInfo } =this.props;
     const { getFieldDecorator } = this.props.form;
+    console.log(activityInfo)
     return(
       <div>
         <p className="info-title">前端展示</p>
@@ -62,8 +63,7 @@ class WebSet extends Component {
                 formItemLayout={formItemLayout}
                 name="pdDetailBannerPic"
                 label="配置商品详情页横幅条背景图"
-                width={400}
-                height={200}
+                percent={1}
                 fileList={activityInfo.pdDetailBannerPic}
                 form={this.props.form}/>
             }
@@ -72,8 +72,7 @@ class WebSet extends Component {
               formItemLayout={formItemLayout}
               name="logoPic"
               label="配置活动主题logo图"
-              width={400}
-              height={200}
+              percent={1}
               fileList={activityInfo.logoPic}
               form={this.props.form}/>
           </div>

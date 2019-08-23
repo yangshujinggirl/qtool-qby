@@ -12,9 +12,9 @@ export default {
   state: {
     activityInfo:{
       promotionScope:1,
-      isWarmUp:0
+      isWarmUp:0,
     },
-    ratioList:[],
+    ratioList:[{key:0}],
     tagsList:[]
   },
   reducers: {
@@ -31,15 +31,8 @@ export default {
       return { ...state,activityInfo };
     },
     getRatioList(state, { payload:ratioList }) {
-      ratioList = [...ratioList];
-      return { ...state,ratioList };
-    },
-    getTagList(state, { payload:tagsList }) {
-      tagsList = [...tagsList];
-      let ratioList = state.ratioList;
-      let fixedList = ratioList.filter(el => el.bearerType!=='C');
-      ratioList=[...fixedList,...tagsList];
-      return { ...state,tagsList, ratioList };
+      let tagsList = ratioList.filter(el => el.bearerType=='C');
+      return { ...state,ratioList, tagsList };
     },
   },
   effects: {

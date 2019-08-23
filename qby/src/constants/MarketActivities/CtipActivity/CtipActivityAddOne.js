@@ -25,29 +25,42 @@ class CtipActivityAddOneF extends Component {
     }
   }
   handleSubmit= e => {
-    this.jump()
-    // e.preventDefault();
-    // this.props.form.validateFields((err, values) => {
-    //   values = this.formatParams(values);
-    //   console.log(values);
-    //   if (!err) {
-    //     values = this.formatParams(values);
-    //     this.successCallback()
-    //   }
-    // });
+    // this.jump()
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      values = this.formatParams(values);
+      console.log(values);
+      if (!err) {
+        values = this.formatParams(values);
+        getSaveActivApi(values)
+        .then((res)=> {
+          this.successCallback()
+        })
+      }
+    });
   };
   formatParams=(values)=> {
-    let { time ,...paramsVal} =values;
-    const { activityInfo, ratioList } =this.props;
-
+    let { time, warmUpBeginTime, bearerActivity, autoComplete, ...paramsVal} =values;
+    const { activityInfo, ratioList, data } =this.props;
     if(time&&time.length>0) {
       paramsVal.beginTime = moment(time[0]).format('YYYY-MM-DD HH:mm:ss');
       paramsVal.endTime = moment(time[1]).format('YYYY-MM-DD HH:mm:ss');
     }
+    if(warmUpBeginTime) {
+      paramsVal.warmUpBeginTime = moment(warmUpBeginTime).format('YYYY-MM-DD HH:mm:ss');
+    }
     if(paramsVal.bearers&&paramsVal.bearers.length>0) {
       paramsVal.bearers = paramsVal.bearers.filter(x => true);
-      // paramsVal.bearers = paramsVal.bearers.filter((el) => el.budget == true);
+      if(paramsVal.bearers[0].budget) {
+        paramsVal.budget = paramsVal.bearers[0].budget;
+      }
     }
+    if(data.promotionId) {
+      paramsVal.promotionId = data.promotionId;
+    }
+    paramsVal.paltformType = 'C';
+    paramsVal.pdDetailBannerPic = activityInfo.pdDetailBannerPic;
+    paramsVal.logoPic = activityInfo.logoPic;
     return paramsVal;
   }
   jump=()=>{
@@ -112,50 +125,41 @@ const bearMap={
 }
 const CtipActivityAddOne = Form.create({
   onValuesChange(props, changedFields, allFields) {
-    // const { bearers=[],...valFileds } = allFields;
-    // let currentKey = Object.keys(changedFields)[0];
-    // if(currentKey == 'bearers') {
-    //     console.log(changedFields);
-    // }
-    // if(valFileds.promotionScope == 2 && valFileds.promotionType == '23') {
-    //   valFileds.pdScope =2;
-    //   valFileds.pdKind =null;
-    // }
-    // // let { ratioList }=props;
-    // // valFileds.bearerActivity&&valFileds.bearerActivity.map((el,index) => {
-    // //   if(el!='C') {
-    // //     let item={}
-    // //     item.bearer = bearMap[el];
-    // //     item.bearerType = el;
-    // //     item.key = index;
-    // //     ratioList.push(item)
-    // //   }
-    // // });
-    // // if(bearers.length>0) {
-    // //   ratioList = ratioList.map((el) => {
-    // //     bearers.map((item) => {
-    // //       if(el.bearer == item.bearer) {
-    // //         el = {...el, ...item};
-    // //       }
-    // //     })
-    // //     return el;
-    // //   })
-    // // }
-    // props.dispatch({
-    //   type:'ctipActivityAddOne/getActivityInfo',
-    //   payload:valFileds
-    // })
-    // props.dispatch({
-    //   type:'ctipActivityAddOne/getRatioList',
-    //   payload:ratioList
-    // })
+    const { bearers=[], pdDetailBannerPic, logoPic, ...valFileds } = allFields;
+    let currentKey = Object.keys(changedFields)[0];
+    let { ratioList } =props;
+    if(currentKey == 'bearers') {
+      bearers.map((el) => {
+        ratioList.map((prev) =>{
+          if(el.bearer == prev.bearer) {
+            el.key = prev.key
+          }
+        })
+      })
+      props.dispatch({
+        type:'ctipActivityAddOne/getRatioList',
+        payload:bearers
+      })
+    }
+    if(pdDetailBannerPic) {
+      if(pdDetailBannerPic.status == 'done') {
+        if(pdDetailBannerPic.response.code == '0') {
+          valFileds.pdDetailBannerPic = pdDetailBannerPic.response.data[0];
+        }
+      }
+    }
+    if(logoPic) {
+      if(logoPic.status == 'done') {
+        if(logoPic.response.code == '0') {
+          valFileds.logoPic = logoPic.response.data[0];
+        }
+      }
+    }
+    props.dispatch({
+      type:'ctipActivityAddOne/getActivityInfo',
+      payload:valFileds
+    })
   },
-  // mapPropsToFields(props) {
-  //   console.log(props)
-  //   return {
-  //     bearers: Form.createFormField(props.ratioList),
-  //   };
-  // }
 })(CtipActivityAddOneF);
 function mapStateToProps(state) {
   const { ctipActivityAddOne } = state;

@@ -81,4 +81,11 @@ export function saveGoodsetApi(values) {
       data:values
   })
 }
-
+//商品设置页面的保存
+export function getLogApi(values) {
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.promotion.journal',
+      data:values
+  })
+}

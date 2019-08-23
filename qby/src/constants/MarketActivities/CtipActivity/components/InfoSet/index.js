@@ -28,43 +28,6 @@ class InfoSet extends Component {
       supplierList:[],
     }
   }
-  handleSearch=(value)=> {
-    getSuppliApi({name:value})
-    .then((res) => {
-      const { suppliers } =res;
-      if(res.code == '0') {
-        this.setState({ supplierList:suppliers });
-      }
-    })
-  }
-  onSelect=(value, option)=> {
-    let { tagsList } =this.props;
-    let idx = tagsList.findIndex(el => el.key == value);
-    if(idx =='-1') {
-      tagsList.push({
-        key:value,
-        bearerType:'C',
-        bearer:option.props.children
-      });
-      this.props.dispatch({
-        type:'ctipActivityAddOne/getTagList',
-        payload:tagsList
-      })
-    }
-    console.log('onSelect',tagsList)
-  }
-  handleClose=(removedTag)=> {
-    let { tagsList } =this.props;
-    const { bearers } =this.props.form.getFieldsValue(['bearers']);
-    let dd = bearers.filter(tag => tag.bearer !== removedTag.bearer);
-    console.log(dd)
-    let tags = tagsList.filter(tag => tag.key !== removedTag.key);
-    this.props.dispatch({
-      type:'ctipActivityAddOne/getTagList',
-      payload:tags
-    })
-    this.props.form.setFieldsValue({ bearers:dd })
-  }
   //分成校验
   validatorRatio=(rule, value, callback)=> {
     const ss = [{proportion:50}];
@@ -78,13 +41,49 @@ class InfoSet extends Component {
       callback();
     }
   }
-  changePurpose=(value)=>{
-    let { activityInfo } =this.props;
-    activityInfo={...activityInfo, purposeTypes: value };
-    this.props.dispatch({
-      type:'ctipActivityAddOne/getActivityInfo',
-      payload:activityInfo
+  handleSearch=(value)=> {
+    getSuppliApi({name:value})
+    .then((res) => {
+      const { suppliers } =res;
+      if(res.code == '0') {
+        this.setState({ supplierList:suppliers });
+      }
     })
+  }
+  onSelect=(value, option)=> {
+    let { ratioList } =this.props;
+    let idx = ratioList.findIndex(el => el.key == value);
+    if(idx =='-1') {
+      ratioList.push({
+        key:value,
+        bearerType:'C',
+        bearer:option.props.children
+      });
+      this.props.dispatch({
+        type:'ctipActivityAddOne/getRatioList',
+        payload:ratioList
+      })
+    }
+    console.log('onSelect',ratioList)
+  }
+  handleClose=(removedTag)=> {
+    let { ratioList } =this.props;
+    const { bearers } =this.props.form.getFieldsValue(['bearers']);
+    let dd = bearers.filter(tag => tag.bearer !== removedTag.bearer);
+    let tags = ratioList.filter(tag => tag.key !== removedTag.key);
+    this.props.dispatch({
+      type:'ctipActivityAddOne/getRatioList',
+      payload:tags
+    })
+    this.props.form.setFieldsValue({ bearers:dd })
+  }
+  changePurpose=(value)=>{
+    // let { activityInfo } =this.props;
+    // activityInfo={...activityInfo, purposeTypes: value };
+    // this.props.dispatch({
+    //   type:'ctipActivityAddOne/getActivityInfo',
+    //   payload:activityInfo
+    // })
   }
   changeRange=(value)=>{
     this.props.form.resetFields(['logoBg'])
@@ -93,8 +92,9 @@ class InfoSet extends Component {
     this.props.form.resetFields(['pdScope','pdKind'])
   }
   changeBearActi=(value)=>{
-    let { activityInfo, tagsList } =this.props;
+    let { activityInfo, ratioList } =this.props;
     let newArr=[];
+    let tagsList = ratioList.filter(el => el.bearerType=='C');
     const bearMap={
       'A':'Qtools',
       'B':'门店',
@@ -110,23 +110,15 @@ class InfoSet extends Component {
         newArr.push(item)
       }
      });
-    let ratioList=[...newArr,...tagsList];
+     if(isIdx=='-1') {
+       tagsList = [];
+     }
+    ratioList=[...newArr,...tagsList];
     activityInfo={...activityInfo, bearerActivity: value };
-    this.props.dispatch({
-      type:'ctipActivityAddOne/getActivityInfo',
-      payload:activityInfo
-    })
     this.props.dispatch({
       type:'ctipActivityAddOne/getRatioList',
       payload:ratioList
     })
-    if(isIdx=='-1') {
-      this.props.dispatch({
-        type:'ctipActivityAddOne/getTagList',
-        payload:[]
-      })
-    }
-    this.props.form.resetFields(['bearers'])
   }
   render() {
     const { activityInfo, ratioList, tagsList } =this.props;
@@ -137,6 +129,7 @@ class InfoSet extends Component {
     let providerIndex = activityInfo.bearerActivity&&activityInfo.bearerActivity.findIndex((el)=>el == 'C');
     let rangeOption = activityInfo.promotionScope==1?singleOption:prefectureOption;
     let linkAgeOption = activityInfo.promotionScope==1?prefectureOption:singleOption;
+    console.log(ratioList)
     return(
       <div>
         <p className="info-title">活动信息</p>
@@ -244,7 +237,7 @@ class InfoSet extends Component {
                {
                  getFieldDecorator('bearerActivity', {
                    rules: [{ required: true, message: '请选择活动成本承担方'}],
-                   initialValue:activityInfo.bearer,
+                   initialValue:activityInfo.bearerActivity,
                    onChange:this.changeBearActi
                  })(
                    <Checkbox.Group style={{ width: '100%' }}>
@@ -260,7 +253,6 @@ class InfoSet extends Component {
               <FormItem className="autoComplete-formItem">
                  {
                    getFieldDecorator('autoComplete', {
-                     rules: [{ required: true, message: '请输入商品名称'}],
                      initialValue:activityInfo.name
                    })(
                     <AutoComplete
