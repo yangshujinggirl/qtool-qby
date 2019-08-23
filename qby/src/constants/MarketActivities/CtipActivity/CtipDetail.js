@@ -5,7 +5,7 @@ import DetailDiscount from './components/DetailDiscount';
 import DetailLog from './components/DetailLog';
 import DetailGoods from './components/DetailGoods';
 import DetailWebShow from './components/DetailWebShow';
-import { getBaseInfoApi, getDiscountInfoApi } from '../../../services/marketActivities/ctipActivity';
+import { getBaseInfoApi, getDiscountInfoApi, getLogApi } from '../../../services/marketActivities/ctipActivity';
 
 const formItemLayout = {
      labelCol: 3,
@@ -68,7 +68,8 @@ class CtipDetail extends Component {
         //   },
         // }],
         promotionProducts:[]
-      }
+      },
+      logList:[]
     }
   }
   componentDidMount() {
@@ -83,13 +84,17 @@ class CtipDetail extends Component {
     .then((res) => {
       console.log(res)
     })
+    getLogApi({promotionId})
+    .then((res) => {
+      console.log(res)
+    })
   }
   exportData=()=> {
     console.log('导出数据')
   }
   render() {
     const { data } =this.props;
-    const { baseInfo, goodsInfo } =this.state;
+    const { baseInfo, goodsInfo, logList } =this.state;
     return(
       <div>
         <Collapse accordion defaultActiveKey={['1']}>
@@ -109,7 +114,7 @@ class CtipDetail extends Component {
             <DetailGoods  {...formItemLayout} info={goodsInfo} exportData={this.exportData}/>
           </Panel>
           <Panel header="日志" key="5">
-            <DetailLog  {...formItemLayout} promotionId={data.promotionId}/>
+            <DetailLog  {...formItemLayout} promotionId={data.promotionId} list={logList}/>
           </Panel>
         </Collapse>
       </div>

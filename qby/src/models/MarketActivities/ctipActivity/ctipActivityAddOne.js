@@ -12,9 +12,10 @@ export default {
   state: {
     activityInfo:{
       promotionScope:1,
-      isWarmUp:0
+      isWarmUp:0,
     },
     ratioList:[],
+    tagsList:[]
   },
   reducers: {
     resetData(state) {
@@ -30,13 +31,12 @@ export default {
       return { ...state,activityInfo };
     },
     getRatioList(state, { payload:ratioList }) {
-      ratioList = [...ratioList];
-      return { ...state,ratioList };
+      let tagsList = ratioList.filter(el => el.bearerType=='C');
+      return { ...state,ratioList, tagsList };
     },
   },
   effects: {
     *fetchInfo({ payload: values },{ call, put ,select}) {
-      yield put({ type: 'resetData',payload:{} });
       let { position, homepageModuleId } =values;
       yield put({type: 'tab/loding',payload:true});
       const res = yield call(getBaseInfoApi,values);

@@ -2,11 +2,11 @@ import React , { Component } from 'react';
 import { connect } from "dva";
 import moment from 'moment';
 import NP from 'number-precision';
-import { Button, Form, Input, DatePicker, Radio, Checkbox, AutoComplete, Table} from 'antd';
+import { Tag, Button, Form, Input, DatePicker, Radio, Checkbox, AutoComplete, Table} from 'antd';
 import { disabledDate, disabledDateTimeRange } from '../dateSet.js';
 import { columnsCreat } from '../../columns';
 import { pdScopeOption,singleOption,prefectureOption, purposeTypesOption, levelOption } from '../optionMap.js';
-
+import { getSuppliApi } from '../../../../../services/marketActivities/ctipActivity.js';
 const { RangePicker } = DatePicker;
 const FormItem = Form.Item;
 const format ="YYYY-MM-DD HH:mm:ss";
@@ -22,8 +22,11 @@ const formItemLayout = {
 
 
 class InfoSet extends Component {
-  handleSearch=(value)=> {
-    console.log(value)
+  constructor(props) {
+    super(props);
+    this.state ={
+      supplierList:[],
+    }
   }
   //分成校验
   validatorRatio=(rule, value, callback)=> {
@@ -38,20 +41,89 @@ class InfoSet extends Component {
       callback();
     }
   }
+  handleSearch=(value)=> {
+    getSuppliApi({name:value})
+    .then((res) => {
+      const { suppliers } =res;
+      if(res.code == '0') {
+        this.setState({ supplierList:suppliers });
+      }
+    })
+  }
+  onSelect=(value, option)=> {
+    let { ratioList } =this.props;
+    let idx = ratioList.findIndex(el => el.key == value);
+    if(idx =='-1') {
+      ratioList.push({
+        key:value,
+        bearerType:'C',
+        bearer:option.props.children
+      });
+      this.props.dispatch({
+        type:'ctipActivityAddOne/getRatioList',
+        payload:ratioList
+      })
+    }
+    console.log('onSelect',ratioList)
+  }
+  handleClose=(removedTag)=> {
+    let { ratioList } =this.props;
+    const { bearers } =this.props.form.getFieldsValue(['bearers']);
+    let dd = bearers.filter(tag => tag.bearer !== removedTag.bearer);
+    let tags = ratioList.filter(tag => tag.key !== removedTag.key);
+    this.props.dispatch({
+      type:'ctipActivityAddOne/getRatioList',
+      payload:tags
+    })
+    this.props.form.setFieldsValue({ bearers:dd })
+  }
+  changePurpose=(value)=>{
+    // let { activityInfo } =this.props;
+    // activityInfo={...activityInfo, purposeTypes: value };
+    // this.props.dispatch({
+    //   type:'ctipActivityAddOne/getActivityInfo',
+    //   payload:activityInfo
+    // })
+  }
   changeRange=(value)=>{
     this.props.form.resetFields(['logoBg'])
   }
   changePromotion=(e)=>{
     this.props.form.resetFields(['pdScope','pdKind'])
   }
-  changeBearActi=(e)=>{
-    // console.log('bearers')
-    // this.props.form.resetFields(['bearers'])
+  changeBearActi=(value)=>{
+    let { ratioList } =this.props;
+    let newArr=[];
+    let tagsList = ratioList.filter(el => el.bearerType=='C');
+    const bearMap={
+      'A':'Qtools',
+      'B':'门店',
+      'C':'供应商',
+    }
+    let isIdx = value.findIndex((el) =>el=='C');
+    value&&value.map((el,index) => {
+      if(el!='C') {
+        let item={}
+        item.bearer = bearMap[el];
+        item.bearerType = el;
+        item.key = index;
+        newArr.push(item)
+      }
+     });
+     if(isIdx=='-1') {
+       tagsList = [];
+     }
+    ratioList=[...newArr,...tagsList];
+    this.props.dispatch({
+      type:'ctipActivityAddOne/getRatioList',
+      payload:ratioList
+    })
   }
   render() {
-    const { activityInfo, ratioList } =this.props;
+    const { activityInfo, ratioList, tagsList } =this.props;
+    const { supplierList } =this.state;
     const { getFieldDecorator } = this.props.form;
-    let blColumns = columnsCreat(this.props.form,this.validatorRatio);
+    let blColumns = columnsCreat(this.props.form,this.validatorRatio,ratioList);
     let otherIndex = activityInfo.purposeTypes&&activityInfo.purposeTypes.findIndex((el)=>el == '5');
     let providerIndex = activityInfo.bearerActivity&&activityInfo.bearerActivity.findIndex((el)=>el == 'C');
     let rangeOption = activityInfo.promotionScope==1?singleOption:prefectureOption;
@@ -104,7 +176,8 @@ class InfoSet extends Component {
          {
            getFieldDecorator('purposeTypes', {
              rules: [{ required: true, message: '请选择活动目的'}],
-             initialValue:activityInfo.purposeTypes
+             initialValue:activityInfo.purposeTypes,
+             onChange:this.changePurpose
            })(
              <Checkbox.Group style={{ width: '100%' }}>
                {
@@ -162,7 +235,7 @@ class InfoSet extends Component {
                {
                  getFieldDecorator('bearerActivity', {
                    rules: [{ required: true, message: '请选择活动成本承担方'}],
-                   initialValue:activityInfo.bearer,
+                   initialValue:activityInfo.bearerActivity,
                    onChange:this.changeBearActi
                  })(
                    <Checkbox.Group style={{ width: '100%' }}>
@@ -175,23 +248,45 @@ class InfoSet extends Component {
              </FormItem>
           {
             providerIndex!=undefined&&providerIndex!='-1'&&
-              <FormItem {...formItemLayout} className="autoComplete-formItem">
+              <FormItem className="autoComplete-formItem">
                  {
                    getFieldDecorator('autoComplete', {
-                     rules: [{ required: true, message: '请输入商品名称'}],
                      initialValue:activityInfo.name
                    })(
                     <AutoComplete
-                      dataSource={[]}
+                      dataSource={supplierList}
                       onSelect={this.onSelect}
-                      onSearch={this.handleSearch}/>
+                      onSearch={this.handleSearch}>
+                      {
+                        supplierList.map(el =>
+                          <AutoComplete.Option key={el.pdSupplierId}>{el.name}</AutoComplete.Option>
+                        )
+                      }
+                    </AutoComplete>
                    )
                  }
                </FormItem>
           }
         </div>
+        <div className="supplier-tags-wrap">
+          {
+            tagsList.map((el)=> (
+              <Tag
+                closable
+                key={el.key}
+                onClose={()=>this.handleClose(el)}>
+                {el.bearer}
+              </Tag>
+            ))
+          }
+        </div>
         <FormItem label='活动成本分摊比例' {...formItemLayout}>
           <Table
+            onRow={record => {
+              return {
+                "data-row-key":record.key,
+              };
+            }}
             className="bl-table-wrap"
             bordered
             pagination={false}

@@ -3,51 +3,30 @@ import { Row, Col, Table, Button } from 'antd';
 const columns = [
   {
     title: '操作类型',
-    dataIndex: 'name',
+    dataIndex: 'operateTypeStr',
   },
   {
     title: '操作描述',
-    className: 'column-money',
-    dataIndex: 'money',
+    dataIndex: 'operateContent',
   },
   {
     title: '操作时间',
-    dataIndex: 'address',
+    dataIndex: 'operateTime',
   },
   {
     title: '操作人',
-    dataIndex: 'address',
-  },
-];
-
-const data = [
-  {
-    key: '1',
-    name: 'John Brown',
-    money: '￥300,000.00',
-    address: 'New York No. 1 Lake Park',
-  },
-  {
-    key: '2',
-    name: 'Jim Green',
-    money: '￥1,256,000.00',
-    address: 'London No. 1 Lake Park',
-  },
-  {
-    key: '3',
-    name: 'Joe Black',
-    money: '￥120,000.00',
-    address: 'Sidney No. 1 Lake Park',
+    dataIndex: 'operateUser',
   },
 ];
 
 function DetailLog({...props}) {
+  const { list } =props;
   return <div className="detail-mode-wrap">
           <Table
             bordered
             pagination={false}
             columns={columns}
-            dataSource={data}/>
+            dataSource={list}/>
          </div>
 }
 export default DetailLog;

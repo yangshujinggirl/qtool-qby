@@ -41,6 +41,14 @@ export function getSaveActivApi(values) {
   })
 }
 //c端活动信息查询
+export function getSuppliApi(values) {
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.pd.supplier.query',
+      data:values
+  })
+}
+//c端活动信息查询
 export function getBaseInfoApi(values) {
   values = JSON.stringify(values)
   return ajax.post('/webrest.htm',{
@@ -73,4 +81,11 @@ export function saveGoodsetApi(values) {
       data:values
   })
 }
-
+//商品设置页面的保存
+export function getLogApi(values) {
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.promotion.journal',
+      data:values
+  })
+}
