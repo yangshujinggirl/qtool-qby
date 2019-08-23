@@ -4,9 +4,13 @@ export default {
   state: {
     promotionType:'',
     dataSource:[],
-    goodLists:[]
+    goodLists:[],
+    promotionRules:[],//单行满件赠的规则
   },
   reducers: {
+    refreshSingleRules(state,{payload:{promotionRules}}){
+      return {...state,promotionRules}
+    },
     resetData(state){
       return {...state,promotionType:'',dataSource:[],goodLists:[]}
     },
@@ -121,8 +125,8 @@ export default {
               silverCardPrice: 10,
               shareRatio:'90',
               promotionRules: [
-                {param: { leastQty: 3, reduceQty: 1,leastAmount:100, reduceAmount: 20}},
-                {param: { leastQty: 6, reduceQty: 100,leastAmount: 200, reduceAmount: 50 }}
+                {param: { leastQty: '', reduceQty: 1,giftQty:'',leastAmount:100, reduceAmount: 20}},
+                {param: { leastQty: '', reduceQty: 100,giftQty:'',leastAmount: 200, reduceAmount: 50 }}
               ]
             }
           ]

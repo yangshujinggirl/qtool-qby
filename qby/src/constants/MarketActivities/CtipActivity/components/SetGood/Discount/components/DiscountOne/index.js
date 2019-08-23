@@ -259,11 +259,20 @@ class DiscountOne extends Component {
                               { required: true, message: "请填写优惠内容" },
                               {
                                 validator: (rule, value, callback) => {
-                                  if (index > 0 &&value &&value <=dataSource[index - 1].param.leastAmount) {
-                                    callback("此阶梯优惠门槛需大于上一阶梯的优惠门槛");
-                                  };
-                                  if (value > 99999) {
-                                    callback("不可超过99999");
+                                  if(+value){
+                                    if(dataSource[index - 1]&&dataSource[index - 1].param.leastAmount){
+                                      if(value <=dataSource[index - 1].param.leastAmount){
+                                        callback("此阶梯优惠门槛需大于上一阶梯的优惠门槛");
+                                      };
+                                    };
+                                    if(dataSource[index + 1]&&dataSource[index + 1].param.leastAmount){
+                                      if(value >= dataSource[index + 1].param.leastAmount){
+                                        callback("此阶梯优惠门槛需小于下一阶梯的优惠门槛");
+                                      };
+                                    }
+                                    if (value > 99999) {
+                                      callback("不可超过99999");
+                                    };
                                   };
                                   callback();
                                 },
