@@ -92,7 +92,7 @@ class InfoSet extends Component {
     this.props.form.resetFields(['pdScope','pdKind'])
   }
   changeBearActi=(value)=>{
-    let { activityInfo, ratioList } =this.props;
+    let { ratioList } =this.props;
     let newArr=[];
     let tagsList = ratioList.filter(el => el.bearerType=='C');
     const bearMap={
@@ -114,7 +114,6 @@ class InfoSet extends Component {
        tagsList = [];
      }
     ratioList=[...newArr,...tagsList];
-    activityInfo={...activityInfo, bearerActivity: value };
     this.props.dispatch({
       type:'ctipActivityAddOne/getRatioList',
       payload:ratioList
@@ -129,7 +128,6 @@ class InfoSet extends Component {
     let providerIndex = activityInfo.bearerActivity&&activityInfo.bearerActivity.findIndex((el)=>el == 'C');
     let rangeOption = activityInfo.promotionScope==1?singleOption:prefectureOption;
     let linkAgeOption = activityInfo.promotionScope==1?prefectureOption:singleOption;
-    console.log(ratioList)
     return(
       <div>
         <p className="info-title">活动信息</p>

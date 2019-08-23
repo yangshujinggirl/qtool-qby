@@ -17,6 +17,10 @@ class CtipActivityAddOneF extends Component {
   }
   initPage() {
     const { data } = this.props;
+    this.props.dispatch({
+      type:'ctipActivityAddOne/resetData',
+      payload:{}
+    })
     if(data.promotionId) {
       this.props.dispatch({
         type:'ctipActivityAddOne/fetchInfo',

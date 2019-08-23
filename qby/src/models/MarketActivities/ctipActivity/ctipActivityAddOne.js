@@ -14,7 +14,7 @@ export default {
       promotionScope:1,
       isWarmUp:0,
     },
-    ratioList:[{key:0}],
+    ratioList:[],
     tagsList:[]
   },
   reducers: {
@@ -37,7 +37,6 @@ export default {
   },
   effects: {
     *fetchInfo({ payload: values },{ call, put ,select}) {
-      yield put({ type: 'resetData',payload:{} });
       let { position, homepageModuleId } =values;
       yield put({type: 'tab/loding',payload:true});
       const res = yield call(getBaseInfoApi,values);
