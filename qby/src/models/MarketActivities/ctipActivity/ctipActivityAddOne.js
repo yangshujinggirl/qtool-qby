@@ -11,7 +11,6 @@ export default {
   namespace:'ctipActivityAddOne',
   state: {
     activityInfo:{
-      promotionScope:1,
       isWarmUp:0,
     },
     ratioList:[],
@@ -20,7 +19,6 @@ export default {
   reducers: {
     resetData(state) {
       const activityInfo={
-        promotionScope:1,
         isWarmUp:0
       };
       return {
