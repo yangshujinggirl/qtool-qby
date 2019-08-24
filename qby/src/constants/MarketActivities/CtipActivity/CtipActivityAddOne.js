@@ -129,21 +129,26 @@ const bearMap={
 }
 const CtipActivityAddOne = Form.create({
   onValuesChange(props, changedFields, allFields) {
-    const { bearers=[], pdDetailBannerPic, logoPic, ...valFileds } = allFields;
+    let { bearers=[], pdDetailBannerPic, logoPic, ...valFileds } = allFields;
     let currentKey = Object.keys(changedFields)[0];
     let { ratioList } =props;
     if(currentKey == 'bearers') {
-      bearers.map((el) => {
-        ratioList.map((prev) =>{
+      ratioList =ratioList.map((el) => {
+        bearers.map((prev) =>{
           if(el.bearer == prev.bearer) {
-            el.key = prev.key
+            el = {...el,...prev};
           }
         })
+        return el;
       })
       props.dispatch({
         type:'ctipActivityAddOne/getRatioList',
-        payload:bearers
+        payload:ratioList
       })
+    }
+    if(valFileds.promotionScope==2&&valFileds.promotionType==23) {
+      valFileds.pdScope=2;
+      valFileds.pdKind=null;
     }
     if(pdDetailBannerPic) {
       if(pdDetailBannerPic.status == 'done') {
