@@ -169,7 +169,7 @@ function getColumns(type, edit, delt) {
               record.promotionRules.length > 0 &&
               record.promotionRules.map((item, index) => (
                 <p key={index} style={{ "margin-bottom": "5px" }}>
-                  满{item.param.leastQty}件，送{item.param.reduceQty}件
+                  满{item.param.leastQty}件，送{item.param.giftQty}件
                 </p>
               ))}
           </div>

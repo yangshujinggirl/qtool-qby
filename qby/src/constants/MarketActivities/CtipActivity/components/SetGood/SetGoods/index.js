@@ -17,12 +17,18 @@ class index extends Component {
         perOrderLimit: "",
         perDayLimit: "",
         perUserLimit: "",
-        sellPrice: ""
+        sellPrice: "",
       }
     };
   }
   //编辑
   edit = (index, record) => {
+    if(this.props.promotionType == 11){
+      this.props.dispatch({
+        type: "ctipActivityAddTwo/refreshSingleRules",
+        payload: { promotionRules:record.promotionRules }
+      });
+    };
     this.setState({
       visible: true,
       currentIndex: index,

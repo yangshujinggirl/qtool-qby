@@ -6,6 +6,7 @@ import DetailLog from "../../CtipActivity/components/DetailLog";
 import DetailGoods from "../../CtipActivity/components/DetailGoods";
 import DetailWebShow from "../../CtipActivity/components/DetailWebShow";
 import DetailAudit from "../components/Audit";
+import { auditLogApi } from "../../../../services/marketActivities/cAudit";
 import {
   getBaseInfoApi,
   getDiscountInfoApi
@@ -21,6 +22,7 @@ class CtipDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      auditLogs:[],
       baseInfo: {},
       goodsInfo: {
         promotionType: 20, //10.单品直降 11.单品多级满赠 20.专区多级满元赠 21.专区多级满件赠 22专区多级满元减 23.专区满件减免
@@ -56,28 +58,6 @@ class CtipDetail extends Component {
             ]
           }
         ],
-        // promotionRules:[{
-        //   params:{
-        //     leastQty:10,//22
-        //     reduceQty:12,
-        //   },
-        // },{
-        //   params:{
-        //     leastQty:20,
-        //     reduceQty:22,
-        //   },
-        // }],
-        // promotionRules:[{//23
-        //   params:{
-        //     leastAmount:10,
-        //     reduceAmount:12,
-        //   },
-        // },{
-        //   params:{
-        //     leastAmount:20,
-        //     reduceAmount:22,
-        //   },
-        // }],
         promotionProducts: []
       }
     };
@@ -91,6 +71,13 @@ class CtipDetail extends Component {
     });
     getDiscountInfoApi({ promotionId }).then(res => {
       console.log(res);
+    });
+    auditLogApi({ approvalId }).then(res => {
+      if(res.code == '0'){
+        this.setState({
+          auditLogs:res.list
+        });
+      }
     });
   }
   exportData = () => {};

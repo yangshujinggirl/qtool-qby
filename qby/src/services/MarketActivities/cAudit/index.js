@@ -24,3 +24,11 @@ export function saveAuditApi(values) {
       data:values
   })
 }
+//审核日志
+export function auditLogApi(values) {
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.promotion.approvals.journal',
+      data:values
+  })
+}

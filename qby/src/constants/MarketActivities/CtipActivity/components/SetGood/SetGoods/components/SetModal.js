@@ -1,33 +1,33 @@
 import { Component } from "react";
-import { Modal, Form, Input } from "antd";
+import { Modal, Form, Input,message } from "antd";
 import Discount from "./Discount";
 import { connect } from "dva";
+import '../index.less'
 const FormItem = Form.Item;
 
 class setModal extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      perOrderLimit: "",
-      perDayLimit: "",
-      perUserLimit: ""
-    };
   }
-  componentWillReceiveProps = nextProps => {
-    if (!_.isEqual(nextProps.currentRecord, this.props.currentRecord)) {
-      this.setState({
-        perOrderLimit: nextProps.currentRecord.perOrderLimit,
-        perDayLimit: nextProps.currentRecord.perDayLimit,
-        perUserLimit: nextProps.currentRecord.perUserLimit
-      });
-    }
-  };
+  // componentWillReceiveProps = nextProps => {
+  //   if (!_.isEqual(nextProps.currentRecord, this.props.currentRecord)) {
+  //     this.setState({
+  //       perOrderLimit: nextProps.currentRecord.perOrderLimit,
+  //       perDayLimit: nextProps.currentRecord.perDayLimit,
+  //       perUserLimit: nextProps.currentRecord.perUserLimit
+  //     });
+  //   }
+  // };
   onOk = () => {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
+        if((+values.perOrderLimit>+values.perDayLimit)||(+values.perDayLimit>+values.perUserLimit)){
+          return message.error('每单限购小于每天限购小于每账号限购，请重新填写',.8)
+        };
         let goodLists = [...this.props.goodLists];
         let obj = goodLists[this.props.currentIndex];
         obj = { ...obj, ...values };
+        obj.promotionRules = [...this.props.promotionRules]
         goodLists[this.props.currentIndex] = obj;
         this.props.dispatch({
           type: "ctipActivityAddTwo/refreshLists",
@@ -44,60 +44,8 @@ class setModal extends Component {
   validateActPrice = (rule, value, callback) => {
     if (value && value >= this.props.currentRecord.sellPrice) {
       callback("活动价需小于C端售价");
-    }
-    callback();
-  };
-  //每单限购校验
-  valideOrder = (rule, value, callback) => {
-    const { perDayLimit, perUserLimit } = this.state;
-    if(value && perDayLimit){
-      if(+value >= +perDayLimit){
-        callback("每单限购小于每天限购小于每账号限购，请重新填写");
-      };
-    };
-    if(value && perUserLimit){
-      if(+value >= +perUserLimit){
-        callback("每单限购小于每天限购小于每账号限购，请重新填写");
-      };
     };
     callback();
-  };
-  //每天限购校验
-  valideDay = (rule, value, callback) => {
-    const { perUserLimit,perOrderLimit } = this.state;
-    if (value && perOrderLimit && +value <= +perOrderLimit) {
-      callback("每单限购小于每天限购小于每账号限购，请重新填写");
-    };
-    if (value && perUserLimit && +value >= +perUserLimit) {
-      callback("每单限购小于每天限购小于每账号限购，请重新填写");
-    };
-    callback();
-  };
-  //每账号限购校验
-  valideUser = (rule, value, callback) => {
-    const { perDayLimit, perOrderLimit } = this.state;
-    if (value && (+value <= +perDayLimit || +value <= +perOrderLimit)) {
-      callback("每账号限购大于每天限购大于每单限购，请重新填写");
-    }
-    callback();
-  };
-  setOrder = e => {
-    const { value } = e.target;
-    this.setState({
-      perOrderLimit: value
-    });
-  };
-  setDay = e => {
-    const { value } = e.target;
-    this.setState({
-      perDayLimit: value
-    });
-  };
-  setUser = e => {
-    const { value } = e.target;
-    this.setState({
-      perUserLimit: value
-    });
   };
   render() {
     const { getFieldDecorator } = this.props.form;
@@ -105,12 +53,12 @@ class setModal extends Component {
     return (
       <div>
         <Modal
-          width="700"
+          width={promotionType=='11'?'1000':'700'}
           title="编辑商品"
           visible={visible}
           onOk={this.onOk}
           onCancel={this.onCancel}
-          wrapClassName="add_brand"
+          wrapClassName="reset_goods"
         >
           <Form>
             <FormItem
@@ -128,7 +76,7 @@ class setModal extends Component {
                 wrapperCol={{ span: 16 }}
               >
                 {promotionType == 11 && (
-                  <Discount promotionRules={currentRecord.promotionRules} />
+                  <Discount form={this.props.form}/>
                 )}
               </FormItem>
             )}
@@ -159,6 +107,7 @@ class setModal extends Component {
                 如不填写视为商品的所有库存均参与活动
               </span>
             </FormItem>
+            <div className='limit_tips'>限购设置规则：每单限购小于每天限购小于每账号限购</div>
             <FormItem
               label="活动期间每人每单限购"
               labelCol={{ span: 8 }}
@@ -166,10 +115,8 @@ class setModal extends Component {
             >
               {getFieldDecorator("perOrderLimit", {
                 initialValue: currentRecord.perOrderLimit,
-                rules: [{ validator: this.valideOrder }]
               })(
                 <Input
-                  onChange={this.setOrder}
                   style={{ width: "100px" }}
                   autoComplete="off"
                 />
@@ -183,10 +130,8 @@ class setModal extends Component {
             >
               {getFieldDecorator("perDayLimit", {
                 initialValue: currentRecord.perDayLimit,
-                rules: [{ validator: this.valideDay }]
               })(
                 <Input
-                  onChange={this.setDay}
                   style={{ width: "100px" }}
                   autoComplete="off"
                 />
@@ -200,10 +145,8 @@ class setModal extends Component {
             >
               {getFieldDecorator("perUserLimit", {
                 initialValue: currentRecord.perUserLimit,
-                rules: [{ validator: this.valideUser }]
               })(
                 <Input
-                  onChange={this.setUser}
                   style={{ width: "100px" }}
                   autoComplete="off"
                 />

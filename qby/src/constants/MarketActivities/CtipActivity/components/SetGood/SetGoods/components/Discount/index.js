@@ -11,103 +11,135 @@ class Discount extends Component {
   delete = index => {
     this.props.form.resetFields();
     const promotionRules = [...this.props.promotionRules];
-    const goodLists = [...this.props.goodLists];
     promotionRules.splice(index, 1);
-    goodLists.promotionRules = promotionRules;
     this.props.dispatch({
-      type: "ctipActivityAddTwo/refreshLists",
-      payload: { goodLists }
+      type: "ctipActivityAddTwo/refreshSingleRules",
+      payload: { promotionRules }
     });
   };
   add = () => {
     const promotionRules = [...this.props.promotionRules];
-    const goodLists = [...this.props.goodLists];
     promotionRules.push({ param: { leastAmount: "", reduceAmount: "" } });
-    goodLists.promotionRules = promotionRules;
     this.props.dispatch({
-      type: "ctipActivityAddTwo/refreshLists",
-      payload: { goodLists }
+      type: "ctipActivityAddTwo/refreshSingleRules",
+      payload: { promotionRules }
     });
   };
   onChange = (e, index, key) => {
+    this.props.form.resetFields();
     const promotionRules = [...this.props.promotionRules];
-    const goodLists = [...this.props.goodLists];
     promotionRules[index]["param"][key] = e.target.value;
-    goodLists.promotionRules = promotionRules;
     this.props.dispatch({
-      type: "ctipActivityAddTwo/refreshLists",
-      payload: { goodLists }
+      type: "ctipActivityAddTwo/refreshSingleRules",
+      payload: { promotionRules }
     });
   };
   render() {
-    const { promotionRules} = this.props;
-    promotionRules.map((item,index) => {
-      item.key = index;
-    });
+    const { promotionRules } = this.props;
+    promotionRules &&
+      promotionRules.length > 0 &&
+      promotionRules.map((item, index) => {
+        item.key = index;
+      });
     const { getFieldDecorator } = this.props.form;
     return (
       <div className="discountTwo">
+        <div className="discount_tips">
+          <span>每阶梯的优惠力度需大于上一阶梯的优惠力度</span>
+          <br />
+          <span>例：买X送Y，每阶梯的X/（X+Y）需小于上一阶梯的X/（X+Y）</span>
+        </div>
         <Form>
-          {promotionRules.map((item, index) => (
-            <div className="step">
+          {promotionRules.length>0&&promotionRules.map((item, index) => (
+            <div className="step" key={index}>
               <div>
-                  <FormItem className="satified_price">
-                    阶梯{index + 1}：<span style={{ color: "red" }}>*</span> 单笔订单满 　
-                    {getFieldDecorator(`fieldValues[${index}].leastQty`, {
-                      initialValue: item.param.leastQty,
-                      onChange: e => {
-                        this.onChange(e, index, "leastQty");
-                      },
-                      rules: [
-                        { required: true, message: "请填写优惠内容" },
-                        {
-                          validator: (rule, value, callback) => {
-                            if(value){
-                              if (index > 0 && +value <= (+promotionRules[index - 1].param.leastQty) ) {
-                                callback("此阶梯优惠门槛需大于上一阶梯的优惠门槛");
-                              };
-                              if(index > 0 && +promotionRules[index].param.reduceQty && +promotionRules[index].param.reduceQty/+value <= (+promotionRules[index - 1].param.reduceQty /+promotionRules[index - 1].param.leastQty)){
-                                callback("此阶梯优惠门槛需大于上一阶梯的优惠门槛");
-                              };
-                              if(value>99){
-                                callback('不可超过99')
+                <FormItem className="satified_price">
+                  阶梯{index + 1}：<span style={{ color: "red" }}>*</span>
+                  单笔订单满 　
+                  {getFieldDecorator(`fieldValues[${index}].leastQty`, {
+                    initialValue: item.param.leastQty,
+                    onChange: e => {
+                      this.onChange(e, index, "leastQty");
+                    },
+                    rules: [
+                      { required: true, message: "请填写优惠内容" },
+                      {pattern: /^([1-9][0-9]*){1,3}$/,message: "请填写大于0的正整数"},
+                      { validator: (rule, value, callback) => {
+                          if (+value>0) {
+                            if(+value>99){
+                              callback('需小于等于99')
+                            };
+                            const currentGiftQty = +promotionRules[index].param.giftQty;//当前减额
+                            const currentDiscount = +value/(+value+currentGiftQty)//当前折扣
+                            if(promotionRules[index - 1]){
+                              const prevLeastQty = +promotionRules[index - 1].param.leastQty;//上一条门槛
+                              const prevGiftQty = +promotionRules[index - 1].param.giftQty;//上一条减额
+                              const prevDiscount = prevLeastQty/(prevLeastQty + prevGiftQty) //上一条折扣
+                              if(currentGiftQty){
+                                if(currentDiscount > prevDiscount){
+                                  callback('此阶梯优惠力度需大于上一阶梯')
+                                }
                               };
                             };
-                            callback();
-                          }
-                        }
-                      ]
-                    })(
-                      <Input
-                        autoComplete="off"
-                        style={{ width: "50px" }}
-                      />
-                    )}　件, 送　
-                  </FormItem>
-                  <FormItem className="reduce_price">
-                    {getFieldDecorator(`fieldValues[${index}].reduceQty`, {
-                      initialValue: item.param.reduceQty,
-                      onChange: e => {
-                        this.onChange(e, index, "reduceQty");
-                      },
-                      rules: [
-                        { required: true, message: "请填写优惠内容" },
-                        {
-                          validator: (rule, value, callback) => {
-                            if(value){
-                              if (index > 0 && +promotionRules[index].param.leastQty && +value/+promotionRules[index].param.leastQty <= (+promotionRules[index - 1].param.reduceQty /+promotionRules[index - 1].param.leastQty)) {
-                                callback("此阶梯优惠门槛需大于上一阶梯的优惠门槛");
-                              };
-                              if(value>99){
-                                callback('不可超过99')
+                            if(promotionRules[index+1]){
+                              const nextLeastQty = +promotionRules[index + 1].param.leastQty;//下一条门槛
+                              const nextGiftQty = +promotionRules[index + 1].param.giftQty;//下一条减额
+                              const nextDiscount = nextLeastQty/(nextLeastQty + nextGiftQty) //下一条折扣
+                              if(currentGiftQty){
+                                if(currentDiscount < nextDiscount){
+                                  callback('此阶梯优惠力度需小于下一阶梯')
+                                }
                               };
                             };
-                            callback();
-                          }
+                          };
+                          callback()
                         }
-                      ]
-                    })(<Input autoComplete="off" style={{ width: "50px" }} />)}
-                  </FormItem>
+                      }
+                    ]
+                  })(<Input autoComplete="off" style={{ width: "100px" }}/>)}
+                  　件, 送　
+                </FormItem>
+                <FormItem className="reduce_price">
+                  {getFieldDecorator(`fieldValues[${index}].giftQty`, {
+                    initialValue: item.param.giftQty,
+                    onChange: e => {this.onChange(e, index, "giftQty")},
+                    rules: [
+                      {required: true, message: "请填写优惠内容" },
+                      {pattern: /^([1-9][0-9]*){1,3}$/,message: "请填写大于0的正整数"},
+                      { validator: (rule, value, callback) => {
+                          if (+value>0) {
+                            if(+value>99){
+                              callback('需小于等于99')
+                            };
+                            const currentLeastQty = +promotionRules[index].param.leastQty;//当前减额
+                            const currentDiscount = currentLeastQty/(+value+currentLeastQty)//当前折扣
+                            if(promotionRules[index - 1]){
+                              const prevLeastQty = +promotionRules[index - 1].param.leastQty;//上一条门槛
+                              const prevGiftQty = +promotionRules[index - 1].param.giftQty;//上一条减额
+                              const prevDiscount = prevLeastQty/(prevLeastQty + prevGiftQty) //上一条折扣
+                              if(currentLeastQty){
+                                if(currentDiscount > prevDiscount){
+                                  callback('此阶梯优惠力度需大于上一阶梯')
+                                };
+                              };
+                            };
+                            if(promotionRules[index+1]){
+                              const nextLeastQty = +promotionRules[index + 1].param.leastQty;//下一条门槛
+                              const nextGiftQty = +promotionRules[index + 1].param.giftQty;//下一条减额
+                              const nextDiscount = nextLeastQty/(nextLeastQty + nextGiftQty) //下一条折扣
+                              if(currentLeastQty){
+                                if(currentDiscount < nextDiscount){
+                                  callback('此阶梯优惠力度需小于下一阶梯')
+                                }
+                              };
+                            };
+                          };
+                          callback()
+                        }
+                      }
+                    ]
+                  })(<Input  autoComplete="off" style={{ width: "100px" }}/>)}
+                </FormItem>
               </div>
               {promotionRules.length > 1 && (
                 <a className="theme-color" onClick={() => this.delete(index)}>
@@ -134,5 +166,4 @@ function mapStateToProps(state) {
   const { ctipActivityAddTwo } = state;
   return ctipActivityAddTwo;
 }
-const Discounts = Form.create({})(Discount);
-export default connect(mapStateToProps)(Discounts);
+export default connect(mapStateToProps)(Discount);
