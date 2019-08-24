@@ -5,7 +5,10 @@ import NP from 'number-precision';
 import { Tag, Button, Form, Input, DatePicker, Radio, Checkbox, AutoComplete, Table} from 'antd';
 import { disabledDate, disabledDateTimeRange } from '../dateSet.js';
 import { columnsCreat } from '../../columns';
-import { pdScopeOption,singleOption,prefectureOption, purposeTypesOption, levelOption, prefTwoOption } from '../optionMap.js';
+import {
+  pdScopeOption,singleOption,
+  prefectureOption, purposeTypesOption,
+  levelOption, prefTwoOption } from '../optionMap.js';
 import { getSuppliApi } from '../../../../../services/marketActivities/ctipActivity.js';
 const { RangePicker } = DatePicker;
 const FormItem = Form.Item;
@@ -49,7 +52,7 @@ class InfoSet extends Component {
       callback();
     }
   }
-  //分成校验
+  //分成change
   changeProportion=(rule, value, callback)=> {
     this.props.form.resetFields(['bearers'])
   }
@@ -114,7 +117,8 @@ class InfoSet extends Component {
     value&&value.map((el,index) => {
       if(el!='C') {
         if(valMap[el]) {
-          newArr.push(valMap[el])
+          newArr[index]=valMap[el]
+          // newArr.push(valMap[el])
         } else {
           let item={}
           item.bearer = bearMap[el];
