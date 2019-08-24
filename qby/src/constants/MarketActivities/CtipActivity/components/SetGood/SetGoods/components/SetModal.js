@@ -22,7 +22,7 @@ class setModal extends Component {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         if((+values.perOrderLimit>+values.perDayLimit)||(+values.perDayLimit>+values.perUserLimit)){
-          return message.error('每单限购小于每天限购小于每账号限购，请重新填写',.8)
+          return message.error('每单限购小于每天限购小于每账号限购，请重新填写')
         };
         let goodLists = [...this.props.goodLists];
         let obj = goodLists[this.props.currentIndex];

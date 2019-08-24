@@ -76,7 +76,7 @@ class CtipActivityAddTwo extends Component {
   //保存并预览
   handSubmit=()=>{
     this.props.form.validateFieldsAndScroll((err, values) => {
-      this.goInfo()
+      // this.goInfo()
       if (!err) {
         this.sendQequest('save')
       };
@@ -85,7 +85,7 @@ class CtipActivityAddTwo extends Component {
   //保存并审核
   audit = () => {
     this.props.form.validateFieldsAndScroll((err, values) => {
-      this.gobackToList()//回到列表页
+      // this.gobackToList()//回到列表页
       if (!err) {
         this.sendQequest('audit')
       };
@@ -99,7 +99,7 @@ class CtipActivityAddTwo extends Component {
           message.error('请至少添加一个活动商品');
         };
         let values = {promotionId, promotionType,promotionProducts:goodLists};
-        if( !(promotionType==10||promotionType==11) ){
+        if( !(promotionType==10||promotionType==11) ){//非单品
           const {dataSource} = this.props;
           values.promotionRules = dataSource;
         };

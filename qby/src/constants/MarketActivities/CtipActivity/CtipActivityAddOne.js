@@ -29,19 +29,19 @@ class CtipActivityAddOneF extends Component {
     }
   }
   handleSubmit= e => {
-    // this.jump()
-    e.preventDefault();
-    this.props.form.validateFields((err, values) => {
-      values = this.formatParams(values);
-      console.log(values);
-      if (!err) {
-        values = this.formatParams(values);
-        getSaveActivApi(values)
-        .then((res)=> {
-          this.successCallback()
-        })
-      }
-    });
+    this.jump()
+    // e.preventDefault();
+    // this.props.form.validateFields((err, values) => {
+    //   values = this.formatParams(values);
+    //   console.log(values);
+    //   if (!err) {
+    //     values = this.formatParams(values);
+    //     getSaveActivApi(values)
+    //     .then((res)=> {
+    //       this.successCallback()
+    //     })
+    //   }
+    // });
   };
   formatParams=(values)=> {
     let { time, warmUpBeginTime, bearerActivity, autoComplete, ...paramsVal} =values;
