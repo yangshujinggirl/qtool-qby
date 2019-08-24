@@ -3,7 +3,7 @@ import { connect } from "dva";
 import { Button, Form, Input, DatePicker, Radio, Checkbox, AutoComplete, } from 'antd';
 import moment from 'moment';
 import StepMod from './components/StepMod';
-import InfoSet from './components/InfoSet0';
+import InfoSet from './components/InfoSet';
 import WebSet from './components/WebSet';
 import { getSaveActivApi } from '../../../services/marketActivities/ctipActivity.js';
 import './CtipActivityAddOne.less';
