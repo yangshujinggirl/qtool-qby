@@ -16,10 +16,20 @@ const formItemLayout = {
 const { RangePicker } = DatePicker;
 const FormItem = Form.Item;
 class WebSet extends Component {
+  //时间校验
+  validator=(rule, value, callback)=> {
+    let { activityInfo } =this.props;
+    let actiTime = activityInfo.time[0];
+    let isBefore = moment(value).isBefore(actiTime)||moment(value).isSame(actiTime);
+    if(!isBefore) {
+      callback('预热时间只能选择活动开始之前的时间或与开始时间相同。');
+    }else {
+      callback();
+    }
+  }
   render() {
     const { activityInfo } =this.props;
     const { getFieldDecorator } = this.props.form;
-    console.log(activityInfo)
     return(
       <div>
         <p className="info-title">前端展示</p>
@@ -42,10 +52,13 @@ class WebSet extends Component {
             <FormItem label='设置预热时间' {...formItemLayout}>
               {
                 getFieldDecorator('warmUpBeginTime', {
-                  rules: [{ required: true, message: '请设置预热时间'}],
+                  rules: [{ required: true, message: '请设置预热时间'},{
+                    validator:this.validator
+                  }],
                   initialValue:activityInfo.warmUpBeginTime?moment(activityInfo.warmUpBeginTime).format('YYYY-MM-DD HH:mm:ss'):null
                 })(
                   <DatePicker
+                    disabled={activityInfo.time?false:true}
                     disabledDate={disabledDate}
                     disabledTime={disabledDateTime}
                     showTime={{

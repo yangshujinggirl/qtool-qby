@@ -5,7 +5,7 @@ import NP from 'number-precision';
 import { Tag, Button, Form, Input, DatePicker, Radio, Checkbox, AutoComplete, Table} from 'antd';
 import { disabledDate, disabledDateTimeRange } from '../dateSet.js';
 import { columnsCreat } from '../../columns';
-import { pdScopeOption,singleOption,prefectureOption, purposeTypesOption, levelOption } from '../optionMap.js';
+import { pdScopeOption,singleOption,prefectureOption, purposeTypesOption, levelOption, prefTwoOption } from '../optionMap.js';
 import { getSuppliApi } from '../../../../../services/marketActivities/ctipActivity.js';
 const { RangePicker } = DatePicker;
 const FormItem = Form.Item;
@@ -49,6 +49,10 @@ class InfoSet extends Component {
       callback();
     }
   }
+  //分成校验
+  changeProportion=(rule, value, callback)=> {
+    this.props.form.resetFields(['bearers'])
+  }
   handleSearch=(value)=> {
     getSuppliApi({name:value})
     .then((res) => {
@@ -77,7 +81,7 @@ class InfoSet extends Component {
   handleClose=(removedTag)=> {
     let { ratioList } =this.props;
     const { bearers } =this.props.form.getFieldsValue(['bearers']);
-    let dd = bearers.filter(tag => tag.bearer !== removedTag.bearer);
+    // let dd = bearers.filter(tag => tag.bearer !== removedTag.bearer);
     let tags = ratioList.filter(tag => tag.key !== removedTag.key);
     this.props.dispatch({
       type:'ctipActivityAddOne/getRatioList',
@@ -86,55 +90,14 @@ class InfoSet extends Component {
     // this.props.form.setFieldsValue({ bearers:dd })
     this.props.form.resetFields(['bearers'])
   }
-  changePurpose=(value)=>{
-    let { activityInfo } =this.props;
-    activityInfo={...activityInfo, purposeTypes: value };
-    this.props.dispatch({
-      type:'ctipActivityAddOne/getActivityInfo',
-      payload:activityInfo
-    })
-  }
-  changeBearers=(value)=>{
-    let { activityInfo } =this.props;
-    activityInfo={...activityInfo, purposeTypes: value };
-    this.props.dispatch({
-      type:'ctipActivityAddOne/getActivityInfo',
-      payload:activityInfo
-    })
-  }
-  changeRange=(e)=>{
-    let { activityInfo } =this.props;
-    activityInfo={...activityInfo, promotionScope: e.target.value };
-    this.props.dispatch({
-      type:'ctipActivityAddOne/getActivityInfo',
-      payload:activityInfo
-    })
+  changeRange=(value)=>{
     this.props.form.resetFields(['logoBg'])
   }
   changePromotion=(e)=>{
-    let { activityInfo } =this.props;
-    let value = e.target.value;
-    activityInfo={...activityInfo, promotionType: value };
-    if(value == '23') {
-      activityInfo={...activityInfo, pdScope: 2 };
-    }
-    this.props.dispatch({
-      type:'ctipActivityAddOne/getActivityInfo',
-      payload:activityInfo
-    })
     this.props.form.resetFields(['pdScope','pdKind'])
   }
-  changePdScope=(e)=>{
-    let { activityInfo } =this.props;
-    let value = e.target.value;
-    activityInfo={...activityInfo, pdScope: value };
-    this.props.dispatch({
-      type:'ctipActivityAddOne/getActivityInfo',
-      payload:activityInfo
-    })
-  }
   changeBearActi=(value)=>{
-    let { ratioList, activityInfo } =this.props;
+    let { ratioList } =this.props;
     let newArr=[];
     let tagsList = ratioList.filter(el => el.bearerType=='C');
     let fixedList = ratioList.filter(el => el.bearerType!='C');
@@ -171,11 +134,6 @@ class InfoSet extends Component {
     //   }
     //  });
     ratioList=[...newArr,...tagsList];
-    activityInfo={...activityInfo, bearerActivity: value };
-    this.props.dispatch({
-      type:'ctipActivityAddOne/getActivityInfo',
-      payload:activityInfo
-    })
     this.props.dispatch({
       type:'ctipActivityAddOne/getRatioList',
       payload:ratioList
@@ -186,12 +144,11 @@ class InfoSet extends Component {
     const { activityInfo, ratioList, tagsList } =this.props;
     const { supplierList } =this.state;
     const { getFieldDecorator } = this.props.form;
-    let blColumns = columnsCreat(this.props.form,this.validatorRatio,ratioList);
+    let blColumns = columnsCreat(this.props.form,this.validatorRatio,this.changeProportion,ratioList);
     let otherIndex = activityInfo.purposeTypes&&activityInfo.purposeTypes.findIndex((el)=>el == '5');
     let providerIndex = activityInfo.bearerActivity&&activityInfo.bearerActivity.findIndex((el)=>el == 'C');
     let rangeOption = activityInfo.promotionScope==1?singleOption:prefectureOption;
-    let linkAgeOption = activityInfo.promotionScope==1?prefectureOption:singleOption;
-    console.log(activityInfo)
+    let linkAgeOption = activityInfo.promotionScope==1?(activityInfo.promotionType=='11'?prefTwoOption:prefectureOption):singleOption;
     return(
       <div>
         <p className="info-title">活动信息</p>
@@ -241,7 +198,6 @@ class InfoSet extends Component {
            getFieldDecorator('purposeTypes', {
              rules: [{ required: true, message: '请选择活动目的'}],
              initialValue:activityInfo.purposeTypes,
-             onChange:this.changePurpose
            })(
              <Checkbox.Group style={{ width: '100%' }}>
                {
@@ -397,8 +353,7 @@ class InfoSet extends Component {
              {
                getFieldDecorator('pdScope', {
                  rules: [{ required: true, message: '请选择促销级别'}],
-                 initialValue:activityInfo.pdScope,
-                 onChange:this.changePdScope
+                 initialValue:activityInfo.pdScope?activityInfo.pdScope:1
                })(
                  <Radio.Group >
                    {
@@ -414,7 +369,7 @@ class InfoSet extends Component {
            </FormItem>
         }
         {
-          activityInfo.pdScope==2&&
+          activityInfo.pdScope==2&&activityInfo.promotionScope==2&&
           <FormItem label='商品种类' {...formItemLayout}>
              {
                getFieldDecorator('pdKind', {

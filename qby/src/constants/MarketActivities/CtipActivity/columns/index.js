@@ -1,7 +1,7 @@
 import { Input, Form, Select, Button, DatePicker } from 'antd';
 const FormItem = Form.Item;
 
-const columnsCreat =(form,validator,dataSource)=>{
+const columnsCreat =(form,validator,changeProportion,dataSource)=>{
   return [{
       title: '活动预算',
       dataIndex: 'budget',
@@ -55,12 +55,13 @@ const columnsCreat =(form,validator,dataSource)=>{
         const { getFieldDecorator } =form;
         return <FormItem>
                 {getFieldDecorator(`bearers[${index}].proportion`,{
-                  initialValue:record.ratio,
+                  initialValue:record.proportion,
                   rules:[{ required: true, message: '请输入承担比例'},{
                     pattern:/^\d+$/,message:'请输入数字'
                   },{
                     validator:validator
-                  }]
+                  }],
+                  onChange:changeProportion
                 })(
                   <Input
                     suffix="%"
@@ -78,7 +79,7 @@ const columnsCreat =(form,validator,dataSource)=>{
         const { getFieldDecorator } =form;
         return <FormItem>
                 {getFieldDecorator(`bearers[${index}].remark`,{
-                  initialValue:record.title,
+                  initialValue:record.remark,
                 })(
                   <Input
                     maxLength='30'

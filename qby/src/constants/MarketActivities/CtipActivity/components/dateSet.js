@@ -36,17 +36,6 @@ const disabledDateTimeRange = (date,type) => {
   };
 };
 
-// const disabledDate = current => {
-//   // return current && current < moment().subtract(1,'days');
-//   return current && current < moment().endOf('day').subtract(1,'days');
-// };
-// const range = (start, end) => {
-//   const result = [];
-//   for (let i = start; i <= end; i++) {
-//     result.push(i);
-//   }
-//   return result;
-// };
 const formatHours =(date)=> {
   let hour = moment().hour();
   let selDat = moment(date).date();//设置日

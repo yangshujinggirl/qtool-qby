@@ -31,6 +31,7 @@ export default {
       return { ...state,activityInfo };
     },
     getRatioList(state, { payload:ratioList }) {
+      ratioList=[...ratioList]
       let tagsList = ratioList.filter(el => el.bearerType=='C');
       return { ...state,ratioList, tagsList };
     },
