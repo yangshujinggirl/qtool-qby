@@ -54,12 +54,6 @@ class CtipActivityAddOneF extends Component {
     if(warmUpBeginTime) {
       paramsVal.warmUpBeginTime = moment(warmUpBeginTime).format('YYYY-MM-DD HH:mm:ss');
     }
-    // if(paramsVal.bearers&&paramsVal.bearers.length>0) {
-    //   paramsVal.bearers = paramsVal.bearers.filter(x => true);
-    //   if(paramsVal.bearers[0].budget) {
-    //     paramsVal.budget = paramsVal.bearers[0].budget;
-    //   }
-    // }
     if(ratioList.length>0) {
       paramsVal.bearers = ratioList.map((el) => {
         let item={};

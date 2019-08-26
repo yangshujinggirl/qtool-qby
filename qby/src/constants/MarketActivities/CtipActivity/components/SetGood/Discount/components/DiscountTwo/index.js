@@ -58,30 +58,36 @@ class DiscountTwo extends Component {
                         { pattern:/^([1-9][0-9]*){1,3}$/, message: "请填写大于0的正整数" },
                         {
                           validator: (rule, value, callback) => {
-                            if (+value>0) {
+                            if (+value) {
                               if(+value>99999){
                                 callback('需小于等于99999')
                               };
-                              const currentreduceAmount = +promotionRules[index].param.reduceAmount;//当前减额
+                              const currentreduceAmount = +dataSource[index].param.reduceAmount;//当前减额
                               const currentDiscount = currentreduceAmount/+value//当前折扣
-                              if(promotionRules[index - 1]){
-                                const prevleastAmount = +promotionRules[index - 1].param.leastAmount;//上一条门槛
-                                const prevreduceAmount = +promotionRules[index - 1].param.reduceAmount;//上一条减额
+                              if(dataSource[index - 1] && dataSource[index - 1].param.leastAmount){
+                                const prevleastAmount = +dataSource[index - 1].param.leastAmount;//上一条门槛
+                                const prevreduceAmount = +dataSource[index - 1].param.reduceAmount;//上一条减额
                                 const prevDiscount = prevreduceAmount/prevleastAmount //上一条折扣
                                 if(currentreduceAmount){
-                                  if(currentDiscount < prevDiscount){
+                                  if(currentDiscount <= prevDiscount){
                                     callback('此阶梯优惠力度需大于上一阶梯')
-                                  }
+                                  };
+                                };
+                                if(+value <= prevleastAmount){
+                                  callback('此阶梯优惠力度需大于上一阶梯')
                                 };
                               };
-                              if(promotionRules[index+1]){
-                                const nextleastAmount = +promotionRules[index + 1].param.leastAmount;//下一条门槛
-                                const nextreduceAmount = +promotionRules[index + 1].param.reduceAmount;//下一条减额
+                              if(dataSource[index+1] && dataSource[index + 1].param.leastAmount){
+                                const nextleastAmount = +dataSource[index + 1].param.leastAmount;//下一条门槛
+                                const nextreduceAmount = +dataSource[index + 1].param.reduceAmount;//下一条减额
                                 const nextDiscount = nextreduceAmount/nextleastAmount//下一条折扣
                                 if(currentreduceAmount){
-                                  if(currentDiscount > nextDiscount){
+                                  if(currentDiscount >= nextDiscount){
                                     callback('此阶梯优惠力度需小于下一阶梯')
-                                  }
+                                  };
+                                };
+                                if(+value >= nextleastAmount){
+                                  callback('此阶梯优惠力度需小于下一阶梯')
                                 };
                               };
                             };
@@ -110,31 +116,24 @@ class DiscountTwo extends Component {
                         { pattern:/^([1-9][0-9]*){1,3}$/, message: "请填写大于0的正整数" },
                         {
                           validator: (rule, value, callback) => {
-                            if (+value>0) {
+                            if (+value) {
                               if(+value>99){
                                 callback('需小于等于99')
                               };
-                              const currentreduceQty = +promotionRules[index].param.reduceQty;//当前减额
-                              if(promotionRules[index - 1]){
-                                const prevLeastQty = +promotionRules[index - 1].param.leastQty;//上一条门槛
-                                const prevreduceQty = +promotionRules[index - 1].param.reduceQty;//上一条减额
-                                if(currentreduceQty){
-                                  if(+value < prevLeastQty || currentreduceQty < prevreduceQty){
-                                    callback('此阶梯优惠力度需大于上一阶梯')
-                                  }
+                              if(dataSource[index - 1] && dataSource[index - 1].param.leastQty){
+                                const prevLeastQty = +dataSource[index - 1].param.leastQty;//上一条门槛
+                                if(+value <= prevLeastQty){
+                                  callback('此阶梯优惠力度需大于上一阶梯')
                                 };
                               };
-                              if(promotionRules[index+1]){
-                                const nextLeastQty = +promotionRules[index + 1].param.leastQty;//下一条门槛
-                                const nextreduceQty = +promotionRules[index + 1].param.reduceQty;//下一条减额
-                                if(currentreduceQty){
-                                  if(+value>nextLeastQty || currentreduceQty>nextreduceQty){
-                                    callback('此阶梯优惠力度需小于下一阶梯')
-                                  }
+                              if(dataSource[index+1] && dataSource[index + 1].param.leastQty){
+                                const nextLeastQty = +dataSource[index + 1].param.leastQty;//下一条门槛
+                                if(+value >= nextLeastQty){
+                                  callback('此阶梯优惠力度需小于下一阶梯')
                                 };
                               };
                             };
-                            callback()
+                            callback();
                           }
                         }
                       ]
@@ -153,33 +152,36 @@ class DiscountTwo extends Component {
                     onChange: e => {
                       this.onChange(e, index, "reduceAmount");
                     },
+                    getValueFromEvent:(event)=>{
+                      return event.target.value.replace(/\D/g,'').replace(/^[0]+/,'')
+                    },
                     rules: [
                       { required: true, message: "请填写优惠内容" },
                       { pattern:/^([1-9][0-9]*){1,3}$/, message: "请填写大于0的正整数" },
                       {
                         validator: (rule, value, callback) => {
-                          if (+value>0) {
+                          if (+value) {
                             if(+value>9999){
                               callback('需小于等于9999')
                             };
-                            const currentLeastAmount = +promotionRules[index].param.leastAmount;//当前减额
+                            const currentLeastAmount = +dataSource[index].param.leastAmount;//当前减额
                             const currentDiscount = +value/currentLeastAmount//当前折扣
-                            if(promotionRules[index - 1]){
-                              const prevLeastAmount = +promotionRules[index - 1].param.leastAmount;//上一条门槛
-                              const prevReduceAmount = +promotionRules[index - 1].param.reduceAmount;//上一条减额
+                            if(dataSource[index - 1]){
+                              const prevLeastAmount = +dataSource[index - 1].param.leastAmount;//上一条门槛
+                              const prevReduceAmount = +dataSource[index - 1].param.reduceAmount;//上一条减额
                               const prevDiscount = prevReduceAmount/prevLeastAmount //上一条折扣
                               if(currentLeastAmount){
-                                if(currentDiscount < prevDiscount){
+                                if(currentDiscount <= prevDiscount){
                                   callback('此阶梯优惠力度需大于上一阶梯')
                                 };
                               };
                             };
-                            if(promotionRules[index+1]){
-                              const nextLeastAmount = +promotionRules[index + 1].param.leastAmount;//下一条门槛
-                              const nextReduceAmount = +promotionRules[index + 1].param.reduceAmount;//下一条减额
+                            if(dataSource[index+1]){
+                              const nextLeastAmount = +dataSource[index + 1].param.leastAmount;//下一条门槛
+                              const nextReduceAmount = +dataSource[index + 1].param.reduceAmount;//下一条减额
                               const nextDiscount = nextReduceAmount/nextLeastAmount //下一条折扣
                               if(currentLeastAmount){
-                                if(currentDiscount > nextDiscount){
+                                if(currentDiscount >= nextDiscount){
                                   callback('此阶梯优惠力度需小于下一阶梯')
                                 }
                               };
@@ -199,32 +201,28 @@ class DiscountTwo extends Component {
                       onChange: e => {
                         this.onChange(e, index, "reduceQty");
                       },
+                      getValueFromEvent:(event)=>{
+                        return event.target.value.replace(/\D/g,'').replace(/^[0]+/,'')
+                      },
                       rules: [
                         { required: true, message: "请填写优惠内容" },
                         { pattern:/^([1-9][0-9]*){1,3}$/, message: "请填写大于0的正整数" },
                         {
                           validator: (rule, value, callback) => {
-                            if (+value>0) {
+                            if (+value) {
                               if(+value>99){
                                 callback('需小于等于99')
                               };
-                              const currentLeastQty = +promotionRules[index].param.leastQty;//当前减额
-                              if(promotionRules[index - 1]){
-                                const prevLeastQty = +promotionRules[index - 1].param.leastQty;//上一条门槛
-                                const prevReduceQty = +promotionRules[index - 1].param.reduceQty;//上一条减额
-                                if(currentLeastQty){
-                                  if(currentLeastQty<prevLeastQty || +value<prevReduceQty){
-                                    callback('此阶梯优惠力度需大于上一阶梯')
-                                  };
+                              if(dataSource[index - 1] && +dataSource[index - 1].param.reduceQty){
+                                const prevReduceQty = +dataSource[index - 1].param.reduceQty;//上一条减额
+                                if( +value <= prevReduceQty){
+                                  callback('此阶梯优惠力度需大于上一阶梯')
                                 };
                               };
-                              if(promotionRules[index+1]){
-                                const nextLeastQty = +promotionRules[index + 1].param.leastQty;//下一条门槛
-                                const nextReduceQty = +promotionRules[index + 1].param.reduceQty;//下一条减额
-                                if(currentLeastQty){
-                                  if(currentLeastQty>nextLeastQty || +value>nextReduceQty){
-                                    callback('此阶梯优惠力度需小于下一阶梯')
-                                  }
+                              if(dataSource[index+1] && +dataSource[index + 1].param.reduceQty){
+                                const nextReduceQty = +dataSource[index + 1].param.reduceQty;//下一条减额
+                                if(+value >= nextReduceQty){
+                                  callback('此阶梯优惠力度需小于下一阶梯')
                                 };
                               };
                             };

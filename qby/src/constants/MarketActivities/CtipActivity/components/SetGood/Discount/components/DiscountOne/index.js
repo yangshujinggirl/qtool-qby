@@ -127,10 +127,11 @@ class DiscountOne extends Component {
   };
   //满赠价格变化
   onChange = (e, index) => {
+    this.props.form.resetFields('Top')
     const { value } = e.target;
     const { dataSource } = this.state;
     if (this.props.promotionType == 20) {
-      //20满元曾21满件赠
+      //20满元赠 21满件赠
       dataSource[index].param.leastAmount = Number(value);
     } else {
       dataSource[index].param.leastQty = Number(value);
@@ -139,9 +140,8 @@ class DiscountOne extends Component {
       dataSource
     });
     const m = new Map();
-    m.set(`price${index}`, value);
+    m.set(`Top[${index}].price`, value);
     this.props.form.setFieldsValue(m);
-    console.log(this.props.form.getFieldsValue());
   };
   //新增赠品确认
   handleOk = (values, resetFields) => {
@@ -215,7 +215,7 @@ class DiscountOne extends Component {
       level
     } = this.state;
     if (level) {
-      this.props.form.resetFields();
+      this.props.form.resetFields('Top');
       //是等级删除
       dataSource.splice(currentParentIndex, 1);
     } else {
@@ -254,32 +254,36 @@ class DiscountOne extends Component {
                       {promotionType == 20 && (
                         <FormItem>
                           阶梯{index + 1}：<span style={{color:'red'}}>*</span>单笔订单满　
-                          {getFieldDecorator(`price${index}`, {
+                          {getFieldDecorator(`Top[${index}].price`, {
+                            initialValue: item.param.leastAmount,
+                            onChange: e => this.onChange(e, index),
+                            getValueFromEvent:(event)=>{
+                              return event.target.value.replace(/\D/g,'').replace(/^[0]+/,'')
+                            },
                             rules: [
                               { required: true, message: "请填写优惠内容" },
                               {
                                 validator: (rule, value, callback) => {
                                   if(+value){
-                                    if(dataSource[index - 1]&&dataSource[index - 1].param.leastAmount){
-                                      if(value <=dataSource[index - 1].param.leastAmount){
+                                    if (value > 99999) {
+                                      callback("不可超过99999");
+                                    };
+                                    if(dataSource[index - 1] && dataSource[index - 1].param.leastAmount){
+                                      if(+value <= +dataSource[index - 1].param.leastAmount){
                                         callback("此阶梯优惠门槛需大于上一阶梯的优惠门槛");
                                       };
                                     };
-                                    if(dataSource[index + 1]&&dataSource[index + 1].param.leastAmount){
-                                      if(value >= dataSource[index + 1].param.leastAmount){
+                                    if(dataSource[index + 1] && dataSource[index + 1].param.leastAmount){
+                                      if(+value >= +dataSource[index + 1].param.leastAmount){
                                         callback("此阶梯优惠门槛需小于下一阶梯的优惠门槛");
                                       };
-                                    }
-                                    if (value > 99999) {
-                                      callback("不可超过99999");
                                     };
                                   };
                                   callback();
                                 },
                               },
                             ],
-                            initialValue: item.param.leastAmount,
-                            onChange: e => this.onChange(e, index)
+                            
                           })(
                             <Input
                               autoComplete="off"
@@ -291,23 +295,35 @@ class DiscountOne extends Component {
                       {promotionType == 21 && (
                         <FormItem>
                           阶梯{index + 1}：*单笔订单满　
-                          {getFieldDecorator(`price${index}`, {
+                          {getFieldDecorator(`Top[${index}.price`, {
+                            initialValue: item.param.leastQty,
+                            onChange: e => this.onChange(e, index),
+                            getValueFromEvent:(event)=>{
+                              return event.target.value.replace(/\D/g,'').replace(/^[0]+/,'')
+                            },
                             rules: [
                               { required: true, message: "请填写优惠内容" },
                               {
                                 validator: (rule, value, callback) => {
-                                  if (index > 0 &&value &&value <=dataSource[index - 1].param.leastQty) {
-                                    callback("此阶梯优惠门槛需大于上一阶梯的优惠门槛");
+                                  if(+value){
+                                    if (+value > 99) {
+                                      callback("不可超过99");
+                                    };
+                                    if(dataSource[index - 1] && dataSource[index - 1].param.leastQty){
+                                      if(+value <= +dataSource[index - 1].param.leastQty){
+                                        callback("此阶梯优惠门槛需大于上一阶梯的优惠门槛");
+                                      };
+                                    };
+                                    if(dataSource[index + 1]&&dataSource[index + 1].param.leastQty){
+                                      if(+value >= +dataSource[index + 1].param.leastQty){
+                                        callback("此阶梯优惠门槛需小于下一阶梯的优惠门槛");
+                                      };
+                                    };
+                                    callback();
                                   };
-                                  if (value > 99) {
-                                    callback("不可超过99");
-                                  };
-                                  callback();
                                 },
                               }
                             ],
-                            initialValue: item.param.leastQty,
-                            onChange: e => this.onChange(e, index)
                           })(
                             <Input
                               autoComplete="off"

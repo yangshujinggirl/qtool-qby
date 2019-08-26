@@ -58,6 +58,9 @@ class Discount extends Component {
                   单笔订单满 　
                   {getFieldDecorator(`fieldValues[${index}].leastQty`, {
                     initialValue: item.param.leastQty,
+                    getValueFromEvent:(event)=>{
+                      return event.target.value.replace(/\D/g,'').replace(/^[0]+/,'')
+                    },
                     onChange: e => {
                       this.onChange(e, index, "leastQty");
                     },
@@ -76,9 +79,12 @@ class Discount extends Component {
                               const prevGiftQty = +promotionRules[index - 1].param.giftQty;//上一条减额
                               const prevDiscount = prevLeastQty/(prevLeastQty + prevGiftQty) //上一条折扣
                               if(currentGiftQty){
-                                if(currentDiscount > prevDiscount){
+                                if(currentDiscount >= prevDiscount){
                                   callback('此阶梯优惠力度需大于上一阶梯')
-                                }
+                                };
+                              };
+                              if(+value <= prevLeastQty){
+                                callback('此阶梯优惠力度需大于上一阶梯')
                               };
                             };
                             if(promotionRules[index+1]){
@@ -86,9 +92,12 @@ class Discount extends Component {
                               const nextGiftQty = +promotionRules[index + 1].param.giftQty;//下一条减额
                               const nextDiscount = nextLeastQty/(nextLeastQty + nextGiftQty) //下一条折扣
                               if(currentGiftQty){
-                                if(currentDiscount < nextDiscount){
+                                if(currentDiscount <= nextDiscount){
                                   callback('此阶梯优惠力度需小于下一阶梯')
-                                }
+                                };
+                                if(+value >= nextLeastQty){
+                                  callback('此阶梯优惠力度需小于下一阶梯')
+                                };
                               };
                             };
                           };
@@ -102,6 +111,9 @@ class Discount extends Component {
                 <FormItem className="reduce_price">
                   {getFieldDecorator(`fieldValues[${index}].giftQty`, {
                     initialValue: item.param.giftQty,
+                    getValueFromEvent:(event)=>{
+                      return event.target.value.replace(/\D/g,'').replace(/^[0]+/,'')
+                    },
                     onChange: e => {this.onChange(e, index, "giftQty")},
                     rules: [
                       {required: true, message: "请填写优惠内容" },
@@ -118,7 +130,7 @@ class Discount extends Component {
                               const prevGiftQty = +promotionRules[index - 1].param.giftQty;//上一条减额
                               const prevDiscount = prevLeastQty/(prevLeastQty + prevGiftQty) //上一条折扣
                               if(currentLeastQty){
-                                if(currentDiscount > prevDiscount){
+                                if(currentDiscount >= prevDiscount){
                                   callback('此阶梯优惠力度需大于上一阶梯')
                                 };
                               };
@@ -128,7 +140,7 @@ class Discount extends Component {
                               const nextGiftQty = +promotionRules[index + 1].param.giftQty;//下一条减额
                               const nextDiscount = nextLeastQty/(nextLeastQty + nextGiftQty) //下一条折扣
                               if(currentLeastQty){
-                                if(currentDiscount < nextDiscount){
+                                if(currentDiscount <= nextDiscount){
                                   callback('此阶梯优惠力度需小于下一阶梯')
                                 }
                               };
