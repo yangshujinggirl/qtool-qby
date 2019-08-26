@@ -33,18 +33,19 @@ class CtipActivityAddOneF extends Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       values = this.formatParams(values);
-      console.log(values);
       if (!err) {
         values = this.formatParams(values);
         getSaveActivApi(values)
         .then((res)=> {
-          this.successCallback()
+          if(res.code == '0') {
+            this.successCallback()
+          }
         })
       }
     });
   };
   formatParams=(values)=> {
-    let { time, warmUpBeginTime, bearerActivity, autoComplete, ...paramsVal} =values;
+    let { time, warmUpBeginTime, bearerActivity, autoComplete, bearers, ...paramsVal} =values;
     const { activityInfo, ratioList, data } =this.props;
     if(time&&time.length>0) {
       paramsVal.beginTime = moment(time[0]).format('YYYY-MM-DD HH:mm:ss');
@@ -53,10 +54,22 @@ class CtipActivityAddOneF extends Component {
     if(warmUpBeginTime) {
       paramsVal.warmUpBeginTime = moment(warmUpBeginTime).format('YYYY-MM-DD HH:mm:ss');
     }
-    if(paramsVal.bearers&&paramsVal.bearers.length>0) {
-      paramsVal.bearers = paramsVal.bearers.filter(x => true);
-      if(paramsVal.bearers[0].budget) {
-        paramsVal.budget = paramsVal.bearers[0].budget;
+    // if(paramsVal.bearers&&paramsVal.bearers.length>0) {
+    //   paramsVal.bearers = paramsVal.bearers.filter(x => true);
+    //   if(paramsVal.bearers[0].budget) {
+    //     paramsVal.budget = paramsVal.bearers[0].budget;
+    //   }
+    // }
+    if(ratioList.length>0) {
+      paramsVal.bearers = ratioList.map((el) => {
+        let item={};
+        item.bearer = el.bearer;
+        item.proportion = el.proportion;
+        item.remark = el.remark;
+        return item;
+      });
+      if(ratioList[0].budget) {
+        paramsVal.budget = ratioList[0].budget;
       }
     }
     if(data.promotionId) {
@@ -133,9 +146,9 @@ const CtipActivityAddOne = Form.create({
     let currentKey = Object.keys(changedFields)[0];
     let { ratioList } =props;
     if(currentKey == 'bearers') {
-      ratioList =ratioList.map((el) => {
-        bearers.map((prev) =>{
-          if(el.bearer == prev.bearer) {
+      ratioList =ratioList.map((el,idx) => {
+        bearers.map((prev,index) =>{
+          if(idx == index) {
             el = {...el,...prev};
           }
         })

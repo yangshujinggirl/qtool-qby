@@ -66,14 +66,14 @@ class InfoSet extends Component {
     })
   }
   onSelect=(value, option)=> {
-    value=`C${value}`
     let { ratioList } =this.props;
     let idx = ratioList.findIndex(el => el.key == value);
     if(idx =='-1') {
       ratioList.push({
-        key:value,
+        key:`C${value}`,
         bearerType:'C',
-        bearer:option.props.children
+        bearerStr:option.props.children,
+        bearer:value
       });
       this.props.dispatch({
         type:'ctipActivityAddOne/getRatioList',
@@ -117,12 +117,12 @@ class InfoSet extends Component {
     value&&value.map((el,index) => {
       if(el!='C') {
         if(valMap[el]) {
-          newArr[index]=valMap[el]
-          // newArr.push(valMap[el])
+          newArr.push(valMap[el])
         } else {
           let item={}
-          item.bearer = bearMap[el];
+          item.bearer = el;
           item.bearerType = el;
+          item.bearerStr =  bearMap[el];
           item.key = `${el}${index}`;
           newArr.push(item)
         }
@@ -145,7 +145,7 @@ class InfoSet extends Component {
     this.props.form.resetFields(['bearers'])
   }
   render() {
-    const { activityInfo, ratioList, tagsList } =this.props;
+    const { activityInfo, ratioList, tagsList, promotionId } =this.props;
     const { supplierList } =this.state;
     const { getFieldDecorator } = this.props.form;
     let blColumns = columnsCreat(this.props.form,this.validatorRatio,this.changeProportion,ratioList);
@@ -157,7 +157,7 @@ class InfoSet extends Component {
       <div>
         <p className="info-title">活动信息</p>
         {
-          this.props.promotionId&&
+        promotionId&&
           <div>
             <FormItem label='活动ID' {...formItemLayout}>
              {activityInfo.mktActivityId}
@@ -174,6 +174,7 @@ class InfoSet extends Component {
              initialValue:activityInfo.name
            })(
              <Input
+               disabled={promotionId?true:false}
                className="ant-input-fixed"
                placeholder="请输入活动名称" maxLength='30' autoComplete="off"/>
            )
@@ -186,6 +187,7 @@ class InfoSet extends Component {
              initialValue:activityInfo.beginTime?[moment(activityInfo.beginTime).format(format),moment(activityInfo.endTime).format(format)]:null
            })(
              <RangePicker
+               disabled={promotionId?true:false}
                className="ant-input-fixed"
                format={format}
                disabledDate={disabledDate}
@@ -274,9 +276,7 @@ class InfoSet extends Component {
             providerIndex!=undefined&&providerIndex!='-1'&&
               <FormItem className="autoComplete-formItem">
                  {
-                   getFieldDecorator('autoComplete', {
-                     initialValue:activityInfo.name
-                   })(
+                   getFieldDecorator('autoComplete')(
                     <AutoComplete
                       dataSource={supplierList}
                       onSelect={this.onSelect}
@@ -299,7 +299,7 @@ class InfoSet extends Component {
                 closable
                 key={el.key}
                 onClose={()=>this.handleClose(el)}>
-                {el.bearer}
+                {el.bearerStr}
               </Tag>
             ))
           }
@@ -325,8 +325,8 @@ class InfoSet extends Component {
               initialValue:activityInfo.promotionScope
             })(
               <Radio.Group >
-               <Radio value={1}>单品促销</Radio>
-               <Radio value={2}>专区促销</Radio>
+               <Radio value={1} disabled={promotionId?true:false}>单品促销</Radio>
+               <Radio value={2} disabled={promotionId?true:false}>专区促销</Radio>
              </Radio.Group>
             )
           }
@@ -343,7 +343,7 @@ class InfoSet extends Component {
                 <Radio.Group >
                   {
                     rangeOption.map((el,index) => (
-                      <Radio key={el.key} value={el.key}>{el.value}</Radio>
+                      <Radio key={el.key} value={el.key} disabled={promotionId?true:false}>{el.value}</Radio>
                     ))
                   }
                </Radio.Group>
@@ -364,7 +364,7 @@ class InfoSet extends Component {
                      pdScopeOption.map((el,index) => (
                        <Radio
                          value={el.key} key={el.key}
-                         disabled={activityInfo.promotionType=='23'?true:false}>{el.value}</Radio>
+                         disabled={activityInfo.promotionType=='23'||promotionId?true:false}>{el.value}</Radio>
                      ))
                    }
                 </Radio.Group>

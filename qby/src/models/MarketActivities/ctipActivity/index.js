@@ -69,7 +69,8 @@ export default {
       yield put({type: 'tab/loding',payload:true});
       const res = yield call(getListApi,values);
       if(res.code == 0) {
-        let { list, currentPage, limit, total } = result;
+        let { list, currentPage, limit, total } = res;
+        list.length>0&&list.map((el,index) => el.key=++index)
         yield put ({
           type: 'getList',
           payload:{

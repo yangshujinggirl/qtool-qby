@@ -24,8 +24,8 @@ const columnsIndex=[
     key: 'activityTime',
   },{
     title: '活动状态',
-    dataIndex: 'status',
-    key: 'status',
+    dataIndex: 'statusStr',
+    key: 'statusStr',
   },{
     title: '发起人',
     dataIndex: 'createUser',
