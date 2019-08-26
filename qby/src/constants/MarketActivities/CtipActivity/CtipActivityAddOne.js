@@ -69,7 +69,7 @@ class CtipActivityAddOneF extends Component {
     if(data.promotionId) {
       paramsVal.promotionId = data.promotionId;
     }
-    paramsVal.paltformType = 'C';
+    paramsVal.platformType = 1;
     paramsVal.pdDetailBannerPic = activityInfo.pdDetailBannerPic;
     paramsVal.logoPic = activityInfo.logoPic;
     return paramsVal;

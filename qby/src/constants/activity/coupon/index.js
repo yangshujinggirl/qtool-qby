@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {Button,message,Modal} from 'antd'
 import {connect} from 'dva'
-import Columns from './columns/index'
+import {Columns} from './columns/index'
 import Qtable from '../../../components/Qtable/index'; //表单
 import Qpagination from '../../../components/Qpagination/index'; //分页
 import FilterForm from './FilterForm/index'

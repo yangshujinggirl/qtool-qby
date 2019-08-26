@@ -112,3 +112,10 @@ export function exportMdApi(values){
       data:values
   })
 }
+export function getSuppliApi(values) {
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.pd.supplier.query',
+      data:values
+  })
+}
