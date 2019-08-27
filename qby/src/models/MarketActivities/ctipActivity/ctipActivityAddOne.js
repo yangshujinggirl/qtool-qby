@@ -40,7 +40,14 @@ export default {
       yield put({type: 'tab/loding',payload:true});
       const res = yield call(getBaseInfoApi,values);
       if(res.code == 0) {
-        yield put({type: 'getActivityInfo',payload:{}});
+        let { data } =res;
+        let ratioList = data.costApportions;
+        ratioList&&ratioList.map((el) =>el.key = el.costApportionId);
+        if(data.budget) {
+          ratioList[0].budget=data.budget;
+        }
+        yield put({type: 'getActivityInfo',payload:res.data});
+        yield put({type: 'getRatioList',payload:ratioList});
       }
       yield put({type: 'tab/loding',payload:false});
     },

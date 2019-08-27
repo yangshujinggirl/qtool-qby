@@ -34,6 +34,7 @@ class WebSet extends Component {
   render() {
     const { activityInfo } =this.props;
     const { getFieldDecorator } = this.props.form;
+
     return(
       <div>
         <p className="info-title">前端展示</p>
@@ -59,7 +60,7 @@ class WebSet extends Component {
                   rules: [{ required: true, message: '请设置预热时间'},{
                     validator:this.validator
                   }],
-                  initialValue:activityInfo.warmUpBeginTime?moment(activityInfo.warmUpBeginTime).format('YYYY-MM-DD HH:mm:ss'):null
+                  initialValue:activityInfo.warmUpBeginTime?moment(activityInfo.warmUpBeginTime,'YYYY-MM-DD HH:mm:ss'):null
                 })(
                   <DatePicker
                     disabled={activityInfo.time?false:true}

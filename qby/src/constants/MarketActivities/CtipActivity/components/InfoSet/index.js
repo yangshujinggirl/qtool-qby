@@ -128,15 +128,6 @@ class InfoSet extends Component {
         }
       }
      });
-    // value&&value.map((el,index) => {
-    //   if(el!='C') {
-    //     let item={}
-    //     item.bearer = bearMap[el];
-    //     item.bearerType = el;
-    //     item.key = index;
-    //     newArr.push(item)
-    //   }
-    //  });
     ratioList=[...newArr,...tagsList];
     this.props.dispatch({
       type:'ctipActivityAddOne/getRatioList',
@@ -150,9 +141,10 @@ class InfoSet extends Component {
     const { getFieldDecorator } = this.props.form;
     let blColumns = columnsCreat(this.props.form,this.validatorRatio,this.changeProportion,ratioList);
     let otherIndex = activityInfo.purposeTypes&&activityInfo.purposeTypes.findIndex((el)=>el == '5');
-    let providerIndex = activityInfo.bearerActivity&&activityInfo.bearerActivity.findIndex((el)=>el == 'C');
+    let providerIndex = activityInfo.costApportion&&activityInfo.costApportion.findIndex((el)=>el == 'C');
     let rangeOption = activityInfo.promotionScope==1?singleOption:prefectureOption;
     let linkAgeOption = activityInfo.promotionScope==1?(activityInfo.promotionType=='11'?prefTwoOption:prefectureOption):singleOption;
+
     return(
       <div>
         <p className="info-title">活动信息</p>
@@ -160,10 +152,10 @@ class InfoSet extends Component {
         promotionId&&
           <div>
             <FormItem label='活动ID' {...formItemLayout}>
-             {activityInfo.mktActivityId}
+             {activityInfo.promotionId}
             </FormItem>
             <FormItem label='活动状态' {...formItemLayout}>
-             {activityInfo.status}
+             {activityInfo.statusStr}
             </FormItem>
           </div>
         }
@@ -184,7 +176,7 @@ class InfoSet extends Component {
          {
            getFieldDecorator('time', {
              rules: [{ required: true, message: '请选择活动时间'}],
-             initialValue:activityInfo.beginTime?[moment(activityInfo.beginTime).format(format),moment(activityInfo.endTime).format(format)]:null
+             initialValue:activityInfo.beginTime?[moment(activityInfo.beginTime,format),moment(activityInfo.endTime,format)]:null
            })(
              <RangePicker
                disabled={promotionId?true:false}
@@ -259,9 +251,9 @@ class InfoSet extends Component {
         <div className="one-line-wrap">
             <FormItem label='活动成本承担方' {...formItemLayout}>
                {
-                 getFieldDecorator('bearerActivity', {
+                 getFieldDecorator('costApportion', {
                    rules: [{ required: true, message: '请选择活动成本承担方'}],
-                   initialValue:activityInfo.bearerActivity,
+                   initialValue:activityInfo.costApportion,
                    onChange:this.changeBearActi
                  })(
                    <Checkbox.Group style={{ width: '100%' }}>
@@ -380,7 +372,7 @@ class InfoSet extends Component {
                  rules: [{ required: true, message: '请选择商品种类'}],
                  initialValue:activityInfo.pdKind
                })(
-                 <Radio.Group >
+                 <Radio.Group disabled={promotionId?true:false}>
                   <Radio value={1}>一般贸易商品（除品牌直供）</Radio>
                   <Radio value={2}>品牌直供商品</Radio>
                   <Radio value={3} disabled={activityInfo.promotionType=='23'?true:false}>保税商品</Radio>
@@ -398,7 +390,7 @@ class InfoSet extends Component {
                 rules: [{ required: true, message: '请选择可同享的促销类型'}],
                 initialValue:activityInfo.sharedPromotionType
               })(
-                <Radio.Group >
+                <Radio.Group disabled={promotionId?true:false}>
                   <Radio value={-1}>均不同享</Radio>
                   {
                     linkAgeOption.map((el)=>(
