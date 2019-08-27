@@ -1,9 +1,13 @@
 import { Row, Col, Table } from 'antd';
 import { columnsCreatInfo } from '../../columns';
+import { purposeTypesOption, levelOption, pdScopeOption, prefectureOption, promotionScopeOption, pdKindOption, singleOption } from '../optionMap.js';
 import './index.less';
 
 function DetailBase({...props}) {
   const { labelCol, wrapperCol, info } =props;
+  let lxOption=info.promotionScope==1?singleOption:prefectureOption;
+  let shareOption = info.promotionScope==1?prefectureOption:singleOption;
+
   return <div className="detail-mode-wrap">
           <Row className="item-row">
             <Col span={labelCol}>活动ID：</Col>
@@ -23,19 +27,34 @@ function DetailBase({...props}) {
           </Row>
           <Row className="item-row">
             <Col span={labelCol}>活动目的：</Col>
-            <Col span={wrapperCol}>{info.purposeTypes}</Col>
+            <Col span={wrapperCol}>
+            {
+              info.purposeTypes&&info.purposeTypes.map((el,index) =>{
+                return <span key={index}>
+                      {purposeTypesOption[index].value}，
+                      {el=='5'&&<span>{info.otherPurpose}</span>}
+                </span>
+              })
+            }
+            </Col>
           </Row>
           <Row className="item-row">
             <Col span={labelCol}>活动级别：</Col>
-            <Col span={wrapperCol}>{info.level}</Col>
+            <Col span={wrapperCol}>
+            {
+              levelOption.map((el,index)=>(
+                <span key={index}>{info.level==el.key&&el.value}</span>
+              ))
+            }
+            </Col>
           </Row>
           <Row className="item-row">
             <Col span={labelCol}>活动端：</Col>
-            <Col span={wrapperCol}>{info.platform}</Col>
+            <Col span={wrapperCol}>线上App/小程序</Col>
           </Row>
           <Row className="item-row">
             <Col span={labelCol}>活动门店：</Col>
-            <Col span={wrapperCol}>{info.shopType}</Col>
+            <Col span={wrapperCol}>全部门店</Col>
           </Row>
           <Row className="item-row">
             <Col span={labelCol}>活动成本分摊比例：</Col>
@@ -43,33 +62,74 @@ function DetailBase({...props}) {
             <Table
               bordered
               pagination={false}
-              columns={columnsCreatInfo(2)}
-              dataSource={info.costApportions?info.costApportions:[]}/>
+              columns={columnsCreatInfo(info.costApportions)}
+              dataSource={info.costApportions}/>
             </Col>
           </Row>
           <Row className="item-row">
             <Col span={labelCol}>活动成本承担方：</Col>
-            <Col span={wrapperCol}>Qtools，门店，小红脸供应商，奥乐齐供应商</Col>
+            <Col span={wrapperCol}>
+            {
+              info.costApportions.map((el) => (
+                <span key={el.costApportionId}>{el.bearerStr},</span>
+              ))
+            }
+            </Col>
           </Row>
           <Row className="item-row">
             <Col span={labelCol}>促销范围：</Col>
-            <Col span={wrapperCol}>{info.pdScope}</Col>
+            <Col span={wrapperCol}>
+            {
+              promotionScopeOption.map((el,index) =>(
+                <span key={index}>{info.promotionScope==el.key&&el.value}</span>
+              ))
+            }
+            </Col>
           </Row>
           <Row className="item-row">
             <Col span={labelCol}>促销类型：</Col>
-            <Col span={wrapperCol}>{info.promotionType}</Col>
+            <Col span={wrapperCol}>
+            {
+              lxOption.map((el,index)=>(
+                <span key={index}>{info.promotionType==el.key&&el.value}</span>
+              ))
+            }
+            </Col>
           </Row>
-          <Row className="item-row">
-            <Col span={labelCol}>促销级别：</Col>
-            <Col span={wrapperCol}>{info.pdScope}</Col>
-          </Row>
-          <Row className="item-row">
-            <Col span={labelCol}>商品种类：</Col>
-            <Col span={wrapperCol}>{info.pdKind}</Col>
-          </Row>
+          {
+            info.promotionScope==2&&
+            <div>
+              <Row className="item-row">
+                <Col span={labelCol}>促销级别：</Col>
+                <Col span={wrapperCol}>
+                {
+                  pdScopeOption.map((el,index) =>(
+                    <span key={index}>{info.pdScope==el.key&&el.value}</span>
+                  ))
+                }
+                </Col>
+              </Row>
+              <Row className="item-row">
+                <Col span={labelCol}>商品种类：</Col>
+                <Col span={wrapperCol}>
+                {
+                  pdKindOption.map((el,index) => (
+                    <span key={index}>{info.pdKind==el.key&&el.value}</span>
+                  ))
+                }
+                </Col>
+              </Row>
+            </div>
+          }
           <Row className="item-row">
             <Col span={labelCol}>可同享的单品促销类型：</Col>
-            <Col span={wrapperCol}>{info.sharedPromotionType}</Col>
+            <Col span={wrapperCol}>
+            {
+              shareOption.map((el,index) => (
+                <span key={index}>{info.sharedPromotionType==el.key&&el.value}</span>
+              ))
+            }
+            </Col>
           </Row>
          </div>
 }

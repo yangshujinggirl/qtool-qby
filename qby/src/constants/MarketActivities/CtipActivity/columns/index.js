@@ -91,7 +91,7 @@ const columnsCreat =(form,validator,changeProportion,dataSource)=>{
     },
   ]
 }
-const columnsCreatInfo =(len)=>{
+const columnsCreatInfo =(dataSource)=>{
   return [{
       title: '活动预算',
       dataIndex: 'budget',
@@ -103,7 +103,7 @@ const columnsCreatInfo =(len)=>{
           props: {},
         };
         if (index === 0) {
-          obj.props.rowSpan = len;
+          obj.props.rowSpan = dataSource.length;
         } else {
           obj.props.rowSpan = 0;
         }
@@ -111,7 +111,7 @@ const columnsCreatInfo =(len)=>{
       }
     },{
       title: '承担方',
-      dataIndex: 'bearer',
+      dataIndex: 'bearerStr',
       width:'10%',
     },{
       title: '*承担比例',

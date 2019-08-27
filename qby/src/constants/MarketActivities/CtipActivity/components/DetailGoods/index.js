@@ -3,7 +3,7 @@ import { columnsSingleDown,columnsSingleGift,columnsAreaGift,columnsAreaMinus } 
 
 //10.单品直降 11.单品多级满赠 20.专区多级满元赠 21.专区多级满件赠 22专区多级满元减 23.专区满件减免
 function DetailGoods({...props}) {
-  const { info } =props;
+  let { info } =props;
   let columns;
   switch(info.promotionType) {
     case 10:
@@ -19,13 +19,24 @@ function DetailGoods({...props}) {
      break;
     case 22:
      columns = columnsAreaMinus;
+     if(info.promotionRules) {
+       info.promotionProducts =info.promotionProducts&&info.promotionProducts.map((el)=> {
+         el.promotionRules = info.promotionRules;
+         return el;
+       })
+     }
+     info.promotionProducts
      break;
   }
+  console.log(info)
   return <div className="detail-mode-wrap">
-          <Row className="item-row">
-            共6条数据
-            <Button type="primary" onClick={props.exportData}>导出商品明细</Button>
-          </Row>
+          {
+            info.promotionProducts.length>0&&
+            <Row className="item-row">
+              共{info.promotionProducts.length}条数据
+              <Button type="primary" onClick={props.exportData}>导出商品明细</Button>
+            </Row>
+          }
           <Table
             bordered
             pagination={false}

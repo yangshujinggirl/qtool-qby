@@ -6,6 +6,25 @@ const pdScopeOption=[
     key:2,
     value:'自选商品'
 }]
+const promotionScopeOption=[
+  {
+    key:1,
+    value:'单品促销'
+  },{
+    key:2,
+    value:'专区促销'
+}]
+const pdKindOption=[
+  {
+    key:1,
+    value:'一般贸易商品（除品牌直供）'
+  },{
+    key:2,
+    value:'品牌直供商品'
+  },{
+    key:3,
+    value:'保税商品'
+  }]
 const singleOption=[
   {
     key:10,
@@ -69,5 +88,8 @@ const levelOption=[
   }]
 
   export {
-    pdScopeOption,singleOption,prefectureOption, purposeTypesOption, levelOption, prefTwoOption
+    pdScopeOption,singleOption,
+    prefectureOption, purposeTypesOption,
+    levelOption, prefTwoOption,
+    promotionScopeOption,pdKindOption
   }
