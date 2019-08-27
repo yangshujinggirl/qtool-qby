@@ -6,40 +6,10 @@ import {
 export default {
   namespace:'ctipActivity',
   state: {
-    dataList:[{
-      key:1,
-      name:'wq',
-      promotionId:'2001',
-      promotionType:10,
-    },{
-      key:2,
-      name:'wqer',
-      promotionId:'2002',
-      promotionType:11,
-    },{
-      key:3,
-      name:'wqer',
-      promotionId:'2002',
-      promotionType:20,
-    },{
-      key:4,
-      name:'wqer',
-      promotionId:'2002',
-      promotionType:21,
-    },{
-      key:5,
-      name:'wqer',
-      promotionId:'2002',
-      promotionType:22,
-    },{
-      key:6,
-      name:'wqer',
-      promotionId:'2002',
-      promotionType:23,
-    }],
+    dataList:[],
     dataPag:{
       currentPage:0,
-      limit:1,
+      limit:15,
       total:2,
     },
   },
