@@ -47,7 +47,7 @@ class InfoSet extends Component {
       total+=Number(el.proportion);
     })
     if(total>100) {
-      callback('分成比例不能超过100%');
+      callback('承担比例总和不能超过100%');
     }else {
       callback();
     }
