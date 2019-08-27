@@ -14,15 +14,12 @@ class CtipActivityAddTwo extends Component {
     super(props);
   }
   componentDidMount = () => {
-    this.props.dispatch({
-      //清空历史数据
-      //活动所有设置的详情
+    this.props.dispatch({//清空历史数据
       type: "ctipActivityAddTwo/resetData",
       payload: {}
     });
     const { promotionId, promotionType } = this.props.data;
-    this.props.dispatch({
-      //活动所有设置的详情
+    this.props.dispatch({//活动所有设置的详情
       type: "ctipActivityAddTwo/fetchDiscountInfo",
       payload: { promotionId }
     });
@@ -128,7 +125,8 @@ class CtipActivityAddTwo extends Component {
     });
   };
   render() {
-    const { promotionType} = this.props;
+    const { promotionType,beginTime,endTime,pdKind} = this.props.data;
+    
     const form = this.props.form;
     return (
       <div className="set_goods">
@@ -152,10 +150,10 @@ class CtipActivityAddTwo extends Component {
             <div>
               <div className="set_title">
                 {(promotionType == 10 || promotionType == 11) && (
-                  <SetTitle type={promotionType} />
+                  <SetTitle type={promotionType}/>
                 )}
               </div>
-              <Import />
+              <Import beginTime={beginTime} endTime={endTime} pdKind={pdKind}/>
               <SetGoods />
             </div>
           )}

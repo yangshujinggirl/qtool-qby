@@ -4,7 +4,7 @@ import ajax from '../../utils/req.js'
 export function getListApi(values){
   values = JSON.stringify(values)
   return ajax.post('/webrest.htm',{
-      code:'qerp.web.pd.coupon.query',
+      code:'qerp.web.ac.coupon.query',
       data:values
   })
 }
@@ -12,7 +12,7 @@ export function getListApi(values){
 export function addCouponApi(values){
   values = JSON.stringify(values)
   return ajax.post('/webrest.htm',{
-      code:'qerp.web.pd.coupon.save',
+      code:'qerp.web.ac.coupon.save',
       data:values
   })
 }
@@ -20,7 +20,7 @@ export function addCouponApi(values){
 export function InjectCouponApi(values){
   values = JSON.stringify(values);
   return ajax.post('/webrest.htm',{
-      code:'qerp.web.pd.coupon.create',
+      code:'qerp.web.ac.coupon.create',
       data:values
   });
 }
@@ -28,7 +28,7 @@ export function InjectCouponApi(values){
 export function couponInfoApi(values){
   values = JSON.stringify(values)
   return ajax.post('/webrest.htm',{
-      code:'qerp.web.pd.coupon.detail',
+      code:'qerp.web.ac.coupon.detail',
       data:values
   })
 }
@@ -36,7 +36,7 @@ export function couponInfoApi(values){
 export function fuseCouponApi(values){
   values = JSON.stringify(values)
   return ajax.post('/webrest.htm',{
-      code:'qerp.web.pd.coupon.break',
+      code:'qerp.web.ac.coupon.break',
       data:values
   })
 }
@@ -44,7 +44,7 @@ export function fuseCouponApi(values){
 export function InjectRecordApi(values){
   values = JSON.stringify(values)
   return ajax.post('/webrest.htm',{
-      code:'qerp.web.pd.couponRecond.query',
+      code:'qerp.web.ac.couponRecond.query',
       data:values
   })
 }
@@ -52,7 +52,7 @@ export function InjectRecordApi(values){
 export function getManageListApi(values){
   values = JSON.stringify(values)
   return ajax.post('/webrest.htm',{
-      code:'qerp.web.pd.coupon.package.query',
+      code:'qerp.web.ac.coupon.package.query',
       data:values
   })
 }
@@ -60,7 +60,7 @@ export function getManageListApi(values){
 export function addCouponPackApi(values){
   values = JSON.stringify(values)
   return ajax.post('/webrest.htm',{
-      code:'qerp.web.pd.coupon.package.save',
+      code:'qerp.web.ac.coupon.package.save',
       data:values
   })
 }
@@ -68,7 +68,7 @@ export function addCouponPackApi(values){
 export function updataCouponPackApi(values){
   values = JSON.stringify(values)
   return ajax.post('/webrest.htm',{
-      code:'qerp.web.pd.coupon.update',
+      code:'qerp.web.ac.coupon.update',
       data:values
   })
 }
@@ -76,7 +76,7 @@ export function updataCouponPackApi(values){
 export function getGoodTypeApi(values){
   values = JSON.stringify(values)
   return ajax.post('/webrest.htm',{
-      code:'qerp.web.pd.coupon.brand.query',
+      code:'qerp.web.ac.coupon.brand.query',
       data:values
   })
 }
@@ -84,7 +84,7 @@ export function getGoodTypeApi(values){
 export function getCouponInfoApi(values){
   values = JSON.stringify(values)
   return ajax.post('/webrest.htm',{
-      code:'qerp.web.pd.coupon.detail',
+      code:'qerp.web.ac.coupon.detail',
       data:values
   })
 }
@@ -92,7 +92,7 @@ export function getCouponInfoApi(values){
 export function getCouponGoodInfoApi(values){
   values = JSON.stringify(values)
   return ajax.post('/webrest.htm',{
-      code:'qerp.web.pd.coupon.spuQuery',
+      code:'qerp.web.ac.coupon.spuQuery',
       data:values
   })
 }
@@ -100,7 +100,7 @@ export function getCouponGoodInfoApi(values){
 export function getCouponShopInfoApi(values){
   values = JSON.stringify(values)
   return ajax.post('/webrest.htm',{
-      code:'qerp.web.pd.coupon.shopQuery',
+      code:'qerp.web.ac.coupon.shopQuery',
       data:values
   })
 }
@@ -109,6 +109,13 @@ export function exportMdApi(values){
   values = JSON.stringify(values)
   return ajax.post('/webrest.htm',{
       code:'qerp.web.sys.doc.task',
+      data:values
+  })
+}
+export function getSuppliApi(values) {
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.pd.supplier.query',
       data:values
   })
 }

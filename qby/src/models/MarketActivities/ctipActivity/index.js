@@ -6,41 +6,11 @@ import {
 export default {
   namespace:'ctipActivity',
   state: {
-    dataList:[{
-      key:1,
-      name:'wq',
-      promotionId:'1',
-      promotionType:10,
-    },{
-      key:2,
-      name:'wqer',
-      promotionId:'2',
-      promotionType:11,
-    },{
-      key:3,
-      name:'wqer',
-      promotionId:'3',
-      promotionType:20,
-    },{
-      key:4,
-      name:'wqer',
-      promotionId:'4',
-      promotionType:21,
-    },{
-      key:5,
-      name:'wqer',
-      promotionId:'5',
-      promotionType:22,
-    },{
-      key:6,
-      name:'wqer',
-      promotionId:'6',
-      promotionType:23,
-    }],
+    dataList:[],
     dataPag:{
       currentPage:0,
-      limit:1,
-      total:2,
+      limit:15,
+      total:0,
     },
   },
   reducers: {
@@ -69,7 +39,8 @@ export default {
       yield put({type: 'tab/loding',payload:true});
       const res = yield call(getListApi,values);
       if(res.code == 0) {
-        let { list, currentPage, limit, total } = result;
+        let { list, currentPage, limit, total } = res;
+        list.length>0&&list.map((el,index) => el.key=++index)
         yield put ({
           type: 'getList',
           payload:{

@@ -15,7 +15,7 @@ export default {
       return {...state,promotionType:'',dataSource:[],goodLists:[]}
     },
     refreshdataSource(state,{payload: { dataSource }}) {
-      dataSource.map((item,index)=>{
+      dataSource&&dataSource.map((item,index)=>{
         item.key = index
       });
       return { ...state, dataSource };
@@ -92,47 +92,8 @@ export default {
   effects: {
     *fetchDiscountInfo({ payload: values }, { call, put }) {
       yield put({ type: "tab/loding", payload: true});
-      yield call(getDiscountInfoApi, values);
+      const res = yield call(getDiscountInfoApi, values);
       yield put({ type: "tab/loding", payload: false   });
-      const res = {
-        data: {
-          promotionRules: [
-            {
-              param: {leastAmount: '',reduceAmount: '',leastQty: '',reduceQty: ''},
-              promotionGifts: [{
-                pdCode: 111,
-                pdName: "zengpin",
-                sellPrice: "12.00",
-                maxQty: 34,
-                toBQty: 12,
-                toCQty: 14
-              }]
-            }
-          ],
-          promotionProducts: [
-            {
-              pdCode: "商品编码",
-              maxQty: 99,
-              activityPrice: 100,
-              eventPrice:90,
-              perOrderLimit: 1,
-              perDayLimit: 2,
-              perUserLimit: 3,
-              pdName: "商品名称",
-              pdSpec: "商品规格",
-              pdKind: "1",
-              sellPrice: 200,
-              goldCardPrice: 10,
-              silverCardPrice: 10,
-              shareRatio:'90',
-              promotionRules: [
-                {param: { leastQty: '', reduceQty: 1,giftQty:'',leastAmount:100, reduceAmount: 20}},
-                {param: { leastQty: '', reduceQty: 100,giftQty:'',leastAmount: 200, reduceAmount: 50 }}
-              ]
-            }
-          ]
-        }
-      };
       const { promotionRules,promotionProducts} = res.data;
       yield put({
         type: "refreshLists",

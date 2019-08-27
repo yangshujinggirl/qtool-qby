@@ -29,24 +29,23 @@ class CtipActivityAddOneF extends Component {
     }
   }
   handleSubmit= e => {
-    this.jump()
-    // e.preventDefault();
-    // this.props.form.validateFields((err, values) => {
-    //   values = this.formatParams(values);
-    //   if (!err) {
-    //     values = this.formatParams(values);
-    //     getSaveActivApi(values)
-    //     .then((res)=> {
-    //       if(res.code == '0'){
-    //         const {pdScope} = values;
-    //         this.successCallback(res,pdScope);
-    //       };
-    //     })
-    //   }
-    // });
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      values = this.formatParams(values);
+      if (!err) {
+        values = this.formatParams(values);
+        getSaveActivApi(values)
+        .then((res)=> {
+          if(res.code == '0') {
+            const {pdScope,beginTime,endTime,pdKind} = values;
+            this.successCallback(res,pdScope,beginTime,endTime,pdKind)
+          }
+        })
+      }
+    });
   };
   formatParams=(values)=> {
-    let { time, warmUpBeginTime, bearerActivity, autoComplete, ...paramsVal} =values;
+    let { time, warmUpBeginTime, bearerActivity, autoComplete, bearers, ...paramsVal} =values;
     const { activityInfo, ratioList, data } =this.props;
     if(time&&time.length>0) {
       paramsVal.beginTime = moment(time[0]).format('YYYY-MM-DD HH:mm:ss');
@@ -54,53 +53,42 @@ class CtipActivityAddOneF extends Component {
     };
     if(warmUpBeginTime) {
       paramsVal.warmUpBeginTime = moment(warmUpBeginTime).format('YYYY-MM-DD HH:mm:ss');
-    };
-    if(paramsVal.bearers&&paramsVal.bearers.length>0) {
-      paramsVal.bearers = paramsVal.bearers.filter(x => true);
-      if(paramsVal.bearers[0].budget) {
-        paramsVal.budget = paramsVal.bearers[0].budget;
-      };
-    };
+    }
+    if(ratioList.length>0) {
+      paramsVal.bearers = ratioList.map((el) => {
+        let item={};
+        item.bearer = el.bearer;
+        item.proportion = el.proportion;
+        item.remark = el.remark;
+        return item;
+      });
+      if(ratioList[0].budget) {
+        paramsVal.budget = ratioList[0].budget;
+      }
+    }
     if(data.promotionId) {
       paramsVal.promotionId = data.promotionId;
-    };
-    paramsVal.paltformType = 'C';
+    }
+    paramsVal.platformType = 1;
     paramsVal.pdDetailBannerPic = activityInfo.pdDetailBannerPic;
     paramsVal.logoPic = activityInfo.logoPic;
     return paramsVal;
   }
-  jump=()=>{
+  successCallback=(res,pdScope,beginTime,endTime,pdKind)=> {
     const { data } = this.props;
     const paneitem = {
       title: "编辑C端活动",
-      key: `${data.parentKey}TwoSecond${Math.random()}`,
+      key: `${data.parentKey}TwoSecond${res.data.promotionId}`,
       componkey: `${data.parentKey}TwoSecond`,
       parentKey:data.parentKey,
       data: {
         parentKey:data.parentKey,
-        promotionId:Math.random(),
-        promotionType:data.promotionType,
-        pdScope:1,
-      }
-    };
-    this.props.dispatch({
-      type: "tab/firstAddTab",
-      payload: paneitem
-    });
-  }
-  successCallback=(res,pdScope)=> {
-    console.log(pdScope)
-    const { data } = this.props;
-    const paneitem = {
-      title: "编辑C端活动",
-      key: `${data.parentKey}TwoSecond${res.promotionId}`,
-      componkey: `${data.parentKey}TwoSecond`,
-      parentKey:data.parentKey,
-      data: {
-        parentKey:data.parentKey,
-        promotionId:res.promotionId,
-        promotionType:res.promotionType,
-        pdScope:pdScope
+        promotionId:res.data.promotionId,
+        promotionType:res.data.promotionType,
+        pdScope:pdScope,
+        beginTime:beginTime,
+        endTime:endTime,
+        pdKind:pdKind,
       }
     };
     this.props.dispatch({
@@ -139,9 +127,9 @@ const CtipActivityAddOne = Form.create({
     let currentKey = Object.keys(changedFields)[0];
     let { ratioList } =props;
     if(currentKey == 'bearers') {
-      ratioList =ratioList.map((el) => {
-        bearers.map((prev) =>{
-          if(el.bearer == prev.bearer) {
+      ratioList =ratioList.map((el,idx) => {
+        bearers.map((prev,index) =>{
+          if(idx == index) {
             el = {...el,...prev};
           }
         })

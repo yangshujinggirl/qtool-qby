@@ -1,17 +1,37 @@
 import React,{ Component } from 'react';
-import { AutoComplete, Form, Select, Input, Button , message, Row, Col,DatePicker,Radio,Checkbox,Tag} from 'antd';
-import { connect } from 'dva'
-import { addCouponApi,getGoodTypeApi,getCouponInfoApi,updataCouponPackApi} from '../../../services/activity/coupon'
-import GoodList from '../../../components/importData/index'
+import { Table, AutoComplete, Form, Select, Input, Button , message, Row, Col,DatePicker,Radio,Checkbox,Tag} from 'antd';
+import { connect } from 'dva';
+import moment from 'moment';
+import {
+  getSuppliApi,
+  addCouponApi,
+  getGoodTypeApi,
+  getCouponInfoApi,
+  updataCouponPackApi
+} from '../../../services/activity/coupon'
+import GoodList from '../../../components/importData/index';
+import { columnsCreat } from './columns';
 import ShopList from '../../../components/importData/index'
-import './index.css'
+import './index.css';
+import './AddCoupon.less';
+
 const FormItem = Form.Item;
 const Option = Select.Option;
 const TextArea = Input.TextArea;
 const RadioGroup = Radio.Group;
 const CheckboxGroup = Checkbox.Group;
 const { RangePicker } = DatePicker;
-import moment from 'moment'
+
+const bearMap={
+  'A':'Qtools',
+  'B':'门店',
+  'C':'供应商',
+}
+const radioStyle = {
+  display: 'block',
+  height: '30px',
+  lineHeight: '30px',
+};
 class AddCoupon extends Component {
   constructor(props){
     super(props);
@@ -25,6 +45,7 @@ class AddCoupon extends Component {
       goodTypeList:[],
       brandList:[],
       coupon:{
+        bearerActivity:[],
         couponUseScope:'4',
         couponShopScope:0,
         shopScope:0,
@@ -33,7 +54,10 @@ class AddCoupon extends Component {
         couponValidDateST:null,
         couponValidDateET:null
       },
-      couponId:''
+      supplierList:[],
+      tagsList:[],
+      ratioList:[],
+      couponId:'',
     }
     this.options1 = [
       { label: '不可与限时直降同享',value:1},
@@ -96,7 +120,6 @@ class AddCoupon extends Component {
 		e.preventDefault();
 		this.props.form.validateFieldsAndScroll((err, values) => {
       if(!err){
-
         delete values.goodLists
         delete values.shops
         const {brandList} = this.state;
@@ -110,7 +133,11 @@ class AddCoupon extends Component {
           _values.couponId = this.state.couponId;
           const componkey = this.props.componkey+this.state.couponId;
           this.sendRequest(updataCouponPackApi,_values,componkey)
-        }else{ //新增
+        }else if(this.props.data.srcCouponId) {//补发优惠券
+          _values.srcCouponId = this.props.data.srcCouponId;
+          const componkey = this.props.componkey+this.props.data.srcCouponId;
+          this.sendRequest(addCouponApi,_values,componkey)
+        }else { //新增
           this.sendRequest(addCouponApi,_values,this.props.componkey)
         };
       };
@@ -381,6 +408,93 @@ class AddCoupon extends Component {
       callback();
     };
   }
+  handleSearch=(value)=> {
+    getSuppliApi({name:value})
+    .then((res) => {
+      const { suppliers } =res;
+      if(res.code == '0') {
+        this.setState({ supplierList:suppliers });
+      }
+    })
+  }
+  onSelect=(value, option)=> {
+    let { ratioList, tagsList } =this.state;
+    let idx = ratioList.findIndex(el => el.key == value);
+    if(idx =='-1') {
+      tagsList.push({
+        key:`C${value}`,
+        bearerType:'C',
+        bearerStr:option.props.children,
+        bearer:value
+      });
+      ratioList.push({
+        key:`C${value}`,
+        bearerType:'C',
+        bearerStr:option.props.children,
+        bearer:value
+      });
+      this.setState({ ratioList, tagsList})
+    }
+  }
+  handleCloseBear=(removedTag)=> {
+    let { ratioList } =this.state;
+    const { bearers } =this.props.form.getFieldsValue(['bearers']);
+    // let dd = bearers.filter(tag => tag.bearer !== removedTag.bearer);
+    let tags = ratioList.filter(tag => tag.key !== removedTag.key);
+    this.setState({ ratioList })
+    // this.props.form.setFieldsValue({ bearers:dd })
+    // this.props.form.resetFields(['bearers'])
+  }
+  changeBearActi=(value)=>{
+    let { ratioList, coupon } =this.state;
+    let newArr=[];
+    let tagsList = ratioList.filter(el => el.bearerType=='C');
+    let fixedList = ratioList.filter(el => el.bearerType!='C');
+    let valMap={};
+    fixedList.map((el) => {
+      if(!valMap[el.bearerType]) {
+        valMap[el.bearerType]=el;
+      }
+    })
+    let isIdx = value.findIndex((el) =>el=='C');
+    if(isIdx=='-1') {
+      tagsList = [];
+    }
+    value&&value.map((el,index) => {
+      if(el!='C') {
+        if(valMap[el]) {
+          newArr.push(valMap[el])
+        } else {
+          let item={}
+          item.bearer = el;
+          item.bearerType = el;
+          item.bearerStr =  bearMap[el];
+          item.key = `${el}${index}`;
+          newArr.push(item)
+        }
+      }
+     });
+    ratioList=[...newArr,...tagsList];
+    this.setState({ ratioList,coupon:{...coupon,bearerActivity:value} })
+    this.props.form.resetFields(['bearers'])
+  }
+  //分成校验
+  validatorRatio=(rule, value, callback)=> {
+    let { activityInfo, ratioList } =this.props;
+    let { bearers } =this.props.form.getFieldsValue(['bearers']);
+    let total =0;
+    bearers.forEach((el)=> {
+      if(!el.proportion) {
+        el.proportion=0;
+      }
+      total+=Number(el.proportion);
+    })
+    if(total>100) {
+      callback('分成比例不能超过100%');
+    }else {
+      callback();
+    }
+  }
   render(){
     const {
       shopList,
@@ -391,19 +505,16 @@ class AddCoupon extends Component {
       brandList,
       couponUseScopeValue,
       couponShopScopeValue,
-      coupon,
-      isLoading
+      coupon,ratioList,tagsList,
+      isLoading,supplierList
     } = this.state;
     const brandIds = [];
     brandList&&brandList.length>0 && brandList.map(item=>{
       brandIds.push(Number(item.value))
     });
     const isEdit = Boolean(this.state.couponId);
-    const radioStyle = {
-      display: 'block',
-      height: '30px',
-      lineHeight: '30px',
-    };
+    let blColumns = columnsCreat(this.props.form,this.validatorRatio,this.changeProportion,ratioList);
+    let providerIndex = coupon.bearerActivity&&coupon.bearerActivity.findIndex((el)=>el == 'C');
     const { getFieldDecorator } = this.props.form;
     return(
       <div className='addCoupon'>
@@ -483,6 +594,73 @@ class AddCoupon extends Component {
               <Input style={{width:'255px'}} placeholder = '请输入优惠券金额' disabled={isEdit} autoComplete="off"/>
             )}　元
             </FormItem>
+            <Row className="one-line-wrap">
+              <FormItem
+                label='活动成本承担方'
+                labelCol={{ span: 4}}
+                wrapperCol={{ span: 19 }}>
+               {
+                 getFieldDecorator('bearerActivity', {
+                   rules: [{ required: true, message: '请选择活动成本承担方'}],
+                   initialValue:coupon.bearerActivity,
+                   onChange:this.changeBearActi
+                 })(
+                   <Checkbox.Group style={{ width: '100%' }}>
+                      <Checkbox value="A">Qtools</Checkbox>
+                      <Checkbox value="B">门店</Checkbox>
+                      <Checkbox value="C">供应商</Checkbox>
+                  </Checkbox.Group>
+                 )
+               }
+              </FormItem>
+              {
+                providerIndex!=undefined&&providerIndex!='-1'&&
+                <FormItem className="autoComplete-formItem">
+                  {
+                    getFieldDecorator('autoComplete')(
+                     <AutoComplete
+                       dataSource={supplierList}
+                       onSelect={this.onSelect}
+                       onSearch={this.handleSearch}>
+                       {
+                         supplierList.map(el =>
+                           <AutoComplete.Option key={el.pdSupplierId}>{el.name}</AutoComplete.Option>
+                         )
+                       }
+                     </AutoComplete>
+                    )
+                  }
+                </FormItem>
+              }
+            </Row>
+            <div className="supplier-tags-wrap">
+              {
+                tagsList.map((el)=> (
+                  <Tag
+                    closable
+                    key={el.key}
+                    onClose={()=>this.handleCloseBear(el)}>
+                    {el.bearerStr}
+                  </Tag>
+                ))
+              }
+            </div>
+            <FormItem
+              label='活动成本分摊比例'
+              labelCol={{ span: 4}}
+              wrapperCol={{ span: 19 }}>
+              <Table
+                onRow={record => {
+                  return {
+                    "data-row-key":record.key,
+                  };
+                }}
+                className="bl-table-wrap"
+                bordered
+                pagination={false}
+                columns={blColumns}
+                dataSource={ratioList}/>
+            </FormItem>
             <FormItem
               label='使用门槛'
               labelCol={{ span: 3,offset: 1 }}
@@ -512,7 +690,9 @@ class AddCoupon extends Component {
                     {validator:isEdit&&this.validataCouponCount}
                   ],
               })(
-                <Input placeholder='请输入0-10000的正整数' style={{width:'255px'}} autoComplete="off"/>
+                <Input
+                  disabled={isEdit}
+                  placeholder='请输入0-10000的正整数' style={{width:'255px'}} autoComplete="off"/>
               )
             }　张{isEdit&&<span className='suffix_tips'>修改优惠券总量时只能增加不能减少，请谨慎设置</span>}
             </FormItem>
@@ -552,8 +732,17 @@ class AddCoupon extends Component {
             >
               <div>
                 <span>剩余　</span>
-                <Input value={coupon.couponWarningQty} onChange={this.getCouponQty} style={{width:'100px'}} autoComplete="off"/>　张优惠券时预警，预警邮箱　　
-                <Input value={coupon.couponWarningEmail} onChange={this.getCouponEmail} style={{width:'200px'}} autoComplete="off"/>
+                <Input
+                  disabled={isEdit}
+                  value={coupon.couponWarningQty}
+                  onChange={this.getCouponQty}
+                  style={{width:'100px'}}
+                  autoComplete="off"/>　张优惠券时预警，预警邮箱　　
+                <Input
+                  disabled={isEdit}
+                  value={coupon.couponWarningEmail}
+                  onChange={this.getCouponEmail}
+                  style={{width:'200px'}} autoComplete="off"/>
             </div>
             </FormItem>
             <FormItem
@@ -565,7 +754,11 @@ class AddCoupon extends Component {
               initialValue:coupon.couponExplain,
               rules:[{required: true, message: '请输入优惠券说明'}]
             })(
-                <TextArea style={{width:'255px'}} placeholder='请输入优惠券说明，50字以内' maxLength='50' rows={6} disabled={isEdit}/>
+                <TextArea
+                  style={{width:'255px'}}
+                  placeholder='请输入优惠券说明，50字以内'
+                  maxLength='50' rows={6}
+                  disabled={isEdit}/>
             )}<span className='suffix_tips'>该名称将在前端给用户展示，请谨慎填写</span>
           </FormItem>
           <FormItem
@@ -576,7 +769,9 @@ class AddCoupon extends Component {
           {getFieldDecorator('couponRemark', {
             initialValue:coupon.couponRemark,
           })(
-              <TextArea style={{width:'255px'}} placeholder='请输入300字以下优惠券备注' maxLength='300' rows={6} />
+              <TextArea
+                disabled={isEdit}
+                style={{width:'255px'}} placeholder='请输入300字以下优惠券备注' maxLength='300' rows={6} />
           )}
           </FormItem>
           <div className='title'>使用范围</div>

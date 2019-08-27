@@ -33,20 +33,20 @@ const columnsCreat =(form,validator,changeProportion,dataSource)=>{
       }
     },{
       title: '承担方',
-      dataIndex: 'bearer',
+      dataIndex: 'bearerStr',
       width:'10%',
-      render:(text,record,index) => {
-        const { getFieldDecorator } =form;
-        return <FormItem>
-                {getFieldDecorator(`bearers[${index}].bearer`,{
-                  initialValue:record.bearer,
-                })(
-                  <Input
-                    disabled
-                    autoComplete="off"/>
-                )}
-              </FormItem>
-      }
+      // render:(text,record,index) => {
+      //   const { getFieldDecorator } =form;
+      //   return <FormItem>
+      //           {getFieldDecorator(`bearers[${index}].bearer`,{
+      //             initialValue:record.bearerStr,
+      //           })(
+      //             <Input
+      //               disabled
+      //               autoComplete="off"/>
+      //           )}
+      //         </FormItem>
+      // }
     },{
       title: '*承担比例',
       dataIndex: 'ratio',
