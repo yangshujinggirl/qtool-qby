@@ -78,7 +78,10 @@ class CtipDetail extends Component {
   getInfo(promotionId) {
     getBaseInfoApi({promotionId})
     .then((res) => {
-      console.log(res)
+      const { code, data } =res;
+      if(code == 0) {
+        this.setState({ baseInfo:data })
+      }
     })
     getDiscountInfoApi({promotionId})
     .then((res) => {

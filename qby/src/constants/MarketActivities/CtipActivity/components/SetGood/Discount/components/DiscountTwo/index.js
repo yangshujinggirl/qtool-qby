@@ -28,15 +28,20 @@ class DiscountTwo extends Component {
   onChange = (e, index, key) => {
     this.props.form.resetFields();
     const dataSource = [...this.props.dataSource];
+    const goodLists = [...this.props.goodLists]
     dataSource[index]["param"][key] = e.target.value;
     this.props.dispatch({
       type: "ctipActivityAddTwo/refreshdataSource",
       payload: { dataSource }
     });
+    this.props.dispatch({
+      type: "ctipActivityAddTwo/refreshLists",
+      payload: { goodLists }
+    });
   };
   render() {
     let { dataSource,promotionType } = this.props;
-    if(dataSource.length == 0){
+    if(dataSource && dataSource.length == 0){
       switch(promotionType){
         case 22: dataSource=[{param:{"leastAmount":'',"reduceAmount":''}}]; break;
         case 23: dataSource=[{param:{"leastQty":'', "reduceQty":''}}];break;
@@ -46,7 +51,7 @@ class DiscountTwo extends Component {
     return (
       <div className="discountTwo">
         <Form>
-          {dataSource.length>0&&dataSource.map((item, index) => (
+          {dataSource && dataSource.length>0 && dataSource.map((item, index) => (
             <div className="step" key={index}>
               <div>
                 {promotionType == 22 &&
@@ -240,7 +245,7 @@ class DiscountTwo extends Component {
                   </FormItem>
                 }
               </div>
-              {dataSource.length > 1 && (
+              {dataSource && dataSource.length > 1 && (
                 <a className="theme-color" onClick={() => this.delete(index)}>
                   删除等级
                 </a>
@@ -250,7 +255,7 @@ class DiscountTwo extends Component {
         </Form>
         <div className="discountTwo_add">
           <Button
-            disabled={dataSource.length == 3}
+            disabled={dataSource && dataSource.length == 3}
             type="primary"
             onClick={this.add}
           >

@@ -69,7 +69,9 @@ function getColumns(edit, delt) {
       render: (text, record, index) => {
         return (
           <span style={{ color: +text < 0 ? "red" : "#000000a6" }}>
-            {text}%
+            {
+              text?text+'%':'-'
+            }
           </span>
         );
       }
@@ -219,7 +221,7 @@ function getColumns(edit, delt) {
                   key={subIndex}
                   style={{ "margin-bottom": "5px", color: item.color }}
                 >
-                  {++subIndex}级：{item.rate}%
+                  {++subIndex}级：{item.rate?item.rate+'%':'-'}
                 </p>
               ))}
           </div>
@@ -399,7 +401,7 @@ function getColumns(edit, delt) {
                   key={subIndex}
                   style={{ "margin-bottom": "5px", color: item.color }}
                 >
-                  {++subIndex}级：{item.rate}%
+                  {++subIndex}级：{item.rate?item.rate+'%':'-'}
                 </p>
               ))}
           </div>

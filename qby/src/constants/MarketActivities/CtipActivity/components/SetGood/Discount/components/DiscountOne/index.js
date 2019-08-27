@@ -158,19 +158,16 @@ class DiscountOne extends Component {
     } = this.state;
     if (editType == "add") {
       //判断是新增还是编辑
-      getComplimentaryApi({ pdCode: values.pdCode }).then(res => {
+      getComplimentaryApi({ pdCode: values.pdCode,platformType:2}).then(res => {
         if (res.code == 0) {
-        }
+          const product = res.product;
+          let list = { ...product, maxQty: values.max };
+          dataSource[currentParentIndex].promotionGifts.push(list);
+          this.setState({
+            dataSource
+          });
+        };
       });
-      const product = {
-        pdCode: "233",
-        pdName: "zengpin",
-        sellPrice: "12.00",
-        toBQty: 12,
-        toCQty: 14
-      };
-      let list = { ...product, maxQty: values.max };
-      dataSource[currentParentIndex].promotionGifts.push(list);
     } else {
       const promotionGifts = dataSource[currentParentIndex].promotionGifts;
       const list = promotionGifts[currentChildIndex];
@@ -250,11 +247,12 @@ class DiscountOne extends Component {
         case 21: dataSource=[{param:{"leastQty":''},promotionGifts:[]}];break;
       };
     };
+    console.log(dataSource)
     return (
       <div className="discount-good">
         <div>赠送方式: 每种赠品均送</div>
         <div className="content">
-          {dataSource.length>0&&dataSource.map((item, index) => (
+          {dataSource.length>0 && dataSource.map((item, index) => (
             <div>
               <Table
                 key={index}
@@ -366,7 +364,7 @@ class DiscountOne extends Component {
                 )}
                 pagination={false}
                 bordered
-                dataSource={item.promotionGifts}
+                dataSource={item.promotionGifts.length>0 && item.promotionGifts}
                 columns={this.getColumns(index)}
                 size="middle"
               />

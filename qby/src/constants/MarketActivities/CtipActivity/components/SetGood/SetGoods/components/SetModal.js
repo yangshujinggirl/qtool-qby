@@ -9,15 +9,6 @@ class setModal extends Component {
   constructor(props) {
     super(props);
   }
-  // componentWillReceiveProps = nextProps => {
-  //   if (!_.isEqual(nextProps.currentRecord, this.props.currentRecord)) {
-  //     this.setState({
-  //       perOrderLimit: nextProps.currentRecord.perOrderLimit,
-  //       perDayLimit: nextProps.currentRecord.perDayLimit,
-  //       perUserLimit: nextProps.currentRecord.perUserLimit
-  //     });
-  //   }
-  // };
   onOk = () => {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
@@ -53,7 +44,7 @@ class setModal extends Component {
     return (
       <div>
         <Modal
-          width={promotionType=='11'?'1000':'700'}
+          width={promotionType=='11'?1000:700}
           title="编辑商品"
           visible={visible}
           onOk={this.onOk}

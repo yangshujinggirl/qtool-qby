@@ -36,7 +36,7 @@ class index extends Component {
     if (file.status == "done") {
       if (response) {
         if (response.code == "0") {
-          const { promotionProducts } = response;
+          const { promotionProducts } = response.data;
           this.props.dispatch({
             type: "ctipActivityAddTwo/refreshLists",
             payload: { goodLists: promotionProducts }

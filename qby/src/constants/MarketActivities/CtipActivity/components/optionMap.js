@@ -38,19 +38,19 @@ const prefectureOption=[
   }]
 const purposeTypesOption=[
   {
-    key:1,
+    key:'1',
     value:'拉新'
   },{
-    key:2,
+    key:'2',
     value:'促活'
   },{
-    key:3,
+    key:'3',
     value:'提升订单量'
   },{
-    key:4,
+    key:'4',
     value:'清库存'
   },{
-    key:5,
+    key:'5',
     value:'其他'
   }]
 const levelOption=[

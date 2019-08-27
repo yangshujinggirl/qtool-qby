@@ -31,11 +31,6 @@ class NormalForm extends Component {
                    <Input placeholder="请输入商品编码" maxLength='10' autoComplete="off"/>
                  )}
               </FormItem>
-              <FormItem label='商品名称'>
-                 {getFieldDecorator('pdName')(
-                   <Input placeholder="请输入商品名称" maxLength='10' autoComplete="off"/>
-                 )}
-              </FormItem>
               <FormItem label='活动ID'>
                  {getFieldDecorator('promotionId')(
                    <Input placeholder="请输入活动ID" maxLength='10' autoComplete="off"/>

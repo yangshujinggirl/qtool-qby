@@ -69,7 +69,7 @@ class CtipActivityAddOneF extends Component {
     if(data.promotionId) {
       paramsVal.promotionId = data.promotionId;
     }
-    paramsVal.platformType = 1;
+    paramsVal.platformType = 2;
     paramsVal.pdDetailBannerPic = activityInfo.pdDetailBannerPic;
     paramsVal.logoPic = activityInfo.logoPic;
     return paramsVal;
@@ -99,6 +99,7 @@ class CtipActivityAddOneF extends Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     const { ratioList, activityInfo } =this.props;
+
     return(
       <div className="cTip-activity-creat-wrap">
         <StepMod step={0}/>
@@ -125,7 +126,7 @@ const CtipActivityAddOne = Form.create({
   onValuesChange(props, changedFields, allFields) {
     let { bearers=[], pdDetailBannerPic, logoPic, ...valFileds } = allFields;
     let currentKey = Object.keys(changedFields)[0];
-    let { ratioList } =props;
+    let { ratioList, activityInfo } =props;
     if(currentKey == 'bearers') {
       ratioList =ratioList.map((el,idx) => {
         bearers.map((prev,index) =>{
@@ -160,7 +161,7 @@ const CtipActivityAddOne = Form.create({
     }
     props.dispatch({
       type:'ctipActivityAddOne/getActivityInfo',
-      payload:valFileds
+      payload:{...activityInfo,...valFileds}
     })
   },
 })(CtipActivityAddOneF);

@@ -38,11 +38,25 @@ const columnsIndex=[
       return(
         <div className="list-handle-opreation">
           <span className="theme-color table-btn-item" onClick={()=>record.onOperateClick('info')}>查看</span>
-          <span className="theme-color table-btn-item" onClick={()=>record.onOperateClick('edit')}>编辑</span>
-          <span className="theme-color table-btn-item" onClick={()=>record.onOperateClick('delete')}>删除</span>
-          <span className="theme-color table-btn-item" onClick={()=>record.onOperateClick('cancel')}>撤销审核</span>
-          <span className="theme-color table-btn-item" onClick={()=>record.onOperateClick('zuofei')}>作废</span>
-          <span className="theme-color table-btn-item" onClick={()=>record.onOperateClick('forcedEnd')}>强制结束</span>
+          {
+            record.status==1&&
+            <span>
+              <span className="theme-color table-btn-item" onClick={()=>record.onOperateClick('edit')}>编辑</span>
+              <span className="theme-color table-btn-item" onClick={()=>record.onOperateClick('delete')}>删除</span>
+            </span>
+          }
+          {
+            record.status==2&&
+            <span className="theme-color table-btn-item" onClick={()=>record.onOperateClick('cancel')}>撤销审核</span>
+          }
+          {
+            record.status==3&&
+            <span className="theme-color table-btn-item" onClick={()=>record.onOperateClick('zuofei')}>作废</span>
+          }
+          {
+            record.status==4&&
+            <span className="theme-color table-btn-item" onClick={()=>record.onOperateClick('forcedEnd')}>强制结束</span>
+          }
         </div>
       )
     }

@@ -69,7 +69,7 @@ export function getDiscountInfoApi(values) {
 export function getComplimentaryApi(values) {
   values = JSON.stringify(values)
   return ajax.post('/webrest.htm',{
-      code:'qerp.web.promotion.query',
+      code:'qerp.web.promotion.pdcode.query',
       data:values
   })
 }

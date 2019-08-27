@@ -1,23 +1,26 @@
 import React, { Component } from "react";
-import { Form, Radio, Input,Button } from "antd";
+import { Form, Radio, Input, Button } from "antd";
 const FormItem = Form.Item;
 const TextArea = Input.TextArea;
 import { saveAuditApi } from "../../../../services/marketActivities/cAudit";
 class Audit extends Component {
   constructor(props) {
     super(props);
-    this.state={
-      isPass:0
-    }
+    this.state = {
+      isPass: 0
+    };
   }
   handleSubmit = () => {
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        saveAuditApi({...values}).then(res=>{
-          if(res.code == '0'){
-            
+        saveAuditApi({ ...values }).then(res => {
+          if (res.code == "0") {
+            this.props.dispatch({
+              type: "tab/initDeletestate",
+              payload: this.props.componkey+this.props.data.approvalId
+            });
           }
-        })
+        });
       }
     });
   };
@@ -32,7 +35,7 @@ class Audit extends Component {
     const { getFieldDecorator } = this.props.form;
     const formItemLayout = {
       labelCol: { span: 2 },
-      wrapperCol: { span: 20 },
+      wrapperCol: { span: 20 }
     };
     return (
       <div>
@@ -47,15 +50,15 @@ class Audit extends Component {
               </Radio.Group>
             )}
           </FormItem>
-          { isPass==1&&
+          {isPass == 1 && (
             <FormItem {...formItemLayout} label="不通过原因">
               {getFieldDecorator("opinion", {
                 rules: [{ required: true, message: "请填写不通过原因" }]
               })(<TextArea rows={5} placeholder="请填写不通过原因" />)}
             </FormItem>
-          }
+          )}
         </Form>
-        <div style={{'text-align':'right'}}>
+        <div style={{ "text-align": "right" }}>
           <Button type="primary" size="large" onClick={this.handleSubmit}>
             审核完成
           </Button>
