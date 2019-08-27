@@ -89,3 +89,12 @@ export function getLogApi(values) {
       data:values
   })
 }
+//商品设置页面的审核
+export function goAuditApi(values) {
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.promotion.approvals.create',
+      data:values
+  })
+}
+

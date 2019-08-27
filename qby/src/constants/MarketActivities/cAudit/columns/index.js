@@ -43,7 +43,7 @@ const Columns = [
     title: "操作",
     dataIndex: "",
     render: (text, record, index) => {
-      return record.status == 0 ? (
+      return record.status == 1 ? (
         <a
           href="javascript:;"
           className="theme-color"

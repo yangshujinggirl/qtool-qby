@@ -6,7 +6,7 @@ import SetTitle from "./components/SetGood/Title";
 import Discount from "./components/SetGood/Discount";
 import Import from "./components/SetGood/Import";
 import SetGoods from "./components/SetGood/SetGoods";
-import { saveGoodsetApi } from "../../../services/marketActivities/ctipActivity";
+import { saveGoodsetApi,goAuditApi } from "../../../services/marketActivities/ctipActivity";
 import "./index.less";
 
 class CtipActivityAddTwo extends Component {
@@ -107,13 +107,17 @@ class CtipActivityAddTwo extends Component {
       });
       if (isNoValue) {
         return "存在某级阶梯没有赠品，请至少上传一个赠品";
-      }
+      };
     }
     saveGoodsetApi(values).then(res => {
       if (res.code == "0") {
         if (type == "audit") {
           message.success("提交审核成功");
-          this.gobackToList(); //回到列表页
+          goAuditApi({promotionId}).then(res=>{
+            if(res.code == 0){
+              this.gobackToList(); //回到列表页
+            };
+          });
         };
         if (type == "save") {
           //回到查看页

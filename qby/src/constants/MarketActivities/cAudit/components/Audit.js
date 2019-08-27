@@ -3,6 +3,7 @@ import { Form, Radio, Input, Button } from "antd";
 const FormItem = Form.Item;
 const TextArea = Input.TextArea;
 import { saveAuditApi } from "../../../../services/marketActivities/cAudit";
+import { connect } from "dva";
 class Audit extends Component {
   constructor(props) {
     super(props);
@@ -13,15 +14,20 @@ class Audit extends Component {
   handleSubmit = () => {
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        saveAuditApi({ ...values }).then(res => {
+        saveAuditApi({ ...values,approvalId:this.props.approvalId }).then(res => {
           if (res.code == "0") {
+            message.success('审核成功')
             this.props.dispatch({
               type: "tab/initDeletestate",
-              payload: this.props.componkey+this.props.data.approvalId
+              payload: this.props.componkey+this.props.approvalId
             });
-          }
+            this.props.dispatch({
+              type:'cAudit/fetchList',
+              payload:{}
+            });
+          };
         });
-      }
+      };
     });
   };
   onChange = e => {
@@ -45,12 +51,12 @@ class Audit extends Component {
               onChange: this.onChange
             })(
               <Radio.Group>
-                <Radio value="0">审核通过</Radio>
-                <Radio value="1">审核不通过</Radio>
+                <Radio value="1">审核通过</Radio>
+                <Radio value="0">审核不通过</Radio>
               </Radio.Group>
             )}
           </FormItem>
-          {isPass == 1 && (
+          {isPass == 0 && (
             <FormItem {...formItemLayout} label="不通过原因">
               {getFieldDecorator("opinion", {
                 rules: [{ required: true, message: "请填写不通过原因" }]
@@ -67,5 +73,9 @@ class Audit extends Component {
     );
   }
 }
+function mapStateToProps(state){
+  const {cAudit} = state;
+  return {cAudit}
+}
 const Audits = Form.create({})(Audit);
-export default Audits;
+export default connect(mapStateToProps)(Audits);

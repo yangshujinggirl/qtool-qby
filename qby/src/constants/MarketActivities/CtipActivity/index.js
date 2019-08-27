@@ -82,10 +82,10 @@ class CtipActivity extends CommonActivityIndex {
   goCancel=(record)=> {
     confirm({
       content: '是否确认撤销审核',
-      onOk() {
+      onOk:()=> {
         this.successCallback()
       },
-      onCancel() {
+      onCancel:()=> {
         console.log('Cancel');
       },
     });
