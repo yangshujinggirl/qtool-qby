@@ -1,4 +1,4 @@
-function getColumns(type, edit, delt) {
+function getColumns(edit, delt) {
   const columns1 = [
     //单品直降
     {

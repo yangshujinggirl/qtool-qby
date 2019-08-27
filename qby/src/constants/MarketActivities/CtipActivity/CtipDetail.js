@@ -111,7 +111,7 @@ class CtipDetail extends Component {
             </Panel>
           }
           <Panel header="活动商品" key="4">
-            <DetailGoods  {...formItemLayout} info={goodsInfo} exportData={this.exportData}/>
+            <DetailGoods {...formItemLayout} info={goodsInfo} exportData={this.exportData}/>
           </Panel>
           <Panel header="日志" key="5">
             <DetailLog  {...formItemLayout} promotionId={data.promotionId} list={logList}/>

@@ -24,7 +24,7 @@ function DetailGoods({...props}) {
   return <div className="detail-mode-wrap">
           <Row className="item-row">
             共6条数据
-            <Button type="primary" onClick={props.exportData}>导出商品明细</Button>
+            {<Button type="primary" onClick={props.exportData}>导出商品明细</Button>}
           </Row>
           <Table
             bordered

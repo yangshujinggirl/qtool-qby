@@ -33,12 +33,14 @@ class CtipActivityAddOneF extends Component {
     // e.preventDefault();
     // this.props.form.validateFields((err, values) => {
     //   values = this.formatParams(values);
-    //   console.log(values);
     //   if (!err) {
     //     values = this.formatParams(values);
     //     getSaveActivApi(values)
     //     .then((res)=> {
-    //       this.successCallback()
+    //       if(res.code == '0'){
+    //         const {pdScope} = values;
+    //         this.successCallback(res,pdScope);
+    //       };
     //     })
     //   }
     // });
@@ -49,19 +51,19 @@ class CtipActivityAddOneF extends Component {
     if(time&&time.length>0) {
       paramsVal.beginTime = moment(time[0]).format('YYYY-MM-DD HH:mm:ss');
       paramsVal.endTime = moment(time[1]).format('YYYY-MM-DD HH:mm:ss');
-    }
+    };
     if(warmUpBeginTime) {
       paramsVal.warmUpBeginTime = moment(warmUpBeginTime).format('YYYY-MM-DD HH:mm:ss');
-    }
+    };
     if(paramsVal.bearers&&paramsVal.bearers.length>0) {
       paramsVal.bearers = paramsVal.bearers.filter(x => true);
       if(paramsVal.bearers[0].budget) {
         paramsVal.budget = paramsVal.bearers[0].budget;
-      }
-    }
+      };
+    };
     if(data.promotionId) {
       paramsVal.promotionId = data.promotionId;
-    }
+    };
     paramsVal.paltformType = 'C';
     paramsVal.pdDetailBannerPic = activityInfo.pdDetailBannerPic;
     paramsVal.logoPic = activityInfo.logoPic;
@@ -77,7 +79,8 @@ class CtipActivityAddOneF extends Component {
       data: {
         parentKey:data.parentKey,
         promotionId:Math.random(),
-        promotionType:data.promotionType
+        promotionType:data.promotionType,
+        pdScope:1,
       }
     };
     this.props.dispatch({
@@ -85,7 +88,8 @@ class CtipActivityAddOneF extends Component {
       payload: paneitem
     });
   }
-  successCallback=(res)=> {
+  successCallback=(res,pdScope)=> {
+    console.log(pdScope)
     const { data } = this.props;
     const paneitem = {
       title: "编辑C端活动",
@@ -95,6 +99,8 @@ class CtipActivityAddOneF extends Component {
       data: {
         parentKey:data.parentKey,
         promotionId:res.promotionId,
+        promotionType:res.promotionType,
+        pdScope:pdScope
       }
     };
     this.props.dispatch({

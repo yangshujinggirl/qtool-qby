@@ -9,32 +9,32 @@ export default {
     dataList:[{
       key:1,
       name:'wq',
-      promotionId:'2001',
+      promotionId:'1',
       promotionType:10,
     },{
       key:2,
       name:'wqer',
-      promotionId:'2002',
+      promotionId:'2',
       promotionType:11,
     },{
       key:3,
       name:'wqer',
-      promotionId:'2002',
+      promotionId:'3',
       promotionType:20,
     },{
       key:4,
       name:'wqer',
-      promotionId:'2002',
+      promotionId:'4',
       promotionType:21,
     },{
       key:5,
       name:'wqer',
-      promotionId:'2002',
+      promotionId:'5',
       promotionType:22,
     },{
       key:6,
       name:'wqer',
-      promotionId:'2002',
+      promotionId:'6',
       promotionType:23,
     }],
     dataPag:{

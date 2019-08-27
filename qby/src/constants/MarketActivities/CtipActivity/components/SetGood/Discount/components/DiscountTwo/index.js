@@ -35,7 +35,13 @@ class DiscountTwo extends Component {
     });
   };
   render() {
-    const { dataSource,promotionType } = this.props;
+    let { dataSource,promotionType } = this.props;
+    if(dataSource.length == 0){
+      switch(promotionType){
+        case 22: dataSource=[{param:{"leastAmount":'',"reduceAmount":''}}]; break;
+        case 23: dataSource=[{param:{"leastQty":'', "reduceQty":''}}];break;
+      }
+    };
     const { getFieldDecorator } = this.props.form;
     return (
       <div className="discountTwo">

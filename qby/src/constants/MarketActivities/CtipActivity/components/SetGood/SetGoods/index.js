@@ -71,20 +71,23 @@ class index extends Component {
       currentIndex,
       currentRecord
     } = this.state;
-    const type = 1;
-    const Columns = getColumns(type, this.edit, this.delt);
+    const Columns = getColumns(this.edit, this.delt);
     let columns = [];
-    if(promotionType==10){
-      columns = Columns.columns1;
-    };
-    if(promotionType==11){
-      columns = Columns.columns2;
-    };
-    if(promotionType == 20 ||promotionType == 21 ||promotionType == 23){
-      columns = Columns.columns3;
-    };
-    if(promotionType == 22){
-      columns = Columns.columns4;
+    switch(promotionType) {
+      case 10:
+       columns = Columns.columns1;
+       break;
+      case 11:
+       columns = Columns.columns2;
+       break;
+      case 20:
+      case 21:
+      case 23:
+       columns = Columns.columns3;
+       break;
+      case 22:
+       columns = Columns.columns4;
+       break;
     };
     return (
       <div className="act_setGoods">
@@ -97,7 +100,7 @@ class index extends Component {
             bordered
             columns={columns}
             scroll={{
-              x: promotionType == 10 || promotionType == 11 ? "140%" : ""
+              x: (promotionType == 10 || promotionType == 11) ? "140%" : ""
             }}
             dataSource={goodLists}
           />

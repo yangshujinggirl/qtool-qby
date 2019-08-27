@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Collapse } from "antd";
 import DetailBase from "../../CtipActivity/components/DetailBase";
 import DetailDiscount from "../../CtipActivity/components/DetailDiscount";
-import DetailLog from "../../CtipActivity/components/DetailLog";
+import DetailLog from "../components/AuditLog";
 import DetailGoods from "../../CtipActivity/components/DetailGoods";
 import DetailWebShow from "../../CtipActivity/components/DetailWebShow";
 import DetailAudit from "../components/Audit";
@@ -22,7 +22,7 @@ class CtipDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      auditLogs:[],
+      list:[],
       baseInfo: {},
       goodsInfo: {
         promotionType: 20, //10.单品直降 11.单品多级满赠 20.专区多级满元赠 21.专区多级满件赠 22专区多级满元减 23.专区满件减免
@@ -66,26 +66,29 @@ class CtipDetail extends Component {
     this.getInfo(this.props.data.promotionId);
   }
   getInfo(promotionId) {
+    //基本信息
     getBaseInfoApi({ promotionId }).then(res => {
-      console.log(res);
+
     });
+    //商品优惠
     getDiscountInfoApi({ promotionId }).then(res => {
-      console.log(res);
+
     });
     auditLogApi({ approvalId }).then(res => {
       if(res.code == '0'){
         this.setState({
-          auditLogs:res.list
+          list:res.list
         });
       }
     });
   }
-  exportData = () => {};
+  exportData = () => {
+
+  };
   render() {
     const { data } = this.props;
     const { type } = this.props.data;
-    console.log(type);
-    const { baseInfo, goodsInfo } = this.state;
+    const { baseInfo, goodsInfo,list } = this.state;
     return (
       <div>
         <Collapse accordion defaultActiveKey={["1"]}>
@@ -109,7 +112,7 @@ class CtipDetail extends Component {
           </Panel>
           {type == "detail" && (
             <Panel header="日志" key="5">
-              <DetailLog {...formItemLayout} promotionId={data.promotionId} />
+              <DetailLog {...formItemLayout} list={list}/>
             </Panel>
           )}
           {type == "edit" && (

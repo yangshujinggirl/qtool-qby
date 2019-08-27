@@ -46,7 +46,12 @@ class DiscountOne extends Component {
       {
         title: "赠品B端售价",
         dataIndex: "sellPrice",
-        key: "3"
+        key: "3",
+        render:(text,record,index)=>{
+          return(
+            <span>￥{Number(text).toFixed(2)}元</span>
+          )
+        }
       },
       {
         title: "最多可参与活动的赠品数",
@@ -229,7 +234,7 @@ class DiscountOne extends Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     const { promotionType } = this.props;
-    const {
+    let {
       dataSource,
       status,
       visible,
@@ -239,6 +244,12 @@ class DiscountOne extends Component {
       deletVisible,
       level
     } = this.state;
+    if(dataSource.length == 0){
+      switch(promotionType){
+        case 20: dataSource=[{param:{"leastAmount":''},promotionGifts:[]}]; break;
+        case 21: dataSource=[{param:{"leastQty":''},promotionGifts:[]}];break;
+      };
+    };
     return (
       <div className="discount-good">
         <div>赠送方式: 每种赠品均送</div>
