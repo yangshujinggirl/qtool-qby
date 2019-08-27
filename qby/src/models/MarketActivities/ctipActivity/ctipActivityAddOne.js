@@ -42,7 +42,17 @@ export default {
       if(res.code == 0) {
         let { data } =res;
         let ratioList = data.costApportions;
-        ratioList&&ratioList.map((el) =>el.key = el.costApportionId);
+        if(ratioList) {
+          ratioList = ratioList.map((el) =>{
+            el.key = el.costApportionId;
+            if(el.bearer!="A"&&el.bearer!="B") {
+              el.bearerType = "C"
+            } else {
+              el.bearerType = el.bearer;
+            }
+            return el;
+          });
+        }
         if(data.budget) {
           ratioList[0].budget=data.budget;
         }

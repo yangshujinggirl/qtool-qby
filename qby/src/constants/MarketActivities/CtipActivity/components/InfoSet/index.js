@@ -84,13 +84,11 @@ class InfoSet extends Component {
   handleClose=(removedTag)=> {
     let { ratioList } =this.props;
     const { bearers } =this.props.form.getFieldsValue(['bearers']);
-    // let dd = bearers.filter(tag => tag.bearer !== removedTag.bearer);
     let tags = ratioList.filter(tag => tag.key !== removedTag.key);
     this.props.dispatch({
       type:'ctipActivityAddOne/getRatioList',
       payload:tags
     })
-    // this.props.form.setFieldsValue({ bearers:dd })
     this.props.form.resetFields(['bearers'])
   }
   changeRange=(value)=>{
