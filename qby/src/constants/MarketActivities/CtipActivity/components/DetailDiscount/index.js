@@ -39,7 +39,7 @@ function YHModTwo({...props}){
           dataSource={el.promotionGifts}
           bordered
           title={() => `阶梯${++index}：*单笔订单满${
-            promotionType==20?el.params.leastAmount:el.params.leastQty}
+            promotionType==20?el.param.leastAmount:el.param.leastQty}
             ${promotionType==20?"元":"件"}，送以下商品`}/>
       ))
     }
@@ -52,9 +52,9 @@ function YHModOne({...props}){
       list.length>0&&list.map((el,index) => {
         index++;
         if(promotionType==22) {
-          return <div className="item-yh">阶梯{index}：*单笔订单满{el.params.leastAmount}元，减免{el.params.reduceAmount}元</div>
+          return <div className="item-yh" key={index}>阶梯{index}：*单笔订单满{el.param.leastAmount}元，减免{el.param.reduceAmount}元</div>
         }else {
-          return <div className="item-yh">阶梯{index}：*单笔订单满{el.params.leastQty}件，减免{el.params.reduceQty}件</div>
+          return <div className="item-yh" key={index}>阶梯{index}：*单笔订单满{el.param.leastQty}件，减免{el.param.reduceQty}件</div>
         }
       })
     }
@@ -64,7 +64,8 @@ function YHModOne({...props}){
 function DetailDiscount({...props}) {
   const { labelCol, wrapperCol, info } =props;
   let Mod;
-  switch(info.promotionType) {
+  let promotionType = info.promotionType;
+  switch(promotionType) {
     case 22:
     case 23:
       Mod = YHModOne;
@@ -74,6 +75,7 @@ function DetailDiscount({...props}) {
       Mod = YHModTwo;
       break;
   }
+
   return <div className="detail-mode-wrap">
             <Row className="item-row">
               <Col span={labelCol}>赠送方式：</Col>

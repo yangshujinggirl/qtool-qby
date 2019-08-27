@@ -304,7 +304,7 @@ class DiscountOne extends Component {
                       {promotionType == 21 && (
                         <FormItem>
                           阶梯{index + 1}：*单笔订单满　
-                          {getFieldDecorator(`Top[${index}.price`, {
+                          {getFieldDecorator(`Top[${index}].price`, {
                             initialValue: item.param.leastQty,
                             onChange: e => this.onChange(e, index),
                             getValueFromEvent:(event)=>{
@@ -328,8 +328,8 @@ class DiscountOne extends Component {
                                         callback("此阶梯优惠门槛需小于下一阶梯的优惠门槛");
                                       };
                                     };
-                                    callback();
                                   };
+                                  callback();
                                 },
                               }
                             ],

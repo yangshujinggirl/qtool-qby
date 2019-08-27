@@ -6,8 +6,8 @@ import { Tag, Button, Form, Input, DatePicker, Radio, Checkbox, AutoComplete, Ta
 import { disabledDate, disabledDateTimeRange } from '../dateSet.js';
 import { columnsCreat } from '../../columns';
 import {
-  pdScopeOption,singleOption,
-  prefectureOption, purposeTypesOption,
+  pdScopeOption,singleOption,promotionScopeOption,
+  prefectureOption, purposeTypesOption,pdKindOption,
   levelOption, prefTwoOption } from '../optionMap.js';
 import { getSuppliApi } from '../../../../../services/marketActivities/ctipActivity.js';
 const { RangePicker } = DatePicker;
@@ -314,9 +314,12 @@ class InfoSet extends Component {
               onChange:this.changeRange,
               initialValue:activityInfo.promotionScope
             })(
-              <Radio.Group >
-               <Radio value={1} disabled={promotionId?true:false}>单品促销</Radio>
-               <Radio value={2} disabled={promotionId?true:false}>专区促销</Radio>
+              <Radio.Group disabled={promotionId?true:false}>
+                {
+                  promotionScopeOption.map((el)=> (
+                    <Radio value={el.key} key={el.key}>{el.value}</Radio>
+                  ))
+                }
              </Radio.Group>
             )
           }
@@ -371,9 +374,16 @@ class InfoSet extends Component {
                  initialValue:activityInfo.pdKind
                })(
                  <Radio.Group disabled={promotionId?true:false}>
-                  <Radio value={1}>一般贸易商品（除品牌直供）</Radio>
-                  <Radio value={2}>品牌直供商品</Radio>
-                  <Radio value={3} disabled={activityInfo.promotionType=='23'?true:false}>保税商品</Radio>
+                   {
+                     pdKindOption.map((el)=> (
+                       <Radio
+                         value={el.key}
+                         key={el.key}
+                         disabled={el.key==3&&activityInfo.promotionType=='23'?true:false}>
+                         {el.value}
+                       </Radio>
+                     ))
+                   }
                 </Radio.Group>
                )
              }

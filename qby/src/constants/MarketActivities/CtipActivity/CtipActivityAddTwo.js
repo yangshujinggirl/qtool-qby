@@ -56,7 +56,7 @@ class CtipActivityAddTwo extends Component {
     });
   };
   goInfo = () => {
-    const { promotionId } = this.props;
+    const { promotionId } = this.props.data;
     const paneitem = {
       title: "C端活动详情",
       key: `1501000levelTwoInfo${promotionId}`,
@@ -74,7 +74,6 @@ class CtipActivityAddTwo extends Component {
   //保存并预览
   handSubmit = () => {
     this.props.form.validateFieldsAndScroll((err, values) => {
-      // this.goInfo()
       if (!err) {
         this.sendQequest("save");
       }
@@ -83,7 +82,6 @@ class CtipActivityAddTwo extends Component {
   //保存并审核
   audit = () => {
     this.props.form.validateFieldsAndScroll((err, values) => {
-      // this.gobackToList()//回到列表页
       if (!err) {
         this.sendQequest("audit");
       }
@@ -116,12 +114,12 @@ class CtipActivityAddTwo extends Component {
         if (type == "audit") {
           message.success("提交审核成功");
           this.gobackToList(); //回到列表页
-        }
+        };
         if (type == "save") {
           //回到查看页
           this.goInfo();
-        }
-      }
+        };
+      };
     });
   };
   render() {

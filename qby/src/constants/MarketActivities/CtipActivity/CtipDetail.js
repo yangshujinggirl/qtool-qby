@@ -17,9 +17,11 @@ class CtipDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      baseInfo:{},
+      baseInfo:{
+        costApportions:[]
+      },
       goodsInfo:{
-        promotionType:20,//10.单品直降 11.单品多级满赠 20.专区多级满元赠 21.专区多级满件赠 22专区多级满元减 23.专区满件减免
+        promotionType:22,//10.单品直降 11.单品多级满赠 20.专区多级满元赠 21.专区多级满件赠 22专区多级满元减 23.专区满件减免
         promotionRules:[{
           params:{
             leastAmount:10,//20
@@ -79,17 +81,30 @@ class CtipDetail extends Component {
     getBaseInfoApi({promotionId})
     .then((res) => {
       const { code, data } =res;
-      if(code == 0) {
+      if(code == '0') {
+        data.costApportions&data.costApportions.map((el,index)=>el.key=index)
         this.setState({ baseInfo:data })
       }
     })
     getDiscountInfoApi({promotionId})
     .then((res) => {
-      console.log(res)
+      let { data, code } =res;
+      let { goodsInfo } =this.state;
+      data.promotionRules=data.promotionRules?data.promotionRules:[];
+      data.promotionRules.map((el,index)=>el.key=++index);
+      data.promotionProducts.map((el,index)=>el.key=++index);
+      goodsInfo={...goodsInfo,...data}
+      if(code == '0') {
+        this.setState({ goodsInfo: goodsInfo });
+      }
     })
     getLogApi({promotionId})
     .then((res) => {
-      console.log(res)
+      const { code, list } =res;
+      if(code == '0') {
+        list&&list.map((el,index)=>el.key=index)
+        this.setState({ logList:list })
+      }
     })
   }
   exportData=()=> {
@@ -97,7 +112,7 @@ class CtipDetail extends Component {
   }
   render() {
     const { data } =this.props;
-    const { baseInfo, goodsInfo, logList } =this.state;
+    const { baseInfo, goodsInfo, logList } = this.state;
     return(
       <div>
         <Collapse accordion defaultActiveKey={['1']}>
