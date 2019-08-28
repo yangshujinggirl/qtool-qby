@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Upload, Button, message } from "antd";
+import { Upload, Button, message,Modal } from "antd";
 import { connect } from "dva";
 import "./index.less";
 class index extends Component {
@@ -36,9 +36,36 @@ class index extends Component {
     if (file.status == "done") {
       if (response) {
         if (response.code == "0") {
-          const { promotionProducts } = response.data;
-          const total = promotionProducts.length;
-          message.success('共成功导入商品'+total+'条');
+          const { promotionProducts,noPro,formatWrong,priceGapWrong,productKindWrong,huchiWrong } = response.data;
+          Modal.confirm({
+            title: '',
+            content: 
+            <div>
+              {promotionProducts.length>0&&'共成功导入商品'+promotionProducts.length+'条'}
+              {
+                noPro.length>0 && noPro.map((item,index)=>{
+                  return(<p>{item + (index==noPro.length-1)?'':'/'+'商品不存在'}</p>) 
+                })
+              }
+              {
+                formatWrong.length>0 && formatWrong.map((item,index)=>{
+                  return(<p>{item + (index==formatWrong.length-1)?'':'/'+'商品填写格式错误'}</p>) 
+                })
+              }
+              {
+                priceGapWrong.length>0 && priceGapWrong.map((item,index)=>{
+                  return(<p>{item + (index==priceGapWrong.length-1)?'':'/'+'商品不存在'}</p>) 
+                })
+              }
+              
+              {
+                huchiWrong.length>0 && huchiWrong.map((item,index)=>{
+                  return(<p>{item + (index==huchiWrong.length-1)?'':'/'+'商品已参加其他和此活动互斥的活动'}</p>) 
+                })
+              }
+            </div>,
+            footer:null
+          });
           this.props.dispatch({
             type: "ctipActivityAddTwo/refreshLists",
             payload: { goodLists: promotionProducts }
