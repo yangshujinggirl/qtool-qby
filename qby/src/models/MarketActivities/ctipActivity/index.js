@@ -18,7 +18,7 @@ export default {
       const dataList=[];
       const dataPag = {
         currentPage:0,
-        limit:16,
+        limit:15,
         total:0,
       };
       return {

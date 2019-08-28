@@ -21,6 +21,8 @@ class WebSet extends Component {
     let { activityInfo } =this.props;
     if(activityInfo.time) {
       let actiTime = activityInfo.time[0];
+      console.log(moment(actiTime).format('YYYY-MM-DD HH:mm:ss'))
+      console.log(moment(value).format('YYYY-MM-DD HH:mm:ss'))
       let isBefore = moment(value).isBefore(actiTime)||moment(value).isSame(actiTime);
       if(!isBefore) {
         callback('预热时间只能选择活动开始之前的时间或与开始时间相同。');
@@ -64,12 +66,7 @@ class WebSet extends Component {
                 })(
                   <DatePicker
                     disabled={activityInfo.time?false:true}
-                    disabledDate={disabledDate}
-                    disabledTime={disabledDateTime}
-                    showTime={{
-                      hideDisabledOptions: true,
-                      defaultValue: moment('00:00', 'HH:mm'),
-                    }}
+                    showTime
                     format ="YYYY-MM-DD HH:mm:ss"/>
                 )
               }

@@ -123,13 +123,20 @@ function DetailBase({...props}) {
           }
           <Row className="item-row">
             <Col span={labelCol}>可同享的单品促销类型：</Col>
-            <Col span={wrapperCol}>
             {
-              shareOption.map((el,index) => (
-                <span key={index}>{info.sharedPromotionType==el.key&&el.value}</span>
-              ))
+              info.sharedPromotionType=='-1'?
+              <Col span={wrapperCol}>
+                不可同享
+              </Col>
+              :
+              <Col span={wrapperCol}>
+              {
+                shareOption.map((el,index) => (
+                  <span key={index}>{info.sharedPromotionType==el.key&&el.value}</span>
+                ))
+              }
+              </Col>
             }
-            </Col>
           </Row>
          </div>
 }

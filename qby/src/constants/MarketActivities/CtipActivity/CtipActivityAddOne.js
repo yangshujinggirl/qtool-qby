@@ -141,7 +141,7 @@ const CtipActivityAddOne = Form.create({
         payload:ratioList
       })
     }
-    if(valFileds.promotionScope==2&&valFileds.promotionType==23) {
+    if(valFileds.promotionScope==2&&valFileds.promotionType!=22) {
       valFileds.pdScope=2;
       valFileds.pdKind=null;
     }

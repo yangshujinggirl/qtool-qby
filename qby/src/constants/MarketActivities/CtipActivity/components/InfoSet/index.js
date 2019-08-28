@@ -8,7 +8,7 @@ import { columnsCreat } from '../../columns';
 import {
   pdScopeOption,singleOption,promotionScopeOption,
   prefectureOption, purposeTypesOption,pdKindOption,
-  levelOption, prefTwoOption } from '../optionMap.js';
+  levelOption, prefShareOption, singleShareOption } from '../optionMap.js';
 import { getSuppliApi } from '../../../../../services/marketActivities/ctipActivity.js';
 const { RangePicker } = DatePicker;
 const FormItem = Form.Item;
@@ -133,6 +133,24 @@ class InfoSet extends Component {
     })
     this.props.form.resetFields(['bearers'])
   }
+  formatOption=()=> {
+    const { activityInfo } =this.props;
+    let option;
+    if(activityInfo.promotionScope==1) {
+      if(activityInfo.promotionType=='11') {
+        option =prefShareOption;
+      } else {
+        option =prefectureOption;
+      }
+    } else {
+      if(activityInfo.promotionType=='20'||activityInfo.promotionType=='21') {
+        option =singleShareOption;
+      } else {
+        option =singleOption;
+      }
+    }
+    return option;
+  }
   render() {
     const { activityInfo, ratioList, tagsList, promotionId } =this.props;
     const { supplierList } =this.state;
@@ -141,8 +159,7 @@ class InfoSet extends Component {
     let otherIndex = activityInfo.purposeTypes&&activityInfo.purposeTypes.findIndex((el)=>el == '5');
     let providerIndex = activityInfo.costApportion&&activityInfo.costApportion.findIndex((el)=>el == 'C');
     let rangeOption = activityInfo.promotionScope==1?singleOption:prefectureOption;
-    let linkAgeOption = activityInfo.promotionScope==1?(activityInfo.promotionType=='11'?prefTwoOption:prefectureOption):singleOption;
-
+    let linkAgeOption = this.formatOption();
     return(
       <div>
         <p className="info-title">活动信息</p>
@@ -345,19 +362,19 @@ class InfoSet extends Component {
           </FormItem>
         }
         {
-          activityInfo.promotionScope==2&&
+          activityInfo.promotionScope==2&&activityInfo.promotionType&&
           <FormItem label='促销级别' {...formItemLayout}>
              {
                getFieldDecorator('pdScope', {
                  rules: [{ required: true, message: '请选择促销级别'}],
-                 initialValue:activityInfo.pdScope?activityInfo.pdScope:1
+                 initialValue:activityInfo.pdScope
                })(
-                 <Radio.Group >
+                 <Radio.Group disabled={promotionId?true:false}>
                    {
                      pdScopeOption.map((el,index) => (
                        <Radio
                          value={el.key} key={el.key}
-                         disabled={activityInfo.promotionType=='23'||promotionId?true:false}>{el.value}</Radio>
+                         disabled={(el.key==1&&activityInfo.promotionType!=22)?true:false}>{el.value}</Radio>
                      ))
                    }
                 </Radio.Group>
@@ -379,7 +396,7 @@ class InfoSet extends Component {
                        <Radio
                          value={el.key}
                          key={el.key}
-                         disabled={el.key==3&&activityInfo.promotionType=='23'?true:false}>
+                         disabled={el.key==3&&activityInfo.promotionType!=22?true:false}>
                          {el.value}
                        </Radio>
                      ))

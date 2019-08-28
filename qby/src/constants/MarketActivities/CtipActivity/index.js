@@ -56,7 +56,6 @@ class CtipActivity extends CommonActivityIndex {
         promotionType:record.promotionType,
       }
     };
-    console.log(paneitem)
     this.props.dispatch({
       type: "tab/firstAddTab",
       payload: paneitem
@@ -166,7 +165,7 @@ class CtipActivity extends CommonActivityIndex {
         {
           dataList.length>0&&
           <Qpagination
-            sizeOptions="2"
+            sizeOptions="1"
             onShowSizeChange={this.changePageSize}
             data={dataPag}
             onChange={this.changePage}/>
