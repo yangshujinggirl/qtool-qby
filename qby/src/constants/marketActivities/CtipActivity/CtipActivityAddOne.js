@@ -46,7 +46,7 @@ class CtipActivityAddOneF extends Component {
     });
   };
   formatParams=(values)=> {
-    let { time, warmUpBeginTime, bearerActivity, autoComplete, bearers, ...paramsVal} =values;
+    let { time, warmUpBeginTime, costApportion, autoComplete, bearers, ...paramsVal} =values;
     const { activityInfo, ratioList, data } =this.props;
     if(time&&time.length>0) {
       paramsVal.beginTime = moment(time[0]).format('YYYY-MM-DD HH:mm:ss');
@@ -142,9 +142,11 @@ const CtipActivityAddOne = Form.create({
         payload:ratioList
       })
     }
-    if(valFileds.promotionScope==2&&valFileds.promotionType!=22) {
-      valFileds.pdScope=2;
-      valFileds.pdKind=null;
+    if(currentKey == 'promotionType') {
+      if(valFileds.promotionScope==2&&valFileds.promotionType!=22) {
+        valFileds.pdScope=2;
+        valFileds.pdKind=null;
+      }
     }
     if(pdDetailBannerPic) {
       if(pdDetailBannerPic.status == 'done') {

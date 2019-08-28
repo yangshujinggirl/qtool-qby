@@ -21,8 +21,6 @@ class WebSet extends Component {
     let { activityInfo } =this.props;
     if(activityInfo.time) {
       let actiTime = activityInfo.time[0];
-      console.log(moment(actiTime).format('YYYY-MM-DD HH:mm:ss'))
-      console.log(moment(value).format('YYYY-MM-DD HH:mm:ss'))
       let isBefore = moment(value).isBefore(actiTime)||moment(value).isSame(actiTime);
       if(!isBefore) {
         callback('预热时间只能选择活动开始之前的时间或与开始时间相同。');
@@ -78,7 +76,8 @@ class WebSet extends Component {
                 formItemLayout={formItemLayout}
                 name="pdDetailBannerPic"
                 label="配置商品详情页横幅条背景图"
-                percent={1}
+                width={1}
+                height={1}
                 fileList={activityInfo.pdDetailBannerPic}
                 form={this.props.form}/>
             }
@@ -87,7 +86,9 @@ class WebSet extends Component {
               formItemLayout={formItemLayout}
               name="logoPic"
               label="配置活动主题logo图"
-              percent={1}
+              width={1}
+              height={1}
+              imgType='png'
               fileList={activityInfo.logoPic}
               form={this.props.form}/>
           </div>

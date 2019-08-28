@@ -11,7 +11,7 @@ const columnsCreat =(form,validator,changeProportion,dataSource)=>{
         let chldrnDom = <FormItem>
                 {getFieldDecorator(`bearers[${index}].budget`,{
                   initialValue:record.budget,
-                  rules:[{pattern:/^\d+$/,message:'请输入数字'}]
+                  rules:[{pattern:/^\d+(\.\d{1,2})?$/,message:'请输入数字'}]
                 })(
                   <Input
                     suffix="万元"
@@ -35,18 +35,6 @@ const columnsCreat =(form,validator,changeProportion,dataSource)=>{
       title: '承担方',
       dataIndex: 'bearerStr',
       width:'10%',
-      // render:(text,record,index) => {
-      //   const { getFieldDecorator } =form;
-      //   return <FormItem>
-      //           {getFieldDecorator(`bearers[${index}].bearer`,{
-      //             initialValue:record.bearerStr,
-      //           })(
-      //             <Input
-      //               disabled
-      //               autoComplete="off"/>
-      //           )}
-      //         </FormItem>
-      // }
     },{
       title: '*承担比例',
       dataIndex: 'ratio',
@@ -57,7 +45,7 @@ const columnsCreat =(form,validator,changeProportion,dataSource)=>{
                 {getFieldDecorator(`bearers[${index}].proportion`,{
                   initialValue:record.proportion,
                   rules:[{ required: true, message: '请输入承担比例'},{
-                    pattern:/^\d+$/,message:'请输入数字'
+                    pattern:/^\d+(\.\d{1,2})?$/,message:'请输入数字'
                   },{
                     validator:validator
                   }],
