@@ -65,7 +65,7 @@ export default {
             }else{
               rate = ''
             };
-            let obj = {color:'#000'}
+            let obj = {color:'#000000a6'}
             if(rate<0){
               obj={color:'red'}
             };
@@ -80,9 +80,11 @@ export default {
         goodLists && goodLists.length>0&& goodLists.map(item=>{
           let [arr1,arr2] = [[],[]];
           state.dataSource && state.dataSource.length>0 && state.dataSource.map(subItem=>{
-            //预计到手价=C端售价*减钱/优惠门槛
-            const price = (Number(item.sellPrice)*(1-Number(subItem.param.reduceAmount)/Number(subItem.param.leastAmount))).toFixed(2);
-            console.log(price)
+            //预计到手价=C端售价*（1-减钱/优惠门槛 ）
+            let price = '';
+            if(subItem.param.leastAmount){
+              price = (Number(item.sellPrice)*(1-Number(subItem.param.reduceAmount)/Number(subItem.param.leastAmount))).toFixed(2);
+            };
             //毛利率= 
             //一般贸易品：C端毛利率=（到手价-B端售价）/到手价
             //保税商品：C端毛利=分成比率
@@ -97,7 +99,7 @@ export default {
             if(item.pdKind == 3){ //保税
               rate = Number(item.shareRatio);
             };
-            let obj = {color:'#000'}
+            let obj = {color:'#000000a6'}
             if(rate<0){
               obj={color:'red'}
             };

@@ -64,7 +64,6 @@ class index extends Component {
     });
   };
   render() {
-    console.log(this.props)
     const { goodLists, promotionType } = this.props;
     const {
       visible,

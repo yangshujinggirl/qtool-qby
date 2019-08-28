@@ -200,7 +200,7 @@ function getColumns(edit, delt) {
                   key={subIndex}
                   style={{ "margin-bottom": "5px", color: item.color }}
                 >
-                  {++subIndex}级：￥{item.price}元
+                  {++subIndex}级：{item.price?'￥'+item.price+'元':'-'}
                 </p>
               ))}
           </div>
@@ -380,7 +380,7 @@ function getColumns(edit, delt) {
                   key={subIndex}
                   style={{ "margin-bottom": "5px", color: item.color }}
                 >
-                  {++subIndex}级：￥{item.price}元
+                  {++subIndex}级：{item.price?'￥'+item.price+'元':'-'}
                 </p>
               ))}
           </div>
