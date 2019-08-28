@@ -45,12 +45,12 @@ class NormalForm extends Component {
                  {getFieldDecorator('status')(
                    <Select allowClear={true} placeholder="请选择活动状态">
                      <Option value={0} key={0}>全部</Option>
-                     <Option value={1} value={1}>待提交</Option>
-                     <Option value={2} value={2}>审核中</Option>
-                     <Option value={3} value={3}>待开始</Option>
-                     <Option value={4} value={4}>进行中</Option>
-                     <Option value={5} value={5}>已结束</Option>
-                     <Option value={6} value={6}>已作废</Option>
+                     <Option value={1} key={1}>待提交</Option>
+                     <Option value={2} key={2}>审核中</Option>
+                     <Option value={3} key={3}>待开始</Option>
+                     <Option value={4} key={4}>进行中</Option>
+                     <Option value={5} key={5}>已结束</Option>
+                     <Option value={6} key={6}>已作废</Option>
                    </Select>
                  )}
                </FormItem>
@@ -58,12 +58,12 @@ class NormalForm extends Component {
                  {getFieldDecorator('type')(
                    <Select allowClear={true} placeholder="请选择促销类型">
                      <Option value={0} key={0}>全部</Option>
-                     <Option value={10} value={10}>单品直降</Option>
-                     <Option value={11} value={11}>单品阶梯满件赠</Option>
-                     <Option value={20} value={20}>专区阶梯满元赠</Option>
-                     <Option value={21} value={21}>专区阶梯满件赠</Option>
-                     <Option value={22} value={22}>专区阶梯满元减</Option>
-                     <Option value={23} value={23}>专区满件减免商品</Option>
+                     <Option key={10} value={10}>单品直降</Option>
+                     <Option key={11} value={11}>单品阶梯满件赠</Option>
+                     <Option key={20} value={20}>专区阶梯满元赠</Option>
+                     <Option key={21} value={21}>专区阶梯满件赠</Option>
+                     <Option key={22} value={22}>专区阶梯满元减</Option>
+                     <Option key={23} value={23}>专区满件减免商品</Option>
                    </Select>
                  )}
                </FormItem>

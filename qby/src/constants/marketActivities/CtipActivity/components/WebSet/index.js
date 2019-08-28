@@ -64,12 +64,7 @@ class WebSet extends Component {
                 })(
                   <DatePicker
                     disabled={activityInfo.time?false:true}
-                    disabledDate={disabledDate}
-                    disabledTime={disabledDateTime}
-                    showTime={{
-                      hideDisabledOptions: true,
-                      defaultValue: moment('00:00', 'HH:mm'),
-                    }}
+                    showTime
                     format ="YYYY-MM-DD HH:mm:ss"/>
                 )
               }
@@ -81,7 +76,8 @@ class WebSet extends Component {
                 formItemLayout={formItemLayout}
                 name="pdDetailBannerPic"
                 label="配置商品详情页横幅条背景图"
-                percent={1}
+                width={1}
+                height={1}
                 fileList={activityInfo.pdDetailBannerPic}
                 form={this.props.form}/>
             }
@@ -90,7 +86,9 @@ class WebSet extends Component {
               formItemLayout={formItemLayout}
               name="logoPic"
               label="配置活动主题logo图"
-              percent={1}
+              width={1}
+              height={1}
+              imgType='png'
               fileList={activityInfo.logoPic}
               form={this.props.form}/>
           </div>

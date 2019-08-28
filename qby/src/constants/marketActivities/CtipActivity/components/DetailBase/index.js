@@ -98,7 +98,6 @@ function DetailBase({...props}) {
           </Row>
           {
             info.promotionScope==2&&
-            <div>
               <Row className="item-row">
                 <Col span={labelCol}>促销级别：</Col>
                 <Col span={wrapperCol}>
@@ -109,27 +108,36 @@ function DetailBase({...props}) {
                 }
                 </Col>
               </Row>
-              <Row className="item-row">
-                <Col span={labelCol}>商品种类：</Col>
-                <Col span={wrapperCol}>
-                {
-                  pdKindOption.map((el,index) => (
-                    <span key={index}>{info.pdKind==el.key&&el.value}</span>
-                  ))
-                }
-                </Col>
-              </Row>
-            </div>
+          }
+          {
+            info.pdScope==2&&
+            <Row className="item-row">
+              <Col span={labelCol}>商品种类：</Col>
+              <Col span={wrapperCol}>
+              {
+                pdKindOption.map((el,index) => (
+                  <span key={index}>{info.pdKind==el.key&&el.value}</span>
+                ))
+              }
+              </Col>
+            </Row>
           }
           <Row className="item-row">
             <Col span={labelCol}>可同享的单品促销类型：</Col>
-            <Col span={wrapperCol}>
             {
-              shareOption.map((el,index) => (
-                <span key={index}>{info.sharedPromotionType==el.key&&el.value}</span>
-              ))
+              info.sharedPromotionType=='-1'?
+              <Col span={wrapperCol}>
+                不可同享
+              </Col>
+              :
+              <Col span={wrapperCol}>
+              {
+                shareOption.map((el,index) => (
+                  <span key={index}>{info.sharedPromotionType==el.key&&el.value}</span>
+                ))
+              }
+              </Col>
             }
-            </Col>
           </Row>
          </div>
 }

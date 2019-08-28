@@ -25,6 +25,18 @@ const pdKindOption=[
     key:3,
     value:'保税商品'
   }]
+const singleShareOption=[{
+    key:10,
+    value:'单品直降'
+}]
+const prefShareOption=[
+  {
+    key:22,
+    value:'专区多级满元减（例：满300减30）'
+  },{
+    key:23,
+    value:'专区满件减免商品'
+  }]
 const singleOption=[
   {
     key:10,
@@ -33,14 +45,6 @@ const singleOption=[
     key:11,
     value:'单品多级满赠（例：A商品买3送1）'
 }]
-const prefTwoOption=[
-  {
-    key:22,
-    value:'专区多级满元减（例：满300减30）'
-  },{
-    key:23,
-    value:'专区满件减免商品'
-  }]
 const prefectureOption=[
   {
     key:20,
@@ -90,6 +94,7 @@ const levelOption=[
   export {
     pdScopeOption,singleOption,
     prefectureOption, purposeTypesOption,
-    levelOption, prefTwoOption,
-    promotionScopeOption,pdKindOption
+    levelOption,
+    promotionScopeOption,pdKindOption,
+    singleShareOption,prefShareOption
   }
