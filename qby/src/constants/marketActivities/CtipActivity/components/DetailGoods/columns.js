@@ -43,15 +43,15 @@ const columnsSingleDown = [
       let ml;
       if(record.pdKind == 3) {
         ml = record.shareRatio;
-        ml =NP.round(ml, 2);
         ml =NP.times(ml, 100);
+        ml =NP.round(ml, 2);
         ml =`${ml}%`
       } else if(record.eventPrice=='0'){
         ml ='-';
       } else {
         ml = NP.divide(NP.minus(record.activityPrice,record.eventPrice),record.activityPrice)
-        ml =NP.round(ml, 2);
         ml =NP.times(ml, 100);
+        ml =NP.round(ml, 2);
         ml =`${ml}%`
       }
       return <p>{ml}</p>
@@ -165,8 +165,8 @@ const columnsSingleGift = [
             ml = '-';
           } else {
             ml = NP.divide(NP.minus(dsj, record.eventPrice),dsj);
-            ml =NP.round(ml, 2);
             ml =NP.times(ml, 100);
+            ml =NP.round(ml, 2);
             ml=`${ml}%`;
           }
           return <p key={index}>
@@ -285,15 +285,15 @@ const columnsAreaMinus = [
           let ml;
           if(record.pdKind == 3) {
             ml = record.shareRatio;
-            ml =NP.round(ml, 2);
             ml =NP.times(ml, 100);
+            ml =NP.round(ml, 2);
             ml =`${ml}%`;
           }else if(record.eventPrice=='0') {
             ml='-';
           } else {
             ml = NP.divide(NP.minus(dsj, record.eventPrice),dsj);
-            ml =NP.round(ml, 2);
             ml =NP.times(ml, 100);
+            ml =NP.round(ml, 2);
             ml =`${ml}%`;
           }
           return <p key={index}>{++index}级，{ml}</p>
