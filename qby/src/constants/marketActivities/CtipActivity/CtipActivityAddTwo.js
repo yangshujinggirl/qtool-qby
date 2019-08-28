@@ -54,6 +54,10 @@ class CtipActivityAddTwo extends Component {
       type: "tab/initDeletestate",
       payload: componkey
     });
+    this.props.dispatch({
+      type:'ctipActivity/fetchList',
+      payload:{channel:1}
+    });
   };
   goInfo = () => {
     const { promotionId } = this.props.data;
@@ -128,7 +132,6 @@ class CtipActivityAddTwo extends Component {
   };
   render() {
     const { promotionType,beginTime,endTime,pdKind} = this.props.data;
-    
     const form = this.props.form;
     return (
       <div className="set_goods">

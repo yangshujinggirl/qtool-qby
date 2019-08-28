@@ -124,13 +124,10 @@ import moreGoodsSet from "./models/homeConfiguration/moreGoodsSet.js";
 import homeConfig from "./models/homeConfiguration/configurationList";
 import goodsSet from './models/homeConfiguration/goodsSet'
 //营销中心
-import bAudit from './models/marketActivities/bAudit'
 import cAudit from './models/marketActivities/cAudit'
 import ctipActivity from './models/marketActivities/ctipActivity';//c端活动
 import ctipActivityAddOne from './models/marketActivities/ctipActivity/ctipActivityAddOne';//c端活动
 import ctipActivityAddTwo from './models/marketActivities/ctipActivity/ctipActivityAddTwo';//c端活动
-import btipActivity from './models/marketActivities/btipActivity';//b端活动
-import btipActivityAddOne from './models/marketActivities/btipActivity/btipActivityAddOne';//b端活动
 // 1. Initialize
 const app = dva({
   history: useRouterHistory(createHashHistory)({ queryKey: false })
@@ -239,9 +236,7 @@ const models = [
   homeConfig,
   goodsSet,
   //营销中心
-  bAudit,
   cAudit,ctipActivity,ctipActivityAddOne,ctipActivityAddTwo,
-  btipActivity,btipActivityAddOne
 ];
 models.forEach(m => {
   return app.model(m);

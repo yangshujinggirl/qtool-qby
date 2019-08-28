@@ -117,21 +117,23 @@ export default {
   effects: {
     *fetchDiscountInfo({ payload: values }, { call, put }) {
       yield put({ type: "tab/loding", payload: true});
-      const res = yield call(getDiscountInfoApi, values);
+      const res = yield call(getDiscountInfoApi,values);
       yield put({ type: "tab/loding", payload: false   });
-      const { promotionRules,promotionProducts} = res.data;
-      yield put({
-        type: "refreshdataSource",
-        payload: {
-          dataSource: promotionRules,
-        }
-      });
-      yield put({
-        type: "refreshLists",
-        payload: {
-          goodLists: promotionProducts
-        }
-      });
+      if(res.code == 0){
+        const { promotionRules,promotionProducts} = res.data;
+        yield put({
+          type: "refreshdataSource",
+          payload: {
+            dataSource: promotionRules,
+          }
+        });
+        yield put({
+          type: "refreshLists",
+          payload: {
+            goodLists: promotionProducts
+          }
+        });
+      }
     }
   }
 };

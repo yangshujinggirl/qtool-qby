@@ -36,8 +36,8 @@ export function getEnableApi(values) {
 export function getSaveActivApi(values) {
   values = JSON.stringify(values)
   return ajax.post('/webrest.htm',{
-      code:'qerp.web.promotion.activity.modify',
-      data:values
+    code:'qerp.web.promotion.activity.modify',
+    data:values
   })
 }
 //c端活动信息查询
