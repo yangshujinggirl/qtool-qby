@@ -27,6 +27,7 @@ class CtipActivityAddOneF extends Component {
         payload:{promotionId:data.promotionId}
       })
     }
+    this.props.form.resetFields()
   }
   handleSubmit= e => {
     e.preventDefault();

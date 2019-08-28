@@ -21,8 +21,9 @@ export default {
       const activityInfo={
         isWarmUp:0
       };
+      const ratioList=[],tagsList=[];
       return {
-        ...state,activityInfo
+        ...state,activityInfo,ratioList,tagsList
        }
     },
     getActivityInfo(state, { payload:activityInfo }) {

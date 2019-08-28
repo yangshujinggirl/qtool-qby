@@ -10,15 +10,37 @@ const range = (start, end) => {
   }
   return result;
 };
+//[开始时间，结束时间]--时间段//////////////////////
 const formatHoursRange =(date)=> {
+  let currentDate = moment().date();
   let hour = moment().hour();
-  let disabledHours;
-  disabledHours = range(0, 24).splice(0,hour);
+  let setDate, disabledHours;
+  if(date instanceof Array === true) {
+    setDate = moment(date[0]).date();
+  } else {
+    setDate = moment(date).date();
+  }
+  if(setDate>currentDate) {
+    disabledHours = [];
+  }else {
+    disabledHours = range(0, 24).splice(0,hour);
+  }
   return disabledHours;
 }
 const formatMinutesRange =(date)=> {
   let minute = moment().minute();
-  let disabledMinutes = range(0, 60).splice(0, minute+1);
+  let currentDate = moment().date();
+  let setDate, disabledMinutes;
+  if(date instanceof Array === true) {
+    setDate = moment(date[0]).date();
+  } else {
+    setDate = moment(date).date();
+  }
+  if(setDate>currentDate) {
+    disabledMinutes = [];
+  }else {
+    disabledMinutes = range(0, 60).splice(0, minute+1);
+  }
   return disabledMinutes;
 }
 const disabledDateTimeRange = (date,type) => {
@@ -35,7 +57,7 @@ const disabledDateTimeRange = (date,type) => {
     disabledSeconds: () => [],
   };
 };
-
+//开始时间--------------------/////////////////////
 const formatHours =(date)=> {
   let hour = moment().hour();
   let selDat = moment(date).date();//设置日
