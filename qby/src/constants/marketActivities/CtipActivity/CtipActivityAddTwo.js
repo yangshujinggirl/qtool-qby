@@ -131,7 +131,7 @@ class CtipActivityAddTwo extends Component {
     });
   };
   render() {
-    const { promotionType,beginTime,endTime,pdKind} = this.props.data;
+    const { promotionType,beginTime,endTime,pdKind,promotionId} = this.props.data;
     const form = this.props.form;
     return (
       <div className="set_goods">
@@ -158,7 +158,7 @@ class CtipActivityAddTwo extends Component {
                   <SetTitle type={promotionType}/>
                 )}
               </div>
-              <Import beginTime={beginTime} endTime={endTime} pdKind={pdKind}/>
+              <Import beginTime={beginTime} endTime={endTime} pdKind={pdKind} promotionId={promotionId}/>
               <SetGoods />
             </div>
           )}

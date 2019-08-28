@@ -73,30 +73,36 @@ class Discount extends Component {
                               callback('需小于等于99')
                             };
                             const currentGiftQty = +promotionRules[index].param.giftQty;//当前减额
-                            const currentDiscount = +value/(+value+currentGiftQty)//当前折扣
-                            if(promotionRules[index - 1]){
-                              const prevLeastQty = +promotionRules[index - 1].param.leastQty;//上一条门槛
-                              const prevGiftQty = +promotionRules[index - 1].param.giftQty;//上一条减额
-                              const prevDiscount = prevLeastQty/(prevLeastQty + prevGiftQty) //上一条折扣
-                              if(currentGiftQty){
-                                if(currentDiscount >= prevDiscount){
-                                  callback('此阶梯优惠力度需大于上一阶梯')
+                            if(currentGiftQty){
+                              const currentDiscount = +value/(+value+currentGiftQty)//当前折扣
+                              if(promotionRules[index - 1]){
+                                const prevLeastQty = +promotionRules[index - 1].param.leastQty;//上一条门槛
+                                const prevGiftQty = +promotionRules[index - 1].param.giftQty;//上一条减额
+                                if(prevLeastQty){
+                                  if(+value <= prevLeastQty){
+                                    callback('此阶梯优惠力度需大于上一阶梯')
+                                  };
+                                  if(prevGiftQty){
+                                    const prevDiscount = prevLeastQty/(prevLeastQty + prevGiftQty) //上一条折扣
+                                    if(currentDiscount >= prevDiscount){
+                                      callback('此阶梯优惠力度需大于上一阶梯')
+                                    };
+                                  };
                                 };
                               };
-                              if(+value <= prevLeastQty){
-                                callback('此阶梯优惠力度需大于上一阶梯')
-                              };
-                            };
-                            if(promotionRules[index+1]){
-                              const nextLeastQty = +promotionRules[index + 1].param.leastQty;//下一条门槛
-                              const nextGiftQty = +promotionRules[index + 1].param.giftQty;//下一条减额
-                              const nextDiscount = nextLeastQty/(nextLeastQty + nextGiftQty) //下一条折扣
-                              if(currentGiftQty){
-                                if(currentDiscount <= nextDiscount){
-                                  callback('此阶梯优惠力度需小于下一阶梯')
-                                };
-                                if(+value >= nextLeastQty){
-                                  callback('此阶梯优惠力度需小于下一阶梯')
+                              if(promotionRules[index+1]){
+                                const nextLeastQty = +promotionRules[index + 1].param.leastQty;//下一条门槛
+                                const nextGiftQty = +promotionRules[index + 1].param.giftQty;//下一条减额
+                                if(nextLeastQty){
+                                  if(+value >= nextLeastQty){
+                                    callback('此阶梯优惠力度需小于下一阶梯')
+                                  };
+                                  if(nextGiftQty){
+                                    const nextDiscount = nextLeastQty/(nextLeastQty + nextGiftQty) //下一条折扣
+                                    if(currentDiscount <= nextDiscount){
+                                      callback('此阶梯优惠力度需小于下一阶梯')
+                                    };
+                                  };
                                 };
                               };
                             };
@@ -124,27 +130,29 @@ class Discount extends Component {
                               callback('需小于等于99')
                             };
                             const currentLeastQty = +promotionRules[index].param.leastQty;//当前减额
-                            const currentDiscount = currentLeastQty/(+value+currentLeastQty)//当前折扣
-                            if(promotionRules[index - 1]){
-                              const prevLeastQty = +promotionRules[index - 1].param.leastQty;//上一条门槛
-                              const prevGiftQty = +promotionRules[index - 1].param.giftQty;//上一条减额
-                              const prevDiscount = prevLeastQty/(prevLeastQty + prevGiftQty) //上一条折扣
-                              if(currentLeastQty){
-                                if(currentDiscount >= prevDiscount){
-                                  callback('此阶梯优惠力度需大于上一阶梯')
+                            if(currentLeastQty){
+                              const currentDiscount = currentLeastQty/(+value+currentLeastQty)//当前折扣
+                              if(promotionRules[index - 1]){
+                                const prevLeastQty = +promotionRules[index - 1].param.leastQty;//上一条门槛
+                                const prevGiftQty = +promotionRules[index - 1].param.giftQty;//上一条减额
+                                if(prevGiftQty && prevLeastQty){
+                                  const prevDiscount = prevLeastQty/(prevLeastQty + prevGiftQty) //上一条折扣
+                                  if(currentDiscount >= prevDiscount){
+                                    callback('此阶梯优惠力度需大于上一阶梯')
+                                  };
                                 };
                               };
-                            };
-                            if(promotionRules[index+1]){
-                              const nextLeastQty = +promotionRules[index + 1].param.leastQty;//下一条门槛
-                              const nextGiftQty = +promotionRules[index + 1].param.giftQty;//下一条减额
-                              const nextDiscount = nextLeastQty/(nextLeastQty + nextGiftQty) //下一条折扣
-                              if(currentLeastQty){
-                                if(currentDiscount <= nextDiscount){
-                                  callback('此阶梯优惠力度需小于下一阶梯')
-                                }
+                              if(promotionRules[index+1]){
+                                const nextLeastQty = +promotionRules[index + 1].param.leastQty;//下一条门槛
+                                const nextGiftQty = +promotionRules[index + 1].param.giftQty;//下一条减额
+                                if(nextLeastQty && nextGiftQty){
+                                  const nextDiscount = nextLeastQty/(nextLeastQty + nextGiftQty) //下一条折扣
+                                  if(currentDiscount <= nextDiscount){
+                                    callback('此阶梯优惠力度需小于下一阶梯')
+                                  }
+                                };
                               };
-                            };
+                            }
                           };
                           callback()
                         }

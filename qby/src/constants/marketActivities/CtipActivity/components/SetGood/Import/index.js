@@ -37,6 +37,8 @@ class index extends Component {
       if (response) {
         if (response.code == "0") {
           const { promotionProducts } = response.data;
+          const total = promotionProducts.length;
+          message.success('共成功导入商品'+total+'条');
           this.props.dispatch({
             type: "ctipActivityAddTwo/refreshLists",
             payload: { goodLists: promotionProducts }
@@ -45,13 +47,13 @@ class index extends Component {
           message.error(file.response.message, 0.8);
         };
         return file.response.status === "success";
-      }
-    }
+      };
+    };
   };
   beforeUpload = () => {};
   render() {
-    const { promotionType,beginTime,endTime,pdKind} = this.props;
-    const params = JSON.stringify({ type: promotionType,beginTime,endTime,pdKind });
+    const { promotionType,beginTime,endTime,pdKind,promotionId} = this.props;
+    const params = JSON.stringify({ type: promotionType,beginTime,endTime,pdKind,promotionId });
     const props = {
       action: "/erpWebRest/webrest.htm?code=qerp.web.promotion.activity.import",
       onChange: this.handleChange,
