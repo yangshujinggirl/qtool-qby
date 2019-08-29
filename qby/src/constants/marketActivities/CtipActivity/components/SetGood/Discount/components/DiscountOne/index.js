@@ -158,7 +158,7 @@ class DiscountOne extends Component {
     } = this.state;
     if (editType == "add") {
       //判断是新增还是编辑
-      getComplimentaryApi({ pdCode: values.pdCode,platformType:2}).then(res => {
+      getComplimentaryApi({ pdCode: values.pdCode,platformType:2,type:this.props.pdKind}).then(res => {
         if (res.code == 0) {
           const product = res.product;
           let list = { ...product, maxQty: values.max };

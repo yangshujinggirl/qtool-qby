@@ -19,7 +19,7 @@ class Audit extends Component {
             message.success('审核成功')
             this.props.dispatch({
               type: "tab/initDeletestate",
-              payload: this.props.componkey+this.props.approvalId
+              payload: this.props.componkey+'audit'+this.props.approvalId
             });
             this.props.dispatch({
               type:'cAudit/fetchList',

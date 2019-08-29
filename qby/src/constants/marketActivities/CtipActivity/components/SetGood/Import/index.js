@@ -43,7 +43,9 @@ class index extends Component {
             formatWrong,
             priceGapWrong,
             productKindWrong,
-            huchiWrong
+            huchiWrong,
+            enableEnjoyActivityWrong,
+            purChaseWrong,
           } = response.data;
           Modal.success({
             title: "",
@@ -68,16 +70,14 @@ class index extends Component {
                   <p className='import_error'>
                     {priceGapWrong.map(
                       (item, index) =>`${item}${index == priceGapWrong.length - 1 ? "" : "/ "}`
-                    )}
-                    商品填写格式错误
+                    )} 商品填写格式错误
                   </p>
                 )}
                 {productKindWrong.length>0 && (
                   <p className='import_error'>
                     {productKindWrong.map(
                       (item, index) =>`${item}${index == productKindWrong.length - 1 ? "" : "/ "}`
-                    )}
-                    商品不符合活动商品范围
+                    )} 商品不符合活动商品范围
                   </p>
                 )}
                  {huchiWrong.length>0 && (
@@ -86,6 +86,20 @@ class index extends Component {
                       (item, index) =>`${item}${index == huchiWrong.length - 1 ? "" : "/ "}`
                     )}
                     商品已参加其他和此活动互斥的活动
+                  </p>
+                )}
+                {purChaseWrong.length>0 && (
+                  <p className='import_error'>
+                    {purChaseWrong.map(
+                      (item, index) =>`${item}${index == purChaseWrong.length - 1 ? "" : "/ "}`
+                    )} 商品限购数量的大小关系不对
+                  </p>
+                )}
+                {enableEnjoyActivityWrong.length>0 && (
+                  <p className='import_error'>
+                    {enableEnjoyActivityWrong.map(
+                      (item, index) =>`${item}${index == enableEnjoyActivityWrong.length - 1 ? "" : "/ "}`
+                    )} 商品为保税商品，不能参与单品满件赠活动
                   </p>
                 )}
               </div>
