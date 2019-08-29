@@ -47,7 +47,7 @@ function getColumns(edit, delt) {
       dataIndex: "sellPrice",
       key: "7",
       render: (text, record, index) => {
-        return <span>￥{Number(text).toFixed(2)}元</span>;
+        return (text?<span>￥{Number(text).toFixed(2)}元</span>:'');
       }
     },
     {
@@ -56,9 +56,11 @@ function getColumns(edit, delt) {
       key: "8",
       render: (text, record, index) => {
         return (
+          text?
           <span style={{ color: +record.profitRate < 0 ? "red" : "#35bab0" }}>
             ￥{Number(text).toFixed(2)}元
           </span>
+          :''
         );
       }
     },
@@ -81,7 +83,7 @@ function getColumns(edit, delt) {
       dataIndex: "goldCardPrice",
       key: "10",
       render: (text, record, index) => {
-        return <span>￥{Number(text).toFixed(2)}元</span>;
+        return (text?<span>￥{Number(text).toFixed(2)}元</span>:'');
       }
     },
     {
@@ -89,7 +91,7 @@ function getColumns(edit, delt) {
       dataIndex: "silverCardPrice",
       key: "11",
       render: (text, record, index) => {
-        return <span>￥{Number(text).toFixed(2)}元</span>;
+        return (text?<span>￥{Number(text).toFixed(2)}元</span>:'');
       }
     },
     {
@@ -183,7 +185,7 @@ function getColumns(edit, delt) {
       dataIndex: "sellPrice",
       key: "8",
       render: (text, record, index) => {
-        return <span>￥{Number(text).toFixed(2)}元</span>;
+        return (text?<span>￥{Number(text).toFixed(2)}元</span>:'');
       }
     },
     {
@@ -305,7 +307,7 @@ function getColumns(edit, delt) {
       dataIndex: "sellPrice",
       key: "7",
       render: (text, record, index) => {
-        return <span>￥{Number(text).toFixed(2)}元</span>;
+        return (text?<span>￥{Number(text).toFixed(2)}元</span>:'');
       }
     },
     {
@@ -363,7 +365,7 @@ function getColumns(edit, delt) {
       dataIndex: "sellPrice",
       key: "7",
       render: (text, record, index) => {
-        return <span>￥{Number(text).toFixed(2)}元</span>;
+        return (text?<span>￥{Number(text).toFixed(2)}元</span>:'');
       }
     },
     {

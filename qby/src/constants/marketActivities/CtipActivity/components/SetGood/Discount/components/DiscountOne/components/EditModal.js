@@ -61,7 +61,7 @@ class EditModal extends Component {
                 <Input
                   autoComplete="off"
                   style={{ width: "120px" }}
-                  placeholder="请输入赠品编码"
+                  placeholder="请输入赠品数"
                 />
               )}
               <span className="suffix_tips">

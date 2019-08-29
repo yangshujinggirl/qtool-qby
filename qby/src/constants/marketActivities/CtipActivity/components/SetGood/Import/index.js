@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Upload, Button, message,Modal } from "antd";
+import { Upload, Button, message, Modal } from "antd";
 import { connect } from "dva";
 import "./index.less";
 class index extends Component {
@@ -8,7 +8,7 @@ class index extends Component {
     this.state = {};
   }
   downLoadTemp = () => {
-    const { promotionType} = this.props;
+    const { promotionType } = this.props;
     switch (promotionType) {
       case 10:
         window.open("../../../../../../static/market/c_down.xlsx");
@@ -36,35 +36,61 @@ class index extends Component {
     if (file.status == "done") {
       if (response) {
         if (response.code == "0") {
-          const { promotionProducts,noPro,formatWrong,priceGapWrong,productKindWrong,huchiWrong } = response.data;
-          Modal.confirm({
-            title: '',
-            content: 
-            <div>
-              {promotionProducts.length>0&&'共成功导入商品'+promotionProducts.length+'条'}
-              {
-                noPro.length>0 && noPro.map((item,index)=>{
-                  return(<p>{item + (index==noPro.length-1)?'':'/'+'商品不存在'}</p>) 
-                })
-              }
-              {
-                formatWrong.length>0 && formatWrong.map((item,index)=>{
-                  return(<p>{item + (index==formatWrong.length-1)?'':'/'+'商品填写格式错误'}</p>) 
-                })
-              }
-              {
-                priceGapWrong.length>0 && priceGapWrong.map((item,index)=>{
-                  return(<p>{item + (index==priceGapWrong.length-1)?'':'/'+'商品不存在'}</p>) 
-                })
-              }
-              
-              {
-                huchiWrong.length>0 && huchiWrong.map((item,index)=>{
-                  return(<p>{item + (index==huchiWrong.length-1)?'':'/'+'商品已参加其他和此活动互斥的活动'}</p>) 
-                })
-              }
-            </div>,
-            footer:null
+          const {
+            promotionProducts,
+            successSize,
+            noPro,
+            formatWrong,
+            priceGapWrong,
+            productKindWrong,
+            huchiWrong
+          } = response.data;
+          Modal.success({
+            title: "",
+            content: (
+              <div>
+                <p className='import_error'>共成功导入商品  {successSize}  条</p>
+                {noPro.length>0 && (
+                  <p  className='import_error'>
+                    {noPro.map(
+                      (item, index) =>`${item}${index == noPro.length - 1 ? "" : "/ "}`
+                    )} 商品不存在
+                  </p>
+                )}
+                {formatWrong.length>0 && (
+                  <p className='import_error'>
+                    {formatWrong.map(
+                      (item, index) =>`${item}${index == formatWrong.length - 1 ? "" : "/ "}`
+                    )} 商品填写格式错误
+                  </p>
+                )}
+                {priceGapWrong.length>0 && (
+                  <p className='import_error'>
+                    {priceGapWrong.map(
+                      (item, index) =>`${item}${index == priceGapWrong.length - 1 ? "" : "/ "}`
+                    )}
+                    商品填写格式错误
+                  </p>
+                )}
+                {productKindWrong.length>0 && (
+                  <p className='import_error'>
+                    {productKindWrong.map(
+                      (item, index) =>`${item}${index == productKindWrong.length - 1 ? "" : "/ "}`
+                    )}
+                    商品不符合活动商品范围
+                  </p>
+                )}
+                 {huchiWrong.length>0 && (
+                  <p className='import_error'>
+                    {huchiWrong.map(
+                      (item, index) =>`${item}${index == huchiWrong.length - 1 ? "" : "/ "}`
+                    )}
+                    商品已参加其他和此活动互斥的活动
+                  </p>
+                )}
+              </div>
+            ),
+            footer: null
           });
           this.props.dispatch({
             type: "ctipActivityAddTwo/refreshLists",
@@ -72,15 +98,27 @@ class index extends Component {
           });
         } else {
           message.error(file.response.message, 0.8);
-        };
+        }
         return file.response.status === "success";
-      };
-    };
+      }
+    }
   };
   beforeUpload = () => {};
   render() {
-    const { promotionType,beginTime,endTime,pdKind,promotionId} = this.props;
-    const params = JSON.stringify({ type: promotionType,beginTime,endTime,pdKind,promotionId });
+    const {
+      promotionType,
+      beginTime,
+      endTime,
+      pdKind,
+      promotionId
+    } = this.props;
+    const params = JSON.stringify({
+      type: promotionType,
+      beginTime,
+      endTime,
+      pdKind,
+      promotionId
+    });
     const props = {
       action: "/erpWebRest/webrest.htm?code=qerp.web.promotion.activity.import",
       onChange: this.handleChange,
