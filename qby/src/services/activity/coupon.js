@@ -119,3 +119,10 @@ export function getSuppliApi(values) {
       data:values
   })
 }
+export function getReissueApi(values) {
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.ac.coupon.reissue',
+      data:values
+  })
+}

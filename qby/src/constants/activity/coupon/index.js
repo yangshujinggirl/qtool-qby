@@ -7,8 +7,8 @@ import Qpagination from '../../../components/Qpagination/index'; //分页
 import FilterForm from './FilterForm/index'
 import InjectCoupons from './InjectCoupon'
 import { InjectCouponApi } from '../../../services/activity/coupon'
-import { fuseCouponApi } from '../../../services/activity/coupon'
-
+import { fuseCouponApi, getReissueApi } from '../../../services/activity/coupon'
+import AddModal from './AddModal';
 
 class Coupon extends Component{
   constructor(props){
@@ -25,6 +25,9 @@ class Coupon extends Component{
         type:'radio',
         onChange:this.onChange
       },
+      visibleSupply:false,
+      loading:false,
+      addContent:{},
     }
   }
   componentWillReceiveProps(props) {
@@ -191,48 +194,6 @@ class Coupon extends Component{
         this.goSupplyAgain(record);
         break;
     }
-    // if(type == "info"){
-    //   const paneitem = {
-    //     title:'优惠券详情',
-    //     key:`${this.state.componkey}editInfo`+record.couponId,
-    //     componkey:`${this.state.componkey}info`,
-    //     data:{
-    //       couponId:record.couponId,
-    //       inputValues:this.state.inputValues
-    //     }
-    //   }
-    //   this.props.dispatch({
-    //     type:'tab/firstAddTab',
-    //     payload:paneitem
-    //   });
-    // }else if(type == 'inject'){ //注券记录
-    //   const paneitem = {
-    //     title:'注券记录',
-    //     key:`${this.state.componkey}editconfig`+record.couponId,
-    //     componkey:`${this.state.componkey}editconfig`,
-    //     data:{
-    //       pdSpuId:record.couponId,
-    //       couponCode:record.couponCode
-    //     },
-    //   };
-    //   this.props.dispatch({
-    //       type:'tab/firstAddTab',
-    //       payload:paneitem
-    //   });
-    // }else if(type == 'edit'){
-    //   const paneitem = {
-    //     title:'修改优惠券',
-    //     key:`${this.state.componkey}edit`+record.couponId,
-    //     componkey:`${this.state.componkey}edit`,
-    //     data:{
-    //       couponId:record.couponId,
-    //     },
-    //   };
-    //   this.props.dispatch({
-    //       type:'tab/firstAddTab',
-    //       payload:paneitem
-    //   });
-    // }
   }
   goInfo(record) {
     const paneitem = {
@@ -279,18 +240,7 @@ class Coupon extends Component{
     });
   }
   goSupplyAgain(record) {
-    const paneitem = {
-      title:'补发优惠券',
-      key:`${this.state.componkey}edit`+record.couponId,
-      componkey:`${this.state.componkey}edit`,
-      data:{
-        srcCouponId:record.couponId,
-      },
-    };
-    this.props.dispatch({
-        type:'tab/firstAddTab',
-        payload:paneitem
-    });
+    this.setState({ visibleSupply:true, addContent:record});
   }
   //券包管理
   couponManage=()=>{
@@ -304,12 +254,32 @@ class Coupon extends Component{
       payload:paneitem
     });
   }
+  onCancelAdd=(callback)=>{
+    callback&&typeof callback =="function"&&callback()
+    this.setState({ visibleSupply:false, addContent:{} });
+  }
+  onOkAdd=(values,callback)=>{
+    this.setState({ loading:true });
+    let params={
+      srcCouponId:this.state.addContent.couponId,
+      couponCount:values.couponCount,
+    }
+    getReissueApi(params)
+    .then((res) => {
+      if(res.code =='0') {
+        message.success('追加成功')
+        this.onCancelAdd(callback)
+      }
+      this.setState({ loading:false });
+    })
+  }
   render(){
     const {menus} = this.props;
     const operation = menus.find(item=>(item.type=="operation") );
     const bact = operation.children.find(item=>(item.code=="401200"))
     const rolelists = ( bact.children.find(item=>(item.code=='1003000')) ).children;
     const {dataList} = this.props.coupon.data1;
+    const { visibleSupply, addContent, loading } =this.state;
     //创建优惠券
     const addCoupon = rolelists.find((currentValue,index)=>{
       return currentValue.url=="qerp.web.pd.coupon.save"
@@ -396,6 +366,12 @@ class Coupon extends Component{
             onShowSizeChange = {this.onShowSizeChange}
           />:null
         }
+        <AddModal
+          loading={loading}
+          onOk={this.onOkAdd}
+          onCancel={this.onCancelAdd}
+          addContent={addContent}
+          visible={visibleSupply}/>
       </div>
     )
   }

@@ -54,13 +54,16 @@ const Columns = [
    },{
      title: '操作',
      dataIndex: '',
+     width:'10%',
      render:(text,record,index)=>{
        return(
          <div>
-           {((record.status==1||record.status==2) && record.addCoupon)&&
-           <a className='theme-color' onClick={record.onOperateClick.bind(this,'edit')}>修改</a>}
+           <a className='theme-color' onClick={record.onOperateClick.bind(this,'edit')}>修改</a>
            &nbsp;
-           <a className='theme-color' onClick={record.onOperateClick.bind(this,'supplyAgain')}>补发</a>
+           {
+             ((record.status==1||record.status==2) && record.addCoupon)&&
+             <a className='theme-color' onClick={record.onOperateClick.bind(this,'supplyAgain')}>追加数量</a>
+           }
          </div>
        )
      }
@@ -76,10 +79,12 @@ const columnsCreat =(form,validator,changeProportion,dataSource)=>{
        let chldrnDom = <FormItem>
                {getFieldDecorator(`bearers[${index}].budget`,{
                  initialValue:record.budget,
-                 rules:[{pattern:/^\d+$/,message:'请输入数字'}]
+                 rules:[{pattern:/^\d+(\.\d{1,2})?$/,message:'请输入数字'}],
+                 onChange:(e)=>changeProportion('budget',index,e)
                })(
                  <Input
                    suffix="万元"
+                   disabled={record.couponId?true:false}
                    maxLength='15'
                    placeholder="请输入活动预算"
                    autoComplete="off"/>
@@ -98,20 +103,8 @@ const columnsCreat =(form,validator,changeProportion,dataSource)=>{
      }
    },{
      title: '承担方',
-     dataIndex: 'bearerStr',
+     dataIndex: 'bearerName',
      width:'10%',
-     // render:(text,record,index) => {
-     //   const { getFieldDecorator } =form;
-     //   return <FormItem>
-     //           {getFieldDecorator(`bearers[${index}].bearer`,{
-     //             initialValue:record.bearerStr,
-     //           })(
-     //             <Input
-     //               disabled
-     //               autoComplete="off"/>
-     //           )}
-     //         </FormItem>
-     // }
    },{
      title: '*承担比例',
      dataIndex: 'ratio',
@@ -122,16 +115,17 @@ const columnsCreat =(form,validator,changeProportion,dataSource)=>{
                {getFieldDecorator(`bearers[${index}].proportion`,{
                  initialValue:record.proportion,
                  rules:[{ required: true, message: '请输入承担比例'},{
-                   pattern:/^\d+$/,message:'请输入数字'
+                   pattern:/^\d+(\.\d{1,2})?$/,message:'请输入数字'
                  },{
                    validator:validator
                  }],
-                 onChange:changeProportion
+                 onChange:(e)=>changeProportion('proportion',index,e)
                })(
                  <Input
                    suffix="%"
+                   disabled={record.couponId?true:false}
                    maxLength='15'
-                   placeholder="请输入活动预算"
+                   placeholder="请输入承担比例"
                    autoComplete="off"/>
                )}
              </FormItem>
@@ -145,8 +139,10 @@ const columnsCreat =(form,validator,changeProportion,dataSource)=>{
        return <FormItem>
                {getFieldDecorator(`bearers[${index}].remark`,{
                  initialValue:record.remark,
+                 onChange:(e)=>changeProportion('remark',index,e)
                })(
                  <Input
+                   disabled={record.couponId?true:false}
                    maxLength='30'
                    placeholder="请输入备注说明"
                    autoComplete="off"/>
