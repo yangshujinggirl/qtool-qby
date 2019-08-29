@@ -143,7 +143,7 @@ class CtipActivityAddTwo extends Component {
             <div className="set_title">
               <SetTitle type={promotionType} />
             </div>
-            <Discount form={form} />
+            <Discount form={form} pdKind={pdKind}/>
           </div>
         )}
         <div className="act_goods_index">
@@ -160,7 +160,7 @@ class CtipActivityAddTwo extends Component {
                 )}
               </div>
               <Import beginTime={beginTime} endTime={endTime} pdKind={pdKind} promotionId={promotionId}/>
-              <SetGoods />
+              <SetGoods/>
             </div>
           )}
         </div>

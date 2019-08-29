@@ -5,11 +5,11 @@ import DiscountTwo from "./components/DiscountTwo";
 
 class Discount extends Component {
   render() {
-    const { promotionType,form } = this.props;
+    const { promotionType,form,pdKind } = this.props;
     return (
       <div>
         {promotionType == 20 || promotionType == 21 ? (
-          <DiscountOne form={form}/>
+          <DiscountOne form={form} pdKind={pdKind}/>
         ) : (
           (promotionType == 22 || promotionType == 23) && <DiscountTwo form={form}/>
         )}

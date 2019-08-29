@@ -35,6 +35,11 @@ export function columns(form, handleChange){
         disabled=false;
         placeholder = '请选择分类'
         break;
+      case 9:
+        disabled=false;
+        placeholder = '请填写活动ID';
+        rules=[{ required:true, message:'请填写活动ID'}]
+      break;
       default:
         disabled=true;
         break;
@@ -162,6 +167,9 @@ export function columns(form, handleChange){
                  <Select.Option
                    value={8}
                    key={8}>去商品分类</Select.Option>
+                   <Select.Option
+                   value={9}
+                   key={9}>去促销活动页</Select.Option>
                </Select>
            )}
            </FormItem>
