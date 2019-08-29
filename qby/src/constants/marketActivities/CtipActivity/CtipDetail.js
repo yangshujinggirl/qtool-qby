@@ -1,11 +1,12 @@
 import React , { Component } from 'react';
 import { Collapse } from 'antd';
+import { connect } from 'dva';
 import DetailBase from './components/DetailBase';
 import DetailDiscount from './components/DetailDiscount';
 import DetailLog from './components/DetailLog';
 import DetailGoods from './components/DetailGoods';
 import DetailWebShow from './components/DetailWebShow';
-import { getBaseInfoApi, getDiscountInfoApi, getLogApi } from '../../../services/marketActivities/ctipActivity';
+import { getBaseInfoApi, getDiscountInfoApi, getLogApi, goExportApi } from '../../../services/marketActivities/ctipActivity';
 
 const formItemLayout = {
      labelCol: 3,
@@ -22,53 +23,7 @@ class CtipDetail extends Component {
       },
       goodsInfo:{
         promotionType:22,//10.单品直降 11.单品多级满赠 20.专区多级满元赠 21.专区多级满件赠 22专区多级满元减 23.专区满件减免
-        promotionRules:[{
-          params:{
-            leastAmount:10,//20
-          },
-          promotionGifts:[{
-            pdCode:1,
-            maxQty:1,
-            pdName:'qwer',
-            sellPrice:102,
-            toBQty:1,
-            toCQty:1,
-          }]
-        },{
-          params:{
-            leastAmount:20,
-          },
-          promotionGifts:[{
-            pdCode:2,
-            maxQty:3,
-            pdName:'wq',
-            sellPrice:10,
-            toBQty:10,
-            toCQty:30,
-          }]
-        }],
-        // promotionRules:[{
-        //   params:{
-        //     leastQty:10,//22
-        //     reduceQty:12,
-        //   },
-        // },{
-        //   params:{
-        //     leastQty:20,
-        //     reduceQty:22,
-        //   },
-        // }],
-        // promotionRules:[{//23
-        //   params:{
-        //     leastAmount:10,
-        //     reduceAmount:12,
-        //   },
-        // },{
-        //   params:{
-        //     leastAmount:20,
-        //     reduceAmount:22,
-        //   },
-        // }],
+        promotionRules:[],
         promotionProducts:[]
       },
       logList:[]
@@ -107,9 +62,40 @@ class CtipDetail extends Component {
       }
     })
   }
-  exportData=()=> {
-    console.log('导出数据')
-  }
+  //导出数据
+	exportData = (type,data) => {
+		const values={
+			type:130,
+			downloadParam:{promotionId:this.props.data.promotionId},
+		}
+		goExportApi(values)
+    .then((json) => {
+			if(json.code=='0'){
+				var _dispatch=this.props.dispatch
+				confirm({
+					title: '数据已经进入导出队列',
+					content: '请前往下载中心查看导出进度',
+					cancelText:'稍后去',
+					okText:'去看看',
+					onOk() {
+						const paneitem={title:'下载中心',key:'000001',componkey:'000001',data:null}
+						_dispatch({
+							type:'tab/firstAddTab',
+							payload:paneitem
+						});
+						_dispatch({
+							type:'downlaod/fetch',
+							payload:{code:'qerp.web.sys.doc.list',values:{limit:15,currentPage:0}}
+						});
+					},
+					onCancel() {
+
+					},
+	  			});
+			}
+		})
+
+	}
   render() {
     const { data } =this.props;
     const { baseInfo, goodsInfo, logList } = this.state;
@@ -139,5 +125,7 @@ class CtipDetail extends Component {
     )
   }
 }
-
-export default CtipDetail;
+function mapStateToProps(state) {
+	return state;
+}
+export default connect(mapStateToProps)(CtipDetail);;

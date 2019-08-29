@@ -97,4 +97,11 @@ export function goAuditApi(values) {
       data:values
   })
 }
-
+//导出商品
+export function goExportApi(values) {
+  values = JSON.stringify(values)
+  return ajax.post('/webrest.htm',{
+      code:'qerp.web.sys.doc.task',
+      data:values
+  })
+}

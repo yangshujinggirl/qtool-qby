@@ -45,7 +45,6 @@ class AddCoupon extends Component {
       goodTypeList:[],
       brandList:[],
       coupon:{
-        bearerActivity:[],
         couponUseScope:'4',
         couponShopScope:0,
         shopScope:0,
@@ -75,10 +74,16 @@ class AddCoupon extends Component {
     const {couponId} = this.props.data;
     getCouponInfoApi({couponId}).then(res=>{
       if(res.code == '0'){
-        const {couponInfo,activityProduct,activityShop,pdList} = res;
+        let {couponInfo,activityProduct,activityShop,pdList, proportionList, bearerList} = res;
         const {shopList} = activityShop||{shopList:null};
         const {brandList} = activityProduct||{brandList:null};
         let {couponUsageLimit} = couponInfo;
+        proportionList =proportionList?proportionList:[];
+        proportionList.map((el,index) =>{
+          el.couponId = couponId;
+          el.key = index;
+        });
+        let tagsList = proportionList.filter((item) => item.bearer!='C');
         if(couponUsageLimit){
           couponUsageLimit = couponUsageLimit && couponUsageLimit.split('-');
           for(var i=0;i<couponUsageLimit.length;i++){
@@ -105,12 +110,13 @@ class AddCoupon extends Component {
             couponValidDate:true,
           });
         };
+
         this.setState({
           coupon:couponInfo,
           pdList,
           shopList,
           brandList,
-          couponId,
+          couponId,ratioList:proportionList,tagsList,bearerList
         });
       };
     });
@@ -127,17 +133,14 @@ class AddCoupon extends Component {
           message.error('指定品牌为空',1);
           return;
         };
-        const _values = this.formatValue(values);
+        let {bearerActivity,bearers,autoComplete,...paramsVal} = values
+        const _values = this.formatValue(paramsVal);
         if(!_values) return;
         if(this.state.couponId){//修改
           _values.couponId = this.state.couponId;
           const componkey = this.props.componkey+this.state.couponId;
           this.sendRequest(updataCouponPackApi,_values,componkey)
-        }else if(this.props.data.srcCouponId) {//补发优惠券
-          _values.srcCouponId = this.props.data.srcCouponId;
-          const componkey = this.props.componkey+this.props.data.srcCouponId;
-          this.sendRequest(addCouponApi,_values,componkey)
-        }else { //新增
+        }else{ //新增
           this.sendRequest(addCouponApi,_values,this.props.componkey)
         };
       };
@@ -147,6 +150,7 @@ class AddCoupon extends Component {
     this.setState({isLoading:true})
     requestApi(values).then(res=>{
       if(res.code=='0'){
+        this.setState({isLoading:false});
         this.props.dispatch({
           type:'coupon/fetchList',
           payload:{
@@ -155,20 +159,30 @@ class AddCoupon extends Component {
             currentPage:this.props.data1.currentPage
           }
         });
+        message.success(res.message,.8);
         this.props.dispatch({
             type:'tab/initDeletestate',
             payload:componkey
         });
-        message.success(res.message,.8);
-        this.setState({isLoading:false});
-      }else{
-        this.setState({isLoading:false});
-      };
+      }
     })
   }
   formatValue=(values)=>{
+    const { ratioList } =this.state;
     const {couponWarningEmail,couponWarningQty} = this.state.coupon;
     const {couponCount} = values;
+    let proportionList = ratioList.map((el) => {
+      let item ={};
+      item.bearer = el.bearer;
+      item.proportion = el.proportion;
+      item.remark = el.remark;
+      item.bearerName = el.bearerName;
+      return item;
+    })
+    values.proportionList = proportionList;
+    if(ratioList[0].budget) {
+      values.budget = ratioList[0].budget;
+    }
     values.couponWarningEmail = couponWarningEmail;
     values.couponWarningQty = couponWarningQty;
     if(Number(couponWarningQty)>Number(couponCount)){
@@ -408,6 +422,7 @@ class AddCoupon extends Component {
       callback();
     };
   }
+  //供应商搜索
   handleSearch=(value)=> {
     getSuppliApi({name:value})
     .then((res) => {
@@ -417,40 +432,39 @@ class AddCoupon extends Component {
       }
     })
   }
+  //供应商选中
   onSelect=(value, option)=> {
     let { ratioList, tagsList } =this.state;
     let idx = ratioList.findIndex(el => el.key == value);
     if(idx =='-1') {
-      tagsList.push({
-        key:`C${value}`,
-        bearerType:'C',
-        bearerStr:option.props.children,
-        bearer:value
-      });
       ratioList.push({
         key:`C${value}`,
         bearerType:'C',
-        bearerStr:option.props.children,
+        bearerName:option.props.children,
         bearer:value
       });
-      this.setState({ ratioList, tagsList})
+      this.getRatioList(ratioList);
     }
   }
+  getRatioList(ratioList) {
+    ratioList=[...ratioList]
+    let tagsList = ratioList.filter(el => el.bearerType=='C');
+    this.setState({ ratioList, tagsList });
+  }
+  //删除供应商
   handleCloseBear=(removedTag)=> {
     let { ratioList } =this.state;
     const { bearers } =this.props.form.getFieldsValue(['bearers']);
-    // let dd = bearers.filter(tag => tag.bearer !== removedTag.bearer);
     let tags = ratioList.filter(tag => tag.key !== removedTag.key);
-    this.setState({ ratioList })
-    // this.props.form.setFieldsValue({ bearers:dd })
-    // this.props.form.resetFields(['bearers'])
+    this.getRatioList(tags);
+    this.props.form.resetFields(['bearers'])
   }
+  //承担方checkbox
   changeBearActi=(value)=>{
     let { ratioList, coupon } =this.state;
-    let newArr=[];
+    let newArr=[], valMap={};
     let tagsList = ratioList.filter(el => el.bearerType=='C');
     let fixedList = ratioList.filter(el => el.bearerType!='C');
-    let valMap={};
     fixedList.map((el) => {
       if(!valMap[el.bearerType]) {
         valMap[el.bearerType]=el;
@@ -468,19 +482,20 @@ class AddCoupon extends Component {
           let item={}
           item.bearer = el;
           item.bearerType = el;
-          item.bearerStr =  bearMap[el];
+          item.bearerName =  bearMap[el];
           item.key = `${el}${index}`;
           newArr.push(item)
         }
       }
      });
     ratioList=[...newArr,...tagsList];
-    this.setState({ ratioList,coupon:{...coupon,bearerActivity:value} })
+    this.getRatioList(ratioList);
+    this.setState({ coupon:{...coupon,bearerActivity:value} })
     this.props.form.resetFields(['bearers'])
   }
   //分成校验
   validatorRatio=(rule, value, callback)=> {
-    let { activityInfo, ratioList } =this.props;
+    let { ratioList } =this.state;
     let { bearers } =this.props.form.getFieldsValue(['bearers']);
     let total =0;
     bearers.forEach((el)=> {
@@ -495,6 +510,16 @@ class AddCoupon extends Component {
       callback();
     }
   }
+  //分成change
+  changeProportion=(name,index,e)=> {
+    let { coupon, ratioList } =this.state;
+    if(name == 'budget') {
+      ratioList.map((el) =>el.budget= e.target.value);
+    }
+    ratioList[index][name] =e.target.value;
+    this.getRatioList(ratioList);
+    this.props.form.resetFields(['bearers'])
+  }
   render(){
     const {
       shopList,
@@ -506,8 +531,9 @@ class AddCoupon extends Component {
       couponUseScopeValue,
       couponShopScopeValue,
       coupon,ratioList,tagsList,
-      isLoading,supplierList
+      isLoading,supplierList,bearerList
     } = this.state;
+
     const brandIds = [];
     brandList&&brandList.length>0 && brandList.map(item=>{
       brandIds.push(Number(item.value))
@@ -602,10 +628,10 @@ class AddCoupon extends Component {
                {
                  getFieldDecorator('bearerActivity', {
                    rules: [{ required: true, message: '请选择活动成本承担方'}],
-                   initialValue:coupon.bearerActivity,
+                   initialValue:bearerList,
                    onChange:this.changeBearActi
                  })(
-                   <Checkbox.Group style={{ width: '100%' }}>
+                   <Checkbox.Group style={{ width: '100%' }} disabled={isEdit}>
                       <Checkbox value="A">Qtools</Checkbox>
                       <Checkbox value="B">门店</Checkbox>
                       <Checkbox value="C">供应商</Checkbox>
@@ -640,7 +666,7 @@ class AddCoupon extends Component {
                     closable
                     key={el.key}
                     onClose={()=>this.handleCloseBear(el)}>
-                    {el.bearerStr}
+                    {el.bearerName}
                   </Tag>
                 ))
               }
