@@ -22,7 +22,7 @@ class cAudit extends Component{
     });
     this.setState({
       inputValues:values
-    })
+    });
   }
   //点击分页
   changePage =(current,limit)=> {
