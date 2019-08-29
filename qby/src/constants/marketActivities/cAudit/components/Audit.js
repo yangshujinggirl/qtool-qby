@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Form, Radio, Input, Button } from "antd";
+import { Form, Radio, Input, Button,message } from "antd";
 const FormItem = Form.Item;
 const TextArea = Input.TextArea;
 import { saveAuditApi } from "../../../../services/marketActivities/cAudit";
@@ -8,7 +8,7 @@ class Audit extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isPass: 0
+      isPass: "1"
     };
   }
   handleSubmit = () => {
@@ -48,6 +48,7 @@ class Audit extends Component {
         <Form>
           <FormItem {...formItemLayout} label="审核结果">
             {getFieldDecorator("isPass", {
+              initialValue:isPass,
               onChange: this.onChange
             })(
               <Radio.Group>
