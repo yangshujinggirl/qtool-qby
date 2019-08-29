@@ -43,9 +43,9 @@ class NormalForm extends Component {
               <FormItem label="审核状态">
                 {getFieldDecorator("status")(
                   <Select allowClear={true} placeholder="请选择审核状态">
-                    <Option value={0}>待审核</Option>
-                    <Option value={1}>审核通过</Option>
-                    <Option value={2}>审核不通过</Option>
+                    <Option value={1}>待审核</Option>
+                    <Option value={2}>审核通过</Option>
+                    <Option value={3}>审核不通过</Option>
                   </Select>
                 )}
               </FormItem>

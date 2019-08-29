@@ -45,7 +45,7 @@ class index extends Component {
             productKindWrong,
             huchiWrong,
             enableEnjoyActivityWrong,
-            purChaseWrong
+            purChaseWrong,
           } = response.data;
           Modal.success({
             title: "",
