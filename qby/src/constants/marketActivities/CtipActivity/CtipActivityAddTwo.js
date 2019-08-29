@@ -97,7 +97,8 @@ class CtipActivityAddTwo extends Component {
     const { goodLists } = this.props;
     if (goodLists.length == 0) {
       message.error("请至少添加一个活动商品");
-    }
+      return
+    };
     let values = { promotionId, promotionType, promotionProducts: goodLists };
     if (!(promotionType == 10 || promotionType == 11)) {
       //非单品
@@ -110,9 +111,10 @@ class CtipActivityAddTwo extends Component {
         return item.promotionGifts.length == 0;
       });
       if (isNoValue) {
-        return "存在某级阶梯没有赠品，请至少上传一个赠品";
+        message.error("存在某级阶梯没有赠品，请至少上传一个赠品");
+        return ;
       };
-    }
+    };
     saveGoodsetApi(values).then(res => {
       if (res.code == "0") {
         if (type == "audit") {
@@ -123,8 +125,7 @@ class CtipActivityAddTwo extends Component {
             };
           });
         };
-        if (type == "save") {
-          //回到查看页
+        if (type == "save") {//回到查看页
           this.goInfo();
         };
       };

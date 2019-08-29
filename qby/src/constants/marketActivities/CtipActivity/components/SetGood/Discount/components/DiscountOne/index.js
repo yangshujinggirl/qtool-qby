@@ -13,7 +13,7 @@ class DiscountOne extends Component {
       visible: false,
       currentParentIndex: 0,
       currentChildIndex: 0,
-      editType: "add",
+      editType: "edit",
       status: 1,
       max: "",
       pdCode: "",
@@ -172,10 +172,12 @@ class DiscountOne extends Component {
       const promotionGifts = dataSource[currentParentIndex].promotionGifts;
       const list = promotionGifts[currentChildIndex];
       promotionGifts[currentChildIndex] = { ...list, maxQty: values.max };
+      this.setState({
+        dataSource
+      });
     }
     this.setState({
       visible: false,
-      dataSource
     });
     resetFields();
   };
@@ -372,7 +374,7 @@ class DiscountOne extends Component {
           ))}
           <div className="discount_addLevel">
             <Button
-              disabled={dataSource.length == 3}
+              disabled={dataSource.length == 8}
               type="primary"
               onClick={this.addLevel}
             >

@@ -275,7 +275,7 @@ class DiscountTwo extends Component {
         </Form>
         <div className="discountTwo_add">
           <Button
-            disabled={dataSource && dataSource.length == 3}
+            disabled={dataSource && dataSource.length == 8}
             type="primary"
             onClick={this.add}
           >

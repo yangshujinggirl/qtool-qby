@@ -1,8 +1,8 @@
 import { Component } from "react";
-import { Modal, Form, Input,message } from "antd";
+import { Modal, Form, Input, message } from "antd";
 import Discount from "./Discount";
 import { connect } from "dva";
-import '../index.less'
+import "../index.less";
 const FormItem = Form.Item;
 
 class setModal extends Component {
@@ -12,13 +12,18 @@ class setModal extends Component {
   onOk = () => {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        if((+values.perOrderLimit>+values.perDayLimit)||(+values.perDayLimit>+values.perUserLimit)){
-          return message.error('每单限购小于每天限购小于每账号限购，请重新填写')
-        };
+        if (
+          +values.perOrderLimit > +values.perDayLimit ||
+          +values.perDayLimit > +values.perUserLimit
+        ) {
+          return message.error(
+            "每单限购小于每天限购小于每账号限购，请重新填写"
+          );
+        }
         let goodLists = [...this.props.goodLists];
         let obj = goodLists[this.props.currentIndex];
         obj = { ...obj, ...values };
-        obj.promotionRules = [...this.props.promotionRules]
+        obj.promotionRules = [...this.props.promotionRules];
         goodLists[this.props.currentIndex] = obj;
         this.props.dispatch({
           type: "ctipActivityAddTwo/refreshLists",
@@ -35,7 +40,7 @@ class setModal extends Component {
   validateActPrice = (rule, value, callback) => {
     if (value && value >= this.props.currentRecord.sellPrice) {
       callback("活动价需小于C端售价");
-    };
+    }
     callback();
   };
   render() {
@@ -44,7 +49,7 @@ class setModal extends Component {
     return (
       <div>
         <Modal
-          width={promotionType=='11'?1000:700}
+          width={promotionType == "11" ? 1000 : 700}
           title="编辑商品"
           visible={visible}
           onOk={this.onOk}
@@ -66,9 +71,7 @@ class setModal extends Component {
                 labelCol={{ span: 8 }}
                 wrapperCol={{ span: 16 }}
               >
-                {promotionType == 11 && (
-                  <Discount form={this.props.form}/>
-                )}
+                {promotionType == 11 && <Discount form={this.props.form} />}
               </FormItem>
             )}
             {promotionType == 10 && (
@@ -98,52 +101,43 @@ class setModal extends Component {
                 如不填写视为商品的所有库存均参与活动
               </span>
             </FormItem>
-            <div className='limit_tips'>限购设置规则：每单限购小于每天限购小于每账号限购</div>
-            <FormItem
-              label="活动期间每人每单限购"
-              labelCol={{ span: 8 }}
-              wrapperCol={{ span: 16 }}
-            >
-              {getFieldDecorator("perOrderLimit", {
-                initialValue: currentRecord.perOrderLimit,
-              })(
-                <Input
-                  style={{ width: "100px" }}
-                  autoComplete="off"
-                />
-              )}
-              <span className="suffix_tips">如不填写则不限制购买数量</span>
-            </FormItem>
-            <FormItem
-              label="活动期间每人每天限购"
-              labelCol={{ span: 8 }}
-              wrapperCol={{ span: 16 }}
-            >
-              {getFieldDecorator("perDayLimit", {
-                initialValue: currentRecord.perDayLimit,
-              })(
-                <Input
-                  style={{ width: "100px" }}
-                  autoComplete="off"
-                />
-              )}
-              <span className="suffix_tips">如不填写则不限制购买数量</span>
-            </FormItem>
-            <FormItem
-              label="活动期间每人每账号限购"
-              labelCol={{ span: 8 }}
-              wrapperCol={{ span: 16 }}
-            >
-              {getFieldDecorator("perUserLimit", {
-                initialValue: currentRecord.perUserLimit,
-              })(
-                <Input
-                  style={{ width: "100px" }}
-                  autoComplete="off"
-                />
-              )}
-              <span className="suffix_tips">如不填写则不限制购买数量</span>
-            </FormItem>
+            {(promotionType == 10 || promotionType == 11) && (
+              <div>
+                <div className="limit_tips">
+                  限购设置规则：每单限购小于每天限购小于每账号限购
+                </div>
+                <FormItem
+                  label="活动期间每人每单限购"
+                  labelCol={{ span: 8 }}
+                  wrapperCol={{ span: 16 }}
+                >
+                  {getFieldDecorator("perOrderLimit", {
+                    initialValue: currentRecord.perOrderLimit
+                  })(<Input style={{ width: "100px" }} autoComplete="off" />)}
+                  <span className="suffix_tips">如不填写则不限制购买数量</span>
+                </FormItem>
+                <FormItem
+                  label="活动期间每人每天限购"
+                  labelCol={{ span: 8 }}
+                  wrapperCol={{ span: 16 }}
+                >
+                  {getFieldDecorator("perDayLimit", {
+                    initialValue: currentRecord.perDayLimit
+                  })(<Input style={{ width: "100px" }} autoComplete="off" />)}
+                  <span className="suffix_tips">如不填写则不限制购买数量</span>
+                </FormItem>
+                <FormItem
+                  label="活动期间每人每账号限购"
+                  labelCol={{ span: 8 }}
+                  wrapperCol={{ span: 16 }}
+                >
+                  {getFieldDecorator("perUserLimit", {
+                    initialValue: currentRecord.perUserLimit
+                  })(<Input style={{ width: "100px" }} autoComplete="off" />)}
+                  <span className="suffix_tips">如不填写则不限制购买数量</span>
+                </FormItem>
+              </div>
+            )}
           </Form>
         </Modal>
       </div>
