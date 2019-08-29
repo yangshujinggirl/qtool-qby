@@ -10,6 +10,7 @@ class EditModal extends Component {
     this.props.handleCancel(this.resetFields);
   };
   handleOk = () => {
+    console.log(this.props.form.getFieldsValue())
     this.props.form.validateFields((err, values) => {
       if (!err) {
         this.props.handleOk(values, this.resetFields);
@@ -19,27 +20,34 @@ class EditModal extends Component {
 
   render() {
     const { visible, editType, pdCode, max } = this.props;
+    console.log(editType);
     const { getFieldDecorator } = this.props.form;
     return (
       <div>
         <Modal
-          width="600"
+          width={600}
           title={editType == "edit" ? "编辑赠品" : "新增赠品"}
           visible={visible}
           onOk={this.handleOk}
           onCancel={this.handleCancel}
         >
           <Form>
-            <FormItem
-              labelCol={{ span: 7 }}
-              wrapperCol={{ span: 16 }}
-              label="赠品编码"
-            >
-              {editType == "edit" ? (
+            {editType == "edit" && (
+              <FormItem
+                labelCol={{ span: 7 }}
+                wrapperCol={{ span: 16 }}
+                label="赠品编码"
+              >
                 <span>{pdCode}</span>
-              ) : (
-                getFieldDecorator("pdCode", {
-                  initialValue: "",
+              </FormItem>
+            )}
+            {editType == "add" && (
+              <FormItem
+                labelCol={{ span: 7 }}
+                wrapperCol={{ span: 16 }}
+                label="赠品编码"
+              >
+                {getFieldDecorator("pdCode", {
                   rules: [{ required: true, message: "请填写赠品编码" }]
                 })(
                   <Input
@@ -47,9 +55,9 @@ class EditModal extends Component {
                     style={{ width: "120px" }}
                     placeholder="请输入赠品编码"
                   />
-                )
-              )}
-            </FormItem>
+                )}
+              </FormItem>
+            )}
             <FormItem
               labelCol={{ span: 7 }}
               wrapperCol={{ span: 16 }}
