@@ -43,7 +43,6 @@ const columnsSingleDown = [
       let ml;
       if(record.pdKind == 3) {
         ml = record.shareRatio;
-        ml =NP.times(ml, 100);
         ml =NP.round(ml, 2);
         ml =`${ml}%`
       } else if(record.eventPrice=='0'){
@@ -285,7 +284,6 @@ const columnsAreaMinus = [
           let ml;
           if(record.pdKind == 3) {
             ml = record.shareRatio;
-            ml =NP.times(ml, 100);
             ml =NP.round(ml, 2);
             ml =`${ml}%`;
           }else if(record.eventPrice=='0') {

@@ -67,10 +67,11 @@ class InfoSet extends Component {
   }
   onSelect=(value, option)=> {
     let { ratioList } =this.props;
+    value = `C${value}`;
     let idx = ratioList.findIndex(el => el.key == value);
     if(idx =='-1') {
       ratioList.push({
-        key:`C${value}`,
+        key:value,
         bearerType:'C',
         bearerStr:option.props.children,
         bearer:value
@@ -275,7 +276,7 @@ class InfoSet extends Component {
                       <Checkbox value="A">Qtools</Checkbox>
                       <Checkbox value="B">门店</Checkbox>
                       <Checkbox value="C">供应商</Checkbox>
-                  </Checkbox.Group>
+                   </Checkbox.Group>
                  )
                }
              </FormItem>
