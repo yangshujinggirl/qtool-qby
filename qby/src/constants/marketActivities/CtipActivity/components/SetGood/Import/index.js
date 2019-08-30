@@ -46,6 +46,7 @@ class index extends Component {
             huchiWrong,
             enableEnjoyActivityWrong,
             purChaseWrong,
+            paramWrong
           } = response.data;
           Modal.success({
             title: "",
@@ -100,6 +101,13 @@ class index extends Component {
                     {enableEnjoyActivityWrong.map(
                       (item, index) =>`${item}${index == enableEnjoyActivityWrong.length - 1 ? "" : "/ "}`
                     )} 商品为保税商品，不能参与单品满件赠活动
+                  </p>
+                )}
+                {paramWrong.length>0 && (
+                  <p className='import_error'>
+                    {paramWrong.map(
+                      (item, index) =>`${item}${index == paramWrong.length - 1 ? "" : "/ "}`
+                    )} 商品填写格式错误
                   </p>
                 )}
               </div>
