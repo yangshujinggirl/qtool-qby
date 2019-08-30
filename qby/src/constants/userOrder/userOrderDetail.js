@@ -42,11 +42,19 @@ const columns = [{
     dataIndex: 'payPrice',
     key:'payPrice',
   }, {
-    title: '应付金额',
+    title: '应付总价',
     dataIndex: 'payAmount',
     key:'payAmount',
   },{
-    title: '商品实付金额',
+    title: '活动优惠',
+    dataIndex: '',
+    key:'',
+  },{
+    title: '优惠券抵扣',
+    dataIndex: '',
+    key:'',
+  },{
+    title: '实付总额',
     dataIndex: 'actualPayAmount',
     key:'actualPayAmount',
   }];
@@ -66,6 +74,35 @@ const columns2 = [{
     title: '备注',
     dataIndex: 'remark',
     key:'4'
+  }];
+  const columns3 = [{
+    title: '商品名称',
+    dataIndex: 'spuName',
+    key:'1'
+  }, {
+    title: '规格',
+    dataIndex: 'displayName',
+    key:'2'
+  }, {
+    title: '商品编码',
+    dataIndex: 'code',
+    key:'3'
+  }, {
+    title: '赠送数量',
+    dataIndex: 'qty',
+    key:'4'
+  }, {
+    title: '零售价',
+    dataIndex: 'price',
+    key:'5'
+  }, {
+    title: '实付总价',
+    dataIndex: 'actualPayAmount',
+    key:'actualPayAmount',
+  }, {
+    title: '活动信息',
+    dataIndex: 'activityInfo',
+    key:'activityInfo',
   }];
 
 class userOrderDetail extends React.Component{
@@ -91,7 +128,7 @@ getDetail() {
   });
   const id = this.props.data.pdSpuId;
 	getInfoApi({orderId:id}).then(res => {
-    let { orderInfo, userInfo, goodsInfos, shopInfo, logInfos, deliveryInfo, code } =res;
+    let { orderInfo,giftInfos, userInfo, goodsInfos, shopInfo, logInfos, deliveryInfo, code } = res;
     logInfos = logInfos?logInfos:[];
     goodsInfos = goodsInfos?goodsInfos:[];
     logInfos.length>0&&logInfos.map((item,index)=>{
@@ -104,6 +141,7 @@ getDetail() {
   	});
 		if(code=='0'){
 			this.setState({
+        giftInfos,
 				orderInfo,
 	      userInfo,
 				goodsInfos,
@@ -155,7 +193,7 @@ renderDelivery(deliveryInfo) {
           </Card>
 }
 render(){
-  const {orderInfo,userInfo,goodsInfos,shopInfo,logInfos, deliveryInfo} = this.state;
+  const {orderInfo,userInfo,goodsInfos,shopInfo,logInfos, deliveryInfo,giftInfos} = this.state;
 	return(
 			<div>
         <div className='mb10'>
@@ -171,6 +209,7 @@ render(){
               <div className='cardlist_item'><label>订单类型：</label><span>{orderInfo.orderTypeStr}</span></div>
               <div className='cardlist_item'><label>订单金额：</label><span>{orderInfo.amountSum}</span>元</div>
               <div className='cardlist_item'><label>商品金额：</label><span>{orderInfo.commodityAmount}</span>元</div>
+              <div className='cardlist_item'><label>活动优惠：</label><span>{orderInfo.commodityAmount}</span>元</div>
               <div className='cardlist_item'><label>用户支付配送费：</label><span>{orderInfo.standardExpressAmount}</span>元</div>
               <div className='cardlist_item'><label>优惠金额：</label><span>{orderInfo.deductionAmount}</span>元</div>
               <div className='cardlist_item'><label>优惠券：</label><span>{orderInfo.discountAmount?orderInfo.discountAmount:0}</span>元</div>
@@ -202,6 +241,14 @@ render(){
             title={()=>'商品信息'}
             dataSource={goodsInfos}
             columns={columns}
+            pagination={false}/>
+        </div>
+        <div className='mb20'>
+          <p style={{'color':'red','marginBottom':'10px','fontSize':'16px'}}>　(以下为赠品)</p>
+          <Table
+            bordered
+            dataSource={giftInfos}
+            columns={columns3}
             pagination={false}/>
         </div>
 				<div className='mb10'>

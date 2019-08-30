@@ -108,7 +108,7 @@ class OrderuserInfo extends React.Component{
 					record.priceType==1
 					?<a>{text}(限时秒杀)</a>
 					:(record.priceType == 2
-						?<a>{text}(限时直降)</a>
+						?<a>{text}(单品直降)</a>
 						:<a>{text}</a>
 						)
 				)
@@ -186,7 +186,7 @@ class OrderuserInfo extends React.Component{
 					record.priceType==1
 					?<a>{text}(限时秒杀)</a>
 					:(record.priceType == 2
-						?<a>{text}(限时直降)</a>
+						?<a>{text}(单品直降)</a>
 						:<a>{text}</a>
 						)
 				)
@@ -253,6 +253,8 @@ class OrderuserInfo extends React.Component{
 						{lable:'订单状态',text:orderInfos.statusStr},
 						{lable:'归属门店',text:orderInfos.shopName},
 						{lable:'订单金额',text:orderInfos.amount},
+						{lable:'实付金额',text:orderInfos.payAmount},
+						{lable:'活动优惠',text:orderInfos.deductActivityAmount},
 						{lable:'优惠金额',text:orderInfos.couponAmount},
 						{lable:'优惠券',text:orderInfos.couponMoney},
 						{lable:'优惠券批次号',text:orderInfos.couponCode},

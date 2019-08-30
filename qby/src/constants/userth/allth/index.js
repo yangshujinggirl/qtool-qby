@@ -323,7 +323,7 @@ class Allth extends Component {
           </p>
         </div>
         <div className="handel-btn-lists">
-          {
+          {/* {
             createChargeBack &&
             <Button
               type='primary'
@@ -331,7 +331,7 @@ class Allth extends Component {
               onClick={this.createTorder}
             >创建退单
             </Button>
-          }
+          } */}
           {
             makeSureGet &&
             <Button

@@ -112,6 +112,11 @@ export function columns(form, categoryList, activiKey){
         disabled=false;
         placeholder = '请选择分类'
         break;
+      case 9:
+        disabled=false;
+        placeholder = '请填写活动ID';
+        rules=[{ required:true, message:'请填写活动ID'},{ pattern:/^\S+$/g,message:'不可输入空格'}]
+      break;
       default:
         disabled=true;
         break;
@@ -241,6 +246,7 @@ export function columns(form, categoryList, activiKey){
           case 1:
           case 2:
           case 3:
+          case 9:
             return <FormItem>
                     {getFieldDecorator(`goods[${index}].linkInfo`,{
                       initialValue:record.linkInfo,
