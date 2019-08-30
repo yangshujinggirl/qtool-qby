@@ -82,6 +82,7 @@ class AddCoupon extends Component {
         proportionList.map((el,index) =>{
           el.couponId = couponId;
           el.key = index;
+          el.budget = couponInfo.budget;
         });
         let tagsList = proportionList.filter((item) => item.bearer!='C');
         if(couponUsageLimit){
@@ -664,6 +665,7 @@ class AddCoupon extends Component {
                 tagsList.map((el)=> (
                   <Tag
                     closable
+                    closable={isEdit?false:true}
                     key={el.key}
                     onClose={()=>this.handleCloseBear(el)}>
                     {el.bearerName}
@@ -955,7 +957,10 @@ class AddCoupon extends Component {
           }
         	<FormItem style={{marginLeft:'140px'}}>
           		<Button style={{marginRight:'100px'}} onClick={this.cancel}>取消</Button>
-          		<Button type="primary" loading={isLoading} onClick={this.handleSubmit}>保存</Button>
+            {
+              !isEdit&&
+              <Button type="primary" loading={isLoading} onClick={this.handleSubmit}>保存</Button>
+            }
         	</FormItem>
         	</Form>
       </div>
