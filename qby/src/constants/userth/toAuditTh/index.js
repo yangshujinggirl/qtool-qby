@@ -118,7 +118,8 @@ class ToAudit extends Component {
           <Qtable
             dataSource={dataList}
             onOperateClick = {this.handleOperateClick.bind(this)}
-            columns = {toAudit?Columns1:Columns2}/>
+            // columns = {toAudit?Columns1:Columns2}
+            columns = {Columns2}/>
         }
         <Qpagination
           data={this.props.toAudit}

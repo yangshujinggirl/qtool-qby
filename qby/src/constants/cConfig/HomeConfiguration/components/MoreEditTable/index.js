@@ -213,6 +213,7 @@ class BaseEditTable extends Component {
       case 1:
       case 2:
       case 3:
+      case 9:
         return <FormItem>
                 {getFieldDecorator(`goods[${index}].linkInfo`,{
                   initialValue:record.linkInfo,
@@ -265,7 +266,7 @@ class BaseEditTable extends Component {
   }
   renderHandle=(text,record,index)=> {
     let disabled;
-    if(record.linkInfoType==1||record.linkInfoType==2||record.linkInfoType==3) {
+    if(record.linkInfoType==1||record.linkInfoType==2||record.linkInfoType==3||record.linkInfoType==9) {
       disabled=!!record.picUrl&&!!record.title&&!!record.beginTime&&(record.platform!=undefined)&&!!record.linkInfoType&&!!record.linkInfo;
     } else {
       disabled=!!record.picUrl&&!!record.title&&!!record.beginTime&&(record.platform!=undefined)&&!!record.linkInfoType;
@@ -314,6 +315,11 @@ class BaseEditTable extends Component {
         rules=[{ required:true, message:'请选择分类'}]
         placeholder = '请选择分类'
         break;
+      case 9:
+      disabled=false;
+      rules=[{ required:true, message:'请填写活动ID'}]
+      placeholder = '请填写活动ID'
+      break;
       default:
         disabled=true;
         break;

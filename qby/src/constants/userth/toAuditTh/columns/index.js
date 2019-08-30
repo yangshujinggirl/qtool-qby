@@ -45,8 +45,5 @@ const Columns1 = [{
       },{
         title: '创建时间',
         dataIndex: 'createTime'
-      },{
-        title: '操作',
-        dataIndex:'operate',
       }];
    export  {Columns1,Columns2}
