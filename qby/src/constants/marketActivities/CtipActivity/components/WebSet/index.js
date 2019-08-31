@@ -38,6 +38,17 @@ class WebSet extends Component {
     return(
       <div>
         <p className="info-title">前端展示</p>
+        <UpLoadImgMod
+          rules={[{ required: true, message: '请上传图片'}]}
+          formItemLayout={formItemLayout}
+          name="websiteBanner"
+          label="活动配置促销活动页头图"
+          width={1}
+          height={1}
+          imgType={2}
+          ruleType={2}
+          fileList={activityInfo.websiteBanner}
+          form={this.props.form}/>
         <FormItem label='是否需要预热' {...formItemLayout}>
          {
            getFieldDecorator('isWarmUp', {
@@ -54,7 +65,7 @@ class WebSet extends Component {
         {
           !!activityInfo.isWarmUp&&
           <div>
-            <FormItem label='设置预热时间' {...formItemLayout}>
+            <FormItem label='预热时间' {...formItemLayout}>
               {
                 getFieldDecorator('warmUpBeginTime', {
                   rules: [{ required: true, message: '请设置预热时间'},{
@@ -75,7 +86,7 @@ class WebSet extends Component {
                 rules={[{required:true,message:'请上传图片'}]}
                 formItemLayout={formItemLayout}
                 name="pdDetailBannerPic"
-                label="配置商品详情页横幅条背景图"
+                label="商品详情页横幅条背景图"
                 width={1}
                 height={1}
                 fileList={activityInfo.pdDetailBannerPic}
@@ -85,10 +96,10 @@ class WebSet extends Component {
               rules={[{ required: activityInfo.promotionScope==1?false:true, message: '请上传图片'}]}
               formItemLayout={formItemLayout}
               name="logoPic"
-              label="配置活动主题logo图"
+              label="活动主题logo图"
               width={1}
               height={1}
-              imgType='png'
+              imgType={2}
               fileList={activityInfo.logoPic}
               form={this.props.form}/>
           </div>

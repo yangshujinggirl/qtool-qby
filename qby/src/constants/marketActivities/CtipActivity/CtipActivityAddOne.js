@@ -73,6 +73,7 @@ class CtipActivityAddOneF extends Component {
     paramsVal.platformType = 2;
     paramsVal.pdDetailBannerPic = activityInfo.pdDetailBannerPic;
     paramsVal.logoPic = activityInfo.logoPic;
+    paramsVal.websiteBanner = activityInfo.websiteBanner;
     return paramsVal;
   }
   successCallback=(res,pdScope,beginTime,endTime,pdKind)=> {
@@ -125,7 +126,7 @@ const bearMap={
 }
 const CtipActivityAddOne = Form.create({
   onValuesChange(props, changedFields, allFields) {
-    let { bearers=[], pdDetailBannerPic, logoPic, ...valFileds } = allFields;
+    let { bearers=[], pdDetailBannerPic, logoPic, websiteBanner, ...valFileds } = allFields;
     let currentKey = Object.keys(changedFields)[0];
     let { ratioList, activityInfo } =props;
     if(currentKey == 'bearers') {
@@ -159,6 +160,13 @@ const CtipActivityAddOne = Form.create({
       if(logoPic.status == 'done') {
         if(logoPic.response.code == '0') {
           valFileds.logoPic = logoPic.response.data[0];
+        }
+      }
+    }
+    if(websiteBanner) {
+      if(websiteBanner.status == 'done') {
+        if(websiteBanner.response.code == '0') {
+          valFileds.websiteBanner = websiteBanner.response.data[0];
         }
       }
     }

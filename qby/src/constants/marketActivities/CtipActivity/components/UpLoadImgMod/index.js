@@ -5,6 +5,20 @@ import './index.less';
 
 const FormItem = Form.Item;
 class UpLoadImg extends Component {
+  static defaultProps={
+		imgType: 1,//1-jpg png jpeg gif,//2--png//3--jpg jpeg
+    ruleType:1,//1==,2<=,3>=
+    imgTypeMap:{
+      1:'jpg,png,jpeg',
+      2:'png',
+      3:'jpg',
+    },
+    ruleTypeMap:{
+      1:'等于',
+      3:'大于等于',
+      2:'小于等于',
+    }
+	}
   constructor(props) {
     super(props);
     this.state = {
@@ -12,9 +26,17 @@ class UpLoadImg extends Component {
     }
   }
   checkImg=(file)=> {
-    let regExp = /image\/(jpeg|jpg|png)/ig;
-    if(this.props.imgType == 'png') {
-      regExp = /image\/png/ig;
+    let regExp
+    switch(this.props.imgType) {
+      case 1:
+        regExp = /image\/(jpeg|jpg|png)/ig;
+        break;
+      case 2:
+        regExp = /image\/png/ig;
+        break;
+      case 3:
+        regExp = /image\/(jpeg|jpg)/ig;
+        break;
     }
     let isImg = new Promise((resolve, reject) => {
         let valid = regExp.test(file.type);
@@ -30,15 +52,26 @@ class UpLoadImg extends Component {
       return isLt2M;
   }
   checkSize=(file)=> {
+    let { ruleType, ruleTypeMap } =this.props;
     let isSize = new Promise((resolve, reject) => {
-        let width = this.props.width;
-        let height = this.props.height;
+        let { width, height } =this.props;
         let percent = width/height;
         let _URL = window.URL || window.webkitURL;
         let img = new Image();
         img.onload = function() {
-          let valid = img.width/img.height == percent;
-          valid ? resolve(true) : reject(`图片尺寸比例为${width}：${height}，大小不符合要求，请修改后重新上传！`);
+          let valid
+          switch(ruleType) {
+            case 1:
+              valid = img.width/img.height == percent;
+              break;
+            case 2:
+              valid = img.width/img.height == percent||img.width/img.height < percent;
+              break;
+            case 3:
+              valid = img.width/img.height == percent||img.width/img.height > percent;
+              break;
+          }
+          valid ? resolve(true) : reject(`图片宽高比为${ruleTypeMap[ruleType]}${width}:${height}，请修改后重新上传！`);
         };
         img.src = _URL.createObjectURL(file);
       })
@@ -86,7 +119,7 @@ class UpLoadImg extends Component {
   };
   render() {
      const { getFieldDecorator } =this.props.form;
-     let { fileList,name, formItemLayout, label, rules, width, height } = this.props;
+     let { fileList,name, formItemLayout, label, rules, width, height, imgTypeMap, ruleTypeMap, imgType, ruleType } = this.props;
      let fileDomain = JSON.parse(sessionStorage.getItem('fileDomain'));
      let fileListArr = (fileList&&fileList!=''&&(typeof fileList == 'string'))?[`${fileList}`]:[];
 
@@ -114,13 +147,7 @@ class UpLoadImg extends Component {
             </Upload>
           )}
           <span className="ant-form-text-tips">
-            {
-              this.props.name=='logoPic'?
-              `大促logo图片需上传${width}:${height}比例的图片，仅支持png格式`
-              :
-              `商品详情页横幅条背景图需上传${width}:${height}比例的图片，支持jpg、png格式`
-            }
-
+            {`${label}需上传宽高比${ruleTypeMap[ruleType]}${width}:${height}的图片，仅支持${imgTypeMap[imgType]}格式`}
           </span>
        </FormItem>
      )

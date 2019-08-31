@@ -30,6 +30,9 @@ export default {
       return { ...state,activityInfo };
     },
     getRatioList(state, { payload:ratioList }) {
+      let budgetItem = ratioList.find((el)=>el.budget);
+      budgetItem = budgetItem?budgetItem:{};
+      ratioList.map((el) =>el.budget = budgetItem.budget)
       ratioList=[...ratioList]
       let tagsList = ratioList.filter(el => el.bearerType=='C');
       return { ...state,ratioList, tagsList };
@@ -55,7 +58,7 @@ export default {
           });
         }
         if(data.budget) {
-          ratioList[0].budget=data.budget;
+          ratioList.map((el) =>el.budget = data.budget)
         }
         yield put({type: 'getActivityInfo',payload:res.data});
         yield put({type: 'getRatioList',payload:ratioList});

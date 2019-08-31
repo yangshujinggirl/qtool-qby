@@ -268,6 +268,10 @@ class Coupon extends Component{
     .then((res) => {
       if(res.code =='0') {
         message.success('追加成功')
+        this.props.dispatch({
+          type:'coupon/fetchList',
+          payload:{}
+        });
         this.onCancelAdd(callback)
       }
       this.setState({ loading:false });

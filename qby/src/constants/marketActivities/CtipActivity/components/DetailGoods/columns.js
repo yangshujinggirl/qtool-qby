@@ -43,7 +43,6 @@ const columnsSingleDown = [
       let ml;
       if(record.pdKind == 3) {
         ml = record.shareRatio;
-        ml =NP.times(ml, 100);
         ml =NP.round(ml, 2);
         ml =`${ml}%`
       } else if(record.eventPrice=='0'){
@@ -214,6 +213,13 @@ const columnsAreaGift = [
   {
     title: '商品种类',
     dataIndex: 'pdKind',
+    render:(text,record,index)=> {
+      return <span>{
+        pdKindOption.map((el,index)=>(
+          <span key={index}>{el.key == record.pdKind&&el.value}</span>
+        ))
+      }</span>
+    }
   },
   {
     title: 'C端售价',
@@ -285,7 +291,6 @@ const columnsAreaMinus = [
           let ml;
           if(record.pdKind == 3) {
             ml = record.shareRatio;
-            ml =NP.times(ml, 100);
             ml =NP.round(ml, 2);
             ml =`${ml}%`;
           }else if(record.eventPrice=='0') {

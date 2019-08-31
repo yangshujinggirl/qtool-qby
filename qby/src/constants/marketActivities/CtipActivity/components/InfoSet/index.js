@@ -67,10 +67,11 @@ class InfoSet extends Component {
   }
   onSelect=(value, option)=> {
     let { ratioList } =this.props;
-    let idx = ratioList.findIndex(el => el.key == value);
+    let keyValue = `C${value}`;
+    let idx = ratioList.findIndex(el => el.key == keyValue);
     if(idx =='-1') {
       ratioList.push({
-        key:`C${value}`,
+        key:keyValue,
         bearerType:'C',
         bearerStr:option.props.children,
         bearer:value
@@ -160,6 +161,7 @@ class InfoSet extends Component {
     let providerIndex = activityInfo.costApportion&&activityInfo.costApportion.findIndex((el)=>el == 'C');
     let rangeOption = activityInfo.promotionScope==1?singleOption:prefectureOption;
     let linkAgeOption = this.formatOption();
+    console.log(ratioList)
     return(
       <div>
         <p className="info-title">活动信息</p>
@@ -275,7 +277,7 @@ class InfoSet extends Component {
                       <Checkbox value="A">Qtools</Checkbox>
                       <Checkbox value="B">门店</Checkbox>
                       <Checkbox value="C">供应商</Checkbox>
-                  </Checkbox.Group>
+                   </Checkbox.Group>
                  )
                }
              </FormItem>

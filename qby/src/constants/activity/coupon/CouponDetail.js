@@ -90,8 +90,8 @@ class CouponDetail extends Component{
               <div className='cardlist_item'><label>创建人：</label><span>{couponInfo.creater}</span></div>
               <div className='cardlist_item'><label>创建时间：</label><span>{couponInfo.createTime}</span></div>
               <div className='cardlist_item'><label>优惠券金额：</label><span>{couponInfo.couponMoney}</span></div>
-              <div className='cardlist_item'><label>优惠券成本承担方：</label><span>{couponInfo.couponMoney}</span></div>
-              <div className='cardlist_item'><label>优惠券成本分摊比例：</label><span>{couponInfo.couponMoney}</span></div>
+              <div className='cardlist_item'><label>优惠券成本承担方：</label><span>{couponInfo.bearerStr}</span></div>
+              <div className='cardlist_item'><label>优惠券成本分摊比例：</label><span>预算{couponInfo.budget}万，{couponInfo.proportionStr}</span></div>
               <div className='cardlist_item'><label>使用门槛：</label><span>{couponInfo.couponFullAmount}</span></div>
               <div className='cardlist_item'><label>优惠券数：</label><span>{couponInfo.couponCount}</span></div>
               <div className='cardlist_item'><label>发放方式：</label><span>

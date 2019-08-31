@@ -435,14 +435,16 @@ class AddCoupon extends Component {
   }
   //供应商选中
   onSelect=(value, option)=> {
-    let { ratioList, tagsList } =this.state;
+    let { ratioList, coupon } =this.state;
+    value = `C${value}`;
     let idx = ratioList.findIndex(el => el.key == value);
     if(idx =='-1') {
       ratioList.push({
-        key:`C${value}`,
+        key:value,
         bearerType:'C',
         bearerName:option.props.children,
-        bearer:value
+        bearer:value,
+        budget:coupon.budget
       });
       this.getRatioList(ratioList);
     }
@@ -455,7 +457,6 @@ class AddCoupon extends Component {
   //删除供应商
   handleCloseBear=(removedTag)=> {
     let { ratioList } =this.state;
-    const { bearers } =this.props.form.getFieldsValue(['bearers']);
     let tags = ratioList.filter(tag => tag.key !== removedTag.key);
     this.getRatioList(tags);
     this.props.form.resetFields(['bearers'])
@@ -485,6 +486,7 @@ class AddCoupon extends Component {
           item.bearerType = el;
           item.bearerName =  bearMap[el];
           item.key = `${el}${index}`;
+          item.budget = coupon.budget;
           newArr.push(item)
         }
       }
@@ -515,6 +517,7 @@ class AddCoupon extends Component {
   changeProportion=(name,index,e)=> {
     let { coupon, ratioList } =this.state;
     if(name == 'budget') {
+      this.setState({ coupon: {...coupon,budget:e.target.value }})
       ratioList.map((el) =>el.budget= e.target.value);
     }
     ratioList[index][name] =e.target.value;
@@ -543,6 +546,7 @@ class AddCoupon extends Component {
     let blColumns = columnsCreat(this.props.form,this.validatorRatio,this.changeProportion,ratioList);
     let providerIndex = coupon.bearerActivity&&coupon.bearerActivity.findIndex((el)=>el == 'C');
     const { getFieldDecorator } = this.props.form;
+
     return(
       <div className='addCoupon'>
         	<Form className="addUser-form operatebanner-form">
@@ -744,12 +748,19 @@ class AddCoupon extends Component {
             <FormItem
               label='使用限制'
               labelCol={{span:3,offset:1}}
-              wrapperCol={{span:14}}>
+              wrapperCol={{span:18}}>
               {
                 getFieldDecorator('couponUsageLimit',{
                   initialValue:coupon.couponUsageLimit,
                 })(
-                  <CheckboxGroup options={this.options1} disabled={isEdit}/>
+                  <Checkbox.Group style={{ width: '100%' }} disabled={isEdit}>
+                     <Checkbox value={10} key={10}>不可与单品直降同享</Checkbox>
+                     <Checkbox value={11} key={11}>不可与单品多级满赠同享</Checkbox>
+                     <Checkbox value={20} key={20}>不可与专区多级满元赠同享</Checkbox>
+                     <Checkbox value={21} key={21}>不可与专区多级满件赠同享</Checkbox>
+                     <Checkbox value={22} key={22}>不可与专区多级满元减赠同享</Checkbox>
+                     <Checkbox value={23} key={23}>不可与专区满件减免商品同享</Checkbox>
+                  </Checkbox.Group>
                 )
               }<span className='suffix_tips'>若不选，则无使用限制</span>
             </FormItem>
