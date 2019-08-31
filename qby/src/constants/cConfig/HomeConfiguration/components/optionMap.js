@@ -21,13 +21,13 @@ const linkIconOption =[
         key:7,
         value:'去品牌馆页'
       },{
-        key:10,
+        key:9,
         value:'去全部商品分类页'
       },{
         key:8,
         value:'去商品分类'
       },{
-        key:9,
+        key:10,
         value:'去促销活动页'
       }]
 const linkOption =[
@@ -56,7 +56,7 @@ const linkOption =[
         key:8,
         value:'去商品分类'
       },{
-        key:9,
+        key:10,
         value:'去促销活动页'
       }]
 const linkOptionTwo =[{
@@ -81,7 +81,7 @@ const linkOptionTwo =[{
         key:8,
         value:'去商品分类'
       },{
-        key:9,
+        key:10,
         value:'去促销活动页'
       }]
 
