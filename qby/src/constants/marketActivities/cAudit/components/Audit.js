@@ -16,10 +16,10 @@ class Audit extends Component {
       if (!err) {
         saveAuditApi({ ...values,approvalId:this.props.approvalId }).then(res => {
           if (res.code == "0") {
-            message.success('审核成功')
+            message.success('审核成功');
             this.props.dispatch({
               type: "tab/initDeletestate",
-              payload: this.props.componkey+'audit'+this.props.approvalId
+              payload: this.props.componkey+this.props.approvalId
             });
             this.props.dispatch({
               type:'cAudit/fetchList',
@@ -37,6 +37,7 @@ class Audit extends Component {
     });
   };
   render() {
+    console.log(this.props)
     const { isPass } = this.state;
     const { getFieldDecorator } = this.props.form;
     const formItemLayout = {

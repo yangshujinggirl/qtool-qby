@@ -50,12 +50,13 @@ class cAudit extends Component{
   handleOperateClick=(record,type)=>{ //type：'edit':审核 'detail':查看
     const paneitem = {
       title:type=='detail'?'审核详情':'活动审核',
-      key:`${this.props.componkey}editInfo`+record.promotionId,
+      key:`${this.props.componkey}editInfo`+record.approvalId,
       componkey:`${this.props.componkey}editInfo`,
       data:{
         type,
         promotionId:record.promotionId,
         approvalId:record.approvalId,
+        componkey:`${this.props.componkey}editInfo`
       },
     }
     this.props.dispatch({
