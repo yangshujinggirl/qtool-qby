@@ -123,7 +123,7 @@ function DetailBase({...props}) {
             </Row>
           }
           <Row className="item-row">
-            <Col span={labelCol}>可同享的单品促销类型：</Col>
+            <Col span={labelCol}>可同享的促销类型：</Col>
             {
               info.sharedPromotionType=='-1'?
               <Col span={wrapperCol}>

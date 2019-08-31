@@ -213,6 +213,13 @@ const columnsAreaGift = [
   {
     title: '商品种类',
     dataIndex: 'pdKind',
+    render:(text,record,index)=> {
+      return <span>{
+        pdKindOption.map((el,index)=>(
+          <span key={index}>{el.key == record.pdKind&&el.value}</span>
+        ))
+      }</span>
+    }
   },
   {
     title: 'C端售价',

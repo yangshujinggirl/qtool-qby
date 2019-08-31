@@ -1,5 +1,5 @@
 import React , { Component } from 'react';
-import { Collapse } from 'antd';
+import { Collapse, Modal } from 'antd';
 import { connect } from 'dva';
 import DetailBase from './components/DetailBase';
 import DetailDiscount from './components/DetailDiscount';
@@ -8,6 +8,7 @@ import DetailGoods from './components/DetailGoods';
 import DetailWebShow from './components/DetailWebShow';
 import { getBaseInfoApi, getDiscountInfoApi, getLogApi, goExportApi } from '../../../services/marketActivities/ctipActivity';
 
+const { confirm } = Modal;
 const formItemLayout = {
      labelCol: 3,
      wrapperCol:20,
@@ -65,7 +66,7 @@ class CtipDetail extends Component {
   //导出数据
 	exportData = (type,data) => {
 		const values={
-			type:130,
+			type:93,
 			downloadParam:{promotionId:this.props.data.promotionId},
 		}
 		goExportApi(values)
