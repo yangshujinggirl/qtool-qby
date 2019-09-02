@@ -9,7 +9,7 @@ class Discount extends Component {
     this.state = {};
   }
   delete = index => {
-    this.props.form.resetFields();
+    this.props.form.resetFields(['fieldValues']);
     const promotionRules = [...this.props.promotionRules];
     promotionRules.splice(index, 1);
     this.props.dispatch({
@@ -19,14 +19,14 @@ class Discount extends Component {
   };
   add = () => {
     const promotionRules = [...this.props.promotionRules];
-    promotionRules.push({ param: { leastAmount: "", reduceAmount: "" } });
+    promotionRules.push({ param: { leastQty: "", giftQty: "" } });
     this.props.dispatch({
       type: "ctipActivityAddTwo/refreshSingleRules",
       payload: { promotionRules }
     });
   };
   onChange = (e, index, key) => {
-    this.props.form.resetFields();
+    this.props.form.resetFields(['fieldValues']);
     const promotionRules = [...this.props.promotionRules];
     promotionRules[index]["param"][key] = e.target.value;
     this.props.dispatch({
@@ -36,11 +36,10 @@ class Discount extends Component {
   };
   render() {
     const { promotionRules } = this.props;
-    promotionRules &&
-      promotionRules.length > 0 &&
-      promotionRules.map((item, index) => {
-        item.key = index;
-      });
+    promotionRules && promotionRules.length > 0 &&promotionRules.map((item, index) => {
+      item.key = index;
+    });
+    console.log(promotionRules)
     const { getFieldDecorator } = this.props.form;
     return (
       <div className="discountTwo">
@@ -73,35 +72,34 @@ class Discount extends Component {
                               callback('需小于等于99')
                             };
                             const currentGiftQty = +promotionRules[index].param.giftQty;//当前减额
-                            if(currentGiftQty){
-                              const currentDiscount = +value/(+value+currentGiftQty)//当前折扣
-                              if(promotionRules[index - 1]){
-                                const prevLeastQty = +promotionRules[index - 1].param.leastQty;//上一条门槛
-                                const prevGiftQty = +promotionRules[index - 1].param.giftQty;//上一条减额
-                                if(prevLeastQty){
-                                  if(+value <= prevLeastQty){
+                            if(promotionRules[index - 1]){
+                              const prevLeastQty = +promotionRules[index - 1].param.leastQty;//上一条门槛
+                              const prevGiftQty = +promotionRules[index - 1].param.giftQty;//上一条减额
+                              if(prevLeastQty){
+                                if(+value <= prevLeastQty){
+                                  callback('此阶梯优惠力度需大于上一阶梯')
+                                };
+                                if(prevGiftQty&&currentGiftQty){
+                                  const currentDiscount = +value/(+value+currentGiftQty)//当前折扣
+                                  const prevDiscount = prevLeastQty/(prevLeastQty + prevGiftQty) //上一条折扣
+                                  if(currentDiscount >= prevDiscount){
                                     callback('此阶梯优惠力度需大于上一阶梯')
-                                  };
-                                  if(prevGiftQty){
-                                    const prevDiscount = prevLeastQty/(prevLeastQty + prevGiftQty) //上一条折扣
-                                    if(currentDiscount >= prevDiscount){
-                                      callback('此阶梯优惠力度需大于上一阶梯')
-                                    };
                                   };
                                 };
                               };
-                              if(promotionRules[index+1]){
-                                const nextLeastQty = +promotionRules[index + 1].param.leastQty;//下一条门槛
-                                const nextGiftQty = +promotionRules[index + 1].param.giftQty;//下一条减额
-                                if(nextLeastQty){
-                                  if(+value >= nextLeastQty){
+                            };
+                            if(promotionRules[index+1]){
+                              const nextLeastQty = +promotionRules[index + 1].param.leastQty;//下一条门槛
+                              const nextGiftQty = +promotionRules[index + 1].param.giftQty;//下一条减额
+                              if(nextLeastQty){
+                                if(+value >= nextLeastQty){
+                                  callback('此阶梯优惠力度需小于下一阶梯')
+                                };
+                                if(nextGiftQty&&currentGiftQty){
+                                  const currentDiscount = +value/(+value+currentGiftQty)//当前折扣
+                                  const nextDiscount = nextLeastQty/(nextLeastQty + nextGiftQty) //下一条折扣
+                                  if(currentDiscount <= nextDiscount){
                                     callback('此阶梯优惠力度需小于下一阶梯')
-                                  };
-                                  if(nextGiftQty){
-                                    const nextDiscount = nextLeastQty/(nextLeastQty + nextGiftQty) //下一条折扣
-                                    if(currentDiscount <= nextDiscount){
-                                      callback('此阶梯优惠力度需小于下一阶梯')
-                                    };
                                   };
                                 };
                               };
@@ -158,7 +156,7 @@ class Discount extends Component {
                         }
                       }
                     ]
-                  })(<Input  autoComplete="off" style={{ width: "100px" }}/>)}
+                  })(<Input  autoComplete="off" style={{ width: "100px" }}/>)}　件
                 </FormItem>
               </div>
               {promotionRules.length > 1 && (

@@ -137,9 +137,9 @@ class DiscountOne extends Component {
     const { dataSource } = this.state;
     if (this.props.promotionType == 20) {
       //20满元赠 21满件赠
-      dataSource[index].param.leastAmount = Number(value);
+      dataSource[index].param.leastAmount = value;
     } else {
-      dataSource[index].param.leastQty = Number(value);
+      dataSource[index].param.leastQty = value;
     }
     this.setState({
       dataSource
@@ -243,21 +243,14 @@ class DiscountOne extends Component {
       deletVisible,
       level
     } = this.state;
-    if(dataSource.length == 0){
-      switch(promotionType){
-        case 20: dataSource=[{param:{"leastAmount":''},promotionGifts:[]}]; break;
-        case 21: dataSource=[{param:{"leastQty":''},promotionGifts:[]}];break;
-      };
-    };
     console.log(dataSource)
     return (
       <div className="discount-good">
-        <div>赠送方式: 每种赠品均送</div>
+        <div>*赠送方式: 每种赠品均送</div>
         <div className="content">
           {dataSource.length>0 && dataSource.map((item, index) => (
-            <div>
+            <div key={index}>
               <Table
-                key={index}
                 className="discount_table"
                 title={() => (
                   <div className="discount_title">
@@ -366,7 +359,7 @@ class DiscountOne extends Component {
                 )}
                 pagination={false}
                 bordered
-                dataSource={item.promotionGifts.length>0 && item.promotionGifts}
+                dataSource={item.promotionGifts.length>0 ? item.promotionGifts:[]}
                 columns={this.getColumns(index)}
                 size="middle"
               />

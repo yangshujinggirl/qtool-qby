@@ -348,12 +348,12 @@ class Content extends React.Component {
                                     case "401900":return <PageConfig data={this.props.data} componkey={this.props.componkey}/>//页面配置
                                     case "401900edit":return <AddPage data={this.props.data} componkey={this.props.componkey}/>//新增配置页
                                     case "401200":return <Market data={this.props.data} componkey={this.props.componkey}/>//新增配置页
-                                    case "401200coupon": return <Coupon data={this.props.data} componkey={this.props.componkey}/> //优惠券
-                                    case "401200couponedit": return <AddCoupon data={this.props.data} componkey={this.props.componkey}/> //创建优惠券
-                                    case "401200couponinfo" : return <CouponDetail data={this.props.data} componkey={this.props.componkey}/> //优惠券详情
-                                    case "401200couponeditconfig": return <CouponRecord data={this.props.data} componkey={this.props.componkey}/> //注券记录
-                                    case "401200couponmanage": return <CouponManage data={this.props.data} componkey={this.props.componkey}/> //注券记录
-                                    case "401200couponmanageeditpack" : return <AddCouponPack data={this.props.data} componkey={this.props.componkey}/> //注券记录
+                                    case "1003000": return <Coupon data={this.props.data} componkey={this.props.componkey}/> //优惠券
+                                    case "1003000edit": return <AddCoupon data={this.props.data} componkey={this.props.componkey}/> //创建优惠券
+                                    case "1003000info" : return <CouponDetail data={this.props.data} componkey={this.props.componkey}/> //优惠券详情
+                                    case "1003000editconfig": return <CouponRecord data={this.props.data} componkey={this.props.componkey}/> //注券记录
+                                    case "1003000manage": return <CouponManage data={this.props.data} componkey={this.props.componkey}/> //注券记录
+                                    case "1003000manageeditpack" : return <AddCouponPack data={this.props.data} componkey={this.props.componkey}/> //注券记录
 
                                     case "601000": return <AccountIndex data={this.props.data}/>;
                                     case "601000edit": return <AddNewAccount data={this.props.data}/>;

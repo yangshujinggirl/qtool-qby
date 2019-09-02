@@ -166,13 +166,14 @@ function getColumns(edit, delt) {
       title: "优惠内容",
       dataIndex: "promotionRules",
       key: "7",
+      className: "green",
       render: (text, record, index) => {
         return (
           <div>
             {record.promotionRules &&
               record.promotionRules.length > 0 &&
               record.promotionRules.map((item, index) => (
-                <p key={index} style={{ "margin-bottom": "5px" }}>
+                <p key={index} style={{ "marginBottom": "5px" }}>
                   满{item.param.leastQty}件，送{item.param.giftQty}件
                 </p>
               ))}
@@ -200,7 +201,7 @@ function getColumns(edit, delt) {
               record.handsPrice.map((item, subIndex) => (
                 <p
                   key={subIndex}
-                  style={{ "margin-bottom": "5px", color: item.color }}
+                  style={{ "marginBottom": "5px", color: item.color }}
                 >
                   {++subIndex}级：{item.price?'￥'+item.price+'元':'-'}
                 </p>
@@ -221,7 +222,7 @@ function getColumns(edit, delt) {
               record.profitRate.map((item, subIndex) => (
                 <p
                   key={subIndex}
-                  style={{ "margin-bottom": "5px", color: item.color }}
+                  style={{ "marginBottom": "5px", color: item.color }}
                 >
                   {++subIndex}级：{item.rate?item.rate+'%':'-'}
                 </p>
@@ -380,7 +381,7 @@ function getColumns(edit, delt) {
               record.handsPrice.map((item, subIndex) => (
                 <p
                   key={subIndex}
-                  style={{ "margin-bottom": "5px", color: item.color }}
+                  style={{ "marginBottom": "5px", color: item.color }}
                 >
                   {++subIndex}级：{item.price?'￥'+item.price+'元':'-'}
                 </p>
@@ -401,7 +402,7 @@ function getColumns(edit, delt) {
               record.profitRate.map((item, subIndex) => (
                 <p
                   key={subIndex}
-                  style={{ "margin-bottom": "5px", color: item.color }}
+                  style={{ "marginBottom": "5px", color: item.color }}
                 >
                   {++subIndex}级：{item.rate?item.rate+'%':'-'}
                 </p>

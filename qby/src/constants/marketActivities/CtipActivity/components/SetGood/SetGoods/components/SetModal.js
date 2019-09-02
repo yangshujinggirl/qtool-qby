@@ -56,6 +56,7 @@ class setModal extends Component {
           onCancel={this.onCancel}
           wrapClassName="reset_goods"
         >
+          <div>
           <Form>
             <FormItem
               label="商品编码"
@@ -139,6 +140,7 @@ class setModal extends Component {
               </div>
             )}
           </Form>
+          </div>
         </Modal>
       </div>
     );

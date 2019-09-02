@@ -147,7 +147,7 @@ class CtipActivityAddTwo extends Component {
           </div>
         )}
         <div className="act_goods_index">
-          <div className="title">活动商品</div>
+          <div className="title">选择商品</div>
           {this.props.data.pdScope == 1 ? (
             <div className='all_field'>
               您选择的促销级别为全场级，全部商品都参与活动，此处无需添加商品
