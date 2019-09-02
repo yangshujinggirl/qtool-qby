@@ -93,11 +93,13 @@ class CtipActivityAddTwo extends Component {
   };
   //发送请求
   sendQequest = type => {
-    const { promotionId, promotionType } = this.props.data;
+    const { promotionId, promotionType,pdScope } = this.props.data;
     const { goodLists } = this.props;
-    if (goodLists.length == 0) {
-      message.error("请至少添加一个活动商品");
-      return
+    if(pdScope!=1){
+      if (goodLists.length == 0) {
+        message.error("请至少添加一个活动商品");
+        return
+      };
     };
     let values = { promotionId, promotionType, promotionProducts: goodLists };
     if (!(promotionType == 10 || promotionType == 11)) {
