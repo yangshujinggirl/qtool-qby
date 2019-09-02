@@ -63,25 +63,28 @@ function YHModOne({...props}){
 //20.专区多级满元赠 21.专区多级满件赠 22专区多级满元减 23.专区满件减免
 function DetailDiscount({...props}) {
   const { labelCol, wrapperCol, info } =props;
-  let Mod;
+  let Mod,TipsMod;
   let promotionType = info.promotionType;
   switch(promotionType) {
     case 22:
     case 23:
+      TipsMod =<Row className="item-row">
+                  每阶梯的优惠力度需大于上一阶梯的优惠力度。例：满X送Y，每阶梯的Y/X需大于上一阶梯的Y/X。
+                </Row>
       Mod = YHModOne;
       break;
     case 20:
     case 21:
+      TipsMod =<Row className="item-row">
+                  <Col span={labelCol}>赠送方式：</Col>
+                  <Col span={wrapperCol}>{info.giftMethod}</Col>
+                </Row>
       Mod = YHModTwo;
       break;
   }
-
   return <div className="detail-mode-wrap">
-            <Row className="item-row">
-              <Col span={labelCol}>赠送方式：</Col>
-              <Col span={wrapperCol}>{info.giftMethod}</Col>
-            </Row>
-            <Mod list={info.promotionRules} promotionType={info.promotionType}/>
+          {info.promotionRules.length>0&&TipsMod}
+          <Mod list={info.promotionRules} promotionType={info.promotionType}/>
          </div>
 }
 export default DetailDiscount;

@@ -45,7 +45,7 @@ const columnsCreat =(form,validator,changeProportion,dataSource)=>{
                 {getFieldDecorator(`bearers[${index}].proportion`,{
                   initialValue:record.proportion,
                   rules:[{ required: true, message: '请输入承担比例'},{
-                    pattern:/^\d+(\.\d{1,2})?$/,message:'请输入数字'
+                    pattern:/^\d+$/,message:'请输入正整数'
                   },{
                     validator:validator
                   }],
@@ -54,7 +54,7 @@ const columnsCreat =(form,validator,changeProportion,dataSource)=>{
                   <Input
                     suffix="%"
                     maxLength='15'
-                    placeholder="请输入活动预算"
+                    placeholder="请输入承担比例"
                     autoComplete="off"/>
                 )}
               </FormItem>

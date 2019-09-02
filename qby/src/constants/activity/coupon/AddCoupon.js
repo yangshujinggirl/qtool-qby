@@ -436,11 +436,11 @@ class AddCoupon extends Component {
   //供应商选中
   onSelect=(value, option)=> {
     let { ratioList, coupon } =this.state;
-    value = `C${value}`;
-    let idx = ratioList.findIndex(el => el.key == value);
+    let keyVal = `C${value}`;
+    let idx = ratioList.findIndex(el => el.key == keyVal);
     if(idx =='-1') {
       ratioList.push({
-        key:value,
+        key:keyVal,
         bearerType:'C',
         bearerName:option.props.children,
         bearer:value,

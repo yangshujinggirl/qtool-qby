@@ -161,7 +161,7 @@ class InfoSet extends Component {
     let providerIndex = activityInfo.costApportion&&activityInfo.costApportion.findIndex((el)=>el == 'C');
     let rangeOption = activityInfo.promotionScope==1?singleOption:prefectureOption;
     let linkAgeOption = this.formatOption();
-    console.log(ratioList)
+    // console.log(ratioList)
     return(
       <div>
         <p className="info-title">活动信息</p>
