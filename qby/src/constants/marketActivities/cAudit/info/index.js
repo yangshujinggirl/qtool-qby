@@ -145,7 +145,7 @@ class CtipDetail extends Component {
           )}
           {type == "edit" && (
             <Panel header="审核结果" key="6">
-              <DetailAudit {...formItemLayout} approvalId={data.approvalId} />
+              <DetailAudit {...formItemLayout} approvalId={data.approvalId} componkey={data.componkey} />
             </Panel>
           )}
         </Collapse>
