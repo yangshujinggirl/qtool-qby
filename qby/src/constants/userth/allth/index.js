@@ -173,15 +173,16 @@ class Allth extends Component {
 	};
   //创建退单
   createTorder =()=> {
-    const paneitem = {
-      title:'新建退单',
-      key:`${this.props.componkey}edit`,
-      componkey:`${this.props.componkey}edit`,
-    };
-    this.props.dispatch({
-      type:'tab/firstAddTab',
-      payload:paneitem
-    });
+    message.warning('周年庆期间退单功能暂时关闭');
+    // const paneitem = {
+    //   title:'新建退单',
+    //   key:`${this.props.componkey}edit`,
+    //   componkey:`${this.props.componkey}edit`,
+    // };
+    // this.props.dispatch({
+    //   type:'tab/firstAddTab',
+    //   payload:paneitem
+    // });
   }
   //确认收货
   sureGet =()=> {
@@ -323,7 +324,7 @@ class Allth extends Component {
           </p>
         </div>
         <div className="handel-btn-lists">
-          {/* {
+          {
             createChargeBack &&
             <Button
               type='primary'
@@ -331,7 +332,7 @@ class Allth extends Component {
               onClick={this.createTorder}
             >创建退单
             </Button>
-          } */}
+          }
           {
             makeSureGet &&
             <Button

@@ -10,7 +10,6 @@ class EditModal extends Component {
     this.props.handleCancel(this.resetFields);
   };
   handleOk = () => {
-    console.log(this.props.form.getFieldsValue())
     this.props.form.validateFields((err, values) => {
       if (!err) {
         this.props.handleOk(values, this.resetFields);
@@ -24,7 +23,7 @@ class EditModal extends Component {
     const { getFieldDecorator } = this.props.form;
     return (
       <div>
-        <Modal
+        <Modal  
           width={600}
           title={editType == "edit" ? "编辑赠品" : "新增赠品"}
           visible={visible}

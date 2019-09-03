@@ -209,7 +209,7 @@ render(){
               <div className='cardlist_item'><label>订单类型：</label><span>{orderInfo.orderTypeStr}</span></div>
               <div className='cardlist_item'><label>订单金额：</label><span>{orderInfo.amountSum}</span>元</div>
               <div className='cardlist_item'><label>商品金额：</label><span>{orderInfo.commodityAmount}</span>元</div>
-              <div className='cardlist_item'><label>活动优惠：</label><span>{orderInfo.commodityAmount}</span>元</div>
+              <div className='cardlist_item'><label>活动优惠：</label><span>{orderInfo.promotionDeductAmount}</span>元</div>
               <div className='cardlist_item'><label>用户支付配送费：</label><span>{orderInfo.standardExpressAmount}</span>元</div>
               <div className='cardlist_item'><label>优惠金额：</label><span>{orderInfo.deductionAmount}</span>元</div>
               <div className='cardlist_item'><label>优惠券：</label><span>{orderInfo.discountAmount?orderInfo.discountAmount:0}</span>元</div>

@@ -31,21 +31,22 @@ class ToAudit extends Component {
   }
   //操作
   handleOperateClick(record) {
-    const paneitem = {
-      title:'退单审核',
-      key:`${this.props.componkey}edit`+record.orderId+'audit',
-      componkey:`${this.props.componkey}info`,
-      data:{
-        orderReturnId:record.orderReturnId,
-        orderId:record.orderId,
-        id:record.orderId+'audit',
-        type:record.returnType //type  1:售中  2：售后
-      }
-    }
-    this.props.dispatch({
-      type:'tab/firstAddTab',
-      payload:paneitem
-    })
+    message.warning('周年庆期间退单功能暂时关闭')
+    // const paneitem = {
+    //   title:'退单审核',
+    //   key:`${this.props.componkey}edit`+record.orderId+'audit',
+    //   componkey:`${this.props.componkey}info`,
+    //   data:{
+    //     orderReturnId:record.orderReturnId,
+    //     orderId:record.orderId,
+    //     id:record.orderId+'audit',
+    //     type:record.returnType //type  1:售中  2：售后
+    //   }
+    // }
+    // this.props.dispatch({
+    //   type:'tab/firstAddTab',
+    //   payload:paneitem
+    // })
   }
   //点击分页
   changePage = (current,limit) => {
@@ -118,8 +119,8 @@ class ToAudit extends Component {
           <Qtable
             dataSource={dataList}
             onOperateClick = {this.handleOperateClick.bind(this)}
-            // columns = {toAudit?Columns1:Columns2}
-            columns = {Columns2}/>
+            columns = {toAudit?Columns1:Columns2}
+          />
         }
         <Qpagination
           data={this.props.toAudit}

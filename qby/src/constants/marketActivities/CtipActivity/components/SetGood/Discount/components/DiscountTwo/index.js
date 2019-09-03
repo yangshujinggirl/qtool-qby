@@ -61,6 +61,7 @@ class DiscountTwo extends Component {
     const { getFieldDecorator } = this.props.form;
     return (
       <div className="discountTwo">
+        <div className='discountTwo-tips'>每阶梯的优惠力度需大于上一阶梯的优惠力度。例：满X送Y，每阶梯的Y/X需大于上一阶梯的Y/X</div>
         <Form>
           {dataSource && dataSource.length>0 && dataSource.map((item, index) => (
             <div className="step" key={index}>
@@ -72,12 +73,14 @@ class DiscountTwo extends Component {
                     </span>
                     {getFieldDecorator(`fieldValues[${index}].leastAmount`, {
                       initialValue: item.param.leastAmount,
+                      getValueFromEvent:(event)=>{
+                        return event.target.value.replace(/\D/g,'').replace(/^[0]+/,'')
+                      },
                       onChange: e => {
                         this.onChange(e, index, "leastAmount");
                       },
                       rules: [
                         { required: true, message: "请填写优惠内容" },
-                        { pattern:/^([1-9][0-9]*){1,3}$/, message: "请填写大于0的正整数" },
                         {
                           validator: (rule, value, callback) => {
                             if (+value) {
@@ -140,9 +143,11 @@ class DiscountTwo extends Component {
                       onChange: e => {
                         this.onChange(e, index, "leastQty");
                       },
+                      getValueFromEvent:(event)=>{
+                        return event.target.value.replace(/\D/g,'').replace(/^[0]+/,'')
+                      },
                       rules: [
                         { required: true, message: "请填写优惠内容" },
-                        { pattern:/^([1-9][0-9]*){1,3}$/, message: "请填写大于0的正整数" },
                         {
                           validator: (rule, value, callback) => {
                             if (+value) {
@@ -186,7 +191,6 @@ class DiscountTwo extends Component {
                     },
                     rules: [
                       { required: true, message: "请填写优惠内容" },
-                      { pattern:/^([1-9][0-9]*){1,3}$/, message: "请填写大于0的正整数" },
                       {
                         validator: (rule, value, callback) => {
                           if (+value) {
@@ -230,14 +234,13 @@ class DiscountTwo extends Component {
                     {getFieldDecorator(`fieldValues[${index}].reduceQty`, {
                       initialValue: item.param.reduceQty,
                       onChange: e => {
-                        this.onChange(e, index, "reduceQty");
+                        this.onChange(e, index, "reduceQty");1
                       },
                       getValueFromEvent:(event)=>{
                         return event.target.value.replace(/\D/g,'').replace(/^[0]+/,'')
                       },
                       rules: [
                         { required: true, message: "请填写优惠内容" },
-                        { pattern:/^([1-9][0-9]*){1,3}$/, message: "请填写大于0的正整数" },
                         {
                           validator: (rule, value, callback) => {
                             if (+value) {
