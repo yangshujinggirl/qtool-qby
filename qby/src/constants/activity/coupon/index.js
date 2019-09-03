@@ -278,10 +278,10 @@ class Coupon extends Component{
     })
   }
   render(){
-    const {menus} = this.props;
-    const operation = menus.find(item=>(item.type=="operation") );
-    const bact = operation.children.find(item=>(item.code=="401200"))
-    const rolelists = ( bact.children.find(item=>(item.code=='1003000')) ).children;
+    console.log(this.props)
+    const {rolelists} = this.props.data;
+    console.log(rolelists)
+
     const {dataList} = this.props.coupon.data1;
     const { visibleSupply, addContent, loading } =this.state;
     //创建优惠券

@@ -222,7 +222,7 @@ class DiscountTwo extends Component {
                         }
                       }
                     ]
-                  })(<Input autoComplete="off" style={{ width: "150px" }} />)}
+                  })(<Input autoComplete="off" style={{ width: "150px" }} />)}　元
                 </FormItem>
                 }
                 {promotionType == 23 &&
@@ -261,7 +261,7 @@ class DiscountTwo extends Component {
                           }
                         }
                       ]
-                    })(<Input autoComplete="off" style={{ width: "150px" }} />)}
+                    })(<Input autoComplete="off" style={{ width: "150px" }} />)}　件
                   </FormItem>
                 }
               </div>

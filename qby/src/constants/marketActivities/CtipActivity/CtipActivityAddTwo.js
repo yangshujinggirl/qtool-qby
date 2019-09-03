@@ -93,11 +93,13 @@ class CtipActivityAddTwo extends Component {
   };
   //发送请求
   sendQequest = type => {
-    const { promotionId, promotionType } = this.props.data;
+    const { promotionId, promotionType,pdScope } = this.props.data;
     const { goodLists } = this.props;
-    if (goodLists.length == 0) {
-      message.error("请至少添加一个活动商品");
-      return
+    if(pdScope!=1){
+      if (goodLists.length == 0) {
+        message.error("请至少添加一个活动商品");
+        return
+      };
     };
     let values = { promotionId, promotionType, promotionProducts: goodLists };
     if (!(promotionType == 10 || promotionType == 11)) {
@@ -147,7 +149,7 @@ class CtipActivityAddTwo extends Component {
           </div>
         )}
         <div className="act_goods_index">
-          <div className="title">活动商品</div>
+          <div className="title">选择商品</div>
           {this.props.data.pdScope == 1 ? (
             <div className='all_field'>
               您选择的促销级别为全场级，全部商品都参与活动，此处无需添加商品

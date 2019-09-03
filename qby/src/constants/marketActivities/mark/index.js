@@ -30,7 +30,7 @@ class Market extends Component{
             <h1 className='title'>C端</h1>
               <div className='box' onClick={()=>this.togo('level','C端活动')}>
                 <div className='img_box'>
-                  <img className='img' alt="example" src={require('../../../assets/coupon.png')}/>
+                  <img className='img' alt="example" src={require('../../../assets/act.png')}/>
                 </div>
                 <div className='right'>
                   <span className='theme'>C端活动</span>
@@ -38,7 +38,7 @@ class Market extends Component{
               </div>
               <div className='box' onClick={()=>this.togo('audit','c端活动审核')}>
                 <div className='img_box'>
-                  <img className='img' alt="example" src={require('../../../assets/limit_time.png')}/>
+                  <img className='img' alt="example" src={require('../../../assets/audit.png')}/>
                 </div>
                 <div className='right'>
                   <span className='theme'>c端活动审核</span>
