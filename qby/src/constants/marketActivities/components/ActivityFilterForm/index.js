@@ -28,12 +28,12 @@ class NormalForm extends Component {
             <div className="search-form-wrap">
               <FormItem label='商品编码'>
                  {getFieldDecorator('pdCode')(
-                   <Input placeholder="请输入商品编码" maxLength='10' autoComplete="off"/>
+                   <Input placeholder="请输入商品编码" autoComplete="off"/>
                  )}
               </FormItem>
               <FormItem label='活动ID'>
                  {getFieldDecorator('promotionId')(
-                   <Input placeholder="请输入活动ID" maxLength='10' autoComplete="off"/>
+                   <Input placeholder="请输入活动ID"  autoComplete="off"/>
                  )}
               </FormItem>
               <FormItem label='活动名称'>
