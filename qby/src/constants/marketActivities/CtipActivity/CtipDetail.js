@@ -34,6 +34,7 @@ class CtipDetail extends Component {
     this.getInfo(this.props.data.promotionId);
   }
   getInfo(promotionId) {
+    this.props.dispatch({type: 'tab/loding',payload:true})
     getBaseInfoApi({promotionId})
     .then((res) => {
       const { code, data } =res;
@@ -41,6 +42,7 @@ class CtipDetail extends Component {
         data.costApportions&data.costApportions.map((el,index)=>el.key=index)
         this.setState({ baseInfo:data })
       }
+      this.props.dispatch({type: 'tab/loding',payload:false})
     })
     getDiscountInfoApi({promotionId})
     .then((res) => {
@@ -53,6 +55,7 @@ class CtipDetail extends Component {
       if(code == '0') {
         this.setState({ goodsInfo: goodsInfo });
       }
+      this.props.dispatch({type: 'tab/loding',payload:false})
     })
     getLogApi({promotionId})
     .then((res) => {
@@ -61,10 +64,12 @@ class CtipDetail extends Component {
         list&&list.map((el,index)=>el.key=index)
         this.setState({ logList:list })
       }
+      this.props.dispatch({type: 'tab/loding',payload:false})
     })
   }
   //导出数据
 	exportData = (type,data) => {
+    this.props.dispatch({type: 'tab/loding',payload:true})
 		const values={
 			type:93,
 			downloadParam:{promotionId:this.props.data.promotionId},
@@ -92,7 +97,8 @@ class CtipDetail extends Component {
 					onCancel() {
 
 					},
-	  			});
+	  		});
+        this.props.dispatch({type: 'tab/loding',payload:false})
 			}
 		})
 

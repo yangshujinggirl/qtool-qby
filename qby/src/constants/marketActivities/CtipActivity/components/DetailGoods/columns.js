@@ -307,6 +307,10 @@ const columnsAreaMinus = [
       </div>
     }
   },
+  {
+    title: '活动最大可售卖数量',
+    dataIndex: 'maxQty',
+  },
 ];
 
 export {

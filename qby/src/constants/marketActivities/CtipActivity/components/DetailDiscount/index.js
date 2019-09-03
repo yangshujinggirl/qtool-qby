@@ -38,6 +38,7 @@ function YHModTwo({...props}){
           columns={columns}
           dataSource={el.promotionGifts}
           bordered
+          rowKey={(record,index)=>index}
           title={() => `阶梯${++index}：*单笔订单满${
             promotionType==20?el.param.leastAmount:el.param.leastQty}
             ${promotionType==20?"元":"件"}，送以下商品`}/>
@@ -77,7 +78,7 @@ function DetailDiscount({...props}) {
     case 21:
       TipsMod =<Row className="item-row">
                   <Col span={labelCol}>赠送方式：</Col>
-                  <Col span={wrapperCol}>{info.giftMethod}</Col>
+                  <Col span={wrapperCol}>每种赠品均送</Col>
                 </Row>
       Mod = YHModTwo;
       break;
