@@ -43,8 +43,8 @@ class WebSet extends Component {
           formItemLayout={formItemLayout}
           name="websiteBanner"
           label="活动配置促销活动页头图"
-          width={1}
-          height={1}
+          width={2}
+          height={3}
           imgType={2}
           ruleType={2}
           fileList={activityInfo.websiteBanner}
@@ -87,8 +87,8 @@ class WebSet extends Component {
                 formItemLayout={formItemLayout}
                 name="pdDetailBannerPic"
                 label="商品详情页横幅条背景图"
-                width={1}
-                height={1}
+                width={25}
+                height={4}
                 fileList={activityInfo.pdDetailBannerPic}
                 form={this.props.form}/>
             }
