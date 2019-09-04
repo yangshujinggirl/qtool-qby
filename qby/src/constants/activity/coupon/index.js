@@ -330,10 +330,10 @@ class Coupon extends Component{
             fuse &&
             <Button onClick={this.fuseCoupon} type='primary' size='large'>熔断</Button>
           }
-          /*{
+          {/*{
             qubao &&
             <Button type='primary' size='large' onClick={this.couponManage}>券包管理</Button>
-          }*/
+          }*/}
 
         </div>
         <Modal

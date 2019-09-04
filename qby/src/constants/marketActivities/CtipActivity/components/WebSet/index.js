@@ -63,7 +63,7 @@ class WebSet extends Component {
          }
         </FormItem>
         {
-          !!activityInfo.isWarmUp&&
+          !!activityInfo.isWarmUp&&activityInfo.isWarmUp!=undefined&&
           <div>
             <FormItem label='预热时间' {...formItemLayout}>
               {
