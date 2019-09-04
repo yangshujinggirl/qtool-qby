@@ -71,7 +71,7 @@ class UpLoadImg extends Component {
               valid = img.width/img.height == percent||img.width/img.height > percent;
               break;
           }
-          valid ? resolve(true) : reject(`图片高宽比为${ruleTypeMap[ruleType]}${width}:${height}，请修改后重新上传！`);
+          valid ? resolve(true) : reject(`图片高宽比为${ruleTypeMap[ruleType]}${height}:${width}，请修改后重新上传！`);
         };
         img.src = _URL.createObjectURL(file);
       })
@@ -147,7 +147,7 @@ class UpLoadImg extends Component {
             </Upload>
           )}
           <span className="ant-form-text-tips">
-            {`${label}需上传高度：宽度为${ruleTypeMap[ruleType]}${width}:${height}的图片，仅支持${imgTypeMap[imgType]}格式`}
+            {`${label}需上传高度：宽度为${ruleTypeMap[ruleType]}${height}:${width}的图片，仅支持${imgTypeMap[imgType]}格式`}
           </span>
        </FormItem>
      )
