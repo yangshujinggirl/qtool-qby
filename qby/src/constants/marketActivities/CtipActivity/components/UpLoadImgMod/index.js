@@ -62,13 +62,13 @@ class UpLoadImg extends Component {
           let valid
           switch(ruleType) {
             case 1:
-              valid = img.width/img.height == percent;
+              valid = img.height/img.width == percent;
               break;
             case 2:
-              valid = img.width/img.height == percent||img.width/img.height < percent;
+              valid = img.height/img.width == percent||img.height/img.width < percent;
               break;
             case 3:
-              valid = img.width/img.height == percent||img.width/img.height > percent;
+              valid = img.height/img.width == percent||img.height/img.width > percent;
               break;
           }
           valid ? resolve(true) : reject(`图片高宽比为${ruleTypeMap[ruleType]}${height}:${width}，请修改后重新上传！`);
