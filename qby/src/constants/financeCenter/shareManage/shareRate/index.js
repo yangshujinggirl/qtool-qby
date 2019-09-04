@@ -88,7 +88,8 @@ class ShareRate extends Component {
         inputValues[i] = ''
       };
     };
-    const values = {type:102,downloadParam:inputValues}
+    const {limit,currentPage} = this.props.shareRate;
+    const values = {type:102,downloadParam:{limit,currentPage,...inputValues} }
     exportDataApi(values)
     .then(res => {
       if(res.code == '0'){

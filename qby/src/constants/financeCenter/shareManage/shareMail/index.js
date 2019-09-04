@@ -85,7 +85,8 @@ class ShareMail extends Component {
         inputValues[i] = ''
       };
     };
-    const values = {type:101,downloadParam:inputValues};
+    const {limit,currentPage} = this.props.shareMail;
+    const values = {type:101,downloadParam:{limit,currentPage,...inputValues}};
     exportDataApi(values)
     .then(res => {
       if(res.code == '0'){
