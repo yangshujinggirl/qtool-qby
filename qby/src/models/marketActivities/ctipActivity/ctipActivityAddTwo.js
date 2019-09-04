@@ -40,7 +40,7 @@ export default {
         goodLists&&goodLists.length>0&&goodLists.map(item=>{
           //一般贸易商品（包括品牌直供商品）：C端活动单品毛利率=（活动价-B端活动售价）/ 活动价
           if(item.pdKind == 1||item.pdKind == 2){ //一般贸易和直供
-            if(Number(item.eventPrice)){
+            if(Number(item.eventPrice) && Number(item.activityPrice)){
               item.profitRate = (((item.activityPrice-item.eventPrice)/item.activityPrice)*100).toFixed(2);
             }else{
               item.profitRate = '';
@@ -60,7 +60,7 @@ export default {
             const price = (Number(item.sellPrice)*(Number(subItem.param.leastQty))/(Number(subItem.param.leastQty)+Number(subItem.param.giftQty))).toFixed(2);
             //毛利率=（到手价-B端活动售价）/ 到手价
             let rate = '';
-            if(Number(item.eventPrice)){
+            if(Number(item.eventPrice) && Number(price)){
               rate = (((Number(price)-Number(item.eventPrice))/Number(price))*100).toFixed(2);
             }else{
               rate = ''
@@ -82,7 +82,7 @@ export default {
           state.dataSource && state.dataSource.length>0 && state.dataSource.map(subItem=>{
             //预计到手价=C端售价*（1-减钱/优惠门槛 ）
             let price = '';
-            if(subItem.param.leastAmount){
+            if(subItem.param.leastAmount && subItem.param.reduceAmount){
               price = (Number(item.sellPrice)*(1-Number(subItem.param.reduceAmount)/Number(subItem.param.leastAmount))).toFixed(2);
             };
             //毛利率= 
@@ -90,7 +90,7 @@ export default {
             //保税商品：C端毛利=分成比率
             let rate = '';
             if(item.pdKind == 1||item.pdKind == 2){//一般贸易和直供
-              if(Number(item.eventPrice)){
+              if(Number(item.eventPrice) && Number(price)){
                 rate = (((Number(price)-Number(item.eventPrice))/Number(price))*100).toFixed(2);
               }else{
                 rate = '';

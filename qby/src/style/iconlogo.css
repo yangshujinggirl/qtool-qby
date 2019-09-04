@@ -119,3 +119,14 @@
 	text-align:left;
 	margin-left: -37px;
 }
+.cMark{
+	width: 24px;
+	height: 24px;
+	display: inline-block;
+	margin-right: 18px;
+	background:url(../assets/icon_wsn.png) no-repeat center center;background-size: cover;
+	vertical-align: middle;
+	margin-top: -5px;
+	text-align:left;
+	margin-left: -37px;
+}

@@ -123,6 +123,13 @@
 .ant-menu-dark .ant-menu-item:hover .cConfig, .ant-menu-dark .ant-menu-submenu-title:hover .cConfig{
 	width: 24px;
 	height: 24px;
+	display: inline-block;       
+	margin-right: 18px;
+	background:url(../assets/icon_wsn_hover.png) no-repeat center center;background-size: cover;
+}
+.ant-menu-dark .ant-menu-item:hover .cMark, .ant-menu-dark .ant-menu-submenu-title:hover .cMark{
+	width: 24px;
+	height: 24px;
 	display: inline-block;
 	margin-right: 18px;
 	background:url(../assets/icon_wsn_hover.png) no-repeat center center;background-size: cover;

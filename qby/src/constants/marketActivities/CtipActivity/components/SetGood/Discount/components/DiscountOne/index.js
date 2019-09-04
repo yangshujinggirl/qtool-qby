@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Input, Table, Button, Modal, Form } from "antd";
+import { Input, Table, Button, Modal, Form, message } from "antd";
 import { connect } from "dva";
 import { getComplimentaryApi } from "../../../../../../../../services/marketActivities/ctipActivity";
 import EditModal from "./components/EditModal";
@@ -157,6 +157,15 @@ class DiscountOne extends Component {
       editType
     } = this.state;
     if (editType == "add") {
+      values.pdCode = (values.pdCode).trim();
+      const {promotionGifts} = this.state.dataSource[currentParentIndex];
+      if(promotionGifts.length>0){
+        const isRepeat = promotionGifts.some(item=>item.pdCode == values.pdCode);
+        if(isRepeat){//if(重复了)
+          message.error('此商品与此阶梯的其他商品重复');
+          return
+        };
+      }
       //判断是新增还是编辑
       getComplimentaryApi({ pdCode: values.pdCode,platformType:2,pdKind:this.props.pdKind}).then(res => {
         if (res.code == 0) {

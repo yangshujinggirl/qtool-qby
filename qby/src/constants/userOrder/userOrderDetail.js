@@ -40,19 +40,19 @@ const columns = [{
   }, {
     title: '应付单价',
     dataIndex: 'payPrice',
-    key:'payPrice',
+    key:'6',
   }, {
     title: '应付总价',
     dataIndex: 'payAmount',
-    key:'payAmount',
+    key:'7',
   },{
     title: '活动优惠',
-    dataIndex: '',
-    key:'',
+    dataIndex: 'promotionDudect',
+    key:'8',
   },{
     title: '优惠券抵扣',
-    dataIndex: '',
-    key:'',
+    dataIndex: 'skuDiscountAmount',
+    key:'9',
   },{
     title: '实付总额',
     dataIndex: 'actualPayAmount',
@@ -98,11 +98,11 @@ const columns2 = [{
   }, {
     title: '实付总价',
     dataIndex: 'actualPayAmount',
-    key:'actualPayAmount',
+    key:'6',
   }, {
     title: '活动信息',
-    dataIndex: 'activityInfo',
-    key:'activityInfo',
+    dataIndex: 'promotionDudect',
+    key:'7',
   }];
 
 class userOrderDetail extends React.Component{
@@ -209,7 +209,7 @@ render(){
               <div className='cardlist_item'><label>订单类型：</label><span>{orderInfo.orderTypeStr}</span></div>
               <div className='cardlist_item'><label>订单金额：</label><span>{orderInfo.amountSum}</span>元</div>
               <div className='cardlist_item'><label>商品金额：</label><span>{orderInfo.commodityAmount}</span>元</div>
-              <div className='cardlist_item'><label>活动优惠：</label><span>{orderInfo.commodityAmount}</span>元</div>
+              <div className='cardlist_item'><label>活动优惠：</label><span>{orderInfo.promotionDeductAmount}</span>元</div>
               <div className='cardlist_item'><label>用户支付配送费：</label><span>{orderInfo.standardExpressAmount}</span>元</div>
               <div className='cardlist_item'><label>优惠金额：</label><span>{orderInfo.deductionAmount}</span>元</div>
               <div className='cardlist_item'><label>优惠券：</label><span>{orderInfo.discountAmount?orderInfo.discountAmount:0}</span>元</div>

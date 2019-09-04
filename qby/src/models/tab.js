@@ -117,6 +117,8 @@ export default {
                         menus[i].type = 'server'
                     }else if(menus[i].urResourceId == 1400000){
                         menus[i].type = 'cConfig'
+                    }else if(menus[i].urResourceId == 1500000){
+                        menus[i].type = 'cMark'
                     }
                 }
                 /* ------展示不同的logo-------- */

@@ -24,7 +24,7 @@ class NormalForm extends Component {
           <div className="search-form-outwrap">
             <div className="search-form-wrap">
               <FormItem label="活动ID">
-                {getFieldDecorator("promotionId")(
+                {getFieldDecorator("approvalNo")(
                   <Input placeholder="请输入活动ID" autoComplete="off" />
                 )}
               </FormItem>
