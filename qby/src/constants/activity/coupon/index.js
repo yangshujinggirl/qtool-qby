@@ -143,7 +143,7 @@ class Coupon extends Component{
           })
           this.setState({couponId:null});
           this.setState({isFuseVisible:false})
-          message.success(res.message,.8);
+          message.success('熔断成功',.8);
         }
       })
   }
