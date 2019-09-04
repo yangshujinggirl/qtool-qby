@@ -40,19 +40,19 @@ const columns = [{
   }, {
     title: '应付单价',
     dataIndex: 'payPrice',
-    key:'payPrice',
+    key:'6',
   }, {
     title: '应付总价',
     dataIndex: 'payAmount',
-    key:'payAmount',
+    key:'7',
   },{
     title: '活动优惠',
-    dataIndex: '',
-    key:'',
+    dataIndex: 'promotionDudect',
+    key:'8',
   },{
     title: '优惠券抵扣',
-    dataIndex: '',
-    key:'',
+    dataIndex: 'skuDiscountAmount',
+    key:'9',
   },{
     title: '实付总额',
     dataIndex: 'actualPayAmount',
@@ -98,11 +98,11 @@ const columns2 = [{
   }, {
     title: '实付总价',
     dataIndex: 'actualPayAmount',
-    key:'actualPayAmount',
+    key:'6',
   }, {
     title: '活动信息',
-    dataIndex: 'activityInfo',
-    key:'activityInfo',
+    dataIndex: 'promotionDudect',
+    key:'7',
   }];
 
 class userOrderDetail extends React.Component{

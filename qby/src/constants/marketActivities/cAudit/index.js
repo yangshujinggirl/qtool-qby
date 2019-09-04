@@ -5,7 +5,7 @@ import Columns from './columns/index'
 import Qtable from '../../../components/Qtable/index'; //表单
 import Qpagination from '../../../components/Qpagination/index'; //分页
 import FilterForm from './FilterForm/index'
-import moment from 'moment';
+import './index.less'
 
 class cAudit extends Component{
   constructor(props){
@@ -71,11 +71,13 @@ class cAudit extends Component{
         <FilterForm
           submit={this.searchData}
         />
-        <Qtable
-          dataSource = {dataLists}
-          columns = {Columns}
-          onOperateClick = {this.handleOperateClick}
-        />
+        <div className='c_audit_table'>
+          <Qtable
+            dataSource = {dataLists}
+            columns = {Columns}
+            onOperateClick = {this.handleOperateClick}
+          />
+        </div>
         {
           dataLists.length>0?
           <Qpagination
