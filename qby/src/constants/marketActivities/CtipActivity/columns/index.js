@@ -85,7 +85,7 @@ const columnsCreatInfo =(dataSource)=>{
       dataIndex: 'budget',
       width:'20%',
       render:(text,record,index) => {
-        let chldrnDom = <span> 3万元 </span>
+        let chldrnDom = <span> {record.budget} </span>
         const obj = {
           children: chldrnDom,
           props: {},
@@ -103,10 +103,10 @@ const columnsCreatInfo =(dataSource)=>{
       width:'10%',
     },{
       title: '*承担比例',
-      dataIndex: 'ratio',
+      dataIndex: 'proportion',
       width:'30%',
       render:(text,record,index) => {
-        return <span>20%</span>
+        return <span>{record.proportion}%</span>
       }
     },{
       title: '备注说明',

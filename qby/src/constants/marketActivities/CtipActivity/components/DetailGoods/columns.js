@@ -163,10 +163,14 @@ const columnsSingleGift = [
           if(record.eventPrice=='0') {
             ml = '-';
           } else {
-            ml = NP.divide(NP.minus(dsj, record.eventPrice),dsj);
-            ml =NP.times(ml, 100);
-            ml =NP.round(ml, 2);
-            ml=`${ml}%`;
+            if(dsj == 0) {
+              ml = '-';
+            } else {
+              ml = NP.divide(NP.minus(dsj, record.eventPrice),dsj);
+              ml =NP.times(ml, 100);
+              ml =NP.round(ml, 2);
+              ml=`${ml}%`;
+            }
           }
           return <p key={index}>
                   {++index}级：¥{ml}
@@ -296,10 +300,14 @@ const columnsAreaMinus = [
           }else if(record.eventPrice=='0') {
             ml='-';
           } else {
-            ml = NP.divide(NP.minus(dsj, record.eventPrice),dsj);
-            ml =NP.times(ml, 100);
-            ml =NP.round(ml, 2);
-            ml =`${ml}%`;
+            if(dsj == 0) {
+              ml='-';
+            } else {
+              ml = NP.divide(NP.minus(dsj, record.eventPrice),dsj);
+              ml =NP.times(ml, 100);
+              ml =NP.round(ml, 2);
+              ml =`${ml}%`;
+            }
           }
           return <p key={index}>{++index}级，{ml}</p>
         })
