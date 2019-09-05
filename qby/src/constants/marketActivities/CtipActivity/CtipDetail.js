@@ -69,9 +69,25 @@ class CtipDetail extends Component {
   }
   //导出数据
 	exportData = (type,data) => {
-    this.props.dispatch({type: 'tab/loding',payload:true})
+    this.props.dispatch({type: 'tab/loding',payload:true});
+    const { promotionType } =this.state.baseInfo;
+    let typeVal;
+    switch (promotionType) {
+      case 10:
+        typeVal = 94;
+        break;
+      case 11:
+        typeVal = 95;
+        break;
+      case 20:
+      case 21:
+      case 22:
+      case 23:
+        typeVal = 93;
+        break;
+    }
 		const values={
-			type:93,
+			type:typeVal,
 			downloadParam:{promotionId:this.props.data.promotionId},
 		}
 		goExportApi(values)
@@ -98,8 +114,8 @@ class CtipDetail extends Component {
 
 					},
 	  		});
-        this.props.dispatch({type: 'tab/loding',payload:false})
 			}
+      this.props.dispatch({type: 'tab/loding',payload:false})
 		})
 
 	}
