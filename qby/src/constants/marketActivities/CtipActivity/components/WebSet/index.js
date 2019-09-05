@@ -47,7 +47,7 @@ class WebSet extends Component {
           label="活动配置促销活动页头图"
           width={2}
           height={3}
-          imgType={2}
+          imgType={3}
           ruleType={2}
           fileList={activityInfo.websiteBanner}
           form={this.props.form}/>
