@@ -24,7 +24,7 @@ const Columns = [{
      title: '商品编码',
      dataIndex: 'code'
    },{
-     title: '商品售价',
+     title: '商品实付金额',
      dataIndex: 'salePrice'
    },{
      title: '商品数量',

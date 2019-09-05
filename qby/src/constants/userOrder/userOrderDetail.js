@@ -47,7 +47,7 @@ const columns = [{
     key:'7',
   },{
     title: '活动优惠',
-    dataIndex: 'promotionDudect',
+    dataIndex: 'promotionDeduct',
     key:'8',
   },{
     title: '优惠券抵扣',
@@ -101,7 +101,7 @@ const columns2 = [{
     key:'6',
   }, {
     title: '活动信息',
-    dataIndex: 'promotionDudect',
+    dataIndex: 'promotionDeduct',
     key:'7',
   }];
 

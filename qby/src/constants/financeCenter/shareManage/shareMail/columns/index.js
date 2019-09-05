@@ -18,7 +18,7 @@ const Columns = [{
      title: '费用类型',
      dataIndex: 'shareTypeStr'
    }, {
-     title: '商品金额',
+     title: '商品实付金额',
      dataIndex: 'amountSum'
    },{
      title: '商品成本',
