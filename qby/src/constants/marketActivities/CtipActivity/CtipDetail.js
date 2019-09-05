@@ -39,7 +39,10 @@ class CtipDetail extends Component {
     .then((res) => {
       const { code, data } =res;
       if(code == '0') {
-        data.costApportions&data.costApportions.map((el,index)=>el.key=index)
+        data.costApportions&data.costApportions.map((el,index)=>{
+          el.key=index;
+          el.budget=data.budget;
+        })
         this.setState({ baseInfo:data })
       }
       this.props.dispatch({type: 'tab/loding',payload:false})
