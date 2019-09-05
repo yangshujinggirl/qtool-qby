@@ -98,6 +98,9 @@ class InfoSet extends Component {
   changePromotion=(e)=>{
     this.props.form.resetFields(['pdScope','pdKind'])
   }
+  changeTime=(e)=>{
+    this.props.form.resetFields(['warmUpBeginTime'])
+  }
   changeBearActi=(value)=>{
     let { ratioList } =this.props;
     let newArr=[];
@@ -193,6 +196,7 @@ class InfoSet extends Component {
          {
            getFieldDecorator('time', {
              rules: [{ required: true, message: '请选择活动时间'}],
+             onChange:this.changeTime,
              initialValue:activityInfo.beginTime?[moment(activityInfo.beginTime,format),moment(activityInfo.endTime,format)]:null
            })(
              <RangePicker

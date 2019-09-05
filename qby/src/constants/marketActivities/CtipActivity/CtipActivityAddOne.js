@@ -149,6 +149,9 @@ const CtipActivityAddOne = Form.create({
         valFileds.pdKind=null;
       }
     }
+    if(currentKey == 'time') {
+      valFileds.warmUpBeginTime=null;
+    }
     if(pdDetailBannerPic) {
       if(pdDetailBannerPic.status == 'done') {
         if(pdDetailBannerPic.response.code == '0') {
