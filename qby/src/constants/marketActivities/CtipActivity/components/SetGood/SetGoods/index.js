@@ -11,6 +11,7 @@ class index extends Component {
       visible: false,
       delVisible: false,
       currentIndex: 0,
+      deleteIndex:0,
       currentRecord: {
         pdCode: "",
         maxQty: "",
@@ -36,15 +37,17 @@ class index extends Component {
     });
   };
   //删除
-  delt = () => {
+  delt = (index) => {
     this.setState({
-      delVisible: true
+      delVisible: true,
+      deleteIndex:index
     });
   };
   //确认删除
-  onDelOk = index => {
+  onDelOk = () => {
+    const {deleteIndex} = this.state;
     const goodLists = [...this.props.goodLists];
-    goodLists.splice(index, 1);
+    goodLists.splice(deleteIndex, 1);
     this.props.dispatch({
       type: "ctipActivityAddTwo/refreshLists",
       payload: {goodLists}
