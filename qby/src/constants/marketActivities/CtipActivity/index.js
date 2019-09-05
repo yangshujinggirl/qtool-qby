@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { Button, Modal } from 'antd';
+import { Button, Modal, message } from 'antd';
 import { connect } from "dva";
 import Qtable from '../../../components/Qtable/index'; //表单
 import Qpagination from '../../../components/Qpagination';
 import FilterForm from '../components/ActivityFilterForm';
 import CommonActivityIndex from '../components/CommonActivityIndex';
 import { columnsIndex } from '../components/ActivityColumns';
-import { getDeleteApi, getEnableApi } from '../../../services/marketActivities/ctipActivity';
+import { getDeleteApi, getEnableApi, goAuditApi } from '../../../services/marketActivities/ctipActivity';
 
 import './index.less';
 
@@ -62,13 +62,14 @@ class CtipActivity extends CommonActivityIndex {
     });
   }
   goDelete=(record)=> {
+    let that = this;
     confirm({
       content: '是否确认删除活动',
       onOk() {
         getDeleteApi({promotionId:record.promotionId})
         .then((res) => {
           if(res.code == '0') {
-            this.successCallback();
+            that.successCallback();
             message.success('删除成功')
           }
         })
@@ -79,10 +80,17 @@ class CtipActivity extends CommonActivityIndex {
     });
   }
   goCancel=(record)=> {
+    let that = this;
     confirm({
       content: '是否确认撤销审核',
       onOk:()=> {
-        this.successCallback()
+        goAuditApi({promotionId:record.promotionId})
+        .then((res) => {
+          if(res.code == '0') {
+            that.successCallback();
+            message.success('撤销审核成功')
+          }
+        })
       },
       onCancel:()=> {
         console.log('Cancel');
@@ -90,6 +98,7 @@ class CtipActivity extends CommonActivityIndex {
     });
   }
   goZuofei=(record)=> {
+    let that =this;
     confirm({
       title:"作废后，此活动将不会出现在C端App和小程序",
       content: '是否确认作废？',
@@ -97,7 +106,7 @@ class CtipActivity extends CommonActivityIndex {
         getEnableApi({promotionId:record.promotionId,operationType:1})
         .then((res) => {
           if(res.code == '0') {
-            this.successCallback();
+            that.successCallback();
             message.success('作废成功')
           }
         })
@@ -108,6 +117,7 @@ class CtipActivity extends CommonActivityIndex {
     });
   }
   goForcedEnd=(record)=> {
+    let that =this;
     confirm({
       title:"强制结束后，C端App和小程序活动即停止，所有活动商品都将不享受此活动优惠。",
       content: '是否确认强制结束？',
@@ -115,7 +125,7 @@ class CtipActivity extends CommonActivityIndex {
         getEnableApi({promotionId:record.promotionId,operationType:2})
         .then((res) => {
           if(res.code == '0') {
-            this.successCallback();
+            that.successCallback();
             message.success('强制结束成功')
           }
         })

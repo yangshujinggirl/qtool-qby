@@ -155,6 +155,9 @@ class InfoSet extends Component {
     }
     return option;
   }
+  onOpenChange=(value, mode)=> {
+    console.log(value, mode)
+  }
   render() {
     const { activityInfo, ratioList, tagsList, promotionId } =this.props;
     const { supplierList } =this.state;
@@ -205,6 +208,7 @@ class InfoSet extends Component {
                format={format}
                disabledDate={disabledDate}
                disabledTime={disabledDateTimeRange}
+               onOpenChange={this.onOpenChange}
                showTime={{
                  hideDisabledOptions: true,
                  defaultValue: moment('00:00', 'HH:mm'),
