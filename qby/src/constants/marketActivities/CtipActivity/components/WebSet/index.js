@@ -28,6 +28,8 @@ class WebSet extends Component {
       let isBefore = moment(value).isBefore(actiTime)||moment(value).isSame(actiTime);
       if(!isBefore||inTime>3) {
         callback('预热时间只能选择活动开始之前的时间或与开始时间相同。');
+      } else {
+        callback();
       }
     } else {
       callback();
