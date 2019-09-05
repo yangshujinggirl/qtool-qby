@@ -22,13 +22,20 @@ class WebSet extends Component {
     var a = moment(activityInfo.time[0]);
     var b = moment(value);
     let d= a.from(b);
-    let inTime = d.split(' ')[0];
+    let arr = d.split(' ');
+    let inTime = arr[0];
+    let units=arr[1];
+    console.log(arr)
+    console.log(inTime,units)
+
     if(activityInfo.time) {
       let actiTime = activityInfo.time[0];
       let isBefore = moment(value).isBefore(actiTime)||moment(value).isSame(actiTime);
-      if(!isBefore||inTime>3) {
+      if(!isBefore) {
         callback('预热时间只能选择活动开始之前的时间或与开始时间相同。');
-      } else {
+      } else if(units&&units.indexOf('天')!=-1&&inTime>3){
+        callback('预热时间最多提前72小时');
+      }else {
         callback();
       }
     } else {
