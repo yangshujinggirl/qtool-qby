@@ -29,7 +29,7 @@ class setModal extends Component {
           type: "ctipActivityAddTwo/refreshLists",
           payload: { goodLists }
         });
-        this.props.onVisible();
+        this.onCancel();
       }
     });
   };
