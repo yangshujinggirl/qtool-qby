@@ -85,6 +85,13 @@ class CtipActivityAddOneF extends Component {
     return paramsVal;
   }
   successCallback=(res,pdScope,beginTime,endTime,pdKind)=> {
+    let params = {
+      channel:1
+    }
+    this.props.dispatch({
+      type:'ctipActivity/fetchList',
+      payload:params
+    });
     const { data } = this.props;
     const paneitem = {
       title: "编辑C端活动",
