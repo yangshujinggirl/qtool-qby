@@ -33,7 +33,7 @@ function DetailBase({...props}) {
                 return purposeTypesOption.map((item) => {
                   if(el==item.key) {
                     return <span key={index}>
-                          {purposeTypesOption[index].value}，
+                          {purposeTypesOption[index].value}{el!='5'?'，':':'}
                           {el=='5'&&<span>{info.otherPurpose}</span>}
                     </span>
                   }
