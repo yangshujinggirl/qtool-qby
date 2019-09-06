@@ -47,7 +47,8 @@ class index extends Component {
             enableEnjoyActivityWrong,
             purChaseWrong,
             paramWrong,
-            requiredWrong
+            requiredWrong,
+            repeatWrong
           } = response.data;
           Modal.success({
             title: "",
@@ -116,6 +117,13 @@ class index extends Component {
                     {requiredWrong.map(
                       (item, index) =>`${item}${index == requiredWrong.length - 1 ? "" : "/ "}`
                     )} 必填项未填写完整
+                  </p>
+                )}
+                {repeatWrong.length>0 && (
+                  <p className='import_error'>
+                    {repeatWrong.map(
+                      (item, index) =>`${item}${index == repeatWrong.length - 1 ? "" : "/ "}`
+                    )} 商品重复
                   </p>
                 )}
               </div>
