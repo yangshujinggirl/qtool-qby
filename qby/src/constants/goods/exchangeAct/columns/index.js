@@ -2,9 +2,6 @@ const Columns = [{
      title: '商品ID',
      key:'pdSpuActiveId',
      dataIndex: 'pdSpuActiveId',
-     render:(text, record, index)=> (
-       record.addAct&&<a className="theme-color" onClick={()=>record.onOperateClick(record)}>{text}</a>
-     )
    },{
      title: '商品名称',
      dataIndex: 'name',
@@ -25,6 +22,13 @@ const Columns = [{
      title: '剩余数量',
      dataIndex: 'leftQty',
      key: 'leftQty',
-   }];
+   },{
+    title:'操作',
+    render:(text, record, index)=> (
+     record.addAct&&<a className="theme-color" onClick={()=>record.onOperateClick(record)}>
+       修改
+     </a>
+   )
+  }];
 
 export default Columns

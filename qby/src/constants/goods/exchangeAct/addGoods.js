@@ -15,16 +15,16 @@ class AddGood extends  Component {
       isLoading:false,
       imageUrl:'',
       infos:{
+        describe:'',
         name:'',
         price:'',
         valueQty:'',
         convertibleQty:'',
-        leftQty:'',
         pdSpuActiveId:'',
       }
     }
   }
-  componentDidMount(){
+  componentDidMount=()=>{
     if(this.props.data){
       const {infos} = this.props.data;
       const imageUrl = infos.picUrl;
@@ -91,12 +91,13 @@ class AddGood extends  Component {
     return isJPG && isLt2M;
   }
   render() {
+    console.log(this.state.infos)
     const {
+      describe,
       name,
       price,
       valueQty,
       convertibleQty,
-      leftQty,
     } = this.state.infos;
     const { getFieldDecorator } = this.props.form;
     const {imageUrl,isLoading} = this.state;
@@ -124,6 +125,14 @@ class AddGood extends  Component {
                     beforeUpload={this.beforeUpload}
                   />
               </FormItem>
+              <FormItem {...formItemLayout}  label="商品描述">
+      					{getFieldDecorator('describe', {
+      						rules: [{ required: true, message: '请输入商品描述'}],
+      						initialValue:describe
+      					})(
+      						<Input placeholder='请输入商品描述' maxLength='50' autoComplete="off"/>
+      					)}
+      				</FormItem>
               <FormItem {...formItemLayout} label="零售价">
       					{getFieldDecorator('price', {
       						rules: [
