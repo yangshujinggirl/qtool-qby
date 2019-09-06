@@ -115,7 +115,7 @@ class index extends Component {
                   <p className='import_error'>
                     {requiredWrong.map(
                       (item, index) =>`${item}${index == requiredWrong.length - 1 ? "" : "/ "}`
-                    )} 商品填写格式错误
+                    )} 必填项未填写完整
                   </p>
                 )}
               </div>

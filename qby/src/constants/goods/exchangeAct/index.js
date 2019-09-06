@@ -60,6 +60,7 @@ class ExchangeAct extends Component {
       componkey:`${this.props.componkey}edit`,
       data:{
         infos:{
+          describe:record.describe,
           name:record.name,
           picUrl:record.picUrl,
           price:record.price,
