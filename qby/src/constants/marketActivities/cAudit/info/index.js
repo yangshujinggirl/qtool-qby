@@ -40,13 +40,18 @@ class CtipDetail extends Component {
     this.getInfo(this.props.data.promotionId);
   }
   getInfo(promotionId) {
+    this.props.dispatch({type: 'tab/loding',payload:true})
     getBaseInfoApi({promotionId})
     .then((res) => {
       const { code, data } =res;
       if(code == '0') {
-        data.costApportions&data.costApportions.map((el,index)=>el.key=index)
+        data.costApportions&data.costApportions.map((el,index)=>{
+          el.key=index;
+          el.budget=data.budget;
+        })
         this.setState({ baseInfo:data })
       }
+      this.props.dispatch({type: 'tab/loding',payload:false})
     })
     getDiscountInfoApi({promotionId})
     .then((res) => {
@@ -59,19 +64,39 @@ class CtipDetail extends Component {
       if(code == '0') {
         this.setState({ goodsInfo: goodsInfo });
       }
+      this.props.dispatch({type: 'tab/loding',payload:false})
     })
-    auditLogApi({ approvalId:this.props.data.approvalId }).then(res => {
-      if(res.code == '0'){
-        this.setState({
-          list:res.list
-        });
+    getLogApi({promotionId})
+    .then((res) => {
+      const { code, list } =res;
+      if(code == '0') {
+        list&&list.map((el,index)=>el.key=index)
+        this.setState({ logList:list })
       }
-    });
+      this.props.dispatch({type: 'tab/loding',payload:false})
+    })
   }
   //导出数据
 	exportData = (type,data) => {
+    this.props.dispatch({type: 'tab/loding',payload:true});
+    const { promotionType } =this.state.baseInfo;
+    let typeVal;
+    switch (promotionType) {
+      case 10:
+        typeVal = 94;
+        break;
+      case 11:
+        typeVal = 95;
+        break;
+      case 20:
+      case 21:
+      case 22:
+      case 23:
+        typeVal = 93;
+        break;
+    }
 		const values={
-			type:93,
+			type:typeVal,
 			downloadParam:{promotionId:this.props.data.promotionId},
 		}
 		goExportApi(values)
@@ -97,9 +122,11 @@ class CtipDetail extends Component {
 					onCancel() {
 
 					},
-	  			});
+	  		});
 			}
+      this.props.dispatch({type: 'tab/loding',payload:false})
 		})
+
 	}
   render() {
     const { data } = this.props;
