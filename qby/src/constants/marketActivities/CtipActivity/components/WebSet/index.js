@@ -85,7 +85,7 @@ class WebSet extends Component {
                   initialValue:activityInfo.warmUpBeginTime?moment(activityInfo.warmUpBeginTime,'YYYY-MM-DD HH:mm:ss'):null
                 })(
                   <DatePicker
-                    disabled={activityInfo.promotionId?true:(activityInfo.time?false:true)}
+                    disabled={activityInfo.time?false:true}
                     showTime
                     format ="YYYY-MM-DD HH:mm:ss"/>
                 )
