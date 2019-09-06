@@ -85,7 +85,7 @@ const columnsCreatInfo =(dataSource)=>{
       dataIndex: 'budget',
       width:'20%',
       render:(text,record,index) => {
-        let chldrnDom = <span> {record.budget}万元 </span>
+        let chldrnDom = <span> {record.budget?`${record.budget}万元`:''} </span>
         const obj = {
           children: chldrnDom,
           props: {},
