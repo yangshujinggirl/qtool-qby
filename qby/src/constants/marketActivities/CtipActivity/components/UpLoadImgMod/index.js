@@ -137,7 +137,7 @@ class UpLoadImg extends Component {
               listType="picture-card"
               className="avatar-uploader set-upload-wrap"
               showUploadList={false}
-              action="/erpWebRest/qcamp/upload.htm?type=spu"
+              action="/erpWebRest/qcamp/upload.htm?type=bannerConfig"
               beforeUpload={this.beforeUpload}>
               {fileListArr&&fileListArr.length>0 ?
                 <img src={`${fileDomain}${fileList}`} alt="avatar" />

@@ -14,6 +14,7 @@ import { columnsCreat } from './columns';
 import ShopList from '../../../components/importData/index'
 import './index.css';
 import './AddCoupon.less';
+import { couponUsageOption } from './optionMap';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -754,6 +755,11 @@ class AddCoupon extends Component {
                   initialValue:coupon.couponUsageLimit,
                 })(
                   <Checkbox.Group style={{ width: '100%' }} disabled={isEdit}>
+                    {
+                      couponUsageOption.map((el)=>(
+                        <Checkbox value={el.key} key={el.key}>{el.value}</Checkbox>
+                      ))
+                    }
                      <Checkbox value={10} key={10}>不可与单品直降同享</Checkbox>
                      <Checkbox value={11} key={11}>不可与单品多级满赠同享</Checkbox>
                      <Checkbox value={20} key={20}>不可与专区多级满元赠同享</Checkbox>

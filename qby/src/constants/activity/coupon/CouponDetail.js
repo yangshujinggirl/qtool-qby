@@ -2,7 +2,8 @@ import React,{ Component } from 'react';
 import {connect} from 'dva'
 import {Card,Button,Table,Modal} from 'antd';
 import { couponInfoApi,exportMdApi} from '../../../services/activity/coupon' //请求方法
-import './index.css'
+import './index.css';
+import { couponUsageOption } from './optionMap';
 const confirm = Modal.confirm
 const columns = [
   {
@@ -100,11 +101,17 @@ class CouponDetail extends Component{
                  }
               </span></div>
               <div className='cardlist_item'><label>使用限制：</label>
-                <span>{
-                    couponInfo.couponUsageLimit&&(couponInfo.couponUsageLimit == 1?'不可与限时直降同享':(
-                      couponInfo.couponUsageLimit == 2?'不可与秒杀同享':'不可与限时直降同享、不可与秒杀同享'
-                    ))
-                  }</span>
+                <span>
+                  {
+                    couponInfo.couponUsageLimits&&couponInfo.couponUsageLimits.map((el,index)=> {
+                      return couponUsageOption.map((item) => {
+                        if(el==item.key) {
+                          return <span key={index}>{item.value}，</span>
+                        }
+                      })
+                    })
+                  }
+                </span>
               </div>
               <div className='cardlist_item'><label>剩余数量预警数：</label><span>{couponInfo.couponWarningQty||'无'}</span></div>
               <div className='cardlist_item'><label>预警邮箱：</label><span>{couponInfo.couponWarningEmail||'无'}</span></div>

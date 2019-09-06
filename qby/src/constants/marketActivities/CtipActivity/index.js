@@ -6,7 +6,7 @@ import Qpagination from '../../../components/Qpagination';
 import FilterForm from '../components/ActivityFilterForm';
 import CommonActivityIndex from '../components/CommonActivityIndex';
 import { columnsIndex } from '../components/ActivityColumns';
-import { getDeleteApi, getEnableApi, goAuditApi } from '../../../services/marketActivities/ctipActivity';
+import { getDeleteApi, getEnableApi, getApprovalsApi } from '../../../services/marketActivities/ctipActivity';
 
 import './index.less';
 
@@ -84,7 +84,7 @@ class CtipActivity extends CommonActivityIndex {
     confirm({
       content: '是否确认撤销审核',
       onOk:()=> {
-        goAuditApi({promotionId:record.promotionId})
+        getApprovalsApi({promotionId:record.promotionId})
         .then((res) => {
           if(res.code == '0') {
             that.successCallback();

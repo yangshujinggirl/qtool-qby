@@ -57,10 +57,11 @@ export default {
             return el;
           });
         }
+        data.time=[data.beginTime,data.endTime];
         if(data.budget) {
           ratioList.map((el) =>el.budget = data.budget)
         }
-        yield put({type: 'getActivityInfo',payload:res.data});
+        yield put({type: 'getActivityInfo',payload:data});
         yield put({type: 'getRatioList',payload:ratioList});
       }
       yield put({type: 'tab/loding',payload:false});
