@@ -47,7 +47,9 @@ const columnsSingleDown = [
         ml =`${ml}%`
       } else if(record.eventPrice=='0'){
         ml ='-';
-      } else {
+      } else if(record.activityPrice =='0'){
+        ml = '-';
+      }else {
         ml = NP.divide(NP.minus(record.activityPrice,record.eventPrice),record.activityPrice)
         ml =NP.times(ml, 100);
         ml =NP.round(ml, 2);
