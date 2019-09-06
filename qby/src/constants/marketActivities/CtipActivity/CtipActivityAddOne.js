@@ -12,6 +12,12 @@ const { RangePicker } = DatePicker;
 const FormItem = Form.Item;
 
 class CtipActivityAddOneF extends Component {
+  constructor(props) {
+    super(props);
+    this.state ={
+      btnLoading:false
+    }
+  }
   componentDidMount() {
     this.initPage()
   }
@@ -34,9 +40,11 @@ class CtipActivityAddOneF extends Component {
     this.props.form.validateFields((err, values) => {
       values = this.formatParams(values);
       if (!err) {
+        this.setState({ btnLoading:true })
         values = this.formatParams(values);
         getSaveActivApi(values)
         .then((res)=> {
+          this.setState({ btnLoading:false })
           if(res.code == '0') {
             const {pdScope,beginTime,endTime,pdKind} = values;
             this.successCallback(res,pdScope,beginTime,endTime,pdKind)
@@ -77,6 +85,13 @@ class CtipActivityAddOneF extends Component {
     return paramsVal;
   }
   successCallback=(res,pdScope,beginTime,endTime,pdKind)=> {
+    let params = {
+      channel:1
+    }
+    this.props.dispatch({
+      type:'ctipActivity/fetchList',
+      payload:params
+    });
     const { data } = this.props;
     const paneitem = {
       title: "编辑C端活动",
@@ -101,6 +116,7 @@ class CtipActivityAddOneF extends Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     const { ratioList, activityInfo } =this.props;
+    const { btnLoading } =this.state;
 
     return(
       <div className="cTip-activity-creat-wrap">
@@ -111,6 +127,7 @@ class CtipActivityAddOneF extends Component {
         </Form>
         <div className="submit-btn-wrap">
           <Button
+            loading={btnLoading}
             size="large"
             type="primary"
             onClick={this.handleSubmit}>保存并继续</Button>
