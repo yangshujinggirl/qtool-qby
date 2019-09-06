@@ -25,8 +25,6 @@ class WebSet extends Component {
     let arr = d.split(' ');
     let inTime = arr[0];
     let units=arr[1];
-    console.log(arr)
-    console.log(inTime,units)
 
     if(activityInfo.time) {
       let actiTime = activityInfo.time[0];

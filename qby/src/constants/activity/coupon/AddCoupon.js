@@ -760,12 +760,6 @@ class AddCoupon extends Component {
                         <Checkbox value={el.key} key={el.key}>{el.value}</Checkbox>
                       ))
                     }
-                     <Checkbox value={10} key={10}>不可与单品直降同享</Checkbox>
-                     <Checkbox value={11} key={11}>不可与单品多级满赠同享</Checkbox>
-                     <Checkbox value={20} key={20}>不可与专区多级满元赠同享</Checkbox>
-                     <Checkbox value={21} key={21}>不可与专区多级满件赠同享</Checkbox>
-                     <Checkbox value={22} key={22}>不可与专区多级满元减赠同享</Checkbox>
-                     <Checkbox value={23} key={23}>不可与专区满件减免商品同享</Checkbox>
                   </Checkbox.Group>
                 )
               }<span className='suffix_tips'>若不选，则无使用限制</span>
