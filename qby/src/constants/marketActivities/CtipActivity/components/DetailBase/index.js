@@ -30,10 +30,14 @@ function DetailBase({...props}) {
             <Col span={wrapperCol}>
             {
               info.purposeTypes&&info.purposeTypes.map((el,index) =>{
-                return <span key={index}>
-                      {purposeTypesOption[index].value}，
-                      {el=='5'&&<span>{info.otherPurpose}</span>}
-                </span>
+                return purposeTypesOption.map((item) => {
+                  if(el==item.key) {
+                    return <span key={index}>
+                          {purposeTypesOption[index].value}{el!='5'?'，':':'}
+                          {el=='5'&&<span>{info.otherPurpose}</span>}
+                    </span>
+                  }
+                })
               })
             }
             </Col>

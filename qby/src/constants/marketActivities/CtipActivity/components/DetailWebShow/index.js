@@ -5,6 +5,10 @@ function DetailWebShow({...props}) {
   const { labelCol, wrapperCol, info } =props;
   return <div className="detail-mode-wrap">
           <Row className="item-row">
+            <Col span={labelCol}>活动配置促销活动页头图：</Col>
+            <Col span={wrapperCol}><Imgmodel picUrl={info.websiteBanner}/></Col>
+          </Row>
+          <Row className="item-row">
             <Col span={labelCol}>是否需要预热：</Col>
             <Col span={wrapperCol}>{info.isWarmUp?'是':'否'}</Col>
           </Row>
