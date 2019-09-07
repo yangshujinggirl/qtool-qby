@@ -22,16 +22,18 @@ class WebSet extends Component {
     var a = moment(activityInfo.time[0]);
     var b = moment(value);
     let d= a.from(b);
-    let arr = d.split(' ');
-    let inTime = arr[0];
-    let units=arr[1];
+    // let arr = d.split(' ');
+    // let inTime = arr[0];
+    // let units=arr[1];
 
+    let timeMins = a.diff(b,'seconds');
+    console.log(timeMins)
     if(activityInfo.time) {
       let actiTime = activityInfo.time[0];
       let isBefore = moment(value).isBefore(actiTime)||moment(value).isSame(actiTime);
       if(!isBefore) {
         callback('预热时间只能选择活动开始之前的时间或与开始时间相同。');
-      } else if(units&&units.indexOf('天')!=-1&&inTime>3){
+      } else if(timeMins>259200){
         callback('预热时间最多提前72小时');
       }else {
         callback();
@@ -43,7 +45,6 @@ class WebSet extends Component {
   render() {
     const { activityInfo } =this.props;
     const { getFieldDecorator } = this.props.form;
-
     return(
       <div>
         <p className="info-title">前端展示</p>
