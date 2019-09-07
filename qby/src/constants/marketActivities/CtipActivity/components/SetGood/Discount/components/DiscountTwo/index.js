@@ -61,7 +61,12 @@ class DiscountTwo extends Component {
     const { getFieldDecorator } = this.props.form;
     return (
       <div className="discountTwo">
-        <div className='discountTwo-tips'>每阶梯的优惠力度需大于上一阶梯的优惠力度。例：满X送Y，每阶梯的Y/X需大于上一阶梯的Y/X</div>
+        {promotionType == 22 &&
+          <div className='discountTwo-tips'> 每阶梯的优惠力度需大于上一阶梯的优惠力度。例：满X送Y，每阶梯的Y/X需大于上一阶梯的Y/X</div>
+        }
+        {promotionType == 23 &&
+          <div className='discountTwo-tips'> 每阶梯的优惠力度需大于上一阶梯的优惠力度。例：买X免Y，每阶梯X和Y均需大于上一阶梯的X和Y</div>
+        }
         <Form>
           {dataSource && dataSource.length>0 && dataSource.map((item, index) => (
             <div className="step" key={index}>
