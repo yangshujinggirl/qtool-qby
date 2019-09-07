@@ -50,7 +50,6 @@ class DiscountTwo extends Component {
     });
   };
   render() {
-    console.log(this.props)
     let { dataSource,promotionType } = this.props;
     if(dataSource && dataSource.length == 0){
       switch(promotionType){

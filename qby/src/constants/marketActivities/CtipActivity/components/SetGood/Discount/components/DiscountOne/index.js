@@ -20,10 +20,6 @@ class DiscountOne extends Component {
       dataSource: this.props.dataSource
     };
   }
-  componentDidMount = () => {
-    console.log(this.props);
-    //拿到初始的列表信息--->放在model中拿
-  };
   componentWillReceiveProps = nextProps => {
     if (!_.isEqual(nextProps.dataSource, this.props.dataSource)) {
       this.setState({
@@ -252,7 +248,6 @@ class DiscountOne extends Component {
       deletVisible,
       level
     } = this.state;
-    console.log(dataSource)
     return (
       <div className="discount-good">
         <div>*赠送方式: 每种赠品均送</div>
@@ -384,15 +379,17 @@ class DiscountOne extends Component {
             </Button>
           </div>
         </div>
-        <EditModal
-          visible={visible}
-          status={status}
-          editType={editType}
-          pdCode={pdCode}
-          max={max}
-          handleCancel={this.handleCancel}
-          handleOk={this.handleOk}
-        />
+        {visible==true&&
+          <EditModal
+            visible={visible}
+            status={status}
+            editType={editType}
+            pdCode={pdCode}
+            max={max}
+            handleCancel={this.handleCancel}
+            handleOk={this.handleOk}
+          />
+        }
         <Modal
           wrapClassName="discount_delet_modal"
           okText="确认删除"
