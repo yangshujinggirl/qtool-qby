@@ -48,10 +48,10 @@ const singleOption=[
 const prefectureOption=[
   {
     key:20,
-    value:'专区多级满元赠（例：满AB减C）'
+    value:'专区多级满元赠（例：满AB送C）'
   },{
     key:21,
-    value:'专区多级满件赠（例：满AB减C）'
+    value:'专区多级满件赠（例：满AB送C）'
   },{
     key:22,
     value:'专区多级满元减（例：满300减30）'
