@@ -19,7 +19,6 @@ class EditModal extends Component {
 
   render() {
     const { visible, editType, pdCode, max } = this.props;
-    console.log(editType);
     const { getFieldDecorator } = this.props.form;
     return (
       <div>

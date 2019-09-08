@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Form, Input, Button } from "antd";
+import { Form, Input, Button, message } from "antd";
 import { connect } from "dva";
 const FormItem = Form.Item;
 import "./index.less";
@@ -50,7 +50,6 @@ class DiscountTwo extends Component {
     });
   };
   render() {
-    console.log(this.props)
     let { dataSource,promotionType } = this.props;
     if(dataSource && dataSource.length == 0){
       switch(promotionType){
@@ -61,7 +60,12 @@ class DiscountTwo extends Component {
     const { getFieldDecorator } = this.props.form;
     return (
       <div className="discountTwo">
-        <div className='discountTwo-tips'>每阶梯的优惠力度需大于上一阶梯的优惠力度。例：满X送Y，每阶梯的Y/X需大于上一阶梯的Y/X</div>
+        {promotionType == 22 &&
+          <div className='discountTwo-tips'> 每阶梯的优惠力度需大于上一阶梯的优惠力度。例：满X送Y，每阶梯的Y/X需大于上一阶梯的Y/X</div>
+        }
+        {promotionType == 23 &&
+          <div className='discountTwo-tips'> 每阶梯的优惠力度需大于上一阶梯的优惠力度。例：买X免Y，每阶梯X和Y均需大于上一阶梯的X和Y</div>
+        }
         <Form>
           {dataSource && dataSource.length>0 && dataSource.map((item, index) => (
             <div className="step" key={index}>
@@ -91,7 +95,7 @@ class DiscountTwo extends Component {
                                 const prevreduceAmount = +dataSource[index - 1].param.reduceAmount //上一条减额
                                 if(prevleastAmount){
                                   if(+value <= prevleastAmount){
-                                    callback('此阶梯优惠力度需大于上一阶梯')
+                                    callback('此阶梯优惠门槛需大于上一阶梯')
                                   };
                                   if(prevreduceAmount){
                                     const prevDiscount = prevreduceAmount/prevleastAmount //上一条折扣
@@ -109,7 +113,7 @@ class DiscountTwo extends Component {
                                 const nextreduceAmount = +dataSource[index + 1].param.reduceAmount;//下一条减额
                                 if(nextleastAmount){
                                   if(+value >= nextleastAmount){
-                                    callback('此阶梯优惠力度需小于下一阶梯')
+                                    callback('此阶梯优惠门槛需小于下一阶梯')
                                   };
                                   if(nextreduceAmount){
                                     const nextDiscount = nextreduceAmount/nextleastAmount//下一条折扣
@@ -154,16 +158,22 @@ class DiscountTwo extends Component {
                               if(+value>99){
                                 callback('需小于等于99')
                               };
+                              const currentReduceQty = dataSource[index].param.reduceQty;
+                              if(currentReduceQty){
+                                if(+value <= +currentReduceQty){
+                                  callback('不得小于等于减额')
+                                };
+                              };
                               if(dataSource[index - 1] && dataSource[index - 1].param.leastQty){
                                 const prevLeastQty = +dataSource[index - 1].param.leastQty;//上一条门槛
                                 if(+value <= prevLeastQty){
-                                  callback('此阶梯优惠力度需大于上一阶梯')
+                                  callback('此阶梯优惠门槛需大于上一阶梯')
                                 };
                               };
                               if(dataSource[index+1] && dataSource[index + 1].param.leastQty){
                                 const nextLeastQty = +dataSource[index + 1].param.leastQty;//下一条门槛
                                 if(+value >= nextLeastQty){
-                                  callback('此阶梯优惠力度需小于下一阶梯')
+                                  callback('此阶梯优惠门槛需小于下一阶梯')
                                 };
                               };
                             };
@@ -247,16 +257,22 @@ class DiscountTwo extends Component {
                               if(+value>99){
                                 callback('需小于等于99')
                               };
+                              const currentLeastQty = dataSource[index].param.leastQty;
+                              if(currentLeastQty){
+                                if(+value >= currentLeastQty){
+                                  callback('不得大于等于优惠门槛')
+                                };
+                              };
                               if(dataSource[index - 1] && +dataSource[index - 1].param.reduceQty){
                                 const prevReduceQty = +dataSource[index - 1].param.reduceQty;//上一条减额
                                 if( +value <= prevReduceQty){
-                                  callback('此阶梯优惠力度需大于上一阶梯')
+                                  callback('此阶梯减额需大于上一阶梯')
                                 };
                               };
                               if(dataSource[index+1] && +dataSource[index + 1].param.reduceQty){
                                 const nextReduceQty = +dataSource[index + 1].param.reduceQty;//下一条减额
                                 if(+value >= nextReduceQty){
-                                  callback('此阶梯优惠力度需小于下一阶梯')
+                                  callback('此阶梯减额需小于下一阶梯')
                                 };
                               };
                             };

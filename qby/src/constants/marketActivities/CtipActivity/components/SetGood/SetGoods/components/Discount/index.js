@@ -77,7 +77,7 @@ class Discount extends Component {
                               const prevGiftQty = +promotionRules[index - 1].param.giftQty;//上一条减额
                               if(prevLeastQty){
                                 if(+value <= prevLeastQty){
-                                  callback('此阶梯优惠力度需大于上一阶梯')
+                                  callback('此阶梯优惠门槛需大于上一阶梯')
                                 };
                                 if(prevGiftQty&&currentGiftQty){
                                   const currentDiscount = +value/(+value+currentGiftQty)//当前折扣
@@ -93,7 +93,7 @@ class Discount extends Component {
                               const nextGiftQty = +promotionRules[index + 1].param.giftQty;//下一条减额
                               if(nextLeastQty){
                                 if(+value >= nextLeastQty){
-                                  callback('此阶梯优惠力度需小于下一阶梯')
+                                  callback('此阶梯优惠门槛需小于下一阶梯')
                                 };
                                 if(nextGiftQty&&currentGiftQty){
                                   const currentDiscount = +value/(+value+currentGiftQty)//当前折扣

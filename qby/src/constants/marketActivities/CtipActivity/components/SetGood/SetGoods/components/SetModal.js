@@ -57,89 +57,89 @@ class setModal extends Component {
           wrapClassName="reset_goods"
         >
           <div>
-          <Form>
-            <FormItem
-              label="商品编码"
-              labelCol={{ span: 8 }}
-              wrapperCol={{ span: 16 }}
-            >
-              <span>{currentRecord.pdCode}</span>
-            </FormItem>
-            {promotionType == 11 && (
+            <Form>
               <FormItem
-                className="must-pic"
-                label="优惠内容"
+                label="商品编码"
                 labelCol={{ span: 8 }}
                 wrapperCol={{ span: 16 }}
               >
-                {promotionType == 11 && <Discount form={this.props.form} />}
+                <span>{currentRecord.pdCode}</span>
               </FormItem>
-            )}
-            {promotionType == 10 && (
+              {promotionType == 11 && (
+                <FormItem
+                  className="must-pic"
+                  label="优惠内容"
+                  labelCol={{ span: 8 }}
+                  wrapperCol={{ span: 16 }}
+                >
+                  {promotionType == 11 && <Discount form={this.props.form} />}
+                </FormItem>
+              )}
+              {promotionType == 10 && (
+                <FormItem
+                  label="活动价"
+                  labelCol={{ span: 8 }}
+                  wrapperCol={{ span: 16 }}
+                >
+                  {getFieldDecorator("activityPrice", {
+                    initialValue: currentRecord.activityPrice,
+                    rules: [
+                      { required: true, message: "请输入活动价" },
+                      { validator: this.validateActPrice }
+                    ]
+                  })(<Input style={{ width: "100px" }} autoComplete="off" />)}
+                </FormItem>
+              )}
               <FormItem
-                label="活动价"
+                label="最多可参与活动的商品数"
                 labelCol={{ span: 8 }}
                 wrapperCol={{ span: 16 }}
               >
-                {getFieldDecorator("activityPrice", {
-                  initialValue: currentRecord.activityPrice,
-                  rules: [
-                    { required: true, message: "请输入活动价" },
-                    { validator: this.validateActPrice }
-                  ]
+                {getFieldDecorator("maxQty", {
+                  initialValue: currentRecord.maxQty
                 })(<Input style={{ width: "100px" }} autoComplete="off" />)}
+                <span className="suffix_tips">
+                  如不填写视为商品的所有库存均参与活动
+                </span>
               </FormItem>
-            )}
-            <FormItem
-              label="最多可参与活动的商品数"
-              labelCol={{ span: 8 }}
-              wrapperCol={{ span: 16 }}
-            >
-              {getFieldDecorator("maxQty", {
-                initialValue: currentRecord.maxQty
-              })(<Input style={{ width: "100px" }} autoComplete="off" />)}
-              <span className="suffix_tips">
-                如不填写视为商品的所有库存均参与活动
-              </span>
-            </FormItem>
-            {(promotionType == 10 || promotionType == 11) && (
-              <div>
-                <div className="limit_tips">
-                  限购设置规则：每单限购小于每天限购小于每账号限购
+              {(promotionType == 10 || promotionType == 11) && (
+                <div>
+                  <div className="limit_tips">
+                    限购设置规则：每单限购小于每天限购小于每账号限购
+                  </div>
+                  <FormItem
+                    label="活动期间每人每单限购"
+                    labelCol={{ span: 8 }}
+                    wrapperCol={{ span: 16 }}
+                  >
+                    {getFieldDecorator("perOrderLimit", {
+                      initialValue: currentRecord.perOrderLimit
+                    })(<Input style={{ width: "100px" }} autoComplete="off" />)}
+                    <span className="suffix_tips">如不填写则不限制购买数量</span>
+                  </FormItem>
+                  <FormItem
+                    label="活动期间每人每天限购"
+                    labelCol={{ span: 8 }}
+                    wrapperCol={{ span: 16 }}
+                  >
+                    {getFieldDecorator("perDayLimit", {
+                      initialValue: currentRecord.perDayLimit
+                    })(<Input style={{ width: "100px" }} autoComplete="off" />)}
+                    <span className="suffix_tips">如不填写则不限制购买数量</span>
+                  </FormItem>
+                  <FormItem
+                    label="活动期间每人每账号限购"
+                    labelCol={{ span: 8 }}
+                    wrapperCol={{ span: 16 }}
+                  >
+                    {getFieldDecorator("perUserLimit", {
+                      initialValue: currentRecord.perUserLimit
+                    })(<Input style={{ width: "100px" }} autoComplete="off" />)}
+                    <span className="suffix_tips">如不填写则不限制购买数量</span>
+                  </FormItem>
                 </div>
-                <FormItem
-                  label="活动期间每人每单限购"
-                  labelCol={{ span: 8 }}
-                  wrapperCol={{ span: 16 }}
-                >
-                  {getFieldDecorator("perOrderLimit", {
-                    initialValue: currentRecord.perOrderLimit
-                  })(<Input style={{ width: "100px" }} autoComplete="off" />)}
-                  <span className="suffix_tips">如不填写则不限制购买数量</span>
-                </FormItem>
-                <FormItem
-                  label="活动期间每人每天限购"
-                  labelCol={{ span: 8 }}
-                  wrapperCol={{ span: 16 }}
-                >
-                  {getFieldDecorator("perDayLimit", {
-                    initialValue: currentRecord.perDayLimit
-                  })(<Input style={{ width: "100px" }} autoComplete="off" />)}
-                  <span className="suffix_tips">如不填写则不限制购买数量</span>
-                </FormItem>
-                <FormItem
-                  label="活动期间每人每账号限购"
-                  labelCol={{ span: 8 }}
-                  wrapperCol={{ span: 16 }}
-                >
-                  {getFieldDecorator("perUserLimit", {
-                    initialValue: currentRecord.perUserLimit
-                  })(<Input style={{ width: "100px" }} autoComplete="off" />)}
-                  <span className="suffix_tips">如不填写则不限制购买数量</span>
-                </FormItem>
-              </div>
-            )}
-          </Form>
+              )}
+            </Form>
           </div>
         </Modal>
       </div>
@@ -150,5 +150,5 @@ function mapStateToProps(state) {
   const { ctipActivityAddTwo } = state;
   return ctipActivityAddTwo;
 }
-const setModals = Form.create()(setModal);
+const setModals = Form.create({})(setModal);
 export default connect(mapStateToProps)(setModals);

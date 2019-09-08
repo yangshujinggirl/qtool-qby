@@ -107,23 +107,27 @@ class index extends Component {
             }}
             dataSource={goodLists}
           />
-          <SetModal
-            visible={visible}
-            currentIndex={currentIndex}
-            currentRecord={currentRecord}
-            onVisible={this.onVisible}
-          />
-          <Modal
-            wrapClassName="setGood_del_model"
-            width="400"
-            okText="确认删除"
-            cancelText="暂不删除"
-            visible={delVisible}
-            onCancel={this.onDelCancel}
-            onOk={this.onDelOk}
-          >
-            是否删除此商品
-          </Modal>
+          {visible==true&&
+            <SetModal
+              visible={visible}
+              currentIndex={currentIndex}
+              currentRecord={currentRecord}
+              onVisible={this.onVisible}
+            />
+          }
+          {delVisible==true&&
+            <Modal
+              wrapClassName="setGood_del_model"
+              width="400"
+              okText="确认删除"
+              cancelText="暂不删除"
+              visible={delVisible}
+              onCancel={this.onDelCancel}
+              onOk={this.onDelOk}
+           >
+             是否删除此商品
+            </Modal>
+          }
         </div>
       </div>
     );
