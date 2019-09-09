@@ -66,7 +66,7 @@ class index extends Component {
                   <p className='import_error'>
                     {formatWrong.map(
                       (item, index) =>`${item}${index == formatWrong.length - 1 ? "" : "/ "}`
-                    )} 商品填写格式错误
+                    )} 商品填写格式错误或商品C端售价为空
                   </p>
                 )}
                 {priceGapWrong.length>0 && (

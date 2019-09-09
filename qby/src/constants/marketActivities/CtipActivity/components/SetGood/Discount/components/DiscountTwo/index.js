@@ -90,6 +90,11 @@ class DiscountTwo extends Component {
                             if (+value) {
                               if(+value>99999){ callback('需小于等于99999') };
                               const currentreduceAmount = +dataSource[index].param.reduceAmount||'';//当前减额
+                              if(currentreduceAmount){
+                                if(currentreduceAmount >= +value){
+                                  callback('提示优惠金额需小于优惠门槛')
+                                };
+                              };
                               if(dataSource[index - 1]){
                                 const prevleastAmount = +dataSource[index - 1].param.leastAmount //上一条门槛
                                 const prevreduceAmount = +dataSource[index - 1].param.reduceAmount //上一条减额
@@ -209,6 +214,9 @@ class DiscountTwo extends Component {
                             };
                             const currentLeastAmount = +dataSource[index].param.leastAmount;//当前减额
                             if(currentLeastAmount){
+                              if(+value >= currentLeastAmount){
+                                callback('提示优惠金额需小于优惠门槛')
+                              };
                               const currentDiscount = +value/currentLeastAmount//当前折扣
                               if(dataSource[index - 1]){
                                 const prevLeastAmount = +dataSource[index - 1].param.leastAmount;//上一条门槛
