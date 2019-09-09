@@ -59,10 +59,10 @@ class NormalForm extends Component {
                    <Select allowClear={true} placeholder="请选择促销类型">
                      <Option value={0} key={0}>全部</Option>
                      <Option key={10} value={10}>单品直降</Option>
-                     <Option key={11} value={11}>单品满件赠</Option>
-                     <Option key={20} value={20}>专区阶梯满元赠</Option>
-                     <Option key={21} value={21}>专区阶梯满件赠</Option>
-                     <Option key={22} value={22}>专区阶梯满元减</Option>
+                     <Option key={11} value={11}>单品多级满赠</Option>
+                     <Option key={20} value={20}>专区多级满元赠</Option>
+                     <Option key={21} value={21}>专区多级满件赠</Option>
+                     <Option key={22} value={22}>专区多级满元减</Option>
                      <Option key={23} value={23}>专区满件减免商品</Option>
                    </Select>
                  )}

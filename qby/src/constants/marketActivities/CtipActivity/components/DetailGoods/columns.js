@@ -45,9 +45,9 @@ const columnsSingleDown = [
         ml = record.shareRatio;
         ml =NP.round(ml, 2);
         ml =`${ml}%`
-      } else if(record.eventPrice=='0'){
+      } else if(!record.eventPrice){
         ml ='-';
-      } else if(record.activityPrice =='0'){
+      } else if(!record.activityPrice){
         ml = '-';
       }else {
         ml = NP.divide(NP.minus(record.activityPrice,record.eventPrice),record.activityPrice)
@@ -162,7 +162,7 @@ const columnsSingleGift = [
           let dsj = NP.divide(tot,qtys);
           dsj =NP.round(dsj, 2);
           let ml;
-          if(record.eventPrice=='0') {
+          if(!record.eventPrice) {
             ml = '-';
           } else {
             if(dsj == 0) {
@@ -299,7 +299,7 @@ const columnsAreaMinus = [
             ml = record.shareRatio;
             ml =NP.round(ml, 2);
             ml =`${ml}%`;
-          }else if(record.eventPrice=='0') {
+          }else if(!record.eventPrice) {
             ml='-';
           } else {
             if(dsj == 0) {

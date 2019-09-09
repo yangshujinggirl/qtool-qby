@@ -547,6 +547,7 @@ class AddCoupon extends Component {
     let blColumns = columnsCreat(this.props.form,this.validatorRatio,this.changeProportion,ratioList);
     let providerIndex = coupon.bearerActivity&&coupon.bearerActivity.findIndex((el)=>el == 'C');
     const { getFieldDecorator } = this.props.form;
+    console.log(coupon.couponUsageLimit)
 
     return(
       <div className='addCoupon'>
