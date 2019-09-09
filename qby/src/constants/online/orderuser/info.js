@@ -107,7 +107,7 @@ class OrderuserInfo extends React.Component{
 				render:(text,record,index)=>(
 					record.priceType==1
 					?<a>{text}(限时秒杀)</a>
-					:((record.priceType == 2||record.priceType == 3 )
+					:( record.priceType == 2
 						?<a>{text}(单品直降)</a>
 						:<a>{text}</a>
 						)
@@ -185,7 +185,7 @@ class OrderuserInfo extends React.Component{
 				render:(text,record,index)=>(
 					record.priceType==1
 					?<a>{text}(限时秒杀)</a>
-					:( (record.priceType == 2||record.priceType == 3 )
+					:( record.priceType == 2
 						?<a>{text}(单品直降)</a>
 						:<a>{text}</a>
 						)
