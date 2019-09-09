@@ -380,7 +380,7 @@ class InfoSet extends Component {
                      pdScopeOption.map((el,index) => (
                        <Radio
                          value={el.key} key={el.key}
-                         disabled={(el.key==1&&activityInfo.promotionType!=22)?true:false}>{el.value}</Radio>
+                         disabled={(el.key==1)?true:false}>{el.value}</Radio>
                      ))
                    }
                 </Radio.Group>
