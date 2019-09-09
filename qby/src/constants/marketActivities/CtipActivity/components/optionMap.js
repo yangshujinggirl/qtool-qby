@@ -35,7 +35,7 @@ const prefShareOption=[
     value:'专区多级满元减（例：满300减30）'
   },{
     key:23,
-    value:'专区满件减免商品'
+    value:'专区满件减免'
   }]
 const singleOption=[
   {
@@ -57,7 +57,7 @@ const prefectureOption=[
     value:'专区多级满元减（例：满300减30）'
   },{
     key:23,
-    value:'专区满件减免商品'
+    value:'专区满件减免'
   }]
 const purposeTypesOption=[
   {
