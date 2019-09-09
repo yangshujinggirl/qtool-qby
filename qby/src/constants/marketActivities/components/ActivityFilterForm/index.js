@@ -63,7 +63,7 @@ class NormalForm extends Component {
                      <Option key={20} value={20}>专区多级满元赠</Option>
                      <Option key={21} value={21}>专区多级满件赠</Option>
                      <Option key={22} value={22}>专区多级满元减</Option>
-                     <Option key={23} value={23}>专区满件减免商品</Option>
+                     <Option key={23} value={23}>专区满件减免</Option>
                    </Select>
                  )}
                </FormItem>
