@@ -3,7 +3,8 @@ import { Collapse,Modal } from "antd";
 import { connect } from 'dva';
 import DetailBase from "../../CtipActivity/components/DetailBase";
 import DetailDiscount from "../../CtipActivity/components/DetailDiscount";
-import DetailLog from "../components/AuditLog";
+import DetailLog from "../../CtipActivity/components/DetailLog";
+// import DetailLog from "../components/AuditLog";
 import DetailGoods from "../../CtipActivity/components/DetailGoods";
 import DetailWebShow from "../../CtipActivity/components/DetailWebShow";
 import DetailAudit from "../components/Audit";
@@ -11,7 +12,7 @@ import { auditLogApi } from "../../../../services/marketActivities/cAudit";
 import {
   getBaseInfoApi,
   getDiscountInfoApi,
-  goExportApi
+  goExportApi,getLogApi
 } from "../../../../services/marketActivities/ctipActivity";
 const { confirm } = Modal;
 const formItemLayout = {
@@ -131,7 +132,8 @@ class CtipDetail extends Component {
   render() {
     const { data } = this.props;
     const { type } = this.props.data;
-    const { baseInfo, goodsInfo,list } = this.state;
+    const { baseInfo, goodsInfo,logList } = this.state;
+    // console.log(logList)
     return(
       <div>
         <Collapse accordion defaultActiveKey={['1']}>
@@ -152,7 +154,7 @@ class CtipDetail extends Component {
           </Panel>
           {type == "detail" && (
             <Panel header="日志" key="5">
-              <DetailLog {...formItemLayout} list={list}/>
+              <DetailLog {...formItemLayout} list={logList}/>
             </Panel>
           )}
           {type == "edit" && (
