@@ -53,8 +53,8 @@ class WebSet extends Component {
           formItemLayout={formItemLayout}
           name="websiteBanner"
           label="活动配置促销活动页头图"
-          width={2}
-          height={3}
+          width={1}
+          height={4.8}
           imgType={3}
           ruleType={2}
           fileList={activityInfo.websiteBanner}
