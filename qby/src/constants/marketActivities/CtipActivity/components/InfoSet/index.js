@@ -191,6 +191,7 @@ class InfoSet extends Component {
                placeholder="请输入活动名称" maxLength='30' autoComplete="off"/>
            )
          }
+         <p className="tips-info">如展示活动商品横幅条则会出现在C端活动预告中，请谨慎填写</p>
         </FormItem>
         <FormItem label='活动时间' {...formItemLayout}>
          {
@@ -211,6 +212,7 @@ class InfoSet extends Component {
                }}/>
            )
          }
+         <p className="tips-info">活动时间一旦选定将无法更改，请谨慎填写</p>
         </FormItem>
         <FormItem label='活动目的' {...formItemLayout}>
          {
@@ -346,6 +348,7 @@ class InfoSet extends Component {
              </Radio.Group>
             )
           }
+          <p className="tips-info">促销范围一旦选定将无法更改，请谨慎填写</p>
         </FormItem>
         {
           activityInfo.promotionScope&&
@@ -365,6 +368,7 @@ class InfoSet extends Component {
                </Radio.Group>
               )
             }
+            <p className="tips-info">促销类型一旦选定将无法更改，请谨慎填写</p>
           </FormItem>
         }
         {
@@ -386,6 +390,7 @@ class InfoSet extends Component {
                 </Radio.Group>
                )
              }
+             <p className="tips-info">促销级别一旦选定将无法更改，请谨慎填写</p>
            </FormItem>
         }
         {
@@ -431,6 +436,7 @@ class InfoSet extends Component {
                </Radio.Group>
               )
             }
+            <p className="tips-info">可同享的促销类型一旦选定将无法更改，请谨慎填写</p>
           </FormItem>
         }
       </div>
