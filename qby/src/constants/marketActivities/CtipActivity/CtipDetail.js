@@ -23,7 +23,7 @@ class CtipDetail extends Component {
         costApportions:[]
       },
       goodsInfo:{
-        promotionType:22,//10.单品直降 11.单品多级满赠 20.专区多级满元赠 21.专区多级满件赠 22专区多级满元减 23.专区满件减免
+        // promotionType:22,//10.单品直降 11.单品多级满赠 20.专区多级满元赠 21.专区多级满件赠 22专区多级满元减 23.专区满件减免
         promotionRules:[],
         promotionProducts:[]
       },
@@ -135,7 +135,7 @@ class CtipDetail extends Component {
             <DetailWebShow  {...formItemLayout} info={baseInfo}/>
           </Panel>
           {
-            goodsInfo.promotionType!=10&&goodsInfo.promotionType!=11&&
+            goodsInfo.promotionType&&goodsInfo.promotionType!=10&&goodsInfo.promotionType!=11&&
             <Panel header="优惠内容" key="3">
               <DetailDiscount  {...formItemLayout} info={goodsInfo}/>
             </Panel>
