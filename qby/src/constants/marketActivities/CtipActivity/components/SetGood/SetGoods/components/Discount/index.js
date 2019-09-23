@@ -28,7 +28,7 @@ class Discount extends Component {
   onChange = (e, index, key) => {
     this.props.form.resetFields(['fieldValues']);
     const promotionRules = [...this.props.promotionRules];
-    promotionRules[index]["param"][key] = e.target.value;
+    promotionRules[index]["param"][key] = e.target.value.replace(/\D/g,'').replace(/^[0]+/,'');
     this.props.dispatch({
       type: "ctipActivityAddTwo/refreshSingleRules",
       payload: { promotionRules }
@@ -44,9 +44,9 @@ class Discount extends Component {
     return (
       <div className="discountTwo">
         <div className="discount_tips">
-          <span>每阶梯的优惠力度需大于上一阶梯的优惠力度</span>
+          <span>每阶梯的优惠力度需大于等于上一阶梯的优惠力度</span>
           <br />
-          <span>例：买X送Y，每阶梯的X/（X+Y）需小于上一阶梯的X/（X+Y）</span>
+          <span>例：买X送Y，每阶梯的X/（X+Y）需小于等于上一阶梯的X/（X+Y）</span>
         </div>
         <Form>
           {promotionRules.length>0&&promotionRules.map((item, index) => (
@@ -82,8 +82,8 @@ class Discount extends Component {
                                 if(prevGiftQty&&currentGiftQty){
                                   const currentDiscount = +value/(+value+currentGiftQty)//当前折扣
                                   const prevDiscount = prevLeastQty/(prevLeastQty + prevGiftQty) //上一条折扣
-                                  if(currentDiscount >= prevDiscount){
-                                    callback('此阶梯优惠力度需大于上一阶梯')
+                                  if(currentDiscount > prevDiscount){
+                                    callback('此阶梯优惠力度需大于等于上一阶梯')
                                   };
                                 };
                               };
@@ -98,8 +98,8 @@ class Discount extends Component {
                                 if(nextGiftQty&&currentGiftQty){
                                   const currentDiscount = +value/(+value+currentGiftQty)//当前折扣
                                   const nextDiscount = nextLeastQty/(nextLeastQty + nextGiftQty) //下一条折扣
-                                  if(currentDiscount <= nextDiscount){
-                                    callback('此阶梯优惠力度需小于下一阶梯')
+                                  if(currentDiscount < nextDiscount){
+                                    callback('此阶梯优惠力度需小于等于下一阶梯')
                                   };
                                 };
                               };
@@ -135,8 +135,8 @@ class Discount extends Component {
                                 const prevGiftQty = +promotionRules[index - 1].param.giftQty;//上一条减额
                                 if(prevGiftQty && prevLeastQty){
                                   const prevDiscount = prevLeastQty/(prevLeastQty + prevGiftQty) //上一条折扣
-                                  if(currentDiscount >= prevDiscount){
-                                    callback('此阶梯优惠力度需大于上一阶梯')
+                                  if(currentDiscount > prevDiscount){
+                                    callback('此阶梯优惠力度需大于等于上一阶梯')
                                   };
                                 };
                               };
@@ -145,8 +145,8 @@ class Discount extends Component {
                                 const nextGiftQty = +promotionRules[index + 1].param.giftQty;//下一条减额
                                 if(nextLeastQty && nextGiftQty){
                                   const nextDiscount = nextLeastQty/(nextLeastQty + nextGiftQty) //下一条折扣
-                                  if(currentDiscount <= nextDiscount){
-                                    callback('此阶梯优惠力度需小于下一阶梯')
+                                  if(currentDiscount < nextDiscount){
+                                    callback('此阶梯优惠力度需小于等于下一阶梯')
                                   }
                                 };
                               };

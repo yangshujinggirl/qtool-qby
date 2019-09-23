@@ -49,7 +49,7 @@ class setModal extends Component {
     return (
       <div>
         <Modal
-          width={promotionType == "11" ? 1000 : 700}
+          width={promotionType == "11" ? 1100 : 700}
           title="编辑商品"
           visible={visible}
           onOk={this.onOk}

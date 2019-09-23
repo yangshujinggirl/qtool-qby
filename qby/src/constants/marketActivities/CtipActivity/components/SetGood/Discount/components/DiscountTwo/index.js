@@ -39,7 +39,7 @@ class DiscountTwo extends Component {
     this.props.form.resetFields();
     const dataSource = [...this.props.dataSource];
     const goodLists = [...this.props.goodLists]
-    dataSource[index]["param"][key] = e.target.value;
+    dataSource[index]["param"][key] = e.target.value.replace(/\D/g,'').replace(/^[0]+/,'');
     this.props.dispatch({
       type: "ctipActivityAddTwo/refreshdataSource",
       payload: { dataSource }
@@ -61,7 +61,7 @@ class DiscountTwo extends Component {
     return (
       <div className="discountTwo">
         {promotionType == 22 &&
-          <div className='discountTwo-tips'> 每阶梯的优惠力度需大于上一阶梯的优惠力度。例：满X送Y，每阶梯的Y/X需大于上一阶梯的Y/X</div>
+          <div className='discountTwo-tips'> 每阶梯的优惠力度需大于等于上一阶梯的优惠力度。例：满X送Y，每阶梯的Y/X需大于等于上一阶梯的Y/X</div>
         }
         {promotionType == 23 &&
           <div className='discountTwo-tips'> 每阶梯的优惠力度需大于上一阶梯的优惠力度。例：买X免Y，每阶梯X和Y均需大于上一阶梯的X和Y</div>
@@ -106,8 +106,8 @@ class DiscountTwo extends Component {
                                     const prevDiscount = prevreduceAmount/prevleastAmount //上一条折扣
                                     if(currentreduceAmount){
                                       const currentDiscount = currentreduceAmount/+value//当前折扣
-                                      if(currentDiscount <= prevDiscount){
-                                        callback('此阶梯优惠力度需大于上一阶梯')
+                                      if(currentDiscount < prevDiscount){
+                                        callback('此阶梯优惠力度需大于等于上一阶梯')
                                       };
                                     };
                                   };
@@ -124,8 +124,8 @@ class DiscountTwo extends Component {
                                     const nextDiscount = nextreduceAmount/nextleastAmount//下一条折扣
                                     if(currentreduceAmount){
                                       const currentDiscount = currentreduceAmount/+value//当前折扣
-                                      if(currentDiscount >= nextDiscount){
-                                        callback('此阶梯优惠力度需小于下一阶梯')
+                                      if(currentDiscount > nextDiscount){
+                                        callback('此阶梯优惠力度需小于等于下一阶梯')
                                       };
                                     };
                                   };
@@ -223,8 +223,8 @@ class DiscountTwo extends Component {
                                 const prevReduceAmount = +dataSource[index - 1].param.reduceAmount;//上一条减额
                                 if(prevLeastAmount && prevReduceAmount){
                                   const prevDiscount = prevReduceAmount/prevLeastAmount //上一条折扣
-                                  if(currentDiscount <= prevDiscount){
-                                    callback('此阶梯优惠力度需大于上一阶梯')
+                                  if(currentDiscount < prevDiscount){
+                                    callback('此阶梯优惠力度需大于等于上一阶梯')
                                   };
                                 }
                               };
@@ -233,8 +233,8 @@ class DiscountTwo extends Component {
                                 const nextReduceAmount = +dataSource[index + 1].param.reduceAmount;//下一条减额
                                 if(nextLeastAmount && nextReduceAmount){
                                   const nextDiscount = nextReduceAmount/nextLeastAmount //下一条折扣
-                                  if(currentDiscount >= nextDiscount){
-                                    callback('此阶梯优惠力度需小于下一阶梯')
+                                  if(currentDiscount > nextDiscount){
+                                    callback('此阶梯优惠力度需小于等于下一阶梯')
                                   };
                                 };
                               };
