@@ -57,6 +57,15 @@ const columns = [{
     title: '实付总额',
     dataIndex: 'actualPayAmount',
     key:'actualPayAmount',
+  },{
+    title: '活动信息',
+    dataIndex: 'promotionDeduct',
+    render:(text,record,index)=>{
+      return(
+        <div dangerouslySetInnerHTML={{__html:text}} ></div>
+      )
+    },
+    key:'10',
   }];
 const columns2 = [{
     title: '操作',
@@ -102,6 +111,11 @@ const columns2 = [{
   }, {
     title: '活动信息',
     dataIndex: 'promotionDeduct',
+    render:(text,record,index)=>{
+      return(
+        <div dangerouslySetInnerHTML={{__html:text}} ></div>
+      )
+    },
     key:'7',
   }];
 
