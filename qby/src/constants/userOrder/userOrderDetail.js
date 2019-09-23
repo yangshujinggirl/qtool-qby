@@ -59,7 +59,7 @@ const columns = [{
     key:'actualPayAmount',
   },{
     title: '活动信息',
-    dataIndex: 'promotionDeduct',
+    dataIndex: 'promotionInfo',
     render:(text,record,index)=>{
       return(
         <div dangerouslySetInnerHTML={{__html:text}} ></div>
