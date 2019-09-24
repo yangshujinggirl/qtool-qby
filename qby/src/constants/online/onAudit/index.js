@@ -144,11 +144,11 @@ class OnAudit extends Component {
       obj.status = 6;
       this.cancelOrder(obj);
     }else if(type=="cancel"){ //取消订单
-      this.setState({
-        cancelVisible:true,
-        ecSuborderId:parentRecord.ecSuborderId
-      });
-      // message.warning('周年庆期间退单功能暂时关闭')
+      // this.setState({
+      //   cancelVisible:true,
+      //   ecSuborderId:parentRecord.ecSuborderId
+      // });
+      message.warning('周年庆期间退单功能暂时关闭')
     }else{ //跳转至订单详情
       const postgood = {children:null,code:"801700",menu:1,menuStr:null,name:"发货",rank:null,remark:null,status:1,statusStr:null,urResourceId:801700,url:"qerp.web.ec.express.hk.save"}
       const editorder = {children: null,code: "801400",menu: 1,menuStr: null,name: "修改订单",rank: null,remark: null,status: 1,statusStr: null,urResourceId: 801400,url: "qerp.web.ec.pd.userOrder.save"}
