@@ -53,14 +53,14 @@ class ToAudit extends Component {
     const currentPage = current-1;
     const values = {...this.state.inputValues,currentPage,limit}
     this.props.dispatch({
-      type:'userth/fetchList',
+      type:'toAudit/fetchList',
       payload: values
     });
   }
   //pageSize改变时的回调
   onShowSizeChange =({currentPage,limit})=> {
     this.props.dispatch({
-      type:'userth/fetchList',
+      type:'toAudit/fetchList',
       payload:{currentPage,limit,...this.state.inputValues}
     });
   }
